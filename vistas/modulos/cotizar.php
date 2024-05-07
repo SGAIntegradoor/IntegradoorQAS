@@ -15,17 +15,18 @@ require_once "config/dbconfig.php";
 
 // mysqli_set_charset($enlace, "utf8");
 
-function obtenerCredenciales($enlace, $tabla, $columnas, $idIntermediario) {
+function obtenerCredenciales($enlace, $tabla, $columnas, $idIntermediario)
+{
   $query = "SELECT $columnas FROM `$tabla` WHERE `id_intermediario` = '$idIntermediario'";
   $ejecucion = mysqli_query($enlace, $query);
   $numerofilas = mysqli_num_rows($ejecucion);
   $fila = mysqli_fetch_assoc($ejecucion);
 
   if ($numerofilas > 0) {
-      return $fila;
+    return $fila;
   } else {
-      
-      return false;
+
+    return false;
   }
 }
 
@@ -34,11 +35,9 @@ function obtenerCredenciales($enlace, $tabla, $columnas, $idIntermediario) {
 if ($aseguradoras['SBS']['C'] == "1") {
 
   $creSBS = obtenerCredenciales($enlace, 'Credenciales_SBS2', '*', $_SESSION['intermediario']);
-  
-}else{
+} else {
 
   $creSBS = obtenerCredenciales($enlace, 'Credenciales_SBS2', '*', '3');
-
 }
 $cre_sbs_usuario = $creSBS['cre_sbs_usuario'];
 $cre_sbs_contrasena = $creSBS['cre_sbs_contrasena'];
@@ -46,7 +45,6 @@ $cre_sbs_contrasena = $creSBS['cre_sbs_contrasena'];
 // Lógica para ALLIANZ
 if ($aseguradoras['Allianz']['C'] == "1") {
   $creAllianz = obtenerCredenciales($enlace, 'Credenciales_Allianz', '*', $_SESSION['intermediario']);
-
 } else {
   $creAllianz = obtenerCredenciales($enlace, 'Credenciales_Allianz', '*', '3');
 }
@@ -61,7 +59,6 @@ $cre_alli_agentcode = $creAllianz['cre_alli_agentcode'];
 // Lógica para ESTADO
 if ($aseguradoras['Estado']['C'] == "1") {
   $creEstado = obtenerCredenciales($enlace, 'Credenciales_Estado', '*', $_SESSION['intermediario']);
-
 } else {
   $creEstado = obtenerCredenciales($enlace, 'Credenciales_Estado', '*', '3');
 }
@@ -73,7 +70,6 @@ $cre_est_zona = $creEstado['cre_est_zona'];
 // Lógica para AXA
 if ($aseguradoras['AXA']['C'] == "1") {
   $creAXA = obtenerCredenciales($enlace, 'Credenciales_AXA', '*', $_SESSION['intermediario']);
-
 } else {
   $creAXA = obtenerCredenciales($enlace, 'Credenciales_AXA', '*', '3');
 }
@@ -90,7 +86,6 @@ $url_axa = $creAXA['url_axa'];
 // Lógica para SOLIDARIA
 if ($aseguradoras['Solidaria']['C'] == "1") {
   $creSolidaria = obtenerCredenciales($enlace, 'Credenciales_Solidaria', '*', $_SESSION['intermediario']);
-
 } else {
   $creSolidaria = obtenerCredenciales($enlace, 'Credenciales_Solidaria', '*', '3');
 }
@@ -110,7 +105,6 @@ $cre_sol_fecha_token = $creSolidaria['cre_sol_fecha_token'] ?? null;
 // Lógica para BOLIVAR
 if ($aseguradoras['Bolivar']['C'] == "1") {
   $creBolivar = obtenerCredenciales($enlace, 'Credenciales_Bolivar', '*', $_SESSION['intermediario']);
-
 } else {
   $creBolivar = obtenerCredenciales($enlace, 'Credenciales_Bolivar', '*', '3');
 }
@@ -272,22 +266,33 @@ $rolAsesor = $_SESSION['permisos']['id_rol'];
 $idIntermediario = $_SESSION['permisos']['id_Intermediario'];
 
 
+
 ?>
+
 <style>
-    .table-padding {
-  padding: 15px; /* Puedes ajustar el valor según tus preferencias */
+  .table-padding {
+    padding: 15px;
+    /* Puedes ajustar el valor según tus preferencias */
   }
 
   /* Agregar relleno general al contenedor padre */
   .card-ofertas {
-    padding: 20px; /* Puedes ajustar el valor según tus preferencias */
+    padding: 20px;
+    /* Puedes ajustar el valor según tus preferencias */
   }
 
   .thTable {
-    text-align: center; /* Puedes ajustar el valor según tus preferencias */
+    text-align: center;
+    /* Puedes ajustar el valor según tus preferencias */
   }
 
-    /* Estilo para pantallas más pequeñas (menos de 495px) */
+  /* Estilo para pantallas más pequeñas (menos de 495px) */
+  @media (max-width: 495px) {
+    .table-responsive {
+      overflow-x: auto;
+    }
+  }
+
   @media (max-width: 495px) {
     .table-responsive {
       overflow-x: auto;
@@ -296,9 +301,70 @@ $idIntermediario = $_SESSION['permisos']['id_Intermediario'];
 
   .form-coti {
     padding-top: 25px;
-  }  
+  }
 
+  .divsButtonsModals {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+  }
+
+  .buttonsModal {
+    height: 40px;
+    width: 100%;
+  }
+
+  .no-close .ui-dialog-titlebar-close {
+    display: none;
+  }
+
+  .ui-dialog-buttonset {
+    width: 100%;
+    display: flex !important;
+    justify-content: space-between;
+  }
+
+  .ui-dialog-buttonset>button:first-child {
+    background-color: #88d600 !important;
+    border: 0 !important;
+    border-radius: 5px;
+    width: 150px;
+    height: 30px;
+    color: white;
+    margin-left: 14px
+  }
+
+  .ui-dialog-buttonset>button:nth-child(2) {
+    background-color: #88d600 !important;
+    border: 0 !important;
+    border-radius: 5px;
+    width: 150px;
+    height: 30px;
+    color: white;
+  }
+
+  .ui-dialog .ui-dialog-title {
+    text-align: center;
+    /* Centra el texto del título */
+    width: 100%;
+    /* Ajusta el ancho del título */
+    padding: 0;
+    /* Elimina el relleno por defecto */
+    margin: 0;
+    /* Elimina el margen por defecto */
+  }
+
+  .ui-dialog .ui-dialog-content {
+    padding-top: 40px;
+  }
+
+  .center-btn {
+    margin: 0 auto;
+    /* Alinear horizontalmente */
+    display: block;
+  }
 </style>
+
 <div class="content-wrapper">
 
   <section class="content-header">
@@ -514,34 +580,33 @@ $idIntermediario = $_SESSION['permisos']['id_Intermediario'];
           </form>
 
           <!-- FORMULARIO VEHICULO MANUAL -->
-          
-            <div id="formularioVehiculo">
-              <div class="col-lg-12" id="headerFormVeh">
-                <div class="row row-formVehManual">
-                  <div class="col-xs-12 col-sm-6 col-md-4">
-                    <label for="">CONSULTA MANUAL DEL VEHICULO POR FASECOLDA</label>
-                  </div>
+
+          <div id="formularioVehiculo">
+            <div class="col-lg-12" id="headerFormVeh">
+              <div class="row row-formVehManual">
+                <div class="col-xs-12 col-sm-6 col-md-4">
+                  <label for="">CONSULTA MANUAL DEL VEHICULO POR FASECOLDA</label>
                 </div>
               </div>
-              
-              <div class ="col-lg-12 form-consulVeh">
-                <div class= "row">
-                    <div class="col-xs-12 col-sm-6 col-md-3 form-group">
-                        <label for="clase">Código Fasecolda</label>
-                        <input type="text" maxlength="10" class="form-control" id="fasecoldabuscadormanual" placeholder="Número de fasecolda">
-                    </div>
-                    <div class="col-xs-12 col-sm-6 col-md-3 form-group">
-                        <label for="clase">Modelo Vehículo</label>
-                        <input type="text" maxlength="10" class="form-control" id="modelobuscadormanual"  placeholder="Modelo Vehículo">
-                    </div>
-                    
-                    <div style="padding-top: 25px !important;" class="col-xs-12 col-sm-6 col-md-2 form-group">
-                        <button class="btn btn-primary btn-block" id="btnConsultarVehmanualbuscador">Consultar Vehículo</button>
-                    </div>
+            </div>
+
+            <div class="col-lg-12 form-consulVeh">
+              <div class="row">
+                <div class="col-xs-12 col-sm-6 col-md-3 form-group">
+                  <label for="clase">Código Fasecolda</label>
+                  <input type="text" maxlength="10" class="form-control" id="fasecoldabuscadormanual" placeholder="Número de fasecolda">
+                </div>
+                <div class="col-xs-12 col-sm-6 col-md-3 form-group">
+                  <label for="clase">Modelo Vehículo</label>
+                  <input type="text" maxlength="10" class="form-control" id="modelobuscadormanual" placeholder="Modelo Vehículo">
+                </div>
+
+                <div style="padding-top: 25px !important;" class="col-xs-12 col-sm-6 col-md-2 form-group">
+                  <button class="btn btn-primary btn-block" id="btnConsultarVehmanualbuscador">Consultar Vehículo</button>
                 </div>
               </div>
-              
-                <form method="Post" id="formVehManual">
+            </div>
+            <form method="Post" id="formVehManual">
               <div class="col-lg-12" id="headerFormVeh">
                 <div class="row row-formVehManual">
                   <div class="col-xs-12 col-sm-6 col-md-4">
@@ -549,12 +614,12 @@ $idIntermediario = $_SESSION['permisos']['id_Intermediario'];
                   </div>
                 </div>
               </div>
-              
+
               <div class="col-lg-12 form-consulVeh">
                 <div class="row">
-                    
-                    
-                <div class="col-md-12">
+
+
+                  <div class="col-md-12">
                     <div class="row">
                       <div class="col-xs-12 col-sm-6 col-md-3 form-group">
                         <label for="clase">Clase Vehículo</label>
@@ -569,74 +634,74 @@ $idIntermediario = $_SESSION['permisos']['id_Intermediario'];
                           <option value="PESADO">PESADO</option>
                           <option value="PICKUP">PICKUP</option>
                         </select>
-                    </div>
-                
-                    <div class="col-xs-12 col-sm-6 col-md-3 form-group">
+                      </div>
+
+                      <div class="col-xs-12 col-sm-6 col-md-3 form-group">
                         <label for="Marca">Marca Vehículo</label>
                         <select class="form-control" name="Marca" id="Marca" required></select>
-                    </div>
-                    
-                    <div class="col-xs-12 col-sm-6 col-md-3 form-group">
+                      </div>
+
+                      <div class="col-xs-12 col-sm-6 col-md-3 form-group">
                         <label for="linea">Modelo Vehículo</label>
                         <div class="input-group">
-                            <div class="input-group-addon">
-                                <div id="loadingModelo"></div>
-                            </div>
-                            <select class="form-control" name="edad" id="edad" required></select>
+                          <div class="input-group-addon">
+                            <div id="loadingModelo"></div>
+                          </div>
+                          <select class="form-control" name="edad" id="edad" required></select>
                         </div>
+                      </div>
+
+
+                      <div class="col-xs-12 col-sm-6 col-md-3 form-group">
+                        <label for="linea">Linea Vehículo</label>
+                        <select class="form-control" name="linea" id="linea" required></select>
+                      </div>
                     </div>
-
-
-                  <div class="col-xs-12 col-sm-6 col-md-3 form-group">
-                    <label for="linea">Linea Vehículo</label>
-                    <select class="form-control" name="linea" id="linea" required></select>
                   </div>
-                </div>
-                </div>
 
-                
-                
-                <div class="col-xs-12 col-sm-6 col-md-12">
+
+
+                  <div class="col-xs-12 col-sm-6 col-md-12">
                     <div class="row">
-                    <div class="col-xs-12 col-sm-6 col-md-3 form-group">
-                      <div id="referenciados"></div>
-                    </div>
-                    <div class="col-xs-12 col-sm-6 col-md-3 form-group">
-                      <div id="referenciatres"></div>
-                    </div>
-                    <div class="col-xs-12 col-sm-6 col-md-3">
+                      <div class="col-xs-12 col-sm-6 col-md-3 form-group">
+                        <div id="referenciados"></div>
+                      </div>
+                      <div class="col-xs-12 col-sm-6 col-md-3 form-group">
+                        <div id="referenciatres"></div>
+                      </div>
+                      <div class="col-xs-12 col-sm-6 col-md-3">
                         <div id="loaderVehiculo"></div>
+                      </div>
+
                     </div>
-                    
                   </div>
-                </div>
-                
-                <div class="col-xs-12 col-sm-6 col-md-12">
+
+                  <div class="col-xs-12 col-sm-6 col-md-12">
                     <div class="row">
-                        <div class="col-xs-12 col-sm-6 col-md-2 form-group btnConsultarVeh">
-                            <button class="btn btn-primary btn-block" id="btnConsultarVehmanualbuscador">Consultar Vehículo</button>
-                        </div>
+                      <div class="col-xs-12 col-sm-6 col-md-2 form-group btnConsultarVeh">
+                        <button class="btn btn-primary btn-block" id="btnConsultarVehmanualbuscador">Consultar Vehículo</button>
+                      </div>
                     </div>
-                </div>
-                
-                
-                
+                  </div>
 
-                  
 
-                
+
+
+
+
+
                 </div>
               </div>
-              </form>
-            </div>
-          
+            </form>
+          </div>
+
 
           <!-- FORMULARIO RESUMEN VEHICULO -->
           <form method="Post" id="formResumVeh">
-              
-              
+
+
             <div id="resumenVehiculo">
-                
+
               <div class="col-lg-12" id="headerVehiculo">
                 <div class="row row-veh">
                   <div class="col-xs-12 col-sm-6 col-md-3">
@@ -813,29 +878,29 @@ $idIntermediario = $_SESSION['permisos']['id_Intermediario'];
               </div>
             </div>
 
-            
+
           </form>
 
 
-          <!--- RESUMEN DE COTIZACIONES -->       
+          <!--- RESUMEN DE COTIZACIONES -->
           <div id="contenParrilla">
             <div class="col-lg-12 form-parrilla">
               <div class="row row-parrilla">
                 <div class="col-xs-12 col-sm-6 col-md-3">
                   <label for="">RESUMEN DE COTIZACIONES</label>
                 </div>
-                  <div class="col-xs-12 col-sm-6 col-md-3">
+                <div class="col-xs-12 col-sm-6 col-md-3">
+                </div>
+                <div class="col-xs-12 col-sm-6 col-md-3">
+                </div>
+                <div class="col-xs-12 col-sm-6 col-md-3 text-right">
+                  <div id="masResOferta">
+                    <p id="masResumen" onclick="masRE();">Ver mas <i class="fa fa-plus-square-o"></i></p>
                   </div>
-                  <div class="col-xs-12 col-sm-6 col-md-3">
+                  <div id="menosResOferta">
+                    <p id="menosResumen" onclick="menosRE();">Ver menos <i class="fa fa-minus-square-o"></i></p>
                   </div>
-                  <div class="col-xs-12 col-sm-6 col-md-3 text-right">
-                    <div id="masResOferta">
-                      <p id="masResumen" onclick="masRE();">Ver mas <i class="fa fa-plus-square-o"></i></p>
-                    </div>
-                    <div id="menosResOferta">
-                      <p id="menosResumen" onclick="menosRE();">Ver menos <i class="fa fa-minus-square-o"></i></p>
-                    </div>
-                  </div>
+                </div>
               </div>
 
               <!-- *//* Mostrar alertas *//* -->
@@ -854,37 +919,37 @@ $idIntermediario = $_SESSION['permisos']['id_Intermediario'];
                         </thead>
                         <tbody>
 
-                       
+
 
                         </tbody>
                       </table>
                     </div>
                     <div class="row button-recotizar" style="display: none; margin:5px">
                       <div class="col-md-6"></div>
-                        <div class="col-xs-12 col-sm-12 col-md-3 form-group">
-                          <button class="btn btn-primary btn-block" id="btnReCotizarFallidas">Recotizar Ofertas Fallidas</button>
-                        </div>
+                      <div class="col-xs-12 col-sm-12 col-md-3 form-group">
+                        <button class="btn btn-primary btn-block" id="btnReCotizarFallidas">Recotizar Ofertas Fallidas</button>
+                      </div>
                       <div class="col-md-3"></div>
                     </div>
                   </div>
                 </div>
-                
-              
-                  <div id="mensajePrevisora">
-                    <div class="aviso-container col-lg-12">
-                        <p style="font-weight: bold;">
-                          NOTA: Si a tu cliente le interesa Previsora, ten en cuenta que ciertas líneas de vehículos requieren la instalación del dispositivo Cazador al tomar su seguro y este tiene un costo adicional a la póliza. Por favor confirma con tu área comercial.
-                        </p>
-                    </div>
-                  </div>
 
-              
-              
+
+                <div id="mensajePrevisora">
+                  <div class="aviso-container col-lg-12">
+                    <p style="font-weight: bold;">
+                      NOTA: Si a tu cliente le interesa Previsora, ten en cuenta que ciertas líneas de vehículos requieren la instalación del dispositivo Cazador al tomar su seguro y este tiene un costo adicional a la póliza. Por favor confirma con tu área comercial.
+                    </p>
+                  </div>
+                </div>
+
+
+
               </div>
             </div>
           </div>
 
-          <!-- PARRILLA DE COTIZACIONES -->       
+          <!-- PARRILLA DE COTIZACIONES -->
           <div id="parrillaCotizaciones">
 
             <div class="col-lg-12 form-coti">
@@ -906,8 +971,10 @@ $idIntermediario = $_SESSION['permisos']['id_Intermediario'];
             </div>
 
           </div>
-                    
+
         </div>
+
+        <div id="dialog"></div>
 
         <!-- CAMPOS OCULTOS PARA OPTENER LA INFORMACION-->
         <div style="display: none;">
@@ -1041,19 +1108,17 @@ $idIntermediario = $_SESSION['permisos']['id_Intermediario'];
             <form>
               <div class="form-group">
                 <label class="col-form-label">Fasecolda:</label>
-                <input type="text" class="form-control" id="buscar-fasecolda">
+                <input type="text" class="form-control" id="txtFasecolda_modal">
               </div>
               <div class="form-group">
                 <label class="col-form-label">Modelo:</label>
-                <input type="text" class="form-control" id="modelo-fasecolda">
+                <input type="text" class="form-control" id="txtModeloVeh_modal">
               </div>
-              <div class="form-group">
-                <button type="button" class="btn btn-block btn-primary" id="btn-consultar-fasecolda">Consultar</button>
+              <div class="divsButtonsModals">               
+                  <button type="button" class="btn btn-primary buttonsModal" id="btn-consultar-fasecolda">Consultar</button>               
+                  <button type="button" class="btn btn-primary buttonsModal" id="btn-cerrar-fasecolda">Cerrar</button>              
               </div>
             </form>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
           </div>
         </div>
       </div>

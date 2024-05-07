@@ -13,6 +13,10 @@ if ($_SESSION['permisos']['id_rol'] == '19') {
   // Detén la ejecución del script actual
 }
 
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+
 ?>
 
 <!DOCTYPE html>
@@ -66,9 +70,19 @@ if ($_SESSION['permisos']['id_rol'] == '19') {
   <!-- <link rel="stylesheet" href="vistas/bower_components/datatables.net/css/jquery.dataTables.min.css">
   <link rel="stylesheet" href="vistas/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css">
   <link rel="stylesheet" href="vistas/bower_components/datatables.net-bs/css/responsive.bootstrap.min.css">  -->
-  <link rel="stylesheet" href="vistas/plugins/datatables/datatables.min.css"> 
+  <!-- <link rel="stylesheet" href="vistas/plugins/datatables/datatables.min.css">  -->
+  <link rel="stylesheet" href="libraries/DataTables/datatables.min.css"> 
 
-<!-- <link rel="stylesheet" href="vistas/bower_components/datatables.net-bs/css/responsive.bootstrap.min.css"> -->
+  <!-- JQuery UI -->
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
+  <link rel="stylesheet" href="libraries\JQueryUI\jquery-ui.theme.css">
+  <link rel="stylesheet" href="libraries\JQueryUI\jquery-ui.css">
+  <script type="text/javascript" src="libraries\JQueryUI\jquery-ui.js"></script>
+  <!-- <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css"> -->
+  <!-- <script type="text/javascript" src="libraries\JQueryUI\external\jquery\jquery.js"></script> -->
+   <!-- JQuery UI -->
+
+  <!-- <link rel="stylesheet" href="vistas/bower_components/datatables.net-bs/css/responsive.bootstrap.min.css"> -->
 
   <!-- iCheck for checkboxes and radio inputs -->
   <link rel="stylesheet" href="vistas/plugins/iCheck/all.css">
@@ -94,7 +108,8 @@ if ($_SESSION['permisos']['id_rol'] == '19') {
   ======================================-->
 
   <!-- jQuery 3 -->
-  <script src="vistas/bower_components/jquery/dist/jquery.min.js"></script>
+  <!-- <script type="text/javascript" src="libraries\JQueryUI\external\jquery\jquery.js"></script> -->
+  
   
   <!-- Bootstrap 3.3.7 -->
   <script src="vistas/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
@@ -104,6 +119,7 @@ if ($_SESSION['permisos']['id_rol'] == '19') {
     });
   </script>
  
+
  
  <!-- FastClick -->
  <script src="vistas/bower_components/fastclick/lib/fastclick.js"></script>

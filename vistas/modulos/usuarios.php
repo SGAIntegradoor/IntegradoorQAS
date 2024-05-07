@@ -1,15 +1,9 @@
 <?php
 
-// if ($_SESSION["rol"] != 1) {
+if ($_SESSION["rol"] != 1) {
 
-//   echo '<script>
-
-//     window.location = "inicio";
-
-//   </script>';
-
-//   return;
-// }
+  echo '<script>console.log('.json_encode($_SESSION).')</script>';
+}
 
 ?>
 
@@ -97,6 +91,14 @@
           echo '<button class="btnAgregarUsuario" data-toggle="modal" data-target="#modalAgregarUsuario">
 
           Agregar usuario
+
+        </button>';
+        }
+
+        if($_SESSION["permisos"]["Agregarunusuarionuevo"] == "x"){	
+          echo '<button class="btnAgregarUsuario" id="creaTemporal">
+
+          Crear Usuario Temporal
 
         </button>';
         }

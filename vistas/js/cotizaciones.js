@@ -541,21 +541,105 @@ $(document).ready(function () {
   CONFIGURACION DE LA TABLA DATATABLE PARA COTIZACIONES
 
   ===================================================*/
-
-  $(".tablas-cotizaciones").DataTable({
-    // Configuración de DataTables
-    dom: 'Bfrtip',
+$(".tablas-cotizaciones").DataTable({
+    layout: {
+        topStart: 'buttons',
+        topEnd: {
+            search: {
+                placeholder: "Buscar usuario",
+            },
+            pageLength: {
+                menu: [10, 25, 50, 100],
+            },
+        },
+        bottomEnd: {
+            paging: {
+                numbers: 3,
+            },
+        },
+    },
     buttons: [
-      "copy",
+        {
+            extend: "excelHtml5",
+            className: "btn-excel",
+            text: '<img src="vistas/img/excelIco.png" />', // Agrega un texto descriptivo
+            titleAttr: "Exportar a Excel", // Agrega un tooltip
+        },
+    ],
+    responsive: true,
+    order: [
+        [0, "desc"],
+        [1, "desc"],
     ],
 
-    order: [
-      [0, "desc"],
-      [1, "desc"],
-    ],
     // "ordering": false,
 
     language: {
+
+        sProcessing: "Procesando...",
+        sLengthMenu: "Mostrar _MENU_ registros",
+        sZeroRecords: "No se encontraron resultados",
+        sEmptyTable: "Ningún dato disponible en esta tabla",
+        sInfo: "Mostrando registros del _START_ al _END_ de un total de _TOTAL_",
+        sInfoEmpty: "Mostrando registros del 0 al 0 de un total de 0",
+        sInfoFiltered: "(filtrado de un total de _MAX_ registros)",
+        sInfoPostFix: "",
+        sSearch: "Buscar:",
+        sUrl: "",
+        sInfoThousands: ",",
+        sLoadingRecords: "Cargando...",
+        oPaginate: {
+            sFirst: "Primero",
+            sLast: "Último",
+            sNext: "Siguiente",
+            sPrevious: "Anterior",
+        },
+
+        oAria: {
+            sSortAscending:
+                ": Activar para ordenar la columna de manera ascendente",
+            sSortDescending:
+                ": Activar para ordenar la columna de manera descendente",
+        },
+
+    },
+});
+
+$(".tablas-usuarios").DataTable({
+  layout: {
+      topStart: 'buttons',
+      topEnd: {
+          search: {
+              placeholder: "Buscar usuario",
+          },
+          pageLength: {
+              menu: [10, 25, 50, 100],
+          },
+      },
+      bottomEnd: {
+          paging: {
+              numbers: 3,
+          },
+      },
+  },
+  buttons: [
+      {
+          extend: "excelHtml5",
+          className: "btn-excel",
+          text: '<img src="vistas/img/excelIco.png" />', // Agrega un texto descriptivo
+          titleAttr: "Exportar a Excel", // Agrega un tooltip
+      },
+  ],
+  responsive: true,
+  order: [
+      [0, "desc"],
+      [1, "desc"],
+  ],
+
+  // "ordering": false,
+
+  language: {
+
       sProcessing: "Procesando...",
       sLengthMenu: "Mostrar _MENU_ registros",
       sZeroRecords: "No se encontraron resultados",
@@ -569,21 +653,21 @@ $(document).ready(function () {
       sInfoThousands: ",",
       sLoadingRecords: "Cargando...",
       oPaginate: {
-        sFirst: "Primero",
-        sLast: "Último",
-        sNext: "Siguiente",
-        sPrevious: "Anterior",
+          sFirst: "Primero",
+          sLast: "Último",
+          sNext: "Siguiente",
+          sPrevious: "Anterior",
       },
 
       oAria: {
-        sSortAscending:
-          ": Activar para ordenar la columna de manera ascendente",
-        sSortDescending:
-          ": Activar para ordenar la columna de manera descendente",
+          sSortAscending:
+              ": Activar para ordenar la columna de manera ascendente",
+          sSortDescending:
+              ": Activar para ordenar la columna de manera descendente",
       },
-    },
-  });
 
+  },
+});
   $(".tablas-cotizaciones1").DataTable({
     order: [
       [0, "desc"],

@@ -48,6 +48,33 @@ if ($_SESSION["permisos"]["Clientes"] != "x") {
             transition: 0.5s;
           }
 </style>
+<script>
+    // Función de inicialización global
+    function inicializarDataTables() {
+        $('#miTabla').DataTable({
+            "processing": true,
+            "serverSide": true,
+            "ajax": {
+                "url": "qas/controladores/controlador222.clientes.php",
+                "type": "GET"
+            },
+            "columns": [
+                { "data": "Numero" },
+                { "data": "Tipo" },
+                { "data": "Documento" },
+                { "data": "Nombre" },
+                { "data": "F_Nacimiento" },
+                { "data": "Gen" },
+                { "data": "Estado_Civil" },
+                { "data": "Telefono" },
+                { "data": "Email" }
+            ]
+        });
+    }
+
+    // Llamar a la función de inicialización global
+    inicializarDataTables();
+</script>
 
 <div class="content-wrapper">
 
@@ -91,7 +118,7 @@ if ($_SESSION["permisos"]["Clientes"] != "x") {
 
       <div class="box-body">
 
-        <table class="table table-bordered table-striped dt-responsive tablas" width="100%">
+        <table id="miTabla" class="table table-bordered table-striped dt-responsive tablas" width="100%">
         <?php 
      
         ?>
@@ -116,70 +143,7 @@ if ($_SESSION["permisos"]["Clientes"] != "x") {
 
           <tbody>
 
-            <?php
-
-
-            if ($_SESSION["permisos"]["Verlistadodetodoslosclientesdelaagencia"] == "x") {
-              $item = null;
-              $valor = null;
-              $inter = null;
-              $condition = 5000;
-
-              $clientes = ControladorClientes::ctrMostrarClientes($item, $valor, $inter, $condition);
-              // var_dump($clientes);
-              // die();
-
-
-
-              foreach ($clientes as $key => $value) {
-
-                echo '<tr>
-
-                    <td>' . ($key + 1) . '</td>
-
-                    <td class="text-center">' . $value["tip_doc_abreviatura"] . '</td>
-
-                    <td class="text-right">' . $value["cli_num_documento"] . '</td>
-
-                    <td>' . $value["cli_nombre"] . ' ' . $value["cli_apellidos"] . '</td>
-
-                    <td class="text-center">' . date('d/m/Y', strtotime($value['cli_fch_nacimiento'])) . '</td>';
-
-                $genero = $value['cli_genero'] == 1 ? "M" : "F";
-                echo '<td class="text-center">' . $genero . '</td>
-
-                    <td class="text-center">' . $value["est_cvl_descripcion"] . '</td>
-
-                    <td class="text-right">' . $value["cli_telefono"] . '</td>
-
-                    <td>' . $value["cli_email"] . '</td>';
-
-                // if($value["cli_estado"] != 0){
-                //   echo '<td class="text-center"><button class="btn btn-success btn-xs btnActivarCliente" idCliente="'.$value["id_cliente"].'" estadoCliente="0">Activo</button></td>';
-                // }else{  
-                //   echo '<td class="text-center"><button class="btn btn-danger btn-xs btnActivarCliente" idCliente="'.$value["id_cliente"].'" estadoCliente="1">Inactivo</button></td>';
-                // }
-
-                echo '<td class="text-center">
-
-                      <div class="btn-group">';
-
-                if ($_SESSION["permisos"]["Editaruncliente"] == "x") {
-                  echo ' <button class="btn btn-primary btnEditarCliente" data-toggle="modal" data-target="#modalEditarCliente" idCliente="' . $value["id_cliente"] . '" style="float: none;"><i class="fa fa-pencil"></i></button>';
-                }
-                // if ($_SESSION["permisos"]["Eliminarcliente"] == "x") {
-
-                //   echo '<button class="btn btn-danger btnEliminarCliente" idCliente="' . $value["id_cliente"] . '" style="float: none;"><i class="fa fa-times"></i></button>';
-                // }
-
-                echo '</div>
-
-                    </td>
-
-                  </tr>';
-              }
-            }
-            ?>
+           
 
           </tbody>
 
@@ -819,6 +783,7 @@ MODAL EDITAR CLIENTE
   </div>
 
 </div>
+
 
 <?php
 

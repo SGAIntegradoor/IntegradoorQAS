@@ -61,17 +61,19 @@ class ModeloClientes{
 	MOSTRAR CLIENTES
 	=============================================*/
 
-	static public function mdlMostrarClientes($tabla, $tabla2, $tabla3, $tabla4, $tabla5, $item, $valor, $inter, $condition){
+	static public function mdlMostrarClientes($tabla, $tabla2, $tabla3, $tabla4, $tabla5, $item, $valor, $inter, $condition, $limit = null){
 		
 		$condicion = "";
 		$stmt = "";
-
+		
 		if($_SESSION["rol"] != 1){ $condicion = "AND $tabla5.id_usuario = :idUsuario"; }
 
-		if($item != null){
-            
-			if( $item == 'cli_num_documento'){
 
+
+		if($item != null){
+
+			if( $item == 'cli_num_documento'){
+				var_dump("entre aca");
 				$stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla, $tabla2, $tabla3 WHERE $tabla.id_tipo_documento = $tabla2.id_tipo_documento 
 														AND $tabla.id_estado_civil = $tabla3.id_estado_civil AND $tabla.id_Intermediario = :intermediario AND $item = :$item LIMIT $condition");
 
@@ -108,11 +110,8 @@ class ModeloClientes{
 
 		}else{
 
-			$intermediario = $_SESSION["intermediario"];
-
-		    // setcookie('if', 'else');
 			$stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla, $tabla2, $tabla3, $tabla5 WHERE $tabla.id_tipo_documento = $tabla2.id_tipo_documento 
-													AND $tabla.id_estado_civil = $tabla3.id_estado_civil AND $tabla.id_Intermediario = :intermediario $condicion GROUP BY $tabla.id_cliente LIMIT $condition");
+			AND $tabla.id_estado_civil = $tabla3.id_estado_civil AND $tabla.id_Intermediario = :intermediario $condicion GROUP BY $tabla.id_cliente LIMIT $condicion");
 					
 					$stmt->bindParam(":intermediario", $intermediario, PDO::PARAM_INT);
 					

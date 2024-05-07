@@ -2,51 +2,48 @@
 
 require_once "conexion.php";
 
-class ModeloUsuarios{
-	
-
-	
+class ModeloUsuarios
+{
 
 	/*=============================================
 	MOSTRAR USUARIOS
 	=============================================*/
 
-	static public function mdlMostrarUsuarios($tabla, $tabla2, $tabla3, $item, $valor){
+	static public function mdlMostrarUsuarios($tabla, $tabla2, $tabla3, $item, $valor)
+	{
 
-		if($item != null){
+		if ($item != null) {
 
-			if($item == 'id_usuario' || $item == 'usu_usuario' || $item == 'usu_documento'){
+			if ($item == 'id_usuario' || $item == 'usu_usuario' || $item == 'usu_documento') {
 
-				$stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla, $tabla2 WHERE $tabla.id_rol = $tabla2.id_rol AND $item = :$item");
+				$stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla, $tabla2 WHERE $tabla.id_rol = $tabla2.id_rol AND $item = :$item ASC");
 
-				$stmt -> bindParam(":".$item, $valor, PDO::PARAM_STR);
-				$stmt -> execute();
+				$stmt->bindParam(":" . $item, $valor, PDO::PARAM_STR);
+				$stmt->execute();
 
-				return $stmt -> fetch(PDO::FETCH_ASSOC);
-
+				return $stmt->fetch(PDO::FETCH_ASSOC);
 			}
+		} else {
 
-		}else{
+			if ($_SESSION["rol"] == 18 || $_SESSION["rol"] == 10 || $_SESSION["rol"] == 1) {
+				$stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla, $tabla2 WHERE $tabla.id_rol = $tabla2.id_rol ORDER BY $tabla.id_usuario DESC");
 
-			if($_SESSION["rol"] == 18 ||$_SESSION["rol"] == 10 ||$_SESSION["rol"] == 1 ){
-			$stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla, $tabla2 WHERE $tabla.id_rol = $tabla2.id_rol");
+				$stmt->execute();
 
-			$stmt -> execute();
 
-			return $stmt -> fetchAll(PDO::FETCH_ASSOC);
-			}else{
+				return $stmt->fetchAll(PDO::FETCH_ASSOC);
+			} else {
 
-				$stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla, $tabla2 WHERE $tabla.id_rol = $tabla2.id_rol AND id_intermediario =".$_SESSION["intermediario"]);
-				$stmt -> execute();
-				return $stmt -> fetchAll(PDO::FETCH_ASSOC);
+				$stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla, $tabla2 WHERE $tabla.id_rol = $tabla2.id_rol AND id_intermediario =" . $_SESSION["intermediario"] ." ASC");
+				$stmt->execute();
+				return $stmt->fetchAll(PDO::FETCH_ASSOC);
 			}
 		}
-		
 
-		$stmt -> close();
+
+		$stmt->close();
 
 		$stmt = null;
-
 	}
 
 
@@ -65,7 +62,7 @@ class ModeloUsuarios{
 		$tabla5 = "credenciales";
 		$tabla6 = "credenciales_motos";
 		$tabla7 = "credenciales_pesados";
-		
+
 		$stmt = Conexion::conectar()->prepare("
 			SELECT *
 			FROM $tabla
@@ -77,13 +74,10 @@ class ModeloUsuarios{
 			JOIN $tabla7 ON $tabla3.id_Intermediario = $tabla7.id_Intermediario
 			WHERE $item = :$item
 		");
-		
-		$stmt->bindParam(":".$item, $valor, PDO::PARAM_STR);
-		$stmt->execute();
-		
+		$stmt->bindParam(":" . $item, $valor, PDO::PARAM_STR);
+
 		$resultado = $stmt->fetch(PDO::FETCH_ASSOC);
-		// var_dump($resultado);
-		// 		die();
+
 		if ($resultado === false) {
 			// Imprimir mensaje de error
 			$errorInfo = $stmt->errorInfo();
@@ -96,70 +90,71 @@ class ModeloUsuarios{
 		// $stmt->close();
 		$stmt = null;
 		return $resultado;
-
-		
-		
-
 	}
-
-
-
-
-
-
-
-
-
 
 	/*=============================================
 	REGISTRO DE USUARIO
 	=============================================*/
 
-	static public function mdlIngresarUsuario($tabla, $datos){
+	static public function mdlIngresarUsuario($tabla, $datos)
+	{
 
-		
-		$stmt = Conexion::conectar()->prepare("INSERT INTO $tabla(usu_documento, usu_nombre, usu_apellido, usu_usuario, usu_password, usu_genero, usu_fch_nac, direccion, ciudades_id, tipos_documentos_id, usu_telefono, usu_email, 
-																	usu_cargo, usu_foto, usu_estado, id_rol, id_Intermediario, numCotizaciones, fechaFin) 
-																	VALUES (:documento, :nombre, :apellido, :usuario, :password, :genero, :fechaNacimiento, :direccion, :ciudad, :tipoDocumento, :telefono, :email, :cargo, :foto, 1, :rol, :intermediario, :maxCot,  :fechaLimite )");
+		if ($datos['apellido'] == "Guest") {
+			$stmt = Conexion::conectar()->prepare("INSERT INTO $tabla(usu_documento, usu_nombre, usu_apellido, usu_usuario, usu_password, usu_genero, usu_fch_nac, direccion, ciudades_id, tipos_documentos_id, usu_telefono, usu_email, 
+																	usu_cargo, usu_foto, usu_estado, id_rol, id_Intermediario, numCotizaciones, cotizacionesTotales, fechaFin) 
+																	VALUES (:documento, :nombre, :apellido, :usuario, :password, :genero, :fechaNacimiento, :direccion, :ciudad, :tipoDocumento, :telefono, :email, :cargo, :foto, 1, :rol, :intermediario, :maxCot, 5, :fechaLimite )");
+		} else {
+			$stmt = Conexion::conectar()->prepare("INSERT INTO $tabla(usu_documento, usu_nombre, usu_apellido, usu_usuario, usu_password, usu_genero, usu_fch_nac, direccion, ciudades_id, tipos_documentos_id, usu_telefono, usu_email, 
+																	usu_cargo, usu_foto, usu_estado, id_rol, id_Intermediario, numCotizaciones, cotizacionesTotales, fechaFin) 
+																	VALUES (:documento, :nombre, :apellido, :usuario, :password, :genero, :fechaNacimiento, :direccion, :ciudad, :tipoDocumento, :telefono, :email, :cargo, :foto, 1, :rol, :intermediario, :maxCot, NULL, :fechaLimite )");
+		}
 
-		
-		$valoresPermitidos = array('fechaNacimiento', 'fechaLimite' );
+
+		$valoresPermitidos = array('fechaNacimiento', 'fechaLimite');
 
 		foreach ($valoresPermitidos as $field) {
 			if (!isset($datos[$field]) || empty($datos[$field])) {
 				$datos[$field] = null;
-			}else {
+			} else {
 				// Asegurar que la fecha esté en el formato correcto
 				$datos[$field] = date("Y-m-d H:i:s", strtotime($datos[$field]));
 			}
 		}
 
-		$stmt -> bindParam(":documento", $datos["documento"], PDO::PARAM_INT);
-		$stmt -> bindParam(":nombre", $datos["nombre"], PDO::PARAM_STR);
-		$stmt -> bindParam(":apellido", $datos["apellido"], PDO::PARAM_STR);
-		$stmt -> bindParam(":usuario", $datos["usuario"], PDO::PARAM_STR);
-		$stmt -> bindParam(":password", $datos["password"], PDO::PARAM_STR);
-		$stmt -> bindParam(":genero", $datos["genero"], PDO::PARAM_STR);
-		$stmt -> bindParam(":fechaNacimiento", $datos["fechaNacimiento"], PDO::PARAM_STR);
-		$stmt -> bindParam(":direccion", $datos["direccion"], PDO::PARAM_STR);
-		$stmt -> bindParam(":ciudad", $datos["ciudad"], PDO::PARAM_INT);
-		$stmt -> bindParam(":tipoDocumento", $datos["tipoDocumento"], PDO::PARAM_STR);
-		$stmt -> bindParam(":telefono", $datos["telefono"], PDO::PARAM_STR);
-		$stmt -> bindParam(":email", $datos["email"], PDO::PARAM_STR);
-		$stmt -> bindParam(":cargo", $datos["cargo"], PDO::PARAM_STR);
-		$stmt -> bindParam(":foto", $datos["foto"], PDO::PARAM_STR);
-		$stmt -> bindParam(":rol", $datos["rol"], PDO::PARAM_INT);
-		$stmt -> bindParam(":intermediario", $datos["intermediario"], PDO::PARAM_INT);
-		$stmt -> bindParam(":maxCot", $datos["maxCotizaciones"], PDO::PARAM_INT);
-		$stmt -> bindParam(":fechaLimite", $datos["fechaLimite"], PDO::PARAM_STR);
+		$stmt->bindParam(":documento", $datos["documento"], PDO::PARAM_INT);
+		$stmt->bindParam(":nombre", $datos["nombre"], PDO::PARAM_STR);
+		$stmt->bindParam(":apellido", $datos["apellido"], PDO::PARAM_STR);
+		$stmt->bindParam(":usuario", $datos["usuario"], PDO::PARAM_STR);
+		$stmt->bindParam(":password", $datos["password"], PDO::PARAM_STR);
+		$stmt->bindParam(":genero", $datos["genero"], PDO::PARAM_STR);
+		$stmt->bindParam(":fechaNacimiento", $datos["fechaNacimiento"], PDO::PARAM_STR);
+		$stmt->bindParam(":direccion", $datos["direccion"], PDO::PARAM_STR);
+		$stmt->bindParam(":ciudad", $datos["ciudad"], PDO::PARAM_INT);
+		$stmt->bindParam(":tipoDocumento", $datos["tipoDocumento"], PDO::PARAM_STR);
+		$stmt->bindParam(":telefono", $datos["telefono"], PDO::PARAM_STR);
+		$stmt->bindParam(":email", $datos["email"], PDO::PARAM_STR);
+		$stmt->bindParam(":cargo", $datos["cargo"], PDO::PARAM_STR);
+		$stmt->bindParam(":foto", $datos["foto"], PDO::PARAM_STR);
+		$stmt->bindParam(":rol", $datos["rol"], PDO::PARAM_INT);
+		$stmt->bindParam(":intermediario", $datos["intermediario"], PDO::PARAM_INT);
+		$stmt->bindParam(":maxCot", $datos["maxCotizaciones"], PDO::PARAM_INT);
+		// $stmt -> bindParam(":totalCot", $datos["cotizacionesTotales"], PDO::PARAM_INT);
+		$stmt->bindParam(":fechaLimite", $datos["fechaLimite"], PDO::PARAM_STR);
 
+		if (!$stmt->execute()) {
+			$errorInfo = $stmt->errorInfo();
+			echo "Error al ejecutar la consulta: " . $errorInfo[2];
+			// Opcionalmente, puedes mostrar información adicional sobre el error
 
+			echo "Código de error: " . $errorInfo[0];
+		}
+		die();
 		echo '<script>
 
 		swal({
 
 			type: "success",
-			title: "'.$datos["intermediario"].'",
+			title: "' . $datos["intermediario"] . '",
 			showConfirmButton: true,
 			confirmButtonText: "Cerrar"
 
@@ -178,27 +173,25 @@ class ModeloUsuarios{
 
 
 
-		if($stmt->execute()){
+		if ($stmt->execute()) {
 
 			return "ok";
-
-		}else{
+		} else {
 
 			return "error";
-		
 		}
 
 		$stmt->close();
-		
-		$stmt = null;
 
+		$stmt = null;
 	}
 
 	/*=============================================
 	EDITAR USUARIO
 	=============================================*/
 
-	static public function mdlEditarUsuario($tabla, $datos){
+	static public function mdlEditarUsuario($tabla, $datos)
+	{
 
 		$idUsuario = $datos["id"];
 		$stmt = Conexion::conectar()->prepare("SELECT usu_documento, usu_usuario FROM $tabla WHERE id_usuario = :idUsuario");
@@ -211,7 +204,7 @@ class ModeloUsuarios{
 			// Obtén los valores de las columnas que deseas comparar
 			$document = $resultados[0]['usu_documento'];
 			$user = $resultados[0]['usu_usuario'];
-		
+
 			// Compara las variables
 			if ($document == $user) {
 				// Las variables son iguales
@@ -229,7 +222,7 @@ class ModeloUsuarios{
 			echo "No se encontraron resultados para el usuario con ID $idUsuario.";
 		}
 
-		
+
 		// $stmt = Conexion::conectar()->prepare("UPDATE $tabla SET usu_documento = :documento, tipos_documentos_id = :tipoDocumento, usu_nombre = :nombre, usu_apellido = :apellido, usu_fch_nac = :fechNacimiento,
 		// 										usu_genero = :genero, direccion =:direccion, ciudades_id =:ciudad, usu_telefono = :telefono, usu_email = :email, usu_cargo = :cargo, usu_foto = :foto, id_rol = :rol, id_Intermediario = :intermediario, numCotizaciones = :maxCotEdi, fechaFin = :fechaLimEdi
 		// 										WHERE usu_usuario = :usuario");
@@ -240,117 +233,108 @@ class ModeloUsuarios{
 		foreach ($valoresPermitidos as $field) {
 			if (!isset($datos[$field]) || empty($datos[$field])) {
 				$datos[$field] = null;
-			}else {
+			} else {
 				// Asegurar que la fecha esté en el formato correcto
 				$datos[$field] = date("Y-m-d H:i:s", strtotime($datos[$field]));
 			}
 		}
 
-		$stmt -> bindParam(":documento", $datos["documento"], PDO::PARAM_INT);
-		$stmt -> bindParam(":tipoDocumento", $datos["tipoDocumento"], PDO::PARAM_STR);
-		$stmt -> bindParam(":nombre", $datos["nombre"], PDO::PARAM_STR);
-		$stmt -> bindParam(":apellido", $datos["apellido"], PDO::PARAM_STR);
-		$stmt -> bindParam(":usuario", $datos["usuario"], PDO::PARAM_STR);
+		$stmt->bindParam(":documento", $datos["documento"], PDO::PARAM_INT);
+		$stmt->bindParam(":tipoDocumento", $datos["tipoDocumento"], PDO::PARAM_STR);
+		$stmt->bindParam(":nombre", $datos["nombre"], PDO::PARAM_STR);
+		$stmt->bindParam(":apellido", $datos["apellido"], PDO::PARAM_STR);
+		$stmt->bindParam(":usuario", $datos["usuario"], PDO::PARAM_STR);
 		// $stmt -> bindParam(":password", $datos["password"], PDO::PARAM_STR);
-		$stmt -> bindParam(":genero", $datos["genero"], PDO::PARAM_STR);
-		$stmt -> bindParam(":fechNacimiento", $datos["fechNacimiento"], PDO::PARAM_STR);
-		$stmt -> bindParam(":direccion", $datos["direccion"], PDO::PARAM_STR);
-		$stmt -> bindParam(":ciudad", $datos["ciudad"], PDO::PARAM_STR);
-		$stmt -> bindParam(":telefono", $datos["telefono"], PDO::PARAM_STR);
-		$stmt -> bindParam(":email", $datos["email"], PDO::PARAM_STR);
-		$stmt -> bindParam(":cargo", $datos["cargo"], PDO::PARAM_STR);
-		$stmt -> bindParam(":foto", $datos["foto"], PDO::PARAM_STR);
-		$stmt -> bindParam(":intermediario", $datos["intermediario"], PDO::PARAM_STR);
-		$stmt -> bindParam(":maxCotEdi", $datos["maxCotEdi"], PDO::PARAM_STR);
-		$stmt -> bindParam(":fechaLimEdi", $datos["fechaLimEdi"], PDO::PARAM_STR);
-		$stmt -> bindParam(":rol", $datos["rol"], PDO::PARAM_STR);
+		$stmt->bindParam(":genero", $datos["genero"], PDO::PARAM_STR);
+		$stmt->bindParam(":fechNacimiento", $datos["fechNacimiento"], PDO::PARAM_STR);
+		$stmt->bindParam(":direccion", $datos["direccion"], PDO::PARAM_STR);
+		$stmt->bindParam(":ciudad", $datos["ciudad"], PDO::PARAM_STR);
+		$stmt->bindParam(":telefono", $datos["telefono"], PDO::PARAM_STR);
+		$stmt->bindParam(":email", $datos["email"], PDO::PARAM_STR);
+		$stmt->bindParam(":cargo", $datos["cargo"], PDO::PARAM_STR);
+		$stmt->bindParam(":foto", $datos["foto"], PDO::PARAM_STR);
+		$stmt->bindParam(":intermediario", $datos["intermediario"], PDO::PARAM_STR);
+		$stmt->bindParam(":maxCotEdi", $datos["maxCotEdi"], PDO::PARAM_STR);
+		$stmt->bindParam(":fechaLimEdi", $datos["fechaLimEdi"], PDO::PARAM_STR);
+		$stmt->bindParam(":rol", $datos["rol"], PDO::PARAM_STR);
 
-		if($stmt -> execute()){
+		if ($stmt->execute()) {
 
 			return "ok";
-		
-		}else{
+		} else {
 
-			return "error";	
-
+			return "error";
 		}
 
-		$stmt -> close();
+		$stmt->close();
 
 		$stmt = null;
-
 	}
 
 	/*=============================================
 	ACTUALIZAR USUARIO
 	=============================================*/
 
-	static public function mdlActualizarUsuario($tabla, $item1, $valor1, $item2, $valor2){
+	static public function mdlActualizarUsuario($tabla, $item1, $valor1, $item2, $valor2)
+	{
 
 		$stmt = Conexion::conectar()->prepare("UPDATE $tabla SET $item1 = :$item1 WHERE $item2 = :$item2");
 
-		$stmt -> bindParam(":".$item1, $valor1, PDO::PARAM_STR);
-		$stmt -> bindParam(":".$item2, $valor2, PDO::PARAM_STR);
+		$stmt->bindParam(":" . $item1, $valor1, PDO::PARAM_STR);
+		$stmt->bindParam(":" . $item2, $valor2, PDO::PARAM_STR);
 
-		if($stmt -> execute()){
+		if ($stmt->execute()) {
 
 			return "ok";
-		
-		}else{
+		} else {
 
-			return "error";	
-
+			return "error";
 		}
 
-		$stmt -> close();
+		$stmt->close();
 
 		$stmt = null;
-
 	}
 
 	/*=============================================
 	BORRAR USUARIO
 	=============================================*/
 
-	static public function mdlBorrarUsuario($tabla, $datos){
+	static public function mdlBorrarUsuario($tabla, $datos)
+	{
 
 		$stmt = Conexion::conectar()->prepare("DELETE FROM $tabla WHERE id_usuario = :id");
 
-		$stmt -> bindParam(":id", $datos, PDO::PARAM_INT);
+		$stmt->bindParam(":id", $datos, PDO::PARAM_INT);
 
-		if($stmt -> execute()){
+		if ($stmt->execute()) {
 
 			return "ok";
-		
-		}else{
+		} else {
 
-			return "error";	
-
+			return "error";
 		}
 
-		$stmt -> close();
+		$stmt->close();
 
 		$stmt = null;
-
-
 	}
 	/*=============================================
 	CHECK DE ESTADO DE USUARIO EN SESION
 	=============================================*/
 
-	static public function mdlUserCheckState($tabla, $item, $valor){
+	static public function mdlUserCheckState($tabla, $item, $valor)
+	{
 		$stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE $item = $valor");
 		//$stmt->bindParam(":valor", $valor, PDO::PARAM_STR); // Cambio aquí
 		//$stmt->execute();
 		//$resultados = $stmt->fetch(PDO::FETCH_ASSOC);
 		//var_dump(json_encode($resultados));
-		if($stmt->execute()){
+		if ($stmt->execute()) {
 			$resultado = $stmt->fetch(PDO::FETCH_ASSOC);
 			return $resultado;
 		} else {
 			return "error";
 		}
 	}
-
 }
-?>

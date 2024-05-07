@@ -7,9 +7,71 @@ cargarRoll();
 })();
 
 
+$("#creaTemporal").on("click", function() {
 
-  
+	let ISO = new Date().toISOString();
+	// Eliminar los caracteres que no deseas
+	let randomizer = ISO.replace(/[-T:Z.]/g, '');
 
+	let random = Math.random();
+	let resultRand = Math.round(random);
+
+	let newName = `Guest${randomizer}`;
+	let newUserTemp = newName;
+
+	let actualDate = new Date();
+
+	// Sumar 7 días a la fecha actual
+	actualDate.setDate(actualDate.getDate() + 7);
+
+	// Obtener los componentes de la fecha
+	let year = actualDate.getFullYear();
+	let month = ('0' + (actualDate.getMonth() + 1)).slice(-2); // Se suma 1 porque los meses van de 0 a 11
+	let day = ('0' + actualDate.getDate()).slice(-2);
+
+	// Formatear la fecha en el formato YYYYmmdd
+	let formattedDate = year+"-"+month+"-"+day;
+
+	$.ajax({
+		url: "ajax/crearUsuarioTemporal.php",
+		method : "POST",
+		data: {
+				newName : newName,
+				newLastName : "Guest",
+				newDocIdUser : `${randomizer}`,
+				newUserTemp : newUserTemp,
+				newPassword : `Temporal123*`,
+				newGender : resultRand,
+				newRol : 20,
+				newPhone : '300000000',
+				newEmail : 'tecnologia@grupoasistencia.com',
+				newCharge : 'Guest',
+				maxCotizaciones : 5,
+				cotizacionesTotales : 5,
+				intermediario : 3,
+				lifeTime : formattedDate,
+				bornDate : formattedDate,
+				address : 'Calle 11 # 11-11',
+				city : 30000,
+				typeDoc : null,
+				picture : null,		
+		},
+		success : function (respuesta){
+			swal.fire({
+				icon: "success",
+				title: "¡El usuario temporal ha sido creado correctamente!",
+				showConfirmButton: true,
+				confirmButtonText: "Cerrar"
+			}).then(function(result) {
+				if (result.value) {
+					window.location = "usuarios";
+				}
+			});
+		}
+		
+	})
+
+});
 
   
 
@@ -508,6 +570,13 @@ $(".tablas").on("click", ".btnEditarUsuario", function(){
 
 });
 
+/*===============================================
+ ====== Crear Usuario Temporal O Invitado =======
+ ===============================================*/
+
+
+
+
 
 /*=============================================
 EDITAR USUARIO SELECT2 Y CONFIGURACIONES
@@ -699,54 +768,6 @@ $("#nuevoUsuario").change(function(){
 	});
 
 });
-
-// $(".tablas-usuario").DataTable({
-// 	// Configuración de DataTables
-//     dom: 'Bfrtip',
-//     buttons: [
-//         {
-//             extend: 'excelHtml5',
-//             className: 'btn-excel',
-//             text: '<img src="vistas/img/excelIco.png" />', // Agrega un texto descriptivo
-//             titleAttr: 'Exportar a Excel', // Agrega un tooltip
-//         }
-//     ],
-//     order: [
-//       [0, "desc"],
-//       [1, "desc"],
-//     ],
-//     // "ordering": false,
-
-//     language: {
-//       sProcessing: "Procesando...",
-//       sLengthMenu: "Mostrar _MENU_ registros",
-//       sZeroRecords: "No se encontraron resultados",
-//       sEmptyTable: "Ningún dato disponible en esta tabla",
-//       sInfo: "Mostrando registros del _START_ al _END_ de un total de _TOTAL_",
-//       sInfoEmpty: "Mostrando registros del 0 al 0 de un total de 0",
-//       sInfoFiltered: "(filtrado de un total de _MAX_ registros)",
-//       sInfoPostFix: "",
-//       sSearch: "Buscar:",
-//       sUrl: "",
-//       sInfoThousands: ",",
-//       sLoadingRecords: "Cargando...",
-//       oPaginate: {
-//         sFirst: "Primero",
-//         sLast: "Último",
-//         sNext: "Siguiente",
-//         sPrevious: "Anterior",
-//       },
-
-//       oAria: {
-//         sSortAscending:
-//           ": Activar para ordenar la columna de manera ascendente",
-//         sSortDescending:
-//           ": Activar para ordenar la columna de manera descendente",
-//       },
-//     },
-//   });
-
-
 
 /*=======================================
 AGREGA EL N° IDENTIDAD COMO CONTRASEÑA
