@@ -1,9 +1,9 @@
 // let permisos = "";
 
 $(document).ready(function () {
-  // permisosPlantilla = permisosPlantilla.replace(/\s+/g, '');
-  // let permisos = JSON.parse(permisosPlantilla);
-
+  permisosPlantilla = permisosPlantilla.replace(/\s+/g, '');
+  let permisos = JSON.parse(permisosPlantilla);
+  console.log(permisos);
   const aseguradorasExitosas = [];
 
   // Mostrar alertas

@@ -4,6 +4,6 @@ session_destroy();
 
 echo '<script>
 
-	window.location = "/QAS/inicio";
+	window.location = "/IntegradoorQAS/qas/";
 
 </script>';

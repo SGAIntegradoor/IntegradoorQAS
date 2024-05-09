@@ -121,6 +121,7 @@ if ($_SESSION["rol"] != 1) {
               <th style="width: 50px;">Correo Electronico</th>
               <th>Rol</th>
               <th>Últ_login</th>
+              <th>Fecha_Creacion</th>
               <th>Foto</th>
               <th>Estado</th>
               <th style="width: 110px;">Acciones</th>

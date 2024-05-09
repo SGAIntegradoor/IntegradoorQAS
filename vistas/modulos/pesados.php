@@ -1,6 +1,9 @@
 <?php
 
-require_once "config/dbconfig.php";
+$DB_host = "localhost";
+$DB_user = "grupoasi_cotizautos";
+$DB_pass = "M1graci0n123";
+$DB_name = "grupoasi_cotizautos";
 
 $enlace = mysqli_connect("$DB_host", "$DB_user", "$DB_pass", "$DB_name");
 if (!$enlace) {
@@ -571,9 +574,7 @@ $rolAsesor = $_SESSION['permisos']['id_rol'];
                         <option value="2">Antioquia</option>
                         <option value="3">Arauca</option>
                         <option value="4">Atlántico</option>
-                        <option value="5">Barranquilla</option>
 
-                        <option value="6">Bogotá</option>
                         <option value="7">Bolívar</option>
                         <option value="8">Boyacá</option>
                         <option value="9">Caldas</option>
@@ -729,10 +730,10 @@ $rolAsesor = $_SESSION['permisos']['id_rol'];
                       </div>
                     </div>
                   </div>
-                  <div class="row button-recotizar" style="display: none; margin:5px">
+                  <div class="row button-recotizar" id="btnReCotizarFallidas" style="display: none; margin:5px">
                     <div class="col-md-6"></div>
                     <div class="col-xs-12 col-sm-12 col-md-3 form-group">
-                      <button class="btn btn-primary btn-block" id="btnReCotizarFallidas">Recotizar Ofertas Fallidas</button>
+                      <button class="btn btn-primary btn-block">Recotizar Ofertas Fallidas</button>
                     </div>
                     <div class="col-md-3"></div>
                   </div>

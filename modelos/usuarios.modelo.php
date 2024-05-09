@@ -54,7 +54,6 @@ class ModeloUsuarios
 
 	static public function mdlUsuariosLogin($tabla, $tabla2, $tabla3, $tabla4, $item, $valor)
 	{
-
 		$tabla = "usuarios";
 		$tabla2 = "roles";
 		$tabla3 = "intermediario";
@@ -75,6 +74,7 @@ class ModeloUsuarios
 			WHERE $item = :$item
 		");
 		$stmt->bindParam(":" . $item, $valor, PDO::PARAM_STR);
+		$stmt->execute();
 
 		$resultado = $stmt->fetch(PDO::FETCH_ASSOC);
 

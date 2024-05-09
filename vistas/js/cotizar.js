@@ -1,10 +1,7 @@
-$.ajaxSetup({
-  baseUrl: "/qas",
-});
 
 $(document).ready(function () {
   var permisos = JSON.parse(permisosPlantilla);
-
+  console.log(permisos)
   const parrillaCotizaciones = document.getElementById("parrillaCotizaciones");
   parrillaCotizaciones.style.display = "none";
 
@@ -301,11 +298,46 @@ $(document).ready(function () {
     consulCodFasecolda();
   });
 
+  function decresCotTotales() {
+    return new Promise(function(resolve, reject) {
+      $.ajax({
+          type: "POST",
+          url: "src/updateCotizacionesTotales.php",
+          dataType: "json",
+          success: function (data){
+              resolve(data);
+          },
+          error: function (xhr, status, error){
+              reject(error);
+          }
+      });
+    });
+  }
+
   // Ejectura la funcion Cotizar Ofertas
-  $("#btnCotizar").click(function () {
+  $("#btnCotizar").click(function (e) {
     masRE();
-    cotizarOfertas();
+    decresCotTotales().then(response => {
+      if(response.result == 1 || response.result == 2) {
+        cotizarOfertas();
+      }else {
+        e.preventDefault(); 
+        swal.fire({
+            icon: "error",
+            title: "Cotizaciones Totales Excedidas",
+            text: "El usuario ha excedido las cotizaciones totales. Comuníquese con el administrador para una ampliación o vinculación con su usuario propio.",
+            showConfirmButton: true,
+            confirmButtonText: "Cerrar"
+        }).then(function(result) {
+            if (result.value) {
+                window.location = "inicio";
+            }
+        });
+      }
+    })
   });
+
+
 
   // $("#btnCotizarPesados").click(function () {
   //   cotizarOfertasPesados();
@@ -2134,6 +2166,7 @@ function cotizarOfertas() {
           },
           cache: false,
           success: function (data) {
+            document.querySelector("#btnCotizar").disabled = true;
             const contenParrilla = document.querySelector("#contenParrilla");
             parrillaCotizaciones.style.display = "block";
             contenParrilla.style.display = "block";
@@ -2213,8 +2246,8 @@ function cotizarOfertas() {
               if (aseguradora == "Estado2") {
                 aseguradora = "Estado";
               }
-              console.log(aseguradora);
-              console.log(mensaje);
+              // console.log(aseguradora);
+              // console.log(mensaje);
               // Referecnia de la tabla
               const tablaResumenCotBody = document.querySelector(
                 "#tablaResumenCot tbody"
@@ -2411,8 +2444,6 @@ function cotizarOfertas() {
             });
 
             Promise.all(cont).then(() => {
-              // desactive
-              console.log(aseguradorasFallidas);
               $("#btnCotizar").hide();
               $("#loaderOferta").html("");
               $("#loaderRecotOferta").html("");
@@ -2423,12 +2454,11 @@ function cotizarOfertas() {
                 confirmButtonText: "Cerrar",
               });
               setTimeout(function () {
-                //  window.location = "index.php?ruta=editar-cotizacion&idCotizacion=" + idCotizacion;
               }, 3000);
-
-              // console.log("Se completo todo");
               document.querySelector(".button-recotizar").style.display =
-                "block";
+              "block";
+              document.querySelector("#btnCotizar").style.display =
+              "none";
               /* Se monta el botón para generar el pdf con 
                     el valor de la variable idCotizacion */
               const contentCotizacionPDF = document.querySelector(

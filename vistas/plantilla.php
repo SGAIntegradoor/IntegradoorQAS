@@ -243,8 +243,7 @@ CUERPO DOCUMENTO
       "SBS" => array("A" => $permisos["SBS_A_pesados"], "C" => $permisos["SBS_C_pesados"]),
       "Solidaria" => array("A" => $permisos["Solidaria_A_pesados"], "C" => $permisos["Solidaria_C_pesados"]),
       "Zurich" => array("A" => $permisos["Zurich_A_pesados"], "C" => $permisos["Zurich_C_pesados"]),
-      // "Mundial" => array("A" => $permisos["Mundial_A_pesados"], "C" => $permisos["Mundial_C_pesados"])
-
+      "Mundial" => array("A" => $permisos["Mundial_A_pesados"], "C" => $permisos["Mundial_C_pesados"])
     );
 
   
@@ -263,7 +262,7 @@ CUERPO DOCUMENTO
     var aseguradorasCredenciales = '<?php echo json_encode($aseguradoras); ?>';
     var aseguradorasCredencialesMotos = '<?php echo json_encode($aseguradoras_motos); ?>';
     var aseguradorasCredencialesPesados = '<?php echo json_encode($aseguradoras_pesados); ?>';
-
+    console.log(aseguradorasCredencialesPesados)
     </script>
     <?php
     

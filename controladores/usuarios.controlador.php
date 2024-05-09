@@ -28,10 +28,6 @@ class ControladorUsuarios
 				$item = "usu_usuario";
 				$valor = $_POST["ingUsuario"];
 
-				var_dump($encriptar);
-				var_dump($_POST);
-				die();
-
 				$respuesta = ModeloUsuarios::mdlUsuariosLogin($tabla, $tabla2, $tabla3, $tabla4, $item, $valor);
 				if ($respuesta["usu_usuario"] == $_POST["ingUsuario"] && $respuesta["usu_password"] === $encriptar) {
 					if ($respuesta["usu_estado"] == 1) {

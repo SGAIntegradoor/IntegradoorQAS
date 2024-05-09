@@ -1,6 +1,42 @@
 $(document).ready(function () {
-  $("#btnCotizarMotos").click(function () {
-    cotizarOfertasMotos();
+
+  function decresCotTotales() {
+    return new Promise(function(resolve, reject) {
+      $.ajax({
+          type: "POST",
+          url: "src/updateCotizacionesTotales.php",
+          dataType: "json",
+          success: function (data){
+              resolve(data);
+          },
+          error: function (xhr, status, error){
+              reject(error);
+          }
+      });
+    });
+  }
+
+  // Ejectura la funcion Cotizar Ofertas
+  $("#btnCotizarMotos").click(function (e) {
+    masRE();
+    decresCotTotales().then(response => {
+      if(response.result == 1 || response.result == 2) {
+        cotizarOfertasMotos();
+      }else {
+        e.preventDefault(); 
+        swal.fire({
+            icon: "error",
+            title: "Cotizaciones Totales Excedidas",
+            text: "El usuario ha excedido las cotizaciones totales. Comuníquese con el administrador para una ampliación o vinculación con su usuario propio.",
+            showConfirmButton: true,
+            confirmButtonText: "Cerrar"
+        }).then(function(result) {
+            if (result.value) {
+                window.location = "inicio";
+            }
+        });
+      }
+    })
   });
 
   $("#btnConsultarPlacaMotos").click(function () {
@@ -1738,6 +1774,8 @@ function cotizarOfertasMotos() {
               }, 3000);
 
               // console.log("Se completo todo");
+              const btnCotizar = document.getElementById("btnCotizarMotos");
+              btnCotizar.disabled = true;
               document.querySelector(".button-recotizar").style.display =
                 "block";
               /* Se monta el botón para generar el pdf con 
@@ -1799,6 +1837,8 @@ function cotizarOfertasMotos() {
           },
         });
       } else {
+        const btnRecotizar = document.getElementById("btnReCotizarFallidas");
+        btnRecotizar.disabled = true;
         const contenParrilla = document.querySelector("#contenParrilla");
         raw.cotizacion = idCotizacion;
 
