@@ -866,8 +866,11 @@ $idIntermediario = $_SESSION['permisos']['id_Intermediario'];
                           <div class="col-xs-12 col-sm-6 col-md-3 form-group">
                             <button class="btn btn-primary btn-block" id="btnCotizar">Cotizar Ofertas</button>
                           </div>
-                          <div class="col-xs-12 col-sm-6 col-md-3 form-group">
+                          <div class="col-xs-12 col-sm-6 col-md-3 form-group" id="loaderOfertaBox">
                             <div id="loaderOferta"></div>
+                          </div>
+                          <div class="col-xs-12 col-sm-6 col-md-3 form-group" id="loaderRecotOfertaBox">
+                          <div id="loaderRecotOferta"></div>
                           </div>
                         </div>
                       </div>
@@ -883,7 +886,7 @@ $idIntermediario = $_SESSION['permisos']['id_Intermediario'];
 
 
           <!--- RESUMEN DE COTIZACIONES -->
-          <div id="contenParrilla">
+          <div id="contenParrilla" style="display: none;">
             <div class="col-lg-12 form-parrilla">
               <div class="row row-parrilla">
                 <div class="col-xs-12 col-sm-6 col-md-3">
@@ -1095,7 +1098,7 @@ $idIntermediario = $_SESSION['permisos']['id_Intermediario'];
     </div>
 
     <!-- MODAL FASECOLDA -->
-    <div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal fade" id="staticBackdrop" data-backdrop="static"  data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel"  aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">

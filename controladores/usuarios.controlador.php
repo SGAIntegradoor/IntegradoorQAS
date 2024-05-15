@@ -23,16 +23,67 @@ class ControladorUsuarios
 				$tabla3 = "intermediario";
 				$tabla4 = "permisosintegradoor";
 
+				date_default_timezone_set('America/Bogota');
 
-
+				$fechaAct = date('Y-m-d H:i:s');
 				$item = "usu_usuario";
-				$valor = $_POST["ingUsuario"];
 
+				$valor = $_POST["ingUsuario"];
+				
 				$respuesta = ModeloUsuarios::mdlUsuariosLogin($tabla, $tabla2, $tabla3, $tabla4, $item, $valor);
 				if ($respuesta["usu_usuario"] == $_POST["ingUsuario"] && $respuesta["usu_password"] === $encriptar) {
 					if ($respuesta["usu_estado"] == 1) {
 
+						$newLimitDate = date('Y-m-d H:i:s', strtotime($respuesta['fechaFin'] . ' 23:59:59'));
 
+						if($newLimitDate != null && ($fechaAct >= $newLimitDate)){
+							echo '<script>
+								Swal.fire({
+									html:  `
+									<div style="text-align: left; font-family: Helvetica, Arial, sans-serif; font-size: 15px; border-radius: 4px; padding: 8px;">
+										<strong>Hola</strong> 😔, lamentamos comunicarte, <strong>que llegaste al limite de la fecha de uso</strong> por esto, el presente usuario ha sido inhabilitado.
+										<br><br> 
+										<strong>Si deseas continuar con el servicio, debes comunicarte con el area encargada de vinculaciones de Grupo Asistencia al</strong>
+										📱 <a href="https://wa.link/qkywo4">+573185127910</a> o vía 📧 <u>analistadeseguros@grupoasistencia.com</u> 
+										para agendar la activacion de tu usuario propio.
+										<br><br>
+										Si por el contrario, no estás interesado en vender seguros por medio de Grupo Asistencia como aliado, 👉🏽 <strong>pero si te interesa tener tu propia versión personalizada del software para generar cotizaciones y cuadros comparativos (incluyendo tu propio logo)</strong>, comunícate con nosotros, <strong>Strategico Technologies</strong>, desarrolladores de esta plataforma, para conocer acerca de los planes de pago, que inician desde los $1.950 pesos por placa cotizada.										<br><br><br>
+										<strong>Strategico Technologies</strong>
+										<br>
+										<a href="https://wa.link/0d7fk9">+573187664954</a>
+										<br>
+										<u>proyectos@strategico.tech</u>
+									</div>
+									`,
+									width: "90%", 
+									customClass: {
+										container: "swal-container",
+										title: "swal-title",
+										confirmButton: "swal-confirm-button", 
+									},
+									confirmButtonText: "Cerrar",
+								}).then(function () {
+									window.location.href = ""; 
+								});
+
+								const swalContainer = document.querySelector(".swal-container");
+								swalContainer.style.marginTop = "20px"; // Ajusta este valor según tu necesidad
+
+								// Agrega estilos adicionales para pantallas móviles aquí
+								if (window.innerWidth <= 768) {
+									// Estilos para pantallas con un ancho máximo de 768px (ajusta según sea necesario)
+									swalContainer.style.padding = "5px";
+								}
+							</script>
+							
+							<style>
+								.swal-confirm-button {
+									font-size: 15px !important; /* Aumenta el tamaño del botón */
+									padding: 6px 15px; /* Ajusta el padding para hacer que el botón sea más grande */
+								}
+							</style>';
+							die();
+						}
 
 						$_SESSION["iniciarSesion"] = "ok";
 						$_SESSION["idUsuario"] = $respuesta["id_usuario"];

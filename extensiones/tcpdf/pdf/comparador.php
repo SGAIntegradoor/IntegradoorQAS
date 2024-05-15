@@ -1034,11 +1034,15 @@ while ($rowRespuesta8 = mysqli_fetch_assoc($respuestaquery8)) {
 									AND `rce` LIKE '$valorRC'";
 	$respuestaqueryAsistencia1 =  $conexion->query($queryConsultaAsistencia1);
 	$rowRespuestaAsistencia1 = mysqli_fetch_assoc($respuestaqueryAsistencia1);
+	if ($rowRespuestaAsistencia1 !== null) {
+		if ($cont5 % 2 == 0) {
+			$html3 .= '<td class="puntos fondo" style="width:' . $valorTabla . '%;"><center><font size="7"style="text-align: center;  font-family:dejavusanscondensed;">' . $rowRespuestaAsistencia1['deducible'] . '</font></center></td>';
+		} else {
+			$html3 .= '<td class="puntos fondo2" style="width:' . $valorTabla . '%;"><center><font size="7"style="text-align: center;  font-family:dejavusanscondensed;">' . $rowRespuestaAsistencia1['deducible'] . '</font></center></td>';
 
-	if ($cont5 % 2 == 0) {
-		$html3 .= '<td class="puntos fondo" style="width:' . $valorTabla . '%;"><center><font size="7"style="text-align: center;  font-family:dejavusanscondensed;">' . $rowRespuestaAsistencia1['deducible'] . '</font></center></td>';
-	} else {
-		$html3 .= '<td class="puntos fondo2" style="width:' . $valorTabla . '%;"><center><font size="7"style="text-align: center;  font-family:dejavusanscondensed;">' . $rowRespuestaAsistencia1['deducible'] . '</font></center></td>';
+		} 
+	}else {
+		$html3 .= '<td class="puntos fondo2" style="width:' . $valorTabla . '%;"><center><font size="7"style="text-align: center;  font-family:dejavusanscondensed;"> No Cubre PDF</font></center></td>';
 	}
 
 	$cont5 += 1;
@@ -2958,6 +2962,8 @@ function productoAseguradora($aseguradora, $producto)
 		$resultado = "Premium";
 	} else if ($aseguradora == 'Solidaria' && $producto == 'PARTICULAR FAMILIAR ELITE') {
 		$resultado = "Elite";
+	} else if ($aseguradora == 'Solidaria' && $producto == 'PARTICULAR FAMILIAR CLASICO') {
+		$resultado = "Familiar Clasico";
 	} else if ($aseguradora == 'Zurich' && $producto == 'FULL') {
 		$resultado = "FULL";
 	} else if ($aseguradora == 'Zurich' && $producto == 'MEDIUM') {

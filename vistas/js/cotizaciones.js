@@ -351,11 +351,105 @@ $(document).ready(function () {
 
   // Imprimir Parrilla de Cotizaciones
 
+  // $("#btnParrillaPDF").click(function () {
+  //   var todosOn = $(".classSelecOferta:checked").length;
+
+  //   var idCotizacionPDF = idCotizacion;
+
+  //   var checkboxAsesorEditar = $("#checkboxAsesorEditar");
+
+  //   var valorTxtFasecolda = $("#txtFasecolda").val(); // Obtener el valor del input con el id "txtFasecolda"
+
+  //   function codigoClase(numero) {
+  //     // Convierte el número a una cadena para acceder a los dígitos individualmente
+  //     var numeroComoCadena = numero.toString();
+
+  //     // Asegúrate de que la cadena tenga al menos 5 dígitos
+  //     if (numeroComoCadena.length >= 5) {
+  //       var cuartoDigito = numeroComoCadena.charAt(3);
+  //       var quintoDigito = numeroComoCadena.charAt(4);
+
+  //       // Verifica si el cuarto dígito no es cero
+  //       if (cuartoDigito !== "0") {
+  //         // Concatena el cuarto y quinto dígitos
+  //         return cuartoDigito + quintoDigito;
+  //       } else {
+  //         // Devuelve solo el cuarto dígito
+  //         return quintoDigito;
+  //       }
+  //     } else {
+  //       // No hay suficientes dígitos, devuelve el número original
+  //       return numero;
+  //     }
+  //   }
+
+  //   var claseFasecolda = codigoClase(valorTxtFasecolda);
+
+  //   if (permisos.Generarpdfdecotizacion != "x") {
+  //     Swal.fire({
+  //       icon: "error",
+
+  //       title: "¡Esta versión no tiene ésta funcionalidad disponible!",
+
+  //       showCancelButton: true,
+
+  //       confirmButtonText: "Cerrar",
+
+  //       cancelButtonText: "Conoce más",
+  //     }).then((result) => {
+  //       if (result.isConfirmed) {
+  //       } else if (result.isDismissed) {
+  //         window.open("https://www.integradoor.com", "_blank");
+  //       }
+  //     });
+  //   } else {
+  //     if (!todosOn) {
+  //       swal.fire({
+  //         icon: "error",
+
+  //         title: "¡Debes seleccionar minimo una oferta!",
+  //       });
+  //     } else {
+  //       if (
+  //         claseFasecolda == 4 ||
+  //         claseFasecolda == 12 ||
+  //         claseFasecolda == 10 ||
+  //         claseFasecolda == 14 ||
+  //         claseFasecolda == 22 ||
+  //         claseFasecolda == 25 ||
+  //         claseFasecolda == 26
+  //       ) {
+  //         let url = `extensiones/tcpdf/pdf/comparadorPesados.php?cotizacion=${idCotizacionPDF}`;
+
+  //         if (checkboxAsesorEditar.is(":checked")) {
+  //           url += "&generar_pdf=1";
+  //         }
+
+  //         window.open(url, "_blank");
+  //       } else {
+  //         let url = `extensiones/tcpdf/pdf/comparador.php?cotizacion=${idCotizacionPDF}`;
+
+  //         if (checkboxAsesorEditar.is(":checked")) {
+  //           url += "&generar_pdf=1";
+  //         }
+
+  //         window.open(url, "_blank");
+
+  //         // window.open("comparador.php?cotizacion="+idCotizacionPDF, "_blank");
+  //         // window.open(
+  //         //   "extensiones/tcpdf/pdf/comparador.php?cotizacion=" + idCotizacionPDF,
+  //         //   "_blank"
+  //         // );
+  //       }
+  //     }
+  //   }
+  // });
   $("#btnParrillaPDF").click(function () {
+
     var todosOn = $(".classSelecOferta:checked").length;
 
     var idCotizacionPDF = idCotizacion;
-
+    
     var checkboxAsesorEditar = $("#checkboxAsesorEditar");
 
     var valorTxtFasecolda = $("#txtFasecolda").val(); // Obtener el valor del input con el id "txtFasecolda"
@@ -363,14 +457,14 @@ $(document).ready(function () {
     function codigoClase(numero) {
       // Convierte el número a una cadena para acceder a los dígitos individualmente
       var numeroComoCadena = numero.toString();
-
+    
       // Asegúrate de que la cadena tenga al menos 5 dígitos
       if (numeroComoCadena.length >= 5) {
         var cuartoDigito = numeroComoCadena.charAt(3);
         var quintoDigito = numeroComoCadena.charAt(4);
-
+    
         // Verifica si el cuarto dígito no es cero
-        if (cuartoDigito !== "0") {
+        if (cuartoDigito !== '0') {
           // Concatena el cuarto y quinto dígitos
           return cuartoDigito + quintoDigito;
         } else {
@@ -386,39 +480,68 @@ $(document).ready(function () {
     var claseFasecolda = codigoClase(valorTxtFasecolda);
 
     if (permisos.Generarpdfdecotizacion != "x") {
-      Swal.fire({
-        icon: "error",
 
-        title: "¡Esta versión no tiene ésta funcionalidad disponible!",
+
+
+      Swal.fire({
+
+        icon: 'error',
+
+        title: '¡Esta versión no tiene ésta funcionalidad disponible!',
 
         showCancelButton: true,
 
-        confirmButtonText: "Cerrar",
+        confirmButtonText: 'Cerrar',
 
-        cancelButtonText: "Conoce más",
+        cancelButtonText: 'Conoce más'
+
       }).then((result) => {
+
+
+
         if (result.isConfirmed) {
-        } else if (result.isDismissed) {
-          window.open("https://www.integradoor.com", "_blank");
+
+        } else if (result.isDismissed
+
+        ) {
+
+
+
+          window.open('https://www.integradoor.com', "_blank")
+
+
+
         }
-      });
+
+      })
+
     } else {
+
+
+
       if (!todosOn) {
+
         swal.fire({
+
           icon: "error",
 
           title: "¡Debes seleccionar minimo una oferta!",
+
         });
+
       } else {
-        if (
-          claseFasecolda == 4 ||
-          claseFasecolda == 12 ||
+
+        if( claseFasecolda == 4 ||
           claseFasecolda == 10 ||
+          claseFasecolda == 11 ||
+          claseFasecolda == 12 ||
+          claseFasecolda == 13 ||
           claseFasecolda == 14 ||
           claseFasecolda == 22 ||
+          claseFasecolda == 23 ||
           claseFasecolda == 25 ||
-          claseFasecolda == 26
-        ) {
+          claseFasecolda == 26){
+
           let url = `extensiones/tcpdf/pdf/comparadorPesados.php?cotizacion=${idCotizacionPDF}`;
 
           if (checkboxAsesorEditar.is(":checked")) {
@@ -426,7 +549,18 @@ $(document).ready(function () {
           }
 
           window.open(url, "_blank");
-        } else {
+
+        }else if(claseFasecolda == 17 || claseFasecolda == 18){
+            let url = `extensiones/tcpdf/pdf/comparadorMotos.php?cotizacion=${idCotizacionPDF}`;
+
+          if (checkboxAsesorEditar.is(":checked")) {
+            url += "&generar_pdf=1";
+          }
+
+          window.open(url, "_blank");
+            
+        }else{
+
           let url = `extensiones/tcpdf/pdf/comparador.php?cotizacion=${idCotizacionPDF}`;
 
           if (checkboxAsesorEditar.is(":checked")) {
@@ -435,15 +569,18 @@ $(document).ready(function () {
 
           window.open(url, "_blank");
 
-          // window.open("comparador.php?cotizacion="+idCotizacionPDF, "_blank");
-          // window.open(
-          //   "extensiones/tcpdf/pdf/comparador.php?cotizacion=" + idCotizacionPDF,
-          //   "_blank"
-          // );
+        // window.open("comparador.php?cotizacion="+idCotizacionPDF, "_blank");
+        // window.open(
+        //   "extensiones/tcpdf/pdf/comparador.php?cotizacion=" + idCotizacionPDF,
+        //   "_blank"
+        // );
         }
       }
+
     }
+
   });
+
 
   // Imprimir Parrilla de Cotizaciones
 

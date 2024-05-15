@@ -7,7 +7,6 @@ require_once("../config/conexion.php"); //Contiene funcion que conecta a la base
 $codigo = $_POST['data'];
 $codigoV = "";
 
-
 if ($codigo == 32) {
 	$codigoV = 30;
 } else if ($codigo == 2) {

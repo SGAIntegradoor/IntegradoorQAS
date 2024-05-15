@@ -1,15 +1,7 @@
 <?php
 
-$DB_host = "localhost";
-$DB_user = "grupoasi_cotizautos";
-$DB_pass = "M1graci0n123";
-$DB_name = "grupoasi_cotizautos";
 
-$enlace = mysqli_connect("$DB_host", "$DB_user", "$DB_pass", "$DB_name");
-if (!$enlace) {
-
-  die("Conexion Fallida " . mysqli_connect_error());
-}
+require_once "config/dbconfig.php";
 
 // mysqli_set_charset($enlace, "utf8");
 
@@ -27,15 +19,17 @@ function obtenerCredenciales($enlace, $tabla, $columnas, $idIntermediario) {
   }
 }
 
+$rolAsesor = $_SESSION['permisos']['id_rol'];
+$idIntermediario = $_SESSION['permisos']['id_Intermediario'];
 
 // FUNCION PARA OBTENER CREDENCIALES SBS
 if ($aseguradoras['SBS']['C'] == "1") {
 
-  $creSBS = obtenerCredenciales($enlace, 'Credenciales_SBS2', '*', $_SESSION['intermediario']);
+  $creSBS = obtenerCredenciales($enlace, 'Credenciales_SBS', '*', $_SESSION['intermediario']);
   
 }else{
 
-  $creSBS = obtenerCredenciales($enlace, 'Credenciales_SBS2', '*', '3');
+  $creSBS = obtenerCredenciales($enlace, 'Credenciales_SBS', '*', '3');
 
 }
 $cre_sbs_usuario = $creSBS['cre_sbs_usuario'];
@@ -128,11 +122,102 @@ if ($_SESSION["permisos"]["Cotizarpesados"] != "x") {
   return;
 }
 
-$rolAsesor = $_SESSION['permisos']['id_rol'];
-
-
 ?>
+<style>
+  .table-padding {
+    padding: 15px;
+    /* Puedes ajustar el valor según tus preferencias */
+  }
 
+  /* Agregar relleno general al contenedor padre */
+  .card-ofertas {
+    padding: 20px;
+    /* Puedes ajustar el valor según tus preferencias */
+  }
+
+  .thTable {
+    text-align: center;
+    /* Puedes ajustar el valor según tus preferencias */
+  }
+
+  /* Estilo para pantallas más pequeñas (menos de 495px) */
+  @media (max-width: 495px) {
+    .table-responsive {
+      overflow-x: auto;
+    }
+  }
+
+  @media (max-width: 495px) {
+    .table-responsive {
+      overflow-x: auto;
+    }
+  }
+
+  .form-coti {
+    padding-top: 25px;
+  }
+
+  .divsButtonsModals {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+  }
+
+  .buttonsModal {
+    height: 40px;
+    width: 100%;
+  }
+
+  .no-close .ui-dialog-titlebar-close {
+    display: none;
+  }
+
+  .ui-dialog-buttonset {
+    width: 100%;
+    display: flex !important;
+    justify-content: space-between;
+  }
+
+  .ui-dialog-buttonset>button:first-child {
+    background-color: #88d600 !important;
+    border: 0 !important;
+    border-radius: 5px;
+    width: 150px;
+    height: 30px;
+    color: white;
+    margin-left: 14px
+  }
+
+  .ui-dialog-buttonset>button:nth-child(2) {
+    background-color: #88d600 !important;
+    border: 0 !important;
+    border-radius: 5px;
+    width: 150px;
+    height: 30px;
+    color: white;
+  }
+
+  .ui-dialog .ui-dialog-title {
+    text-align: center;
+    /* Centra el texto del título */
+    width: 100%;
+    /* Ajusta el ancho del título */
+    padding: 0;
+    /* Elimina el relleno por defecto */
+    margin: 0;
+    /* Elimina el margen por defecto */
+  }
+
+  .ui-dialog .ui-dialog-content {
+    padding-top: 40px;
+  }
+
+  .center-btn {
+    margin: 0 auto;
+    /* Alinear horizontalmente */
+    display: block;
+  }
+</style>
 <div class="content-wrapper">
 
   <section class="content-header">
@@ -219,7 +304,7 @@ $rolAsesor = $_SESSION['permisos']['id_rol'];
                     <div class="col-xs-12 col-sm-6 col-md-3 form-group">
                       <input type="hidden" class="form-control" id="intermediario" value="<?php echo $_SESSION["intermediario"]; ?>">
                       <input type="hidden" class="form-control" id="cotRestanv" value="<?php echo $_SESSION["cotRestantes"]; ?>">
-                      <input type="hidden" class="form-control" id="cotRestanInter" value="<?php echo $_SESSION["cotRestantesInter"]; ?>">
+                      <!-- <input type="hidden" class="form-control" id="cotRestanInter" value="<?php echo $_SESSION["cotRestantesInter"]; ?>"> -->
                       <label for="tipoDocumentoID">Tipo de Documento</label>
                       <select class="form-control" id="tipoDocumentoID" required>
                         <option value=""></option>
@@ -640,33 +725,8 @@ $rolAsesor = $_SESSION['permisos']['id_rol'];
                   </div>
 
                   <div class="row">
-              
-                    <!-- <div class="col-xs-12 col-sm-6 col-md-3 form-group">
-                      <label for="hdiseguros">Tipo Vehiculo HDI</label>
-                      <select class="form-control" id="hdiseguros" required>
-                        <option value=""></option>
-                        <option value="1">Remolcador</option>
-                        <option value="2">Camión</option>
-                        <option value="3">Semipesados</option>
-                        <option value="4">Volquetas</option>
-                        <option value="5">Remolque</option>
-                        <option value="6">Linea N chevrolet</option>
-                      </select>
-                    </div> -->
-
-                    <!-- <div class="col-xs-12 col-sm-6 col-md-3 form-group">
-                      <label for="estadoseguros">Tipo Vehiculo Estado</label>
-                      <select class="form-control" id="estadoseguros" required>
-                        <option value=""></option>
-                        <option value="1">Tracto Camiones y Camiones</option>
-                        <option value="2">Camión 3 - 5 Toneladas</option>
-                        <option value="3">Lineas Restringidas</option>
-                        <option value="4">Trailer</option>
-                      </select>
-                    </div> -->
                     
                   </div>
-
 
                   <div class="col-xs-12 col-sm-6 col-md-3">
                     <div class="row">
@@ -705,61 +765,113 @@ $rolAsesor = $_SESSION['permisos']['id_rol'];
         
           </form>
 
-
-
+          <!--- RESUMEN DE COTIZACIONES -->
           <div id="contenParrilla" style="display: none;">
             <div class="col-lg-12 form-parrilla">
               <div class="row row-parrilla">
                 <div class="col-xs-12 col-sm-6 col-md-3">
-                  <label for="">PARRILLA DE COTIZACIÓNES</label>
+                  <label for="">RESUMEN DE COTIZACIONES</label>
                 </div>
-              </div>
-            </div>
-            <div id="cardCotizacion">
-              <div class="col-lg-12">
-                <div class="card-ofertas">
-                  <div class="row card-body">
-                    <div class="card-body col-sm-6 col-md-6">
-                      <div style="margin: 20px 25px;" class="exitosas">
-                        <p style="color: #88d600;"><b>Aseguradoras cotizadas</b></p>
-                      </div>
-                    </div>
-                    <div class="card-body col-sm-6 col-md-6">
-                      <div style="margin: 20px 25px;" class="fallidas">
-                        <p style="color: #88d600;"><b>Aseguradoras no cotizadas</b></p>
-                      </div>
-                    </div>
+                <div class="col-xs-12 col-sm-6 col-md-3">
+                </div>
+                <div class="col-xs-12 col-sm-6 col-md-3">
+                </div>
+                <div class="col-xs-12 col-sm-6 col-md-3 text-right">
+                  <div id="masResOferta">
+                    <p id="masResumen" onclick="masRE();">Ver mas <i class="fa fa-plus-square-o"></i></p>
                   </div>
-                  <div class="row button-recotizar" id="btnReCotizarFallidas" style="display: none; margin:5px">
-                    <div class="col-md-6"></div>
-                    <div class="col-xs-12 col-sm-12 col-md-3 form-group">
-                      <button class="btn btn-primary btn-block">Recotizar Ofertas Fallidas</button>
-                    </div>
-                    <div class="col-md-3"></div>
+                  <div id="menosResOferta">
+                    <p id="menosResumen" onclick="menosRE();">Ver menos <i class="fa fa-minus-square-o"></i></p>
                   </div>
                 </div>
               </div>
-            </div>
 
-            <div id="contenCotizacionPDF" style="margin-top: 15px;">
+              <!-- *//* Mostrar alertas *//* -->
+              <div id="resumenCotizaciones">
+                <div class="col-lg-12" style="display: block;">
+                  <div class="card-ofertas">
+                    <div class="table-responsive">
+                      <table class="table table-bordered table-padding" id="tablaResumenCot">
+                        <thead>
+                          <tr>
+                            <th class="thTable" scope="col" style="color: #88d600; margin-right: 5px;">Aseguradora</th>
+                            <th class="thTable" scope="col" style="color: #88d600; margin-right: 5px;">Cotizo?</th>
+                            <th class="thTable" scope="col" style="color: #88d600;; margin-right: 5px;">Productos cotizados</th>
+                            <th class="thTable" scope="col" style="color: #88d600;; margin-right: 5px;">Observaciones</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+
+
+
+                        </tbody>
+                      </table>
+                    </div>
+                    <div class="row button-recotizar" style="display: none; margin:5px">
+                      <div class="col-md-6"></div>
+                      <div class="col-xs-12 col-sm-12 col-md-3 form-group">
+                        <button class="btn btn-primary btn-block" id="btnReCotizarFallidas">Recotizar Ofertas Fallidas</button>
+                      </div>
+                      <div class="col-md-3"></div>
+                    </div>
+                  </div>
+                </div>
+
+
+                <div id="mensajePrevisora">
+                  <div class="aviso-container col-lg-12">
+                    <p style="font-weight: bold;">
+                      NOTA: Si a tu cliente le interesa Previsora, ten en cuenta que ciertas líneas de vehículos requieren la instalación del dispositivo Cazador al tomar su seguro y este tiene un costo adicional a la póliza. Por favor confirma con tu área comercial.
+                    </p>
+                  </div>
+                </div>
+
+
+
+              </div>
             </div>
           </div>
+
+          <!-- PARRILLA DE COTIZACIONES -->
+          <div id="parrillaCotizaciones">
+
+            <div class="col-lg-12 form-coti">
+              <div class="row row-parrilla">
+                <div class="col-xs-12 col-sm-6 col-md-3">
+                  <label for="">PARRILLA DE COTIZACIONES</label>
+                </div>
+              </div>
+            </div>
+
+            <div id="cardCotizacion">
+            </div>
+
+            <div id="cardAgregarCotizacion">
+            </div>
+
+            <div id="contenCotizacionPDFLivianos">
+
+            </div>
+
+          </div>
+
         </div>
 
-        <!-- CAMPOS OCULTOS PARA OPTENER LA INFORMACION-->
-        <div style="display: none;">
+
+     <!-- CAMPOS OCULTOS PARA OPTENER LA INFORMACION-->
+     <div style="display: none;">
           <label>Aseguradoras</label>
-          <input type="hidden" name="aseguradoras_pesados" id="aseguradoras_pesados" value='<?php echo json_encode($aseguradoras_pesados); ?>'>
+          <input type="hidden" name="aseguradoras" id="aseguradoras" value='<?php echo json_encode($aseguradoras_pesados); ?>'>
+          <label>Intermediario</label>
+          <input type="hidden" name="idIntermediario" id="idIntermediario" value="<?php echo $idIntermediario; ?>">
           <label>Rol Asesor</label>
-          <input type="hidden" name="rolAsesor" id="rolAsesorPesados" value="<?php echo $rolAsesor; ?>">
-          <label>Clase</label>
-          <input type="hidden" class="form-control" id="txtClaseVeh" placeholder="" disabled>
+          <input type="hidden" name="rolAsesorPesados" id="rolAsesorPesados" value="<?php echo $rolAsesor; ?>">
           <label>Id Asegurado</label>
           <input type="hidden" name="idCliente" id="idCliente">
           <label>Celular Asegurado</label>
-          <input type="text" name="celularAseg" id="celularAseg" value="3122464876">
+          <input type="text" name="celularAseg" id="celularAseg" value="">
           <label>Email Asegurado</label>
-          <input type="text" name="emailAseg" id="emailAseg" value="tecnologia@grupoasistencia.com">
+          <input type="text" name="emailAseg" id="emailAseg" value="">
           <label>Direccion Asegurado</label>
           <input type="text" name="direccionAseg" id="direccionAseg" value="CALLE 70 7T2-16">
           <label>ClaseVehiculo</label>
@@ -784,6 +896,64 @@ $rolAsesor = $_SESSION['permisos']['id_rol'];
           <input type="text" name="NivelEducativo" id="NivelEducativo" value="4">
           <label>Estrato</label>
           <input type="text" name="Estrato" id="Estrato" value="3">
+          <label>TokenPrevisora</label>
+          <input type="text" name="previsoraToken" id="previsoraToken">
+
+          <!--ESTADO-->
+          <input type="text" class="form-control" id="cre_est_usuario" value="<?php echo $cre_est_usuario; ?>">
+          <input type="text" class="form-control" id="cre_equ_contrasena" value="<?php echo $cre_equ_contrasena; ?>">
+          <input type="text" class="form-control" id="Cre_Est_Entity_Id" value="<?php echo $Cre_Est_Entity_Id; ?>">
+          <input type="text" class="form-control" id="cre_est_zona" value="<?php echo $cre_est_zona; ?>">
+
+
+          <!--ZURICH-->
+          <input type="text" class="form-control" id="cre_zur_nomUsu" value="<?php echo $_SESSION["cre_zur_nomUsu"]; ?>">
+          <input type="text" class="form-control" id="cre_zur_passwd" value="<?php echo $_SESSION["cre_zur_passwd"]; ?>">
+          <input type="text" class="form-control" id="cre_zur_intermediaryEmail" value="<?php echo $_SESSION["cre_zur_intermediaryEmail"]; ?>">
+          <input type="text" class="form-control" id="cre_zur_Cookie" value="<?php echo $_SESSION["cre_zur_Cookie"]; ?>">
+          <input type="text" class="form-control" id="cre_zur_token" value="<?php echo $_SESSION["cre_zur_token"]; ?>">
+          <input type="text" class="form-control" id="cre_zur_fecha_token" value="<?php echo $_SESSION["cre_zur_fecha_token"]; ?>">
+
+          <!--SOLIDARIA-->
+          <input type="text" class="form-control" id="cre_sol_cod_sucursal" value="<?php echo $cre_sol_cod_sucursal; ?>">
+          <input type="text" class="form-control" id="cre_sol_cod_per" value="<?php echo $cre_sol_cod_per; ?>">
+          <input type="text" class="form-control" id="cre_sol_cod_tipo_agente" value="<?php echo $cre_sol_cod_tipo_agente; ?>">
+          <input type="text" class="form-control" id="cre_sol_cod_agente" value="<?php echo $cre_sol_cod_agente; ?>">
+          <input type="text" class="form-control" id="cre_sol_cod_pto_vta" value="<?php echo $cre_sol_cod_pto_vta; ?>">
+          <input type="text" class="form-control" id="cre_sol_grant_type" value="<?php echo $cre_sol_grant_type; ?>">
+          <input type="text" class="form-control" id="cre_sol_Cookie_token" value="<?php echo $cre_sol_Cookie_token; ?>">
+          <input type="text" class="form-control" id="cre_sol_token" value="<?php echo $cre_sol_token; ?>">
+          <input type="text" class="form-control" id="cre_sol_fecha_token" value="<?php echo $cre_sol_fecha_token; ?>">
+
+          <!--PREVISORA-->
+          <input type="text" class="form-control" id="cre_pre_AgentCodeListCoin" value="<?php echo $_SESSION["cre_pre_AgentCodeListCoin"]; ?>">
+          <input type="text" class="form-control" id="cre_pre_AgentAgencyTypeCode" value="<?php echo $_SESSION["cre_pre_AgentAgencyTypeCode"]; ?>">
+          <input type="text" class="form-control" id="cre_pre_ParticipationCia" value="<?php echo $_SESSION["cre_pre_ParticipationCia"]; ?>">
+          <input type="text" class="form-control" id="cre_pre_AgentCode" value="<?php echo $_SESSION["cre_pre_AgentCode"]; ?>">
+          <input type="text" class="form-control" id="cre_pre_Username" value="<?php echo $_SESSION["cre_pre_Username"]; ?>">
+          <input type="text" class="form-control" id="cre_pre_Password" value="<?php echo $_SESSION["cre_pre_Password"]; ?>">
+
+          <!--MAPFRE-->
+          <input type="text" class="form-control" id="cre_map_codCliente" value="<?php echo $_SESSION["cre_map_codCliente"]; ?>">
+          <input type="text" class="form-control" id="cre_map_codigoOficinaAsociado" value="<?php echo $_SESSION["cre_map_codigoOficinaAsociado"]; ?>">
+          <input type="text" class="form-control" id="cre_map_codigoIntermediario" value="<?php echo $_SESSION["cre_map_codigoIntermediario"]; ?>">
+          <input type="text" class="form-control" id="cre_map_username" value="<?php echo $_SESSION["cre_map_username"]; ?>">
+          <input type="text" class="form-control" id="cre_map_password" value="<?php echo $_SESSION["cre_map_password"]; ?>">
+          <input type="text" class="form-control" id="cre_map_codigonivel3GA" value="<?php echo $_SESSION["cre_map_codigonivel3GA"]; ?>">
+
+
+          <!--SBS-->
+          <input type="text" class="form-control" id="cre_sbs_usuario" value="<?php echo $cre_sbs_usuario; ?>">
+          <input type="text" class="form-control" id="cre_sbs_contrasena" value="<?php echo $cre_sbs_contrasena; ?>">
+
+          <!--ALLIANZ-->
+          <input type="text" class="form-control" id="cre_alli_sslcertfile" value="<?php echo $cre_alli_sslcertfile; ?>">
+          <input type="text" class="form-control" id="cre_alli_sslkeyfile" value="<?php echo $cre_alli_sslkeyfile; ?>">
+          <input type="text" class="form-control" id="cre_alli_passphrase" value="<?php echo $cre_alli_passphrase; ?>">
+          <input type="text" class="form-control" id="cre_alli_partnerid" value="<?php echo $cre_alli_partnerid; ?>">
+          <input type="text" class="form-control" id="cre_alli_agentid" value="<?php echo $cre_alli_agentid; ?>">
+          <input type="text" class="form-control" id="cre_alli_partnercode" value="<?php echo $cre_alli_partnercode; ?>">
+          <input type="text" class="form-control" id="cre_alli_agentcode" value="<?php echo $cre_alli_agentcode; ?>">
 
           <!--AXA-->
           <input type="text" class="form-control" id="cre_axa_sslcertfile" value="<?php echo $cre_axa_sslcertfile; ?>">
@@ -796,6 +966,10 @@ $rolAsesor = $_SESSION['permisos']['id_rol'];
           <input type="text" class="form-control" id="cre_axa_validacionEventos" value="<?php echo $cre_axa_validacionEventos; ?>">
           <input type="text" class="form-control" id="url_axa" value="<?php echo $url_axa; ?>">
 
+          <!--Bolivar-->
+          <input type="text" class="form-control" id="cre_bol_api_key" value="<?php echo $cre_bol_api_key; ?>">
+          <input type="text" class="form-control" id="cre_bol_claveAsesor" value="<?php echo $cre_bol_claveAsesor; ?>">
+
         </div>
 
       </div>
@@ -803,7 +977,7 @@ $rolAsesor = $_SESSION['permisos']['id_rol'];
     </div>
 
     <!-- MODAL FASECOLDA -->
-    <div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal fade" id="staticBackdrop" data-backdrop="static"  data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel"  aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
@@ -816,25 +990,22 @@ $rolAsesor = $_SESSION['permisos']['id_rol'];
             <form>
               <div class="form-group">
                 <label class="col-form-label">Fasecolda:</label>
-                <input type="text" class="form-control" id="buscar-fasecolda">
+                <input type="text" class="form-control" id="txtFasecolda_modal">
               </div>
               <div class="form-group">
                 <label class="col-form-label">Modelo:</label>
-                <input type="text" class="form-control" id="modelo-fasecolda">
+                <input type="text" class="form-control" id="txtModeloVeh_modal">
               </div>
-              <div class="form-group">
-                <button type="button" class="btn btn-block btn-primary" id="btn-consultar-fasecolda">Consultar</button>
+              <div class="divsButtonsModals">               
+                  <button type="button" class="btn btn-primary buttonsModal" id="btn-consultar-fasecolda">Consultar</button>               
+                  <button type="button" class="btn btn-primary buttonsModal" id="btn-cerrar-fasecolda">Cerrar</button>              
               </div>
             </form>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
           </div>
         </div>
       </div>
     </div>
     <!-- END MODAL FASECOLDA -->
-
   </section>
 
 </div>

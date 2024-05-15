@@ -14,8 +14,8 @@ $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, 'A4', true, 'UTF-8', false);
 $identificador = $_GET['cotizacion'];
 
 $server = "localhost";
-$user = "root";
-$password = ""; //poner tu propia contraseña, si tienes una.
+$user = "grupoasi_cotizautos";
+$password = "M1graci0n123"; //poner tu propia contraseña, si tienes una.
 $bd = "grupoasi_cotizautos";
 
 $conexion = mysqli_connect($server, $user, $password, $bd);
@@ -750,6 +750,7 @@ $pdf->SetFont('dejavusanscondensed', '', 8);
 $query6 = "SELECT Aseguradora FROM ofertas WHERE `id_cotizacion` = $identificador AND `seleccionar` = 'Si'";
 $valor6 = $conexion->query($query6);
 $fila6 = mysqli_num_rows($valor6);
+
 $html3 .= '<tr style="width: 100%;" class="izquierda">';
 $html3 .= '<td style ="width: 100%;  background-color: #D1D1D1; font-family:dejavusanscondensedb;" colspan="' . ($fila6 + 1) . '">
 <div style="font-size:3pt">&nbsp;</div>
@@ -782,7 +783,7 @@ while ($rowRespuesta7 = mysqli_fetch_assoc($respuestaquery7)) {
 			<img style="width:35px;" src="../../../vistas/img/logos/estado.png" alt="">
 			<div style="font-size:5pt">&nbsp;</div>
 			</td>';
-		}else if($rowRespuesta4['Aseguradora'] == 'Seguros Estado'){
+		}else if($rowRespuesta7['Aseguradora'] == 'Seguros Estado'){
 			$html2 .= '<td class="puntos td2 fondo2" >
 			<div style="font-size:5pt">&nbsp;</div>
 			<img style="width:35px;" src="../../../vistas/img/logos/estado.png" alt="">

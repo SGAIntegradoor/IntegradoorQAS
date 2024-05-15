@@ -3,6 +3,10 @@ session_start();
 
 header('Content-Type: text/html; charset=utf-8');
 date_default_timezone_set('America/Bogota');
+ini_set('display_errors', 1); 
+    ini_set('display_startup_errors', 1); 
+    error_reporting(E_ALL);
+
 
 // Incluye la biblioteca TCPDF principal (busca la ruta de instalación).
 require_once('tcpdf_include.php');
@@ -48,10 +52,9 @@ $valorAsegSelec = $conexion->query($queryAsegSelec);
 $asegSelecionada = mysqli_num_rows($valorAsegSelec);
 
 // Consultar cuantas Ofertas fueron selecionadas para visualizarlas en el PDF
-$queryPDF = "SELECT pdf FROM ofertas WHERE `id_cotizacion` = $identificador AND `seleccionar` = 'Si'";
+$queryPDF = "SELECT * from ofertas WHERE `id_cotizacion` = $identificador AND `seleccionar` = 'Si'";
 $valorPDF = $conexion->query($queryPDF);
 $ofertasPDF = mysqli_num_rows($valorPDF);
-
 
 $fechaCotiz = substr($fila['cot_fch_cotizacion'], 0, -9);
 $fechaVigencia = date("d-m-Y", strtotime($fechaCotiz));
@@ -110,19 +113,19 @@ if ($ocultarAsesor) {
 }
 
 
-$fecha = $fila["f_registro"];
-$newDate = date("d/m/Y", strtotime($fecha));
+//$fecha = $fila["f_registro"];
+//$newDate = date("d/m/Y", strtotime($fecha));
 $real = "";
 
-if ($consecutivo >= 0 && $consecutivo <= 9) {
-	$real = "MJN715" . $consecutivo;
-} else if ($consecutivo >= 10 && $consecutivo <= 99) {
-	$real = "0000" . $consecutivo;
-} else if ($consecutivo >= 100 && $consecutivo <= 999) {
-	$real = "000" . $consecutivo;
-} else if ($consecutivo >= 1000 && $consecutivo <= 9999) {
-	$real = "00" . $consecutivo;
-}
+// if ($consecutivo >= 0 && $consecutivo <= 9) {
+// 	$real = "MJN715" . $consecutivo;
+// } else if ($consecutivo >= 10 && $consecutivo <= 99) {
+// 	$real = "0000" . $consecutivo;
+// } else if ($consecutivo >= 100 && $consecutivo <= 999) {
+// 	$real = "000" . $consecutivo;
+// } else if ($consecutivo >= 1000 && $consecutivo <= 9999) {
+// 	$real = "00" . $consecutivo;
+// }
 
 
 
@@ -1073,15 +1076,19 @@ while ($rowRespuesta8 = mysqli_fetch_assoc($respuestaquery8)) {
 									// -- AND `rce` LIKE '$valorRC' AND `ppd` LIKE '$perdidaParcial'";
 	$respuestaqueryAsistencia1 =  $conexion->query($queryConsultaAsistencia1);
 	$rowRespuestaAsistencia1 = mysqli_fetch_assoc($respuestaqueryAsistencia1);
+	if ($rowRespuestaAsistencia1 !== null) {
+		if ($cont5 % 2 == 0) {
+			//var_dump("entre 1",$valorTabla);
+			$html3 .= '<td class="puntos fondo" style="width:' . $valorTabla . '%;"><center><font size="7"style="text-align: center;  font-family:dejavusanscondensed;">' . $rowRespuestaAsistencia1['deducible'] . '</font></center></td>';
+			//var_dump($html3);
+		} else {
+			//var_dump("entre 2",$valorTabla);
+			$html3 .= '<td class="puntos fondo2" style="width:' . $valorTabla . '%;"><center><font size="7"style="text-align: center;  font-family:dejavusanscondensed;">' . $rowRespuestaAsistencia1['deducible'] . '</font></center></td>';
+			//var_dump($html3);
+		} 
+	}else {
 
-
-	if ($cont5 % 2 == 0) {
-		$html3 .= '<td class="puntos fondo" style="width:' . $valorTabla . '%;"><center><font size="7"style="text-align: center;  font-family:dejavusanscondensed;">' . $rowRespuestaAsistencia1['deducible'] . '</font></center></td>';
-	} else {
-		$html3 .= '<td class="puntos fondo2" style="width:' . $valorTabla . '%;"><center><font size="7"style="text-align: center;  font-family:dejavusanscondensed;">' . $rowRespuestaAsistencia1['deducible'] . '</font></center></td>';
 	}
-
-	$cont5 += 1;
 }
 
 $html3 .= '</tr>';

@@ -227,7 +227,7 @@ function mostrarAlerta (){
         if (result.isConfirmed) {
         } else if (result.isDismissed
           ) {
-            window.open('https://www.integradoor.com',"_blank")    
+            //window.open('https://www.integradoor.com',"_blank")    
         }
       })
 }

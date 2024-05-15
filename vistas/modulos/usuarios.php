@@ -2,35 +2,83 @@
 
 if ($_SESSION["rol"] != 1) {
 
-  echo '<script>console.log('.json_encode($_SESSION).')</script>';
+  echo '<script>console.log(' . json_encode($_SESSION) . ')</script>';
 }
 
 ?>
 
-<!-- <style>
-    .btn-excel {
-    display: flex !important;
-    background-color: #87d501 !important;
-    height: 32px;
-    align-items: center;
-  }
-
-  .dt-search {
-    display: flex !important;
-    align-items: center;
-    justify-content: flex-end;
-  }
-
-  .paging_full_numbers{
-    display: flex !important;
-    justify-content: flex-end;
-  } -->
-</style>
-
 <div class="content-wrapper">
 
   <section class="content-header">
+    <style>
+      .btnAgregarUsuario {
+        border-radius: 4px;
+        background-color: #88D600;
+        border: none;
+        color: #fff;
+        text-align: center;
+        font-size: 18px;
+        padding: 5px;
+        width: 200px;
+        transition: all 0.5s;
+        cursor: pointer;
+        margin: 5px;
+        /* box-shadow: 0 10px 20px -8px rgba(0, 0, 0,.7); */
+      }
 
+      .btnAgregarUsuario {
+        cursor: pointer;
+        display: inline-block;
+        position: relative;
+        transition: 0.5s;
+      }
+
+      .btnAgregarUsuario:after {
+        content: '»';
+        position: absolute;
+        opacity: 0;
+        top: 4px;
+        right: -30px;
+        transition: 0.5s;
+      }
+
+      .btn-excel {
+        display: flex !important;
+        border: 0px !important;
+        height: 32px;
+        align-items: center;
+      }
+
+      .dt-search {
+        display: flex !important;
+        align-items: center;
+        justify-content: flex-end;
+      }
+
+      .paging_full_numbers {
+        display: flex !important;
+        justify-content: flex-end;
+      }
+
+      .dt-length {
+        display: flex;
+      }
+
+      .dt-start {
+        width: 60px !important;
+      }
+
+      .dt-info {
+        width: 600px !important;
+      }
+
+      @media (max-width: 495px) {
+        .dt-info {
+          width: 300px !important;
+          text-align: left;
+        }
+      }
+    </style>
     <h1>
 
       Administrar usuarios
@@ -84,10 +132,46 @@ if ($_SESSION["rol"] != 1) {
             transition: 0.5s;
           }
 
+          .btn-excel {
+            display: flex !important;
+            border: 0px !important;
+            height: 32px;
+            align-items: center;
+          }
+
+          .dt-search {
+            display: flex !important;
+            align-items: center;
+            justify-content: flex-end;
+          }
+
+          .paging_full_numbers {
+            display: flex !important;
+            justify-content: flex-end;
+          }
+
+          .dt-length {
+            display: flex;
+          }
+
+          .dt-start {
+            width: 60px !important;
+          }
+
+          .dt-info {
+            width: 600px !important;
+          }
+
+          @media (max-width: 495px) {
+            .dt-info {
+              width: 300px !important;
+              text-align: left;
+            }
+          }
         </style>
 
         <?php
-        if($_SESSION["permisos"]["Agregarunusuarionuevo"] == "x"){	
+        if ($_SESSION["permisos"]["Agregarunusuarionuevo"] == "x") {
           echo '<button class="btnAgregarUsuario" data-toggle="modal" data-target="#modalAgregarUsuario">
 
           Agregar usuario
@@ -95,19 +179,19 @@ if ($_SESSION["rol"] != 1) {
         </button>';
         }
 
-        if($_SESSION["permisos"]["Agregarunusuarionuevo"] == "x"){	
+        if ($_SESSION["permisos"]["Agregarunusuarionuevo"] == "x") {
           echo '<button class="btnAgregarUsuario" id="creaTemporal">
 
           Crear Usuario Temporal
 
         </button>';
         }
-      ?>
+        ?>
       </div>
 
       <div class="box-body">
 
-        <table class="table table-bordered table-striped dt-responsive tablas-cotizaciones tablas"  width="100%">
+        <table class="table table-bordered table-striped dt-responsive tablas-usuarios tablas" width="100%">
 
           <thead>
 
@@ -140,13 +224,13 @@ if ($_SESSION["rol"] != 1) {
             $item2 = null;
             $valor2 = null;
 
-            if($_SESSION["permisos"]["Verlistadodeusuarioscreados"] == "x"){	
+            if ($_SESSION["permisos"]["Verlistadodeusuarioscreados"] == "x") {
 
-            $usuarios = ControladorUsuarios::ctrMostrarUsuarios($item1, $valor1, $item2, $valor2);
+              $usuarios = ControladorUsuarios::ctrMostrarUsuarios($item1, $valor1, $item2, $valor2);
 
-            foreach ($usuarios as $key => $value) {
+              foreach ($usuarios as $key => $value) {
 
-              echo ' <tr>
+                echo ' <tr>
 
                   <td>' . ($key + 1) . '</td>
 
@@ -162,22 +246,22 @@ if ($_SESSION["rol"] != 1) {
 
                   <td>' . $value["rol_descripcion"] . '</td>';
 
-              $ultimoLogin = $value["usu_ultimo_login"] == NULL ? " " : date("d/m/Y", strtotime($value["usu_ultimo_login"]));
-              echo '<td>' . $ultimoLogin . '</td>';
+                $ultimoLogin = $value["usu_ultimo_login"] == NULL ? " " : date("d/m/Y", strtotime($value["usu_ultimo_login"]));
+                echo '<td>' . $ultimoLogin . '</td>';
+                echo '<td>' . $value['usu_fch_creacion'] . '</td>';
+                if ($value["usu_foto"] != "") {
+                  echo '<td><img src="' . $value["usu_foto"] . '" class="img-thumbnail" width="40px"></td>';
+                } else {
+                  echo '<td><img src="vistas/img/usuarios/default/anonymous.png" class="img-thumbnail" width="40px"></td>';
+                }
 
-              if ($value["usu_foto"] != "") {
-                echo '<td><img src="' . $value["usu_foto"] . '" class="img-thumbnail" width="40px"></td>';
-              } else {
-                echo '<td><img src="vistas/img/usuarios/default/anonymous.png" class="img-thumbnail" width="40px"></td>';
-              }
+                if ($value["usu_estado"] != 0) {
+                  echo '<td><button class="btn btn-success btn-xs btnActivar" idUsuario="' . $value["id_usuario"] . '" estadoUsuario="0">Activo</button></td>';
+                } else {
+                  echo '<td><button class="btn btn-danger btn-xs btnActivar" idUsuario="' . $value["id_usuario"] . '" estadoUsuario="1">Bloqueado</button></td>';
+                }
 
-              if ($value["usu_estado"] != 0) {
-                echo '<td><button class="btn btn-success btn-xs btnActivar" idUsuario="' . $value["id_usuario"] . '" estadoUsuario="0">Activo</button></td>';
-              } else {
-                echo '<td><button class="btn btn-danger btn-xs btnActivar" idUsuario="' . $value["id_usuario"] . '" estadoUsuario="1">Bloqueado</button></td>';
-              }
-
-              echo '<td>
+                echo '<td>
 
                     <div class="btn-group">
                         
@@ -190,8 +274,8 @@ if ($_SESSION["rol"] != 1) {
                   </td>
                   
                 </tr>';
+              }
             }
-          }
 
             ?>
 
@@ -359,47 +443,47 @@ MODAL AGREGAR USUARIO
                 <span class="input-group-addon"><i class="fa fa-home"></i></span>
                 <select class="form-control input-lg" name="DptoCirculacion" id="ingDptoCirculacion">
 
-                    <option value="">Departamento</option>
-                    <option value="1">Amazonas</option>
-                    <option value="2">Antioquia</option>
-                    <option value="3">Arauca</option>
-                    <option value="4">Atlántico</option>
-                    <option value="5">Barranquilla</option>
+                  <option value="">Departamento</option>
+                  <option value="1">Amazonas</option>
+                  <option value="2">Antioquia</option>
+                  <option value="3">Arauca</option>
+                  <option value="4">Atlántico</option>
+                  <option value="5">Barranquilla</option>
 
-                    <option value="6">Bogotá</option>
-                    <option value="7">Bolívar</option>
-                    <option value="8">Boyacá</option>
-                    <option value="9">Caldas</option>
-                    <option value="10">Caquetá</option>
+                  <option value="6">Bogotá</option>
+                  <option value="7">Bolívar</option>
+                  <option value="8">Boyacá</option>
+                  <option value="9">Caldas</option>
+                  <option value="10">Caquetá</option>
 
-                    <option value="11">Casanare</option>
-                    <option value="12">Cauca</option>
-                    <option value="13">Cesar</option>
-                    <option value="14">Chocó</option>
-                    <option value="15">Córdoba</option>
+                  <option value="11">Casanare</option>
+                  <option value="12">Cauca</option>
+                  <option value="13">Cesar</option>
+                  <option value="14">Chocó</option>
+                  <option value="15">Córdoba</option>
 
-                    <option value="16">Cundinamarca</option>
-                    <option value="17">Guainía</option>
-                    <option value="18">La Guajira</option>
-                    <option value="19">Guaviare</option>
-                    <option value="20">Huila</option>
+                  <option value="16">Cundinamarca</option>
+                  <option value="17">Guainía</option>
+                  <option value="18">La Guajira</option>
+                  <option value="19">Guaviare</option>
+                  <option value="20">Huila</option>
 
-                    <option value="21">Magdalena</option>
-                    <option value="22">Meta</option>
-                    <option value="23">Nariño</option>
-                    <option value="24">Norte de Santander</option>
-                    <option value="25">Putumayo</option>
+                  <option value="21">Magdalena</option>
+                  <option value="22">Meta</option>
+                  <option value="23">Nariño</option>
+                  <option value="24">Norte de Santander</option>
+                  <option value="25">Putumayo</option>
 
-                    <option value="26">Quindío</option>
-                    <option value="27">Risaralda</option>
-                    <option value="28">San Andrés</option>
-                    <option value="29">Santander</option>
-                    <option value="30">Sucre</option>
+                  <option value="26">Quindío</option>
+                  <option value="27">Risaralda</option>
+                  <option value="28">San Andrés</option>
+                  <option value="29">Santander</option>
+                  <option value="30">Sucre</option>
 
-                    <option value="31">Tolima</option>
-                    <option value="32">Valle del Cauca</option>
-                    <option value="33">Vaupés</option>
-                    <option value="34">Vichada</option>
+                  <option value="31">Tolima</option>
+                  <option value="32">Valle del Cauca</option>
+                  <option value="33">Vaupés</option>
+                  <option value="34">Vichada</option>
                 </select>
 
               </div>
@@ -549,9 +633,9 @@ MODAL AGREGAR USUARIO
 
           <div class="row">
 
-            
 
-            
+
+
 
             <!-- ENTRADA PARA LA CONTRASEÑA -->
 
@@ -630,171 +714,171 @@ MODAL EDITAR USUARIO
 
     <div class="modal-content">
 
-    <form role="form" method="post" enctype="multipart/form-data" id="userEditForm">
+      <form role="form" method="post" enctype="multipart/form-data" id="userEditForm">
 
-      <!--=====================================
+        <!--=====================================
       CABEZA DEL MODAL
       ======================================-->
 
-      <div class="modal-header" style="background:#3c8dbc; color:white">
+        <div class="modal-header" style="background:#3c8dbc; color:white">
 
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
 
-        <h4 class="modal-title">Editar usuario</h4>
+          <h4 class="modal-title">Editar usuario</h4>
 
-      </div>
+        </div>
 
-      <!--=====================================
+        <!--=====================================
       CUERPO DEL MODAL
       ======================================-->
 
-      <div class="modal-body">
+        <div class="modal-body">
 
-        <div class="box-body">
+          <div class="box-body">
 
-          <div class="row">
+            <div class="row">
 
-            <!-- ENTRADA PARA EL NOMBRE -->
+              <!-- ENTRADA PARA EL NOMBRE -->
 
-            <div class="col-xs-12 col-sm-6 col-md-6 form-group">
+              <div class="col-xs-12 col-sm-6 col-md-6 form-group">
 
-              <div class="input-group">
+                <div class="input-group">
 
-                <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                  <span class="input-group-addon"><i class="fa fa-user"></i></span>
 
-                <input type="text" class="form-control input-lg" name="editarNombre" id="editarNombre" placeholder="Actualizar nombre" required>
-                <input type="hidden" id="idCliente" name="idCliente">
-                <input type="hidden" id="codCliente" name="codCliente">
-                <input type="hidden" id="idUsuEdit" name="idUsuEdit">
+                  <input type="text" class="form-control input-lg" name="editarNombre" id="editarNombre" placeholder="Actualizar nombre" required>
+                  <input type="hidden" id="idCliente" name="idCliente">
+                  <input type="hidden" id="codCliente" name="codCliente">
+                  <input type="hidden" id="idUsuEdit" name="idUsuEdit">
+
+                </div>
+
+              </div>
+
+              <!-- ENTRADA PARA EL APELLIDO -->
+
+              <div class="col-xs-12 col-sm-6 col-md-6 form-group">
+
+                <div class="input-group">
+
+                  <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                  <input type="text" class="form-control input-lg" name="editarApellido" id="editarApellido" placeholder="Actualizar apellido" required>
+
+                </div>
 
               </div>
 
             </div>
 
-            <!-- ENTRADA PARA EL APELLIDO -->
+            <div class="row">
 
-            <div class="col-xs-12 col-sm-6 col-md-6 form-group">
+              <!-- ENTRADA PARA EL TIPO DE DOCUMENTO -->
 
-              <div class="input-group">
+              <div class="col-xs-12 col-sm-6 col-md-6 form-group">
 
-                <span class="input-group-addon"><i class="fa fa-user"></i></span>
-                <input type="text" class="form-control input-lg" name="editarApellido" id="editarApellido" placeholder="Actualizar apellido" required>
-              
-              </div>
-              
-            </div>
+                <div class="input-group">
 
-          </div>
-
-          <div class="row">
-
-            <!-- ENTRADA PARA EL TIPO DE DOCUMENTO -->
-
-            <div class="col-xs-12 col-sm-6 col-md-6 form-group">
-
-              <div class="input-group">
-
-                <span class="input-group-addon"><i class="fa fa-id-badge"></i></span>
+                  <span class="input-group-addon"><i class="fa fa-id-badge"></i></span>
 
 
-                <select class="form-control input-lg" name="editarTipoDocumento" id="editarTipoDocumento">
+                  <select class="form-control input-lg" name="editarTipoDocumento" id="editarTipoDocumento">
 
-                  <option value="">Tipo de documento:</option>
-                  <option value="Cedula de Ciudadania">Cedula de Ciudadania</option>
-                  <option value="Cedula de Extranjeria">Cedula de Extranjeria</option>
-                  <option value="Permiso de Proteccion Temporal">Permiso de Proteccion Temporal</option>
-                  <option value="Pasaporte">Pasaporte</option>
+                    <option value="">Tipo de documento:</option>
+                    <option value="Cedula de Ciudadania">Cedula de Ciudadania</option>
+                    <option value="Cedula de Extranjeria">Cedula de Extranjeria</option>
+                    <option value="Permiso de Proteccion Temporal">Permiso de Proteccion Temporal</option>
+                    <option value="Pasaporte">Pasaporte</option>
 
-                </select>
+                  </select>
+
+                </div>
 
               </div>
 
-            </div>
+              <!-- ENTRADA PARA EL DOCUMENTO ID -->
 
-            <!-- ENTRADA PARA EL DOCUMENTO ID -->
+              <div class="col-xs-12 col-sm-6 col-md-6 form-group">
 
-            <div class="col-xs-12 col-sm-6 col-md-6 form-group">
+                <div class="input-group">
 
-              <div class="input-group">
+                  <span class="input-group-addon"><i class="fa fa-id-badge"></i></span>
 
-                <span class="input-group-addon"><i class="fa fa-id-badge"></i></span>
+                  <input type="number" min="0" class="form-control input-lg" name="editarDocIdUser" id="editarDocIdUser" placeholder="Actualizar documento">
 
-                <input type="number" min="0" class="form-control input-lg" name="editarDocIdUser" id="editarDocIdUser" placeholder="Actualizar documento">
+                </div>
 
               </div>
 
             </div>
 
-          </div>
+            <div class="row">
 
-          <div class="row">
+              <!-- ENTRADA PARA LA FECHA DE NACIMIENTO -->
+              <div class="col-xs-12 col-sm-6 col-md-6 form-group">
 
-            <!-- ENTRADA PARA LA FECHA DE NACIMIENTO -->
-            <div class="col-xs-12 col-sm-6 col-md-6 form-group">
+                <div class="input-group">
 
-              <div class="input-group">
+                  <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
 
-                <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                  <input type="date" min="0" class="form-control input-lg" name="fechNacimiento" id="fechNacimiento" placeholder="Ingresar fecha">
 
-                <input type="date" min="0" class="form-control input-lg" name="fechNacimiento" id="fechNacimiento" placeholder="Ingresar fecha">
+                </div>
+
+              </div>
+
+              <!-- ENTRADA PARA EL GÉNERO -->
+              <div class="col-xs-12 col-sm-6 col-md-6 form-group">
+
+                <div class="input-group">
+
+                  <span class="input-group-addon"><i class="fa fa-venus-mars"></i></span>
+
+                  <select class="form-control input-lg" name="editarGenero" id="editarGenero" required>
+
+                    <option value="">Género:</option>
+                    <option value="M">Masculino</option>
+                    <option value="F">Femenino</option>
+
+                  </select>
+
+                </div>
 
               </div>
 
             </div>
 
-            <!-- ENTRADA PARA EL GÉNERO -->
-            <div class="col-xs-12 col-sm-6 col-md-6 form-group">
 
-              <div class="input-group">
+            <div class="row">
 
-                <span class="input-group-addon"><i class="fa fa-venus-mars"></i></span>
 
-                <select class="form-control input-lg" name="editarGenero" id="editarGenero" required>
+              <!-- ENTRADA PARA EL CELULAR -->
+              <div class="col-xs-12 col-sm-6 col-md-6 form-group">
+                <div id="mensajeErrorCelularEdit" style="color: red; display: none;"></div>
+                <div class="input-group">
 
-                  <option value="">Género:</option>
-                  <option value="M">Masculino</option>
-                  <option value="F">Femenino</option>
+                  <span class="input-group-addon"><i class="fa fa-mobile"></i></span>
+                  <input type="text" class="form-control input-lg" name="editarTelefono" id="editarTelefono" placeholder="Ingresar teléfono" data-inputmask="'mask':'(999) 999-9999'" data-mask required>
 
-                </select>
+                </div>
+              </div>
+
+              <!-- ENTRADA PARA LA DIRECCION -->
+
+              <div class="col-xs-12 col-sm-6 col-md-6 form-group">
+
+                <div class="input-group">
+
+                  <span class="input-group-addon"><i class="fa fa-home"></i></span>
+
+                  <input type="text" class="form-control input-lg" name="editarDireccion" id="editarDireccion" placeholder="Sin Direccion">
+
+                </div>
 
               </div>
 
-            </div>
+              <!-- ENTRADA PARA EL DEPARTAMENTO -->
 
-          </div>
-
-
-          <div class="row">
-
-
-            <!-- ENTRADA PARA EL CELULAR -->
-            <div class="col-xs-12 col-sm-6 col-md-6 form-group">
-            <div id="mensajeErrorCelularEdit" style="color: red; display: none;"></div>
-              <div class="input-group">
-
-                <span class="input-group-addon"><i class="fa fa-mobile"></i></span>
-                <input type="text" class="form-control input-lg" name="editarTelefono" id="editarTelefono" placeholder="Ingresar teléfono" data-inputmask="'mask':'(999) 999-9999'" data-mask required>
-
-              </div>
-            </div>
-
-            <!-- ENTRADA PARA LA DIRECCION -->
-
-            <div class="col-xs-12 col-sm-6 col-md-6 form-group">
-
-              <div class="input-group">
-
-                <span class="input-group-addon"><i class="fa fa-home"></i></span>
-
-                <input type="text" class="form-control input-lg" name="editarDireccion" id="editarDireccion" placeholder="Sin Direccion">
-
-              </div>
-
-            </div>
-
-            <!-- ENTRADA PARA EL DEPARTAMENTO -->
-
-            <!-- <div class="col-xs-12 col-sm-6 col-md-6 form-group">
+              <!-- <div class="col-xs-12 col-sm-6 col-md-6 form-group">
 
               <div class="input-group">
 
@@ -848,13 +932,13 @@ MODAL EDITAR USUARIO
 
             </div> -->
 
-          </div>
+            </div>
 
-          <div class="row">
+            <div class="row">
 
-            <!-- ENTRADA PARA LA CIUDAD -->
+              <!-- ENTRADA PARA LA CIUDAD -->
 
-            <!-- <div class="col-xs-12 col-sm-6 col-md-6 form-group">
+              <!-- <div class="col-xs-12 col-sm-6 col-md-6 form-group">
               <div class="input-group">
 
                 <span class="input-group-addon"><i class="fa fa-home"></i></span>
@@ -867,188 +951,190 @@ MODAL EDITAR USUARIO
 
 
 
-          </div>
+            </div>
 
-          <div class="row">
+            <div class="row">
 
-            <!-- ENTRADA PARA LA CIUDAD ACTUAL OPCION 2-->
-            <div class="col-xs-12 col-sm-6 col-md-6 form-group">
+              <!-- ENTRADA PARA LA CIUDAD ACTUAL OPCION 2-->
+              <div class="col-xs-12 col-sm-6 col-md-6 form-group">
 
-              <div class="input-group">
+                <div class="input-group">
 
-                <span class="input-group-addon"><i class="fa fa-home"></i></span>
-                <input type="text" class="form-control input-lg" name="ciudadActual" id="ciudadActual" placeholder="Sin ciudad" readonly>
-                <input type="hidden" id="codigoCiudadActual" name="codigoCiudadActual">
+                  <span class="input-group-addon"><i class="fa fa-home"></i></span>
+                  <input type="text" class="form-control input-lg" name="ciudadActual" id="ciudadActual" placeholder="Sin ciudad" readonly>
+                  <input type="hidden" id="codigoCiudadActual" name="codigoCiudadActual">
+
+                </div>
 
               </div>
 
-            </div>
+              <!-- ENTRADA PARA LA CIUDAD OPCION 2-->
+              <div class="col-xs-12 col-sm-6 col-md-6 form-group">
+                <div class="input-group">
 
-            <!-- ENTRADA PARA LA CIUDAD OPCION 2-->
-            <div class="col-xs-12 col-sm-6 col-md-6 form-group">
-              <div class="input-group">
-
-                <span class="input-group-addon"><i class="fa fa-home"></i></span>
-                <select class="form-control" name="ciudad2" id="ciudad2"></select>
+                  <span class="input-group-addon"><i class="fa fa-home"></i></span>
+                  <select class="form-control" name="ciudad2" id="ciudad2"></select>
                   <!-- <option></option> Opción vacía para que el buscador funcione correctamente -->
                   <!-- <div id="listaCiudades"></div> -->
 
-              </div>
-            </div>
-
-          </div>
-
-          <div class="row">
-
-            <!-- ENTRADA PARA EL EMAIL-->
-
-            <div class="col-xs-12 col-sm-6 col-md-6 form-group">
-
-              <div class="input-group">
-
-                <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
-
-                <input type="email" class="form-control input-lg" name="editarEmail" id="editarEmail" placeholder="Actualizar email" required>
-                <input type="hidden" id="idEstado" name="idEstado">
-
+                </div>
               </div>
 
             </div>
 
-            <!-- ENTRADA INGRESAR CARGO -->
+            <div class="row">
 
-            <div class="col-xs-12 col-sm-6 col-md-6 form-group">
+              <!-- ENTRADA PARA EL EMAIL-->
 
-              <div class="input-group">
+              <div class="col-xs-12 col-sm-6 col-md-6 form-group">
 
-                <span class="input-group-addon"><i class="fa fa-user"></i></span>
-                <input type="text" class="form-control input-lg" name="editarCargo" id="editarCargo" placeholder="Editar cargo">
+                <div class="input-group">
+
+                  <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
+
+                  <input type="email" class="form-control input-lg" name="editarEmail" id="editarEmail" placeholder="Actualizar email" required>
+                  <input type="hidden" id="idEstado" name="idEstado">
+
+                </div>
 
               </div>
 
-            </div>
+              <!-- ENTRADA INGRESAR CARGO -->
 
-          </div>
+              <div class="col-xs-12 col-sm-6 col-md-6 form-group">
 
-          <div class="row">
+                <div class="input-group">
 
-            <!-- ENTRADA PARA EL INTERMEDIARIO -->
+                  <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                  <input type="text" class="form-control input-lg" name="editarCargo" id="editarCargo" placeholder="Editar cargo">
 
-            <div class="col-xs-12 col-sm-6 col-md-6 form-group">
-
-              <div class="input-group">
-
-                <span class="input-group-addon"><i class="fa fa-briefcase"></i></span>
-
-                <select class="form-control input-lg" name="idIntermediario2" id="idIntermediario2" placeholder="Editar Intermediario" required>
-  
-                <option value="">Selecionar Intermediario</option>
-
-                </select>
+                </div>
 
               </div>
 
             </div>
 
-            <!-- ENTRADA PARA SELECCIONAR SU ROL -->
+            <div class="row">
 
-            <div class="col-xs-12 col-sm-6 col-md-6 form-group">
+              <!-- ENTRADA PARA EL INTERMEDIARIO -->
 
-              <div class="input-group">
+              <div class="col-xs-12 col-sm-6 col-md-6 form-group">
 
-                <span class="input-group-addon"><i class="fa fa-users"></i></span>
+                <div class="input-group">
 
-                <select class="form-control input-lg" name="editarRol" id="editarRol" placeholder="Editar Rol" required>
+                  <span class="input-group-addon"><i class="fa fa-briefcase"></i></span>
 
-                  <option value="">Selecionar rol</option>
+                  <select class="form-control input-lg" name="idIntermediario2" id="idIntermediario2" placeholder="Editar Intermediario" required>
 
-                  <option value="1">AsesorSgaFreelance</option>
-                  <option value="2">Asesor</option>
-                  <option value="2">Asesor</option>
+                    <option value="">Selecionar Intermediario</option>
 
-                </select>
+                  </select>
+
+                </div>
+
+              </div>
+
+              <!-- ENTRADA PARA SELECCIONAR SU ROL -->
+
+              <div class="col-xs-12 col-sm-6 col-md-6 form-group">
+
+                <div class="input-group">
+
+                  <span class="input-group-addon"><i class="fa fa-users"></i></span>
+
+                  <select class="form-control input-lg" name="editarRol" id="editarRol" placeholder="Editar Rol" required>
+
+                    <option value="">Selecionar rol</option>
+
+                    <option value="1">AsesorSgaFreelance</option>
+                    <option value="2">Asesor</option>
+                    <option value="2">Asesor</option>
+
+                  </select>
+
+                </div>
 
               </div>
 
             </div>
 
-          </div>
+            <div class="row">
 
-          <div class="row">
+              <!-- ENTRADA PARA EL NUMERO MAXIMO DE COTIZACIONES DIARIAS-->
 
-            <!-- ENTRADA PARA EL NUMERO MAXIMO DE COTIZACIONES DIARIAS-->
+              <div class="col-xs-12 col-sm-6 col-md-6 form-group">
 
-            <div class="col-xs-12 col-sm-6 col-md-6 form-group">
+                <div class="input-group">
 
-              <div class="input-group">
+                  <span class="input-group-addon"><i class="fa fa-sort-numeric-asc"></i></span>
+                  <input type="text" min="0" class="form-control input-lg" name="maxiCot" placeholder="Cotizaciones diarias" id="maxiCot">
 
-                <span class="input-group-addon"><i class="fa fa-sort-numeric-asc"></i></span>
-                <input type="text" min="0" class="form-control input-lg" name="maxiCot" placeholder="Cotizaciones diarias" id="maxiCot">
+                </div>
+
+              </div>
+
+              <!-- ENTRADA INGRESAR LA FECHA LIMITE DE USO -->
+
+              <div class="col-xs-12 col-sm-6 col-md-6 form-group">
+
+                <div class="input-group">
+
+                  <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                  <input type="date" min="0" class="form-control input-lg" name="fechaLimEdi" id="fechaLimEdi" placeholder="Ingresar documento">
+
+                </div>
 
               </div>
 
             </div>
 
-            <!-- ENTRADA INGRESAR LA FECHA LIMITE DE USO -->
+            <div class="row">
 
-            <div class="col-xs-12 col-sm-6 col-md-6 form-group">
+              <!-- DISPLAY USU_USUARIO -->
 
-              <div class="input-group">
+              <div class="col-xs-12 col-sm-6 col-md-6 form-group">
 
-                <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                <input type="date" min="0" class="form-control input-lg" name="fechaLimEdi" id="fechaLimEdi" placeholder="Ingresar documento">
+                <div class="input-group">
 
-              </div>
+                  <span class="input-group-addon"><i class="fa fa-key"></i></span>
+                  <input type="text" class="form-control input-lg" id="editarUsuario" name="editarUsuario" value="" readonly>
 
-            </div>
-
-          </div>
-
-          <div class="row">
-
-            <!-- DISPLAY USU_USUARIO -->
-
-            <div class="col-xs-12 col-sm-6 col-md-6 form-group">
-
-              <div class="input-group">
-
-                <span class="input-group-addon"><i class="fa fa-key"></i></span>
-                <input type="text" class="form-control input-lg" id="editarUsuario" name="editarUsuario" value="" readonly>
+                </div>
 
               </div>
-
-            </div>
 
               <!-- DISPLAY USU_FCH_CREACION -->
 
-            <div class="col-xs-12 col-sm-6 col-md-6 form-group">
+              <div class="col-xs-12 col-sm-6 col-md-6 form-group">
 
-              <div class="input-group">
+                <div class="input-group">
 
-                <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                <input type="date" min="0" class="form-control input-lg" name="fechaUserExist" id="fechaUserExist" readonly>
+                  <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                  <input type="date" min="0" class="form-control input-lg" name="fechaUserExist" id="fechaUserExist" readonly>
+
+                </div>
 
               </div>
 
             </div>
 
-          </div>
+            <!-- ENTRADA PARA SUBIR FOTO -->
 
-          <!-- ENTRADA PARA SUBIR FOTO -->
+            <div class="row">
 
-          <div class="row">
+              <div class="col-xs-12 col-sm-6 col-md-6 form-group">
 
-            <div class="col-xs-12 col-sm-6 col-md-6 form-group">
+                <div class="panel">SUBIR FOTO</div>
 
-              <div class="panel">SUBIR FOTO</div>
+                <img src="vistas/img/usuarios/default/anonymous.png" class="img-thumbnail previsualizarEditar" width="90px">
 
-              <img src="vistas/img/usuarios/default/anonymous.png" class="img-thumbnail previsualizarEditar" width="90px">
+                <input type="file" class="nuevaFoto" name="editarFoto">
 
-              <input type="file" class="nuevaFoto" name="editarFoto">
+                <input type="hidden" name="fotoActual" id="fotoActual">
 
-              <input type="hidden" name="fotoActual" id="fotoActual">
+                <p class="help-block">Peso máximo de la foto 2MB</p>
 
-              <p class="help-block">Peso máximo de la foto 2MB</p>
+              </div>
 
             </div>
 
@@ -1056,28 +1142,26 @@ MODAL EDITAR USUARIO
 
         </div>
 
-      </div>
-
-      <!--=====================================
+        <!--=====================================
       PIE DEL MODAL
       ======================================-->
 
-      <div class="modal-footer">
+        <div class="modal-footer">
 
-        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Salir</button>
+          <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Salir</button>
 
-        <button type="submit" class="btn btn-primary">Modificar usuario</button>
+          <button type="submit" class="btn btn-primary">Modificar usuario</button>
 
-      </div>
+        </div>
 
-      <?php
+        <?php
 
-      $editarUsuario = new ControladorUsuarios();
-      $editarUsuario->ctrEditarUsuario();
+        $editarUsuario = new ControladorUsuarios();
+        $editarUsuario->ctrEditarUsuario();
 
-      ?>
+        ?>
 
-    </form>
+      </form>
 
     </div>
 

@@ -17,7 +17,7 @@ $PP = $_POST['PP'];
 $CE = $_POST['CE'];
 $GR = $_POST['GR'];
 $logo = "vistas/img/logos/" . $_POST['logo'];
-$UrlPdf = $_POST['UrlPdf'];
+$UrlPdf = isset($_POST['UrlPdf']) ? $_POST['UrlPdf']: NULL;
 $manual = $_POST['manual'];
 
 if ($aseguradora == "Axa Colpatria") {
@@ -40,8 +40,8 @@ if ($aseguradora == "Axa Colpatria") {
 		echo json_encode($data, JSON_UNESCAPED_UNICODE);
 	}
 } else {
-	$familiar = $_POST['responsabilidad_civil_familiar'];
-	$pph = $_POST['pph'] ? $_POST['pph'] : NULL ;
+	$familiar = ((isset($_POST['responsabilidad_civil_familiar']) && $_POST['responsabilidad_civil_familiar'])) ? $_POST['responsabilidad_civil_familiar'] : NULL;
+	$pph = (isset($_POST['pph']) && $_POST['pph'])? $_POST['pph'] : NULL ;
 
 	if (isset($pph)) {
 		$sql = "INSERT INTO `ofertas` (`id_oferta`, `Placa`, `Identificacion`, `NumCotizOferta`, `Aseguradora`, `Producto`, `Prima`, 

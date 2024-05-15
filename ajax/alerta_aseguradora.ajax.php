@@ -9,10 +9,10 @@
     class AlertaAseguradora {
         
         public function obtenerAlertas($cotizacion) {
-            $resultado = ModeloAlertaAseguradora::mdlObtenerAlertas($cotizacion);   
+            $resultado = ModeloAlertaAseguradora::mdlObtenerAlertas($cotizacion);  
             if (!$resultado) { return false; }
 
-            return json_encode($resultado);
+            print_r(json_encode($resultado));
         }
     }
 

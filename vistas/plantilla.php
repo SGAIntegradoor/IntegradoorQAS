@@ -1,17 +1,17 @@
 <?php
 
 session_start();
-if ($_SESSION['permisos']['id_rol'] == '19') {
-  echo '<script>
+// if ($_SESSION['permisos']['id_rol'] == '19') {
+//   echo '<script>
 
-    window.location = "https://integradoor.com/app/cotizar";
+//     window.location = "inicio";
 
-  </script>';
+//   </script>';
 
-  return;
+//   return;
   
-  // Detén la ejecución del script actual
-}
+//   // Detén la ejecución del script actual
+// }
 
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
@@ -24,8 +24,26 @@ ini_set('display_errors', 1);
 
 <head>
 
-
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="Expires" content="0">
+  <meta http-equiv="Last-Modified" content="0">
+  <meta http-equiv="Cache-Control" content="no-cache, mustrevalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+
+  <title>Multicotizador de Seguros</title>
+
+  <!-- Tell the browser to be responsive to screen width -->
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+
+  <link rel="icon" href="vistas/img/plantilla/icono-blanco.png">
+
+  <!--=====================================
+  PLUGINS DE CSS
+  ======================================-->
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta http-equiv="Expires" content="0">
@@ -67,12 +85,11 @@ ini_set('display_errors', 1);
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
 
   <!-- DataTables -->
-  <!-- <link rel="stylesheet" href="vistas/bower_components/datatables.net/css/jquery.dataTables.min.css">
+ <!-- <link rel="stylesheet" href="vistas/bower_components/datatables.net/css/jquery.dataTables.min.css">
   <link rel="stylesheet" href="vistas/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css">
-  <link rel="stylesheet" href="vistas/bower_components/datatables.net-bs/css/responsive.bootstrap.min.css">  -->
-  <!-- <link rel="stylesheet" href="vistas/plugins/datatables/datatables.min.css">  -->
-  <link rel="stylesheet" href="libraries/DataTables/datatables.min.css"> 
-
+  <link rel="stylesheet" href="vistas/bower_components/datatables.net-bs/css/responsive.bootstrap.min.css"> -->
+<!--  <link rel="stylesheet" href="vistas/plugins/datatables/datatables.min.css"> -->
+ 
   <!-- JQuery UI -->
   <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
   <link rel="stylesheet" href="libraries\JQueryUI\jquery-ui.theme.css">
@@ -81,6 +98,14 @@ ini_set('display_errors', 1);
   <!-- <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css"> -->
   <!-- <script type="text/javascript" src="libraries\JQueryUI\external\jquery\jquery.js"></script> -->
    <!-- JQuery UI -->
+<!-- <link rel="stylesheet" href="libraries/DataTables/datatables.min.css"> 
+ <script src="vistas/plugins/datatables/datatables.min.js"></script>-->
+ 
+ <!--<link rel="stylesheet" href="libraries/DataTables/datatables.min.css"> 
+ <script src="libraries/DataTables/datatables.min.js"></script>-->
+ <link rel="stylesheet" href="libraries/DataTables/datatables1.min.css"> 
+ <script src="libraries/DataTables/datatables1.min.js"></script>
+ <!--<script src="vistas/plugins/datatables/datatables.min.js"></script>--> 
 
   <!-- <link rel="stylesheet" href="vistas/bower_components/datatables.net-bs/css/responsive.bootstrap.min.css"> -->
 
@@ -127,14 +152,14 @@ ini_set('display_errors', 1);
  <!-- AdminLTE App -->
  <script src="vistas/dist/js/adminlte.min.js"></script>
  
- <!-- DataTables
+  <!--DataTables-->
+ <!--<script src="vistas/plugins/datatables/datatables.min.js"></script>-->
+ <!-- <script src="libraries/DataTables/datatables.min.css"></script> -->
+<!-- <script src="vistas/bower_components/datatables.net-bs/js/responsive.bootstrap.min.js"></script> 
  <script src="vistas/bower_components/datatables.net-bs/js/dataTables.responsive.min.js"></script> 
  <script src="vistas/bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
- <script src="vistas/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script> -->
- <!-- <script src="vistas/plugins/datatables/dataTables.min.js"></script>  -->
- <script src="libraries/DataTables/datatables.min.js"></script>
- <!-- <script src="libraries/DataTables/datatables.min.css"></script> -->
- <!-- <script src="vistas/bower_components/datatables.net-bs/js/responsive.bootstrap.min.js"></script> -->
+ <script src="vistas/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>-->
+ <!--<link rel="stylesheet" href="libraries/DataTables/datatables.min.js"> -->
  
  <!-- SweetAlert 2 -->
  <!-- <script src="vistas/plugins/sweetalert2/sweetalert2.all.js"></script> -->
@@ -184,7 +209,6 @@ ini_set('display_errors', 1);
   <!-- <script src="vistas/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script> -->
   <!-- <script src="vistas/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.es.min.js" charset="UTF-8"></script> -->
   
-</head>
 
 <!--=====================================
 CUERPO DOCUMENTO
@@ -231,18 +255,18 @@ CUERPO DOCUMENTO
     );
 
     $aseguradoras_pesados = array(
-      "Allianz" => array("A" => $permisos["Allianz_A_pesados"], "C" => $permisos["Allianz_C_pesados"]),
+      //"Allianz" => array("A" => $permisos["Allianz_A_pesados"], "C" => $permisos["Allianz_C_pesados"]),
       "AXA" => array("A" => $permisos["AXA_A_pesados"], "C" => $permisos["AXA_C_pesados"]),
-      "Bolivar" => array("A" => $permisos["Bolivar_A_pesados"], "C" => $permisos["Bolivar_C_pesados"]),
-      "Equidad" => array("A" => $permisos["Equidad_A_pesados"], "C" => $permisos["Equidad_C_pesados"]),
-      "Estado" => array("A" => $permisos["Estado_A_pesados"], "C" => $permisos["Estado_C_pesados"]),
-      "HDI" => array("A" => $permisos["HDI_A_pesados"], "C" => $permisos["HDI_C_pesados"]),
+     // "Bolivar" => array("A" => $permisos["Bolivar_A_pesados"], "C" => $permisos["Bolivar_C_pesados"]),
+      //"Equidad" => array("A" => $permisos["Equidad_A_pesados"], "C" => $permisos["Equidad_C_pesados"]),
+     // "Estado" => array("A" => $permisos["Estado_A_pesados"], "C" => $permisos["Estado_C_pesados"]),
+      //"HDI" => array("A" => $permisos["HDI_A_pesados"], "C" => $permisos["HDI_C_pesados"]),
       "Liberty" => array("A" => $permisos["Liberty_A_pesados"], "C" => $permisos["Liberty_C_pesados"]),
-      "Mapfre" => array("A" => $permisos["Mapfre_A_pesados"], "C" => $permisos["Mapfre_C_pesados"]),
-      "Previsora" => array("A" => $permisos["Previsora_A_pesados"], "C" => $permisos["Previsora_C_pesados"]),
-      "SBS" => array("A" => $permisos["SBS_A_pesados"], "C" => $permisos["SBS_C_pesados"]),
-      "Solidaria" => array("A" => $permisos["Solidaria_A_pesados"], "C" => $permisos["Solidaria_C_pesados"]),
-      "Zurich" => array("A" => $permisos["Zurich_A_pesados"], "C" => $permisos["Zurich_C_pesados"]),
+      //"Mapfre" => array("A" => $permisos["Mapfre_A_pesados"], "C" => $permisos["Mapfre_C_pesados"]),
+      //"Previsora" => array("A" => $permisos["Previsora_A_pesados"], "C" => $permisos["Previsora_C_pesados"]),
+      //"SBS" => array("A" => $permisos["SBS_A_pesados"], "C" => $permisos["SBS_C_pesados"]),
+      //"Solidaria" => array("A" => $permisos["Solidaria_A_pesados"], "C" => $permisos["Solidaria_C_pesados"]),
+      //"Zurich" => array("A" => $permisos["Zurich_A_pesados"], "C" => $permisos["Zurich_C_pesados"]),
       "Mundial" => array("A" => $permisos["Mundial_A_pesados"], "C" => $permisos["Mundial_C_pesados"])
     );
 
