@@ -191,7 +191,7 @@ if ($_SESSION["rol"] != 1) {
 
       <div class="box-body">
 
-        <table class="table table-bordered table-striped dt-responsive tablas-usuarios tablas" width="100%">
+        <table class="table table-bordered table-striped dt-responsive tablas-cotizaciones tablas" width="100%">
 
           <thead>
 

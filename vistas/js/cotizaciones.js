@@ -1,13 +1,11 @@
 // let permisos = "";
 
 $(document).ready(function () {
-  permisosPlantilla = permisosPlantilla.replace(/\s+/g, '');
-  let permisos = JSON.parse(permisosPlantilla);
-  console.log(permisos);
+  //permisosPlantilla = permisosPlantilla.replace(/\s+/g, '');
+  //let permisos = JSON.parse(permisosPlantilla);
+  //console.log(permisos);
   const aseguradorasExitosas = [];
-
-  // Mostrar alertas
-  //PRIMERA VERSION ALERTAS
+if (typeof idCotizacion !== "undefined" && idCotizacion !== null) {
   const alertas = new Promise((resolve, reject) => {
     const requestOptions = {
       method: "POST",
@@ -233,6 +231,12 @@ $(document).ready(function () {
         console.error("Error al obtener la información de la tabla:", error);
       });
   });
+} else {
+    
+}
+  // Mostrar alertas
+  //PRIMERA VERSION ALERTAS
+
 
   // alertas.then(result => {
 
@@ -268,7 +272,6 @@ $(document).ready(function () {
   //   window.location = "motos"
   // })
   // Limpia los contenedores de las Cards y del Boton PDF y Recotiza
-
 
   $("#btnRecotizar").click(function () {
     document.getElementById("formularioCotizacionManual").style.display =
@@ -349,107 +352,12 @@ $(document).ready(function () {
     agregarCotizacionManual2();
   });
 
-  // Imprimir Parrilla de Cotizaciones
-
-  // $("#btnParrillaPDF").click(function () {
-  //   var todosOn = $(".classSelecOferta:checked").length;
-
-  //   var idCotizacionPDF = idCotizacion;
-
-  //   var checkboxAsesorEditar = $("#checkboxAsesorEditar");
-
-  //   var valorTxtFasecolda = $("#txtFasecolda").val(); // Obtener el valor del input con el id "txtFasecolda"
-
-  //   function codigoClase(numero) {
-  //     // Convierte el número a una cadena para acceder a los dígitos individualmente
-  //     var numeroComoCadena = numero.toString();
-
-  //     // Asegúrate de que la cadena tenga al menos 5 dígitos
-  //     if (numeroComoCadena.length >= 5) {
-  //       var cuartoDigito = numeroComoCadena.charAt(3);
-  //       var quintoDigito = numeroComoCadena.charAt(4);
-
-  //       // Verifica si el cuarto dígito no es cero
-  //       if (cuartoDigito !== "0") {
-  //         // Concatena el cuarto y quinto dígitos
-  //         return cuartoDigito + quintoDigito;
-  //       } else {
-  //         // Devuelve solo el cuarto dígito
-  //         return quintoDigito;
-  //       }
-  //     } else {
-  //       // No hay suficientes dígitos, devuelve el número original
-  //       return numero;
-  //     }
-  //   }
-
-  //   var claseFasecolda = codigoClase(valorTxtFasecolda);
-
-  //   if (permisos.Generarpdfdecotizacion != "x") {
-  //     Swal.fire({
-  //       icon: "error",
-
-  //       title: "¡Esta versión no tiene ésta funcionalidad disponible!",
-
-  //       showCancelButton: true,
-
-  //       confirmButtonText: "Cerrar",
-
-  //       cancelButtonText: "Conoce más",
-  //     }).then((result) => {
-  //       if (result.isConfirmed) {
-  //       } else if (result.isDismissed) {
-  //         window.open("https://www.integradoor.com", "_blank");
-  //       }
-  //     });
-  //   } else {
-  //     if (!todosOn) {
-  //       swal.fire({
-  //         icon: "error",
-
-  //         title: "¡Debes seleccionar minimo una oferta!",
-  //       });
-  //     } else {
-  //       if (
-  //         claseFasecolda == 4 ||
-  //         claseFasecolda == 12 ||
-  //         claseFasecolda == 10 ||
-  //         claseFasecolda == 14 ||
-  //         claseFasecolda == 22 ||
-  //         claseFasecolda == 25 ||
-  //         claseFasecolda == 26
-  //       ) {
-  //         let url = `extensiones/tcpdf/pdf/comparadorPesados.php?cotizacion=${idCotizacionPDF}`;
-
-  //         if (checkboxAsesorEditar.is(":checked")) {
-  //           url += "&generar_pdf=1";
-  //         }
-
-  //         window.open(url, "_blank");
-  //       } else {
-  //         let url = `extensiones/tcpdf/pdf/comparador.php?cotizacion=${idCotizacionPDF}`;
-
-  //         if (checkboxAsesorEditar.is(":checked")) {
-  //           url += "&generar_pdf=1";
-  //         }
-
-  //         window.open(url, "_blank");
-
-  //         // window.open("comparador.php?cotizacion="+idCotizacionPDF, "_blank");
-  //         // window.open(
-  //         //   "extensiones/tcpdf/pdf/comparador.php?cotizacion=" + idCotizacionPDF,
-  //         //   "_blank"
-  //         // );
-  //       }
-  //     }
-  //   }
-  // });
+  
   $("#btnParrillaPDF").click(function () {
-
     var todosOn = $(".classSelecOferta:checked").length;
 
     var idCotizacionPDF = idCotizacion;
-    
+
     var checkboxAsesorEditar = $("#checkboxAsesorEditar");
 
     var valorTxtFasecolda = $("#txtFasecolda").val(); // Obtener el valor del input con el id "txtFasecolda"
@@ -457,14 +365,14 @@ $(document).ready(function () {
     function codigoClase(numero) {
       // Convierte el número a una cadena para acceder a los dígitos individualmente
       var numeroComoCadena = numero.toString();
-    
+
       // Asegúrate de que la cadena tenga al menos 5 dígitos
       if (numeroComoCadena.length >= 5) {
         var cuartoDigito = numeroComoCadena.charAt(3);
         var quintoDigito = numeroComoCadena.charAt(4);
-    
+
         // Verifica si el cuarto dígito no es cero
-        if (cuartoDigito !== '0') {
+        if (cuartoDigito !== "0") {
           // Concatena el cuarto y quinto dígitos
           return cuartoDigito + quintoDigito;
         } else {
@@ -480,58 +388,32 @@ $(document).ready(function () {
     var claseFasecolda = codigoClase(valorTxtFasecolda);
 
     if (permisos.Generarpdfdecotizacion != "x") {
-
-
-
       Swal.fire({
+        icon: "error",
 
-        icon: 'error',
-
-        title: '¡Esta versión no tiene ésta funcionalidad disponible!',
+        title: "¡Esta versión no tiene ésta funcionalidad disponible!",
 
         showCancelButton: true,
 
-        confirmButtonText: 'Cerrar',
+        confirmButtonText: "Cerrar",
 
-        cancelButtonText: 'Conoce más'
-
+        cancelButtonText: "Conoce más",
       }).then((result) => {
-
-
-
         if (result.isConfirmed) {
-
-        } else if (result.isDismissed
-
-        ) {
-
-
-
-          window.open('https://www.integradoor.com', "_blank")
-
-
-
+        } else if (result.isDismissed) {
+          window.open("https://www.integradoor.com", "_blank");
         }
-
-      })
-
+      });
     } else {
-
-
-
       if (!todosOn) {
-
         swal.fire({
-
           icon: "error",
 
           title: "¡Debes seleccionar minimo una oferta!",
-
         });
-
       } else {
-
-        if( claseFasecolda == 4 ||
+        if (
+          claseFasecolda == 4 ||
           claseFasecolda == 10 ||
           claseFasecolda == 11 ||
           claseFasecolda == 12 ||
@@ -540,8 +422,8 @@ $(document).ready(function () {
           claseFasecolda == 22 ||
           claseFasecolda == 23 ||
           claseFasecolda == 25 ||
-          claseFasecolda == 26){
-
+          claseFasecolda == 26
+        ) {
           let url = `extensiones/tcpdf/pdf/comparadorPesados.php?cotizacion=${idCotizacionPDF}`;
 
           if (checkboxAsesorEditar.is(":checked")) {
@@ -549,18 +431,15 @@ $(document).ready(function () {
           }
 
           window.open(url, "_blank");
-
-        }else if(claseFasecolda == 17 || claseFasecolda == 18){
-            let url = `extensiones/tcpdf/pdf/comparadorMotos.php?cotizacion=${idCotizacionPDF}`;
+        } else if (claseFasecolda == 17 || claseFasecolda == 18) {
+          let url = `extensiones/tcpdf/pdf/comparadorMotos.php?cotizacion=${idCotizacionPDF}`;
 
           if (checkboxAsesorEditar.is(":checked")) {
             url += "&generar_pdf=1";
           }
 
           window.open(url, "_blank");
-            
-        }else{
-
+        } else {
           let url = `extensiones/tcpdf/pdf/comparador.php?cotizacion=${idCotizacionPDF}`;
 
           if (checkboxAsesorEditar.is(":checked")) {
@@ -569,18 +448,10 @@ $(document).ready(function () {
 
           window.open(url, "_blank");
 
-        // window.open("comparador.php?cotizacion="+idCotizacionPDF, "_blank");
-        // window.open(
-        //   "extensiones/tcpdf/pdf/comparador.php?cotizacion=" + idCotizacionPDF,
-        //   "_blank"
-        // );
         }
       }
-
     }
-
   });
-
 
   // Imprimir Parrilla de Cotizaciones
 
@@ -673,146 +544,43 @@ $(document).ready(function () {
     });
   });
 
-  /*===================================================
+ /*===================================================
 
   CONFIGURACION DE LA TABLA DATATABLE PARA COTIZACIONES
 
   ===================================================*/
-$(".tablas-cotizaciones").DataTable({
+  $(".tablas-cotizaciones").DataTable({
     layout: {
-        topStart: 'buttons',
-        topEnd: {
-            search: {
-                placeholder: "Buscar usuario",
-            },
-            pageLength: {
-                menu: [10, 25, 50, 100],
-            },
+      topStart: "buttons",
+      topCenter: {
+        search: {
+          placeholder: "Buscar...",
         },
-        bottomEnd: {
-            paging: {
-                numbers: 3,
-            },
+      },
+      topEnd: {
+        pageLength: {
+          menu: [10, 25, 50, 100],
         },
+      },
+      bottomEnd: {
+        paging: {
+          numbers: 3,
+        },
+      },
     },
     buttons: [
-        {
-            extend: "excelHtml5",
-            className: "btn-excel",
-            text: '<img src="vistas/img/excelIco.png" />', // Agrega un texto descriptivo
-            titleAttr: "Exportar a Excel", // Agrega un tooltip
-        },
+      {
+        extend: "excelHtml5",
+        className: "btn-excel",
+        text: '<img src="vistas/img/excelIco.png" />', // Agrega un texto descriptivo
+        titleAttr: "Exportar a Excel", // Agrega un tooltip
+      },
     ],
     responsive: true,
     order: [
-        [0, "desc"],
-        [1, "desc"],
-    ],
-
-    // "ordering": false,
-
-    language: {
-
-        sProcessing: "Procesando...",
-        sLengthMenu: "Mostrar _MENU_ registros",
-        sZeroRecords: "No se encontraron resultados",
-        sEmptyTable: "Ningún dato disponible en esta tabla",
-        sInfo: "Mostrando registros del _START_ al _END_ de un total de _TOTAL_",
-        sInfoEmpty: "Mostrando registros del 0 al 0 de un total de 0",
-        sInfoFiltered: "(filtrado de un total de _MAX_ registros)",
-        sInfoPostFix: "",
-        sSearch: "Buscar:",
-        sUrl: "",
-        sInfoThousands: ",",
-        sLoadingRecords: "Cargando...",
-        oPaginate: {
-            sFirst: "Primero",
-            sLast: "Último",
-            sNext: "Siguiente",
-            sPrevious: "Anterior",
-        },
-
-        oAria: {
-            sSortAscending:
-                ": Activar para ordenar la columna de manera ascendente",
-            sSortDescending:
-                ": Activar para ordenar la columna de manera descendente",
-        },
-
-    },
-});
-
-$(".tablas-usuarios").DataTable({
-  layout: {
-      topStart: 'buttons',
-      topEnd: {
-          search: {
-              placeholder: "Buscar usuario",
-          },
-          pageLength: {
-              menu: [10, 25, 50, 100],
-          },
-      },
-      bottomEnd: {
-          paging: {
-              numbers: 3,
-          },
-      },
-  },
-  buttons: [
-      {
-          extend: "excelHtml5",
-          className: "btn-excel",
-          text: '<img src="vistas/img/excelIco.png" />', // Agrega un texto descriptivo
-          titleAttr: "Exportar a Excel", // Agrega un tooltip
-      },
-  ],
-  responsive: true,
-  order: [
-      [0, "desc"],
-      [1, "desc"],
-  ],
-
-  // "ordering": false,
-
-  language: {
-
-      sProcessing: "Procesando...",
-      sLengthMenu: "Mostrar _MENU_ registros",
-      sZeroRecords: "No se encontraron resultados",
-      sEmptyTable: "Ningún dato disponible en esta tabla",
-      sInfo: "Mostrando registros del _START_ al _END_ de un total de _TOTAL_",
-      sInfoEmpty: "Mostrando registros del 0 al 0 de un total de 0",
-      sInfoFiltered: "(filtrado de un total de _MAX_ registros)",
-      sInfoPostFix: "",
-      sSearch: "Buscar:",
-      sUrl: "",
-      sInfoThousands: ",",
-      sLoadingRecords: "Cargando...",
-      oPaginate: {
-          sFirst: "Primero",
-          sLast: "Último",
-          sNext: "Siguiente",
-          sPrevious: "Anterior",
-      },
-
-      oAria: {
-          sSortAscending:
-              ": Activar para ordenar la columna de manera ascendente",
-          sSortDescending:
-              ": Activar para ordenar la columna de manera descendente",
-      },
-
-  },
-});
-  $(".tablas-cotizaciones1").DataTable({
-    order: [
       [0, "desc"],
       [1, "desc"],
     ],
-
-    // "ordering": false,
-
     language: {
       sProcessing: "Procesando...",
       sLengthMenu: "Mostrar _MENU_ registros",
@@ -832,43 +600,6 @@ $(".tablas-usuarios").DataTable({
         sNext: "Siguiente",
         sPrevious: "Anterior",
       },
-
-      oAria: {
-        sSortAscending:
-          ": Activar para ordenar la columna de manera ascendente",
-        sSortDescending:
-          ": Activar para ordenar la columna de manera descendente",
-      },
-    },
-  });
-
-  $(".tablas-cotizaciones2").DataTable({
-    order: [
-      [0, "desc"],
-      [1, "desc"],
-    ],
-    // "ordering": false,
-
-    language: {
-      sProcessing: "Procesando...",
-      sLengthMenu: "Mostrar _MENU_ registros",
-      sZeroRecords: "No se encontraron resultados",
-      sEmptyTable: "Ningún dato disponible en esta tabla",
-      sInfo: "Mostrando registros del _START_ al _END_ de un total de _TOTAL_",
-      sInfoEmpty: "Mostrando registros del 0 al 0 de un total de 0",
-      sInfoFiltered: "(filtrado de un total de _MAX_ registros)",
-      sInfoPostFix: "",
-      sSearch: "Buscar:",
-      sUrl: "",
-      sInfoThousands: ",",
-      sLoadingRecords: "Cargando...",
-      oPaginate: {
-        sFirst: "Primero",
-        sLast: "Último",
-        sNext: "Siguiente",
-        sPrevious: "Anterior",
-      },
-
       oAria: {
         sSortAscending:
           ": Activar para ordenar la columna de manera ascendente",
@@ -948,11 +679,11 @@ $(".tablas-usuarios").DataTable({
       break;
     case "Últimos 30 días":
       $("#daterange-btnCotizaciones")
-      .data("daterangepicker")
-      .setStartDate(moment().subtract(30, "days"));
-    $("#daterange-btnCotizaciones")
-      .data("daterangepicker")
-      .setEndDate(moment());
+        .data("daterangepicker")
+        .setStartDate(moment().subtract(30, "days"));
+      $("#daterange-btnCotizaciones")
+        .data("daterangepicker")
+        .setEndDate(moment());
       break;
     case "Este mes":
       $("#daterange-btnCotizaciones")
@@ -1825,7 +1556,7 @@ function editarCotizacion(id) {
           // Muestra el Contenido de la Parrilla de Ofertas, Cotizaciones Manuales y PDF
 
           document.getElementById("contenParrilla").style.display = "block";
-          
+
           menosAseg();
           menosRE();
         },

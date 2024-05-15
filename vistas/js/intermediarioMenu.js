@@ -1,9 +1,8 @@
 //Al cargar la pagina
 (()=>{
     cargar_intermediarios();
-    cargartipDoc()
- })()
- 
+})()
+
  //funcion previsualizar img nueva
  
  $("#img_register").change(function(){
@@ -102,11 +101,8 @@ $("#img_update").change(function(){
 
  function cargartipDoc(){
 
-	const $tip_doc_update = document.getElementById("tip_doc_update")
-    const $tip_doc_register = document.getElementById("tip_doc_register")
-    
-
-    
+	const tip_doc_update = document.getElementById("tip_doc_update");
+    const tip_doc_register = document.getElementById("tip_doc_register");
 
     $.ajax({
 
@@ -114,19 +110,16 @@ $("#img_update").change(function(){
         method : "POST",
         success : function (respuesta){
 
-            $tip_doc_update.innerHTML=respuesta;
+            tip_doc_update.innerHTML=respuesta;
 
-            $tip_doc_register.innerHTML=respuesta;
+            tip_doc_register.innerHTML=respuesta;
 
         }
 })
 
 	
 }
-
- //Funcion para traer los intermediarios Para la tabla
-
- function cargar_intermediarios(){
+function cargar_intermediarios(){
 
     var menu = "menu";
     var contenido = "";
@@ -135,55 +128,129 @@ $("#img_update").change(function(){
         method: "POST",
         data: {menu},
         success: function (data) {
-
             data = JSON.parse(data);
-            
-            contenido +=  `<table class="table table-bordered table-striped dt-responsive tablas tablas-cotizaciones" width="100%">
+            if (!Array.isArray(data)) {
+                console.error("Los datos recibidos no son un arreglo.");
+                return;
+            }
 
-            <thead>
-  
-              <tr>
-  
-                <th>#</th>
-                <th>Identificación</th>
-                <th>Razón social</th>
-                <th>Representante legal</th>
-                <th>Celular</th>
-                <th>Correo Electronico</th>
-                <th>Ciudad</th>
-                <th>Contacto</th>
-                <th>Estado</th>
-                <th>Acciones</th>
-  
-              </tr>
-  
-            </thead>
-  
-            <tbody id="contenidoInter">`
+            // Usar plantillas de cadena
+            contenido = `
+                <table class="table table-bordered table-striped dt-responsives tablas" width="100%">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Identificación</th>
+                            <th>Razón social</th>
+                            <th>Representante legal</th>
+                            <th>Celular</th>
+                            <th>Correo Electronico</th>
+                            <th>Ciudad</th>
+                            <th>Contacto</th>
+                            <th>Estado</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="contenidoInter">
+            `;
 
-            for (i = 0; i < data.length; i++) {
+            // Iterar sobre los datos
+            data.forEach(function (item) {
+                contenido += `
+                    <tr>
+                        <td>${item.id_Intermediario}</td>
+                        <td>${item.num_documento}</td>
+                        <td>${item.nombre}</td>
+                        <td>${item.nombre_representante}</td>
+                        <td>${item.celular}</td>
+                        <td>${item.correo}</td>
+                        <td>${item.ciudad}</td>
+                        <td>${item.contacto}</td>
+                `;
 
-                contenido += "<tr><td>" + data[i]['id_Intermediario'] + "</td><td>" + data[i]["num_documento"]  + "</td><td>" + data[i]["nombre"] + "</td><td>" + data[i]["nombre_representante"] + "</td> <td>" + data[i]["celular"] + "</td> <td>" + data[i]["correo"] + "</td><td>" + data[i]["ciudad"] + "</td><td>" + data[i]["contacto"] + "</td>" 
-                if (data[i]["intermediario_Estado"] == 0) {
-                    
-                    contenido += "<td><button class='btn btn-success btn-xs btnActivar' onclick='cambiarEst(" + data[i]['id_Intermediario'] + ", " + data[i]['intermediario_Estado'] + ", 1)'>Activo</button></td>";
+                // Añadir botón de estado y acciones
+                if (item.intermediario_Estado == 0) {
+                    contenido += `<td><button class="btn btn-success btn-xs btnActivar" onclick="cambiarEst(${item.id_Intermediario}, ${item.intermediario_Estado}, 1)">Activo</button></td>`;
                 } else {
-                    contenido += "<td><button class='btn btn-danger btn-xs btnActivar'onclick='cambiarEst(" + data[i]['id_Intermediario'] + ", " + data[i]['intermediario_Estado'] + ", 0)'>Bloqueado</button></td>";
+                    contenido += `<td><button class="btn btn-danger btn-xs btnActivar" onclick="cambiarEst(${item.id_Intermediario}, ${item.intermediario_Estado}, 0)">Bloqueado</button></td>`;
                 }
 
-                    contenido += "<td><div><button class='btn btn-primary btnEditarUsuario' onclick='Editiinter("+data[i]['id_Intermediario']+")' idUinter='" + data[i]['id_Intermediario'] + "' data-toggle='modal' data-target='#modalEditarIntermediario'><i class='fa fa-pencil'></i></button> <button class='btn btn-danger btnEliminarUsuario' onclick='elimiNarInter("+data[i]['id_Intermediario']+")' idUsuario='" + data[i]['id_Intermediario'] + "'><i class='fa fa-times'></i></button></div></td></tr>"
+                contenido += `
+                        <td>
+                            <div>
+                                <button class="btn btn-primary btnEditarUsuario" onclick="Editiinter(${item.id_Intermediario})" idUinter="${item.id_Intermediario}" data-toggle="modal" data-target="#modalEditarIntermediario"><i class="fa fa-pencil"></i></button>
+                                <button class="btn btn-danger btnEliminarUsuario" onclick="elimiNarInter(${item.id_Intermediario})" idUsuario="${item.id_Intermediario}"><i class="fa fa-times"></i></button>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            });
 
-               
+            // Cerrar la tabla
+            contenido += `</tbody></table>`;
 
-            }
-            `
-            </tbody>
-
-            </table>`
-
+            // Mostrar la tabla en el div
             $("#tablaIntermediario").html(contenido);
 
-            
+            // Después de cargar la tabla, aplicar el estilo y luego inicializar DataTables
+            //$("#tablaIntermediario table").addClass("tablas-cotizaciones");
+            $("#tablaIntermediario table").DataTable({
+    layout: {
+        topStart: 'buttons',
+        topCenter: {
+            search: {
+                placeholder: "Buscar Intermediario...",
+            }
+        },
+        topEnd: {
+            pageLength: {
+                menu: [10, 25, 50, 100],
+            }
+        },
+        bottomEnd: {
+            paging: {
+                numbers: 3,
+            },
+        },
+    },
+    buttons: [
+        {
+            extend: "excelHtml5",
+            className: "btn-excel",
+            text: '<img src="vistas/img/excelIco.png" />', // Agrega un texto descriptivo
+            titleAttr: "Exportar a Excel", // Agrega un tooltip
+        },
+    ],
+    responsive: true,
+    order: [
+        [0, "asc"],
+        [1, "asc"],
+    ],
+    language: {
+        sProcessing: "Procesando...",
+        sLengthMenu: "Mostrar _MENU_ registros",
+        sZeroRecords: "No se encontraron resultados",
+        sEmptyTable: "Ningún dato disponible en esta tabla",
+        sInfo: "Mostrando registros del _START_ al _END_ de un total de _TOTAL_",
+        sInfoEmpty: "Mostrando registros del 0 al 0 de un total de 0",
+        sInfoFiltered: "(filtrado de un total de _MAX_ registros)",
+        sInfoPostFix: "",
+        sSearch: "Buscar:",
+        sUrl: "",
+        sInfoThousands: ",",
+        sLoadingRecords: "Cargando...",
+        oPaginate: {
+            sFirst: "Primero",
+            sLast: "Último",
+            sNext: "Siguiente",
+            sPrevious: "Anterior",
+        },
+        oAria: {
+            sSortAscending: ": Activar para ordenar la columna de manera ascendente",
+            sSortDescending: ": Activar para ordenar la columna de manera descendente",
+        },
+    },
+});
         }
     });
 }
@@ -254,6 +321,7 @@ function  cambiarEst(id, estado, variable){
 
 function Editiinter(id){
     traerCredenciales(id);
+    cargartipDoc()
 
     document.getElementById("formEditarInter").reset()
 }

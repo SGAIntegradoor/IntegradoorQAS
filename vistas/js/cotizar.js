@@ -1,7 +1,6 @@
 
 $(document).ready(function () {
   var permisos = JSON.parse(permisosPlantilla);
-  console.log(permisos)
   const parrillaCotizaciones = document.getElementById("parrillaCotizaciones");
   parrillaCotizaciones.style.display = "none";
 

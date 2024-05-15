@@ -28,7 +28,7 @@ function setActive($page)
 	}
 }
 
-echo '<script>console.log('.json_encode($cotizTotales).')</script>';
+// echo '<script>console.log('.json_encode($cotizTotales).')</script>';
 //::::::::::::::::::::::::::::::::Consulta el estado actual del usuario:::::::::::::::::::::::::::::://
 //:::Cierra la sesion si el estado es 0 y en su proxima interaccion con el software lo desconecta::://
 include_once 'config/checkUser.php';
@@ -40,8 +40,8 @@ checkUserStatus();
 <script>
 $(document).ready(function() {
         // Obtener el valor de la variable de sesión PHP en JavaScript
-        var permisosCotizacionesTotales = <?php echo $cotizTotales ?? null; ?>;
-        
+        let permisosCotizacionesTotales = <?php echo isset($cotizTotales) ? json_encode($cotizTotales) : 'null'; ?>;
+
 		var arrayCot = ["menuCotLiv","menuCotMot","menuCotPes","menuCotMas"];
 
         // Verificar si el valor obtenido es válido y está definido

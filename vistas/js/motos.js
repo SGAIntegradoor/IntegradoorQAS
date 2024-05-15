@@ -1109,7 +1109,7 @@ function registrarNumeroOfertasMotos(entidad, contador, numCotizacion, exito) {
       var message = data.Message;
       var success = data.Success;
       console.log("Alerta Insertada Validar Numeros", datos);
-      resolve();
+      //resolve();
     },
     error: function (error) {
       console.log(

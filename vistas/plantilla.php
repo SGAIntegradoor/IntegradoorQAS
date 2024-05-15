@@ -1,21 +1,6 @@
 <?php
 
 session_start();
-// if ($_SESSION['permisos']['id_rol'] == '19') {
-//   echo '<script>
-
-//     window.location = "inicio";
-
-//   </script>';
-
-//   return;
-  
-//   // Detén la ejecución del script actual
-// }
-
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-
 
 ?>
 
@@ -270,15 +255,7 @@ CUERPO DOCUMENTO
       "Mundial" => array("A" => $permisos["Mundial_A_pesados"], "C" => $permisos["Mundial_C_pesados"])
     );
 
-  
-  // foreach ($aseguradoras as $nombre => $permisos) {
-  //     if ($permisos["A"] == "1" || $permisos["C"] == "1") {
-  //         // echo $nombre . "\n";
-  //     }
-  // }
 
-  // var_dump($aseguradoras);
-  // die();
     ?>
     <script>
     var permisosPlantilla = '<?php echo addslashes(json_encode($permisos)); ?>';
@@ -286,7 +263,7 @@ CUERPO DOCUMENTO
     var aseguradorasCredenciales = '<?php echo json_encode($aseguradoras); ?>';
     var aseguradorasCredencialesMotos = '<?php echo json_encode($aseguradoras_motos); ?>';
     var aseguradorasCredencialesPesados = '<?php echo json_encode($aseguradoras_pesados); ?>';
-    console.log(aseguradorasCredencialesPesados)
+    // console.log(aseguradorasCredencialesPesados)
     </script>
     <?php
     

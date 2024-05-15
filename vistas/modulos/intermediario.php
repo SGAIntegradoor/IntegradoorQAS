@@ -102,6 +102,40 @@ if ($_SESSION["permisos"]["Agregarintermediario"] != "x") {
   .separador {
     margin-left: 15px;
   }
+            
+          .btn-excel {
+            display: flex !important;
+            border: 0px !important;
+            height: 32px;
+            align-items: center;
+          }
+          
+          .dt-search {
+            display: flex !important;
+            align-items: center;
+            justify-content: flex-end;
+          }
+
+          .paging_full_numbers{
+            display: flex !important;
+            justify-content: flex-end;
+          }
+          
+          .dt-length {
+             display: flex;
+          }
+           .dt-start{
+               width: 60px !important;
+           }
+           .dt-info{
+               width: 600px !important;
+           }
+        @media (max-width: 495px) {
+            .dt-info {
+                width: 300px !important;
+                text-align: left;
+            }
+        }
 </style>
 
 <div class="content-wrapper">
@@ -1979,9 +2013,6 @@ MODAL EDITAR INTERMEDIARIO
 
 </div>
 
-
-
-<script src="vistas/js/intermediarioMenu.js?v=<?php echo (rand()); ?>"></script>
 
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
