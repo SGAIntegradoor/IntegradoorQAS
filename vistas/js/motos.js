@@ -1453,7 +1453,7 @@ function cotizarOfertasMotos() {
           // Agregar el elemento de carga a la celda de respuesta
           celdaResponse.appendChild(loadingElement);
         });
-        masRE();
+        //masRE();
         primerIntentoRealizado = true;
         $.ajax({
           type: "POST",
@@ -1493,7 +1493,8 @@ function cotizarOfertasMotos() {
             const contenParrilla = document.querySelector("#contenParrilla");
             parrillaCotizaciones.style.display = "block";
             contenParrilla.style.display = "block";
-            
+            const btnCotizar = document.getElementById("btnCotizarMotos");
+            btnCotizar.disabled = true;
             idCotizacion = data.id_cotizacion;
             raw.cotizacion = idCotizacion;
             // console.log(idCotizacion)
@@ -1806,11 +1807,7 @@ function cotizarOfertasMotos() {
                 const idCotizacionPDF = idCotizacion;
                 const checkboxAsesor = $("#checkboxAsesor");
                // $("#loaderRecotOferta").html("");
-                $("#loaderRecotOfertaBox").css("display", "block");
-                $("#loaderRecotOferta").css("display", "block");
-                $("#loaderRecotOferta").html(
-                  '<img src="vistas/img/plantilla/loader-update.gif" width="34" height="34"><strong> Recotizando Ofertas...</strong>'
-                );
+
                 if (permisos.Generarpdfdecotizacion != "x") {
                   Swal.fire({
                     icon: "error",
@@ -1851,6 +1848,11 @@ function cotizarOfertasMotos() {
           btnRecotizar.disabled = true;
           const contenParrilla = document.querySelector("#contenParrilla");
           raw.cotizacion = idCotizacion;
+          $("#loaderRecotOferta").css("display", "block");
+          $("#loaderRecotOfertaBox").css("display", "block");
+          $("#loaderRecotOferta").html(
+            '<img src="vistas/img/plantilla/loader-update.gif" width="34" height="34"><strong> Recotizando Ofertas Fallidas...</strong>'
+          );
   
           var requestOptions = {
             method: "POST",

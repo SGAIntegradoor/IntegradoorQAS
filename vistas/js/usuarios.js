@@ -392,7 +392,8 @@ $(".tablas").on("click", ".btnEditarUsuario", function(){
 		processData: false,
 		dataType: "json",
 		success: function(respuesta){
-
+			localStorage.setItem("respuesta",JSON.stringify(respuesta))
+			console.log(respuesta);
 			$("#idUsuEdit").val(respuesta["id_usuario"]);			
 			$("#editarNombre").val(respuesta["usu_nombre"]);
 			$("#editarApellido").val(respuesta["usu_apellido"]);
@@ -406,7 +407,8 @@ $(".tablas").on("click", ".btnEditarUsuario", function(){
 			$("#fotoActual").val(respuesta["usu_foto"]);
 			$("#editarRol").val(respuesta["id_rol"]);
 			$("#idIntermediario2").val(respuesta["id_Intermediario"]);
-			$("#maxiCot").val(respuesta["numCotizaciones"]);
+			//$("#maxiCot").val(respuesta["numCotizaciones"]);
+			$("#cotizacionesTotales").val(respuesta["cotizacionesTotales"]);
 			$("#fechaLimEdi").val(respuesta["fechaFin"]);
 			$("#fechNacimiento").val(respuesta["usu_fch_nac"]);
 			$("#editarDireccion").val(respuesta["direccion"]);

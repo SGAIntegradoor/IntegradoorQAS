@@ -53,8 +53,8 @@ async function authCedula(){
         }
     })
     .then(function(data) {
-        console.log(data);
-        data = JSON.parse(data);
+      data = JSON.parse(data);
+      console.log(data);
         if(data.success == "Registro exitoso"){
             Swal.fire({
                 icon: '<img src="vistas/img/plantilla/ofertas.png" width="84" height="84">',

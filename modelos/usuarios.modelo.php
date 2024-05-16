@@ -2,55 +2,58 @@
 
 require_once "conexion.php";
 
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+
 class ModeloUsuarios
 {
 
 	/*=============================================
-	MOSTRAR USUARIOS
-	=============================================*/
+	   MOSTRAR USUARIOS
+	   =============================================*/
 
 	static public function mdlMostrarUsuarios($tabla, $tabla2, $tabla3, $item, $valor)
 	{
 
-		if ($item != null) {
+			if ($item != null) {
 
-			if ($item == 'id_usuario' || $item == 'usu_usuario' || $item == 'usu_documento') {
+				if ($item == 'id_usuario' || $item == 'usu_usuario' || $item == 'usu_documento') {
 
-				$stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla, $tabla2 WHERE $tabla.id_rol = $tabla2.id_rol AND $item = :$item ASC");
+					$stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla, $tabla2 WHERE $tabla.id_rol = $tabla2.id_rol AND $item = :$item");
 
-				$stmt->bindParam(":" . $item, $valor, PDO::PARAM_STR);
-				$stmt->execute();
+					$stmt->bindParam(":" . $item, $valor, PDO::PARAM_STR);
+					$stmt->execute();
 
-				return $stmt->fetch(PDO::FETCH_ASSOC);
-			}
-		} else {
-
-			if ($_SESSION["rol"] == 18 || $_SESSION["rol"] == 10 || $_SESSION["rol"] == 1) {
-				$stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla, $tabla2 WHERE $tabla.id_rol = $tabla2.id_rol ORDER BY $tabla.id_usuario DESC");
-
-				$stmt->execute();
-
-
-				return $stmt->fetchAll(PDO::FETCH_ASSOC);
+					return $stmt->fetch(PDO::FETCH_ASSOC);
+				}
 			} else {
 
-				$stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla, $tabla2 WHERE $tabla.id_rol = $tabla2.id_rol AND id_intermediario =" . $_SESSION["intermediario"] ." ASC");
-				$stmt->execute();
-				return $stmt->fetchAll(PDO::FETCH_ASSOC);
+				if ($_SESSION["rol"] == 18 || $_SESSION["rol"] == 10 || $_SESSION["rol"] == 1) {
+					$stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla, $tabla2 WHERE $tabla.id_rol = $tabla2.id_rol ORDER BY $tabla.id_usuario DESC");
+
+					$stmt->execute();
+					return $stmt->fetchAll(PDO::FETCH_ASSOC);
+				} else {
+
+					$stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla, $tabla2 WHERE $tabla.id_rol = $tabla2.id_rol AND id_intermediario =" . $_SESSION["intermediario"] . " ASC");
+					$stmt->execute();
+					return $stmt->fetchAll(PDO::FETCH_ASSOC);
+				}
 			}
-		}
 
 
-		$stmt->close();
+			$stmt->close();
 
-		$stmt = null;
+			$stmt = null;
+		
 	}
 
 
 
 	/*=============================================
-	PERMISOS USUARIOS
-	=============================================*/
+	   PERMISOS USUARIOS
+	   =============================================*/
 
 	static public function mdlUsuariosLogin($tabla, $tabla2, $tabla3, $tabla4, $item, $valor)
 	{
@@ -86,15 +89,15 @@ class ModeloUsuarios
 			// Procesar el resultado
 			// print_r($resultado);
 		}
-		
+
 		// $stmt->close();
 		$stmt = null;
 		return $resultado;
 	}
 
 	/*=============================================
-	REGISTRO DE USUARIO
-	=============================================*/
+	   REGISTRO DE USUARIO
+	   =============================================*/
 
 	static public function mdlIngresarUsuario($tabla, $datos)
 	{
@@ -148,7 +151,7 @@ class ModeloUsuarios
 
 			echo "Código de error: " . $errorInfo[0];
 		}
-		die();
+
 		echo '<script>
 
 		swal({
@@ -187,8 +190,8 @@ class ModeloUsuarios
 	}
 
 	/*=============================================
-	EDITAR USUARIO
-	=============================================*/
+	   EDITAR USUARIO
+	   =============================================*/
 
 	static public function mdlEditarUsuario($tabla, $datos)
 	{
@@ -204,17 +207,18 @@ class ModeloUsuarios
 			// Obtén los valores de las columnas que deseas comparar
 			$document = $resultados[0]['usu_documento'];
 			$user = $resultados[0]['usu_usuario'];
-
+			$cotizacionesTotales = $resultados[0]['cotizacionesTotales'];
 			// Compara las variables
 			if ($document == $user) {
 				// Las variables son iguales
 				$stmt = Conexion::conectar()->prepare("UPDATE $tabla SET usu_usuario = :documento, usu_documento = :documento, tipos_documentos_id = :tipoDocumento, usu_nombre = :nombre, usu_apellido = :apellido, usu_fch_nac = :fechNacimiento,
-												usu_genero = :genero, direccion =:direccion, ciudades_id =:ciudad, usu_telefono = :telefono, usu_email = :email, usu_cargo = :cargo, usu_foto = :foto, id_rol = :rol, id_Intermediario = :intermediario, numCotizaciones = :maxCotEdi, fechaFin = :fechaLimEdi
+												usu_genero = :genero, direccion =:direccion, ciudades_id =:ciudad, usu_telefono = :telefono, usu_email = :email, usu_cargo = :cargo, usu_foto = :foto, id_rol = :rol, id_Intermediario = :intermediario, fechaFin = :fechaLimEdi, cotizacionesTotales = :cotTotales
 												WHERE usu_usuario = :usuario");
+
 			} else {
 				// Las variables no son iguales
 				$stmt = Conexion::conectar()->prepare("UPDATE $tabla SET usu_documento = :documento, tipos_documentos_id = :tipoDocumento, usu_nombre = :nombre, usu_apellido = :apellido, usu_fch_nac = :fechNacimiento,
-												usu_genero = :genero, direccion =:direccion, ciudades_id =:ciudad, usu_telefono = :telefono, usu_email = :email, usu_cargo = :cargo, usu_foto = :foto, id_rol = :rol, id_Intermediario = :intermediario, numCotizaciones = :maxCotEdi, fechaFin = :fechaLimEdi
+												usu_genero = :genero, direccion =:direccion, ciudades_id =:ciudad, usu_telefono = :telefono, usu_email = :email, usu_cargo = :cargo, usu_foto = :foto, id_rol = :rol, id_Intermediario = :intermediario, fechaFin = :fechaLimEdi, cotizacionesTotales = :cotTotales
 												WHERE usu_usuario = :usuario");
 			}
 		} else {
@@ -254,7 +258,9 @@ class ModeloUsuarios
 		$stmt->bindParam(":cargo", $datos["cargo"], PDO::PARAM_STR);
 		$stmt->bindParam(":foto", $datos["foto"], PDO::PARAM_STR);
 		$stmt->bindParam(":intermediario", $datos["intermediario"], PDO::PARAM_STR);
-		$stmt->bindParam(":maxCotEdi", $datos["maxCotEdi"], PDO::PARAM_STR);
+		//$stmt->bindParam(":maxCotEdi", $datos["maxCotEdi"], PDO::PARAM_STR);
+		$stmt->bindParam(":cotTotales", $datos["cotizacionesTotales"], PDO::PARAM_STR);
+		$stmt->bindParam(":fechaLimEdi", $datos["fechaLimEdi"], PDO::PARAM_STR);
 		$stmt->bindParam(":fechaLimEdi", $datos["fechaLimEdi"], PDO::PARAM_STR);
 		$stmt->bindParam(":rol", $datos["rol"], PDO::PARAM_STR);
 
@@ -272,8 +278,8 @@ class ModeloUsuarios
 	}
 
 	/*=============================================
-	ACTUALIZAR USUARIO
-	=============================================*/
+	   ACTUALIZAR USUARIO
+	   =============================================*/
 
 	static public function mdlActualizarUsuario($tabla, $item1, $valor1, $item2, $valor2)
 	{
@@ -297,8 +303,8 @@ class ModeloUsuarios
 	}
 
 	/*=============================================
-	BORRAR USUARIO
-	=============================================*/
+	   BORRAR USUARIO
+	   =============================================*/
 
 	static public function mdlBorrarUsuario($tabla, $datos)
 	{
@@ -320,8 +326,8 @@ class ModeloUsuarios
 		$stmt = null;
 	}
 	/*=============================================
-	CHECK DE ESTADO DE USUARIO EN SESION
-	=============================================*/
+	   CHECK DE ESTADO DE USUARIO EN SESION
+	   =============================================*/
 
 	static public function mdlUserCheckState($tabla, $item, $valor)
 	{

@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-require_once "config/dbconfig.php";
+require_once "../config/dbconfig.php";
 
 if($_SESSION["rol"] == 18 ||$_SESSION["rol"] == 10 ||$_SESSION["rol"] == 1){
     $query = "SELECT * FROM intermediario";

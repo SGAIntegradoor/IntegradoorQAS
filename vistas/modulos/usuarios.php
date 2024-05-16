@@ -2,7 +2,7 @@
 
 if ($_SESSION["rol"] != 1) {
 
-  echo '<script>console.log(' . json_encode($_SESSION) . ')</script>';
+  // echo '<script>console.log(' . json_encode($_SESSION) . ')</script>';
 }
 
 ?>
@@ -208,6 +208,8 @@ if ($_SESSION["rol"] != 1) {
               <th>Fecha_Creacion</th>
               <th>Foto</th>
               <th>Estado</th>
+              <th>Cotizaciones_totales</th>
+              <th>Fecha_Limite</th>
               <th style="width: 110px;">Acciones</th>
 
             </tr>
@@ -260,7 +262,8 @@ if ($_SESSION["rol"] != 1) {
                 } else {
                   echo '<td><button class="btn btn-danger btn-xs btnActivar" idUsuario="' . $value["id_usuario"] . '" estadoUsuario="1">Bloqueado</button></td>';
                 }
-
+                echo '<td>' . $value['cotizacionesTotales'] . '</td>';
+                echo '<td>' . $value['fechaFin'] . '</td>';
                 echo '<td>
 
                     <div class="btn-group">
@@ -1062,7 +1065,7 @@ MODAL EDITAR USUARIO
 
               <!-- ENTRADA PARA EL NUMERO MAXIMO DE COTIZACIONES DIARIAS-->
 
-              <div class="col-xs-12 col-sm-6 col-md-6 form-group">
+              <!-- <div class="col-xs-12 col-sm-6 col-md-6 form-group">
 
                 <div class="input-group">
 
@@ -1071,7 +1074,19 @@ MODAL EDITAR USUARIO
 
                 </div>
 
+              </div> -->
+
+              <div class="col-xs-12 col-sm-6 col-md-6 form-group">
+
+                <div class="input-group">
+
+                  <span class="input-group-addon"><i class="fa fa-sort-numeric-asc"></i></span>
+                  <input type="text" min="0" class="form-control input-lg" name="cotizacionesTotales" placeholder="Cotizaciones Totales" id="cotizacionesTotales">
+
+                </div>
+
               </div>
+
 
               <!-- ENTRADA INGRESAR LA FECHA LIMITE DE USO -->
 

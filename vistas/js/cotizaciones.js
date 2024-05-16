@@ -578,8 +578,8 @@ if (typeof idCotizacion !== "undefined" && idCotizacion !== null) {
     ],
     responsive: true,
     order: [
-      [0, "desc"],
-      [1, "desc"],
+      [0, "asc"],
+      [1, "asc"],
     ],
     language: {
       sProcessing: "Procesando...",

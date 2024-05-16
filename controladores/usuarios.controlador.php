@@ -1,13 +1,13 @@
 <?php
 
-require_once __DIR__.'../../modelos/usuarios.modelo.php';
+require_once __DIR__ . '../../modelos/usuarios.modelo.php';
 
 class ControladorUsuarios
 {
 
 	/*=============================================
-	INGRESO DE USUARIO
-	=============================================*/
+	   INGRESO DE USUARIO
+	   =============================================*/
 
 	static public function ctrIngresoUsuario()
 	{
@@ -29,14 +29,14 @@ class ControladorUsuarios
 				$item = "usu_usuario";
 
 				$valor = $_POST["ingUsuario"];
-				
+
 				$respuesta = ModeloUsuarios::mdlUsuariosLogin($tabla, $tabla2, $tabla3, $tabla4, $item, $valor);
 				if ($respuesta["usu_usuario"] == $_POST["ingUsuario"] && $respuesta["usu_password"] === $encriptar) {
 					if ($respuesta["usu_estado"] == 1) {
 
 						$newLimitDate = date('Y-m-d H:i:s', strtotime($respuesta['fechaFin'] . ' 23:59:59'));
 
-						if($newLimitDate != null && ($fechaAct >= $newLimitDate)){
+						if ($newLimitDate != null && ($fechaAct >= $newLimitDate)) {
 							echo '<script>
 								Swal.fire({
 									html:  `
@@ -101,8 +101,8 @@ class ControladorUsuarios
 
 
 						/*=============================================
-						REGISTRAR FECHA PARA SABER EL ÚLTIMO LOGIN
-						=============================================*/
+										  REGISTRAR FECHA PARA SABER EL ÚLTIMO LOGIN
+										  =============================================*/
 
 						date_default_timezone_set('America/Bogota');
 
@@ -276,8 +276,8 @@ class ControladorUsuarios
 	}
 
 	/*=============================================
-	REGISTRO DE USUARIO
-	=============================================*/
+	   REGISTRO DE USUARIO
+	   =============================================*/
 
 	public static function ctrCrearUsuario()
 	{
@@ -375,8 +375,8 @@ class ControladorUsuarios
 				$nuevoUsuario = strtolower($_POST["nuevoUsuario"]);
 
 				/*=============================================
-				VALIDAR IMAGEN
-				=============================================*/
+							VALIDAR IMAGEN
+							=============================================*/
 
 				$ruta = "";
 
@@ -549,8 +549,8 @@ class ControladorUsuarios
 	}
 
 	/*=============================================
-	MOSTRAR USUARIO
-	=============================================*/
+	   MOSTRAR USUARIO
+	   =============================================*/
 
 	static public function ctrMostrarUsuarios($item, $valor)
 	{
@@ -559,13 +559,13 @@ class ControladorUsuarios
 		$tabla2 = "roles";
 		$tabla3 = "intermediario";
 
-		$respuesta = ModeloUsuarios::MdlMostrarUsuarios($tabla, $tabla2, $tabla3, $item, $valor);
+		$respuesta = ModeloUsuarios::mdlMostrarUsuarios($tabla, $tabla2, $tabla3, $item, $valor);
 		return $respuesta;
 	}
 
 	/*=============================================
-	CHECKEAR ESTADO USUARIO
-	=============================================*/
+	   CHECKEAR ESTADO USUARIO
+	   =============================================*/
 
 	static public function ctrUserCheckState($valor)
 	{
@@ -578,8 +578,8 @@ class ControladorUsuarios
 	}
 
 	/*=============================================
-	EDITAR USUARIO
-	=============================================*/
+	   EDITAR USUARIO
+	   =============================================*/
 
 	static public function ctrEditarUsuario()
 	{
@@ -599,8 +599,8 @@ class ControladorUsuarios
 				$editarUsuario = strtolower($_POST["editarUsuario"]);
 
 				/*=============================================
-				VALIDAR IMAGEN
-				=============================================*/
+							VALIDAR IMAGEN
+							=============================================*/
 
 				$ruta = $_POST["fotoActual"];
 
@@ -612,14 +612,14 @@ class ControladorUsuarios
 					$nuevoAlto = 500;
 
 					/*=============================================
-					CREAMOS EL DIRECTORIO DONDE VAMOS A GUARDAR LA FOTO DEL USUARIO
-					=============================================*/
+								   CREAMOS EL DIRECTORIO DONDE VAMOS A GUARDAR LA FOTO DEL USUARIO
+								   =============================================*/
 
 					$directorio = "vistas/img/usuarios/" . $editarUsuario;
 
 					/*=============================================
-					PRIMERO PREGUNTAMOS SI EXISTE OTRA IMAGEN EN LA BD
-					=============================================*/
+								   PRIMERO PREGUNTAMOS SI EXISTE OTRA IMAGEN EN LA BD
+								   =============================================*/
 
 					if (!empty($_POST["fotoActual"])) {
 
@@ -630,14 +630,14 @@ class ControladorUsuarios
 					}
 
 					/*=============================================
-					DE ACUERDO AL TIPO DE IMAGEN APLICAMOS LAS FUNCIONES POR DEFECTO DE PHP
-					=============================================*/
+								   DE ACUERDO AL TIPO DE IMAGEN APLICAMOS LAS FUNCIONES POR DEFECTO DE PHP
+								   =============================================*/
 
 					if ($_FILES["editarFoto"]["type"] == "image/jpeg") {
 
 						/*=============================================
-						GUARDAMOS LA IMAGEN EN EL DIRECTORIO
-						=============================================*/
+										  GUARDAMOS LA IMAGEN EN EL DIRECTORIO
+										  =============================================*/
 
 						$aleatorio = mt_rand(100, 999);
 
@@ -655,8 +655,8 @@ class ControladorUsuarios
 					if ($_FILES["editarFoto"]["type"] == "image/png") {
 
 						/*=============================================
-						GUARDAMOS LA IMAGEN EN EL DIRECTORIO
-						=============================================*/
+										  GUARDAMOS LA IMAGEN EN EL DIRECTORIO
+										  =============================================*/
 
 						$aleatorio = mt_rand(100, 999);
 
@@ -712,7 +712,6 @@ class ControladorUsuarios
 				// $intermediario = $_POST["idIntermediario2"];
 				// var_dump($intermediario);
 				// die();
-
 				if ($_POST["ciudad2"] == NULL) {
 					$datos = array(
 						"id" => $_POST["idUsuEdit"],
@@ -730,7 +729,8 @@ class ControladorUsuarios
 						"email" => $_POST["editarEmail"],
 						"cargo" => $_POST["editarCargo"],
 						"intermediario" => $_POST["idIntermediario2"],
-						"maxCotEdi" => $_POST["maxiCot"],
+						//"maxCotEdi" => $_POST["maxiCot"],
+						"cotizacionesTotales" => $_POST["cotizacionesTotales"],
 						"fechaLimEdi" => $_POST["fechaLimEdi"],
 						"ciudad" => $_POST["codigoCiudadActual"],
 						"foto" => $ruta
@@ -752,7 +752,8 @@ class ControladorUsuarios
 						"email" => $_POST["editarEmail"],
 						"cargo" => $_POST["editarCargo"],
 						"intermediario" => $_POST["idIntermediario2"],
-						"maxCotEdi" => $_POST["maxiCot"],
+						//"maxCotEdi" => $_POST["maxiCot"],
+						"cotizacionesTotales" => $_POST["cotRestantes"],
 						"fechaLimEdi" => $_POST["fechaLimEdi"],
 						"ciudad" => $_POST["ciudad2"],
 						"foto" => $ruta
@@ -805,8 +806,8 @@ class ControladorUsuarios
 	}
 
 	/*=============================================
-	BORRAR USUARIO
-	=============================================*/
+	   BORRAR USUARIO
+	   =============================================*/
 
 	static public function ctrBorrarUsuario()
 	{

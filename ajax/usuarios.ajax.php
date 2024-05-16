@@ -3,6 +3,9 @@
 require_once "../controladores/usuarios.controlador.php";
 require_once "../modelos/usuarios.modelo.php";
 
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
 class AjaxUsuarios{
 
 	/*=============================================
@@ -17,7 +20,6 @@ class AjaxUsuarios{
 		$valor = $this->idUsuario;
 
 		$respuesta = ControladorUsuarios::ctrMostrarUsuarios($item, $valor);
-
 		echo json_encode($respuesta);
 
 	}

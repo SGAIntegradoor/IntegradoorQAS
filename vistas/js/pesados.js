@@ -298,6 +298,7 @@ $(document).ready(function () {
 
   // Ejectura la funcion Cotizar Ofertas
   $("#btnCotizarPesados").click(function (e) {
+    masRE();
     decresCotTotales().then((response) => {
       if (response.result == 1 || response.result == 2) {
         cotizarOfertasPesados();
@@ -1636,7 +1637,6 @@ $("#btnReCotizarFallidas").click(function () {
 
 // Abrir modal
 function cotizarOfertasPesados() {
-  debugger;
   var codigoFasecolda1 = document.getElementById("txtFasecolda");
   var contenido = codigoFasecolda1.value;
 
@@ -2626,8 +2626,8 @@ document.querySelector("#txtFasecolda").addEventListener("keypress", (e) => {
 document
   .querySelector("#btn-consultar-fasecolda")
   .addEventListener("click", (e) => {
-    const fasecolda = document.querySelector("#buscar-fasecolda").value;
-    const modelo = document.querySelector("#modelo-fasecolda").value;
+    const fasecolda = document.querySelector("#txtFasecolda_modal").value;
+    const modelo = document.querySelector("#txtModeloVeh_modal").value;
     if (fasecolda === "" || modelo === "") {
       return;
     }
@@ -2637,13 +2637,13 @@ document
           alert("Vehículo no Encontrado");
         } else {
           alert("Vehículo Encontrado");
-          $("#clasepesados").val(data.claseVeh);
+          $("#txtClaseVeh").val(data.claseVeh);
           $("#txtMarcaVeh").val(data.marcaVeh);
           $("#txtReferenciaVeh").val(data.lineaVeh);
           $("#txtValorFasecolda").val(data.valorVeh);
           document.querySelector("#txtFasecolda").value = fasecolda;
           document.querySelector("#txtModeloVeh").value = modelo;
-          $("#staticBackdrop").modal("hide");
+          $(".modal-body").dialog("close");
         }
       })
       .catch((err) => {
@@ -2652,22 +2652,77 @@ document
   });
 
 // Cuando se cierra el modal
-$("#staticBackdrop").on("hidden.bs.modal", () => {
-  document.querySelector("#buscar-fasecolda").value = "";
-  document.querySelector("#modelo-fasecolda").value = "";
+$("#btn-cerrar-fasecolda").on(() => {
+  document.querySelector("#txtFasecolda_modal").value = "";
+  document.querySelector("#txtModeloVeh_modal").value = "";
+  $(".modal-body").dialog("close");
 });
 
-// Abrir modal
-document.querySelector(".buscarFasecolda").addEventListener("click", (e) => {
-  $("#staticBackdrop").modal("show");
+$(function () {
+  $(".modal-body").dialog({
+    autoOpen: false,
+    modal: true,
+    width: 500, // overcomes width:'auto' and maxWidth bug
+    maxWidth: 600,
+    height: "auto",
+    fluid: true, //new option
+    resizable: false,
+    title: "Busqueda Manual Fasecolda",
+    dialogClass: "no-close",
+    show: { effect: "slide", duration: 500, direction: "down" }, // Efecto de slide hacia abajo
+    hide: { effect: "slide", duration: 500, direction: "down" } // Efecto de slide hacia abajo
+  });
+  $(".buscarFasecolda")
+    .button()
+    .click(function () {
+      txtFasecolda_modal.value = txtFasecolda.value;
+      txtModeloVeh_modal.value = txtModeloVeh.value;
+      $(".modal-body").dialog("option", "width", 600);
+      $(".modal-body").dialog("option", "height", 300);
+      $(".modal-body").dialog("option", "resizable", false);
+      $(".modal-body").dialog("open");
+    });
+  $("#btn-cerrar-fasecolda")
+    .button()
+    .click(function () {
+      document.querySelector("#txtFasecolda_modal").value = "";
+      document.querySelector("#txtModeloVeh_modal").value = "";
+      $(".modal-body").dialog("close");
+    });
 });
 
-document.querySelector("#txtFasecolda").addEventListener("keypress", (e) => {
-  if (e.keyCode === 13) {
-    e.preventDefault();
-    $("#staticBackdrop").modal("show");
-  }
+function fluidDialog() {
+  var $visible = $(".ui-dialog:visible");
+  // each open dialog
+  $visible.each(function () {
+    var $this = $(this);
+    var dialog = $this.find(".ui-dialog-content").data("ui-dialog");
+    // if fluid option == true
+    if (dialog.options.fluid) {
+      var wWidth = $(window).width();
+      // check window width against dialog width
+      if (wWidth < parseInt(dialog.options.maxWidth) + 50) {
+        // keep dialog from filling entire screen
+        $this.css("max-width", "90%");
+      } else {
+        // fix maxWidth bug
+        $this.css("max-width", dialog.options.maxWidth + "px");
+      }
+      //reposition dialog
+      dialog.option("position", dialog.options.position);
+    }
+  });
+}
+
+$(window).resize(function () {
+  fluidDialog();
 });
+
+// Ejecuta function Fluid Dialog cuando detecta que se abre algun dialogo con el nombre dialogopen o ui-dialog como clase
+$(document).on("dialogopen", ".ui-dialog", function (event, ui) {
+  fluidDialog();
+});
+
 
 function validarNumCotizaciones() {
   fecha1 = new Date();

@@ -8,8 +8,6 @@ if (!$enlace) {
 
   die("Conexion Fallida " . mysqli_connect_error());
 }
-
-error_reporting(E_ALL | ~E_WARNING);
 // mysqli_set_charset($enlace, "utf8");
 
 // echo '<script>console.log('.json_encode($_SESSION).')</script>';
@@ -153,8 +151,75 @@ $rolAsesor = $_SESSION['permisos']['idRol'];
     }
   }
 
+  @media (max-width: 495px) {
+    .table-responsive {
+      overflow-x: auto;
+    }
+  }
+
   .form-coti {
     padding-top: 25px;
+  }
+
+  .divsButtonsModals {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+  }
+
+  .buttonsModal {
+    height: 40px;
+    width: 100%;
+  }
+
+  .no-close .ui-dialog-titlebar-close {
+    display: none;
+  }
+
+  .ui-dialog-buttonset {
+    width: 100%;
+    display: flex !important;
+    justify-content: space-between;
+  }
+
+  .ui-dialog-buttonset>button:first-child {
+    background-color: #88d600 !important;
+    border: 0 !important;
+    border-radius: 5px;
+    width: 150px;
+    height: 30px;
+    color: white;
+    margin-left: 14px
+  }
+
+  .ui-dialog-buttonset>button:nth-child(2) {
+    background-color: #88d600 !important;
+    border: 0 !important;
+    border-radius: 5px;
+    width: 150px;
+    height: 30px;
+    color: white;
+  }
+
+  .ui-dialog .ui-dialog-title {
+    text-align: center;
+    /* Centra el texto del título */
+    width: 100%;
+    /* Ajusta el ancho del título */
+    padding: 0;
+    /* Elimina el relleno por defecto */
+    margin: 0;
+    /* Elimina el margen por defecto */
+  }
+
+  .ui-dialog .ui-dialog-content {
+    padding-top: 40px;
+  }
+
+  .center-btn {
+    margin: 0 auto;
+    /* Alinear horizontalmente */
+    display: block;
   }
 </style>
 
@@ -931,11 +996,11 @@ $rolAsesor = $_SESSION['permisos']['idRol'];
               <form>
                 <div class="form-group">
                   <label class="col-form-label">Fasecolda:</label>
-                  <input type="text" class="form-control" id="buscar-fasecolda">
+                  <input type="text" class="form-control" id="txtFasecolda_modal">
                 </div>
                 <div class="form-group">
                   <label class="col-form-label">Modelo:</label>
-                  <input type="text" class="form-control" id="modelo-fasecolda">
+                  <input type="text" class="form-control" id="txtModeloVeh_modal">
                 </div>
                 <div class="form-group">
                   <button type="button" class="btn btn-block btn-primary" id="btn-consultar-fasecolda">Consultar</button>
