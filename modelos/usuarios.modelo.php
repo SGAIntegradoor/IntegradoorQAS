@@ -50,21 +50,32 @@ class ModeloUsuarios
 
 	static public function mdlCheckPassword($actualPass, $idUser)
 	{
-		require_once "config/dbconfig.php";
-		$response = false;
-
-
-		$query = "SELECT * from usuarios WHERE id_usuario = $idUser";
-		$ejecucion = mysqli_query($enlace, $query);
-
-		if (mysqli_num_rows($ejecucion) > 0) {
-			$fila = mysqli_fetch_assoc($ejecucion);
-			if ($fila["usu_password"] == $actualPass) {
-				$response = true;
-			}
-
-			return $response;
-		}
+		  // Obtén el enlace de la base de datos desde la clase Conexion
+		  $conexion = Conexion::conectar();
+		  $response = false;
+	  
+		  // Prepara la consulta SQL utilizando una consulta preparada
+		  $stmt = $conexion->prepare("SELECT usu_password FROM usuarios WHERE id_usuario = :idUser");
+	  
+		  // Vincula el parámetro :idUser con el valor $idUser
+		  $stmt->bindParam(":idUser", $idUser, PDO::PARAM_INT);
+	  
+		  // Ejecuta la consulta preparada
+		  $stmt->execute();
+	  
+		  // Obtiene el resultado de la consulta
+		  $fila = $stmt->fetch(PDO::FETCH_ASSOC);
+	  
+		  // Verifica si se encontraron resultados
+		  if ($fila) {
+			  // Compara la contraseña obtenida de la base de datos con la contraseña actual
+			  if ($fila["usu_password"] == $actualPass) {
+				  $response = true;
+			  }
+		  }
+	  
+		  // Retorna el resultado de la comparación
+		  return $response;
 	}
 	/*=============================================
 							   PERMISOS USUARIOS

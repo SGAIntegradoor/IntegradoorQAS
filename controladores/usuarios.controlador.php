@@ -764,7 +764,6 @@ class ControladorUsuarios
 
 					$respuesta = ModeloUsuarios::mdlEditarUsuario($tabla, $datos);
 
-					die();
 					if ($respuesta == "ok") {
 
 						echo '<script>
