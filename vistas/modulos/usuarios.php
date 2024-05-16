@@ -1,8 +1,10 @@
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 
 if ($_SESSION["rol"] != 1) {
 
-  // echo '<script>console.log(' . json_encode($_SESSION) . ')</script>';
+  echo '<script>console.log(' . json_encode($_SESSION) . ')</script>';
 }
 
 ?>
@@ -336,7 +338,8 @@ MODAL AGREGAR USUARIO
             <div class="col-xs-12 col-sm-6 col-md-6 form-group">
               <div class="input-group">
                 <span class="input-group-addon"><i class="fa fa-user"></i></span>
-                <input type="text" class="form-control input-lg" id="nuevoNombre" name="nuevoNombre" placeholder="Nombres*" required>
+                <input type="text" class="form-control input-lg" id="nuevoNombre" name="nuevoNombre"
+                  placeholder="Nombres*" required>
               </div>
             </div>
 
@@ -345,7 +348,8 @@ MODAL AGREGAR USUARIO
             <div class="col-xs-12 col-sm-6 col-md-6 form-group">
               <div class="input-group">
                 <span class="input-group-addon"><i class="fa fa-user"></i></span>
-                <input type="text" class="form-control input-lg" id="nuevoApellido" name="nuevoApellido" placeholder="Apellidos*" required>
+                <input type="text" class="form-control input-lg" id="nuevoApellido" name="nuevoApellido"
+                  placeholder="Apellidos*" required>
               </div>
             </div>
 
@@ -384,7 +388,8 @@ MODAL AGREGAR USUARIO
 
                 <span class="input-group-addon"><i class="fa fa-id-badge"></i></span>
 
-                <input type="number" min="0" class="form-control input-lg" name="nuevoDocIdUser" id="nuevoDocIdUser" placeholder="Documento*" required>
+                <input type="number" min="0" class="form-control input-lg" name="nuevoDocIdUser" id="nuevoDocIdUser"
+                  placeholder="Documento*" required>
 
               </div>
 
@@ -398,7 +403,8 @@ MODAL AGREGAR USUARIO
             <div class="col-xs-12 col-sm-6 col-md-6 form-group">
               <div class="input-group">
                 <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                <input type="date" class="form-control input-lg" name="AgregfechNacimiento" id="AgregfechNacimiento" placeholder="Fecha de Nacimiento">
+                <input type="date" class="form-control input-lg" name="AgregfechNacimiento" id="AgregfechNacimiento"
+                  placeholder="Fecha de Nacimiento">
               </div>
             </div>
 
@@ -431,7 +437,8 @@ MODAL AGREGAR USUARIO
 
                 <span class="input-group-addon"><i class="fa fa-home"></i></span>
 
-                <input type="text" class="form-control input-lg" name="AgregDireccion" id="AgregDireccion" placeholder="Dirección*" required>
+                <input type="text" class="form-control input-lg" name="AgregDireccion" id="AgregDireccion"
+                  placeholder="Dirección*" required>
 
               </div>
 
@@ -502,7 +509,8 @@ MODAL AGREGAR USUARIO
               <div class="input-group">
 
                 <span class="input-group-addon"><i class="fa fa-home"></i></span>
-                <select class="form-control input-lg" name="ingciudadCirculacion" id="ingciudadCirculacion" required></select>
+                <select class="form-control input-lg" name="ingciudadCirculacion" id="ingciudadCirculacion"
+                  required></select>
                 <!-- <div id="listaCiudades"></div> -->
 
               </div>
@@ -514,7 +522,8 @@ MODAL AGREGAR USUARIO
               <div id="mensajeErrorCelular" style="color: red; display: none;"></div>
               <div class="input-group">
                 <span class="input-group-addon"><i class="fa fa-mobile" aria-hidden="true"></i></span>
-                <input type="text" class="form-control input-lg" name="nuevoTelefono" id="AgregMovil" placeholder="Celular*" data-inputmask="'mask':'(999) 999-9999'" data-mask minlength="10" required>
+                <input type="text" class="form-control input-lg" name="nuevoTelefono" id="AgregMovil"
+                  placeholder="Celular*" data-inputmask="'mask':'(999) 999-9999'" data-mask minlength="10" required>
               </div>
             </div>
 
@@ -595,7 +604,8 @@ MODAL AGREGAR USUARIO
               <div class="input-group">
 
                 <span class="input-group-addon"><i class="fa fa-sort-numeric-asc"></i></span>
-                <input type="text" class="form-control input-lg" name="maxCot" placeholder="Cotizaciones diarias" id="maxCot">
+                <input type="text" class="form-control input-lg" name="maxCot" placeholder="Cotizaciones diarias"
+                  id="maxCot">
 
               </div>
 
@@ -608,7 +618,8 @@ MODAL AGREGAR USUARIO
               <div class="input-group">
 
                 <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                <input type="date" min="0" class="form-control input-lg" name="fecLim" id="fecLim" placeholder="Limite de uso">
+                <input type="date" min="0" class="form-control input-lg" name="fecLim" id="fecLim"
+                  placeholder="Limite de uso">
 
               </div>
 
@@ -626,7 +637,8 @@ MODAL AGREGAR USUARIO
 
                 <span class="input-group-addon"><i class="fa fa-key"></i></span>
 
-                <input type="text" class="form-control input-lg" name="nuevoUsuario" placeholder="Ingresar usuario" id="nuevoUsuario" readonly>
+                <input type="text" class="form-control input-lg" name="nuevoUsuario" placeholder="Ingresar usuario"
+                  id="nuevoUsuario" readonly>
 
               </div>
 
@@ -648,7 +660,8 @@ MODAL AGREGAR USUARIO
                 
                   <span class="input-group-addon"><i class="fa fa-lock"></i></span>  -->
 
-            <input type="hidden" class="form-control input-lg" name="nuevoPassword" placeholder="Contraseña Usuario" id="nuevoPassword" readonly required>
+            <input type="hidden" class="form-control input-lg" name="nuevoPassword" placeholder="Contraseña Usuario"
+              id="nuevoPassword" readonly required>
 
             <!-- </div>
 
@@ -749,7 +762,8 @@ MODAL EDITAR USUARIO
 
                   <span class="input-group-addon"><i class="fa fa-user"></i></span>
 
-                  <input type="text" class="form-control input-lg" name="editarNombre" id="editarNombre" placeholder="Actualizar nombre" required>
+                  <input type="text" class="form-control input-lg" name="editarNombre" id="editarNombre"
+                    placeholder="Actualizar nombre" required>
                   <input type="hidden" id="idCliente" name="idCliente">
                   <input type="hidden" id="codCliente" name="codCliente">
                   <input type="hidden" id="idUsuEdit" name="idUsuEdit">
@@ -765,7 +779,8 @@ MODAL EDITAR USUARIO
                 <div class="input-group">
 
                   <span class="input-group-addon"><i class="fa fa-user"></i></span>
-                  <input type="text" class="form-control input-lg" name="editarApellido" id="editarApellido" placeholder="Actualizar apellido" required>
+                  <input type="text" class="form-control input-lg" name="editarApellido" id="editarApellido"
+                    placeholder="Actualizar apellido" required>
 
                 </div>
 
@@ -806,7 +821,8 @@ MODAL EDITAR USUARIO
 
                   <span class="input-group-addon"><i class="fa fa-id-badge"></i></span>
 
-                  <input type="number" min="0" class="form-control input-lg" name="editarDocIdUser" id="editarDocIdUser" placeholder="Actualizar documento">
+                  <input type="number" min="0" class="form-control input-lg" name="editarDocIdUser" id="editarDocIdUser"
+                    placeholder="Actualizar documento">
 
                 </div>
 
@@ -823,7 +839,8 @@ MODAL EDITAR USUARIO
 
                   <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
 
-                  <input type="date" min="0" class="form-control input-lg" name="fechNacimiento" id="fechNacimiento" placeholder="Ingresar fecha">
+                  <input type="date" min="0" class="form-control input-lg" name="fechNacimiento" id="fechNacimiento"
+                    placeholder="Ingresar fecha">
 
                 </div>
 
@@ -850,7 +867,6 @@ MODAL EDITAR USUARIO
 
             </div>
 
-
             <div class="row">
 
 
@@ -860,7 +876,8 @@ MODAL EDITAR USUARIO
                 <div class="input-group">
 
                   <span class="input-group-addon"><i class="fa fa-mobile"></i></span>
-                  <input type="text" class="form-control input-lg" name="editarTelefono" id="editarTelefono" placeholder="Ingresar teléfono" data-inputmask="'mask':'(999) 999-9999'" data-mask required>
+                  <input type="text" class="form-control input-lg" name="editarTelefono" id="editarTelefono"
+                    placeholder="Ingresar teléfono" data-inputmask="'mask':'(999) 999-9999'" data-mask required>
 
                 </div>
               </div>
@@ -873,7 +890,8 @@ MODAL EDITAR USUARIO
 
                   <span class="input-group-addon"><i class="fa fa-home"></i></span>
 
-                  <input type="text" class="form-control input-lg" name="editarDireccion" id="editarDireccion" placeholder="Sin Direccion">
+                  <input type="text" class="form-control input-lg" name="editarDireccion" id="editarDireccion"
+                    placeholder="Sin Direccion">
 
                 </div>
 
@@ -881,78 +899,11 @@ MODAL EDITAR USUARIO
 
               <!-- ENTRADA PARA EL DEPARTAMENTO -->
 
-              <!-- <div class="col-xs-12 col-sm-6 col-md-6 form-group">
-
-              <div class="input-group">
-
-                <span class="input-group-addon"><i class="fa fa-home"></i></span>
-                <select class="form-control input-lg" name="DptoCirculacion" id="DptoCirculacion" required>
-
-                  <option value=""></option>
-                  <option value="1">Amazonas</option>
-                  <option value="2">Antioquia</option>
-                  <option value="3">Arauca</option>
-                  <option value="4">Atlántico</option>
-                  <option value="5">Barranquilla</option>
-
-                  <option value="6">Bogotá</option>
-                  <option value="7">Bolívar</option>
-                  <option value="8">Boyacá</option>
-                  <option value="9">Caldas</option>
-                  <option value="10">Caquetá</option>
-
-                  <option value="11">Casanare</option>
-                  <option value="12">Cauca</option>
-                  <option value="13">Cesar</option>
-                  <option value="14">Chocó</option>
-                  <option value="15">Córdoba</option>
-
-                  <option value="16">Cundinamarca</option>
-                  <option value="17">Guainía</option>
-                  <option value="18">La Guajira</option>
-                  <option value="19">Guaviare</option>
-                  <option value="20">Huila</option>
-
-                  <option value="21">Magdalena</option>
-                  <option value="22">Meta</option>
-                  <option value="23">Nariño</option>
-                  <option value="24">Norte de Santander</option>
-                  <option value="25">Putumayo</option>
-
-                  <option value="26">Quindío</option>
-                  <option value="27">Risaralda</option>
-                  <option value="28">San Andrés</option>
-                  <option value="29">Santander</option>
-                  <option value="30">Sucre</option>
-
-                  <option value="31">Tolima</option>
-                  <option value="32">Valle del Cauca</option>
-                  <option value="33">Vaupés</option>
-                  <option value="34">Vichada</option>
-                </select>
-
-              </div>
-
-            </div> -->
-
             </div>
 
             <div class="row">
 
               <!-- ENTRADA PARA LA CIUDAD -->
-
-              <!-- <div class="col-xs-12 col-sm-6 col-md-6 form-group">
-              <div class="input-group">
-
-                <span class="input-group-addon"><i class="fa fa-home"></i></span>
-                <select class="form-control" id="ciudadCirculacion"></select>
-                <div id="listaCiudades"></div>
-
-              </div>
-            </div> -->
-
-
-
 
             </div>
 
@@ -964,7 +915,8 @@ MODAL EDITAR USUARIO
                 <div class="input-group">
 
                   <span class="input-group-addon"><i class="fa fa-home"></i></span>
-                  <input type="text" class="form-control input-lg" name="ciudadActual" id="ciudadActual" placeholder="Sin ciudad" readonly>
+                  <input type="text" class="form-control input-lg" name="ciudadActual" id="ciudadActual"
+                    placeholder="Sin ciudad" readonly>
                   <input type="hidden" id="codigoCiudadActual" name="codigoCiudadActual">
 
                 </div>
@@ -995,7 +947,8 @@ MODAL EDITAR USUARIO
 
                   <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
 
-                  <input type="email" class="form-control input-lg" name="editarEmail" id="editarEmail" placeholder="Actualizar email" required>
+                  <input type="email" class="form-control input-lg" name="editarEmail" id="editarEmail"
+                    placeholder="Actualizar email" required>
                   <input type="hidden" id="idEstado" name="idEstado">
 
                 </div>
@@ -1009,7 +962,8 @@ MODAL EDITAR USUARIO
                 <div class="input-group">
 
                   <span class="input-group-addon"><i class="fa fa-user"></i></span>
-                  <input type="text" class="form-control input-lg" name="editarCargo" id="editarCargo" placeholder="Editar cargo">
+                  <input type="text" class="form-control input-lg" name="editarCargo" id="editarCargo"
+                    placeholder="Editar cargo">
 
                 </div>
 
@@ -1027,7 +981,8 @@ MODAL EDITAR USUARIO
 
                   <span class="input-group-addon"><i class="fa fa-briefcase"></i></span>
 
-                  <select class="form-control input-lg" name="idIntermediario2" id="idIntermediario2" placeholder="Editar Intermediario" required>
+                  <select class="form-control input-lg" name="idIntermediario2" id="idIntermediario2"
+                    placeholder="Editar Intermediario" required>
 
                     <option value="">Selecionar Intermediario</option>
 
@@ -1045,7 +1000,8 @@ MODAL EDITAR USUARIO
 
                   <span class="input-group-addon"><i class="fa fa-users"></i></span>
 
-                  <select class="form-control input-lg" name="editarRol" id="editarRol" placeholder="Editar Rol" required>
+                  <select class="form-control input-lg" name="editarRol" id="editarRol" placeholder="Editar Rol"
+                    required>
 
                     <option value="">Selecionar rol</option>
 
@@ -1081,7 +1037,8 @@ MODAL EDITAR USUARIO
                 <div class="input-group">
 
                   <span class="input-group-addon"><i class="fa fa-sort-numeric-asc"></i></span>
-                  <input type="text" min="0" class="form-control input-lg" name="cotizacionesTotales" placeholder="Cotizaciones Totales" id="cotizacionesTotales">
+                  <input type="text" min="0" class="form-control input-lg" name="cotizacionesTotales"
+                    placeholder="Cotizaciones Totales" id="cotizacionesTotales">
 
                 </div>
 
@@ -1095,7 +1052,8 @@ MODAL EDITAR USUARIO
                 <div class="input-group">
 
                   <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                  <input type="date" min="0" class="form-control input-lg" name="fechaLimEdi" id="fechaLimEdi" placeholder="Ingresar documento">
+                  <input type="date" min="0" class="form-control input-lg" name="fechaLimEdi" id="fechaLimEdi"
+                    placeholder="Ingresar documento">
 
                 </div>
 
@@ -1112,7 +1070,8 @@ MODAL EDITAR USUARIO
                 <div class="input-group">
 
                   <span class="input-group-addon"><i class="fa fa-key"></i></span>
-                  <input type="text" class="form-control input-lg" id="editarUsuario" name="editarUsuario" value="" readonly>
+                  <input type="text" class="form-control input-lg" id="editarUsuario" name="editarUsuario" value=""
+                    readonly>
 
                 </div>
 
@@ -1125,12 +1084,25 @@ MODAL EDITAR USUARIO
                 <div class="input-group">
 
                   <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                  <input type="date" min="0" class="form-control input-lg" name="fechaUserExist" id="fechaUserExist" readonly>
+                  <input type="date" min="0" class="form-control input-lg" name="fechaUserExist" id="fechaUserExist"
+                    readonly>
 
                 </div>
 
               </div>
 
+            </div>
+
+            <div class="row">
+              <div class="col-xs-12 col-sm-6 col-md-6 form-group">
+
+                <div class="input-group">
+                  <span class="input-group-addon"><i class="fa fa-unlock-alt"></i></span>
+                  <input type="password" class="form-control input-lg" name="passwordActual" id="passwordActual" <?php echo ($_SESSION['rol'] == "10") ? '' : 'readonly'; ?>>
+
+                </div>
+
+              </div>
             </div>
 
             <!-- ENTRADA PARA SUBIR FOTO -->
@@ -1141,7 +1113,8 @@ MODAL EDITAR USUARIO
 
                 <div class="panel">SUBIR FOTO</div>
 
-                <img src="vistas/img/usuarios/default/anonymous.png" class="img-thumbnail previsualizarEditar" width="90px">
+                <img src="vistas/img/usuarios/default/anonymous.png" class="img-thumbnail previsualizarEditar"
+                  width="90px">
 
                 <input type="file" class="nuevaFoto" name="editarFoto">
 
@@ -1192,20 +1165,20 @@ $borrarUsuario->ctrBorrarUsuario();
 ?>
 
 <script>
-  $(document).ready(function() {
+  $(document).ready(function () {
     const inputFecha = $("#AgregfechNacimiento");
 
     // Cambiar el tipo de entrada a "text" al cargar la página
     inputFecha.prop("type", "text");
 
     // Cuando el campo de entrada obtiene el foco
-    inputFecha.focus(function() {
+    inputFecha.focus(function () {
       // Cambiar el tipo de entrada a "date"
       inputFecha.prop("type", "date");
     });
 
     // Cuando el campo de entrada pierde el foco
-    inputFecha.blur(function() {
+    inputFecha.blur(function () {
       // Si el campo de entrada está vacío, restaurar el tipo de entrada a "text"
       if (inputFecha.val() === "") {
         inputFecha.prop("type", "text");
@@ -1215,20 +1188,20 @@ $borrarUsuario->ctrBorrarUsuario();
 </script>
 
 <script>
-  $(document).ready(function() {
+  $(document).ready(function () {
     const inputFecha = $("#fecLim");
 
     // Cambiar el tipo de entrada a "text" al cargar la página
     inputFecha.prop("type", "text");
 
     // Cuando el campo de entrada obtiene el foco
-    inputFecha.focus(function() {
+    inputFecha.focus(function () {
       // Cambiar el tipo de entrada a "date"
       inputFecha.prop("type", "date");
     });
 
     // Cuando el campo de entrada pierde el foco
-    inputFecha.blur(function() {
+    inputFecha.blur(function () {
       // Si el campo de entrada está vacío, restaurar el tipo de entrada a "text"
       if (inputFecha.val() === "") {
         inputFecha.prop("type", "text");
@@ -1242,7 +1215,7 @@ $borrarUsuario->ctrBorrarUsuario();
   const copiaUsuarioInput = document.getElementById('nuevoUsuario');
 
   // Agrega un controlador de eventos para el evento 'input' en el campo nuevoUsuario
-  nuevoUsuarioInput.addEventListener('input', function() {
+  nuevoUsuarioInput.addEventListener('input', function () {
     // Copia el contenido del campo nuevoUsuario al campo copiaUsuario
     copiaUsuarioInput.value = this.value;
   });

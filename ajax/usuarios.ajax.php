@@ -20,6 +20,7 @@ class AjaxUsuarios{
 		$valor = $this->idUsuario;
 
 		$respuesta = ControladorUsuarios::ctrMostrarUsuarios($item, $valor);
+
 		echo json_encode($respuesta);
 
 	}
