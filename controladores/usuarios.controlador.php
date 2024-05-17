@@ -864,14 +864,7 @@ class ControladorUsuarios
 							  type: "success",
 							  title: "El usuario ha sido editado correctamente",
 							  showConfirmButton: true,
-							  confirmButtonText: "Cerrar"
-							  }).then(function(result) {
-										if (result.value) {
-	
-												window.location = "usuarios";								
-	
-										}
-									})
+							 })
 	
 						</script>';
 
