@@ -184,7 +184,7 @@ if ($_SESSION["permisos"]["administracionCotizaciones"] != "x") {
            <th>Cliente</th>
            <th>Placa</th>
            <th>Referencia del Vehículo</th>
-           <th>Documento Asesor</th>
+           <th>Documento_Asesor</th>
            <th>Rol</th>
            <th>Asesor</th>
            <th style="width:110px">Acciones</th>
