@@ -99,14 +99,14 @@
 			<ul class="nav navbar-nav">
 				<li>
 					<?php 
-					if($_SESSION['rol'] == 2){?>
+					if($_SESSION['rol'] == 2 || $_SESSION['rol'] == 20){?>
 					<ul class="nav navbar-nav">
 						<li class="calendar_li"style="margin-right: 5px; color: #88d600;font-size: 30px;">
 							<i class="fa fa-calendar-times-o" aria-hidden="true"></i>
 						</li>
 
 						<li class="li_cotDi">
-							<p>Cotizaciones diarias: máx. <b ><?php  echo $_SESSION['cotRestantes']; ?></b>, hoy llevas  <b id="cotRestantes"></b> </p>
+							<p>Cotizaciones Totales: <b ><?php  echo $_SESSION['cotRestantes']; ?></b>, llevas  <b id="cotRestantes1"></b> </p>
 						</li>
 					</ul>
 						

@@ -54,7 +54,7 @@ class ModeloPassword{
 			$mail->SMTPSecure = 'tls';
 			$mail->SMTPAuth = true;
 			$mail->Username = 'correopruebaSMTP@outlook.com';
-			$mail->Password = 'Seguros35.';
+			$mail->Password = 'Sga.Tecno2024*';
 
 			// Configurar el remitente y destinatario del correo
 			$emailString = $resultado['usu_email'];

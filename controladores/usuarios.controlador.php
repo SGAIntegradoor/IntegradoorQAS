@@ -790,7 +790,7 @@ class ControladorUsuarios
 	
 						swal.fire({
 							  type: "error",
-							  title: "¡El nombre no puede ir vacío o llevar caracteres especiales!",
+							  title: "¡El nombre no puede ir vacío o llevar arcacteres especiales!",
 							  showConfirmButton: true,
 							  confirmButtonText: "Cerrar"
 							  }).then(function(result) {

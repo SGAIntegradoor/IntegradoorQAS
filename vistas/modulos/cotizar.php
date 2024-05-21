@@ -40,7 +40,7 @@ if ($aseguradoras['SBS']['C'] == "1") {
   $creSBS = obtenerCredenciales($enlace, 'Credenciales_SBS2', '*', '3');
 }
 $cre_sbs_usuario = $creSBS['cre_sbs_usuario'];
-$cre_sbs_contrasena = $creSBS['cre_sbs_contrasena'];
+$cre_sbs_contrasena = isset($creSBS['cre_sbs_contrasena']) ? $creSBS['cre_sbs_contrasena'] : "";
 
 // Lógica para ALLIANZ
 if ($aseguradoras['Allianz']['C'] == "1") {
@@ -427,20 +427,23 @@ $idIntermediario = $_SESSION['permisos']['id_Intermediario'];
                           <label>Conoces la Placa?</label>
                           <div class="conten-conocesPlaca">
                             <label for="Si">Si</label>
-                            <input type="radio" name="conocesPlaca" id="txtConocesLaPlacaSi" value="Si" checked>&nbsp;&nbsp;&nbsp;&nbsp;
+                            <input type="radio" name="conocesPlaca" id="txtConocesLaPlacaSi" value="Si"
+                              checked>&nbsp;&nbsp;&nbsp;&nbsp;
                             <label for="No">No</label>
                             <input type="radio" name="conocesPlaca" id="txtConocesLaPlacaNo" value="No" required>
                           </div>
                         </div>
                         <div class="col-xs-12 col-sm-6 col-md-6 form-group" id="contenPlaca">
                           <label for="placaVeh">Placa</label>
-                          <input type="text" minlength="6" maxlength="6" class="form-control" id="placaVeh" required placeholder="Placa">
+                          <input type="text" minlength="6" maxlength="6" class="form-control" id="placaVeh" required
+                            placeholder="Placa">
                         </div>
                         <div class="col-xs-12 col-sm-6 col-md-6 form-group" id="contenCeroKM">
                           <label>Vehiculo 0 KM?</label>
                           <div class="conten-ceroKM">
                             <label for="Si">Si</label>
-                            <input type="radio" name="ceroKM" id="txtEsCeroKmSi" value="Si" required>&nbsp;&nbsp;&nbsp;&nbsp;
+                            <input type="radio" name="ceroKM" id="txtEsCeroKmSi" value="Si"
+                              required>&nbsp;&nbsp;&nbsp;&nbsp;
                             <label for="No">No</label>
                             <input type="radio" name="ceroKM" id="txtEsCeroKmNo" value="No" checked>
                           </div>
@@ -450,8 +453,10 @@ $idIntermediario = $_SESSION['permisos']['id_Intermediario'];
 
 
                     <div class="col-xs-12 col-sm-6 col-md-3 form-group">
-                      <input type="hidden" class="form-control" id="intermediario" value="<?php echo $_SESSION["intermediario"]; ?>">
-                      <input type="hidden" class="form-control" id="cotRestanv" value="<?php echo $_SESSION["cotRestantes"]; ?>">
+                      <input type="hidden" class="form-control" id="intermediario"
+                        value="<?php echo $_SESSION["intermediario"]; ?>">
+                      <input type="hidden" class="form-control" id="cotRestanv"
+                        value="<?php echo $_SESSION["cotRestantes"]; ?>">
                       <label for="tipoDocumentoID">Tipo de Documento</label>
                       <select class="form-control" id="tipoDocumentoID" required>
                         <option value=""></option>
@@ -468,17 +473,20 @@ $idIntermediario = $_SESSION['permisos']['id_Intermediario'];
                     </div>
                     <div class="col-xs-12 col-sm-6 col-md-3 form-group">
                       <label for="numDocumentoID">No. Documento</label>
-                      <input type="text" maxlength="10" class="form-control" id="numDocumentoID" required placeholder="Número de Documento">
+                      <input type="text" maxlength="10" class="form-control" id="numDocumentoID" required
+                        placeholder="Número de Documento">
                     </div>
 
                     <div class="col-xs-12 col-sm-6 col-md-3 form-group">
                       <label for="txtNombres">Nombre Completo</label>
                       <div class="row">
                         <div class="col-xs-12 col-sm-6 col-md-6 nomAseg">
-                          <input type="text" class="form-control" name="nombres" id="txtNombres" placeholder="Nombres" required>
+                          <input type="text" class="form-control" name="nombres" id="txtNombres" placeholder="Nombres"
+                            required>
                         </div>
                         <div class="col-xs-12 col-sm-6 col-md-6 apeAseg">
-                          <input type="text" class="form-control" name="apellidos" id="txtApellidos" placeholder="Apellidos" required>
+                          <input type="text" class="form-control" name="apellidos" id="txtApellidos"
+                            placeholder="Apellidos" required>
                         </div>
                       </div>
                     </div>
@@ -489,21 +497,23 @@ $idIntermediario = $_SESSION['permisos']['id_Intermediario'];
                       <label for="">Fecha de Nacimiento</label>
                       <div class="row">
                         <div class="col-xs-4 col-sm-4 col-md-4 conten-dia">
-                          <select class="form-control fecha-nacimiento" name="dianacimiento" id="dianacimiento" required>
+                          <select class="form-control fecha-nacimiento" name="dianacimiento" id="dianacimiento"
+                            required>
                             <option value="">Dia</option>
                             <?php
                             for ($i = 1; $i <= 31; $i++) {
                               if (strlen($i) == 1) { ?>
                                 <option value="<?php echo "0" . $i ?>"><?php echo "0" . $i ?></option><?php
-                                                                                                    } else { ?>
+                              } else { ?>
                                 <option value="<?php echo $i ?>"><?php echo $i ?></option><?php
-                                                                                                    }
-                                                                                                  }
-                                                                                          ?>
+                              }
+                            }
+                            ?>
                           </select>
                         </div>
                         <div class="col-xs-4 col-sm-4 col-md-4 conten-mes">
-                          <select class="form-control fecha-nacimiento" name="mesnacimiento" id="mesnacimiento" required>
+                          <select class="form-control fecha-nacimiento" name="mesnacimiento" id="mesnacimiento"
+                            required>
                             <option value="" selected>Mes</option>
                             <option value="01">Enero</option>
                             <option value="02">Febrero</option>
@@ -520,13 +530,15 @@ $idIntermediario = $_SESSION['permisos']['id_Intermediario'];
                           </select>
                         </div>
                         <div class="col-xs-4 col-sm-4 col-md-4 conten-anio">
-                          <select class="form-control fecha-nacimiento" name="anionacimiento" id="anionacimiento" required>
+                          <select class="form-control fecha-nacimiento" name="anionacimiento" id="anionacimiento"
+                            required>
                             <option value="">Año</option>
                             <?php
                             for ($j = 1920; $j <= 2021; $j++) {
-                            ?><option value="<?php echo $j ?>"><?php echo $j ?></option><?php
-                                                                                      }
-                                                                                        ?>
+                              ?>
+                              <option value="<?php echo $j ?>"><?php echo $j ?></option><?php
+                            }
+                            ?>
                           </select>
                         </div>
                       </div>
@@ -594,15 +606,18 @@ $idIntermediario = $_SESSION['permisos']['id_Intermediario'];
               <div class="row">
                 <div class="col-xs-12 col-sm-6 col-md-3 form-group">
                   <label for="clase">Código Fasecolda</label>
-                  <input type="text" maxlength="10" class="form-control" id="fasecoldabuscadormanual" placeholder="Número de fasecolda">
+                  <input type="text" maxlength="10" class="form-control" id="fasecoldabuscadormanual"
+                    placeholder="Número de fasecolda">
                 </div>
                 <div class="col-xs-12 col-sm-6 col-md-3 form-group">
                   <label for="clase">Modelo Vehículo</label>
-                  <input type="text" maxlength="10" class="form-control" id="modelobuscadormanual" placeholder="Modelo Vehículo">
+                  <input type="text" maxlength="10" class="form-control" id="modelobuscadormanual"
+                    placeholder="Modelo Vehículo">
                 </div>
 
                 <div style="padding-top: 25px !important;" class="col-xs-12 col-sm-6 col-md-2 form-group">
-                  <button class="btn btn-primary btn-block" id="btnConsultarVehmanualbuscador">Consultar Vehículo</button>
+                  <button class="btn btn-primary btn-block" id="btnConsultarVehmanualbuscador">Consultar
+                    Vehículo</button>
                 </div>
               </div>
             </div>
@@ -679,7 +694,8 @@ $idIntermediario = $_SESSION['permisos']['id_Intermediario'];
                   <div class="col-xs-12 col-sm-6 col-md-12">
                     <div class="row">
                       <div class="col-xs-12 col-sm-6 col-md-2 form-group btnConsultarVeh">
-                        <button class="btn btn-primary btn-block" id="btnConsultarVehmanualbuscador">Consultar Vehículo</button>
+                        <button class="btn btn-primary btn-block" id="btnConsultarVehmanualbuscador">Consultar
+                          Vehículo</button>
                       </div>
                     </div>
                   </div>
@@ -734,14 +750,17 @@ $idIntermediario = $_SESSION['permisos']['id_Intermediario'];
                       <input type="text" class="form-control" id="txtFasecolda" placeholder="" required>
 
                       <div class="buscarFasecolda">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="input-icon" viewBox="0 0 20 20" fill="currentColor" style="
+                        <svg xmlns="http://www.w3.org/2000/svg" class="input-icon" viewBox="0 0 20 20"
+                          fill="currentColor" style="
                                 position: absolute;
                                 width: 18px;
                                 right: 22px;
                                 top: 34px;
                                 cursor:pointer;
                             ">
-                          <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path>
+                          <path fill-rule="evenodd"
+                            d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
+                            clip-rule="evenodd"></path>
                         </svg>
                       </div>
                     </div>
@@ -762,7 +781,8 @@ $idIntermediario = $_SESSION['permisos']['id_Intermediario'];
                     </div>
                     <div class="col-xs-12 col-sm-6 col-md-3 form-group">
                       <label for="txtReferenciaVeh">Línea</label>
-                      <input type="text" class="form-control classReferenciaVeh" id="txtReferenciaVeh" placeholder="" disabled>
+                      <input type="text" class="form-control classReferenciaVeh" id="txtReferenciaVeh" placeholder=""
+                        disabled>
                     </div>
                     <div class="col-xs-12 col-sm-6 col-md-3 form-group">
                       <label for="txtValorFasecolda">Valor Asegurado</label>
@@ -870,7 +890,7 @@ $idIntermediario = $_SESSION['permisos']['id_Intermediario'];
                             <div id="loaderOferta"></div>
                           </div>
                           <div class="col-xs-12 col-sm-6 col-md-3 form-group" id="loaderRecotOfertaBox">
-                          <div id="loaderRecotOferta"></div>
+                            <div id="loaderRecotOferta"></div>
                           </div>
                         </div>
                       </div>
@@ -916,8 +936,10 @@ $idIntermediario = $_SESSION['permisos']['id_Intermediario'];
                           <tr>
                             <th class="thTable" scope="col" style="color: #88d600; margin-right: 5px;">Aseguradora</th>
                             <th class="thTable" scope="col" style="color: #88d600; margin-right: 5px;">Cotizo?</th>
-                            <th class="thTable" scope="col" style="color: #88d600;; margin-right: 5px;">Productos cotizados</th>
-                            <th class="thTable" scope="col" style="color: #88d600;; margin-right: 5px;">Observaciones</th>
+                            <th class="thTable" scope="col" style="color: #88d600;; margin-right: 5px;">Productos
+                              cotizados</th>
+                            <th class="thTable" scope="col" style="color: #88d600;; margin-right: 5px;">Observaciones
+                            </th>
                           </tr>
                         </thead>
                         <tbody>
@@ -927,10 +949,29 @@ $idIntermediario = $_SESSION['permisos']['id_Intermediario'];
                         </tbody>
                       </table>
                     </div>
+                    <div>
+                      <p class="text-justify"><strong>¿Por qué algunas compañías no cotizan? R/. 0.</strong>Tiene póliza
+                        vigente con esa compañía. <strong>1.</strong> Aseguradora
+                        caída, en mantenimiento o en actualización. <strong>2.</strong> RUNT, Cexper, Sistema Fasecolda
+                        caído. <strong>3.</strong> Fallas Portal
+                        Integradoor. <strong>4.</strong> Vehículo fuera de políticas por marca, línea o modelo.
+                        <strong>5.</strong> Ciudad bloqueada. <strong>6.</strong> Error en
+                        validación datos del asegurado. <strong>7.</strong> Valor asegurado no autorizado para cotizar
+                        vía webservice. <strong>8.</strong> Vehículo
+                        salvamento. <strong>9.</strong> Motos, Pesados, Públicos no se cotizan por este módulo.
+                        <strong>10.</strong> Personas Jurídicas se cotizan
+                        manualmente. <strong>11.</strong> Algunas aseguradoras no cotizan 0 km vía webservice.
+                        <strong>12.</strong> Vehículo bloqueado por cotización
+                        vigente con otro asesor (ej. Solidaria). <strong>13.</strong> Mal uso del usuario registrando
+                        espacios o caracteres en placas,
+                        nombres, apellidos o documentos de identidad
+                      </p>
+                    </div>
                     <div class="row button-recotizar" style="display: none; margin:5px">
                       <div class="col-md-6"></div>
                       <div class="col-xs-12 col-sm-12 col-md-3 form-group">
-                        <button class="btn btn-primary btn-block" id="btnReCotizarFallidas">Recotizar Ofertas Fallidas</button>
+                        <button class="btn btn-primary btn-block" id="btnReCotizarFallidas">Recotizar Ofertas
+                          Fallidas</button>
                       </div>
                       <div class="col-md-3"></div>
                     </div>
@@ -940,193 +981,240 @@ $idIntermediario = $_SESSION['permisos']['id_Intermediario'];
 
                 <div id="mensajePrevisora">
                   <div class="aviso-container col-lg-12">
-                    <p style="font-weight: bold;">
-                      NOTA: Si a tu cliente le interesa Previsora, ten en cuenta que ciertas líneas de vehículos requieren la instalación del dispositivo Cazador al tomar su seguro y este tiene un costo adicional a la póliza. Por favor confirma con tu área comercial.
-                    </p>
+                    <ul>
+                      <?php if ($_SESSION['rol'] == 19) { ?>
+                        <li>
+                          <p style="font-weight: bold;">
+                            Si a tu cliente le interesa Previsora, ten en cuenta que ciertas líneas de vehículos requieren
+                            la instalación del dispositivo Cazador al tomar su seguro y este tiene un costo adicional a la
+                            póliza. Por favor confirma con tu área comercial.
+                          </p>
+                        </li>
+                      <?php } ?>
+                      <li>
+                        <p style="font-weight: bold;">
+                          Los vehículos KIA de las líneas PICANTO y SPORTAGE se encuentran fuera de políticas en Seguros
+                          del Estado. Si se genera cotización con esta Aseguradora, omitir dicha oferta. Igualmente con
+                          esta compañía, la clase de vehículo PICK UP solo se asegura como vehículo publico.
+                        </p>
+                      </li>
+                    </ul>
                   </div>
                 </div>
-
-
-
               </div>
             </div>
-          </div>
 
-          <!-- PARRILLA DE COTIZACIONES -->
-          <div id="parrillaCotizaciones">
+            <!-- PARRILLA DE COTIZACIONES -->
+            <div id="parrillaCotizaciones">
 
-            <div class="col-lg-12 form-coti">
-              <div class="row row-parrilla">
-                <div class="col-xs-12 col-sm-6 col-md-3">
-                  <label for="">PARRILLA DE COTIZACIONES</label>
+              <div class="col-lg-12 form-coti">
+                <div class="row row-parrilla">
+                  <div class="col-xs-12 col-sm-6 col-md-3">
+                    <label for="">PARRILLA DE COTIZACIONES</label>
+                  </div>
                 </div>
               </div>
-            </div>
 
-            <div id="cardCotizacion">
-            </div>
+              <div id="cardCotizacion">
+              </div>
 
-            <div id="cardAgregarCotizacion">
-            </div>
+              <div id="cardAgregarCotizacion">
+              </div>
 
-            <div id="contenCotizacionPDFLivianos">
+              <div id="contenCotizacionPDFLivianos">
+
+              </div>
 
             </div>
 
           </div>
 
-        </div>
+          <div id="dialog"></div>
 
-        <div id="dialog"></div>
+          <!-- CAMPOS OCULTOS PARA OPTENER LA INFORMACION-->
+          <div style="display: none;">
+            <label>Aseguradoras</label>
+            <input type="hidden" name="aseguradoras" id="aseguradoras"
+              value='<?php echo json_encode($aseguradoras); ?>'>
+            <label>Intermediario</label>
+            <input type="hidden" name="idIntermediario" id="idIntermediario" value="<?php echo $idIntermediario; ?>">
+            <label>Rol Asesor</label>
+            <input type="hidden" name="rolAsesor" id="rolAsesor" value="<?php echo $rolAsesor; ?>">
+            <label>Id Asegurado</label>
+            <input type="hidden" name="idCliente" id="idCliente">
+            <label>Celular Asegurado</label>
+            <input type="text" name="celularAseg" id="celularAseg" value="">
+            <label>Email Asegurado</label>
+            <input type="text" name="emailAseg" id="emailAseg" value="">
+            <label>Direccion Asegurado</label>
+            <input type="text" name="direccionAseg" id="direccionAseg" value="CALLE 70 7T2-16">
+            <label>ClaseVehiculo</label>
+            <input type="text" name="CodigoClase" id="CodigoClase">
+            <label>MarcaVehiculo</label>
+            <input type="text" name="CodigoMarca" id="CodigoMarca">
+            <label>LineaVehiculo</label>
+            <input type="text" name="CodigoLinea" id="CodigoLinea">
+            <label>LimiteRCESTADO</label>
+            <input type="text" name="LimiteRC" id="LimiteRC" value="6">
+            <label>CoberturaEstado</label>
+            <input type="text" name="CoberturaEstado" id="CoberturaEstado" value="1">
+            <label>ValorAccesorios</label>
+            <input type="text" name="ValorAccesorios" id="ValorAccesorios" value="0">
+            <label>CodigoVerificacion</label>
+            <input type="text" name="CodigoVerificacion" id="CodigoVerificacion" value="0">
+            <label>AniosSiniestro</label>
+            <input type="text" name="AniosSiniestro" id="AniosSiniestro" value="0">
+            <label>AniosAsegurados</label>
+            <input type="text" name="AniosAsegurados" id="AniosAsegurados" value="0">
+            <label>NivelEducativo</label>
+            <input type="text" name="NivelEducativo" id="NivelEducativo" value="4">
+            <label>Estrato</label>
+            <input type="text" name="Estrato" id="Estrato" value="3">
+            <label>TokenPrevisora</label>
+            <input type="text" name="previsoraToken" id="previsoraToken">
 
-        <!-- CAMPOS OCULTOS PARA OPTENER LA INFORMACION-->
-        <div style="display: none;">
-          <label>Aseguradoras</label>
-          <input type="hidden" name="aseguradoras" id="aseguradoras" value='<?php echo json_encode($aseguradoras); ?>'>
-          <label>Intermediario</label>
-          <input type="hidden" name="idIntermediario" id="idIntermediario" value="<?php echo $idIntermediario; ?>">
-          <label>Rol Asesor</label>
-          <input type="hidden" name="rolAsesor" id="rolAsesor" value="<?php echo $rolAsesor; ?>">
-          <label>Id Asegurado</label>
-          <input type="hidden" name="idCliente" id="idCliente">
-          <label>Celular Asegurado</label>
-          <input type="text" name="celularAseg" id="celularAseg" value="">
-          <label>Email Asegurado</label>
-          <input type="text" name="emailAseg" id="emailAseg" value="">
-          <label>Direccion Asegurado</label>
-          <input type="text" name="direccionAseg" id="direccionAseg" value="CALLE 70 7T2-16">
-          <label>ClaseVehiculo</label>
-          <input type="text" name="CodigoClase" id="CodigoClase">
-          <label>MarcaVehiculo</label>
-          <input type="text" name="CodigoMarca" id="CodigoMarca">
-          <label>LineaVehiculo</label>
-          <input type="text" name="CodigoLinea" id="CodigoLinea">
-          <label>LimiteRCESTADO</label>
-          <input type="text" name="LimiteRC" id="LimiteRC" value="6">
-          <label>CoberturaEstado</label>
-          <input type="text" name="CoberturaEstado" id="CoberturaEstado" value="1">
-          <label>ValorAccesorios</label>
-          <input type="text" name="ValorAccesorios" id="ValorAccesorios" value="0">
-          <label>CodigoVerificacion</label>
-          <input type="text" name="CodigoVerificacion" id="CodigoVerificacion" value="0">
-          <label>AniosSiniestro</label>
-          <input type="text" name="AniosSiniestro" id="AniosSiniestro" value="0">
-          <label>AniosAsegurados</label>
-          <input type="text" name="AniosAsegurados" id="AniosAsegurados" value="0">
-          <label>NivelEducativo</label>
-          <input type="text" name="NivelEducativo" id="NivelEducativo" value="4">
-          <label>Estrato</label>
-          <input type="text" name="Estrato" id="Estrato" value="3">
-          <label>TokenPrevisora</label>
-          <input type="text" name="previsoraToken" id="previsoraToken">
-
-          <!--ESTADO-->
-          <input type="text" class="form-control" id="cre_est_usuario" value="<?php echo $cre_est_usuario; ?>">
-          <input type="text" class="form-control" id="cre_equ_contrasena" value="<?php echo $cre_equ_contrasena; ?>">
-          <input type="text" class="form-control" id="Cre_Est_Entity_Id" value="<?php echo $Cre_Est_Entity_Id; ?>">
-          <input type="text" class="form-control" id="cre_est_zona" value="<?php echo $cre_est_zona; ?>">
-
-
-          <!--ZURICH-->
-          <input type="text" class="form-control" id="cre_zur_nomUsu" value="<?php echo $_SESSION["cre_zur_nomUsu"]; ?>">
-          <input type="text" class="form-control" id="cre_zur_passwd" value="<?php echo $_SESSION["cre_zur_passwd"]; ?>">
-          <input type="text" class="form-control" id="cre_zur_intermediaryEmail" value="<?php echo $_SESSION["cre_zur_intermediaryEmail"]; ?>">
-          <input type="text" class="form-control" id="cre_zur_Cookie" value="<?php echo $_SESSION["cre_zur_Cookie"]; ?>">
-          <input type="text" class="form-control" id="cre_zur_token" value="<?php echo $_SESSION["cre_zur_token"]; ?>">
-          <input type="text" class="form-control" id="cre_zur_fecha_token" value="<?php echo $_SESSION["cre_zur_fecha_token"]; ?>">
-
-          <!--SOLIDARIA-->
-          <input type="text" class="form-control" id="cre_sol_cod_sucursal" value="<?php echo $cre_sol_cod_sucursal; ?>">
-          <input type="text" class="form-control" id="cre_sol_cod_per" value="<?php echo $cre_sol_cod_per; ?>">
-          <input type="text" class="form-control" id="cre_sol_cod_tipo_agente" value="<?php echo $cre_sol_cod_tipo_agente; ?>">
-          <input type="text" class="form-control" id="cre_sol_cod_agente" value="<?php echo $cre_sol_cod_agente; ?>">
-          <input type="text" class="form-control" id="cre_sol_cod_pto_vta" value="<?php echo $cre_sol_cod_pto_vta; ?>">
-          <input type="text" class="form-control" id="cre_sol_grant_type" value="<?php echo $cre_sol_grant_type; ?>">
-          <input type="text" class="form-control" id="cre_sol_Cookie_token" value="<?php echo $cre_sol_Cookie_token; ?>">
-          <input type="text" class="form-control" id="cre_sol_token" value="<?php echo $cre_sol_token; ?>">
-          <input type="text" class="form-control" id="cre_sol_fecha_token" value="<?php echo $cre_sol_fecha_token; ?>">
-
-          <!--PREVISORA-->
-          <input type="text" class="form-control" id="cre_pre_AgentCodeListCoin" value="<?php echo $_SESSION["cre_pre_AgentCodeListCoin"]; ?>">
-          <input type="text" class="form-control" id="cre_pre_AgentAgencyTypeCode" value="<?php echo $_SESSION["cre_pre_AgentAgencyTypeCode"]; ?>">
-          <input type="text" class="form-control" id="cre_pre_ParticipationCia" value="<?php echo $_SESSION["cre_pre_ParticipationCia"]; ?>">
-          <input type="text" class="form-control" id="cre_pre_AgentCode" value="<?php echo $_SESSION["cre_pre_AgentCode"]; ?>">
-          <input type="text" class="form-control" id="cre_pre_Username" value="<?php echo $_SESSION["cre_pre_Username"]; ?>">
-          <input type="text" class="form-control" id="cre_pre_Password" value="<?php echo $_SESSION["cre_pre_Password"]; ?>">
-
-          <!--MAPFRE-->
-          <input type="text" class="form-control" id="cre_map_codCliente" value="<?php echo $_SESSION["cre_map_codCliente"]; ?>">
-          <input type="text" class="form-control" id="cre_map_codigoOficinaAsociado" value="<?php echo $_SESSION["cre_map_codigoOficinaAsociado"]; ?>">
-          <input type="text" class="form-control" id="cre_map_codigoIntermediario" value="<?php echo $_SESSION["cre_map_codigoIntermediario"]; ?>">
-          <input type="text" class="form-control" id="cre_map_username" value="<?php echo $_SESSION["cre_map_username"]; ?>">
-          <input type="text" class="form-control" id="cre_map_password" value="<?php echo $_SESSION["cre_map_password"]; ?>">
-          <input type="text" class="form-control" id="cre_map_codigonivel3GA" value="<?php echo $_SESSION["cre_map_codigonivel3GA"]; ?>">
+            <!--ESTADO-->
+            <input type="text" class="form-control" id="cre_est_usuario" value="<?php echo $cre_est_usuario; ?>">
+            <input type="text" class="form-control" id="cre_equ_contrasena" value="<?php echo $cre_equ_contrasena; ?>">
+            <input type="text" class="form-control" id="Cre_Est_Entity_Id" value="<?php echo $Cre_Est_Entity_Id; ?>">
+            <input type="text" class="form-control" id="cre_est_zona" value="<?php echo $cre_est_zona; ?>">
 
 
-          <!--SBS-->
-          <input type="text" class="form-control" id="cre_sbs_usuario" value="<?php echo $cre_sbs_usuario; ?>">
-          <input type="text" class="form-control" id="cre_sbs_contrasena" value="<?php echo $cre_sbs_contrasena; ?>">
+            <!--ZURICH-->
+            <input type="text" class="form-control" id="cre_zur_nomUsu"
+              value="<?php echo $_SESSION["cre_zur_nomUsu"]; ?>">
+            <input type="text" class="form-control" id="cre_zur_passwd"
+              value="<?php echo $_SESSION["cre_zur_passwd"]; ?>">
+            <input type="text" class="form-control" id="cre_zur_intermediaryEmail"
+              value="<?php echo $_SESSION["cre_zur_intermediaryEmail"]; ?>">
+            <input type="text" class="form-control" id="cre_zur_Cookie"
+              value="<?php echo $_SESSION["cre_zur_Cookie"]; ?>">
+            <input type="text" class="form-control" id="cre_zur_token"
+              value="<?php echo $_SESSION["cre_zur_token"]; ?>">
+            <input type="text" class="form-control" id="cre_zur_fecha_token"
+              value="<?php echo $_SESSION["cre_zur_fecha_token"]; ?>">
 
-          <!--ALLIANZ-->
-          <input type="text" class="form-control" id="cre_alli_sslcertfile" value="<?php echo $cre_alli_sslcertfile; ?>">
-          <input type="text" class="form-control" id="cre_alli_sslkeyfile" value="<?php echo $cre_alli_sslkeyfile; ?>">
-          <input type="text" class="form-control" id="cre_alli_passphrase" value="<?php echo $cre_alli_passphrase; ?>">
-          <input type="text" class="form-control" id="cre_alli_partnerid" value="<?php echo $cre_alli_partnerid; ?>">
-          <input type="text" class="form-control" id="cre_alli_agentid" value="<?php echo $cre_alli_agentid; ?>">
-          <input type="text" class="form-control" id="cre_alli_partnercode" value="<?php echo $cre_alli_partnercode; ?>">
-          <input type="text" class="form-control" id="cre_alli_agentcode" value="<?php echo $cre_alli_agentcode; ?>">
+            <!--SOLIDARIA-->
+            <input type="text" class="form-control" id="cre_sol_cod_sucursal"
+              value="<?php echo $cre_sol_cod_sucursal; ?>">
+            <input type="text" class="form-control" id="cre_sol_cod_per" value="<?php echo $cre_sol_cod_per; ?>">
+            <input type="text" class="form-control" id="cre_sol_cod_tipo_agente"
+              value="<?php echo $cre_sol_cod_tipo_agente; ?>">
+            <input type="text" class="form-control" id="cre_sol_cod_agente" value="<?php echo $cre_sol_cod_agente; ?>">
+            <input type="text" class="form-control" id="cre_sol_cod_pto_vta"
+              value="<?php echo $cre_sol_cod_pto_vta; ?>">
+            <input type="text" class="form-control" id="cre_sol_grant_type" value="<?php echo $cre_sol_grant_type; ?>">
+            <input type="text" class="form-control" id="cre_sol_Cookie_token"
+              value="<?php echo $cre_sol_Cookie_token; ?>">
+            <input type="text" class="form-control" id="cre_sol_token" value="<?php echo $cre_sol_token; ?>">
+            <input type="text" class="form-control" id="cre_sol_fecha_token"
+              value="<?php echo $cre_sol_fecha_token; ?>">
 
-          <!--AXA-->
-          <input type="text" class="form-control" id="cre_axa_sslcertfile" value="<?php echo $cre_axa_sslcertfile; ?>">
-          <input type="text" class="form-control" id="cre_axa_sslkeyfile" value="<?php echo $cre_axa_sslkeyfile; ?>">
-          <input type="text" class="form-control" id="cre_axa_passphrase" value="<?php echo $cre_axa_passphrase; ?>">
-          <input type="text" class="form-control" id="cre_axa_codigoDistribuidor" value="<?php echo $cre_axa_codigoDistribuidor; ?>">
-          <input type="text" class="form-control" id="cre_axa_idTipoDistribuidor" value="<?php echo $cre_axa_idTipoDistribuidor; ?>">
-          <input type="text" class="form-control" id="cre_axa_codigoDivipola" value="<?php echo $cre_axa_codigoDivipola; ?>">
-          <input type="text" class="form-control" id="cre_axa_canal" value="<?php echo $cre_axa_canal; ?>">
-          <input type="text" class="form-control" id="cre_axa_validacionEventos" value="<?php echo $cre_axa_validacionEventos; ?>">
-          <input type="text" class="form-control" id="url_axa" value="<?php echo $url_axa; ?>">
+            <!--PREVISORA-->
+            <input type="text" class="form-control" id="cre_pre_AgentCodeListCoin"
+              value="<?php echo $_SESSION["cre_pre_AgentCodeListCoin"]; ?>">
+            <input type="text" class="form-control" id="cre_pre_AgentAgencyTypeCode"
+              value="<?php echo $_SESSION["cre_pre_AgentAgencyTypeCode"]; ?>">
+            <input type="text" class="form-control" id="cre_pre_ParticipationCia"
+              value="<?php echo $_SESSION["cre_pre_ParticipationCia"]; ?>">
+            <input type="text" class="form-control" id="cre_pre_AgentCode"
+              value="<?php echo $_SESSION["cre_pre_AgentCode"]; ?>">
+            <input type="text" class="form-control" id="cre_pre_Username"
+              value="<?php echo $_SESSION["cre_pre_Username"]; ?>">
+            <input type="text" class="form-control" id="cre_pre_Password"
+              value="<?php echo $_SESSION["cre_pre_Password"]; ?>">
 
-          <!--Bolivar-->
-          <input type="text" class="form-control" id="cre_bol_api_key" value="<?php echo $cre_bol_api_key; ?>">
-          <input type="text" class="form-control" id="cre_bol_claveAsesor" value="<?php echo $cre_bol_claveAsesor; ?>">
+            <!--MAPFRE-->
+            <input type="text" class="form-control" id="cre_map_codCliente"
+              value="<?php echo $_SESSION["cre_map_codCliente"]; ?>">
+            <input type="text" class="form-control" id="cre_map_codigoOficinaAsociado"
+              value="<?php echo $_SESSION["cre_map_codigoOficinaAsociado"]; ?>">
+            <input type="text" class="form-control" id="cre_map_codigoIntermediario"
+              value="<?php echo $_SESSION["cre_map_codigoIntermediario"]; ?>">
+            <input type="text" class="form-control" id="cre_map_username"
+              value="<?php echo $_SESSION["cre_map_username"]; ?>">
+            <input type="text" class="form-control" id="cre_map_password"
+              value="<?php echo $_SESSION["cre_map_password"]; ?>">
+            <input type="text" class="form-control" id="cre_map_codigonivel3GA"
+              value="<?php echo $_SESSION["cre_map_codigonivel3GA"]; ?>">
+
+
+            <!--SBS-->
+            <input type="text" class="form-control" id="cre_sbs_usuario" value="<?php echo $cre_sbs_usuario; ?>">
+            <input type="text" class="form-control" id="cre_sbs_contrasena" value="<?php echo $cre_sbs_contrasena; ?>">
+
+            <!--ALLIANZ-->
+            <input type="text" class="form-control" id="cre_alli_sslcertfile"
+              value="<?php echo $cre_alli_sslcertfile; ?>">
+            <input type="text" class="form-control" id="cre_alli_sslkeyfile"
+              value="<?php echo $cre_alli_sslkeyfile; ?>">
+            <input type="text" class="form-control" id="cre_alli_passphrase"
+              value="<?php echo $cre_alli_passphrase; ?>">
+            <input type="text" class="form-control" id="cre_alli_partnerid" value="<?php echo $cre_alli_partnerid; ?>">
+            <input type="text" class="form-control" id="cre_alli_agentid" value="<?php echo $cre_alli_agentid; ?>">
+            <input type="text" class="form-control" id="cre_alli_partnercode"
+              value="<?php echo $cre_alli_partnercode; ?>">
+            <input type="text" class="form-control" id="cre_alli_agentcode" value="<?php echo $cre_alli_agentcode; ?>">
+
+            <!--AXA-->
+            <input type="text" class="form-control" id="cre_axa_sslcertfile"
+              value="<?php echo $cre_axa_sslcertfile; ?>">
+            <input type="text" class="form-control" id="cre_axa_sslkeyfile" value="<?php echo $cre_axa_sslkeyfile; ?>">
+            <input type="text" class="form-control" id="cre_axa_passphrase" value="<?php echo $cre_axa_passphrase; ?>">
+            <input type="text" class="form-control" id="cre_axa_codigoDistribuidor"
+              value="<?php echo $cre_axa_codigoDistribuidor; ?>">
+            <input type="text" class="form-control" id="cre_axa_idTipoDistribuidor"
+              value="<?php echo $cre_axa_idTipoDistribuidor; ?>">
+            <input type="text" class="form-control" id="cre_axa_codigoDivipola"
+              value="<?php echo $cre_axa_codigoDivipola; ?>">
+            <input type="text" class="form-control" id="cre_axa_canal" value="<?php echo $cre_axa_canal; ?>">
+            <input type="text" class="form-control" id="cre_axa_validacionEventos"
+              value="<?php echo $cre_axa_validacionEventos; ?>">
+            <input type="text" class="form-control" id="url_axa" value="<?php echo $url_axa; ?>">
+
+            <!--Bolivar-->
+            <input type="text" class="form-control" id="cre_bol_api_key" value="<?php echo $cre_bol_api_key; ?>">
+            <input type="text" class="form-control" id="cre_bol_claveAsesor"
+              value="<?php echo $cre_bol_claveAsesor; ?>">
+
+          </div>
 
         </div>
 
       </div>
 
-    </div>
-
-    <!-- MODAL FASECOLDA -->
-    <div class="modal fade" id="staticBackdrop" data-backdrop="static"  data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel"  aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="staticBackdropLabel">Buscar vehículo por fasecolda</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            <form>
-              <div class="form-group">
-                <label class="col-form-label">Fasecolda:</label>
-                <input type="text" class="form-control" id="txtFasecolda_modal">
-              </div>
-              <div class="form-group">
-                <label class="col-form-label">Modelo:</label>
-                <input type="text" class="form-control" id="txtModeloVeh_modal">
-              </div>
-              <div class="divsButtonsModals">               
-                  <button type="button" class="btn btn-primary buttonsModal" id="btn-consultar-fasecolda">Consultar</button>               
-                  <button type="button" class="btn btn-primary buttonsModal" id="btn-cerrar-fasecolda">Cerrar</button>              
-              </div>
-            </form>
+      <!-- MODAL FASECOLDA -->
+      <div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1"
+        aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="staticBackdropLabel">Buscar vehículo por fasecolda</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <form>
+                <div class="form-group">
+                  <label class="col-form-label">Fasecolda:</label>
+                  <input type="text" class="form-control" id="txtFasecolda_modal">
+                </div>
+                <div class="form-group">
+                  <label class="col-form-label">Modelo:</label>
+                  <input type="text" class="form-control" id="txtModeloVeh_modal">
+                </div>
+                <div class="divsButtonsModals">
+                  <button type="button" class="btn btn-primary buttonsModal"
+                    id="btn-consultar-fasecolda">Consultar</button>
+                  <button type="button" class="btn btn-primary buttonsModal" id="btn-cerrar-fasecolda">Cerrar</button>
+                </div>
+              </form>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-    <!-- END MODAL FASECOLDA -->
+      <!-- END MODAL FASECOLDA -->
 
   </section>
 

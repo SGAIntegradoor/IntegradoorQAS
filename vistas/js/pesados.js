@@ -1701,7 +1701,7 @@ function cotizarOfertasPesados() {
   }
 
   var mundial = document.getElementById("mundialseguros").value;
-  console.log(mundial);
+  //console.log(mundial);
 
   var placa = document.getElementById("placaVeh").value;
   var esCeroKmSi = document.getElementById("txtEsCeroKmSi").checked;

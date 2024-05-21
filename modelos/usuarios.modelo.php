@@ -2,17 +2,12 @@
 
 require_once "conexion.php";
 
-
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-
-
 class ModeloUsuarios
 {
 
 	/*=============================================
-							   MOSTRAR USUARIOS
-							   =============================================*/
+								  MOSTRAR USUARIOS
+								  =============================================*/
 
 	static public function mdlMostrarUsuarios($tabla, $tabla2, $tabla3, $item, $valor)
 	{
@@ -50,36 +45,36 @@ class ModeloUsuarios
 
 	static public function mdlCheckPassword($actualPass, $idUser)
 	{
-		  // Obtén el enlace de la base de datos desde la clase Conexion
-		  $conexion = Conexion::conectar();
-		  $response = false;
-	  
-		  // Prepara la consulta SQL utilizando una consulta preparada
-		  $stmt = $conexion->prepare("SELECT usu_password FROM usuarios WHERE id_usuario = :idUser");
-	  
-		  // Vincula el parámetro :idUser con el valor $idUser
-		  $stmt->bindParam(":idUser", $idUser, PDO::PARAM_INT);
-	  
-		  // Ejecuta la consulta preparada
-		  $stmt->execute();
-	  
-		  // Obtiene el resultado de la consulta
-		  $fila = $stmt->fetch(PDO::FETCH_ASSOC);
-	  
-		  // Verifica si se encontraron resultados
-		  if ($fila) {
-			  // Compara la contraseña obtenida de la base de datos con la contraseña actual
-			  if ($fila["usu_password"] == $actualPass) {
-				  $response = true;
-			  }
-		  }
-	  
-		  // Retorna el resultado de la comparación
-		  return $response;
+		// Obtén el enlace de la base de datos desde la clase Conexion
+		$conexion = Conexion::conectar();
+		$response = false;
+
+		// Prepara la consulta SQL utilizando una consulta preparada
+		$stmt = $conexion->prepare("SELECT usu_password FROM usuarios WHERE id_usuario = :idUser");
+
+		// Vincula el parámetro :idUser con el valor $idUser
+		$stmt->bindParam(":idUser", $idUser, PDO::PARAM_INT);
+
+		// Ejecuta la consulta preparada
+		$stmt->execute();
+
+		// Obtiene el resultado de la consulta
+		$fila = $stmt->fetch(PDO::FETCH_ASSOC);
+
+		// Verifica si se encontraron resultados
+		if ($fila) {
+			// Compara la contraseña obtenida de la base de datos con la contraseña actual
+			if ($fila["usu_password"] == $actualPass) {
+				$response = true;
+			}
+		}
+
+		// Retorna el resultado de la comparación
+		return $response;
 	}
 	/*=============================================
-							   PERMISOS USUARIOS
-							   =============================================*/
+								  PERMISOS USUARIOS
+								  =============================================*/
 
 	static public function mdlUsuariosLogin($tabla, $tabla2, $tabla3, $tabla4, $item, $valor)
 	{
@@ -122,16 +117,32 @@ class ModeloUsuarios
 	}
 
 	/*=============================================
-							   REGISTRO DE USUARIO
-							   =============================================*/
+								  REGISTRO DE USUARIO
+								  =============================================*/
 
 	static public function mdlIngresarUsuario($tabla, $datos)
 	{
+		$stmt = Conexion::conectar()->prepare("SELECT usu_usuario FROM usuarios WHERE usu_usuario LIKE 'Invitado%' ORDER BY CAST(SUBSTRING(usu_usuario, 9) AS UNSIGNED) DESC LIMIT 1");
+		// Ejecutar la consulta
+		$stmt->execute();
+		// Obtener el resultado
+		$resultado = $stmt->fetch(PDO::FETCH_ASSOC);
 
-		if ($datos['apellido'] == "Guest") {
+		if ($resultado) {
+			// Extraer el número de usuario del nombre de usuario
+			$lastUserNumber = (int)substr($resultado['usu_usuario'], 8);
+			$nextUserNumber = $lastUserNumber + 1;
+		} else {
+			// No se encontraron usuarios en la serie, comenzar desde 0
+			$nextUserNumber = 1;
+		}
+
+		$newUsername = 'Invitado' . $nextUserNumber;
+
+		if ($datos['apellido'] == "SGA") {
 			$stmt = Conexion::conectar()->prepare("INSERT INTO $tabla(usu_documento, usu_nombre, usu_apellido, usu_usuario, usu_password, usu_genero, usu_fch_nac, direccion, ciudades_id, tipos_documentos_id, usu_telefono, usu_email,
 																	usu_cargo, usu_foto, usu_estado, id_rol, id_Intermediario, numCotizaciones, cotizacionesTotales, fechaFin)
-																	VALUES (:documento, :nombre, :apellido, :usuario, :password, :genero, :fechaNacimiento, :direccion, :ciudad, :tipoDocumento, :telefono, :email, :cargo, :foto, 1, :rol, :intermediario, :maxCot, 5, :fechaLimite )");
+																	VALUES (:documento, :nombre, :apellido, :usuario, :password, :genero, :fechaNacimiento, :direccion, :ciudad, :tipoDocumento, :telefono, :email, :cargo, :foto, 1, :rol, :intermediario, :maxCot, 20, :fechaLimite )");
 		} else {
 			$stmt = Conexion::conectar()->prepare("INSERT INTO $tabla(usu_documento, usu_nombre, usu_apellido, usu_usuario, usu_password, usu_genero, usu_fch_nac, direccion, ciudades_id, tipos_documentos_id, usu_telefono, usu_email,
 																	usu_cargo, usu_foto, usu_estado, id_rol, id_Intermediario, numCotizaciones, cotizacionesTotales, fechaFin)
@@ -153,7 +164,7 @@ class ModeloUsuarios
 		$stmt->bindParam(":documento", $datos["documento"], PDO::PARAM_INT);
 		$stmt->bindParam(":nombre", $datos["nombre"], PDO::PARAM_STR);
 		$stmt->bindParam(":apellido", $datos["apellido"], PDO::PARAM_STR);
-		$stmt->bindParam(":usuario", $datos["usuario"], PDO::PARAM_STR);
+		$stmt->bindParam(":usuario", $newUsername, PDO::PARAM_STR);
 		$stmt->bindParam(":password", $datos["password"], PDO::PARAM_STR);
 		$stmt->bindParam(":genero", $datos["genero"], PDO::PARAM_STR);
 		$stmt->bindParam(":fechaNacimiento", $datos["fechaNacimiento"], PDO::PARAM_STR);
@@ -167,7 +178,7 @@ class ModeloUsuarios
 		$stmt->bindParam(":rol", $datos["rol"], PDO::PARAM_INT);
 		$stmt->bindParam(":intermediario", $datos["intermediario"], PDO::PARAM_INT);
 		$stmt->bindParam(":maxCot", $datos["maxCotizaciones"], PDO::PARAM_INT);
-		// $stmt -> bindParam(":totalCot", $datos["cotizacionesTotales"], PDO::PARAM_INT);
+		//$stmt -> bindParam(":totalCot", $datos["cotizacionesTotales"], PDO::PARAM_INT);
 		$stmt->bindParam(":fechaLimite", $datos["fechaLimite"], PDO::PARAM_STR);
 
 		if (!$stmt->execute()) {
@@ -203,8 +214,7 @@ class ModeloUsuarios
 
 
 		if ($stmt->execute()) {
-
-			return "ok";
+			return array("result"=>"ok", "last" => $lastUserNumber);
 		} else {
 
 			return "error";
@@ -216,8 +226,8 @@ class ModeloUsuarios
 	}
 
 	/*=============================================
-							   EDITAR USUARIO
-							   =============================================*/
+								  EDITAR USUARIO
+								  =============================================*/
 
 	static public function mdlEditarUsuario($tabla, $datos)
 	{
@@ -315,8 +325,8 @@ class ModeloUsuarios
 	}
 
 	/*=============================================
-							   ACTUALIZAR USUARIO
-							   =============================================*/
+								  ACTUALIZAR USUARIO
+								  =============================================*/
 
 	static public function mdlActualizarUsuario($tabla, $item1, $valor1, $item2, $valor2)
 	{
@@ -340,8 +350,8 @@ class ModeloUsuarios
 	}
 
 	/*=============================================
-							   BORRAR USUARIO
-							   =============================================*/
+								  BORRAR USUARIO
+								  =============================================*/
 
 	static public function mdlBorrarUsuario($tabla, $datos)
 	{
@@ -363,8 +373,8 @@ class ModeloUsuarios
 		$stmt = null;
 	}
 	/*=============================================
-							   CHECK DE ESTADO DE USUARIO EN SESION
-							   =============================================*/
+								  CHECK DE ESTADO DE USUARIO EN SESION
+								  =============================================*/
 
 	static public function mdlUserCheckState($tabla, $item, $valor)
 	{

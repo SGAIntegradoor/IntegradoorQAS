@@ -1896,7 +1896,7 @@ function cotizarOfertas() {
           cre_sol_fecha_token: cre_sol_fecha_token,
         },
       };
-
+      console.log(raw);
       var requestOptions = {
         method: "POST",
         headers: myHeaders,

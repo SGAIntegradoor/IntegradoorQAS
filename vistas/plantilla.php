@@ -1,7 +1,11 @@
 <?php
 
-session_start();
 
+if(isset($_SESSION)){
+  echo '<script>console.log('.json_encode($_SESSION).')</script>';
+}
+
+session_start();
 ?>
 
 <!DOCTYPE html>
@@ -361,10 +365,10 @@ echo'<a href="https://web.whatsapp.com/send?phone=+573153539141" target="_blank"
       include "modulos/cambio-password.php";
     }
       // else if(isset($_GET["ruta"])){
-      else if($_GET['ruta'] == 'change'){
+      else if(isset($_GET["ruta"]) && $_GET['ruta'] == 'change'){
           include "modulos/change.php";
         }
-      else if($_GET['ruta'] == 'invitacion'){
+      else if(isset($_GET["ruta"]) && $_GET['ruta'] == 'invitacion'){
         include "modulos/invitacion.php";
       }
     // }
@@ -379,7 +383,7 @@ echo'<a href="https://web.whatsapp.com/send?phone=+573153539141" target="_blank"
   <script src="vistas/js/invitacion.js?v=<?php echo (rand()); ?>"></script>
   <!--<script src="vistas/js/pesados.js?v=<?php echo (rand()); ?>"></script>-->
   <script src="vistas/js/plantilla.js?v=<?php echo (rand()); ?>"></script>
-  <!-- <script src="vistas/js/count.js?v=<?php echo (rand()); ?>"></script> -->
+   <script src="vistas/js/count.js?v=<?php echo (rand()); ?>"></script>
   <script src="vistas/js/clientes.js?v=<?php echo (rand()); ?>"></script>
   <script src="vistas/js/fasecolda.js?v=<?php echo (rand()); ?>"></script>
   <script src="vistas/js/cotizaciones.js?v=<?php echo (rand()); ?>"></script>

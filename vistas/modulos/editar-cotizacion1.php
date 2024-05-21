@@ -10,16 +10,16 @@ require_once "config/retrieveQuotation.php";
 //   </script>';
 
 //   return;
-//}
-
+// }
 $idIntermediario = $_SESSION['permisos']['id_Intermediario'];
-$idCotizacion = $_GET['idCotizacion'];
 
-$response = retrieveQuotation($idCotizacion);
-
+echo '<script>console.log(' . json_encode($_SESSION) . ')</script>';
+$id_Cotizacion = $_GET['idCotizacion'];
+$response = retrieveQuotation($id_Cotizacion);
 ?>
+
 <head>
-<!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
+  <!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
 </head>
 <style>
   .botones-agregar-manual {
@@ -31,25 +31,27 @@ $response = retrieveQuotation($idCotizacion);
   }
 
   .table-padding {
-  padding: 25px; /* Puedes ajustar el valor según tus preferencias */
+    padding: 25px;
+    /* Puedes ajustar el valor según tus preferencias */
   }
 
   /* Agregar relleno general al contenedor padre */
   .card-ofertas {
-    padding: 20px; /* Puedes ajustar el valor según tus preferencias */
+    padding: 20px;
+    /* Puedes ajustar el valor según tus preferencias */
   }
 
   .thTable {
-    text-align: center; /* Puedes ajustar el valor según tus preferencias */
+    text-align: center;
+    /* Puedes ajustar el valor según tus preferencias */
   }
 
-    /* Estilo para pantallas más pequeñas (menos de 495px) */
+  /* Estilo para pantallas más pequeñas (menos de 495px) */
   @media (max-width: 495px) {
     .table-responsive {
       overflow-x: auto;
     }
   }
-
 </style>
 
 <div class="content-wrapper">
@@ -58,9 +60,12 @@ $response = retrieveQuotation($idCotizacion);
 
     <?php
 
+    $idCotizacion = $_GET['idCotizacion'];
+
+
 
     ?>
-<input type="hidden" id="idofertaguardarmanual" value="<?php echo  $idCotizacion; ?>">
+    <input type="hidden" id="idofertaguardarmanual" value="<?php echo $idCotizacion; ?>">
     <h1>
 
       Cotización # <?php echo $idCotizacion ?>
@@ -118,7 +123,8 @@ $response = retrieveQuotation($idCotizacion);
                           <label>¿Conoces la Placa?</label>
                           <div class="conten-conocesPlaca">
                             <label for="Si">Si</label>
-                            <input type="radio" name="conocesPlaca" id="txtConocesLaPlacaSi" value="Si" checked>&nbsp;&nbsp;&nbsp;&nbsp;
+                            <input type="radio" name="conocesPlaca" id="txtConocesLaPlacaSi" value="Si"
+                              checked>&nbsp;&nbsp;&nbsp;&nbsp;
                             <label for="No">No</label>
                             <input type="radio" name="conocesPlaca" id="txtConocesLaPlacaNo" value="No" required>
                           </div>
@@ -131,7 +137,8 @@ $response = retrieveQuotation($idCotizacion);
                           <label>Vehiculo 0 KM?</label>
                           <div class="conten-ceroKM">
                             <label for="Si">Si</label>
-                            <input type="radio" name="ceroKM" id="txtEsCeroKmSi" value="Si" required>&nbsp;&nbsp;&nbsp;&nbsp;
+                            <input type="radio" name="ceroKM" id="txtEsCeroKmSi" value="Si"
+                              required>&nbsp;&nbsp;&nbsp;&nbsp;
                             <label for="No">No</label>
                             <input type="radio" name="ceroKM" id="txtEsCeroKmNo" value="No" checked>
                           </div>
@@ -163,10 +170,12 @@ $response = retrieveQuotation($idCotizacion);
                       <label for="txtNombres">Nombre Completo</label>
                       <div class="row">
                         <div class="col-xs-12 col-sm-6 col-md-6 nomAseg">
-                          <input type="text" class="form-control" name="nombres" id="txtNombres" placeholder="Nombres" required>
+                          <input type="text" class="form-control" name="nombres" id="txtNombres" placeholder="Nombres"
+                            required>
                         </div>
                         <div class="col-xs-12 col-sm-6 col-md-6 apeAseg">
-                          <input type="text" class="form-control" name="apellidos" id="txtApellidos" placeholder="Apellidos" required>
+                          <input type="text" class="form-control" name="apellidos" id="txtApellidos"
+                            placeholder="Apellidos" required>
                         </div>
                       </div>
                     </div>
@@ -175,21 +184,26 @@ $response = retrieveQuotation($idCotizacion);
                       <label for="">Fecha de Nacimiento</label>
                       <div class="row">
                         <div class="col-xs-4 col-sm-4 col-md-4 conten-dia">
-                          <select class="form-control fecha-nacimiento" name="dianacimiento" id="dianacimiento" required>
+                          <select class="form-control fecha-nacimiento" name="dianacimiento" id="dianacimiento"
+                            required>
                             <option value="">Dia</option>
                             <?php
                             for ($i = 1; $i <= 31; $i++) {
                               if (strlen($i) == 1) {
-                            ?><option value="<?php echo "0" . $i ?>"><?php echo "0" . $i ?></option><?php
-                                                                                                  } else {
-                                                                                                    ?><option value="<?php echo $i ?>"><?php echo $i ?></option><?php
-                                                                                                                                                              }
-                                                                                                                                                            }
-                                                                                                                                                                ?>
+                                ?>
+                                <option value="<?php echo "0" . $i ?>"><?php echo "0" . $i ?></option><?php
+                              } else {
+                                ?>
+                                <option value="<?php echo $i ?>"><?php echo $i ?></option>
+                                <?php
+                              }
+                            }
+                            ?>
                           </select>
                         </div>
                         <div class="col-xs-4 col-sm-4 col-md-4 conten-mes">
-                          <select class="form-control fecha-nacimiento" name="mesnacimiento" id="mesnacimiento" required>
+                          <select class="form-control fecha-nacimiento" name="mesnacimiento" id="mesnacimiento"
+                            required>
                             <option value="">Mes</option>
                             <option value="01">Enero</option>
                             <option value="02">Febrero</option>
@@ -206,13 +220,15 @@ $response = retrieveQuotation($idCotizacion);
                           </select>
                         </div>
                         <div class="col-xs-4 col-sm-4 col-md-4 conten-anio">
-                          <select class="form-control fecha-nacimiento" name="anionacimiento" id="anionacimiento" required>
+                          <select class="form-control fecha-nacimiento" name="anionacimiento" id="anionacimiento"
+                            required>
                             <option value="">Año</option>
                             <?php
                             for ($j = 1920; $j <= 2021; $j++) {
-                            ?><option value="<?php echo $j ?>"><?php echo $j ?></option><?php
-                                                                                      }
-                                                                                        ?>
+                              ?>
+                              <option value="<?php echo $j ?>"><?php echo $j ?></option><?php
+                            }
+                            ?>
                           </select>
                         </div>
                       </div>
@@ -312,7 +328,8 @@ $response = retrieveQuotation($idCotizacion);
                   <div class="row">
                     <div class="col-xs-12 col-sm-6 col-md-3 form-group">
                       <label for="txtReferenciaVeh">Línea</label>
-                      <input type="text" class="form-control classReferenciaVeh" id="txtReferenciaVeh" placeholder="" disabled>
+                      <input type="text" class="form-control classReferenciaVeh" id="txtReferenciaVeh" placeholder=""
+                        disabled>
                     </div>
                     <div class="col-xs-12 col-sm-6 col-md-3 form-group">
                       <label for="txtFasecolda">Fasecolda</label>
@@ -435,15 +452,17 @@ $response = retrieveQuotation($idCotizacion);
                     </div>
                     <div class="col-xs-12 col-sm-6 col-md-3 form-group">
                       <label for="txtMarcaVeh">Marca</label>
-                      <input type="text" class="form-control classMarcaVeh" id="txtMarcaVehPesado" placeholder="" disabled>
+                      <input type="text" class="form-control classMarcaVeh" id="txtMarcaVehPesado" placeholder=""
+                        disabled>
                     </div>
-                    
+
                   </div>
 
                   <div class="row">
                     <div class="col-xs-12 col-sm-6 col-md-3 form-group">
                       <label for="txtReferenciaVeh">Línea</label>
-                      <input type="text" class="form-control classReferenciaVeh" id="txtReferenciaVehPesado" placeholder="" disabled>
+                      <input type="text" class="form-control classReferenciaVeh" id="txtReferenciaVehPesado"
+                        placeholder="" disabled>
                     </div>
                     <div class="col-xs-12 col-sm-6 col-md-3 form-group">
                       <label for="txtFasecolda">Fasecolda</label>
@@ -474,7 +493,7 @@ $response = retrieveQuotation($idCotizacion);
                   </div>
 
                   <div class="row">
-                    
+
 
                     <div class="col-xs-12 col-sm-6 col-md-3 form-group">
                       <label for="DptoCirculacion">Departamento de Circulación</label>
@@ -616,7 +635,8 @@ $response = retrieveQuotation($idCotizacion);
                   </div> -->
 
               <div class="col-xs-12 col-sm-6 col-md-3 form-group">
-                <button class="btn btn-success btn-block" id="btnMostrarFormCotManual">Agregar Cotización Manual</button>
+                <button class="btn btn-success btn-block" id="btnMostrarFormCotManual">Agregar Cotización
+                  Manual</button>
               </div>
             </div>
           </div>
@@ -863,23 +883,23 @@ $response = retrieveQuotation($idCotizacion);
               <div class="col-xs-12 col-sm-6 col-md-3">
                 <label for="">RESUMEN DE COTIZACIONES</label>
               </div>
-                <div class="col-xs-12 col-sm-6 col-md-3">
+              <div class="col-xs-12 col-sm-6 col-md-3">
+              </div>
+              <div class="col-xs-12 col-sm-6 col-md-3">
+              </div>
+              <div class="col-xs-12 col-sm-6 col-md-3 text-right">
+                <div id="masResOferta">
+                  <p id="masResumen" onclick="masRE();">Ver mas <i class="fa fa-plus-square-o"></i></p>
                 </div>
-                <div class="col-xs-12 col-sm-6 col-md-3">
+                <div id="menosResOferta">
+                  <p id="menosResumen" onclick="menosRE();">Ver menos <i class="fa fa-minus-square-o"></i></p>
                 </div>
-                <div class="col-xs-12 col-sm-6 col-md-3 text-right">
-                  <div id="masResOferta">
-                    <p id="masResumen" onclick="masRE();">Ver mas <i class="fa fa-plus-square-o"></i></p>
-                  </div>
-                  <div id="menosResOferta">
-                    <p id="menosResumen" onclick="menosRE();">Ver menos <i class="fa fa-minus-square-o"></i></p>
-                  </div>
-                </div>
+              </div>
             </div>
           </div>
 
-            <!-- Mostrar alertas -->
-         <div id="resumenCotizaciones">
+          <!-- Mostrar alertas -->
+          <div id="resumenCotizaciones">
             <div class="col-lg-12" style="display: block;">
               <div class="card-ofertas">
                 <div class="table-responsive">
@@ -888,7 +908,8 @@ $response = retrieveQuotation($idCotizacion);
                       <tr>
                         <th class="thTable" scope="col" style="color: #88d600; margin-right: 5px;">Aseguradora</th>
                         <th class="thTable" scope="col" style="color: #88d600; margin-right: 5px;">Cotizo?</th>
-                        <th class="thTable" scope="col" style="color: #88d600;; margin-right: 5px;">Productos cotizados</th>
+                        <th class="thTable" scope="col" style="color: #88d600;; margin-right: 5px;">Productos cotizados
+                        </th>
                         <th class="thTable" scope="col" style="color: #88d600;; margin-right: 5px;">Observaciones</th>
                       </tr>
                     </thead>
@@ -897,99 +918,94 @@ $response = retrieveQuotation($idCotizacion);
                     </tbody>
                   </table>
                 </div>
-                <?php if ($response['cot_clase'] == "AUTOMOVIL" || $response['cot_clase'] == "AUTOMOVILES" || $response['cot_clase'] == "UTILITARIOS DEPORTIVOS" || $response['cot_clase'] == "CAMPEROS" || $response['cot_clase'] == "PICK UPS") {
-                        
-                        echo '<div>
-                          <p class="text-justify"><strong>¿Por qué algunas compañías no cotizan? R/. 0.</strong>Tiene póliza vigente con esa compañía. <strong>1.</strong> Aseguradora
-                            caída, en mantenimiento o en actualización. <strong>2.</strong> RUNT, Cexper, Sistema Fasecolda caído. <strong>3.</strong> Fallas Portal
-                            Integradoor. <strong>4.</strong> Vehículo fuera de políticas por marca, línea o modelo. <strong>5.</strong> Ciudad bloqueada. <strong>6.</strong> Error en
-                            validación datos del asegurado. <strong>7.</strong> Valor asegurado no autorizado para cotizar vía webservice. <strong>8.</strong> Vehículo
-                            salvamento. <strong>9.</strong> Motos, Pesados, Públicos no se cotizan por este módulo. <strong>10.</strong> Personas Jurídicas se cotizan
-                            manualmente. <strong>11.</strong> Algunas aseguradoras no cotizan 0 km vía webservice. <strong>12.</strong> Vehículo bloqueado por cotización
-                            vigente con otro asesor (ej. Solidaria). <strong>13.</strong> Mal uso del usuario registrando espacios o caracteres en placas,
-                            nombres, apellidos o documentos de identidad
-                          </p>
-                        </div>';
-                        
-                  }
-                ?>
               </div>
-              <?php if ($response['cot_clase'] == "AUTOMOVIL" || $response['cot_clase'] == "AUTOMOVILES" || $response['cot_clase'] == "UTILITARIOS DEPORTIVOS" || $response['cot_clase'] == "CAMPEROS") {
-                  if($idIntermediario != 78){
-                    echo '<div class="aviso-container col-lg-12">
-                        <ul>
-                            <li>
-                                <p style="font-weight: bold;">
-                                    Si a tu cliente le interesa Previsora, ten en cuenta que ciertas líneas de vehículos requieren la instalación del dispositivo Cazador al tomar su seguro y este tiene un costo adicional a la póliza. Por favor confirma con tu área comercial.
-                                </p>
-                            </li>
-                            <li>
-                                <p style="font-weight: bold;">
-                                    Los vehículos KIA de las líneas PICANTO y SPORTAGE se encuentran fuera de políticas en Seguros del Estado. Si se genera cotización con esta Aseguradora, omitir dicha oferta. Igualmente con esta compañía, la clase de vehículo PICK UP solo se asegura como vehículo publico.
-                                </p>
-                            </li>
-                      </ul>
-                    </div>';
-                  }
-              }
-             ?>
-              <?php if ($response['cot_clase'] == "MOTOCICLETA") {
-                  if($idIntermediario != 78){
-                    echo '<div class="col-lg-12">
+              <?php if ($response['cot_clase'] == "AUTOMOVIL" || $response['cot_clase'] == "AUTOMOVILES") { ?>
+                <div>
+                  <p class="text-justify"><strong>¿Por qué algunas compañías no cotizan? R/. 0.</strong>Tiene póliza
+                    vigente con esa compañía. <strong>1.</strong> Aseguradora
+                    caída, en mantenimiento o en actualización. <strong>2.</strong> RUNT, Cexper, Sistema Fasecolda caído.
+                    <strong>3.</strong> Fallas Portal
+                    Integradoor. <strong>4.</strong> Vehículo fuera de políticas por marca, línea o modelo.
+                    <strong>5.</strong> Ciudad bloqueada. <strong>6.</strong> Error en
+                    validación datos del asegurado. <strong>7.</strong> Valor asegurado no autorizado para cotizar vía
+                    webservice. <strong>8.</strong> Vehículo
+                    salvamento. <strong>9.</strong> Motos, Pesados, Públicos no se cotizan por este módulo.
+                    <strong>10.</strong> Personas Jurídicas se cotizan
+                    manualmente. <strong>11.</strong> Algunas aseguradoras no cotizan 0 km vía webservice.
+                    <strong>12.</strong> Vehículo bloqueado por cotización
+                    vigente con otro asesor (ej. Solidaria). <strong>13.</strong> Mal uso del usuario registrando espacios
+                    o caracteres en placas,
+                    nombres, apellidos o documentos de identidad
+                  </p>
+                </div>
+              <?php } else if (
+                  $response['cot_clase'] != "CARROTANQUE" || $response['cot_clase'] != "REMOLQUE" ||
+                  $response['cot_clase'] != "VOLQUETA" || $response['cot_clase'] != "FURGONETA" || $response['cot_clase'] != "GRUA"
+                  || $response['cot_clase'] != "REMOLCADOR" || $response['cot_clase'] != "FURGON" || $response['cot_clase'] != "CHASIS"
+                  || $response['cot_clase'] != "BUS" || $response['cot_clase'] != "CAMION"
+                ) { ?>
+                  <div class="aviso-container col-lg-12">
+                    <p style="font-weight: bold;">
+                      NOTA: Si a tu cliente le interesa Previsora, ten en cuenta que ciertas líneas de vehículos requieren
+                      la instalación del dispositivo Cazador al tomar su seguro y este tiene un costo adicional a la póliza.
+                      Por favor confirma con tu área comercial.
+                    </p>
+                  </div>
+              <?php } else if ($response['cot_clase'] == "MOTOCICLETA") { ?>
+                    <div class="col-lg-12">
                       <p>
                         <strong>Condiciones Generales:</strong><br>
-                        • Para motos con valores asegurados menores a $7 millones de pesos solo se presentan las condiciones que genere el cotizador web.<br>
-                        • El equipo del Canal Asesores Freelance solo cotiza manualmente motos con valores asegurados mayores a $7 millones.<br>
-                        • Valor asegurado máximo $50 millones. Motos por encima de ese valor, deben ser autorizadas por la Gerencia General.<br>
+                        • Para motos con valores asegurados menores a $7 millones de pesos solo se presentan las condiciones
+                        que genere el cotizador web.<br>
+                        • El equipo del Canal Asesores Freelance solo cotiza manualmente motos con valores asegurados mayores
+                        a $7 millones.<br>
+                        • Valor asegurado máximo $50 millones. Motos por encima de ese valor, deben ser autorizadas por la
+                        Gerencia General.<br>
                         • Motos con valor de prima total menor de $1 millón de pesos solo se permite pago de contado.<br><br>
                         <strong>Condiciones de Financiación:</strong><br>
                         • Se puede financiar motos con valor de prima total mayor a $1 millón de pesos.<br>
-                        • Se pueden financiar hasta en 11 cuotas, motos con beneficiarios onerosos de modelos de 2022 en adelante, después de que la prima con IVA supere $1 millón de pesos.<br>
-                        • Las cuotas máximas de financiación dependen del valor de prima total, de acuerdo a los siguientes rangos: entre $1 y $1,4 millones máx. 7 cuotas; mayor a 1,4 y menor a $2 millones máx 9 cuotas; y para motos con valor de prima total mayor a $2 millones se pueden financiar hasta en 11 cuotas.<br>
+                        • Se pueden financiar hasta en 11 cuotas, motos con beneficiarios onerosos de modelos de 2022 en
+                        adelante, después de que la prima con IVA supere $1 millón de pesos.<br>
+                        • Las cuotas máximas de financiación dependen del valor de prima total, de acuerdo a los siguientes
+                        rangos: entre $1 y $1,4 millones máx. 7 cuotas; mayor a 1,4 y menor a $2 millones máx 9 cuotas; y para
+                        motos con valor de prima total mayor a $2 millones se pueden financiar hasta en 11 cuotas.<br>
                       </p>
-                    </div>';  
-                  }
-                }
-              ?>
-              <?php  if ($response['cot_clase'] == "CARROTANQUE" || $response['cot_clase'] == "REMOLQUE" || 
-                    $response['cot_clase'] == "VOLQUETA" || $response['cot_clase'] == "FURGONETA" || $response['cot_clase'] == "GRUA"
-                    || $response['cot_clase'] == "REMOLCADOR" || $response['cot_clase'] == "FURGON" || $response['cot_clase'] == "CHASIS"
-                    || $response['cot_clase'] == "BUS" || $response['cot_clase'] == "CAMION") { 
-                    echo '<div></div>'; 
-                    }
-              ?>
-                </div>
-            </div>
-          </div>
+                    </div>
+              <?php } ?>
 
-          <div class="col-lg-12 form-parrilla">
-            <div class="row row-parrilla">
-              <div class="col-xs-12 col-sm-6 col-md-3">
-                <label for="">PARRILLA DE COTIZACIONES</label>
+            </div>
+
+            <div class="col-lg-12 form-parrilla">
+              <div class="row row-parrilla">
+                <div class="col-xs-12 col-sm-6 col-md-3">
+                  <label for="">PARRILLA DE COTIZACIONES</label>
+                </div>
               </div>
             </div>
-          </div>
 
-          <div id="cardCotizacion">
-          </div>
+            <div id="cardCotizacion">
+            </div>
 
-          <div id="cardAgregarCotizacion">
-          </div>
+            <div id="cardAgregarCotizacion">
+            </div>
 
-          <div id="contenCotizacionPDF">
+            <div id="contenCotizacionPDF">
 
-            <div class="col-xs-12" style="width: 100%;">
-              <div class="row align-items-center">
-                <div class="col-xs-4">
-                  <label for="checkboxAsesorEditar">¿Deseas agregar tus datos como asesor en la cotización?</label>
-                  <input class="form-check-input" type="checkbox" id="checkboxAsesorEditar" style="margin-left: 10px;" checked>
-                </div>
-                <div class="col-xs-4">
-                  <button type="button" class="btn btn-danger" id="btnParrillaPDF">
-                    <span class="fa fa-file-text"></span> Generar PDF de Cotización
-                  </button>
+              <div class="col-xs-12" style="width: 100%;">
+                <div class="row align-items-center">
+                  <div class="col-xs-4">
+                    <label for="checkboxAsesorEditar">¿Deseas agregar tus datos como asesor en la cotización?</label>
+                    <input class="form-check-input" type="checkbox" id="checkboxAsesorEditar" style="margin-left: 10px;"
+                      checked>
+                  </div>
+                  <div class="col-xs-4">
+                    <button type="button" class="btn btn-danger" id="btnParrillaPDF">
+                      <span class="fa fa-file-text"></span> Generar PDF de Cotización
+                    </button>
+                  </div>
                 </div>
               </div>
+
             </div>
 
           </div>
@@ -997,8 +1013,6 @@ $response = retrieveQuotation($idCotizacion);
         </div>
 
       </div>
-
-    </div>
 
   </section>
 

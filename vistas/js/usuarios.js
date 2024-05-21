@@ -16,7 +16,7 @@ $("#creaTemporal").on("click", function() {
 	let random = Math.random();
 	let resultRand = Math.round(random);
 
-	let newName = `Guest${randomizer}`;
+	let newName = `Invitado`;
 	let newUserTemp = newName;
 
 	let actualDate = new Date();
@@ -37,7 +37,7 @@ $("#creaTemporal").on("click", function() {
 		method : "POST",
 		data: {
 				newName : newName,
-				newLastName : "Guest",
+				newLastName : "SGA",
 				newDocIdUser : `${randomizer}`,
 				newUserTemp : newUserTemp,
 				newPassword : `Temporal123*`,
@@ -46,15 +46,15 @@ $("#creaTemporal").on("click", function() {
 				newPhone : '300000000',
 				newEmail : 'tecnologia@grupoasistencia.com',
 				newCharge : 'Guest',
-				maxCotizaciones : 5,
-				cotizacionesTotales : 5,
+				maxCotizaciones : 20,
+				cotizacionesTotales : 20,
 				intermediario : 3,
 				lifeTime : formattedDate,
 				bornDate : formattedDate,
 				address : 'Calle 11 # 11-11',
 				city : 30000,
 				typeDoc : null,
-				picture : null,		
+				picture : resultRand == 1 ? "vistas/img/usuarios/guestUser/257.jpg": "vistas/img/usuarios/guestUser/258.jpg" ,		
 		},
 		success : function (respuesta){
 			swal.fire({

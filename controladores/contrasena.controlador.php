@@ -2,6 +2,9 @@
 
 require "../modelos/password.modelo.php";
 
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
   class PasswordController {
 
 	static public function postValidate(){
@@ -30,7 +33,7 @@ require "../modelos/password.modelo.php";
 			  }
 			}
 		  }
-		  die();
+		  //die();
 	}
 
 	function enviarCorreo($email){
@@ -66,7 +69,7 @@ require "../modelos/password.modelo.php";
 			  }
 			}
 		  }
-
+		  die();
 	}
 
 	function verificarDocumento($documento, $claveN, $claveNv, $token){
