@@ -48,7 +48,8 @@ const countdown = (dateTo, element, rol) => {
 };
 
 let fecha = $("#fechaLimi").val();
-let fecha_fin = Date.parse(fecha);
+let fecha_fin = new Date(fecha);
+fecha_fin.setHours(fecha_fin.getHours() + 13);
 
 function getRolUser() {
     return new Promise(function(resolve, reject) {
