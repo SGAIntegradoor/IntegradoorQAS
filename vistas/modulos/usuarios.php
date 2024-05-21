@@ -4,7 +4,7 @@ ini_set('display_errors', 1);
 
 if ($_SESSION["rol"] != 1) {
 
-  echo '<script>console.log(' . json_encode($_SESSION) . ')</script>';
+  // echo '<script>console.log(' . json_encode($_SESSION) . ')</script>';
 }
 
 ?>

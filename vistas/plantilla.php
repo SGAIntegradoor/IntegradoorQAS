@@ -1,9 +1,9 @@
 <?php
 
 
-if (isset($_SESSION)) {
-  echo '<script>console.log(' . json_encode($_SESSION) . ')</script>';
-}
+// if (isset($_SESSION)) {
+//   echo '<script>console.log(' . json_encode($_SESSION) . ')</script>';
+// }
 
 // session_start();
 ?>

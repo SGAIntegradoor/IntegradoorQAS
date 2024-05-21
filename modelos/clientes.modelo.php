@@ -10,7 +10,7 @@ class ModeloClientes{
 
 	static public function mdlIngresarCliente($tabla, $datos){
 		
-		echo'<script>console.log("Ingreso al Metodo mdlIngresarCliente");</script>';
+		// echo'<script>console.log("Ingreso al Metodo mdlIngresarCliente");</script>';
 
 		//Genera un consecutivo unico en cada cotizacion que aumenta de a 1 si hay registros existentes.
 		$stmt = Conexion::conectar()->prepare("SELECT cli_codigo FROM clientes ORDER BY id_cliente DESC LIMIT 1");

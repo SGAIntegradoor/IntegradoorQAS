@@ -13,7 +13,7 @@ require_once "config/retrieveQuotation.php";
 // }
 $idIntermediario = $_SESSION['permisos']['id_Intermediario'];
 
-echo '<script>console.log(' . json_encode($_SESSION) . ')</script>';
+//echo '<script>console.log(' . json_encode($_SESSION) . ')</script>';
 $id_Cotizacion = $_GET['idCotizacion'];
 $response = retrieveQuotation($id_Cotizacion);
 ?>
