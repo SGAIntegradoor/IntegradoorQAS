@@ -300,7 +300,6 @@ class ModeloCotizaciones
 			$condicion = "AND $tabla.id_usuario = :idUsuario";
 		}
 		if ($fechaInicialCotizaciones == null) {
-			var_dump($fechaInicialCotizaciones, $fechaFinalCotizaciones, "SS");
 			$fechaActual = new DateTime();
 			// Obtener la fecha de inicio de mes
 			$inicioMes = clone $fechaActual;
@@ -335,7 +334,6 @@ class ModeloCotizaciones
 
 			return $stmt->fetchAll(PDO::FETCH_ASSOC);
 		} else if ($fechaInicialCotizaciones == $fechaFinalCotizaciones) {
-			var_dump($fechaInicialCotizaciones, $fechaFinalCotizaciones, "SS2");
 			$stmt = Conexion::conectar()->prepare("
 			SELECT * FROM $tabla, $tabla2, $tabla3, $tabla4, $tabla5 
 			WHERE $tabla.id_cliente = $tabla2.id_cliente
@@ -363,25 +361,39 @@ class ModeloCotizaciones
 			$finMes = new DateTime($fechaFinalCotizaciones);
 			$finMes = $finMes->format('Y-m-d');
 
-			$stmt = Conexion::conectar()->prepare("
+			if($_SESSION['rol'] == 10){
+				$stmt = Conexion::conectar()->prepare("
 				SELECT * FROM $tabla
 				INNER JOIN $tabla2 ON $tabla.id_cliente = $tabla2.id_cliente
 				INNER JOIN $tabla3 ON $tabla2.id_tipo_documento = $tabla3.id_tipo_documento
 				INNER JOIN $tabla4 ON $tabla2.id_estado_civil = $tabla4.id_estado_civil
 				INNER JOIN $tabla5 ON $tabla.id_usuario = $tabla5.id_usuario
 				WHERE cot_fch_cotizacion >= :fechaInicial AND cot_fch_cotizacion <= :fechaFinal
-				AND $tabla5.id_Intermediario = :idIntermediario
 				$condicion
 				ORDER BY cot_fch_cotizacion DESC
 			");
+			} else {
+				$stmt = Conexion::conectar()->prepare("
+					SELECT * FROM $tabla
+					INNER JOIN $tabla2 ON $tabla.id_cliente = $tabla2.id_cliente
+					INNER JOIN $tabla3 ON $tabla2.id_tipo_documento = $tabla3.id_tipo_documento
+					INNER JOIN $tabla4 ON $tabla2.id_estado_civil = $tabla4.id_estado_civil
+					INNER JOIN $tabla5 ON $tabla.id_usuario = $tabla5.id_usuario
+					WHERE cot_fch_cotizacion >= :fechaInicial AND cot_fch_cotizacion <= :fechaFinal
+					AND $tabla5.id_Intermediario = :idIntermediario
+					$condicion
+					ORDER BY cot_fch_cotizacion DESC
+				");
+				$stmt->bindParam(":idIntermediario", $_SESSION["intermediario"], PDO::PARAM_INT);
+			}
+
 			$stmt->bindParam(":fechaInicial", $inicioMes, PDO::PARAM_STR);
 			$stmt->bindParam(":fechaFinal", $finMes, PDO::PARAM_STR);
 
 			if ($_SESSION["permisos"]["Verlistadodecotizacionesdelaagencia"] != "x") {
 				$stmt->bindParam(":idUsuario", $_SESSION["idUsuario"], PDO::PARAM_INT);
 			}
-
-			$stmt->bindParam(":idIntermediario", $_SESSION["intermediario"], PDO::PARAM_INT);
+			
 			$stmt->execute();
 
 			return $stmt->fetchAll(PDO::FETCH_ASSOC);
