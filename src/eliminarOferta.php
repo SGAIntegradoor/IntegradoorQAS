@@ -9,7 +9,8 @@ $id = $_POST['id'];
 $sql = "SELECT * FROM ofertas WHERE id_oferta = $id";
 $res = mysqli_query($con, $sql);
 $row = mysqli_fetch_array($res, MYSQLI_ASSOC);
-unlink('../' . $row['UrlPdf']);
+// $rutaCompleta = 'vistas/img/' . $row['UrlPdf'];
+// unlink($rutaCompleta);
 
 $sql = "DELETE FROM ofertas WHERE id_oferta = $id;";
 $res = mysqli_query($con, $sql);

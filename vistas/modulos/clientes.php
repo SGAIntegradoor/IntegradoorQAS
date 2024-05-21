@@ -9,8 +9,6 @@ if ($_SESSION["permisos"]["Clientes"] != "x") {
   </script>';
 
   return;
-
-  
 }
 
 ?>
@@ -39,23 +37,70 @@ if ($_SESSION["permisos"]["Clientes"] != "x") {
     transition: 0.5s;
   }
 
-          .btnAgregarCliente:after {
-            content: '»';
-            position: absolute;
-            opacity: 0;
-            top: 4px;
-            right: -30px;
-            transition: 0.5s;
-          }
+  .btnAgregarCliente:after {
+    content: '»';
+    position: absolute;
+    opacity: 0;
+    top: 4px;
+    right: -30px;
+    transition: 0.5s;
+  }
+
+  .btn-excel {
+    display: flex !important;
+    border: 0px !important;
+    height: 32px;
+    align-items: center;
+  }
+
+  .dt-search {
+    display: flex !important;
+    align-items: center;
+    justify-content: flex-end;
+  }
+
+  .paging_full_numbers {
+    display: flex !important;
+    justify-content: flex-end;
+  }
+
+  .dt-length {
+    display: flex;
+  }
+
+  .dt-start {
+    width: 60px !important;
+  }
+
+  .dt-info {
+    width: 600px !important;
+  }
+
+  /* Centrar las cabeceras de las columnas */
+  #clientes.dataTable thead th {
+    text-align: center;
+  }
+
+  /* Centrar el contenido de las celdas de datos */
+  #clientes.dataTable tbody td {
+    text-align: center;
+  }
+
+  @media (max-width: 495px) {
+    .dt-info {
+      width: 300px !important;
+      text-align: left;
+    }
+  }
 </style>
-<script>
+<!-- <script>
     // Función de inicialización global
     function inicializarDataTables() {
         $('#miTabla').DataTable({
             "processing": true,
             "serverSide": true,
             "ajax": {
-                "url": "qas/controladores/controlador222.clientes.php",
+                "url": "controladores/controlador.clientes.php",
                 "type": "GET"
             },
             "columns": [
@@ -74,7 +119,8 @@ if ($_SESSION["permisos"]["Clientes"] != "x") {
 
     // Llamar a la función de inicialización global
     inicializarDataTables();
-</script>
+</script> -->
+<script></script>
 
 <div class="content-wrapper">
 
@@ -116,18 +162,13 @@ if ($_SESSION["permisos"]["Clientes"] != "x") {
 
       </div>
 
+
       <div class="box-body">
 
-        <table id="miTabla" class="table table-bordered table-striped dt-responsive tablas" width="100%">
-        <?php 
-     
-        ?>
-          <thead> 
-
-            <tr>
-
+        <table id="clientes" class="table table-bordered table-striped dt-responsive tablas" width="100%">
+          <thead>
+            <tr style="text-align: center;">
               <th style="width:10px">N°</th>
-              <th>Tipo</th>
               <th>Documento</th>
               <th>Nombre</th>
               <th>F.Nacimiento</th>
@@ -135,17 +176,9 @@ if ($_SESSION["permisos"]["Clientes"] != "x") {
               <th>Estado_Civil</th>
               <th>Teléfono</th>
               <th>Email</th>
-              <th>Accion</th>
-
+              <th>Acciones</th>
             </tr>
-
           </thead>
-
-          <tbody>
-
-           
-
-          </tbody>
 
         </table>
 
@@ -156,6 +189,106 @@ if ($_SESSION["permisos"]["Clientes"] != "x") {
   </section>
 
 </div>
+
+<script>
+  $(document).ready(function() {
+    $('#clientes').DataTable({
+      processing: true,
+      serverSide: true,
+      ajax: {
+        url: "controladores/controlador.clientes.php",
+        type: "POST"
+      },
+      pageLength: 10,
+      "columns": [{
+          "data": "id_cliente"
+        },
+        {
+          "data": "cli_num_documento"
+        },
+        {
+          "data": "cli_nombre"
+        },
+        {
+          "data": "cli_fch_nacimiento"
+        },
+        {
+          "data": "cli_genero"
+        },
+        {
+          "data": "id_estado_civil"
+        },
+        {
+          "data": "cli_telefono"
+        },
+        {
+          "data": "cli_email"
+        },
+        {
+          data: null,
+          render: function(data, type, row) {
+            return '<button class="btn btn-primary btnEditarCliente" data-id="' + row.id_cliente + '" idCliente="' + row.id_cliente + '" data-toggle="modal" data-target="#modalEditarCliente" style="float: none;"><i class="fa fa-pencil"></i></button>' +
+              '<button class="btn btn-danger btnEliminarCliente" idCliente="' + row.id_cliente + '" data-id="' + row.id_cliente + '"style="float: none;"><i class="fa fa-trash"></i></button>';
+          }
+
+        } // Columna de acciones
+      ],
+      layout: {
+        topStart: "buttons",
+        topCenter: {
+          search: {
+            placeholder: "Buscar..."
+          }
+        },
+        topEnd: {
+          pageLength: {
+            menu: [10, 25, 50, 100]
+          }
+        },
+        bottomEnd: {
+          paging: {
+            numbers: 3
+          }
+        }
+      },
+      buttons: [{
+        extend: "excelHtml5",
+        className: "btn-excel",
+        text: '<img src="vistas/img/excelIco.png" />',
+        titleAttr: "Exportar a Excel"
+      }],
+      responsive: true,
+      order: [
+        [0, "asc"],
+        [1, "asc"]
+      ],
+      language: {
+        sProcessing: "Procesando...",
+        sLengthMenu: "Mostrar _MENU_ registros",
+        sZeroRecords: "No se encontraron resultados",
+        sEmptyTable: "Ningún dato disponible en esta tabla",
+        sInfo: "Mostrando registros del _START_ al _END_ de un total de _TOTAL_",
+        sInfoEmpty: "Mostrando registros del 0 al 0 de un total de 0",
+        sInfoFiltered: "(filtrado de un total de _MAX_ registros)",
+        sInfoPostFix: "",
+        sSearch: "Buscar:",
+        sUrl: "",
+        sInfoThousands: ",",
+        sLoadingRecords: "Cargando...",
+        oPaginate: {
+          sFirst: "Primero",
+          sLast: "Último",
+          sNext: "Siguiente",
+          sPrevious: "Anterior"
+        },
+        oAria: {
+          sSortAscending: ": Activar para ordenar la columna de manera ascendente",
+          sSortDescending: ": Activar para ordenar la columna de manera descendente"
+        }
+      }
+    });
+  });
+</script>
 
 <!--=====================================
 MODAL AGREGAR CLIENTE
@@ -215,7 +348,6 @@ MODAL AGREGAR CLIENTE
                     foreach ($tipoDocumento as $key => $value) {
 
                       echo '<option value="' . $value["id_tipo_documento"] . '">' . $value["tip_doc_descripcion"] . '</option>';
-                      
                     }
 
                     ?>

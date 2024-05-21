@@ -70,10 +70,10 @@ EDITAR CLIENTE
 
 $(".tablas").on("click", ".btnEditarCliente", function () {
   var idCliente = $(this).attr("idCliente");
-
+  console.log(idCliente);
   var datos = new FormData();
   datos.append("idCliente", idCliente);
-
+  
   $.ajax({
     url: "ajax/clientes.ajax.php",
     method: "POST",
@@ -185,6 +185,89 @@ $("#nuevoNumDocIdCliente").change(function () {
 });
 
 /*=============================================
+CARGA LOS CLIENTES
+=============================================*/
+$('#miTabla').DataTable({
+  processing: true,
+  serverSide: true,
+  ajax: {
+      url: "controladores/clientes.controlador.php",
+      type: "GET"
+  },
+  pageLength: 10,
+  columns: [
+      { data: "Numero" },
+      { data: "Tipo" },
+      { data: "Documento" },
+      { data: "Nombre" },
+      { data: "F_Nacimiento" },
+      { data: "Gen" },
+      { data: "Estado_Civil" },
+      { data: "Telefono" },
+      { data: "Email" }
+  ],
+  layout: {
+    topStart: "buttons",
+    topCenter: {
+      search: {
+        placeholder: "Buscar...",
+      },
+    },
+    topEnd: {
+      pageLength: {
+        menu: [10, 25, 100],
+      },
+    },
+    bottomEnd: {
+      paging: {
+        numbers: 3,
+      },
+    },
+  },
+  buttons: [
+    {
+      extend: "excelHtml5",
+      className: "btn-excel",
+      text: '<img src="vistas/img/excelIco.png" />', // Agrega un texto descriptivo
+      titleAttr: "Exportar a Excel", // Agrega un tooltip
+    },
+  ],
+  responsive: true,
+  order: [
+    [0, "asc"],
+    [1, "asc"],
+  ],
+  language: {
+    sProcessing: "Procesando...",
+    sLengthMenu: "Mostrar _MENU_ registros",
+    sZeroRecords: "No se encontraron resultados",
+    sEmptyTable: "Ningún dato disponible en esta tabla",
+    sInfo: "Mostrando registros del _START_ al _END_ de un total de _TOTAL_",
+    sInfoEmpty: "Mostrando registros del 0 al 0 de un total de 0",
+    sInfoFiltered: "(filtrado de un total de _MAX_ registros)",
+    sInfoPostFix: "",
+    sSearch: "Buscar:",
+    sUrl: "",
+    sInfoThousands: ",",
+    sLoadingRecords: "Cargando...",
+    oPaginate: {
+      sFirst: "Primero",
+      sLast: "Último",
+      sNext: "Siguiente",
+      sPrevious: "Anterior",
+    },
+    oAria: {
+      sSortAscending:
+        ": Activar para ordenar la columna de manera ascendente",
+      sSortDescending:
+        ": Activar para ordenar la columna de manera descendente",
+    },
+  },
+});
+
+
+
+/*=============================================
 CARGA LOS TIPOS DE DOCUMENTO DE IDENTIDAD
 =============================================*/
 
@@ -212,3 +295,5 @@ CARGA LOS TIPOS DE DOCUMENTO DE IDENTIDAD
 //   	});
 
 // });
+
+

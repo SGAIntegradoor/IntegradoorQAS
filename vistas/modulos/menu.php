@@ -10,9 +10,9 @@ $num_rows = mysqli_num_rows($res);
 
 $cotizTotales = null;
 
-if ($num_rows >= 1) {	
+if ($num_rows >= 1) {
 	$data = $res->fetch_assoc();
-    $cotizTotales = $data['cotizacionesTotales'];
+	$cotizTotales = $data['cotizacionesTotales'];
 } else {
 	echo "Error al traer cotizaciones Totales";
 }
@@ -38,41 +38,60 @@ checkUserStatus();
 
 ?>
 <script>
-$(document).ready(function() {
-        // Obtener el valor de la variable de sesión PHP en JavaScript
-        let permisosCotizacionesTotales = <?php echo isset($cotizTotales) ? json_encode($cotizTotales) : 'null'; ?>;
+	$(document).ready(function() {
+		// Obtener el valor de la variable de sesión PHP en JavaScript
+		let permisosCotizacionesTotales = <?php echo isset($cotizTotales) ? json_encode($cotizTotales) : 'null'; ?>;
 
-		var arrayCot = ["menuCotLiv","menuCotMot","menuCotPes","menuCotMas"];
+		var arrayCot = ["menuCotLiv", "menuCotMot", "menuCotPes", "menuCotMas"];
 
-        // Verificar si el valor obtenido es válido y está definido
-        if (permisosCotizacionesTotales !== null && permisosCotizacionesTotales !== undefined) {
-            /* Iteramos sobre el array de vistas el cual sera unico y generamos un 
+		// Verificar si el valor obtenido es válido y está definido
+		if (permisosCotizacionesTotales !== null && permisosCotizacionesTotales !== undefined) {
+			/* Iteramos sobre el array de vistas el cual sera unico y generamos un 
 			JQuery con cada uno de los items dentro del array los cuales son ide que luego se les 
 			asocia el evento click al elemento del menú */
 			arrayCot.forEach(view => {
 				return $(`#${view}`).on("click", function(e) {
-                // Verificar los permisos
-                if (permisosCotizacionesTotales <= "0") {
-                    e.preventDefault(); 
-                    swal.fire({
-                        icon: "error",
-                        title: "Cotizaciones Totales Excedidas",
-                        text: "El usuario ha excedido las cotizaciones totales. Comuníquese con el administrador para una ampliación o vinculación con su usuario propio.",
-                        showConfirmButton: true,
-                        confirmButtonText: "Cerrar"
-                    }).then(function(result) {
-                        if (result.value) {
-                            window.location = "inicio";
-                        }
-                    });
-                } 
-            	});
-			})		
-        } 
-    });
-
+					// Verificar los permisos
+					if (permisosCotizacionesTotales <= "0") {
+						e.preventDefault();
+						swal
+							.fire({
+								icon: "error",
+								title: "Cotizaciones Totales Excedidas",
+								text: "Lo sentimos. No tienes cotizaciones disponibles, por favor comunicate con el administrador.",
+								showConfirmButton: true,
+								confirmButtonText: "Cerrar",
+								customClass: {
+									confirmButton: "btnConfirm",
+								},
+							})
+							.then(function(result) {
+								if (result.value) {
+									window.location = "inicio";
+								}
+							});
+					}
+				});
+			})
+		}
+	});
 </script>
+<style>
+  .btnConfirm {
+    background-color: #ff5733 !important; 
+    color: white !important; 
+	border: 0px !important;
+	box-shadow: 0px !important;
+}
 
+div:where(.swal2-container) button:where(.swal2-styled).swal2-confirm {
+    background-color: #88d600 !important;
+}
+
+div:where(.swal2-container) button:where(.swal2-styled) {
+    box-shadow: 0 0 0 0px rgba(0, 0, 0, 0) !important;
+}
+</style>
 <aside class="main-sidebar">
 	<section class="sidebar">
 		<ul class="sidebar-menu">

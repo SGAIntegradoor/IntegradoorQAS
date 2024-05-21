@@ -5,238 +5,250 @@ $(document).ready(function () {
   //let permisos = JSON.parse(permisosPlantilla);
   //console.log(permisos);
   const aseguradorasExitosas = [];
-if (typeof idCotizacion !== "undefined" && idCotizacion !== null) {
-  const alertas = new Promise((resolve, reject) => {
-    const requestOptions = {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ obtenerAlertas: true, cotizacion: idCotizacion }),
-    };
-    var documentosTable = document.getElementById("tablaResumenCot");
-    fetch("ajax/alerta_aseguradora.ajax.php", requestOptions)
-      .then((response) => response.json())
-      .then((data) => {
-        // console.log(data)
-        const cotizacionesSeparadas = {};
-        data.forEach((cotizacion) => {
-          const aseguradora = cotizacion.aseguradora;
+  if (typeof idCotizacion !== "undefined" && idCotizacion !== null) {
+    const alertas = new Promise((resolve, reject) => {
+      const requestOptions = {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          obtenerAlertas: true,
+          cotizacion: idCotizacion,
+        }),
+      };
+      var documentosTable = document.getElementById("tablaResumenCot");
+      fetch("ajax/alerta_aseguradora.ajax.php", requestOptions)
+        .then((response) => response.json())
+        .then((data) => {
+          // console.log(data)
+          const cotizacionesSeparadas = {};
+          data.forEach((cotizacion) => {
+            const aseguradora = cotizacion.aseguradora;
 
-          if (!cotizacionesSeparadas[aseguradora]) {
-            cotizacionesSeparadas[aseguradora] = [];
-          }
+            if (!cotizacionesSeparadas[aseguradora]) {
+              cotizacionesSeparadas[aseguradora] = [];
+            }
 
-          cotizacionesSeparadas[aseguradora].push(cotizacion);
-        });
+            cotizacionesSeparadas[aseguradora].push(cotizacion);
+          });
 
-        // Ordenar aseguradoras alfabéticamente
-        const aseguradorasOrdenadas = Object.keys(cotizacionesSeparadas).sort();
-        const cotizacionesConVariasOfertas = [];
-        const cotizacionesConUnaOferta = [];
+          // Ordenar aseguradoras alfabéticamente
+          const aseguradorasOrdenadas = Object.keys(
+            cotizacionesSeparadas
+          ).sort();
+          const cotizacionesConVariasOfertas = [];
+          const cotizacionesConUnaOferta = [];
 
-        // console.log(aseguradorasOrdenadas)
-        aseguradorasOrdenadas.forEach((aseguradora) => {
-          const cotizacionesAseguradora = cotizacionesSeparadas[aseguradora];
+          // console.log(aseguradorasOrdenadas)
+          aseguradorasOrdenadas.forEach((aseguradora) => {
+            const cotizacionesAseguradora = cotizacionesSeparadas[aseguradora];
 
-          if (cotizacionesAseguradora.length > 1) {
-            cotizacionesConVariasOfertas.push(...cotizacionesAseguradora);
-          } else {
-            cotizacionesConUnaOferta.push(...cotizacionesAseguradora);
-          }
-        });
-
-        console.log(cotizacionesConVariasOfertas);
-        //   console.log(cotizacionesConUnaOferta)
-
-        const cotizacionesPorAseguradora = {};
-
-        cotizacionesConVariasOfertas.forEach((cotizacion) => {
-          const aseguradora = cotizacion.aseguradora;
-
-          if (!cotizacionesPorAseguradora[aseguradora]) {
-            cotizacionesPorAseguradora[aseguradora] = {
-              exitosa1: [],
-              exitosa0: [],
-              sumExitosa1: 0,
-              sumExitosa0: 0,
-            };
-          }
-
-          if (cotizacion.exitosa === "1") {
-            cotizacionesPorAseguradora[aseguradora].exitosa1.push(cotizacion);
-            cotizacionesPorAseguradora[aseguradora].sumExitosa1 +=
-              cotizacion.ofertas_cotizadas;
-          } else if (cotizacion.exitosa === "0") {
-            cotizacionesPorAseguradora[aseguradora].exitosa0.push(cotizacion);
-            cotizacionesPorAseguradora[aseguradora].sumExitosa0 +=
-              cotizacion.ofertas_cotizadas;
-          }
-        });
-
-        console.log(cotizacionesPorAseguradora);
-
-        let cotizacionesExitosa1 = [];
-        let cotizacionesExitosa0 = [];
-
-        for (const aseguradora in cotizacionesPorAseguradora) {
-          const exitosa1Array =
-            cotizacionesPorAseguradora[aseguradora].exitosa1;
-
-          if (exitosa1Array.length > 0) {
-            const sumaOfertasExitosa1 = exitosa1Array.reduce(
-              (sum, usuario) => sum + usuario.ofertas_cotizadas,
-              0
-            );
-
-            cotizacionesExitosa1.push(
-              ...exitosa1Array.map((usuario) => ({
-                aseguradora: usuario.aseguradora,
-                exitosa: usuario.exitosa,
-                ofertas_cotizadas: sumaOfertasExitosa1,
-                mensaje: "",
-              }))
-            );
-          } else {
-            // Cambié la asignación a push para agregar un nuevo elemento al array
-            cotizacionesExitosa0.push({
-              aseguradora,
-              exitosa: 0,
-              ofertas_cotizadas: 0,
-              mensaje:
-                cotizacionesPorAseguradora[aseguradora].exitosa0[0].mensaje,
-            });
-          }
-        }
-
-        // Ahora cotizacionesExitosa1 y cotizacionesExitosa0 contienen la estructura que deseas
-        // desactive
-        //console.log(cotizacionesExitosa1);
-        //console.log(cotizacionesExitosa0);
-
-        let aseguradorasData = {};
-        for (const aseguradora in cotizacionesPorAseguradora) {
-          const exitosa1Array =
-            cotizacionesPorAseguradora[aseguradora].exitosa1;
-          // desactive
-          // console.log('exitosa1Array:', exitosa1Array);
-
-          if (exitosa1Array.length > 0) {
-            const sumaOfertasExitosa1 = exitosa1Array.reduce((sum, usuario) => {
-              // Convertir las cadenas a números usando parseInt
-              const ofertasCotizadas = parseInt(usuario.ofertas_cotizadas, 10);
-
-              return sum + ofertasCotizadas;
-            }, 0);
-            // desactive
-            //console.log('sumaOfertasExitosa1:', sumaOfertasExitosa1);
-
-            if (aseguradorasData[aseguradora]) {
-              // Si ya existe una entrada para la aseguradora, actualiza la información
-              aseguradorasData[aseguradora].ofertas_cotizadas +=
-                sumaOfertasExitosa1;
+            if (cotizacionesAseguradora.length > 1) {
+              cotizacionesConVariasOfertas.push(...cotizacionesAseguradora);
             } else {
-              // Si no existe una entrada, crea una nueva
-              aseguradorasData[aseguradora] = {
-                aseguradora,
-                exitosa: "1",
-                ofertas_cotizadas: sumaOfertasExitosa1,
-                mensaje: "",
+              cotizacionesConUnaOferta.push(...cotizacionesAseguradora);
+            }
+          });
+
+          //console.log(cotizacionesConVariasOfertas);
+          //   console.log(cotizacionesConUnaOferta)
+
+          const cotizacionesPorAseguradora = {};
+
+          cotizacionesConVariasOfertas.forEach((cotizacion) => {
+            const aseguradora = cotizacion.aseguradora;
+
+            if (!cotizacionesPorAseguradora[aseguradora]) {
+              cotizacionesPorAseguradora[aseguradora] = {
+                exitosa1: [],
+                exitosa0: [],
+                sumExitosa1: 0,
+                sumExitosa0: 0,
               };
             }
-          } else {
-            // Crear array con características específicas si exitosa1 está vacío
-            aseguradorasData[aseguradora] = {
-              aseguradora,
-              exitosa: 0,
-              ofertas_cotizadas: 0,
-              mensaje:
-                cotizacionesPorAseguradora[aseguradora].exitosa0[0].mensaje,
-            };
+
+            if (cotizacion.exitosa === "1") {
+              cotizacionesPorAseguradora[aseguradora].exitosa1.push(cotizacion);
+              cotizacionesPorAseguradora[aseguradora].sumExitosa1 +=
+                cotizacion.ofertas_cotizadas;
+            } else if (cotizacion.exitosa === "0") {
+              cotizacionesPorAseguradora[aseguradora].exitosa0.push(cotizacion);
+              cotizacionesPorAseguradora[aseguradora].sumExitosa0 +=
+                cotizacion.ofertas_cotizadas;
+            }
+          });
+
+          //console.log(cotizacionesPorAseguradora);
+
+          let cotizacionesExitosa1 = [];
+          let cotizacionesExitosa0 = [];
+
+          for (const aseguradora in cotizacionesPorAseguradora) {
+            const exitosa1Array =
+              cotizacionesPorAseguradora[aseguradora].exitosa1;
+
+            if (exitosa1Array.length > 0) {
+              const sumaOfertasExitosa1 = exitosa1Array.reduce(
+                (sum, usuario) => sum + usuario.ofertas_cotizadas,
+                0
+              );
+
+              cotizacionesExitosa1.push(
+                ...exitosa1Array.map((usuario) => ({
+                  aseguradora: usuario.aseguradora,
+                  exitosa: usuario.exitosa,
+                  ofertas_cotizadas: sumaOfertasExitosa1,
+                  mensaje: "",
+                }))
+              );
+            } else {
+              // Cambié la asignación a push para agregar un nuevo elemento al array
+              cotizacionesExitosa0.push({
+                aseguradora,
+                exitosa: 0,
+                ofertas_cotizadas: 0,
+                mensaje:
+                  cotizacionesPorAseguradora[aseguradora].exitosa0[0].mensaje,
+              });
+            }
           }
-        }
 
-        // Convertir el objeto en un array
-        const resultadoFinal = Object.values(aseguradorasData);
-        //   console.log(resultadoFinal);
-        //   console.log(cotizacionesConUnaOferta)
+          // Ahora cotizacionesExitosa1 y cotizacionesExitosa0 contienen la estructura que deseas
+          // desactive
+          //console.log(cotizacionesExitosa1);
+          //console.log(cotizacionesExitosa0);
 
-        // Combina los dos arrays
-        const combinedArray = [...resultadoFinal, ...cotizacionesConUnaOferta];
+          let aseguradorasData = {};
+          for (const aseguradora in cotizacionesPorAseguradora) {
+            const exitosa1Array =
+              cotizacionesPorAseguradora[aseguradora].exitosa1;
+            // desactive
+            // console.log('exitosa1Array:', exitosa1Array);
 
-        // Ordena el array resultante por la propiedad "aseguradora"
-        combinedArray.sort((a, b) =>
-          a.aseguradora.localeCompare(b.aseguradora)
-        );
+            if (exitosa1Array.length > 0) {
+              const sumaOfertasExitosa1 = exitosa1Array.reduce(
+                (sum, usuario) => {
+                  // Convertir las cadenas a números usando parseInt
+                  const ofertasCotizadas = parseInt(
+                    usuario.ofertas_cotizadas,
+                    10
+                  );
 
-        //Desactive
-        //console.log(combinedArray);
+                  return sum + ofertasCotizadas;
+                },
+                0
+              );
+              // desactive
+              //console.log('sumaOfertasExitosa1:', sumaOfertasExitosa1);
 
-        //COTIZACIONES EXITOSAS VARIAS PETICIONES//
-
-        var tableBody = documentosTable.getElementsByTagName("tbody")[0];
-        tableBody.innerHTML = "";
-
-        // if (resultadoFinal) {
-        //   resultadoFinal.forEach(usuario => {
-        //     var newRow = tableBody.insertRow();
-
-        //     var aseguradoraCell = newRow.insertCell();
-        //     aseguradoraCell.textContent = usuario.aseguradora;
-
-        //     var cotizoCell = newRow.insertCell();
-        //     // Cambiar el contenido de la celda en función de si cotizó o no
-        //     cotizoCell.innerHTML = usuario.exitosa === 1
-        //       ? '<i class="fa fa-check" aria-hidden="true" style="color: green; margin-right: 5px;"></i>'
-        //       : '<i class="fa fa-times" aria-hidden="true" style="color: red; margin-right: 10px;"></i>';
-        //     cotizoCell.classList.add('text-center'); // Agrega la clase text-center a cotizoCell
-
-        //     var productosCell = newRow.insertCell();
-        //     productosCell.textContent = usuario.ofertas_cotizadas;
-        //     productosCell.classList.add('text-center'); // Agregar la clase text-center a productosCell
-
-        //     var observacionesCell = newRow.insertCell();
-        //     observacionesCell.textContent = usuario.mensaje;
-        //   });
-        // }
-
-        //COTIZACIONES EXITOSAS VARIAS PETICIONES FINAL//
-
-        // UNA OFERTA Iterar sobre los datos y agregar filas a la tabla
-        combinedArray.forEach((usuario) => {
-          var newRow = tableBody.insertRow();
-
-          var aseguradoraCell = newRow.insertCell();
-          aseguradoraCell.textContent = usuario.aseguradora;
-
-          var cotizoCell = newRow.insertCell();
-          // Cambiar el contenido de la celda en función de si cotizó o no
-          cotizoCell.innerHTML =
-            usuario.exitosa === "1"
-              ? '<i class="fa fa-check" aria-hidden="true" style="color: green; margin-right: 5px;"></i>'
-              : '<i class="fa fa-times" aria-hidden="true" style="color: red; margin-right: 10px;"></i>';
-          cotizoCell.classList.add("text-center"); // Agrega la clase text-center a cotizoCell
-
-          var productosCell = newRow.insertCell();
-          if (isNaN(usuario.ofertas_cotizadas)) {
-            productosCell.textContent = "";
-          } else {
-            productosCell.textContent = usuario.ofertas_cotizadas;
+              if (aseguradorasData[aseguradora]) {
+                // Si ya existe una entrada para la aseguradora, actualiza la información
+                aseguradorasData[aseguradora].ofertas_cotizadas +=
+                  sumaOfertasExitosa1;
+              } else {
+                // Si no existe una entrada, crea una nueva
+                aseguradorasData[aseguradora] = {
+                  aseguradora,
+                  exitosa: "1",
+                  ofertas_cotizadas: sumaOfertasExitosa1,
+                  mensaje: "",
+                };
+              }
+            } else {
+              // Crear array con características específicas si exitosa1 está vacío
+              aseguradorasData[aseguradora] = {
+                aseguradora,
+                exitosa: 0,
+                ofertas_cotizadas: 0,
+                mensaje:
+                  cotizacionesPorAseguradora[aseguradora].exitosa0[0].mensaje,
+              };
+            }
           }
-          productosCell.classList.add("text-center");
 
-          var observacionesCell = newRow.insertCell();
-          observacionesCell.textContent = usuario.mensaje;
+          // Convertir el objeto en un array
+          const resultadoFinal = Object.values(aseguradorasData);
+          //   console.log(resultadoFinal);
+          //   console.log(cotizacionesConUnaOferta)
+
+          // Combina los dos arrays
+          const combinedArray = [
+            ...resultadoFinal,
+            ...cotizacionesConUnaOferta,
+          ];
+
+          // Ordena el array resultante por la propiedad "aseguradora"
+          combinedArray.sort((a, b) =>
+            a.aseguradora.localeCompare(b.aseguradora)
+          );
+
+          //Desactive
+          //console.log(combinedArray);
+
+          //COTIZACIONES EXITOSAS VARIAS PETICIONES//
+
+          var tableBody = documentosTable.getElementsByTagName("tbody")[0];
+          tableBody.innerHTML = "";
+
+          // if (resultadoFinal) {
+          //   resultadoFinal.forEach(usuario => {
+          //     var newRow = tableBody.insertRow();
+
+          //     var aseguradoraCell = newRow.insertCell();
+          //     aseguradoraCell.textContent = usuario.aseguradora;
+
+          //     var cotizoCell = newRow.insertCell();
+          //     // Cambiar el contenido de la celda en función de si cotizó o no
+          //     cotizoCell.innerHTML = usuario.exitosa === 1
+          //       ? '<i class="fa fa-check" aria-hidden="true" style="color: green; margin-right: 5px;"></i>'
+          //       : '<i class="fa fa-times" aria-hidden="true" style="color: red; margin-right: 10px;"></i>';
+          //     cotizoCell.classList.add('text-center'); // Agrega la clase text-center a cotizoCell
+
+          //     var productosCell = newRow.insertCell();
+          //     productosCell.textContent = usuario.ofertas_cotizadas;
+          //     productosCell.classList.add('text-center'); // Agregar la clase text-center a productosCell
+
+          //     var observacionesCell = newRow.insertCell();
+          //     observacionesCell.textContent = usuario.mensaje;
+          //   });
+          // }
+
+          //COTIZACIONES EXITOSAS VARIAS PETICIONES FINAL//
+
+          // UNA OFERTA Iterar sobre los datos y agregar filas a la tabla
+          combinedArray.forEach((usuario) => {
+            var newRow = tableBody.insertRow();
+
+            var aseguradoraCell = newRow.insertCell();
+            aseguradoraCell.textContent = usuario.aseguradora;
+
+            var cotizoCell = newRow.insertCell();
+            // Cambiar el contenido de la celda en función de si cotizó o no
+            cotizoCell.innerHTML =
+              usuario.exitosa === "1"
+                ? '<i class="fa fa-check" aria-hidden="true" style="color: green; margin-right: 5px;"></i>'
+                : '<i class="fa fa-times" aria-hidden="true" style="color: red; margin-right: 10px;"></i>';
+            cotizoCell.classList.add("text-center"); // Agrega la clase text-center a cotizoCell
+
+            var productosCell = newRow.insertCell();
+            if (isNaN(usuario.ofertas_cotizadas)) {
+              productosCell.textContent = "";
+            } else {
+              productosCell.textContent = usuario.ofertas_cotizadas;
+            }
+            productosCell.classList.add("text-center");
+
+            var observacionesCell = newRow.insertCell();
+            observacionesCell.textContent = usuario.mensaje;
+          });
+        })
+        .catch((error) => {
+          console.error("Error al obtener la información de la tabla:", error);
         });
-      })
-      .catch((error) => {
-        console.error("Error al obtener la información de la tabla:", error);
-      });
-  });
-} else {
-    
-}
+    });
+  } else {
+  }
   // Mostrar alertas
   //PRIMERA VERSION ALERTAS
-
 
   // alertas.then(result => {
 
@@ -352,7 +364,6 @@ if (typeof idCotizacion !== "undefined" && idCotizacion !== null) {
     agregarCotizacionManual2();
   });
 
-  
   $("#btnParrillaPDF").click(function () {
     var todosOn = $(".classSelecOferta:checked").length;
 
@@ -447,7 +458,6 @@ if (typeof idCotizacion !== "undefined" && idCotizacion !== null) {
           }
 
           window.open(url, "_blank");
-
         }
       }
     }
@@ -538,13 +548,20 @@ if (typeof idCotizacion !== "undefined" && idCotizacion !== null) {
 
       confirmButtonText: "Si, borrar cotización!",
     }).then(function (result) {
-      if (result.value) {
+      if (result.isConfirmed) {
+        swal({
+          title: "Cotizacion Eliminada Corretamente",
+          type: "sucess",
+          showCancelButton: true,
+          confirmButtonColor: "#3085d6",
+          confirmButtonText: "Si, borrar cotización!",
+        });
         window.location = "index.php?ruta=inicio&idCotizacion=" + idCotizacion;
       }
     });
   });
 
- /*===================================================
+  /*===================================================
 
   CONFIGURACION DE LA TABLA DATATABLE PARA COTIZACIONES
 
@@ -2526,15 +2543,18 @@ function agregarCotizacionManual2() {
         // console.log(data);
         if (data.Success == true) {
           swal.fire({
-            type: "success",
+            icon: "success",
             title: "! Cotización registrada Exitosamente ¡",
             showConfirmButton: true,
             confirmButtonText: "Cerrar",
-          });
-          location.reload();
+          }).then((result) => {
+            if(result.isConfirmed){
+              location.reload();
+            }
+          })
         } else {
           swal.fire({
-            type: "error",
+            icon: "error",
             title: "! Cotización no registrada¡",
             showConfirmButton: true,
             confirmButtonText: "Cerrar",
@@ -2878,26 +2898,26 @@ const editarCotizacionManual = (id) => {
 };
 
 const deleteManualOffer = (id) => {
-  // desactive
-  // console.log(id);
+  //desactive
+  //console.log(id);
 
   swal
     .fire({
-      title: "¿Está seguro de borrar la cotización?",
-
-      text: "¡Si no lo está puede cancelar la acción!",
+      title: "¿Deseas eliminar esta cotización?",
 
       type: "warning",
 
       showCancelButton: true,
 
-      confirmButtonColor: "#3085d6",
+      confirmButtonColor: "#88d600",
 
-      cancelButtonColor: "#d33",
+      cancelButtonColor: "#000000",
 
       cancelButtonText: "Cancelar",
 
       confirmButtonText: "Si, borrar cotización!",
+
+      reverseButtons: true,
     })
     .then(function (result) {
       if (result.value) {
@@ -2911,7 +2931,26 @@ const deleteManualOffer = (id) => {
           data: { id: id },
 
           success: function (data) {
-            document.location.reload(true);
+            swal
+              .fire({
+                position: "top-end",
+                icon: "success",
+                title: "Cotización Eliminada Correctamente",
+                confirmButtonColor: "#88d600",
+                cancelButtonColor: "#000000",
+                showConfirmButton: true,
+                confirmButtonText: "Cerrar",
+              })
+              .then((result) => {
+                if (result.isConfirmed) {
+                  window.location.href =
+                    "index.php?ruta=editar-cotizacion&idCotizacion=" +
+                    idCotizacion;
+                }
+              });
+          },
+          error: function (xhr, status, error) {
+            console.log(error);
           },
         });
       }

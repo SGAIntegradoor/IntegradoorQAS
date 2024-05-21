@@ -308,9 +308,12 @@ $(document).ready(function () {
           .fire({
             icon: "error",
             title: "Cotizaciones Totales Excedidas",
-            text: "El usuario ha excedido las cotizaciones totales. Comuníquese con el administrador para una ampliación o vinculación con su usuario propio.",
+            text: "Lo sentimos. No tienes cotizaciones disponibles, por favor comunicate con el administrador.",
             showConfirmButton: true,
             confirmButtonText: "Cerrar",
+            customClass: {
+              confirmButton: "btnConfirm",
+            },
           })
           .then(function (result) {
             if (result.value) {
@@ -2662,23 +2665,30 @@ $(function () {
   $(".modal-body").dialog({
     autoOpen: false,
     modal: true,
-    width: 500, // overcomes width:'auto' and maxWidth bug
-    maxWidth: 600,
+    width: 300, // overcomes width:'auto' and maxWidth bug
+    maxWidth: 300,
     height: "auto",
     fluid: true, //new option
     resizable: false,
     title: "Busqueda Manual Fasecolda",
     dialogClass: "no-close",
     show: { effect: "slide", duration: 500, direction: "down" }, // Efecto de slide hacia abajo
-    hide: { effect: "slide", duration: 500, direction: "down" } // Efecto de slide hacia abajo
+    hide: { effect: "slide", duration: 500, direction: "down" }, // Efecto de slide hacia abajo
+    open: function (event, ui) {
+      // Cambiar el color del título del diálogo
+      $(this).prev().find(".ui-dialog-title").css({
+        color: "white",
+        "font-weight": "lighter",
+      });
+    },
   });
   $(".buscarFasecolda")
     .button()
     .click(function () {
       txtFasecolda_modal.value = txtFasecolda.value;
       txtModeloVeh_modal.value = txtModeloVeh.value;
-      $(".modal-body").dialog("option", "width", 600);
-      $(".modal-body").dialog("option", "height", 300);
+      $(".modal-body").dialog("option", "width", 300);
+      $(".modal-body").dialog("option", "height", 270);
       $(".modal-body").dialog("option", "resizable", false);
       $(".modal-body").dialog("open");
     });
@@ -2722,7 +2732,6 @@ $(window).resize(function () {
 $(document).on("dialogopen", ".ui-dialog", function (event, ui) {
   fluidDialog();
 });
-
 
 function validarNumCotizaciones() {
   fecha1 = new Date();

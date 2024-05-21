@@ -43,6 +43,13 @@ $response = retrieveQuotation($idCotizacion);
     text-align: center; /* Puedes ajustar el valor según tus preferencias */
   }
 
+  div:where(.swal2-container) button:where(.swal2-styled).swal2-cancel {
+    font-size: 14px !important;
+  }
+  div:where(.swal2-container) button:where(.swal2-styled).swal2-confirm {
+    font-size: 14px !important;
+  }
+
     /* Estilo para pantallas más pequeñas (menos de 495px) */
   @media (max-width: 495px) {
     .table-responsive {

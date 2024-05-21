@@ -43,18 +43,11 @@ class ControladorUsuarios
 								Swal.fire({
 									html:  `
 									<div style="text-align: left; font-family: Helvetica, Arial, sans-serif; font-size: 15px; border-radius: 4px; padding: 8px;">
-										<strong>Hola</strong> 😔, lamentamos comunicarte, <strong>que llegaste al limite de la fecha de uso</strong> por esto, el presente usuario ha sido inhabilitado.
+										<strong>Hola</strong> 😔, lamentamos comunicarte <strong>que este usuario ha sido inhabilitado.</strong>
 										<br><br> 
-										<strong>Si deseas continuar con el servicio, debes comunicarte con el area encargada de vinculaciones de Grupo Asistencia al</strong>
-										📱 <a href="https://wa.link/qkywo4">+573185127910</a> o vía 📧 <u>analistadeseguros@grupoasistencia.com</u> 
+										<strong>Si deseas ingresar al programa con tu usuario personalizado, comunícate con el área encargada de vinculaciones de Grupo Asistencia al</strong>
+										📱 <a href="https://wa.link/qkywo4">+573185127910 </a> o vía 📧 <u>mercadeo@grupoasistencia.com </u> 
 										para agendar la activacion de tu usuario propio.
-										<br><br>
-										Si por el contrario, no estás interesado en vender seguros por medio de Grupo Asistencia como aliado, 👉🏽 <strong>pero si te interesa tener tu propia versión personalizada del software para generar cotizaciones y cuadros comparativos (incluyendo tu propio logo)</strong>, comunícate con nosotros, <strong>Strategico Technologies</strong>, desarrolladores de esta plataforma, para conocer acerca de los planes de pago, que inician desde los $1.950 pesos por placa cotizada.										<br><br><br>
-										<strong>Strategico Technologies</strong>
-										<br>
-										<a href="https://wa.link/0d7fk9">+573187664954</a>
-										<br>
-										<u>proyectos@strategico.tech</u>
 									</div>
 									`,
 									width: "90%", 
@@ -65,7 +58,7 @@ class ControladorUsuarios
 									},
 									confirmButtonText: "Cerrar",
 								}).then(function () {
-									window.location.href = ""; 
+									window.location.href = "/login"; 
 								});
 
 								const swalContainer = document.querySelector(".swal-container");

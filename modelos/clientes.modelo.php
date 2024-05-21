@@ -87,10 +87,15 @@ class ModeloClientes{
 			}
 			else if($item == 'id_cliente'){
 			    $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla, $tabla2, $tabla3 WHERE $tabla.id_tipo_documento = $tabla2.id_tipo_documento 
-														AND $tabla.id_estado_civil = $tabla3.id_estado_civil AND $item = :$item LIMIT $condition");
+														AND $tabla.id_estado_civil = $tabla3.id_estado_civil AND $item = $valor LIMIT 1");
 				$stmt -> bindParam(":".$item, $valor, PDO::PARAM_STR);
 				$stmt -> execute();
-
+				if (!$stmt->execute()) {
+					// Obtener información del error si la ejecución falla
+					$errorInfo = $stmt->errorInfo();
+					var_dump($errorInfo);
+					die("Error en la ejecución de la consulta");
+				}
 				return $stmt -> fetch(PDO::FETCH_ASSOC);
 				setcookie('if', 'if if');
 			}

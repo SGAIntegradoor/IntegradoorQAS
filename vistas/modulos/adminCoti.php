@@ -184,6 +184,8 @@ if ($_SESSION["permisos"]["administracionCotizaciones"] != "x") {
            <th>Cliente</th>
            <th>Placa</th>
            <th>Referencia del Vehículo</th>
+           <th>Documento Asesor</th>
+           <th>Rol</th>
            <th>Asesor</th>
            <th style="width:110px">Acciones</th>
 
@@ -192,7 +194,7 @@ if ($_SESSION["permisos"]["administracionCotizaciones"] != "x") {
         </thead>
 
         <tbody>
-          <tr role="row" class="odd">
+          <!-- <tr role="row" class="odd">
 
             <td class="text-center sorting_1" tabindex="0">3</td>
 
@@ -266,7 +268,7 @@ if ($_SESSION["permisos"]["administracionCotizaciones"] != "x") {
 
             </td>
 
-          </tr>
+          </tr> -->
 
         <?php
 
@@ -308,6 +310,10 @@ if ($_SESSION["permisos"]["administracionCotizaciones"] != "x") {
                   echo '<td class="text-center">' . $placa . '</td>
 
                   <td class="">' . $value['cot_marca'] . ' ' . $value['cot_linea'] . '</td>
+
+                  <td class="">' . $value['usu_documento'] . '</td>
+
+                  <td class="">' . $value['id_rol'] . '</td>
 
                   <td class="">' . $value['usu_nombre'] . ' ' . $value['usu_apellido'] . '</td>
 

@@ -1,4 +1,3 @@
-
 $(document).ready(function () {
   var permisos = JSON.parse(permisosPlantilla);
   const parrillaCotizaciones = document.getElementById("parrillaCotizaciones");
@@ -298,17 +297,17 @@ $(document).ready(function () {
   });
 
   function decresCotTotales() {
-    return new Promise(function(resolve, reject) {
+    return new Promise(function (resolve, reject) {
       $.ajax({
-          type: "POST",
-          url: "src/updateCotizacionesTotales.php",
-          dataType: "json",
-          success: function (data){
-              resolve(data);
-          },
-          error: function (xhr, status, error){
-              reject(error);
-          }
+        type: "POST",
+        url: "src/updateCotizacionesTotales.php",
+        dataType: "json",
+        success: function (data) {
+          resolve(data);
+        },
+        error: function (xhr, status, error) {
+          reject(error);
+        },
       });
     });
   }
@@ -316,24 +315,29 @@ $(document).ready(function () {
   // Ejectura la funcion Cotizar Ofertas
   $("#btnCotizar").click(function (e) {
     masRE();
-    decresCotTotales().then(response => {
-      if(response.result == 1 || response.result == 2) {
+    decresCotTotales().then((response) => {
+      if (response.result == 1 || response.result == 2) {
         cotizarOfertas();
-      }else {
-        e.preventDefault(); 
-        swal.fire({
+      } else {
+        e.preventDefault();
+        swal
+          .fire({
             icon: "error",
             title: "Cotizaciones Totales Excedidas",
-            text: "El usuario ha excedido las cotizaciones totales. Comuníquese con el administrador para una ampliación o vinculación con su usuario propio.",
+            text: "Lo sentimos. No tienes cotizaciones disponibles, por favor comunicate con el administrador.",
             showConfirmButton: true,
-            confirmButtonText: "Cerrar"
-        }).then(function(result) {
+            confirmButtonText: "Cerrar",
+            customClass: {
+              confirmButton: "btnConfirm",
+            },
+          })
+          .then(function (result) {
             if (result.value) {
-                window.location = "inicio";
+              window.location = "inicio";
             }
-        });
+          });
       }
-    })
+    });
   });
   // $("#btnCotizarPesados").click(function () {
   //   cotizarOfertasPesados();
@@ -1173,7 +1177,7 @@ function registrarOferta(
       },
       error: function (error) {
         // desactive
-        console.log(error)
+        console.log(error);
         // reject(error)
       },
     });
@@ -1530,7 +1534,7 @@ function registrarNumeroOfertas(entidad, contador, numCotizacion, exito) {
       mensaje: "",
     },
     success: function (data) {
-     // console.log(data);
+      // console.log(data);
       // var datos = data.Data;
       // var message = data.Message;
       // var success = data.Success;
@@ -2284,7 +2288,7 @@ function cotizarOfertas() {
             });
 
             Promise.all(cont).then(() => {
-             // $("#btnCotizar").hide();
+              // $("#btnCotizar").hide();
               $("#loaderOferta").html("");
               $("#loaderOfertaBox").css("display", "none");
               swal.fire({
@@ -2293,10 +2297,9 @@ function cotizarOfertas() {
                 showConfirmButton: true,
                 confirmButtonText: "Cerrar",
               });
-              setTimeout(function () {
-              }, 3000);
+              setTimeout(function () {}, 3000);
               document.querySelector(".button-recotizar").style.display =
-              "block";
+                "block";
               /* Se monta el botón para generar el pdf con 
                     el valor de la variable idCotizacion */
               const contentCotizacionPDF = document.querySelector(
@@ -2359,7 +2362,7 @@ function cotizarOfertas() {
         //ZONA RECOTIZACIÓN//
         $("#loaderRecotOferta").html(
           '<img src="vistas/img/plantilla/loader-update.gif" width="34" height="34"><strong> Recotizando Ofertas...</strong>'
-        ); 
+        );
         const btnRecotizar = document.getElementById("btnReCotizarFallidas");
         btnRecotizar.disabled = true;
         const contenParrilla = document.querySelector("#contenParrilla");
@@ -3154,23 +3157,30 @@ $(function () {
   $(".modal-body").dialog({
     autoOpen: false,
     modal: true,
-    width: 500, // overcomes width:'auto' and maxWidth bug
-    maxWidth: 600,
+    width: 300, // overcomes width:'auto' and maxWidth bug
+    maxWidth: 300,
     height: "auto",
     fluid: true, //new option
     resizable: false,
     title: "Busqueda Manual Fasecolda",
     dialogClass: "no-close",
     show: { effect: "slide", duration: 500, direction: "down" }, // Efecto de slide hacia abajo
-    hide: { effect: "slide", duration: 500, direction: "down" } // Efecto de slide hacia abajo
+    hide: { effect: "slide", duration: 500, direction: "down" }, // Efecto de slide hacia abajo
+    open: function(event, ui) {
+      // Cambiar el color del título del diálogo
+      $(this).prev().find('.ui-dialog-title').css({
+        'color': 'white',
+        'font-weight': 'lighter'
+      });
+    }
   });
   $(".buscarFasecolda")
     .button()
     .click(function () {
       txtFasecolda_modal.value = txtFasecolda.value;
       txtModeloVeh_modal.value = txtModeloVeh.value;
-      $(".modal-body").dialog("option", "width", 600);
-      $(".modal-body").dialog("option", "height", 300);
+      $(".modal-body").dialog("option", "width", 300);
+      $(".modal-body").dialog("option", "height", 270);
       $(".modal-body").dialog("option", "resizable", false);
       $(".modal-body").dialog("open");
     });

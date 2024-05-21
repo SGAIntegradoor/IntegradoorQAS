@@ -209,7 +209,7 @@ if ($_SESSION["permisos"]["Cotizarpesados"] != "x") {
   }
 
   .ui-dialog .ui-dialog-content {
-    padding-top: 40px;
+    padding-top: 20px;
   }
 
   .center-btn {
@@ -997,8 +997,8 @@ if ($_SESSION["permisos"]["Cotizarpesados"] != "x") {
                 <input type="text" class="form-control" id="txtModeloVeh_modal">
               </div>
               <div class="divsButtonsModals">               
-                  <button type="button" class="btn btn-primary buttonsModal" id="btn-consultar-fasecolda">Consultar</button>               
                   <button type="button" class="btn btn-primary buttonsModal" id="btn-cerrar-fasecolda">Cerrar</button>              
+                  <button type="button" class="btn btn-primary buttonsModal" id="btn-consultar-fasecolda">Consultar</button>               
               </div>
             </form>
           </div>
