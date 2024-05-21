@@ -383,7 +383,6 @@ $(".tablas").on("click", ".btnEditarUsuario", function(){
 	var datos = new FormData();
 	datos.append("idUsuario", idUsuario);
 	$.ajax({
-
 		url:"ajax/usuarios.ajax.php",
 		method: "POST",
 		data: datos,
@@ -392,7 +391,7 @@ $(".tablas").on("click", ".btnEditarUsuario", function(){
 		processData: false,
 		dataType: "json",
 		success: function(respuesta){
-			localStorage.setItem("respuesta",JSON.stringify(respuesta))
+			//localStorage.setItem("respuesta",JSON.stringify(respuesta))
 			console.log(respuesta);
 			$("#idUsuEdit").val(respuesta["id_usuario"]);			
 			$("#editarNombre").val(respuesta["usu_nombre"]);

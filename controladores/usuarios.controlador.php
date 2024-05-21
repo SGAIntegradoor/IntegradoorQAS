@@ -615,11 +615,17 @@ class ControladorUsuarios
 																											  =============================================*/
 
 					if (!empty($_POST["fotoActual"])) {
-
-						unlink($_POST["fotoActual"]);
+						// Verificar si el archivo existe antes de intentar eliminarlo
+						if (file_exists($_POST["fotoActual"])) {
+							unlink($_POST["fotoActual"]);
+						} else {
+							// Manejar el caso en que el archivo no exista
+							echo "El archivo no existe: " . $_POST["fotoActual"];
+						}
 					} else {
-
-						mkdir($directorio, 0755);
+						if (!is_dir($directorio)) {
+							mkdir($directorio, 0755, true); // El tercer parámetro true permite la creación de directorios anidados
+						}
 					}
 
 					/*=============================================
@@ -705,7 +711,6 @@ class ControladorUsuarios
 				$actualPassword = crypt($_POST["passwordActual"], '$2a$07$asxx54ahjppf45sd87a5a4dDDGsystemdev$');
 				$actualIdUser = $_POST['idUsuEdit'];
 				$checkPass = ModeloUsuarios::mdlCheckPassword($actualPassword, $actualIdUser);
-
 				if (!$checkPass) {
 					if (isset($_POST["ciudad2"]) && $_POST["ciudad2"] == NULL) {
 						$datos = array(
@@ -715,7 +720,7 @@ class ControladorUsuarios
 							"documento" => $_POST["editarDocIdUser"],
 							"tipoDocumento" => $_POST["editarTipoDocumento"],
 							"usuario" => $_POST["editarUsuario"],
-							"password" => $actualPassword,
+							"password" => $_POST["passwordActual"],
 							"genero" => $_POST["editarGenero"],
 							"fechNacimiento" => $_POST["fechNacimiento"],
 							"direccion" => $_POST["editarDireccion"],
@@ -776,7 +781,6 @@ class ControladorUsuarios
 									})
 	
 						</script>';
-
 					} else {
 
 						echo '<script>
@@ -796,7 +800,6 @@ class ControladorUsuarios
 	
 					  </script>';
 					}
-
 				} else {
 					if (isset($_POST["ciudad2"]) && $_POST["ciudad2"] == NULL) {
 						$datos = array(
@@ -860,7 +863,6 @@ class ControladorUsuarios
 							 })
 	
 						</script>';
-
 					} else {
 
 						echo '<script>
@@ -873,7 +875,7 @@ class ControladorUsuarios
 							  }).then(function(result) {
 								if (result.value) {
 	
-								window.location = "usuarios";
+								//window.location = "usuarios";
 	
 								}
 							})
@@ -881,9 +883,6 @@ class ControladorUsuarios
 					  </script>';
 					}
 				}
-
-
-
 			}
 		}
 	}
