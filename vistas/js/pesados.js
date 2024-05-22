@@ -1493,7 +1493,7 @@ function validarOfertasPesados(ofertas, aseguradora, exito) {
 
 function validarProblema(aseguradora, ofertas) {
   var idCotizOferta = idCotizacion;
-  console.log(ofertas);
+  //console.log(ofertas);
 
   // Verificar si ofertas es un array
   if (Array.isArray(ofertas)) {
@@ -1637,7 +1637,24 @@ $("#btnReCotizarFallidas").click(function () {
 
 //* CONSULTA MANUAL, LA MISMA PARA TODOS, EN PROCESO DE NO REPETIR EN TRES ARCHIVOS JS DIFERENTES *//
 //CAMBIOS JHON CONSULTA FASECOLDA
+function addPrevisora() {
+  // Verificar si ya existe una fila para la aseguradora
+  const filaExistente = document.getElementById("Previsora");
 
+  if (filaExistente) {
+    // Si la fila existe, actualiza el mensaje de observaciones
+    // Acceder directamente a las celdas de la fila existente
+    const celdaContador = filaExistente.cells[2]; // Tercera celda de la fila
+    const celdaCotizo = filaExistente.cells[1]; // Segunda celda de la fila
+    const celdaResponse = filaExistente.cells[3]; // Cuarta celda de la fila
+
+    celdaContador.textContent = 0;
+    celdaCotizo.innerHTML =
+      '<i class="fa fa-times" aria-hidden="true" style="color: red; margin-right: 10px;"></i>';
+    celdaResponse.textContent =
+      "Solicita cotización manual con tu Analista Comercial asignado";
+  }
+}
 // Abrir modal
 function cotizarOfertasPesados() {
   var codigoFasecolda1 = document.getElementById("txtFasecolda");
@@ -1858,17 +1875,6 @@ function cotizarOfertasPesados() {
           cre_axa_validacionEventos: cre_axa_validacionEventos,
           url_axa: url_axa,
         },
-        // SOLIDARIA: {
-        //   cre_sol_cod_sucursal: cre_sol_cod_sucursal,
-        //   cre_sol_cod_per: cre_sol_cod_per,
-        //   cre_sol_cod_tipo_agente: cre_sol_cod_tipo_agente,
-        //   cre_sol_cod_agente: cre_sol_cod_agente,
-        //   cre_sol_cod_pto_vta: cre_sol_cod_pto_vta,
-        //   cre_sol_grant_type: cre_sol_grant_type,
-        //   cre_sol_Cookie_token: cre_sol_Cookie_token,
-        //   cre_sol_token: cre_sol_token,
-        //   cre_sol_fecha_token: cre_sol_fecha_token,
-        // },
       };
 
       var requestOptions = {
@@ -2292,6 +2298,27 @@ function cotizarOfertasPesados() {
 
                   cont.push(libertyPromise);
                 });
+              } else if (aseguradora === "Previsora") {
+                let previsoraPromise = new Promise((resolve, reject) => {
+                  try {
+                    let arrAseguradora = [
+                      {
+                        Mensajes: [
+                          "Solicita cotización manual con tu Analista Comercial asignado",
+                        ],
+                      },
+                    ];
+                    setTimeout(function () {
+                      validarProblema("Previsora", arrAseguradora);
+                      addPrevisora();
+                      resolve();
+                    }, 3000);
+                  } catch (error) {
+                    resolve();
+                  }
+                });
+
+                cont.push(previsoraPromise);
               }
             });
 
@@ -2305,7 +2332,7 @@ function cotizarOfertasPesados() {
                 showConfirmButton: true,
                 confirmButtonText: "Cerrar",
               });
-              setTimeout(function () {}, 3000);
+              setTimeout(function () {}, 1000);
               document.querySelector(".button-recotizar").style.display =
                 "block";
               /* Se monta el botón para generar el pdf con 

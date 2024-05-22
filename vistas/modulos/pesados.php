@@ -796,12 +796,12 @@ if ($_SESSION["permisos"]["Cotizarpesados"] != "x") {
                         </thead>
                         <tbody>
 
-                          <tr id="Previsora">
+                          <!-- <tr id="Previsora">
                             <td id="Previsora">Previsora</td>
                             <td class="text-center" id="PrevisoraResponse"><i class="fa fa-times" aria-hidden="true" style="color: red; margin-right: 5px;"></i></td>
                             <td class="text-center" id="PrevisoraProducts">0</td>
                             <td id="PrevisoraObservation">Solicita cotización manual con tu Analista Comercial asignado</td>
-                          </tr>
+                          </tr> -->
                         </tbody>
                       </table>
                     </div>
