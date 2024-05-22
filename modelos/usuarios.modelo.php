@@ -264,8 +264,8 @@ class ModeloUsuarios
 				} else {
 					// Las variables no son iguales
 					$stmt = Conexion::conectar()->prepare("UPDATE $tabla SET usu_documento = :documento, tipos_documentos_id = :tipoDocumento, usu_nombre = :nombre, usu_apellido = :apellido, usu_fch_nac = :fechNacimiento,
-													usu_genero = :genero, direccion =:direccion, ciudades_id =:ciudad, usu_telefono = :telefono, usu_email = :email, usu_cargo = :cargo, usu_foto = :foto, id_rol = :rol, id_Intermediario = :intermediario, fechaFin = :fechaLimEdi, cotizacionesTotales = :cotTotales
-													WHERE usu_usuario = :usuario");
+												usu_genero = :genero, direccion =:direccion, ciudades_id =:ciudad, usu_telefono = :telefono, usu_email = :email, usu_cargo = :cargo, usu_foto = :foto, id_rol = :rol, id_Intermediario = :intermediario, fechaFin = :fechaLimEdi, cotizacionesTotales = :cotTotales
+												WHERE usu_usuario = :usuario");
 				}
 			}
 		} else {
@@ -307,7 +307,6 @@ class ModeloUsuarios
 		$stmt->bindParam(":intermediario", $datos["intermediario"], PDO::PARAM_STR);
 		//$stmt->bindParam(":maxCotEdi", $datos["maxCotEdi"], PDO::PARAM_STR);
 		$stmt->bindParam(":cotTotales", $datos["cotizacionesTotales"], PDO::PARAM_STR);
-		$stmt->bindParam(":fechaLimEdi", $datos["fechaLimEdi"], PDO::PARAM_STR);
 		$stmt->bindParam(":fechaLimEdi", $datos["fechaLimEdi"], PDO::PARAM_STR);
 		$stmt->bindParam(":rol", $datos["rol"], PDO::PARAM_STR);
 

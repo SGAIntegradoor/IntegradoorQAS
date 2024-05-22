@@ -43,7 +43,7 @@ $("#creaTemporal").on("click", function() {
 				newPassword : `Temporal123*`,
 				newGender : resultRand == 1 ? 'M' : 'F',
 				newRol : 20,
-				newPhone : '300000000',
+				newPhone : '3000000001',
 				newEmail : 'tecnologia@grupoasistencia.com',
 				newCharge : 'Guest',
 				maxCotizaciones : 20,
@@ -376,10 +376,10 @@ function consultarCiudadAgregar() {
 	//}
   }
 
-$(".tablas").on("click", ".btnEditarUsuario", function(){
+$(".tablas").on("click", ".btnEditarUsuario", function(e){
 
 	var idUsuario = $(this).attr("idUsuario");
-	
+	e.preventDefault();
 	var datos = new FormData();
 	datos.append("idUsuario", idUsuario);
 	$.ajax({

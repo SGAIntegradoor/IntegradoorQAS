@@ -1146,7 +1146,7 @@ MODAL EDITAR USUARIO
 
         $editarUsuario = new ControladorUsuarios();
         $editarUsuario->ctrEditarUsuario();
-
+            
         ?>
 
       </form>

@@ -283,7 +283,6 @@ const obtenerAyudaVentas = async () => {
         let rol = document.getElementById("rol").value;
         let template = ''
         data.forEach(ayudaVenta => {
-            console.log(ayudaVenta.aseguradora)
             const fecha_base = ayudaVenta.Fecha_Ultima_modificacion;
 
             if(compare_dates(fecha_base, fecha_max1)){

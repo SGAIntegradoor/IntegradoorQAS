@@ -709,8 +709,11 @@ class ControladorUsuarios
 				// die();
 
 				$actualPassword = crypt($_POST["passwordActual"], '$2a$07$asxx54ahjppf45sd87a5a4dDDGsystemdev$');
+				$actualPassw = $_POST["passwordActual"];
 				$actualIdUser = $_POST['idUsuEdit'];
-				$checkPass = ModeloUsuarios::mdlCheckPassword($actualPassword, $actualIdUser);
+				
+				$checkPass = ModeloUsuarios::mdlCheckPassword($actualPassw, $actualIdUser);
+				var_dump($checkPass);
 				if (!$checkPass) {
 					if (isset($_POST["ciudad2"]) && $_POST["ciudad2"] == NULL) {
 						$datos = array(
@@ -720,7 +723,7 @@ class ControladorUsuarios
 							"documento" => $_POST["editarDocIdUser"],
 							"tipoDocumento" => $_POST["editarTipoDocumento"],
 							"usuario" => $_POST["editarUsuario"],
-							"password" => $_POST["passwordActual"],
+							"password" => $actualPassword,
 							"genero" => $_POST["editarGenero"],
 							"fechNacimiento" => $_POST["fechNacimiento"],
 							"direccion" => $_POST["editarDireccion"],
@@ -735,6 +738,8 @@ class ControladorUsuarios
 							"ciudad" => $_POST["codigoCiudadActual"],
 							"foto" => $ruta
 						);
+						var_dump($datos);
+
 					} else {
 						$datos = array(
 							"id" => $_POST["idUsuEdit"],
@@ -758,8 +763,8 @@ class ControladorUsuarios
 							"ciudad" => $_POST["codigoCiudadActual"],
 							"foto" => $ruta
 						);
+						var_dump($datos);
 					}
-
 					$respuesta = ModeloUsuarios::mdlEditarUsuario($tabla, $datos);
 
 					if ($respuesta == "ok") {
@@ -774,9 +779,9 @@ class ControladorUsuarios
 							  }).then(function(result) {
 										if (result.value) {
 	
-												window.location = "usuarios";
+												
 								
-	
+											window.location = "usuarios"
 										}
 									})
 	
@@ -842,9 +847,9 @@ class ControladorUsuarios
 							"cargo" => $_POST["editarCargo"],
 							"intermediario" => $_POST["idIntermediario2"],
 							//"maxCotEdi" => $_POST["maxiCot"],
-							"cotizacionesTotales" => $_POST["cotRestantes"],
+							"cotizacionesTotales" => $_POST["cotizacionesTotales"],
 							"fechaLimEdi" => $_POST["fechaLimEdi"],
-							"ciudad" => $_POST["ciudad2"],
+							"ciudad" => $_POST["codigoCiudadActual"],
 							"foto" => $ruta
 						);
 					}
