@@ -578,315 +578,332 @@ class ControladorUsuarios
 	{
 
 		if (isset($_POST["editarUsuario"])) {
-
-			if (
-				preg_match('/^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ ]+$/', $_POST["editarNombre"]) &&
-				preg_match('/^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ ]+$/', $_POST["editarApellido"] &&
-					preg_match('/^[0-9]+$/', $_POST["editarDocIdUser"])) &&
-				preg_match('/^[()\-0-9 ]+$/', $_POST["editarTelefono"]) &&
-				preg_match('/^[a-zA-Z0-9_\-\.~]{2,}@[a-zA-Z0-9_\-\.~]{2,}\.[a-zA-Z]{2,4}$/', $_POST["editarEmail"])
-				//    preg_match('/^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ ]+$/', $_POST["editarCargo"])
-			) {
-
-				// Convierto el usuario a Minisculas
-				$editarUsuario = strtolower($_POST["editarUsuario"]);
-
-				/*=============================================
-																						VALIDAR IMAGEN
-																						=============================================*/
-
-				$ruta = $_POST["fotoActual"];
-
-				if (isset($_FILES["editarFoto"]["tmp_name"]) && !empty($_FILES["editarFoto"]["tmp_name"])) {
-
-					list($ancho, $alto) = getimagesize($_FILES["editarFoto"]["tmp_name"]);
-
-					$nuevoAncho = 500;
-					$nuevoAlto = 500;
-
+			if($_SESSION["permisos"]["EditarUsuarioInvitado"] == "x"){
+				if (
+					preg_match('/^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ ]+$/', $_POST["editarNombre"]) &&
+					preg_match('/^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ ]+$/', $_POST["editarApellido"] &&
+						preg_match('/^[0-9]+$/', $_POST["editarDocIdUser"])) &&
+					preg_match('/^[()\-0-9 ]+$/', $_POST["editarTelefono"]) &&
+					preg_match('/^[a-zA-Z0-9_\-\.~]{2,}@[a-zA-Z0-9_\-\.~]{2,}\.[a-zA-Z]{2,4}$/', $_POST["editarEmail"])
+					//    preg_match('/^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ ]+$/', $_POST["editarCargo"])
+				) {
+	
+					// Convierto el usuario a Minisculas
+					$editarUsuario = strtolower($_POST["editarUsuario"]);
+	
 					/*=============================================
-																											  CREAMOS EL DIRECTORIO DONDE VAMOS A GUARDAR LA FOTO DEL USUARIO
-																											  =============================================*/
-
-					$directorio = "vistas/img/usuarios/" . $editarUsuario;
-
-					/*=============================================
-																											  PRIMERO PREGUNTAMOS SI EXISTE OTRA IMAGEN EN LA BD
-																											  =============================================*/
-
-					if (!empty($_POST["fotoActual"])) {
-						// Verificar si el archivo existe antes de intentar eliminarlo
-						if (file_exists($_POST["fotoActual"])) {
-							unlink($_POST["fotoActual"]);
+																							VALIDAR IMAGEN
+																							=============================================*/
+	
+					$ruta = $_POST["fotoActual"];
+	
+					if (isset($_FILES["editarFoto"]["tmp_name"]) && !empty($_FILES["editarFoto"]["tmp_name"])) {
+	
+						list($ancho, $alto) = getimagesize($_FILES["editarFoto"]["tmp_name"]);
+	
+						$nuevoAncho = 500;
+						$nuevoAlto = 500;
+	
+						/*=============================================
+																												  CREAMOS EL DIRECTORIO DONDE VAMOS A GUARDAR LA FOTO DEL USUARIO
+																												  =============================================*/
+	
+						$directorio = "vistas/img/usuarios/" . $editarUsuario;
+	
+						/*=============================================
+																												  PRIMERO PREGUNTAMOS SI EXISTE OTRA IMAGEN EN LA BD
+																												  =============================================*/
+	
+						if (!empty($_POST["fotoActual"])) {
+							// Verificar si el archivo existe antes de intentar eliminarlo
+							if (file_exists($_POST["fotoActual"])) {
+								unlink($_POST["fotoActual"]);
+							} else {
+								// Manejar el caso en que el archivo no exista
+								echo "El archivo no existe: " . $_POST["fotoActual"];
+							}
 						} else {
-							// Manejar el caso en que el archivo no exista
-							echo "El archivo no existe: " . $_POST["fotoActual"];
+							if (!is_dir($directorio)) {
+								mkdir($directorio, 0755, true); // El tercer parámetro true permite la creación de directorios anidados
+							}
 						}
-					} else {
-						if (!is_dir($directorio)) {
-							mkdir($directorio, 0755, true); // El tercer parámetro true permite la creación de directorios anidados
-						}
-					}
-
-					/*=============================================
-																											  DE ACUERDO AL TIPO DE IMAGEN APLICAMOS LAS FUNCIONES POR DEFECTO DE PHP
-																											  =============================================*/
-
-					if ($_FILES["editarFoto"]["type"] == "image/jpeg") {
-
-						/*=============================================
-																																	GUARDAMOS LA IMAGEN EN EL DIRECTORIO
-																																	=============================================*/
-
-						$aleatorio = mt_rand(100, 999);
-
-						$ruta = "vistas/img/usuarios/" . $editarUsuario . "/" . $aleatorio . ".jpg";
-
-						$origen = imagecreatefromjpeg($_FILES["editarFoto"]["tmp_name"]);
-
-						$destino = imagecreatetruecolor($nuevoAncho, $nuevoAlto);
-
-						imagecopyresized($destino, $origen, 0, 0, 0, 0, $nuevoAncho, $nuevoAlto, $ancho, $alto);
-
-						imagejpeg($destino, $ruta);
-					}
-
-					if ($_FILES["editarFoto"]["type"] == "image/png") {
-
-						/*=============================================
-																																	GUARDAMOS LA IMAGEN EN EL DIRECTORIO
-																																	=============================================*/
-
-						$aleatorio = mt_rand(100, 999);
-
-						$ruta = "vistas/img/usuarios/" . $editarUsuario . "/" . $aleatorio . ".png";
-
-						$origen = imagecreatefrompng($_FILES["editarFoto"]["tmp_name"]);
-
-						$destino = imagecreatetruecolor($nuevoAncho, $nuevoAlto);
-
-						imagecopyresized($destino, $origen, 0, 0, 0, 0, $nuevoAncho, $nuevoAlto, $ancho, $alto);
-
-						imagepng($destino, $ruta);
-					}
-				}
-
-				$tabla = "usuarios";
-
-
-				// 	if (preg_match('/^[a-zA-Z0-9]+$/', $_POST["passwordActual"])) {
-
-				// 		$encriptar = crypt($_POST["passwordActual"], '$2a$07$asxx54ahjppf45sd87a5a4dDDGsystemdev$');
-
-				// 	} else {
-
-				// 		echo '<script>
-
-				// 				swal.fire({
-				// 					  type: "error",
-				// 					  title: "¡La contraseña no puede ir vacía o llevar caracteres especiales!",
-				// 					  showConfirmButton: true,
-				// 					  confirmButtonText: "Cerrar"
-				// 					  }).then(function(result) {
-				// 						if (result.value) {
-
-				// 						window.location = "usuarios";
-
-				// 						}
-				// 					})
-
-				// 		  	</script>';
-
-				// 		return;
-
-				// 	}
-
-				// if($_POST['passwordActual'])
-
-				// // }
-				// $intermediario = $_POST["idIntermediario2"];
-				// var_dump($intermediario);
-				// die();
-
-				$actualPassword = crypt($_POST["passwordActual"], '$2a$07$asxx54ahjppf45sd87a5a4dDDGsystemdev$');
-				$actualPassw = $_POST["passwordActual"];
-				$actualIdUser = $_POST['idUsuEdit'];
-				
-				$checkPass = ModeloUsuarios::mdlCheckPassword($actualPassw, $actualIdUser);
-				var_dump($checkPass);
-				if (!$checkPass) {
-					if (isset($_POST["ciudad2"]) && $_POST["ciudad2"] == NULL) {
-						$datos = array(
-							"id" => $_POST["idUsuEdit"],
-							"nombre" => $_POST["editarNombre"],
-							"apellido" => $_POST["editarApellido"],
-							"documento" => $_POST["editarDocIdUser"],
-							"tipoDocumento" => $_POST["editarTipoDocumento"],
-							"usuario" => $_POST["editarUsuario"],
-							"password" => $actualPassword,
-							"genero" => $_POST["editarGenero"],
-							"fechNacimiento" => $_POST["fechNacimiento"],
-							"direccion" => $_POST["editarDireccion"],
-							"rol" => $_POST["editarRol"],
-							"telefono" => $_POST["editarTelefono"],
-							"email" => $_POST["editarEmail"],
-							"cargo" => $_POST["editarCargo"],
-							"intermediario" => $_POST["idIntermediario2"],
-							//"maxCotEdi" => $_POST["maxiCot"],
-							"cotizacionesTotales" => $_POST["cotizacionesTotales"],
-							"fechaLimEdi" => $_POST["fechaLimEdi"],
-							"ciudad" => $_POST["codigoCiudadActual"],
-							"foto" => $ruta
-						);
-						var_dump($datos);
-
-					} else {
-						$datos = array(
-							"id" => $_POST["idUsuEdit"],
-							"nombre" => $_POST["editarNombre"],
-							"apellido" => $_POST["editarApellido"],
-							"documento" => $_POST["editarDocIdUser"],
-							"tipoDocumento" => $_POST["editarTipoDocumento"],
-							"usuario" => $_POST["editarUsuario"],
-							"password" => $actualPassword,
-							"genero" => $_POST["editarGenero"],
-							"fechNacimiento" => $_POST["fechNacimiento"],
-							"direccion" => $_POST["editarDireccion"],
-							"rol" => $_POST["editarRol"],
-							"telefono" => $_POST["editarTelefono"],
-							"email" => $_POST["editarEmail"],
-							"cargo" => $_POST["editarCargo"],
-							"intermediario" => $_POST["idIntermediario2"],
-							//"maxCotEdi" => $_POST["maxiCot"],
-							"cotizacionesTotales" => $_POST["cotizacionesTotales"],
-							"fechaLimEdi" => $_POST["fechaLimEdi"],
-							"ciudad" => $_POST["codigoCiudadActual"],
-							"foto" => $ruta
-						);
-						var_dump($datos);
-					}
-					$respuesta = ModeloUsuarios::mdlEditarUsuario($tabla, $datos);
-
-					if ($respuesta == "ok") {
-
-						echo '<script>
 	
-						swal.fire({
-							  type: "success",
-							  title: "El usuario ha sido editado correctamente",
-							  showConfirmButton: true,
-							  confirmButtonText: "Cerrar"
-							  }).then(function(result) {
-										if (result.value) {
+						/*=============================================
+																												  DE ACUERDO AL TIPO DE IMAGEN APLICAMOS LAS FUNCIONES POR DEFECTO DE PHP
+																												  =============================================*/
+	
+						if ($_FILES["editarFoto"]["type"] == "image/jpeg") {
+	
+							/*=============================================
+																																		GUARDAMOS LA IMAGEN EN EL DIRECTORIO
+																																		=============================================*/
+	
+							$aleatorio = mt_rand(100, 999);
+	
+							$ruta = "vistas/img/usuarios/" . $editarUsuario . "/" . $aleatorio . ".jpg";
+	
+							$origen = imagecreatefromjpeg($_FILES["editarFoto"]["tmp_name"]);
+	
+							$destino = imagecreatetruecolor($nuevoAncho, $nuevoAlto);
+	
+							imagecopyresized($destino, $origen, 0, 0, 0, 0, $nuevoAncho, $nuevoAlto, $ancho, $alto);
+	
+							imagejpeg($destino, $ruta);
+						}
+	
+						if ($_FILES["editarFoto"]["type"] == "image/png") {
+	
+							/*=============================================
+																																		GUARDAMOS LA IMAGEN EN EL DIRECTORIO
+																																		=============================================*/
+	
+							$aleatorio = mt_rand(100, 999);
+	
+							$ruta = "vistas/img/usuarios/" . $editarUsuario . "/" . $aleatorio . ".png";
+	
+							$origen = imagecreatefrompng($_FILES["editarFoto"]["tmp_name"]);
+	
+							$destino = imagecreatetruecolor($nuevoAncho, $nuevoAlto);
+	
+							imagecopyresized($destino, $origen, 0, 0, 0, 0, $nuevoAncho, $nuevoAlto, $ancho, $alto);
+	
+							imagepng($destino, $ruta);
+						}
+					}
+	
+					$tabla = "usuarios";
+	
+	
+					// 	if (preg_match('/^[a-zA-Z0-9]+$/', $_POST["passwordActual"])) {
+	
+					// 		$encriptar = crypt($_POST["passwordActual"], '$2a$07$asxx54ahjppf45sd87a5a4dDDGsystemdev$');
+	
+					// 	} else {
+	
+					// 		echo '<script>
+	
+					// 				swal.fire({
+					// 					  type: "error",
+					// 					  title: "¡La contraseña no puede ir vacía o llevar caracteres especiales!",
+					// 					  showConfirmButton: true,
+					// 					  confirmButtonText: "Cerrar"
+					// 					  }).then(function(result) {
+					// 						if (result.value) {
+	
+					// 						window.location = "usuarios";
+	
+					// 						}
+					// 					})
+	
+					// 		  	</script>';
+	
+					// 		return;
+	
+					// 	}
+	
+					// if($_POST['passwordActual'])
+	
+					// // }
+					// $intermediario = $_POST["idIntermediario2"];
+					// var_dump($intermediario);
+					// die();
+	
+					$actualPassword = crypt($_POST["passwordActual"], '$2a$07$asxx54ahjppf45sd87a5a4dDDGsystemdev$');
+					$actualPassw = $_POST["passwordActual"];
+					$actualIdUser = $_POST['idUsuEdit'];
+					
+					$checkPass = ModeloUsuarios::mdlCheckPassword($actualPassw, $actualIdUser);
+					var_dump($checkPass);
+					if (!$checkPass) {
+						if (isset($_POST["ciudad2"]) && $_POST["ciudad2"] == NULL) {
+							$datos = array(
+								"id" => $_POST["idUsuEdit"],
+								"nombre" => $_POST["editarNombre"],
+								"apellido" => $_POST["editarApellido"],
+								"documento" => $_POST["editarDocIdUser"],
+								"tipoDocumento" => $_POST["editarTipoDocumento"],
+								"usuario" => $_POST["editarUsuario"],
+								"password" => $actualPassword,
+								"genero" => $_POST["editarGenero"],
+								"fechNacimiento" => $_POST["fechNacimiento"],
+								"direccion" => $_POST["editarDireccion"],
+								"rol" => $_POST["editarRol"],
+								"telefono" => $_POST["editarTelefono"],
+								"email" => $_POST["editarEmail"],
+								"cargo" => $_POST["editarCargo"],
+								"intermediario" => $_POST["idIntermediario2"],
+								//"maxCotEdi" => $_POST["maxiCot"],
+								"cotizacionesTotales" => $_POST["cotizacionesTotales"],
+								"fechaLimEdi" => $_POST["fechaLimEdi"],
+								"ciudad" => $_POST["codigoCiudadActual"],
+								"foto" => $ruta
+							);
+							var_dump($datos);
+	
+						} else {
+							$datos = array(
+								"id" => $_POST["idUsuEdit"],
+								"nombre" => $_POST["editarNombre"],
+								"apellido" => $_POST["editarApellido"],
+								"documento" => $_POST["editarDocIdUser"],
+								"tipoDocumento" => $_POST["editarTipoDocumento"],
+								"usuario" => $_POST["editarUsuario"],
+								"password" => $actualPassword,
+								"genero" => $_POST["editarGenero"],
+								"fechNacimiento" => $_POST["fechNacimiento"],
+								"direccion" => $_POST["editarDireccion"],
+								"rol" => $_POST["editarRol"],
+								"telefono" => $_POST["editarTelefono"],
+								"email" => $_POST["editarEmail"],
+								"cargo" => $_POST["editarCargo"],
+								"intermediario" => $_POST["idIntermediario2"],
+								//"maxCotEdi" => $_POST["maxiCot"],
+								"cotizacionesTotales" => $_POST["cotizacionesTotales"],
+								"fechaLimEdi" => $_POST["fechaLimEdi"],
+								"ciudad" => $_POST["codigoCiudadActual"],
+								"foto" => $ruta
+							);
+							var_dump($datos);
+						}
+						$respuesta = ModeloUsuarios::mdlEditarUsuario($tabla, $datos);
+	
+						if ($respuesta == "ok") {
+	
+							echo '<script>
+		
+							swal.fire({
+								  type: "success",
+								  title: "El usuario ha sido editado correctamente",
+								  showConfirmButton: true,
+								  confirmButtonText: "Cerrar"
+								  }).then(function(result) {
+											if (result.value) {
+												window.location = "usuarios"
+											}
+										})
+		
+							</script>';
+						} else {
+	
+							echo '<script>
+		
+							swal.fire({
+								  type: "error",
+								  title: "¡El nombre no puede ir vacío o llevar arcacteres especiales!",
+								  showConfirmButton: true,
+								  confirmButtonText: "Cerrar"
+								  }).then(function(result) {
+									if (result.value) {	
+										window.location = "usuarios";	
+									}
+								})
+		
+						  </script>';
+						}
+					} else {
+						if (isset($_POST["ciudad2"]) && $_POST["ciudad2"] == NULL) {
+							$datos = array(
+								"id" => $_POST["idUsuEdit"],
+								"nombre" => $_POST["editarNombre"],
+								"apellido" => $_POST["editarApellido"],
+								"documento" => $_POST["editarDocIdUser"],
+								"tipoDocumento" => $_POST["editarTipoDocumento"],
+								"usuario" => $_POST["editarUsuario"],
+								//"password" => $actualPassword,
+								"genero" => $_POST["editarGenero"],
+								"fechNacimiento" => $_POST["fechNacimiento"],
+								"direccion" => $_POST["editarDireccion"],
+								"rol" => $_POST["editarRol"],
+								"telefono" => $_POST["editarTelefono"],
+								"email" => $_POST["editarEmail"],
+								"cargo" => $_POST["editarCargo"],
+								"intermediario" => $_POST["idIntermediario2"],
+								//"maxCotEdi" => $_POST["maxiCot"],
+								"cotizacionesTotales" => $_POST["cotizacionesTotales"],
+								"fechaLimEdi" => $_POST["fechaLimEdi"],
+								"ciudad" => $_POST["codigoCiudadActual"],
+								"foto" => $ruta
+							);
+						} else {
+							$datos = array(
+								"id" => $_POST["idUsuEdit"],
+								"nombre" => $_POST["editarNombre"],
+								"apellido" => $_POST["editarApellido"],
+								"documento" => $_POST["editarDocIdUser"],
+								"tipoDocumento" => $_POST["editarTipoDocumento"],
+								"usuario" => $_POST["editarUsuario"],
+								//"password" => $actualPassword,
+								"genero" => $_POST["editarGenero"],
+								"fechNacimiento" => $_POST["fechNacimiento"],
+								"direccion" => $_POST["editarDireccion"],
+								"rol" => $_POST["editarRol"],
+								"telefono" => $_POST["editarTelefono"],
+								"email" => $_POST["editarEmail"],
+								"cargo" => $_POST["editarCargo"],
+								"intermediario" => $_POST["idIntermediario2"],
+								//"maxCotEdi" => $_POST["maxiCot"],
+								"cotizacionesTotales" => $_POST["cotizacionesTotales"],
+								"fechaLimEdi" => $_POST["fechaLimEdi"],
+								"ciudad" => $_POST["codigoCiudadActual"],
+								"foto" => $ruta
+							);
+						}
+	
+						$respuesta = ModeloUsuarios::mdlEditarUsuario($tabla, $datos);
+	
+	
+						if ($respuesta == "ok") {
+	
+							echo '<script>
+		
+							swal.fire({
+								type: "success",
+								title: "El usuario ha sido editado correctamente",
+								showConfirmButton: true,
+								confirmButtonText: "Cerrar"
+								}).then(function(result) {
+										  if (result.value) { 
 											window.location = "usuarios"
-										}
-									})
+										  }
+									  })
+		
+							</script>';
+						} else {
 	
-						</script>';
-					} else {
-
-						echo '<script>
-	
-						swal.fire({
-							  type: "error",
-							  title: "¡El nombre no puede ir vacío o llevar arcacteres especiales!",
-							  showConfirmButton: true,
-							  confirmButtonText: "Cerrar"
-							  }).then(function(result) {
-								if (result.value) {	
-									window.location = "usuarios";	
-								}
-							})
-	
-					  </script>';
-					}
-				} else {
-					if (isset($_POST["ciudad2"]) && $_POST["ciudad2"] == NULL) {
-						$datos = array(
-							"id" => $_POST["idUsuEdit"],
-							"nombre" => $_POST["editarNombre"],
-							"apellido" => $_POST["editarApellido"],
-							"documento" => $_POST["editarDocIdUser"],
-							"tipoDocumento" => $_POST["editarTipoDocumento"],
-							"usuario" => $_POST["editarUsuario"],
-							//"password" => $actualPassword,
-							"genero" => $_POST["editarGenero"],
-							"fechNacimiento" => $_POST["fechNacimiento"],
-							"direccion" => $_POST["editarDireccion"],
-							"rol" => $_POST["editarRol"],
-							"telefono" => $_POST["editarTelefono"],
-							"email" => $_POST["editarEmail"],
-							"cargo" => $_POST["editarCargo"],
-							"intermediario" => $_POST["idIntermediario2"],
-							//"maxCotEdi" => $_POST["maxiCot"],
-							"cotizacionesTotales" => $_POST["cotizacionesTotales"],
-							"fechaLimEdi" => $_POST["fechaLimEdi"],
-							"ciudad" => $_POST["codigoCiudadActual"],
-							"foto" => $ruta
-						);
-					} else {
-						$datos = array(
-							"id" => $_POST["idUsuEdit"],
-							"nombre" => $_POST["editarNombre"],
-							"apellido" => $_POST["editarApellido"],
-							"documento" => $_POST["editarDocIdUser"],
-							"tipoDocumento" => $_POST["editarTipoDocumento"],
-							"usuario" => $_POST["editarUsuario"],
-							//"password" => $actualPassword,
-							"genero" => $_POST["editarGenero"],
-							"fechNacimiento" => $_POST["fechNacimiento"],
-							"direccion" => $_POST["editarDireccion"],
-							"rol" => $_POST["editarRol"],
-							"telefono" => $_POST["editarTelefono"],
-							"email" => $_POST["editarEmail"],
-							"cargo" => $_POST["editarCargo"],
-							"intermediario" => $_POST["idIntermediario2"],
-							//"maxCotEdi" => $_POST["maxiCot"],
-							"cotizacionesTotales" => $_POST["cotizacionesTotales"],
-							"fechaLimEdi" => $_POST["fechaLimEdi"],
-							"ciudad" => $_POST["codigoCiudadActual"],
-							"foto" => $ruta
-						);
-					}
-
-					$respuesta = ModeloUsuarios::mdlEditarUsuario($tabla, $datos);
-
-
-					if ($respuesta == "ok") {
-
-						echo '<script>
-	
-						swal.fire({
-							type: "success",
-							title: "El usuario ha sido editado correctamente",
-							showConfirmButton: true,
-							confirmButtonText: "Cerrar"
-							}).then(function(result) {
-									  if (result.value) { 
-										window.location = "usuarios"
-									  }
-								  })
-	
-						</script>';
-					} else {
-
-						echo '<script>
-	
-						swal.fire({
-							  type: "error",
-							  title: "¡El nombre no puede ir vacío o llevar caracteres especiales!",
-							  showConfirmButton: true,
-							  confirmButtonText: "Cerrar"
-							  }).then(function(result) {
-								if (result.value) {	
-									window.location = "usuarios";	
-								}
-							})
-	
-					  </script>';
+							echo '<script>
+		
+							swal.fire({
+								  type: "error",
+								  title: "¡El nombre no puede ir vacío o llevar caracteres especiales!",
+								  showConfirmButton: true,
+								  confirmButtonText: "Cerrar"
+								  }).then(function(result) {
+									if (result.value) {	
+										window.location = "usuarios";	
+									}
+								})
+		
+						  </script>';
+						}
 					}
 				}
+			} else {
+				echo '<script>
+		
+							swal.fire({
+								  type: "error",
+								  title: "No tienes permiso para editar usuarios",
+								  showConfirmButton: true,
+								  confirmButtonText: "Cerrar"
+								  }).then(function(result) {
+									if (result.value) {	
+										window.location = "usuarios";	
+									}
+								})
+		
+						  </script>';
 			}
+			
 		}
 	}
 	/*=============================================
