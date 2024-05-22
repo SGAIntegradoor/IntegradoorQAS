@@ -778,9 +778,6 @@ class ControladorUsuarios
 							  confirmButtonText: "Cerrar"
 							  }).then(function(result) {
 										if (result.value) {
-	
-												
-								
 											window.location = "usuarios"
 										}
 									})
@@ -796,10 +793,8 @@ class ControladorUsuarios
 							  showConfirmButton: true,
 							  confirmButtonText: "Cerrar"
 							  }).then(function(result) {
-								if (result.value) {
-	
-								window.location = "usuarios";
-	
+								if (result.value) {	
+									window.location = "usuarios";	
 								}
 							})
 	
@@ -862,10 +857,15 @@ class ControladorUsuarios
 						echo '<script>
 	
 						swal.fire({
-							  type: "success",
-							  title: "El usuario ha sido editado correctamente",
-							  showConfirmButton: true,
-							 })
+							type: "success",
+							title: "El usuario ha sido editado correctamente",
+							showConfirmButton: true,
+							confirmButtonText: "Cerrar"
+							}).then(function(result) {
+									  if (result.value) { 
+										window.location = "usuarios"
+									  }
+								  })
 	
 						</script>';
 					} else {
@@ -878,10 +878,8 @@ class ControladorUsuarios
 							  showConfirmButton: true,
 							  confirmButtonText: "Cerrar"
 							  }).then(function(result) {
-								if (result.value) {
-	
-								//window.location = "usuarios";
-	
+								if (result.value) {	
+									window.location = "usuarios";	
 								}
 							})
 	
