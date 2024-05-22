@@ -41,7 +41,7 @@ $("#creaTemporal").on("click", function() {
 				newDocIdUser : `${randomizer}`,
 				newUserTemp : newUserTemp,
 				newPassword : `Temporal123*`,
-				newGender : resultRand,
+				newGender : resultRand == 1 ? 'M' : 'F',
 				newRol : 20,
 				newPhone : '300000000',
 				newEmail : 'tecnologia@grupoasistencia.com',
