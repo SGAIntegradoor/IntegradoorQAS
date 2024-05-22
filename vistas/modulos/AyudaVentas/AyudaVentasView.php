@@ -15,6 +15,18 @@ if ($_SESSION["permisos"]["AyudaVentasFreelance"] == "x") {
     $formasDePago = "x";
 }
 
+// Configurar la localización
+$locale = 'es_ES';
+
+// Obtener el nombre del mes en mayúsculas
+$formatter = new IntlDateFormatter($locale, IntlDateFormatter::NONE, IntlDateFormatter::NONE, null, null, 'MMMM');
+$nombreMes = strtoupper($formatter->format(new DateTime()));
+
+// Obtener el año actual
+$anio = date("Y");
+
+// Crear el nombre del archivo
+$nombreArchivo = "COTIZADOR VIGENTE FINESA $nombreMes $anio.xlsx";
 ?>
 
 <style>
@@ -32,9 +44,9 @@ if ($_SESSION["permisos"]["AyudaVentasFreelance"] == "x") {
     }
 
     table {
-    /* table-layout: fixed; */
-    width: 100%;
-    /* Puedes establecer el ancho total de la tabla aquí */
+        /* table-layout: fixed; */
+        width: 100%;
+        /* Puedes establecer el ancho total de la tabla aquí */
     }
 
     /* @media (max-width: 790px) {
@@ -50,16 +62,17 @@ if ($_SESSION["permisos"]["AyudaVentasFreelance"] == "x") {
 
     .table th,
     .table td {
-        vertical-align: middle; /* Puedes usar "top" o "bottom" en lugar de "middle" según tus necesidades */
+        vertical-align: middle;
+        /* Puedes usar "top" o "bottom" en lugar de "middle" según tus necesidades */
     }
 
     .btn.btn-alert {
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
     }
 
-    .text-config{
+    .text-config {
         font-size: 13px;
     }
 
@@ -82,9 +95,28 @@ if ($_SESSION["permisos"]["AyudaVentasFreelance"] == "x") {
     }
 
 
+    .sectionDropdown {
+        display: flex;
+        flex-direction: row;
+    }
 
+    .textDropdown {
+        font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        font-weight: 600;
+    }
+
+    .hide {
+        display: none;
+    }
+
+    .visible {
+        display: block;
+    }
+
+    .textDropdown:hover {
+        cursor: pointer;
+    }
 </style>
-
 <div class="content-wrapper">
     <section class="content-header">
         <h1>Ayuda Ventas</h1>
@@ -98,13 +130,13 @@ if ($_SESSION["permisos"]["AyudaVentasFreelance"] == "x") {
     <section class="content">
         <div class="box">
             <div class="box-body">
-               
+
 
                 <div style="text-align: right !important; margin-right: 2%">
                     <p id="fech_ult"></p>
                 </div>
 
-                 <!-- Form -->
+                <!-- Form -->
                 <form action="javascript:void(0);" class="form-editar-ayuda-venta" style="display: none; ">
 
                     <div class="row">
@@ -181,7 +213,7 @@ if ($_SESSION["permisos"]["AyudaVentasFreelance"] == "x") {
                         </div>
                     </div>
                 </form>
-                    <!-- END Form -->
+                <!-- END Form -->
 
 
                 <div class="table table-media">
@@ -212,72 +244,81 @@ if ($_SESSION["permisos"]["AyudaVentasFreelance"] == "x") {
                         </tbody>
                     </table>
                 </div>
-            
+                <p>* PN: Persona Natural. PJ: Persona Jurídica</p>
                 <div style="margin-left: 1em; padding-bottom: 1em;">
-                    <p>* PN: Persona Natural. PJ: Persona Jurídica</p>
-                <div style="display: flex; flex-direction: row;">
-                
-                    <p>Sarlaft Superintendencia Financiera</p>
+                    <div class="sectionDropdown" id="dropdownbtn">
+                        <div id="svgDropdown" style="margin-right: 5px; margin-left: 0">
+                            <img class="textDropdown" src="vistas/img/arrowright.png" alt="" width="13" height="13">
+                        </div>
+                        <p class="textDropdown">Sarlaft Superintendencia Financiera</p>
+                    </div>
+                    <div id="boxDropdown" class="hide">
+                        <div style="display: flex; flex-direction: row;">
+                        </div>
+                        <b>Sarlaft general PN:</b>
+                        <button class="btn btn-primary" id="safGenNat" style="background: red; color: #fff; font-weight: 500;">PDF</button>
+
+                        <?php if ($_SESSION["permisos"]["Editarinformaciondelayudaventas"] == "x") {
+                            echo '<button class="btn btn-primary" style="font-weight: 500;" id="btn_edit_generic1">Editar</button>';
+                        } else {
+                            echo '<div style="display: none;"><button class="btn btn-primary" style="font-weight: 500;" id="btn_edit_generic1">Editar</button></div>';
+                        } ?>
+
+                        <p>
+                        <form action="javascript:void(0);" class="form-editar-generic1" style="display: none; ">
+                            <div class="row">
+                                <div class="form-group col-md-6 col-sm-6 col-xs-12">
+                                    <input type="file" class="form-control" id="sarlaftGeneric1">
+                                </div>
+                                <div class="form-group col-md-6 col-sm-6 col-xs-12">
+                                    <button id="editargeneric1" class="btn btn-primary">Editar</button>
+                                </div>
+                            </div>
+                        </form>
+                        </p>
+                        <p>
+                            <b>Sarlaft general PJ:</b>
+                            <button class="btn btn-primary" id="safGenJur" style="background: red; color: #fff; font-weight: 500; margin-left: 5px">PDF</button>
+
+                            <?php if ($_SESSION["permisos"]["Editarinformaciondelayudaventas"] == "x") {
+
+                                echo '<button class="btn btn-primary" style="font-weight: 500;" id="btn_edit_generic2">Editar</button>';
+                            } else {
+                                echo '<div style="display: none;"><button class="btn btn-primary" style="font-weight: 500;" id="btn_edit_generic2">Editar</button></div>';
+                            } ?>
+                        </p>
+                        <p>
+                        <form action="javascript:void(0);" class="form-editar-generic2" style="display: none; ">
+                            <div class="row">
+                                <div class="form-group col-md-6 col-sm-6 col-xs-12">
+                                    <input type="file" class="form-control" id="sarlaftGeneric2">
+                                </div>
+                                <div class="form-group col-md-6 col-sm-6 col-xs-12">
+                                    <button id="editargeneric2" class="btn btn-primary">Editar</button>
+                                </div>
+                            </div>
+
+                        </form>
+                        </p>
+                    </div>
+                    <div id="dropdownbtn1" class="sectionDropdown" style="sectionDropdown:hover: cursor: pointer;">
+                        <div id="svgDropdown1" style="margin-right: 5px; margin-left: 0">
+                            <img class="textDropdown" src="vistas/img/arrowright.png" alt="" width="14" height="14">
+                        </div>
+                        <p class="textDropdown">Formatos Financieras</p>
+                    </div>
+                    <div id="boxDropdown1" class="sectionDropdown hide">
+                        <div style="display: flex; flex-direction: row; align-items: center; gap: 5px;">
+                            <p style="font-weight: bold;">Financiación Finesa: </p>
+                            <a href="vistas/modulos/AyudaVentas/pdf/pdf-finesa/<?php echo $nombreArchivo; ?>" download="<?php echo $nombreArchivo; ?>">
+                                <img src="vistas/img/excelIco.png" style="margin-bottom: 6px;" />
+                            </a>
+                            </img>
+                        </div>
+                    </div>
                 </div>
-                    <b>Sarlaft general PN:</b>
-                    <button 
-                    class="btn btn-primary" 
-                    id="safGenNat"
-                    style="background: red; color: #fff; font-weight: 500;">PDF</button>
-
-                    <?php if ($_SESSION["permisos"]["Editarinformaciondelayudaventas"] == "x") {
-                        echo '<button class="btn btn-primary" style="font-weight: 500;" id="btn_edit_generic1">Editar</button>';
-
-                    } else {
-                        echo '<div style="display: none;"><button class="btn btn-primary" style="font-weight: 500;" id="btn_edit_generic1">Editar</button></div>';
-
-                    } ?>
-
-                
-                <p>
-                <form action="javascript:void(0);" class="form-editar-generic1" style="display: none; ">
-                    <div class="row">
-                        <div class="form-group col-md-6 col-sm-6 col-xs-12">
-                            <input type="file" class="form-control" id="sarlaftGeneric1">
-                        </div>
-                        <div class="form-group col-md-6 col-sm-6 col-xs-12">
-                            <button id="editargeneric1" class="btn btn-primary">Editar</button>
-                        </div>
-                    </div>
-                </form>
-                </p>
-                <p>
-                    <b>Sarlaft general PJ:</b>
-                    <button 
-                    class="btn btn-primary" 
-                    id="safGenJur"
-                    style="background: red; color: #fff; font-weight: 500; margin-left: 5px" >PDF</button>
-
-                    <?php if ($_SESSION["permisos"]["Editarinformaciondelayudaventas"] == "x") {
-
-                        echo '<button class="btn btn-primary" style="font-weight: 500;" id="btn_edit_generic2">Editar</button>';
-
-                    } else {
-                        echo '<div style="display: none;"><button class="btn btn-primary" style="font-weight: 500;" id="btn_edit_generic2">Editar</button></div>';
-                    } ?>
-                </p>
-                <p>
-                <form action="javascript:void(0);" class="form-editar-generic2" style="display: none; ">
-                    <div class="row">
-                        <div class="form-group col-md-6 col-sm-6 col-xs-12">
-                            <input type="file" class="form-control" id="sarlaftGeneric2">
-                        </div>
-                        <div class="form-group col-md-6 col-sm-6 col-xs-12">
-                            <button id="editargeneric2" class="btn btn-primary">Editar</button>
-                        </div>
-                    </div>
-
-                </form>
-                </p>
             </div>
-            </div>            
-        </div>
     </section>
 </div>
 
-<script src="./vistas/modulos/AyudaVentas/ayuda-ventas.js"></script>
+<script src="./vistas/modulos/AyudaVentas/ayuda-ventas.js?v=<?php echo (rand()); ?>"></script>

@@ -52,6 +52,43 @@ $(document).ready(function () {
 //     return html;
 // };
 
+
+//:::::::::::::::::::::::::::::::::::: DropDown PDF's Sartlaf y Financiero :::::::::::::::::::::::::::::::::::::://
+
+const btnDd = document.getElementById("dropdownbtn");
+const boxDd = document.getElementById("boxDropdown");
+const svgDd = document.getElementById("svgDropdown");
+
+btnDd.addEventListener("click", function () {
+  if (boxDd.classList.contains("hide")) {
+    boxDd.classList.remove("hide");
+    boxDd.classList.add("visible");
+    svgDd.innerHTML = `<img src="vistas/img/arrowdown.png" alt="" width="14" height="14">`;
+  } else {
+    boxDd.classList.add("hide");
+    boxDd.classList.remove("visible");
+    svgDd.innerHTML = `<img src="vistas/img/arrowright.png" alt="" width="14" height="14">`;
+  }
+});
+
+const btnDd1 = document.getElementById("dropdownbtn1");
+const boxDd1 = document.getElementById("boxDropdown1");
+const svgDd1 = document.getElementById("svgDropdown1");
+
+btnDd1.addEventListener("click", function () {
+  if (boxDd1.classList.contains("hide")) {
+    boxDd1.classList.remove("hide");
+    boxDd1.classList.add("visible");
+    svgDd1.innerHTML = `<img src="vistas/img/arrowdown.png" alt="" width="14" height="14">`;
+  } else {
+    boxDd1.classList.add("hide");
+    boxDd1.classList.remove("visible");
+    svgDd1.innerHTML = `<img src="vistas/img/arrowright.png" alt="" width="14" height="14">`;
+  }
+});
+
+//:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::://
+
 const construirHtmlCentrosDeInspeccion = centrosDeInspeccion => {
     if (centrosDeInspeccion.length === 0) return '';
     let html = '<ul style="margin-top: 60px;">';
