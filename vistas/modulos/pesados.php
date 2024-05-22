@@ -5,17 +5,18 @@ require_once "config/dbconfig.php";
 
 // mysqli_set_charset($enlace, "utf8");
 
-function obtenerCredenciales($enlace, $tabla, $columnas, $idIntermediario) {
+function obtenerCredenciales($enlace, $tabla, $columnas, $idIntermediario)
+{
   $query = "SELECT $columnas FROM `$tabla` WHERE `id_intermediario` = '$idIntermediario'";
   $ejecucion = mysqli_query($enlace, $query);
   $numerofilas = mysqli_num_rows($ejecucion);
   $fila = mysqli_fetch_assoc($ejecucion);
 
   if ($numerofilas > 0) {
-      return $fila;
+    return $fila;
   } else {
-      
-      return false;
+
+    return false;
   }
 }
 
@@ -26,11 +27,9 @@ $idIntermediario = $_SESSION['permisos']['id_Intermediario'];
 if ($aseguradoras['SBS']['C'] == "1") {
 
   $creSBS = obtenerCredenciales($enlace, 'Credenciales_SBS', '*', $_SESSION['intermediario']);
-  
-}else{
+} else {
 
   $creSBS = obtenerCredenciales($enlace, 'Credenciales_SBS', '*', '3');
-
 }
 $cre_sbs_usuario = $creSBS['cre_sbs_usuario'];
 $cre_sbs_contrasena = $creSBS['cre_sbs_contrasena'];
@@ -38,7 +37,6 @@ $cre_sbs_contrasena = $creSBS['cre_sbs_contrasena'];
 // Lógica para ALLIANZ
 if ($aseguradoras['Allianz']['C'] == "1") {
   $creAllianz = obtenerCredenciales($enlace, 'Credenciales_Allianz', '*', $_SESSION['intermediario']);
-
 } else {
   $creAllianz = obtenerCredenciales($enlace, 'Credenciales_Allianz', '*', '3');
 }
@@ -53,7 +51,6 @@ $cre_alli_agentcode = $creAllianz['cre_alli_agentcode'];
 // Lógica para ESTADO
 if ($aseguradoras['Estado']['C'] == "1") {
   $creEstado = obtenerCredenciales($enlace, 'Credenciales_Estado', '*', $_SESSION['intermediario']);
-
 } else {
   $creEstado = obtenerCredenciales($enlace, 'Credenciales_Estado', '*', '3');
 }
@@ -65,7 +62,6 @@ $cre_est_zona = $creEstado['cre_est_zona'];
 // Lógica para AXA
 if ($aseguradoras['AXA']['C'] == "1") {
   $creAXA = obtenerCredenciales($enlace, 'Credenciales_AXA', '*', $_SESSION['intermediario']);
-
 } else {
   $creAXA = obtenerCredenciales($enlace, 'Credenciales_AXA', '*', '3');
 }
@@ -82,7 +78,6 @@ $url_axa = $creAXA['url_axa'];
 // Lógica para SOLIDARIA
 if ($aseguradoras['Solidaria']['C'] == "1") {
   $creSolidaria = obtenerCredenciales($enlace, 'Credenciales_Solidaria', '*', $_SESSION['intermediario']);
-
 } else {
   $creSolidaria = obtenerCredenciales($enlace, 'Credenciales_Solidaria', '*', '3');
 }
@@ -102,7 +97,6 @@ $cre_sol_fecha_token = $creSolidaria['cre_sol_fecha_token'] ?? null;
 // Lógica para BOLIVAR
 if ($aseguradoras['Bolivar']['C'] == "1") {
   $creBolivar = obtenerCredenciales($enlace, 'Credenciales_Bolivar', '*', $_SESSION['intermediario']);
-
 } else {
   $creBolivar = obtenerCredenciales($enlace, 'Credenciales_Bolivar', '*', '3');
 }
@@ -437,35 +431,35 @@ if ($_SESSION["permisos"]["Cotizarpesados"] != "x") {
           <!-- FORMULARIO VEHICULO MANUAL -->
           <!-- <form method="Post" id="formVehManual"> -->
 
-            <div id="formularioVehiculo">
-              <div class="col-lg-12" id="headerFormVeh">
-                <div class="row row-formVehManual">
-                  <div class="col-xs-12 col-sm-6 col-md-4">
-                    <label for="">CONSULTA MANUAL DEL VEHICULO POR FASECOLDA</label>
-                  </div>
+          <div id="formularioVehiculo">
+            <div class="col-lg-12" id="headerFormVeh">
+              <div class="row row-formVehManual">
+                <div class="col-xs-12 col-sm-6 col-md-4">
+                  <label for="">CONSULTA MANUAL DEL VEHICULO POR FASECOLDA</label>
                 </div>
               </div>
-              
-              <div class ="col-lg-12 form-consulVeh">
-                  <div class= "row">
-                      <div class="col-xs-12 col-sm-6 col-md-3 form-group">
-                          <label for="clase">Código Fasecolda</label>
-                          <input type="text" maxlength="10" class="form-control" id="fasecoldabuscadormanual" placeholder="Número de fasecolda">
-                      </div>
-                      <div class="col-xs-12 col-sm-6 col-md-3 form-group">
-                          <label for="clase">Modelo Vehículo</label>
-                          <input type="text" maxlength="10" class="form-control" id="modelobuscadormanual"  placeholder="Modelo Vehículo">
-                      </div>
-                      
-                      <div style="padding-top: 25px !important;" class="col-xs-12 col-sm-6 col-md-2 form-group">
-                          <button class="btn btn-primary btn-block" id="btnConsultarVehmanualbuscador">Consultar Vehículo</button>
-                      </div>
-                      
-                      
-                  </div>
+            </div>
+
+            <div class="col-lg-12 form-consulVeh">
+              <div class="row">
+                <div class="col-xs-12 col-sm-6 col-md-3 form-group">
+                  <label for="clase">Código Fasecolda</label>
+                  <input type="text" maxlength="10" class="form-control" id="fasecoldabuscadormanual" placeholder="Número de fasecolda">
+                </div>
+                <div class="col-xs-12 col-sm-6 col-md-3 form-group">
+                  <label for="clase">Modelo Vehículo</label>
+                  <input type="text" maxlength="10" class="form-control" id="modelobuscadormanual" placeholder="Modelo Vehículo">
+                </div>
+
+                <div style="padding-top: 25px !important;" class="col-xs-12 col-sm-6 col-md-2 form-group">
+                  <button class="btn btn-primary btn-block" id="btnConsultarVehmanualbuscador">Consultar Vehículo</button>
+                </div>
+
+
               </div>
-              
-                <form method="Post" id="formVehManual">
+            </div>
+
+            <form method="Post" id="formVehManual">
               <div class="col-lg-12" id="headerFormVeh">
                 <div class="row row-formVehManual">
                   <div class="col-xs-12 col-sm-6 col-md-4">
@@ -473,12 +467,12 @@ if ($_SESSION["permisos"]["Cotizarpesados"] != "x") {
                   </div>
                 </div>
               </div>
-              
+
               <div class="col-lg-12 form-consulVeh">
                 <div class="row">
-                    
-                    
-                <div class="col-md-12">
+
+
+                  <div class="col-md-12">
                     <div class="row">
                       <div class="col-xs-12 col-sm-6 col-md-3 form-group">
                         <label for="clase">Clase Vehículo</label>
@@ -493,66 +487,66 @@ if ($_SESSION["permisos"]["Cotizarpesados"] != "x") {
                           <option value="PESADO">PESADO</option>
                           <option value="PICKUP">PICKUP</option>
                         </select>
-                    </div>
-                
-                    <div class="col-xs-12 col-sm-6 col-md-3 form-group">
+                      </div>
+
+                      <div class="col-xs-12 col-sm-6 col-md-3 form-group">
                         <label for="Marca">Marca Vehículo</label>
                         <select class="form-control" name="Marca" id="Marca" required></select>
-                    </div>
-                    
-                    <div class="col-xs-12 col-sm-6 col-md-3 form-group">
+                      </div>
+
+                      <div class="col-xs-12 col-sm-6 col-md-3 form-group">
                         <label for="linea">Modelo Vehículo</label>
                         <div class="input-group">
-                            <div class="input-group-addon">
-                                <div id="loadingModelo"></div>
-                            </div>
-                            <select class="form-control" name="edad" id="edad" required></select>
+                          <div class="input-group-addon">
+                            <div id="loadingModelo"></div>
+                          </div>
+                          <select class="form-control" name="edad" id="edad" required></select>
                         </div>
+                      </div>
+
+
+                      <div class="col-xs-12 col-sm-6 col-md-3 form-group">
+                        <label for="linea">Linea Vehículo</label>
+                        <select class="form-control" name="linea" id="linea" required></select>
+                      </div>
                     </div>
-
-
-                  <div class="col-xs-12 col-sm-6 col-md-3 form-group">
-                    <label for="linea">Linea Vehículo</label>
-                    <select class="form-control" name="linea" id="linea" required></select>
                   </div>
-                </div>
-                </div>
 
-                
-                
-                <div class="col-xs-12 col-sm-6 col-md-12">
+
+
+                  <div class="col-xs-12 col-sm-6 col-md-12">
                     <div class="row">
-                    <div class="col-xs-12 col-sm-6 col-md-3 form-group">
-                      <div id="referenciados"></div>
-                    </div>
-                    <div class="col-xs-12 col-sm-6 col-md-3 form-group">
-                      <div id="referenciatres"></div>
-                    </div>
-                    <div class="col-xs-12 col-sm-6 col-md-3">
+                      <div class="col-xs-12 col-sm-6 col-md-3 form-group">
+                        <div id="referenciados"></div>
+                      </div>
+                      <div class="col-xs-12 col-sm-6 col-md-3 form-group">
+                        <div id="referenciatres"></div>
+                      </div>
+                      <div class="col-xs-12 col-sm-6 col-md-3">
                         <div id="loaderVehiculo"></div>
+                      </div>
+
                     </div>
-                    
                   </div>
-                </div>
-                
-                <div class="col-xs-12 col-sm-6 col-md-12">
+
+                  <div class="col-xs-12 col-sm-6 col-md-12">
                     <div class="row">
-                        <div class="col-xs-12 col-sm-6 col-md-2 form-group btnConsultarVeh">
-                            <button class="btn btn-primary btn-block" id="btnConsultarVeh">Consultar Vehículo</button>
-                        </div>
+                      <div class="col-xs-12 col-sm-6 col-md-2 form-group btnConsultarVeh">
+                        <button class="btn btn-primary btn-block" id="btnConsultarVeh">Consultar Vehículo</button>
+                      </div>
                     </div>
-                </div>
-                
-                
-                
+                  </div>
 
-                  
 
-                
+
+
+
+
+
                 </div>
               </div>
-              </form>
-            </div>
+            </form>
+          </div>
 
           <!-- </form> -->
 
@@ -590,7 +584,7 @@ if ($_SESSION["permisos"]["Cotizarpesados"] != "x") {
                       <label for="txtModeloVeh">Modelo</label>
                       <input type="text" class="form-control" id="txtModeloVeh" placeholder="" disabled>
                     </div>
-                    
+
                     <div class="col-xs-12 col-sm-6 col-md-3 form-group">
                       <label for="clasepesados">Clase Vehiculo</label>
                       <input type="text" class="form-control" id="clasepesados" placeholder="" disabled>
@@ -649,7 +643,7 @@ if ($_SESSION["permisos"]["Cotizarpesados"] != "x") {
                   </div>
 
                   <div class="row">
-                    
+
 
                     <div class="col-xs-12 col-sm-6 col-md-3 form-group">
                       <label for="DptoCirculacion">Departamento de Circulación</label>
@@ -721,11 +715,11 @@ if ($_SESSION["permisos"]["Cotizarpesados"] != "x") {
                         <option value="2">Si</option>
                       </select>
                     </div>
-                    
+
                   </div>
 
                   <div class="row">
-                    
+
                   </div>
 
                   <div class="col-xs-12 col-sm-6 col-md-3">
@@ -745,7 +739,7 @@ if ($_SESSION["permisos"]["Cotizarpesados"] != "x") {
                       </div>
                     </div>
                   </div>
-        
+
                 </div>
               </div>
             </div>
@@ -762,7 +756,7 @@ if ($_SESSION["permisos"]["Cotizarpesados"] != "x") {
                 </div>
               </div>
             </div>
-        
+
           </form>
 
           <!--- RESUMEN DE COTIZACIONES -->
@@ -802,8 +796,12 @@ if ($_SESSION["permisos"]["Cotizarpesados"] != "x") {
                         </thead>
                         <tbody>
 
-
-
+                          <tr id="Previsora">
+                            <td id="Previsora">Previsora</td>
+                            <td class="text-center" id="PrevisoraResponse"><i class="fa fa-times" aria-hidden="true" style="color: red; margin-right: 5px;"></i></td>
+                            <td class="text-center" id="PrevisoraProducts">0</td>
+                            <td id="PrevisoraObservation">Solicita cotización manual con tu Analista Comercial asignado</td>
+                          </tr>
                         </tbody>
                       </table>
                     </div>
@@ -858,8 +856,8 @@ if ($_SESSION["permisos"]["Cotizarpesados"] != "x") {
         </div>
 
 
-     <!-- CAMPOS OCULTOS PARA OPTENER LA INFORMACION-->
-     <div style="display: none;">
+        <!-- CAMPOS OCULTOS PARA OPTENER LA INFORMACION-->
+        <div style="display: none;">
           <label>Aseguradoras</label>
           <input type="hidden" name="aseguradoras" id="aseguradoras" value='<?php echo json_encode($aseguradoras_pesados); ?>'>
           <label>Intermediario</label>
@@ -977,7 +975,7 @@ if ($_SESSION["permisos"]["Cotizarpesados"] != "x") {
     </div>
 
     <!-- MODAL FASECOLDA -->
-    <div class="modal fade" id="staticBackdrop" data-backdrop="static"  data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel"  aria-hidden="true">
+    <div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
@@ -996,9 +994,9 @@ if ($_SESSION["permisos"]["Cotizarpesados"] != "x") {
                 <label class="col-form-label">Modelo:</label>
                 <input type="text" class="form-control" id="txtModeloVeh_modal">
               </div>
-              <div class="divsButtonsModals">               
-                  <button type="button" class="btn btn-primary buttonsModal" id="btn-cerrar-fasecolda">Cerrar</button>              
-                  <button type="button" class="btn btn-primary buttonsModal" id="btn-consultar-fasecolda">Consultar</button>               
+              <div class="divsButtonsModals">
+                <button type="button" class="btn btn-primary buttonsModal" id="btn-cerrar-fasecolda">Cerrar</button>
+                <button type="button" class="btn btn-primary buttonsModal" id="btn-consultar-fasecolda">Consultar</button>
               </div>
             </form>
           </div>
@@ -1019,4 +1017,4 @@ $eliminarCotizacion->ctrEliminarCotizacion();
 ?>
 
 <!-- <script src="vistas/js/cotizar.js?v=<//?php echo (rand()); ?>"></script> -->
- <script src="vistas/js/pesados.js?v=<?php echo (rand()); ?>"></script> 
+<script src="vistas/js/pesados.js?v=<?php echo (rand()); ?>"></script>
