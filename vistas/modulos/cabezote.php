@@ -119,7 +119,7 @@
  								</li>
 
  								<li class="li_cotDi">
- 									<p>Cotizaciones totales: <b><?php echo $_SESSION['cotRestantes']; ?></b>, llevas: <b id="cotRestantes1"></b> </p>
+ 									<p>Cotizaciones totales: <b><?php echo $_SESSION['permisos']['cotizacionesTotales']; ?></b>, llevas: <b id="cotRestantes1"></b> </p>
  								</li>
  							</ul>
 

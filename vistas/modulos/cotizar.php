@@ -1,19 +1,6 @@
 <?php
-// var_dump($aseguradoras);
-// die();
-// $DB_host = "localhost";
-// $DB_user = "grupoasi_cotizautos";
-// $DB_pass = "M1graci0n123";
-// $DB_name = "grupoasi_cotizautos";
-
-// $DB_host = "localhost";
-// $DB_user = "root";
-// $DB_pass = "";
-// $DB_name = "grupoasi_cotizautos";
-
 require_once "config/dbconfig.php";
 
-// mysqli_set_charset($enlace, "utf8");
 
 function obtenerCredenciales($enlace, $tabla, $columnas, $idIntermediario)
 {
@@ -34,10 +21,10 @@ function obtenerCredenciales($enlace, $tabla, $columnas, $idIntermediario)
 // FUNCION PARA OBTENER CREDENCIALES SBS
 if ($aseguradoras['SBS']['C'] == "1") {
 
-  $creSBS = obtenerCredenciales($enlace, 'Credenciales_SBS2', '*', $_SESSION['intermediario']);
+  $creSBS = obtenerCredenciales($enlace, 'Credenciales_SBS', '*', $_SESSION['intermediario']);
 } else {
 
-  $creSBS = obtenerCredenciales($enlace, 'Credenciales_SBS2', '*', '3');
+  $creSBS = obtenerCredenciales($enlace, 'Credenciales_SBS', '*', '3');
 }
 $cre_sbs_usuario = $creSBS['cre_sbs_usuario'];
 $cre_sbs_contrasena = isset($creSBS['cre_sbs_contrasena']) ? $creSBS['cre_sbs_contrasena'] : "";
@@ -1067,12 +1054,12 @@ $idIntermediario = $_SESSION['permisos']['id_Intermediario'];
 
 
             <!--ZURICH-->
-            <input type="text" class="form-control" id="cre_zur_nomUsu" value="<?php echo $_SESSION["cre_zur_nomUsu"]; ?>">
-            <input type="text" class="form-control" id="cre_zur_passwd" value="<?php echo $_SESSION["cre_zur_passwd"]; ?>">
-            <input type="text" class="form-control" id="cre_zur_intermediaryEmail" value="<?php echo $_SESSION["cre_zur_intermediaryEmail"]; ?>">
-            <input type="text" class="form-control" id="cre_zur_Cookie" value="<?php echo $_SESSION["cre_zur_Cookie"]; ?>">
-            <input type="text" class="form-control" id="cre_zur_token" value="<?php echo $_SESSION["cre_zur_token"]; ?>">
-            <input type="text" class="form-control" id="cre_zur_fecha_token" value="<?php echo $_SESSION["cre_zur_fecha_token"]; ?>">
+            <!-- <input type="text" class="form-control" id="cre_zur_nomUsu" value="</?php echo $_SESSION["cre_zur_nomUsu"]; ?>">
+            <input type="text" class="form-control" id="cre_zur_passwd" value="</?php echo $_SESSION["cre_zur_passwd"]; ?>">
+            <input type="text" class="form-control" id="cre_zur_intermediaryEmail" value="</?php echo $_SESSION["cre_zur_intermediaryEmail"]; ?>">
+            <input type="text" class="form-control" id="cre_zur_Cookie" value="</?php echo $_SESSION["cre_zur_Cookie"]; ?>">
+            <input type="text" class="form-control" id="cre_zur_token" value="</?php echo $_SESSION["cre_zur_token"]; ?>">
+            <input type="text" class="form-control" id="cre_zur_fecha_token" value="</?php echo $_SESSION["cre_zur_fecha_token"]; ?>"> -->
 
             <!--SOLIDARIA-->
             <input type="text" class="form-control" id="cre_sol_cod_sucursal" value="<?php echo $cre_sol_cod_sucursal; ?>">
@@ -1086,20 +1073,20 @@ $idIntermediario = $_SESSION['permisos']['id_Intermediario'];
             <input type="text" class="form-control" id="cre_sol_fecha_token" value="<?php echo $cre_sol_fecha_token; ?>">
 
             <!--PREVISORA-->
-            <input type="text" class="form-control" id="cre_pre_AgentCodeListCoin" value="<?php echo $_SESSION["cre_pre_AgentCodeListCoin"]; ?>">
-            <input type="text" class="form-control" id="cre_pre_AgentAgencyTypeCode" value="<?php echo $_SESSION["cre_pre_AgentAgencyTypeCode"]; ?>">
-            <input type="text" class="form-control" id="cre_pre_ParticipationCia" value="<?php echo $_SESSION["cre_pre_ParticipationCia"]; ?>">
-            <input type="text" class="form-control" id="cre_pre_AgentCode" value="<?php echo $_SESSION["cre_pre_AgentCode"]; ?>">
-            <input type="text" class="form-control" id="cre_pre_Username" value="<?php echo $_SESSION["cre_pre_Username"]; ?>">
-            <input type="text" class="form-control" id="cre_pre_Password" value="<?php echo $_SESSION["cre_pre_Password"]; ?>">
+            <!-- <input type="text" class="form-control" id="cre_pre_AgentCodeListCoin" value="</?php echo $_SESSION["cre_pre_AgentCodeListCoin"]; ?>">
+            <input type="text" class="form-control" id="cre_pre_AgentAgencyTypeCode" value="</?php echo $_SESSION["cre_pre_AgentAgencyTypeCode"]; ?>">
+            <input type="text" class="form-control" id="cre_pre_ParticipationCia" value="</?php echo $_SESSION["cre_pre_ParticipationCia"]; ?>">
+            <input type="text" class="form-control" id="cre_pre_AgentCode" value="</?php echo $_SESSION["cre_pre_AgentCode"]; ?>">
+            <input type="text" class="form-control" id="cre_pre_Username" value="</?php echo $_SESSION["cre_pre_Username"]; ?>">
+            <input type="text" class="form-control" id="cre_pre_Password" value="</?php echo $_SESSION["cre_pre_Password"]; ?>"> -->
 
             <!--MAPFRE-->
-            <input type="text" class="form-control" id="cre_map_codCliente" value="<?php echo $_SESSION["cre_map_codCliente"]; ?>">
-            <input type="text" class="form-control" id="cre_map_codigoOficinaAsociado" value="<?php echo $_SESSION["cre_map_codigoOficinaAsociado"]; ?>">
-            <input type="text" class="form-control" id="cre_map_codigoIntermediario" value="<?php echo $_SESSION["cre_map_codigoIntermediario"]; ?>">
-            <input type="text" class="form-control" id="cre_map_username" value="<?php echo $_SESSION["cre_map_username"]; ?>">
-            <input type="text" class="form-control" id="cre_map_password" value="<?php echo $_SESSION["cre_map_password"]; ?>">
-            <input type="text" class="form-control" id="cre_map_codigonivel3GA" value="<?php echo $_SESSION["cre_map_codigonivel3GA"]; ?>">
+            <!-- <input type="text" class="form-control" id="cre_map_codCliente" value="</?php echo $_SESSION["cre_map_codCliente"]; ?>">
+            <input type="text" class="form-control" id="cre_map_codigoOficinaAsociado" value="</?php echo $_SESSION["cre_map_codigoOficinaAsociado"]; ?>">
+            <input type="text" class="form-control" id="cre_map_codigoIntermediario" value="</?php echo $_SESSION["cre_map_codigoIntermediario"]; ?>">
+            <input type="text" class="form-control" id="cre_map_username" value="</?php echo $_SESSION["cre_map_username"]; ?>">
+            <input type="text" class="form-control" id="cre_map_password" value="</?php echo $_SESSION["cre_map_password"]; ?>">
+            <input type="text" class="form-control" id="cre_map_codigonivel3GA" value="</?php echo $_SESSION["cre_map_codigonivel3GA"]; ?>"> -->
 
 
             <!--SBS-->

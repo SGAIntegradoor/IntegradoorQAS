@@ -1485,13 +1485,24 @@ function validarProblema(aseguradora, ofertas) {
     ofertas.jsonZurich &&
     typeof ofertas.jsonZurich === "object"
   ) {
+    // let cadena = ""
     // Caso específico para la estructura de Zurich
-    var mensajesZurich = ofertas.jsonZurich.result.messages || [];
+    let mensajesZurich = ofertas.Mensajes || [];
     if (Array.isArray(mensajesZurich) && mensajesZurich.length > 0) {
       // Concatenar mensajes en un solo párrafo
-      var mensajeConcatenadoZurich = mensajesZurich
-        .map((m) => m.messageText)
-        .join(", ");
+      let mensajeConcatenadoZurich = "";
+      // var mensajeConcatenadoZurich = mensajesZurich
+      //   .map((m) => m.messageText)
+      //   .join(", ");
+      mensajesZurich.map((element, index) => {
+        if (element.includes("Referred")) {
+          if (index == 2) {
+            mensajeConcatenadoZurich += " - " + element;
+          } else {
+            mensajeConcatenadoZurich += element;
+          }
+        }
+      });
 
       // Realizar la petición AJAX con los datos
       $.ajax({
@@ -1900,7 +1911,6 @@ function cotizarOfertas() {
           cre_sol_fecha_token: cre_sol_fecha_token,
         },
       };
-      console.log(raw);
       var requestOptions = {
         method: "POST",
         headers: myHeaders,
@@ -2096,7 +2106,6 @@ function cotizarOfertas() {
               const tablaResumenCotBody = document.querySelector(
                 "#tablaResumenCot tbody"
               );
-
               // Verificar si ya existe una fila para la aseguradora
               const filaExistente = document.getElementById(aseguradora);
               // desactive
@@ -2122,6 +2131,7 @@ function cotizarOfertas() {
                 //   console.log(`${aseguradora} tiene alertas iguales: "${observacionesActuales}" === "${mensaje}"`);
                 // }
               } else {
+                console.log(mensaje);
                 // Si no existe, crea una nueva fila
                 const nuevaFila = document.createElement("tr");
                 nuevaFila.setAttribute("data-aseguradora", aseguradora);
@@ -2168,9 +2178,17 @@ function cotizarOfertas() {
                         if (typeof ofertas.Resultado !== "undefined") {
                           validarProblema("Zurich", ofertas);
                           agregarAseguradoraFallida(plan);
-                          ofertas.Mensajes.forEach((mensaje) => {
-                            mostrarAlertarCotizacionFallida(`Zurich`, mensaje);
+                          let mensaje = "";
+                          ofertas.Mensajes.map((element, index) => {
+                            if (element.includes("Referred")) {
+                              if (index == 2) {
+                                mensaje += " - " + element;
+                              } else {
+                                mensaje += element;
+                              }
+                            }
                           });
+                          mostrarAlertarCotizacionFallida(`Zurich`, mensaje);
                         } else {
                           const contadorPorEntidad = validarOfertas(
                             ofertas,
@@ -2776,11 +2794,20 @@ function cotizarOfertas() {
               })
               .then((ofertas) => {
                 if (typeof ofertas.Resultado !== "undefined") {
-                  agregarAseguradoraFallida("Zurich");
+                  let plan = "BASIC";
                   validarProblema("Zurich", ofertas);
-                  ofertas.Mensajes.forEach((mensaje) => {
-                    mostrarAlertarCotizacionFallida("Zurich", mensaje);
+                  agregarAseguradoraFallida(plan);
+                  let mensaje = "";
+                  ofertas.Mensajes.map((element, index) => {
+                    if (element.includes("Referred")) {
+                      if (index == 2) {
+                        mensaje += " - " + element;
+                      } else {
+                        mensaje += element;
+                      }
+                    }
                   });
+                  mostrarAlertarCotizacionFallida(`Zurich`, mensaje);
                 } else {
                   // eliminarAseguradoraFallida('Zurich');
                   const contadorPorEntidad = validarOfertas(
@@ -2827,11 +2854,20 @@ function cotizarOfertas() {
               })
               .then((ofertas) => {
                 if (typeof ofertas.Resultado !== "undefined") {
-                  agregarAseguradoraFallida("Zurich");
+                  let plan = "FULL";
                   validarProblema("Zurich", ofertas);
-                  ofertas.Mensajes.forEach((mensaje) => {
-                    mostrarAlertarCotizacionFallida("Zurich", mensaje);
+                  agregarAseguradoraFallida(plan);
+                  let mensaje = "";
+                  ofertas.Mensajes.map((element, index) => {
+                    if (element.includes("Referred")) {
+                      if (index == 2) {
+                        mensaje += " - " + element;
+                      } else {
+                        mensaje += element;
+                      }
+                    }
                   });
+                  mostrarAlertarCotizacionFallida(`Zurich`, mensaje);
                 } else {
                   const contadorPorEntidad = validarOfertas(
                     ofertas,
@@ -2877,11 +2913,20 @@ function cotizarOfertas() {
               })
               .then((ofertas) => {
                 if (typeof ofertas.Resultado !== "undefined") {
-                  agregarAseguradoraFallida("Zurich");
+                  let plan = "MEDIUM";
                   validarProblema("Zurich", ofertas);
-                  ofertas.Mensajes.forEach((mensaje) => {
-                    mostrarAlertarCotizacionFallida("Zurich", mensaje);
+                  agregarAseguradoraFallida(plan);
+                  let mensaje = "";
+                  ofertas.Mensajes.map((element, index) => {
+                    if (element.includes("Referred")) {
+                      if (index == 2) {
+                        mensaje += " - " + element;
+                      } else {
+                        mensaje += element;
+                      }
+                    }
                   });
+                  mostrarAlertarCotizacionFallida(`Zurich`, mensaje);
                 } else {
                   const contadorPorEntidad = validarOfertas(
                     ofertas,
@@ -3166,13 +3211,13 @@ $(function () {
     dialogClass: "no-close",
     show: { effect: "slide", duration: 500, direction: "down" }, // Efecto de slide hacia abajo
     hide: { effect: "slide", duration: 500, direction: "down" }, // Efecto de slide hacia abajo
-    open: function(event, ui) {
+    open: function (event, ui) {
       // Cambiar el color del título del diálogo
-      $(this).prev().find('.ui-dialog-title').css({
-        'color': 'white',
-        'font-weight': 'lighter'
+      $(this).prev().find(".ui-dialog-title").css({
+        color: "white",
+        "font-weight": "lighter",
       });
-    }
+    },
   });
   $(".buscarFasecolda")
     .button()

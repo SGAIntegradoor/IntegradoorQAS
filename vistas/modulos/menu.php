@@ -224,7 +224,7 @@ div:where(.swal2-container) button:where(.swal2-styled) {
 			if ($_SESSION["permisos"]["SeguroExequial"] == "x") {
 				echo '<li id="menuCotSoat" role="presentation" style="width: 50px; height: 44px;" class="' . ($currentPage == 'soat' ? 'active' : '') . '">
 					<a href="soat">
-						<img class="imagen" style="margin-left: -3px;" width="20" height="20" src="vistas/img/plantilla/soat.png" alt="SOAT">
+						<img class="imagen" style="margin-left: -5px;" width="25" height="25" src="vistas/img/plantilla/soat.png" alt="SOAT">
 						<span>SOAT</span>
 					</a>
 				  </li>';

@@ -1,9 +1,9 @@
 <?php
 
 
-// if (isset($_SESSION)) {
-//   echo '<script>console.log(' . json_encode($_SESSION) . ')</script>';
-// }
+if (isset($_SESSION)) {
+  echo '<script>console.log(' . json_encode($_SESSION) . ')</script>';
+}
 
 // session_start();
 ?>
@@ -55,8 +55,8 @@
   <link rel="stylesheet" href="vistas/bower_components/bootstrap/dist/css/bootstrap.min.css">
 
   <!-- Font Awesome -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-  <link rel="stylesheet" href="vistas/bower_components/font-awesome/css/font-awesome.min.css">
+  <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <link rel="stylesheet" href="vistas/bower_components/font-awesome/css/font-awesome.min.css"> -->
   <!-- Ionicons -->
   <link rel="stylesheet" href="vistas/bower_components/Ionicons/css/ionicons.min.css">
 
@@ -121,6 +121,8 @@
   PLUGINS DE JAVASCRIPT
   ======================================-->
 
+  <!-- Font - Awesome -->
+  <script src="https://kit.fontawesome.com/3a9385df11.js" crossorigin="anonymous"></script>
   <!-- jQuery 3 -->
   <!-- <script type="text/javascript" src="libraries\JQueryUI\external\jquery\jquery.js"></script> -->
 

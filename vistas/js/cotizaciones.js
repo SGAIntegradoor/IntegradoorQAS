@@ -6,6 +6,7 @@ $(document).ready(function () {
   //console.log(permisos);
   const aseguradorasExitosas = [];
   if (typeof idCotizacion !== "undefined" && idCotizacion !== null) {
+    debugger;
     const alertas = new Promise((resolve, reject) => {
       const requestOptions = {
         method: "POST",
@@ -102,6 +103,7 @@ $(document).ready(function () {
               );
             } else {
               // Cambié la asignación a push para agregar un nuevo elemento al array
+              console.log(cotizacionesPorAseguradora);
               cotizacionesExitosa0.push({
                 aseguradora,
                 exitosa: 0,
@@ -595,8 +597,8 @@ $(document).ready(function () {
     ],
     responsive: true,
     order: [
-      [0, "asc"],
-      [1, "asc"],
+      [0, "desc"],
+      [1, "desc"],
     ],
     language: {
       sProcessing: "Procesando...",

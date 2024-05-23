@@ -181,7 +181,6 @@ if ($_SESSION["permisos"]["Agregarintermediario"] != "x") {
             position: relative;
             transition: 0.5s;
           }
-
           .btnAgregarInter:after {
             content: '»';
             position: absolute;
