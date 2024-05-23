@@ -6,7 +6,6 @@ $(document).ready(function () {
   //console.log(permisos);
   const aseguradorasExitosas = [];
   if (typeof idCotizacion !== "undefined" && idCotizacion !== null) {
-    debugger;
     const alertas = new Promise((resolve, reject) => {
       const requestOptions = {
         method: "POST",
