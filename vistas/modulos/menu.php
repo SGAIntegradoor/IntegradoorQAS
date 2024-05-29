@@ -57,8 +57,8 @@ checkUserStatus();
 						swal
 							.fire({
 								icon: "error",
-								title: "Cotizaciones Totales Excedidas",
-								html: `<div style="text-align: justify; font-family: Helvetica, Arial, sans-serif; font-size: 15px; border-radius: 4px; padding: 8px;">El usuario ha excedido las cotizaciones totales. En este momento solo podrás visualizar las cotizaciones realizadas hasta que se agoten los días habilitados.Si quieres seguir haciendo cotizaciones solicita vincularte al Programa.Comunícate con el área encargada de vinculaciones de Grupo Asistencia al:
+								title: "Sin Cotizaciones Disponibles",
+								html: `<div style="text-align: justify; font-family: Helvetica, Arial, sans-serif; font-size: 15px; border-radius: 4px; padding: 8px;">El usuario no cuenta con cotizaciones disponibles. En este momento solo podrás visualizar las cotizaciones realizadas hasta que se agoten los días habilitados. Si quieres seguir haciendo cotizaciones solicita vincularte al Programa. Comunícate con el área encargada de vinculaciones de Grupo Asistencia al:
 								<br><br>
 								<div style="text-align: center;">📱<strong>+573185127910</strong> o vía 📧 <strong>mercadeo@grupoasistencia.com</strong> </div></div>`,
 								width:"40%",
