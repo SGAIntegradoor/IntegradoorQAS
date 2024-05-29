@@ -2929,7 +2929,6 @@ const deleteManualOffer = (id) => {
           success: function (data) {
             swal
               .fire({
-                position: "top-end",
                 icon: "success",
                 title: "¡Cotización Eliminada Correctamente!",
                 showConfirmButton: true,

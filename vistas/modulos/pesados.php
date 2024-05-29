@@ -173,13 +173,17 @@ if ($_SESSION["permisos"]["Cotizarpesados"] != "x") {
   }
 
   .ui-dialog-buttonset>button:first-child {
-    background-color: #88d600 !important;
+    background-color: #000000 !important;
     border: 0 !important;
     border-radius: 5px;
     width: 150px;
     height: 30px;
     color: white;
     margin-left: 14px
+  }
+
+  #btn-cerrar-fasecolda {
+    background: #000000;
   }
 
   .ui-dialog-buttonset>button:nth-child(2) {
