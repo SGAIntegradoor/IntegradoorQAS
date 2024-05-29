@@ -121,6 +121,7 @@ function cargar_intermediarios() {
                             <th style="font-weight: bold; text-align: center;">Contacto</th>
                             <th style="font-weight: bold; text-align: center;">Estado</th>
                             <th style="font-weight: bold; text-align: center;">Acciones</th>
+                            
                         </tr>
                     </thead>
                     <tbody id="contenidoInter">
