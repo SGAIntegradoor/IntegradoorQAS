@@ -40,7 +40,7 @@ class ControladorUsuarios
 								Swal.fire({
 									html:  `
 									<div style="text-align: justify; font-family: Helvetica, Arial, sans-serif; font-size: 15px; border-radius: 4px; padding: 8px;">
-										<strong>Hola</strong>, lamentamos comunicarte que<strong> este usuario ha sido inhabilitado.</strong>
+										Hola, lamentamos comunicarte que este usuario ha sido inhabilitado.
 										<br>
 										<br>
 										<strong>Si deseas volver a ingresar a la plataforma debes vincularte al Programa donde te daremos un usuario personalizado y permanente.</strong>
