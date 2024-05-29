@@ -35,22 +35,20 @@ class ControladorUsuarios
 				$respuesta = ModeloUsuarios::mdlUsuariosLogin($tabla, $tabla2, $tabla3, $tabla4, $item, $valor);
 				if ($respuesta["usu_usuario"] == $_POST["ingUsuario"] && $respuesta["usu_password"] === $encriptar) {
 					if ($respuesta["usu_estado"] == 1) {
-
-						$newLimitDate = date('Y-m-d H:i:s', strtotime($respuesta['fechaFin'] . ' 23:59:59'));
-
-						if ($newLimitDate != null && ($fechaAct >= $newLimitDate)) {
+						if ($respuesta["fechaFin"] != null && ($fechaAct >= $respuesta["fechaFin"])) {
 							echo '<script>
 								Swal.fire({
 									html:  `
-									<div style="text-align: left; font-family: Helvetica, Arial, sans-serif; font-size: 15px; border-radius: 4px; padding: 8px;">
-										<strong>Hola</strong> 😔, lamentamos comunicarte <strong>que este usuario ha sido inhabilitado.</strong>
-										<br><br> 
-										<strong>Si deseas ingresar al programa con tu usuario personalizado, comunícate con el área encargada de vinculaciones de Grupo Asistencia al</strong>
-										📱 <a href="https://wa.link/qkywo4">+573185127910 </a> o vía 📧 <u>mercadeo@grupoasistencia.com </u> 
-										para agendar la activacion de tu usuario propio.
+									<div style="text-align: justify; font-family: Helvetica, Arial, sans-serif; font-size: 15px; border-radius: 4px; padding: 8px;">
+										<strong>Hola</strong>, lamentamos comunicarte que<strong> este usuario ha sido inhabilitado.</strong>
+										<br>
+										<br>
+										<strong>Si deseas volver a ingresar a la plataforma debes vincularte al Programa donde te daremos un usuario personalizado y permanente.</strong>
+										<br><br>Si quieres hacer este proceso comunícate con el área encargada de vinculaciones de Grupo Asistencia al: 📱+573185127910 o vía 📧 mercadeo@grupoasistencia.com.
 									</div>
 									`,
-									width: "90%", 
+									confirmButtonColor: "#88d600",
+									width: "40%", 
 									customClass: {
 										container: "swal-container",
 										title: "swal-title",
@@ -281,6 +279,7 @@ class ControladorUsuarios
 			$ruta = "";
 			$encriptar = crypt($_POST["newPassword"], '$2a$07$asxx54ahjppf45sd87a5a4dDDGsystemdev$');
 			//var_dump($_POST);
+			$tiempoLimite = $_POST['lifeTime'];
 			$datos = array(
 				"nombre" => $_POST["newName"],
 				"apellido" => $_POST["newLastName"],
@@ -713,7 +712,6 @@ class ControladorUsuarios
 					$actualIdUser = $_POST['idUsuEdit'];
 					
 					$checkPass = ModeloUsuarios::mdlCheckPassword($actualPassw, $actualIdUser);
-					var_dump($checkPass);
 					if (!$checkPass) {
 						if (isset($_POST["ciudad2"]) && $_POST["ciudad2"] == NULL) {
 							$datos = array(
@@ -738,7 +736,7 @@ class ControladorUsuarios
 								"ciudad" => $_POST["codigoCiudadActual"],
 								"foto" => $ruta
 							);
-							var_dump($datos);
+							//var_dump($datos);
 	
 						} else {
 							$datos = array(
@@ -763,7 +761,7 @@ class ControladorUsuarios
 								"ciudad" => $_POST["codigoCiudadActual"],
 								"foto" => $ruta
 							);
-							var_dump($datos);
+							//var_dump($datos);
 						}
 						$respuesta = ModeloUsuarios::mdlEditarUsuario($tabla, $datos);
 	

@@ -58,11 +58,17 @@ checkUserStatus();
 							.fire({
 								icon: "error",
 								title: "Cotizaciones Totales Excedidas",
-								text: "Lo sentimos. No tienes cotizaciones disponibles, por favor comunicate con el administrador.",
+								html: `<div style="text-align: justify; font-family: Helvetica, Arial, sans-serif; font-size: 15px; border-radius: 4px; padding: 8px;">El usuario ha excedido las cotizaciones totales. En este momento solo podrás visualizar las cotizaciones realizadas hasta que se agoten los días habilitados.Si quieres seguir haciendo cotizaciones solicita vincularte al Programa.Comunícate con el área encargada de vinculaciones de Grupo Asistencia al:
+								<br><br>
+								<div style="text-align: center;">📱<strong>+573185127910</strong> o vía 📧 <strong>mercadeo@grupoasistencia.com</strong> </div></div>`,
+								width:"40%",
 								showConfirmButton: true,
 								confirmButtonText: "Cerrar",
 								customClass: {
-									confirmButton: "btnConfirm",
+									popup: "custom-swal-popup",
+									title: "custom-swal-title",
+									content: "custom-swal-content",
+									confirmButton: "custom-swal-confirm-button",
 								},
 							})
 							.then(function(result) {
@@ -77,20 +83,26 @@ checkUserStatus();
 	});
 </script>
 <style>
-  .btnConfirm {
-    background-color: #ff5733 !important; 
-    color: white !important; 
-	border: 0px !important;
-	box-shadow: 0px !important;
-}
+	.btnConfirm {
+		background-color: #ff5733 !important;
+		color: white !important;
+		border: 0px !important;
+		box-shadow: 0px !important;
+	}
 
-div:where(.swal2-container) button:where(.swal2-styled).swal2-confirm {
-    background-color: #88d600 !important;
-}
+	.mi-clase-warning {
+		width: 600px;
+		/* Ajusta el ancho según sea necesario */
+		height: auto;
+		/* Ajusta el alto según sea necesario */
+	}
 
-div:where(.swal2-container) button:where(.swal2-styled) {
-    box-shadow: 0 0 0 0px rgba(0, 0, 0, 0) !important;
-}
+	.mi-clase-success {
+		width: 600px;
+		/* Ajusta el ancho según sea necesario */
+		height: auto;
+		/* Ajusta el alto según sea necesario */
+	}
 </style>
 <aside class="main-sidebar">
 	<section class="sidebar">

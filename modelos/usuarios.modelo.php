@@ -285,6 +285,9 @@ class ModeloUsuarios
 			if (!isset($datos[$field]) || empty($datos[$field])) {
 				$datos[$field] = null;
 			} else {
+				if($field == 'fechaLimEdi'){
+					continue;
+				}
 				// Asegurar que la fecha esté en el formato correcto
 				$datos[$field] = date("Y-m-d H:i:s", strtotime($datos[$field]));
 			}

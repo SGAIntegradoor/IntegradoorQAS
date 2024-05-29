@@ -18,12 +18,18 @@ $idCotizacion = $_GET['idCotizacion'];
 $response = retrieveQuotation($idCotizacion);
 
 ?>
+
 <head>
-<!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
+  <!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
 </head>
 <style>
   .botones-agregar-manual {
     margin-top: 20px;
+  }
+
+  .cotizacionAdded {
+    height: 150px !important;
+    /* Alto deseado */
   }
 
   .checkbox-adjust {
@@ -31,32 +37,52 @@ $response = retrieveQuotation($idCotizacion);
   }
 
   .table-padding {
-  padding: 25px; /* Puedes ajustar el valor según tus preferencias */
+    padding: 25px;
+    /* Puedes ajustar el valor según tus preferencias */
   }
 
   /* Agregar relleno general al contenedor padre */
   .card-ofertas {
-    padding: 20px; /* Puedes ajustar el valor según tus preferencias */
+    padding: 20px;
+    /* Puedes ajustar el valor según tus preferencias */
   }
 
   .thTable {
-    text-align: center; /* Puedes ajustar el valor según tus preferencias */
+    text-align: center;
+    /* Puedes ajustar el valor según tus preferencias */
   }
 
   div:where(.swal2-container) button:where(.swal2-styled).swal2-cancel {
     font-size: 14px !important;
   }
+
   div:where(.swal2-container) button:where(.swal2-styled).swal2-confirm {
     font-size: 14px !important;
   }
 
-    /* Estilo para pantallas más pequeñas (menos de 495px) */
+  .custom-swal-popup-warning{
+    width: 300px !important;
+    /* Ajusta el ancho según sea necesario */
+    height: 250px !important;
+    /* Ajusta el alto según sea necesario */
+  }
+
+  .custom-swal-popup-success {
+    width: 300px !important;
+    /* Ajusta el ancho según sea necesario */
+    height: 250px !important;
+    /* Ajusta el alto según sea necesario */
+  }
+
+  /* Ajusta estos estilos según tus necesidades */
+
+
+  /* Estilo para pantallas más pequeñas (menos de 495px) */
   @media (max-width: 495px) {
     .table-responsive {
       overflow-x: auto;
     }
   }
-
 </style>
 
 <div class="content-wrapper">
@@ -67,7 +93,7 @@ $response = retrieveQuotation($idCotizacion);
 
 
     ?>
-<input type="hidden" id="idofertaguardarmanual" value="<?php echo  $idCotizacion; ?>">
+    <input type="hidden" id="idofertaguardarmanual" value="<?php echo  $idCotizacion; ?>">
     <h1>
 
       Cotización # <?php echo $idCotizacion ?>
@@ -444,7 +470,7 @@ $response = retrieveQuotation($idCotizacion);
                       <label for="txtMarcaVeh">Marca</label>
                       <input type="text" class="form-control classMarcaVeh" id="txtMarcaVehPesado" placeholder="" disabled>
                     </div>
-                    
+
                   </div>
 
                   <div class="row">
@@ -481,7 +507,7 @@ $response = retrieveQuotation($idCotizacion);
                   </div>
 
                   <div class="row">
-                    
+
 
                     <div class="col-xs-12 col-sm-6 col-md-3 form-group">
                       <label for="DptoCirculacion">Departamento de Circulación</label>
@@ -870,23 +896,23 @@ $response = retrieveQuotation($idCotizacion);
               <div class="col-xs-12 col-sm-6 col-md-3">
                 <label for="">RESUMEN DE COTIZACIONES</label>
               </div>
-                <div class="col-xs-12 col-sm-6 col-md-3">
+              <div class="col-xs-12 col-sm-6 col-md-3">
+              </div>
+              <div class="col-xs-12 col-sm-6 col-md-3">
+              </div>
+              <div class="col-xs-12 col-sm-6 col-md-3 text-right">
+                <div id="masResOferta">
+                  <p id="masResumen" onclick="masRE();">Ver mas <i class="fa fa-plus-square-o"></i></p>
                 </div>
-                <div class="col-xs-12 col-sm-6 col-md-3">
+                <div id="menosResOferta">
+                  <p id="menosResumen" onclick="menosRE();">Ver menos <i class="fa fa-minus-square-o"></i></p>
                 </div>
-                <div class="col-xs-12 col-sm-6 col-md-3 text-right">
-                  <div id="masResOferta">
-                    <p id="masResumen" onclick="masRE();">Ver mas <i class="fa fa-plus-square-o"></i></p>
-                  </div>
-                  <div id="menosResOferta">
-                    <p id="menosResumen" onclick="menosRE();">Ver menos <i class="fa fa-minus-square-o"></i></p>
-                  </div>
-                </div>
+              </div>
             </div>
           </div>
 
-            <!-- Mostrar alertas -->
-         <div id="resumenCotizaciones">
+          <!-- Mostrar alertas -->
+          <div id="resumenCotizaciones">
             <div class="col-lg-12" style="display: block;">
               <div class="card-ofertas">
                 <div class="table-responsive">
@@ -905,8 +931,8 @@ $response = retrieveQuotation($idCotizacion);
                   </table>
                 </div>
                 <?php if ($response['cot_clase'] == "AUTOMOVIL" || $response['cot_clase'] == "AUTOMOVILES" || $response['cot_clase'] == "UTILITARIOS DEPORTIVOS" || $response['cot_clase'] == "CAMPEROS" || $response['cot_clase'] == "PICK UPS") {
-                        
-                        echo '<div>
+
+                  echo '<div>
                           <p class="text-justify"><strong>¿Por qué algunas compañías no cotizan? R/. 0.</strong>Tiene póliza vigente con esa compañía. <strong>1.</strong> Aseguradora
                             caída, en mantenimiento o en actualización. <strong>2.</strong> RUNT, Cexper, Sistema Fasecolda caído. <strong>3.</strong> Fallas Portal
                             Integradoor. <strong>4.</strong> Vehículo fuera de políticas por marca, línea o modelo. <strong>5.</strong> Ciudad bloqueada. <strong>6.</strong> Error en
@@ -917,13 +943,12 @@ $response = retrieveQuotation($idCotizacion);
                             nombres, apellidos o documentos de identidad
                           </p>
                         </div>';
-                        
-                  }
+                }
                 ?>
               </div>
               <?php if ($response['cot_clase'] == "AUTOMOVIL" || $response['cot_clase'] == "AUTOMOVILES" || $response['cot_clase'] == "UTILITARIOS DEPORTIVOS" || $response['cot_clase'] == "CAMPEROS") {
-                  if($idIntermediario != 78){
-                    echo '<div class="aviso-container col-lg-12">
+                if ($idIntermediario != 78) {
+                  echo '<div class="aviso-container col-lg-12">
                         <ul>
                             <li>
                                 <p style="font-weight: bold;">
@@ -937,12 +962,12 @@ $response = retrieveQuotation($idCotizacion);
                             </li>
                       </ul>
                     </div>';
-                  }
+                }
               }
-             ?>
+              ?>
               <?php if ($response['cot_clase'] == "MOTOCICLETA") {
-                  if($idIntermediario != 78){
-                    echo '<div class="col-lg-12">
+                if ($idIntermediario != 78) {
+                  echo '<div class="col-lg-12">
                       <p>
                         <strong>Condiciones Generales:</strong><br>
                         • Para motos con valores asegurados menores a $7 millones de pesos solo se presentan las condiciones que genere el cotizador web.<br>
@@ -954,51 +979,51 @@ $response = retrieveQuotation($idCotizacion);
                         • Se pueden financiar hasta en 11 cuotas, motos con beneficiarios onerosos de modelos de 2022 en adelante, después de que la prima con IVA supere $1 millón de pesos.<br>
                         • Las cuotas máximas de financiación dependen del valor de prima total, de acuerdo a los siguientes rangos: entre $1 y $1,4 millones máx. 7 cuotas; mayor a 1,4 y menor a $2 millones máx 9 cuotas; y para motos con valor de prima total mayor a $2 millones se pueden financiar hasta en 11 cuotas.<br>
                       </p>
-                    </div>';  
-                  }
+                    </div>';
                 }
+              }
               ?>
-              <?php  if ($response['cot_clase'] == "CARROTANQUE" || $response['cot_clase'] == "REMOLQUE" || 
-                    $response['cot_clase'] == "VOLQUETA" || $response['cot_clase'] == "FURGONETA" || $response['cot_clase'] == "GRUA"
-                    || $response['cot_clase'] == "REMOLCADOR" || $response['cot_clase'] == "FURGON" || $response['cot_clase'] == "CHASIS"
-                    || $response['cot_clase'] == "BUS" || $response['cot_clase'] == "CAMION") { 
-                    echo '<div></div>'; 
-                    }
+              <?php if (
+                $response['cot_clase'] == "CARROTANQUE" || $response['cot_clase'] == "REMOLQUE" ||
+                $response['cot_clase'] == "VOLQUETA" || $response['cot_clase'] == "FURGONETA" || $response['cot_clase'] == "GRUA"
+                || $response['cot_clase'] == "REMOLCADOR" || $response['cot_clase'] == "FURGON" || $response['cot_clase'] == "CHASIS"
+                || $response['cot_clase'] == "BUS" || $response['cot_clase'] == "CAMION"
+              ) {
+                echo '<div></div>';
+              }
               ?>
-                </div>
             </div>
           </div>
+        </div>
 
-          <div class="col-lg-12 form-parrilla">
-            <div class="row row-parrilla">
-              <div class="col-xs-12 col-sm-6 col-md-3">
-                <label for="">PARRILLA DE COTIZACIONES</label>
+        <div class="col-lg-12 form-parrilla">
+          <div class="row row-parrilla">
+            <div class="col-xs-12 col-sm-6 col-md-3">
+              <label for="">PARRILLA DE COTIZACIONES</label>
+            </div>
+          </div>
+        </div>
+
+        <div id="cardCotizacion">
+        </div>
+
+        <div id="cardAgregarCotizacion">
+        </div>
+
+        <div id="contenCotizacionPDF">
+
+          <div class="col-xs-12" style="width: 100%;">
+            <div class="row align-items-center">
+              <div class="col-xs-4">
+                <label for="checkboxAsesorEditar">¿Deseas agregar tus datos como asesor en la cotización?</label>
+                <input class="form-check-input" type="checkbox" id="checkboxAsesorEditar" style="margin-left: 10px;" checked>
+              </div>
+              <div class="col-xs-4">
+                <button type="button" class="btn btn-danger" id="btnParrillaPDF">
+                  <span class="fa fa-file-text"></span> Generar PDF de Cotización
+                </button>
               </div>
             </div>
-          </div>
-
-          <div id="cardCotizacion">
-          </div>
-
-          <div id="cardAgregarCotizacion">
-          </div>
-
-          <div id="contenCotizacionPDF">
-
-            <div class="col-xs-12" style="width: 100%;">
-              <div class="row align-items-center">
-                <div class="col-xs-4">
-                  <label for="checkboxAsesorEditar">¿Deseas agregar tus datos como asesor en la cotización?</label>
-                  <input class="form-check-input" type="checkbox" id="checkboxAsesorEditar" style="margin-left: 10px;" checked>
-                </div>
-                <div class="col-xs-4">
-                  <button type="button" class="btn btn-danger" id="btnParrillaPDF">
-                    <span class="fa fa-file-text"></span> Generar PDF de Cotización
-                  </button>
-                </div>
-              </div>
-            </div>
-
           </div>
 
         </div>
@@ -1007,7 +1032,9 @@ $response = retrieveQuotation($idCotizacion);
 
     </div>
 
-  </section>
+</div>
+
+</section>
 
 </div>
 

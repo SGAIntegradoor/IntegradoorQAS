@@ -15,6 +15,8 @@ $(document).ready(function () {
           cotizacion: idCotizacion,
         }),
       };
+      //console.log(aseguradorasExitosas);
+
       var documentosTable = document.getElementById("tablaResumenCot");
       fetch("ajax/alerta_aseguradora.ajax.php", requestOptions)
         .then((response) => response.json())
@@ -30,18 +32,18 @@ $(document).ready(function () {
 
             cotizacionesSeparadas[aseguradora].push(cotizacion);
           });
-
+          // console.log(cotizacionesSeparadas)
+          //console.log(data);
           // Ordenar aseguradoras alfabéticamente
           const aseguradorasOrdenadas = Object.keys(
             cotizacionesSeparadas
           ).sort();
           const cotizacionesConVariasOfertas = [];
           const cotizacionesConUnaOferta = [];
-
           // console.log(aseguradorasOrdenadas)
           aseguradorasOrdenadas.forEach((aseguradora) => {
             const cotizacionesAseguradora = cotizacionesSeparadas[aseguradora];
-
+            //console.log(cotizacionesAseguradora)
             if (cotizacionesAseguradora.length > 1) {
               cotizacionesConVariasOfertas.push(...cotizacionesAseguradora);
             } else {
@@ -49,7 +51,6 @@ $(document).ready(function () {
             }
           });
 
-          //console.log(cotizacionesConVariasOfertas);
           //   console.log(cotizacionesConUnaOferta)
 
           const cotizacionesPorAseguradora = {};
@@ -77,6 +78,7 @@ $(document).ready(function () {
             }
           });
 
+          //console.log(cotizacionesConVariasOfertas);
           //console.log(cotizacionesPorAseguradora);
 
           let cotizacionesExitosa1 = [];
@@ -102,7 +104,6 @@ $(document).ready(function () {
               );
             } else {
               // Cambié la asignación a push para agregar un nuevo elemento al array
-              console.log(cotizacionesPorAseguradora);
               cotizacionesExitosa0.push({
                 aseguradora,
                 exitosa: 0,
@@ -113,6 +114,8 @@ $(document).ready(function () {
             }
           }
 
+          // console.log(cotizacionesExitosa0);
+          // console.log(cotizacionesExitosa1);
           // Ahora cotizacionesExitosa1 y cotizacionesExitosa0 contienen la estructura que deseas
           // desactive
           //console.log(cotizacionesExitosa1);
@@ -168,14 +171,16 @@ $(document).ready(function () {
 
           // Convertir el objeto en un array
           const resultadoFinal = Object.values(aseguradorasData);
-          //   console.log(resultadoFinal);
-          //   console.log(cotizacionesConUnaOferta)
+          //console.log(resultadoFinal);
+          //console.log(cotizacionesConUnaOferta)
 
           // Combina los dos arrays
           const combinedArray = [
             ...resultadoFinal,
             ...cotizacionesConUnaOferta,
           ];
+
+          //console.log(combinedArray)
 
           // Ordena el array resultante por la propiedad "aseguradora"
           combinedArray.sort((a, b) =>
@@ -237,7 +242,7 @@ $(document).ready(function () {
               productosCell.textContent = usuario.ofertas_cotizadas;
             }
             productosCell.classList.add("text-center");
-
+            console.log(productosCell);
             var observacionesCell = newRow.insertCell();
             observacionesCell.textContent = usuario.mensaje;
           });
@@ -532,32 +537,31 @@ $(document).ready(function () {
   $(".tablas-cotizaciones").on("click", ".btnEliminarCotizacion", function () {
     var idCotizacion = $(this).attr("idCotizacion");
 
-    swal({
+    Swal.fire({
       title: "¿Está seguro de borrar la cotización?",
-
-      text: "¡Si no lo está puede cancelar la acción!",
-
       type: "warning",
-
       showCancelButton: true,
-
       confirmButtonColor: "#3085d6",
-
       cancelButtonColor: "#d33",
-
       cancelButtonText: "Cancelar",
-
-      confirmButtonText: "Si, borrar cotización!",
+      confirmButtonText: "Si, eliminar",
+      customClass: {
+        popup: "mi-clase-warning", // Clase personalizada para esta caja
+      },
     }).then(function (result) {
       if (result.isConfirmed) {
-        swal({
-          title: "Cotizacion Eliminada Corretamente",
-          type: "sucess",
-          showCancelButton: true,
+        Swal.fire({
+          title: "Cotización Eliminada Correctamente",
+          type: "success",
           confirmButtonColor: "#3085d6",
-          confirmButtonText: "Si, borrar cotización!",
+          confirmButtonText: "Cerrar",
+          customClass: {
+            popup: "mi-clase-success", // Clase personalizada para esta caja
+          },
+        }).then(function () {
+          window.location =
+            "index.php?ruta=inicio&idCotizacion=" + idCotizacion;
         });
-        window.location = "index.php?ruta=inicio&idCotizacion=" + idCotizacion;
       }
     });
   });
@@ -2543,20 +2547,22 @@ function agregarCotizacionManual2() {
         // desactive
         // console.log(data);
         if (data.Success == true) {
-          swal.fire({
-            icon: "success",
-            title: "! Cotización registrada Exitosamente ¡",
-            showConfirmButton: true,
-            confirmButtonText: "Cerrar",
-          }).then((result) => {
-            if(result.isConfirmed){
-              location.reload();
-            }
-          })
+          swal
+            .fire({
+              icon: "success",
+              title: "¡ Cotización Registrada Exitosamente !",
+              showConfirmButton: true,
+              confirmButtonText: "Cerrar",
+            })
+            .then((result) => {
+              if (result.isConfirmed) {
+                location.reload();
+              }
+            });
         } else {
           swal.fire({
             icon: "error",
-            title: "! Cotización no registrada¡",
+            title: "¡ Cotización no registrada !",
             showConfirmButton: true,
             confirmButtonText: "Cerrar",
           });
@@ -2899,54 +2905,44 @@ const editarCotizacionManual = (id) => {
 };
 
 const deleteManualOffer = (id) => {
-  //desactive
-  //console.log(id);
-
   swal
     .fire({
       title: "¿Deseas eliminar esta cotización?",
-
-      type: "warning",
-
+      icon: "warning", // Actualizado a "icon" en lugar de "type" en las versiones más recientes
       showCancelButton: true,
-
       confirmButtonColor: "#88d600",
-
       cancelButtonColor: "#000000",
-
       cancelButtonText: "Cancelar",
-
-      confirmButtonText: "Si, borrar cotización!",
-
+      confirmButtonText: "Si, eliminar",
       reverseButtons: true,
+      customClass: {
+        popup: 'custom-swal-popup-warning' // Clase personalizada para esta caja
+      }
     })
     .then(function (result) {
       if (result.value) {
         $.ajax({
           type: "POST",
-
           url: "src/eliminarOferta.php",
-
           dataType: "json",
-
           data: { id: id },
-
           success: function (data) {
             swal
               .fire({
                 position: "top-end",
                 icon: "success",
-                title: "Cotización Eliminada Correctamente",
-                confirmButtonColor: "#88d600",
-                cancelButtonColor: "#000000",
+                title: "¡Cotización Eliminada Correctamente!",
                 showConfirmButton: true,
                 confirmButtonText: "Cerrar",
+                customClass: {
+                  popup: 'custom-swal-popup-success' // Clase personalizada para esta caja
+                }
               })
               .then((result) => {
                 if (result.isConfirmed) {
+                  console.log("entre aqui")
                   window.location.href =
-                    "index.php?ruta=editar-cotizacion&idCotizacion=" +
-                    idCotizacion;
+                    "index.php?ruta=editar-cotizacion&idCotizacion=" + idCotizacion;
                 }
               });
           },
@@ -2957,6 +2953,7 @@ const deleteManualOffer = (id) => {
       }
     });
 };
+
 
 $("#btnCancelar").click((e) => {
   document.getElementById("formularioCotizacionManual").style.display = "none";

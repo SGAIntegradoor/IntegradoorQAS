@@ -135,6 +135,40 @@ if (isset($_SESSION)) {
     });
   </script>
 
+  <style>
+    div:where(.swal2-container) button:where(.swal2-styled).swal2-confirm {
+      background-color: #88d600 !important;
+    }
+
+    div:where(.swal2-container) button:where(.swal2-styled) {
+      box-shadow: 0 0 0 0px rgba(0, 0, 0, 0) !important;
+    }
+
+    .swal2-backdrop-show {
+      margin-top: 0px !important;
+      padding: 0px !important;
+    }
+
+    .custom-swal-popup .swal2-popup {
+      font-size: 3em !important;
+      /* Ajusta el tamaño de la fuente del contenido */
+    }
+
+    .custom-swal-title {
+      font-size: 2.5em !important;
+      /* Ajusta el tamaño de la fuente del título */
+    }
+
+    .swal2-html-container {
+      font-size:1.3em !important;
+      /* Ajusta el tamaño de la fuente del contenido */
+    }
+
+    .custom-swal-confirm-button {
+      font-size: 1.4em !important;
+      /* Ajusta el tamaño de la fuente del botón */
+    }
+  </style>
 
 
   <!-- FastClick -->

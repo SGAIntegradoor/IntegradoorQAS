@@ -3211,7 +3211,7 @@ function agregarCotizacionManual2() {
       },
       cache: false,
       success: function (data) {
-        console.log(data);
+        //console.log(data);
         if (data.Success == true) {
           swal.fire({
             type: "success",

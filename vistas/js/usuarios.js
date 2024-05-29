@@ -30,7 +30,7 @@ $("#creaTemporal").on("click", function() {
 	let day = ('0' + actualDate.getDate()).slice(-2);
 
 	// Formatear la fecha en el formato YYYYmmdd
-	let formattedDate = year+"-"+month+"-"+day;
+	let formattedDate = year+"-"+month+"-"+day+" 23:59:59";
 
 	$.ajax({
 		url: "ajax/crearUsuarioTemporal.php",
@@ -391,8 +391,7 @@ $(".tablas").on("click", ".btnEditarUsuario", function(e){
 		processData: false,
 		dataType: "json",
 		success: function(respuesta){
-			//localStorage.setItem("respuesta",JSON.stringify(respuesta))
-			console.log(respuesta);
+			//console.log(fechaFinFormateada)
 			$("#idUsuEdit").val(respuesta["id_usuario"]);			
 			$("#editarNombre").val(respuesta["usu_nombre"]);
 			$("#editarApellido").val(respuesta["usu_apellido"]);

@@ -14,18 +14,19 @@ const getTime = dateTo => {
         time
     }
 };
-
+let cont = 0
 const countdown = (dateTo, element, rol) => {
-    if(rol == "20"){
+    
+    if(rol == "20" || rol == "19"){
         const item = document.getElementById(element);
         const timerUpdate = setInterval( () => {
-            let currenTime = getTime(dateTo);
+            let currenTime = getTime(dateTo);          
             if(currenTime.hours != 'aN'){
-                if (currenTime.time <= 1) {
+                if (currenTime.hours <= 1) {
                     clearInterval(timerUpdate);
                     Swal.fire({
                         icon: 'error',
-                        title: '!Tu tiempo de uso se agoto!.',
+                        title: '!Tu tiempo de uso se agoto!',
                         confirmButtonText: 'Ok',
                     }).then((result) => {
                         if (result.isConfirmed) {
@@ -48,16 +49,14 @@ const countdown = (dateTo, element, rol) => {
 };
 
 let fecha = $("#fechaLimi").val();
-let fecha_fin = new Date(fecha);
-fecha_fin.setHours(fecha_fin.getHours() + 13);
-
+let rolId;
 function getRolUser() {
     return new Promise(function(resolve, reject) {
         $.ajax({
             url: "ajax/getRolUser.php",
             method: "POST",
             success: function (respuesta) {
-                const parsedResponse = JSON.parse(respuesta);
+                const parsedResponse = JSON.parse(respuesta);                
                 resolve(parsedResponse);
             },
             error: function (xhr, status, error) {
@@ -66,20 +65,17 @@ function getRolUser() {
         });
     });
 }
+
 getRolUser().then(function(respuesta) {
     if (respuesta.error) {
-       // console.error(respuesta.error);
+        console.error(respuesta.error);
     } else {
-        const { rol, id } = respuesta;
-        // Aquí puedes pasar el rol a la función countdown
-        countdown(fecha_fin, 'cuentatras', rol);
+        rolId = respuesta.rol;
+        countdown(fecha, 'cuentatras', rolId);
     }
 }).catch(function(error) {
     console.error("Error fetching user role:", error);
 });
-
-countdown(fecha_fin, 'cuentatras', 20);
-
 
 function mostrarCotRestantes (){
     fecha1 = new Date;
