@@ -115,9 +115,6 @@
   </div>
 <div>
 
-<div>Crea un usuario temporal y prueba nuestro aplicativo!</div>
-
-
 <?php
 
   $login = new ControladorUsuarios();
