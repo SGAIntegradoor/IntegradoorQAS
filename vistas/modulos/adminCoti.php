@@ -178,16 +178,16 @@ if ($_SESSION["permisos"]["administracionCotizaciones"] != "x") {
          
          <tr>
            
-           <th>N°</th>
-           <th>Fecha</th>
-           <th>Documento</th>
-           <th>Cliente</th>
-           <th>Placa</th>
-           <th>Referencia del Vehículo</th>
-           <th>Documento_Asesor</th>
-           <th>Rol</th>
-           <th>Asesor</th>
-           <th style="width:110px">Acciones</th>
+           <th style="font-weight: bold; text-align: center;">N°</th>
+           <th style="font-weight: bold; text-align: center;">Fecha</th>
+           <th style="font-weight: bold; text-align: center;">Documento</th>
+           <th style="font-weight: bold; text-align: center;">Cliente</th>
+           <th style="font-weight: bold; text-align: center;">Placa</th>
+           <th style="font-weight: bold; text-align: center;">Referencia del Vehículo</th>
+           <th style="font-weight: bold; text-align: center;">Documento_Asesor</th>
+           <th style="font-weight: bold; text-align: center;">Rol</th>
+           <th style="font-weight: bold; text-align: center;">Asesor</th>
+           <th style="width:110px; font-weight: bold; text-align: center;">Acciones</th>
 
          </tr> 
 
@@ -298,24 +298,24 @@ if ($_SESSION["permisos"]["administracionCotizaciones"] != "x") {
            
            echo '<tr>
 
-                  <td class="text-center">'. $value['id_cotizacion'] .'</td>
+                  <td class="text-center" style="font-size: 14px">'. $value['id_cotizacion'] .'</td>
 
-                  <td class="text-center">' . date('Y/m/d', strtotime($value['cot_fch_cotizacion'])) . '</td>
+                  <td class="text-center" style="font-size: 14px">' . date('Y/m/d', strtotime($value['cot_fch_cotizacion'])) . '</td>
 
-                  <td class="text-right">' . $value['cli_num_documento'] . '</td>
+                  <td class="text-right" style="font-size: 14px">' . $value['cli_num_documento'] . '</td>
 
-                  <td class="text-right">' . $value['cli_nombre'] . ' ' . $value['cli_apellidos'] . '</td>';
+                  <td class="text-right" style="font-size: 14px">' . $value['cli_nombre'] . ' ' . $value['cli_apellidos'] . '</td>';
 
                   $placa = $value['cot_placa'] == "KZY000" ? "SIN PLACA" : $value['cot_placa'];
-                  echo '<td class="text-center">' . $placa . '</td>
+                  echo '<td class="text-center" style="font-size: 14px">' . $placa . '</td>
 
-                  <td class="">' . $value['cot_marca'] . ' ' . $value['cot_linea'] . '</td>
+                  <td class="text-center" style="font-size: 14px">' . $value['cot_marca'] . ' ' . $value['cot_linea'] . '</td>
 
-                  <td class="">' . $value['usu_documento'] . '</td>
+                  <td class="text-center" style="font-size: 14px">' . $value['usu_documento'] . '</td>
 
-                  <td class="">' . $value['id_rol'] . '</td>
+                  <td class="text-center" style="font-size: 14px">' . $value['id_rol'] . '</td>
 
-                  <td class="">' . $value['usu_nombre'] . ' ' . $value['usu_apellido'] . '</td>
+                  <td class="text-center" style="font-size: 14px">' . $value['usu_nombre'] . ' ' . $value['usu_apellido'] . '</td>
 
                   <td class="text-center">
 

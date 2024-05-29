@@ -178,6 +178,17 @@ if ($_SESSION["rol"] != 1) {
               text-align: left;
             }
           }
+
+          table td{
+            font-size: 14px;
+          }
+
+          /* .tablas th {
+            font-weight: bold;
+            /* Poner el texto en negrita */
+            /* text-align: center; */
+            /* Centrar el texto */
+          /* }  */
         </style>
 
         <?php
@@ -207,19 +218,19 @@ if ($_SESSION["rol"] != 1) {
 
             <tr>
 
-              <th>#</th>
-              <th>Usuario</th>
-              <th>N°_Identidad</th>
-              <th>Nombre</th>
-              <th>Telefono</th>
-              <th style="width: 50px;">Correo Electronico</th>
-              <th>Rol</th>
-              <th>Últ_login</th>
-              <th>Fecha_Creacion</th>
-              <th>Foto</th>
-              <th>Estado</th>
-              <th>Cotizaciones_totales</th>
-              <th>Fecha_Limite</th>
+              <th style="font-weight: bold;">#</th>
+              <th style="font-weight: bold;">Usuario</th>
+              <th style="font-weight: bold;">N°_Identidad</th>
+              <th style="font-weight: bold;">Nombre</th>
+              <th style="font-weight: bold;">Telefono</th>
+              <th style="font-weight: bold;" style="width: 50px;">Correo Electronico</th>
+              <th style="font-weight: bold;">Rol</th>
+              <th style="font-weight: bold;">Últ_login</th>
+              <th style="font-weight: bold;">Fecha_Creacion</th>
+              <th style="font-weight: bold;">Foto</th>
+              <th style="font-weight: bold;">Estado</th>
+              <th style="font-weight: bold;">Cotizaciones_totales</th>
+              <th style="font-weight: bold;">Fecha_Limite</th>
               <th style="width: 110px;">Acciones</th>
 
             </tr>

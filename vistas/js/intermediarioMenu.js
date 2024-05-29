@@ -130,14 +130,14 @@ function cargar_intermediarios() {
       data.forEach(function (item) {
         contenido += `
                     <tr class="centered-text">
-                        <td style="text-align: center;" >${item.id_Intermediario}</td>
-                        <td style="text-align: center;">${item.num_documento}</td>
-                        <td style="text-align: center;">${item.nombre}</td>
-                        <td style="text-align: center;">${item.nombre_representante}</td>
-                        <td style="text-align: center;">${item.celular}</td>
-                        <td style="text-align: center;">${item.correo}</td>
-                        <td style="text-align: center;">${item.ciudad}</td>
-                        <td style="text-align: center;">${item.contacto}</td>
+                        <td style="text-align: center; font-size: 14px">${item.id_Intermediario}</td>
+                        <td style="text-align: center; font-size: 14px">${item.num_documento}</td>
+                        <td style="text-align: center; font-size: 14px">${item.nombre}</td>
+                        <td style="text-align: center; font-size: 14px">${item.nombre_representante}</td>
+                        <td style="text-align: center; font-size: 14px">${item.celular}</td>
+                        <td style="text-align: center; font-size: 14px">${item.correo}</td>
+                        <td style="text-align: center; font-size: 14px">${item.ciudad}</td>
+                        <td style="text-align: center; font-size: 14px">${item.contacto}</td>
                 `;
 
         // Añadir botón de estado y acciones

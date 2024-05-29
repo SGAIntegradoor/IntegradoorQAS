@@ -3,14 +3,14 @@
 
 if ($_SESSION["permisos"]["Agregarintermediario"] != "x") {
 
-    echo '<script>
+  echo '<script>
   
       window.location = "inicio";
   
     </script>';
-  
-    return;
-  }
+
+  return;
+}
 ?>
 
 <!--<script src="vistas/js/intermediarioMenu.js"></script>-->
@@ -102,40 +102,44 @@ if ($_SESSION["permisos"]["Agregarintermediario"] != "x") {
   .separador {
     margin-left: 15px;
   }
-            
-          .btn-excel {
-            display: flex !important;
-            border: 0px !important;
-            height: 32px;
-            align-items: center;
-          }
-          
-          .dt-search {
-            display: flex !important;
-            align-items: center;
-            justify-content: flex-end;
-          }
 
-          .paging_full_numbers{
-            display: flex !important;
-            justify-content: flex-end;
-          }
-          
-          .dt-length {
-             display: flex;
-          }
-           .dt-start{
-               width: 60px !important;
-           }
-           .dt-info{
-               width: 600px !important;
-           }
-        @media (max-width: 495px) {
-            .dt-info {
-                width: 300px !important;
-                text-align: left;
-            }
-        }
+  .btn-excel {
+    display: flex !important;
+    border: 0px !important;
+    height: 32px;
+    align-items: center;
+  }
+
+  .dt-search {
+    display: flex !important;
+    align-items: center;
+    justify-content: flex-end;
+  }
+
+  .paging_full_numbers {
+    display: flex !important;
+    justify-content: flex-end;
+  }
+
+  .dt-length {
+    display: flex;
+  }
+
+  .dt-start {
+    width: 60px !important;
+  }
+
+  .dt-info {
+    width: 600px !important;
+  }
+
+  @media (max-width: 495px) {
+    .dt-info {
+      width: 300px !important;
+      text-align: left;
+    }
+
+  }
 </style>
 
 <div class="content-wrapper">
@@ -181,6 +185,7 @@ if ($_SESSION["permisos"]["Agregarintermediario"] != "x") {
             position: relative;
             transition: 0.5s;
           }
+
           .btnAgregarInter:after {
             content: '»';
             position: absolute;
@@ -189,9 +194,8 @@ if ($_SESSION["permisos"]["Agregarintermediario"] != "x") {
             right: -30px;
             transition: 0.5s;
           }
-
         </style>
-        <button class="btnAgregarInter" onclick="abrirmodalRegister()"data-toggle="modal" data-target="#modalAgregarIntermediario">
+        <button class="btnAgregarInter" onclick="abrirmodalRegister()" data-toggle="modal" data-target="#modalAgregarIntermediario">
 
           Agregar intermediario
 
@@ -219,7 +223,7 @@ MODAL AGREGAR INTERMEDIARIO
 
     <div class="modal-content">
 
-      <form action="javascript:void(0);" id="formGuardarInter" > 
+      <form action="javascript:void(0);" id="formGuardarInter">
 
         <!--=====================================
         CABEZA DEL MODAL
@@ -1163,7 +1167,7 @@ MODAL EDITAR INTERMEDIARIO
 
     <div class="modal-content">
 
-      <form action="javascript:void(0);" id="formEditarInter" >
+      <form action="javascript:void(0);" id="formEditarInter">
 
         <!--=====================================
         CABEZA DEL MODAL
