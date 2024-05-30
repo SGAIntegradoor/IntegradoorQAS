@@ -173,7 +173,7 @@ if (clave_registro !== '' &&
               });
               setTimeout(function() {
             Swal.close();
-            window.location.href = 'https://integradoor.com/Test';
+            window.location.href = 'https://integradoor.com/app';
           }, 9000);
             //   .then(function() {
                 // location.reload(); // Refrescar la página
