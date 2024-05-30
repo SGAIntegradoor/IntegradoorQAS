@@ -26,14 +26,16 @@ class ModeloUsuarios
 		} else {
 
 			if ($_SESSION["rol"] == 18 || $_SESSION["rol"] == 10 || $_SESSION["rol"] == 1) {
-				$stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla, $tabla2 WHERE $tabla.id_rol = $tabla2.id_rol ORDER BY $tabla.id_usuario DESC");
+				var_dump("por aqui  1");
+				$stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla, $tabla2 WHERE $tabla.id_rol = $tabla2.id_rol ORDER BY $tabla.id_usuario ASC");
 
 				$stmt->execute();
 				return $stmt->fetchAll(PDO::FETCH_ASSOC);
 			} else {
-
-				$stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla, $tabla2 WHERE $tabla.id_rol = $tabla2.id_rol AND id_intermediario =" . $_SESSION["intermediario"] . " ASC");
+				var_dump("por aqui  2");
+				$stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla, $tabla2 WHERE $tabla.id_rol = $tabla2.id_rol AND id_intermediario =" . $_SESSION["intermediario"] );
 				$stmt->execute();
+				var_dump($stmt);
 				return $stmt->fetchAll(PDO::FETCH_ASSOC);
 			}
 		}

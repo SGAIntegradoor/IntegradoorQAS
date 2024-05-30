@@ -1500,15 +1500,24 @@ function validarProblema(aseguradora, ofertas) {
       // var mensajeConcatenadoZurich = mensajesZurich
       //   .map((m) => m.messageText)
       //   .join(", ");
-      mensajesZurich.map((element, index) => {
-        if (element.includes("Referred")) {
-          if (index == 2) {
-            mensajeConcatenadoZurich += " - " + element;
-          } else {
-            mensajeConcatenadoZurich += element;
+      if(mensajesZurich.length == 1){
+        console.log(mensajesZurich);
+        mensajeConcatenadoZurich = mensajesZurich[0];
+        console.log(mensajeConcatenadoZurich);
+      } else{
+        mensajesZurich.map((element, index) => {
+          if (element.includes("Referred")) {
+            if (index == 2) {
+              mensajeConcatenadoZurich += " - " + element;
+            } else {
+              mensajeConcatenadoZurich += element;
+            }
+          }if(element.includes("Lo sentimos")){
+            mensajeConcatenadoZurich += " - "+element;
           }
-        }
-      });
+        });
+      }
+
 
       // Realizar la petición AJAX con los datos
       $.ajax({
@@ -2165,7 +2174,7 @@ function cotizarOfertas() {
               } else if (aseguradora === "AXA") {
                 url = `https://grupoasistencia.com/motor_webservice_tst2/AXA?callback=myCallback`;
               } else if (aseguradora === "Zurich") {
-                const planes = ["BASIC", "MEDIUM", "FULL"];
+                const planes = ["FULL"];
                 planes.forEach((plan) => {
                   let body = JSON.parse(requestOptions.body);
                   body.plan = plan;
@@ -2185,15 +2194,21 @@ function cotizarOfertas() {
                           validarProblema("Zurich", ofertas);
                           agregarAseguradoraFallida(plan);
                           let mensaje = "";
-                          ofertas.Mensajes.map((element, index) => {
-                            if (element.includes("Referred")) {
-                              if (index == 2) {
-                                mensaje += " - " + element;
-                              } else {
-                                mensaje += element;
+                          if(ofertas.Mensajes.length == 1){
+                            mensaje = ofertas.Mensajes[0];
+                          } else{
+                            ofertas.Mensajes.map((element, index) => {
+                              if(element.includes("Lo sentimos")){
+                                mensaje += " - "+element;
+                              }if (element.includes("Referred")) {
+                                if (index == 2) {
+                                  mensaje += " - " + element;
+                                } else {
+                                  mensaje += element;
+                                }
                               }
-                            }
-                          });
+                            });
+                          }
                           mostrarAlertarCotizacionFallida(`Zurich`, mensaje);
                         } else {
                           const contadorPorEntidad = validarOfertas(
@@ -2777,64 +2792,64 @@ function cotizarOfertas() {
 
         cont.push(HDIPromise);
 
-        const ZBasicPromise = comprobarFallida("BASIC")
-          ? fetch(
-              "https://grupoasistencia.com/motor_webservice_tst2/Zurich?callback=myCallback",
-              {
-                ...requestOptions,
-                method: "POST", // Ajusta el método según tu necesidad
-                headers: {
-                  ...requestOptions.headers,
-                  "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                  ...JSON.parse(requestOptions.body),
-                  plan: "BASIC", // Agrega la clave plan con el valor "BASIC"
-                  Email2: Math.round(Math.random() * 999999) + "@gmail.com",
-                }),
-              }
-            )
-              .then((res) => {
-                if (!res.ok) throw Error(res.statusText);
-                return res.json();
-              })
-              .then((ofertas) => {
-                if (typeof ofertas.Resultado !== "undefined") {
-                  let plan = "BASIC";
-                  validarProblema("Zurich", ofertas);
-                  agregarAseguradoraFallida(plan);
-                  let mensaje = "";
-                  ofertas.Mensajes.map((element, index) => {
-                    if (element.includes("Referred")) {
-                      if (index == 2) {
-                        mensaje += " - " + element;
-                      } else {
-                        mensaje += element;
-                      }
-                    }
-                  });
-                  mostrarAlertarCotizacionFallida(`Zurich`, mensaje);
-                } else {
-                  // eliminarAseguradoraFallida('Zurich');
-                  const contadorPorEntidad = validarOfertas(
-                    ofertas,
-                    "Zurich",
-                    1
-                  );
-                  mostrarAlertaCotizacionExitosa("Zurich", contadorPorEntidad);
-                }
-              })
-              .catch((err) => {
-                agregarAseguradoraFallida("Zurich");
-                mostrarAlertarCotizacionFallida(
-                  "Zurich",
-                  "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
-                );
-                console.error(err);
-              })
-          : Promise.resolve();
+        // const ZBasicPromise = comprobarFallida("BASIC")
+        //   ? fetch(
+        //       "https://grupoasistencia.com/motor_webservice_tst2/Zurich?callback=myCallback",
+        //       {
+        //         ...requestOptions,
+        //         method: "POST", // Ajusta el método según tu necesidad
+        //         headers: {
+        //           ...requestOptions.headers,
+        //           "Content-Type": "application/json",
+        //         },
+        //         body: JSON.stringify({
+        //           ...JSON.parse(requestOptions.body),
+        //           plan: "BASIC", // Agrega la clave plan con el valor "BASIC"
+        //           Email2: Math.round(Math.random() * 999999) + "@gmail.com",
+        //         }),
+        //       }
+        //     )
+        //       .then((res) => {
+        //         if (!res.ok) throw Error(res.statusText);
+        //         return res.json();
+        //       })
+        //       .then((ofertas) => {
+        //         if (typeof ofertas.Resultado !== "undefined") {
+        //           let plan = "BASIC";
+        //           validarProblema("Zurich", ofertas);
+        //           agregarAseguradoraFallida(plan);
+        //           let mensaje = "";
+        //           ofertas.Mensajes.map((element, index) => {
+        //             if (element.includes("Referred")) {
+        //               if (index == 2) {
+        //                 mensaje += " - " + element;
+        //               } else {
+        //                 mensaje += element;
+        //               }
+        //             }
+        //           });
+        //           mostrarAlertarCotizacionFallida(`Zurich`, mensaje);
+        //         } else {
+        //           // eliminarAseguradoraFallida('Zurich');
+        //           const contadorPorEntidad = validarOfertas(
+        //             ofertas,
+        //             "Zurich",
+        //             1
+        //           );
+        //           mostrarAlertaCotizacionExitosa("Zurich", contadorPorEntidad);
+        //         }
+        //       })
+        //       .catch((err) => {
+        //         agregarAseguradoraFallida("Zurich");
+        //         mostrarAlertarCotizacionFallida(
+        //           "Zurich",
+        //           "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
+        //         );
+        //         console.error(err);
+        //       })
+        //   : Promise.resolve();
 
-        cont.push(ZBasicPromise);
+        // cont.push(ZBasicPromise);
 
         // Para 'FULL'
         const ZFullPromise = comprobarFallida("FULL")
@@ -2895,64 +2910,64 @@ function cotizarOfertas() {
 
         cont.push(ZFullPromise);
 
-        // Para 'MEDIUM'
-        const ZMediumPromise = comprobarFallida("MEDIUM")
-          ? fetch(
-              "https://grupoasistencia.com/motor_webservice_tst2/Zurich?callback=myCallback",
-              {
-                ...requestOptions,
-                method: "POST",
-                headers: {
-                  ...requestOptions.headers,
-                  "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                  ...JSON.parse(requestOptions.body),
-                  plan: "MEDIUM",
-                  Email2: Math.round(Math.random() * 999999) + "@gmail.com",
-                }),
-              }
-            )
-              .then((res) => {
-                if (!res.ok) throw Error(res.statusText);
-                return res.json();
-              })
-              .then((ofertas) => {
-                if (typeof ofertas.Resultado !== "undefined") {
-                  let plan = "MEDIUM";
-                  validarProblema("Zurich", ofertas);
-                  agregarAseguradoraFallida(plan);
-                  let mensaje = "";
-                  ofertas.Mensajes.map((element, index) => {
-                    if (element.includes("Referred")) {
-                      if (index == 2) {
-                        mensaje += " - " + element;
-                      } else {
-                        mensaje += element;
-                      }
-                    }
-                  });
-                  mostrarAlertarCotizacionFallida(`Zurich`, mensaje);
-                } else {
-                  const contadorPorEntidad = validarOfertas(
-                    ofertas,
-                    "Zurich",
-                    1
-                  );
-                  mostrarAlertaCotizacionExitosa("Zurich", contadorPorEntidad);
-                }
-              })
-              .catch((err) => {
-                agregarAseguradoraFallida("Zurich");
-                mostrarAlertarCotizacionFallida(
-                  "Zurich",
-                  "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
-                );
-                console.error(err);
-              })
-          : Promise.resolve();
+        // // Para 'MEDIUM'
+        // const ZMediumPromise = comprobarFallida("MEDIUM")
+        //   ? fetch(
+        //       "https://grupoasistencia.com/motor_webservice_tst2/Zurich?callback=myCallback",
+        //       {
+        //         ...requestOptions,
+        //         method: "POST",
+        //         headers: {
+        //           ...requestOptions.headers,
+        //           "Content-Type": "application/json",
+        //         },
+        //         body: JSON.stringify({
+        //           ...JSON.parse(requestOptions.body),
+        //           plan: "MEDIUM",
+        //           Email2: Math.round(Math.random() * 999999) + "@gmail.com",
+        //         }),
+        //       }
+        //     )
+        //       .then((res) => {
+        //         if (!res.ok) throw Error(res.statusText);
+        //         return res.json();
+        //       })
+        //       .then((ofertas) => {
+        //         if (typeof ofertas.Resultado !== "undefined") {
+        //           let plan = "MEDIUM";
+        //           validarProblema("Zurich", ofertas);
+        //           agregarAseguradoraFallida(plan);
+        //           let mensaje = "";
+        //           ofertas.Mensajes.map((element, index) => {
+        //             if (element.includes("Referred")) {
+        //               if (index == 2) {
+        //                 mensaje += " - " + element;
+        //               } else {
+        //                 mensaje += element;
+        //               }
+        //             }
+        //           });
+        //           mostrarAlertarCotizacionFallida(`Zurich`, mensaje);
+        //         } else {
+        //           const contadorPorEntidad = validarOfertas(
+        //             ofertas,
+        //             "Zurich",
+        //             1
+        //           );
+        //           mostrarAlertaCotizacionExitosa("Zurich", contadorPorEntidad);
+        //         }
+        //       })
+        //       .catch((err) => {
+        //         agregarAseguradoraFallida("Zurich");
+        //         mostrarAlertarCotizacionFallida(
+        //           "Zurich",
+        //           "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
+        //         );
+        //         console.error(err);
+        //       })
+        //   : Promise.resolve();
 
-        cont.push(ZMediumPromise);
+        // cont.push(ZMediumPromise);
 
         /* Estado */
         const aseguradorasEstado = ["Estado", "Estado2"]; // Agrega más aseguradoras según sea necesario

@@ -8,7 +8,7 @@ $(document).ready(function () {
 
   const parrillaCotizaciones = document.getElementById("parrillaCotizaciones");
   parrillaCotizaciones.style.display = "none";
-
+  
   $("#numDocumentoID").numeric();
   $("#txtFasecolda").numeric();
   $("#txtValorFasecolda").numeric();
@@ -1665,7 +1665,7 @@ function addPrevisora() {
 function cotizarOfertasPesados() {
   var codigoFasecolda1 = document.getElementById("txtFasecolda");
   var contenido = codigoFasecolda1.value;
-
+  var rolAsesor = document.getElementById("rolAsesorPesados").value;
   // Obtener el cuarto y quinto dígito de la variable contenido
   var cuartoDigito = contenido.charAt(3);
   var quintoDigito = contenido.charAt(4);
