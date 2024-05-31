@@ -2206,7 +2206,7 @@ function cotizarOfertasPesados() {
                 } else {
                   productosAXA = [planesAXA[3]]; // Extraer el cuarto elemento del array
                 }
-                //console.log(productosAXA);
+                console.log(productosAXA);
 
                 productosAXA.forEach((plan) => {
                   bodyAXA.plan = plan;
