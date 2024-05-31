@@ -837,7 +837,6 @@ $idIntermediario = $_SESSION['permisos']['id_Intermediario'];
                 <div id="mensajePrevisora">
                   <div class="aviso-container col-lg-12">
                     <ul>
-                      <?php if ($_SESSION['rol'] == 19) { ?>
                         <li>
                           <p style="font-weight: bold;">
                             Si a tu cliente le interesa Previsora, ten en cuenta que ciertas líneas de vehículos requieren
@@ -845,7 +844,6 @@ $idIntermediario = $_SESSION['permisos']['id_Intermediario'];
                             póliza. Por favor confirma con tu área comercial.
                           </p>
                         </li>
-                      <?php } ?>
                       <li>
                         <p style="font-weight: bold;">
                           Los vehículos KIA de las líneas PICANTO y SPORTAGE se encuentran fuera de políticas en Seguros

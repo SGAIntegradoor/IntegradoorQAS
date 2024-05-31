@@ -1849,7 +1849,7 @@ function cotizarOfertasPesados() {
         Estrato: Estrato,
         TokenPrevisora: TokenPrevisora,
         intermediario: intermediario,
-
+        mundial: mundial,
         AXA: {
           cre_axa_sslcertfile: cre_axa_sslcertfile,
           cre_axa_sslkeyfile: cre_axa_sslkeyfile,
