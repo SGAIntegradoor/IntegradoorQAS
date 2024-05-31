@@ -6,12 +6,6 @@ $(document).ready(function () {
 
   // Valida que el dato ingresado sea numerico
 
-  var cre_axa_productos_pesados = document.getElementById(
-    "cre_axa_productos_pesados"
-  ).value;
-
-  console.log(cre_axa_productos_pesados)
-
   const parrillaCotizaciones = document.getElementById("parrillaCotizaciones");
   parrillaCotizaciones.style.display = "none";
   
@@ -1785,11 +1779,10 @@ function cotizarOfertasPesados() {
   ).value;
   var url_axa = document.getElementById("url_axa").value;
 
-  var cre_axa_productos_pesados = document.getElementById(
+  var productos_pesados = document.getElementById(
     "cre_axa_productos_pesados"
   ).value;
 
-  console.log(cre_axa_productos_pesados)
 
 
   var aseguradoras_autorizar = JSON.parse(
@@ -2192,12 +2185,13 @@ function cotizarOfertasPesados() {
                 /* AXA */
                 // console.log(condicional)
                 let bodyAXA = JSON.parse(requestOptions.body);
-                let planesAXA = [];
-                if (intermediario == 78) {
-                  planesAXA = [4210, 4211, 4212, 4213, 4214, 4215];
-                } else if (intermediario == 3) {
-                  planesAXA = [5308, 5309, 5310, 5311, 5312, 5313];
-                }
+                var planesAXA = productos_pesados;
+                // let planesAXA = [];
+                // if (intermediario == 78) {
+                //   planesAXA = [4210, 4211, 4212, 4213, 4214, 4215];
+                // } else if (intermediario == 3) {
+                //   planesAXA = [5308, 5309, 5310, 5311, 5312, 5313];
+                // }
 
                 let productosAXA = [];
                 if (condicional == 4 || condicional == 22) {
