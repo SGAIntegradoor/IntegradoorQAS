@@ -2192,6 +2192,7 @@ function cotizarOfertasPesados() {
                 // } else if (intermediario == 3) {
                 //   planesAXA = [5308, 5309, 5310, 5311, 5312, 5313];
                 // }
+                console.log(planesAXA);
 
                 let productosAXA = [];
                 if (condicional == 4 || condicional == 22) {
