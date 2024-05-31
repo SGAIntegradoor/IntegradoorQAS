@@ -6,6 +6,12 @@ $(document).ready(function () {
 
   // Valida que el dato ingresado sea numerico
 
+  var cre_axa_productos_pesados = document.getElementById(
+    "cre_axa_productos_pesados"
+  ).value;
+
+  console.log(cre_axa_productos_pesados)
+
   const parrillaCotizaciones = document.getElementById("parrillaCotizaciones");
   parrillaCotizaciones.style.display = "none";
   
@@ -1778,6 +1784,13 @@ function cotizarOfertasPesados() {
     "cre_axa_validacionEventos"
   ).value;
   var url_axa = document.getElementById("url_axa").value;
+
+  var cre_axa_productos_pesados = document.getElementById(
+    "cre_axa_productos_pesados"
+  ).value;
+
+  console.log(cre_axa_productos_pesados)
+
 
   var aseguradoras_autorizar = JSON.parse(
     document.getElementById("aseguradoras").value

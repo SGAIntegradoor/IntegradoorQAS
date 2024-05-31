@@ -75,8 +75,8 @@ $cre_axa_canal = $creAXA['cre_axa_canal'];
 $cre_axa_validacionEventos = $creAXA['cre_axa_validacionEventos'];
 $url_axa = $creAXA['url_axa'];
 $cre_axa_productos_pesados = $creAXA['productos_pesados'];
-var_dump($cre_axa_productos_pesados);
-die();
+
+
 // Lógica para SOLIDARIA
 if ($aseguradoras['Solidaria']['C'] == "1") {
   $creSolidaria = obtenerCredenciales($enlace, 'Credenciales_Solidaria', '*', $_SESSION['intermediario']);
