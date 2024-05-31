@@ -74,6 +74,7 @@ $cre_axa_codigoDivipola = $creAXA['cre_axa_codigoDivipola'];
 $cre_axa_canal = $creAXA['cre_axa_canal'];
 $cre_axa_validacionEventos = $creAXA['cre_axa_validacionEventos'];
 $url_axa = $creAXA['url_axa'];
+$cre_axa_productos_pesados = $creAXA['cre_axa_productos_pesados'];
 
 // Lógica para SOLIDARIA
 if ($aseguradoras['Solidaria']['C'] == "1") {
