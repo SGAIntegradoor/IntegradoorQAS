@@ -1931,7 +1931,7 @@ const obtenerPdfprevisora = async (cotizacion) => {
   formData.append("cotizacion", cotizacion);
 
   const pdfText = await fetch(
-    "https://www.grupoasistencia.com/motor_webservice_tst2/WSPrevisora/get_pdf_previsora_tst.php",
+    "https://www.grupoasistencia.com/motor_webservice_tst2/WSPrevisora/get_pdf_previsora.php",
 
     {
       method: "POST",
@@ -1975,6 +1975,7 @@ const obtenerPdfprevisora = async (cotizacion) => {
       // Imprime el contenido de la respuesta (JSON) en la consola
       // desactive
       // console.log("Contenido de la respuesta (JSON):", responseText);
+      console.log(responseText.SerializedPDF);
       return responseText.SerializedPDF;
     })
     .catch((error) => {
