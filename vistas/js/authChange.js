@@ -36,8 +36,6 @@ async function authEmail() {
       })
       .then(function(data) {
       var jsonData = JSON.parse(data);
-      console.log(data)
-      return
         // Manipular los datos de la respuesta
         console.log(data);
       if (jsonData.error === 'Busqueda no encontrada') {

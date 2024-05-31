@@ -1612,7 +1612,7 @@ var aseguradorasFallidas = [];
 var aseguradorasIntentadas = [];
 var primerIntentoRealizado = false;
 
-const agregarAseguradoraFallida = (_aseguradora) => {
+const agregarAseguradoraFallidaPesados = (_aseguradora) => {
   const result = aseguradorasFallidas.find(
     (aseguradoras) => aseguradoras == _aseguradora
   );
@@ -1661,6 +1661,9 @@ function addPrevisora() {
       "Solicita cotización manual con tu Analista Comercial asignado";
   }
 }
+
+
+
 // Abrir modal
 function cotizarOfertasPesados() {
   var codigoFasecolda1 = document.getElementById("txtFasecolda");
@@ -1702,29 +1705,6 @@ function cotizarOfertasPesados() {
     return;
   }
   var tipoServicio = document.getElementById("txtTipoServicio").value;
-  if (tipoServicio == "11" || tipoServicio == "12") {
-    var restriccion = "";
-    if (rolAsesor == 19) {
-      restriccion =
-        "Lo sentimos, no puedes realizar cotizaciones para el tipo de servicio público o intermunicipal por este cotizador. Para hacerlo debes comunicarte con el Equipo de Asesores Freelance de Grupo Asistencia, quienes podrán ayudarte a cotizar de manera manual con diferentes aseguradoras.";
-    } else {
-      restriccion =
-        "Lo sentimos, no puedes realizar cotizaciones para el tipo de servicio público o intermunicipal por este cotizador.";
-    }
-    Swal.fire({
-      icon: "error",
-      confirmButtonText: "Cerrar",
-      text: restriccion,
-    }).then(() => {
-      // Agregar un retraso antes de recargar la página (por ejemplo, 2 segundos)
-      setTimeout(() => {
-        // Recargar la página después del retraso
-        location.reload();
-      }, 2000); // 2000 milisegundos = 2 segundos
-    });
-    // Salir del código aquí para evitar la ejecución del resto del código
-    return;
-  }
 
   var mundial = document.getElementById("mundialseguros").value;
   //console.log(mundial);
@@ -2126,7 +2106,7 @@ function cotizarOfertasPesados() {
                     .then((ofertas) => {
                       if (typeof ofertas[0].Resultado !== "undefined") {
                         validarProblema(aseguradora, ofertas);
-                        agregarAseguradoraFallida(plan);
+                        agregarAseguradoraFallidaPesados(plan);
                         ofertas.Mensajes.forEach((mensaje) => {
                           mostrarAlertarCotizacionFallida(aseguradora, mensaje);
                         });
@@ -2169,7 +2149,7 @@ function cotizarOfertasPesados() {
                       .then((ofertas) => {
                         if (typeof ofertas[0].Resultado !== "undefined") {
                           validarProblema(aseguradora, ofertas);
-                          agregarAseguradoraFallida(plan);
+                          agregarAseguradoraFallidaPesados(plan);
                           ofertas.Mensajes.forEach((mensaje) => {
                             mostrarAlertarCotizacionFallida(
                               aseguradora,
@@ -2236,8 +2216,8 @@ function cotizarOfertasPesados() {
                     .then((ofertas) => {
                       if (typeof ofertas[0].Resultado !== "undefined") {
                         validarProblema(aseguradora, ofertas);
-                        agregarAseguradoraFallida(plan);
-                        ofertas.Mensajes.forEach((mensaje) => {
+                        agregarAseguradoraFallidaPesados(plan);
+                        ofertas[0].Mensajes.forEach((mensaje) => {
                           mostrarAlertarCotizacionFallida(aseguradora, mensaje);
                         });
                       } else {
@@ -2282,7 +2262,7 @@ function cotizarOfertasPesados() {
                     .then((ofertas) => {
                       if (typeof ofertas[0].Resultado !== "undefined") {
                         validarProblema(aseguradora, ofertas);
-                        agregarAseguradoraFallida(plan);
+                        agregarAseguradoraFallidaPesados(plan);
                         ofertas.Mensajes.forEach((mensaje) => {
                           mostrarAlertarCotizacionFallida(aseguradora, mensaje);
                         });
@@ -2477,6 +2457,8 @@ function cotizarOfertasPesados() {
         };
 
         const mostrarAlertarCotizacionFallida = (aseguradora, mensaje) => {
+          console.log(aseguradora, mensaje);
+
           if (aseguradora == "Estado2") {
             aseguradora = "Estado";
           }
@@ -2568,7 +2550,7 @@ function cotizarOfertasPesados() {
               })
               .then((ofertas) => {
                 if (typeof ofertas[0].Resultado !== "undefined") {
-                  agregarAseguradoraFallida("Liberty");
+                  agregarAseguradoraFallidaPesados("Liberty");
                   validarProblema("Liberty", ofertas);
                   ofertas[0].Mensajes.forEach((mensaje) => {
                     mostrarAlertarCotizacionFallida("Liberty", mensaje);
@@ -2584,7 +2566,7 @@ function cotizarOfertasPesados() {
                 }
               })
               .catch((err) => {
-                agregarAseguradoraFallida("Liberty");
+                agregarAseguradoraFallidaPesados("Liberty");
                 mostrarAlertarCotizacionFallida(
                   "Liberty",
                   "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
@@ -2606,7 +2588,7 @@ function cotizarOfertasPesados() {
               })
               .then((ofertas) => {
                 if (typeof ofertas[0].Resultado !== "undefined") {
-                  agregarAseguradoraFallida("AXA");
+                  agregarAseguradoraFallidaPesados("AXA");
                   validarProblema("AXA", ofertas);
                   ofertas[0].Mensajes.forEach((mensaje) => {
                     mostrarAlertarCotizacionFallida("AXA", mensaje);
@@ -2622,7 +2604,7 @@ function cotizarOfertasPesados() {
                 }
               })
               .catch((err) => {
-                agregarAseguradoraFallida("AXA");
+                agregarAseguradoraFallidaPesados("AXA");
                 mostrarAlertarCotizacionFallida(
                   "AXA",
                   "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
