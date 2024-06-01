@@ -1307,7 +1307,9 @@ function cotizarOfertasMotos() {
     "cre_axa_validacionEventos"
   ).value;
   var url_axa = document.getElementById("url_axa").value;
-
+  var motos_productos = document.getElementById(
+    "motos_productos"
+  ).value;
   /**
    * Variables para Allianz
    */
@@ -1396,6 +1398,7 @@ function cotizarOfertasMotos() {
         cre_axa_canal: cre_axa_canal,
         cre_axa_validacionEventos: cre_axa_validacionEventos,
         url_axa: url_axa,
+        motos_productos: motos_productos
       },
       ALLIANZ: {
         cre_alli_sslcertfile: cre_alli_sslcertfile,
