@@ -1776,6 +1776,10 @@ function cotizarOfertas() {
     "cre_axa_validacionEventos"
   ).value;
   var url_axa = document.getElementById("url_axa").value;
+  var livianos_productos = document.getElementById(
+    "cre_axa_livianos_productos"
+  ).value;
+
 
   /**
    * Variables para Bolivar
@@ -1913,6 +1917,7 @@ function cotizarOfertas() {
           cre_axa_canal: cre_axa_canal,
           cre_axa_validacionEventos: cre_axa_validacionEventos,
           url_axa: url_axa,
+          livianos_productos: livianos_productos,
         },
         SOLIDARIA: {
           cre_sol_cod_sucursal: cre_sol_cod_sucursal,

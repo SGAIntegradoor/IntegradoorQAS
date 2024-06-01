@@ -1779,6 +1779,12 @@ function cotizarOfertasPesados() {
   ).value;
   var url_axa = document.getElementById("url_axa").value;
 
+  var productos_pesados = document.getElementById(
+    "cre_axa_productos_pesados"
+  ).value;
+
+
+
   var aseguradoras_autorizar = JSON.parse(
     document.getElementById("aseguradoras").value
   );
@@ -2179,27 +2185,29 @@ function cotizarOfertasPesados() {
                 /* AXA */
                 // console.log(condicional)
                 let bodyAXA = JSON.parse(requestOptions.body);
-                let planesAXA = [];
-                if (intermediario == 78) {
-                  planesAXA = [4210, 4211, 4212, 4213, 4214, 4215];
-                } else if (intermediario == 3) {
-                  planesAXA = [5308, 5309, 5310, 5311, 5312, 5313];
-                }
+                var planesAXA = productos_pesados;
+                // let planesAXA = [];
+                // if (intermediario == 78) {
+                //   planesAXA = [4210, 4211, 4212, 4213, 4214, 4215];
+                // } else if (intermediario == 3) {
+                //   planesAXA = [5308, 5309, 5310, 5311, 5312, 5313];
+                // }
+                let array = JSON.parse(planesAXA);
 
                 let productosAXA = [];
                 if (condicional == 4 || condicional == 22) {
-                  productosAXA.push(planesAXA[0]);
-                  productosAXA.push(planesAXA[1]); // Extraer los dos primeros elementos del array
+                  productosAXA.push(array[0]);
+                  productosAXA.push(array[1]); // Extraer los dos primeros elementos del array
                 } else if (condicional == 23 || condicional == 25) {
-                  productosAXA = [planesAXA[2]];
+                  productosAXA = [array[2]];
                 } else if (condicional == 3) {
-                  productosAXA = [planesAXA[4]]; // Extraer el quinto elemento del array
+                  productosAXA = [array[4]]; // Extraer el quinto elemento del array
                 } else if (condicional == 7) {
-                  productosAXA = [planesAXA[5]]; // Extraer el último elemento del array
+                  productosAXA = [array[5]]; // Extraer el último elemento del array
                 } else {
-                  productosAXA = [planesAXA[3]]; // Extraer el cuarto elemento del array
+                  productosAXA = [array[3]]; // Extraer el cuarto elemento del array
                 }
-                //console.log(productosAXA);
+                console.log(productosAXA);
 
                 productosAXA.forEach((plan) => {
                   bodyAXA.plan = plan;

@@ -75,6 +75,8 @@ $cre_axa_codigoDivipola = $creAXA['cre_axa_codigoDivipola'];
 $cre_axa_canal = $creAXA['cre_axa_canal'];
 $cre_axa_validacionEventos = $creAXA['cre_axa_validacionEventos'];
 $url_axa = $creAXA['url_axa'];
+$motos_productos = $creAXA['motos_productos'];
+
 
 $creSolidaria = obtenerCredenciales($enlace, 'Credenciales_Solidaria', '*', $_SESSION['intermediario']);
 
@@ -975,6 +977,8 @@ $rolAsesor = $_SESSION['permisos']['idRol'];
             <input type="text" class="form-control" id="cre_axa_canal" value="<?php echo $cre_axa_canal; ?>">
             <input type="text" class="form-control" id="cre_axa_validacionEventos" value="<?php echo $cre_axa_validacionEventos; ?>">
             <input type="text" class="form-control" id="url_axa" value="<?php echo $url_axa; ?>">
+            <input type="text" class="form-control" id="motos_productos" value="<?php echo $motos_productos; ?>">
+
 
             <!--Bolivar-->
             <!-- <input type="text" class="form-control" id="cre_bol_api_key" value="<?php echo $cre_bol_api_key; ?>">

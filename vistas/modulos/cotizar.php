@@ -69,6 +69,7 @@ $cre_axa_codigoDivipola = $creAXA['cre_axa_codigoDivipola'];
 $cre_axa_canal = $creAXA['cre_axa_canal'];
 $cre_axa_validacionEventos = $creAXA['cre_axa_validacionEventos'];
 $url_axa = $creAXA['url_axa'];
+$cre_axa_livianos_productos = $creAXA['livianos_productos'];
 
 // Lógica para SOLIDARIA
 if ($aseguradoras['Solidaria']['C'] == "1") {
@@ -991,6 +992,7 @@ $idIntermediario = $_SESSION['permisos']['id_Intermediario'];
             <input type="text" class="form-control" id="cre_axa_canal" value="<?php echo $cre_axa_canal; ?>">
             <input type="text" class="form-control" id="cre_axa_validacionEventos" value="<?php echo $cre_axa_validacionEventos; ?>">
             <input type="text" class="form-control" id="url_axa" value="<?php echo $url_axa; ?>">
+            <input type="text" class="form-control" id="cre_axa_livianos_productos" value="<?php echo $cre_axa_livianos_productos; ?>">
 
             <!--Bolivar-->
             <input type="text" class="form-control" id="cre_bol_api_key" value="<?php echo $cre_bol_api_key; ?>">
