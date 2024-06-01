@@ -991,6 +991,7 @@ $idIntermediario = $_SESSION['permisos']['id_Intermediario'];
             <input type="text" class="form-control" id="cre_axa_canal" value="<?php echo $cre_axa_canal; ?>">
             <input type="text" class="form-control" id="cre_axa_validacionEventos" value="<?php echo $cre_axa_validacionEventos; ?>">
             <input type="text" class="form-control" id="url_axa" value="<?php echo $url_axa; ?>">
+            <input type="text" class="form-control" id="cre_axa_livianos_productos" value="<?php echo $cre_axa_livianos_productos; ?>">
 
             <!--Bolivar-->
             <input type="text" class="form-control" id="cre_bol_api_key" value="<?php echo $cre_bol_api_key; ?>">
