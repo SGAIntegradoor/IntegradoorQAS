@@ -32,8 +32,10 @@ $Ciudad = $_POST["Ciudad"];
 $benefOneroso = $_POST["benefOneroso"];
 $idCotizacion = $_POST["idCotizacion"];
 $idUsuario = $_SESSION["idUsuario"];
-if (!isset($_POST["mundial"]) || isset($_POST['mundial']) == "" || isset($_POST['mundial'])) {
+if (!isset($_POST["mundial"]) || isset($_POST['mundial']) == "" ) {
     $mundial = NULL;
+} else {
+	$mundial = $_POST['mundial'];
 }
 $credenciales = $_POST["credenciales"];
 
