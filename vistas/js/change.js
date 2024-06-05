@@ -41,7 +41,7 @@ async function authInfo() {
           }
       })
       .then(function(data) {
-        console.log(data);
+
         var jsonData =  JSON.parse(data);
         if(jsonData.error === 'No se encuentra el documento!'){
             Swal.fire({

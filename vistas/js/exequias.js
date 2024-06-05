@@ -75,7 +75,7 @@ const idUsuario = document.getElementById('idUsuario').value;
           }
       })
       .then(function(data) {
-        console.log(data);
+        //console.log(data);
         data = JSON.parse(data);
         if(data.success === "Registro exitoso"){
           console.log('aqui llegue')

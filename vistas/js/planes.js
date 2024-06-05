@@ -21,7 +21,6 @@
     .then(response => response.json(),
     )
     .then(data => {
-        console.log(data);
         var tableBody = documentosTable.getElementsByTagName("tbody")[0];
         tableBody.innerHTML = "";
 

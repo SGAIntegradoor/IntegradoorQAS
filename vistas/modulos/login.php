@@ -174,7 +174,7 @@
         await fetch('/app/ajax/olvido_contrasenia.ajax.php', requestOptions)
               .then(response  => response.json())
               .then(data => {
-                console.log(data);
+                //console.log(data);
               })
       },
       validarCorreo: function() {

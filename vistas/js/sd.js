@@ -672,7 +672,6 @@ function registrarOfertaMotos(
       },
       success: function (data) {
         console.log(PT, PP, CE, GR, logo, UrlPdf, manual, pdf, responsabilidad_civil_familiar, valorRC ,prima, placa, idCotizOferta, numIdentificacion, aseguradora, producto, numCotizOferta )
-        console.log(data);
         // var datos = data.Data;
         var message = data.Message;
         var success = data.Success;
@@ -1036,7 +1035,6 @@ function registrarNumeroOfertasMotos(entidad, contador, numCotizacion, exito) {
       mensaje: "",
     },
     success: function (data) {
-      console.log(data);
       // var datos = data.Data;
       var message = data.Message;
       var success = data.Success;
@@ -1386,8 +1384,6 @@ function cotizarOfertasMotos() {
           contenParrilla.style.display = "block";
           idCotizacion = data.id_cotizacion;
           raw.cotizacion = idCotizacion;
-          console.log(data);
-          console.log(data.id_cotizacion);
           var requestOptions = {
             method: "POST",
             headers: myHeaders,

@@ -1954,7 +1954,7 @@ function cotizarOfertasPesados() {
             Celular: celularAseg,
             Correo: emailAseg,
             direccionAseg: direccionAseg,
-            CodigoClase: "1",
+            CodigoClase: CodigoClase == "" ? "1" : CodigoClase,
             Clase: claseVeh,
             Marca: marcaVeh,
             Modelo: modeloVeh,

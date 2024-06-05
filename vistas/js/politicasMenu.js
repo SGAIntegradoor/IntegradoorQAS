@@ -22,7 +22,6 @@ function cargar_politicas(){
     .then(response => response.json(),
     )
     .then(data => {
-        console.log(data);
         var tableBody = documentosTable.getElementsByTagName("tbody")[0];
         tableBody.innerHTML = "";
 
@@ -129,7 +128,6 @@ function cargar_politicas(){
     .then(response => response.json(),
     )
     .then(data => {
-        console.log(data);
         var tableBody = documentosTable.getElementsByTagName("tbody")[0];
         tableBody.innerHTML = "";
 
@@ -230,7 +228,6 @@ function cargar_tipo(){
     .then(response => response.json(),
     )
     .then(data => {
-        console.log(data);
         var tableBody = documentosTable.getElementsByTagName("tbody")[0];
         tableBody.innerHTML = "";
 

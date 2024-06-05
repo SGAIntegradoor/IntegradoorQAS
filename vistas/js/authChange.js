@@ -37,7 +37,7 @@ async function authEmail() {
       .then(function(data) {
       var jsonData = JSON.parse(data);
         // Manipular los datos de la respuesta
-        console.log(data);
+
       if (jsonData.error === 'Busqueda no encontrada') {
         // Mostrar aviso de "correo no encontrado" en la vista
         loader.style.display = "none";
