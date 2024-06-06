@@ -263,7 +263,7 @@ class ModeloUsuarios
 					$updateQuery .= ", usu_password = :usu_password";
 				}
 
-				if (isset($datos['fechNacimiento'])) {
+				if (!empty($datos['fechNacimiento'])) {
 					$updateQuery .= ", usu_fch_nac = :fechNacimiento";
 				}
 
@@ -289,7 +289,9 @@ class ModeloUsuarios
 					$stmt->bindParam(":usu_password", $datos["password"], PDO::PARAM_STR);
 				}
 				$stmt->bindParam(":genero", $datos["genero"], PDO::PARAM_STR);
-				$stmt->bindParam(":fechNacimiento", $datos["fechNacimiento"], PDO::PARAM_STR);
+				if (!empty($datos['fechNacimiento'])) {
+					$stmt->bindParam(":fechNacimiento", $datos["fechNacimiento"], PDO::PARAM_STR);
+				}
 				$stmt->bindParam(":direccion", $datos["direccion"], PDO::PARAM_STR);
 				$stmt->bindParam(":ciudad", $datos["ciudad"], PDO::PARAM_STR);
 				$stmt->bindParam(":telefono", $datos["telefono"], PDO::PARAM_STR);
