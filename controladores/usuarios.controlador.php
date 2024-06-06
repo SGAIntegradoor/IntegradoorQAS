@@ -278,8 +278,7 @@ class ControladorUsuarios
 			$tabla = "usuarios";
 			$ruta = "";
 			$encriptar = crypt($_POST["newPassword"], '$2a$07$asxx54ahjppf45sd87a5a4dDDGsystemdev$');
-			//var_dump($_POST);
-			$tiempoLimite = $_POST['lifeTime'];
+
 			$datos = array(
 				"nombre" => $_POST["newName"],
 				"apellido" => $_POST["newLastName"],
@@ -303,52 +302,12 @@ class ControladorUsuarios
 			);
 
 			$respuesta = ModeloUsuarios::mdlIngresarUsuario($tabla, $datos);
-			if ($respuesta == "ok") {
 
-				echo '<script>
-
-					swal.fire({
-
-						type: "success",
-						title: "¡El usuario temporal ha sido creado correctamente!",
-						showConfirmButton: true,
-						confirmButtonText: "Cerrar"
-
-					}).then(function(result){
-
-						if(result.value){
-						
-							window.location = "usuarios";
-
-						}
-
-					});
-				
-
-					</script>';
+			if ($respuesta['result'] == "ok") {
+				return array("result" => "Success");
 			} else {
 
-				echo '<script>
-
-					swal.fire({
-
-						type: "error",
-						title: "¡Algo ha salido mal!",
-						showConfirmButton: true,
-						confirmButtonText: "Cerrar"
-
-					}).then(function(result){
-
-						if(result.value){
-						
-							window.location = "usuarios";
-
-						}
-
-					});
-				
-
-					</script>';
+				return array("result" => "Error");
 			}
 		}
 
@@ -374,67 +333,6 @@ class ControladorUsuarios
 
 				$ruta = "";
 
-				// if(isset($_FILES["nuevaFoto"]["tmp_name"])){
-
-				// 	list($ancho, $alto) = getimagesize($_FILES["nuevaFoto"]["tmp_name"]);
-
-				// 	$nuevoAncho = 500;
-				// 	$nuevoAlto = 500;
-
-				// 	/*=============================================
-				// 	CREAMOS EL DIRECTORIO DONDE VAMOS A GUARDAR LA FOTO DEL USUARIO
-				// 	=============================================*/
-
-				// 	$directorio = "vistas/img/usuarios/".$nuevoUsuario;
-
-				// 	mkdir($directorio, 0755);
-
-				// 	/*=============================================
-				// 	DE ACUERDO AL TIPO DE IMAGEN APLICAMOS LAS FUNCIONES POR DEFECTO DE PHP
-				// 	=============================================*/
-
-				// 	if($_FILES["nuevaFoto"]["type"] == "image/jpeg"){
-
-				// 		/*=============================================
-				// 		GUARDAMOS LA IMAGEN EN EL DIRECTORIO
-				// 		=============================================*/
-
-				// 		$aleatorio = mt_rand(100,999);
-
-				// 		$ruta = "vistas/img/usuarios/".$nuevoUsuario."/".$aleatorio.".jpg";
-
-				// 		$origen = imagecreatefromjpeg($_FILES["nuevaFoto"]["tmp_name"]);						
-
-				// 		$destino = imagecreatetruecolor($nuevoAncho, $nuevoAlto);
-
-				// 		imagecopyresized($destino, $origen, 0, 0, 0, 0, $nuevoAncho, $nuevoAlto, $ancho, $alto);
-
-				// 		imagejpeg($destino, $ruta);
-
-				// 	}
-
-				// 	if($_FILES["nuevaFoto"]["type"] == "image/png"){
-
-				// 		/*=============================================
-				// 		GUARDAMOS LA IMAGEN EN EL DIRECTORIO
-				// 		=============================================*/
-
-				// 		$aleatorio = mt_rand(100,999);
-
-				// 		$ruta = "vistas/img/usuarios/".$nuevoUsuario."/".$aleatorio.".png";
-
-				// 		$origen = imagecreatefrompng($_FILES["nuevaFoto"]["tmp_name"]);						
-
-				// 		$destino = imagecreatetruecolor($nuevoAncho, $nuevoAlto);
-
-				// 		imagecopyresized($destino, $origen, 0, 0, 0, 0, $nuevoAncho, $nuevoAlto, $ancho, $alto);
-
-				// 		imagepng($destino, $ruta);
-
-				// 	}
-
-				// }
-
 				$tabla = "usuarios";
 
 				$encriptar = crypt($_POST["nuevoPassword"], '$2a$07$asxx54ahjppf45sd87a5a4dDDGsystemdev$');
@@ -443,7 +341,7 @@ class ControladorUsuarios
 					"nombre" => $_POST["nuevoNombre"],
 					"apellido" => $_POST["nuevoApellido"],
 					"documento" => $_POST["nuevoDocIdUser"],
-					"usuario" => $_POST["nuevoUsuario"],
+					"usuario" => $nuevoUsuario,
 					"password" => $encriptar,
 					"genero" => $_POST["nuevoGenero"],
 					"rol" => $_POST["nuevoRol"],
@@ -451,7 +349,7 @@ class ControladorUsuarios
 					"email" => $_POST["nuevoEmail"],
 					"cargo" => $_POST["nuevoCargo"],
 					"maxCotizaciones" => $_POST["maxCot"],
-					"CotizacionesTotales" => $_POST["totalCot"],
+					//"CotizacionesTotales" => $_POST["CotizacionesTotales"] == "" || $_POST["CotizacionesTotales"] == null ? NULL : $_POST["CotizacionesTotales"],
 					"intermediario" => $_POST["idIntermediario"],
 					"fechaLimite" => $_POST["fecLim"],
 					"fechaNacimiento" => $_POST["AgregfechNacimiento"],
@@ -463,7 +361,7 @@ class ControladorUsuarios
 
 				$respuesta = ModeloUsuarios::mdlIngresarUsuario($tabla, $datos);
 
-				if ($respuesta == "ok") {
+				if ($respuesta['result'] == "ok") {
 
 					echo '<script>
 
@@ -714,6 +612,7 @@ class ControladorUsuarios
 					$checkPass = ModeloUsuarios::mdlCheckPassword($actualPassw, $actualIdUser);
 					if (!$checkPass) {
 						if (isset($_POST["ciudad2"]) && $_POST["ciudad2"] == NULL) {
+							
 							$datos = array(
 								"id" => $_POST["idUsuEdit"],
 								"nombre" => $_POST["editarNombre"],
@@ -736,7 +635,7 @@ class ControladorUsuarios
 								"ciudad" => $_POST["codigoCiudadActual"],
 								"foto" => $ruta
 							);
-							//var_dump($datos);
+
 	
 						} else {
 							$datos = array(
@@ -761,7 +660,7 @@ class ControladorUsuarios
 								"ciudad" => $_POST["codigoCiudadActual"],
 								"foto" => $ruta
 							);
-							//var_dump($datos);
+
 						}
 						$respuesta = ModeloUsuarios::mdlEditarUsuario($tabla, $datos);
 	
@@ -822,6 +721,7 @@ class ControladorUsuarios
 								"ciudad" => $_POST["codigoCiudadActual"],
 								"foto" => $ruta
 							);
+
 						} else {
 							$datos = array(
 								"id" => $_POST["idUsuEdit"],
@@ -845,6 +745,7 @@ class ControladorUsuarios
 								"ciudad" => $_POST["codigoCiudadActual"],
 								"foto" => $ruta
 							);
+
 						}
 	
 						$respuesta = ModeloUsuarios::mdlEditarUsuario($tabla, $datos);

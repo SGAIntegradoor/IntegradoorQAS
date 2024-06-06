@@ -26,16 +26,13 @@ class ModeloUsuarios
 		} else {
 
 			if ($_SESSION["rol"] == 18 || $_SESSION["rol"] == 10 || $_SESSION["rol"] == 1) {
-				var_dump("por aqui  1");
 				$stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla, $tabla2 WHERE $tabla.id_rol = $tabla2.id_rol ORDER BY $tabla.id_usuario ASC");
 
 				$stmt->execute();
 				return $stmt->fetchAll(PDO::FETCH_ASSOC);
 			} else {
-				var_dump("por aqui  2");
-				$stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla, $tabla2 WHERE $tabla.id_rol = $tabla2.id_rol AND id_intermediario =" . $_SESSION["intermediario"] );
+				$stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla, $tabla2 WHERE $tabla.id_rol = $tabla2.id_rol AND id_intermediario =" . $_SESSION["intermediario"]);
 				$stmt->execute();
-				var_dump($stmt);
 				return $stmt->fetchAll(PDO::FETCH_ASSOC);
 			}
 		}
@@ -163,10 +160,12 @@ class ModeloUsuarios
 			}
 		}
 
+		$user = $datos['apellido'] == "SGA" ? $newUsername : $datos['usuario'];
+
 		$stmt->bindParam(":documento", $datos["documento"], PDO::PARAM_INT);
 		$stmt->bindParam(":nombre", $datos["nombre"], PDO::PARAM_STR);
 		$stmt->bindParam(":apellido", $datos["apellido"], PDO::PARAM_STR);
-		$stmt->bindParam(":usuario", $newUsername, PDO::PARAM_STR);
+		$stmt->bindParam(":usuario", $user, PDO::PARAM_STR);
 		$stmt->bindParam(":password", $datos["password"], PDO::PARAM_STR);
 		$stmt->bindParam(":genero", $datos["genero"], PDO::PARAM_STR);
 		$stmt->bindParam(":fechaNacimiento", $datos["fechaNacimiento"], PDO::PARAM_STR);
@@ -183,43 +182,41 @@ class ModeloUsuarios
 		//$stmt -> bindParam(":totalCot", $datos["cotizacionesTotales"], PDO::PARAM_INT);
 		$stmt->bindParam(":fechaLimite", $datos["fechaLimite"], PDO::PARAM_STR);
 
-		if (!$stmt->execute()) {
-			$errorInfo = $stmt->errorInfo();
-			echo "Error al ejecutar la consulta: " . $errorInfo[2];
-			// Opcionalmente, puedes mostrar información adicional sobre el error
+		// if (!$stmt->execute()) {
+		// 	$errorInfo = $stmt->errorInfo();
+		// 	echo "Error al ejecutar la consulta: " . $errorInfo[2];
+		// 	// Opcionalmente, puedes mostrar información adicional sobre el error
 
-			echo "Código de error: " . $errorInfo[0];
-		}
+		// 	echo "Código de error: " . $errorInfo[0];
+		// }
 
-		echo '<script>
+		// echo '<script>
 
-		swal({
+		// swal({
 
-			type: "success",
-			title: "' . $datos["intermediario"] . '",
-			showConfirmButton: true,
-			confirmButtonText: "Cerrar"
+		// 	type: "success",
+		// 	title: "' . $datos["intermediario"] . '",
+		// 	showConfirmButton: true,
+		// 	confirmButtonText: "Cerrar"
 
-		}).then(function(result){
+		// }).then(function(result){
 
-			if(result.value){
+		// 	if(result.value){
 
-				window.location = "usuarios";
+		// 		window.location = "usuarios";
 
-			}
+		// 	}
 
-		});
-
-
-		</script>';
+		// });
 
 
+		// </script>';
 
 		if ($stmt->execute()) {
-			return array("result"=>"ok", "last" => $lastUserNumber);
+			return array("result" => "ok", "detailedResponse" => "Se creo el usuario");
 		} else {
-
-			return "error";
+			$errorInfo = $stmt->errorInfo();
+			return array("result" => "error", "detailedResponse" => $errorInfo);
 		}
 
 		$stmt->close();
@@ -233,99 +230,98 @@ class ModeloUsuarios
 
 	static public function mdlEditarUsuario($tabla, $datos)
 	{
+		try {
+			$idUsuario = $datos["id"];
+			$stmt = Conexion::conectar()->prepare("SELECT usu_documento, usu_usuario FROM $tabla WHERE id_usuario = :idUsuario");
 
-		$idUsuario = $datos["id"];
-		$stmt = Conexion::conectar()->prepare("SELECT usu_documento, usu_usuario FROM $tabla WHERE id_usuario = :idUsuario");
+			$stmt->bindParam(":idUsuario", $idUsuario, PDO::PARAM_INT);
+			$stmt->execute();
+			$resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-		$stmt->bindParam(":idUsuario", $idUsuario, PDO::PARAM_INT);
-		$stmt->execute();
-		$resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);
+			if (!empty($resultados)) {
+				$document = $resultados[0]['usu_documento'];
+				$user = $resultados[0]['usu_usuario'];
+				$cotTot = $datos['cotizacionesTotales'];
 
-		if (!empty($resultados)) {
-			// Obtén los valores de las columnas que deseas comparar
-			$document = $resultados[0]['usu_documento'];
-			$user = $resultados[0]['usu_usuario'];
-			if (isset($datos['password'])) {
-				// Compara las variables
+				$updateQuery = "UPDATE $tabla SET 
+												  usu_documento = :documento,
+												  tipos_documentos_id = :tipoDocumento,
+												  usu_nombre = :nombre,
+												  usu_apellido = :apellido,
+												  usu_genero = :genero,
+												  direccion = :direccion,
+												  ciudades_id = :ciudad,
+												  usu_telefono = :telefono,
+												  usu_email = :email,
+												  usu_cargo = :cargo,
+												  usu_foto = :foto,
+												  id_rol = :rol,
+												  id_Intermediario = :intermediario,
+												  fechaFin = :fechaLimEdi";
+
+				if (isset($datos['password'])) {
+					$updateQuery .= ", usu_password = :usu_password";
+				}
+
+				if (isset($datos['fechNacimiento'])) {
+					$updateQuery .= ", usu_fch_nac = :fechNacimiento";
+				}
+
 				if ($document == $user) {
-					// Las variables son iguales
-					$stmt = Conexion::conectar()->prepare("UPDATE $tabla SET usu_usuario = :documento, usu_documento = :documento, usu_password = :usu_password, tipos_documentos_id = :tipoDocumento, usu_nombre = :nombre, usu_apellido = :apellido, usu_fch_nac = :fechNacimiento,
-												usu_genero = :genero, direccion =:direccion, ciudades_id =:ciudad, usu_telefono = :telefono, usu_email = :email, usu_cargo = :cargo, usu_foto = :foto, id_rol = :rol, id_Intermediario = :intermediario, fechaFin = :fechaLimEdi, cotizacionesTotales = :cotTotales
-												WHERE usu_usuario = :usuario");
+					$updateQuery .= ", usu_usuario = :documento";
+				}
+
+				if (!empty($cotTot)) {
+					$updateQuery .= ", cotizacionesTotales = :cotTotales";
+				}
+
+
+				$updateQuery .= " WHERE usu_usuario = :usuario";
+
+				$stmt = Conexion::conectar()->prepare($updateQuery);
+
+				$stmt->bindParam(":documento", $datos["documento"], PDO::PARAM_INT);
+				$stmt->bindParam(":tipoDocumento", $datos["tipoDocumento"], PDO::PARAM_STR);
+				$stmt->bindParam(":nombre", $datos["nombre"], PDO::PARAM_STR);
+				$stmt->bindParam(":apellido", $datos["apellido"], PDO::PARAM_STR);
+				$stmt->bindParam(":usuario", $datos["usuario"], PDO::PARAM_STR);
+				if (isset($datos['password'])) {
+					$stmt->bindParam(":usu_password", $datos["password"], PDO::PARAM_STR);
+				}
+				$stmt->bindParam(":genero", $datos["genero"], PDO::PARAM_STR);
+				$stmt->bindParam(":fechNacimiento", $datos["fechNacimiento"], PDO::PARAM_STR);
+				$stmt->bindParam(":direccion", $datos["direccion"], PDO::PARAM_STR);
+				$stmt->bindParam(":ciudad", $datos["ciudad"], PDO::PARAM_STR);
+				$stmt->bindParam(":telefono", $datos["telefono"], PDO::PARAM_STR);
+				$stmt->bindParam(":email", $datos["email"], PDO::PARAM_STR);
+				$stmt->bindParam(":cargo", $datos["cargo"], PDO::PARAM_STR);
+				$stmt->bindParam(":foto", $datos["foto"], PDO::PARAM_STR);
+				$stmt->bindParam(":intermediario", $datos["intermediario"], PDO::PARAM_STR);
+				if (!empty($cotTot)) {
+					$stmt->bindParam(":cotTotales", $datos["cotizacionesTotales"], PDO::PARAM_STR);
+				}
+				$stmt->bindParam(":fechaLimEdi", $datos["fechaLimEdi"], PDO::PARAM_STR);
+				$stmt->bindParam(":rol", $datos["rol"], PDO::PARAM_STR);
+
+				if ($stmt->execute()) {
+					//var_dump("Entre aqui");
+					return "ok";
 				} else {
-					// Las variables no son iguales
-					$stmt = Conexion::conectar()->prepare("UPDATE $tabla SET usu_documento = :documento, usu_password = :usu_password, tipos_documentos_id = :tipoDocumento, usu_nombre = :nombre, usu_apellido = :apellido, usu_fch_nac = :fechNacimiento,
-													usu_genero = :genero, direccion =:direccion, ciudades_id =:ciudad, usu_telefono = :telefono, usu_email = :email, usu_cargo = :cargo, usu_foto = :foto, id_rol = :rol, id_Intermediario = :intermediario, fechaFin = :fechaLimEdi, cotizacionesTotales = :cotTotales
-													WHERE usu_usuario = :usuario");
+					$errorInfo = $stmt->errorInfo();
+					echo "SQLSTATE error code: " . $errorInfo[0] . "\n";
+					echo "Driver-specific error code: " . $errorInfo[1] . "\n";
+					echo "Driver-specific error message: " . $errorInfo[2] . "\n";
+					return "error";
 				}
 			} else {
-				if ($document == $user) {
-					$stmt = Conexion::conectar()->prepare("UPDATE $tabla SET usu_usuario = :documento, usu_documento = :documento, tipos_documentos_id = :tipoDocumento, usu_nombre = :nombre, usu_apellido = :apellido, usu_fch_nac = :fechNacimiento,
-												usu_genero = :genero, direccion =:direccion, ciudades_id =:ciudad, usu_telefono = :telefono, usu_email = :email, usu_cargo = :cargo, usu_foto = :foto, id_rol = :rol, id_Intermediario = :intermediario, fechaFin = :fechaLimEdi, cotizacionesTotales = :cotTotales
-												WHERE usu_usuario = :usuario");
-				} else {
-					// Las variables no son iguales
-					$stmt = Conexion::conectar()->prepare("UPDATE $tabla SET usu_documento = :documento, tipos_documentos_id = :tipoDocumento, usu_nombre = :nombre, usu_apellido = :apellido, usu_fch_nac = :fechNacimiento,
-												usu_genero = :genero, direccion =:direccion, ciudades_id =:ciudad, usu_telefono = :telefono, usu_email = :email, usu_cargo = :cargo, usu_foto = :foto, id_rol = :rol, id_Intermediario = :intermediario, fechaFin = :fechaLimEdi, cotizacionesTotales = :cotTotales
-												WHERE usu_usuario = :usuario");
-				}
+				echo "No se encontraron resultados para el usuario con ID $idUsuario.";
 			}
-		} else {
-			// No se encontraron resultados en la consulta
-			echo "No se encontraron resultados para el usuario con ID $idUsuario.";
+
+			$stmt->close();
+			$stmt = null;
+		} catch (PDOException $e) {
+			echo "Error: " . $e->getMessage();
 		}
-
-
-		// $stmt = Conexion::conectar()->prepare("UPDATE $tabla SET usu_documento = :documento, tipos_documentos_id = :tipoDocumento, usu_nombre = :nombre, usu_apellido = :apellido, usu_fch_nac = :fechNacimiento,
-		// 										usu_genero = :genero, direccion =:direccion, ciudades_id =:ciudad, usu_telefono = :telefono, usu_email = :email, usu_cargo = :cargo, usu_foto = :foto, id_rol = :rol, id_Intermediario = :intermediario, numCotizaciones = :maxCotEdi, fechaFin = :fechaLimEdi
-		// 										WHERE usu_usuario = :usuario");
-
-
-		$valoresPermitidos = array('fechNacimiento', 'fechaLimEdi');
-
-		foreach ($valoresPermitidos as $field) {
-			if (!isset($datos[$field]) || empty($datos[$field])) {
-				$datos[$field] = null;
-			} else {
-				if($field == 'fechaLimEdi'){
-					continue;
-				}
-				// Asegurar que la fecha esté en el formato correcto
-				$datos[$field] = date("Y-m-d H:i:s", strtotime($datos[$field]));
-			}
-		}
-
-		$stmt->bindParam(":documento", $datos["documento"], PDO::PARAM_INT);
-		$stmt->bindParam(":tipoDocumento", $datos["tipoDocumento"], PDO::PARAM_STR);
-		$stmt->bindParam(":nombre", $datos["nombre"], PDO::PARAM_STR);
-		$stmt->bindParam(":apellido", $datos["apellido"], PDO::PARAM_STR);
-		$stmt->bindParam(":usuario", $datos["usuario"], PDO::PARAM_STR);
-		isset($datos['password']) ? $stmt->bindParam(":usu_password", $datos["password"], PDO::PARAM_STR) : "";
-		$stmt->bindParam(":genero", $datos["genero"], PDO::PARAM_STR);
-		$stmt->bindParam(":fechNacimiento", $datos["fechNacimiento"], PDO::PARAM_STR);
-		$stmt->bindParam(":direccion", $datos["direccion"], PDO::PARAM_STR);
-		$stmt->bindParam(":ciudad", $datos["ciudad"], PDO::PARAM_STR);
-		$stmt->bindParam(":telefono", $datos["telefono"], PDO::PARAM_STR);
-		$stmt->bindParam(":email", $datos["email"], PDO::PARAM_STR);
-		$stmt->bindParam(":cargo", $datos["cargo"], PDO::PARAM_STR);
-		$stmt->bindParam(":foto", $datos["foto"], PDO::PARAM_STR);
-		$stmt->bindParam(":intermediario", $datos["intermediario"], PDO::PARAM_STR);
-		//$stmt->bindParam(":maxCotEdi", $datos["maxCotEdi"], PDO::PARAM_STR);
-		$stmt->bindParam(":cotTotales", $datos["cotizacionesTotales"], PDO::PARAM_STR);
-		$stmt->bindParam(":fechaLimEdi", $datos["fechaLimEdi"], PDO::PARAM_STR);
-		$stmt->bindParam(":rol", $datos["rol"], PDO::PARAM_STR);
-
-		if ($stmt->execute()) {
-
-			return "ok";
-		} else {
-
-			return "error";
-		}
-
-		$stmt->close();
-
-		$stmt = null;
 	}
 
 	/*=============================================
