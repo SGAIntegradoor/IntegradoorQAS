@@ -415,7 +415,7 @@ function consultarAsegurado() {
         );
       } else {
         $("#idCliente").val("");
-        $("#tipoDocumentoID").val("");
+        //$("#tipoDocumentoID").val("");
         $("#txtNombres").val("");
         $("#txtApellidos").val("");
         $("#genero").val("");

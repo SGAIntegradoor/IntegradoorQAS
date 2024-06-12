@@ -327,8 +327,8 @@ $idIntermediario = $_SESSION['permisos']['id_Intermediario'];
                       <input type="hidden" class="form-control" id="cotRestanv" value="<?php echo $_SESSION["cotRestantes"]; ?>">
                       <label for="tipoDocumentoID">Tipo de Documento</label>
                       <select class="form-control" id="tipoDocumentoID" required>
-                        <option value=""></option>
-                        <option value="1" selected>Cedula de ciudadania</option>
+                        <option value="0" selected>Selecciona tipo de documento</option>
+                        <option value="1">Cedula de ciudadania</option>
                         <option value="2">NIT</option>
                         <option value="3">Cédula de extranjería</option>
                         <option value="4">Tarjeta de identidad</option>
