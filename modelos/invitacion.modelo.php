@@ -186,7 +186,7 @@ class ModeloInvitacion{
         $estado = '0';
         $cotizacionesTotales = '100';
         $numCotizaciones = '0';
-        $fechFin = '2023-12-31';
+        $fechFin = '2040-12-31';
         $stmt = Conexion::conectar()->prepare("INSERT INTO $tabla (usu_documento, usu_usuario, usu_password, id_rol, id_intermediario, tokenGuest, usu_nombre, usu_apellido, usu_telefono, usu_email, usu_estado, numCotizaciones, cotizacionesTotales, fechaFin) 
         VALUES ('$cedula','$cedula','$cedula','$id_rol','$id_intermediario','$token','$nombre','$nombre','$telefono','$email','$estado','$numCotizaciones', '$cotizacionesTotales','$fechFin')");
         if($stmt-> execute()){

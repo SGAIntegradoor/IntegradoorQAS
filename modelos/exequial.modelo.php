@@ -22,19 +22,12 @@ class ModelOlivos{
                 $response = array('success' => 'Registro exitoso','numeroCotizacion' => $cotizacion);
                 $jsonResponse = json_encode($response);
                 echo $jsonResponse;
+                $stmt = null;
             }
         }else{
-            
+            $stmt = null;
             echo 'Fallo de conexion';
         }
-        
 
-        // if ($stmt->execute()) {
-        //     $numeroCoti = Conexion::conectar()->lastInsertId();
-        //     $stmtUpdate = Conexion::conectar()->prepare("UPDATE $tabla SET numeroCotizacion = :numeroCoti WHERE id = :id");
-        //     $stmtUpdate->bindParam(":numeroCoti", $numeroCoti, PDO::PARAM_INT);
-        //     $stmtUpdate->bindParam(":id", $numeroCoti, PDO::PARAM_INT);
-        //     $stmtUpdate->execute();
-        // }
     }
 }

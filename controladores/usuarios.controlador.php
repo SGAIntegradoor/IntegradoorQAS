@@ -367,8 +367,8 @@ class ControladorUsuarios
 
 					swal.fire({
 
-						type: "success",
-						title: "¡El usuario ha sido guardado correctamente!",
+						icon: "success",
+						text: "¡El usuario ha sido guardado correctamente!",
 						showConfirmButton: true,
 						confirmButtonText: "Cerrar"
 
@@ -390,7 +390,7 @@ class ControladorUsuarios
 
 					swal.fire({
 
-						type: "error",
+						icon: "error",
 						title: "¡Algo ha salido mal!",
 						showConfirmButton: true,
 						confirmButtonText: "Cerrar"
@@ -417,7 +417,7 @@ class ControladorUsuarios
 					swal.fire({
 
 						type: "error",
-						title: "¡El usuario no puede ir vacío o llevar caracteres especiales!",
+						text: "¡El usuario no puede ir vacío o llevar caracteres especiales!",
 						showConfirmButton: true,
 						confirmButtonText: "Cerrar"
 
