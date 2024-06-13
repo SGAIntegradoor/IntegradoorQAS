@@ -4,7 +4,8 @@ mb_internal_encoding("UTF-8");
 
 require_once("../modelos/intermediario.modelo.php");
 
-
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 
 
 
@@ -17,19 +18,17 @@ Switch ($_GET['function']){
         if(isset($_POST['menu'])){
 
             $modelo = ModeloInternediario::mostrarCredenciales('S');
-
             print_r(json_encode($modelo));
-
+            
         }else if(isset($_POST['id'])){
-
+            
             $modelo = ModeloInternediario::mostrarCredenciales($_POST['id']);
-
             print_r(json_encode($modelo));
             
         }else{
 
             $modelo = ModeloInternediario::mostrarCredenciales('N');
-
+            //var_dump("por aqui 3");
             $resp = $modelo[0];
 
             print_r(json_encode($resp));

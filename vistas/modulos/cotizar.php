@@ -54,6 +54,7 @@ $cre_equ_contrasena = $creEstado['cre_equ_contrasena'];
 $Cre_Est_Entity_Id = $creEstado['Cre_Est_Entity_Id'];
 $cre_est_zona = $creEstado['cre_est_zona'];
 
+
 // Lógica para AXA
 if ($aseguradoras['AXA']['C'] == "1") {
   $creAXA = obtenerCredenciales($enlace, 'Credenciales_AXA', '*', $_SESSION['intermediario']);
@@ -69,7 +70,7 @@ $cre_axa_codigoDivipola = $creAXA['cre_axa_codigoDivipola'];
 $cre_axa_canal = $creAXA['cre_axa_canal'];
 $cre_axa_validacionEventos = $creAXA['cre_axa_validacionEventos'];
 $url_axa = $creAXA['url_axa'];
-$cre_axa_livianos_productos = $creAXA['livianos_productos'];
+$cre_axa_livianos_productos = $creAXA['liviano_productos'];
 
 // Lógica para SOLIDARIA
 if ($aseguradoras['Solidaria']['C'] == "1") {

@@ -3,8 +3,8 @@
 if(!isset($_SESSION)){
     session_start();
 }
-
-
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 require_once "conexion.php";
 
 class ModeloInternediario{
@@ -18,7 +18,7 @@ class ModeloInternediario{
 
             $stmt = Conexion::conectar()->prepare("SELECT * FROM intermediario");
 
-
+            //var_dump($stmt->queryString);
             $stmt -> execute();
 
             return $stmt -> fetchAll(PDO::FETCH_ASSOC);
@@ -27,9 +27,9 @@ class ModeloInternediario{
 
             $inter = $variable;
 
+
             $stmt = Conexion::conectar()->prepare("SELECT * FROM intermediario i, Credenciales_Zurich z,Credenciales_Solidaria so, Credenciales_SBS sb, Credenciales_Liberty l, Credenciales_HDI h, Credenciales_Estado e, Credenciales_Bolivar b, Credenciales_AXA ax, Credenciales_Allianz al, Credenciales_Equidad eq WHERE i.id_Intermediario = ".$inter."  AND i.id_Intermediario = z.id_Intermediario  AND i.id_Intermediario = so.id_Intermediario  AND i.id_Intermediario = sb.id_intermediario AND i.id_Intermediario = l.id_Intermediario AND i.id_Intermediario = h.id_intermediario AND i.id_Intermediario = e.id_Intermediario AND i.id_Intermediario = b.id_Intermediario AND i.id_Intermediario = ax.id_Intermediario AND i.id_Intermediario = al.id_Intermediario AND i.id_Intermediario = eq.id_Intermediario");
-
-
+            
             $stmt -> execute();
 
             return $stmt -> fetchAll(PDO::FETCH_ASSOC);
@@ -44,7 +44,7 @@ class ModeloInternediario{
 
             $stmt = Conexion::conectar()->prepare("SELECT * FROM intermediario i, Credenciales_Zurich z,Credenciales_Solidaria so, Credenciales_SBS sb, Credenciales_Liberty l, Credenciales_HDI h, Credenciales_Estado e, Credenciales_Bolivar b, Credenciales_AXA ax, Credenciales_Allianz al, Credenciales_Equidad eq WHERE i.id_Intermediario = ".$inter."  AND i.id_Intermediario = z.id_Intermediario  AND i.id_Intermediario = so.id_Intermediario  AND i.id_Intermediario = sb.id_intermediario AND i.id_Intermediario = l.id_Intermediario AND i.id_Intermediario = h.id_intermediario AND i.id_Intermediario = e.id_Intermediario AND i.id_Intermediario = b.id_Intermediario AND i.id_Intermediario = ax.id_Intermediario AND i.id_Intermediario = al.id_Intermediario AND i.id_Intermediario = eq.id_Intermediario");
 
-
+            //var_dump($stmt->queryString);
             $stmt -> execute();
 
             return $stmt -> fetchAll(PDO::FETCH_ASSOC);
@@ -96,12 +96,12 @@ class ModeloInternediario{
 
     public static function editarInter($tipodocumento, $correo, $identiInt, $direccion, $razonSO, $ciudad, $nomRepre, $indentiRepre, $comConta, $cel, $alli, $boli, $equi, $mapfre, $previ, $soli, $libe, $est, $axa, $hdi, $sbs, $zuri, $vig_register, $img){
         $inter = $_SESSION["intermediario"];
-        
         if($tipodocumento == 2){
             $Tip_Per = 1;
         }else{
             $Tip_Per = 2;
         }
+        var_dump($Tip_Per);
 
         $sqledit = Conexion::conectar()->prepare("UPDATE intermediario SET nombre = '$razonSO', tip_per_id = '$Tip_Per', tipo_documento   =  '$tipodocumento', num_documento = '$identiInt', nombre_representante ='$nomRepre', Identificacion = '$indentiRepre', correo = '$correo', direccion = '$direccion', ciudad = '$ciudad', contacto = '$comConta', celular = '$cel', codigo_alli = '$alli', codigo_boli = '$boli', codigo_equi = '$equi', codigo_map = '$mapfre', codigo_previ = '$previ', codigo_soli = '$soli', codigo_libe = '$libe', codigo_est = '$est', codigo_axa = '$axa', codigo_hdi = '$hdi', codigo_sbs = '$sbs ', codigo_zuri = '$zuri', intermediario_Fech_Vigen = '$vig_register', urlLogo= '$img' WHERE id_Intermediario = '$inter'");
 
