@@ -1643,15 +1643,27 @@ function cotizarOfertasMotos() {
 
           aseguradorasCoti.forEach((aseguradora) => {
             let url;
-            if (aseguradora === "SBS") {
-              url = `https://grupoasistencia.com/motor_webservice_tst/SBS`;
-            } else if (aseguradora === "Liberty") {
-              url = `https://grupoasistencia.com/motor_webservice_tst/Liberty`;
-            } else if (aseguradora === "AXA") {
-              url = `https://grupoasistencia.com/motor_webservice_tst/AXA_tst`;
-            } else if (aseguradora === "Allianz") {
-              url = `https://grupoasistencia.com/motor_webservice_tst2/Allianz_motos`;
-            } else if (aseguradora === "Zurich") {
+            // if (aseguradora === "SBS") {
+            //   url = `https://grupoasistencia.com/motor_webservice_tst/SBS`;
+            // } else 
+            
+            
+            
+            // if (aseguradora === "Liberty") {
+            //   url = `https://grupoasistencia.com/motor_webservice_tst/Liberty`;
+            // } else 
+            
+            
+            // if (aseguradora === "AXA") {
+            //   url = `https://grupoasistencia.com/motor_webservice_tst/AXA_tst`;
+            // } else 
+            
+            // if (aseguradora === "Allianz") {
+            //   url = `https://grupoasistencia.com/motor_webservice_tst2/Allianz_motos`;
+            // } else 
+            
+            
+            if (aseguradora === "Zurich") {
               const planes = ["BASIC", "MEDIUM", "FULL"];
               planes.forEach((plan) => {
                 let body = JSON.parse(requestOptions.body);
@@ -1747,7 +1759,7 @@ function cotizarOfertasMotos() {
               return; // Salir del bucle después de procesar Estado
             } else {
               // Construir la URL de la solicitud para cada aseguradora
-              url = `https://grupoasistencia.com/motor_webservice_tst2/${aseguradora}?callback=myCallback`;
+              url = `https://grupoasistencia.com/motor_webservice/${aseguradora}_motos?callback=myCallback`;
             }
 
             // Realizar la solicitud fetch y agregar la promesa al array
