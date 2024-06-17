@@ -2260,7 +2260,7 @@ function cotizarOfertasPesados() {
                   requestOptions.body = JSON.stringify(body);
 
                   let libertyPromise = fetch(
-                    "https://grupoasistencia.com/motor_webservice_tst/Liberty",
+                    "https://grupoasistencia.com/motor_webservice/Liberty_pesados",
                     requestOptions
                   )
                     .then((res) => {
@@ -2549,7 +2549,7 @@ function cotizarOfertasPesados() {
         /* Liberty */
         const libertyPromise = comprobarFallidaPesados("Liberty")
           ? fetch(
-              "https://grupoasistencia.com/motor_webservice_tst2/Liberty?callback=myCallback",
+              "https://grupoasistencia.com/motor_webservice/Liberty_pesados?callback=myCallback",
               requestOptions
             )
               .then((res) => {
@@ -2587,7 +2587,7 @@ function cotizarOfertasPesados() {
 
         const axaPromise = comprobarFallidaPesados("AXA")
           ? fetch(
-              "https://grupoasistencia.com/motor_webservice_tst2/AXA?callback=myCallback",
+              "https://grupoasistencia.com/motor_webservice/AXA_pesados?callback=myCallback",
               requestOptions
             )
               .then((res) => {
