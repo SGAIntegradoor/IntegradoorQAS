@@ -2195,7 +2195,7 @@ function cotizarOfertas() {
                   body.Email = "@gmail.com";
                   body.Email2 = Math.round(Math.random() * 999999) + body.Email;
                   requestOptions.body = JSON.stringify(body);
-                  url = `https://grupoasistencia.com/motor_webservice_tst2/Zurich?callback=myCallback`;
+                  url = `https://grupoasistencia.com/motor_webservice/${aseguradora}_autos?callback=myCallback`;
 
                   cont.push(
                     fetch(url, requestOptions)
