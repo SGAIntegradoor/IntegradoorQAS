@@ -2255,6 +2255,7 @@ function cotizarOfertasPesados() {
                 } else {
                   planesLiberty = ["Full", "Integral"];
                 }
+                console.log(planesLiberty);
                 planesLiberty.forEach((plan) => {
                   body.plan = plan;
                   requestOptions.body = JSON.stringify(body);
@@ -2271,9 +2272,15 @@ function cotizarOfertasPesados() {
                       if (typeof ofertas[0].Resultado !== "undefined") {
                         validarProblema(aseguradora, ofertas);
                         agregarAseguradoraFallidaPesados(plan);
-                        ofertas.Mensajes.forEach((mensaje) => {
-                          mostrarAlertarCotizacionFallida(aseguradora, mensaje);
-                        });
+                        if(ofertas[0].length > 1){
+                          ofertas[0].Mensajes.forEach((mensaje) => {
+                            mostrarAlertarCotizacionFallida(aseguradora, mensaje);
+                          });
+                        } else {
+                          ofertas[0].Mensajes.forEach((mensaje) => {
+                            mostrarAlertarCotizacionFallida(aseguradora, mensaje);
+                          });
+                        }
                       } else {
                         const contadorPorEntidad = validarOfertasPesados(
                           ofertas,

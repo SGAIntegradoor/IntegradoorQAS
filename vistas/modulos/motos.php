@@ -470,7 +470,7 @@ $rolAsesor = $_SESSION['permisos']['idRol'];
                   </div>
 
                   <div style="padding-top: 25px !important;" class="col-xs-12 col-sm-6 col-md-2 form-group">
-                    <button class="btn btn-primary btn-block" id="btnConsultarVehmanualbuscador">Consultar Vehículo</button>
+                    <button class="btn btn-primary btn-block" id="btnConsultarVehmanualbuscadorMotos">Consultar Vehículo</button>
                   </div>
                 </div>
               </div>
