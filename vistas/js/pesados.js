@@ -1191,6 +1191,8 @@ const mostrarOfertaPesados = (
   logo,
   UrlPdf
 ) => {
+  var id_intermediario = document.getElementById("idIntermediario").value;
+
   //FUNCION QUE ACOMODA RCE EN PARRILLA CUANDO LLEGA MUNDIAL
   if (aseguradora == "Mundial" && producto == "Pesados con RCE en exceso") {
     // Eliminar los puntos y convertir a número
@@ -1351,7 +1353,7 @@ const mostrarOfertaPesados = (
   ) {
     cardCotizacion += `
                     <div class="col-xs-12 col-sm-6 col-md-2 verpdf-oferta">
-                      <button type="button" class="btn btn-info" id="btnAsegPDF${numCotizOferta}${numId}\" onclick='verPdfOferta(\"${aseguradora}\", \"${numCotizOferta}\", \"${numId}\");'>
+                      <button type="button" class="btn btn-info" id="btnAsegPDF${numCotizOferta}${numId}\" onclick='verPdfOferta(\"${aseguradora}\", \"${numCotizOferta}\", \"${numId}\", \"${id_intermediario}\");'>
                         <div id="verPdf${numCotizOferta}${numId}\">VER PDF &nbsp;&nbsp;<span class="fa fa-file-text"></span></div>
                       </button>
                     </div>`;
