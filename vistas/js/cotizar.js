@@ -2172,13 +2172,22 @@ function cotizarOfertas() {
             aseguradorasCoti.forEach((aseguradora) => {
               let url;
 
-              if (aseguradora === "Mapfre") {
-                url = `https://grupoasistencia.com/motor_webservice_tst2/mapfrecotizacion4?callback=myCallback`;
-              } else if (aseguradora === "HDI") {
-                url = `https://grupoasistencia.com/motor_webservice/HdiPlus?callback=myCallback`;
-              } else if (aseguradora === "AXA") {
-                url = `https://grupoasistencia.com/motor_webservice_tst2/AXA?callback=myCallback`;
-              } else if (aseguradora === "Zurich") {
+
+              // if (aseguradora === "Mapfre") {
+              //   url = `https://grupoasistencia.com/motor_webservice_tst2/mapfrecotizacion4?callback=myCallback`;
+              // } else 
+              
+              // if (aseguradora === "HDI") {
+              //   url = `https://grupoasistencia.com/motor_webservice/HdiPlus?callback=myCallback`;
+              // }else 
+              
+              
+              
+              // if (aseguradora === "AXA") {
+              //   url = `https://grupoasistencia.com/motor_webservice_tst2/AXA?callback=myCallback`;
+              // } else 
+              
+              if (aseguradora === "Zurich") {
                 const planes = ["FULL"];
                 planes.forEach((plan) => {
                   let body = JSON.parse(requestOptions.body);
@@ -2244,7 +2253,7 @@ function cotizarOfertas() {
                   let successAseguradora = true;
                   cont.push(
                     fetch(
-                      `https://grupoasistencia.com/motor_webservice_tst2/${aseguradora}?callback=myCallback`,
+                      `https://grupoasistencia.com/motor_webservice/${aseguradora}?callback=myCallback`,
                       requestOptions
                     )
                       .then((res) => {
@@ -2291,7 +2300,7 @@ function cotizarOfertas() {
                 return; // Salir del bucle después de procesar Estado
               } else {
                 // Construir la URL de la solicitud para cada aseguradora
-                url = `https://grupoasistencia.com/motor_webservice_tst2/${aseguradora}?callback=myCallback`;
+                url = `https://grupoasistencia.com/motor_webservice_tst2/${aseguradora}_autos?callback=myCallback`;
               }
 
               // Realizar la solicitud fetch y agregar la promesa al array
