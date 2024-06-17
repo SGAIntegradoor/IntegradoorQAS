@@ -2300,7 +2300,7 @@ function cotizarOfertas() {
                 return; // Salir del bucle después de procesar Estado
               } else {
                 // Construir la URL de la solicitud para cada aseguradora
-                url = `https://grupoasistencia.com/motor_webservice_tst2/${aseguradora}_autos?callback=myCallback`;
+                url = `https://grupoasistencia.com/motor_webservice/${aseguradora}_autos?callback=myCallback`;
               }
 
               // Realizar la solicitud fetch y agregar la promesa al array
