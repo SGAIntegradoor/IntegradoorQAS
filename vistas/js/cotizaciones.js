@@ -2046,7 +2046,7 @@ const obtenerPdfSolidaria = async (cotizacion) => {
   // console.log(formDataObj);
 
   const pdfText = await fetch(
-    "https://www.grupoasistencia.com/webservice_autosv1/WSSolidaria/get_pdf.php",
+    "https://www.grupoasistencia.com/motor_webservice/WSSolidaria/get_pdf.php",
 
     {
       method: "POST",
