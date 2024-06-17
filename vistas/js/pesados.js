@@ -2102,7 +2102,7 @@ function cotizarOfertasPesados() {
                   body.plan = plan;
                   requestOptions.body = JSON.stringify(body);
                   let mundialPromise = fetch(
-                    "https://grupoasistencia.com/motor_webservice_tst/CotizarPesados_tst",
+                    "https://grupoasistencia.com/motor_webservice/Mundial_pesados",
                     requestOptions
                   )
                     .then(function (response) {
@@ -2145,7 +2145,7 @@ function cotizarOfertasPesados() {
                     requestOptions.body = JSON.stringify(body);
 
                     let mundialPromise = fetch(
-                      "https://grupoasistencia.com/motor_webservice_tst/CotizarPesados_tst",
+                      "https://grupoasistencia.com/motor_webservice/Mundial_pesados",
                       requestOptions
                     )
                       .then((res) => {
@@ -2214,7 +2214,7 @@ function cotizarOfertasPesados() {
                   requestOptions.body = JSON.stringify(bodyAXA);
 
                   let axaPromise = fetch(
-                    "https://grupoasistencia.com/motor_webservice_tst/AXA_tst",
+                    "https://grupoasistencia.com/motor_webservice/AXA_pesados",
                     requestOptions
                   )
                     .then((res) => {
