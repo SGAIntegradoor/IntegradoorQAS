@@ -134,21 +134,490 @@ $idIntermediario = $_SESSION['permisos']['id_Intermediario'];
   }
 
   /* Estilo para pantallas más pequeñas (menos de 495px) */
-  @media (max-width: 495px) {
+  /* @media (max-width: 495px) {
     .table-responsive {
       overflow-x: auto;
     }
   }
+*/
+
+  #pTableModal {
+    font-size: 12px !important;
+  }
+
+  .swal2-popup {
+    display: flex;
+    flex-direction: column;
+    width: 30%;
+    padding: 30px;
+  }
+
+  .swal2-icon {
+    width: 90px;
+    height: 90px;
+    border: 4px solid #f8bb86 !important;
+  }
+
+  .custom-swal-popup {
+    border-radius: 25px;
+  }
+
+  .swal2-actions {
+    align-content: center !important;
+    margin: 0 !important;
+  }
+
+  .swal2-confirm {
+    height: 50px;
+    width: 150px;
+    border-radius: 10px !important;
+  }
+
+  @media (min-width: 320px) and (max-width: 577px) {
+
+    #tableModal td {
+      text-align: center;
+      font-size: 12px;
+    }
+
+    .swal2-popup {
+      display: flex;
+      flex-direction: column;
+      width: 92% !important;
+      padding-bottom: 15px !important;
+      padding: 5px;
+    }
+
+    #tdAsegurado {
+      width: 300px;
+      text-align: center;
+      font-size: 14px;
+    }
+
+    #tdCondiciones {
+      width: 300px;
+      text-align: center;
+      font-size: 14px;
+    }
+
+    .swal2-html-container {
+      display: flex !important;
+      flex-direction: column;
+      gap: 10px;
+      padding: 1em 1.6em .3em;
+    }
+
+    #pTableModal {
+      font-size: 10px !important;
+    }
+
+    .swal2-actions {
+      align-content: center !important;
+      margin: 0 !important;
+    }
+
+    .swal2-confirm {
+      height: 50px;
+      width: 150px;
+      border-radius: 10px !important;
+    }
+
+    .swal2-title {
+      font-size: 18px !important;
+      font-weight: bold;
+    }
+
+    .swal2-icon {
+      width: 60px !important;
+      height: 60px !important;
+      border: 3px solid #f8bb86 !important;
+    }
+  }
+
+  @media (min-width: 577px) and (max-width: 768px) {
+
+    #tableModal td {
+      text-align: center;
+      font-size: 15px;
+    }
+
+    .swal2-popup {
+      display: flex;
+      flex-direction: column;
+      width: 70% !important;
+      padding-bottom: 15px !important;
+      padding: 30px;
+    }
+
+    #tdAsegurado {
+      width: 270px;
+      text-align: center;
+      font-size: 16px;
+    }
+
+    #tdCondiciones {
+      width: 335px;
+      text-align: center;
+      font-size: 16px;
+    }
+
+    .swal2-html-container {
+      display: flex !important;
+      flex-direction: column;
+      gap: 10px;
+      padding: 1em 1.6em .3em;
+    }
+
+    .swal2-title {
+      font-size: 23px !important;
+      font-weight: bold;
+    }
+
+    .swal2-actions {
+      align-content: center !important;
+      margin: 0 !important;
+    }
+
+    .swal2-confirm {
+      height: 50px;
+      width: 150px;
+      border-radius: 10px !important;
+    }
+
+    #pTableModal {
+      font-size: 12px !important;
+    }
+
+    .swal2-icon {
+      width: 60px !important;
+      height: 60px !important;
+      border: 3px solid #f8bb86 !important;
+    }
+  }
+
+  @media (min-width: 769px) and (max-width: 992px) {
+    #tableModal td {
+      text-align: center;
+      font-size: 15px;
+    }
+
+    .swal2-popup {
+      display: flex;
+      flex-direction: column;
+      width: 60% !important;
+      padding-bottom: 15px !important;
+      padding: 30px;
+    }
+
+    #tdAsegurado {
+      width: 330px;
+      text-align: center;
+      font-size: 16px;
+    }
+
+    #tdCondiciones {
+      width: 335px;
+      text-align: center;
+      font-size: 16px;
+    }
+
+    .swal2-html-container {
+      display: flex !important;
+      flex-direction: column;
+      gap: 10px;
+      padding: 1em 1.6em .3em;
+    }
+
+    .swal2-title {
+      font-size: 23px !important;
+      font-weight: bold;
+    }
+
+    .swal2-actions {
+      align-content: center !important;
+      margin: 0 !important;
+    }
+
+    .swal2-confirm {
+      height: 50px;
+      width: 150px;
+      border-radius: 10px !important;
+    }
+
+    #pTableModal {
+      font-size: 12px !important;
+    }
+
+    .swal2-icon {
+      width: 60px !important;
+      height: 60px !important;
+      border: 3px solid #f8bb86 !important;
+    }
+  }
+
+  @media (min-width: 993px) and (max-width: 1200px) {
+    #tableModal td {
+      text-align: center;
+      font-size: 15px;
+    }
+
+    .swal2-popup {
+      display: flex;
+      flex-direction: column;
+      width: 50% !important;
+      padding-bottom: 15px !important;
+      padding: 30px;
+    }
+
+    #tdAsegurado {
+      width: 330px;
+      text-align: center;
+      font-size: 16px;
+    }
+
+    #tdCondiciones {
+      width: 335px;
+      text-align: center;
+      font-size: 16px;
+    }
+
+    .swal2-html-container {
+      display: flex !important;
+      flex-direction: column;
+      gap: 10px;
+      /* padding: 1em 1.6em .3em; */
+    }
+
+    .swal2-actions {
+      align-content: center !important;
+      margin: 0 !important;
+    }
+
+    .swal2-confirm {
+      height: 50px;
+      width: 150px;
+      border-radius: 10px !important;
+    }
+
+    .swal2-title {
+      font-size: 23px !important;
+      font-weight: bold;
+    }
+
+    #pTableModal {
+      font-size: 12px !important;
+    }
+
+    .swal2-icon {
+      width: 60px !important;
+      height: 60px !important;
+      border: 3px solid #f8bb86 !important;
+    }
+  }
+
+  @media (min-width: 1200px) and (max-width: 1440px) {
+    #tableModal td {
+      text-align: center;
+      font-size: 15px;
+    }
+
+    .swal2-popup {
+      display: flex !important;
+      flex-direction: column;
+      width: 52% !important;
+      padding-bottom: 15px !important;
+      padding: 30px;
+    }
+
+    #tdAsegurado {
+      width: 330px;
+      text-align: center;
+      font-size: 16px;
+    }
+
+    #tdCondiciones {
+      width: 335px;
+      text-align: center;
+      font-size: 16px;
+    }
+
+    .swal2-title {
+      font-size: 20px !important;
+      font-weight: bold;
+    }
+
+    #pTableModal {
+      font-size: 14px !important;
+    }
+
+    .swal2-html-container {
+      display: flex !important;
+      flex-direction: column;
+      gap: 10px;
+      padding: 1em 1.6em .3em;
+    }
+
+    .swal2-actions {
+      align-content: center !important;
+      margin: 0 !important;
+    }
+
+    .swal2-confirm {
+      height: 50px;
+      width: 150px;
+      border-radius: 10px !important;
+    }
+
+    .swal2-icon {
+      width: 90px !important;
+      height: 90px !important;
+      border: 3px solid #f8bb86 !important;
+    }
+
+    .swal2-icon-content {
+      font-size: 65px !important;
+    }
+
+  }
+
+  @media (min-width: 1441px) {
+    #tableModal td {
+      text-align: center;
+      font-size: 15px;
+    }
+
+    .swal2-popup {
+      display: flex !important;
+      flex-direction: column;
+      width: 31% !important;
+      padding-bottom: 15px !important;
+      padding: 30px;
+    }
+
+    #tdAsegurado {
+      width: 330px;
+      text-align: center;
+      font-size: 16px;
+    }
+
+    #tdCondiciones {
+      width: 335px;
+      text-align: center;
+      font-size: 16px;
+    }
+
+    .swal2-title {
+      font-size: 20px !important;
+      font-weight: bold;
+    }
+
+    #pTableModal {
+      font-size: 14px !important;
+    }
+
+    .swal2-html-container {
+      display: flex !important;
+      flex-direction: column;
+      gap: 10px;
+      padding: 1em 1.6em .3em;
+    }
+
+    .swal2-actions {
+      align-content: center !important;
+      margin: 0 !important;
+    }
+
+    .swal2-confirm {
+      height: 50px;
+      width: 150px;
+      border-radius: 10px !important;
+    }
+
+    .swal2-icon {
+      width: 90px !important;
+      height: 90px !important;
+      border: 3px solid #f8bb86 !important;
+    }
+
+    .swal2-icon-content {
+      font-size: 65px !important;
+    }
+
+  }
+
+  /* @media (min-width: 1201px) {
+    #tableModal td {
+      text-align: center;
+      font-size: 15px;
+    }
+
+    .swal2-popup {
+      display: flex !important;
+      flex-direction: column;
+      width: 30% !important;
+      padding: 30px;
+    }
+
+    #tdAsegurado {
+      width: 330px;
+      text-align: center;
+      font-size: 16px;
+    }
+
+    #tdCondiciones {
+      width: 335px;
+      text-align: center;
+      font-size: 16px;
+    }
+
+    .swal2-title {
+      font-size: 20px !important;
+      font-weight: bold;
+    }
+
+    #pTableModal {
+      font-size: 14px !important;
+    }
+
+    .swal2-html-container {
+      display: flex !important;
+      flex-direction: column;
+      gap: 10px;
+      padding: 1em 1.6em .3em;
+    }
+
+    .swal2-actions {
+      align-content: center !important;
+      margin: 0 !important;
+    }
+
+    .swal2-confirm{
+      height: 50px;
+      width: 150px;
+      border-radius: 10px !important;
+    }
+
+    .swal2-icon {
+      width: 90px !important;
+      height: 90px !important;
+      border: 3px solid #f8bb86 !important;
+    }
+    .swal2-icon-content {
+    font-size: 65px !important;
+  }
+  
+  } */
 
   .btnConfirm {
     background: #88d600;
   }
 
+  /* 
   @media (max-width: 495px) {
     .table-responsive {
       overflow-x: auto;
     }
-  }
+  } */
 
   .form-coti {
     padding-top: 25px;
@@ -236,7 +705,46 @@ $idIntermediario = $_SESSION['permisos']['id_Intermediario'];
     width: 150px;
     height: 30px;
     color: white;
-  } 
+  }
+
+
+  .swal2-icon {
+    width: 90px;
+    height: 90px;
+    border: 4px solid #f8bb86 !important;
+  }
+
+  .custom-swal-popup {
+    border-radius: 25px;
+  }
+
+  /* .swal2-icon-content {
+    font-size: 65px !important;
+  } */
+  /* 
+  .custom-swal-title {
+    font-size: 20px !important;
+    font-weight: bold;
+   } */
+
+  /* .custom-swal-popup {
+    display: flex !important;
+    flex-direction: column !important;
+    padding: 10px;
+  } */
+
+  /* 
+
+  .custom-swal-title {
+    font-size: 20px !important;
+    font-weight: bold;
+   } */
+
+  .swal2-html-container {
+    /* display: flex !important;
+    flex-direction: column; */
+
+  }
 </style>
 
 <div class="content-wrapper">
@@ -839,13 +1347,13 @@ $idIntermediario = $_SESSION['permisos']['id_Intermediario'];
                 <div id="mensajePrevisora">
                   <div class="aviso-container col-lg-12">
                     <ul>
-                        <li>
-                          <p style="font-weight: bold;">
-                            Si a tu cliente le interesa Previsora, ten en cuenta que ciertas líneas de vehículos requieren
-                            la instalación del dispositivo Cazador al tomar su seguro y este tiene un costo adicional a la
-                            póliza. Por favor confirma con tu área comercial.
-                          </p>
-                        </li>
+                      <li>
+                        <p style="font-weight: bold;">
+                          Si a tu cliente le interesa Previsora, ten en cuenta que ciertas líneas de vehículos requieren
+                          la instalación del dispositivo Cazador al tomar su seguro y este tiene un costo adicional a la
+                          póliza. Por favor confirma con tu área comercial.
+                        </p>
+                      </li>
                       <li>
                         <p style="font-weight: bold;">
                           Los vehículos KIA de las líneas PICANTO y SPORTAGE se encuentran fuera de políticas en Seguros
@@ -1034,6 +1542,51 @@ $idIntermediario = $_SESSION['permisos']['id_Intermediario'];
           </div>
         </div>
       </div>
+      <!-- <div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog2">
+          <div class="modal-content2">
+            <div class="modal-header2">
+              <h5 class="modal-title2" id="staticBackdropLabel2">POLÍTICA DE VALOR ASEGURADO LIVIANOS</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body2">
+              <form>
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Valor Asegurado</th>
+                      <th>Condiciones</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>Menos de 200 millones</td>
+                      <td>De acuerdo a políticas de cada aseguradora</td>
+                    </tr>
+                    <tr>
+                      <td>200 a 250 millones</td>
+                      <td>Requieren autorización del Director Comercial de Grupo Asistencia</td>
+                    </tr>
+                    <tr>
+                      <td>250 a 300 millones</td>
+                      <td>Requieren autorización de Gerencia de Grupo Asistencia de acuerdo al nivel de productividad del Asesor</td>
+                    </tr>
+                  </tbody>
+                </table>
+
+                
+
+                <div class="divsButtonsModals">
+                  <button type="button" class="btn btn-primary buttonsModal" id="btn-cerrar-fasecolda">Cerrar</button>
+                  <button type="button" class="btn btn-primary buttonsModal" id="btn-consultar-fasecolda">Consultar</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div> -->
       <!-- END MODAL FASECOLDA -->
 
   </section>

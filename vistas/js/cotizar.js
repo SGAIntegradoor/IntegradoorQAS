@@ -315,35 +315,88 @@ $(document).ready(function () {
   // Ejectura la funcion Cotizar Ofertas
   $("#btnCotizar").click(function (e) {
     masRE();
-    decresCotTotales().then((response) => {
-      if (response.result == 1 || response.result == 2) {
-        cotizarOfertas();
-      } else {
-        e.preventDefault();
-        swal
-							.fire({
-								icon: "error",
-								title: "Cotizaciones Totales Excedidas",
-								html: `<div style="text-align: justify; font-family: Helvetica, Arial, sans-serif; font-size: 15px; border-radius: 4px; padding: 8px;">El usuario ha excedido las cotizaciones totales. En este momento solo podrás visualizar las cotizaciones realizadas hasta que se agoten los días habilitados.Si quieres seguir haciendo cotizaciones solicita vincularte al Programa.Comunícate con el área encargada de vinculaciones de Grupo Asistencia al:
-								<br><br>
-								<div style="text-align: center;">📱+573185127910 o vía 📧 mercadeo@grupoasistencia.com </div></div>`,
-								width:"40%",
-								showConfirmButton: true,
-								confirmButtonText: "Cerrar",
-								customClass: {
-									popup: "custom-swal-popup",
-									title: "custom-swal-title",
-									content: "custom-swal-content",
-									confirmButton: "custom-swal-confirm-button",
-								},
-							})
-							.then(function(result) {
-								if (result.value) {
-									window.location = "inicio";
-								}
-							});
+    swal
+    .fire({
+      icon: "warning",
+      title: "POLÍTICA DE VALOR ASEGURADO<br>LIVIANOS",
+      html: `
+        <div style="overflow-x: auto;">
+          <table style="border: 2px solid gray; border-collapse: collapse;" id="tableModal">
+            <thead style="padding: 5px;">
+              <tr style="border: 2px solid gray; text-align: center">
+                <th style="border: 2px solid gray; padding: 10px; height: 50px;" id="tdAsegurado">Valor Asegurado</th>
+                <th style="border: 2px solid gray; padding: 10px; height: 50px;" id="tdCondiciones">Condiciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="border: 2px solid gray;">
+                <td style="border: 2px solid gray; padding: 10px;">Menos de 200 millones</td>
+                <td style="border: 2px solid gray; padding: 10px;">De acuerdo a políticas de cada aseguradora</td>
+              </tr>
+              <tr style="border: 2px solid gray;">
+                <td style="border: 2px solid gray; padding: 10px;">200 a 250 millones</td>
+                <td style="border: 2px solid gray; padding: 10px;">Requieren autorización del Director Comercial de Grupo Asistencia</td>
+              </tr>
+              <tr style="border: 2px solid gray;">
+                <td style="border: 2px solid gray; padding: 10px;">250 a 300 millones</td>
+                <td style="border: 2px solid gray; padding: 10px;">Requieren autorización de Gerencia de Grupo Asistencia de acuerdo al nivel de productividad del Asesor</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p style="text-align: justify; font-family: Helvetica, Arial, sans-serif;" id="pTableModal">
+          <strong>Nota:</strong> vehículos livianos con valor asegurado mayor a 300 millones no
+          son asegurables para Grupo Asistencia; Ten en cuenta que aunque el
+          cotizador te genere ofertas, no todos los vehículos son asegurables. Si
+          el cliente tiene vinculación con otros productos de la aseguradora se
+          pueden autorizar valores asegurados superiores. Cuando el valor
+          asegurado sea superior a los montos indicados, el valor de las primas
+          puede variar en el momento de emitir en caso de autorización.
+        </p>
+      `,
+      width: "30%",
+      showConfirmButton: true,
+      confirmButtonText: "Continuar",
+      customClass: {
+        popup: "custom-swal-popup",
+        title: "custom-swal-title",
+        content: "custom-swal-content",
+        confirmButton: "custom-swal-confirm-button",
+      },
+    })
+    .then(function (result) {
+      if (result.value) {
+        decresCotTotales().then((response) => {
+          if (response.result == 1 || response.result == 2) {
+            cotizarOfertas();
+          } else {
+            e.preventDefault();
+            swal
+              .fire({
+                icon: "error",
+                title: "Cotizaciones Totales Excedidas",
+                html: `<div style="text-align: justify; font-family: Helvetica, Arial, sans-serif; font-size: 15px; border-radius: 4px; padding: 8px;">El usuario ha excedido las cotizaciones totales. En este momento solo podrás visualizar las cotizaciones realizadas hasta que se agoten los días habilitados. Si quieres seguir haciendo cotizaciones solicita vincularte al Programa. Comunícate con el área encargada de vinculaciones de Grupo Asistencia al:
+                    <br><br>
+                    <div style="text-align: center;">📱+573185127910 o vía 📧 mercadeo@grupoasistencia.com </div></div>`,
+                width: "90%",
+                showConfirmButton: true,
+                confirmButtonText: "Cerrar",
+                customClass: {
+                  popup: "custom-swal-popup",
+                  title: "custom-swal-title",
+                  content: "custom-swal-content",
+                  confirmButton: "custom-swal-confirm-button",
+                },
+              })
+              .then(function (result) {
+                if (result.value) {
+                  window.location = "inicio";
+                }
+              });
+          }
+        });
       }
-    });
+    }); 
   });
   // $("#btnCotizarPesados").click(function () {
   //   cotizarOfertasPesados();
@@ -1500,11 +1553,11 @@ function validarProblema(aseguradora, ofertas) {
       // var mensajeConcatenadoZurich = mensajesZurich
       //   .map((m) => m.messageText)
       //   .join(", ");
-      if(mensajesZurich.length == 1){
+      if (mensajesZurich.length == 1) {
         console.log(mensajesZurich);
         mensajeConcatenadoZurich = mensajesZurich[0];
         console.log(mensajeConcatenadoZurich);
-      } else{
+      } else {
         mensajesZurich.map((element, index) => {
           if (element.includes("Referred")) {
             if (index == 2) {
@@ -1512,12 +1565,12 @@ function validarProblema(aseguradora, ofertas) {
             } else {
               mensajeConcatenadoZurich += element;
             }
-          }if(element.includes("Lo sentimos")){
-            mensajeConcatenadoZurich += " - "+element;
+          }
+          if (element.includes("Lo sentimos")) {
+            mensajeConcatenadoZurich += " - " + element;
           }
         });
       }
-
 
       // Realizar la petición AJAX con los datos
       $.ajax({
@@ -1779,7 +1832,6 @@ function cotizarOfertas() {
   var livianos_productos = document.getElementById(
     "cre_axa_livianos_productos"
   ).value;
-
 
   /**
    * Variables para Bolivar
@@ -2199,13 +2251,14 @@ function cotizarOfertas() {
                           validarProblema("Zurich", ofertas);
                           agregarAseguradoraFallida(plan);
                           let mensaje = "";
-                          if(ofertas.Mensajes.length == 1){
+                          if (ofertas.Mensajes.length == 1) {
                             mensaje = ofertas.Mensajes[0];
-                          } else{
+                          } else {
                             ofertas.Mensajes.map((element, index) => {
-                              if(element.includes("Lo sentimos")){
-                                mensaje += " - "+element;
-                              }if (element.includes("Referred")) {
+                              if (element.includes("Lo sentimos")) {
+                                mensaje += " - " + element;
+                              }
+                              if (element.includes("Referred")) {
                                 if (index == 2) {
                                   mensaje += " - " + element;
                                 } else {
@@ -3224,8 +3277,62 @@ $("#btn-cerrar-fasecolda").on(() => {
   $(".modal-body").dialog("close");
 });
 
+function createModal(
+  title,
+  selectorModal,
+  btnTriggerOpen,
+  width,
+  height,
+  btnTriggerClose = null
+) {
+  $(selectorModal).dialog({
+    autoOpen: true,
+    modal: true,
+    width: width, // overcomes width:'auto' and maxWidth bug
+    maxWidth: width,
+    height: "auto",
+    fluid: true, //new option
+    resizable: false,
+    title: title,
+    dialogClass: "no-close",
+    show: { effect: "slide", duration: 500, direction: "down" }, // Efecto de slide hacia abajo
+    hide: { effect: "slide", duration: 500, direction: "down" }, // Efecto de slide hacia abajo
+    open: function (event, ui) {
+      // Cambiar el color del título del diálogo
+      $(this).prev().find(".ui-dialog-title").css({
+        color: "white",
+        "font-weight": "lighter",
+      });
+    },
+  });
+  $(btnTriggerOpen)
+    .button()
+    .click(function () {
+      $(selectorModal).dialog("option", "width", width);
+      $(selectorModal).dialog("option", "height", height);
+      $(selectorModal).dialog("option", "resizable", false);
+      $(selectorModal).dialog("open");
+    });
+  if (btnTriggerClose) {
+    $(btnTriggerClose)
+      .button()
+      .click(function () {
+        $(selectorModal).dialog("close");
+      });
+  }
+}
+
+createModal(
+  "Modal Test",
+  ".modal-body2",
+  "#btnCotizar",
+  400,
+  500,
+  "#btn-cerrar-fasecolda"
+);
+
 $(function () {
-  $(".modal-body").dialog({
+  $(".modal-body2").dialog({
     autoOpen: false,
     modal: true,
     width: 300, // overcomes width:'auto' and maxWidth bug
@@ -3245,15 +3352,13 @@ $(function () {
       });
     },
   });
-  $(".buscarFasecolda")
+  $("#btnCotizar")
     .button()
     .click(function () {
-      txtFasecolda_modal.value = txtFasecolda.value;
-      txtModeloVeh_modal.value = txtModeloVeh.value;
-      $(".modal-body").dialog("option", "width", 300);
-      $(".modal-body").dialog("option", "height", 270);
-      $(".modal-body").dialog("option", "resizable", false);
-      $(".modal-body").dialog("open");
+      $(".modal-body2").dialog("option", "width", 400);
+      $(".modal-body2").dialog("option", "height", 500);
+      $(".modal-body2").dialog("option", "resizable", false);
+      $(".modal-body2").dialog("open");
     });
   $("#btn-cerrar-fasecolda")
     .button()
