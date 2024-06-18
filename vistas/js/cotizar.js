@@ -2172,13 +2172,22 @@ function cotizarOfertas() {
             aseguradorasCoti.forEach((aseguradora) => {
               let url;
 
-              if (aseguradora === "Mapfre") {
-                url = `https://grupoasistencia.com/motor_webservice_tst2/mapfrecotizacion4?callback=myCallback`;
-              } else if (aseguradora === "HDI") {
-                url = `https://grupoasistencia.com/motor_webservice/HdiPlus?callback=myCallback`;
-              } else if (aseguradora === "AXA") {
-                url = `https://grupoasistencia.com/motor_webservice_tst2/AXA?callback=myCallback`;
-              } else if (aseguradora === "Zurich") {
+
+              // if (aseguradora === "Mapfre") {
+              //   url = `https://grupoasistencia.com/motor_webservice_tst2/mapfrecotizacion4?callback=myCallback`;
+              // } else 
+              
+              // if (aseguradora === "HDI") {
+              //   url = `https://grupoasistencia.com/motor_webservice/HdiPlus?callback=myCallback`;
+              // }else 
+              
+              
+              
+              // if (aseguradora === "AXA") {
+              //   url = `https://grupoasistencia.com/motor_webservice_tst2/AXA?callback=myCallback`;
+              // } else 
+              
+              if (aseguradora === "Zurich") {
                 const planes = ["FULL"];
                 planes.forEach((plan) => {
                   let body = JSON.parse(requestOptions.body);
@@ -2186,7 +2195,7 @@ function cotizarOfertas() {
                   body.Email = "@gmail.com";
                   body.Email2 = Math.round(Math.random() * 999999) + body.Email;
                   requestOptions.body = JSON.stringify(body);
-                  url = `https://grupoasistencia.com/motor_webservice_tst2/Zurich?callback=myCallback`;
+                  url = `https://grupoasistencia.com/motor_webservice/${aseguradora}_autos?callback=myCallback`;
 
                   cont.push(
                     fetch(url, requestOptions)
@@ -2244,7 +2253,7 @@ function cotizarOfertas() {
                   let successAseguradora = true;
                   cont.push(
                     fetch(
-                      `https://grupoasistencia.com/motor_webservice_tst2/${aseguradora}?callback=myCallback`,
+                      `https://grupoasistencia.com/motor_webservice/${aseguradora}?callback=myCallback`,
                       requestOptions
                     )
                       .then((res) => {
@@ -2291,7 +2300,7 @@ function cotizarOfertas() {
                 return; // Salir del bucle después de procesar Estado
               } else {
                 // Construir la URL de la solicitud para cada aseguradora
-                url = `https://grupoasistencia.com/motor_webservice_tst2/${aseguradora}?callback=myCallback`;
+                url = `https://grupoasistencia.com/motor_webservice/${aseguradora}_autos?callback=myCallback`;
               }
 
               // Realizar la solicitud fetch y agregar la promesa al array
@@ -2564,7 +2573,7 @@ function cotizarOfertas() {
         /* Solidaria */
         const solidariaPromise = comprobarFallida("Solidaria")
           ? fetch(
-              "https://grupoasistencia.com/motor_webservice_tst2/Solidaria?callback=myCallback",
+              "https://grupoasistencia.com/motor_webservice/Solidaria_autos?callback=myCallback",
               requestOptions
             )
               .then((res) => {
@@ -2606,7 +2615,7 @@ function cotizarOfertas() {
         /* Previsora */
         const previsoraPromise = comprobarFallida("Previsora")
           ? fetch(
-              "https://grupoasistencia.com/motor_webservice_tst2/Previsora?callback=myCallback",
+              "https://grupoasistencia.com/motor_webservice/Previsora_autos?callback=myCallback",
               requestOptions
             )
               .then((res) => {
@@ -2648,7 +2657,7 @@ function cotizarOfertas() {
         /* Equidad */
         const equidadPromise = comprobarFallida("Equidad")
           ? fetch(
-              "https://grupoasistencia.com/motor_webservice_tst2/Equidad?callback=myCallback",
+              "https://grupoasistencia.com/motor_webservice/Equidad_autos?callback=myCallback",
               requestOptions
             )
               .then((res) => {
@@ -2687,7 +2696,7 @@ function cotizarOfertas() {
         /* Mapfre */
         const mapfrePromise = comprobarFallida("Mapfre")
           ? fetch(
-              "https://grupoasistencia.com/motor_webservice_tst2/mapfrecotizacion4?callback=myCallback",
+              "https://grupoasistencia.com/motor_webservice/Mapfre_autos?callback=myCallback",
               requestOptions
             )
               .then((res) => {
@@ -2726,7 +2735,7 @@ function cotizarOfertas() {
         /* Bolivar */
         const bolivarPromise = comprobarFallida("Bolivar")
           ? fetch(
-              "https://grupoasistencia.com/motor_webservice_tst2/Bolivar?callback=myCallback",
+              "https://grupoasistencia.com/motor_webservice_tst2/Bolivar_autos?callback=myCallback",
               requestOptions
             )
               .then((res) => {
@@ -2859,7 +2868,7 @@ function cotizarOfertas() {
         // Para 'FULL'
         const ZFullPromise = comprobarFallida("FULL")
           ? fetch(
-              "https://grupoasistencia.com/motor_webservice_tst2/Zurich?callback=myCallback",
+              "https://grupoasistencia.com/motor_webservice/Zurich_autos?callback=myCallback",
               {
                 ...requestOptions,
                 method: "POST",
@@ -2980,7 +2989,7 @@ function cotizarOfertas() {
           let successAseguradora = true;
           const aseguradoraPromise = comprobarFallida(aseguradora)
             ? fetch(
-                `https://grupoasistencia.com/motor_webservice_tst2/${aseguradora}?callback=myCallback`,
+                `https://grupoasistencia.com/motor_webservice/${aseguradora}?callback=myCallback`,
                 requestOptions
               )
                 .then((res) => {
@@ -3027,7 +3036,7 @@ function cotizarOfertas() {
         /* Liberty */
         const libertyPromise = comprobarFallida("Liberty")
           ? fetch(
-              "https://grupoasistencia.com/motor_webservice_tst2/Liberty?callback=myCallback",
+              "https://grupoasistencia.com/motor_webservice/Liberty_autos?callback=myCallback",
               requestOptions
             )
               .then((res) => {
@@ -3066,7 +3075,7 @@ function cotizarOfertas() {
         /* Allianz */
         const allianzPromise = comprobarFallida("Allianz")
           ? fetch(
-              "https://grupoasistencia.com/motor_webservice_tst2/Allianz?callback=myCallback",
+              "https://grupoasistencia.com/motor_webservice/Allianz_autos?callback=myCallback",
               requestOptions
             )
               .then((res) => {
@@ -3104,7 +3113,7 @@ function cotizarOfertas() {
 
         const axaPromise = comprobarFallida("AXA")
           ? fetch(
-              "https://grupoasistencia.com/motor_webservice_tst2/AXA?callback=myCallback",
+              "https://grupoasistencia.com/motor_webservice/AXA_autos?callback=myCallback",
               requestOptions
             )
               .then((res) => {
@@ -3138,7 +3147,7 @@ function cotizarOfertas() {
 
         const sbsPromise = comprobarFallida("SBS")
           ? fetch(
-              "https://grupoasistencia.com/motor_webservice_tst2/SBS?callback=myCallback",
+              "https://grupoasistencia.com/motor_webservice/SBS_autos?callback=myCallback",
               requestOptions
             )
               .then((res) => {
