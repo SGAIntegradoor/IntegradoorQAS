@@ -145,7 +145,7 @@ $idIntermediario = $_SESSION['permisos']['id_Intermediario'];
     font-size: 12px !important;
   }
 
-  .swal2-popup {
+  .custom-swal-alertaMonto {
     display: flex;
     flex-direction: column;
     width: 30%;
@@ -167,7 +167,8 @@ $idIntermediario = $_SESSION['permisos']['id_Intermediario'];
     margin: 0 !important;
   }
 
-  .swal2-confirm {
+  .custom-swal-confirm-button22 {
+    font-size: 16px !important;
     height: 50px;
     width: 150px;
     border-radius: 10px !important;
@@ -180,7 +181,7 @@ $idIntermediario = $_SESSION['permisos']['id_Intermediario'];
       font-size: 12px;
     }
 
-    .swal2-popup {
+    .custom-swal-alertaMonto {
       display: flex;
       flex-direction: column;
       width: 92% !important;
@@ -216,7 +217,8 @@ $idIntermediario = $_SESSION['permisos']['id_Intermediario'];
       margin: 0 !important;
     }
 
-    .swal2-confirm {
+    .custom-swal-confirm-button22 {
+      font-size: 16px !important;
       height: 50px;
       width: 150px;
       border-radius: 10px !important;
@@ -241,7 +243,7 @@ $idIntermediario = $_SESSION['permisos']['id_Intermediario'];
       font-size: 15px;
     }
 
-    .swal2-popup {
+    .custom-swal-alertaMonto {
       display: flex;
       flex-direction: column;
       width: 70% !important;
@@ -278,7 +280,8 @@ $idIntermediario = $_SESSION['permisos']['id_Intermediario'];
       margin: 0 !important;
     }
 
-    .swal2-confirm {
+    .custom-swal-confirm-button22 {
+      font-size: 16px !important;
       height: 50px;
       width: 150px;
       border-radius: 10px !important;
@@ -301,7 +304,7 @@ $idIntermediario = $_SESSION['permisos']['id_Intermediario'];
       font-size: 15px;
     }
 
-    .swal2-popup {
+    .custom-swal-alertaMonto {
       display: flex;
       flex-direction: column;
       width: 60% !important;
@@ -338,7 +341,8 @@ $idIntermediario = $_SESSION['permisos']['id_Intermediario'];
       margin: 0 !important;
     }
 
-    .swal2-confirm {
+    .custom-swal-confirm-button22 {
+      font-size: 16px !important;
       height: 50px;
       width: 150px;
       border-radius: 10px !important;
@@ -361,7 +365,7 @@ $idIntermediario = $_SESSION['permisos']['id_Intermediario'];
       font-size: 15px;
     }
 
-    .swal2-popup {
+    .custom-swal-alertaMonto {
       display: flex;
       flex-direction: column;
       width: 50% !important;
@@ -393,7 +397,8 @@ $idIntermediario = $_SESSION['permisos']['id_Intermediario'];
       margin: 0 !important;
     }
 
-    .swal2-confirm {
+    .custom-swal-confirm-button22 {
+      font-size: 16px !important;
       height: 50px;
       width: 150px;
       border-radius: 10px !important;
@@ -421,7 +426,7 @@ $idIntermediario = $_SESSION['permisos']['id_Intermediario'];
       font-size: 15px;
     }
 
-    .swal2-popup {
+    .custom-swal-alertaMonto {
       display: flex !important;
       flex-direction: column;
       width: 52% !important;
@@ -462,7 +467,8 @@ $idIntermediario = $_SESSION['permisos']['id_Intermediario'];
       margin: 0 !important;
     }
 
-    .swal2-confirm {
+    .custom-swal-confirm-button22 {
+      font-size: 16px !important;
       height: 50px;
       width: 150px;
       border-radius: 10px !important;
@@ -486,7 +492,7 @@ $idIntermediario = $_SESSION['permisos']['id_Intermediario'];
       font-size: 15px;
     }
 
-    .swal2-popup {
+    .custom-swal-alertaMonto {
       display: flex !important;
       flex-direction: column;
       width: 31% !important;
@@ -527,7 +533,8 @@ $idIntermediario = $_SESSION['permisos']['id_Intermediario'];
       margin: 0 !important;
     }
 
-    .swal2-confirm {
+    .custom-swal-confirm-button22 {
+      font-size: 16px !important;
       height: 50px;
       width: 150px;
       border-radius: 10px !important;
@@ -544,70 +551,6 @@ $idIntermediario = $_SESSION['permisos']['id_Intermediario'];
     }
 
   }
-
-  /* @media (min-width: 1201px) {
-    #tableModal td {
-      text-align: center;
-      font-size: 15px;
-    }
-
-    .swal2-popup {
-      display: flex !important;
-      flex-direction: column;
-      width: 30% !important;
-      padding: 30px;
-    }
-
-    #tdAsegurado {
-      width: 330px;
-      text-align: center;
-      font-size: 16px;
-    }
-
-    #tdCondiciones {
-      width: 335px;
-      text-align: center;
-      font-size: 16px;
-    }
-
-    .swal2-title {
-      font-size: 20px !important;
-      font-weight: bold;
-    }
-
-    #pTableModal {
-      font-size: 14px !important;
-    }
-
-    .swal2-html-container {
-      display: flex !important;
-      flex-direction: column;
-      gap: 10px;
-      padding: 1em 1.6em .3em;
-    }
-
-    .swal2-actions {
-      align-content: center !important;
-      margin: 0 !important;
-    }
-
-    .swal2-confirm{
-      height: 50px;
-      width: 150px;
-      border-radius: 10px !important;
-    }
-
-    .swal2-icon {
-      width: 90px !important;
-      height: 90px !important;
-      border: 3px solid #f8bb86 !important;
-    }
-    .swal2-icon-content {
-    font-size: 65px !important;
-  }
-  
-  } */
-
   .btnConfirm {
     background: #88d600;
   }
@@ -707,7 +650,7 @@ $idIntermediario = $_SESSION['permisos']['id_Intermediario'];
     color: white;
   }
 
-
+/* 
   .swal2-icon {
     width: 90px;
     height: 90px;
@@ -716,7 +659,7 @@ $idIntermediario = $_SESSION['permisos']['id_Intermediario'];
 
   .custom-swal-popup {
     border-radius: 25px;
-  }
+  } */
 
   /* .swal2-icon-content {
     font-size: 65px !important;
@@ -740,11 +683,7 @@ $idIntermediario = $_SESSION['permisos']['id_Intermediario'];
     font-weight: bold;
    } */
 
-  .swal2-html-container {
-    /* display: flex !important;
-    flex-direction: column; */
 
-  }
 </style>
 
 <div class="content-wrapper">

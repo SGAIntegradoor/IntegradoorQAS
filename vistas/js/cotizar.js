@@ -316,10 +316,10 @@ $(document).ready(function () {
   $("#btnCotizar").click(function (e) {
     masRE();
     swal
-    .fire({
-      icon: "warning",
-      title: "POLÍTICA DE VALOR ASEGURADO<br>LIVIANOS",
-      html: `
+      .fire({
+        icon: "warning",
+        title: "POLÍTICA DE VALOR ASEGURADO<br>LIVIANOS",
+        html: `
         <div style="overflow-x: auto;">
           <table style="border: 2px solid gray; border-collapse: collapse;" id="tableModal">
             <thead style="padding: 5px;">
@@ -354,49 +354,49 @@ $(document).ready(function () {
           puede variar en el momento de emitir en caso de autorización.
         </p>
       `,
-      width: "30%",
-      showConfirmButton: true,
-      confirmButtonText: "Continuar",
-      customClass: {
-        popup: "custom-swal-popup",
-        title: "custom-swal-title",
-        content: "custom-swal-content",
-        confirmButton: "custom-swal-confirm-button",
-      },
-    })
-    .then(function (result) {
-      if (result.value) {
-        decresCotTotales().then((response) => {
-          if (response.result == 1 || response.result == 2) {
-            cotizarOfertas();
-          } else {
-            e.preventDefault();
-            swal
-              .fire({
-                icon: "error",
-                title: "Cotizaciones Totales Excedidas",
-                html: `<div style="text-align: justify; font-family: Helvetica, Arial, sans-serif; font-size: 15px; border-radius: 4px; padding: 8px;">El usuario ha excedido las cotizaciones totales. En este momento solo podrás visualizar las cotizaciones realizadas hasta que se agoten los días habilitados. Si quieres seguir haciendo cotizaciones solicita vincularte al Programa. Comunícate con el área encargada de vinculaciones de Grupo Asistencia al:
+        width: "30%",
+        showConfirmButton: true,
+        confirmButtonText: "Continuar",
+        customClass: {
+          popup: "custom-swal-alertaMonto",
+          title: "custom-swal-title",
+          content: "custom-swal-content",
+          confirmButton: "custom-swal-confirm-button22",
+        },
+      })
+      .then(function (result) {
+        if (result.value) {
+          decresCotTotales().then((response) => {
+            if (response.result == 1 || response.result == 2) {
+              cotizarOfertas();
+            } else {
+              e.preventDefault();
+              swal
+                .fire({
+                  icon: "error",
+                  title: "Cotizaciones Totales Excedidas",
+                  html: `<div style="text-align: justify; font-family: Helvetica, Arial, sans-serif; font-size: 15px; border-radius: 4px; padding: 8px;">El usuario ha excedido las cotizaciones totales. En este momento solo podrás visualizar las cotizaciones realizadas hasta que se agoten los días habilitados. Si quieres seguir haciendo cotizaciones solicita vincularte al Programa. Comunícate con el área encargada de vinculaciones de Grupo Asistencia al:
                     <br><br>
                     <div style="text-align: center;">📱+573185127910 o vía 📧 mercadeo@grupoasistencia.com </div></div>`,
-                width: "90%",
-                showConfirmButton: true,
-                confirmButtonText: "Cerrar",
-                customClass: {
-                  popup: "custom-swal-popup",
-                  title: "custom-swal-title",
-                  content: "custom-swal-content",
-                  confirmButton: "custom-swal-confirm-button",
-                },
-              })
-              .then(function (result) {
-                if (result.value) {
-                  window.location = "inicio";
-                }
-              });
-          }
-        });
-      }
-    }); 
+                  width: "90%",
+                  showConfirmButton: true,
+                  confirmButtonText: "Cerrar",
+                  customClass: {
+                    popup: "custom-swal-popup",
+                    title: "custom-swal-title",
+                    content: "custom-swal-content",
+                    confirmButton: "custom-swal-confirm-button",
+                  },
+                })
+                .then(function (result) {
+                  if (result.value) {
+                    window.location = "inicio";
+                  }
+                });
+            }
+          });
+        }
+      });
   });
   // $("#btnCotizarPesados").click(function () {
   //   cotizarOfertasPesados();
@@ -2224,21 +2224,18 @@ function cotizarOfertas() {
             aseguradorasCoti.forEach((aseguradora) => {
               let url;
 
-
               // if (aseguradora === "Mapfre") {
               //   url = `https://grupoasistencia.com/motor_webservice_tst2/mapfrecotizacion4?callback=myCallback`;
-              // } else 
-              
+              // } else
+
               // if (aseguradora === "HDI") {
               //   url = `https://grupoasistencia.com/motor_webservice/HdiPlus?callback=myCallback`;
-              // }else 
-              
-              
-              
+              // }else
+
               // if (aseguradora === "AXA") {
               //   url = `https://grupoasistencia.com/motor_webservice_tst2/AXA?callback=myCallback`;
-              // } else 
-              
+              // } else
+
               if (aseguradora === "Zurich") {
                 const planes = ["FULL"];
                 planes.forEach((plan) => {
@@ -2397,12 +2394,18 @@ function cotizarOfertas() {
               // $("#btnCotizar").hide();
               $("#loaderOferta").html("");
               $("#loaderOfertaBox").css("display", "none");
-              swal.fire({
-                type: "success",
-                title: "¡Cotización finalizada!",
-                showConfirmButton: true,
-                confirmButtonText: "Cerrar",
-              });
+              swal
+                .fire({
+                  type: "success",
+                  title: "¡Cotización finalizada!",
+                  showConfirmButton: true,
+                  confirmButtonText: "Cerrar",
+                })
+                .then(() => {
+                  // Asigna un ID específico después de que se muestre el alert
+                  document.querySelector(".custom-swal-popup").id =
+                    "alertCotizacion";
+                });
               setTimeout(function () {}, 3000);
               document.querySelector(".button-recotizar").style.display =
                 "block";
@@ -3250,6 +3253,61 @@ function cotizarOfertas() {
   }
 }
 
+
+// function createModal(
+//   title,
+//   selectorModal,
+//   btnTriggerOpen,
+//   width,
+//   height,
+//   btnTriggerClose = null
+// ) {
+//   $(selectorModal).dialog({
+//     autoOpen: true,
+//     modal: true,
+//     width: width, // overcomes width:'auto' and maxWidth bug
+//     maxWidth: width,
+//     height: "auto",
+//     fluid: true, //new option
+//     resizable: false,
+//     title: title,
+//     dialogClass: "no-close",
+//     show: { effect: "slide", duration: 500, direction: "down" }, // Efecto de slide hacia abajo
+//     hide: { effect: "slide", duration: 500, direction: "down" }, // Efecto de slide hacia abajo
+//     open: function (event, ui) {
+//       // Cambiar el color del título del diálogo
+//       $(this).prev().find(".ui-dialog-title").css({
+//         color: "white",
+//         "font-weight": "lighter",
+//       });
+//     },
+//   });
+//   $(btnTriggerOpen)
+//     .button()
+//     .click(function () {
+//       $(selectorModal).dialog("option", "width", width);
+//       $(selectorModal).dialog("option", "height", height);
+//       $(selectorModal).dialog("option", "resizable", false);
+//       $(selectorModal).dialog("open");
+//     });
+//   if (btnTriggerClose) {
+//     $(btnTriggerClose)
+//       .button()
+//       .click(function () {
+//         $(selectorModal).dialog("close");
+//       });
+//   }
+// }
+
+// createModal(
+//   "Modal Test",
+//   ".modal-body2",
+//   "#btnCotizar",
+//   400,
+//   500,
+//   "#btn-cerrar-fasecolda"
+// );
+
 // Consultar datos del vehiculo
 document
   .querySelector("#btn-consultar-fasecolda")
@@ -3286,62 +3344,8 @@ $("#btn-cerrar-fasecolda").on(() => {
   $(".modal-body").dialog("close");
 });
 
-function createModal(
-  title,
-  selectorModal,
-  btnTriggerOpen,
-  width,
-  height,
-  btnTriggerClose = null
-) {
-  $(selectorModal).dialog({
-    autoOpen: true,
-    modal: true,
-    width: width, // overcomes width:'auto' and maxWidth bug
-    maxWidth: width,
-    height: "auto",
-    fluid: true, //new option
-    resizable: false,
-    title: title,
-    dialogClass: "no-close",
-    show: { effect: "slide", duration: 500, direction: "down" }, // Efecto de slide hacia abajo
-    hide: { effect: "slide", duration: 500, direction: "down" }, // Efecto de slide hacia abajo
-    open: function (event, ui) {
-      // Cambiar el color del título del diálogo
-      $(this).prev().find(".ui-dialog-title").css({
-        color: "white",
-        "font-weight": "lighter",
-      });
-    },
-  });
-  $(btnTriggerOpen)
-    .button()
-    .click(function () {
-      $(selectorModal).dialog("option", "width", width);
-      $(selectorModal).dialog("option", "height", height);
-      $(selectorModal).dialog("option", "resizable", false);
-      $(selectorModal).dialog("open");
-    });
-  if (btnTriggerClose) {
-    $(btnTriggerClose)
-      .button()
-      .click(function () {
-        $(selectorModal).dialog("close");
-      });
-  }
-}
-
-createModal(
-  "Modal Test",
-  ".modal-body2",
-  "#btnCotizar",
-  400,
-  500,
-  "#btn-cerrar-fasecolda"
-);
-
 $(function () {
-  $(".modal-body2").dialog({
+  $(".modal-body").dialog({
     autoOpen: false,
     modal: true,
     width: 300, // overcomes width:'auto' and maxWidth bug
@@ -3361,13 +3365,15 @@ $(function () {
       });
     },
   });
-  $("#btnCotizar")
+  $(".buscarFasecolda")
     .button()
     .click(function () {
-      $(".modal-body2").dialog("option", "width", 400);
-      $(".modal-body2").dialog("option", "height", 500);
-      $(".modal-body2").dialog("option", "resizable", false);
-      $(".modal-body2").dialog("open");
+      txtFasecolda_modal.value = txtFasecolda.value;
+      txtModeloVeh_modal.value = txtModeloVeh.value;
+      $(".modal-body").dialog("option", "width", 300);
+      $(".modal-body").dialog("option", "height", 270);
+      $(".modal-body").dialog("option", "resizable", false);
+      $(".modal-body").dialog("open");
     });
   $("#btn-cerrar-fasecolda")
     .button()
