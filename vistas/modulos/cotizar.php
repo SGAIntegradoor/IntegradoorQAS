@@ -526,6 +526,7 @@ $idIntermediario = $_SESSION['permisos']['id_Intermediario'];
       flex-direction: column;
       gap: 10px;
       padding: 1em 1.6em .3em;
+      font-size: 18px !important;
     }
 
     .swal2-actions {

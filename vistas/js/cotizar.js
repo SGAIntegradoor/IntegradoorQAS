@@ -2791,7 +2791,7 @@ function cotizarOfertas() {
         /* Bolivar */
         const bolivarPromise = comprobarFallida("Bolivar")
           ? fetch(
-              "https://grupoasistencia.com/motor_webservice_tst2/Bolivar_autos?callback=myCallback",
+              "https://grupoasistencia.com/motor_webservice/Bolivar_autos?callback=myCallback",
               requestOptions
             )
               .then((res) => {

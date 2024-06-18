@@ -14,39 +14,58 @@ $(document).ready(function () {
       });
     });
   }
-
+  
   // Ejectura la funcion Cotizar Ofertas
   $("#btnCotizarMotos").click(function (e) {
     masRE();
-    decresCotTotales().then((response) => {
-      if (response.result == 1 || response.result == 2) {
-        cotizarOfertasMotos();
-      } else {
-        e.preventDefault();
-        swal
-							.fire({
-								icon: "error",
-								title: "Cotizaciones Totales Excedidas",
-								html: `<div style="text-align: justify; font-family: Helvetica, Arial, sans-serif; font-size: 15px; border-radius: 4px; padding: 8px;">El usuario ha excedido las cotizaciones totales. En este momento solo podrás visualizar las cotizaciones realizadas hasta que se agoten los días habilitados.Si quieres seguir haciendo cotizaciones solicita vincularte al Programa.Comunícate con el área encargada de vinculaciones de Grupo Asistencia al:
-								<br><br>
-								<div style="text-align: center;">📱+573185127910 o vía 📧 mercadeo@grupoasistencia.com </div></div>`,
-								width:"40%",
-								showConfirmButton: true,
-								confirmButtonText: "Cerrar",
-								customClass: {
-									popup: "custom-swal-popup",
-									title: "custom-swal-title",
-									content: "custom-swal-content",
-									confirmButton: "custom-swal-confirm-button",
-								},
-							})
-							.then(function(result) {
-								if (result.value) {
-									window.location = "inicio";
-								}
-							});
-      }
-    });
+    swal
+      .fire({
+        icon: "warning",
+        title: "POLÍTICA DE VALOR ASEGURADO MOTOS",
+        html: "<p style='font-family: Helvetica, Arial, sans-serif;'>Para motocicletas el valor asegurado máximo es $50 millones. Motos por encima de ese valor, deben ser autorizadas por la Gerencia General.</p>",
+        width: "30%",
+        showConfirmButton: true,
+        confirmButtonText: "Continuar",
+        customClass: {
+          popup: "custom-swal-alertaMontoMotos",
+          title: "custom-swal-title",
+          confirmButton: "custom-swal-confirm-button23",
+          actions: "custom-swal-actions-motos"
+        },
+      })
+      .then(function (result) {
+        if (result.value) {
+          decresCotTotales().then((response) => {
+            if (response.result == 1 || response.result == 2) {
+              cotizarOfertasMotos();
+            } else {
+              e.preventDefault();
+              swal
+                .fire({
+                  icon: "error",
+                  title: "Cotizaciones Totales Excedidas",
+                  html: `<div style="text-align: justify; font-family: Helvetica, Arial, sans-serif; font-size: 15px; border-radius: 4px; padding: 8px;">El usuario ha excedido las cotizaciones totales. En este momento solo podrás visualizar las cotizaciones realizadas hasta que se agoten los días habilitados. Si quieres seguir haciendo cotizaciones solicita vincularte al Programa. Comunícate con el área encargada de vinculaciones de Grupo Asistencia al:
+                    <br><br>
+                    <div style="text-align: center;">📱+573185127910 o vía 📧 mercadeo@grupoasistencia.com </div></div>`,
+                  width: "90%",
+                  showConfirmButton: true,
+                  confirmButtonText: "Cerrar",
+                  customClass: {
+                    popup: "custom-swal-popup",
+                    title: "custom-swal-title",
+                    content: "custom-swal-content",
+                    confirmButton: "custom-swal-confirm-button",
+                  },
+                })
+                .then(function (result) {
+                  if (result.value) {
+                    window.location = "inicio";
+                  }
+                });
+            }
+          });
+        }
+      });
   });
 
   $("#btnConsultarPlacaMotos").click(function () {

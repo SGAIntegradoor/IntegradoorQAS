@@ -159,6 +159,512 @@ $rolAsesor = $_SESSION['permisos']['idRol'];
     }
   }
 
+  #pTableModal {
+    font-size: 12px !important;
+  }
+
+  .custom-swal-alertaMontoMotos {
+    display: flex;
+    flex-direction: column;
+    width: 30%;
+    padding: 30px;
+    border-radius: 15px !important;
+  }
+
+  .swal2-icon {
+    width: 90px;
+    height: 90px;
+    border: 4px solid #f8bb86 !important;
+  }
+
+  .custom-swal-popup {
+    border-radius: 25px;
+  }
+
+  .swal2-actions {
+    align-content: center !important;
+    margin: 0 !important;
+  }
+
+  .custom-swal-confirm-button23 {
+    font-size: 16px !important;
+    height: 50px;
+    width: 150px;
+    border-radius: 10px !important;
+  }
+
+  .custom-swal-actions-motos {
+    padding-bottom: 25px !important;
+  }
+
+
+  @media (min-width: 320px) and (max-width: 577px) {
+
+    #tableModal td {
+      text-align: center;
+      font-size: 12px;
+    }
+
+    .custom-swal-alertaMontoMotos {
+      display: flex;
+      flex-direction: column;
+      width: 92% !important;
+      padding-bottom: 15px !important;
+      padding: 5px;
+      border-radius: 15px !important;
+    }
+
+    #tdAsegurado {
+      width: 300px;
+      text-align: center;
+      font-size: 14px;
+    }
+
+    #tdCondiciones {
+      width: 300px;
+      text-align: center;
+      font-size: 14px;
+    }
+
+    .custom-swal-alertaMontoMotos .swal2-html-container {
+      display: flex !important;
+      flex-direction: column;
+      gap: 10px;
+      padding-right: 17px;
+      padding-left: 17px;
+      padding-bottom: 20px;
+    }
+
+    .custom-swal-alertaMontoMotos .swal2-html-container>p {
+      font-size: 17px;
+      padding-top: 20px;
+      text-align: justify;
+    }
+
+
+    #pTableModal {
+      font-size: 10px !important;
+    }
+
+    .swal2-actions {
+      align-content: center !important;
+      margin: 0 !important;
+    }
+
+    .custom-swal-confirm-button23 {
+      font-size: 16px !important;
+      height: 50px;
+      width: 150px;
+      border-radius: 10px !important;
+    }
+
+    .swal2-title {
+      font-size: 18px !important;
+      font-weight: bold;
+    }
+
+    .swal2-icon {
+      width: 60px !important;
+      height: 60px !important;
+      border: 3px solid #f8bb86 !important;
+    }
+
+    .custom-swal-actions-motos {
+      padding-bottom: 25px !important;
+    }
+
+  }
+
+  @media (min-width: 577px) and (max-width: 768px) {
+
+    #tableModal td {
+      text-align: center;
+      font-size: 15px;
+    }
+
+    .custom-swal-alertaMontoMotos {
+      display: flex;
+      flex-direction: column;
+      width: 70% !important;
+      padding-bottom: 15px !important;
+      padding: 30px;
+      border-radius: 15px !important;
+    }
+
+    #tdAsegurado {
+      width: 270px;
+      text-align: center;
+      font-size: 16px;
+    }
+
+    #tdCondiciones {
+      width: 335px;
+      text-align: center;
+      font-size: 16px;
+    }
+
+    .custom-swal-alertaMontoMotos .swal2-html-container {
+      display: flex !important;
+      flex-direction: column;
+      gap: 10px;
+      padding-right: 17px;
+      padding-left: 17px;
+      padding-bottom: 20px;
+    }
+
+    .custom-swal-alertaMontoMotos .swal2-html-container>p {
+      font-size: 17px;
+      padding-top: 20px;
+      text-align: justify;
+    }
+
+
+    .swal2-title {
+      font-size: 23px !important;
+      font-weight: bold;
+    }
+
+    .swal2-actions {
+      align-content: center !important;
+      margin: 0 !important;
+    }
+
+    .custom-swal-confirm-button23 {
+      font-size: 16px !important;
+      height: 50px;
+      width: 150px;
+      border-radius: 10px !important;
+    }
+
+    #pTableModal {
+      font-size: 12px !important;
+    }
+
+    .swal2-icon {
+      width: 60px !important;
+      height: 60px !important;
+      border: 3px solid #f8bb86 !important;
+    }
+
+    .custom-swal-actions-motos {
+      padding-bottom: 25px !important;
+    }
+
+  }
+
+  @media (min-width: 769px) and (max-width: 992px) {
+    #tableModal td {
+      text-align: center;
+      font-size: 15px;
+    }
+
+    .custom-swal-alertaMontoMotos {
+      display: flex;
+      flex-direction: column;
+      width: 60% !important;
+      padding-bottom: 15px !important;
+      padding: 30px;
+      border-radius: 15px !important;
+    }
+
+    #tdAsegurado {
+      width: 330px;
+      text-align: center;
+      font-size: 16px;
+    }
+
+    #tdCondiciones {
+      width: 335px;
+      text-align: center;
+      font-size: 16px;
+    }
+
+    .custom-swal-alertaMontoMotos .swal2-html-container {
+      display: flex !important;
+      flex-direction: column;
+      gap: 10px;
+      padding-right: 17px;
+      padding-left: 17px;
+      padding-bottom: 20px;
+    }
+
+    .custom-swal-alertaMontoMotos .swal2-html-container>p {
+      font-size: 17px;
+      padding-top: 20px;
+      text-align: justify;
+    }
+
+
+    .swal2-title {
+      font-size: 23px !important;
+      font-weight: bold;
+    }
+
+    .swal2-actions {
+      align-content: center !important;
+      margin: 0 !important;
+    }
+
+    .custom-swal-confirm-button23 {
+      font-size: 16px !important;
+      height: 50px;
+      width: 150px;
+      border-radius: 10px !important;
+    }
+
+    #pTableModal {
+      font-size: 12px !important;
+    }
+
+    .swal2-icon {
+      width: 60px !important;
+      height: 60px !important;
+      border: 3px solid #f8bb86 !important;
+    }
+
+    .custom-swal-actions-motos {
+      padding-bottom: 25px !important;
+    }
+
+  }
+
+  @media (min-width: 993px) and (max-width: 1200px) {
+    #tableModal td {
+      text-align: center;
+      font-size: 15px;
+    }
+
+    .custom-swal-alertaMontoMotos {
+      display: flex;
+      flex-direction: column;
+      width: 50% !important;
+      padding-bottom: 15px !important;
+      padding: 30px;
+      border-radius: 15px !important;
+    }
+
+    #tdAsegurado {
+      width: 330px;
+      text-align: center;
+      font-size: 16px;
+    }
+
+    #tdCondiciones {
+      width: 335px;
+      text-align: center;
+      font-size: 16px;
+    }
+
+    .custom-swal-alertaMontoMotos .swal2-html-container {
+      display: flex !important;
+      flex-direction: column;
+      gap: 10px;
+      padding-right: 17px;
+      padding-left: 17px;
+      padding-bottom: 20px;
+    }
+
+    .custom-swal-alertaMontoMotos .swal2-html-container>p {
+      font-size: 17px;
+      padding-top: 20px;
+      text-align: justify;
+    }
+
+
+    .swal2-actions {
+      align-content: center !important;
+      margin: 0 !important;
+    }
+
+    .custom-swal-confirm-button23 {
+      font-size: 16px !important;
+      height: 50px;
+      width: 150px;
+      border-radius: 10px !important;
+    }
+
+    .swal2-title {
+      font-size: 23px !important;
+      font-weight: bold;
+    }
+
+    #pTableModal {
+      font-size: 12px !important;
+    }
+
+    .swal2-icon {
+      width: 60px !important;
+      height: 60px !important;
+      border: 3px solid #f8bb86 !important;
+    }
+
+    .custom-swal-actions-motos {
+      padding-bottom: 25px !important;
+    }
+
+  }
+
+  @media (min-width: 1200px) and (max-width: 1440px) {
+    #tableModal td {
+      text-align: center;
+      font-size: 15px;
+    }
+
+    .custom-swal-alertaMontoMotos {
+      display: flex !important;
+      flex-direction: column;
+      width: 52% !important;
+      padding-bottom: 15px !important;
+      padding: 30px;
+      border-radius: 15px !important;
+    }
+
+    #tdAsegurado {
+      width: 330px;
+      text-align: center;
+      font-size: 16px;
+    }
+
+    #tdCondiciones {
+      width: 335px;
+      text-align: center;
+      font-size: 16px;
+    }
+
+    .swal2-title {
+      font-size: 20px !important;
+      font-weight: bold;
+    }
+
+    #pTableModal {
+      font-size: 14px !important;
+    }
+
+    .custom-swal-alertaMontoMotos .swal2-html-container {
+      display: flex !important;
+      flex-direction: column;
+      gap: 10px;
+      padding-right: 17px;
+      padding-left: 17px;
+      padding-bottom: 20px;
+    }
+
+    .custom-swal-alertaMontoMotos .swal2-html-container>p {
+      font-size: 17px;
+      padding-top: 20px;
+      text-align: justify;
+    }
+
+
+    .swal2-actions {
+      align-content: center !important;
+      margin: 0 !important;
+    }
+
+    .custom-swal-confirm-button23 {
+      font-size: 16px !important;
+      height: 50px;
+      width: 150px;
+      border-radius: 10px !important;
+    }
+
+    .custom-swal-actions-motos {
+      padding-bottom: 25px !important;
+    }
+
+    .swal2-icon {
+      width: 90px !important;
+      height: 90px !important;
+      border: 3px solid #f8bb86 !important;
+    }
+
+    .swal2-icon-content {
+      font-size: 65px !important;
+    }
+
+  }
+
+  @media (min-width: 1441px) {
+    #tableModal td {
+      text-align: center;
+      font-size: 15px;
+    }
+
+    .custom-swal-alertaMontoMotos {
+      display: flex !important;
+      flex-direction: column;
+      width: 31% !important;
+      padding-bottom: 15px !important;
+      padding: 30px;
+      gap: 10px;
+      border-radius: 15px !important;
+    }
+
+    #tdAsegurado {
+      width: 330px;
+      text-align: center;
+      font-size: 16px;
+    }
+
+    #tdCondiciones {
+      width: 335px;
+      text-align: center;
+      font-size: 16px;
+    }
+
+    .swal2-title {
+      font-size: 20px !important;
+      font-weight: bold;
+    }
+
+    #pTableModal {
+      font-size: 14px !important;
+    }
+
+    .custom-swal-alertaMontoMotos .swal2-html-container {
+      display: flex !important;
+      flex-direction: column;
+      gap: 10px;
+      padding-right: 17px;
+      padding-left: 17px;
+      padding-bottom: 20px;
+    }
+
+    .custom-swal-alertaMontoMotos .swal2-html-container>p {
+      font-size: 19px;
+      padding-top: 20px;
+      text-align: justify;
+    }
+
+    .swal2-actions {
+      align-content: center !important;
+      margin: 0 !important;
+    }
+
+    .custom-swal-confirm-button23 {
+      font-size: 16px !important;
+      height: 50px;
+      width: 150px;
+      border-radius: 10px !important;
+      padding-bottom: 17px;
+    }
+
+    .swal2-icon {
+      width: 90px !important;
+      height: 90px !important;
+      border: 3px solid #f8bb86 !important;
+    }
+
+    .custom-swal-actions-motos {
+      padding-bottom: 25px !important;
+    }
+
+    .swal2-icon-content {
+      font-size: 65px !important;
+    }
+
+  }
+
   .form-coti {
     padding-top: 25px;
   }
