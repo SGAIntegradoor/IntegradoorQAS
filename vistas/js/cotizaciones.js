@@ -1415,7 +1415,7 @@ function editarCotizacion(id) {
 
 											<div class="col-xs-12 col-sm-6 col-md-2 verpdf-oferta">
 
-											<button type="button" class="btn btn-info" id="btnAsegPDF${oferta.NumCotizOferta}${numId}\" onclick='verPdfOferta(\"${oferta.Aseguradora}\", \"${oferta.NumCotizOferta}\", \"${numId}\");'>
+											<button type="button" class="btn btn-info" id="btnAsegPDF${oferta.NumCotizOferta}${numId}\" onclick='verPdfOferta(\"${oferta.Aseguradora}\", \"${oferta.NumCotizOferta}\", \"${numId}\", \"${id_intermediario}\");'>
 
 												<div id="verPdf${oferta.NumCotizOferta}${numId}\">VER PDF &nbsp;&nbsp;<span class="fa fa-file-text"></span></div>
 
@@ -1725,7 +1725,7 @@ FUNCION PARA CARGAR EL PDF OFICIAL DE LA ASEGURADORA
 
 ==================================================*/
 
-function verPdfOferta(aseguradora, numCotizOferta, numId) {
+function verPdfOferta(aseguradora, numCotizOferta, numId, intermediario) {
   // desactive
   // console.log(aseguradora)
   // console.log(numCotizOferta)
@@ -1773,6 +1773,7 @@ function verPdfOferta(aseguradora, numCotizOferta, numId) {
       aseguradora: aseguradora,
 
       numero_cotizacion: numCotizOferta,
+      intermediario: intermediario,
     });
 
     var requestOptions = {
@@ -1790,7 +1791,7 @@ function verPdfOferta(aseguradora, numCotizOferta, numId) {
     // Llama la URL del PDF oficial de la oferta generada por la aseguradora
 
     fetch(
-      "https://www.grupoasistencia.com/motor_webservice_tst/ImpresionPdf",
+      "https://www.grupoasistencia.com/motor_webservice/ImpresionPdf",
 
       requestOptions
     )
@@ -1931,7 +1932,7 @@ const obtenerPdfprevisora = async (cotizacion) => {
   formData.append("cotizacion", cotizacion);
 
   const pdfText = await fetch(
-    "https://www.grupoasistencia.com/motor_webservice_tst2/WSPrevisora/get_pdf_previsora.php",
+    "https://www.grupoasistencia.com/motor_webservice/WSPrevisora/get_pdf_previsora.php",
 
     {
       method: "POST",
@@ -2045,7 +2046,7 @@ const obtenerPdfSolidaria = async (cotizacion) => {
   // console.log(formDataObj);
 
   const pdfText = await fetch(
-    "https://www.grupoasistencia.com/webservice_autosv1/WSSolidaria/get_pdf.php",
+    "https://www.grupoasistencia.com/motor_webservice/WSSolidaria/get_pdf.php",
 
     {
       method: "POST",

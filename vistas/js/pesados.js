@@ -1191,6 +1191,8 @@ const mostrarOfertaPesados = (
   logo,
   UrlPdf
 ) => {
+  var id_intermediario = document.getElementById("idIntermediario").value;
+
   //FUNCION QUE ACOMODA RCE EN PARRILLA CUANDO LLEGA MUNDIAL
   if (aseguradora == "Mundial" && producto == "Pesados con RCE en exceso") {
     // Eliminar los puntos y convertir a número
@@ -1351,7 +1353,7 @@ const mostrarOfertaPesados = (
   ) {
     cardCotizacion += `
                     <div class="col-xs-12 col-sm-6 col-md-2 verpdf-oferta">
-                      <button type="button" class="btn btn-info" id="btnAsegPDF${numCotizOferta}${numId}\" onclick='verPdfOferta(\"${aseguradora}\", \"${numCotizOferta}\", \"${numId}\");'>
+                      <button type="button" class="btn btn-info" id="btnAsegPDF${numCotizOferta}${numId}\" onclick='verPdfOferta(\"${aseguradora}\", \"${numCotizOferta}\", \"${numId}\", \"${id_intermediario}\");'>
                         <div id="verPdf${numCotizOferta}${numId}\">VER PDF &nbsp;&nbsp;<span class="fa fa-file-text"></span></div>
                       </button>
                     </div>`;
@@ -2102,7 +2104,7 @@ function cotizarOfertasPesados() {
                   body.plan = plan;
                   requestOptions.body = JSON.stringify(body);
                   let mundialPromise = fetch(
-                    "https://grupoasistencia.com/motor_webservice_tst/CotizarPesados_tst",
+                    "https://grupoasistencia.com/motor_webservice/Mundial_pesados",
                     requestOptions
                   )
                     .then(function (response) {
@@ -2145,7 +2147,7 @@ function cotizarOfertasPesados() {
                     requestOptions.body = JSON.stringify(body);
 
                     let mundialPromise = fetch(
-                      "https://grupoasistencia.com/motor_webservice_tst/CotizarPesados_tst",
+                      "https://grupoasistencia.com/motor_webservice/Mundial_pesados",
                       requestOptions
                     )
                       .then((res) => {
@@ -2214,7 +2216,7 @@ function cotizarOfertasPesados() {
                   requestOptions.body = JSON.stringify(bodyAXA);
 
                   let axaPromise = fetch(
-                    "https://grupoasistencia.com/motor_webservice_tst/AXA_tst",
+                    "https://grupoasistencia.com/motor_webservice/AXA_pesados",
                     requestOptions
                   )
                     .then((res) => {
@@ -2261,7 +2263,7 @@ function cotizarOfertasPesados() {
                   requestOptions.body = JSON.stringify(body);
 
                   let libertyPromise = fetch(
-                    "https://grupoasistencia.com/motor_webservice_tst/Liberty",
+                    "https://grupoasistencia.com/motor_webservice/Liberty_pesados",
                     requestOptions
                   )
                     .then((res) => {
@@ -2556,7 +2558,7 @@ function cotizarOfertasPesados() {
         /* Liberty */
         const libertyPromise = comprobarFallidaPesados("Liberty")
           ? fetch(
-              "https://grupoasistencia.com/motor_webservice_tst2/Liberty?callback=myCallback",
+              "https://grupoasistencia.com/motor_webservice/Liberty_pesados?callback=myCallback",
               requestOptions
             )
               .then((res) => {
@@ -2594,7 +2596,7 @@ function cotizarOfertasPesados() {
 
         const axaPromise = comprobarFallidaPesados("AXA")
           ? fetch(
-              "https://grupoasistencia.com/motor_webservice_tst2/AXA?callback=myCallback",
+              "https://grupoasistencia.com/motor_webservice/AXA_pesados?callback=myCallback",
               requestOptions
             )
               .then((res) => {
