@@ -153,7 +153,7 @@ if ($_SESSION["permisos"]["Cotizarpesados"] != "x") {
     font-size: 12px !important;
   }
 
-  .custom-swal-alertaMontoPesados {
+  .custom-swal-alertaMonto {
     display: flex;
     flex-direction: column;
     width: 30%;
@@ -195,10 +195,10 @@ if ($_SESSION["permisos"]["Cotizarpesados"] != "x") {
       font-size: 12px;
     }
 
-    .custom-swal-alertaMontoPesados {
+    .custom-swal-alertaMonto {
       display: flex;
       flex-direction: column;
-      width: 92% !important;
+      width: 95% !important;
       padding: 0px 0px 0px 0px !important;
       /* gap: 10px; */
       border-radius: 15px !important;
@@ -216,20 +216,22 @@ if ($_SESSION["permisos"]["Cotizarpesados"] != "x") {
       font-size: 14px;
     }
 
-    .custom-swal-alertaMontoPesados .swal2-html-container {
+    .custom-swal-alertaMonto .swal2-html-container {
       display: flex !important;
       flex-direction: column;
       gap: 10px;
-      padding-right: 15px;
-      padding-left: 15px;
-      padding-bottom: 6px;
+      padding-top: 2px;
+      padding-right: 12px;
+      padding-left: 12px;
+      /* padding-bottom: 6px; */
       align-items: center;
     }
 
-    .custom-swal-alertaMontoPesados .swal2-html-container>p {
+    .custom-swal-alertaMonto .swal2-html-container>p {
       font-size: 17px;
-      padding-top: 20px;
+      /* padding-top: 6px; */
       text-align: justify;
+      margin: 0px;
     }
 
 
@@ -249,9 +251,11 @@ if ($_SESSION["permisos"]["Cotizarpesados"] != "x") {
       border-radius: 10px !important;
     }
 
-    .swal2-title {
-      font-size: 18px !important;
+    .custom-swal-titlePesados {
+      font-size: 17px !important;
       font-weight: bold;
+      margin: 0px;
+      padding: 0px
     }
 
     .swal2-icon {
@@ -261,7 +265,7 @@ if ($_SESSION["permisos"]["Cotizarpesados"] != "x") {
     }
 
     .custom-swal-actions-pesados {
-      padding-bottom: 25px !important;
+      padding-bottom: 3px !important;
     }
 
   }
@@ -273,7 +277,7 @@ if ($_SESSION["permisos"]["Cotizarpesados"] != "x") {
       font-size: 15px;
     }
 
-    .custom-swal-alertaMontoPesados {
+    .custom-swal-alertaMonto {
       display: flex;
       flex-direction: column;
       width: 70% !important;
@@ -294,7 +298,7 @@ if ($_SESSION["permisos"]["Cotizarpesados"] != "x") {
       font-size: 16px;
     }
 
-    .custom-swal-alertaMontoPesados .swal2-html-container {
+    .custom-swal-alertaMonto .swal2-html-container {
       display: flex !important;
       flex-direction: column;
       gap: 10px;
@@ -304,14 +308,14 @@ if ($_SESSION["permisos"]["Cotizarpesados"] != "x") {
       align-items: center;
     }
 
-    .custom-swal-alertaMontoPesados .swal2-html-container>p {
+    .custom-swal-alertaMonto .swal2-html-container>p {
       font-size: 17px;
       padding-top: 20px;
       text-align: justify;
     }
 
 
-    .swal2-title {
+    .custom-swal-titlePesados {
       font-size: 23px !important;
       font-weight: bold;
     }
@@ -350,7 +354,7 @@ if ($_SESSION["permisos"]["Cotizarpesados"] != "x") {
       font-size: 15px;
     }
 
-    .custom-swal-alertaMontoPesados {
+    .custom-swal-alertaMonto {
       display: flex;
       flex-direction: column;
       width: 60% !important;
@@ -371,7 +375,7 @@ if ($_SESSION["permisos"]["Cotizarpesados"] != "x") {
       font-size: 16px;
     }
 
-    .custom-swal-alertaMontoPesados .swal2-html-container {
+    .custom-swal-alertaMonto .swal2-html-container {
       display: flex !important;
       flex-direction: column;
       gap: 10px;
@@ -381,14 +385,14 @@ if ($_SESSION["permisos"]["Cotizarpesados"] != "x") {
       align-items: center;
     }
 
-    .custom-swal-alertaMontoPesados .swal2-html-container>p {
+    .custom-swal-alertaMonto .swal2-html-container>p {
       font-size: 17px;
       padding-top: 20px;
       text-align: justify;
     }
 
 
-    .swal2-title {
+    .custom-swal-titlePesados {
       font-size: 23px !important;
       font-weight: bold;
     }
@@ -424,43 +428,45 @@ if ($_SESSION["permisos"]["Cotizarpesados"] != "x") {
   @media (min-width: 993px) and (max-width: 1200px) {
     #tableModal td {
       text-align: center;
-      font-size: 15px;
+      font-size: 14px;
     }
 
-    .custom-swal-alertaMontoPesados {
+    .custom-swal-alertaMonto {
       display: flex;
       flex-direction: column;
       width: 50% !important;
-      padding: 20px 30px 20px 30px !important;
-      gap: 10px;
+      padding: 0px 12px 0px 12px !important;
+      /* gap: 10px; */
       border-radius: 15px !important;
     }
 
     #tdAsegurado {
       width: 330px;
       text-align: center;
-      font-size: 16px;
+      font-size: 15px;
     }
 
     #tdCondiciones {
       width: 335px;
       text-align: center;
-      font-size: 16px;
+      font-size: 15px;
     }
 
-    .custom-swal-alertaMontoPesados .swal2-html-container {
+    .custom-swal-alertaMonto .swal2-html-container {
       display: flex !important;
       flex-direction: column;
       gap: 10px;
+      padding-top: 3px;
       padding-right: 17px;
       padding-left: 17px;
-      padding-bottom: 20px;
+      padding-bottom: 5px;
       align-items: center;
     }
 
-    .custom-swal-alertaMontoPesados .swal2-html-container>p {
-      font-size: 17px;
-      padding-top: 20px;
+    .custom-swal-alertaMonto .swal2-html-container>p {
+      margin: 0px;
+      font-size: 15px;
+      padding-top: 0px;
       text-align: justify;
     }
 
@@ -477,8 +483,9 @@ if ($_SESSION["permisos"]["Cotizarpesados"] != "x") {
       border-radius: 10px !important;
     }
 
-    .swal2-title {
-      font-size: 23px !important;
+    .custom-swal-titlePesados {
+      font-size: 20px !important;
+      padding: 3px;
       font-weight: bold;
     }
 
@@ -487,13 +494,14 @@ if ($_SESSION["permisos"]["Cotizarpesados"] != "x") {
     }
 
     .swal2-icon {
+      margin-top: 10px;
       width: 60px !important;
       height: 60px !important;
       border: 3px solid #f8bb86 !important;
     }
 
     .custom-swal-actions-pesados {
-      padding-bottom: 25px !important;
+      padding-bottom: 10px !important;
     }
 
   }
@@ -501,52 +509,45 @@ if ($_SESSION["permisos"]["Cotizarpesados"] != "x") {
   @media (min-width: 1200px) and (max-width: 1440px) {
     #tableModal td {
       text-align: center;
-      font-size: 15px;
+      font-size: 14px;
     }
 
-    .custom-swal-alertaMontoPesados {
-      display: flex !important;
+    .custom-swal-alertaMonto {
+      display: flex;
       flex-direction: column;
-      width: 52% !important;
-      padding: 20px 30px 20px 30px;
-      gap: 10px;
+      width: 50% !important;
+      padding: 0px 12px 0px 12px !important;
+      /* gap: 10px; */
       border-radius: 15px !important;
     }
 
     #tdAsegurado {
       width: 330px;
       text-align: center;
-      font-size: 16px;
+      font-size: 15px;
     }
 
     #tdCondiciones {
       width: 335px;
       text-align: center;
-      font-size: 16px;
+      font-size: 15px;
     }
 
-    .swal2-title {
-      font-size: 20px !important;
-      font-weight: bold;
-    }
-
-    #pTableModal {
-      font-size: 14px !important;
-    }
-
-    .custom-swal-alertaMontoPesados .swal2-html-container {
+    .custom-swal-alertaMonto .swal2-html-container {
       display: flex !important;
       flex-direction: column;
       gap: 10px;
+      padding-top: 3px;
       padding-right: 17px;
       padding-left: 17px;
-      padding-bottom: 20px;
+      padding-bottom: 5px;
       align-items: center;
     }
 
-    .custom-swal-alertaMontoPesados .swal2-html-container>p {
-      font-size: 17px;
-      padding-top: 20px;
+    .custom-swal-alertaMonto .swal2-html-container>p {
+      margin: 0px;
+      font-size: 15px;
+      padding-top: 0px;
       text-align: justify;
     }
 
@@ -563,18 +564,25 @@ if ($_SESSION["permisos"]["Cotizarpesados"] != "x") {
       border-radius: 10px !important;
     }
 
-    .custom-swal-actions-pesados {
-      padding-bottom: 25px !important;
+    .custom-swal-titlePesados {
+      font-size: 20px !important;
+      padding: 3px;
+      font-weight: bold;
+    }
+
+    #pTableModal {
+      font-size: 12px !important;
     }
 
     .swal2-icon {
-      width: 90px !important;
-      height: 90px !important;
+      margin-top: 10px;
+      width: 60px !important;
+      height: 60px !important;
       border: 3px solid #f8bb86 !important;
     }
 
-    .swal2-icon-content {
-      font-size: 65px !important;
+    .custom-swal-actions-pesados {
+      padding-bottom: 10px !important;
     }
 
   }
@@ -585,54 +593,57 @@ if ($_SESSION["permisos"]["Cotizarpesados"] != "x") {
       text-align: center;
     }
 
-    #tableModal td {
+    #tableModalPesados td {
       text-align: center;
-      font-size: 15px;
+      font-size: 14px;
     }
 
-    .custom-swal-alertaMontoPesados {
+    .custom-swal-alertaMonto {
       display: flex !important;
       flex-direction: column;
-      width: 31% !important;
-      padding: 20px 30px 20px 30px;
-      gap: 10px;
+      width: 37% !important;
+      padding: 0px 12px 0px 12px;
+      /* gap: 10px; */
       border-radius: 15px !important;
     }
 
     #tdAsegurado {
-      width: 220px;
-      font-size: 16px;
+      width: 230px;
+      font-size: 14px;
     }
 
     #tdCondiciones {
-      width: 220px;
-      font-size: 16px;
+      width: 230px;
+      font-size: 14px;
     }
 
-
-    .swal2-title {
-      font-size: 20px !important;
+    .custom-swal-titlePesados {
+      font-size: 18px !important;
+      padding: 3px;
       font-weight: bold;
     }
 
     #pTableModalPesados {
-      font-size: 15px !important;
+      font-size: 13px !important;
+      margin: 0;
     }
 
-    .custom-swal-alertaMontoPesados .swal2-html-container {
+    .custom-swal-alertaMonto .swal2-html-container {
       display: flex !important;
       flex-direction: column;
-      gap: 10px;
-      padding-right: 17px;
-      padding-left: 17px;
-      padding-bottom: 20px;
+      /* gap: 10px; */
+      padding-right: 10px;
+      padding-left: 10px;
+      /* padding-bottom: 8px; */
       align-items: center;
     }
 
-    .custom-swal-alertaMontoPesados .swal2-html-container>p {
+    .custom-swal-alertaMonto .swal2-html-container>p {
       font-size: 19px;
-      padding-top: 20px;
+      padding-top: 10px;
       text-align: justify;
+      padding-left: 8px;
+      padding-right: 8px;
     }
 
     .swal2-actions {
@@ -655,7 +666,7 @@ if ($_SESSION["permisos"]["Cotizarpesados"] != "x") {
     }
 
     .custom-swal-actions-pesados {
-      padding-bottom: 25px !important;
+      padding-bottom: 10px !important;
     }
 
     .swal2-icon-content {
@@ -1316,7 +1327,6 @@ if ($_SESSION["permisos"]["Cotizarpesados"] != "x") {
                           </tr>
                         </thead>
                         <tbody>
-
                           <!-- <tr id="Previsora">
                             <td id="Previsora">Previsora</td>
                             <td class="text-center" id="PrevisoraResponse"><i class="fa fa-times" aria-hidden="true" style="color: red; margin-right: 5px;"></i></td>
@@ -1335,18 +1345,16 @@ if ($_SESSION["permisos"]["Cotizarpesados"] != "x") {
                     </div>
                   </div>
                 </div>
-
-
-                <!-- <div id="mensajePrevisora">
                   <div class="aviso-container col-lg-12">
                     <p style="font-weight: bold;">
-                      NOTA: Si a tu cliente le interesa Previsora, ten en cuenta que ciertas líneas de vehículos requieren la instalación del dispositivo Cazador al tomar su seguro y este tiene un costo adicional a la póliza. Por favor confirma con tu área comercial.
+                      <strong>Nota:</strong> Ten en cuenta que aunque el cotizador te genere ofertas, no
+                      todos los vehículos son asegurables. Si el cliente tiene vinculación con
+                      otros productos de la aseguradora se pueden autorizar valores
+                      asegurados superiores. Cuando el valor asegurado sea superior a los
+                      montos indicados, el valor de las primas puede variar en el momento
+                      de emitir en caso de autorización
                     </p>
                   </div>
-                </div> -->
-
-
-
               </div>
             </div>
           </div>

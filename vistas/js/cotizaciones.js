@@ -1060,7 +1060,7 @@ function editarCotizacion(id) {
         var permisosCotizacion =
           '{"Allianz":{"A":"1","C":"1"},"AXA":{"A":"1","C":"1"},"Bolivar":{"A":"1","C":"1"},"Equidad":{"A":"1","C":"1"},"Estado":{"A":"1","C":"1"},"HDI":{"A":"1","C":"1"},"Liberty":{"A":"1","C":"1"},"Mapfre":{"A":"1","C":"1"},"Previsora":{"A":"1","C":"1"},"SBS":{"A":"1","C":"1"},"Solidaria":{"A":"1","C":"1"},"Zurich":{"A":"1","C":"1"}}';
       }
-
+      
       //Desactive
       //console.log(permisosCotizacion)
       /*=============================================			
@@ -1090,7 +1090,7 @@ function editarCotizacion(id) {
 
         success: function (respuesta) {
           // console.log(respuesta);
-
+          menosRE();
           if (respuesta.length > 0) {
             var cardCotizacion = "";
 
@@ -1580,7 +1580,7 @@ function editarCotizacion(id) {
           document.getElementById("contenParrilla").style.display = "block";
 
           menosAseg();
-          menosRE();
+          menosRECot();
         },
       });
     },
@@ -3075,4 +3075,12 @@ function menosRE() {
   document.getElementById("menosResOferta").style.display = "none";
 
   document.getElementById("masResOferta").style.display = "block";
+}
+
+function menosRECot() {
+  document.getElementById("resumenCotizaciones").style.display = "block";
+
+  document.getElementById("menosResOferta").style.display = "block";
+
+  document.getElementById("masResOferta").style.display = "none";
 }

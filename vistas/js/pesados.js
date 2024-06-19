@@ -295,94 +295,129 @@ $(document).ready(function () {
       });
     });
   }
+
+  let intermediario = document.getElementById("idIntermediario").value;
   // Ejectura la funcion Cotizar Ofertas
   $("#btnCotizarPesados").click(function (e) {
-    masRE();
-    swal
-      .fire({
-        icon: "warning",
-        title: "POLÍTICA DE VALOR ASEGURADO<br/> PESADOS",
-        html: `
-    <div style="overflow-x: auto;">
-      <table style="border: 2px solid gray; border-collapse: collapse;  text-align: center;" id="tableModalPesados">
-        <thead style="padding: 5px;">
-          <tr style="border: 2px solid gray;">
-            <th style="border: 2px solid gray; padding: 10px; height: 50px; text-align: center" id="tdAsegurado">Aseguradora</th>
-            <th style="border: 2px solid gray; padding: 10px; height: 50px; text-align: center" id="tdCondiciones">Valor asegurado máximo</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr style="border: 2px solid gray;">
-            <td style="border: 2px solid gray; padding: 10px;">Mundial</td>
-            <td style="border: 2px solid gray; padding: 10px;">700 millones</td>
-          </tr>
-          <tr style="border: 2px solid gray;">
-            <td style="border: 2px solid gray; padding: 10px;">AXA Colpatria</td>
-            <td style="border: 2px solid gray; padding: 10px;">400 millones</td>
-          </tr>
-          <tr style="border: 2px solid gray;">
-            <td style="border: 2px solid gray; padding: 10px;">Liberty</td>
-            <td style="border: 2px solid gray; padding: 10px;">310 millones</td>
-          </tr>
-          <tr style="border: 2px solid gray;">
-            <td style="border: 2px solid gray; padding: 10px;">Previsora</td>
-            <td style="border: 2px solid gray; padding: 10px;">700 millones</td>
-          </tr>
-          </tbody>
-      </table>
-    </div>
-    <p style="text-align: justify; font-family: Helvetica, Arial, sans-serif;" id="pTableModalPesados">
-      <strong>Nota:</strong> Ten en cuenta que aunque el cotizador te genere ofertas, no
-      todos los vehículos son asegurables. Si el cliente tiene vinculación con
-      otros productos de la aseguradora se pueden autorizar valores
-      asegurados superiores. Cuando el valor asegurado sea superior a los
-      montos indicados, el valor de las primas puede variar en el momento
-      de emitir en caso de autorización
-    </p>
-    `,
-        width: "30%",
-        showConfirmButton: true,
-        confirmButtonText: "Continuar",
-        customClass: {
-          popup: "custom-swal-alertaMontoPesados",
-          title: "custom-swal-title",
-          confirmButton: "custom-swal-confirm-button24",
-          actions: "custom-swal-actions-pesados",
-        },
-      })
-      .then(function (result) {
-        if (result.value) {
-          decresCotTotales().then((response) => {
-            if (response.result == 1 || response.result == 2) {
-              cotizarOfertasPesados();
-            } else {
-              e.preventDefault();
-              swal
-                .fire({
-                  icon: "error",
-                  title: "Cotizaciones Totales Excedidas",
-                  html: `<div style="text-align: justify; font-family: Helvetica, Arial, sans-serif; font-size: 15px; border-radius: 4px; padding: 8px;">El usuario ha excedido las cotizaciones totales. En este momento solo podrás visualizar las cotizaciones realizadas hasta que se agoten los días habilitados. Si quieres seguir haciendo cotizaciones solicita vincularte al Programa. Comunícate con el área encargada de vinculaciones de Grupo Asistencia al:
-                <br><br>
-                <div style="text-align: center;">📱+573185127910 o vía 📧 mercadeo@grupoasistencia.com </div></div>`,
-                  width: "90%",
-                  showConfirmButton: true,
-                  confirmButtonText: "Cerrar",
-                  customClass: {
-                    popup: "custom-swal-popup",
-                    title: "custom-swal-title",
-                    content: "custom-swal-content",
-                    confirmButton: "custom-swal-confirm-button",
-                  },
-                })
-                .then(function (result) {
-                  if (result.value) {
-                    window.location = "inicio";
-                  }
-                });
-            }
-          });
+    menosRE();
+
+    if (intermediario == 3) {
+      swal
+        .fire({
+          icon: "warning",
+          title: "POLÍTICA DE VALOR ASEGURADO<br/> PESADOS",
+          html: `
+        <div style="overflow-x: auto;">
+          <table style="border: 2px solid gray; border-collapse: collapse;  text-align: center;" id="tableModalPesados">
+            <thead style="padding: 5px;">
+              <tr style="border: 2px solid gray;">
+                <th style="border: 2px solid gray; padding: 10px; height: 50px; text-align: center" id="tdAsegurado">Aseguradora</th>
+                <th style="border: 2px solid gray; padding: 10px; height: 50px; text-align: center" id="tdCondiciones">Valor asegurado máximo</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="border: 2px solid gray;">
+                <td style="border: 2px solid gray; padding: 10px;">Mundial</td>
+                <td style="border: 2px solid gray; padding: 10px;">700 millones</td>
+              </tr>
+              <tr style="border: 2px solid gray;">
+                <td style="border: 2px solid gray; padding: 10px;">AXA Colpatria</td>
+                <td style="border: 2px solid gray; padding: 10px;">400 millones</td>
+              </tr>
+              <tr style="border: 2px solid gray;">
+                <td style="border: 2px solid gray; padding: 10px;">Liberty</td>
+                <td style="border: 2px solid gray; padding: 10px;">310 millones</td>
+              </tr>
+              <tr style="border: 2px solid gray;">
+                <td style="border: 2px solid gray; padding: 10px;">Previsora</td>
+                <td style="border: 2px solid gray; padding: 10px;">700 millones</td>
+              </tr>
+              </tbody>
+          </table>
+        </div>
+        <p style="text-align: justify; font-family: Helvetica, Arial, sans-serif;" id="pTableModalPesados">
+          <strong>Nota:</strong> Ten en cuenta que aunque el cotizador te genere ofertas, no
+          todos los vehículos son asegurables. Si el cliente tiene vinculación con
+          otros productos de la aseguradora se pueden autorizar valores
+          asegurados superiores. Cuando el valor asegurado sea superior a los
+          montos indicados, el valor de las primas puede variar en el momento
+          de emitir en caso de autorización
+        </p>
+        `,
+          width: "30%",
+          showConfirmButton: true,
+          confirmButtonText: "Continuar",
+          customClass: {
+            popup: "custom-swal-alertaMontoPesados",
+            title: "custom-swal-titlePesados",
+            confirmButton: "custom-swal-confirm-button24",
+            actions: "custom-swal-actions-pesados",
+          },
+        })
+        .then(function (result) {
+          if (result.value) {
+            decresCotTotales().then((response) => {
+              if (response.result == 1 || response.result == 2) {
+                cotizarOfertasPesados();
+              } else {
+                e.preventDefault();
+                swal
+                  .fire({
+                    icon: "error",
+                    title: "Cotizaciones Totales Excedidas",
+                    html: `<div style="text-align: justify; font-family: Helvetica, Arial, sans-serif; font-size: 15px; border-radius: 4px; padding: 8px;">El usuario ha excedido las cotizaciones totales. En este momento solo podrás visualizar las cotizaciones realizadas hasta que se agoten los días habilitados. Si quieres seguir haciendo cotizaciones solicita vincularte al Programa. Comunícate con el área encargada de vinculaciones de Grupo Asistencia al:
+                      <br><br>
+                      <div style="text-align: center;">📱+573185127910 o vía 📧 mercadeo@grupoasistencia.com </div></div>`,
+                    width: "90%",
+                    showConfirmButton: true,
+                    confirmButtonText: "Cerrar",
+                    customClass: {
+                      popup: "custom-swal-popup",
+                      title: "custom-swal-titlePesados",
+                      content: "custom-swal-content",
+                      confirmButton: "custom-swal-confirm-button",
+                    },
+                  })
+                  .then(function (result) {
+                    if (result.value) {
+                      window.location = "inicio";
+                    }
+                  });
+              }
+            });
+          }
+        });
+    } else {
+      decresCotTotales().then((response) => {
+        if (response.result == 1 || response.result == 2) {
+          cotizarOfertasPesados();
+        } else {
+          e.preventDefault();
+          swal
+            .fire({
+              icon: "error",
+              title: "Cotizaciones Totales Excedidas",
+              html: `<div style="text-align: justify; font-family: Helvetica, Arial, sans-serif; font-size: 15px; border-radius: 4px; padding: 8px;">El usuario ha excedido las cotizaciones totales. En este momento solo podrás visualizar las cotizaciones realizadas hasta que se agoten los días habilitados. Si quieres seguir haciendo cotizaciones solicita vincularte al Programa. Comunícate con el área encargada de vinculaciones de Grupo Asistencia al:
+                  <br><br>
+                  <div style="text-align: center;">📱+573185127910 o vía 📧 mercadeo@grupoasistencia.com </div></div>`,
+              width: "90%",
+              showConfirmButton: true,
+              confirmButtonText: "Cerrar",
+              customClass: {
+                popup: "custom-swal-popup",
+                title: "custom-swal-title",
+                content: "custom-swal-content",
+                confirmButton: "custom-swal-confirm-button",
+              },
+            })
+            .then(function (result) {
+              if (result.value) {
+                window.location = "inicio";
+              }
+            });
         }
       });
+    }
   });
 });
 

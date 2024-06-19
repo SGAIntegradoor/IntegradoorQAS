@@ -2,6 +2,7 @@
 require_once "config/dbconfig.php";
 
 
+
 function obtenerCredenciales($enlace, $tabla, $columnas, $idIntermediario)
 {
   $query = "SELECT $columnas FROM `$tabla` WHERE `id_intermediario` = '$idIntermediario'";
@@ -114,6 +115,10 @@ if ($_SESSION["permisos"]["Cotizarlivianos"] != "x") {
 $rolAsesor = $_SESSION['permisos']['id_rol'];
 $idIntermediario = $_SESSION['permisos']['id_Intermediario'];
 
+if (isset($_SESSION)) {
+}
+
+echo '<script>console.log(' . $idIntermediario . ", " . $rolAsesor . ')</script>';
 ?>
 
 <style>
@@ -141,15 +146,16 @@ $idIntermediario = $_SESSION['permisos']['id_Intermediario'];
   }
 */
 
-  #pTableModal {
+#pTableModal {
     font-size: 12px !important;
   }
 
-  .custom-swal-alertaMonto {
+  .custom-swal-alertaMontoLivianos {
     display: flex;
     flex-direction: column;
     width: 30%;
     padding: 30px;
+    border-radius: 15px !important;
   }
 
   .swal2-icon {
@@ -167,12 +173,17 @@ $idIntermediario = $_SESSION['permisos']['id_Intermediario'];
     margin: 0 !important;
   }
 
-  .custom-swal-confirm-button22 {
+  .custom-swal-confirm-button20 {
     font-size: 16px !important;
     height: 50px;
     width: 150px;
     border-radius: 10px !important;
   }
+
+  .custom-swal-actions-livianos {
+    padding-bottom: 25px !important;
+  }
+
 
   @media (min-width: 320px) and (max-width: 577px) {
 
@@ -181,12 +192,13 @@ $idIntermediario = $_SESSION['permisos']['id_Intermediario'];
       font-size: 12px;
     }
 
-    .custom-swal-alertaMonto {
+    .custom-swal-alertaMontoLivianos {
       display: flex;
       flex-direction: column;
-      width: 92% !important;
-      padding-bottom: 15px !important;
-      padding: 5px;
+      width: 95% !important;
+      padding: 0px 0px 0px 0px !important;
+      /* gap: 10px; */
+      border-radius: 15px !important;
     }
 
     #tdAsegurado {
@@ -201,12 +213,24 @@ $idIntermediario = $_SESSION['permisos']['id_Intermediario'];
       font-size: 14px;
     }
 
-    .swal2-html-container {
+    .custom-swal-alertaMontoLivianos .swal2-html-container {
       display: flex !important;
       flex-direction: column;
       gap: 10px;
-      padding: 1em 1.6em .3em;
+      padding-top: 2px;
+      padding-right: 12px;
+      padding-left: 12px;
+      /* padding-bottom: 6px; */
+      align-items: center;
     }
+
+    .custom-swal-alertaMontoLivianos .swal2-html-container>p {
+      font-size: 17px;
+      /* padding-top: 6px; */
+      text-align: justify;
+      margin: 0px;
+    }
+
 
     #pTableModal {
       font-size: 10px !important;
@@ -217,16 +241,18 @@ $idIntermediario = $_SESSION['permisos']['id_Intermediario'];
       margin: 0 !important;
     }
 
-    .custom-swal-confirm-button22 {
+    .custom-swal-confirm-button20 {
       font-size: 16px !important;
       height: 50px;
       width: 150px;
       border-radius: 10px !important;
     }
 
-    .swal2-title {
-      font-size: 18px !important;
+    .custom-swal-titleLivianos {
+      font-size: 17px !important;
       font-weight: bold;
+      margin: 0px;
+      padding: 0px
     }
 
     .swal2-icon {
@@ -234,6 +260,11 @@ $idIntermediario = $_SESSION['permisos']['id_Intermediario'];
       height: 60px !important;
       border: 3px solid #f8bb86 !important;
     }
+
+    .custom-swal-actions-livianos {
+      padding-bottom: 3px !important;
+    }
+
   }
 
   @media (min-width: 577px) and (max-width: 768px) {
@@ -243,12 +274,13 @@ $idIntermediario = $_SESSION['permisos']['id_Intermediario'];
       font-size: 15px;
     }
 
-    .custom-swal-alertaMonto {
+    .custom-swal-alertaMontoLivianos {
       display: flex;
       flex-direction: column;
       width: 70% !important;
-      padding-bottom: 15px !important;
-      padding: 30px;
+      padding: 20px 30px 20px 30px !important;
+      gap: 10px;
+      border-radius: 15px !important;
     }
 
     #tdAsegurado {
@@ -263,14 +295,24 @@ $idIntermediario = $_SESSION['permisos']['id_Intermediario'];
       font-size: 16px;
     }
 
-    .swal2-html-container {
+    .custom-swal-alertaMontoLivianos .swal2-html-container {
       display: flex !important;
       flex-direction: column;
       gap: 10px;
-      padding: 1em 1.6em .3em;
+      padding-right: 17px;
+      padding-left: 17px;
+      padding-bottom: 20px;
+      align-items: center;
     }
 
-    .swal2-title {
+    .custom-swal-alertaMontoLivianos .swal2-html-container>p {
+      font-size: 17px;
+      padding-top: 20px;
+      text-align: justify;
+    }
+
+
+    .custom-swal-titleLivianos {
       font-size: 23px !important;
       font-weight: bold;
     }
@@ -280,7 +322,7 @@ $idIntermediario = $_SESSION['permisos']['id_Intermediario'];
       margin: 0 !important;
     }
 
-    .custom-swal-confirm-button22 {
+    .custom-swal-confirm-button20 {
       font-size: 16px !important;
       height: 50px;
       width: 150px;
@@ -296,6 +338,11 @@ $idIntermediario = $_SESSION['permisos']['id_Intermediario'];
       height: 60px !important;
       border: 3px solid #f8bb86 !important;
     }
+
+    .custom-swal-actions-livianos {
+      padding-bottom: 25px !important;
+    }
+
   }
 
   @media (min-width: 769px) and (max-width: 992px) {
@@ -304,12 +351,13 @@ $idIntermediario = $_SESSION['permisos']['id_Intermediario'];
       font-size: 15px;
     }
 
-    .custom-swal-alertaMonto {
+    .custom-swal-alertaMontoLivianos {
       display: flex;
       flex-direction: column;
       width: 60% !important;
-      padding-bottom: 15px !important;
-      padding: 30px;
+      padding: 20px 30px 20px 30px !important;
+      gap: 10px;
+      border-radius: 15px !important;
     }
 
     #tdAsegurado {
@@ -324,14 +372,24 @@ $idIntermediario = $_SESSION['permisos']['id_Intermediario'];
       font-size: 16px;
     }
 
-    .swal2-html-container {
+    .custom-swal-alertaMontoLivianos .swal2-html-container {
       display: flex !important;
       flex-direction: column;
       gap: 10px;
-      padding: 1em 1.6em .3em;
+      padding-right: 17px;
+      padding-left: 17px;
+      padding-bottom: 20px;
+      align-items: center;
     }
 
-    .swal2-title {
+    .custom-swal-alertaMontoLivianos .swal2-html-container>p {
+      font-size: 17px;
+      padding-top: 20px;
+      text-align: justify;
+    }
+
+
+    .custom-swal-titleLivianos {
       font-size: 23px !important;
       font-weight: bold;
     }
@@ -341,7 +399,7 @@ $idIntermediario = $_SESSION['permisos']['id_Intermediario'];
       margin: 0 !important;
     }
 
-    .custom-swal-confirm-button22 {
+    .custom-swal-confirm-button20 {
       font-size: 16px !important;
       height: 50px;
       width: 150px;
@@ -357,55 +415,74 @@ $idIntermediario = $_SESSION['permisos']['id_Intermediario'];
       height: 60px !important;
       border: 3px solid #f8bb86 !important;
     }
+
+    .custom-swal-actions-livianos {
+      padding-bottom: 25px !important;
+    }
+
   }
 
   @media (min-width: 993px) and (max-width: 1200px) {
     #tableModal td {
       text-align: center;
-      font-size: 15px;
+      font-size: 14px;
     }
 
-    .custom-swal-alertaMonto {
+    .custom-swal-alertaMontoLivianos {
       display: flex;
       flex-direction: column;
       width: 50% !important;
-      padding-bottom: 15px !important;
-      padding: 30px;
+      padding: 0px 12px 0px 12px !important;
+      /* gap: 10px; */
+      border-radius: 15px !important;
     }
 
     #tdAsegurado {
       width: 330px;
       text-align: center;
-      font-size: 16px;
+      font-size: 15px;
     }
 
     #tdCondiciones {
       width: 335px;
       text-align: center;
-      font-size: 16px;
+      font-size: 15px;
     }
 
-    .swal2-html-container {
+    .custom-swal-alertaMontoLivianos .swal2-html-container {
       display: flex !important;
       flex-direction: column;
       gap: 10px;
-      /* padding: 1em 1.6em .3em; */
+      padding-top: 3px;
+      padding-right: 17px;
+      padding-left: 17px;
+      padding-bottom: 5px;
+      align-items: center;
     }
+
+    .custom-swal-alertaMontoLivianos .swal2-html-container>p {
+      margin: 0px;
+      font-size: 15px;
+      padding-top: 0px;
+      text-align: justify;
+    }
+
 
     .swal2-actions {
       align-content: center !important;
       margin: 0 !important;
     }
 
-    .custom-swal-confirm-button22 {
+    .custom-swal-confirm-button20 {
       font-size: 16px !important;
       height: 50px;
       width: 150px;
       border-radius: 10px !important;
     }
 
-    .swal2-title {
-      font-size: 23px !important;
+    .custom-swal-titleLivianos {
+      font-size: 20px !important;
+      padding: 3px;
       font-weight: bold;
     }
 
@@ -414,119 +491,156 @@ $idIntermediario = $_SESSION['permisos']['id_Intermediario'];
     }
 
     .swal2-icon {
+      margin-top: 10px;
       width: 60px !important;
       height: 60px !important;
       border: 3px solid #f8bb86 !important;
     }
+
+    .custom-swal-actions-livianos {
+      padding-bottom: 10px !important;
+    }
+
   }
 
   @media (min-width: 1200px) and (max-width: 1440px) {
     #tableModal td {
       text-align: center;
-      font-size: 15px;
+      font-size: 14px;
     }
 
-    .custom-swal-alertaMonto {
-      display: flex !important;
+    .custom-swal-alertaMontoLivianos {
+      display: flex;
       flex-direction: column;
-      width: 52% !important;
-      padding-bottom: 15px !important;
-      padding: 30px;
+      width: 50% !important;
+      padding: 0px 12px 0px 12px !important;
+      /* gap: 10px; */
+      border-radius: 15px !important;
     }
 
     #tdAsegurado {
       width: 330px;
       text-align: center;
-      font-size: 16px;
+      font-size: 15px;
     }
 
     #tdCondiciones {
       width: 335px;
       text-align: center;
-      font-size: 16px;
+      font-size: 15px;
     }
 
-    .swal2-title {
-      font-size: 20px !important;
-      font-weight: bold;
-    }
-
-    #pTableModal {
-      font-size: 14px !important;
-    }
-
-    .swal2-html-container {
+    .custom-swal-alertaMontoLivianos .swal2-html-container {
       display: flex !important;
       flex-direction: column;
       gap: 10px;
-      padding: 1em 1.6em .3em;
+      padding-top: 3px;
+      padding-right: 17px;
+      padding-left: 17px;
+      padding-bottom: 5px;
+      align-items: center;
     }
+
+    .custom-swal-alertaMontoLivianos .swal2-html-container>p {
+      margin: 0px;
+      font-size: 15px;
+      padding-top: 0px;
+      text-align: justify;
+    }
+
 
     .swal2-actions {
       align-content: center !important;
       margin: 0 !important;
     }
 
-    .custom-swal-confirm-button22 {
+    .custom-swal-confirm-button20 {
       font-size: 16px !important;
       height: 50px;
       width: 150px;
       border-radius: 10px !important;
     }
 
+    .custom-swal-titleLivianos {
+      font-size: 20px !important;
+      padding: 3px;
+      font-weight: bold;
+    }
+
+    #pTableModal {
+      font-size: 12px !important;
+    }
+
     .swal2-icon {
-      width: 90px !important;
-      height: 90px !important;
+      margin-top: 10px;
+      width: 60px !important;
+      height: 60px !important;
       border: 3px solid #f8bb86 !important;
     }
 
-    .swal2-icon-content {
-      font-size: 65px !important;
+    .custom-swal-actions-livianos {
+      padding-bottom: 10px !important;
     }
 
   }
 
   @media (min-width: 1441px) {
-    #tableModal td {
+
+    #tableModal {
       text-align: center;
-      font-size: 15px;
     }
 
-    .custom-swal-alertaMonto {
+    #tableModal td {
+      text-align: center;
+      font-size: 14px;
+    }
+
+    .custom-swal-alertaMontoLivianos {
       display: flex !important;
       flex-direction: column;
-      width: 31% !important;
-      padding-bottom: 15px !important;
-      padding: 30px;
+      width: 35% !important;
+      padding: 0px 27px 0px 27px;
+      /* gap: 10px; */
+      border-radius: 15px !important;
     }
 
     #tdAsegurado {
-      width: 330px;
-      text-align: center;
-      font-size: 16px;
+      width: 260px;
+      font-size: 14px;
     }
 
     #tdCondiciones {
-      width: 335px;
-      text-align: center;
-      font-size: 16px;
+      width: 260px;
+      font-size: 14px;
     }
 
-    .swal2-title {
-      font-size: 20px !important;
+    .custom-swal-titleLivianos {
+      font-size: 18px !important;
+      padding: 3px;
       font-weight: bold;
     }
 
-    #pTableModal {
-      font-size: 14px !important;
+    #pTableModalPesados {
+      font-size: 13px !important;
+      margin: 0;
     }
 
-    .swal2-html-container {
+    .custom-swal-alertaMontoLivianos .swal2-html-container {
       display: flex !important;
       flex-direction: column;
-      gap: 10px;
-      padding: 1em 1.6em .3em;
-      font-size: 18px !important;
+      /* gap: 10px; */
+      padding-right: 10px;
+      padding-left: 10px;
+      /* padding-bottom: 8px; */
+      align-items: center;
+    }
+
+    .custom-swal-alertaMontoLivianos .swal2-html-container>p {
+      font-size: 19px;
+      padding-top: 10px;
+      text-align: justify;
+      /* padding-left: 20px; */
+      /* padding-right: 20px; */
     }
 
     .swal2-actions {
@@ -534,17 +648,23 @@ $idIntermediario = $_SESSION['permisos']['id_Intermediario'];
       margin: 0 !important;
     }
 
-    .custom-swal-confirm-button22 {
+    .custom-swal-confirm-button20 {
       font-size: 16px !important;
       height: 50px;
       width: 150px;
       border-radius: 10px !important;
+      padding-bottom: 17px;
     }
 
     .swal2-icon {
+      margin-top: 14px;
       width: 90px !important;
       height: 90px !important;
       border: 3px solid #f8bb86 !important;
+    }
+
+    .custom-swal-actions-livianos {
+      padding-bottom: 10px !important;
     }
 
     .swal2-icon-content {
@@ -651,7 +771,7 @@ $idIntermediario = $_SESSION['permisos']['id_Intermediario'];
     color: white;
   }
 
-/* 
+  /* 
   .swal2-icon {
     width: 90px;
     height: 90px;
@@ -683,8 +803,6 @@ $idIntermediario = $_SESSION['permisos']['id_Intermediario'];
     font-size: 20px !important;
     font-weight: bold;
    } */
-
-
 </style>
 
 <div class="content-wrapper">
@@ -1285,24 +1403,33 @@ $idIntermediario = $_SESSION['permisos']['id_Intermediario'];
 
 
                 <div id="mensajePrevisora">
-                  <div class="aviso-container col-lg-12">
-                    <ul>
-                      <li>
-                        <p style="font-weight: bold;">
-                          Si a tu cliente le interesa Previsora, ten en cuenta que ciertas líneas de vehículos requieren
-                          la instalación del dispositivo Cazador al tomar su seguro y este tiene un costo adicional a la
-                          póliza. Por favor confirma con tu área comercial.
-                        </p>
-                      </li>
-                      <li>
-                        <p style="font-weight: bold;">
-                          Los vehículos KIA de las líneas PICANTO y SPORTAGE se encuentran fuera de políticas en Seguros
-                          del Estado. Si se genera cotización con esta Aseguradora, omitir dicha oferta. Igualmente con
-                          esta compañía, la clase de vehículo PICK UP solo se asegura como vehículo publico.
-                        </p>
-                      </li>
-                    </ul>
-                  </div>
+                  <p class="aviso-container col-lg-12">
+                  <ul>
+                    <li>
+                      <p style="font-weight: bold;">
+                        Si a tu cliente le interesa Previsora, ten en cuenta que ciertas líneas de vehículos requieren
+                        la instalación del dispositivo Cazador al tomar su seguro y este tiene un costo adicional a la
+                        póliza. Por favor confirma con tu área comercial.
+                      </p>
+                    </li>
+                    <li>
+                      <p style="font-weight: bold;">
+                        Los vehículos KIA de las líneas PICANTO y SPORTAGE se encuentran fuera de políticas en Seguros
+                        del Estado. Si se genera cotización con esta Aseguradora, omitir dicha oferta. Igualmente con
+                        esta compañía, la clase de vehículo PICK UP solo se asegura como vehículo publico.
+                      </p>
+                    </li>
+                    <li>
+                      <p style="font-weight: bold;">Nota: Vehículos livianos con valor asegurado mayor a 300 millones no
+                        son asegurables para Grupo Asistencia; Ten en cuenta que aunque el
+                        cotizador te genere ofertas, no todos los vehículos son asegurables. Si
+                        el cliente tiene vinculación con otros productos de la aseguradora se
+                        pueden autorizar valores asegurados superiores. Cuando el valor
+                        asegurado sea superior a los montos indicados, el valor de las primas
+                        puede variar en el momento de emitir en caso de autorización.
+                      </p>
+                    </li>
+                  </ul>
                 </div>
               </div>
             </div>

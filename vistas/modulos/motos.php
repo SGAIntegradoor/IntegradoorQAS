@@ -593,9 +593,9 @@ $rolAsesor = $_SESSION['permisos']['idRol'];
     .custom-swal-alertaMontoMotos {
       display: flex !important;
       flex-direction: column;
-      width: 31% !important;
-      padding-bottom: 15px !important;
-      padding: 30px;
+      width: 23% !important;
+      /* padding-bottom: 15px !important; */
+      padding: 3px;
       gap: 10px;
       border-radius: 15px !important;
     }
@@ -613,11 +613,11 @@ $rolAsesor = $_SESSION['permisos']['idRol'];
     }
 
     .swal2-title {
-      font-size: 20px !important;
+      font-size: 16px !important;
       font-weight: bold;
     }
 
-    #pTableModal {
+    #pTableModalMotos {
       font-size: 14px !important;
     }
 
@@ -625,14 +625,16 @@ $rolAsesor = $_SESSION['permisos']['idRol'];
       display: flex !important;
       flex-direction: column;
       gap: 10px;
+      padding-top: 0px;
       padding-right: 17px;
       padding-left: 17px;
-      padding-bottom: 20px;
+      /* padding-bottom: 20px; */
     }
 
     .custom-swal-alertaMontoMotos .swal2-html-container>p {
-      font-size: 19px;
-      padding-top: 20px;
+      margin: 0;
+      font-size: 14px;
+      padding-top: 0px;
       text-align: justify;
     }
 
@@ -650,13 +652,14 @@ $rolAsesor = $_SESSION['permisos']['idRol'];
     }
 
     .swal2-icon {
+      margin-top: 14px;
       width: 90px !important;
       height: 90px !important;
       border: 3px solid #f8bb86 !important;
     }
 
     .custom-swal-actions-motos {
-      padding-bottom: 25px !important;
+      padding-bottom: 9px !important;
     }
 
     .swal2-icon-content {

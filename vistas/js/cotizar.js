@@ -312,20 +312,54 @@ $(document).ready(function () {
     });
   }
 
+  let intermediario = document.getElementById("idIntermediario").value;
+
   // Ejectura la funcion Cotizar Ofertas
   $("#btnCotizar").click(function (e) {
     masRE();
-    swal
-      .fire({
-        icon: "warning",
-        title: "POLÍTICA DE VALOR ASEGURADO<br>LIVIANOS",
-        html: `
+
+    if (intermediario != 3) {
+      decresCotTotales().then((response) => {
+        if (response.result == 1 || response.result == 2) {
+          cotizarOfertas();
+        } else {
+          e.preventDefault();
+          swal
+            .fire({
+              icon: "error",
+              title: "Cotizaciones Totales Excedidas",
+              html: `<div style="text-align: justify; font-family: Helvetica, Arial, sans-serif; font-size: 15px; border-radius: 4px; padding: 8px;">El usuario ha excedido las cotizaciones totales. En este momento solo podrás visualizar las cotizaciones realizadas hasta que se agoten los días habilitados. Si quieres seguir haciendo cotizaciones solicita vincularte al Programa. Comunícate con el área encargada de vinculaciones de Grupo Asistencia al:
+                <br><br>
+                <div style="text-align: center;">📱+573185127910 o vía 📧 mercadeo@grupoasistencia.com </div></div>`,
+              width: "90%",
+              showConfirmButton: true,
+              confirmButtonText: "Cerrar",
+              customClass: {
+                popup: "custom-swal-popup",
+                title: "custom-swal-title",
+                content: "custom-swal-content",
+                confirmButton: "custom-swal-confirm-button",
+              },
+            })
+            .then(function (result) {
+              if (result.value) {
+                window.location = "inicio";
+              }
+            });
+        }
+      });
+    } else {
+      swal
+        .fire({
+          icon: "warning",
+          title: "POLÍTICA DE VALOR ASEGURADO<br>LIVIANOS",
+          html: `
         <div style="overflow-x: auto;">
           <table style="border: 2px solid gray; border-collapse: collapse;" id="tableModal">
             <thead style="padding: 5px;">
               <tr style="border: 2px solid gray; text-align: center">
-                <th style="border: 2px solid gray; padding: 10px; height: 50px;" id="tdAsegurado">Valor Asegurado</th>
-                <th style="border: 2px solid gray; padding: 10px; height: 50px;" id="tdCondiciones">Condiciones</th>
+                <th style="border: 2px solid gray; padding: 10px; height: 50px; text-align: center" id="tdAsegurado">Valor Asegurado</th>
+                <th style="border: 2px solid gray; padding: 10px; height: 50px; text-align: center" id="tdCondiciones">Condiciones</th>
               </tr>
             </thead>
             <tbody>
@@ -354,49 +388,50 @@ $(document).ready(function () {
           puede variar en el momento de emitir en caso de autorización.
         </p>
       `,
-        width: "30%",
-        showConfirmButton: true,
-        confirmButtonText: "Continuar",
-        customClass: {
-          popup: "custom-swal-alertaMonto",
-          title: "custom-swal-title",
-          content: "custom-swal-content",
-          confirmButton: "custom-swal-confirm-button22",
-        },
-      })
-      .then(function (result) {
-        if (result.value) {
-          decresCotTotales().then((response) => {
-            if (response.result == 1 || response.result == 2) {
-              cotizarOfertas();
-            } else {
-              e.preventDefault();
-              swal
-                .fire({
-                  icon: "error",
-                  title: "Cotizaciones Totales Excedidas",
-                  html: `<div style="text-align: justify; font-family: Helvetica, Arial, sans-serif; font-size: 15px; border-radius: 4px; padding: 8px;">El usuario ha excedido las cotizaciones totales. En este momento solo podrás visualizar las cotizaciones realizadas hasta que se agoten los días habilitados. Si quieres seguir haciendo cotizaciones solicita vincularte al Programa. Comunícate con el área encargada de vinculaciones de Grupo Asistencia al:
-                    <br><br>
-                    <div style="text-align: center;">📱+573185127910 o vía 📧 mercadeo@grupoasistencia.com </div></div>`,
-                  width: "90%",
-                  showConfirmButton: true,
-                  confirmButtonText: "Cerrar",
-                  customClass: {
-                    popup: "custom-swal-popup",
-                    title: "custom-swal-title",
-                    content: "custom-swal-content",
-                    confirmButton: "custom-swal-confirm-button",
-                  },
-                })
-                .then(function (result) {
-                  if (result.value) {
-                    window.location = "inicio";
-                  }
-                });
-            }
-          });
-        }
-      });
+          width: "30%",
+          showConfirmButton: true,
+          confirmButtonText: "Continuar",
+          customClass: {
+            popup: "custom-swal-alertaMontoLivianos",
+            title: "custom-swal-titleLivianos",
+            confirmButton: "custom-swal-confirm-button20",
+            actions: "custom-swal-actions-livianos",
+          },
+        })
+        .then(function (result) {
+          if (result.value) {
+            decresCotTotales().then((response) => {
+              if (response.result == 1 || response.result == 2) {
+                cotizarOfertas();
+              } else {
+                e.preventDefault();
+                swal
+                  .fire({
+                    icon: "error",
+                    title: "Cotizaciones Totales Excedidas",
+                    html: `<div style="text-align: justify; font-family: Helvetica, Arial, sans-serif; font-size: 15px; border-radius: 4px; padding: 8px;">El usuario ha excedido las cotizaciones totales. En este momento solo podrás visualizar las cotizaciones realizadas hasta que se agoten los días habilitados. Si quieres seguir haciendo cotizaciones solicita vincularte al Programa. Comunícate con el área encargada de vinculaciones de Grupo Asistencia al:
+                      <br><br>
+                      <div style="text-align: center;">📱+573185127910 o vía 📧 mercadeo@grupoasistencia.com </div></div>`,
+                    width: "90%",
+                    showConfirmButton: true,
+                    confirmButtonText: "Cerrar",
+                    customClass: {
+                      popup: "custom-swal-alertaMontoLivianos",
+                      title: "custom-swal-title",
+                      content: "custom-swal-content",
+                      confirmButton: "custom-swal-confirm-button",
+                    },
+                  })
+                  .then(function (result) {
+                    if (result.value) {
+                      window.location = "inicio";
+                    }
+                  });
+              }
+            });
+          }
+        });
+    }
   });
   // $("#btnCotizarPesados").click(function () {
   //   cotizarOfertasPesados();
@@ -3252,7 +3287,6 @@ function cotizarOfertas() {
     }
   }
 }
-
 
 // function createModal(
 //   title,

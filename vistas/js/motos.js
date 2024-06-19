@@ -14,58 +14,93 @@ $(document).ready(function () {
       });
     });
   }
-  
+
+  let intermediario = document.getElementById("intermediario").value;
+
   // Ejectura la funcion Cotizar Ofertas
   $("#btnCotizarMotos").click(function (e) {
     masRE();
-    swal
-      .fire({
-        icon: "warning",
-        title: "POLÍTICA DE VALOR ASEGURADO MOTOS",
-        html: "<p style='font-family: Helvetica, Arial, sans-serif;'>Para motocicletas el valor asegurado máximo es $50 millones. Motos por encima de ese valor, deben ser autorizadas por la Gerencia General.</p>",
-        width: "30%",
-        showConfirmButton: true,
-        confirmButtonText: "Continuar",
-        customClass: {
-          popup: "custom-swal-alertaMontoMotos",
-          title: "custom-swal-title",
-          confirmButton: "custom-swal-confirm-button23",
-          actions: "custom-swal-actions-motos"
-        },
-      })
-      .then(function (result) {
-        if (result.value) {
-          decresCotTotales().then((response) => {
-            if (response.result == 1 || response.result == 2) {
-              cotizarOfertasMotos();
-            } else {
-              e.preventDefault();
-              swal
-                .fire({
-                  icon: "error",
-                  title: "Cotizaciones Totales Excedidas",
-                  html: `<div style="text-align: justify; font-family: Helvetica, Arial, sans-serif; font-size: 15px; border-radius: 4px; padding: 8px;">El usuario ha excedido las cotizaciones totales. En este momento solo podrás visualizar las cotizaciones realizadas hasta que se agoten los días habilitados. Si quieres seguir haciendo cotizaciones solicita vincularte al Programa. Comunícate con el área encargada de vinculaciones de Grupo Asistencia al:
+
+    if (intermediario == 3) {
+      swal
+        .fire({
+          icon: "warning",
+          title: "POL\u00cdTICA DE VALOR ASEGURADO MOTOS",
+          html: "<p style='font-family: Helvetica, Arial, sans-serif;'>Para motocicletas el valor asegurado m\u00e1ximo es $50 millones. Motos por encima de ese valor, deben ser autorizadas por la Gerencia General.</p>",
+          width: "30%",
+          showConfirmButton: true,
+          confirmButtonText: "Continuar",
+          customClass: {
+            popup: "custom-swal-alertaMontoMotos",
+            title: "custom-swal-title",
+            confirmButton: "custom-swal-confirm-button23",
+            actions: "custom-swal-actions-motos",
+          },
+        })
+        .then(function (result) {
+          if (result.value) {
+            decresCotTotales().then((response) => {
+              if (response.result == 1 || response.result == 2) {
+                cotizarOfertasMotos();
+              } else {
+                e.preventDefault();
+                swal
+                  .fire({
+                    icon: "error",
+                    title: "Cotizaciones Totales Excedidas",
+                    html: `<div style="text-align: justify; font-family: Helvetica, Arial, sans-serif; font-size: 15px; border-radius: 4px; padding: 8px;">El usuario ha excedido las cotizaciones totales. En este momento solo podrás visualizar las cotizaciones realizadas hasta que se agoten los días habilitados. Si quieres seguir haciendo cotizaciones solicita vincularte al Programa. Comunícate con el área encargada de vinculaciones de Grupo Asistencia al:
                     <br><br>
                     <div style="text-align: center;">📱+573185127910 o vía 📧 mercadeo@grupoasistencia.com </div></div>`,
-                  width: "90%",
-                  showConfirmButton: true,
-                  confirmButtonText: "Cerrar",
-                  customClass: {
-                    popup: "custom-swal-popup",
-                    title: "custom-swal-title",
-                    content: "custom-swal-content",
-                    confirmButton: "custom-swal-confirm-button",
-                  },
-                })
-                .then(function (result) {
-                  if (result.value) {
-                    window.location = "inicio";
-                  }
-                });
-            }
-          });
+                    width: "90%",
+                    showConfirmButton: true,
+                    confirmButtonText: "Cerrar",
+                    customClass: {
+                      popup: "custom-swal-popup",
+                      title: "custom-swal-title",
+                      content: "custom-swal-content",
+                      confirmButton: "custom-swal-confirm-button",
+                    },
+                  })
+                  .then(function (result) {
+                    if (result.value) {
+                      window.location = "inicio";
+                    }
+                  });
+              }
+            });
+          }
+        });
+    } else {
+      decresCotTotales().then((response) => {
+        if (response.result == 1 || response.result == 2) {
+          cotizarOfertasMotos();
+        } else {
+          e.preventDefault();
+          swal
+            .fire({
+              icon: "error",
+              title: "Cotizaciones Totales Excedidas",
+              html: `<div style="text-align: justify; font-family: Helvetica, Arial, sans-serif; font-size: 15px; border-radius: 4px; padding: 8px;">El usuario ha excedido las cotizaciones totales. En este momento solo podrás visualizar las cotizaciones realizadas hasta que se agoten los días habilitados. Si quieres seguir haciendo cotizaciones solicita vincularte al Programa. Comunícate con el área encargada de vinculaciones de Grupo Asistencia al:
+                    <br><br>
+                    <div style="text-align: center;">📱+573185127910 o vía 📧 mercadeo@grupoasistencia.com </div></div>`,
+              width: "90%",
+              showConfirmButton: true,
+              confirmButtonText: "Cerrar",
+              customClass: {
+                popup: "custom-swal-popup",
+                title: "custom-swal-title",
+                content: "custom-swal-content",
+                confirmButton: "custom-swal-confirm-button",
+              },
+            })
+            .then(function (result) {
+              if (result.value) {
+                window.location = "inicio";
+              }
+            });
         }
       });
+    }
   });
 
   $("#btnConsultarPlacaMotos").click(function () {
@@ -241,7 +276,7 @@ function consulPlacaMotos() {
         .then(function (myJson) {
           var estadoConsulta = myJson.Success;
           var mensajeConsulta = myJson.Message;
-          console.log(myJson)
+          console.log(myJson);
           //VALIDA SI LA CONSULTA FUE EXITOSA
           if (estadoConsulta == true) {
             var codigoClase = myJson.Data.ClassId;
@@ -1396,9 +1431,7 @@ function cotizarOfertasMotos() {
     "cre_axa_validacionEventos"
   ).value;
   var url_axa = document.getElementById("url_axa").value;
-  var motos_productos = document.getElementById(
-    "motos_productos"
-  ).value;
+  var motos_productos = document.getElementById("motos_productos").value;
   /**
    * Variables para Allianz
    */
@@ -1487,7 +1520,7 @@ function cotizarOfertasMotos() {
         cre_axa_canal: cre_axa_canal,
         cre_axa_validacionEventos: cre_axa_validacionEventos,
         url_axa: url_axa,
-        motos_productos: motos_productos
+        motos_productos: motos_productos,
       },
       ALLIANZ: {
         cre_alli_sslcertfile: cre_alli_sslcertfile,
@@ -1734,24 +1767,20 @@ function cotizarOfertasMotos() {
             let url;
             // if (aseguradora === "SBS") {
             //   url = `https://grupoasistencia.com/motor_webservice_tst/SBS`;
-            // } else 
-            
-            
-            
+            // } else
+
             // if (aseguradora === "Liberty") {
             //   url = `https://grupoasistencia.com/motor_webservice_tst/Liberty`;
-            // } else 
-            
-            
+            // } else
+
             // if (aseguradora === "AXA") {
             //   url = `https://grupoasistencia.com/motor_webservice_tst/AXA_tst`;
-            // } else 
-            
+            // } else
+
             // if (aseguradora === "Allianz") {
             //   url = `https://grupoasistencia.com/motor_webservice_tst2/Allianz_motos`;
-            // } else 
-            
-            
+            // } else
+
             if (aseguradora === "Zurich") {
               const planes = ["BASIC", "MEDIUM", "FULL"];
               planes.forEach((plan) => {
