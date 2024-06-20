@@ -1364,9 +1364,9 @@ const mostrarOfertaPesados = (
 
                 ${
                   aseguradora !== "Liberty"
-                    ? `<div class="col-xs-12 col-sm-6 col-md-2 oferta-logo">
+                    ? `<div class="col-xs-12 col-sm-6 col-md-2 oferta-logo"}>
                       <center>
-                        <img src='vistas/img/logos/${logo}'>
+                        <img src='vistas/img/logos/${logo}' style='${aseguradora === "Mundial" ? "width: 120px":""}'>
                       </center>  
 
                     <div class='col-12' style='margin-top:2%;'>
@@ -1381,8 +1381,8 @@ const mostrarOfertaPesados = (
                     </div>
 
                 </div>`
-                    : `<div class="col-xs-12 col-sm-6 col-md-2 oferta-logo" style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
-                        <img src='vistas/img/logos/${logo}' style='margin-top:37px;'>
+                    : `<div class="col-xs-12 col-sm-6 col-md-2 oferta-logo" style="display: flex; flex-direction: column; justify-content: center; align-items: center; ${aseguradora === "Mundial" ? "width: 120px !important":""};">
+                        <img src='vistas/img/logos/${logo}' style='margin-top:37px; ${aseguradora === 'Mundial' ? 'width: 120px':''}'>
                       <div class='col-12' style='margin-top:2%;'>
                         ${
                           aseguradora !== "Mundial" &&

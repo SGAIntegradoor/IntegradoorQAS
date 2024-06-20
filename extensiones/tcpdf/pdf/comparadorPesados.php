@@ -500,9 +500,10 @@ while ($rowRespuesta4 = mysqli_fetch_assoc($respuestaquery4)) {
 
 		}
 		else if ($rowRespuesta4['Aseguradora'] == 'Mundial') {
-			$html2 .= '<td class="puntos td2 fondo2">
+			//this is not
+			$html2 .= '<td class="puntos td2 fondo2" style="margin-top: 30px;">
 			<div style="font-size:5pt">&nbsp;</div>
-			<img style="width:35px;" src="../../../vistas/img/logos/mundial.png" alt="">
+			<img style="width:35px;" src="../../../vistas/img/logos/mundial2.png" alt="">
 			<div style="font-size:5pt">&nbsp;</div>
 			</td>';
 
@@ -614,9 +615,10 @@ while ($rowRespuesta4 = mysqli_fetch_assoc($respuestaquery4)) {
 			<div style="font-size:5pt">&nbsp;</div>
 			</td>';
 		}else if ($rowRespuesta4['Aseguradora'] == 'Mundial') {
-			$html2 .= '<td class="puntos td2 fondo">
+			//superior Logo
+			$html2 .= '<td class="puntos td2 fondo" style="">
 			<div style="font-size:5pt">&nbsp;</div>
-			<img style="width:35px;" src="../../../vistas/img/logos/mundial.png" alt="">
+			<img style="width:60px; margin-top: 10px" src="../../../vistas/img/logos/mundial.png" alt="">
 			<div style="font-size:5pt">&nbsp;</div>
 			</td>';
 
@@ -874,9 +876,10 @@ while ($rowRespuesta7 = mysqli_fetch_assoc($respuestaquery7)) {
 			<div style="font-size:5pt">&nbsp;</div>
 			</td>';
 		} else if ($rowRespuesta7['Aseguradora'] == 'Mundial') {
-			$html3 .= '<td class="puntos fondo" style="width:' . $valorTabla . '%;text-align: center;">
+			// logo inferior parrillas segundo
+			$html3 .= '<td class="puntos fondo" style="width:' . $valorTabla . '%;text-align: center; padding-top: 50px;">
 			<div style="font-size:5pt">&nbsp;</div>
-			<img style="width:35px;" src="../../../vistas/img/logos/mundial.png" alt="">
+			<img style="width:35px;" src="../../../vistas/img/logos/mundial2.png" alt="">
 			<div style="font-size:5pt">&nbsp;</div>
 			</td>';
 		}
@@ -951,9 +954,10 @@ while ($rowRespuesta7 = mysqli_fetch_assoc($respuestaquery7)) {
 			<div style="font-size:5pt">&nbsp;</div>
 			<img style="width:35px;" src="../../../vistas/img/logos/solidaria.png" alt=""></td>';
 		} else if ($rowRespuesta7['Aseguradora'] == 'Mundial') {
-			$html3 .= '<td class="puntos fondo2" style="width:' . $valorTabla . '%;text-align: center;">
+			// Logo Inferior Parrilla
+			$html3 .= '<td class="puntos fondo2" style="width:' . $valorTabla . '%;text-align: center; padding-top: 100px;">
 			<div style="font-size:5pt">&nbsp;</div>
-			<img style="width:35px;" src="../../../vistas/img/logos/mundial.png" alt=""></td>';
+			<img style="width:50px;" src="../../../vistas/img/logos/mundial.png" alt=""></td>';
 		}
 	}
 

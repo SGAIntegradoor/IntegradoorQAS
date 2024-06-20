@@ -153,7 +153,7 @@ if ($_SESSION["permisos"]["Cotizarpesados"] != "x") {
     font-size: 12px !important;
   }
 
-  .custom-swal-alertaMonto {
+  .custom-swal-alertaMontoPesados {
     display: flex;
     flex-direction: column;
     width: 30%;
@@ -195,7 +195,7 @@ if ($_SESSION["permisos"]["Cotizarpesados"] != "x") {
       font-size: 12px;
     }
 
-    .custom-swal-alertaMonto {
+    .custom-swal-alertaMontoPesados {
       display: flex;
       flex-direction: column;
       width: 95% !important;
@@ -216,7 +216,7 @@ if ($_SESSION["permisos"]["Cotizarpesados"] != "x") {
       font-size: 14px;
     }
 
-    .custom-swal-alertaMonto .swal2-html-container {
+    .custom-swal-alertaMontoPesados .swal2-html-container {
       display: flex !important;
       flex-direction: column;
       gap: 10px;
@@ -227,7 +227,7 @@ if ($_SESSION["permisos"]["Cotizarpesados"] != "x") {
       align-items: center;
     }
 
-    .custom-swal-alertaMonto .swal2-html-container>p {
+    .custom-swal-alertaMontoPesados .swal2-html-container>p {
       font-size: 17px;
       /* padding-top: 6px; */
       text-align: justify;
@@ -277,7 +277,7 @@ if ($_SESSION["permisos"]["Cotizarpesados"] != "x") {
       font-size: 15px;
     }
 
-    .custom-swal-alertaMonto {
+    .custom-swal-alertaMontoPesados {
       display: flex;
       flex-direction: column;
       width: 70% !important;
@@ -298,7 +298,7 @@ if ($_SESSION["permisos"]["Cotizarpesados"] != "x") {
       font-size: 16px;
     }
 
-    .custom-swal-alertaMonto .swal2-html-container {
+    .custom-swal-alertaMontoPesados .swal2-html-container {
       display: flex !important;
       flex-direction: column;
       gap: 10px;
@@ -308,7 +308,7 @@ if ($_SESSION["permisos"]["Cotizarpesados"] != "x") {
       align-items: center;
     }
 
-    .custom-swal-alertaMonto .swal2-html-container>p {
+    .custom-swal-alertaMontoPesados .swal2-html-container>p {
       font-size: 17px;
       padding-top: 20px;
       text-align: justify;
@@ -354,7 +354,7 @@ if ($_SESSION["permisos"]["Cotizarpesados"] != "x") {
       font-size: 15px;
     }
 
-    .custom-swal-alertaMonto {
+    .custom-swal-alertaMontoPesados {
       display: flex;
       flex-direction: column;
       width: 60% !important;
@@ -375,7 +375,7 @@ if ($_SESSION["permisos"]["Cotizarpesados"] != "x") {
       font-size: 16px;
     }
 
-    .custom-swal-alertaMonto .swal2-html-container {
+    .custom-swal-alertaMontoPesados .swal2-html-container {
       display: flex !important;
       flex-direction: column;
       gap: 10px;
@@ -385,7 +385,7 @@ if ($_SESSION["permisos"]["Cotizarpesados"] != "x") {
       align-items: center;
     }
 
-    .custom-swal-alertaMonto .swal2-html-container>p {
+    .custom-swal-alertaMontoPesados .swal2-html-container>p {
       font-size: 17px;
       padding-top: 20px;
       text-align: justify;
@@ -431,7 +431,7 @@ if ($_SESSION["permisos"]["Cotizarpesados"] != "x") {
       font-size: 14px;
     }
 
-    .custom-swal-alertaMonto {
+    .custom-swal-alertaMontoPesados {
       display: flex;
       flex-direction: column;
       width: 50% !important;
@@ -452,7 +452,7 @@ if ($_SESSION["permisos"]["Cotizarpesados"] != "x") {
       font-size: 15px;
     }
 
-    .custom-swal-alertaMonto .swal2-html-container {
+    .custom-swal-alertaMontoPesados .swal2-html-container {
       display: flex !important;
       flex-direction: column;
       gap: 10px;
@@ -463,7 +463,7 @@ if ($_SESSION["permisos"]["Cotizarpesados"] != "x") {
       align-items: center;
     }
 
-    .custom-swal-alertaMonto .swal2-html-container>p {
+    .custom-swal-alertaMontoPesados .swal2-html-container>p {
       margin: 0px;
       font-size: 15px;
       padding-top: 0px;
@@ -512,7 +512,7 @@ if ($_SESSION["permisos"]["Cotizarpesados"] != "x") {
       font-size: 14px;
     }
 
-    .custom-swal-alertaMonto {
+    .custom-swal-alertaMontoPesados {
       display: flex;
       flex-direction: column;
       width: 50% !important;
@@ -533,7 +533,7 @@ if ($_SESSION["permisos"]["Cotizarpesados"] != "x") {
       font-size: 15px;
     }
 
-    .custom-swal-alertaMonto .swal2-html-container {
+    .custom-swal-alertaMontoPesados .swal2-html-container {
       display: flex !important;
       flex-direction: column;
       gap: 10px;
@@ -544,7 +544,7 @@ if ($_SESSION["permisos"]["Cotizarpesados"] != "x") {
       align-items: center;
     }
 
-    .custom-swal-alertaMonto .swal2-html-container>p {
+    .custom-swal-alertaMontoPesados .swal2-html-container>p {
       margin: 0px;
       font-size: 15px;
       padding-top: 0px;
@@ -589,7 +589,7 @@ if ($_SESSION["permisos"]["Cotizarpesados"] != "x") {
 
   @media (min-width: 1441px) {
 
-    #tableModal {
+    #tableModalPesados {
       text-align: center;
     }
 
@@ -598,7 +598,7 @@ if ($_SESSION["permisos"]["Cotizarpesados"] != "x") {
       font-size: 14px;
     }
 
-    .custom-swal-alertaMonto {
+    .custom-swal-alertaMontoPesados {
       display: flex !important;
       flex-direction: column;
       width: 37% !important;
@@ -628,7 +628,7 @@ if ($_SESSION["permisos"]["Cotizarpesados"] != "x") {
       margin: 0;
     }
 
-    .custom-swal-alertaMonto .swal2-html-container {
+    .custom-swal-alertaMontoPesados .swal2-html-container {
       display: flex !important;
       flex-direction: column;
       /* gap: 10px; */
@@ -638,7 +638,7 @@ if ($_SESSION["permisos"]["Cotizarpesados"] != "x") {
       align-items: center;
     }
 
-    .custom-swal-alertaMonto .swal2-html-container>p {
+    .custom-swal-alertaMontoPesados .swal2-html-container>p {
       font-size: 19px;
       padding-top: 10px;
       text-align: justify;
