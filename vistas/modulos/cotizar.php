@@ -71,7 +71,7 @@ $cre_axa_codigoDivipola = $creAXA['cre_axa_codigoDivipola'];
 $cre_axa_canal = $creAXA['cre_axa_canal'];
 $cre_axa_validacionEventos = $creAXA['cre_axa_validacionEventos'];
 $url_axa = $creAXA['url_axa'];
-$cre_axa_livianos_productos = $creAXA['livianos_productos'];
+$cre_axa_livianos_productos = $creAXA['liviano_productos'];
 
 // Lógica para SOLIDARIA
 if ($aseguradoras['Solidaria']['C'] == "1") {
@@ -146,7 +146,52 @@ echo '<script>console.log(' . $idIntermediario . ", " . $rolAsesor . ')</script>
   }
 */
 
-#pTableModal {
+  .custom-title-messageFinesa {
+    font-size: 16px;
+    font-weight: bold;
+    color: #000000 !important;
+    ;
+  }
+
+  .custom-text-messageFinesa {
+    font-size: 15px !important;
+    width: 100%;
+    text-align: center !important;
+    font-weight: bold !important;
+    color: #000000 !important;
+    padding-left: 27px !important;
+    padding-right: 27px !important;
+  }
+
+  .custom-popup-messageFinesa {
+    border-radius: 10px;
+    text-align: center;
+    padding-top: 6px !important;
+  }
+
+  .custom-actions-messageFinesa {
+    flex-direction: row-reverse;
+    gap: 25px;
+    padding-top: 10px;
+  }
+
+  .custom-confirmnButton-messageFinesa {
+    background-color: #88d600 !important;
+    color: white;
+    width: 55px !important;
+    height: 30px !important;
+    border-radius: 5px !important;
+  }
+
+  .custom-cancelButton-messageFinesa {
+    background-color: #000000 !important;
+    color: white;
+    width: 55px !important;
+    height: 30px !important;
+    border-radius: 5px !important;
+  }
+
+  #pTableModal {
     font-size: 12px !important;
   }
 
@@ -506,16 +551,17 @@ echo '<script>console.log(' . $idIntermediario . ", " . $rolAsesor . ')</script>
   @media (min-width: 1200px) and (max-width: 1440px) {
     #tableModal td {
       text-align: center;
-      font-size: 14px;
+      font-size: 12px;
     }
 
     .custom-swal-alertaMontoLivianos {
       display: flex;
       flex-direction: column;
-      width: 50% !important;
-      padding: 0px 12px 0px 12px !important;
+      width: 43% !important;
+      padding: 20px 20px 20px 20px !important;
       /* gap: 10px; */
       border-radius: 15px !important;
+      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     }
 
     #tdAsegurado {
@@ -535,8 +581,8 @@ echo '<script>console.log(' . $idIntermediario . ", " . $rolAsesor . ')</script>
       flex-direction: column;
       gap: 10px;
       padding-top: 3px;
-      padding-right: 17px;
-      padding-left: 17px;
+      padding-right: 50px;
+      padding-left: 50px;
       padding-bottom: 5px;
       align-items: center;
     }
@@ -563,7 +609,7 @@ echo '<script>console.log(' . $idIntermediario . ", " . $rolAsesor . ')</script>
 
     .custom-swal-titleLivianos {
       font-size: 20px !important;
-      padding: 3px;
+      padding-bottom: 8px;
       font-weight: bold;
     }
 
@@ -579,7 +625,8 @@ echo '<script>console.log(' . $idIntermediario . ", " . $rolAsesor . ')</script>
     }
 
     .custom-swal-actions-livianos {
-      padding-bottom: 10px !important;
+      padding-top: 7px !important;
+      padding-bottom: 0px !important;
     }
 
   }
@@ -672,6 +719,7 @@ echo '<script>console.log(' . $idIntermediario . ", " . $rolAsesor . ')</script>
     }
 
   }
+
   .btnConfirm {
     background: #88d600;
   }
@@ -811,7 +859,7 @@ echo '<script>console.log(' . $idIntermediario . ", " . $rolAsesor . ')</script>
 
     <h1>
 
-      Cotizar Todo Riesgo Livianos
+      Cotizar Seguro Autos Livianos
 
     </h1>
 
@@ -894,7 +942,7 @@ echo '<script>console.log(' . $idIntermediario . ", " . $rolAsesor . ')</script>
                       <input type="hidden" class="form-control" id="cotRestanv" value="<?php echo $_SESSION["cotRestantes"]; ?>">
                       <label for="tipoDocumentoID">Tipo de Documento</label>
                       <select class="form-control" id="tipoDocumentoID" required>
-                        <option value="0" selected>Selecciona tipo de documento</option>
+                        <option value="" disabled selected>Selecciona el tipo de documento</option>
                         <option value="1">Cedula de ciudadania</option>
                         <option value="2">NIT</option>
                         <option value="3">Cédula de extranjería</option>
@@ -905,6 +953,9 @@ echo '<script>console.log(' . $idIntermediario . ", " . $rolAsesor . ')</script>
                         <option value="8">Fideicomiso</option>
                         <option value="9">Registro civil de nacimiento</option>
                       </select>
+                      <div id="alertaTipoDocumento" class="alert alert-danger mt-2" style="display: none;">
+                        Debes seleccionar un tipo de documento.
+                      </div>
                     </div>
                     <div class="col-xs-12 col-sm-6 col-md-3 form-group">
                       <label for="numDocumentoID">No. Documento</label>
@@ -1404,23 +1455,27 @@ echo '<script>console.log(' . $idIntermediario . ", " . $rolAsesor . ')</script>
 
                 <div id="mensajePrevisora">
                   <p class="aviso-container col-lg-12">
-                  <ul>
+                  <ul style="padding-right: 25px !important; text-align: justify;">
                     <li>
-                      <p style="font-weight: bold;">
+                      <p>
                         Si a tu cliente le interesa Previsora, ten en cuenta que ciertas líneas de vehículos requieren
                         la instalación del dispositivo Cazador al tomar su seguro y este tiene un costo adicional a la
                         póliza. Por favor confirma con tu área comercial.
                       </p>
                     </li>
                     <li>
-                      <p style="font-weight: bold;">
+                      <p>
                         Los vehículos KIA de las líneas PICANTO y SPORTAGE se encuentran fuera de políticas en Seguros
                         del Estado. Si se genera cotización con esta Aseguradora, omitir dicha oferta. Igualmente con
                         esta compañía, la clase de vehículo PICK UP solo se asegura como vehículo publico.
                       </p>
                     </li>
                     <li>
-                      <p style="font-weight: bold;">Nota: Vehículos livianos con valor asegurado mayor a 300 millones no
+                      <p style="font-weight: bold;">Política de valor asegurado livianos:</p>
+                      <p>Menos de 200 millones, se asegura de acuerdo a políticas de cada aseguradora. Entre 200 a 250 millones, se puede asegurar con autorización del Director Comercial de Grupo Asistencia. Entre 250 a 300 millones, se puede asegurar solo bajo
+                      autorización de Gerencia de Grupo Asistencia, de acuerdo al nivel de productividad del Asesor</p>
+                      <br/>
+                      <p>Nota: Vehículos livianos con valor asegurado mayor a 300 millones no
                         son asegurables para Grupo Asistencia; Ten en cuenta que aunque el
                         cotizador te genere ofertas, no todos los vehículos son asegurables. Si
                         el cliente tiene vinculación con otros productos de la aseguradora se

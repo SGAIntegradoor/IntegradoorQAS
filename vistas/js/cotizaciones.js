@@ -1060,7 +1060,7 @@ function editarCotizacion(id) {
         var permisosCotizacion =
           '{"Allianz":{"A":"1","C":"1"},"AXA":{"A":"1","C":"1"},"Bolivar":{"A":"1","C":"1"},"Equidad":{"A":"1","C":"1"},"Estado":{"A":"1","C":"1"},"HDI":{"A":"1","C":"1"},"Liberty":{"A":"1","C":"1"},"Mapfre":{"A":"1","C":"1"},"Previsora":{"A":"1","C":"1"},"SBS":{"A":"1","C":"1"},"Solidaria":{"A":"1","C":"1"},"Zurich":{"A":"1","C":"1"}}';
       }
-      
+
       //Desactive
       //console.log(permisosCotizacion)
       /*=============================================			
@@ -1088,12 +1088,38 @@ function editarCotizacion(id) {
 
         dataType: "json",
 
-        success: function (respuesta) {
+        success: async function (respuesta) {
           // console.log(respuesta);
+
+          let offerts = [];
+
+          const headers = new Headers();
+          headers.append("Content-Type", "application/json");
+
+          const body = {
+            idCotizacion: idCotizacion,
+          };
+
+          try {
+            const dbResponse = await fetch(
+              "http://localhost/motorTest/getOffertsFinesa",
+              {
+                method: "POST",
+                headers: headers,
+                body: JSON.stringify(body),
+              }
+            );
+
+            offerts = await dbResponse.json();
+            console.log(offerts);
+          } catch (error) {
+            console.error("Error fetching data:", error);
+          }
+
           menosRE();
           if (respuesta.length > 0) {
             var cardCotizacion = "";
-
+            console.log(offerts);
             respuesta.forEach(function (oferta, i) {
               // Nombre aseguradoras
               function nombreAseguradora(data) {
@@ -1236,7 +1262,7 @@ function editarCotizacion(id) {
 
                       <center> 
 
-												<img src='${oferta.logo}'>
+												<img src='${oferta.logo}' style="${oferta.Aseguradora == "Mundial" ? "margin-top: 65px;" : null}">
 
                         </center>
 
@@ -1268,17 +1294,32 @@ function editarCotizacion(id) {
 
 											</div>
 
-											<div class="col-xs-12 col-sm-6 col-md-2 oferta-header">
+											<div class="col-xs-12 col-sm-6 col-md-2 oferta-header" style='${oferta.Aseguradora == "Liberty" && (oferta.oferta_finesa == "" || oferta.oferta_finesa == null) ? 'padding-top: 42px;': oferta.Aseguradora == "Mundial" && oferta.oferta_finesa && oferta.oferta_finesa != null ? 'padding-top: 14px;': oferta.Aseguradora == "Liberty" && oferta.oferta_finesa != null ? 'padding-top: 14px': 'padding-top: 36px'}'>
+                      <h5 class='entidad' style='font-size: 15px'>${oferta.Aseguradora} - ${oferta.Aseguradora == "Mundial" && oferta.Producto == "Pesados con RCE en exceso" ? 'Pesados RCE + Exceso': oferta.Producto}</h5>
+                      <h5 class='precio' style='${oferta.Aseguradora == "Liberty" ? 'padding-bottom: 0px; !important': ''}'>Precio $ ${primaFormat}</h5>
+                      <p class='title-precio'>(IVA incluido)</p>
 
-												<h5 class='entidad'>${oferta.Aseguradora} - ${oferta.Producto}</h5>
-
-												<h5 class='precio'>Precio $ ${primaFormat}</h5>
-
-												<p class='title-precio'>(IVA incluido)</p>
-
-											</div>
-
-											<div class="col-xs-12 col-sm-6 col-md-4">
+                      ${
+                        oferta.oferta_finesa && oferta.oferta_finesa != null
+                          ? `
+                          <div id=${
+                            oferta.oferta_finesa
+                          } style="display: block; color: #88d600; font-weight: bold">
+                            ${offerts
+                              .map((element) => {
+                                if (element.identityElement == oferta.oferta_finesa) {
+                                  return `Financiación Finesa:<br />$${Number(element.cuota_1).toLocaleString('de-DE')}
+                                  (${element.cuotas} Cuotas)`;
+                                }
+                                return "";
+                              })
+                              .join("")}
+                          </div>
+                        `
+                          : ""
+                      }
+                    </div>
+										<div class="col-xs-12 col-sm-6 col-md-4">
 
 												<ul class="list-group">
 
@@ -2918,8 +2959,8 @@ const deleteManualOffer = (id) => {
       confirmButtonText: "Si, eliminar",
       reverseButtons: true,
       customClass: {
-        popup: 'custom-swal-popup-warning' // Clase personalizada para esta caja
-      }
+        popup: "custom-swal-popup-warning", // Clase personalizada para esta caja
+      },
     })
     .then(function (result) {
       if (result.value) {
@@ -2936,14 +2977,15 @@ const deleteManualOffer = (id) => {
                 showConfirmButton: true,
                 confirmButtonText: "Cerrar",
                 customClass: {
-                  popup: 'custom-swal-popup-success' // Clase personalizada para esta caja
-                }
+                  popup: "custom-swal-popup-success", // Clase personalizada para esta caja
+                },
               })
               .then((result) => {
                 if (result.isConfirmed) {
-                  console.log("entre aqui")
+                  console.log("entre aqui");
                   window.location.href =
-                    "index.php?ruta=editar-cotizacion&idCotizacion=" + idCotizacion;
+                    "index.php?ruta=editar-cotizacion&idCotizacion=" +
+                    idCotizacion;
                 }
               });
           },
@@ -2954,7 +2996,6 @@ const deleteManualOffer = (id) => {
       }
     });
 };
-
 
 $("#btnCancelar").click((e) => {
   document.getElementById("formularioCotizacionManual").style.display = "none";

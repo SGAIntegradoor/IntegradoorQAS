@@ -159,6 +159,51 @@ $rolAsesor = $_SESSION['permisos']['idRol'];
     }
   }
 
+  
+  .custom-title-messageFinesa {
+    font-size: 16px;
+    font-weight: bold;
+    color: #000000 !important;;
+  }
+
+  .custom-text-messageFinesa {
+    font-size: 15px !important;
+    width: 100%;
+    text-align: center !important;
+    font-weight: bold !important;
+    color: #000000 !important;
+    padding-left: 27px !important;
+    padding-right: 27px !important;
+  }
+
+  .custom-popup-messageFinesa {
+    border-radius: 10px;
+    text-align: center;
+    padding-top: 6px !important;
+  }
+
+  .custom-actions-messageFinesa {
+    flex-direction: row-reverse;
+    gap: 25px;
+    padding-top: 10px;
+  }
+
+  .custom-confirmnButton-messageFinesa {
+    background-color: #88d600 !important;
+    color: white;
+    width: 55px !important;
+    height: 30px !important;
+    border-radius: 5px !important;
+  }
+
+  .custom-cancelButton-messageFinesa {
+    background-color: #000000 !important;
+    color: white;
+    width: 55px !important;
+    height: 30px !important;
+    border-radius: 5px !important;
+  }
+
   #pTableModal {
     font-size: 12px !important;
   }
@@ -747,7 +792,7 @@ $rolAsesor = $_SESSION['permisos']['idRol'];
 
       <h1>
 
-        Cotizar Todo Riesgo Motocicletas
+        Cotizar Seguros Motocicletas
 
       </h1>
 
@@ -826,23 +871,25 @@ $rolAsesor = $_SESSION['permisos']['idRol'];
 
 
                       <div class="col-xs-12 col-sm-6 col-md-3 form-group">
-                        <input type="hidden" class="form-control" id="intermediario" value="<?php echo $_SESSION["intermediario"]; ?>">
-                        <!-- <input type="hidden" class="form-control" id="cotRestanv" value="<? //php echo $_SESSION["cotRestantes"]; 
-                                                                                              ?>"> -->
-                        <label for="tipoDocumentoID">Tipo de Documento</label>
-                        <select class="form-control" id="tipoDocumentoID" required>
-                          <option value="0" selected>Selecciona tipo de documento</option>
-                          <option value="1">Cedula de ciudadania</option>
-                          <option value="2">NIT</option>
-                          <option value="3">Cédula de extranjería</option>
-                          <option value="4">Tarjeta de identidad</option>
-                          <option value="5">Pasaporte</option>
-                          <option value="6">Carné diplomático</option>
-                          <option value="7">Sociedad extranjera sin NIT en Colombia</option>
-                          <option value="8">Fideicomiso</option>
-                          <option value="9">Registro civil de nacimiento</option>
-                        </select>
+                      <input type="hidden" class="form-control" id="intermediario" value="<?php echo $_SESSION["intermediario"]; ?>">
+                      <!--<input type="hidden" class="form-control" id="cotRestanv" value="<//?php echo $_SESSION["cotRestantes"]; ?>">-->
+                      <label for="tipoDocumentoID">Tipo de Documento</label>
+                      <select class="form-control" id="tipoDocumentoID" required>
+                        <option value="" disabled selected>Selecciona el tipo de documento</option>
+                        <option value="1">Cedula de ciudadania</option>
+                        <option value="2">NIT</option>
+                        <option value="3">Cédula de extranjería</option>
+                        <option value="4">Tarjeta de identidad</option>
+                        <option value="5">Pasaporte</option>
+                        <option value="6">Carné diplomático</option>
+                        <option value="7">Sociedad extranjera sin NIT en Colombia</option>
+                        <option value="8">Fideicomiso</option>
+                        <option value="9">Registro civil de nacimiento</option>
+                      </select>
+                      <div id="alertaTipoDocumento" class="alert alert-danger mt-2" style="display: none;">
+                        Debes seleccionar un tipo de documento.
                       </div>
+                    </div>
                       <div class="col-xs-12 col-sm-6 col-md-3 form-group">
                         <label for="numDocumentoID">No. Documento</label>
                         <input type="text" maxlength="10" class="form-control" id="numDocumentoID" required placeholder="Número de Documento">

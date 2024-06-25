@@ -53,8 +53,8 @@ if($_POST['aseguradora']){
 	}
 	
 		
-	$stmt = $DB_con->prepare("SELECT producto FROM asistencias WHERE aseguradora=:aseguradora GROUP BY producto ORDER BY id_asistencias");
-	$stmt->execute(array(':aseguradora' => $aseguradora));
+	$stmt = $DB_con->prepare("SELECT producto FROM asistencias WHERE aseguradora= $aseguradora GROUP BY producto ORDER BY id_asistencias");
+	//$stmt->execute(array(':aseguradora' => $aseguradora));
 
 	$data = $stmt -> fetchAll(PDO::FETCH_ASSOC);
 

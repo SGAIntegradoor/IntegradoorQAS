@@ -26,9 +26,13 @@ if (!$conexion) {
 $conexion->set_charset("utf8");
 
 
-$query2 = "SELECT *	FROM cotizaciones, clientes WHERE cotizaciones.id_cliente = clientes.id_cliente AND `id_cotizacion` = $identificador";
+
+$query2 = "SELECT *	FROM cotizaciones, clientes, cotizaciones_finesa WHERE cotizaciones.id_cliente = clientes.id_cliente AND `id_cotizacion` = $identificador";
 $valor2 = $conexion->query($query2);
 $fila = mysqli_fetch_array($valor2);
+$query3 = "SELECT DISTINCT Aseguradora FROM ofertas WHERE `id_cotizacion` = $identificador";
+$valor3 = $conexion->query($query3);
+$fila2 = mysqli_num_rows($valor3);
 
 // :::::::::::::::::::::::Query para imagen logo::::::::::::::::::::::::::.
 $queryLogo = "SELECT urlLogo FROM intermediario  WHERE id_Intermediario = $intermediario";
@@ -39,9 +43,6 @@ $valorLogo = $valorLogo['urlLogo'];
 
 $porciones = explode(".", $valorLogo);
 
-$query3 = "SELECT DISTINCT Aseguradora FROM ofertas WHERE `id_cotizacion` = $identificador";
-$valor3 = $conexion->query($query3);
-$fila2 = mysqli_num_rows($valor3);
 
 // Consulta las aseguradoras que fueron selecionadas para visualizar en el PDF
 $queryAsegSelec = "SELECT DISTINCT Aseguradora FROM ofertas WHERE `id_cotizacion` = $identificador AND `seleccionar` = 'Si'";
@@ -130,7 +131,7 @@ if ($ocultarAsesor) {
 $pdf->SetCreator(PDF_CREATOR);
 $pdf->SetAuthor('Seguros Grupo Asistencia');
 $pdf->SetTitle('Parrilla de Cotizaciones');
-$pdf->SetSubject('TCPDF Tutorial');
+$pdf->SetSubject('Cotizacion Aseguradoras');
 $pdf->SetKeywords('TCPDF, PDF, example, test, guide');
 
 // set header and footer fonts
@@ -323,7 +324,7 @@ $html2 = '
 <div class="second2">
 <table class="second" cellpadding="2"  border="0">';
 
-$query4 = "SELECT Aseguradora, Prima FROM ofertas WHERE `id_cotizacion` = $identificador AND `seleccionar` = 'Si'";
+$query4 = "SELECT Aseguradora, Prima, Producto FROM ofertas WHERE `id_cotizacion` = $identificador AND `seleccionar` = 'Si'";
 $respuestaquery4 =  $conexion->query($query4);
 $html2 .= '<tr>';
 
@@ -629,9 +630,6 @@ if ($valor == 10) {
 			</td>';
 		}
 
-		//$selectCategorias .= "<tr><td>" . $rowbrilla['tip_rec_cod'] . "</td><td>" . $rowbrilla['rec_id'] . "</td><td>" . $rowbrilla['rec_fech'] . "</td><td>" .  $rowbrilla['cli_nom1'] . " " .  $rowbrilla['cli_nom2'] . " " .  $rowbrilla['cli_ape1'] . " " .  $rowbrilla['cli_ape2'] . " " . "</td><td>" . $rowbrilla['rec_concepto_detalle'] . "</td><td>" ." ". "</td><td>" . " " . "</td><td>" ." ". "</td><td>" ." ". "</td><td>" . $rowbrilla['rec_valor_rec'] . "</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>";
-		//$selectCategorias .= "<option value=" . $row['id_ban'] . ">" . $row['banc_des'] . "</option>";
-
 		$cont2 += 1;
 	}
 } else {
@@ -653,12 +651,85 @@ if ($valor == 10) {
 			</td>';
 		}
 
-		//$selectCategorias .= "<tr><td>" . $rowbrilla['tip_rec_cod'] . "</td><td>" . $rowbrilla['rec_id'] . "</td><td>" . $rowbrilla['rec_fech'] . "</td><td>" .  $rowbrilla['cli_nom1'] . " " .  $rowbrilla['cli_nom2'] . " " .  $rowbrilla['cli_ape1'] . " " .  $rowbrilla['cli_ape2'] . " " . "</td><td>" . $rowbrilla['rec_concepto_detalle'] . "</td><td>" ." ". "</td><td>" . " " . "</td><td>" ." ". "</td><td>" ." ". "</td><td>" . $rowbrilla['rec_valor_rec'] . "</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>";
-		//$selectCategorias .= "<option value=" . $row['id_ban'] . ">" . $row['banc_des'] . "</option>";
-
 		$cont2 += 1;
 	}
 }
+$html2 .= '</tr>';
+
+// Cuotas de Finesa en cada cotizacion
+
+$query5f = "SELECT cuota_1, aseguradora FROM cotizaciones_finesa WHERE `id_cotizacion` = $identificador";
+
+$pdf->SetFont('dejavusanscondensed', '', 12);
+$respuestaquery5f =  $conexion->query($query5f);
+$valor = mysqli_num_rows($respuestaquery5f);
+
+if($valor >= 1){
+	if ($valor == 10) {
+		$html2 .= '<tr>';
+		$cont3 = 1;
+		while ($rowRespuesta5f = mysqli_fetch_assoc($respuestaquery5f)) {
+			if ($cont3 % 2 == 0) {
+				$html2 .= '<td style="height: 35px; font-size:8px; color:#666666; font-family:dejavusanscondensedb;" class="td2 fondo2">
+				<div style="font-size:7pt">&nbsp;</div>
+				$' . number_format($rowRespuesta5f['cuota_1'], 0, ',', '.') . '
+				<div style="font-size:7pt">&nbsp;</div>
+				</td>';
+			} else {
+				$html2 .= '<td style="height: 35px; font-size:8px; color:#666666; font-family:dejavusanscondensedb;" class="td2 fondo">
+				<div style="font-size:7pt">&nbsp;</div>
+				$' . number_format($rowRespuesta5f['cuota_1'], 0, ',', '.') . '
+				<div style="font-size:7pt">&nbsp;</div>
+				</td>';
+			}
+
+			$cont3 += 1;
+		}
+	} else if ($valor > 10) {
+		$html2 .= '<tr>';
+		$cont3 = 1;
+		while ($rowRespuesta5f = mysqli_fetch_assoc($respuestaquery5f)) {
+			if ($cont3 % 2 == 0) {
+				$html2 .= '<td style="height: 35px; font-size:7px; color:#666666; font-family:dejavusanscondensedb;" class="td2 fondo2">
+				<div style="font-size:7pt">&nbsp;</div>
+				$' . number_format($rowRespuesta5f['cuota_1'], 0, ',', '.') . '
+				<div style="font-size:7pt">&nbsp;</div>
+				</td>';
+			} else {
+				$html2 .= '<td style="height: 35px; font-size:7px; color:#666666; font-family:dejavusanscondensedb;" class="td2 fondo">
+				<div style="font-size:7pt">&nbsp;</div>
+				$' . number_format($rowRespuesta5f['cuota_1'], 0, ',', '.') . '
+				<div style="font-size:7pt">&nbsp;</div>
+				</td>';
+			}
+	
+			$cont3 += 1;
+		}
+	} else {
+	
+		$html2 .= '<tr>';
+		$cont3 = 1;
+		while ($rowRespuesta5f = mysqli_fetch_assoc($respuestaquery5f)) {
+			if ($cont3 % 2 == 0) {
+				$html2 .= '<td style="height: 35px; font-size:9px; color:#666666; font-family:dejavusanscondensedb;" class="td2 fondo2">
+				<div style="font-size:7pt">&nbsp;</div>
+				$' . number_format($rowRespuesta5f['cuota_1'], 0, ',', '.') . '
+				<div style="font-size:7pt">&nbsp;</div>
+				</td>';
+			} else {
+				$html2 .= '<td style="height: 35px; font-size:9px; color:#666666; font-family:dejavusanscondensedb;" class="td2 fondo">
+				<div style="font-size:7pt">&nbsp;</div>
+				$' . number_format($rowRespuesta5f['cuota_1'], 0, ',', '.') . '
+				<div style="font-size:7pt">&nbsp;</div>
+				</td>';
+			}
+
+			$cont3 += 1;
+		}
+	}
+}
+
+
 $html2 .= '</tr>';
 
 $html2 .= '</table></div>';
@@ -1055,7 +1126,7 @@ $html3 .= '</tr>';
 //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
 $html3 .= '<tr style="width: 100%;" class="izquierda">';
-$html3 .= '<td style ="width: 100%; background-color: #D1D1D1; font-family:dejavusanscondensedb;" colspan="' . ($fila6 + 1) . '"><div style="font-size:3pt">&nbsp;</div>COBERTURAS AL VEHÍCULO <div style="font-size:3pt">&nbsp;</div></td>';
+$html3 .= '<td style ="width: 100%; background-color: #D1D1D1; font-family:dejavusanscondensedb;" colspan="' . ($fila6 + 1) . '">COBERTURAS AL VEHÍCULO</td>';
 
 $html3 .= '</tr>';
 
@@ -1249,7 +1320,7 @@ $html4 = '
 
 
 $html4 .= '<tr style="width: 100%;" class="izquierda">';
-$html4 .= '<td style ="width: 100%;  background-color: #D1D1D1; font-family:dejavusanscondensedb; " colspan="' . ($fila6 + 1) . '"><div style="font-size:3pt">&nbsp;</div>ASISTENCIAS<div style="font-size:3pt">&nbsp;</div></td>';
+$html4 .= '<td style ="width: 100%;  background-color: #D1D1D1; font-family:dejavusanscondensedb; " colspan="' . ($fila6 + 1) . '">ASISTENCIAS</td>';
 $html4 .= '</tr>';
 
 $html4 .= '<tr>';
@@ -1947,7 +2018,7 @@ $html5 = '
 <table style="width: 100%;" class="second2" cellpadding="2"  border="0">';
 
 $html5 .= '<tr style="width: 100%;" class="izquierda">';
-$html5 .= '<td style ="width: 100%;  background-color: #D1D1D1; font-family:dejavusanscondensedb;" colspan="' . ($fila6 + 1) . '"><div style="font-size:3pt">&nbsp;</div>ASISTENCIAS<div style="font-size:3pt">&nbsp;</div></td>';
+$html5 .= '<td style ="width: 100%;  background-color: #D1D1D1; font-family:dejavusanscondensedb;" colspan="' . ($fila6 + 1) . '"><div style="padding-top: 10px"; padding-bottom: 10px;>ASISTENCIAS</div></td>';
 $html5 .= '</tr>';
 
 //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
@@ -2669,15 +2740,12 @@ $pdf->Cell(10, 0, '(Recuerda que este icono       significa Si Aplica o Si Cubre
 $pdf->Ln();
 
 $pdf->writeHTML($html3, true, false, true, false, '');
-
-$pdf->Ln();
 $pdf->writeHTML($html4, true, false, true, false, '');
-$pdf->Ln();
+
 $pdf->writeHTML($html5, true, false, true, false, '');
 //$pdf->Ln();
 
 
-//$pdf->lastPage();
 
 
 if ($asegRecomendada > 0) {
@@ -2732,12 +2800,26 @@ $pdf->Cell(25, 6, "Elaborado por Software Integradoor propiedad del proveedor te
 $pdf->StopTransform();
 
 
-
-$pdf->SetXY(0, 274);
+// $pdf->lastPage();
+$pdf->SetXY(0, 280);
 // $pdf->SetY(-45);
-$htmlFooter = '<p style="font-size: 6.2px;">Nota: Esta cotización no constituye una oferta comercial. La misma se expide única y exclusivamente con un propósito informativo sobre los posibles costos del seguro y sus condiciones, los cuales serán susceptibles de modificación hasta tanto no se concreten y determinen las características de los respectivos riesgos.</p>';
+$htmlFooter = '<p style="font-size: 5.2px;">Nota: Esta cotización no constituye una oferta comercial. La misma se expide única y exclusivamente con un propósito informativo sobre los posibles costos del seguro y sus condiciones, los cuales serán susceptibles de modificación hasta tanto no se concreten y determinen las características de los respectivos riesgos.</p>';
 $pdf->writeHTML($htmlFooter, true, false, true, false, '');
 $pdf->Ln();
+
+// $pdf->lastPage();
+
+// // Establecer la posición para el pie de página en la última página
+// $pdf->SetXY(10, -30); // Ajusta los valores según sea necesario
+
+// // Contenido HTML para el pie de página
+// $htmlFooter = '<p style="font-size: 6.2px;">Nota: Esta cotización no constituye una oferta comercial. La misma se expide única y exclusivamente con un propósito informativo sobre los posibles costos del seguro y sus condiciones, los cuales serán susceptibles de modificación hasta tanto no se concreten y determinen las características de los respectivos riesgos.</p>';
+
+// // Escribir el contenido HTML en la posición especificada
+// $pdf->writeHTML($htmlFooter, true, false, true, false, '');
+
+// // Añadir un salto de línea si es necesario
+// $pdf->Ln();
 
 //$pdf->Image('../../../vistas/img/logos/imagencotizador.jpg', -5, 0, 0, 92, 'JPG', '', '', true, 200, '', false, false, 0, false, false, false);
 

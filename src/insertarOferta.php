@@ -1,9 +1,10 @@
 <?php
 
-/* Conectar a la base de datos*/
-require_once("../config/db.php"); //Contiene las variables de configuracion para conectar a la base de datos
-require_once("../config/conexion.php"); //Contiene funcion que conecta a la base de datos
+// Conectar a la base de datos
+require_once("../config/db.php"); // Contiene las variables de configuración para conectar a la base de datos
+require_once("../config/conexion.php"); // Contiene función que conecta a la base de datos
 
+// Obtener datos de POST
 $placa = $_POST['placa'];
 $idCotizacion = $_POST['idCotizOferta'];
 $numIdentificacion = $_POST['numIdentificacion'];
@@ -17,71 +18,56 @@ $PP = $_POST['PP'];
 $CE = $_POST['CE'];
 $GR = $_POST['GR'];
 $logo = "vistas/img/logos/" . $_POST['logo'];
-$UrlPdf = isset($_POST['UrlPdf']) ? $_POST['UrlPdf']: NULL;
+$UrlPdf = isset($_POST['UrlPdf']) ? $_POST['UrlPdf'] : NULL;
 $manual = $_POST['manual'];
 
-if ($aseguradora == "Axa Colpatria") {
-	$sql = "INSERT INTO `ofertas` (`id_oferta`, `Placa`, `Identificacion`, `NumCotizOferta`, `Aseguradora`, `Producto`, `Prima`, 
-					`ValorRC`, `PerdidaTotal`, `PerdidaParcial`, `ConductorElegido`, `Grua`, `logo`, `UrlPdf`, `id_cotizacion`, `Manual`, `ResponsabilidadCivilGeneralFamiliar`, `PerdidaParcialHurto`)
-		VALUES (NULL, '$placa', '$numIdentificacion', '$numCotizOferta', '$aseguradora', '$producto', '$valorPrima', '$valorRC', 
-						'$PT', '$PP', '$CE', '$GR', '$logo', '$UrlPdf', '$idCotizacion', $manual, NULL, NULL);";
+$actIdentity = isset($_POST['identityElement']) && $_POST['identityElement'] != NULL ? $_POST['identityElement'] : NULL;
 
-	$res = mysqli_query($con, $sql);
-	$num_rows = mysqli_affected_rows($con);
-	// printf("Columnas Afectadas (INSERT): %d\n", mysqli_affected_rows($con));
-
-	if ($num_rows > 0) {
-		$data['Success'] = $res;
-		$data['Message'] = 'La inserción fue exitosa';
-		echo json_encode($data, JSON_UNESCAPED_UNICODE);
-	} else {
-		$data['Success'] = $res;
-		$data['Message'] = 'Error: ' . mysqli_error($con);
-		echo json_encode($data, JSON_UNESCAPED_UNICODE);
-	}
-} else {
-	$familiar = ((isset($_POST['responsabilidad_civil_familiar']) && $_POST['responsabilidad_civil_familiar'])) ? $_POST['responsabilidad_civil_familiar'] : NULL;
-	$pph = (isset($_POST['pph']) && $_POST['pph'])? $_POST['pph'] : NULL ;
-
-	if (isset($pph)) {
-		$sql = "INSERT INTO `ofertas` (`id_oferta`, `Placa`, `Identificacion`, `NumCotizOferta`, `Aseguradora`, `Producto`, `Prima`, 
-					`ValorRC`, `PerdidaTotal`, `PerdidaParcial`, `ConductorElegido`, `Grua`, `logo`, `UrlPdf`, `id_cotizacion`, `Manual`, `ResponsabilidadCivilGeneralFamiliar`, `PerdidaParcialHurto`) 
-		VALUES (NULL, '$placa', '$numIdentificacion', '$numCotizOferta', '$aseguradora', '$producto', '$valorPrima', '$valorRC', 
-						'$PT', '$PP', '$CE', '$GR', '$logo', '$UrlPdf', '$idCotizacion', '$manual', '$familiar', '$pph');";
-
-		$res = mysqli_query($con, $sql);
-		$num_rows = mysqli_affected_rows($con);
-		// printf("Columnas Afectadas (INSERT): %d\n", mysqli_affected_rows($con));
-
-		if ($num_rows > 0) {
-
-			$data['Success'] = $res;
-			$data['Message'] = 'La inserción fue exitosa';
-			echo json_encode($data, JSON_UNESCAPED_UNICODE);
-		} else {
-			$data['Success'] = $res;
-			$data['Message'] = 'Error: ' . mysqli_error($con);
-			echo json_encode($data, JSON_UNESCAPED_UNICODE);
-		}
-	} else {
-		$sql = "INSERT INTO `ofertas` (`id_oferta`, `Placa`, `Identificacion`, `NumCotizOferta`, `Aseguradora`, `Producto`, `Prima`, 
-					`ValorRC`, `PerdidaTotal`, `PerdidaParcial`, `ConductorElegido`, `Grua`, `logo`, `UrlPdf`, `id_cotizacion`, `Manual`, `ResponsabilidadCivilGeneralFamiliar`, `PerdidaParcialHurto`) 
-		VALUES (NULL, '$placa', '$numIdentificacion', '$numCotizOferta', '$aseguradora', '$producto', '$valorPrima', '$valorRC', 
-						'$PT', '$PP', '$CE', '$GR', '$logo', '$UrlPdf', '$idCotizacion', $manual, null, null);";
-
-		$res = mysqli_query($con, $sql);
-		$num_rows = mysqli_affected_rows($con);
-		// printf("Columnas Afectadas (INSERT): %d\n", mysqli_affected_rows($con));
-
-		if ($num_rows > 0) {
-
-			$data['Success'] = $res;
-			$data['Message'] = 'La inserción fue exitosa';
-			echo json_encode($data, JSON_UNESCAPED_UNICODE);
-		} else {
-			$data['Success'] = $res;
-			$data['Message'] = 'Error: ' . mysqli_error($con);
-			echo json_encode($data, JSON_UNESCAPED_UNICODE);
-		}
-	}
+// Verificar la conexión a la base de datos
+if (!$con) {
+    die("Error al conectar a la base de datos: " . mysqli_connect_error());
 }
+
+if ($aseguradora == "Axa Colpatria") {
+    $sql = "INSERT INTO `ofertas` (`id_oferta`, `Placa`, `Identificacion`, `NumCotizOferta`, `Aseguradora`, `Producto`, `Prima`, 
+                `ValorRC`, `PerdidaTotal`, `PerdidaParcial`, `ConductorElegido`, `Grua`, `logo`, `UrlPdf`, `id_cotizacion`, `Manual`, 
+                `ResponsabilidadCivilGeneralFamiliar`, `PerdidaParcialHurto`, `oferta_finesa`) 
+            VALUES (NULL, '$placa', '$numIdentificacion', '$numCotizOferta', '$aseguradora', '$producto', '$valorPrima', '$valorRC', 
+                    '$PT', '$PP', '$CE', '$GR', '$logo', '$UrlPdf', '$idCotizacion', '$manual', NULL, NULL, '$actIdentity')";
+} else {
+    $familiar = isset($_POST['responsabilidad_civil_familiar']) ? $_POST['responsabilidad_civil_familiar'] : NULL;
+    $pph = isset($_POST['pph']) ? $_POST['pph'] : NULL;
+
+    if ($pph) {
+        $sql = "INSERT INTO `ofertas` (`id_oferta`, `Placa`, `Identificacion`, `NumCotizOferta`, `Aseguradora`, `Producto`, `Prima`, 
+                    `ValorRC`, `PerdidaTotal`, `PerdidaParcial`, `ConductorElegido`, `Grua`, `logo`, `UrlPdf`, `id_cotizacion`, `Manual`, 
+                    `ResponsabilidadCivilGeneralFamiliar`, `PerdidaParcialHurto`, `oferta_finesa`) 
+                VALUES (NULL, '$placa', '$numIdentificacion', '$numCotizOferta', '$aseguradora', '$producto', '$valorPrima', '$valorRC', 
+                        '$PT', '$PP', '$CE', '$GR', '$logo', '$UrlPdf', '$idCotizacion', '$manual', '$familiar', '$pph', '$actIdentity')";
+    } else {
+        $sql = "INSERT INTO `ofertas` (`id_oferta`, `Placa`, `Identificacion`, `NumCotizOferta`, `Aseguradora`, `Producto`, `Prima`, 
+                    `ValorRC`, `PerdidaTotal`, `PerdidaParcial`, `ConductorElegido`, `Grua`, `logo`, `UrlPdf`, `id_cotizacion`, `Manual`, 
+                    `ResponsabilidadCivilGeneralFamiliar`, `PerdidaParcialHurto`, `oferta_finesa`) 
+                VALUES (NULL, '$placa', '$numIdentificacion', '$numCotizOferta', '$aseguradora', '$producto', '$valorPrima', '$valorRC', 
+                        '$PT', '$PP', '$CE', '$GR', '$logo', '$UrlPdf', '$idCotizacion', '$manual', NULL, NULL, '$actIdentity')";
+    }
+}
+
+// Ejecutar la consulta SQL y manejar errores
+$res = mysqli_query($con, $sql);
+$num_rows = mysqli_affected_rows($con);
+
+if ($num_rows > 0) {
+    $data['Success'] = true;
+    $data['Message'] = 'La inserción fue exitosa';
+} else {
+    $data['Success'] = false;
+    $data['Message'] = 'Error: ' . mysqli_error($con);
+}
+
+// Devolver la respuesta en formato JSON
+echo json_encode($data, JSON_UNESCAPED_UNICODE);
+
+// Cerrar la conexión a la base de datos
+mysqli_close($con);
+?>

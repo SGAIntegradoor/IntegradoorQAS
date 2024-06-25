@@ -136,6 +136,51 @@ if ($_SESSION["permisos"]["Cotizarpesados"] != "x") {
     /* Puedes ajustar el valor según tus preferencias */
   }
 
+  .custom-title-messageFinesa {
+    font-size: 16px;
+    font-weight: bold;
+    color: #000000 !important;
+    ;
+  }
+
+  .custom-text-messageFinesa {
+    font-size: 15px !important;
+    width: 100%;
+    text-align: center !important;
+    font-weight: bold !important;
+    color: #000000 !important;
+    padding-left: 27px !important;
+    padding-right: 27px !important;
+  }
+
+  .custom-popup-messageFinesa {
+    border-radius: 10px;
+    text-align: center;
+    padding-top: 6px !important;
+  }
+
+  .custom-actions-messageFinesa {
+    flex-direction: row-reverse;
+    gap: 25px;
+    padding-top: 10px;
+  }
+
+  .custom-confirmnButton-messageFinesa {
+    background-color: #88d600 !important;
+    color: white;
+    width: 55px !important;
+    height: 30px !important;
+    border-radius: 5px !important;
+  }
+
+  .custom-cancelButton-messageFinesa {
+    background-color: #000000 !important;
+    color: white;
+    width: 55px !important;
+    height: 30px !important;
+    border-radius: 5px !important;
+  }
+
   /* Estilo para pantallas más pequeñas (menos de 495px) */
   @media (max-width: 495px) {
     .table-responsive {
@@ -515,10 +560,11 @@ if ($_SESSION["permisos"]["Cotizarpesados"] != "x") {
     .custom-swal-alertaMontoPesados {
       display: flex;
       flex-direction: column;
-      width: 50% !important;
-      padding: 0px 12px 0px 12px !important;
+      width: 40% !important;
+      padding: 20px 20px 20px 20px !important;
       /* gap: 10px; */
       border-radius: 15px !important;
+      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     }
 
     #tdAsegurado {
@@ -538,8 +584,8 @@ if ($_SESSION["permisos"]["Cotizarpesados"] != "x") {
       flex-direction: column;
       gap: 10px;
       padding-top: 3px;
-      padding-right: 17px;
-      padding-left: 17px;
+      padding-right: 63px;
+      padding-left: 63px;
       padding-bottom: 5px;
       align-items: center;
     }
@@ -558,16 +604,19 @@ if ($_SESSION["permisos"]["Cotizarpesados"] != "x") {
     }
 
     .custom-swal-confirm-button24 {
+      margin: 0px;
       font-size: 16px !important;
       height: 50px;
       width: 150px;
       border-radius: 10px !important;
+      padding-top: 12px;
     }
 
     .custom-swal-titlePesados {
       font-size: 20px !important;
       padding: 3px;
       font-weight: bold;
+      padding-bottom: 12px;
     }
 
     #pTableModal {
@@ -575,14 +624,16 @@ if ($_SESSION["permisos"]["Cotizarpesados"] != "x") {
     }
 
     .swal2-icon {
-      margin-top: 10px;
+      margin-top: 0px;
       width: 60px !important;
       height: 60px !important;
       border: 3px solid #f8bb86 !important;
+      margin-bottom: 10px;
     }
 
     .custom-swal-actions-pesados {
-      padding-bottom: 10px !important;
+      padding-bottom: 0px !important;
+      padding-top: 8px;
     }
 
   }
@@ -602,9 +653,10 @@ if ($_SESSION["permisos"]["Cotizarpesados"] != "x") {
       display: flex !important;
       flex-direction: column;
       width: 37% !important;
-      padding: 0px 12px 0px 12px;
+      padding: 20px 20px 20px 20px !important;
       /* gap: 10px; */
       border-radius: 15px !important;
+      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     }
 
     #tdAsegurado {
@@ -621,6 +673,7 @@ if ($_SESSION["permisos"]["Cotizarpesados"] != "x") {
       font-size: 18px !important;
       padding: 3px;
       font-weight: bold;
+      padding-bottom: 8px;
     }
 
     #pTableModalPesados {
@@ -663,10 +716,12 @@ if ($_SESSION["permisos"]["Cotizarpesados"] != "x") {
       width: 90px !important;
       height: 90px !important;
       border: 3px solid #f8bb86 !important;
+      margin-bottom: 8px;
     }
 
     .custom-swal-actions-pesados {
-      padding-bottom: 10px !important;
+      padding-bottom: 0px !important;
+      padding-top: 13px;
     }
 
     .swal2-icon-content {
@@ -750,7 +805,7 @@ if ($_SESSION["permisos"]["Cotizarpesados"] != "x") {
 
     <h1>
 
-      Cotizar Todo Riesgo Pesados
+      Cotizar Seguros Pesados
 
     </h1>
 
@@ -829,11 +884,10 @@ if ($_SESSION["permisos"]["Cotizarpesados"] != "x") {
 
                     <div class="col-xs-12 col-sm-6 col-md-3 form-group">
                       <input type="hidden" class="form-control" id="intermediario" value="<?php echo $_SESSION["intermediario"]; ?>">
-                      <!-- <input type="hidden" class="form-control" id="cotRestanv" value="<? //php echo $_SESSION["cotRestantes"]; 
-                                                                                            ?>"> -->
+                      <!--<input type="hidden" class="form-control" id="cotRestanv" value="<//?php echo $_SESSION["cotRestantes"]; ?>">-->
                       <label for="tipoDocumentoID">Tipo de Documento</label>
                       <select class="form-control" id="tipoDocumentoID" required>
-                        <option value="0" selected>Selecciona tipo de documento</option>
+                        <option value="" disabled selected>Selecciona el tipo de documento</option>
                         <option value="1">Cedula de ciudadania</option>
                         <option value="2">NIT</option>
                         <option value="3">Cédula de extranjería</option>
@@ -844,6 +898,9 @@ if ($_SESSION["permisos"]["Cotizarpesados"] != "x") {
                         <option value="8">Fideicomiso</option>
                         <option value="9">Registro civil de nacimiento</option>
                       </select>
+                      <div id="alertaTipoDocumento" class="alert alert-danger mt-2" style="display: none;">
+                        Debes seleccionar un tipo de documento.
+                      </div>
                     </div>
                     <div class="col-xs-12 col-sm-6 col-md-3 form-group">
                       <label for="numDocumentoID">No. Documento</label>
@@ -1345,16 +1402,22 @@ if ($_SESSION["permisos"]["Cotizarpesados"] != "x") {
                     </div>
                   </div>
                 </div>
-                  <div class="aviso-container col-lg-12">
-                    <p style="font-weight: bold;">
-                      <strong>Nota:</strong> Ten en cuenta que aunque el cotizador te genere ofertas, no
-                      todos los vehículos son asegurables. Si el cliente tiene vinculación con
-                      otros productos de la aseguradora se pueden autorizar valores
-                      asegurados superiores. Cuando el valor asegurado sea superior a los
-                      montos indicados, el valor de las primas puede variar en el momento
-                      de emitir en caso de autorización
-                    </p>
-                  </div>
+                <div class="aviso-container col-lg-12">
+                  <ul style="    padding-left: 16px; padding-right: 3px;">
+                    <li style="text-align: justify;">
+                      <p style="font-weight: bold;">Política de valor asegurado pesados:</p>
+                      <p>El Valor asegurado máximo de acuerdo a la aseguradora es el siguiente: Seguros Mundial 700 millones. AXA Colpatria 400 millones. Liberty 310 millones. Previsora 700 millones</p>
+                      <p>
+                        <strong>Nota:</strong> Ten en cuenta que aunque el cotizador te genere ofertas, no
+                        todos los vehículos son asegurables. Si el cliente tiene vinculación con
+                        otros productos de la aseguradora se pueden autorizar valores
+                        asegurados superiores. Cuando el valor asegurado sea superior a los
+                        montos indicados, el valor de las primas puede variar en el momento
+                        de emitir en caso de autorización
+                      </p>
+                    </li>
+                  </ul>
+                </div>
               </div>
             </div>
           </div>
