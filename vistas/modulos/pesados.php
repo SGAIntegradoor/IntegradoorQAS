@@ -552,9 +552,9 @@ if ($_SESSION["permisos"]["Cotizarpesados"] != "x") {
   }
 
   @media (min-width: 1200px) and (max-width: 1440px) {
-    #tableModal td {
+    #tableModalPesados td {
       text-align: center;
-      font-size: 14px;
+      font-size: 12px;
     }
 
     .custom-swal-alertaMontoPesados {
@@ -576,7 +576,7 @@ if ($_SESSION["permisos"]["Cotizarpesados"] != "x") {
     #tdCondiciones {
       width: 335px;
       text-align: center;
-      font-size: 15px;
+      font-size: 14px;
     }
 
     .custom-swal-alertaMontoPesados .swal2-html-container {
@@ -619,7 +619,7 @@ if ($_SESSION["permisos"]["Cotizarpesados"] != "x") {
       padding-bottom: 12px;
     }
 
-    #pTableModal {
+    #pTableModalPesados {
       font-size: 12px !important;
     }
 

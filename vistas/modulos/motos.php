@@ -558,7 +558,7 @@ $rolAsesor = $_SESSION['permisos']['idRol'];
     .custom-swal-alertaMontoMotos {
       display: flex !important;
       flex-direction: column;
-      width: 52% !important;
+      width: 44% !important;
       padding-bottom: 15px !important;
       padding: 30px;
       border-radius: 15px !important;
@@ -577,12 +577,12 @@ $rolAsesor = $_SESSION['permisos']['idRol'];
     }
 
     .swal2-title {
-      font-size: 20px !important;
+      font-size: 19px !important;
       font-weight: bold;
     }
 
     #pTableModal {
-      font-size: 14px !important;
+      font-size: 16px !important;
     }
 
     .custom-swal-alertaMontoMotos .swal2-html-container {
@@ -595,7 +595,7 @@ $rolAsesor = $_SESSION['permisos']['idRol'];
     }
 
     .custom-swal-alertaMontoMotos .swal2-html-container>p {
-      font-size: 17px;
+      font-size: 16px;
       padding-top: 20px;
       text-align: justify;
     }

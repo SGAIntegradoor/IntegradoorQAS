@@ -1474,7 +1474,7 @@ echo '<script>console.log(' . $idIntermediario . ", " . $rolAsesor . ')</script>
                       <p style="font-weight: bold;">Política de valor asegurado livianos:</p>
                       <p>Menos de 200 millones, se asegura de acuerdo a políticas de cada aseguradora. Entre 200 a 250 millones, se puede asegurar con autorización del Director Comercial de Grupo Asistencia. Entre 250 a 300 millones, se puede asegurar solo bajo
                       autorización de Gerencia de Grupo Asistencia, de acuerdo al nivel de productividad del Asesor</p>
-                      <p><strong>Nota:</strong>Vehículos livianos con valor asegurado mayor a 300 millones no
+                      <p><strong>Nota:</strong> Vehículos livianos con valor asegurado mayor a 300 millones no
                         son asegurables para Grupo Asistencia; Ten en cuenta que aunque el
                         cotizador te genere ofertas, no todos los vehículos son asegurables. Si
                         el cliente tiene vinculación con otros productos de la aseguradora se
