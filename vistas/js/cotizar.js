@@ -1294,7 +1294,7 @@ function cotizarFinesa(ofertasCotizaciones) {
       typeId: tipoId,
     };
 
-    if(element.cotizada == null || element.cotizada == false){
+    if (element.cotizada == null || element.cotizada == false) {
       promisesFinesa.push(
         fetch(
           "https://www.grupoasistencia.com/motor_webservice/paymentInstallmentsFinesa",
@@ -1309,22 +1309,25 @@ function cotizarFinesa(ofertasCotizaciones) {
           .then((response) => response.json())
           .then((finesaData) => {
             // Sub Promesa para guardar la data en la BD con relacion a la cotizacion actual.
-  
+
             finesaData.producto = element.producto;
             finesaData.aseguradora = element.aseguradora;
             finesaData.id_cotizacion = idCotizacion;
             finesaData.identity = element.objFinesa;
             finesaData.cuotas = element.cuotas;
-  
-            return fetch("http://localhost/motorTest/saveDataQuotationsFinesa", {
-              method: "POST",
-              headers: headers,
-              body: JSON.stringify(finesaData),
-            })
+
+            return fetch(
+              "http://localhost/motorTest/saveDataQuotationsFinesa",
+              {
+                method: "POST",
+                headers: headers,
+                body: JSON.stringify(finesaData),
+              }
+            )
               .then((dbResponse) => dbResponse.json())
               .then((dbData) => {
                 const elementDiv = document.getElementById(element.objFinesa);
-                if(dbData.data.mensaje.includes("Por políticas de Finesa")){
+                if (dbData.data.mensaje.includes("Por políticas de Finesa")) {
                   elementDiv.innerHTML = `Financiación:<br /> No aplica financiación`;
                 } else {
                   cotizacionesFinesa[index].cotizada = true;
@@ -2445,16 +2448,13 @@ function cotizarOfertas() {
               // if (aseguradora === "Mapfre") {
               //   url = `https://grupoasistencia.com/motor_webservice_tst2/mapfrecotizacion4?callback=myCallback`;
               // } else
-
-              // if (aseguradora === "HDI") {
-              //   url = `https://grupoasistencia.com/motor_webservice/HdiPlus?callback=myCallback`;
-              // }else
-
               // if (aseguradora === "AXA") {
               //   url = `https://grupoasistencia.com/motor_webservice_tst2/AXA?callback=myCallback`;
               // } else
 
-              if (aseguradora === "Zurich") {
+              if (aseguradora === "HDI") {
+                 url = `https://grupoasistencia.com/motor_webservice/HdiPlus?callback=myCallback`;
+              } else if (aseguradora === "Zurich") {
                 const planes = ["FULL"];
                 planes.forEach((plan) => {
                   let body = JSON.parse(requestOptions.body);
@@ -2515,43 +2515,6 @@ function cotizarOfertas() {
                   );
                 });
                 return; // Salir del bucle después de procesar Zurich
-              } else if (aseguradora === "HDI") {
-                // Agrega más aseguradoras según sea necesario
-                url = `https://grupoasistencia.com/motor_webservice/HdiPlus?callback=myCallback`;
-                cont.push(
-                  fetch(url, requestOptions)
-                    .then((res) => {
-                      if (!res.ok) throw Error(res.statusText);
-                      return res.json();
-                    })
-                    .then((ofertas) => {
-                      if (typeof ofertas[0].Resultado !== "undefined") {
-                        agregarAseguradoraFallida(aseguradora);
-                        validarProblema(aseguradora, ofertas);
-                        ofertas[0].Mensajes.forEach((mensaje) => {
-                          mostrarAlertarCotizacionFallida(aseguradora, mensaje);
-                        });
-                      } else {
-                        const contadorPorEntidad = validarOfertas(
-                          ofertas,
-                          aseguradora,
-                          1
-                        );
-                        mostrarAlertaCotizacionExitosa(
-                          aseguradora,
-                          contadorPorEntidad
-                        );
-                      }
-                    })
-                    .catch((err) => {
-                      agregarAseguradoraFallida(aseguradora);
-                      mostrarAlertarCotizacionFallida(
-                        aseguradora,
-                        "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
-                      );
-                      console.error(err);
-                    })
-                );
               } else if (aseguradora === "Estado") {
                 const aseguradorasEstado = ["Estado", "Estado2"]; // Agrega más aseguradoras según sea necesario
                 aseguradorasEstado.forEach((aseguradora) => {
@@ -3388,30 +3351,30 @@ function cotizarOfertas() {
           $("#loaderOferta").html("");
           $("#loaderRecotOferta").html("");
           swal
-                .fire({
-                  title: "¡Proceso de Re-Cotización Finalizada!",
-                  text: "¿Deseas incluir la financiación con Finesa a 11 cuotas?",
-                  showConfirmButton: true,
-                  confirmButtonText: "Si",
-                  showCancelButton: true,
-                  cancelButtonText: "No",
-                  customClass: {
-                    title: "custom-title-messageFinesa",
-                    htmlContainer: "custom-text-messageFinesa",
-                    popup: "custom-popup-messageFinesa",
-                    actions: "custom-actions-messageFinesa",
-                    confirmButton: "custom-confirmnButton-messageFinesa",
-                    cancelButton: "custom-cancelButton-messageFinesa",
-                  },
-                })
-                .then(function (result) {
-                  if (result.isConfirmed) {
-                    $("#loaderOferta").html(
-                      '<img src="vistas/img/plantilla/loader-update.gif" width="34" height="34"><strong> Re-cotizando en Finesa...</strong>'
-                    );
-                    cotizarFinesa(cotizacionesFinesa);
-                  }
-                });
+            .fire({
+              title: "¡Proceso de Re-Cotización Finalizada!",
+              text: "¿Deseas incluir la financiación con Finesa a 11 cuotas?",
+              showConfirmButton: true,
+              confirmButtonText: "Si",
+              showCancelButton: true,
+              cancelButtonText: "No",
+              customClass: {
+                title: "custom-title-messageFinesa",
+                htmlContainer: "custom-text-messageFinesa",
+                popup: "custom-popup-messageFinesa",
+                actions: "custom-actions-messageFinesa",
+                confirmButton: "custom-confirmnButton-messageFinesa",
+                cancelButton: "custom-cancelButton-messageFinesa",
+              },
+            })
+            .then(function (result) {
+              if (result.isConfirmed) {
+                $("#loaderOferta").html(
+                  '<img src="vistas/img/plantilla/loader-update.gif" width="34" height="34"><strong> Re-cotizando en Finesa...</strong>'
+                );
+                cotizarFinesa(cotizacionesFinesa);
+              }
+            });
         });
       }
       let zurichErrors = true;
