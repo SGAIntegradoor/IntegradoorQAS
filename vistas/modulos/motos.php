@@ -792,7 +792,7 @@ $rolAsesor = $_SESSION['permisos']['idRol'];
 
       <h1>
 
-        Cotizar Seguros Motocicletas
+        Cotizar Seguro Motocicletas
 
       </h1>
 

@@ -563,162 +563,134 @@ while ($rowRespuesta4 = mysqli_fetch_assoc($respuestaquery4)) {
 
 	switch ($rowRespuesta4['Aseguradora']) {
 		case 'Axa Colpatria':
-			$html2 .= '<td class="puntos td2 ' . $fondo_class . '"><center>
-			<div style="font-size:5pt">&nbsp;</div>
+			$html2 .= '<td class="puntos td2 ' . $fondo_class . '" style="display: flex; flex-direction: column; align-items: flex-end"><center>
 			<img style="width:40px;" src="../../../vistas/img/logos/axa.png" alt=""></center>
 			<br />
 			'
 				. $rowRespuesta4['Producto'] .
 				'
-			<div style="font-size:5pt">&nbsp;</div>
 			</td>';
 			break;
 		case 'Seguros del Estado':
 		case 'Seguros Estado':
 			$html2 .= '<td class="puntos td2 ' . $fondo_class . '">
-			<div style="font-size:5pt">&nbsp;</div>
 			<img style="width:40px;" src="../../../vistas/img/logos/estado.png" alt="">
 			<br />
 			'
 				. $rowRespuesta4['Producto'] .
 				'
-			<div style="font-size:5pt">&nbsp;</div>
 			</td>';
 			break;
 		case 'Seguros HDI':
 		case 'HDI Seguros':
 			$html2 .= '<td class="puntos td2 ' . $fondo_class . '">
-			<div style="font-size:5pt">&nbsp;</div>
 			<img style="width:40px;" src="../../../vistas/img/logos/hdi.png" alt="">
 			<br />
 			'
 				. $rowRespuesta4['Producto'] .
 				'
-			<div style="font-size:5pt">&nbsp;</div>
 			</td>';
 			break;
 		case 'SBS Seguros':
 			$html2 .= '<td class="puntos td2 ' . $fondo_class . '">
-			<div style="font-size:5pt">&nbsp;</div>
 			<img style="width:40px;" src="../../../vistas/img/logos/sbs.png" alt="">
 			<br />
 			'
 				. $rowRespuesta4['Producto'] .
 				'
-			<div style="font-size:5pt">&nbsp;</div>
 			</td>';
 			break;
 		case 'Seguros Bolivar':
 			$html2 .= '<td class="puntos td2 ' . $fondo_class . '">
-			<div style="font-size:5pt">&nbsp;</div>
 			<img style="width:40px;" src="../../../vistas/img/logos/bolivar.png" alt="">
 			<br />
 			'
 				. $rowRespuesta4['Producto'] .
 				'
-			<div style="font-size:5pt">&nbsp;</div>
 			</td>';
 			break;
 		case 'Seguros Sura':
 			$html2 .= '<td class="puntos td2 ' . $fondo_class . '">
-			<div style="font-size:5pt">&nbsp;</div>
 			<img style="width:40px;" src="../../../vistas/img/logos/sura.png" alt="">
 			<br />
 			'
 				. $rowRespuesta4['Producto'] .
 				'
-			<div style="font-size:5pt">&nbsp;</div>
 			</td>';
 			break;
 		case 'Zurich Seguros':
 			$html2 .= '<td class="puntos td2 ' . $fondo_class . '">
-			<div style="font-size:5pt">&nbsp;</div>
 			<img style="width:40px;" src="../../../vistas/img/logos/zurich.png" alt="">
 			<br />
 			'
 				. $rowRespuesta4['Producto'] .
 				'
-			<div style="font-size:5pt">&nbsp;</div>
 			</td>';
 			break;
 		case 'Allianz Seguros':
 		case 'Allianz':
 			$html2 .= '<td class="puntos td2 ' . $fondo_class . '">
-			<div style="font-size:5pt">&nbsp;</div>
 			<img style="width:40px;" src="../../../vistas/img/logos/allianz.png" alt="">
 			<br />
 			'
 				. $rowRespuesta4['Producto'] .
 				'
-			<div style="font-size:5pt">&nbsp;</div>
 			</td>';
 			break;
 		case 'Liberty Seguros':
 		case 'Liberty':
 			$html2 .= '<td class="puntos td2 ' . $fondo_class . '">
-			<div style="font-size:5pt">&nbsp;</div>
 			<img style="width:40px;" src="../../../vistas/img/logos/liberty.png" alt="">
 			<br />
 			'
 				. $rowRespuesta4['Producto'] .
 				'
-			<div style="font-size:5pt">&nbsp;</div>
 			</td>';
 			break;
 		case 'Seguros Mapfre':
 			$html2 .= '<td class="puntos td2 ' . $fondo_class . '">
-			<div style="font-size:5pt">&nbsp;</div>
 			<img style="width:40px;" src="../../../vistas/img/logos/mapfre.png" alt="">
 			<br />
 			'
 				. $rowRespuesta4['Producto'] .
 				'
-			<div style="font-size:5pt">&nbsp;</div>
 			</td>';
 			break;
 		case 'Equidad Seguros':
 			$html2 .= '<td class="puntos td2 ' . $fondo_class . '">
-			<div style="font-size:5pt">&nbsp;</div>
 			<img style="width:40px;" src="../../../vistas/img/logos/equidad.png" alt="">
 			<br />
 			'
 				. $rowRespuesta4['Producto'] .
 				'
-			<div style="font-size:5pt">&nbsp;</div>
 			</td>';
 			break;
 		case 'Previsora Seguros':
 			$html2 .= '<td class="puntos td2 ' . $fondo_class . '">
-			<div style="font-size:5pt">&nbsp;</div>
 			<img style="width:40px;" src="../../../vistas/img/logos/previsora.png" alt="">
 			<br />
 			'
 				. $rowRespuesta4['Producto'] .
 				'
-			<div style="font-size:5pt">&nbsp;</div>
 			</td>';
 			break;
 		case 'Aseguradora Solidaria':
 			$html2 .= '<td class="puntos td2 ' . $fondo_class . '">
-			<div style="font-size:5pt">&nbsp;</div>
 			<img style="width:40px;" src="../../../vistas/img/logos/solidaria.png" alt="">
 			<br />
 			'
 				. $rowRespuesta4['Producto'] .
 				'
-			<div style="font-size:5pt">&nbsp;</div>
 			</td>';
 			break;
 		case 'Mundial':
 			$mundialProducto = $rowRespuesta4['Producto'] == "Pesados con RCE en exceso" ? "Pesados RCE + Exceso" : $rowRespuesta4['Producto'] ;
 			$html2 .= '<td class="puntos td2 ' . $fondo_class . '">
-			<div style="font-size:5pt">&nbsp;</div>
 			<img style="width:40px;" src="../../../vistas/img/logos/mundial.png" alt="">
 			<br/>
 			'
 				. $mundialProducto .
 				'
-			<div style="font-size:5pt">&nbsp;</div>
 			</td>';
 			break;
 	}
@@ -739,9 +711,7 @@ while ($rowRespuesta5 = mysqli_fetch_assoc($respuestaquery5)) {
 	$font_size = ($valor > 10) ? 7 : (($valor == 10) ? 8 : 9);
 
 	$html2 .= '<td style="height: 10px; font-size:' . ($font_size - 1) . 'px; color:#666666; font-family:dejavusanscondensedb;" class="puntos td2 ' . $fondo_class . '">
-	<div style="font-size:7pt">&nbsp;</div>
 	$' . number_format($rowRespuesta5['Prima'], 0, ',', '.') . '
-	<div style="font-size:7pt">&nbsp;</div>
 	</td>';
 
 	$cont2++;
@@ -749,6 +719,7 @@ while ($rowRespuesta5 = mysqli_fetch_assoc($respuestaquery5)) {
 $html2 .= '</tr>';
 
 // Cuotas de Finesa en cada cotizacion
+$html2 .= '<tr>';
 $query5f = "SELECT cf.cuota_1, cf.aseguradora, cf.identityElement, cf.cuotas
 FROM cotizaciones_finesa cf
 INNER JOIN ofertas o ON CONVERT(cf.identityElement USING utf8mb3) = CONVERT(o.oferta_finesa USING utf8mb3)
@@ -759,7 +730,6 @@ GROUP BY cf.cuota_1, cf.aseguradora, cf.identityElement, cf.cuotas;";
 $respuestaquery5f = $conexion->query($query5f);
 $valor_f = mysqli_num_rows($respuestaquery5f);
 
-$html2 .= '<tr>';
 $cont3 = 1;
 while ($rowRespuesta5f = mysqli_fetch_assoc($respuestaquery5f)) {
 	$fondo_class = ($cont3 % 2 == 0) ? 'fondo2' : 'fondo';

@@ -805,7 +805,7 @@ if ($_SESSION["permisos"]["Cotizarpesados"] != "x") {
 
     <h1>
 
-      Cotizar Seguros Pesados
+      Cotizar Seguro Pesados
 
     </h1>
 

@@ -1328,6 +1328,7 @@ function cotizarFinesa(ofertasCotizaciones) {
               .then((dbData) => {
                 const elementDiv = document.getElementById(element.objFinesa);
                 if (dbData.data.mensaje.includes("Por políticas de Finesa")) {
+                  cotizacionesFinesa[index].cotizada = true;
                   elementDiv.innerHTML = `Financiación:<br /> No aplica financiación`;
                 } else {
                   cotizacionesFinesa[index].cotizada = true;
