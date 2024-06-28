@@ -3,9 +3,6 @@ session_start();
 
 header('Content-Type: text/html; charset=utf-8');
 date_default_timezone_set('America/Bogota');
-ini_set('display_errors', 1); 
-    ini_set('display_startup_errors', 1); 
-    error_reporting(E_ALL);
 
 
 // Incluye la biblioteca TCPDF principal (busca la ruta de instalación).
