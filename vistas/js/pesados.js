@@ -1800,10 +1800,10 @@ function cotizarFinesa(ofertasCotizaciones) {
               .then((dbResponse) => dbResponse.json())
               .then((dbData) => {
                 const elementDiv = document.getElementById(element.objFinesa);
-                if (dbData?.data?.mensaje.includes("Por políticas de Finesa")) {
+                if (dbData.data.mensaje.includes("Por políticas de Finesa")) {
                   cotizacionesFinesa[index].cotizada = true;
                   elementDiv.innerHTML = `Financiación:<br /> No aplica financiación`;
-                } else if(dbData?.mensaje.includes("Asegurado no viable para financiacion")) {
+                } else if(dbData.data.mensaje.includes("Asegurado no viable para financiacion")) {
                   cotizacionesFinesa[index].cotizada = true;
                   elementDiv.innerHTML = `Financiación Finesa:<br /> Asegurado no viable para financiación`;
                 } else {
