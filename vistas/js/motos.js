@@ -903,7 +903,7 @@ function cotizarFinesa(ofertasCotizaciones) {
             finesaData.cuotas = element.cuotas;
 
             return fetch(
-              "http://localhost/motorTest/saveDataQuotationsFinesa",
+              "https://www.grupoasistencia.com/motor_webservice/saveDataQuotationsFinesa",
               {
                 method: "POST",
                 headers: headers,
