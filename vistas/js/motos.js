@@ -852,7 +852,7 @@ function saveQuotations(responses) {
   return dataToDB;
 }
 
-function cotizarFinesa(ofertasCotizaciones) {
+function cotizarFinesaMotos(ofertasCotizaciones) {
   let cotEnFinesaResponse = [];
   let promisesFinesa = [];
 
@@ -2113,7 +2113,7 @@ function cotizarOfertasMotos() {
                     $("#loaderOferta").html(
                       '<img src="vistas/img/plantilla/loader-update.gif" width="34" height="34"><strong> Cotizando en Finesa...</strong>'
                     );
-                    cotizarFinesa(cotizacionesFinesa);
+                    cotizarFinesaMotos(cotizacionesFinesa);
                   }
                 });
             // console.log("Se completo todo");
@@ -2511,7 +2511,7 @@ function cotizarOfertasMotos() {
               $("#loaderOferta").html(
                 '<img src="vistas/img/plantilla/loader-update.gif" width="34" height="34"><strong> Re-cotizando en Finesa...</strong>'
               );
-              cotizarFinesa(cotizacionesFinesa);
+              cotizarFinesaMotos(cotizacionesFinesa);
             }
           });
       });
