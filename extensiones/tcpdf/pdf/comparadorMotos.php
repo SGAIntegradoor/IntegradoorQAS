@@ -44,6 +44,13 @@ GROUP BY cf.identityElement";
 $valor3 = $conexion->query($query3);
 $fila2 = mysqli_num_rows($valor3);
 
+if($fila2 == 0 || $fila2 == false || $fila2 == null){
+	mysqli_free_result($valor3);
+	$query3 = "SELECT Aseguradora FROM ofertas WHERE `id_cotizacion` = $identificador AND `seleccionar` = 'Si'";
+	$valor3 = $conexion->query($query3);
+	$fila2 = mysqli_num_rows($valor3);
+}
+
 // :::::::::::::::::::::::Query para imagen logo::::::::::::::::::::::::::.
 $queryLogo = "SELECT urlLogo FROM intermediario  WHERE id_Intermediario = $intermediario";
 
