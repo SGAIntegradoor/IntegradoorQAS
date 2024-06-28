@@ -641,7 +641,7 @@ $html3 .= '<td style ="width: 100%;  background-color: #D1D1D1; font-family:deja
 </td>';
 $html3 .= '</tr>';
 
-$query7 = "SELECT * from ofertas WHERE id_cotizacion = $identificador AND seleccionar = 'Si'";
+$query7 = "SELECT * FROM ofertas WHERE `id_cotizacion` = $identificador AND `seleccionar` = 'Si'";
 $respuestaquery7 =  $conexion->query($query7);
 
 $html3 .= '<tr class="trborder">';
@@ -1177,7 +1177,7 @@ $html3s = '
 
 $pdf->SetFont('dejavusanscondensed', '', 8);
 
-$query7 = "SELECT * FROM ofertas WHERE id_cotizacion= $identificador AND seleccionar = 'Si'";
+$query7 = "SELECT * FROM ofertas WHERE `id_cotizacion` = $identificador AND `seleccionar` = 'Si'";
 $respuestaquery7 =  $conexion->query($query7);
 
 $html3s .= '<tr class="trborder">';
