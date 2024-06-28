@@ -1177,14 +1177,7 @@ $html3s = '
 
 $pdf->SetFont('dejavusanscondensed', '', 8);
 
-$query7 = "SELECT cf.identityElement, o.Aseguradora
-FROM cotizaciones_finesa cf 
-INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion 
-INNER JOIN cotizaciones c ON o.id_cotizacion = cf.id_cotizacion 
-WHERE o.seleccionar = 'Si' 
-AND CONVERT(cf.identityElement USING utf8mb3) = CONVERT(o.oferta_finesa USING utf8mb3) 
-AND cf.id_cotizacion = $identificador 
-GROUP BY cf.identityElement";
+$query7 = "SELECT * FROM ofertas WHERE id_cotizacion= $identificador AND seleccionar = 'Si'";
 $respuestaquery7 =  $conexion->query($query7);
 
 $html3s .= '<tr class="trborder">';
