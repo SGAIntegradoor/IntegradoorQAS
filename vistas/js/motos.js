@@ -853,6 +853,7 @@ function saveQuotations(responses) {
 }
 
 function cotizarFinesaMotos(ofertasCotizaciones) {
+  
   let cotEnFinesaResponse = [];
   let promisesFinesa = [];
 
@@ -892,6 +893,7 @@ function cotizarFinesaMotos(ofertasCotizaciones) {
         )
           .then((response) => response.json())
           .then((finesaData) => {
+
             // Sub Promesa para guardar la data en la BD con relacion a la cotizacion actual.
 
             finesaData.producto = element.producto;
@@ -912,13 +914,13 @@ function cotizarFinesaMotos(ofertasCotizaciones) {
               .then((dbData) => {
                 const elementDiv = document.getElementById(element.objFinesa);
                 if (dbData.data.mensaje.includes("Por políticas de Finesa")) {
-                  cotizacionesFinesa[index].cotizada = true;
+                  cotizacionesFinesaMotos[index].cotizada = true;
                   elementDiv.innerHTML = `Financiación:<br /> No aplica financiación`;
                 } else if(dbData.mensaje.includes("Asegurado no viable para financiacion")) {
-                  cotizacionesFinesa[index].cotizada = true;
+                  cotizacionesFinesaMotos[index].cotizada = true;
                   elementDiv.innerHTML = `Financiación Finesa:<br /> Asegurado no viable para financiación`;
                 } else {
-                  cotizacionesFinesa[index].cotizada = true;
+                  cotizacionesFinesaMotos[index].cotizada = true;
                   elementDiv.innerHTML = `Financiación Finesa:<br />$${dbData.data.data.val_cuo.toLocaleString(
                     "es-ES"
                   )} (${dbData.data.cuotas} Cuotas)`;
@@ -963,7 +965,7 @@ function cotizarFinesaMotos(ofertasCotizaciones) {
     });
 }
 
-// let actIdentity = "";
+let actIdentityMotos = "";
 
 // REGISTRA CADA UNA DE LAS OFERTAS COTIZADAS EN LA BD
 function registrarOfertaMotos(
@@ -1013,7 +1015,7 @@ function registrarOfertaMotos(
         pdf: pdf,
         responsabilidad_civil_familiar: responsabilidad_civil_familiar,
         pph: pph,
-        identityElement: actIdentity != "" ? actIdentity : NULL,
+        identityElement: actIdentityMotos != "" ? actIdentityMotos : NULL,
       },
       success: function (data) {
         console.log(data);
@@ -1027,8 +1029,8 @@ function registrarOfertaMotos(
   });
 }
 
-// let contCotizacion = 0;
-// let cotizacionesFinesa = [];
+let contCotizacionMotos = 0;
+let cotizacionesFinesaMotos = [];
 
 const mostrarOfertaMotos = (
   aseguradora,
@@ -1096,20 +1098,20 @@ const mostrarOfertaMotos = (
   
   let cotOferta = {
     aseguradora: aseguradora,
-    objFinesa: aseguradora + "_" + contCotizacion,
+    objFinesa: aseguradora + "_" + contCotizacionMotos,
     producto: producto,
     prima: Number(prima.replace(/\./g, "")),
     cuotas: 11,
     cotizada: null,
   };
 
-  actIdentity = aseguradora + "_" + contCotizacion;
+  actIdentityMotos = aseguradora + "_" + contCotizacionMotos;
 
   if (
-    cotizacionesFinesa.filter((e) => e.objFinesa === cotOferta.objFinesa)
+    cotizacionesFinesaMotos.filter((e) => e.objFinesa === cotOferta.objFinesa)
       .length === 0
   ) {
-    cotizacionesFinesa.push(cotOferta);
+    cotizacionesFinesaMotos.push(cotOferta);
   }
 
 
@@ -1149,7 +1151,7 @@ ${
                   <h5 class='entidad' style='font-size: 15px'>${aseguradora} - ${producto}</h5>
                   <h5 class='precio' style='margin-top: 0px !important;'>Desde $ ${prima}</h5>
                   <p class='title-precio' style='margin: 0 0 3px !important'>Precio (IVA incluido)</p>
-                  <div id='${actIdentity}' style='display: none; color: #88d600; font-weight: bold'>
+                  <div id='${actIdentityMotos}' style='display: none; color: #88d600; font-weight: bold'>
               </div>
             </div>
           <div class="col-xs-12 col-sm-6 col-md-4">
@@ -1272,7 +1274,7 @@ function validarOfertasMotos(ofertas, aseguradora, exito) {
     //     contadorPorEntidad[oferta.entidad]
     //   }`
     // );
-    contCotizacion++;
+    contCotizacionMotos++;
     mostrarOfertaMotos(
       oferta.entidad,
       oferta.precio,
@@ -2113,7 +2115,7 @@ function cotizarOfertasMotos() {
                     $("#loaderOferta").html(
                       '<img src="vistas/img/plantilla/loader-update.gif" width="34" height="34"><strong> Cotizando en Finesa...</strong>'
                     );
-                    cotizarFinesaMotos(cotizacionesFinesa);
+                    cotizarFinesaMotos(cotizacionesFinesaMotos);
                   }
                 });
             // console.log("Se completo todo");
@@ -2511,7 +2513,7 @@ function cotizarOfertasMotos() {
               $("#loaderOferta").html(
                 '<img src="vistas/img/plantilla/loader-update.gif" width="34" height="34"><strong> Re-cotizando en Finesa...</strong>'
               );
-              cotizarFinesaMotos(cotizacionesFinesa);
+              cotizarFinesaMotos(cotizacionesFinesaMotos);
             }
           });
       });
