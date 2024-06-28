@@ -1308,7 +1308,7 @@ function editarCotizacion(id) {
                           : oferta.Aseguradora == "Liberty" &&
                             oferta.oferta_finesa != null
                           ? "padding-top: 14px"
-                          : "padding-top: 36px"
+                          : "padding-top: 14px"
                       }'>
                       <h5 class='entidad' style='font-size: 15px'>${
                         oferta.Aseguradora
