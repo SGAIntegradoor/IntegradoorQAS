@@ -1102,7 +1102,7 @@ function editarCotizacion(id) {
 
           try {
             const dbResponse = await fetch(
-              "https://www.grupoasistencia.com/motor_webservice/getOffertsFinesa",
+              "http://localhost/motorTest/getOffertsFinesa",
               {
                 method: "POST",
                 headers: headers,

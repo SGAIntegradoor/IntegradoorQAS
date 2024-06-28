@@ -25,37 +25,71 @@ if (!$conexion) {
 }
 $conexion->set_charset("utf8");
 
-
-$query2 = "SELECT *	FROM cotizaciones, clientes WHERE cotizaciones.id_cliente = clientes.id_cliente AND `id_cotizacion` = $identificador";
-$valor2 = $conexion->query($query2);
-$fila = mysqli_fetch_array($valor2);
+$query2 = "SELECT * FROM cotizaciones INNER JOIN clientes ON cotizaciones.id_cliente = clientes.id_cliente WHERE id_cotizacion = ?";
+$stmt = $conexion->prepare($query2);
+$stmt->bind_param('i', $identificador);
+$stmt->execute();
+$fila = $stmt->get_result()->fetch_array(MYSQLI_ASSOC);
+$stmt->close();
 
 // :::::::::::::::::::::::Query para imagen logo::::::::::::::::::::::::::.
-$queryLogo = "SELECT urlLogo FROM intermediario  WHERE id_Intermediario = $intermediario";
+// $queryLogo = "SELECT urlLogo FROM intermediario  WHERE id_Intermediario = $intermediario";
+// $valorLogo = $conexion->query($queryLogo);
+// $valorLogo = mysqli_fetch_array($valorLogo);
+// $valorLogo = $valorLogo['urlLogo'];
+// $porciones = explode(".", $valorLogo);
 
-$valorLogo = $conexion->query($queryLogo);
-$valorLogo = mysqli_fetch_array($valorLogo);
-$valorLogo = $valorLogo['urlLogo'];
+$queryLogo = "SELECT urlLogo FROM intermediario WHERE id_Intermediario = ?";
+$stmt = $conexion->prepare($queryLogo);
+$stmt->bind_param('i', $intermediario);
+$stmt->execute();
+$valorLogo = $stmt->get_result()->fetch_array(MYSQLI_ASSOC)['urlLogo'];
+$stmt->close();
 
 $porciones = explode(".", $valorLogo);
 
+// $query3 = "SELECT o.Aseguradora
+// FROM cotizaciones_finesa cf 
+// INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion 
+// INNER JOIN cotizaciones c ON o.id_cotizacion = cf.id_cotizacion 
+// WHERE o.seleccionar = 'Si' 
+// AND CONVERT(cf.identityElement USING utf8mb3) = CONVERT(o.oferta_finesa USING utf8mb3) 
+// AND cf.id_cotizacion = $identificador 
+// GROUP BY cf.identityElement";
+
+// $valor3 = $conexion->query($query3);
+// $fila2 = mysqli_num_rows($valor3);
+
 $query3 = "SELECT o.Aseguradora
-FROM cotizaciones_finesa cf 
-INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion 
-INNER JOIN cotizaciones c ON o.id_cotizacion = cf.id_cotizacion 
-WHERE o.seleccionar = 'Si' 
-AND CONVERT(cf.identityElement USING utf8mb3) = CONVERT(o.oferta_finesa USING utf8mb3) 
-AND cf.id_cotizacion = $identificador 
+FROM cotizaciones_finesa cf
+INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion
+WHERE o.seleccionar = 'Si'
+AND CONVERT(cf.identityElement USING utf8mb3) = CONVERT(o.oferta_finesa USING utf8mb3)
+AND cf.id_cotizacion = ?
 GROUP BY cf.identityElement";
 
-$valor3 = $conexion->query($query3);
-$fila2 = mysqli_num_rows($valor3);
+$stmt = $conexion->prepare($query3);
+$stmt->bind_param('i', $identificador);
+$stmt->execute();
+$valor3 = $stmt->get_result();
+$fila2 = $valor3->num_rows;
+$stmt->close();
 
 // Consulta las aseguradoras que fueron selecionadas para visualizar en el PDF
-$queryAsegSelec = "SELECT DISTINCT Aseguradora FROM ofertas WHERE `id_cotizacion` = $identificador AND `seleccionar` = 'Si'";
+// $queryAsegSelec = "SELECT DISTINCT Aseguradora FROM ofertas WHERE `id_cotizacion` = $identificador AND `seleccionar` = 'Si'";
 
-$valorAsegSelec = $conexion->query($queryAsegSelec);
-$asegSelecionada = mysqli_num_rows($valorAsegSelec);
+// $valorAsegSelec = $conexion->query($queryAsegSelec);
+// $asegSelecionada = mysqli_num_rows($valorAsegSelec);
+// $valorAsegSelec->close();
+$queryAsegSelec = "SELECT DISTINCT Aseguradora FROM ofertas WHERE id_cotizacion = ? AND seleccionar = 'Si'";
+$stmt = $conexion->prepare($queryAsegSelec);
+$stmt->bind_param('i', $identificador);
+$stmt->execute();
+$resultado = $stmt->get_result();
+$asegSelecionada = $resultado->num_rows;
+$stmt->close();
+
+
 
 // Consultar cuantas Ofertas fueron selecionadas para visualizarlas en el PDF
 // $queryPDF = "SELECT pdf FROM ofertas WHERE `id_cotizacion` = $identificador AND `seleccionar` = 'Si'";
@@ -367,7 +401,8 @@ while ($rowRespuesta4 = mysqli_fetch_assoc($respuestaquery4)) {
 		case 'HDI Seguros':
 			$html2 .= '<td class="puntos td2 ' . $fondo_class . '" style="  font-size: 6.5px; font-family:dejavusanscondensedb;">
 			<img style="width:40px;" src="../../../vistas/img/logos/hdi.png" alt="">
-			<span style="color:#666666;">' . $rowRespuesta4['Producto']  . '</span>
+			<div style="font-size:3pt">&nbsp;</div>
+			<span style="color:#666666;">' . ($rowRespuesta4['Producto'] == 'VEHICULO SEGURO HDI PEAU 100%' ? 'HDI Peau 100%' : $rowRespuesta4['Producto'])  . '</span>
 			</td>';
 			break;
 		case 'SBS Seguros':
@@ -402,11 +437,14 @@ while ($rowRespuesta4 = mysqli_fetch_assoc($respuestaquery4)) {
 			break;
 		case 'Allianz Seguros':
 		case 'Allianz':
+			$valorAsignado =
+				$rowRespuesta4['Producto'] == 'Autos Esencial + Totales' ? 'Esen.+Totales' : ($rowRespuesta4['Producto'] == 'Autos Llave en Mano' ? 'Llave en Mano' :
+					$rowRespuesta4['Producto']);
 			$html2 .= '<td class="puntos td2 ' . $fondo_class . '" style="  font-size: 6.5px; font-family:dejavusanscondensedb;">
 			<div style="font-size:7.5pt">&nbsp;</div>
 			<img style="width:40px;" src="../../../vistas/img/logos/allianz.png" alt="">
 			<div style="font-size: 6pt">&nbsp;</div>
-			<span style="color:#666666;">' . ($rowRespuesta4['Producto'] == 'Autos Esencial + Totales' ? 'Esen.+Totales' : $rowRespuesta4['Producto']) . '</span>
+			<span style="color:#666666;">' . $valorAsignado . '</span>
 			</td>';
 			break;
 		case 'Liberty Seguros':
@@ -460,6 +498,7 @@ while ($rowRespuesta4 = mysqli_fetch_assoc($respuestaquery4)) {
 
 	$cont++;
 }
+mysqli_free_result($respuestaquery4);
 $html2 .= '</tr>';
 
 $query5 = "SELECT cf.cuota_1, cf.aseguradora, cf.identityElement, cf.cuotas, cf.id_cotizacion, o.Aseguradora, o.Producto, o.Prima 
@@ -543,6 +582,7 @@ if ($valor == 10) {
 		$cont2 += 1;
 	}
 }
+mysqli_free_result($respuestaquery5);
 $html2 .= '</tr>';
 
 // Cuotas de Finesa en cada cotizacion
@@ -565,24 +605,25 @@ if ($respuestaquery5f === false) {
 
 	$cont3 = 1;
 	while ($rowRespuesta5f = mysqli_fetch_assoc($respuestaquery5f)) {
-        // var_dump($rowRespuesta5f);
-        $fondo_class = ($cont3 % 2 == 0) ? 'fondo2' : 'fondo';
-        $font_size = ($valor_f > 10) ? 7 : (($valor_f == 10) ? 8 : 9);
+		// var_dump($rowRespuesta5f);
+		$fondo_class = ($cont3 % 2 == 0) ? 'fondo2' : 'fondo';
+		$font_size = ($valor_f > 10) ? 7 : (($valor_f == 10) ? 8 : 9);
 
-        $cuota_1 = $rowRespuesta5f['cuota_1'] == 0 ? "No aplica para" : "$ " .' '. number_format($rowRespuesta5f['cuota_1'], 0, ',', '.');
-        $cuotas = $rowRespuesta5f['cuota_1'] == 0 ? "Financiación" : '('. $rowRespuesta5f['cuotas'] . ' Cuotas)';
+		$cuota_1 = $rowRespuesta5f['cuota_1'] == 0 ? "No aplica para" : "$ " . ' ' . number_format($rowRespuesta5f['cuota_1'], 0, ',', '.');
+		$cuotas = $rowRespuesta5f['cuota_1'] == 0 ? "Financiación" : '(' . $rowRespuesta5f['cuotas'] . ' Cuotas)';
 
-        $html2 .= '<td style="font-size:' . ($font_size - 2) . 'px; color:#666666; font-family:dejavusanscondensedb;" class="puntos td2 ' . $fondo_class . '">
+		$html2 .= '<td style="font-size:' . ($font_size - 2) . 'px; color:#666666; font-family:dejavusanscondensedb;" class="puntos td2 ' . $fondo_class . '">
         <span>' . $cuota_1 . '</span>
 		<br>
         <span>' . $cuotas . '</span>
 
         </td>';
 
-        $cont3++;
-    }
-    $html2 .= '</tr>';
+		$cont3++;
+	}
+	$html2 .= '</tr>';
 }
+mysqli_free_result($respuestaquery5f);
 $html2 .= '</table></div>';
 $html3 = '
 <style>
@@ -837,6 +878,7 @@ while ($rowRespuesta7 = mysqli_fetch_assoc($respuestaquery7)) {
 
 	$cont3 += 1;
 }
+mysqli_free_result($respuestaquery7);
 $html3 .= '</tr>';
 $html3 .= '<tr>';
 $html3 .= '<td class="puntos fondo" style="width:10%; text-align: center; font-family:dejavusanscondensedb;"><font size="8">Límite máximo </font><font size="7"> (En millones)</font></td>';
@@ -920,7 +962,7 @@ if ($valorlimiterow == 10) {
 }
 
 
-
+mysqli_free_result($respuestaquery9);
 $html3 .= '</tr>';
 
 
@@ -3287,7 +3329,7 @@ function productoAseguradora($aseguradora, $producto)
 
 
 // ---------------------------------------------------------
-
+mysqli_close($conexion);
 // Close and output PDF document
 // This method has several options, check the source code documentation for more information.
 $pdf->Output('cotizacionAutos.pdf', 'I');
