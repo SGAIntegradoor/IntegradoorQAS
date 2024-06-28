@@ -1769,10 +1769,11 @@ function cotizarFinesa(ofertasCotizaciones) {
       typeId: tipoId,
     };
     if (element.cotizada == null || element.cotizada == false) {
+      debugger
       console.log(element);
       promisesFinesa.push(
         fetch(
-          "https://www.grupoasistencia.com/motor_webservice/saveDataQuotationsFinesa",
+          "https://www.grupoasistencia.com/motor_webservice/paymentInstallmentsFinesa",
           {
             method: "POST",
             headers: headers,
@@ -1789,7 +1790,7 @@ function cotizarFinesa(ofertasCotizaciones) {
             finesaData.identity = element.objFinesa;
             finesaData.cuotas = element.cuotas;
             return fetch(
-              "http://localhost/motorTest/saveDataQuotationsFinesa",
+              "https://www.grupoasistencia.com/motor_webservice/saveDataQuotationsFinesa",
               {
                 method: "POST",
                 headers: headers,

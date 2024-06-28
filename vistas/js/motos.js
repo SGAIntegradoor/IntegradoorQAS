@@ -878,6 +878,7 @@ function cotizarFinesa(ofertasCotizaciones) {
     };
 
     if (element.cotizada == null || element.cotizada == false) {
+      debugger;
       console.log(element);
       promisesFinesa.push(
         fetch(
@@ -911,17 +912,17 @@ function cotizarFinesa(ofertasCotizaciones) {
               .then((dbResponse) => dbResponse.json())
               .then((dbData) => {
                 const elementDiv = document.getElementById(element.objFinesa);
-                if (dbData?.data?.mensaje.includes("Por políticas de Finesa")) {
+                if (dbData.data.mensaje.includes("Por políticas de Finesa")) {
                   cotizacionesFinesa[index].cotizada = true;
                   elementDiv.innerHTML = `Financiación:<br /> No aplica financiación`;
-                } else if(dbData?.mensaje.includes("Asegurado no viable para financiacion")) {
+                } else if(dbData.mensaje.includes("Asegurado no viable para financiacion")) {
                   cotizacionesFinesa[index].cotizada = true;
                   elementDiv.innerHTML = `Financiación Finesa:<br /> Asegurado no viable para financiación`;
                 } else {
                   cotizacionesFinesa[index].cotizada = true;
-                  elementDiv.innerHTML = `Financiación Finesa:<br />$${dbData?.data?.data?.val_cuo.toLocaleString(
+                  elementDiv.innerHTML = `Financiación Finesa:<br />$${dbData.data.data.val_cuo.toLocaleString(
                     "es-ES"
-                  )} (${dbData?.data?.cuotas} Cuotas)`;
+                  )} (${dbData.data.cuotas} Cuotas)`;
                 }
                 elementDiv.style.display = "block";
                 // Agrega el resultado final al array

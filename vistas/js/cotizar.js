@@ -1295,6 +1295,7 @@ function cotizarFinesa(ofertasCotizaciones) {
     };
 
     if (element.cotizada == null || element.cotizada == false) {
+      debugger;
       console.log(element)
       promisesFinesa.push(
         fetch(
