@@ -1296,7 +1296,7 @@ function editarCotizacion(id) {
 
 											</div>
 
-											<div class="col-xs-12 col-sm-6 col-md-2 oferta-header" style='${
+											<div class="col-xs-12 col-sm-6 col-md-2 oferta-headerEdit" style='${
                         oferta.Aseguradora == "Liberty" &&
                         (oferta.oferta_finesa == "" ||
                           oferta.oferta_finesa == null)
