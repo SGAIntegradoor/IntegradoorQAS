@@ -1667,6 +1667,10 @@ const mostrarOferta = (
 function validarOfertas(ofertas, aseguradora, exito) {
   let contadorPorEntidad = {};
 
+  if(aseguradora == "Bolivar" || aseguradora == "Seguros Bolivar"){
+    
+  }
+
   ofertas.forEach((oferta, i) => {
     var numCotizacion = oferta.numero_cotizacion;
     var precioOferta = oferta.precio;

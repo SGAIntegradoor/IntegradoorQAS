@@ -1262,7 +1262,9 @@ function editarCotizacion(id) {
 
                       <center> 
 
-												<img src='${oferta.logo}' style="${oferta.Aseguradora == "Mundial" ? "margin-top: 65px;" : null}">
+												<img src='${oferta.logo}' style="${
+                oferta.Aseguradora == "Mundial" ? "margin-top: 65px;" : null
+              }">
 
                         </center>
 
@@ -1294,9 +1296,33 @@ function editarCotizacion(id) {
 
 											</div>
 
-											<div class="col-xs-12 col-sm-6 col-md-2 oferta-header" style='${oferta.Aseguradora == "Liberty" && (oferta.oferta_finesa == "" || oferta.oferta_finesa == null) ? 'padding-top: 42px;': oferta.Aseguradora == "Mundial" && oferta.oferta_finesa && oferta.oferta_finesa != null ? 'padding-top: 14px;': oferta.Aseguradora == "Liberty" && oferta.oferta_finesa != null ? 'padding-top: 14px': 'padding-top: 36px'}'>
-                      <h5 class='entidad' style='font-size: 15px'>${oferta.Aseguradora} - ${oferta.Aseguradora == "Mundial" && oferta.Producto == "Pesados con RCE en exceso" ? 'Pesados RCE + Exceso': oferta.Producto}</h5>
-                      <h5 class='precio' style='${oferta.Aseguradora == "Liberty" ? 'padding-bottom: 0px; !important': ''}'>Precio $ ${primaFormat}</h5>
+											<div class="col-xs-12 col-sm-6 col-md-2 oferta-header" style='${
+                        oferta.Aseguradora == "Liberty" &&
+                        (oferta.oferta_finesa == "" ||
+                          oferta.oferta_finesa == null)
+                          ? "padding-top: 42px;"
+                          : oferta.Aseguradora == "Mundial" &&
+                            oferta.oferta_finesa &&
+                            oferta.oferta_finesa != null
+                          ? "padding-top: 14px;"
+                          : oferta.Aseguradora == "Liberty" &&
+                            oferta.oferta_finesa != null
+                          ? "padding-top: 14px"
+                          : "padding-top: 36px"
+                      }'>
+                      <h5 class='entidad' style='font-size: 15px'>${
+                        oferta.Aseguradora
+                      } - ${
+                oferta.Aseguradora == "Mundial" &&
+                oferta.Producto == "Pesados con RCE en exceso"
+                  ? "Pesados RCE + Exceso"
+                  : oferta.Producto
+              }</h5>
+                      <h5 class='precio' style='${
+                        oferta.Aseguradora == "Liberty"
+                          ? "padding-bottom: 0px; !important"
+                          : ""
+                      }'>Precio $ ${primaFormat}</h5>
                       <p class='title-precio'>(IVA incluido)</p>
 
                       ${
@@ -1307,9 +1333,18 @@ function editarCotizacion(id) {
                           } style="display: block; color: #88d600; font-weight: bold">
                             ${offerts
                               .map((element) => {
-                                if (element.identityElement == oferta.oferta_finesa) {
-                                  return `Financiación Finesa:<br />$${Number(element.cuota_1).toLocaleString('de-DE')}
+                                if (
+                                  element.identityElement ==
+                                  oferta.oferta_finesa
+                                ) {
+                                  if (element.cuota_1 == null) {
+                                    return `Financiación Finesa:<br />No aplica para financiación`;
+                                  } else {
+                                    return `Financiación Finesa:<br />$${Number(
+                                      element.cuota_1
+                                    ).toLocaleString("de-DE")}
                                   (${element.cuotas} Cuotas)`;
+                                  }
                                 }
                                 return "";
                               })
