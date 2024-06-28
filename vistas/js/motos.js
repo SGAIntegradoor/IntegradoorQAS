@@ -820,6 +820,153 @@ function consultarCiudad() {
   //}
 }
 
+//trae el ID del cliente sin caracteres especiales y solamente el numero para generar la cotización.
+function idWithOutSpecialChars() {
+  const numeroInput = document.getElementById("numDocumentoID").value;
+  const idWOSpecialChars = numeroInput.replace(/[^0-9]/g, "");
+  return idWOSpecialChars;
+}
+
+// Obtiene la fecha para la cotizacion de finesa, puede obtener la fecha actual y la fecha un año despues
+function obtenerFechaActual(incrementarAnio = false) {
+  const fecha = new Date();
+
+  if (incrementarAnio) {
+    fecha.setFullYear(fecha.getFullYear() + 1);
+  }
+
+  const dia = String(fecha.getDate()).padStart(2, "0");
+  const mes = String(fecha.getMonth() + 1).padStart(2, "0"); // Los meses van de 0 a 11, por eso se suma 1
+  const año = fecha.getFullYear();
+
+  return `${dia}-${mes}-${año}`;
+}
+
+function saveQuotations(responses) {
+  let dataToDB = [];
+  if (Array.isArray(responses) && responses.length >= 1) {
+    dataToDB = responses.map((element) => {
+      return element;
+    });
+  }
+  return dataToDB;
+}
+
+function cotizarFinesa(ofertasCotizaciones) {
+  let cotEnFinesaResponse = [];
+  let promisesFinesa = [];
+
+  const headers = new Headers();
+  headers.append("Content-Type", "application/json");
+
+  const tipoId = document.getElementById("tipoDocumentoID").value;
+
+  ofertasCotizaciones.forEach((element, index) => {
+  debugger;
+  console.log(element)
+    let data = {
+      fecha_cotizacion: obtenerFechaActual(),
+      valor_poliza: element.prima,
+      beneficiario_oneroso: false,
+      cuotas: 11,
+      fecha_inicio_poliza: obtenerFechaActual(),
+      primera_cuota: "min",
+      valor_primera_cuota: 0,
+      id_ramo: 1,
+      valor_mayor: 0,
+      fecha_fin_poliza: obtenerFechaActual(true),
+      id_insured: idWithOutSpecialChars(),
+      typeId: tipoId,
+    };
+
+    if (element.cotizada == null || element.cotizada == false) {
+      console.log(element);
+      promisesFinesa.push(
+        fetch(
+          "https://www.grupoasistencia.com/motor_webservice/paymentInstallmentsFinesa",
+          {
+            method: "POST",
+            headers: headers,
+            redirect: "follow",
+            referrerPolicy: "no-referrer",
+            body: JSON.stringify(data),
+          }
+        )
+          .then((response) => response.json())
+          .then((finesaData) => {
+            // Sub Promesa para guardar la data en la BD con relacion a la cotizacion actual.
+
+            finesaData.producto = element.producto;
+            finesaData.aseguradora = element.aseguradora;
+            finesaData.id_cotizacion = idCotizacion;
+            finesaData.identity = element.objFinesa;
+            finesaData.cuotas = element.cuotas;
+
+            return fetch(
+              "http://localhost/motorTest/saveDataQuotationsFinesa",
+              {
+                method: "POST",
+                headers: headers,
+                body: JSON.stringify(finesaData),
+              }
+            )
+              .then((dbResponse) => dbResponse.json())
+              .then((dbData) => {
+                const elementDiv = document.getElementById(element.objFinesa);
+                if (dbData?.data?.mensaje.includes("Por políticas de Finesa")) {
+                  cotizacionesFinesa[index].cotizada = true;
+                  elementDiv.innerHTML = `Financiación:<br /> No aplica financiación`;
+                } else if(dbData?.mensaje.includes("Asegurado no viable para financiacion")) {
+                  cotizacionesFinesa[index].cotizada = true;
+                  elementDiv.innerHTML = `Financiación Finesa:<br /> Asegurado no viable para financiación`;
+                } else {
+                  cotizacionesFinesa[index].cotizada = true;
+                  elementDiv.innerHTML = `Financiación Finesa:<br />$${dbData?.data?.data?.val_cuo.toLocaleString(
+                    "es-ES"
+                  )} (${dbData?.data?.cuotas} Cuotas)`;
+                }
+                elementDiv.style.display = "block";
+                // Agrega el resultado final al array
+                cotEnFinesaResponse.push({
+                  finesaData: finesaData,
+                  dbData: dbData,
+                });
+                return {
+                  finesaData: finesaData,
+                  dbData: dbData,
+                };
+              });
+          })
+      );
+    } else {
+      return;
+    }
+  });
+
+  Promise.all(promisesFinesa)
+    .then((results) => {
+      cotEnFinesaResponse = saveQuotations(results);
+      swal
+        .fire({
+          title: "¡Cotización a Finesa Finalizada!",
+          showConfirmButton: true,
+          confirmButtonText: "Cerrar",
+        })
+        .then(() => {
+          $("#loaderOferta").html("");
+          $("#loaderOfertaBox").css("display", "none");
+        });
+    })
+    .catch((error) => {
+      console.error("Error en las promesas: ", error);
+    })
+    .finally(() => {
+      console.log(cotEnFinesaResponse);
+    });
+}
+
+// let actIdentity = "";
+
 // REGISTRA CADA UNA DE LAS OFERTAS COTIZADAS EN LA BD
 function registrarOfertaMotos(
   aseguradora,
@@ -868,6 +1015,7 @@ function registrarOfertaMotos(
         pdf: pdf,
         responsabilidad_civil_familiar: responsabilidad_civil_familiar,
         pph: pph,
+        identityElement: actIdentity != "" ? actIdentity : NULL,
       },
       success: function (data) {
         console.log(data);
@@ -880,6 +1028,9 @@ function registrarOfertaMotos(
     });
   });
 }
+
+// let contCotizacion = 0;
+// let cotizacionesFinesa = [];
 
 const mostrarOfertaMotos = (
   aseguradora,
@@ -943,6 +1094,27 @@ const mostrarOfertaMotos = (
   var nombreAseguradora = nombreAseguradora(aseguradora);
   var aseguradoraCredenciales = nombreAseguradora + "_C_motos";
   var permisosCredenciales = permisos[aseguradoraCredenciales];
+
+  
+  let cotOferta = {
+    aseguradora: aseguradora,
+    objFinesa: aseguradora + "_" + contCotizacion,
+    producto: producto,
+    prima: Number(prima.replace(/\./g, "")),
+    cuotas: 11,
+    cotizada: null,
+  };
+
+  actIdentity = aseguradora + "_" + contCotizacion;
+
+  if (
+    cotizacionesFinesa.filter((e) => e.objFinesa === cotOferta.objFinesa)
+      .length === 0
+  ) {
+    cotizacionesFinesa.push(cotOferta);
+  }
+
+
   let cardCotizacion = `
   <div class='col-lg-12'>
   <div class='card-ofertas'>
@@ -963,26 +1135,25 @@ ${
     aseguradora == "Seguros Bolivar") &&
   id_intermediario == "78"
     ? `<center>
-<!-- Código para el caso específico de Axa Colpatria, Liberty, Equidad o Mapfre y id_intermediario no es 78 -->
-<!-- Agrega aquí el contenido específico para estas aseguradoras y el id_intermediario no es 78 -->
-</center>`
-    : permisos.Vernumerodecotizacionencadaaseguradora == "x" &&
-      permisosCredenciales == "1"
-    ? `<center>
-<label class='entidad'>N° Cot: <span style='color:black'>${numCotizOferta}</span></label>
-</center>`
-    : ""
-}
-</div>
-
-
-
-          </div>
-          <div class="col-xs-12 col-sm-6 col-md-2 oferta-header">
-              <h5 class='entidad'>${aseguradora} - ${producto}</h5>
-              <h5 class='precio'>Desde $ ${prima}</h5>
-              <p class='title-precio'>(IVA incluido)</p>
-          </div>
+          <!-- Código para el caso específico de Axa Colpatria, Liberty, Equidad o Mapfre y id_intermediario no es 78 -->
+          <!-- Agrega aquí el contenido específico para estas aseguradoras y el id_intermediario no es 78 -->
+          </center>`
+              : permisos.Vernumerodecotizacionencadaaseguradora == "x" &&
+                permisosCredenciales == "1"
+              ? `<center>
+          <label class='entidad'>N° Cot: <span style='color:black'>${numCotizOferta}</span></label>
+          </center>`
+              : ""
+          }
+            </div>
+              </div>
+                  <div class="col-xs-12 col-sm-6 col-md-2 oferta-header">
+                  <h5 class='entidad' style='font-size: 15px'>${aseguradora} - ${producto}</h5>
+                  <h5 class='precio' style='margin-top: 0px !important;'>Desde $ ${prima}</h5>
+                  <p class='title-precio' style='margin: 0 0 3px !important'>Precio (IVA incluido)</p>
+                  <div id='${actIdentity}' style='display: none; color: #88d600; font-weight: bold'>
+              </div>
+            </div>
           <div class="col-xs-12 col-sm-6 col-md-4">
               <ul class="list-group">
                   <li class="list-group-item">
@@ -1080,8 +1251,8 @@ ${
 };
 
 function validarOfertasMotos(ofertas, aseguradora, exito) {
-  console.log(ofertas);
-  console.log(exito);
+  // console.log(ofertas);
+  // console.log(exito);
   //console.log(aseguradora);
   let contadorPorEntidad = {};
   $responsabilidadCivilFamiliar = ofertas[0].responsabilidad_civil_familiar;
@@ -1098,11 +1269,12 @@ function validarOfertasMotos(ofertas, aseguradora, exito) {
     contadorPorEntidad[oferta.entidad] =
       (contadorPorEntidad[oferta.entidad] || 0) + 1;
     //console.log(contadorPorEntidad);
-    console.log(
-      `Entidad: ${oferta.entidad}, Contador: ${
-        contadorPorEntidad[oferta.entidad]
-      }`
-    );
+    // console.log(
+    //   `Entidad: ${oferta.entidad}, Contador: ${
+    //     contadorPorEntidad[oferta.entidad]
+    //   }`
+    // );
+    contCotizacion++;
     mostrarOfertaMotos(
       oferta.entidad,
       oferta.precio,
@@ -1918,19 +2090,34 @@ function cotizarOfertasMotos() {
           });
 
           Promise.all(cont).then(() => {
-            //$("#btnCotizar").hide();
-            $("#loaderOferta").html("");
-            $("#loaderOfertaBox").css("display", "none");
-            swal.fire({
-              type: "success",
-              title: "¡Cotización finalizada!",
-              showConfirmButton: true,
-              confirmButtonText: "Cerrar",
-            });
-            setTimeout(function () {
-              //  window.location = "index.php?ruta=editar-cotizacion&idCotizacion=" + idCotizacion;
-            }, 3000);
-
+             // $("#btnCotizar").hide();
+              //$("#loaderOferta").html("");
+              //$("#loaderOfertaBox").css("display", "none");
+              swal
+                .fire({
+                  title: "¡Proceso de Cotización Finalizada!",
+                  text: "¿Deseas incluir la financiación con Finesa a 11 cuotas?",
+                  showConfirmButton: true,
+                  confirmButtonText: "Si",
+                  showCancelButton: true,
+                  cancelButtonText: "No",
+                  customClass: {
+                    title: "custom-title-messageFinesa",
+                    htmlContainer: "custom-text-messageFinesa",
+                    popup: "custom-popup-messageFinesa",
+                    actions: "custom-actions-messageFinesa",
+                    confirmButton: "custom-confirmnButton-messageFinesa",
+                    cancelButton: "custom-cancelButton-messageFinesa",
+                  },
+                })
+                .then(function (result) {
+                  if (result.isConfirmed) {
+                    $("#loaderOferta").html(
+                      '<img src="vistas/img/plantilla/loader-update.gif" width="34" height="34"><strong> Cotizando en Finesa...</strong>'
+                    );
+                    cotizarFinesa(cotizacionesFinesa);
+                  }
+                });
             // console.log("Se completo todo");
             const btnCotizar = document.getElementById("btnCotizarMotos");
             btnCotizar.disabled = true;
@@ -2304,12 +2491,31 @@ function cotizarOfertasMotos() {
       Promise.all(cont).then(() => {
         $("#loaderOferta").html("");
         $("#loaderRecotOferta").html("");
-        swal.fire({
-          type: "success",
-          title: "¡Proceso de recotización finalizado!",
-          showConfirmButton: true,
-          confirmButtonText: "Cerrar",
-        });
+        swal
+          .fire({
+            title: "¡Proceso de Re-Cotización Finalizada!",
+            text: "¿Deseas incluir la financiación con Finesa a 11 cuotas?",
+            showConfirmButton: true,
+            confirmButtonText: "Si",
+            showCancelButton: true,
+            cancelButtonText: "No",
+            customClass: {
+              title: "custom-title-messageFinesa",
+              htmlContainer: "custom-text-messageFinesa",
+              popup: "custom-popup-messageFinesa",
+              actions: "custom-actions-messageFinesa",
+              confirmButton: "custom-confirmnButton-messageFinesa",
+              cancelButton: "custom-cancelButton-messageFinesa",
+            },
+          })
+          .then(function (result) {
+            if (result.isConfirmed) {
+              $("#loaderOferta").html(
+                '<img src="vistas/img/plantilla/loader-update.gif" width="34" height="34"><strong> Re-cotizando en Finesa...</strong>'
+              );
+              cotizarFinesa(cotizacionesFinesa);
+            }
+          });
       });
     }
   }

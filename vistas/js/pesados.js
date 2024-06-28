@@ -1220,7 +1220,7 @@ function registrarOfertaPesados(
   responsabilidad_civil_familiar,
   manual,
   pdf,
-  pph,
+  pph
 ) {
   return new Promise((resolve, reject) => {
     var idCotizOferta = idCotizacion;
@@ -1271,7 +1271,6 @@ function registrarOfertaPesados(
 }
 let contCotizacion = 0;
 let cotizacionesFinesa = [];
-
 
 const mostrarOfertaPesados = (
   aseguradora,
@@ -1368,10 +1367,10 @@ const mostrarOfertaPesados = (
     producto: producto,
     prima: Number(prima.replace(/\./g, "")),
     cuotas: 11,
-    cotizada: null
+    cotizada: null,
   };
 
-  actIdentity = aseguradora+"_"+ contCotizacion;
+  actIdentity = aseguradora + "_" + contCotizacion;
 
   if (
     cotizacionesFinesa.filter((e) => e.objFinesa === cotOferta.objFinesa)
@@ -1431,12 +1430,12 @@ const mostrarOfertaPesados = (
                 }
                   
                   <div class="col-xs-12 col-sm-6 col-md-2 oferta-header">
-                    <h5 class='entidad' style='font-size: 15px'>${aseguradora} - ${producto == "Pesados con RCE en exceso" ? "Pesados RCE + Exceso" : producto}</h5>
+                    <h5 class='entidad' style='font-size: 15px'>${aseguradora} - ${
+    producto == "Pesados con RCE en exceso" ? "Pesados RCE + Exceso" : producto
+  }</h5>
                     <h5 class='precio' style='margin-top: 0px !important;'>Desde $ ${prima}</h5>
                     <p class='title-precio' style='margin: 0 0 3px !important'>Precio (IVA incluido)</p>
-                    <div id='${
-                      actIdentity
-                    }' style='display: none; color: #88d600; font-weight: bold'>
+                    <div id='${actIdentity}' style='display: none; color: #88d600; font-weight: bold'>
                     </div>
                   </div>
                   <div class="col-xs-12 col-sm-6 col-md-4">
@@ -1597,8 +1596,8 @@ function validarOfertasPesados(ofertas, aseguradora, exito) {
       oferta.servicio_grua,
       oferta.imagen,
       oferta.pdf
-      );
-    
+    );
+
     console.log(actIdentity);
 
     registrarOfertaPesados(
@@ -1734,7 +1733,7 @@ function obtenerFechaActual(incrementarAnio = false) {
 }
 
 function saveQuotations(responses) {
-  console.log(responses)
+  console.log(responses);
   let dataToDB = [];
   if (Array.isArray(responses) && responses.length >= 1) {
     dataToDB = responses.map((element) => {
@@ -1754,6 +1753,8 @@ function cotizarFinesa(ofertasCotizaciones) {
   const tipoId = document.getElementById("tipoDocumentoID").value;
 
   ofertasCotizaciones.forEach((element, index) => {
+    debugger;
+    console.log(element);
     let data = {
       fecha_cotizacion: obtenerFechaActual(),
       valor_poliza: element.prima,
@@ -1768,48 +1769,51 @@ function cotizarFinesa(ofertasCotizaciones) {
       id_insured: idWithOutSpecialChars(),
       typeId: tipoId,
     };
-
-    promisesFinesa.push(
-      fetch(
-        "https://www.grupoasistencia.com/motor_webservice/paymentInstallmentsFinesa",
-        {
-          method: "POST",
-          headers: headers,
-          redirect: "follow",
-          referrerPolicy: "no-referrer",
-          body: JSON.stringify(data),
-        }
-      )
-        .then((response) => response.json())
-        .then((finesaData) => {
-
-          // Sub Promesa para guardar la data en la BD con relacion a la cotizacion actual.
-
-          finesaData.producto = element.producto;
-          finesaData.aseguradora = element.aseguradora;
-          finesaData.id_cotizacion = idCotizacion;
-          finesaData.identity = element.objFinesa;
-          finesaData.cuotas = element.cuotas;
-
-          return fetch("http://localhost/motorTest/saveDataQuotationsFinesa", {
+    if (element.cotizada == null || element.cotizada == false) {
+      debugger;
+      console.log(element);
+      promisesFinesa.push(
+        fetch(
+          "https://www.grupoasistencia.com/motor_webservice/paymentInstallmentsFinesa",
+          {
             method: "POST",
             headers: headers,
-            body: JSON.stringify(finesaData),
-          })
-            .then((dbResponse) => dbResponse.json())
-            .then((dbData) => {
-              const elementDiv = document.getElementById(element.objFinesa);
-                if(dbData.data.mensaje.includes("Por políticas de Finesa")){
+            redirect: "follow",
+            referrerPolicy: "no-referrer",
+            body: JSON.stringify(data),
+          }
+        )
+          .then((response) => response.json())
+          .then((finesaData) => {
+            finesaData.producto = element.producto;
+            finesaData.aseguradora = element.aseguradora;
+            finesaData.id_cotizacion = idCotizacion;
+            finesaData.identity = element.objFinesa;
+            finesaData.cuotas = element.cuotas;
+            return fetch(
+              "http://localhost/motorTest/saveDataQuotationsFinesa",
+              {
+                method: "POST",
+                headers: headers,
+                body: JSON.stringify(finesaData),
+              }
+            )
+              .then((dbResponse) => dbResponse.json())
+              .then((dbData) => {
+                const elementDiv = document.getElementById(element.objFinesa);
+                if (dbData?.data?.mensaje.includes("Por políticas de Finesa")) {
                   cotizacionesFinesa[index].cotizada = true;
                   elementDiv.innerHTML = `Financiación:<br /> No aplica financiación`;
+                } else if(dbData?.mensaje.includes("Asegurado no viable para financiacion")) {
+                  cotizacionesFinesa[index].cotizada = true;
+                  elementDiv.innerHTML = `Financiación Finesa:<br /> Asegurado no viable para financiación`;
                 } else {
                   cotizacionesFinesa[index].cotizada = true;
-                  elementDiv.innerHTML = `Financiación Finesa:<br />$${dbData.data.data.val_cuo.toLocaleString(
+                  elementDiv.innerHTML = `Financiación Finesa:<br />$${dbData?.data?.data?.val_cuo.toLocaleString(
                     "es-ES"
-                  )} (${dbData.data.cuotas} Cuotas)`;
+                  )} (${dbData?.data?.cuotas} Cuotas)`;
                 }
                 elementDiv.style.display = "block";
-                // Agrega el resultado final al array
                 cotEnFinesaResponse.push({
                   finesaData: finesaData,
                   dbData: dbData,
@@ -1818,9 +1822,12 @@ function cotizarFinesa(ofertasCotizaciones) {
                   finesaData: finesaData,
                   dbData: dbData,
                 };
-            });
-        })
-    );
+              });
+          })
+      );
+    } else {
+      return;
+    }
   });
 
   Promise.all(promisesFinesa)
@@ -2920,12 +2927,31 @@ function cotizarOfertasPesados() {
         Promise.all(cont).then(() => {
           $("#loaderOferta").html("");
           $("#loaderRecotOferta").html("");
-          swal.fire({
-            type: "success",
-            title: "¡Proceso de recotización finalizado!",
-            showConfirmButton: true,
-            confirmButtonText: "Cerrar",
-          });
+          swal
+            .fire({
+              title: "¡Proceso de Re-Cotización Finalizada!",
+              text: "¿Deseas incluir la financiación con Finesa a 11 cuotas?",
+              showConfirmButton: true,
+              confirmButtonText: "Si",
+              showCancelButton: true,
+              cancelButtonText: "No",
+              customClass: {
+                title: "custom-title-messageFinesa",
+                htmlContainer: "custom-text-messageFinesa",
+                popup: "custom-popup-messageFinesa",
+                actions: "custom-actions-messageFinesa",
+                confirmButton: "custom-confirmnButton-messageFinesa",
+                cancelButton: "custom-cancelButton-messageFinesa",
+              },
+            })
+            .then(function (result) {
+              if (result.isConfirmed) {
+                $("#loaderOferta").html(
+                  '<img src="vistas/img/plantilla/loader-update.gif" width="34" height="34"><strong> Re-cotizando en Finesa...</strong>'
+                );
+                cotizarFinesa(cotizacionesFinesa);
+              }
+            });
         });
       }
       let zurichErrors = true;

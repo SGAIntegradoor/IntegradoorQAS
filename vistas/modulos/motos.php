@@ -159,7 +159,6 @@ $rolAsesor = $_SESSION['permisos']['idRol'];
     }
   }
 
-  
   .custom-title-messageFinesa {
     font-size: 16px;
     font-weight: bold;

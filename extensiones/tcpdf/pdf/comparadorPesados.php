@@ -28,7 +28,14 @@ $conexion->set_charset("utf8");
 $query2 = "SELECT *	FROM cotizaciones, clientes WHERE cotizaciones.id_cliente = clientes.id_cliente AND `id_cotizacion` = $identificador";
 $valor2 = $conexion->query($query2);
 $fila = mysqli_fetch_array($valor2);
-$query3 = "SELECT DISTINCT Aseguradora FROM ofertas WHERE `id_cotizacion` = $identificador";
+$query3 = "SELECT o.Aseguradora
+FROM cotizaciones_finesa cf 
+INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion 
+INNER JOIN cotizaciones c ON o.id_cotizacion = cf.id_cotizacion 
+WHERE o.seleccionar = 'Si' 
+AND CONVERT(cf.identityElement USING utf8mb3) = CONVERT(o.oferta_finesa USING utf8mb3) 
+AND cf.id_cotizacion = $identificador 
+GROUP BY cf.identityElement";
 $valor3 = $conexion->query($query3);
 $fila2 = mysqli_num_rows($valor3);
 
@@ -349,7 +356,14 @@ $html2 = '
 <div style="margin-left:40px;" class="second2">
 <table style="width:350px !important;" class="second" cellpadding="2" border="0">';
 
-$query4 = "SELECT Aseguradora, Prima, Producto FROM ofertas WHERE `id_cotizacion` = $identificador AND `seleccionar` = 'Si'";
+$query4 = "SELECT cf.cuota_1, cf.aseguradora, cf.identityElement, cf.cuotas, cf.id_cotizacion, o.Aseguradora, o.Producto 
+FROM cotizaciones_finesa cf 
+INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion 
+INNER JOIN cotizaciones c ON o.id_cotizacion = cf.id_cotizacion 
+WHERE o.seleccionar = 'Si' 
+AND CONVERT(cf.identityElement USING utf8mb3) = CONVERT(o.oferta_finesa USING utf8mb3) 
+AND cf.id_cotizacion = $identificador 
+GROUP BY cf.identityElement";
 $respuestaquery4 = $conexion->query($query4);
 $html2 .= '<tr>';
 
@@ -506,7 +520,14 @@ while ($rowRespuesta4 = mysqli_fetch_assoc($respuestaquery4)) {
 }
 $html2 .= '</tr>';
 
-$query5 = "SELECT Aseguradora, Prima, Producto FROM ofertas WHERE `id_cotizacion` = $identificador AND `seleccionar` = 'Si'";
+$query5 = "SELECT cf.aseguradora, cf.identityElement, o.Prima
+FROM cotizaciones_finesa cf 
+INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion 
+INNER JOIN cotizaciones c ON o.id_cotizacion = cf.id_cotizacion 
+WHERE o.seleccionar = 'Si' 
+AND CONVERT(cf.identityElement USING utf8mb3) = CONVERT(o.oferta_finesa USING utf8mb3) 
+AND cf.id_cotizacion = $identificador 
+GROUP BY cf.identityElement";
 $pdf->SetFont('dejavusanscondensed', '', 12);
 $respuestaquery5 = $conexion->query($query5);
 $valor = mysqli_num_rows($respuestaquery5);
@@ -553,7 +574,14 @@ $html2 = '
 <div style="margin-left:40px;" class="second2">
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<table style="width:350px !important;" class="second" cellpadding="2" border="0">';
 
-$query4 = "SELECT Aseguradora, Prima, Producto FROM ofertas WHERE `id_cotizacion` = $identificador AND `seleccionar` = 'Si'";
+$query4 = "SELECT cf.cuota_1, cf.aseguradora, cf.identityElement, cf.cuotas, cf.id_cotizacion, o.Aseguradora, o.Producto 
+FROM cotizaciones_finesa cf 
+INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion 
+INNER JOIN cotizaciones c ON o.id_cotizacion = cf.id_cotizacion 
+WHERE o.seleccionar = 'Si' 
+AND CONVERT(cf.identityElement USING utf8mb3) = CONVERT(o.oferta_finesa USING utf8mb3) 
+AND cf.id_cotizacion = $identificador 
+GROUP BY cf.identityElement";
 $respuestaquery4 = $conexion->query($query4);
 $html2 .= '<tr>';
 
@@ -563,134 +591,119 @@ while ($rowRespuesta4 = mysqli_fetch_assoc($respuestaquery4)) {
 
 	switch ($rowRespuesta4['Aseguradora']) {
 		case 'Axa Colpatria':
-			$html2 .= '<td class="puntos td2 ' . $fondo_class . '" style="display: flex; flex-direction: column; align-items: flex-end"><center>
-			<img style="width:40px;" src="../../../vistas/img/logos/axa.png" alt=""></center>
-			<br />
-			'
-				. $rowRespuesta4['Producto'] .
-				'
+			$html2 .= '<td class="puntos td2 ' . $fondo_class . '" style=" font-size: 6.5px; font-family:dejavusanscondensedb;"><center>
+			<img style="width:40px;" src="../../../			vistas/img/logos/axa.png" alt=""></center>
+			<span style="color:#666666;">' . $rowRespuesta4['Producto']  . '</span>
 			</td>';
 			break;
 		case 'Seguros del Estado':
 		case 'Seguros Estado':
-			$html2 .= '<td class="puntos td2 ' . $fondo_class . '">
-			<img style="width:40px;" src="../../../vistas/img/logos/estado.png" alt="">
-			<br />
-			'
-				. $rowRespuesta4['Producto'] .
-				'
+			$html2 .= '<td class="puntos td2 ' . $fondo_class . '" style="  font-size: 6.5px; font-family:dejavusanscondensedb;">
+			<div style="font-size:7.5pt">&nbsp;</div>
+			<img style="width:40px; marging-top: 20px;" src="../../../vistas/img/logos/estado.png" alt="">
+			<div style="font-size:6pt">&nbsp;</div>
+			<span style="color:#666666;">' . $rowRespuesta4['Producto']  . '</span>
 			</td>';
 			break;
 		case 'Seguros HDI':
 		case 'HDI Seguros':
-			$html2 .= '<td class="puntos td2 ' . $fondo_class . '">
+			$html2 .= '<td class="puntos td2 ' . $fondo_class . '" style="  font-size: 6.5px; font-family:dejavusanscondensedb;">
 			<img style="width:40px;" src="../../../vistas/img/logos/hdi.png" alt="">
-			<br />
-			'
-				. $rowRespuesta4['Producto'] .
-				'
+			<span style="color:#666666;">' . $rowRespuesta4['Producto']  . '</span>
 			</td>';
 			break;
 		case 'SBS Seguros':
-			$html2 .= '<td class="puntos td2 ' . $fondo_class . '">
+			$html2 .= '<td class="puntos td2 ' . $fondo_class . '" style="  font-size: 6.5px; font-family:dejavusanscondensedb;">
 			<img style="width:40px;" src="../../../vistas/img/logos/sbs.png" alt="">
-			<br />
-			'
-				. $rowRespuesta4['Producto'] .
-				'
+			<span style="color:#666666;">' . $rowRespuesta4['Producto']  . '</span>
 			</td>';
 			break;
 		case 'Seguros Bolivar':
-			$html2 .= '<td class="puntos td2 ' . $fondo_class . '">
+			$producto = (
+				$rowRespuesta4['Producto'] == 'ESTANDAR' ? 'Estandar' : ($rowRespuesta4['Producto'] == 'CLASICO' ? 'Clasico' : ($rowRespuesta4['Producto'] == 'PREMIUM' ? 'Premium' :
+					$rowRespuesta4['Producto']))
+			);
+			$html2 .= '<td class="puntos td2 ' . $fondo_class . '" style="  font-size: 6.5px; font-family:dejavusanscondensedb;">
+			<div style="font-size:7.5pt">&nbsp;</div>
 			<img style="width:40px;" src="../../../vistas/img/logos/bolivar.png" alt="">
-			<br />
-			'
-				. $rowRespuesta4['Producto'] .
-				'
+			<div style="font-size:5pt">&nbsp;</div>
+			<span style="color:#666666;">' . $producto . '</span>
 			</td>';
 			break;
 		case 'Seguros Sura':
-			$html2 .= '<td class="puntos td2 ' . $fondo_class . '">
+			$html2 .= '<td class="puntos td2 ' . $fondo_class . '" style="  font-size: 6.5px; font-family:dejavusanscondensedb;">
 			<img style="width:40px;" src="../../../vistas/img/logos/sura.png" alt="">
-			<br />
-			'
-				. $rowRespuesta4['Producto'] .
-				'
+			<span style="color:#666666;">' . $rowRespuesta4['Producto']  . '</span>
 			</td>';
 			break;
 		case 'Zurich Seguros':
-			$html2 .= '<td class="puntos td2 ' . $fondo_class . '">
+			$html2 .= '<td class="puntos td2 ' . $fondo_class . '" style="  font-size: 6.5px; font-family:dejavusanscondensedb;">
 			<img style="width:40px;" src="../../../vistas/img/logos/zurich.png" alt="">
-			<br />
-			'
-				. $rowRespuesta4['Producto'] .
-				'
+			<span style="color:#666666;">' . $rowRespuesta4['Producto']  . '</span>
 			</td>';
 			break;
 		case 'Allianz Seguros':
 		case 'Allianz':
-			$html2 .= '<td class="puntos td2 ' . $fondo_class . '">
+			$html2 .= '<td class="puntos td2 ' . $fondo_class . '" style="  font-size: 6.5px; font-family:dejavusanscondensedb;">
+			<div style="font-size:7.5pt">&nbsp;</div>
 			<img style="width:40px;" src="../../../vistas/img/logos/allianz.png" alt="">
-			<br />
-			'
-				. $rowRespuesta4['Producto'] .
-				'
+			<div style="font-size: 6pt">&nbsp;</div>
+			<span style="color:#666666;">' . ($rowRespuesta4['Producto'] == 'Autos Esencial + Totales' ? 'Esen.+Totales' : $rowRespuesta4['Producto']) . '</span>
 			</td>';
 			break;
 		case 'Liberty Seguros':
 		case 'Liberty':
-			$html2 .= '<td class="puntos td2 ' . $fondo_class . '">
+			$html2 .= '<td class="puntos td2 ' . $fondo_class . '" style="  font-size: 6.5px; font-family:dejavusanscondensedb;">
+			<div style="font-size:2.5pt">&nbsp;</div>
 			<img style="width:40px;" src="../../../vistas/img/logos/liberty.png" alt="">
-			<br />
-			'
-				. $rowRespuesta4['Producto'] .
-				'
+			<div style="font-size:4.7pt">&nbsp;</div>
+			<span style="color:#666666;">' . $rowRespuesta4['Producto']  . '</span>
+			
 			</td>';
 			break;
 		case 'Seguros Mapfre':
-			$html2 .= '<td class="puntos td2 ' . $fondo_class . '">
+		case 'Mapfre':
+			$html2 .= '<td class="puntos td2 ' . $fondo_class . '" style=" font-size: 6.5px; font-family:dejavusanscondensedb;">
 			<img style="width:40px;" src="../../../vistas/img/logos/mapfre.png" alt="">
-			<br />
-			'
-				. $rowRespuesta4['Producto'] .
-				'
+			<div style="font-size: 7pt">&nbsp;</div>
+			<span style="color:#666666;">' . ($rowRespuesta4['Producto'] == 'SUPER TREBOL' ? 'Super Trebol' : $rowRespuesta4['Producto']) . '</span>
 			</td>';
 			break;
 		case 'Equidad Seguros':
-			$html2 .= '<td class="puntos td2 ' . $fondo_class . '">
+			$html2 .= '<td class="puntos td2 ' . $fondo_class . '" style=" font-size: 6.5px; font-family:dejavusanscondensedb;">
 			<img style="width:40px;" src="../../../vistas/img/logos/equidad.png" alt="">
-			<br />
-			'
-				. $rowRespuesta4['Producto'] .
-				'
+			<span style="color:#666666;">' . $rowRespuesta4['Producto']  . '</span>
 			</td>';
 			break;
 		case 'Previsora Seguros':
-			$html2 .= '<td class="puntos td2 ' . $fondo_class . '">
+			// Mapeo de productos
+			$productosMap = [
+				"PREVILIVIANOS INDIVIDUAL - " => "Preliv. Individual",
+				"AU DEDUCIBLE UNICO LIVIANOS - " => "Au Ded.Unic",
+				"LIVIANOS MIA - " => "Livianos MIA"
+			];
+
+			// Obtener el producto mapeado o el valor original si no existe en el mapeo
+			$productoOriginal = $rowRespuesta4['Producto'];
+			$previsoraProducto = isset($productosMap[$productoOriginal]) ? $productosMap[$productoOriginal] : $productoOriginal;
+			$html2 .= '<td class="puntos td2 ' . $fondo_class . '" style="font-size: 6.5px; font-family:dejavusanscondensedb;">
 			<img style="width:40px;" src="../../../vistas/img/logos/previsora.png" alt="">
-			<br />
-			'
-				. $rowRespuesta4['Producto'] .
-				'
+			<div style="font-size: 6.2pt">&nbsp;</div>
+			<span style="color:#666666;">' . $previsoraProducto . '</span>
 			</td>';
 			break;
 		case 'Aseguradora Solidaria':
-			$html2 .= '<td class="puntos td2 ' . $fondo_class . '">
+			$html2 .= '<td class="puntos td2 ' . $fondo_class . '" style="font-size: 6.5px font-family:dejavusanscondensedb;">
 			<img style="width:40px;" src="../../../vistas/img/logos/solidaria.png" alt="">
-			<br />
-			'
-				. $rowRespuesta4['Producto'] .
-				'
+			<span style="color:#666666;">' . $rowRespuesta4['Producto']  . '</span>
 			</td>';
 			break;
 		case 'Mundial':
-			$mundialProducto = $rowRespuesta4['Producto'] == "Pesados con RCE en exceso" ? "Pesados RCE + Exceso" : $rowRespuesta4['Producto'] ;
-			$html2 .= '<td class="puntos td2 ' . $fondo_class . '">
+			$html2 .= '<td class="puntos td2 ' . $fondo_class . '" style="  font-size: 6.5px; font-family:dejavusanscondensedb;">
+			<div style="font-size:7.5pt">&nbsp;</div>
 			<img style="width:40px;" src="../../../vistas/img/logos/mundial.png" alt="">
-			<br/>
-			'
-				. $mundialProducto .
-				'
+			<div style="font-size:7pt">&nbsp;</div>
+			<span style="color:#666666;">' . ($rowRespuesta4['Producto'] == 'Pesados con RCE en exceso' ? 'Pesado RCE + Exceso' : $rowRespuesta4['Producto']) . '</span>
 			</td>';
 			break;
 	}
@@ -699,7 +712,14 @@ while ($rowRespuesta4 = mysqli_fetch_assoc($respuestaquery4)) {
 }
 $html2 .= '</tr>';
 
-$query5 = "SELECT Aseguradora, Prima FROM ofertas WHERE `id_cotizacion` = $identificador AND `seleccionar` = 'Si'";
+$query5 = "SELECT cf.identityElement, o.Prima 
+FROM cotizaciones_finesa cf 
+INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion 
+INNER JOIN cotizaciones c ON o.id_cotizacion = cf.id_cotizacion 
+WHERE o.seleccionar = 'Si' 
+AND CONVERT(cf.identityElement USING utf8mb3) = CONVERT(o.oferta_finesa USING utf8mb3) 
+AND cf.id_cotizacion = $identificador 
+GROUP BY cf.identityElement";
 $pdf->SetFont('dejavusanscondensed', '', 12);
 $respuestaquery5 = $conexion->query($query5);
 $valor = mysqli_num_rows($respuestaquery5);
@@ -719,31 +739,38 @@ while ($rowRespuesta5 = mysqli_fetch_assoc($respuestaquery5)) {
 $html2 .= '</tr>';
 
 // Cuotas de Finesa en cada cotizacion
-$html2 .= '<tr>';
-$query5f = "SELECT cf.cuota_1, cf.aseguradora, cf.identityElement, cf.cuotas
-FROM cotizaciones_finesa cf
-INNER JOIN ofertas o ON CONVERT(cf.identityElement USING utf8mb3) = CONVERT(o.oferta_finesa USING utf8mb3)
-INNER JOIN cotizaciones c ON c.id_cotizacion = o.id_cotizacion
-WHERE o.seleccionar = 'Si' AND cf.id_cotizacion = $identificador
-GROUP BY cf.cuota_1, cf.aseguradora, cf.identityElement, cf.cuotas;";
+$query5f = "SELECT cf.cuota_1,cf.identityElement, cf.cuotas
+FROM cotizaciones_finesa cf 
+INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion 
+INNER JOIN cotizaciones c ON o.id_cotizacion = cf.id_cotizacion 
+WHERE o.seleccionar = 'Si' 
+AND CONVERT(cf.identityElement USING utf8mb3) = CONVERT(o.oferta_finesa USING utf8mb3) 
+AND cf.id_cotizacion = $identificador 
+GROUP BY cf.identityElement";
 
 $respuestaquery5f = $conexion->query($query5f);
-$valor_f = mysqli_num_rows($respuestaquery5f);
 
-$cont3 = 1;
-while ($rowRespuesta5f = mysqli_fetch_assoc($respuestaquery5f)) {
-	$fondo_class = ($cont3 % 2 == 0) ? 'fondo2' : 'fondo';
-	$font_size = ($valor_f > 10) ? 7 : (($valor_f == 10) ? 8 : 9);
+if ($respuestaquery5f === false) {
+	echo "Error en la consulta: " . $conexion->error;
+} else {
+	$valor_f = mysqli_num_rows($respuestaquery5f);
+	$html2 .= '<tr>';
 
-	$html2 .= '<td style="height: 10px; font-size:' . ($font_size - 2) . 'px; color:#666666; font-family:dejavusanscondensedb;" class="td2 ' . $fondo_class . '">
-	<div style="font-size:7pt">&nbsp;</div>
-	$ ' . number_format($rowRespuesta5f['cuota_1'], 0, ',', '.') . '<br /> (' . $rowRespuesta5f['cuotas'] . ' Cuotas)
-	<div style="font-size:7pt">&nbsp;</div>
-	</td>';
+	$cont3 = 1;
+	while ($rowRespuesta5f = mysqli_fetch_assoc($respuestaquery5f)) {
+		//var_dump($rowRespuesta5f);
+		$fondo_class = ($cont3 % 2 == 0) ? 'fondo2' : 'fondo';
+		$font_size = ($valor_f > 10) ? 7 : (($valor_f == 10) ? 8 : 9);
 
-	$cont3++;
+		$html2 .= '<td style="font-size:' . ($font_size - 2) . 'px; color:#666666; font-family:dejavusanscondensedb;" class="puntos td2 ' . $fondo_class . '">
+		$ ' . number_format($rowRespuesta5f['cuota_1'], 0, ',', '.') . '
+		<br>
+		(' . $rowRespuesta5f['cuotas'] . ' Cuotas)
+        </td>';
+		$cont3++;
+	}
+	$html2 .= '</tr>';
 }
-$html2 .= '</tr>';
 
 $html2 .= '</table></div>';
 
@@ -784,7 +811,14 @@ $html3 = '
 
 $pdf->SetFont('dejavusanscondensed', '', 8);
 
-$query6 = "SELECT Aseguradora FROM ofertas WHERE `id_cotizacion` = $identificador AND `seleccionar` = 'Si'";
+$query6 = "SELECT cf.identityElement, o.Aseguradora
+FROM cotizaciones_finesa cf 
+INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion 
+INNER JOIN cotizaciones c ON o.id_cotizacion = cf.id_cotizacion 
+WHERE o.seleccionar = 'Si' 
+AND CONVERT(cf.identityElement USING utf8mb3) = CONVERT(o.oferta_finesa USING utf8mb3) 
+AND cf.id_cotizacion = $identificador 
+GROUP BY cf.identityElement";
 $valor6 = $conexion->query($query6);
 $fila6 = mysqli_num_rows($valor6);
 
@@ -796,7 +830,14 @@ $html3 .= '<td style ="width: 100%;  background-color: #D1D1D1; font-family:deja
 </td>';
 $html3 .= '</tr>';
 
-$query7 = "SELECT Aseguradora, Prima FROM ofertas WHERE `id_cotizacion` = $identificador AND `seleccionar` = 'Si'";
+$query7 = "SELECT cf.identityElement, o.Aseguradora
+FROM cotizaciones_finesa cf 
+INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion 
+INNER JOIN cotizaciones c ON o.id_cotizacion = cf.id_cotizacion 
+WHERE o.seleccionar = 'Si' 
+AND CONVERT(cf.identityElement USING utf8mb3) = CONVERT(o.oferta_finesa USING utf8mb3) 
+AND cf.id_cotizacion = $identificador 
+GROUP BY cf.identityElement";
 $respuestaquery7 =  $conexion->query($query7);
 
 $html3 .= '<tr class="trborder">';
@@ -913,7 +954,7 @@ while ($rowRespuesta7 = mysqli_fetch_assoc($respuestaquery7)) {
 		} else if ($rowRespuesta7['Aseguradora'] == 'Mundial') {
 			// logo inferior parrillas segundo
 			$html3 .= '<td class="puntos fondo" style="width:' . $valorTabla . '%;text-align: center;">
-			<div style="font-size:5pt">&nbsp;</div>
+			<div style="font-size:11pt">&nbsp;</div>
 			<img style="width:50px;" src="../../../vistas/img/logos/mundial.png" alt="">
 			<div style="font-size:5pt">&nbsp;</div>
 			</td>';
@@ -990,7 +1031,7 @@ while ($rowRespuesta7 = mysqli_fetch_assoc($respuestaquery7)) {
 		} else if ($rowRespuesta7['Aseguradora'] == 'Mundial') {
 			// Logo Inferior Parrilla
 			$html3 .= '<td class="puntos fondo2" style="width:' . $valorTabla . '%;text-align: center;">
-			<div style="font-size:5pt">&nbsp;</div>
+			<div style="font-size:11pt">&nbsp;</div>
 			<img style="width:50px;" src="../../../vistas/img/logos/mundial.png" alt=""></td>';
 		}
 	}
@@ -1005,10 +1046,16 @@ $html3 .= '<td class="puntos fondo" style="width:25%; text-align: center; font-f
 //CONSULTA LIMITE MAXIMO
 //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 $cont4 = 1;
-$query9 = "SELECT * FROM ofertas WHERE `id_cotizacion` = $identificador AND `seleccionar` = 'Si'";
+$query9 = "SELECT cf.identityElement, o.*
+FROM cotizaciones_finesa cf 
+INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion 
+INNER JOIN cotizaciones c ON o.id_cotizacion = cf.id_cotizacion 
+WHERE o.seleccionar = 'Si' 
+AND CONVERT(cf.identityElement USING utf8mb3) = CONVERT(o.oferta_finesa USING utf8mb3) 
+AND cf.id_cotizacion = $identificador 
+GROUP BY cf.identityElement";
 $respuestaquery9 =  $conexion->query($query9);
 
-//$valorlimiterow cuenta el numero de ofertas seleccionadas
 $valorlimiterow = mysqli_num_rows($respuestaquery9);
 
 if ($valorlimiterow == 10) {
@@ -1089,7 +1136,14 @@ $html3 .= '<tr>';
 $html3 .= '<td class="puntos fondo" style="width:25%; text-align: center; font-family:dejavusanscondensedb;"><font size="8">Deducible</font></td>';
 
 
-$query8 = "SELECT * FROM ofertas WHERE `id_cotizacion` = $identificador AND `seleccionar` = 'Si'";
+$query8 = "SELECT cf.identityElement, o.*
+FROM cotizaciones_finesa cf 
+INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion 
+INNER JOIN cotizaciones c ON o.id_cotizacion = cf.id_cotizacion 
+WHERE o.seleccionar = 'Si' 
+AND CONVERT(cf.identityElement USING utf8mb3) = CONVERT(o.oferta_finesa USING utf8mb3) 
+AND cf.id_cotizacion = $identificador 
+GROUP BY cf.identityElement";
 $respuestaquery8 =  $conexion->query($query8);
 
 $cont5 = 1;
@@ -1126,7 +1180,14 @@ $html3 .= '<tr>';
 $html3 .= '<td class="puntos fondo" style="width:25%; text-align: center; font-family:dejavusanscondensedb;"><font size="8">Límite máximo (En millones) RCE Exceso</font></td>';
 
 
-$queryp1 = "SELECT * FROM ofertas WHERE `id_cotizacion` = $identificador AND `seleccionar` = 'Si'";
+$queryp1 = "SELECT cf.identityElement, o.*
+FROM cotizaciones_finesa cf 
+INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion 
+INNER JOIN cotizaciones c ON o.id_cotizacion = cf.id_cotizacion 
+WHERE o.seleccionar = 'Si' 
+AND CONVERT(cf.identityElement USING utf8mb3) = CONVERT(o.oferta_finesa USING utf8mb3) 
+AND cf.id_cotizacion = $identificador 
+GROUP BY cf.identityElement";
 $respuestaqueryp1 =  $conexion->query($queryp1);
 
 $cont5 = 1;
@@ -1170,7 +1231,14 @@ $html3 .= '<tr>';
 $html3 .= '<td class="puntos fondo" style="width:25%; text-align: center; font-family:dejavusanscondensedb;"><font size="8">Deducible RCE Exceso</font></td>';
 
 
-$queryp2 = "SELECT * FROM ofertas WHERE `id_cotizacion` = $identificador AND `seleccionar` = 'Si'";
+$queryp2 = "SELECT cf.identityElement, o.*
+FROM cotizaciones_finesa cf 
+INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion 
+INNER JOIN cotizaciones c ON o.id_cotizacion = cf.id_cotizacion 
+WHERE o.seleccionar = 'Si' 
+AND CONVERT(cf.identityElement USING utf8mb3) = CONVERT(o.oferta_finesa USING utf8mb3) 
+AND cf.id_cotizacion = $identificador 
+GROUP BY cf.identityElement";
 $respuestaqueryp2 =  $conexion->query($queryp2);
 
 $cont5 = 1;
@@ -1211,7 +1279,14 @@ $html3 .= '<tr>';
 $html3 .= '<td class="puntos fondo" style="width:25%; text-align: center; font-family:dejavusanscondensedb;"><font size="8">Pérdida total daños o hurto</font></td>';
 
 
-$query10 = "SELECT * FROM ofertas WHERE `id_cotizacion` = $identificador AND `seleccionar` = 'Si'";
+$query10 = "SELECT cf.identityElement, o.*
+FROM cotizaciones_finesa cf 
+INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion 
+INNER JOIN cotizaciones c ON o.id_cotizacion = cf.id_cotizacion 
+WHERE o.seleccionar = 'Si' 
+AND CONVERT(cf.identityElement USING utf8mb3) = CONVERT(o.oferta_finesa USING utf8mb3) 
+AND cf.id_cotizacion = $identificador 
+GROUP BY cf.identityElement";
 $respuestaquery10 =  $conexion->query($query10);
 
 $cont6 = 1;
@@ -1237,7 +1312,14 @@ $html3 .= '</tr>';
 $html3 .= '<tr>';
 $html3 .= '<td class="puntos fondo" style="width:25%; text-align: center; font-family:dejavusanscondensedb;"><font size="8">Pérdida parcial por daño</font></td>';
 
-$query11 = "SELECT * FROM ofertas WHERE `id_cotizacion` = $identificador AND `seleccionar` = 'Si'";
+$query11 = "SELECT cf.identityElement, o.*
+FROM cotizaciones_finesa cf 
+INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion 
+INNER JOIN cotizaciones c ON o.id_cotizacion = cf.id_cotizacion 
+WHERE o.seleccionar = 'Si' 
+AND CONVERT(cf.identityElement USING utf8mb3) = CONVERT(o.oferta_finesa USING utf8mb3) 
+AND cf.id_cotizacion = $identificador 
+GROUP BY cf.identityElement";
 $respuestaquery11 =  $conexion->query($query11);
 
 $cont7 = 1;
@@ -1265,7 +1347,14 @@ $html3 .= '</tr>';
 $html3 .= '<tr>';
 $html3 .= '<td class="puntos fondo" style="width:25%; text-align: center; font-family:dejavusanscondensedb;"><font size="8">Pérdida parcial por hurto</font></td>';
 
-$query12 = "SELECT * FROM ofertas WHERE `id_cotizacion` = $identificador AND `seleccionar` = 'Si'";
+$query12 = "SELECT cf.identityElement, o.*
+FROM cotizaciones_finesa cf 
+INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion 
+INNER JOIN cotizaciones c ON o.id_cotizacion = cf.id_cotizacion 
+WHERE o.seleccionar = 'Si' 
+AND CONVERT(cf.identityElement USING utf8mb3) = CONVERT(o.oferta_finesa USING utf8mb3) 
+AND cf.id_cotizacion = $identificador 
+GROUP BY cf.identityElement";
 $respuestaquery12 =  $conexion->query($query12);
 
 $cont8 = 1;
@@ -1299,7 +1388,14 @@ $html3 .= '</tr>';
 $html3 .= '<tr>';
 $html3 .= '<td class="puntos fondo" style="width:25%; text-align: center; font-family:dejavusanscondensedb;"><font style="font-family:dejavusanscondensedb;" size="8">Cobertura por Eventos de la naturaleza</font></td>';
 
-$query13 = "SELECT * FROM ofertas WHERE `id_cotizacion` = $identificador AND `seleccionar` = 'Si'";
+$query13 = "SELECT cf.identityElement, o.*
+FROM cotizaciones_finesa cf 
+INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion 
+INNER JOIN cotizaciones c ON o.id_cotizacion = cf.id_cotizacion 
+WHERE o.seleccionar = 'Si' 
+AND CONVERT(cf.identityElement USING utf8mb3) = CONVERT(o.oferta_finesa USING utf8mb3) 
+AND cf.id_cotizacion = $identificador 
+GROUP BY cf.identityElement";
 $respuestaquery13 =  $conexion->query($query13);
 $cont9 = 1;
 while ($rowRespuesta13 = mysqli_fetch_assoc($respuestaquery13)) {
@@ -1326,7 +1422,14 @@ $html3 .= '</tr>';
 //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 //CONSULTA AMPARO PATRIMONIAL
 //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-$query7f = "SELECT Aseguradora, Prima FROM ofertas WHERE `id_cotizacion` = $identificador AND `seleccionar` = 'Si'";
+$query7f = "SELECT cf.identityElement, o.*
+FROM cotizaciones_finesa cf 
+INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion 
+INNER JOIN cotizaciones c ON o.id_cotizacion = cf.id_cotizacion 
+WHERE o.seleccionar = 'Si' 
+AND CONVERT(cf.identityElement USING utf8mb3) = CONVERT(o.oferta_finesa USING utf8mb3) 
+AND cf.id_cotizacion = $identificador 
+GROUP BY cf.identityElement";
 $respuestaquery7f =  $conexion->query($query7f);
 
 $html3 .= '<tr>';
@@ -1338,13 +1441,13 @@ while ($rowRespuesta7f = mysqli_fetch_assoc($respuestaquery7f)) {
 
 	if ($cont4f % 2 == 0) {
 		if ($rowRespuesta7f['Aseguradora'] == 'Axa Colpatria') {
-			$html3 .= '<td class="puntos fondo" style="width:' . $valorTablaf . '%;text-align: center;"><center>
+			$html3 .= '<td class="puntos fondo" style="width:' . $valorTablaf  . '%;text-align: center;"><center>
 			<div style="font-size:5pt">&nbsp;</div>
 			<img style="width:50px;" src="../../../vistas/img/logos/axa.png" alt=""></center>
 			<div style="font-size:5pt">&nbsp;</div>
 			</td>';
 		} else if ($rowRespuesta7f['Aseguradora'] == 'Seguros del Estado') {
-			$html3 .= '<td class="puntos fondo" style="width:' . $valorTablaf . '%;text-align: center;">
+			$html3 .= '<td class="puntos fondo" style="width:' . $valorTablaf  . '%;text-align: center;">
 			<div style="font-size:5pt">&nbsp;</div>
 			<img style="width:50px;" src="../../../vistas/img/logos/estado.png" alt="">
 			<div style="font-size:5pt">&nbsp;</div>
@@ -1356,170 +1459,170 @@ while ($rowRespuesta7f = mysqli_fetch_assoc($respuestaquery7f)) {
 			<div style="font-size:5pt">&nbsp;</div>
 			</td>';
 		} else if ($rowRespuesta7f['Aseguradora'] == 'Seguros HDI') {
-			$html3 .= '<td class="puntos fondo" style="width:' . $valorTablaf . '%;text-align: center;">
+			$html3 .= '<td class="puntos fondo" style="width:' . $valorTablaf  . '%;text-align: center;">
 			<div style="font-size:5pt">&nbsp;</div>
 			<img style="width:50px;" src="../../../vistas/img/logos/hdi.png" alt="">
 			<div style="font-size:5pt">&nbsp;</div>
 			</td>';
 		} else if ($rowRespuesta7f['Aseguradora'] == 'HDI Seguros') {
-			$html3 .= '<td class="puntos fondo" style="width:' . $valorTablaf . '%;text-align: center;">
+			$html3 .= '<td class="puntos fondo" style="width:' . $valorTablaf  . '%;text-align: center;">
 			<div style="font-size:5pt">&nbsp;</div>
 			<img style="width:50px;" src="../../../vistas/img/logos/hdi.png" alt="">
 			<div style="font-size:5pt">&nbsp;</div>
 			</td>';
 		} else if ($rowRespuesta7f['Aseguradora'] == 'SBS Seguros') {
-			$html3 .= '<td class="puntos fondo" style="width:' . $valorTablaf . '%;text-align: center;">
+			$html3 .= '<td class="puntos fondo" style="width:' . $valorTablaf  . '%;text-align: center;">
 			<div style="font-size:5pt">&nbsp;</div>
 			<img style="width:50px;" src="../../../vistas/img/logos/sbs.png" alt="">
 			<div style="font-size:5pt">&nbsp;</div>
 			</td>';
 		} else if ($rowRespuesta7f['Aseguradora'] == 'Seguros Bolivar') {
-			$html3 .= '<td class="puntos fondo" style="width:' . $valorTablaf . '%;text-align: center;">
+			$html3 .= '<td class="puntos fondo" style="width:' . $valorTablaf  . '%;text-align: center;">
 			<div style="font-size:5pt">&nbsp;</div>
 			<img style="width:50px;" src="../../../vistas/img/logos/bolivar.png" alt="">
 			<div style="font-size:5pt">&nbsp;</div>
 			</td>';
 		} else if ($rowRespuesta7f['Aseguradora'] == 'Seguros Sura') {
-			$html3 .= '<td class="puntos fondo" style="width:' . $valorTablaf . '%;text-align: center;">
+			$html3 .= '<td class="puntos fondo" style="width:' . $valorTablaf  . '%;text-align: center;">
 			<div style="font-size:5pt">&nbsp;</div>
 			<img style="width:50px;" src="../../../vistas/img/logos/sura.png" alt="">
 			<div style="font-size:5pt">&nbsp;</div>
 			</td>';
 		} else if ($rowRespuesta7f['Aseguradora'] == 'Zurich Seguros') {
-			$html3 .= '<td class="puntos fondo" style="width:' . $valorTablaf . '%;text-align: center;">
+			$html3 .= '<td class="puntos fondo" style="width:' . $valorTablaf  . '%;text-align: center;">
 			<div style="font-size:5pt">&nbsp;</div>
 			<img style="width:50px;" src="../../../vistas/img/logos/zurich.png" alt="">
 			<div style="font-size:5pt">&nbsp;</div>
 			</td>';
 		} else if ($rowRespuesta7f['Aseguradora'] == 'Allianz Seguros') {
-			$html3 .= '<td class="puntos fondo" style="width:' . $valorTablaf . '%;text-align: center;">
+			$html3 .= '<td class="puntos fondo" style="width:' . $valorTablaf  . '%;text-align: center;">
 			<div style="font-size:5pt">&nbsp;</div>
 			<img style="width:50px;" src="../../../vistas/img/logos/allianz.png" alt="">
 			<div style="font-size:5pt">&nbsp;</div>
 			</td>';
 		} else if ($rowRespuesta7f['Aseguradora'] == 'Allianz') {
-			$html3 .= '<td class="puntos fondo" style="width:' . $valorTablaf . '%;text-align: center;">
+			$html3 .= '<td class="puntos fondo" style="width:' . $valorTablaf  . '%;text-align: center;">
 			<div style="font-size:5pt">&nbsp;</div>
 			<img style="width:50px;" src="../../../vistas/img/logos/allianz.png" alt="">
 			<div style="font-size:5pt">&nbsp;</div>
 			</td>';
 		} else if ($rowRespuesta7f['Aseguradora'] == 'Liberty Seguros') {
-			$html3 .= '<td class="puntos fondo" style="width:' . $valorTablaf . '%;text-align: center;">
+			$html3 .= '<td class="puntos fondo" style="width:' . $valorTablaf  . '%;text-align: center;">
 			<div style="font-size:5pt">&nbsp;</div>
 			<img style="width:50px;" src="../../../vistas/img/logos/liberty.png" alt="">
 			<div style="font-size:5pt">&nbsp;</div>
 			</td>';
 		} else if ($rowRespuesta7f['Aseguradora'] == 'Liberty') {
-			$html3 .= '<td class="puntos fondo" style="width:' . $valorTablaf . '%;text-align: center;">
+			$html3 .= '<td class="puntos fondo" style="width:' . $valorTablaf  . '%;text-align: center;">
 			<div style="font-size:5pt">&nbsp;</div>
 			<img style="width:50px;" src="../../../vistas/img/logos/liberty.png" alt="">
 			<div style="font-size:5pt">&nbsp;</div>
 			</td>';
 		} else if ($rowRespuesta7f['Aseguradora'] == 'Seguros Mapfre') {
-			$html3 .= '<td class="puntos fondo" style="width:' . $valorTablaf . '%;text-align: center;">
+			$html3 .= '<td class="puntos fondo" style="width:' . $valorTablaf  . '%;text-align: center;">
 			<div style="font-size:5pt">&nbsp;</div>
 			<img style="width:50px;" src="../../../vistas/img/logos/mapfre.png" alt="">
 			<div style="font-size:5pt">&nbsp;</div>
 			</td>';
 		} else if ($rowRespuesta7f['Aseguradora'] == 'Equidad Seguros') {
-			$html3 .= '<td class="puntos fondo" style="width:' . $valorTablaf . '%;text-align: center;">
+			$html3 .= '<td class="puntos fondo" style="width:' . $valorTablaf  . '%;text-align: center;">
 			<div style="font-size:5pt">&nbsp;</div>
 			<img style="width:50px;" src="../../../vistas/img/logos/equidad.png" alt="">
 			<div style="font-size:5pt">&nbsp;</div>
 			</td>';
 		} else if ($rowRespuesta7f['Aseguradora'] == 'Previsora Seguros') {
-			$html3 .= '<td class="puntos fondo" style="width:' . $valorTablaf . '%;text-align: center;">
+			$html3 .= '<td class="puntos fondo" style="width:' . $valorTablaf  . '%;text-align: center;">
 			<div style="font-size:5pt">&nbsp;</div>
 			<img style="width:50px;" src="../../../vistas/img/logos/previsora.png" alt="">
 			<div style="font-size:5pt">&nbsp;</div>
 			</td>';
 		} else if ($rowRespuesta7f['Aseguradora'] == 'Aseguradora Solidaria') {
-			$html3 .= '<td class="puntos fondo" style="width:' . $valorTablaf . '%;text-align: center;">
+			$html3 .= '<td class="puntos fondo" style="width:' . $valorTablaf  . '%;text-align: center;">
 			<div style="font-size:5pt">&nbsp;</div>
 			<img style="width:50px;" src="../../../vistas/img/logos/solidaria.png" alt="">
 			<div style="font-size:5pt">&nbsp;</div>
 			</td>';
 		} else if ($rowRespuesta7f['Aseguradora'] == 'Mundial') {
 			// logo inferior parrillas segundo
-			$html3 .= '<td class="puntos fondo" style="width:' . $valorTablaf . '%;text-align: center;">
-			<div style="font-size:5pt">&nbsp;</div>
+			$html3 .= '<td class="puntos fondo" style="width:' . $valorTablaf  . '%;text-align: center;">
+			<div style="font-size:11pt">&nbsp;</div>
 			<img style="width:50px;" src="../../../vistas/img/logos/mundial.png" alt="">
 			<div style="font-size:5pt">&nbsp;</div>
 			</td>';
 		}
 	} else {
 		if ($rowRespuesta7f['Aseguradora'] == 'Axa Colpatria') {
-			$html3 .= '<td class="puntos fondo2" style="width:' . $valorTablaf . '%;text-align: center;"><center>
+			$html3 .= '<td class="puntos fondo2" style="width:' . $valorTablaf  . '%;text-align: center;"><center>
 			<div style="font-size:5pt">&nbsp;</div>
 			<img style="width:50px;" src="../../../vistas/img/logos/axa.png" alt=""></center></td>';
 		} else if ($rowRespuesta7f['Aseguradora'] == 'Seguros del Estado') {
-			$html3 .= '<td class="puntos fondo2" style="width:' . $valorTablaf . '%;text-align: center;">
+			$html3 .= '<td class="puntos fondo2" style="width:' . $valorTablaf  . '%;text-align: center;">
 			<div style="font-size:5pt">&nbsp;</div>
 			<img style="width:50px;" src="../../../vistas/img/logos/estado.png" alt=""></td>';
 		} else if ($rowRespuesta7f['Aseguradora'] == 'Seguros Estado') {
-			$html3 .= '<td class="puntos fondo2" style="width:' . $valorTablaf . '%;text-align: center;">
+			$html3 .= '<td class="puntos fondo2" style="width:' . $valorTablaf  . '%;text-align: center;">
 			<div style="font-size:5pt">&nbsp;</div>
 			<img style="width:50px;" src="../../../vistas/img/logos/estado.png" alt=""></td>';
 		} else if ($rowRespuesta7f['Aseguradora'] == 'HDI Seguros') {
-			$html3 .= '<td class="puntos fondo2" style="width:' . $valorTablaf . '%;text-align: center;">
+			$html3 .= '<td class="puntos fondo2" style="width:' . $valorTablaf  . '%;text-align: center;">
 			<div style="font-size:5pt">&nbsp;</div>
 			<img style="width:50px;" src="../../../vistas/img/logos/hdi.png" alt=""></td>';
 		} else if ($rowRespuesta7f['Aseguradora'] == 'Seguros HDI') {
-			$html3 .= '<td class="puntos fondo2" style="width:' . $valorTablaf . '%;text-align: center;">
+			$html3 .= '<td class="puntos fondo2" style="width:' . $valorTablaf  . '%;text-align: center;">
 			<div style="font-size:5pt">&nbsp;</div>
 			<img style="width:50px;" src="../../../vistas/img/logos/hdi.png" alt=""></td>';
 		} else if ($rowRespuesta7f['Aseguradora'] == 'SBS Seguros') {
-			$html3 .= '<td class="puntos fondo2" style="width:' . $valorTablaf . '%;text-align: center;">
+			$html3 .= '<td class="puntos fondo2" style="width:' . $valorTablaf  . '%;text-align: center;">
 			<div style="font-size:5pt">&nbsp;</div>
 			<img style="width:50px;" src="../../../vistas/img/logos/sbs.png" alt=""></td>';
 		} else if ($rowRespuesta7f['Aseguradora'] == 'Seguros Bolivar') {
-			$html3 .= '<td class="puntos fondo2" style="width:' . $valorTablaf . '%;text-align: center;">
+			$html3 .= '<td class="puntos fondo2" style="width:' . $valorTablaf  . '%;text-align: center;">
 			<div style="font-size:5pt">&nbsp;</div>
 			<img style="width:50px;" src="../../../vistas/img/logos/bolivar.png" alt=""></td>';
 		} else if ($rowRespuesta7f['Aseguradora'] == 'Seguros Sura') {
-			$html3 .= '<td class="puntos fondo2" style="width:' . $valorTablaf . '%;text-align: center;">
+			$html3 .= '<td class="puntos fondo2" style="width:' . $valorTablaf  . '%;text-align: center;">
 			<div style="font-size:5pt">&nbsp;</div>
 			<img style="width:50px;" src="../../../vistas/img/logos/sura.png" alt=""></td>';
 		} else if ($rowRespuesta7f['Aseguradora'] == 'Zurich Seguros') {
-			$html3 .= '<td class="puntos fondo" style="width:' . $valorTablaf . '%;text-align: center;">
+			$html3 .= '<td class="puntos fondo" style="width:' . $valorTablaf  . '%;text-align: center;">
 			<div style="font-size:5pt">&nbsp;</div>
 			<img style="width:50px;" src="../../../vistas/img/logos/zurich.png" alt=""></td>';
 		} else if ($rowRespuesta7f['Aseguradora'] == 'Allianz Seguros') {
-			$html3 .= '<td class="puntos fondo2" style="width:' . $valorTablaf . '%;text-align: center;">
+			$html3 .= '<td class="puntos fondo2" style="width:' . $valorTablaf  . '%;text-align: center;">
 			<div style="font-size:5pt">&nbsp;</div>
 			<img style="width:50px;" src="../../../vistas/img/logos/allianz.png" alt=""></td>';
 		} else if ($rowRespuesta7f['Aseguradora'] == 'Allianz') {
-			$html3 .= '<td class="puntos fondo2" style="width:' . $valorTablaf . '%;text-align: center;">
+			$html3 .= '<td class="puntos fondo2" style="width:' . $valorTablaf  . '%;text-align: center;">
 			<div style="font-size:5pt">&nbsp;</div>
 			<img style="width:50px;" src="../../../vistas/img/logos/allianz.png" alt=""></td>';
 		} else if ($rowRespuesta7f['Aseguradora'] == 'Liberty Seguros') {
-			$html3 .= '<td class="puntos fondo2" style="width:' . $valorTablaf . '%;text-align: center;">
+			$html3 .= '<td class="puntos fondo2" style="width:' . $valorTablaf  . '%;text-align: center;">
 			<div style="font-size:5pt">&nbsp;</div>
 			<img style="width:50px;" src="../../../vistas/img/logos/liberty.png" alt=""></td>';
 		} else if ($rowRespuesta7f['Aseguradora'] == 'Liberty') {
-			$html3 .= '<td class="puntos fondo2" style="width:' . $valorTablaf . '%;text-align: center;">
+			$html3 .= '<td class="puntos fondo2" style="width:' . $valorTablaf  . '%;text-align: center;">
 			<div style="font-size:5pt">&nbsp;</div>
 			<img style="width:50px;" src="../../../vistas/img/logos/liberty.png" alt=""></td>';
 		} else if ($rowRespuesta7f['Aseguradora'] == 'Seguros Mapfre') {
-			$html3 .= '<td class="puntos fondo2" style="width:' . $valorTablaf . '%;text-align: center;">
+			$html3 .= '<td class="puntos fondo2" style="width:' . $valorTablaf  . '%;text-align: center;">
 			<div style="font-size:5pt">&nbsp;</div>
 			<img style="width:50px;" src="../../../vistas/img/logos/mapfre.png" alt=""></td>';
 		} else if ($rowRespuesta7f['Aseguradora'] == 'Equidad Seguros') {
-			$html3 .= '<td class="puntos fondo2" style="width:' . $valorTablaf . '%;text-align: center;">
+			$html3 .= '<td class="puntos fondo2" style="width:' . $valorTablaf  . '%;text-align: center;">
 			<div style="font-size:5pt">&nbsp;</div>
 			<img style="width:50px;" src="../../../vistas/img/logos/equidad.png" alt=""></td>';
 		} else if ($rowRespuesta7f['Aseguradora'] == 'Previsora Seguros') {
-			$html3 .= '<td class="puntos fondo2" style="width:' . $valorTablaf . '%;text-align: center;">
+			$html3 .= '<td class="puntos fondo2" style="width:' . $valorTablaf  . '%;text-align: center;">
 			<div style="font-size:5pt">&nbsp;</div>
 			<img style="width:50px;" src="../../../vistas/img/logos/previsora.png" alt=""></td>';
 		} else if ($rowRespuesta7f['Aseguradora'] == 'Aseguradora Solidaria') {
-			$html3 .= '<td class="puntos fondo2" style="width:' . $valorTablaf . '%;text-align: center;">
+			$html3 .= '<td class="puntos fondo2" style="width:' . $valorTablaf  . '%;text-align: center;">
 			<div style="font-size:5pt">&nbsp;</div>
 			<img style="width:50px;" src="../../../vistas/img/logos/solidaria.png" alt=""></td>';
 		} else if ($rowRespuesta7f['Aseguradora'] == 'Mundial') {
 			// Logo Inferior Parrilla
-			$html3 .= '<td class="puntos fondo2" style="width:' . $valorTablaf . '%;text-align: center;">
-			<div style="font-size:5pt">&nbsp;</div>
+			$html3 .= '<td class="puntos fondo2" style="width:' . $valorTablaf  . '%;text-align: center;">
+			<div style="font-size:11pt">&nbsp;</div>
 			<img style="width:50px;" src="../../../vistas/img/logos/mundial.png" alt=""></td>';
 		}
 	}
@@ -1531,7 +1634,14 @@ $html3 .= '</tr>';
 $html3 .= '<tr>';
 $html3 .= '<td class="puntos fondo" style="width:25%; text-align: center; font-family:dejavusanscondensedb;"><div style="font-size:2pt">&nbsp;</div><font size="8">Amparo patrimonial</font></td>';
 
-$query14 = "SELECT * FROM ofertas WHERE `id_cotizacion` = $identificador AND `seleccionar` = 'Si'";
+$query14 = "SELECT cf.identityElement, o.*
+FROM cotizaciones_finesa cf 
+INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion 
+INNER JOIN cotizaciones c ON o.id_cotizacion = cf.id_cotizacion 
+WHERE o.seleccionar = 'Si' 
+AND CONVERT(cf.identityElement USING utf8mb3) = CONVERT(o.oferta_finesa USING utf8mb3) 
+AND cf.id_cotizacion = $identificador 
+GROUP BY cf.identityElement";
 $respuestaquery14 =  $conexion->query($query14);
 
 $cont10 = 1;
@@ -1571,7 +1681,14 @@ $html3 .= '</tr>';
 $html3 .= '<tr>';
 $html3 .= '<td class="puntos fondo" style="width:25%; text-align: center; font-family:dejavusanscondensedb;"><div style="font-size:2pt">&nbsp;</div><font size="8">Servicio de grua</font></td>';
 
-$query14 = "SELECT * FROM ofertas WHERE `id_cotizacion` = $identificador AND `seleccionar` = 'Si'";
+$query14 = "SELECT cf.identityElement, o.*
+FROM cotizaciones_finesa cf 
+INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion 
+INNER JOIN cotizaciones c ON o.id_cotizacion = cf.id_cotizacion 
+WHERE o.seleccionar = 'Si' 
+AND CONVERT(cf.identityElement USING utf8mb3) = CONVERT(o.oferta_finesa USING utf8mb3) 
+AND cf.id_cotizacion = $identificador 
+GROUP BY cf.identityElement";
 $respuestaquery14 =  $conexion->query($query14);
 
 $cont10 = 1;
@@ -1611,7 +1728,14 @@ $html3 .= '</tr>';
 $html3 .= '<tr>';
 $html3 .= '<td class="fondo puntos" style="width:25%; text-align: center; font-family:dejavusanscondensedb;"><font size="8">Asistencia Jurídica civil y penal</font></td>';
 
-$query17 = "SELECT * FROM ofertas WHERE `id_cotizacion` = $identificador AND `seleccionar` = 'Si'";
+$query17 = "SELECT cf.identityElement, o.*
+FROM cotizaciones_finesa cf 
+INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion 
+INNER JOIN cotizaciones c ON o.id_cotizacion = cf.id_cotizacion 
+WHERE o.seleccionar = 'Si' 
+AND CONVERT(cf.identityElement USING utf8mb3) = CONVERT(o.oferta_finesa USING utf8mb3) 
+AND cf.id_cotizacion = $identificador 
+GROUP BY cf.identityElement";
 $respuestaquery17 =  $conexion->query($query17);
 
 $cont13 = 1;
@@ -1651,7 +1775,14 @@ $html3 .= '</tr>';
 $html3 .= '<tr>';
 $html3 .= '<td class="fondo puntos" style="width:25%; text-align: center; font-family:dejavusanscondensedb;"><font size="8">Accidentes personales</font></td>';
 
-$queryp4 = "SELECT * FROM ofertas WHERE `id_cotizacion` = $identificador AND `seleccionar` = 'Si'";
+$queryp4 = "SELECT cf.identityElement, o.*
+FROM cotizaciones_finesa cf 
+INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion 
+INNER JOIN cotizaciones c ON o.id_cotizacion = cf.id_cotizacion 
+WHERE o.seleccionar = 'Si' 
+AND CONVERT(cf.identityElement USING utf8mb3) = CONVERT(o.oferta_finesa USING utf8mb3) 
+AND cf.id_cotizacion = $identificador 
+GROUP BY cf.identityElement";
 $respuestaqueryp4 =  $conexion->query($queryp4);
 
 $contp4 = 1;
@@ -1731,7 +1862,14 @@ $html4 .= '</tr>';
 $html4 .= '<tr>';
 $html4 .= '<td class="fondo puntos" style="width:25%; text-align: center; font-family:dejavusanscondensedb;"><font size="8">Gastos de transporte perdida total</font></td>';
 
-$queryp3 = "SELECT * FROM ofertas WHERE `id_cotizacion` = $identificador AND `seleccionar` = 'Si'";
+$queryp3 = "SELECT cf.identityElement, o.*
+FROM cotizaciones_finesa cf 
+INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion 
+INNER JOIN cotizaciones c ON o.id_cotizacion = cf.id_cotizacion 
+WHERE o.seleccionar = 'Si' 
+AND CONVERT(cf.identityElement USING utf8mb3) = CONVERT(o.oferta_finesa USING utf8mb3) 
+AND cf.id_cotizacion = $identificador 
+GROUP BY cf.identityElement";
 $respuestaqueryp3 =  $conexion->query($queryp3);
 
 $contp3 = 1;
@@ -1772,7 +1910,14 @@ $html4 .= '</tr>';
 $html4 .= '<tr>';
 $html4 .= '<td class="fondo puntos" style="width:25%; text-align: center; font-family:dejavusanscondensedb;"><font size="8">Vehículo sustituto</font></td>';
 
-$queryp3 = "SELECT * FROM ofertas WHERE `id_cotizacion` = $identificador AND `seleccionar` = 'Si'";
+$queryp3 = "SELECT cf.identityElement, o.*
+FROM cotizaciones_finesa cf 
+INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion 
+INNER JOIN cotizaciones c ON o.id_cotizacion = cf.id_cotizacion 
+WHERE o.seleccionar = 'Si' 
+AND CONVERT(cf.identityElement USING utf8mb3) = CONVERT(o.oferta_finesa USING utf8mb3) 
+AND cf.id_cotizacion = $identificador 
+GROUP BY cf.identityElement";
 $respuestaqueryp3 =  $conexion->query($queryp3);
 
 $contp3 = 1;
@@ -1812,7 +1957,14 @@ $html4 .= '</tr>';
 $html4 .= '<tr>';
 $html4 .= '<td class="fondo puntos" style="width:25%; text-align: center; font-family:dejavusanscondensedb;"><font size="8">Responsabilidad civil general familiar</font></td>';
 
-$queryp3 = "SELECT * FROM ofertas WHERE `id_cotizacion` = $identificador AND `seleccionar` = 'Si'";
+$queryp3 = "SELECT cf.identityElement, o.*
+FROM cotizaciones_finesa cf 
+INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion 
+INNER JOIN cotizaciones c ON o.id_cotizacion = cf.id_cotizacion 
+WHERE o.seleccionar = 'Si' 
+AND CONVERT(cf.identityElement USING utf8mb3) = CONVERT(o.oferta_finesa USING utf8mb3) 
+AND cf.id_cotizacion = $identificador 
+GROUP BY cf.identityElement";
 $respuestaqueryp3 =  $conexion->query($queryp3);
 
 $contp3 = 1;
@@ -1852,7 +2004,14 @@ $html4 .= '</tr>';
 $html4 .= '<tr>';
 $html4 .= '<td class="fondo puntos" style="width:25%; text-align: center; font-family:dejavusanscondensedb;"><font size="8">Cobertura de vidrios</font></td>';
 
-$queryp3 = "SELECT * FROM ofertas WHERE `id_cotizacion` = $identificador AND `seleccionar` = 'Si'";
+$queryp3 = "SELECT cf.identityElement, o.*
+FROM cotizaciones_finesa cf 
+INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion 
+INNER JOIN cotizaciones c ON o.id_cotizacion = cf.id_cotizacion 
+WHERE o.seleccionar = 'Si' 
+AND CONVERT(cf.identityElement USING utf8mb3) = CONVERT(o.oferta_finesa USING utf8mb3) 
+AND cf.id_cotizacion = $identificador 
+GROUP BY cf.identityElement";
 $respuestaqueryp3 =  $conexion->query($queryp3);
 
 $contp3 = 1;
@@ -1893,7 +2052,14 @@ $html4 .= '</tr>';
 $html4 .= '<tr>';
 $html4 .= '<td class="fondo puntos" style="width:25%; text-align: center; font-family:dejavusanscondensedb;"><font size="8">Asistencia en viajes con cobertura a nivel nacional</font></td>';
 
-$queryp3 = "SELECT * FROM ofertas WHERE `id_cotizacion` = $identificador AND `seleccionar` = 'Si'";
+$queryp3 = "SELECT cf.identityElement, o.*
+FROM cotizaciones_finesa cf 
+INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion 
+INNER JOIN cotizaciones c ON o.id_cotizacion = cf.id_cotizacion 
+WHERE o.seleccionar = 'Si' 
+AND CONVERT(cf.identityElement USING utf8mb3) = CONVERT(o.oferta_finesa USING utf8mb3) 
+AND cf.id_cotizacion = $identificador 
+GROUP BY cf.identityElement";
 $respuestaqueryp3 =  $conexion->query($queryp3);
 
 $contp3 = 1;
@@ -1934,7 +2100,14 @@ $html4 .= '</tr>';
 $html4 .= '<tr>';
 $html4 .= '<td class="fondo puntos" style="width:25%; text-align: center; font-family:dejavusanscondensedb;"><font size="8">Asistencia odontologica</font></td>';
 
-$queryp3 = "SELECT * FROM ofertas WHERE `id_cotizacion` = $identificador AND `seleccionar` = 'Si'";
+$queryp3 = "SELECT cf.identityElement, o.*
+FROM cotizaciones_finesa cf 
+INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion 
+INNER JOIN cotizaciones c ON o.id_cotizacion = cf.id_cotizacion 
+WHERE o.seleccionar = 'Si' 
+AND CONVERT(cf.identityElement USING utf8mb3) = CONVERT(o.oferta_finesa USING utf8mb3) 
+AND cf.id_cotizacion = $identificador 
+GROUP BY cf.identityElement";
 $respuestaqueryp3 =  $conexion->query($queryp3);
 
 $contp3 = 1;
@@ -1976,7 +2149,14 @@ $html4 .= '</tr>';
 $html4 .= '<tr>';
 $html4 .= '<td class="puntos fondo" style="width:25%; text-align: center; font-family:dejavusanscondensedb;"><font size="8">Lucro cesante/Auxilio de paralización del vehículo</font></td>';
 
-$query28 = "SELECT * FROM ofertas WHERE `id_cotizacion` = $identificador AND `seleccionar` = 'Si'";
+$query28 = "SELECT cf.identityElement, o.*
+FROM cotizaciones_finesa cf 
+INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion 
+INNER JOIN cotizaciones c ON o.id_cotizacion = cf.id_cotizacion 
+WHERE o.seleccionar = 'Si' 
+AND CONVERT(cf.identityElement USING utf8mb3) = CONVERT(o.oferta_finesa USING utf8mb3) 
+AND cf.id_cotizacion = $identificador 
+GROUP BY cf.identityElement";
 $respuestaquery28 =  $conexion->query($query28);
 $cont16 = 1;
 while ($rowRespuesta28 = mysqli_fetch_assoc($respuestaquery28)) {
@@ -2056,7 +2236,14 @@ $html4 .= '</tr>';
 $html4 .= '<tr>';
 $html4 .= '<td class="fondo puntos" style="width:25%; text-align: center; font-family:dejavusanscondensedb;"><font size="8">Exequias</font></td>';
 
-$query21 = "SELECT * FROM ofertas WHERE `id_cotizacion` = $identificador AND `seleccionar` = 'Si'";
+$query21 = "SELECT cf.identityElement, o.*
+FROM cotizaciones_finesa cf 
+INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion 
+INNER JOIN cotizaciones c ON o.id_cotizacion = cf.id_cotizacion 
+WHERE o.seleccionar = 'Si' 
+AND CONVERT(cf.identityElement USING utf8mb3) = CONVERT(o.oferta_finesa USING utf8mb3) 
+AND cf.id_cotizacion = $identificador 
+GROUP BY cf.identityElement";
 $respuestaquery21 =  $conexion->query($query21);
 $cont19 = 1;
 while ($rowRespuesta21 = mysqli_fetch_assoc($respuestaquery21)) {
@@ -2096,7 +2283,14 @@ $html4 .= '</tr>';
 $html4 .= '<tr>';
 $html4 .= '<td class="fondo puntos" style="width:25%; text-align: center; font-family:dejavusanscondensedb;"><font size="8">Asesoria y gestión de trámites de Tránsito</font></td>';
 
-$query21 = "SELECT * FROM ofertas WHERE `id_cotizacion` = $identificador AND `seleccionar` = 'Si'";
+$query21 = "SELECT cf.identityElement, o.*
+FROM cotizaciones_finesa cf 
+INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion 
+INNER JOIN cotizaciones c ON o.id_cotizacion = cf.id_cotizacion 
+WHERE o.seleccionar = 'Si' 
+AND CONVERT(cf.identityElement USING utf8mb3) = CONVERT(o.oferta_finesa USING utf8mb3) 
+AND cf.id_cotizacion = $identificador 
+GROUP BY cf.identityElement";
 $respuestaquery21 =  $conexion->query($query21);
 $cont19 = 1;
 while ($rowRespuesta21 = mysqli_fetch_assoc($respuestaquery21)) {
@@ -2135,7 +2329,14 @@ $html4 .= '</tr>';
 $html4 .= '<tr>';
 $html4 .= '<td class="fondo puntos" style="width:25%; text-align: center; font-family:dejavusanscondensedb;"><font size="8">Gastos médicos</font></td>';
 
-$query21 = "SELECT * FROM ofertas WHERE `id_cotizacion` = $identificador AND `seleccionar` = 'Si'";
+$query21 = "SELECT cf.identityElement, o.*
+FROM cotizaciones_finesa cf 
+INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion 
+INNER JOIN cotizaciones c ON o.id_cotizacion = cf.id_cotizacion 
+WHERE o.seleccionar = 'Si' 
+AND CONVERT(cf.identityElement USING utf8mb3) = CONVERT(o.oferta_finesa USING utf8mb3) 
+AND cf.id_cotizacion = $identificador 
+GROUP BY cf.identityElement";
 $respuestaquery21 =  $conexion->query($query21);
 $cont19 = 1;
 while ($rowRespuesta21 = mysqli_fetch_assoc($respuestaquery21)) {
@@ -2210,7 +2411,14 @@ $html6 = '
 
 
 
-$query29 = "SELECT * FROM ofertas WHERE `id_cotizacion` = $identificador AND `seleccionar` = 'Si' AND `recomendar` ='Si'";
+$query29 = "SELECT cf.identityElement, o.*
+FROM cotizaciones_finesa cf 
+INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion 
+INNER JOIN cotizaciones c ON o.id_cotizacion = cf.id_cotizacion 
+WHERE o.seleccionar = 'Si' 
+AND CONVERT(cf.identityElement USING utf8mb3) = CONVERT(o.oferta_finesa USING utf8mb3) 
+AND cf.id_cotizacion = $identificador 
+AND `recomendar` ='Si' GROUP BY cf.identityElement ";
 $respuestaquery29 =  $conexion->query($query29);
 $asegRecomendada = mysqli_num_rows($respuestaquery29);
 
@@ -2451,7 +2659,7 @@ $html7 .= '</table>';
 
 
 
-$pdf->SetXY(80, 122);
+$pdf->SetXY(80, 130);
 $pdf->writeHTML($html2, true, false, true, false, '');
 $pdf->Ln();
 $pdf->Ln();

@@ -1295,6 +1295,8 @@ function cotizarFinesa(ofertasCotizaciones) {
     };
 
     if (element.cotizada == null || element.cotizada == false) {
+      debugger;
+      console.log(element)
       promisesFinesa.push(
         fetch(
           "https://www.grupoasistencia.com/motor_webservice/paymentInstallmentsFinesa",
@@ -1327,14 +1329,17 @@ function cotizarFinesa(ofertasCotizaciones) {
               .then((dbResponse) => dbResponse.json())
               .then((dbData) => {
                 const elementDiv = document.getElementById(element.objFinesa);
-                if (dbData.data.mensaje.includes("Por políticas de Finesa")) {
+                if (dbData?.data?.mensaje.includes("Por políticas de Finesa")) {
                   cotizacionesFinesa[index].cotizada = true;
                   elementDiv.innerHTML = `Financiación:<br /> No aplica financiación`;
+                } else if(dbData?.mensaje.includes("Asegurado no viable para financiacion")) {
+                  cotizacionesFinesa[index].cotizada = true;
+                  elementDiv.innerHTML = `Financiación Finesa:<br /> Asegurado no viable para financiación`;
                 } else {
                   cotizacionesFinesa[index].cotizada = true;
-                  elementDiv.innerHTML = `Financiación Finesa:<br />$${dbData.data.data.val_cuo.toLocaleString(
+                  elementDiv.innerHTML = `Financiación Finesa:<br />$${dbData?.data?.data?.val_cuo.toLocaleString(
                     "es-ES"
-                  )} (${dbData.data.cuotas} Cuotas)`;
+                  )} (${dbData?.data?.cuotas} Cuotas)`;
                 }
                 elementDiv.style.display = "block";
                 // Agrega el resultado final al array
@@ -1349,8 +1354,10 @@ function cotizarFinesa(ofertasCotizaciones) {
               });
           })
       );
+    } else {
+      return;
+      console.log(cotizacionesFinesa);
     }
-    console.log(cotizacionesFinesa);
   });
 
   Promise.all(promisesFinesa)
@@ -1553,19 +1560,14 @@ const mostrarOferta = (
                           : ""
                       }
                     </div>
-
-
-  
-                                      </div>
-                                      <div class="col-xs-12 col-sm-6 col-md-2 oferta-header">
-                                        <h5 class='entidad' style='font-size: 15px'>${aseguradora} - ${
-    producto == "Pesados con RCE en exceso" ? "Pesados RCE + Exceso" : producto
-  }</h5>
-                                        <h5 class='precio' style='margin-top: 0px !important;'>Desde $ ${prima}</h5>
-                                        <p class='title-precio' style='margin: 0 0 3px !important'>Precio (IVA incluido)</p>
-                                        <div id='${actIdentity}' style='display: none; color: #88d600; font-weight: bold'>
-                                        </div>
-                                      </div>
+                       </div>
+                       <div class="col-xs-12 col-sm-6 col-md-2 oferta-header">
+                       <h5 class='entidad' style='font-size: 15px'>${aseguradora} - ${producto == "Pesados con RCE en exceso" ? "Pesados RCE + Exceso" : producto}</h5>
+                       <h5 class='precio' style='margin-top: 0px !important;'>Desde $ ${prima}</h5>
+                       <p class='title-precio' style='margin: 0 0 3px !important'>Precio (IVA incluido)</p>
+                       <div id='${actIdentity}' style='display: none; color: #88d600; font-weight: bold'>
+                      </div>
+                    </div>
                                       <div class="col-xs-12 col-sm-6 col-md-4">
                                           <ul class="list-group">
                                               <li class="list-group-item">
@@ -2454,7 +2456,7 @@ function cotizarOfertas() {
               // } else
 
               if (aseguradora === "HDI") {
-                 url = `https://grupoasistencia.com/motor_webservice/HdiPlus?callback=myCallback`;
+                url = `https://grupoasistencia.com/motor_webservice/HdiPlus?callback=myCallback`;
               } else if (aseguradora === "Zurich") {
                 const planes = ["FULL"];
                 planes.forEach((plan) => {
