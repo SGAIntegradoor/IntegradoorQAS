@@ -862,8 +862,6 @@ function cotizarFinesa(ofertasCotizaciones) {
   const tipoId = document.getElementById("tipoDocumentoID").value;
 
   ofertasCotizaciones.forEach((element, index) => {
-  debugger;
-  console.log(element)
     let data = {
       fecha_cotizacion: obtenerFechaActual(),
       valor_poliza: element.prima,

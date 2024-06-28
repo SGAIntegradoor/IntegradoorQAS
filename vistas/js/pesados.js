@@ -1753,7 +1753,6 @@ function cotizarFinesa(ofertasCotizaciones) {
   const tipoId = document.getElementById("tipoDocumentoID").value;
 
   ofertasCotizaciones.forEach((element, index) => {
-    debugger;
     console.log(element);
     let data = {
       fecha_cotizacion: obtenerFechaActual(),
@@ -1770,7 +1769,6 @@ function cotizarFinesa(ofertasCotizaciones) {
       typeId: tipoId,
     };
     if (element.cotizada == null || element.cotizada == false) {
-      debugger;
       console.log(element);
       promisesFinesa.push(
         fetch(
