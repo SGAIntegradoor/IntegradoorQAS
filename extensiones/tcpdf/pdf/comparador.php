@@ -1,11 +1,25 @@
 <?php
 session_start();
-ini_set('default_socket_timeout', 3600);
-ini_set('max_execution_timeout', 3600);
+
+// Establecer tiempo de espera para sockets
+ini_set('default_socket_timeout', 3600); // 1 horas
+
+// Establecer el tiempo máximo de ejecución del script
+ini_set('max_execution_time', 3600); // 1 hora
+
+// Establecer el tiempo máximo de entrada
+ini_set('max_input_time', 3600); // 1 hora
+
+// Establecer el límite de memoria
+ini_set('memory_limit', '756M'); // 512 megabytes
+
 $intermediario = $_SESSION['intermediario'];
 
 header('Content-Type: text/html; charset=utf-8');
 date_default_timezone_set('America/Bogota');
+
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 // Incluye la biblioteca TCPDF principal (busca la ruta de instalación).
 require_once('tcpdf_include.php');
 
@@ -39,7 +53,7 @@ $valorLogo = $valorLogo['urlLogo'];
 
 $porciones = explode(".", $valorLogo);
 
-$query3s = "SELECT o.* cf.identityElement 
+$query3s = "SELECT o.Producto, o.Aseguradora, cf.identityElement 
 FROM cotizaciones_finesa cf 
 INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion 
 INNER JOIN cotizaciones c ON o.id_cotizacion = cf.id_cotizacion 
@@ -51,25 +65,19 @@ GROUP BY cf.identityElement";
 $valor3s = $conexion->query($query3s);
 $fila2 = mysqli_num_rows($valor3s);
 
-if($fila2 == 0 || $fila2 == false || $fila2 == null){
+if ($fila2 == 0 || $fila2 == false || $fila2 == null) {
 	//mysqli_free_result($valor3s);
 	$query3s = "SELECT Aseguradora, Producto FROM ofertas WHERE `id_cotizacion` = $identificador AND `seleccionar` = 'Si'";
 	$valor3s = $conexion->query($query3s);
-	$fila2 = mysqli_num_rows($valor3s);	
+	$fila2 = mysqli_num_rows($valor3s);
 }
 
-$fullData = 
 
 // Consulta las aseguradoras que fueron selecionadas para visualizar en el PDF
 $queryAsegSelec = "SELECT DISTINCT Aseguradora FROM ofertas WHERE `id_cotizacion` = $identificador AND `seleccionar` = 'Si'";
 
 $valorAsegSelec = $conexion->query($queryAsegSelec);
 $asegSelecionada = mysqli_num_rows($valorAsegSelec);
-
-// Consultar cuantas Ofertas fueron selecionadas para visualizarlas en el PDF
-// $queryPDF = "SELECT pdf FROM ofertas WHERE `id_cotizacion` = $identificador AND `seleccionar` = 'Si'";
-// $valorPDF = $conexion->query($queryPDF);
-// $ofertasPDF = mysqli_num_rows($valorPDF);
 
 
 $fechaCotiz = substr($fila['cot_fch_cotizacion'], 0, -9);
@@ -167,13 +175,7 @@ $pdf->SetFont('dejavusanscondensed', '', 11);
 // This method has several options, check the source code documentation for more information.
 $pdf->AddPage();
 
-//$pdf->Image('../../../vistas/img/logos/imagencotizador.jpg', -5, 0, 0, 92, 'JPG', '', '', true, 160, '', false, false, 0, false, false, false);
-//$pdf->Image('../../../vistas/img/logos/cheque.png', 99.5, 159.5, 0, 0, 'PNG', '', '', true, 160, '', false, false, 0, false, false, false);
-
 $pdf->Image('../../../vistas/img/logos/imagencotizador2.jpg', -5, 0, 0, 92, 'JPG', '', '', true, 200, '', false, false, 0, false, false, false);
-
-
-
 
 if ($porciones[1] == 'png') {
 
@@ -182,12 +184,7 @@ if ($porciones[1] == 'png') {
 	$pdf->Image('../../../vistas/img/logosIntermediario/' . $valorLogo, 8, 13, 0, 20, 'JPG', '', '', true, 160, '', false, false, 0, false, false, false);
 }
 
-
-
-
 $pdf->Image('../../../vistas/img/logos/cheque.png', 100.5, 150.5, 0, -12, 'PNG', '', '', true, 160, '', false, false, 0, false, false, false);
-
-//$pdf->Image('images/img/QUIMERA_BONO_FINAL3.jpg', 0, 130, 0, 117, 'JPG', '', '', false, 140, '', false, false, 0, false, false, false);
 
 $pdf->SetFont('dejavusanscondensed', 'B', 10);
 $pdf->SetXY(158, 3);
@@ -255,8 +252,6 @@ $pdf->Cell(25, 6, strtoupper($telAsesor), 0, 1, '');
 $pdf->Ln();
 $pdf->Ln();
 $pdf->SetFont('dejavusanscondensed', 'BI', 15);
-//$pdf->Cell(180, 0, 'Hemos cotizado ' . $asegSelecionada . ' aseguradoras, a continuación', 0, $ln = 0, 'C', 0, '', 0, false, 'C', 'C');
-//$pdf->Cell(180, 0, 'te presentamos un comparativo de precios', 0, $ln = 0, 'C', 0, '', 0, false, 'C', 'C');
 
 $pdf->SetFont('dejavusanscondensed', 'I', 15);
 $pdf->SetTextColor(104, 104, 104);
@@ -336,7 +331,7 @@ GROUP BY cf.identityElement";
 $respuestaquery4 = $conexion->query($query4);
 $rowValidate = mysqli_num_rows($respuestaquery4);
 
-if($rowValidate == 0 || $rowValidate == false || $rowValidate == null){
+if ($rowValidate == 0 || $rowValidate == false || $rowValidate == null) {
 	$query4 = "SELECT Aseguradora, Producto FROM ofertas WHERE `id_cotizacion` = $identificador AND `seleccionar` = 'Si'";
 	$respuestaquery4 = $conexion->query($query4);
 	$rowValidate = mysqli_num_rows($respuestaquery4);
@@ -345,7 +340,7 @@ if($rowValidate == 0 || $rowValidate == false || $rowValidate == null){
 $cont = 1;
 $html2 .= '<tr>';
 while ($rowRespuesta4 = mysqli_fetch_assoc($respuestaquery4)) {
-	
+
 	$fondo_class = ($cont % 2 == 0) ? 'fondo' : 'fondo2';
 
 	switch ($rowRespuesta4['Aseguradora']) {
@@ -381,7 +376,7 @@ while ($rowRespuesta4 = mysqli_fetch_assoc($respuestaquery4)) {
 		case 'HDI Seguros':
 			$html2 .= '<td class="puntos td2 ' . $fondo_class . '" style="  font-size: 6.5px; font-family:dejavusanscondensedb;">
 			<img style="width:40px;" src="../../../vistas/img/logos/hdi.png" alt="">
-			<div style="font-size:3pt">&nbsp;</div>
+			<div style="font-size:t">&nbsp;</div>
 			<span style="color:#666666;">' . ($rowRespuesta4['Producto'] == 'VEHICULO SEGURO HDI PEAU 100%' ? 'HDI Peau 100%' : $rowRespuesta4['Producto']) . '</span>
 			</td>';
 			break;
@@ -495,9 +490,10 @@ while ($rowRespuesta4 = mysqli_fetch_assoc($respuestaquery4)) {
 $html2 .= '</tr>';
 
 
+
 $pdf->SetFont('dejavusanscondensed', '', 12);
 
-$query5 = "SELECT cf.cuota_1, o.Aseguradora, cf.identityElement, o.Prima
+$query5 = "SELECT o.Aseguradora, cf.identityElement, o.Prima
 FROM cotizaciones_finesa cf 
 INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion 
 INNER JOIN cotizaciones c ON o.id_cotizacion = cf.id_cotizacion 
@@ -509,13 +505,14 @@ GROUP BY cf.identityElement";
 $respuestaquery5 = $conexion->query($query5);
 $rowValidate = mysqli_num_rows($respuestaquery5);
 
-if($rowValidate == 0 || $rowValidate == false || $rowValidate == null){
+if ($rowValidate == 0 || $rowValidate == false || $rowValidate == null) {
 	mysqli_free_result($respuestaquery5);
 	$query5 = "SELECT Aseguradora, Prima FROM ofertas WHERE `id_cotizacion` = $identificador AND `seleccionar` = 'Si'";
 	$respuestaquery5 = $conexion->query($query5);
 	$rowValidate = mysqli_num_rows($respuestaquery5);
 }
 
+// $valor = mysqli_num_rows($respuestaquery5);
 if ($rowValidate == 10) {
 	$html2 .= '<tr>';
 	$cont2 = 1;
@@ -533,7 +530,6 @@ if ($rowValidate == 10) {
 			<div style="font-size:2pt">&nbsp;</div>
 			</td>';
 		}
-
 		$cont2 += 1;
 	}
 } else if ($rowValidate > 10) {
@@ -549,7 +545,6 @@ if ($rowValidate == 10) {
 			<text style="text-align: center;">$' . number_format($rowRespuesta5['Prima'], 0, ',', '.') . '</text>
 			</td>';
 		}
-
 		$cont2 += 1;
 	}
 } else {
@@ -570,12 +565,44 @@ if ($rowValidate == 10) {
 			<div style="font-size:2pt">&nbsp;</div>
 			</td>';
 		}
-
 		$cont2 += 1;
 	}
 }
 $html2 .= '</tr>';
 
+// Cuotas de Finesa en cada cotizacion
+$query5f = "SELECT o.*, cf.identityElement, cf.cuota_1, cf.cuotas
+FROM cotizaciones_finesa cf 
+INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion 
+INNER JOIN cotizaciones c ON o.id_cotizacion = cf.id_cotizacion 
+WHERE o.seleccionar = 'Si' 
+AND CONVERT(cf.identityElement USING utf8mb3) = CONVERT(o.oferta_finesa USING utf8mb3) 
+AND cf.id_cotizacion = $identificador 
+GROUP BY cf.identityElement";
+
+$respuestaquery5f = $conexion->query($query5f);
+
+$html2 .= '<tr>';
+if ($respuestaquery5f === false) {
+	echo "Error en la consulta: " . $conexion->error;
+} else {
+	$valor_f = mysqli_num_rows($respuestaquery5f);
+
+	$cont3 = 1;
+	while ($rowRespuesta5f = mysqli_fetch_assoc($respuestaquery5f)) {
+		//var_dump($rowRespuesta5f);
+		$fondo_class = ($cont3 % 2 == 0) ? 'fondo' : 'fondo2';
+		$font_size = ($valor_f > 10) ? 7 : (($valor_f == 10) ? 8 : 9);
+
+		$html2 .= '<td style="font-size:' . ($font_size - 2) . 'px; color:#666666; font-family:dejavusanscondensedb;" class="puntos td2 ' . $fondo_class . '">
+		$ ' . number_format($rowRespuesta5f['cuota_1'], 0, ',', '.') . '
+		<br>
+		(' . $rowRespuesta5f['cuotas'] . ' Cuotas)
+        </td>';
+		$cont3++;
+	}
+	$html2 .= '</tr>';
+}
 $html2 .= '</table></div>';
 
 $html3 = '
@@ -622,7 +649,7 @@ GROUP BY cf.identityElement";
 $valor6 = $conexion->query($query6);
 $fila6 = mysqli_num_rows($valor6);
 
-if($fila6 == 0 || $fila6 == false || $fila6 == null){
+if ($fila6 == 0 || $fila6 == false || $fila6 == null) {
 	mysqli_free_result($valor6);
 	$query6 = "SELECT Aseguradora FROM ofertas WHERE `id_cotizacion` = $identificador AND `seleccionar` = 'Si'";
 	$valor6 = $conexion->query($query6);
@@ -649,7 +676,7 @@ GROUP BY cf.identityElement";
 $respuestaquery7 = $conexion->query($query7);
 $rowValidate = mysqli_num_rows($respuestaquery7);
 
-if($rowValidate == 0 || $rowValidate == false || $rowValidate == null){
+if ($rowValidate == 0 || $rowValidate == false || $rowValidate == null) {
 	mysqli_free_result($respuestaquery7);
 	$query7 = "SELECT * FROM ofertas WHERE `id_cotizacion` = $identificador AND `seleccionar` = 'Si'";
 	$respuestaquery7 = $conexion->query($query7);
@@ -864,7 +891,7 @@ GROUP BY cf.identityElement";
 $respuestaquery9 = $conexion->query($query9);
 $rowValidate = mysqli_num_rows($respuestaquery9);
 
-if($rowValidate == 0 || $rowValidate == false || $rowValidate == null){
+if ($rowValidate == 0 || $rowValidate == false || $rowValidate == null) {
 	mysqli_free_result($respuestaquery9);
 	$query9 = "SELECT * FROM ofertas WHERE `id_cotizacion` = $identificador AND `seleccionar` = 'Si'";
 	$respuestaquery9 = $conexion->query($query9);
@@ -960,7 +987,7 @@ GROUP BY cf.identityElement";
 
 $respuestaquery8 = $conexion->query($query8);
 $rowValidate = mysqli_num_rows($respuestaquery8);
-if($rowValidate == 0 || $rowValidate == false || $rowValidate == null){
+if ($rowValidate == 0 || $rowValidate == false || $rowValidate == null) {
 	mysqli_free_result($respuestaquery8);
 	$query8 = "SELECT * FROM ofertas WHERE `id_cotizacion` = $identificador AND `seleccionar` = 'Si'";
 	$respuestaquery8 = $conexion->query($query8);
@@ -1018,7 +1045,7 @@ GROUP BY cf.identityElement";;
 $respuestaquery10 = $conexion->query($query10);
 $rowValidate = mysqli_num_rows($respuestaquery10);
 
-if($rowValidate == 0 || $rowValidate == false || $rowValidate == null){
+if ($rowValidate == 0 || $rowValidate == false || $rowValidate == null) {
 	mysqli_free_result($respuestaquery10);
 	$query10 = "SELECT * FROM ofertas WHERE `id_cotizacion` = $identificador AND `seleccionar` = 'Si'";
 	$respuestaquery10 = $conexion->query($query10);
@@ -1060,7 +1087,7 @@ GROUP BY cf.identityElement";
 $respuestaquery11 = $conexion->query($query11);
 $rowValidate = mysqli_num_rows($respuestaquery11);
 
-if($rowValidate == 0 || $rowValidate == false || $rowValidate == null){
+if ($rowValidate == 0 || $rowValidate == false || $rowValidate == null) {
 	mysqli_free_result($respuestaquery11);
 	$query11 = "SELECT * FROM ofertas WHERE `id_cotizacion` = $identificador AND `seleccionar` = 'Si'";
 	$respuestaquery11 = $conexion->query($query11);
@@ -1103,7 +1130,7 @@ GROUP BY cf.identityElement";
 $respuestaquery12 = $conexion->query($query12);
 $rowValidate = mysqli_num_rows($respuestaquery12);
 
-if($rowValidate == 0 || $rowValidate == false || $rowValidate == null){
+if ($rowValidate == 0 || $rowValidate == false || $rowValidate == null) {
 	mysqli_free_result($respuestaquery12);
 	$query12 = "SELECT * FROM ofertas WHERE `id_cotizacion` = $identificador AND `seleccionar` = 'Si'";
 	$respuestaquery12 = $conexion->query($query12);
@@ -1147,7 +1174,7 @@ GROUP BY cf.identityElement";
 $respuestaquery13 = $conexion->query($query13);
 $rowValidate = mysqli_num_rows($respuestaquery13);
 
-if($rowValidate == 0 || $rowValidate == false || $rowValidate == null){
+if ($rowValidate == 0 || $rowValidate == false || $rowValidate == null) {
 	mysqli_free_result($respuestaquery13);
 	$query13 = "SELECT * FROM ofertas WHERE `id_cotizacion` = $identificador AND `seleccionar` = 'Si'";
 	$respuestaquery13 = $conexion->query($query13);
@@ -1194,7 +1221,7 @@ GROUP BY cf.identityElement";
 $respuestaquery14 = $conexion->query($query14);
 $rowValidate = mysqli_num_rows($respuestaquery14);
 
-if($rowValidate == 0 || $rowValidate == false || $rowValidate == null){
+if ($rowValidate == 0 || $rowValidate == false || $rowValidate == null) {
 	mysqli_free_result($respuestaquery14);
 	$query14 = "SELECT * FROM ofertas WHERE `id_cotizacion` = $identificador AND `seleccionar` = 'Si'";
 	$respuestaquery14 = $conexion->query($query14);
@@ -1280,7 +1307,7 @@ GROUP BY cf.identityElement";
 $valor6 = $conexion->query($query6);
 $fila6 = mysqli_num_rows($valor6);
 
-if($fila6 == 0 || $fila6 == false || $fila6 == null){
+if ($fila6 == 0 || $fila6 == false || $fila6 == null) {
 	mysqli_free_result($valor6);
 	$query6 = "SELECT * FROM ofertas WHERE `id_cotizacion` = $identificador AND `seleccionar` = 'Si'";
 	$valor6 = $conexion->query($query6);
@@ -1307,7 +1334,7 @@ GROUP BY cf.identityElement";
 $respuestaquery7 = $conexion->query($query7);
 $rowValidate = mysqli_num_rows($respuestaquery7);
 
-if($rowValidate == 0 || $rowValidate == false || $rowValidate == null){
+if ($rowValidate == 0 || $rowValidate == false || $rowValidate == null) {
 	mysqli_free_result($respuestaquery7);
 	$query7 = "SELECT Aseguradora FROM ofertas WHERE `id_cotizacion` = $identificador AND `seleccionar` = 'Si'";
 	$respuestaquery7 = $conexion->query($query7);
@@ -1545,7 +1572,7 @@ GROUP BY cf.identityElement";
 $respuestaquery15 = $conexion->query($query15);
 $rowValidate = mysqli_num_rows($respuestaquery15);
 
-if($rowValidate == 0 || $rowValidate == false || $rowValidate == null){
+if ($rowValidate == 0 || $rowValidate == false || $rowValidate == null) {
 	mysqli_free_result($respuestaquery15);
 	$query15 = "SELECT * FROM ofertas WHERE `id_cotizacion` = $identificador AND `seleccionar` = 'Si'";
 	$respuestaquery15 = $conexion->query($query15);
@@ -1554,7 +1581,7 @@ if($rowValidate == 0 || $rowValidate == false || $rowValidate == null){
 
 $cont11 = 1;
 while ($rowRespuesta15 = mysqli_fetch_assoc($respuestaquery15)) {
-	
+
 	$pdf->SetFont('dejavusanscondensed', '', 8);
 	$nombreAseguradora = nombreAseguradora($rowRespuesta15['Aseguradora']);
 	$nombreProducto = productoAseguradora($rowRespuesta15['Aseguradora'], $rowRespuesta15['Producto']);
@@ -1600,7 +1627,7 @@ GROUP BY cf.identityElement";
 $respuestaquery16 = $conexion->query($query16);
 $rowValidate = mysqli_num_rows($respuestaquery16);
 
-if($rowValidate == 0 || $rowValidate == false || $rowValidate == null){
+if ($rowValidate == 0 || $rowValidate == false || $rowValidate == null) {
 	mysqli_free_result($respuestaquery16);
 	$query16 = "SELECT * FROM ofertas WHERE `id_cotizacion` = $identificador AND `seleccionar` = 'Si'";
 	$respuestaquery16 = $conexion->query($query16);
@@ -1654,7 +1681,7 @@ GROUP BY cf.identityElement";
 $respuestaquery17 = $conexion->query($query17);
 $rowValidate = mysqli_num_rows($respuestaquery17);
 
-if($rowValidate == 0 || $rowValidate == false || $rowValidate == null){
+if ($rowValidate == 0 || $rowValidate == false || $rowValidate == null) {
 	mysqli_free_result($respuestaquery17);
 	$query17 = "SELECT * FROM ofertas WHERE `id_cotizacion` = $identificador AND `seleccionar` = 'Si'";
 	$respuestaquery17 = $conexion->query($query17);
@@ -1709,7 +1736,7 @@ GROUP BY cf.identityElement";
 $respuestaquery27 = $conexion->query($query27);
 $rowValidate = mysqli_num_rows($respuestaquery27);
 
-if($rowValidate == 0 || $rowValidate == false || $rowValidate == null){
+if ($rowValidate == 0 || $rowValidate == false || $rowValidate == null) {
 	mysqli_free_result($respuestaquery27);
 	$query27 = "SELECT * FROM ofertas WHERE `id_cotizacion` = $identificador AND `seleccionar` = 'Si'";
 	$respuestaquery27 = $conexion->query($query27);
@@ -1763,7 +1790,7 @@ GROUP BY cf.identityElement";
 $respuestaquery18 = $conexion->query($query18);
 $rowValidate = mysqli_num_rows($respuestaquery18);
 
-if($rowValidate == 0 || $rowValidate == false || $rowValidate == null){
+if ($rowValidate == 0 || $rowValidate == false || $rowValidate == null) {
 	mysqli_free_result($respuestaquery18);
 	$query18 = "SELECT * FROM ofertas WHERE `id_cotizacion` = $identificador AND `seleccionar` = 'Si'";
 	$respuestaquery18 = $conexion->query($query18);
@@ -1819,7 +1846,7 @@ GROUP BY cf.identityElement";
 $respuestaquery28 = $conexion->query($query28);
 $rowValidate = mysqli_num_rows($respuestaquery28);
 
-if($rowValidate == 0 || $rowValidate == false || $rowValidate == null){
+if ($rowValidate == 0 || $rowValidate == false || $rowValidate == null) {
 	mysqli_free_result($respuestaquery28);
 	$query28 = "SELECT * FROM ofertas WHERE `id_cotizacion` = $identificador AND `seleccionar` = 'Si'";
 	$respuestaquery28 = $conexion->query($query28);
@@ -1873,7 +1900,7 @@ GROUP BY cf.identityElement";
 $respuestaquery19 = $conexion->query($query19);
 $rowValidate = mysqli_num_rows($respuestaquery19);
 
-if($rowValidate == 0 || $rowValidate == false || $rowValidate == null){
+if ($rowValidate == 0 || $rowValidate == false || $rowValidate == null) {
 	mysqli_free_result($respuestaquery19);
 	$query19 = "SELECT * FROM ofertas WHERE `id_cotizacion` = $identificador AND `seleccionar` = 'Si'";
 	$respuestaquery19 = $conexion->query($query19);
@@ -1931,7 +1958,7 @@ GROUP BY cf.identityElement";
 $respuestaquery20 = $conexion->query($query20);
 $rowValidate = mysqli_num_rows($respuestaquery20);
 
-if($rowValidate == 0 || $rowValidate == false || $rowValidate == null){
+if ($rowValidate == 0 || $rowValidate == false || $rowValidate == null) {
 	mysqli_free_result($respuestaquery20);
 	$query20 = "SELECT * FROM ofertas WHERE `id_cotizacion` = $identificador AND `seleccionar` = 'Si'";
 	$respuestaquery20 = $conexion->query($query20);
@@ -1991,7 +2018,7 @@ GROUP BY cf.identityElement";
 $respuestaquery21 = $conexion->query($query21);
 $rowValidate = mysqli_num_rows($respuestaquery21);
 
-if($rowValidate == 0 || $rowValidate == false || $rowValidate == null){
+if ($rowValidate == 0 || $rowValidate == false || $rowValidate == null) {
 	mysqli_free_result($respuestaquery21);
 	$query21 = "SELECT * FROM ofertas WHERE `id_cotizacion` = $identificador AND `seleccionar` = 'Si'";
 	$respuestaquery21 = $conexion->query($query21);
@@ -2046,7 +2073,7 @@ GROUP BY cf.identityElement";
 $respuestaquery22 = $conexion->query($query22);
 $rowValidate = mysqli_num_rows($respuestaquery22);
 
-if($rowValidate == 0 || $rowValidate == false || $rowValidate == null){
+if ($rowValidate == 0 || $rowValidate == false || $rowValidate == null) {
 	mysqli_free_result($respuestaquery22);
 	$query22 = "SELECT * FROM ofertas WHERE `id_cotizacion` = $identificador AND `seleccionar` = 'Si'";
 	$respuestaquery22 = $conexion->query($query22);
@@ -2083,11 +2110,6 @@ while ($rowRespuesta22 = mysqli_fetch_assoc($respuestaquery22)) {
 
 $html4 .= '</tr>';
 
-
-//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-//CONSULTA ResponsabilidadCivilGeneralFamiliar
-//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-
 //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 //TRANSPORTE DE PASAJEROS POR VARADA
 //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
@@ -2108,7 +2130,7 @@ GROUP BY cf.identityElement";
 $respuestaquery24 = $conexion->query($query24);
 $rowValidate = mysqli_num_rows($respuestaquery24);
 
-if($rowValidate == 0 || $rowValidate == false || $rowValidate == null){
+if ($rowValidate == 0 || $rowValidate == false || $rowValidate == null) {
 	mysqli_free_result($respuestaquery24);
 	$query24 = "SELECT * FROM ofertas WHERE `id_cotizacion` = $identificador AND `seleccionar` = 'Si'";
 	$respuestaquery24 = $conexion->query($query24);
@@ -2164,7 +2186,7 @@ GROUP BY cf.identityElement";
 $respuestaquery25 = $conexion->query($query25);
 $rowValidate = mysqli_num_rows($respuestaquery25);
 
-if($rowValidate == 0 || $rowValidate == false || $rowValidate == null){
+if ($rowValidate == 0 || $rowValidate == false || $rowValidate == null) {
 	mysqli_free_result($respuestaquery25);
 	$query25 = "SELECT * FROM ofertas WHERE `id_cotizacion` = $identificador AND `seleccionar` = 'Si'";
 	$respuestaquery25 = $conexion->query($query25);
@@ -2219,7 +2241,7 @@ GROUP BY cf.identityElement";
 $respuestaquery26 = $conexion->query($query26);
 $rowValidate = mysqli_num_rows($respuestaquery26);
 
-if($rowValidate == 0 || $rowValidate == false || $rowValidate == null){
+if ($rowValidate == 0 || $rowValidate == false || $rowValidate == null) {
 	mysqli_free_result($respuestaquery26);
 	$query26 = "SELECT * FROM ofertas WHERE `id_cotizacion` = $identificador AND `seleccionar` = 'Si'";
 	$respuestaquery26 = $conexion->query($query26);
@@ -2276,7 +2298,7 @@ GROUP BY cf.identityElement";
 $respuestaquery28 = $conexion->query($query28);
 $rowValidate = mysqli_num_rows($respuestaquery28);
 
-if($rowValidate == 0 || $rowValidate == false || $rowValidate == null){
+if ($rowValidate == 0 || $rowValidate == false || $rowValidate == null) {
 	mysqli_free_result($respuestaquery28);
 	$query28 = "SELECT * FROM ofertas WHERE `id_cotizacion` = $identificador AND `seleccionar` = 'Si'";
 	$respuestaquery28 = $conexion->query($query28);
@@ -2326,6 +2348,11 @@ $html6 = '
 .puntos2 {
     border-right:1px solid grey;
 }
+
+
+
+
+
 .second2 {
 	width:100%;
 }
@@ -2346,13 +2373,19 @@ $html6 = '
 
 </style>';
 
+
+
+
+
 $query29 = "SELECT Aseguradora FROM ofertas WHERE `id_cotizacion` = $identificador AND `seleccionar` = 'Si' and `recomendar` = 'Si'";
 $respuestaquery29 =  $conexion->query($query29);
 $asegRecomendada = mysqli_num_rows($respuestaquery29);
 
+
 $query40 = "SELECT * FROM cotizaciones WHERE `id_cotizacion` = $identificador";
 $respuestaquery40 =  $conexion->query($query40);
 $rowRespuestaAsistencia40 = mysqli_fetch_assoc($respuestaquery40);
+
 
 $rest = substr($rowRespuestaAsistencia40['cot_fch_cotizacion'], 0, -9);
 
@@ -2489,7 +2522,6 @@ while ($rowRespuesta29 = mysqli_fetch_assoc($respuestaquery29)) {
 		$html6 .= '<td class="fondo" style="width:20%;"><center><font size="7"style="text-align: center;">' . $rowRespuestaAsistencia29['Asistenciajuridica'] . '</font></center></td>';
 	}
 	$html6 .= '</tr>';
-
 	$html6 .= '<tr>';
 	$html6 .= '<td>';
 	$html6 .= '</td>';
@@ -2568,7 +2600,6 @@ $html7 = '
 
 </style>';
 
-
 $html7 .= '<table style="width: 100%;" class="second2" cellpadding="2"  border="0">';
 
 $html7 .= '<tr>';
@@ -2611,6 +2642,8 @@ $pdf->SetTextColor(104, 104, 104);
 $pdf->SetXY(101, 153);
 $pdf->Cell(10, 0, '(Recuerda que este icono       significa Si Aplica o Si Cubre)', 0, $ln = 0, 'C', 0, '', 0, false, 'C', 'C');
 
+
+//$pdf->Cell(210, 0, 'las aseguradoras, revisa el siguiente cuadro', 0, $ln = 0, 'C', 0, '', 0, false, 'C', 'C');
 $pdf->Ln();
 
 $pdf->writeHTML($html3, true, false, true, false, '');
@@ -2624,6 +2657,7 @@ if ($asegRecomendada > 0) {
 	$pdf->writeHTML($html7, true, false, true, false, '');
 	$pdf->writeHTML($html6, true, false, true, false, '');
 }
+
 $pdf->SetFont('dejavusanscondensed', 'B', 9);
 $pdf->StartTransform();
 $pdf->SetXY(203, 250);
@@ -2638,6 +2672,7 @@ $htmlFooter = '<p style="font-size: 6.2px;">Nota: Esta cotización no constituye
 $pdf->writeHTML($htmlFooter, true, false, true, false, '');
 $pdf->Ln();
 
+// Consulta el servicio del vehiculo segun su codigo
 function servise($dato)
 {
 	$service = "";
@@ -2872,11 +2907,7 @@ function productoAseguradora($aseguradora, $producto)
 	return $resultado;
 }
 
-
-
-// ---------------------------------------------------------
-
 // Close and output PDF document
 // This method has several options, check the source code documentation for more information.
-mysqli_close($conexion);
 $pdf->Output('cotizacionAutos.pdf', 'I');
+mysqli_close($conexion);

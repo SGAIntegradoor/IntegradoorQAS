@@ -1298,7 +1298,7 @@ function cotizarFinesa(ofertasCotizaciones) {
       console.log(element)
       promisesFinesa.push(
         fetch(
-          "https://www.grupoasistencia.com/motor_webservice/paymentInstallmentsFinesa",
+          "http://localhost/motorTest/paymentInstallmentsFinesa",
           {
             method: "POST",
             headers: headers,
@@ -1318,7 +1318,7 @@ function cotizarFinesa(ofertasCotizaciones) {
             finesaData.cuotas = element.cuotas;
 
             return fetch(
-              "https://www.grupoasistencia.com/motor_webservice/saveDataQuotationsFinesa",
+              "http://localhost/motorTest/saveDataQuotationsFinesa",
               {
                 method: "POST",
                 headers: headers,
@@ -1668,7 +1668,7 @@ function validarOfertas(ofertas, aseguradora, exito) {
   let contadorPorEntidad = {};
 
   if(aseguradora == "Bolivar" || aseguradora == "Seguros Bolivar"){
-    
+
   }
 
   ofertas.forEach((oferta, i) => {
