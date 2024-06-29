@@ -53,20 +53,18 @@ $valorLogo = $valorLogo['urlLogo'];
 
 $porciones = explode(".", $valorLogo);
 
-$query3s = "SELECT o.Producto, o.Aseguradora, cf.identityElement 
+$query3s = "SELECT DISTINCT cf.identityElement, o.Aseguradora, o.Producto
 FROM cotizaciones_finesa cf 
-INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion 
-INNER JOIN cotizaciones c ON o.id_cotizacion = cf.id_cotizacion 
+INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion
 WHERE o.seleccionar = 'Si' 
-AND CONVERT(cf.identityElement USING utf8mb3) = CONVERT(o.oferta_finesa USING utf8mb3) 
-AND cf.id_cotizacion = $identificador 
-GROUP BY cf.identityElement";
+AND cf.identityElement = o.oferta_finesa
+AND cf.id_cotizacion = $identificador";
 
 $valor3s = $conexion->query($query3s);
 $fila2 = mysqli_num_rows($valor3s);
 
 if ($fila2 == 0 || $fila2 == false || $fila2 == null) {
-	//mysqli_free_result($valor3s);
+	mysqli_free_result($valor3s);
 	$query3s = "SELECT Aseguradora, Producto FROM ofertas WHERE `id_cotizacion` = $identificador AND `seleccionar` = 'Si'";
 	$valor3s = $conexion->query($query3s);
 	$fila2 = mysqli_num_rows($valor3s);
@@ -319,14 +317,12 @@ $html2 = '
 <div class="second2">
 <table class="second" cellpadding="2"  border="0">';
 
-$query4 = "SELECT o.Producto, o.Aseguradora, cf.identityElement 
+$query4 = "SELECT DISTINCT cf.identityElement, o.Aseguradora, o.Producto
 FROM cotizaciones_finesa cf 
-INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion 
-INNER JOIN cotizaciones c ON o.id_cotizacion = cf.id_cotizacion 
+INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion
 WHERE o.seleccionar = 'Si' 
-AND CONVERT(cf.identityElement USING utf8mb3) = CONVERT(o.oferta_finesa USING utf8mb3) 
-AND cf.id_cotizacion = $identificador 
-GROUP BY cf.identityElement";
+AND cf.identityElement = o.oferta_finesa
+AND cf.id_cotizacion = $identificador";
 
 $respuestaquery4 = $conexion->query($query4);
 $rowValidate = mysqli_num_rows($respuestaquery4);
@@ -493,14 +489,12 @@ $html2 .= '</tr>';
 
 $pdf->SetFont('dejavusanscondensed', '', 12);
 
-$query5 = "SELECT o.Aseguradora, cf.identityElement, o.Prima
+$query5 = "SELECT DISTINCT cf.identityElement, o.Aseguradora, o.Prima
 FROM cotizaciones_finesa cf 
-INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion 
-INNER JOIN cotizaciones c ON o.id_cotizacion = cf.id_cotizacion 
+INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion
 WHERE o.seleccionar = 'Si' 
-AND CONVERT(cf.identityElement USING utf8mb3) = CONVERT(o.oferta_finesa USING utf8mb3) 
-AND cf.id_cotizacion = $identificador 
-GROUP BY cf.identityElement";
+AND cf.identityElement = o.oferta_finesa
+AND cf.id_cotizacion = $identificador";
 
 $respuestaquery5 = $conexion->query($query5);
 $rowValidate = mysqli_num_rows($respuestaquery5);
@@ -571,14 +565,20 @@ if ($rowValidate == 10) {
 $html2 .= '</tr>';
 
 // Cuotas de Finesa en cada cotizacion
-$query5f = "SELECT o.*, cf.identityElement, cf.cuota_1, cf.cuotas
+$query5f = "SELECT DISTINCT cf.identityElement, cf.cuotas, cf.cuota_1
 FROM cotizaciones_finesa cf 
-INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion 
-INNER JOIN cotizaciones c ON o.id_cotizacion = cf.id_cotizacion 
+INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion
 WHERE o.seleccionar = 'Si' 
-AND CONVERT(cf.identityElement USING utf8mb3) = CONVERT(o.oferta_finesa USING utf8mb3) 
-AND cf.id_cotizacion = $identificador 
-GROUP BY cf.identityElement";
+AND cf.identityElement = o.oferta_finesa
+AND cf.id_cotizacion = $identificador";
+// $query5f = "SELECT o.*, cf.identityElement, cf.cuota_1, cf.cuotas
+// FROM cotizaciones_finesa cf 
+// INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion 
+// INNER JOIN cotizaciones c ON o.id_cotizacion = cf.id_cotizacion 
+// WHERE o.seleccionar = 'Si' 
+// AND CONVERT(cf.identityElement USING utf8mb3) = CONVERT(o.oferta_finesa USING utf8mb3) 
+// AND cf.id_cotizacion = $identificador 
+// GROUP BY cf.identityElement";
 
 $respuestaquery5f = $conexion->query($query5f);
 
@@ -637,14 +637,12 @@ $html3 = '
 
 $pdf->SetFont('dejavusanscondensed', '', 8);
 
-$query6 = "SELECT o.*, cf.identityElement 
+$query6 = "SELECT DISTINCT o.Aseguradora, cf.identityElement
 FROM cotizaciones_finesa cf 
-INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion 
-INNER JOIN cotizaciones c ON o.id_cotizacion = cf.id_cotizacion 
+INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion
 WHERE o.seleccionar = 'Si' 
-AND CONVERT(cf.identityElement USING utf8mb3) = CONVERT(o.oferta_finesa USING utf8mb3) 
-AND cf.id_cotizacion = $identificador 
-GROUP BY cf.identityElement";
+AND cf.identityElement = o.oferta_finesa
+AND cf.id_cotizacion = $identificador";
 
 $valor6 = $conexion->query($query6);
 $fila6 = mysqli_num_rows($valor6);
@@ -664,21 +662,19 @@ $html3 .= '<td style ="width: 100%;  background-color: #D1D1D1; font-family:deja
 </td>';
 $html3 .= '</tr>';
 
-$query7 = "SELECT o.Aseguradora, cf.identityElement
+$query7 = "SELECT DISTINCT o.Aseguradora, cf.identityElement
 FROM cotizaciones_finesa cf 
-INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion 
-INNER JOIN cotizaciones c ON o.id_cotizacion = cf.id_cotizacion 
+INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion
 WHERE o.seleccionar = 'Si' 
-AND CONVERT(cf.identityElement USING utf8mb3) = CONVERT(o.oferta_finesa USING utf8mb3) 
-AND cf.id_cotizacion = $identificador 
-GROUP BY cf.identityElement";
+AND cf.identityElement = o.oferta_finesa
+AND cf.id_cotizacion = $identificador";
 
 $respuestaquery7 = $conexion->query($query7);
 $rowValidate = mysqli_num_rows($respuestaquery7);
 
 if ($rowValidate == 0 || $rowValidate == false || $rowValidate == null) {
 	mysqli_free_result($respuestaquery7);
-	$query7 = "SELECT * FROM ofertas WHERE `id_cotizacion` = $identificador AND `seleccionar` = 'Si'";
+	$query7 = "SELECT Aseguradora FROM ofertas WHERE `id_cotizacion` = $identificador AND `seleccionar` = 'Si'";
 	$respuestaquery7 = $conexion->query($query7);
 	$rowValidate = mysqli_num_rows($respuestaquery7);
 }
@@ -879,21 +875,19 @@ $html3 .= '<td class="puntos fondo" style="width:10%; text-align: center; font-f
 //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 //CONSULTA LIMITE MAXIMO
 //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-$query9 = "SELECT o.ValorRC, cf.identityElement
+$query9 = "SELECT o.Aseguradora, o.ValorRC
 FROM cotizaciones_finesa cf 
-INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion 
-INNER JOIN cotizaciones c ON o.id_cotizacion = cf.id_cotizacion 
+INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion
 WHERE o.seleccionar = 'Si' 
-AND CONVERT(cf.identityElement USING utf8mb3) = CONVERT(o.oferta_finesa USING utf8mb3) 
-AND cf.id_cotizacion = $identificador 
-GROUP BY cf.identityElement";
+AND cf.identityElement = o.oferta_finesa
+AND cf.id_cotizacion = $identificador";
 
 $respuestaquery9 = $conexion->query($query9);
 $rowValidate = mysqli_num_rows($respuestaquery9);
 
 if ($rowValidate == 0 || $rowValidate == false || $rowValidate == null) {
 	mysqli_free_result($respuestaquery9);
-	$query9 = "SELECT * FROM ofertas WHERE `id_cotizacion` = $identificador AND `seleccionar` = 'Si'";
+	$query9 = "SELECT Aseguradora, ValorRC FROM ofertas WHERE `id_cotizacion` = $identificador AND `seleccionar` = 'Si'";
 	$respuestaquery9 = $conexion->query($query9);
 	$rowValidate = mysqli_num_rows($respuestaquery9);
 }
@@ -903,7 +897,6 @@ $cont4 = 1;
 
 if ($valorlimiterow == 10) {
 	while ($rowRespuesta9 = mysqli_fetch_assoc($respuestaquery9)) {
-
 		if (is_numeric($rowRespuesta9['ValorRC'])) {
 			$pdfValorRCM = $rowRespuesta9['ValorRC'] / 1000000;
 			$pdfValorRC = '$' . number_format($pdfValorRCM, 0, ',', '.'); // Agregar el símbolo de peso aquí
@@ -923,7 +916,6 @@ if ($valorlimiterow == 10) {
 	}
 } else if ($valorlimiterow > 10) {
 	while ($rowRespuesta9 = mysqli_fetch_assoc($respuestaquery9)) {
-
 		if (is_numeric($rowRespuesta9['ValorRC'])) {
 			$pdfValorRCM = $rowRespuesta9['ValorRC'] / 1000000;
 			$pdfValorRC = '$' . number_format($pdfValorRCM, 0, ',', '.'); // Agregar el símbolo de peso aquí
@@ -963,8 +955,6 @@ if ($valorlimiterow == 10) {
 	}
 }
 
-
-
 $html3 .= '</tr>';
 
 
@@ -976,20 +966,18 @@ $html3 .= '<tr>';
 $html3 .= '<td class="puntos fondo" style="width:10%; text-align: center; font-family:dejavusanscondensedb;"><font size="8">Deducible</font></td>';
 
 
-$query8 = "SELECT o.*, cf.identityElement FROM
-cotizaciones_finesa cf
-INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion 
-INNER JOIN cotizaciones c ON o.id_cotizacion = cf.id_cotizacion 
+$query8 = "SELECT DISTINCT cf.identityElement, o.Aseguradora, o.ValorRC, o.PerdidaParcial, o.Producto
+FROM cotizaciones_finesa cf 
+INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion
 WHERE o.seleccionar = 'Si' 
-AND CONVERT(cf.identityElement USING utf8mb3) = CONVERT(o.oferta_finesa USING utf8mb3) 
-AND cf.id_cotizacion = $identificador 
-GROUP BY cf.identityElement";
+AND cf.identityElement = o.oferta_finesa
+AND cf.id_cotizacion = $identificador";
 
 $respuestaquery8 = $conexion->query($query8);
 $rowValidate = mysqli_num_rows($respuestaquery8);
 if ($rowValidate == 0 || $rowValidate == false || $rowValidate == null) {
 	mysqli_free_result($respuestaquery8);
-	$query8 = "SELECT * FROM ofertas WHERE `id_cotizacion` = $identificador AND `seleccionar` = 'Si'";
+	$query8 = "SELECT ValorRC, PerdidaParcial, Producto, Aseguradora FROM ofertas WHERE `id_cotizacion` = $identificador AND `seleccionar` = 'Si'";
 	$respuestaquery8 = $conexion->query($query8);
 	$rowValidate = mysqli_num_rows($respuestaquery8);
 }
@@ -1033,21 +1021,19 @@ $html3 .= '<tr>';
 $html3 .= '<td class="puntos fondo" style="width:10%; text-align: center; font-family:dejavusanscondensedb;"><font size="8">Pérdida total daños o hurto</font></td>';
 
 
-$query10 = "SELECT o.*, cf.identityElement FROM
-cotizaciones_finesa cf
-INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion 
-INNER JOIN cotizaciones c ON o.id_cotizacion = cf.id_cotizacion 
+$query10 = "SELECT DISTINCT cf.identityElement, o.Aseguradora, o.PerdidaTotal, o.Producto
+FROM cotizaciones_finesa cf 
+INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion
 WHERE o.seleccionar = 'Si' 
-AND CONVERT(cf.identityElement USING utf8mb3) = CONVERT(o.oferta_finesa USING utf8mb3) 
-AND cf.id_cotizacion = $identificador 
-GROUP BY cf.identityElement";;
+AND cf.identityElement = o.oferta_finesa
+AND cf.id_cotizacion = $identificador";;
 
 $respuestaquery10 = $conexion->query($query10);
 $rowValidate = mysqli_num_rows($respuestaquery10);
 
 if ($rowValidate == 0 || $rowValidate == false || $rowValidate == null) {
 	mysqli_free_result($respuestaquery10);
-	$query10 = "SELECT * FROM ofertas WHERE `id_cotizacion` = $identificador AND `seleccionar` = 'Si'";
+	$query10 = "SELECT Aseguradora, PerdidaTotal, Producto FROM ofertas WHERE `id_cotizacion` = $identificador AND `seleccionar` = 'Si'";
 	$respuestaquery10 = $conexion->query($query10);
 	$rowValidate = mysqli_num_rows($respuestaquery10);
 }
@@ -1075,21 +1061,19 @@ $html3 .= '</tr>';
 $html3 .= '<tr>';
 $html3 .= '<td class="puntos fondo" style="width:10%; text-align: center; font-family:dejavusanscondensedb;"><font size="8">Pérdida parcial por daño</font></td>';
 
-$query11 = "SELECT o.*, cf.identityElement
+$query11 = "SELECT DISTINCT cf.identityElement, o.Aseguradora, o.PerdidaParcial, o.Producto
 FROM cotizaciones_finesa cf 
-INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion 
-INNER JOIN cotizaciones c ON o.id_cotizacion = cf.id_cotizacion 
+INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion
 WHERE o.seleccionar = 'Si' 
-AND CONVERT(cf.identityElement USING utf8mb3) = CONVERT(o.oferta_finesa USING utf8mb3) 
-AND cf.id_cotizacion = $identificador 
-GROUP BY cf.identityElement";
+AND cf.identityElement = o.oferta_finesa
+AND cf.id_cotizacion = $identificador";
 
 $respuestaquery11 = $conexion->query($query11);
 $rowValidate = mysqli_num_rows($respuestaquery11);
 
 if ($rowValidate == 0 || $rowValidate == false || $rowValidate == null) {
 	mysqli_free_result($respuestaquery11);
-	$query11 = "SELECT * FROM ofertas WHERE `id_cotizacion` = $identificador AND `seleccionar` = 'Si'";
+	$query11 = "SELECT PerdidaParcial, Aseguradora, Producto FROM ofertas WHERE `id_cotizacion` = $identificador AND `seleccionar` = 'Si'";
 	$respuestaquery11 = $conexion->query($query11);
 	$rowValidate = mysqli_num_rows($respuestaquery11);
 }
@@ -1118,21 +1102,19 @@ $html3 .= '</tr>';
 $html3 .= '<tr>';
 $html3 .= '<td class="puntos fondo" style="width:10%; text-align: center; font-family:dejavusanscondensedb;"><font size="8">Pérdida parcial por hurto</font></td>';
 
-$query12 = "SELECT o.*, cf.identityElement
+$query12 = "SELECT DISTINCT cf.identityElement, o.Aseguradora, o.PerdidaParcial, o.Producto
 FROM cotizaciones_finesa cf 
-INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion 
-INNER JOIN cotizaciones c ON o.id_cotizacion = cf.id_cotizacion 
+INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion
 WHERE o.seleccionar = 'Si' 
-AND CONVERT(cf.identityElement USING utf8mb3) = CONVERT(o.oferta_finesa USING utf8mb3) 
-AND cf.id_cotizacion = $identificador 
-GROUP BY cf.identityElement";
+AND cf.identityElement = o.oferta_finesa
+AND cf.id_cotizacion = $identificador";
 
 $respuestaquery12 = $conexion->query($query12);
 $rowValidate = mysqli_num_rows($respuestaquery12);
 
 if ($rowValidate == 0 || $rowValidate == false || $rowValidate == null) {
 	mysqli_free_result($respuestaquery12);
-	$query12 = "SELECT * FROM ofertas WHERE `id_cotizacion` = $identificador AND `seleccionar` = 'Si'";
+	$query12 = "SELECT Aseguradora, PerdidaParcial, Producto FROM ofertas WHERE `id_cotizacion` = $identificador AND `seleccionar` = 'Si'";
 	$respuestaquery12 = $conexion->query($query12);
 	$rowValidate = mysqli_num_rows($respuestaquery12);
 }
@@ -1162,21 +1144,19 @@ $html3 .= '</tr>';
 $html3 .= '<tr>';
 $html3 .= '<td class="puntos fondo" style="width:10%; text-align: center; font-family:dejavusanscondensedb;"><font style="font-family:dejavusanscondensedb;" size="8">Cobertura por Eventos de la naturaleza</font></td>';
 
-$query13 = "SELECT o.*, cf.identityElement
+$query13 = "SELECT DISTINCT cf.identityElement, o.Aseguradora, o.Producto
 FROM cotizaciones_finesa cf 
-INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion 
-INNER JOIN cotizaciones c ON o.id_cotizacion = cf.id_cotizacion 
+INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion
 WHERE o.seleccionar = 'Si' 
-AND CONVERT(cf.identityElement USING utf8mb3) = CONVERT(o.oferta_finesa USING utf8mb3) 
-AND cf.id_cotizacion = $identificador 
-GROUP BY cf.identityElement";
+AND cf.identityElement = o.oferta_finesa
+AND cf.id_cotizacion = $identificador";
 
 $respuestaquery13 = $conexion->query($query13);
 $rowValidate = mysqli_num_rows($respuestaquery13);
 
 if ($rowValidate == 0 || $rowValidate == false || $rowValidate == null) {
 	mysqli_free_result($respuestaquery13);
-	$query13 = "SELECT * FROM ofertas WHERE `id_cotizacion` = $identificador AND `seleccionar` = 'Si'";
+	$query13 = "SELECT Producto, Aseguradora FROM ofertas WHERE `id_cotizacion` = $identificador AND `seleccionar` = 'Si'";
 	$respuestaquery13 = $conexion->query($query13);
 	$rowValidate = mysqli_num_rows($respuestaquery13);
 }
@@ -1209,21 +1189,19 @@ $html3 .= '</tr>';
 $html3 .= '<tr>';
 $html3 .= '<td class="puntos fondo" style="width:10%; text-align: center; font-family:dejavusanscondensedb;"><div style="font-size:2pt">&nbsp;</div><font size="8">Amparo patrimonial</font></td>';
 
-$query14 = "SELECT o.*, cf.identityElement
+$query14 = "SELECT DISTINCT o.Aseguradora, o.Producto
 FROM cotizaciones_finesa cf 
-INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion 
-INNER JOIN cotizaciones c ON o.id_cotizacion = cf.id_cotizacion 
+INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion
 WHERE o.seleccionar = 'Si' 
-AND CONVERT(cf.identityElement USING utf8mb3) = CONVERT(o.oferta_finesa USING utf8mb3) 
-AND cf.id_cotizacion = $identificador 
-GROUP BY cf.identityElement";
+AND cf.identityElement = o.oferta_finesa
+AND cf.id_cotizacion = $identificador";
 
 $respuestaquery14 = $conexion->query($query14);
 $rowValidate = mysqli_num_rows($respuestaquery14);
 
 if ($rowValidate == 0 || $rowValidate == false || $rowValidate == null) {
 	mysqli_free_result($respuestaquery14);
-	$query14 = "SELECT * FROM ofertas WHERE `id_cotizacion` = $identificador AND `seleccionar` = 'Si'";
+	$query14 = "SELECT Aseguradora, Producto FROM ofertas WHERE `id_cotizacion` = $identificador AND `seleccionar` = 'Si'";
 	$respuestaquery14 = $conexion->query($query14);
 	$rowValidate = mysqli_num_rows($respuestaquery14);
 }
@@ -1295,21 +1273,19 @@ $html4 = '
 //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 $pdf->SetFont('dejavusanscondensed', '', 8);
 
-$query6 = "SELECT o.*, cf.identityElement
+$query6 = "SELECT o.Aseguradora
 FROM cotizaciones_finesa cf 
-INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion 
-INNER JOIN cotizaciones c ON o.id_cotizacion = cf.id_cotizacion 
+INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion
 WHERE o.seleccionar = 'Si' 
-AND CONVERT(cf.identityElement USING utf8mb3) = CONVERT(o.oferta_finesa USING utf8mb3) 
-AND cf.id_cotizacion = $identificador 
-GROUP BY cf.identityElement";
+AND cf.identityElement = o.oferta_finesa
+AND cf.id_cotizacion = $identificador";
 
 $valor6 = $conexion->query($query6);
 $fila6 = mysqli_num_rows($valor6);
 
 if ($fila6 == 0 || $fila6 == false || $fila6 == null) {
 	mysqli_free_result($valor6);
-	$query6 = "SELECT * FROM ofertas WHERE `id_cotizacion` = $identificador AND `seleccionar` = 'Si'";
+	$query6 = "SELECT Aseguradora FROM ofertas WHERE `id_cotizacion` = $identificador AND `seleccionar` = 'Si'";
 	$valor6 = $conexion->query($query6);
 	$fila6 = mysqli_num_rows($valor6);
 }
@@ -1322,16 +1298,14 @@ $html4 .= '<td style ="width: 100%;  background-color: #D1D1D1; font-family:deja
 </td>';
 $html4 .= '</tr>';
 
-$query7 = "SELECT o.*, cf.identityElement
+$query7 = "SELECT DISTINCT o.Aseguradora,
 FROM cotizaciones_finesa cf 
-INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion 
-INNER JOIN cotizaciones c ON o.id_cotizacion = cf.id_cotizacion 
+INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion
 WHERE o.seleccionar = 'Si' 
-AND CONVERT(cf.identityElement USING utf8mb3) = CONVERT(o.oferta_finesa USING utf8mb3) 
-AND cf.id_cotizacion = $identificador 
-GROUP BY cf.identityElement";
+AND cf.identityElement = o.oferta_finesa
+AND cf.id_cotizacion = $identificador";
 
-$respuestaquery7 = $conexion->query($query7);
+$respuestaquery7 = $conexion->query($query6);
 $rowValidate = mysqli_num_rows($respuestaquery7);
 
 if ($rowValidate == 0 || $rowValidate == false || $rowValidate == null) {
@@ -1560,21 +1534,19 @@ $html4 .= '</tr>';
 
 $html4 .= '<tr>';
 $html4 .= '<td class="fondo puntos" style="width:10%; text-align: center; font-family:dejavusanscondensedb;"><div style="font-size:2pt">&nbsp;</div><font size="8">Grua varada o accidente.</font></td>';
-$query15 = "SELECT o.*, cf.identityElement
+$query15 = "SELECT DISTINCT o.Aseguradora, o.Producto
 FROM cotizaciones_finesa cf 
-INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion 
-INNER JOIN cotizaciones c ON o.id_cotizacion = cf.id_cotizacion 
+INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion
 WHERE o.seleccionar = 'Si' 
-AND CONVERT(cf.identityElement USING utf8mb3) = CONVERT(o.oferta_finesa USING utf8mb3) 
-AND cf.id_cotizacion = $identificador 
-GROUP BY cf.identityElement";
+AND cf.identityElement = o.oferta_finesa
+AND cf.id_cotizacion = $identificador";
 
 $respuestaquery15 = $conexion->query($query15);
 $rowValidate = mysqli_num_rows($respuestaquery15);
 
 if ($rowValidate == 0 || $rowValidate == false || $rowValidate == null) {
 	mysqli_free_result($respuestaquery15);
-	$query15 = "SELECT * FROM ofertas WHERE `id_cotizacion` = $identificador AND `seleccionar` = 'Si'";
+	$query15 = "SELECT Producto, Aseguradora FROM ofertas WHERE `id_cotizacion` = $identificador AND `seleccionar` = 'Si'";
 	$respuestaquery15 = $conexion->query($query15);
 	$rowValidate = mysqli_num_rows($respuestaquery7);
 }
@@ -1615,21 +1587,19 @@ $html4 .= '</tr>';
 $html4 .= '<tr>';
 $html4 .= '<td class="fondo puntos" style="width:10%; text-align: center; font-family:dejavusanscondensedb;"><div style="font-size:2pt">&nbsp;</div><font size="8">Carrotaller </font> <font size="5"> (desvare por: llanta, batería, gasolina o cerrajería).</font></td>';
 
-$query16 = "SELECT o.*, cf.identityElement
+$query16 = "SELECT DISTINCT o.Aseguradora, o.Producto
 FROM cotizaciones_finesa cf 
-INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion 
-INNER JOIN cotizaciones c ON o.id_cotizacion = cf.id_cotizacion 
+INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion
 WHERE o.seleccionar = 'Si' 
-AND CONVERT(cf.identityElement USING utf8mb3) = CONVERT(o.oferta_finesa USING utf8mb3) 
-AND cf.id_cotizacion = $identificador 
-GROUP BY cf.identityElement";
+AND cf.identityElement = o.oferta_finesa
+AND cf.id_cotizacion = $identificador";
 
 $respuestaquery16 = $conexion->query($query16);
 $rowValidate = mysqli_num_rows($respuestaquery16);
 
 if ($rowValidate == 0 || $rowValidate == false || $rowValidate == null) {
 	mysqli_free_result($respuestaquery16);
-	$query16 = "SELECT * FROM ofertas WHERE `id_cotizacion` = $identificador AND `seleccionar` = 'Si'";
+	$query16 = "SELECT Producto, Aseguradora FROM ofertas WHERE `id_cotizacion` = $identificador AND `seleccionar` = 'Si'";
 	$respuestaquery16 = $conexion->query($query16);
 	$rowValidate = mysqli_num_rows($respuestaquery7);
 }
@@ -1669,21 +1639,20 @@ $html4 .= '</tr>';
 
 $html4 .= '<tr>';
 $html4 .= '<td class="fondo puntos" style="width:10%; text-align: center; font-family:dejavusanscondensedb;"><font size="8">Asistencia juridica en proceso penal </font></td>';
-$query17 = "SELECT o.*, cf.identityElement
+
+$query17 = "SELECT DISTINCT o.Aseguradora, o.Producto
 FROM cotizaciones_finesa cf 
-INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion 
-INNER JOIN cotizaciones c ON o.id_cotizacion = cf.id_cotizacion 
+INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion
 WHERE o.seleccionar = 'Si' 
-AND CONVERT(cf.identityElement USING utf8mb3) = CONVERT(o.oferta_finesa USING utf8mb3) 
-AND cf.id_cotizacion = $identificador 
-GROUP BY cf.identityElement";
+AND cf.identityElement = o.oferta_finesa
+AND cf.id_cotizacion = $identificador";
 
 $respuestaquery17 = $conexion->query($query17);
 $rowValidate = mysqli_num_rows($respuestaquery17);
 
 if ($rowValidate == 0 || $rowValidate == false || $rowValidate == null) {
 	mysqli_free_result($respuestaquery17);
-	$query17 = "SELECT * FROM ofertas WHERE `id_cotizacion` = $identificador AND `seleccionar` = 'Si'";
+	$query17 = "SELECT Producto, Aseguradora FROM ofertas WHERE `id_cotizacion` = $identificador AND `seleccionar` = 'Si'";
 	$respuestaquery17 = $conexion->query($query17);
 	$rowValidate = mysqli_num_rows($respuestaquery17);
 }
@@ -1724,21 +1693,19 @@ $html4 .= '</tr>';
 $html4 .= '<tr>';
 $html4 .= '<td class="fondo puntos" style="width:10%; text-align: center; font-family:dejavusanscondensedb;"><font size="8">Gastos de Transporte en pérdida total</font></td>';
 
-$query27 = "SELECT o.*, cf.identityElement 
+$query27 = "SELECT DISTINCT o.Aseguradora, o.Producto
 FROM cotizaciones_finesa cf 
-INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion 
-INNER JOIN cotizaciones c ON o.id_cotizacion = cf.id_cotizacion 
+INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion
 WHERE o.seleccionar = 'Si' 
-AND CONVERT(cf.identityElement USING utf8mb3) = CONVERT(o.oferta_finesa USING utf8mb3) 
-AND cf.id_cotizacion = $identificador 
-GROUP BY cf.identityElement";
+AND cf.identityElement = o.oferta_finesa
+AND cf.id_cotizacion = $identificador";
 
 $respuestaquery27 = $conexion->query($query27);
 $rowValidate = mysqli_num_rows($respuestaquery27);
 
 if ($rowValidate == 0 || $rowValidate == false || $rowValidate == null) {
 	mysqli_free_result($respuestaquery27);
-	$query27 = "SELECT * FROM ofertas WHERE `id_cotizacion` = $identificador AND `seleccionar` = 'Si'";
+	$query27 = "SELECT Aseguradora, Producto FROM ofertas WHERE `id_cotizacion` = $identificador AND `seleccionar` = 'Si'";
 	$respuestaquery27 = $conexion->query($query27);
 	$rowValidate = mysqli_num_rows($respuestaquery27);
 }
@@ -1778,21 +1745,19 @@ $html4 .= '<td class="fondo puntos" style="width:10%; text-align: center; font-f
 //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 //CONSULTA TRANSPORTE PP
 //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-$query18 = "SELECT o.*, cf.identityElement
+$query18 = "SELECT DISTINCT o.Aseguradora, o.Producto
 FROM cotizaciones_finesa cf 
-INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion 
-INNER JOIN cotizaciones c ON o.id_cotizacion = cf.id_cotizacion 
+INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion
 WHERE o.seleccionar = 'Si' 
-AND CONVERT(cf.identityElement USING utf8mb3) = CONVERT(o.oferta_finesa USING utf8mb3) 
-AND cf.id_cotizacion = $identificador 
-GROUP BY cf.identityElement";
+AND cf.identityElement = o.oferta_finesa
+AND cf.id_cotizacion = $identificador";
 
 $respuestaquery18 = $conexion->query($query18);
 $rowValidate = mysqli_num_rows($respuestaquery18);
 
 if ($rowValidate == 0 || $rowValidate == false || $rowValidate == null) {
 	mysqli_free_result($respuestaquery18);
-	$query18 = "SELECT * FROM ofertas WHERE `id_cotizacion` = $identificador AND `seleccionar` = 'Si'";
+	$query18 = "SELECT Asegurado, Producto FROM ofertas WHERE `id_cotizacion` = $identificador AND `seleccionar` = 'Si'";
 	$respuestaquery18 = $conexion->query($query18);
 	$rowValidate = mysqli_num_rows($respuestaquery18);
 }
@@ -1834,14 +1799,12 @@ $html4 .= '</tr>';
 $html4 .= '<tr>';
 $html4 .= '<td class="puntos fondo" style="width:10%; text-align: center; font-family:dejavusanscondensedb;"><font size="8">Vehículo de reemplazo en pérdida total</font></td>';
 
-$query28 = "SELECT o.*, cf.identityElement
+$query28 = "SELECT DISTINCT o.Producto, o.Aseguradora
 FROM cotizaciones_finesa cf 
-INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion 
-INNER JOIN cotizaciones c ON o.id_cotizacion = cf.id_cotizacion 
+INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion
 WHERE o.seleccionar = 'Si' 
-AND CONVERT(cf.identityElement USING utf8mb3) = CONVERT(o.oferta_finesa USING utf8mb3) 
-AND cf.id_cotizacion = $identificador 
-GROUP BY cf.identityElement";
+AND cf.identityElement = o.oferta_finesa
+AND cf.id_cotizacion = $identificador";
 
 $respuestaquery28 = $conexion->query($query28);
 $rowValidate = mysqli_num_rows($respuestaquery28);
@@ -1888,14 +1851,12 @@ $html4 .= '</tr>';
 $html4 .= '<tr>';
 $html4 .= '<td class ="fondo puntos" style="width:10%; text-align: center; font-family:dejavusanscondensedb;"><font size="8">Vehículo de reemplazo en pérdida parcial</font></td>';
 
-$query19 = "SELECT o.*, cf.identityElement 
+$query19 = "SELECT DISTINCT o.Producto, o.Aseguradora
 FROM cotizaciones_finesa cf 
-INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion 
-INNER JOIN cotizaciones c ON o.id_cotizacion = cf.id_cotizacion 
+INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion
 WHERE o.seleccionar = 'Si' 
-AND CONVERT(cf.identityElement USING utf8mb3) = CONVERT(o.oferta_finesa USING utf8mb3) 
-AND cf.id_cotizacion = $identificador 
-GROUP BY cf.identityElement";
+AND cf.identityElement = o.oferta_finesa
+AND cf.id_cotizacion = $identificador";
 
 $respuestaquery19 = $conexion->query($query19);
 $rowValidate = mysqli_num_rows($respuestaquery19);
@@ -1946,14 +1907,12 @@ $html4 .= '</tr>';
 $html4 .= '<tr>';
 $html4 .= '<td class="fondo puntos" style="width:10%; text-align: center; font-family:dejavusanscondensedb;"><font size="8">Conductor elegido</font></td>';
 
-$query20 = "SELECT o.*, cf.identityElement 
+$query20 = "SELECT DISTINCT o.Producto, o.Aseguradora
 FROM cotizaciones_finesa cf 
-INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion 
-INNER JOIN cotizaciones c ON o.id_cotizacion = cf.id_cotizacion 
+INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion
 WHERE o.seleccionar = 'Si' 
-AND CONVERT(cf.identityElement USING utf8mb3) = CONVERT(o.oferta_finesa USING utf8mb3) 
-AND cf.id_cotizacion = $identificador 
-GROUP BY cf.identityElement";
+AND cf.identityElement = o.oferta_finesa
+AND cf.id_cotizacion = $identificador";
 
 $respuestaquery20 = $conexion->query($query20);
 $rowValidate = mysqli_num_rows($respuestaquery20);
@@ -2006,14 +1965,12 @@ $html4 .= '</tr>';
 $html4 .= '<tr>';
 $html4 .= '<td class="fondo puntos" style="width:10%; text-align: center; font-family:dejavusanscondensedb;"><font size="8">Transporte del vehículo recuperado</font></td>';
 
-$query21 = "SELECT o.*, cf.identityElement 
+$query21 = "SELECT DISTINCT o.Producto, o.Aseguradora
 FROM cotizaciones_finesa cf 
-INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion 
-INNER JOIN cotizaciones c ON o.id_cotizacion = cf.id_cotizacion 
+INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion
 WHERE o.seleccionar = 'Si' 
-AND CONVERT(cf.identityElement USING utf8mb3) = CONVERT(o.oferta_finesa USING utf8mb3) 
-AND cf.id_cotizacion = $identificador 
-GROUP BY cf.identityElement";
+AND cf.identityElement = o.oferta_finesa
+AND cf.id_cotizacion = $identificador";
 
 $respuestaquery21 = $conexion->query($query21);
 $rowValidate = mysqli_num_rows($respuestaquery21);
@@ -2061,14 +2018,12 @@ $html4 .= '</tr>';
 $html4 .= '<tr>';
 $html4 .= '<td class ="fondo puntos" style="width:10%; text-align: center; font-family:dejavusanscondensedb;"><font size="8">Transporte de pasajeros por accidente</font></td>';
 
-$query22 = "SELECT o.*, cf.identityElement 
+$query22 = "SELECT DISTINCT o.Producto, o.Aseguradora
 FROM cotizaciones_finesa cf 
-INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion 
-INNER JOIN cotizaciones c ON o.id_cotizacion = cf.id_cotizacion 
+INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion
 WHERE o.seleccionar = 'Si' 
-AND CONVERT(cf.identityElement USING utf8mb3) = CONVERT(o.oferta_finesa USING utf8mb3) 
-AND cf.id_cotizacion = $identificador 
-GROUP BY cf.identityElement";
+AND cf.identityElement = o.oferta_finesa
+AND cf.id_cotizacion = $identificador";
 
 $respuestaquery22 = $conexion->query($query22);
 $rowValidate = mysqli_num_rows($respuestaquery22);
@@ -2118,21 +2073,19 @@ $html4 .= '</tr>';
 $html4 .= '<tr>';
 $html4 .= '<td class="fondo puntos" style="width:10%;"><font size="8" style="font-family:dejavusanscondensedb; text-align: center;">Transporte de pasajeros por varada</font></td>';
 
-$query24 = "SELECT o.*, cf.identityElement 
+$query24 = "SELECT DISTINCT o.Producto, o.Aseguradora
 FROM cotizaciones_finesa cf 
-INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion 
-INNER JOIN cotizaciones c ON o.id_cotizacion = cf.id_cotizacion 
+INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion
 WHERE o.seleccionar = 'Si' 
-AND CONVERT(cf.identityElement USING utf8mb3) = CONVERT(o.oferta_finesa USING utf8mb3) 
-AND cf.id_cotizacion = $identificador 
-GROUP BY cf.identityElement";
+AND cf.identityElement = o.oferta_finesa
+AND cf.id_cotizacion = $identificador";
 
 $respuestaquery24 = $conexion->query($query24);
 $rowValidate = mysqli_num_rows($respuestaquery24);
 
 if ($rowValidate == 0 || $rowValidate == false || $rowValidate == null) {
 	mysqli_free_result($respuestaquery24);
-	$query24 = "SELECT * FROM ofertas WHERE `id_cotizacion` = $identificador AND `seleccionar` = 'Si'";
+	$query24 = "SELECT Aseguradora, Producto FROM ofertas WHERE `id_cotizacion` = $identificador AND `seleccionar` = 'Si'";
 	$respuestaquery24 = $conexion->query($query24);
 	$rowValidate = mysqli_num_rows($respuestaquery24);
 }
@@ -2174,21 +2127,19 @@ $html4 .= '</tr>';
 $html4 .= '<tr>';
 $html4 .= '<td class="fondo puntos" style="width:10%;"><font size="8" style="font-family:dejavusanscondensedb; text-align: center;">Accidentes personales</font></td>';
 
-$query25 = "SELECT o.*, cf.identityElement 
+$query25 = "SELECT DISTINCT o.Producto, o.Aseguradora
 FROM cotizaciones_finesa cf 
-INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion 
-INNER JOIN cotizaciones c ON o.id_cotizacion = cf.id_cotizacion 
+INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion
 WHERE o.seleccionar = 'Si' 
-AND CONVERT(cf.identityElement USING utf8mb3) = CONVERT(o.oferta_finesa USING utf8mb3) 
-AND cf.id_cotizacion = $identificador 
-GROUP BY cf.identityElement";
+AND cf.identityElement = o.oferta_finesa
+AND cf.id_cotizacion = $identificador";
 
 $respuestaquery25 = $conexion->query($query25);
 $rowValidate = mysqli_num_rows($respuestaquery25);
 
 if ($rowValidate == 0 || $rowValidate == false || $rowValidate == null) {
 	mysqli_free_result($respuestaquery25);
-	$query25 = "SELECT * FROM ofertas WHERE `id_cotizacion` = $identificador AND `seleccionar` = 'Si'";
+	$query25 = "SELECT Producto, Aseguradora FROM ofertas WHERE `id_cotizacion` = $identificador AND `seleccionar` = 'Si'";
 	$respuestaquery25 = $conexion->query($query25);
 	$rowValidate = mysqli_num_rows($respuestaquery25);
 }
@@ -2229,21 +2180,19 @@ $html4 .= '</tr>';
 $html4 .= '<tr>';
 $html4 .= '<td class="fondo puntos" style="width:10%;"><font size="8" style="font-family:dejavusanscondensedb; text-align: center;">Llantas estalladas</font></td>';
 
-$query26 = "SELECT o.*, cf.identityElement 
+$query26 = "SELECT DISTINCT o.Producto, o.Aseguradora
 FROM cotizaciones_finesa cf 
-INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion 
-INNER JOIN cotizaciones c ON o.id_cotizacion = cf.id_cotizacion 
+INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion
 WHERE o.seleccionar = 'Si' 
-AND CONVERT(cf.identityElement USING utf8mb3) = CONVERT(o.oferta_finesa USING utf8mb3) 
-AND cf.id_cotizacion = $identificador 
-GROUP BY cf.identityElement";
+AND cf.identityElement = o.oferta_finesa
+AND cf.id_cotizacion = $identificador";
 
 $respuestaquery26 = $conexion->query($query26);
 $rowValidate = mysqli_num_rows($respuestaquery26);
 
 if ($rowValidate == 0 || $rowValidate == false || $rowValidate == null) {
 	mysqli_free_result($respuestaquery26);
-	$query26 = "SELECT * FROM ofertas WHERE `id_cotizacion` = $identificador AND `seleccionar` = 'Si'";
+	$query26 = "SELECT Producto, Aseguradora FROM ofertas WHERE `id_cotizacion` = $identificador AND `seleccionar` = 'Si'";
 	$respuestaquery26 = $conexion->query($query26);
 	$rowValidate = mysqli_num_rows($respuestaquery26);
 }
@@ -2286,21 +2235,19 @@ $html4 .= '</tr>';
 $html4 .= '<tr>';
 $html4 .= '<td class="fondo puntos" style="width:10%;"><font size="8" style="font-family:dejavusanscondensedb; text-align: center;">Pérdida de llaves</font></td>';
 
-$query28 = "SELECT o.*, cf.identityElement 
+$query28 = "SELECT DISTINCT o.Producto, o.Aseguradora
 FROM cotizaciones_finesa cf 
-INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion 
-INNER JOIN cotizaciones c ON o.id_cotizacion = cf.id_cotizacion 
+INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion
 WHERE o.seleccionar = 'Si' 
-AND CONVERT(cf.identityElement USING utf8mb3) = CONVERT(o.oferta_finesa USING utf8mb3) 
-AND cf.id_cotizacion = $identificador 
-GROUP BY cf.identityElement";
+AND cf.identityElement = o.oferta_finesa
+AND cf.id_cotizacion = $identificador";
 
 $respuestaquery28 = $conexion->query($query28);
 $rowValidate = mysqli_num_rows($respuestaquery28);
 
 if ($rowValidate == 0 || $rowValidate == false || $rowValidate == null) {
 	mysqli_free_result($respuestaquery28);
-	$query28 = "SELECT * FROM ofertas WHERE `id_cotizacion` = $identificador AND `seleccionar` = 'Si'";
+	$query28 = "SELECT Producto, Aseguradora FROM ofertas WHERE `id_cotizacion` = $identificador AND `seleccionar` = 'Si'";
 	$respuestaquery28 = $conexion->query($query28);
 	$rowValidate = mysqli_num_rows($respuestaquery28);
 }
