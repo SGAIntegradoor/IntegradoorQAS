@@ -1,6 +1,7 @@
 <?php
 session_start();
-
+ini_set('default_socket_timeout', 300);
+ini_set('max_execution_timeout', 500);
 $intermediario = $_SESSION['intermediario'];
 
 header('Content-Type: text/html; charset=utf-8');
