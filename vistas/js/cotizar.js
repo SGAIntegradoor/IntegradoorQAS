@@ -1320,7 +1320,7 @@ function cotizarFinesa(ofertasCotizaciones) {
 
             return fetch(
               // "http://localhost/motorTest/saveDataQuotationsFinesa",
-              "https://www.grupoasistencia.com/motor_webservice/getOffertsFinesa",
+              "https://www.grupoasistencia.com/motor_webservice/saveDataQuotationsFinesa",
               {
                 method: "POST",
                 headers: headers,
