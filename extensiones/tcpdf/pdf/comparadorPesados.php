@@ -29,6 +29,7 @@ $query2 = "SELECT *	FROM cotizaciones, clientes WHERE cotizaciones.id_cliente = 
 $valor2 = $conexion->query($query2);
 $fila = mysqli_fetch_array($valor2);
 
+
 $query3 = "SELECT o.Aseguradora
 FROM cotizaciones_finesa cf 
 INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion 
@@ -46,8 +47,6 @@ if($fila2 == 0 || $fila2 == false || $fila2 == null){
 	$valor3 = $conexion->query($query3);
 	$fila2 = mysqli_num_rows($valor3);
 }
-
-
 // :::::::::::::::::::::::Query para imagen logo::::::::::::::::::::::::::.
 $queryLogo = "SELECT urlLogo FROM intermediario  WHERE id_Intermediario = $intermediario";
 

@@ -44,6 +44,24 @@ $query2 = "SELECT *	FROM cotizaciones, clientes WHERE cotizaciones.id_cliente = 
 $valor2 = $conexion->query($query2);
 $fila = mysqli_fetch_array($valor2);
 
+$query3 = "SELECT o.Aseguradora
+FROM cotizaciones_finesa cf 
+INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion 
+INNER JOIN cotizaciones c ON o.id_cotizacion = cf.id_cotizacion 
+WHERE o.seleccionar = 'Si' 
+AND CONVERT(cf.identityElement USING utf8mb3) = CONVERT(o.oferta_finesa USING utf8mb3) 
+AND cf.id_cotizacion = $identificador 
+GROUP BY cf.identityElement";
+$valor3 = $conexion->query($query3);
+$fila2 = mysqli_num_rows($valor3);
+
+if($fila2 == 0 || $fila2 == false || $fila2 == null){
+	//mysqli_free_result($valor3);
+	$query3 = "SELECT Aseguradora FROM ofertas WHERE `id_cotizacion` = $identificador AND `seleccionar` = 'Si'";
+	$valor3 = $conexion->query($query3);
+	$fila2 = mysqli_num_rows($valor3);
+}
+
 // :::::::::::::::::::::::Query para imagen logo::::::::::::::::::::::::::.
 $queryLogo = "SELECT urlLogo FROM intermediario  WHERE id_Intermediario = $intermediario";
 
@@ -53,22 +71,22 @@ $valorLogo = $valorLogo['urlLogo'];
 
 $porciones = explode(".", $valorLogo);
 
-$query3s = "SELECT DISTINCT cf.identityElement, o.Aseguradora, o.Producto
-FROM cotizaciones_finesa cf 
-INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion
-WHERE o.seleccionar = 'Si' 
-AND cf.identityElement = o.oferta_finesa
-AND cf.id_cotizacion = $identificador";
+// $query3s = "SELECT DISTINCT cf.identityElement, o.Aseguradora, o.Producto
+// FROM cotizaciones_finesa cf 
+// INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion
+// WHERE o.seleccionar = 'Si' 
+// AND cf.identityElement = o.oferta_finesa
+// AND cf.id_cotizacion = $identificador";
 
-$valor3s = $conexion->query($query3s);
-$fila2 = mysqli_num_rows($valor3s);
+// $valor3s = $conexion->query($query3s);
+// $fila2 = mysqli_num_rows($valor3s);
 
-if ($fila2 == 0 || $fila2 == false || $fila2 == null) {
-	mysqli_free_result($valor3s);
-	$query3s = "SELECT Aseguradora, Producto FROM ofertas WHERE `id_cotizacion` = $identificador AND `seleccionar` = 'Si'";
-	$valor3s = $conexion->query($query3s);
-	$fila2 = mysqli_num_rows($valor3s);
-}
+// if ($fila2 == 0 || $fila2 == false || $fila2 == null) {
+// 	mysqli_free_result($valor3s);
+// 	$query3s = "SELECT Aseguradora, Producto FROM ofertas WHERE `id_cotizacion` = $identificador AND `seleccionar` = 'Si'";
+// 	$valor3s = $conexion->query($query3s);
+// 	$fila2 = mysqli_num_rows($valor3s);
+// }
 
 
 // Consulta las aseguradoras que fueron selecionadas para visualizar en el PDF
@@ -485,8 +503,6 @@ while ($rowRespuesta4 = mysqli_fetch_assoc($respuestaquery4)) {
 }
 $html2 .= '</tr>';
 
-
-
 $pdf->SetFont('dejavusanscondensed', '', 12);
 
 $query5 = "SELECT DISTINCT cf.identityElement, o.Aseguradora, o.Prima
@@ -565,43 +581,51 @@ if ($rowValidate == 10) {
 $html2 .= '</tr>';
 
 // Cuotas de Finesa en cada cotizacion
-$query5f = "SELECT DISTINCT cf.identityElement, cf.cuotas, cf.cuota_1
+// $query5f = "SELECT DISTINCT cf.identityElement, cf.cuotas, cf.cuota_1
+// FROM cotizaciones_finesa cf 
+// INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion
+// WHERE o.seleccionar = 'Si' 
+// AND cf.identityElement = o.oferta_finesa
+// AND cf.id_cotizacion = $identificador";
+// // $query5f = "SELECT o.*, cf.identityElement, cf.cuota_1, cf.cuotas
+// // FROM cotizaciones_finesa cf 
+// // INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion 
+// // INNER JOIN cotizaciones c ON o.id_cotizacion = cf.id_cotizacion 
+// // WHERE o.seleccionar = 'Si' 
+// // AND CONVERT(cf.identityElement USING utf8mb3) = CONVERT(o.oferta_finesa USING utf8mb3) 
+// // AND cf.id_cotizacion = $identificador 
+// // GROUP BY cf.identityElement";
+
+$query5f = "SELECT DISTINCT o.Aseguradora, o.Producto, cf.cuota_1
 FROM cotizaciones_finesa cf 
 INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion
 WHERE o.seleccionar = 'Si' 
 AND cf.identityElement = o.oferta_finesa
 AND cf.id_cotizacion = $identificador";
-// $query5f = "SELECT o.*, cf.identityElement, cf.cuota_1, cf.cuotas
-// FROM cotizaciones_finesa cf 
-// INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion 
-// INNER JOIN cotizaciones c ON o.id_cotizacion = cf.id_cotizacion 
-// WHERE o.seleccionar = 'Si' 
-// AND CONVERT(cf.identityElement USING utf8mb3) = CONVERT(o.oferta_finesa USING utf8mb3) 
-// AND cf.id_cotizacion = $identificador 
-// GROUP BY cf.identityElement";
 
 $respuestaquery5f = $conexion->query($query5f);
+$rowValidate = mysqli_num_rows($respuestaquery5f);
 
-$html2 .= '<tr>';
 if ($respuestaquery5f === false) {
 	echo "Error en la consulta: " . $conexion->error;
 } else {
 	$valor_f = mysqli_num_rows($respuestaquery5f);
-
 	$cont3 = 1;
-	while ($rowRespuesta5f = mysqli_fetch_assoc($respuestaquery5f)) {
-		//var_dump($rowRespuesta5f);
-		$fondo_class = ($cont3 % 2 == 0) ? 'fondo' : 'fondo2';
-		$font_size = ($valor_f > 10) ? 7 : (($valor_f == 10) ? 8 : 9);
-
-		$html2 .= '<td style="font-size:' . ($font_size - 2) . 'px; color:#666666; font-family:dejavusanscondensedb;" class="puntos td2 ' . $fondo_class . '">
-		$ ' . number_format($rowRespuesta5f['cuota_1'], 0, ',', '.') . '
-		<br>
-		(' . $rowRespuesta5f['cuotas'] . ' Cuotas)
-        </td>';
-		$cont3++;
-	}
-	$html2 .= '</tr>';
+	if($valor_f > 0){
+		$html2 .= '<tr>';
+		while ($rowRespuesta5f = mysqli_fetch_assoc($respuestaquery5f)) {
+			$fondo_class = ($cont3 % 2 == 0) ? 'fondo' : 'fondo2';
+			$font_size = ($valor_f > 10) ? 7 : (($valor_f == 10) ? 8 : 9);
+	
+			$html2 .= '<td style="font-size:' . ($font_size - 2) . 'px; color:#666666; font-family:dejavusanscondensedb;" class="puntos td2 ' . $fondo_class . '">
+			$ ' . number_format($rowRespuesta5f['cuota_1'], 0, ',', '.') . '
+			<br>
+			(' . $rowRespuesta5f['cuotas'] . ' Cuotas)
+			</td>';
+			$cont3++;
+		}
+		$html2 .= '</tr>';
+	} 
 }
 $html2 .= '</table></div>';
 
