@@ -1298,7 +1298,7 @@ function cotizarFinesa(ofertasCotizaciones) {
       console.log(element)
       promisesFinesa.push(
         fetch(
-          "hhttps://www.grupoasistencia.com/motor_webservice/paymentInstallmentsFinesa",
+          "https://www.grupoasistencia.com/motor_webservice/paymentInstallmentsFinesa",
           // "http://localhost/motorTest/paymentInstallmentsFinesa",
           {
             method: "POST",

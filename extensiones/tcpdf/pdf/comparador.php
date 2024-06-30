@@ -335,7 +335,7 @@ $html2 = '
 <div class="second2">
 <table class="second" cellpadding="2"  border="0">';
 
-$query4 = "SELECT DISTINCT cf.identityElement, o.Aseguradora, o.Producto
+$query4 = "SELECT cf.identityElement, o.Aseguradora, o.Producto
 FROM cotizaciones_finesa cf 
 INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion
 WHERE o.seleccionar = 'Si' 
@@ -457,9 +457,19 @@ while ($rowRespuesta4 = mysqli_fetch_assoc($respuestaquery4)) {
 			</td>';
 			break;
 		case 'Equidad Seguros':
+		case 'Equidad':
+			$productosMap = [
+				"AUTOPLUS LIGERO" => "Autoplus Ligero",
+				"AUTOPLUS BÁSICO" => "Autoplus Básico",
+				"AUTOPLUS FULL" => "Autoplus Full"
+			];
+			$productoOriginal = $rowRespuesta4['Producto'];
+			$equidadProducto = isset($productosMap[$productoOriginal]) ? $productosMap[$productoOriginal] : $productoOriginal;
 			$html2 .= '<td class="puntos td2 ' . $fondo_class . '" style=" font-size: 6.5px; font-family:dejavusanscondensedb;">
+			<div style="font-size: 7pt">&nbsp;</div>
 			<img style="width:40px;" src="../../../vistas/img/logos/equidad.png" alt="">
-			<span style="color:#666666;">' . $rowRespuesta4['Producto']  . '</span>
+			<div style="font-size: 5.5pt">&nbsp;</div>
+			<span style="color:#666666;">' . $equidadProducto  . '</span>
 			</td>';
 			break;
 		case 'Previsora Seguros':
@@ -469,7 +479,6 @@ while ($rowRespuesta4 = mysqli_fetch_assoc($respuestaquery4)) {
 				"AU DEDUCIBLE UNICO LIVIANOS - " => "Au Ded.Unic",
 				"LIVIANOS MIA - " => "Livianos MIA"
 			];
-
 			// Obtener el producto mapeado o el valor original si no existe en el mapeo
 			$productoOriginal = $rowRespuesta4['Producto'];
 			$previsoraProducto = isset($productosMap[$productoOriginal]) ? $productosMap[$productoOriginal] : $productoOriginal;
@@ -502,6 +511,7 @@ while ($rowRespuesta4 = mysqli_fetch_assoc($respuestaquery4)) {
 	$cont++;
 }
 $html2 .= '</tr>';
+
 
 $pdf->SetFont('dejavusanscondensed', '', 12);
 
@@ -596,7 +606,7 @@ $html2 .= '</tr>';
 // // AND cf.id_cotizacion = $identificador 
 // // GROUP BY cf.identityElement";
 
-$query5f = "SELECT DISTINCT o.Aseguradora, o.Producto, cf.cuota_1
+$query5f = "SELECT DISTINCT o.Aseguradora, o.Producto, cf.cuota_1, cf.cuotas
 FROM cotizaciones_finesa cf 
 INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion
 WHERE o.seleccionar = 'Si' 

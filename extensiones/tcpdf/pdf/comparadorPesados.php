@@ -517,10 +517,6 @@ while ($rowRespuesta4 = mysqli_fetch_assoc($respuestaquery4)) {
 
 	$cont++;
 }
-
-echo $html2;
-die();
-
 $html2 .= '</tr>';
 $query5 = "SELECT cf.aseguradora, cf.identityElement, o.Prima
 FROM cotizaciones_finesa cf 
