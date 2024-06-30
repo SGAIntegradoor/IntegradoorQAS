@@ -2647,8 +2647,10 @@ function cotizarOfertas() {
                     if (result.dismiss === 'cancel') {
                       // console.log("El usuario seleccionó 'No'");
                       $("#loaderOferta").html("");
+                      $("#loaderOfertaBox").css("display", "none");
                     } else if (result.dismiss === 'backdrop') {
                       $("#loaderOferta").html("");
+                      $("#loaderOfertaBox").css("display", "none");
                     }
                   }
                 });
@@ -3384,16 +3386,19 @@ function cotizarOfertas() {
             })
             .then(function (result) {
               if (result.isConfirmed) {
-                $("#loaderOferta").html(
-                  '<img src="vistas/img/plantilla/loader-update.gif" width="34" height="34"><strong> Cotizando en Finesa...</strong>'
+                $("#loaderRecotOfertaBox").css("display", "block");
+                $("#loaderRecotOferta").html(
+                  '<img src="vistas/img/plantilla/loader-update.gif" width="34" height="34"><strong>Re-Cotizando en Finesa...</strong>'
                 );
                 cotizarFinesa(cotizacionesFinesa);
               } else if (result.isDismissed) {
                 if (result.dismiss === 'cancel') {
                   // console.log("El usuario seleccionó 'No'");
-                  $("#loaderOferta").html("");
+                  $("#loaderRecotOferta").html("");
+                  $("#loaderRecotOfertaBox").css("display", "none");
                 } else if (result.dismiss === 'backdrop') {
-                  $("#loaderOferta").html("");
+                  $("#loaderRecotOferta").html("");
+                  $("#loaderRecotOfertaBox").css("display", "none");
                 }
               }
             });

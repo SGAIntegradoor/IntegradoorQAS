@@ -955,6 +955,8 @@ function cotizarFinesaMotos(ofertasCotizaciones) {
         .then(() => {
           $("#loaderOferta").html("");
           $("#loaderOfertaBox").css("display", "none");
+          $("#loaderRecotOferta").html("");
+          $("#loaderRecotOfertaBox").css("display", "none");
         });
     })
     .catch((error) => {
@@ -2120,8 +2122,10 @@ function cotizarOfertasMotos() {
                     if (result.dismiss === 'cancel') {
                       // console.log("El usuario seleccionó 'No'");
                       $("#loaderOferta").html("");
+                      $("#loaderOfertaBox").css("display", "none");
                     } else if (result.dismiss === 'backdrop') {
                       $("#loaderOferta").html("");
+                      $("#loaderOfertaBox").css("display", "none");
                     }
                   }
                 });
@@ -2194,7 +2198,7 @@ function cotizarOfertasMotos() {
       btnRecotizar.disabled = true;
       const contenParrilla = document.querySelector("#contenParrilla");
       raw.cotizacion = idCotizacion;
-      $("#loaderRecotOferta").css("display", "block");
+      // $("#loaderRecotOferta").css("display", "block");
       $("#loaderRecotOfertaBox").css("display", "block");
       $("#loaderRecotOferta").html(
         '<img src="vistas/img/plantilla/loader-update.gif" width="34" height="34"><strong> Recotizando Ofertas Fallidas...</strong>'
@@ -2496,7 +2500,7 @@ function cotizarOfertasMotos() {
       cont.push(sbsPromise);
 
       Promise.all(cont).then(() => {
-        $("#loaderOferta").html("");
+        // $("#loaderOferta").html("");
         $("#loaderRecotOferta").html("");
         swal
           .fire({
@@ -2517,16 +2521,19 @@ function cotizarOfertasMotos() {
           })
           .then(function (result) {
             if (result.isConfirmed) {
-              $("#loaderOferta").html(
-                '<img src="vistas/img/plantilla/loader-update.gif" width="34" height="34"><strong> Cotizando en Finesa...</strong>'
+              $("#loaderRecotOfertaBox").css("display", "block");
+              $("#loaderRecotOferta").html(
+                '<img src="vistas/img/plantilla/loader-update.gif" width="34" height="34"><strong>Re-Cotizando en Finesa...</strong>'
               );
               cotizarFinesaMotos(cotizacionesFinesaMotos);
             } else if (result.isDismissed) {
               if (result.dismiss === 'cancel') {
                 // console.log("El usuario seleccionó 'No'");
-                $("#loaderOferta").html("");
+                $("#loaderRecotOferta").html("");
+                $("#loaderRecotOfertaBox").css("display", "none");
               } else if (result.dismiss === 'backdrop') {
-                $("#loaderOferta").html("");
+                $("#loaderRecotOferta").html("");
+                $("#loaderRecotOfertaBox").css("display", "none");
               }
             }
           });
