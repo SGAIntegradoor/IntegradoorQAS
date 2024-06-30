@@ -1,8 +1,6 @@
 <?php
 require_once "config/dbconfig.php";
 
-
-
 function obtenerCredenciales($enlace, $tabla, $columnas, $idIntermediario)
 {
   $query = "SELECT $columnas FROM `$tabla` WHERE `id_intermediario` = '$idIntermediario'";
@@ -58,9 +56,9 @@ $cre_est_zona = $creEstado['cre_est_zona'];
 
 // Lógica para AXA
 if ($aseguradoras['AXA']['C'] == "1") {
-  $creAXA = obtenerCredenciales($enlace, 'credenciales_aXA', '*', $_SESSION['intermediario']);
+  $creAXA = obtenerCredenciales($enlace, 'Credenciales_AXA', '*', $_SESSION['intermediario']);
 } else {
-  $creAXA = obtenerCredenciales($enlace, 'credenciales_aXA', '*', '3');
+  $creAXA = obtenerCredenciales($enlace, 'Credenciales_AXA', '*', '3');
 }
 $cre_axa_sslcertfile = $creAXA['cre_axa_sslcertfile'];
 $cre_axa_sslkeyfile = $creAXA['cre_axa_sslkeyfile'];
