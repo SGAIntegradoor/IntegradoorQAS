@@ -1744,8 +1744,7 @@ $html4 .= '<tr>';
 $html4 .= '<td class="fondo puntos" style="width:10%; text-align: center; font-family:dejavusanscondensedb;"><font size="8">Gastos de transporte en perdida parcial</font></td>';
 
 // CONSULTA TRANSPORTE PP
-$query18 = "
-SELECT DISTINCT o.Aseguradora, o.Producto
+$query18 = "SELECT DISTINCT o.Aseguradora, o.Producto
 FROM cotizaciones_finesa cf 
 INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion
 WHERE o.seleccionar = 'Si' 

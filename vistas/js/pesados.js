@@ -2624,6 +2624,13 @@ function cotizarOfertasPesados() {
                       '<img src="vistas/img/plantilla/loader-update.gif" width="34" height="34"><strong> Cotizando en Finesa...</strong>'
                     );
                     cotizarFinesa(cotizacionesFinesa);
+                  } else if (result.isDismissed) {
+                    if (result.dismiss === 'cancel') {
+                      // console.log("El usuario seleccionó 'No'");
+                      $("#loaderOferta").html("");
+                    } else if (result.dismiss === 'backdrop') {
+                      $("#loaderOferta").html("");
+                    }
                   }
                 });
               setTimeout(function () {}, 1000);
@@ -2946,9 +2953,16 @@ function cotizarOfertasPesados() {
             .then(function (result) {
               if (result.isConfirmed) {
                 $("#loaderOferta").html(
-                  '<img src="vistas/img/plantilla/loader-update.gif" width="34" height="34"><strong> Re-cotizando en Finesa...</strong>'
+                  '<img src="vistas/img/plantilla/loader-update.gif" width="34" height="34"><strong> Re-Cotizando en Finesa...</strong>'
                 );
                 cotizarFinesa(cotizacionesFinesa);
+              } else if (result.isDismissed) {
+                if (result.dismiss === 'cancel') {
+                  // console.log("El usuario seleccionó 'No'");
+                  $("#loaderOferta").html("");
+                } else if (result.dismiss === 'backdrop') {
+                  $("#loaderOferta").html("");
+                }
               }
             });
         });
