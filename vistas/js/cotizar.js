@@ -314,12 +314,33 @@ $(document).ready(function () {
     consulCodFasecolda();
   });
 
-  function decresCotTotales() {
+  // function decresCotTotales() {
+  //   return new Promise(function (resolve, reject) {
+  //     $.ajax({
+  //       type: "POST",
+  //       url: "src/updateCotizacionesTotales.php",
+  //       dataType: "json",
+  //       success: function (data) {
+  //         resolve(data);
+  //       },
+  //       error: function (xhr, status, error) {
+  //         reject(error);
+  //       },
+  //     });
+  //   });
+  // }
+
+  async function checkCotTotales() {
+
+    let cotHechas = await mostrarCotRestantes();
+    console.log(cotHechas)
+
     return new Promise(function (resolve, reject) {
       $.ajax({
         type: "POST",
         url: "src/updateCotizacionesTotales.php",
         dataType: "json",
+        data: { cotHechas: cotHechas},
         success: function (data) {
           resolve(data);
         },
@@ -328,16 +349,28 @@ $(document).ready(function () {
         },
       });
     });
+
   }
 
   let intermediario = document.getElementById("idIntermediario").value;
 
   // Ejectura la funcion Cotizar Ofertas
   $("#btnCotizar").click(function (e) {
+
+    let deptoCirc = $('#DptoCirculacion').val();
+    let ciudadCirc = $('#ciudadCirculacion').val();
+
+    if(!deptoCirc){
+      return;
+    }
+    if(!ciudadCirc){
+      return;
+    }
+
     masRE();
 
     if (intermediario != 3) {
-      decresCotTotales().then((response) => {
+      checkCotTotales().then((response) => {
         if (response.result == 1 || response.result == 2) {
           cotizarOfertas();
         } else {
@@ -418,7 +451,7 @@ $(document).ready(function () {
         })
         .then(function (result) {
           if (result.value) {
-            decresCotTotales().then((response) => {
+            checkCotTotales().then((response) => {
               if (response.result == 1 || response.result == 2) {
                 cotizarOfertas();
               } else {

@@ -278,14 +278,15 @@ $(document).ready(function () {
     consulCodFasecolda();
   });
 
-  // Ejectura la funcion Cotizar Ofertas
-  // Ejectura la funcion Cotizar Ofertas
-  function decresCotTotales() {
+  async function checkCotTotales() {
+
+    let cotHechas = await mostrarCotRestantes();
     return new Promise(function (resolve, reject) {
       $.ajax({
         type: "POST",
         url: "src/updateCotizacionesTotales.php",
         dataType: "json",
+        data: { cotHechas: cotHechas},
         success: function (data) {
           resolve(data);
         },
@@ -294,11 +295,27 @@ $(document).ready(function () {
         },
       });
     });
+
   }
 
   let intermediario = document.getElementById("idIntermediario").value;
   // Ejectura la funcion Cotizar Ofertas
   $("#btnCotizarPesados").click(function (e) {
+    
+    let mundialInput = $('#mundialseguros').val();
+    let deptoCirc = $('#DptoCirculacion').val();
+    let ciudadCirc = $('#ciudadCirculacion').val();
+
+    if(!mundialInput){
+      return;
+    }
+    if(!deptoCirc){
+      return;
+    }
+    if(!ciudadCirc){
+      return;
+    }
+    
     menosRECot();
 
     if (intermediario == 3) {
@@ -356,10 +373,11 @@ $(document).ready(function () {
         })
         .then(function (result) {
           if (result.value) {
-            decresCotTotales().then((response) => {
+            checkCotTotales().then((response) => {
               if (response.result == 1 || response.result == 2) {
                 cotizarOfertasPesados();
-              } else {
+              } 
+              else {
                 e.preventDefault();
                 swal
                   .fire({
@@ -371,12 +389,6 @@ $(document).ready(function () {
                     width: "90%",
                     showConfirmButton: true,
                     confirmButtonText: "Cerrar",
-                    customClass: {
-                      popup: "custom-swal-popup",
-                      title: "custom-swal-titlePesados",
-                      content: "custom-swal-content",
-                      confirmButton: "custom-swal-confirm-button",
-                    },
                   })
                   .then(function (result) {
                     if (result.value) {
@@ -390,7 +402,7 @@ $(document).ready(function () {
     } else {
       decresCotTotales().then((response) => {
         if (response.result == 1 || response.result == 2) {
-          cotizarOfertasPesados();
+          cotizarOfertasPesados();x
         } else {
           e.preventDefault();
           swal
@@ -411,8 +423,14 @@ $(document).ready(function () {
               },
             })
             .then(function (result) {
-              if (result.value) {
-                window.location = "inicio";
+              if (result.isConfirmed) {
+                window.location = 'inicio';
+              } else if (result.isDismissed) {
+                if (result.dismiss === 'cancel') {
+                  window.location = 'inicio';
+                } else if (result.dismiss === 'backdrop') {
+                  window.location = 'inicio';
+                }
               }
             });
         }
