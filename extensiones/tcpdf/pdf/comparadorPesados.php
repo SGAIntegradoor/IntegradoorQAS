@@ -46,6 +46,8 @@ if($fila2 == 0 || $fila2 == false || $fila2 == null){
 	$valor3 = $conexion->query($query3);
 	$fila2 = mysqli_num_rows($valor3);
 }
+// var_dump($fila2);
+
 // :::::::::::::::::::::::Query para imagen logo::::::::::::::::::::::::::.
 $queryLogo = "SELECT urlLogo FROM intermediario  WHERE id_Intermediario = $intermediario";
 
@@ -56,10 +58,11 @@ $valorLogo = $valorLogo['urlLogo'];
 $porciones = explode(".", $valorLogo);
 
 // Consulta las aseguradoras que fueron selecionadas para visualizar en el PDF
-$queryAsegSelec = "SELECT DISTINCT Aseguradora FROM ofertas WHERE `id_cotizacion` = $identificador AND `seleccionar` = 'Si'";
+$queryAsegSelec = "SELECT Aseguradora FROM ofertas WHERE `id_cotizacion` = $identificador AND `seleccionar` = 'Si'";
 $valorAsegSelec = $conexion->query($queryAsegSelec);
 $asegSelecionada = mysqli_num_rows($valorAsegSelec);
 
+// var_dump($asegSelecionada);
 // Consultar cuantas Ofertas fueron selecionadas para visualizarlas en el PDF
 $queryPDF = "SELECT UrlPdf FROM ofertas WHERE `id_cotizacion` = $identificador AND `seleccionar` = 'Si'";
 $valorPDF = $conexion->query($queryPDF);
@@ -368,8 +371,11 @@ INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion
 WHERE o.seleccionar = 'Si' 
 AND cf.identityElement = o.oferta_finesa
 AND cf.id_cotizacion = $identificador";
+
 $html2 .= '<tr>';
+
 $cont = 1;
+
 $respuestaquery4 =  $conexion->query($query4);
 $rowValidate = mysqli_num_rows($respuestaquery4);
 
@@ -382,7 +388,7 @@ if($rowValidate == 0 || $rowValidate == false || $rowValidate == null){
 
 while ($rowRespuesta4 = mysqli_fetch_assoc($respuestaquery4)) {
 	$fondo_class = ($cont % 2 == 0) ? 'fondo2' : 'fondo';
-
+	// var_dump($rowRespuesta4);
 	switch ($rowRespuesta4['Aseguradora']) {
 		case 'Axa Colpatria':
 			$html2 .= '<td class="puntos td2 ' . $fondo_class . '" style=" font-size: 6.5px; font-family:dejavusanscondensedb;">
@@ -456,7 +462,7 @@ while ($rowRespuesta4 = mysqli_fetch_assoc($respuestaquery4)) {
 		case 'Liberty Seguros':
 		case 'Liberty':
 			$html2 .= '<td class="puntos td2 ' . $fondo_class . '" style="  font-size: 6.5px; font-family:dejavusanscondensedb;">
-			<div style="font-size:2.5pt">&nbsp;</div>
+			<div style="font-size:5pt">&nbsp;</div>
 			<img style="width:40px;" src="../../../vistas/img/logos/liberty.png" alt="">
 			<div style="font-size:3pt">&nbsp;</div>
 			<span style="color:#666666;">' . $rowRespuesta4['Producto']  . '</span>
@@ -501,12 +507,14 @@ while ($rowRespuesta4 = mysqli_fetch_assoc($respuestaquery4)) {
 			</td>';
 			break;
 		case 'Mundial':
-			$html2 .= '<td class="puntos td2 ' . $fondo_class . '">
-			<div style="font-size:5pt">&nbsp;</div>
+			$html2 .= '<td class="puntos td2 ' . $fondo_class . '" style="font-size: 6.5px; font-family:dejavusanscondensedb;">
+			<div style="font-size:9pt">&nbsp;</div>
 			<img style="width:50px;" src="../../../vistas/img/logos/mundial.png" alt="">
+			<div style="font-size:5pt">&nbsp;</div>
+			<span style="color:#666666;">
 			'
-				. $rowRespuesta4['Producto'] == 'Pesados con RCE en exceso' ? 'Pesados RCE + Exceso' : $rowRespuesta4['Producto'].
-				'
+				.( $rowRespuesta4['Producto'] == 'Pesados con RCE en exceso' ? 'Pesados RCE + Exceso' : $rowRespuesta4['Producto']).
+			'</span>
 			<div style="font-size:5pt">&nbsp;</div>
 			</td>';
 			break;
@@ -514,7 +522,9 @@ while ($rowRespuesta4 = mysqli_fetch_assoc($respuestaquery4)) {
 
 	$cont++;
 }
+// die();
 $html2 .= '</tr>';
+
 $query5 = "SELECT o.Aseguradora, o.Prima
 FROM cotizaciones_finesa cf 
 INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion 
@@ -540,7 +550,7 @@ $cont2 = 1;
 while ($rowRespuesta5 = mysqli_fetch_assoc($respuestaquery5)) {
 	$fondo_class = ($cont2 % 2 == 0) ? 'fondo2' : 'fondo';
 	$font_size = ($rowValidate > 10) ? 7 : (($rowValidate == 10) ? 8 : 9);
-
+	// var_dump($rowRespuesta5);
 	$html2 .= '<td style="height: 10px; font-size:' . ($font_size - 1) . 'px; color:#666666; font-family:dejavusanscondensedb;" class="td2 ' . $fondo_class . ' puntos">
 	<div style="font-size:2pt">&nbsp;</div>
 	$ ' . number_format($rowRespuesta5['Prima'], 0, ',', '.') . '
@@ -593,8 +603,9 @@ if ($respuestaquery5f === false) {
 		//return;
 	}
 }
-
 $html2 .= '</table></div>';
+// echo $html2;
+// die();
 
 $html3 = '
 <style>
@@ -1036,7 +1047,7 @@ $html3 .= '</tr>';
 $html3 .= '<tr>';
 $html3 .= '<td class="puntos fondo" style="width:25%; text-align: center; font-family:dejavusanscondensedb;"><font size="8">Pérdida total daños o hurto</font></td>';
 
-$query10 = "SELECT o.Aseguradora, o.PerdidaParcial, o.Producto, o.ValorRC
+$query10 = "SELECT o.Aseguradora, o.PerdidaTotal, o.Producto, o.ValorRC, o.PerdidaParcial
 FROM cotizaciones_finesa cf 
 INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion 
 WHERE o.seleccionar = 'Si' 
