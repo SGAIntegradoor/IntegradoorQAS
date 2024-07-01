@@ -1828,7 +1828,6 @@ while ($rowRespuestap31 = mysqli_fetch_assoc($respuestaqueryp31)) {
 	$queryConsultaAsistencia9 = "SELECT * FROM asistencias WHERE `aseguradora` LIKE '$nombreAseguradora' AND `producto` LIKE '$nombreProducto'";
 	$respuestaqueryAsistencia9 =  $conexion->query($queryConsultaAsistencia9);
 	$rowRespuestaAsistencia9 = mysqli_fetch_assoc($respuestaqueryAsistencia9);
-
 	if ($contp31 % 2 == 0) {
 		if ($rowRespuestaAsistencia9['Vehiculoreemplazopt'] == "Si ampara") {
 			$html4 .= '<td class="puntos fondo" style="width:' . $valorTabla . '%;text-align: center;"><img style="width:16px;" src="../../../vistas/img/logos/cheque.png" alt=""></td>';
@@ -1874,6 +1873,7 @@ if($rowValidate == 0 || $rowValidate == false || $rowValidate == null){
 	$rowValidate = mysqli_num_rows($respuestaqueryp3);
 }
 
+
 while ($rowRespuestap3 = mysqli_fetch_assoc($respuestaqueryp3)) {
 
 	$nombreAseguradora = nombreAseguradora($rowRespuestap3['Aseguradora']);
@@ -1884,16 +1884,16 @@ while ($rowRespuestap3 = mysqli_fetch_assoc($respuestaqueryp3)) {
 	$rowRespuestaAsistencia9 = mysqli_fetch_assoc($respuestaqueryAsistencia9);
 
 	if ($contp3 % 2 == 0) {
-		if ($rowRespuestaAsistencia9['Vehiculoreemplazopt'] == "Si ampara") {
+		if ($rowRespuestaAsistencia9['ResponsabilidadCivilGeneralFamiliar'] == "Si ampara") {
 			$html4 .= '<td class="puntos fondo" style="width:' . $valorTabla . '%;text-align: center;"><img style="width:16px;" src="../../../vistas/img/logos/cheque.png" alt=""></td>';
 		} else {
-			$html4 .= '<td class="puntos fondo" style="width:' . $valorTabla . '%;"><center><div style="font-size:5pt">&nbsp;</div><font size="7"style="text-align: center;">' . $rowRespuestaAsistencia9['Vehiculoreemplazopt'] . '</font></center></td>';
+			$html4 .= '<td class="puntos fondo" style="width:' . $valorTabla . '%;"><center><div style="font-size:5pt">&nbsp;</div><font size="7"style="text-align: center;">' . ($rowRespuestaAsistencia9['ResponsabilidadCivilGeneralFamiliar'] == ''  ? "No cubre" : $rowRespuestaAsistencia9['ResponsabilidadCivilGeneralFamiliar']). '</font></center></td>';
 		}
 	} else {
-		if ($rowRespuestaAsistencia9['Vehiculoreemplazopt'] == "Si ampara") {
+		if ($rowRespuestaAsistencia9['ResponsabilidadCivilGeneralFamiliar'] == "Si ampara") {
 			$html4 .= '<td class="puntos fondo2" style="width:' . $valorTabla . '%;text-align: center;"><img style="width:16px;" src="../../../vistas/img/logos/cheque.png" alt=""></td>';
 		} else {
-			$html4 .= '<td class="puntos fondo2" style="width:' . $valorTabla . '%;"><center><div style="font-size:5pt">&nbsp;</div><font size="7"style="text-align: center;">' . $rowRespuestaAsistencia9['Vehiculoreemplazopt'] . '</font></center></td>';
+			$html4 .= '<td class="puntos fondo2" style="width:' . $valorTabla . '%;"><center><div style="font-size:5pt">&nbsp;</div><font size="7"style="text-align: center;">' . ($rowRespuestaAsistencia9['ResponsabilidadCivilGeneralFamiliar'] == '' ? "No cubre" : $rowRespuestaAsistencia9['ResponsabilidadCivilGeneralFamiliar']). '</font></center></td>';
 		}
 	}
 
