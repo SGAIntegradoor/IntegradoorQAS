@@ -1,0 +1,66 @@
+/* //Cotizador AssistCard// */
+
+.radio-container{
+    margin-left: 30px;
+}
+
+.btn-cot{
+    margin-top: 20px;
+}
+
+.spinner-container {
+    justify-content: center;
+    align-items: center;
+    margin: 20px;
+    display: none;
+}
+  
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid rgba(0, 0, 0, 0.1); 
+  border-left-color: #88d600; 
+  border-radius: 50%; 
+  animation: spin 1s linear infinite; 
+}
+  
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.row-aseg {
+  margin-bottom: 20px;
+}
+
+#menosCotizacion {
+  display: block;
+  text-align: right;
+}
+
+#masCotizacion {
+  display: none;
+  text-align: right;
+}
+
+#menosParrilla {
+  display: block;
+  text-align: right;
+}
+
+#masParrilla{
+  display: none;
+  text-align: right;
+}
+
+.planeCot{
+  color: #88d600;
+  margin-left: 15px;
+  transform: rotate(-45deg) scale(2) translateY(-1px) translatex(3px);
+}
+
+#containerCards{
+  margin-top: 35PX;
+}
+/*///////////////////////////////////////////////////////////////////////////////// */

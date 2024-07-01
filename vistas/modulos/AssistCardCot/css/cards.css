@@ -1,0 +1,39 @@
+/* //new cards// */
+
+.logoCardAsist {
+    max-width: 130px; 
+    width: auto;
+    height: auto;
+}
+
+.tittleCard{
+    font-weight: bold;
+    font-size: larger;
+    color: #88d600;
+}
+
+.tittlePrice{
+    font-weight: bold;
+    font-size: larger;
+    color: black;
+}
+
+
+.card-ofertas{
+    padding: 20px;
+}
+
+.card-body {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.align-horizontal {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+/*///////////////////////////////////////////////////////////////////////////////// */
+
