@@ -47,11 +47,10 @@ $fila = mysqli_fetch_array($valor2);
 $query3 = "SELECT o.Aseguradora
 FROM cotizaciones_finesa cf 
 INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion 
-INNER JOIN cotizaciones c ON o.id_cotizacion = cf.id_cotizacion 
 WHERE o.seleccionar = 'Si' 
-AND CONVERT(cf.identityElement USING utf8mb3) = CONVERT(o.oferta_finesa USING utf8mb3) 
-AND cf.id_cotizacion = $identificador 
-GROUP BY cf.identityElement";
+AND cf.identityElement = o.oferta_finesa
+AND cf.id_cotizacion = $identificador";
+
 $valor3 = $conexion->query($query3);
 $fila2 = mysqli_num_rows($valor3);
 

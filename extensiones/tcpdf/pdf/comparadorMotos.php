@@ -33,11 +33,10 @@ $fila = mysqli_fetch_array($valor2);
 $query3 = "SELECT o.Aseguradora
 FROM cotizaciones_finesa cf 
 INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion 
-INNER JOIN cotizaciones c ON o.id_cotizacion = cf.id_cotizacion 
 WHERE o.seleccionar = 'Si' 
-AND CONVERT(cf.identityElement USING utf8mb3) = CONVERT(o.oferta_finesa USING utf8mb3) 
-AND cf.id_cotizacion = $identificador 
-GROUP BY cf.identityElement";
+AND cf.identityElement = o.oferta_finesa
+AND cf.id_cotizacion = $identificador";
+
 $valor3 = $conexion->query($query3);
 $fila2 = mysqli_num_rows($valor3);
 
@@ -382,14 +381,13 @@ $html2 = '
 <div style="margin-left:40px;" class="second2">
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<table style="width:350px !important;" class="second" cellpadding="2"  border="0">';
 
-$query4 = "SELECT cf.cuota_1, cf.aseguradora, cf.identityElement, cf.cuotas, cf.id_cotizacion, o.Aseguradora, o.Producto 
+$query4 = "SELECT o.*
 FROM cotizaciones_finesa cf 
-INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion 
-INNER JOIN cotizaciones c ON o.id_cotizacion = cf.id_cotizacion 
+INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion
 WHERE o.seleccionar = 'Si' 
-AND CONVERT(cf.identityElement USING utf8mb3) = CONVERT(o.oferta_finesa USING utf8mb3) 
-AND cf.id_cotizacion = $identificador 
-GROUP BY cf.identityElement";
+AND cf.identityElement = o.oferta_finesa
+AND cf.id_cotizacion = $identificador";
+
 $html2 .= '<tr>';
 $cont = 1;
 $respuestaquery4 =  $conexion->query($query4);
@@ -528,14 +526,12 @@ while ($rowRespuesta4 = mysqli_fetch_assoc($respuestaquery4)) {
 }
 
 $html2 .= '</tr>';
-$query5 = "SELECT cf.aseguradora, cf.identityElement, o.Prima
+$query5 = "SELECT o.*
 FROM cotizaciones_finesa cf 
-INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion 
-INNER JOIN cotizaciones c ON o.id_cotizacion = cf.id_cotizacion 
+INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion
 WHERE o.seleccionar = 'Si' 
-AND CONVERT(cf.identityElement USING utf8mb3) = CONVERT(o.oferta_finesa USING utf8mb3) 
-AND cf.id_cotizacion = $identificador 
-GROUP BY cf.identityElement";
+AND cf.identityElement = o.oferta_finesa
+AND cf.id_cotizacion = $identificador";
 
 $pdf->SetFont('dejavusanscondensed', '', 12);
 
@@ -568,14 +564,12 @@ while ($rowRespuesta5 = mysqli_fetch_assoc($respuestaquery5)) {
 $html2 .= '</tr>';
 
 // Cuotas de Finesa en cada cotizacion
-$query5f = "SELECT cf.cuota_1,cf.identityElement, cf.cuotas
+$query5f = "SELECT cf.cuota_1, cf.cuotas
 FROM cotizaciones_finesa cf 
-INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion 
-INNER JOIN cotizaciones c ON o.id_cotizacion = cf.id_cotizacion 
+INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion
 WHERE o.seleccionar = 'Si' 
-AND CONVERT(cf.identityElement USING utf8mb3) = CONVERT(o.oferta_finesa USING utf8mb3) 
-AND cf.id_cotizacion = $identificador 
-GROUP BY cf.identityElement";
+AND cf.identityElement = o.oferta_finesa
+AND cf.id_cotizacion = $identificador";
 
 $pdf->SetFont('dejavusanscondensed', '', 12);
 $respuestaquery5f = $conexion->query($query5f);
@@ -646,14 +640,12 @@ $html3 = '
 
 $pdf->SetFont('dejavusanscondensed', '', 8);
 
-$query6 = "SELECT cf.cuota_1, cf.aseguradora, cf.identityElement, cf.cuotas, cf.id_cotizacion 
+$query6 = "SELECT o.Aseguradora
 FROM cotizaciones_finesa cf 
-INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion 
-INNER JOIN cotizaciones c ON o.id_cotizacion = cf.id_cotizacion 
+INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion
 WHERE o.seleccionar = 'Si' 
-AND CONVERT(cf.identityElement USING utf8mb3) = CONVERT(o.oferta_finesa USING utf8mb3) 
-AND cf.id_cotizacion = $identificador 
-GROUP BY cf.identityElement";
+AND cf.identityElement = o.oferta_finesa
+AND cf.id_cotizacion = $identificador";
 $valor6 = $conexion->query($query6);
 $fila6 = mysqli_num_rows($valor6);
 
@@ -672,14 +664,13 @@ $html3 .= '<td style ="width: 100%;  background-color: #D1D1D1; font-family:deja
 </td>';
 $html3 .= '</tr>';
 
-$query7 = "SELECT cf.identityElement, o.Aseguradora
+$query7 = "SELECT o.Aseguradora
 FROM cotizaciones_finesa cf 
-INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion 
-INNER JOIN cotizaciones c ON o.id_cotizacion = cf.id_cotizacion 
+INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion
 WHERE o.seleccionar = 'Si' 
-AND CONVERT(cf.identityElement USING utf8mb3) = CONVERT(o.oferta_finesa USING utf8mb3) 
-AND cf.id_cotizacion = $identificador 
-GROUP BY cf.identityElement";
+AND cf.identityElement = o.oferta_finesa
+AND cf.id_cotizacion = $identificador";
+
 $respuestaquery7 = $conexion->query($query7);
 $rowValidate = mysqli_num_rows($respuestaquery7);
 
@@ -894,14 +885,12 @@ $html3 .= '<td class="puntos fondo" style="width:25%; text-align: center; font-f
 //CONSULTA LIMITE MAXIMO
 //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 $cont4 = 1;
-$query9 = "SELECT cf.identityElement, o.*
+$query9 = "SELECT o.ValorRC
 FROM cotizaciones_finesa cf 
-INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion 
-INNER JOIN cotizaciones c ON o.id_cotizacion = cf.id_cotizacion 
+INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion
 WHERE o.seleccionar = 'Si' 
-AND CONVERT(cf.identityElement USING utf8mb3) = CONVERT(o.oferta_finesa USING utf8mb3) 
-AND cf.id_cotizacion = $identificador 
-GROUP BY cf.identityElement";
+AND cf.identityElement = o.oferta_finesa
+AND cf.id_cotizacion = $identificador";
 $respuestaquery9 =  $conexion->query($query9);
 
 //$valorlimiterow cuenta el numero de ofertas seleccionadas
@@ -994,14 +983,12 @@ $html3 .= '</tr>';
 $html3 .= '<tr>';
 $html3 .= '<td class="puntos fondo" style="width:25%; text-align: center; font-family:dejavusanscondensedb;"><font size="8">Deducible</font></td>';
 
-$query8 = "SELECT cf.cuota_1, cf.aseguradora, cf.identityElement, cf.cuotas, cf.id_cotizacion, o.*
+$query8 = "SELECT o.PerdidaParcial, o.ValorRC, o.Producto, o.Aseguradora
 FROM cotizaciones_finesa cf 
-INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion 
-INNER JOIN cotizaciones c ON o.id_cotizacion = cf.id_cotizacion 
+INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion
 WHERE o.seleccionar = 'Si' 
-AND CONVERT(cf.identityElement USING utf8mb3) = CONVERT(o.oferta_finesa USING utf8mb3) 
-AND cf.id_cotizacion = $identificador 
-GROUP BY cf.identityElement";
+AND cf.identityElement = o.oferta_finesa
+AND cf.id_cotizacion = $identificador";
 $respuestaquery8 = $conexion->query($query8);
 $rowValidate = mysqli_num_rows($respuestaquery8);
 
@@ -1056,14 +1043,13 @@ $html3 .= '</tr>';
 
 $html3 .= '<tr>';
 $html3 .= '<td class="puntos fondo" style="width:25%; text-align: center; font-family:dejavusanscondensedb;"><font size="8">Pérdida total daños o hurto</font></td>';
-$query10 = "SELECT o.*, cf.identityElement
+
+$query10 = "SELECT o.PerdidaParcial, o.Producto, o.Aseguradora
 FROM cotizaciones_finesa cf 
-INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion 
-INNER JOIN cotizaciones c ON o.id_cotizacion = cf.id_cotizacion 
+INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion
 WHERE o.seleccionar = 'Si' 
-AND CONVERT(cf.identityElement USING utf8mb3) = CONVERT(o.oferta_finesa USING utf8mb3) 
-AND cf.id_cotizacion = $identificador 
-GROUP BY cf.identityElement";
+AND cf.identityElement = o.oferta_finesa
+AND cf.id_cotizacion = $identificador";
 $pdf->SetFont('dejavusanscondensed', '', 12);
 
 $respuestaquery10 = $conexion->query($query10);
@@ -1100,14 +1086,12 @@ $html3 .= '</tr>';
 $html3 .= '<tr>';
 $html3 .= '<td class="puntos fondo" style="width:25%; text-align: center; font-family:dejavusanscondensedb;"><font size="8">Pérdida parcial por daño</font></td>';
 
-$query11 = "SELECT o.*, cf.identityElement
+$query11 = "SELECT o.*
 FROM cotizaciones_finesa cf 
-INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion 
-INNER JOIN cotizaciones c ON o.id_cotizacion = cf.id_cotizacion 
+INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion
 WHERE o.seleccionar = 'Si' 
-AND CONVERT(cf.identityElement USING utf8mb3) = CONVERT(o.oferta_finesa USING utf8mb3) 
-AND cf.id_cotizacion = $identificador 
-GROUP BY cf.identityElement";
+AND cf.identityElement = o.oferta_finesa
+AND cf.id_cotizacion = $identificador";
 
 $pdf->SetFont('dejavusanscondensed', '', 12);
 
@@ -1120,7 +1104,6 @@ if($rowValidate == 0 || $rowValidate == false || $rowValidate == null){
 	$respuestaquery11 = $conexion->query($query11);
 	$rowValidate = mysqli_num_rows($respuestaquery11);
 }
-
 
 $cont7 = 1;
 
@@ -1147,14 +1130,12 @@ $html3 .= '</tr>';
 $html3 .= '<tr>';
 $html3 .= '<td class="puntos fondo" style="width:25%; text-align: center; font-family:dejavusanscondensedb;"><font size="8">Pérdida parcial por hurto</font></td>';
 
-$query12 = "SELECT cf.identityElement, o.*
+$query12 = "SELECT o.*
 FROM cotizaciones_finesa cf 
-INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion 
-INNER JOIN cotizaciones c ON o.id_cotizacion = cf.id_cotizacion 
+INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion
 WHERE o.seleccionar = 'Si' 
-AND CONVERT(cf.identityElement USING utf8mb3) = CONVERT(o.oferta_finesa USING utf8mb3) 
-AND cf.id_cotizacion = $identificador 
-GROUP BY cf.identityElement";
+AND cf.identityElement = o.oferta_finesa
+AND cf.id_cotizacion = $identificador";
 
 $pdf->SetFont('dejavusanscondensed', '', 12);
 
@@ -1193,14 +1174,12 @@ $html3 .= '</tr>';
 $html3 .= '<tr>';
 $html3 .= '<td class="puntos fondo" style="width:25%; text-align: center; font-family:dejavusanscondensedb;"><font style="font-family:dejavusanscondensedb;" size="8">Cobertura por Eventos de la naturaleza</font></td>';
 
-$query13 = "SELECT cf.identityElement, o.*
+$query13 = "SELECT o.*
 FROM cotizaciones_finesa cf 
-INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion 
-INNER JOIN cotizaciones c ON o.id_cotizacion = cf.id_cotizacion 
+INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion
 WHERE o.seleccionar = 'Si' 
-AND CONVERT(cf.identityElement USING utf8mb3) = CONVERT(o.oferta_finesa USING utf8mb3) 
-AND cf.id_cotizacion = $identificador 
-GROUP BY cf.identityElement";
+AND cf.identityElement = o.oferta_finesa
+AND cf.id_cotizacion = $identificador";
 
 $pdf->SetFont('dejavusanscondensed', '', 12);
 
@@ -1244,14 +1223,12 @@ $html3 .= '</tr>';
 $html3 .= '<tr>';
 $html3 .= '<td class="puntos fondo" style="width:25%; text-align: center; font-family:dejavusanscondensedb;"><div style="font-size:2pt">&nbsp;</div><font size="8">Amparo patrimonial</font></td>';
 
-$query14 = "SELECT cf.identityElement, o.*
+$query14 = "SELECT o.*
 FROM cotizaciones_finesa cf 
-INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion 
-INNER JOIN cotizaciones c ON o.id_cotizacion = cf.id_cotizacion 
+INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion
 WHERE o.seleccionar = 'Si' 
-AND CONVERT(cf.identityElement USING utf8mb3) = CONVERT(o.oferta_finesa USING utf8mb3) 
-AND cf.id_cotizacion = $identificador 
-GROUP BY cf.identityElement";
+AND cf.identityElement = o.oferta_finesa
+AND cf.id_cotizacion = $identificador";
 
 $pdf->SetFont('dejavusanscondensed', '', 12);
 
@@ -1335,14 +1312,12 @@ $html3s = '
 
 $pdf->SetFont('dejavusanscondensed', '', 8);
 
-$query7x = "SELECT cf.identityElement, o.*
+$query7x = "SELECT o.Aseguradora
 FROM cotizaciones_finesa cf 
-INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion 
-INNER JOIN cotizaciones c ON o.id_cotizacion = cf.id_cotizacion 
+INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion
 WHERE o.seleccionar = 'Si' 
-AND CONVERT(cf.identityElement USING utf8mb3) = CONVERT(o.oferta_finesa USING utf8mb3) 
-AND cf.id_cotizacion = $identificador 
-GROUP BY cf.identityElement";
+AND cf.identityElement = o.oferta_finesa
+AND cf.id_cotizacion = $identificador";
 
 $pdf->SetFont('dejavusanscondensed', '', 12);
 
@@ -1561,14 +1536,12 @@ $html3s .= '</tr>';
 
 $html3s .= '<tr>';
 $html3s .= '<td class="puntos fondo" style="width:25%; text-align: center; font-family:dejavusanscondensedb;"><div style="font-size:2pt">&nbsp;</div><font size="8">Servicio de grua</font></td>';
-$query14 = "SELECT cf.identityElement, o.*
+$query14 = "SELECT o.*
 FROM cotizaciones_finesa cf 
-INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion 
-INNER JOIN cotizaciones c ON o.id_cotizacion = cf.id_cotizacion 
+INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion
 WHERE o.seleccionar = 'Si' 
-AND CONVERT(cf.identityElement USING utf8mb3) = CONVERT(o.oferta_finesa USING utf8mb3) 
-AND cf.id_cotizacion = $identificador 
-GROUP BY cf.identityElement";
+AND cf.identityElement = o.oferta_finesa
+AND cf.id_cotizacion = $identificador";
 
 $pdf->SetFont('dejavusanscondensed', '', 12);
 
@@ -1618,14 +1591,12 @@ $html3s .= '</tr>';
 $html3s .= '<tr>';
 $html3s .= '<td class="fondo puntos" style="width:25%; text-align: center; font-family:dejavusanscondensedb;"><div style="font-size:5pt">&nbsp;</div><font size="8">Asistencia Jurídica civil y penal</font></td>';
 
-$query17 = "SELECT cf.identityElement, o.*
+$query17 = "SELECT o.*
 FROM cotizaciones_finesa cf 
-INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion 
-INNER JOIN cotizaciones c ON o.id_cotizacion = cf.id_cotizacion 
+INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion
 WHERE o.seleccionar = 'Si' 
-AND CONVERT(cf.identityElement USING utf8mb3) = CONVERT(o.oferta_finesa USING utf8mb3) 
-AND cf.id_cotizacion = $identificador 
-GROUP BY cf.identityElement";
+AND cf.identityElement = o.oferta_finesa
+AND cf.id_cotizacion = $identificador";
 
 $pdf->SetFont('dejavusanscondensed', '', 12);
 
@@ -1675,14 +1646,12 @@ $html3s .= '</tr>';
 $html3s .= '<tr>';
 $html3s .= '<td class="fondo puntos" style="width:25%; text-align: center; font-family:dejavusanscondensedb;"><div style="font-size:3pt">&nbsp;</div><font size="8">Accidentes personales</font></td>';
 
-$queryp4 = "SELECT cf.identityElement, o.*
+$queryp4 = "SELECT o.*
 FROM cotizaciones_finesa cf 
-INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion 
-INNER JOIN cotizaciones c ON o.id_cotizacion = cf.id_cotizacion 
+INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion
 WHERE o.seleccionar = 'Si' 
-AND CONVERT(cf.identityElement USING utf8mb3) = CONVERT(o.oferta_finesa USING utf8mb3) 
-AND cf.id_cotizacion = $identificador 
-GROUP BY cf.identityElement";
+AND cf.identityElement = o.oferta_finesa
+AND cf.id_cotizacion = $identificador";
 
 $pdf->SetFont('dejavusanscondensed', '', 12);
 
@@ -1772,14 +1741,13 @@ $html4 .= '</tr>';
 
 $html4 .= '<tr>';
 $html4 .= '<td class="fondo puntos" style="width:25%; text-align: center; font-family:dejavusanscondensedb;"><font size="8">Gastos de transporte perdida total</font></td>';
-$queryp3 = "SELECT cf.identityElement, o.*
+
+$queryp3 = "SELECT o.*
 FROM cotizaciones_finesa cf 
-INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion 
-INNER JOIN cotizaciones c ON o.id_cotizacion = cf.id_cotizacion 
+INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion
 WHERE o.seleccionar = 'Si' 
-AND CONVERT(cf.identityElement USING utf8mb3) = CONVERT(o.oferta_finesa USING utf8mb3) 
-AND cf.id_cotizacion = $identificador 
-GROUP BY cf.identityElement";
+AND cf.identityElement = o.oferta_finesa
+AND cf.id_cotizacion = $identificador";
 
 $pdf->SetFont('dejavusanscondensed', '', 12);
 
@@ -1831,14 +1799,12 @@ $html4 .= '</tr>';
 $html4 .= '<tr>';
 $html4 .= '<td class="fondo puntos" style="width:25%; text-align: center; font-family:dejavusanscondensedb;"><font size="8">Vehículo sustituto</font></td>';
 
-$queryp31 = "SELECT cf.identityElement, o.*
+$queryp31 = "SELECT o.*
 FROM cotizaciones_finesa cf 
-INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion 
-INNER JOIN cotizaciones c ON o.id_cotizacion = cf.id_cotizacion 
+INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion
 WHERE o.seleccionar = 'Si' 
-AND CONVERT(cf.identityElement USING utf8mb3) = CONVERT(o.oferta_finesa USING utf8mb3) 
-AND cf.id_cotizacion = $identificador 
-GROUP BY cf.identityElement";
+AND cf.identityElement = o.oferta_finesa
+AND cf.id_cotizacion = $identificador";
 
 $pdf->SetFont('dejavusanscondensed', '', 12);
 
@@ -1889,14 +1855,12 @@ $html4 .= '</tr>';
 $html4 .= '<tr>';
 $html4 .= '<td class="fondo puntos" style="width:25%; text-align: center; font-family:dejavusanscondensedb;"><font size="8">Responsabilidad general familiar</font></td>';
 
-$queryp3 = "SELECT cf.identityElement, o.*
+$queryp3 = "SELECT o.*
 FROM cotizaciones_finesa cf 
-INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion 
-INNER JOIN cotizaciones c ON o.id_cotizacion = cf.id_cotizacion 
+INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion
 WHERE o.seleccionar = 'Si' 
-AND CONVERT(cf.identityElement USING utf8mb3) = CONVERT(o.oferta_finesa USING utf8mb3) 
-AND cf.id_cotizacion = $identificador 
-GROUP BY cf.identityElement";
+AND cf.identityElement = o.oferta_finesa
+AND cf.id_cotizacion = $identificador";
 
 $pdf->SetFont('dejavusanscondensed', '', 12);
 
@@ -1945,14 +1909,12 @@ $html4 .= '</tr>';
 $html4 .= '<tr>';
 $html4 .= '<td class="fondo puntos" style="width:25%; text-align: center; font-family:dejavusanscondensedb;"><font size="8">Cobertura de vidrios</font></td>';
 
-$queryp3 = "SELECT cf.identityElement, o.*
+$queryp3 = "SELECT o.*
 FROM cotizaciones_finesa cf 
-INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion 
-INNER JOIN cotizaciones c ON o.id_cotizacion = cf.id_cotizacion 
+INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion
 WHERE o.seleccionar = 'Si' 
-AND CONVERT(cf.identityElement USING utf8mb3) = CONVERT(o.oferta_finesa USING utf8mb3) 
-AND cf.id_cotizacion = $identificador 
-GROUP BY cf.identityElement";
+AND cf.identityElement = o.oferta_finesa
+AND cf.id_cotizacion = $identificador";
 
 $pdf->SetFont('dejavusanscondensed', '', 12);
 
@@ -2003,14 +1965,12 @@ $html4 .= '</tr>';
 $html4 .= '<tr>';
 $html4 .= '<td class="fondo puntos" style="width:25%; text-align: center; font-family:dejavusanscondensedb;"><font size="8">Asistencia en viajes con cobertura a nivel nacional</font></td>';
 
-$queryp3 = "SELECT cf.identityElement, o.*
+$queryp3 = "SELECT o.*
 FROM cotizaciones_finesa cf 
-INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion 
-INNER JOIN cotizaciones c ON o.id_cotizacion = cf.id_cotizacion 
+INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion
 WHERE o.seleccionar = 'Si' 
-AND CONVERT(cf.identityElement USING utf8mb3) = CONVERT(o.oferta_finesa USING utf8mb3) 
-AND cf.id_cotizacion = $identificador 
-GROUP BY cf.identityElement";
+AND cf.identityElement = o.oferta_finesa
+AND cf.id_cotizacion = $identificador";
 
 $pdf->SetFont('dejavusanscondensed', '', 12);
 
@@ -2061,14 +2021,12 @@ $html4 .= '</tr>';
 $html4 .= '<tr>';
 $html4 .= '<td class="fondo puntos" style="width:25%; text-align: center; font-family:dejavusanscondensedb;"><font size="8">Asistencia odontologica</font></td>';
 
-$queryp3 = "SELECT cf.identityElement, o.*
+$queryp3 = "SELECT o.*
 FROM cotizaciones_finesa cf 
-INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion 
-INNER JOIN cotizaciones c ON o.id_cotizacion = cf.id_cotizacion 
+INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion
 WHERE o.seleccionar = 'Si' 
-AND CONVERT(cf.identityElement USING utf8mb3) = CONVERT(o.oferta_finesa USING utf8mb3) 
-AND cf.id_cotizacion = $identificador 
-GROUP BY cf.identityElement";
+AND cf.identityElement = o.oferta_finesa
+AND cf.id_cotizacion = $identificador";
 
 $pdf->SetFont('dejavusanscondensed', '', 12);
 
@@ -2120,14 +2078,12 @@ $html4 .= '</tr>';
 $html4 .= '<tr>';
 $html4 .= '<td class="puntos fondo" style="width:25%; text-align: center; font-family:dejavusanscondensedb;"><font size="8">Auxilio de paralización del vehículo</font></td>';
 
-$query28 = "SELECT cf.identityElement, o.*
+$query28 = "SELECT o.*
 FROM cotizaciones_finesa cf 
-INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion 
-INNER JOIN cotizaciones c ON o.id_cotizacion = cf.id_cotizacion 
+INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion
 WHERE o.seleccionar = 'Si' 
-AND CONVERT(cf.identityElement USING utf8mb3) = CONVERT(o.oferta_finesa USING utf8mb3) 
-AND cf.id_cotizacion = $identificador 
-GROUP BY cf.identityElement";
+AND cf.identityElement = o.oferta_finesa
+AND cf.id_cotizacion = $identificador";
 
 $pdf->SetFont('dejavusanscondensed', '', 12);
 
@@ -2176,14 +2132,12 @@ $html4 .= '</tr>';
 $html4 .= '<tr>';
 $html4 .= '<td class="fondo puntos" style="width:25%; text-align: center; font-family:dejavusanscondensedb;"><font size="8">Exequias</font></td>';
 
-$query21 = "SELECT cf.identityElement, o.*
+$query21 = "SELECT o.*
 FROM cotizaciones_finesa cf 
-INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion 
-INNER JOIN cotizaciones c ON o.id_cotizacion = cf.id_cotizacion 
+INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion
 WHERE o.seleccionar = 'Si' 
-AND CONVERT(cf.identityElement USING utf8mb3) = CONVERT(o.oferta_finesa USING utf8mb3) 
-AND cf.id_cotizacion = $identificador 
-GROUP BY cf.identityElement";
+AND cf.identityElement = o.oferta_finesa
+AND cf.id_cotizacion = $identificador";
 
 $pdf->SetFont('dejavusanscondensed', '', 12);
 
@@ -2234,14 +2188,12 @@ $html4 .= '</tr>';
 $html4 .= '<tr>';
 $html4 .= '<td class="fondo puntos" style="width:25%; text-align: center; font-family:dejavusanscondensedb;"><font size="8">Asesoria y gestión de trámites de Tránsito</font></td>';
 
-$query21 = "SELECT cf.identityElement, o.*
+$query21 = "SELECT o.*
 FROM cotizaciones_finesa cf 
-INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion 
-INNER JOIN cotizaciones c ON o.id_cotizacion = cf.id_cotizacion 
+INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion
 WHERE o.seleccionar = 'Si' 
-AND CONVERT(cf.identityElement USING utf8mb3) = CONVERT(o.oferta_finesa USING utf8mb3) 
-AND cf.id_cotizacion = $identificador 
-GROUP BY cf.identityElement";
+AND cf.identityElement = o.oferta_finesa
+AND cf.id_cotizacion = $identificador";
 
 $pdf->SetFont('dejavusanscondensed', '', 12);
 
@@ -2291,14 +2243,12 @@ $html4 .= '</tr>';
 $html4 .= '<tr>';
 $html4 .= '<td class="fondo puntos" style="width:25%; text-align: center; font-family:dejavusanscondensedb;"><font size="8">Gastos médicos</font></td>';
 
-$query21 = "SELECT cf.identityElement, o.*
+$query21 = "SELECT o.*
 FROM cotizaciones_finesa cf 
-INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion 
-INNER JOIN cotizaciones c ON o.id_cotizacion = cf.id_cotizacion 
+INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion
 WHERE o.seleccionar = 'Si' 
-AND CONVERT(cf.identityElement USING utf8mb3) = CONVERT(o.oferta_finesa USING utf8mb3) 
-AND cf.id_cotizacion = $identificador 
-GROUP BY cf.identityElement";
+AND cf.identityElement = o.oferta_finesa
+AND cf.id_cotizacion = $identificador";
 
 $pdf->SetFont('dejavusanscondensed', '', 12);
 
