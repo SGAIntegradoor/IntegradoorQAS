@@ -81,11 +81,10 @@ async function mostrarCotRestantes (){
     let fecha1 = new Date();
 
     // Obtener el último día del mes pasado
-    let lastDayOfPreviousMonth = new Date(fecha1.getFullYear(), fecha1.getMonth(), 0);
-    const yearLastMonth = lastDayOfPreviousMonth.getFullYear();
-    const monthLastMonth = String(lastDayOfPreviousMonth.getMonth() + 1).padStart(2, '0'); // +1 porque getMonth() devuelve 0-11
-    const dayLastMonth = String(lastDayOfPreviousMonth.getDate()).padStart(2, '0');
-    const lastDateOfPreviousMonth = `${yearLastMonth}-${monthLastMonth}-${dayLastMonth}`;
+    const year = fecha1.getFullYear();
+    const month = String(fecha1.getMonth() + 1).padStart(2, '0');
+    const startDay = '01';
+    const nowDate = `${year}-${month}-${startDay}`;
     
     // Obtener el último día del mes actual
     let endOfMonthDate = new Date(fecha1.getFullYear(), fecha1.getMonth() + 1, 0);
@@ -99,7 +98,7 @@ async function mostrarCotRestantes (){
         $.ajax({
             url: "ajax/compararFecha.php",
             method: "POST",
-            data: { fechaInicio: lastDateOfPreviousMonth, fechaFin: lastDateOfCurrentMonth },
+            data: { fechaInicio: nowDate, fechaFin: lastDateOfCurrentMonth },
             success: function (respuesta) {
                 $p = document.getElementById("cotRestantes1");
                 if ($p) {

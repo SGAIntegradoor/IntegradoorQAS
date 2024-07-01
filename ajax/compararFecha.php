@@ -16,9 +16,6 @@ if (!empty($fechaInicio) && !empty($fechaFin)) {
     $debugQuery = "SELECT * FROM `cotizaciones` WHERE `cot_fch_cotizacion` BETWEEN '$fechaInicio' AND '$fechaFin' AND `id_usuario` = $id";
     $stmt = $enlace->prepare($query);
 
-    // var_dump($debugQuery);
-
-
     // Vincular los parámetros a la consulta
     $stmt->bind_param("ssi", $fechaInicio, $fechaFin, $id);
 
