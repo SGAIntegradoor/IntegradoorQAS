@@ -32,15 +32,9 @@ if (!empty($fechaInicio) && !empty($fechaFin)) {
         die("Error en la ejecución de la consulta: " . $stmt->error);
     }
 
-    // Obtener el resultado
-    $result = $stmt->get_result();
-
-    if ($result === false) {
-        die("Error al obtener el resultado: " . $stmt->error);
-    }
-
-    // Contar el número de filas
-    $numeroDeFilas = $result->num_rows;
+    // Vincular los resultados
+    $stmt->store_result();
+    $numeroDeFilas = $stmt->num_rows;
 
     echo $numeroDeFilas;
 
