@@ -405,7 +405,7 @@ select:invalid + .error-message {
                 </div>
             </div>
             
-            <?php include 'vistas\modulos\AssistCardCot\cotizadorAssistCard.php'; ?>
+            <?php include_once './vistas/modulos/AssistCardCot/cotizadorAssistCard.php'; ?>
         </div>           
     </section>
 </div>
