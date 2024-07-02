@@ -386,10 +386,7 @@ $(document).ready(function () {
               showConfirmButton: true,
               confirmButtonText: "Cerrar",
               customClass: {
-                popup: "custom-swal-popup",
-                title: "custom-swal-title",
-                content: "custom-swal-content",
-                confirmButton: "custom-swal-confirm-button",
+                popup: "custom-swal-popupCotExcep",
               },
             })
             .then(function (result) {
@@ -447,6 +444,7 @@ $(document).ready(function () {
             title: "custom-swal-titleLivianos",
             confirmButton: "custom-swal-confirm-button20",
             actions: "custom-swal-actions-livianos",
+            icon: "swal2-icon_monto"
           },
         })
         .then(function (result) {
@@ -467,10 +465,7 @@ $(document).ready(function () {
                     showConfirmButton: true,
                     confirmButtonText: "Cerrar",
                     customClass: {
-                      popup: "custom-swal-alertaMontoLivianos",
-                      title: "custom-swal-title",
-                      content: "custom-swal-content",
-                      confirmButton: "custom-swal-confirm-button",
+                      popup: "custom-swal-popupCotExcep",
                     },
                   })
                   .then(function (result) {

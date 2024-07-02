@@ -201,7 +201,7 @@ echo '<script>console.log(' . $idIntermediario . ", " . $rolAsesor . ')</script>
     border-radius: 15px !important;
   }
 
-  .swal2-icon {
+  .swal2-icon_monto {
     width: 90px;
     height: 90px;
     border: 4px solid #f8bb86 !important;
@@ -298,7 +298,7 @@ echo '<script>console.log(' . $idIntermediario . ", " . $rolAsesor . ')</script>
       padding: 0px
     }
 
-    .swal2-icon {
+    .swal2-icon_monto {
       width: 60px !important;
       height: 60px !important;
       border: 3px solid #f8bb86 !important;
@@ -376,7 +376,7 @@ echo '<script>console.log(' . $idIntermediario . ", " . $rolAsesor . ')</script>
       font-size: 12px !important;
     }
 
-    .swal2-icon {
+    .swal2-icon_monto {
       width: 60px !important;
       height: 60px !important;
       border: 3px solid #f8bb86 !important;
@@ -453,7 +453,7 @@ echo '<script>console.log(' . $idIntermediario . ", " . $rolAsesor . ')</script>
       font-size: 12px !important;
     }
 
-    .swal2-icon {
+    .swal2-icon_monto {
       width: 60px !important;
       height: 60px !important;
       border: 3px solid #f8bb86 !important;
@@ -533,7 +533,7 @@ echo '<script>console.log(' . $idIntermediario . ", " . $rolAsesor . ')</script>
       font-size: 12px !important;
     }
 
-    .swal2-icon {
+    .swal2-icon_monto {
       margin-top: 10px;
       width: 60px !important;
       height: 60px !important;
@@ -615,7 +615,7 @@ echo '<script>console.log(' . $idIntermediario . ", " . $rolAsesor . ')</script>
       font-size: 12px !important;
     }
 
-    .swal2-icon {
+    .swal2-icon_monto {
       margin-top: 10px;
       width: 60px !important;
       height: 60px !important;
@@ -701,7 +701,7 @@ echo '<script>console.log(' . $idIntermediario . ", " . $rolAsesor . ')</script>
       padding-bottom: 17px;
     }
 
-    .swal2-icon {
+    .swal2-icon_monto {
       margin-top: 14px;
       width: 90px !important;
       height: 90px !important;

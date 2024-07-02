@@ -159,6 +159,7 @@ $rolAsesor = $_SESSION['permisos']['idRol'];
     }
   }
 
+
   .custom-title-messageFinesa {
     font-size: 16px;
     font-weight: bold;
@@ -215,7 +216,7 @@ $rolAsesor = $_SESSION['permisos']['idRol'];
     border-radius: 15px !important;
   }
 
-  .swal2-icon {
+  .swal2-icon_monto {
     width: 90px;
     height: 90px;
     border: 4px solid #f8bb86 !important;
@@ -307,7 +308,7 @@ $rolAsesor = $_SESSION['permisos']['idRol'];
       font-weight: bold;
     }
 
-    .swal2-icon {
+    .swal2-icon_monto {
       width: 60px !important;
       height: 60px !important;
       border: 3px solid #f8bb86 !important;
@@ -384,7 +385,7 @@ $rolAsesor = $_SESSION['permisos']['idRol'];
       font-size: 12px !important;
     }
 
-    .swal2-icon {
+     .swal2-icon_monto {
       width: 60px !important;
       height: 60px !important;
       border: 3px solid #f8bb86 !important;
@@ -460,7 +461,7 @@ $rolAsesor = $_SESSION['permisos']['idRol'];
       font-size: 12px !important;
     }
 
-    .swal2-icon {
+     .swal2-icon_monto {
       width: 60px !important;
       height: 60px !important;
       border: 3px solid #f8bb86 !important;
@@ -536,7 +537,7 @@ $rolAsesor = $_SESSION['permisos']['idRol'];
       font-size: 12px !important;
     }
 
-    .swal2-icon {
+     .swal2-icon_monto {
       width: 60px !important;
       height: 60px !important;
       border: 3px solid #f8bb86 !important;
@@ -616,7 +617,7 @@ $rolAsesor = $_SESSION['permisos']['idRol'];
       padding-bottom: 25px !important;
     }
 
-    .swal2-icon {
+     .swal2-icon_monto {
       width: 90px !important;
       height: 90px !important;
       border: 3px solid #f8bb86 !important;
@@ -695,7 +696,7 @@ $rolAsesor = $_SESSION['permisos']['idRol'];
       padding-bottom: 17px;
     }
 
-    .swal2-icon {
+     .swal2-icon_monto {
       margin-top: 14px;
       width: 90px !important;
       height: 90px !important;

@@ -66,6 +66,7 @@ $(document).ready(function () {
             title: "custom-swal-title",
             confirmButton: "custom-swal-confirm-button23",
             actions: "custom-swal-actions-motos",
+            icon: "swal2-icon_monto"
           },
         })
         .then(function (result) {
@@ -86,10 +87,7 @@ $(document).ready(function () {
                     showConfirmButton: true,
                     confirmButtonText: "Cerrar",
                     customClass: {
-                      popup: "custom-swal-popup",
-                      title: "custom-swal-title",
-                      content: "custom-swal-content",
-                      confirmButton: "custom-swal-confirm-button",
+                      popup: "custom-swal-popupCotExcep",
                     },
                   })
                   .then(function (result) {
@@ -118,10 +116,7 @@ $(document).ready(function () {
               showConfirmButton: true,
               confirmButtonText: "Cerrar",
               customClass: {
-                popup: "custom-swal-popup",
-                title: "custom-swal-title",
-                content: "custom-swal-content",
-                confirmButton: "custom-swal-confirm-button",
+                popup: "custom-swal-popupCotExcep",
               },
             })
             .then(function (result) {
@@ -172,7 +167,6 @@ $("#btnConsultarVehmanualbuscadorMotos").click(function () {
         if (data.estado == undefined) {
           alert("Vehículo no encontrado");
         } else {
-          console.log(data);
           var claseVeh = data.clase;
           var marcaVeh = data.marca;
           var ref1Veh = data.referencia1;
@@ -307,7 +301,7 @@ function consulPlacaMotos() {
         .then(function (myJson) {
           var estadoConsulta = myJson.Success;
           var mensajeConsulta = myJson.Message;
-          console.log(myJson);
+          //console.log(myJson);
           //VALIDA SI LA CONSULTA FUE EXITOSA
           if (estadoConsulta == true) {
             var codigoClase = myJson.Data.ClassId;
@@ -910,7 +904,7 @@ function cotizarFinesaMotos(ofertasCotizaciones) {
     };
 
     if (element.cotizada == null || element.cotizada == false) {
-      console.log(element);
+      //console.log(element);
       promisesFinesa.push(
         fetch(
           "https://www.grupoasistencia.com/motor_webservice/paymentInstallmentsFinesa",
@@ -994,7 +988,7 @@ function cotizarFinesaMotos(ofertasCotizaciones) {
       console.error("Error en las promesas: ", error);
     })
     .finally(() => {
-      console.log(cotEnFinesaResponse);
+      //console.log(cotEnFinesaResponse);
     });
 }
 
@@ -1051,11 +1045,11 @@ function registrarOfertaMotos(
         identityElement: actIdentityMotos != "" ? actIdentityMotos : NULL,
       },
       success: function (data) {
-        console.log(data);
+        //console.log(data);
         resolve();
       },
       error: function (error) {
-        console.log(error);
+        //console.log(error);
         //reject(error);
       },
     });
@@ -1351,7 +1345,7 @@ function validarOfertasMotos(ofertas, aseguradora, exito) {
 //VERSION DEFINITIVA "validarProblema()"" COTIZAR.JS
 function validarProblemaMotos(aseguradora, ofertas) {
   var idCotizOferta = idCotizacion;
-  console.log(ofertas);
+  //console.log(ofertas);
 
   // Verificar si ofertas es un array
   if (Array.isArray(ofertas)) {
@@ -1378,7 +1372,7 @@ function validarProblemaMotos(aseguradora, ofertas) {
           },
           success: function (data) {
             var datos = data.Data;
-            console.log(datos);
+            //console.log(datos);
           },
           error: function (error) {
             console.log("Error en validarProblemaMotos moto", error);
@@ -1412,7 +1406,7 @@ function validarProblemaMotos(aseguradora, ofertas) {
         },
         success: function (data) {
           var datos = data.Data;
-          console.log(datos);
+          //console.log(datos);
         },
         error: function (error) {
           console.log(
@@ -1441,7 +1435,7 @@ function registrarNumeroOfertasMotos(entidad, contador, numCotizacion, exito) {
       var datos = data.Data;
       var message = data.Message;
       var success = data.Success;
-      console.log("Alerta Insertada Validar Numeros", datos);
+      //console.log("Alerta Insertada Validar Numeros", datos);
       //resolve();
     },
     error: function (error) {
@@ -1660,7 +1654,7 @@ function cotizarOfertasMotos() {
   var aseguradoras_motos_autorizar = JSON.parse(
     document.getElementById("aseguradoras_motos").value
   );
-  console.log(aseguradoras_motos_autorizar);
+  //console.log(aseguradoras_motos_autorizar);
 
   if (ciudadCirculacion.length == 4) {
     ciudadCirculacion = "0" + ciudadCirculacion;
@@ -1919,8 +1913,8 @@ function cotizarOfertasMotos() {
             if (aseguradora == "Estado2") {
               aseguradora = "Estado";
             }
-            console.log(aseguradora);
-            console.log(mensaje);
+            //console.log(aseguradora);
+            //console.log(mensaje);
             // Referecnia de la tabla
             const tablaResumenCotBody = document.querySelector(
               "#tablaResumenCot tbody"
@@ -2306,8 +2300,8 @@ function cotizarOfertasMotos() {
         if (aseguradora == "Estado2") {
           aseguradora = "Estado";
         }
-        console.log(aseguradora);
-        console.log(mensaje);
+        //console.log(aseguradora);
+        //console.log(mensaje);
         // Referecnia de la tabla
         const tablaResumenCotBody = document.querySelector(
           "#tablaResumenCot tbody"

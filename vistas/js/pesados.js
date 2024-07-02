@@ -369,6 +369,7 @@ $(document).ready(function () {
             title: "custom-swal-titlePesados",
             confirmButton: "custom-swal-confirm-button24",
             actions: "custom-swal-actions-pesados",
+            icon: "swal2-icon_monto"
           },
         })
         .then(function (result) {
@@ -389,6 +390,9 @@ $(document).ready(function () {
                     width: "90%",
                     showConfirmButton: true,
                     confirmButtonText: "Cerrar",
+                    customClass: {
+                      popup: "custom-swal-popupCotExcep",
+                    },
                   })
                   .then(function (result) {
                     if (result.value) {
@@ -416,10 +420,8 @@ $(document).ready(function () {
               showConfirmButton: true,
               confirmButtonText: "Cerrar",
               customClass: {
-                popup: "custom-swal-popup",
-                title: "custom-swal-title",
-                content: "custom-swal-content",
-                confirmButton: "custom-swal-confirm-button",
+                popup: "custom-swal-popupCotExcep",
+                icon: "swal2-icon_monto"
               },
             })
             .then(function (result) {

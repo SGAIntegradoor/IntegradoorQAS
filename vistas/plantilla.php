@@ -168,6 +168,11 @@ if (isset($_SESSION)) {
       font-size: 1.4em !important;
       /* Ajusta el tamaño de la fuente del botón */
     }
+
+  .custom-swal-popupCotExce{
+    width: 40%;
+  }
+
   </style>
 
 
