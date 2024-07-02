@@ -41,7 +41,7 @@ checkUserStatus();
 	$(document).ready(function() {
 		// Obtener el valor de la variable de sesión PHP en JavaScript
 		let permisosCotizacionesTotales = <?php echo isset($cotizTotales) ? json_encode($cotizTotales) : 'null'; ?>;
-
+		// let cotHechas = mostrar
 		var arrayCot = ["menuCotLiv", "menuCotMot", "menuCotPes", "menuCotMas"];
 
 		// Verificar si el valor obtenido es válido y está definido

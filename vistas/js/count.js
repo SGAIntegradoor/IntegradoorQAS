@@ -77,7 +77,7 @@ getRolUser().then(function(respuesta) {
     console.error("Error fetching user role:", error);
 });
 
-async function mostrarCotRestantes (){
+async function mostrarCotRestantes() {
     let fecha1 = new Date();
 
     // Obtener el último día del mes pasado
@@ -85,7 +85,7 @@ async function mostrarCotRestantes (){
     const month = String(fecha1.getMonth() + 1).padStart(2, '0');
     const startDay = '01';
     const nowDate = `${year}-${month}-${startDay}`;
-    
+
     // Obtener el último día del mes actual
     let endOfMonthDate = new Date(fecha1.getFullYear(), fecha1.getMonth() + 1, 0);
     const yearEndOfMonth = endOfMonthDate.getFullYear();
@@ -100,7 +100,7 @@ async function mostrarCotRestantes (){
             method: "POST",
             data: { fechaInicio: nowDate, fechaFin: lastDateOfCurrentMonth },
             success: function (respuesta) {
-                $p = document.getElementById("cotRestantes1");
+                let $p = document.getElementById("cotRestantes1");
                 if ($p) {
                     $p.innerHTML = respuesta;
                 }
@@ -112,9 +112,8 @@ async function mostrarCotRestantes (){
         });
     });
 
-    // console.log(response);
-
     return response;
 }
+
 
 mostrarCotRestantes();
