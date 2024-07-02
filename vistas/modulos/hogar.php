@@ -411,7 +411,7 @@ select:invalid + .error-message {
                         <!-- TITULO FORMULARIO VIAJES -->
                     <h4 style="font-family: 'Arial Arabic', Arial; font-weight: bold; margin-bottom: 5px; margin-top: 3px;">Solicita una cotización en el siguiente formulario:</h4>
                     <div style="width: 100%; max-width: 640px; margin: 0 auto; margin-top: 30px; margin-bottom: -2px">
-                        <img src="vistas/img/bannerHogar.png" alt="Banner de hogar" style="width: 90%; height: auto; display: block; margin: 0 auto;">
+                        <img src="vistas/img/bannerHogar.png" alt="Banner de hogar" style="width: 100%; height: auto; display: block; margin: 0 auto;">
                         <iframe src="https://docs.google.com/forms/d/e/1FAIpQLScks_rMKBx5uGqHWaqLSkUvJP5hBc8jls2msWKYM0AVsXWxXw/viewform?embedded=true" width="640" height="1950" frameborder="0" marginheight="0" marginwidth="0">Cargando…</iframe>
                     </div>
                 </div>
