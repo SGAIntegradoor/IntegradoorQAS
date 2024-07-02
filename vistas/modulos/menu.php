@@ -197,14 +197,14 @@ checkUserStatus();
 			/*=============================================
 		COTIZACIONES MASIVAS
 		=============================================*/
-			if ($_SESSION["permisos"]["Cotizacionesmasivas"] == "x") {
-				echo  '<li class="' . ($currentPage == 'livianoMasivas' ? 'active' : '') . '">
-				<a id="menuCotMas" href="livianoMasivas">
-					<i class="fa fa-file-archive-o"></i>
-					<span>Cotizaciones masivas liviano</span>
-				</a>
-			</li>';
-			}
+			// if ($_SESSION["permisos"]["Cotizacionesmasivas"] == "x") {
+			// 	echo  '<li class="' . ($currentPage == 'livianoMasivas' ? 'active' : '') . '">
+			// 	<a id="menuCotMas" href="livianoMasivas">
+			// 		<i class="fa fa-file-archive-o"></i>
+			// 		<span>Cotizaciones masivas liviano</span>
+			// 	</a>
+			// </li>';
+			// }
 			/*=============================================
 		PESADOS
 		=============================================*/
@@ -228,6 +228,18 @@ checkUserStatus();
 				</a>
 			</li>';
 			}
+
+			/*=============================================
+		HOGAR
+		=============================================*/
+		if (isset($_SESSION["permisos"])) {
+			echo '<li id="menuCotHog" class="' . ($currentPage == 'hogar' ? 'active' : '') . '">
+			<a href="hogar">
+				<i class="fa-solid fa-house-circle-check"></i>
+				<span>Cotizar Hogar</span>
+			</a>
+		</li>';
+		}
 
 			/*=============================================
 		MÓDULO SOAT
