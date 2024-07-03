@@ -2118,8 +2118,8 @@ function cotizarOfertasMotos() {
 
           Promise.all(cont).then(() => {
              // $("#btnCotizar").hide();
-              //$("#loaderOferta").html("");
-              //$("#loaderOfertaBox").css("display", "none");
+              $("#loaderOferta").html("");
+              $("#loaderOfertaBox").css("display", "none");
               swal
                 .fire({
                   title: "¡Proceso de Cotización Finalizada!",

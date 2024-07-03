@@ -52,31 +52,31 @@ checkUserStatus();
 			arrayCot.forEach(view => {
 				return $(`#${view}`).on("click", function(e) {
 					// Verificar los permisos
-					if (cotHechas >= permisosCotizacionesTotales ) {
-						e.preventDefault();
-						swal
-							.fire({
-								icon: "error",
-								title: "Sin Cotizaciones Disponibles",
-								html: `<div style="text-align: justify; font-family: Helvetica, Arial, sans-serif; font-size: 15px; border-radius: 4px; padding: 8px;">El usuario no cuenta con cotizaciones disponibles. En este momento solo podrás visualizar las cotizaciones realizadas hasta que se agoten los días habilitados. Si quieres seguir haciendo cotizaciones solicita vincularte al Programa. Comunícate con el área encargada de vinculaciones de Grupo Asistencia al:
-								<br><br>
-								<div style="text-align: center;">📱<strong>+573185127910</strong> o vía 📧 <strong>mercadeo@grupoasistencia.com</strong> </div></div>`,
-								width: "60%",
-								showConfirmButton: true,
-								confirmButtonText: "Cerrar",
-								customClass: {
-									popup: "custom-swal-popup",
-									title: "custom-swal-title",
-									content: "custom-swal-content",
-									confirmButton: "custom-swal-confirm-button",
-								},
-							})
-							.then(function(result) {
-								if (result.value) {
-									window.location = "inicio";
-								}
-							});
-					}
+					// if (cotHechas >= permisosCotizacionesTotales ) {
+					// 	e.preventDefault();
+					// 	swal
+					// 		.fire({
+					// 			icon: "error",
+					// 			title: "Sin Cotizaciones Disponibles",
+					// 			html: `<div style="text-align: justify; font-family: Helvetica, Arial, sans-serif; font-size: 15px; border-radius: 4px; padding: 8px;">El usuario no cuenta con cotizaciones disponibles. En este momento solo podrás visualizar las cotizaciones realizadas hasta que se agoten los días habilitados. Si quieres seguir haciendo cotizaciones solicita vincularte al Programa. Comunícate con el área encargada de vinculaciones de Grupo Asistencia al:
+					// 			<br><br>
+					// 			<div style="text-align: center;">📱<strong>+573185127910</strong> o vía 📧 <strong>mercadeo@grupoasistencia.com</strong> </div></div>`,
+					// 			width: "60%",
+					// 			showConfirmButton: true,
+					// 			confirmButtonText: "Cerrar",
+					// 			customClass: {
+					// 				popup: "custom-swal-popup",
+					// 				title: "custom-swal-title",
+					// 				content: "custom-swal-content",
+					// 				confirmButton: "custom-swal-confirm-button",
+					// 			},
+					// 		})
+					// 		.then(function(result) {
+					// 			if (result.value) {
+					// 				window.location = "inicio";
+					// 			}
+					// 		});
+					// }
 				});
 			})
 		}

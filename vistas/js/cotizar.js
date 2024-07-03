@@ -331,16 +331,15 @@ $(document).ready(function () {
   // }
 
   async function checkCotTotales() {
-
     let cotHechas = await mostrarCotRestantes();
-    console.log(cotHechas)
+    console.log(cotHechas);
 
     return new Promise(function (resolve, reject) {
       $.ajax({
         type: "POST",
         url: "src/updateCotizacionesTotales.php",
         dataType: "json",
-        data: { cotHechas: cotHechas},
+        data: { cotHechas: cotHechas },
         success: function (data) {
           resolve(data);
         },
@@ -349,21 +348,19 @@ $(document).ready(function () {
         },
       });
     });
-
   }
 
   let intermediario = document.getElementById("idIntermediario").value;
 
   // Ejectura la funcion Cotizar Ofertas
   $("#btnCotizar").click(function (e) {
+    let deptoCirc = $("#DptoCirculacion").val();
+    let ciudadCirc = $("#ciudadCirculacion").val();
 
-    let deptoCirc = $('#DptoCirculacion').val();
-    let ciudadCirc = $('#ciudadCirculacion').val();
-
-    if(!deptoCirc){
+    if (!deptoCirc) {
       return;
     }
-    if(!ciudadCirc){
+    if (!ciudadCirc) {
       return;
     }
 
@@ -444,7 +441,7 @@ $(document).ready(function () {
             title: "custom-swal-titleLivianos",
             confirmButton: "custom-swal-confirm-button20",
             actions: "custom-swal-actions-livianos",
-            icon: "swal2-icon_monto"
+            icon: "swal2-icon_monto",
           },
         })
         .then(function (result) {
@@ -1323,7 +1320,7 @@ function cotizarFinesa(ofertasCotizaciones) {
     };
 
     if (element.cotizada == null || element.cotizada == false) {
-      console.log(element)
+      //console.log(element);
       promisesFinesa.push(
         fetch(
           "https://www.grupoasistencia.com/motor_webservice/paymentInstallmentsFinesa",
@@ -1361,7 +1358,11 @@ function cotizarFinesa(ofertasCotizaciones) {
                 if (dbData?.data?.mensaje.includes("Por políticas de Finesa")) {
                   cotizacionesFinesa[index].cotizada = true;
                   elementDiv.innerHTML = `Financiación:<br /> No aplica financiación`;
-                } else if(dbData?.data.mensaje.includes("Asegurado no viable para financiacion")) {
+                } else if (
+                  dbData?.data.mensaje.includes(
+                    "Asegurado no viable para financiacion"
+                  )
+                ) {
                   cotizacionesFinesa[index].cotizada = true;
                   elementDiv.innerHTML = `Financiación Finesa:<br /> Asegurado no viable para financiación`;
                 } else {
@@ -1384,14 +1385,20 @@ function cotizarFinesa(ofertasCotizaciones) {
           })
       );
     } else {
+      $("#loaderRecotOferta").html("");
+      $("#loaderRecotOfertaBox").css("display", "none");
+      //console.log(cotizacionesFinesa);
       return;
-      console.log(cotizacionesFinesa);
     }
   });
 
   Promise.all(promisesFinesa)
     .then((results) => {
       cotEnFinesaResponse = saveQuotations(results);
+      $("#loaderOferta").html("");
+      $("#loaderOfertaBox").css("display", "none");
+      $("#loaderRecotOferta").html("");
+      $("#loaderRecotOfertaBox").css("display", "none");
       swal
         .fire({
           title: "¡Cotización a Finesa Finalizada!",
@@ -1401,6 +1408,7 @@ function cotizarFinesa(ofertasCotizaciones) {
         .then(() => {
           $("#loaderOferta").html("");
           $("#loaderOfertaBox").css("display", "none");
+
         });
     })
     .catch((error) => {
@@ -1591,7 +1599,17 @@ const mostrarOferta = (
                     </div>
                        </div>
                        <div class="col-xs-12 col-sm-6 col-md-2 oferta-header">
-                       <h5 class='entidad' style='font-size: 15px'>${aseguradora} - ${producto == "Pesados con RCE en exceso" ? "Pesados RCE + Exceso" : producto}</h5>
+                       <h5 class='entidad' style='font-size: 15px'>${aseguradora} - <b>${
+                        producto == "Pesados con RCE en exceso"
+                          ? "Pesados RCE + Exceso"
+                          : producto == "PREVILIVIANOS INDIVIDUAL - "
+                          ? "PREVILIVIANOS INDIVIDUAL"
+                          : producto == "AU DEDUCIBLE UNICO LIVIANOS - "
+                          ? "AU DEDUCIBLE UNICO LIVIANOS"
+                          : producto == "LIVIANOS MIA - "
+                          ? "LIVIANOS MIA"
+                          : producto
+                      }</b></h5>
                        <h5 class='precio' style='margin-top: 0px !important;'>Desde $ ${prima}</h5>
                        <p class='title-precio' style='margin: 0 0 3px !important'>Precio (IVA incluido)</p>
                        <div id='${actIdentity}' style='display: none; color: #88d600; font-weight: bold'>
@@ -1697,8 +1715,7 @@ const mostrarOferta = (
 function validarOfertas(ofertas, aseguradora, exito) {
   let contadorPorEntidad = {};
 
-  if(aseguradora == "Bolivar" || aseguradora == "Seguros Bolivar"){
-
+  if (aseguradora == "Bolivar" || aseguradora == "Seguros Bolivar") {
   }
 
   ofertas.forEach((oferta, i) => {
@@ -2672,11 +2689,11 @@ function cotizarOfertas() {
                     );
                     cotizarFinesa(cotizacionesFinesa);
                   } else if (result.isDismissed) {
-                    if (result.dismiss === 'cancel') {
+                    if (result.dismiss === "cancel") {
                       // console.log("El usuario seleccionó 'No'");
                       $("#loaderOferta").html("");
                       $("#loaderOfertaBox").css("display", "none");
-                    } else if (result.dismiss === 'backdrop') {
+                    } else if (result.dismiss === "backdrop") {
                       $("#loaderOferta").html("");
                       $("#loaderOfertaBox").css("display", "none");
                     }
@@ -3420,13 +3437,13 @@ function cotizarOfertas() {
                 );
                 cotizarFinesa(cotizacionesFinesa);
               } else if (result.isDismissed) {
-                if (result.dismiss === 'cancel') {
+                if (result.dismiss === "cancel") {
                   // console.log("El usuario seleccionó 'No'");
-                  $("#loaderRecotOferta").html("");
                   $("#loaderRecotOfertaBox").css("display", "none");
-                } else if (result.dismiss === 'backdrop') {
                   $("#loaderRecotOferta").html("");
+                } else if (result.dismiss === "backdrop") {
                   $("#loaderRecotOfertaBox").css("display", "none");
+                  $("#loaderRecotOferta").html("");
                 }
               }
             });

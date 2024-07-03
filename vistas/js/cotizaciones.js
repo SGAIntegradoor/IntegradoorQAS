@@ -1313,12 +1313,17 @@ function editarCotizacion(id) {
                       }'>
                       <h5 class='entidad' style='font-size: 15px'>${
                         oferta.Aseguradora
-                      } - ${
-                oferta.Aseguradora == "Mundial" &&
-                oferta.Producto == "Pesados con RCE en exceso"
-                  ? "Pesados RCE + Exceso"
-                  : oferta.Producto
-              }</h5>
+                      } - <b>${
+                        oferta.Producto == "Pesados con RCE en exceso"
+                          ? "Pesados RCE + Exceso"
+                          : oferta.Producto == "PREVILIVIANOS INDIVIDUAL - "
+                          ? "PREVILIVIANOS INDIVIDUAL"
+                          : oferta.Producto == "AU DEDUCIBLE UNICO LIVIANOS - "
+                          ? "AU DEDUCIBLE UNICO LIVIANOS"
+                          : oferta.Producto == "LIVIANOS MIA - "
+                          ? "LIVIANOS MIA"
+                          : oferta.Producto
+                      }</b></h5>
                       <h5 class='precio' style='${
                         oferta.Aseguradora == "Liberty"
                           ? "padding-bottom: 0px; !important"
