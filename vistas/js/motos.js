@@ -46,11 +46,60 @@ $(document).ready(function () {
     if (!ciudadCirc) {
       return;
     }
-
     masRE();
+    if (intermediario != 3) {
+          checkCotTotales().then((response) => {
+            if (response.result == 1 || response.result == 2) {
+              cotizarOfertasMotos();
+            } else {
+              e.preventDefault();
+              mostrarAlertaCotizacionesExcedidasMotos();
+            }
+          });
+    } else {
+      checkCotTotales().then((response) => {
+        if (response.result == 1 || response.result == 2) {
+          mostrarPoliticaValorAseguradoMotos();
+          cotizarOfertasMotos();
+        } else {
+          e.preventDefault();
+          mostrarAlertaCotizacionesExcedidasMotos();
+        }
+      });
+    }
+  });
 
-    if (intermediario == 3) {
-      swal
+  function mostrarAlertaCotizacionesExcedidasMotos() {
+    swal
+            .fire({
+              icon: "error",
+              title: "Cotizaciones Totales Excedidas",
+              html: `<div style="text-align: justify; font-family: Helvetica, Arial, sans-serif; font-size: 15px; border-radius: 4px; padding: 8px;">El usuario ha excedido las cotizaciones totales. En este momento solo podrás visualizar las cotizaciones realizadas hasta que se agoten los días habilitados. Si quieres seguir haciendo cotizaciones solicita vincularte al Programa. Comunícate con el área encargada de vinculaciones de Grupo Asistencia al:
+                  <br><br>
+                  <div style="text-align: center;">📱+573185127910 o vía 📧 mercadeo@grupoasistencia.com </div></div>`,
+              width: "90%",
+              showConfirmButton: true,
+              confirmButtonText: "Cerrar",
+              customClass: {
+                popup: "custom-swal-popupCotExcep",
+                icon: "swal2-icon_monto",
+              },
+            })
+            .then(function (result) {
+              if (result.isConfirmed) {
+                window.location = "inicio";
+              } else if (result.isDismissed) {
+                if (result.dismiss === "cancel") {
+                  window.location = "inicio";
+                } else if (result.dismiss === "backdrop") {
+                  window.location = "inicio";
+                }
+              }
+            });
+  }
+  
+  function mostrarPoliticaValorAseguradoMotos() {
+    swal
         .fire({
           icon: "warning",
           title: "POL\u00cdTICA DE VALOR ASEGURADO MOTOS",
@@ -65,64 +114,11 @@ $(document).ready(function () {
             actions: "custom-swal-actions-motos",
             icon: "swal2-icon_monto",
           },
+          timer: 20000,
+          timerProgressBar: true,
         })
-        .then(function (result) {
-          if (result.value) {
-            checkCotTotales().then((response) => {
-              if (response.result == 1 || response.result == 2) {
-                cotizarOfertasMotos();
-              } else {
-                e.preventDefault();
-                swal
-                  .fire({
-                    icon: "error",
-                    title: "Cotizaciones Totales Excedidas",
-                    html: `<div style="text-align: justify; font-family: Helvetica, Arial, sans-serif; font-size: 15px; border-radius: 4px; padding: 8px;"> Lo sentimos. No tienes cotizaciones disponibles, por favor comunicate con tu analista asignado.`,
-                    width: "50%",
-                    showConfirmButton: true,
-                    confirmButtonText: "Cerrar",
-                    customClass: {
-                      popup: "custom-swal-popupCotExcep",
-                    },
-                  })
-                  .then(function (result) {
-                    if (result.value) {
-                      window.location = "inicio";
-                    }
-                  });
-              }
-            });
-          }
-        });
-    } else {
-      checkCotTotales().then((response) => {
-        if (response.result == 1 || response.result == 2) {
-          cotizarOfertasMotos();
-        } else {
-          e.preventDefault();
-          swal
-            .fire({
-              icon: "error",
-              title: "Cotizaciones Totales Excedidas",
-              html: `<div style="text-align: justify; font-family: Helvetica, Arial, sans-serif; font-size: 15px; border-radius: 4px; padding: 8px;">El usuario ha excedido las cotizaciones totales. En este momento solo podrás visualizar las cotizaciones realizadas hasta que se agoten los días habilitados. Si quieres seguir haciendo cotizaciones solicita vincularte al Programa. Comunícate con el área encargada de vinculaciones de Grupo Asistencia al:
-                    <br><br>
-                    <div style="text-align: center;">📱+573185127910 o vía 📧 mercadeo@grupoasistencia.com </div></div>`,
-              width: "90%",
-              showConfirmButton: true,
-              confirmButtonText: "Cerrar",
-              customClass: {
-                popup: "custom-swal-popupCotExcep",
-              },
-            })
-            .then(function (result) {
-              if (result.value) {
-                window.location = "inicio";
-              }
-            });
-        }
-      });
-    }
-  });
+  }
+
 
   $("#btnConsultarPlacaMotos").click(function () {
     consulPlacaMotos();
@@ -1994,7 +1990,7 @@ function cotizarOfertasMotos() {
                     .then((ofertas) => {
                       if (typeof ofertas.Resultado !== "undefined") {
                         validarProblemaMotos("Zurich", ofertas);
-                        agregarAseguradoraFallida(plan);
+                        agregarAseguradoraFallidaMotos(plan);
                         ofertas.Mensajes.forEach((mensaje) => {
                           mostrarAlertarCotizacionFallida(`Zurich`, mensaje);
                         });
@@ -2011,7 +2007,7 @@ function cotizarOfertasMotos() {
                       }
                     })
                     .catch((err) => {
-                      agregarAseguradoraFallida(plan);
+                      agregarAseguradoraFallidaMotos(plan);
                       mostrarAlertarCotizacionFallida(
                         "Zurich",
                         "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
@@ -2038,7 +2034,7 @@ function cotizarOfertasMotos() {
                       let result = [];
                       result.push(ofertas);
                       if (typeof result[0].Resultado !== "undefined") {
-                        agregarAseguradoraFallida("Estado");
+                        agregarAseguradoraFallidaMotos("Estado");
                         validarProblema(aseguradora, result);
                         result[0].Mensajes.forEach((mensaje) => {
                           mostrarAlertarCotizacionFallida(aseguradora, mensaje);
@@ -2059,7 +2055,7 @@ function cotizarOfertasMotos() {
                       }
                     })
                     .catch((err) => {
-                      agregarAseguradoraFallida("Estado");
+                      agregarAseguradoraFallidaMotos("Estado");
                       mostrarAlertarCotizacionFallida(
                         aseguradora,
                         "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
@@ -2381,7 +2377,7 @@ function cotizarOfertasMotos() {
             })
             .then((ofertas) => {
               if (typeof ofertas[0].Resultado !== "undefined") {
-                agregarAseguradoraFallida("Liberty");
+                agregarAseguradoraFallidaMotos("Liberty");
                 validarProblema("Liberty", ofertas);
                 ofertas[0].Mensajes.forEach((mensaje) => {
                   mostrarAlertarCotizacionFallida("Liberty", mensaje);
@@ -2397,7 +2393,7 @@ function cotizarOfertasMotos() {
               }
             })
             .catch((err) => {
-              agregarAseguradoraFallida("Liberty");
+              agregarAseguradoraFallidaMotos("Liberty");
               mostrarAlertarCotizacionFallida(
                 "Liberty",
                 "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
@@ -2420,7 +2416,7 @@ function cotizarOfertasMotos() {
             })
             .then((ofertas) => {
               if (typeof ofertas[0].Resultado !== "undefined") {
-                agregarAseguradoraFallida("Allianz");
+                agregarAseguradoraFallidaMotos("Allianz");
                 validarProblema("Allianz", ofertas);
                 ofertas[0].Mensajes.forEach((mensaje) => {
                   mostrarAlertarCotizacionFallida("Allianz", mensaje);
@@ -2436,7 +2432,7 @@ function cotizarOfertasMotos() {
               }
             })
             .catch((err) => {
-              agregarAseguradoraFallida("Allianz");
+              agregarAseguradoraFallidaMotos("Allianz");
               mostrarAlertarCotizacionFallida(
                 "Allianz",
                 "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
@@ -2470,7 +2466,7 @@ function cotizarOfertasMotos() {
               }
             })
             .catch((err) => {
-              agregarAseguradoraFallida("AXA");
+              agregarAseguradoraFallidaMotos("AXA");
               mostrarAlertarCotizacionFallida(
                 "AXA",
                 "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
@@ -2522,7 +2518,11 @@ function cotizarOfertasMotos() {
       Promise.all(cont).then(() => {
         // $("#loaderOferta").html("");
         $("#loaderRecotOferta").html("");
-        swal
+        let nuevas = cotizacionesFinesaMotos.filter((cotizaciones) => 
+          cotizaciones.cotizada == null
+        );
+        if(nuevas.length > 0){
+          swal
           .fire({
             title: "¡Proceso de Re-Cotización Finalizada!",
             text: "¿Deseas incluir la financiación con Finesa a 11 cuotas?",
@@ -2557,6 +2557,33 @@ function cotizarOfertasMotos() {
               }
             }
           });
+        } else {
+          swal
+            .fire({
+              title: "¡Proceso de Re-Cotización Finalizada!",
+              showConfirmButton: true,
+              confirmButtonText: "Cerrar",
+            })
+          // .then(function (result) {
+          //   if (result.isConfirmed) {
+          //     $("#loaderRecotOfertaBox").css("display", "block");
+          //     $("#loaderRecotOferta").html(
+          //       '<img src="vistas/img/plantilla/loader-update.gif" width="34" height="34"><strong>Re-Cotizando en Finesa...</strong>'
+          //     );
+          //     cotizarFinesaMotos(cotizacionesFinesaMotos);
+          //   } else if (result.isDismissed) {
+          //     if (result.dismiss === "cancel") {
+          //       // console.log("El usuario seleccionó 'No'");
+          //       $("#loaderRecotOferta").html("");
+          //       $("#loaderRecotOfertaBox").css("display", "none");
+          //     } else if (result.dismiss === "backdrop") {
+          //       $("#loaderRecotOferta").html("");
+          //       $("#loaderRecotOfertaBox").css("display", "none");
+          //     }
+          //   }
+          // });
+        }
+        
       });
     }
   }

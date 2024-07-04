@@ -206,7 +206,7 @@ if ($_SESSION["permisos"]["Cotizarpesados"] != "x") {
     border-radius: 15px !important;
   }
 
-   .swal2-icon_monto {
+  .swal2-icon_monto {
     width: 90px;
     height: 90px;
     border: 4px solid #f8bb86 !important;
@@ -303,7 +303,7 @@ if ($_SESSION["permisos"]["Cotizarpesados"] != "x") {
       padding: 0px
     }
 
-     .swal2-icon_monto {
+    .swal2-icon_monto {
       width: 60px !important;
       height: 60px !important;
       border: 3px solid #f8bb86 !important;
@@ -381,7 +381,7 @@ if ($_SESSION["permisos"]["Cotizarpesados"] != "x") {
       font-size: 12px !important;
     }
 
-     .swal2-icon_monto {
+    .swal2-icon_monto {
       width: 60px !important;
       height: 60px !important;
       border: 3px solid #f8bb86 !important;
@@ -458,7 +458,7 @@ if ($_SESSION["permisos"]["Cotizarpesados"] != "x") {
       font-size: 12px !important;
     }
 
-     .swal2-icon_monto {
+    .swal2-icon_monto {
       width: 60px !important;
       height: 60px !important;
       border: 3px solid #f8bb86 !important;
@@ -538,7 +538,7 @@ if ($_SESSION["permisos"]["Cotizarpesados"] != "x") {
       font-size: 12px !important;
     }
 
-     .swal2-icon_monto {
+    .swal2-icon_monto {
       margin-top: 10px;
       width: 60px !important;
       height: 60px !important;
@@ -623,7 +623,7 @@ if ($_SESSION["permisos"]["Cotizarpesados"] != "x") {
       font-size: 12px !important;
     }
 
-     .swal2-icon_monto {
+    .swal2-icon_monto {
       margin-top: 0px;
       width: 60px !important;
       height: 60px !important;
@@ -712,7 +712,7 @@ if ($_SESSION["permisos"]["Cotizarpesados"] != "x") {
       padding-bottom: 17px;
     }
 
-     .swal2-icon_monto {
+    .swal2-icon_monto {
       width: 90px !important;
       height: 90px !important;
       border: 3px solid #f8bb86 !important;
@@ -1339,8 +1339,11 @@ if ($_SESSION["permisos"]["Cotizarpesados"] != "x") {
                   <div class="col-xs-12 col-sm-6 col-md-3 form-group">
                     <button class="btn btn-primary btn-block" id="btnCotizarPesados">Cotizar Ofertas</button>
                   </div>
-                  <div class="col-xs-12 col-sm-6 col-md-3 form-group">
+                  <div class="col-xs-12 col-sm-6 col-md-3 form-group" id="loaderOfertaBox">
                     <div id="loaderOferta"></div>
+                  </div>
+                  <div class="col-xs-12 col-sm-6 col-md-3 form-group" id="loaderRecotOfertaBox">
+                    <div id="loaderRecotOferta"></div>
                   </div>
                 </div>
               </div>

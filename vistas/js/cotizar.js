@@ -352,131 +352,122 @@ $(document).ready(function () {
 
   let intermediario = document.getElementById("idIntermediario").value;
 
-  // Ejectura la funcion Cotizar Ofertas
   $("#btnCotizar").click(function (e) {
     let deptoCirc = $("#DptoCirculacion").val();
     let ciudadCirc = $("#ciudadCirculacion").val();
-
+  
     if (!deptoCirc) {
       return;
     }
     if (!ciudadCirc) {
       return;
     }
-
     masRE();
-
     if (intermediario != 3) {
       checkCotTotales().then((response) => {
         if (response.result == 1 || response.result == 2) {
           cotizarOfertas();
         } else {
           e.preventDefault();
-          swal
-            .fire({
-              icon: "error",
-              title: "Cotizaciones Totales Excedidas",
-              html: `<div style="text-align: justify; font-family: Helvetica, Arial, sans-serif; font-size: 15px; border-radius: 4px; padding: 8px;"> Lo sentimos. No tienes cotizaciones disponibles, por favor comunicate con tu analista asignado.`,
-              width: "50%",
-              showConfirmButton: true,
-              confirmButtonText: "Cerrar",
-              customClass: {
-                popup: "custom-swal-popupCotExcep",
-              },
-            })
-            .then(function (result) {
-              if (result.value) {
-                window.location = "inicio";
-              }
-            });
+          mostrarAlertaCotizacionesExcedidas();
         }
       });
     } else {
-      swal
-        .fire({
-          icon: "warning",
-          title: "POLÍTICA DE VALOR ASEGURADO<br>LIVIANOS",
-          html: `
-        <div style="overflow-x: auto;">
-          <table style="border: 2px solid gray; border-collapse: collapse;" id="tableModal">
-            <thead style="padding: 5px;">
-              <tr style="border: 2px solid gray; text-align: center">
-                <th style="border: 2px solid gray; padding: 10px; height: 50px; text-align: center" id="tdAsegurado">Valor Asegurado</th>
-                <th style="border: 2px solid gray; padding: 10px; height: 50px; text-align: center" id="tdCondiciones">Condiciones</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr style="border: 2px solid gray;">
-                <td style="border: 2px solid gray; padding: 10px;">Menos de 200 millones</td>
-                <td style="border: 2px solid gray; padding: 10px;">De acuerdo a políticas de cada aseguradora</td>
-              </tr>
-              <tr style="border: 2px solid gray;">
-                <td style="border: 2px solid gray; padding: 10px;">200 a 250 millones</td>
-                <td style="border: 2px solid gray; padding: 10px;">Requieren autorización del Director Comercial de Grupo Asistencia</td>
-              </tr>
-              <tr style="border: 2px solid gray;">
-                <td style="border: 2px solid gray; padding: 10px;">250 a 300 millones</td>
-                <td style="border: 2px solid gray; padding: 10px;">Requieren autorización de Gerencia de Grupo Asistencia de acuerdo al nivel de productividad del Asesor</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <p style="text-align: justify; font-family: Helvetica, Arial, sans-serif;" id="pTableModal">
-          <strong>Nota:</strong> Vehículos livianos con valor asegurado mayor a 300 millones no
-          son asegurables para Grupo Asistencia; Ten en cuenta que aunque el
-          cotizador te genere ofertas, no todos los vehículos son asegurables. Si
-          el cliente tiene vinculación con otros productos de la aseguradora se
-          pueden autorizar valores asegurados superiores. Cuando el valor
-          asegurado sea superior a los montos indicados, el valor de las primas
-          puede variar en el momento de emitir en caso de autorización.
-        </p>
-      `,
-          width: "30%",
-          showConfirmButton: true,
-          confirmButtonText: "Continuar",
-          customClass: {
-            popup: "custom-swal-alertaMontoLivianos",
-            title: "custom-swal-titleLivianos",
-            confirmButton: "custom-swal-confirm-button20",
-            actions: "custom-swal-actions-livianos",
-            icon: "swal2-icon_monto",
-          },
-        })
-        .then(function (result) {
-          if (result.value) {
-            checkCotTotales().then((response) => {
-              if (response.result == 1 || response.result == 2) {
-                cotizarOfertas();
-              } else {
-                e.preventDefault();
-                swal
-                  .fire({
-                    icon: "error",
-                    title: "Cotizaciones Totales Excedidas",
-                    html: `<div style="text-align: justify; font-family: Helvetica, Arial, sans-serif; font-size: 15px; border-radius: 4px; padding: 8px;">El usuario ha excedido las cotizaciones totales. En este momento solo podrás visualizar las cotizaciones realizadas hasta que se agoten los días habilitados. Si quieres seguir haciendo cotizaciones solicita vincularte al Programa. Comunícate con el área encargada de vinculaciones de Grupo Asistencia al:
-                      <br><br>
-                      <div style="text-align: center;">📱+573185127910 o vía 📧 mercadeo@grupoasistencia.com </div></div>`,
-                    width: "90%",
-                    showConfirmButton: true,
-                    confirmButtonText: "Cerrar",
-                    customClass: {
-                      popup: "custom-swal-popupCotExcep",
-                    },
-                  })
-                  .then(function (result) {
-                    if (result.value) {
-                      window.location = "inicio";
-                    }
-                  });
-              }
-            });
+        checkCotTotales().then((response) => {
+          if (response.result == 1 || response.result == 2) {
+            mostrarPoliticaValorAsegurado();
+            cotizarOfertas();
+          } else {
+            e.preventDefault();
+            mostrarAlertaCotizacionesExcedidas();
           }
         });
     }
   });
-  // $("#btnCotizarPesados").click(function () {
-  //   cotizarOfertasPesados();
-  // });
+  
+  function mostrarAlertaCotizacionesExcedidas() {
+    swal
+            .fire({
+              icon: "error",
+              title: "Cotizaciones Totales Excedidas",
+              html: `<div style="text-align: justify; font-family: Helvetica, Arial, sans-serif; font-size: 15px; border-radius: 4px; padding: 8px;">El usuario ha excedido las cotizaciones totales. En este momento solo podrás visualizar las cotizaciones realizadas hasta que se agoten los días habilitados. Si quieres seguir haciendo cotizaciones solicita vincularte al Programa. Comunícate con el área encargada de vinculaciones de Grupo Asistencia al:
+                  <br><br>
+                  <div style="text-align: center;">📱+573185127910 o vía 📧 mercadeo@grupoasistencia.com </div></div>`,
+              width: "90%",
+              showConfirmButton: true,
+              confirmButtonText: "Cerrar",
+              customClass: {
+                popup: "custom-swal-popupCotExcep",
+                icon: "swal2-icon_monto",
+              },
+            })
+            .then(function (result) {
+              if (result.isConfirmed) {
+                window.location = "inicio";
+              } else if (result.isDismissed) {
+                if (result.dismiss === "cancel") {
+                  window.location = "inicio";
+                } else if (result.dismiss === "backdrop") {
+                  window.location = "inicio";
+                }
+              }
+            });
+  }
+  
+  function mostrarPoliticaValorAsegurado() {
+    return swal
+      .fire({
+        icon: "warning",
+        title: "POLÍTICA DE VALOR ASEGURADO<br>LIVIANOS",
+        html: `
+          <div style="overflow-x: auto;">
+            <table style="border: 2px solid gray; border-collapse: collapse;" id="tableModal">
+              <thead style="padding: 5px;">
+                <tr style="border: 2px solid gray; text-align: center">
+                  <th style="border: 2px solid gray; padding: 10px; height: 50px; text-align: center" id="tdAsegurado">Valor Asegurado</th>
+                  <th style="border: 2px solid gray; padding: 10px; height: 50px; text-align: center" id="tdCondiciones">Condiciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr style="border: 2px solid gray;">
+                  <td style="border: 2px solid gray; padding: 10px;">Menos de 200 millones</td>
+                  <td style="border: 2px solid gray; padding: 10px;">De acuerdo a políticas de cada aseguradora</td>
+                </tr>
+                <tr style="border: 2px solid gray;">
+                  <td style="border: 2px solid gray; padding: 10px;">200 a 250 millones</td>
+                  <td style="border: 2px solid gray; padding: 10px;">Requieren autorización del Director Comercial de Grupo Asistencia</td>
+                </tr>
+                <tr style="border: 2px solid gray;">
+                  <td style="border: 2px solid gray; padding: 10px;">250 a 300 millones</td>
+                  <td style="border: 2px solid gray; padding: 10px;">Requieren autorización de Gerencia de Grupo Asistencia de acuerdo al nivel de productividad del Asesor</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p style="text-align: justify; font-family: Helvetica, Arial, sans-serif;" id="pTableModal">
+            <strong>Nota:</strong> Vehículos livianos con valor asegurado mayor a 300 millones no
+            son asegurables para Grupo Asistencia; Ten en cuenta que aunque el
+            cotizador te genere ofertas, no todos los vehículos son asegurables. Si
+            el cliente tiene vinculación con otros productos de la aseguradora se
+            pueden autorizar valores asegurados superiores. Cuando el valor
+            asegurado sea superior a los montos indicados, el valor de las primas
+            puede variar en el momento de emitir en caso de autorización.
+          </p>
+        `,
+        width: "30%",
+        showConfirmButton: true,
+        confirmButtonText: "Continuar",
+        customClass: {
+          popup: "custom-swal-alertaMontoLivianos",
+          title: "custom-swal-titleLivianos",
+          confirmButton: "custom-swal-confirm-button20",
+          actions: "custom-swal-actions-livianos",
+          icon: "swal2-icon_monto",
+        },
+        timer: 20000,
+        timerProgressBar: true,
+      });
+  }
 });
 
 // Maximiza el formulario Datos Asegurado
@@ -1353,14 +1344,14 @@ function cotizarFinesa(ofertasCotizaciones) {
               .then((dbResponse) => dbResponse.json())
               .then((dbData) => {
                 const elementDiv = document.getElementById(element.objFinesa);
-                if (dbData?.data?.mensaje.includes("Por políticas de Finesa")) {
+                if (element.aseguradora == "Seguros Bolivar" || element.aseguradora == "Liberty")
+                {
+                   cotizacionesFinesa[index].cotizada = true;
+                   elementDiv.innerHTML = `Financiación Aseguradora:<br /> Consulte analista`;
+                } else if (dbData?.data?.mensaje.includes("Por políticas de Finesa")) {
                   cotizacionesFinesa[index].cotizada = true;
                   elementDiv.innerHTML = `Financiación:<br /> No aplica financiación`;
-                } else if (
-                  dbData?.data.mensaje.includes(
-                    "Asegurado no viable para financiacion"
-                  )
-                ) {
+                } else if (element.aseguradora == "Asegurado no viable para financiacion") {
                   cotizacionesFinesa[index].cotizada = true;
                   elementDiv.innerHTML = `Financiación Finesa:<br /> Asegurado no viable para financiación`;
                 } else {
@@ -1596,7 +1587,7 @@ const mostrarOferta = (
                       }
                     </div>
                        </div>
-                       <div class="col-xs-12 col-sm-6 col-md-2 oferta-header">
+                       <div class="col-xs-12 col-sm-6 col-md-2 oferta-headerEdit">
                        <h5 class='entidad' style='font-size: 15px'><b>${aseguradora} - ${
                         producto == "Pesados con RCE en exceso"
                           ? "Pesados RCE + Exceso"
@@ -3410,7 +3401,11 @@ function cotizarOfertas() {
         Promise.all(cont).then(() => {
           $("#loaderOferta").html("");
           $("#loaderRecotOferta").html("");
-          swal
+          let nuevas = cotizacionesFinesa.find((cotizaciones) => 
+            cotizaciones.cotizada == null
+          );
+          if(nuevas.length > 0){
+            swal
             .fire({
               title: "¡Proceso de Re-Cotización Finalizada!",
               text: "¿Deseas incluir la financiación con Finesa a 11 cuotas?",
@@ -3428,13 +3423,13 @@ function cotizarOfertas() {
               },
             })
             .then(function (result) {
-              if (result.isConfirmed) {
+              if ((result.isConfirmed && nuevas.length > 0)) {
                 $("#loaderRecotOfertaBox").css("display", "block");
                 $("#loaderRecotOferta").html(
                   '<img src="vistas/img/plantilla/loader-update.gif" width="34" height="34"><strong>Re-Cotizando en Finesa...</strong>'
                 );
                 cotizarFinesa(cotizacionesFinesa);
-              } else if (result.isDismissed) {
+              } else if (result.isDismissed && cotizacionesFinesaMotos) {
                 if (result.dismiss === "cancel") {
                   // console.log("El usuario seleccionó 'No'");
                   $("#loaderRecotOfertaBox").css("display", "none");
@@ -3445,6 +3440,15 @@ function cotizarOfertas() {
                 }
               }
             });
+          } else {
+            swal
+            .fire({
+              title: "¡Proceso de Re-Cotización Finalizada!",
+              showConfirmButton: true,
+              confirmButtonText: "Cerrar",
+            })
+          }
+          
         });
       }
       let zurichErrors = true;

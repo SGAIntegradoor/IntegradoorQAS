@@ -116,6 +116,8 @@ if (isset($_SESSION)) {
   <link rel="stylesheet" href="vistas/bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.css">
   <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/2.2.2/css/buttons.dataTables.min.css">
 
+  <!-- SweetAlerts -->
+  <!-- <link rel="stylesheet" href="sweetalert2.min.css"> -->
 
   <!--=====================================
   PLUGINS DE JAVASCRIPT
@@ -160,7 +162,7 @@ if (isset($_SESSION)) {
     }
 
     .swal2-html-container {
-      font-size:1.3em !important;
+      font-size: 1.3em !important;
       /* Ajusta el tamaño de la fuente del contenido */
     }
 
@@ -169,10 +171,13 @@ if (isset($_SESSION)) {
       /* Ajusta el tamaño de la fuente del botón */
     }
 
-  .custom-swal-popupCotExce{
-    width: 40%;
-  }
-
+   .swal2-timer-progress-bar {
+     background: #88d600; /* Cambia a cualquier color que prefieras */
+     border-radius: 25px;
+    }
+    .custom-swal-popupCotExce {
+      width: 40%;
+    }
   </style>
 
 
@@ -193,7 +198,7 @@ if (isset($_SESSION)) {
 
   <!-- SweetAlert 2 -->
   <!-- <script src="vistas/plugins/sweetalert2/sweetalert2.all.js"></script> -->
-  <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <!-- By default SweetAlert2 doesn't support IE. To enable IE 11 support, include Promise polyfill:-->
   <!-- <script src="vistas/plugins/sweetalert2/core-2.4.1.js"></script> -->
 
@@ -418,7 +423,7 @@ CUERPO DOCUMENTO
   }
 
   ?>
-  <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script src="vistas/js/authChange.js"></script>
   <script src="vistas/js/invitacion.js?v=<?php echo (rand()); ?>"></script>
   <!--<script src="vistas/js/pesados.js?v=<?php echo (rand()); ?>"></script>-->

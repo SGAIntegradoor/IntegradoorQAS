@@ -315,8 +315,59 @@ $(document).ready(function () {
 
     menosRECot();
 
-    if (intermediario == 3) {
-      swal
+    if (intermediario != 3) {
+          checkCotTotales().then((response) => {
+            if (response.result == 1 || response.result == 2) {
+              cotizarOfertasPesados();
+            } else {
+              e.preventDefault();
+              mostrarAlertaCotizacionesExcedidasPesados();
+            }
+          });
+    } else {
+      checkCotTotales().then((response) => {
+        if (response.result == 1 || response.result == 2) {
+          mostrarPoliticaValorAseguradoPesados();
+          cotizarOfertasPesados();
+        } else {
+          e.preventDefault();
+          mostrarAlertaCotizacionesExcedidasPesados();
+        }
+      });
+    }
+  });
+
+  function mostrarAlertaCotizacionesExcedidasPesados() {
+    swal
+            .fire({
+              icon: "error",
+              title: "Cotizaciones Totales Excedidas",
+              html: `<div style="text-align: justify; font-family: Helvetica, Arial, sans-serif; font-size: 15px; border-radius: 4px; padding: 8px;">El usuario ha excedido las cotizaciones totales. En este momento solo podrás visualizar las cotizaciones realizadas hasta que se agoten los días habilitados. Si quieres seguir haciendo cotizaciones solicita vincularte al Programa. Comunícate con el área encargada de vinculaciones de Grupo Asistencia al:
+                  <br><br>
+                  <div style="text-align: center;">📱+573185127910 o vía 📧 mercadeo@grupoasistencia.com </div></div>`,
+              width: "90%",
+              showConfirmButton: true,
+              confirmButtonText: "Cerrar",
+              customClass: {
+                popup: "custom-swal-popupCotExcep",
+                icon: "swal2-icon_monto",
+              },
+            })
+            .then(function (result) {
+              if (result.isConfirmed) {
+                window.location = "inicio";
+              } else if (result.isDismissed) {
+                if (result.dismiss === "cancel") {
+                  window.location = "inicio";
+                } else if (result.dismiss === "backdrop") {
+                  window.location = "inicio";
+                }
+              }
+            });
+  }
+  
+  function mostrarPoliticaValorAseguradoPesados() {
+    swal
         .fire({
           icon: "warning",
           title: "POLÍTICA DE VALOR ASEGURADO<br/> PESADOS",
@@ -368,72 +419,10 @@ $(document).ready(function () {
             actions: "custom-swal-actions-pesados",
             icon: "swal2-icon_monto",
           },
+          timer: 20000,
+          timerProgressBar: true,
         })
-        .then(function (result) {
-          if (result.value) {
-            checkCotTotales().then((response) => {
-              if (response.result == 1 || response.result == 2) {
-                cotizarOfertasPesados();
-              } else {
-                e.preventDefault();
-                swal
-                  .fire({
-                    icon: "error",
-                    title: "Cotizaciones Totales Excedidas",
-                    html: `<div style="text-align: justify; font-family: Helvetica, Arial, sans-serif; font-size: 15px; border-radius: 4px; padding: 8px;"> Lo sentimos. No tienes cotizaciones disponibles, por favor comunicate con tu analista asignado.`,
-                    width: "50%",
-                    showConfirmButton: true,
-                    confirmButtonText: "Cerrar",
-                    customClass: {
-                      popup: "custom-swal-popupCotExcep",
-                    },
-                  })
-                  .then(function (result) {
-                    if (result.value) {
-                      window.location = "inicio";
-                    }
-                  });
-              }
-            });
-          }
-        });
-    } else {
-      decresCotTotales().then((response) => {
-        if (response.result == 1 || response.result == 2) {
-          cotizarOfertasPesados();
-          x;
-        } else {
-          e.preventDefault();
-          swal
-            .fire({
-              icon: "error",
-              title: "Cotizaciones Totales Excedidas",
-              html: `<div style="text-align: justify; font-family: Helvetica, Arial, sans-serif; font-size: 15px; border-radius: 4px; padding: 8px;">El usuario ha excedido las cotizaciones totales. En este momento solo podrás visualizar las cotizaciones realizadas hasta que se agoten los días habilitados. Si quieres seguir haciendo cotizaciones solicita vincularte al Programa. Comunícate con el área encargada de vinculaciones de Grupo Asistencia al:
-                  <br><br>
-                  <div style="text-align: center;">📱+573185127910 o vía 📧 mercadeo@grupoasistencia.com </div></div>`,
-              width: "90%",
-              showConfirmButton: true,
-              confirmButtonText: "Cerrar",
-              customClass: {
-                popup: "custom-swal-popupCotExcep",
-                icon: "swal2-icon_monto",
-              },
-            })
-            .then(function (result) {
-              if (result.isConfirmed) {
-                window.location = "inicio";
-              } else if (result.isDismissed) {
-                if (result.dismiss === "cancel") {
-                  window.location = "inicio";
-                } else if (result.dismiss === "backdrop") {
-                  window.location = "inicio";
-                }
-              }
-            });
-        }
-      });
-    }
-  });
+  }
 });
 
 //FUNCIONES EN COMUN MODULOS DE COTIZACIÓN
@@ -1784,7 +1773,7 @@ function cotizarFinesa(ofertasCotizaciones) {
       typeId: tipoId,
     };
     if (element.cotizada == null || element.cotizada == false) {
-      console.log(element);
+
       promisesFinesa.push(
         fetch(
           // "https://www.grupoasistencia.com/motor_webservice/paymentInstallmentsFinesa",
@@ -1862,7 +1851,6 @@ function cotizarFinesa(ofertasCotizaciones) {
           $("#loaderOferta").html("");
           $("#loaderOfertaBox").css("display", "none");
           $("#loaderRecotOferta").html("");
-          $("#loaderRecotOfertaBox").css("display", "none");
         });
     })
     .catch((error) => {
@@ -2402,7 +2390,7 @@ function cotizarOfertasPesados() {
                     .then((ofertas) => {
                       if (typeof ofertas[0].Resultado !== "undefined") {
                         validarProblema(aseguradora, ofertas);
-                        agregarAseguradoraFallidaPesados(plan);
+                        agregarAseguradoraFallidaPesados(aseguradora);
                         ofertas.Mensajes.forEach((mensaje) => {
                           mostrarAlertarCotizacionFallida(aseguradora, mensaje);
                         });
@@ -2445,7 +2433,7 @@ function cotizarOfertasPesados() {
                       .then((ofertas) => {
                         if (typeof ofertas[0].Resultado !== "undefined") {
                           validarProblema(aseguradora, ofertas);
-                          agregarAseguradoraFallidaPesados(plan);
+                          agregarAseguradoraFallidaPesados(aseguradora);
                           ofertas.Mensajes.forEach((mensaje) => {
                             mostrarAlertarCotizacionFallida(
                               aseguradora,
@@ -2514,7 +2502,7 @@ function cotizarOfertasPesados() {
                     .then((ofertas) => {
                       if (typeof ofertas[0].Resultado !== "undefined") {
                         validarProblema(aseguradora, ofertas);
-                        agregarAseguradoraFallidaPesados(plan);
+                        agregarAseguradoraFallidaPesados(aseguradora);
                         ofertas[0].Mensajes.forEach((mensaje) => {
                           mostrarAlertarCotizacionFallida(aseguradora, mensaje);
                         });
@@ -2561,7 +2549,7 @@ function cotizarOfertasPesados() {
                     .then((ofertas) => {
                       if (typeof ofertas[0].Resultado !== "undefined") {
                         validarProblema(aseguradora, ofertas);
-                        agregarAseguradoraFallidaPesados(plan);
+                        agregarAseguradoraFallidaPesados(aseguradora);
                         if (ofertas[0].length > 1) {
                           ofertas[0].Mensajes.forEach((mensaje) => {
                             mostrarAlertarCotizacionFallida(
@@ -2622,7 +2610,7 @@ function cotizarOfertasPesados() {
             Promise.all(cont).then(() => {
               // $("#btnCotizar").hide();
               $("#loaderOferta").html("");
-              $("#loaderOfertaBox").css("display", "none");
+              //$("#loaderOfertaBox").css("display", "none");
               swal
                 .fire({
                   title: "¡Proceso de Cotización Finalizada!",
@@ -2718,6 +2706,7 @@ function cotizarOfertasPesados() {
         });
       } else {
         //ZONA RECOTIZACIÓN//
+        debugger;
         $("#loaderRecotOferta").html(
           '<img src="vistas/img/plantilla/loader-update.gif" width="34" height="34"><strong> Recotizando Ofertas...</strong>'
         );
@@ -2846,7 +2835,8 @@ function cotizarOfertasPesados() {
           }
         };
 
-        //console.log(aseguradorasFallidas)
+        console.log(aseguradorasFallidas);
+
         aseguradorasFallidas.forEach((aseguradora) => {
           if (
             aseguradora == "BASIC" ||
@@ -2855,6 +2845,7 @@ function cotizarOfertasPesados() {
           ) {
             aseguradora = "Zurich";
           }
+
           const celdaResponse = document.getElementById(
             `${aseguradora}Response`
           );
@@ -2957,7 +2948,11 @@ function cotizarOfertasPesados() {
         Promise.all(cont).then(() => {
           $("#loaderOferta").html("");
           $("#loaderRecotOferta").html("");
-          swal
+          let nuevas = cotizacionesFinesa.find((cotizaciones) => 
+            cotizaciones.cotizada == null
+          );
+          if(nuevas.length > 0){
+            swal
             .fire({
               title: "¡Proceso de Re-Cotización Finalizada!",
               text: "¿Deseas incluir la financiación con Finesa a 11 cuotas?",
@@ -2975,7 +2970,7 @@ function cotizarOfertasPesados() {
               },
             })
             .then(function (result) {
-              if (result.isConfirmed) {
+              if (result.isConfirmed && nuevas.length > 0) {
                 $("#loaderRecotOfertaBox").css("display", "block");
                 $("#loaderRecotOferta").html(
                   '<img src="vistas/img/plantilla/loader-update.gif" width="34" height="34"><strong>Re-Cotizando en Finesa...</strong>'
@@ -2992,6 +2987,15 @@ function cotizarOfertasPesados() {
                 }
               }
             });
+          } else {
+            swal
+            .fire({
+              title: "¡Proceso de Re-Cotización Finalizada!",
+              showConfirmButton: true,
+              confirmButtonText: "Cerrar",
+            })
+          }
+          
         });
       }
       let zurichErrors = true;

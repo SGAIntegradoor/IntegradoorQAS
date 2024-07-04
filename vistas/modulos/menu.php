@@ -43,7 +43,6 @@ checkUserStatus();
 		let permisosCotizacionesTotales = <?php echo isset($cotizTotales) ? json_encode($cotizTotales) : 'null'; ?>;
 		let cotHechas = await mostrarCotRestantes();
 		var arrayCot = ["menuCotLiv", "menuCotMot", "menuCotPes", "menuCotMas"];
-		console.log(cotHechas)
 		// Verificar si el valor obtenido es válido y está definido
 		if (permisosCotizacionesTotales !== null && permisosCotizacionesTotales !== undefined) {
 			/* Iteramos sobre el array de vistas el cual sera unico y generamos un 
