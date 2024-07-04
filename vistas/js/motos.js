@@ -103,7 +103,8 @@ $(document).ready(function () {
         .fire({
           icon: "warning",
           title: "POL\u00cdTICA DE VALOR ASEGURADO MOTOS",
-          html: "<p style='font-family: Helvetica, Arial, sans-serif;'>Para motocicletas el valor asegurado m\u00e1ximo es $50 millones. Motos por encima de ese valor, deben ser autorizadas por la Gerencia General.</p>",
+          //html: "<p style='font-family: Helvetica, Arial, sans-serif;'>Para motocicletas el valor asegurado m\u00e1ximo es $50 millones. Motos por encima de ese valor, deben ser autorizadas por la Gerencia General.</p>",
+          html: "<p style='font-family: Helvetica, Arial, sans-serif;'>Nota: Para motocicletas el valor asegurado m\u00e1ximo es $50 millones. Motos por encima de ese valor deben ser autorizadas por el Gerente General, quien podrá hacer excepciones de valor asegurado superior cuando el asesor sea productivo, tenga más de 6 meses de antigüedad con Grupo Asistencia, no tenga altos indices de siniestralidad en su cartera, y si el cliente tiene vinculación con otros productos de la aseguradora.</p>",
           width: "30%",
           showConfirmButton: true,
           confirmButtonText: "Continuar",

@@ -401,12 +401,7 @@ $(document).ready(function () {
           </table>
         </div>
         <p style="text-align: justify; font-family: Helvetica, Arial, sans-serif;" id="pTableModalPesados">
-          <strong>Nota:</strong> Ten en cuenta que aunque el cotizador te genere ofertas, no
-          todos los vehículos son asegurables. Si el cliente tiene vinculación con
-          otros productos de la aseguradora se pueden autorizar valores
-          asegurados superiores. Cuando el valor asegurado sea superior a los
-          montos indicados, el valor de las primas puede variar en el momento
-          de emitir en caso de autorización
+          <strong>Nota:</strong> Tener en cuenta que aunque el cotizador genere ofertas, no todos los vehículos son asegurables. Se podrán hacer excepciones de valor asegurado superior cuando el asesor sea productivo, tenga más de 6 meses de antigüedad con Grupo Asistencia, no tenga altos indices de siniestralidad en su cartera, y si el cliente tiene vinculación con otros productos de la aseguradora. El valor de las primas de las cotizaciones puede variar al momento de emitir en los casos autorizados de manera excepcional.
         </p>
         `,
           width: "30%",

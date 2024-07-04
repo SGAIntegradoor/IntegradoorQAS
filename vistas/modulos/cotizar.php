@@ -1470,15 +1470,8 @@ echo '<script>console.log(' . $idIntermediario . ", " . $rolAsesor . ')</script>
                     </li>
                     <li>
                       <p style="font-weight: bold;">Política de valor asegurado livianos:</p>
-                      <p>Menos de 200 millones, se asegura de acuerdo a políticas de cada aseguradora. Entre 200 a 250 millones, se puede asegurar con autorización del Director Comercial de Grupo Asistencia. Entre 250 a 300 millones, se puede asegurar solo bajo
-                      autorización de Gerencia de Grupo Asistencia, de acuerdo al nivel de productividad del Asesor</p>
-                      <p><strong>Nota:</strong> Vehículos livianos con valor asegurado mayor a 300 millones no
-                        son asegurables para Grupo Asistencia; Ten en cuenta que aunque el
-                        cotizador te genere ofertas, no todos los vehículos son asegurables. Si
-                        el cliente tiene vinculación con otros productos de la aseguradora se
-                        pueden autorizar valores asegurados superiores. Cuando el valor
-                        asegurado sea superior a los montos indicados, el valor de las primas
-                        puede variar en el momento de emitir en caso de autorización.
+                      <p>Menos de 200 millones, se asegura de acuerdo a políticas de cada aseguradora. Entre 200 a 250 millones, se puede asegurar con autorización del Director Comercial de Grupo Asistencia. Entre 250 a 300 millones, se puede asegurar solo bajo autorización de Gerencia de Grupo Asistencia, de acuerdo al nivel de productividad del Asesor.</p>
+                      <p><b>Nota:</b> Tener en cuenta que aunque el cotizador genere ofertas, no todos los vehículos son asegurables. Se podrán hacer excepciones de valor asegurado superior cuando el asesor sea productivo, tenga más de 6 meses de antigüedad con Grupo Asistencia, no tenga altos indices de siniestralidad en su cartera, y si el cliente tiene vinculación con otros productos de la aseguradora. El valor de las primas de las cotizaciones puede variar al momento de emitir en los casos autorizados de manera excepcional.
                       </p>
                     </li>
                   </ul>
