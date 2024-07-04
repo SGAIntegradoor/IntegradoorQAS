@@ -16,14 +16,13 @@ $(document).ready(function () {
   // }
 
   async function checkCotTotales() {
-
     let cotHechas = await mostrarCotRestantes();
     return new Promise(function (resolve, reject) {
       $.ajax({
         type: "POST",
         url: "src/updateCotizacionesTotales.php",
         dataType: "json",
-        data: { cotHechas: cotHechas},
+        data: { cotHechas: cotHechas },
         success: function (data) {
           resolve(data);
         },
@@ -32,21 +31,19 @@ $(document).ready(function () {
         },
       });
     });
-
   }
 
   let intermediario = document.getElementById("intermediario").value;
 
   // Ejectura la funcion Cotizar Ofertas
   $("#btnCotizarMotos").click(function (e) {
+    let deptoCirc = $("#DptoCirculacion").val();
+    let ciudadCirc = $("#ciudadCirculacion").val();
 
-    let deptoCirc = $('#DptoCirculacion').val();
-    let ciudadCirc = $('#ciudadCirculacion').val();
-
-    if(!deptoCirc){
+    if (!deptoCirc) {
       return;
     }
-    if(!ciudadCirc){
+    if (!ciudadCirc) {
       return;
     }
 
@@ -66,7 +63,7 @@ $(document).ready(function () {
             title: "custom-swal-title",
             confirmButton: "custom-swal-confirm-button23",
             actions: "custom-swal-actions-motos",
-            icon: "swal2-icon_monto"
+            icon: "swal2-icon_monto",
           },
         })
         .then(function (result) {
@@ -80,10 +77,8 @@ $(document).ready(function () {
                   .fire({
                     icon: "error",
                     title: "Cotizaciones Totales Excedidas",
-                    html: `<div style="text-align: justify; font-family: Helvetica, Arial, sans-serif; font-size: 15px; border-radius: 4px; padding: 8px;">El usuario ha excedido las cotizaciones totales. En este momento solo podrás visualizar las cotizaciones realizadas hasta que se agoten los días habilitados. Si quieres seguir haciendo cotizaciones solicita vincularte al Programa. Comunícate con el área encargada de vinculaciones de Grupo Asistencia al:
-                    <br><br>
-                    <div style="text-align: center;">📱+573185127910 o vía 📧 mercadeo@grupoasistencia.com </div></div>`,
-                    width: "90%",
+                    html: `<div style="text-align: justify; font-family: Helvetica, Arial, sans-serif; font-size: 15px; border-radius: 4px; padding: 8px;"> Lo sentimos. No tienes cotizaciones disponibles, por favor comunicate con tu analista asignado.`,
+                    width: "50%",
                     showConfirmButton: true,
                     confirmButtonText: "Cerrar",
                     customClass: {
@@ -878,7 +873,6 @@ function saveQuotations(responses) {
 }
 
 function cotizarFinesaMotos(ofertasCotizaciones) {
-
   let cotEnFinesaResponse = [];
   let promisesFinesa = [];
 
@@ -918,7 +912,6 @@ function cotizarFinesaMotos(ofertasCotizaciones) {
         )
           .then((response) => response.json())
           .then((finesaData) => {
-
             // Sub Promesa para guardar la data en la BD con relacion a la cotizacion actual.
 
             finesaData.producto = element.producto;
@@ -941,7 +934,11 @@ function cotizarFinesaMotos(ofertasCotizaciones) {
                 if (dbData.data.mensaje.includes("Por políticas de Finesa")) {
                   cotizacionesFinesaMotos[index].cotizada = true;
                   elementDiv.innerHTML = `Financiación:<br /> No aplica financiación`;
-                } else if(dbData.data.mensaje.includes("Asegurado no viable para financiacion")) {
+                } else if (
+                  dbData.data.mensaje.includes(
+                    "Asegurado no viable para financiacion"
+                  )
+                ) {
                   cotizacionesFinesaMotos[index].cotizada = true;
                   elementDiv.innerHTML = `Financiación Finesa:<br /> Asegurado no viable para financiación`;
                 } else {
@@ -1122,7 +1119,6 @@ const mostrarOfertaMotos = (
   var aseguradoraCredenciales = nombreAseguradora + "_C_motos";
   var permisosCredenciales = permisos[aseguradoraCredenciales];
 
-  
   let cotOferta = {
     aseguradora: aseguradora,
     objFinesa: aseguradora + "_" + contCotizacionMotos,
@@ -1140,7 +1136,6 @@ const mostrarOfertaMotos = (
   ) {
     cotizacionesFinesaMotos.push(cotOferta);
   }
-
 
   let cardCotizacion = `
   <div class='col-lg-12'>
@@ -1165,17 +1160,17 @@ ${
           <!-- Código para el caso específico de Axa Colpatria, Liberty, Equidad o Mapfre y id_intermediario no es 78 -->
           <!-- Agrega aquí el contenido específico para estas aseguradoras y el id_intermediario no es 78 -->
           </center>`
-              : permisos.Vernumerodecotizacionencadaaseguradora == "x" &&
-                permisosCredenciales == "1"
-              ? `<center>
+    : permisos.Vernumerodecotizacionencadaaseguradora == "x" &&
+      permisosCredenciales == "1"
+    ? `<center>
           <label class='entidad'>N° Cot: <span style='color:black'>${numCotizOferta}</span></label>
           </center>`
-              : ""
-          }
+    : ""
+}
             </div>
               </div>
-                  <div class="col-xs-12 col-sm-6 col-md-2 oferta-header">
-                  <h5 class='entidad' style='font-size: 15px'>${aseguradora} - ${producto}</h5>
+                  <div class="col-xs-12 col-sm-6 col-md-2 oferta-headerEdit">
+                  <h5 class='entidad' style='font-size: 15px'><b>${aseguradora} - ${producto}</b></h5>
                   <h5 class='precio' style='margin-top: 0px !important;'>Desde $ ${prima}</h5>
                   <p class='title-precio' style='margin: 0 0 3px !important'>Precio (IVA incluido)</p>
                   <div id='${actIdentityMotos}' style='display: none; color: #88d600; font-weight: bold'>
@@ -2117,43 +2112,43 @@ function cotizarOfertasMotos() {
           });
 
           Promise.all(cont).then(() => {
-             // $("#btnCotizar").hide();
-              $("#loaderOferta").html("");
-              $("#loaderOfertaBox").css("display", "none");
-              swal
-                .fire({
-                  title: "¡Proceso de Cotización Finalizada!",
-                  text: "¿Deseas incluir la financiación con Finesa a 11 cuotas?",
-                  showConfirmButton: true,
-                  confirmButtonText: "Si",
-                  showCancelButton: true,
-                  cancelButtonText: "No",
-                  customClass: {
-                    title: "custom-title-messageFinesa",
-                    htmlContainer: "custom-text-messageFinesa",
-                    popup: "custom-popup-messageFinesa",
-                    actions: "custom-actions-messageFinesa",
-                    confirmButton: "custom-confirmnButton-messageFinesa",
-                    cancelButton: "custom-cancelButton-messageFinesa",
-                  },
-                })
-                .then(function (result) {
-                  if (result.isConfirmed) {
-                    $("#loaderOferta").html(
-                      '<img src="vistas/img/plantilla/loader-update.gif" width="34" height="34"><strong> Cotizando en Finesa...</strong>'
-                    );
-                    cotizarFinesaMotos(cotizacionesFinesaMotos);
-                  } else if (result.isDismissed) {
-                    if (result.dismiss === 'cancel') {
-                      // console.log("El usuario seleccionó 'No'");
-                      $("#loaderOferta").html("");
-                      $("#loaderOfertaBox").css("display", "none");
-                    } else if (result.dismiss === 'backdrop') {
-                      $("#loaderOferta").html("");
-                      $("#loaderOfertaBox").css("display", "none");
-                    }
+            // $("#btnCotizar").hide();
+            $("#loaderOferta").html("");
+            $("#loaderOfertaBox").css("display", "none");
+            swal
+              .fire({
+                title: "¡Proceso de Cotización Finalizada!",
+                text: "¿Deseas incluir la financiación con Finesa a 11 cuotas?",
+                showConfirmButton: true,
+                confirmButtonText: "Si",
+                showCancelButton: true,
+                cancelButtonText: "No",
+                customClass: {
+                  title: "custom-title-messageFinesa",
+                  htmlContainer: "custom-text-messageFinesa",
+                  popup: "custom-popup-messageFinesa",
+                  actions: "custom-actions-messageFinesa",
+                  confirmButton: "custom-confirmnButton-messageFinesa",
+                  cancelButton: "custom-cancelButton-messageFinesa",
+                },
+              })
+              .then(function (result) {
+                if (result.isConfirmed) {
+                  $("#loaderOferta").html(
+                    '<img src="vistas/img/plantilla/loader-update.gif" width="34" height="34"><strong> Cotizando en Finesa...</strong>'
+                  );
+                  cotizarFinesaMotos(cotizacionesFinesaMotos);
+                } else if (result.isDismissed) {
+                  if (result.dismiss === "cancel") {
+                    // console.log("El usuario seleccionó 'No'");
+                    $("#loaderOferta").html("");
+                    $("#loaderOfertaBox").css("display", "none");
+                  } else if (result.dismiss === "backdrop") {
+                    $("#loaderOferta").html("");
+                    $("#loaderOfertaBox").css("display", "none");
                   }
-                });
+                }
+              });
             // console.log("Se completo todo");
             const btnCotizar = document.getElementById("btnCotizarMotos");
             btnCotizar.disabled = true;
@@ -2552,11 +2547,11 @@ function cotizarOfertasMotos() {
               );
               cotizarFinesaMotos(cotizacionesFinesaMotos);
             } else if (result.isDismissed) {
-              if (result.dismiss === 'cancel') {
+              if (result.dismiss === "cancel") {
                 // console.log("El usuario seleccionó 'No'");
                 $("#loaderRecotOferta").html("");
                 $("#loaderRecotOfertaBox").css("display", "none");
-              } else if (result.dismiss === 'backdrop') {
+              } else if (result.dismiss === "backdrop") {
                 $("#loaderRecotOferta").html("");
                 $("#loaderRecotOfertaBox").css("display", "none");
               }

@@ -376,10 +376,8 @@ $(document).ready(function () {
             .fire({
               icon: "error",
               title: "Cotizaciones Totales Excedidas",
-              html: `<div style="text-align: justify; font-family: Helvetica, Arial, sans-serif; font-size: 15px; border-radius: 4px; padding: 8px;">El usuario ha excedido las cotizaciones totales. En este momento solo podrás visualizar las cotizaciones realizadas hasta que se agoten los días habilitados. Si quieres seguir haciendo cotizaciones solicita vincularte al Programa. Comunícate con el área encargada de vinculaciones de Grupo Asistencia al:
-                <br><br>
-                <div style="text-align: center;">📱+573185127910 o vía 📧 mercadeo@grupoasistencia.com </div></div>`,
-              width: "90%",
+              html: `<div style="text-align: justify; font-family: Helvetica, Arial, sans-serif; font-size: 15px; border-radius: 4px; padding: 8px;"> Lo sentimos. No tienes cotizaciones disponibles, por favor comunicate con tu analista asignado.`,
+              width: "50%",
               showConfirmButton: true,
               confirmButtonText: "Cerrar",
               customClass: {
@@ -424,7 +422,7 @@ $(document).ready(function () {
           </table>
         </div>
         <p style="text-align: justify; font-family: Helvetica, Arial, sans-serif;" id="pTableModal">
-          <strong>Nota:</strong> vehículos livianos con valor asegurado mayor a 300 millones no
+          <strong>Nota:</strong> Vehículos livianos con valor asegurado mayor a 300 millones no
           son asegurables para Grupo Asistencia; Ten en cuenta que aunque el
           cotizador te genere ofertas, no todos los vehículos son asegurables. Si
           el cliente tiene vinculación con otros productos de la aseguradora se
@@ -1323,8 +1321,8 @@ function cotizarFinesa(ofertasCotizaciones) {
       //console.log(element);
       promisesFinesa.push(
         fetch(
-          "https://www.grupoasistencia.com/motor_webservice/paymentInstallmentsFinesa",
-          // "http://localhost/motorTest/paymentInstallmentsFinesa",
+          // "https://www.grupoasistencia.com/motor_webservice/paymentInstallmentsFinesa",
+          "http://localhost/motorTest/paymentInstallmentsFinesa",
           {
             method: "POST",
             headers: headers,
@@ -1344,8 +1342,8 @@ function cotizarFinesa(ofertasCotizaciones) {
             finesaData.cuotas = element.cuotas;
 
             return fetch(
-              // "http://localhost/motorTest/saveDataQuotationsFinesa",
-              "https://www.grupoasistencia.com/motor_webservice/saveDataQuotationsFinesa",
+              "http://localhost/motorTest/saveDataQuotationsFinesa",
+              // "https://www.grupoasistencia.com/motor_webservice/saveDataQuotationsFinesa",
               {
                 method: "POST",
                 headers: headers,
@@ -1599,7 +1597,7 @@ const mostrarOferta = (
                     </div>
                        </div>
                        <div class="col-xs-12 col-sm-6 col-md-2 oferta-header">
-                       <h5 class='entidad' style='font-size: 15px'>${aseguradora} - <b>${
+                       <h5 class='entidad' style='font-size: 15px'><b>${aseguradora} - ${
                         producto == "Pesados con RCE en exceso"
                           ? "Pesados RCE + Exceso"
                           : producto == "PREVILIVIANOS INDIVIDUAL - "

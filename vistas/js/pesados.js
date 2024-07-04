@@ -279,14 +279,13 @@ $(document).ready(function () {
   });
 
   async function checkCotTotales() {
-
     let cotHechas = await mostrarCotRestantes();
     return new Promise(function (resolve, reject) {
       $.ajax({
         type: "POST",
         url: "src/updateCotizacionesTotales.php",
         dataType: "json",
-        data: { cotHechas: cotHechas},
+        data: { cotHechas: cotHechas },
         success: function (data) {
           resolve(data);
         },
@@ -295,27 +294,25 @@ $(document).ready(function () {
         },
       });
     });
-
   }
 
   let intermediario = document.getElementById("idIntermediario").value;
   // Ejectura la funcion Cotizar Ofertas
   $("#btnCotizarPesados").click(function (e) {
-    
-    let mundialInput = $('#mundialseguros').val();
-    let deptoCirc = $('#DptoCirculacion').val();
-    let ciudadCirc = $('#ciudadCirculacion').val();
+    let mundialInput = $("#mundialseguros").val();
+    let deptoCirc = $("#DptoCirculacion").val();
+    let ciudadCirc = $("#ciudadCirculacion").val();
 
-    if(!mundialInput){
+    if (!mundialInput) {
       return;
     }
-    if(!deptoCirc){
+    if (!deptoCirc) {
       return;
     }
-    if(!ciudadCirc){
+    if (!ciudadCirc) {
       return;
     }
-    
+
     menosRECot();
 
     if (intermediario == 3) {
@@ -369,7 +366,7 @@ $(document).ready(function () {
             title: "custom-swal-titlePesados",
             confirmButton: "custom-swal-confirm-button24",
             actions: "custom-swal-actions-pesados",
-            icon: "swal2-icon_monto"
+            icon: "swal2-icon_monto",
           },
         })
         .then(function (result) {
@@ -377,17 +374,14 @@ $(document).ready(function () {
             checkCotTotales().then((response) => {
               if (response.result == 1 || response.result == 2) {
                 cotizarOfertasPesados();
-              } 
-              else {
+              } else {
                 e.preventDefault();
                 swal
                   .fire({
                     icon: "error",
                     title: "Cotizaciones Totales Excedidas",
-                    html: `<div style="text-align: justify; font-family: Helvetica, Arial, sans-serif; font-size: 15px; border-radius: 4px; padding: 8px;">El usuario ha excedido las cotizaciones totales. En este momento solo podrás visualizar las cotizaciones realizadas hasta que se agoten los días habilitados. Si quieres seguir haciendo cotizaciones solicita vincularte al Programa. Comunícate con el área encargada de vinculaciones de Grupo Asistencia al:
-                      <br><br>
-                      <div style="text-align: center;">📱+573185127910 o vía 📧 mercadeo@grupoasistencia.com </div></div>`,
-                    width: "90%",
+                    html: `<div style="text-align: justify; font-family: Helvetica, Arial, sans-serif; font-size: 15px; border-radius: 4px; padding: 8px;"> Lo sentimos. No tienes cotizaciones disponibles, por favor comunicate con tu analista asignado.`,
+                    width: "50%",
                     showConfirmButton: true,
                     confirmButtonText: "Cerrar",
                     customClass: {
@@ -406,7 +400,8 @@ $(document).ready(function () {
     } else {
       decresCotTotales().then((response) => {
         if (response.result == 1 || response.result == 2) {
-          cotizarOfertasPesados();x
+          cotizarOfertasPesados();
+          x;
         } else {
           e.preventDefault();
           swal
@@ -421,17 +416,17 @@ $(document).ready(function () {
               confirmButtonText: "Cerrar",
               customClass: {
                 popup: "custom-swal-popupCotExcep",
-                icon: "swal2-icon_monto"
+                icon: "swal2-icon_monto",
               },
             })
             .then(function (result) {
               if (result.isConfirmed) {
-                window.location = 'inicio';
+                window.location = "inicio";
               } else if (result.isDismissed) {
-                if (result.dismiss === 'cancel') {
-                  window.location = 'inicio';
-                } else if (result.dismiss === 'backdrop') {
-                  window.location = 'inicio';
+                if (result.dismiss === "cancel") {
+                  window.location = "inicio";
+                } else if (result.dismiss === "backdrop") {
+                  window.location = "inicio";
                 }
               }
             });
@@ -1449,10 +1444,10 @@ const mostrarOfertaPesados = (
                     </div>`
                 }
                   
-                  <div class="col-xs-12 col-sm-6 col-md-2 oferta-header">
-                    <h5 class='entidad' style='font-size: 15px'>${aseguradora} - ${
+                  <div class="col-xs-12 col-sm-6 col-md-2 oferta-headerEdit">
+                    <h5 class='entidad' style='font-size: 15px'><b>${aseguradora} - ${
     producto == "Pesados con RCE en exceso" ? "Pesados RCE + Exceso" : producto
-  }</h5>
+  }</b></h5>
                     <h5 class='precio' style='margin-top: 0px !important;'>Desde $ ${prima}</h5>
                     <p class='title-precio' style='margin: 0 0 3px !important'>Precio (IVA incluido)</p>
                     <div id='${actIdentity}' style='display: none; color: #88d600; font-weight: bold'>
@@ -1789,12 +1784,11 @@ function cotizarFinesa(ofertasCotizaciones) {
       typeId: tipoId,
     };
     if (element.cotizada == null || element.cotizada == false) {
-    
       console.log(element);
       promisesFinesa.push(
         fetch(
-          "https://www.grupoasistencia.com/motor_webservice/paymentInstallmentsFinesa",
-          // "http://localhost/motorTest/paymentInstallmentsFinesa",
+          // "https://www.grupoasistencia.com/motor_webservice/paymentInstallmentsFinesa",
+          "http://localhost/motorTest/paymentInstallmentsFinesa",
           {
             method: "POST",
             headers: headers,
@@ -1811,8 +1805,8 @@ function cotizarFinesa(ofertasCotizaciones) {
             finesaData.identity = element.objFinesa;
             finesaData.cuotas = element.cuotas;
             return fetch(
-              "https://www.grupoasistencia.com/motor_webservice/saveDataQuotationsFinesa",
-              // "http://localhost/motorTest//saveDataQuotationsFinesa",
+              // "https://www.grupoasistencia.com/motor_webservice/saveDataQuotationsFinesa",
+              "http://localhost/motorTest//saveDataQuotationsFinesa",
               {
                 method: "POST",
                 headers: headers,
@@ -1825,7 +1819,11 @@ function cotizarFinesa(ofertasCotizaciones) {
                 if (dbData.data.mensaje.includes("Por políticas de Finesa")) {
                   cotizacionesFinesa[index].cotizada = true;
                   elementDiv.innerHTML = `Financiación:<br /> No aplica financiación`;
-                } else if(dbData.data.mensaje.includes("Asegurado no viable para financiacion")) {
+                } else if (
+                  dbData.data.mensaje.includes(
+                    "Asegurado no viable para financiacion"
+                  )
+                ) {
                   cotizacionesFinesa[index].cotizada = true;
                   elementDiv.innerHTML = `Financiación Finesa:<br /> Asegurado no viable para financiación`;
                 } else {
@@ -2649,11 +2647,11 @@ function cotizarOfertasPesados() {
                     );
                     cotizarFinesa(cotizacionesFinesa);
                   } else if (result.isDismissed) {
-                    if (result.dismiss === 'cancel') {
+                    if (result.dismiss === "cancel") {
                       // console.log("El usuario seleccionó 'No'");
                       $("#loaderOferta").html("");
                       $("#loaderOfertaBox").css("display", "none");
-                    } else if (result.dismiss === 'backdrop') {
+                    } else if (result.dismiss === "backdrop") {
                       $("#loaderOferta").html("");
                       $("#loaderOfertaBox").css("display", "none");
                     }
@@ -2984,11 +2982,11 @@ function cotizarOfertasPesados() {
                 );
                 cotizarFinesa(cotizacionesFinesa);
               } else if (result.isDismissed) {
-                if (result.dismiss === 'cancel') {
+                if (result.dismiss === "cancel") {
                   // console.log("El usuario seleccionó 'No'");
                   $("#loaderRecotOferta").html("");
                   $("#loaderRecotOfertaBox").css("display", "none");
-                } else if (result.dismiss === 'backdrop') {
+                } else if (result.dismiss === "backdrop") {
                   $("#loaderRecotOferta").html("");
                   $("#loaderRecotOfertaBox").css("display", "none");
                 }

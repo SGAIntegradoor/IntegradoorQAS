@@ -1102,8 +1102,8 @@ function editarCotizacion(id) {
 
           try {
             const dbResponse = await fetch(
-              "https://www.grupoasistencia.com/motor_webservice/getOffertsFinesa",
-              // "http://localhost/motorTest/getOffertsFinesa",
+              // "https://www.grupoasistencia.com/motor_webservice/getOffertsFinesa",
+              "http://localhost/motorTest/getOffertsFinesa",
               {
                 method: "POST",
                 headers: headers,
@@ -1311,9 +1311,9 @@ function editarCotizacion(id) {
                           ? "padding-top: 14px"
                           : "padding-top: 14px"
                       }'>
-                      <h5 class='entidad' style='font-size: 15px'>${
+                      <h5 class='entidad' style='font-size: 15px'><b>${
                         oferta.Aseguradora
-                      } - <b>${
+                      } - ${
                         oferta.Producto == "Pesados con RCE en exceso"
                           ? "Pesados RCE + Exceso"
                           : oferta.Producto == "PREVILIVIANOS INDIVIDUAL - "
