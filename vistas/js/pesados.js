@@ -1771,8 +1771,8 @@ function cotizarFinesa(ofertasCotizaciones) {
 
       promisesFinesa.push(
         fetch(
-          // "https://www.grupoasistencia.com/motor_webservice/paymentInstallmentsFinesa",
-          "http://localhost/motorTest/paymentInstallmentsFinesa",
+          "https://www.grupoasistencia.com/motor_webservice/paymentInstallmentsFinesa",
+          // "http://localhost/motorTest/paymentInstallmentsFinesa",
           {
             method: "POST",
             headers: headers,
@@ -1789,8 +1789,8 @@ function cotizarFinesa(ofertasCotizaciones) {
             finesaData.identity = element.objFinesa;
             finesaData.cuotas = element.cuotas;
             return fetch(
-              // "https://www.grupoasistencia.com/motor_webservice/saveDataQuotationsFinesa",
-              "http://localhost/motorTest//saveDataQuotationsFinesa",
+              "https://www.grupoasistencia.com/motor_webservice/saveDataQuotationsFinesa",
+              // "http://localhost/motorTest//saveDataQuotationsFinesa",
               {
                 method: "POST",
                 headers: headers,
