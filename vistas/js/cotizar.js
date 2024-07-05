@@ -2643,7 +2643,7 @@ function cotizarOfertas() {
 
             Promise.all(cont).then(() => {
               // $("#btnCotizar").hide();
-              //$("#loaderOferta").html("");
+              $("#loaderOferta").html("");
               //$("#loaderOfertaBox").css("display", "none");
               swal
                 .fire({
