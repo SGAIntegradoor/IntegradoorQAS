@@ -1351,13 +1351,13 @@ $pdf->SetFont('dejavusanscondensed', '', 8);
 
 $html4 .= "<div style=font-size:4pt>&nbsp;</div>";
 
-$html4 .= '<tr style="width: 100%;" class="izquierda">';
-$html4 .= '<td style ="width: 100%;  background-color: #D1D1D1; font-family:dejavusanscondensedb;" colspan="' . ($rowValidate + 1) . '">
-<div style="font-size:3pt; margin-top:30px">&nbsp;</div>
-   ASISTENCIAS
-   <div style="font-size:3pt">&nbsp;</div>
-</td>';
-$html4 .= '</tr>';
+// $html4 .= '<tr style="width: 100%;" class="izquierda">';
+// $html4 .= '<td style ="width: 100%;  background-color: #D1D1D1; font-family:dejavusanscondensedb;" colspan="' . ($rowValidate + 1) . '">
+// <div style="font-size:3pt; margin-top:30px">&nbsp;</div>
+//    ASISTENCIAS
+//    <div style="font-size:3pt">&nbsp;</div>
+// </td>';
+// $html4 .= '</tr>';
 
 // $query7 = "SELECT DISTINCT o.Aseguradora,
 // FROM cotizaciones_finesa cf 
