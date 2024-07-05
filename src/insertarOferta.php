@@ -4,6 +4,11 @@
 require_once("../config/db.php"); // Contiene las variables de configuración para conectar a la base de datos
 require_once("../config/conexion.php"); // Contiene función que conecta a la base de datos
 
+mysqli_set_charset($con, "utf8mb4");
+
+// Configurar la cabecera HTTP para UTF-8
+header('Content-Type: text/html; charset=utf-8');
+
 // Obtener datos de POST
 $placa = $_POST['placa'];
 $idCotizacion = $_POST['idCotizOferta'];
