@@ -1226,7 +1226,7 @@ function editarCotizacion(id) {
                 // Volver a formatear con puntos
                 var valorRCFormat = RC.toLocaleString();
               }
-
+              console.log(oferta.Producto);
               if (
                 oferta.Aseguradora == "SBS Seguros" &&
                 oferta.Producto == "RCE Daños"

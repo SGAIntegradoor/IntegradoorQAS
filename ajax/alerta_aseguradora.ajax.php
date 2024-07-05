@@ -1,14 +1,15 @@
 <?php
 
     require_once "../modelos/alerta_aseguradora.modelo.php";
-
+    header('Content-Type: text/html; charset=utf-8');
+    
     class AlertaAseguradora {
         
         public function obtenerAlertas($cotizacion) {
             $resultado = ModeloAlertaAseguradora::mdlObtenerAlertas($cotizacion);  
             if (!$resultado) { return false; }
 
-            print_r(json_encode($resultado));
+            echo json_encode($resultado);
         }
     }
 
@@ -17,4 +18,3 @@
         $alertaAseguradora = new AlertaAseguradora();
         $alertaAseguradora->obtenerAlertas($data['cotizacion']);
     }
-?>
