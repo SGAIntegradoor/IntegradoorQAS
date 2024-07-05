@@ -1798,16 +1798,16 @@ function cotizarFinesa(ofertasCotizaciones) {
                 const elementDiv = document.getElementById(element.objFinesa);
                 if (element.aseguradora == "Seguros Bolivar" || element.aseguradora == "Liberty")
                   {
-                    cotizacionesFinesaMotos[index].cotizada = true;
+                    cotizacionesFinesa[index].cotizada = true;
                      elementDiv.innerHTML = `Financiación Aseguradora:<br /> Consulte analista`;
                   } else if (dbData?.data?.mensaje.includes("Por políticas de Finesa")) {
-                    cotizacionesFinesaMotos[index].cotizada = true;
+                    cotizacionesFinesa[index].cotizada = true;
                     elementDiv.innerHTML = `Financiación:<br /> No aplica financiación`;
                   } else if (dbData?.data?.mensaje.includes("Asegurado no viable para financiacion")) {
-                    cotizacionesFinesaMotos[index].cotizada = true;
+                    cotizacionesFinesa[index].cotizada = true;
                     elementDiv.innerHTML = `Financiación Finesa:<br /> Asegurado no viable para financiación`;
                   } else {
-                    cotizacionesFinesaMotos[index].cotizada = true;
+                    cotizacionesFinesa[index].cotizada = true;
                     elementDiv.innerHTML = `Financiación Finesa:<br />$${dbData?.data?.data?.val_cuo.toLocaleString(
                       "es-ES"
                     )} (${dbData?.data?.cuotas} Cuotas)`;
