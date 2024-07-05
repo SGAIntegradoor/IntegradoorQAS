@@ -646,126 +646,62 @@ if ($rowValidate == 10) {
 }
 $html2 .= '</tr>';
 
-// Cuotas de Finesa en cada cotizacion
-// $query5f = "SELECT DISTINCT cf.identityElement, cf.cuotas, cf.cuota_1
-// FROM cotizaciones_finesa cf 
-// INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion
-// WHERE o.seleccionar = 'Si' 
-// AND cf.identityElement = o.oferta_finesa
-// AND cf.id_cotizacion = $i1dentificador";
-// // $query5f = "SELECT o.*, cf.identityElement, cf.cuota_1, cf.cuotas
-// // FROM cotizaciones_finesa cf 
-// // INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion 
-// // INNER JOIN cotizaciones c ON o.id_cotizacion = cf.id_cotizacion 
-// // WHERE o.seleccionar = 'Si' 
-// // AND CONVERT(cf.identityElement USING utf8mb3) = CONVERT(o.oferta_finesa USING utf8mb3) 
-// // AND cf.id_cotizacion = $identificador 
-// // GROUP BY cf.identityElement";
 
-// $query5f = "SELECT DISTINCT o.Aseguradora, o.Producto, cf.cuota_1, cf.cuotas
-// FROM cotizaciones_finesa cf 
-// INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion
-// WHERE o.seleccionar = 'Si' 
-// AND cf.identityElement = o.oferta_finesa
-// AND cf.id_cotizacion = $identificador";
+$viable = true;
 
-// $respuestaquery5f = $conexion->query($query5f);
-// $rowValidate = mysqli_num_rows($respuestaquery5f);
-
-// if ($respuestaquery5f === false) {
-// 	echo "Error en la consulta: " . $conexion->error;
-// } else {
-// 	$valor_f = mysqli_num_rows($respuestaquery5f);
-// 	$cont3 = 1;
-// 	if($valor_f > 0){
-// 		$html2 .= '<tr>';
-// 		while ($rowRespuesta5f = mysqli_fetch_assoc($respuestaquery5f)) {
-// 			$fondo_class = ($cont3 % 2 == 0) ? 'fondo' : 'fondo2';
-// 			$font_size = ($valor_f > 10) ? 7 : (($valor_f == 10) ? 8 : 9);
-
-// 			$html2 .= '<td style="font-size:' . ($font_size - 2) . 'px; color:#666666; font-family:dejavusanscondensedb;" class="puntos td2 ' . $fondo_class . '">
-// 			$ ' . number_format($rowRespuesta5f['cuota_1'], 0, ',', '.') . '
-// 			<br>
-// 			(' . $rowRespuesta5f['cuotas'] . ' Cuotas)
-// 			</td>';
-// 			$cont3++;
-// 		}
-// 		$html2 .= '</tr>';
-// 	} 
-
-// }
-// $query5x = "SELECT * FROM ofertas WHERE `id_cotizacion` = $identificador AND `seleccionar` = 'Si' ORDER BY Aseguradora ASC";
-// $respuestaquery5x = $conexion->query($query5x);
-// $rowValidate = mysqli_num_rows($respuestaquery5x);
-
-// $query5f = "SELECT DISTINCT o.*, cf.cuota_1, cf.cuotas, cf.identityElement
-// FROM cotizaciones_finesa cf 
-// INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion
-// WHERE o.seleccionar = 'Si' 
-// AND cf.identityElement = o.oferta_finesa
-// AND cf.id_cotizacion = $identificador ORDER BY Aseguradora ASC";
-// $respuestaquery5f = $conexion->query($query5f);
-// $rowValidateF = mysqli_num_rows($respuestaquery5f);
-
-// $finesa_cot = [];
-// $ofertas_cot = [];
-// $cont3 = 1;
-// while ($rowRespuesta5x = $respuestaquery5x->fetch_assoc()) {
-//     $ofertas_cot[] = $rowRespuesta5x;
-// }
-
-// while ($rowRespuesta5f = $respuestaquery5f->fetch_assoc()) {
-//     $finesa_cot[] = $rowRespuesta5f;
-// }
-
-// $resultados = [];
-// foreach ($ofertas_cot as $oferta) {
-//     $encontrado = false;
-//     foreach ($finesa_cot as $finesa) {
-//         if ($oferta['oferta_finesa'] == $finesa['identityElement']) {
-//             $resultados[] = array_merge($oferta, $finesa);
-//             $encontrado = true;
-//             break;
-//         }
-//     }
-//     if (!$encontrado) {
-//         $resultados[] = array_merge($oferta, ['cuota_1' => null, 'cuotas' => null, 'identityElement' => null]);
-//     }
-// }
-
-// var_dump($resultados);
-// var_dump($ofertas_cot);
-// var_dump($finesa_cot);
+if ($rowValidateF > 1) {
+    $contV = 0;
+    foreach ($resultados as $resultado) {
+        if ($resultado['cuota_1'] == null) {
+            $contV++;
+        }
+    }
+    if ($contV == $rowValidateF) {
+        $viable = false;
+    }
+}
 
 $cont3 = 1;
 
-if ($rowValidateF < 1) {
-} else {
-	// usort($resultados, function($a, $b) {
-	// 	return strcmp($a['Aseguradora'], $b['Aseguradora']);
-	// });
-	$html2 .= '<tr>';
-	foreach ($resultados as $resultado) {
+if ($rowValidateF > 1) {
+    $html2 .= '<tr>';
+    foreach ($resultados as $resultado) {
+        $fondo_class = ($cont3 % 2 == 0) ? 'fondo' : 'fondo2';
+        $font_size = ($rowValidate > 10) ? 7 : (($rowValidate == 10) ? 8 : 9);
 
-		$fondo_class = ($cont3 % 2 == 0) ? 'fondo' : 'fondo2';
-		$font_size = ($rowValidate > 10) ? 7 : (($rowValidate == 10) ? 8 : 9);
-		if ($resultado['cuota_1'] != null) {
-			$html2 .= '<td style="font-size:' . ($font_size - 2) . 'px; color:#666666; font-family:dejavusanscondensedb;" class="puntos td2 ' . $fondo_class . '">
-			$ ' . number_format($resultado['cuota_1'], 0, ',', '.') . '
-			<br>
-			(' . $resultado['cuotas'] . ' Cuotas)
-			</td>';
-		} else {
-			$html2 .= '<td style="font-size:' . ($font_size - 2) . 'px; color:#666666; font-family:dejavusanscondensedb;" class="puntos td2 ' . $fondo_class . '">
-			Pdte. cotizar
-			<br> 
-			financiación
-			</td>';
-		}
-
-		$cont3++;
-	}
-	$html2 .= '</tr>';
+        if ($viable) {
+            if ($resultado['cuota_1'] != null) {
+                $html2 .= '<td style="font-size:' . ($font_size - 2) . 'px; color:#666666; font-family:dejavusanscondensedb; text-align: center;" class="puntos td2 ' . $fondo_class . '">
+                $ ' . number_format($resultado['cuota_1'], 0, ',', '.') . '
+                <br>
+                (' . $resultado['cuotas'] . ' Cuotas)
+                </td>';
+            } else {
+                $html2 .= '<td style="font-size:' . ($font_size - 2) . 'px; color:#666666; font-family:dejavusanscondensedb; text-align: center;" class="puntos td2 ' . $fondo_class . '">
+                Pdte. cotizar
+                <br> 
+                financiación
+                </td>';
+            }
+            $cont3++;
+        } else {
+            if($resultado['Aseguradora'] == "Liberty" || $resultado['Aseguradora'] == "Bolivar"){
+				$html2 .= '<td style="font-size:' . ($font_size - 2) . 'px; color:#666666; font-family:dejavusanscondensedb; text-align: center;" class="puntos td2 ' . $fondo_class . '">
+                Pdte. cotizar 
+                <br>
+                financiación
+                </td>'; 
+			} else {
+				$html2 .= '<td style="font-size:' . ($font_size - 2) . 'px; color:#666666; font-family:dejavusanscondensedb; text-align: center;" class="puntos td2 ' . $fondo_class . '">
+                No aplica
+                <br>
+                financiación
+                </td>';
+			}
+            $cont3++;
+        }
+    }
+    $html2 .= '</tr>';
 }
 // var_dump($finesa_cot);
 // var_dump($ofertas_cot);
@@ -2709,35 +2645,32 @@ $html7 .= '</table>';
 
 
 
-$pdf->SetXY(80, 124);
+$pdf->SetXY(80, 122);
 $pdf->writeHTML($html2, true, false, true, false, '');
-$pdf->Ln();
-$pdf->Ln();
-$pdf->Ln();
 
 $pdf->SetFont('dejavusanscondensed', 'I', 15);
 $pdf->SetTextColor(104, 104, 104);
-$pdf->SetXY(33.5, 155);
+$pdf->SetXY(33.5, 157);
 $pdf->Cell(10, 0, 'Si quieres', 0, $ln = 0, 'C', 0, '', 0, false, 'C', 'C');
 
 $pdf->SetFont('dejavusanscondensed', 'BI', 15);
 $pdf->SetTextColor(15, 178, 241);
-$pdf->SetXY(98.4, 155);
+$pdf->SetXY(98.4, 157);
 $pdf->Cell(10, 0, ' comparar las coberturas y asistencias', 0, $ln = 0, 'C', 0, '', 0, false, 'C', 'C');
 
 $pdf->SetFont('dejavusanscondensed', 'I', 15);
 $pdf->SetTextColor(104, 104, 104);
-$pdf->SetXY(163, 155);
+$pdf->SetXY(163, 157);
 $pdf->Cell(10, 0, 'de todas', 0, $ln = 0, 'C', 0, '', 0, false, 'C', 'C');
 
 $pdf->SetFont('dejavusanscondensed', 'I', 15);
 $pdf->SetTextColor(104, 104, 104);
-$pdf->SetXY(70, 162);
+$pdf->SetXY(70, 163);
 $pdf->Cell(10, 0, 'las aseguradoras, revisa', 0, $ln = 0, 'C', 0, '', 0, false, 'C', 'C');
 
 $pdf->SetFont('dejavusanscondensed', 'BI', 15);
 $pdf->SetTextColor(235, 135, 39);
-$pdf->SetXY(127, 162);
+$pdf->SetXY(127, 163);
 $pdf->Cell(10, 0, ' el siguiente cuadro', 0, $ln = 0, 'C', 0, '', 0, false, 'C', 'C');
 
 $pdf->SetFont('dejavusanscondensed', 'I', 11);

@@ -627,34 +627,61 @@ if ($rowValidate == 10) {
 }
 $html2 .= '</tr>';
 
+$viable = true;
+
+if ($rowValidateF > 1) {
+    $contV = 0;
+    foreach ($resultados as $resultado) {
+        if ($resultado['cuota_1'] == null) {
+            $contV++;
+        }
+    }
+    if ($contV == $rowValidateF) {
+        $viable = false;
+    }
+}
 
 $cont3 = 1;
 
-if ($rowValidateF < 1) {
-} else {
+if ($rowValidateF > 1) {
+    $html2 .= '<tr>';
+    foreach ($resultados as $resultado) {
+        $fondo_class = ($cont3 % 2 == 0) ? 'fondo' : 'fondo2';
+        $font_size = ($rowValidate > 10) ? 7 : (($rowValidate == 10) ? 8 : 9);
 
-	$html2 .= '<tr>';
-	foreach ($resultados as $resultado) {
-
-		$fondo_class = ($cont3 % 2 == 0) ? 'fondo' : 'fondo2';
-		$font_size = ($rowValidate > 10) ? 7 : (($rowValidate == 10) ? 8 : 9);
-		if ($resultado['cuota_1'] != null) {
-			$html2 .= '<td style="font-size:' . ($font_size - 2) . 'px; color:#666666; font-family:dejavusanscondensedb;" class="puntos td2 ' . $fondo_class . '">
-			$ ' . number_format($resultado['cuota_1'], 0, ',', '.') . '
-			<br>
-			(' . $resultado['cuotas'] . ' Cuotas)
-			</td>';
-		} else {
-			$html2 .= '<td style="font-size:' . ($font_size - 2) . 'px; color:#666666; font-family:dejavusanscondensedb;" class="puntos td2 ' . $fondo_class . '">
-			Pdte. cotizar
-			<br> 
-			financiación
-			</td>';
-		}
-
-		$cont3++;
-	}
-	$html2 .= '</tr>';
+        if ($viable) {
+            if ($resultado['cuota_1'] != null) {
+                $html2 .= '<td style="font-size:' . ($font_size - 2) . 'px; color:#666666; font-family:dejavusanscondensedb; text-align: center;" class="puntos td2 ' . $fondo_class . '">
+                $ ' . number_format($resultado['cuota_1'], 0, ',', '.') . '
+                <br>
+                (' . $resultado['cuotas'] . ' Cuotas)
+                </td>';
+            } else {
+                $html2 .= '<td style="font-size:' . ($font_size - 2) . 'px; color:#666666; font-family:dejavusanscondensedb; text-align: center;" class="puntos td2 ' . $fondo_class . '">
+                Pdte. cotizar
+                <br> 
+                financiación
+                </td>';
+            }
+            $cont3++;
+        } else {
+            if($resultado['Aseguradora'] == "Liberty" || $resultado['Aseguradora'] == "Bolivar"){
+				$html2 .= '<td style="font-size:' . ($font_size - 2) . 'px; color:#666666; font-family:dejavusanscondensedb; text-align: center;" class="puntos td2 ' . $fondo_class . '">
+                Pdte. cotizar 
+                <br>
+                financiación
+                </td>'; 
+			} else {
+				$html2 .= '<td style="font-size:' . ($font_size - 2) . 'px; color:#666666; font-family:dejavusanscondensedb; text-align: center;" class="puntos td2 ' . $fondo_class . '">
+                No aplica
+                <br>
+                financiación
+                </td>';
+			}
+            $cont3++;
+        }
+    }
+    $html2 .= '</tr>';
 }
 $html2 .= '</table></div>';
 
