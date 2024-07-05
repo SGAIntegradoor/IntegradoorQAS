@@ -600,47 +600,57 @@ $html2 .= '</tr>';
 $viable = true;
 
 if ($rowValidateF > 1) {
-    $contV = 0;
-    foreach ($resultados as $resultado) {
-        if ($resultado['cuota_1'] == null) {
-            $contV++;
-        }
-    }
-    if ($contV == $rowValidateF) {
-        $viable = false;
-    }
+	$contV = 0;
+	foreach ($resultados as $resultado) {
+		if ($resultado['cuota_1'] == null) {
+			$contV++;
+		}
+	}
+	if ($contV == $rowValidateF) {
+		$viable = false;
+	}
 }
 
 $cont3 = 1;
 
 if ($rowValidateF > 1) {
-    $html2 .= '<tr>';
-    foreach ($resultados as $resultado) {
-        $fondo_class = ($cont3 % 2 == 0) ? 'fondo' : 'fondo2';
-        $font_size = ($rowValidate > 10) ? 7 : (($rowValidate == 10) ? 8 : 9);
+	$html2 .= '<tr>';
+	foreach ($resultados as $resultado) {
+		$fondo_class = ($cont3 % 2 == 0) ? 'fondo' : 'fondo2';
+		$font_size = ($rowValidate > 10) ? 7 : (($rowValidate == 10) ? 8 : 9);
 
-        if ($viable) {
-            if ($resultado['cuota_1'] != null) {
-                $html2 .= '<td style="font-size:' . ($font_size - 2) . 'px; color:#666666; font-family:dejavusanscondensedb; text-align: center;" class="puntos td2 ' . $fondo_class . '">
-                $ ' . number_format($resultado['cuota_1'], 0, ',', '.') . '
+		if ($viable) {
+			if ($resultado['cuota_1'] != null) {
+				if ($resultado['Aseguradora'] == "Liberty" || $resultado['Aseguradora'] == "Bolivar") {
+					$html2 .= '<td style="font-size:' . ($font_size - 2) . 'px; color:#666666; font-family:dejavusanscondensedb; text-align: center;" class="puntos td2 ' . $fondo_class . '">
+					Pdte. cotizar 
+					<br>
+					financiación
+					</td>';
+				} else {
+				$html2 .= '<td style="font-size:' . ($font_size - 2) . 'px; color:#666666; font-family:dejavusanscondensedb; text-align: center;" class="puntos td2 ' . $fondo_class . '">
+				 $' . number_format($resultado['cuota_1'], 0, ',', '.') . '
                 <br>
                 (' . $resultado['cuotas'] . ' Cuotas)
                 </td>';
-            } else {
-                $html2 .= '<td style="font-size:' . ($font_size - 2) . 'px; color:#666666; font-family:dejavusanscondensedb; text-align: center;" class="puntos td2 ' . $fondo_class . '">
-                Pdte. cotizar
-                <br> 
+				}
+				$cont3++;
+			} else {
+				$html2 .= '<td style="font-size:' . ($font_size - 2) . 'px; color:#666666; font-family:dejavusanscondensedb; text-align: center;" class="puntos td2 ' . $fondo_class . '">
+                No aplica
+                <br>
                 financiación
                 </td>';
-            }
-            $cont3++;
-        } else {
-            if($resultado['Aseguradora'] == "Liberty" || $resultado['Aseguradora'] == "Bolivar"){
+
+				$cont3++;
+			}
+		} else {
+			if ($resultado['Aseguradora'] == "Liberty" || $resultado['Aseguradora'] == "Bolivar") {
 				$html2 .= '<td style="font-size:' . ($font_size - 2) . 'px; color:#666666; font-family:dejavusanscondensedb; text-align: center;" class="puntos td2 ' . $fondo_class . '">
                 Pdte. cotizar 
                 <br>
                 financiación
-                </td>'; 
+                </td>';
 			} else {
 				$html2 .= '<td style="font-size:' . ($font_size - 2) . 'px; color:#666666; font-family:dejavusanscondensedb; text-align: center;" class="puntos td2 ' . $fondo_class . '">
                 No aplica
@@ -648,10 +658,10 @@ if ($rowValidateF > 1) {
                 financiación
                 </td>';
 			}
-            $cont3++;
-        }
-    }
-    $html2 .= '</tr>';
+			$cont3++;
+		}
+	}
+	$html2 .= '</tr>';
 }
 // var_dump($finesa_cot);
 // var_dump($ofertas_cot);
@@ -951,7 +961,7 @@ $html3 .= '<td class="puntos fondo" style="width:10%; text-align: center; font-f
 $cont4 = 1;
 
 if ($rowValidate == 10) {
-	foreach ($resultados as $resultado)  {
+	foreach ($resultados as $resultado) {
 		if (is_numeric($resultado['ValorRC'])) {
 			$pdfValorRCM = $resultado['ValorRC'] / 1000000;
 			$pdfValorRC = '$' . number_format($pdfValorRCM, 0, ',', '.'); // Agregar el símbolo de peso aquí
@@ -970,7 +980,7 @@ if ($rowValidate == 10) {
 		$cont4 += 1;
 	}
 } else if ($rowValidate > 10) {
-	foreach ($resultados as $resultado)  {
+	foreach ($resultados as $resultado) {
 		if (is_numeric($resultado['ValorRC'])) {
 			$pdfValorRCM = $resultado['ValorRC'] / 1000000;
 			$pdfValorRC = '$' . number_format($pdfValorRCM, 0, ',', '.'); // Agregar el símbolo de peso aquí
@@ -989,7 +999,7 @@ if ($rowValidate == 10) {
 		$cont4 += 1;
 	}
 } else {
-	foreach ($resultados as $resultado)  {
+	foreach ($resultados as $resultado) {
 
 		if (is_numeric($resultado['ValorRC'])) {
 			$pdfValorRCM = $resultado['ValorRC'] / 1000000;
@@ -1266,7 +1276,7 @@ $html3 .= '<td class="puntos fondo" style="width:10%; text-align: center; font-f
 // }
 
 $cont10 = 1;
-foreach ($resultados as $resultado)  {
+foreach ($resultados as $resultado) {
 	$nombreAseguradora = nombreAseguradora($resultado['Aseguradora']);
 	$nombreProducto = productoAseguradora($resultado['Aseguradora'], $resultado['Producto']);
 
@@ -1381,7 +1391,7 @@ $valorTabla = (90 / $rowValidate);
 $html4 .= '<td class="puntos fondo" style="width:10%;"></td>';
 $cont3f = 1;
 
-foreach ($resultados as $resultado)  {
+foreach ($resultados as $resultado) {
 	$pdf->SetFont('dejavusanscondensed', '', 8);
 	if ($cont3f % 2 == 0) {
 		if ($resultado['Aseguradora'] == 'Axa Colpatria') {
@@ -1666,7 +1676,7 @@ $html4 .= '<td class="fondo puntos" style="width:10%; text-align: center; font-f
 // }
 $cont12 = 1;
 
-foreach ($resultados as $resultado)  {
+foreach ($resultados as $resultado) {
 
 	$nombreAseguradora = nombreAseguradora($resultado['Aseguradora']);
 	$nombreProducto = productoAseguradora($resultado['Aseguradora'], $resultado['Producto']);
@@ -1719,7 +1729,7 @@ $html4 .= '<td class="fondo puntos" style="width:10%; text-align: center; font-f
 // }
 $cont13 = 1;
 
-foreach ($resultados as $resultado)  {
+foreach ($resultados as $resultado) {
 
 	$nombreAseguradora = nombreAseguradora($resultado['Aseguradora']);
 	$nombreProducto = productoAseguradora($resultado['Aseguradora'], $resultado['Producto']);
@@ -1772,7 +1782,7 @@ $html4 .= '<td class="fondo puntos" style="width:10%; text-align: center; font-f
 // }
 $cont14 = 1;
 
-foreach ($resultados as $resultado)  {
+foreach ($resultados as $resultado) {
 
 	$nombreAseguradora = nombreAseguradora($resultado['Aseguradora']);
 	$nombreProducto = productoAseguradora($resultado['Aseguradora'], $resultado['Producto']);
@@ -1830,7 +1840,7 @@ $html4 .= '<td class="fondo puntos" style="width:10%; text-align: center; font-f
 // }
 
 $cont15 = 1;
-foreach ($resultados as $resultado)  {
+foreach ($resultados as $resultado) {
 	$nombreAseguradora = nombreAseguradora($resultado['Aseguradora']);
 	$nombreProducto = productoAseguradora($resultado['Aseguradora'], $resultado['Producto']);
 
@@ -1883,7 +1893,7 @@ $html4 .= '<td class="puntos fondo" style="width:10%; text-align: center; font-f
 // 	$rowValidate = mysqli_num_rows($respuestaquery28);
 // }
 $cont16 = 1;
-foreach ($resultados as $resultado)  {
+foreach ($resultados as $resultado) {
 	$nombreAseguradora = nombreAseguradora($resultado['Aseguradora']);
 	$nombreProducto = productoAseguradora($resultado['Aseguradora'], $resultado['Producto']);
 
@@ -1937,7 +1947,7 @@ $html4 .= '<td class ="fondo puntos" style="width:10%; text-align: center; font-
 
 $cont17 = 1;
 
-foreach ($resultados as $resultado)  {
+foreach ($resultados as $resultado) {
 
 	$nombreAseguradora = nombreAseguradora($resultado['Aseguradora']);
 	$nombreProducto = productoAseguradora($resultado['Aseguradora'], $resultado['Producto']);
@@ -1992,7 +2002,7 @@ $html4 .= '<td class="fondo puntos" style="width:10%; text-align: center; font-f
 // }
 $cont18 = 1;
 
-foreach ($resultados as $resultado)  {
+foreach ($resultados as $resultado) {
 
 	$nombreAseguradora = nombreAseguradora($resultado['Aseguradora']);
 	$nombreProducto = productoAseguradora($resultado['Aseguradora'], $resultado['Producto']);
@@ -2049,7 +2059,7 @@ $html4 .= '<td class="fondo puntos" style="width:10%; text-align: center; font-f
 // 	$rowValidate = mysqli_num_rows($respuestaquery21);
 // }
 $cont19 = 1;
-foreach ($resultados as $resultado)  {
+foreach ($resultados as $resultado) {
 
 	$nombreAseguradora = nombreAseguradora($resultado['Aseguradora']);
 	$nombreProducto = productoAseguradora($resultado['Aseguradora'], $resultado['Producto']);
@@ -2103,7 +2113,7 @@ $html4 .= '<td class ="fondo puntos" style="width:10%; text-align: center; font-
 // }
 
 $cont20 = 1;
-foreach ($resultados as $resultado)  {
+foreach ($resultados as $resultado) {
 
 	$nombreAseguradora = nombreAseguradora($resultado['Aseguradora']);
 	$nombreProducto = productoAseguradora($resultado['Aseguradora'], $resultado['Producto']);
@@ -2158,7 +2168,7 @@ $html4 .= '<td class="fondo puntos" style="width:10%;"><font size="8" style="fon
 // }
 
 $cont22 = 1;
-foreach ($resultados as $resultado)  {
+foreach ($resultados as $resultado) {
 
 	$nombreAseguradora = nombreAseguradora($resultado['Aseguradora']);
 	$nombreProducto = productoAseguradora($resultado['Aseguradora'], $resultado['Producto']);
@@ -2211,7 +2221,7 @@ $html4 .= '<td class="fondo puntos" style="width:10%;"><font size="8" style="fon
 // 	$rowValidate = mysqli_num_rows($respuestaquery25);
 // }
 $cont23 = 1;
-foreach ($resultados as $resultado)  {
+foreach ($resultados as $resultado) {
 
 	$nombreAseguradora = nombreAseguradora($resultado['Aseguradora']);
 	$nombreProducto = productoAseguradora($resultado['Aseguradora'], $resultado['Producto']);
@@ -2265,7 +2275,7 @@ $html4 .= '<td class="fondo puntos" style="width:10%;"><font size="8" style="fon
 // }
 
 $cont24 = 1;
-foreach ($resultados as $resultado)  {
+foreach ($resultados as $resultado) {
 
 	$nombreAseguradora = nombreAseguradora($resultado['Aseguradora']);
 	$nombreProducto = productoAseguradora($resultado['Aseguradora'], $resultado['Producto']);
@@ -2320,7 +2330,7 @@ $html4 .= '<td class="fondo puntos" style="width:10%;"><font size="8" style="fon
 // }
 
 $cont25 = 1;
-foreach ($resultados as $resultado)  {
+foreach ($resultados as $resultado) {
 
 	$nombreAseguradora = nombreAseguradora($resultado['Aseguradora']);
 	$nombreProducto = productoAseguradora($resultado['Aseguradora'], $resultado['Producto']);

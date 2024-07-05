@@ -636,47 +636,56 @@ $html2 .= '</tr>';
 $viable = true;
 
 if ($rowValidateF > 1) {
-    $contV = 0;
-    foreach ($resultados as $resultado) {
-        if ($resultado['cuota_1'] == null) {
-            $contV++;
-        }
-    }
-    if ($contV == $rowValidateF) {
-        $viable = false;
-    }
+	$contV = 0;
+	foreach ($resultados as $resultado) {
+		if ($resultado['cuota_1'] == null) {
+			$contV++;
+		}
+	}
+	if ($contV == $rowValidateF) {
+		$viable = false;
+	}
 }
 
 $cont3 = 1;
 
 if ($rowValidateF > 1) {
-    $html2 .= '<tr>';
-    foreach ($resultados as $resultado) {
-        $fondo_class = ($cont3 % 2 == 0) ? 'fondo' : 'fondo2';
-        $font_size = ($rowValidate > 10) ? 7 : (($rowValidate == 10) ? 8 : 9);
-
-        if ($viable) {
-            if ($resultado['cuota_1'] != null) {
-                $html2 .= '<td style="font-size:' . ($font_size - 2) . 'px; color:#666666; font-family:dejavusanscondensedb; text-align: center;" class="puntos td2 ' . $fondo_class . '">
-                $ ' . number_format($resultado['cuota_1'], 0, ',', '.') . '
+	$html2 .= '<tr>';
+	foreach ($resultados as $resultado) {
+		$fondo_class = ($cont3 % 2 == 0) ? 'fondo' : 'fondo2';
+		$font_size = ($rowValidate > 10) ? 7 : (($rowValidate == 10) ? 8 : 9);
+		if ($viable) {
+			if ($resultado['cuota_1'] != null) {
+				if ($resultado['Aseguradora'] == "Liberty" || $resultado['Aseguradora'] == "Bolivar") {
+					$html2 .= '<td style="font-size:' . ($font_size - 2) . 'px; color:#666666; font-family:dejavusanscondensedb; text-align: center;" class="puntos td2 ' . $fondo_class . '">
+					Pdte. cotizar 
+					<br>
+					financiación
+					</td>';
+				} else {
+				$html2 .= '<td style="font-size:' . ($font_size - 2) . 'px; color:#666666; font-family:dejavusanscondensedb; text-align: center;" class="puntos td2 ' . $fondo_class . '">
+				 $' . number_format($resultado['cuota_1'], 0, ',', '.') . '
                 <br>
                 (' . $resultado['cuotas'] . ' Cuotas)
                 </td>';
-            } else {
-                $html2 .= '<td style="font-size:' . ($font_size - 2) . 'px; color:#666666; font-family:dejavusanscondensedb; text-align: center;" class="puntos td2 ' . $fondo_class . '">
-                Pdte. cotizar
-                <br> 
+				}
+				$cont3++;
+			} else {
+				$html2 .= '<td style="font-size:' . ($font_size - 2) . 'px; color:#666666; font-family:dejavusanscondensedb; text-align: center;" class="puntos td2 ' . $fondo_class . '">
+                No aplica
+                <br>
                 financiación
                 </td>';
-            }
-            $cont3++;
-        } else {
-            if($resultado['Aseguradora'] == "Liberty" || $resultado['Aseguradora'] == "Bolivar"){
+
+				$cont3++;
+			}
+		} else {
+			if ($resultado['Aseguradora'] == "Liberty" || $resultado['Aseguradora'] == "Bolivar") {
 				$html2 .= '<td style="font-size:' . ($font_size - 2) . 'px; color:#666666; font-family:dejavusanscondensedb; text-align: center;" class="puntos td2 ' . $fondo_class . '">
                 Pdte. cotizar 
                 <br>
                 financiación
-                </td>'; 
+                </td>';
 			} else {
 				$html2 .= '<td style="font-size:' . ($font_size - 2) . 'px; color:#666666; font-family:dejavusanscondensedb; text-align: center;" class="puntos td2 ' . $fondo_class . '">
                 No aplica
@@ -684,10 +693,10 @@ if ($rowValidateF > 1) {
                 financiación
                 </td>';
 			}
-            $cont3++;
-        }
-    }
-    $html2 .= '</tr>';
+			$cont3++;
+		}
+	}
+	$html2 .= '</tr>';
 }
 $html2 .= '</table></div>';
 
@@ -939,24 +948,7 @@ $html3 .= '<td class="puntos fondo" style="width:25%; text-align: center; font-f
 //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 //CONSULTA LIMITE MAXIMO
 //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-// $query9 = "SELECT o.Aseguradora, o.ValorRC
-// FROM cotizaciones_finesa cf 
-// INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion
-// WHERE o.seleccionar = 'Si' 
-// AND cf.identityElement = o.oferta_finesa
-// AND cf.id_cotizacion = $identificador";
 
-// $respuestaquery9 = $conexion->query($query9);
-// $rowValidate = mysqli_num_rows($respuestaquery9);
-
-// if ($rowValidate == 0 || $rowValidate == false || $rowValidate == null) {
-// 	mysqli_free_result($respuestaquery9);
-// 	$query9 = "SELECT Aseguradora, ValorRC FROM ofertas WHERE `id_cotizacion` = $identificador AND `seleccionar` = 'Si'";
-// 	$respuestaquery9 = $conexion->query($query9);
-// 	$rowValidate = mysqli_num_rows($respuestaquery9);
-// }
-
-// $valorlimiterow = mysqli_num_rows($respuestaquery9);
 $cont4 = 1;
 
 if ($rowValidate == 10) {
@@ -1136,24 +1128,6 @@ $html3 .= '</tr>';
 $html3 .= '<tr>';
 $html3 .= '<td class="puntos fondo" style="width:25%; text-align: center; font-family:dejavusanscondensedb;"><div style="font-size:6pt">&nbsp;</div><font size="8">Pérdida total daños o hurto</font></td>';
 
-
-// $query10 = "SELECT DISTINCT cf.identityElement, o.Aseguradora, o.PerdidaTotal, o.Producto
-// FROM cotizaciones_finesa cf 
-// INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion
-// WHERE o.seleccionar = 'Si' 
-// AND cf.identityElement = o.oferta_finesa
-// AND cf.id_cotizacion = $identificador";;
-
-// $respuestaquery10 = $conexion->query($query10);
-// $rowValidate = mysqli_num_rows($respuestaquery10);
-
-// if ($rowValidate == 0 || $rowValidate == false || $rowValidate == null) {
-// 	mysqli_free_result($respuestaquery10);
-// 	$query10 = "SELECT Aseguradora, PerdidaTotal, Producto FROM ofertas WHERE `id_cotizacion` = $identificador AND `seleccionar` = 'Si'";
-// 	$respuestaquery10 = $conexion->query($query10);
-// 	$rowValidate = mysqli_num_rows($respuestaquery10);
-// }
-
 $cont6 = 1;
 foreach ($resultados as $resultado) {
 
@@ -1177,22 +1151,6 @@ $html3 .= '</tr>';
 $html3 .= '<tr>';
 $html3 .= '<td class="puntos fondo" style="width:25%; text-align: center; font-family:dejavusanscondensedb;"><div style="font-size:6pt">&nbsp;</div><font size="8">Pérdida parcial por daño</font></td>';
 
-// $query11 = "SELECT DISTINCT cf.identityElement, o.Aseguradora, o.PerdidaParcial, o.Producto
-// FROM cotizaciones_finesa cf 
-// INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion
-// WHERE o.seleccionar = 'Si' 
-// AND cf.identityElement = o.oferta_finesa
-// AND cf.id_cotizacion = $identificador";
-
-// $respuestaquery11 = $conexion->query($query11);
-// $rowValidate = mysqli_num_rows($respuestaquery11);
-
-// if ($rowValidate == 0 || $rowValidate == false || $rowValidate == null) {
-// 	mysqli_free_result($respuestaquery11);
-// 	$query11 = "SELECT PerdidaParcial, Aseguradora, Producto FROM ofertas WHERE `id_cotizacion` = $identificador AND `seleccionar` = 'Si'";
-// 	$respuestaquery11 = $conexion->query($query11);
-// 	$rowValidate = mysqli_num_rows($respuestaquery11);
-// }
 $cont7 = 1;
 
 foreach ($resultados as $resultado) {
@@ -1581,22 +1539,6 @@ $html4 .= '</tr>';
 
 $html4 .= '<tr>';
 $html4 .= '<td class="fondo puntos" style="width:25%; text-align: center; font-family:dejavusanscondensedb;"><div style="font-size:2pt">&nbsp;</div><font size="8">Grua varada o accidente.</font></td>';
-// $query15 = "SELECT DISTINCT o.Aseguradora, o.Producto
-// FROM cotizaciones_finesa cf 
-// INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion
-// WHERE o.seleccionar = 'Si' 
-// AND cf.identityElement = o.oferta_finesa
-// AND cf.id_cotizacion = $identificador";
-
-// $respuestaquery15 = $conexion->query($query15);
-// $rowValidate = mysqli_num_rows($respuestaquery15);
-
-// if ($rowValidate == 0 || $rowValidate == false || $rowValidate == null) {
-// 	mysqli_free_result($respuestaquery15);
-// 	$query15 = "SELECT Producto, Aseguradora FROM ofertas WHERE `id_cotizacion` = $identificador AND `seleccionar` = 'Si'";
-// 	$respuestaquery15 = $conexion->query($query15);
-// 	$rowValidate = mysqli_num_rows($respuestaquery7);
-// }
 
 $cont11 = 1;
 foreach ($resultados as $resultado) {
