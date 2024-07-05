@@ -73,13 +73,12 @@ $(document).ready(function () {
     swal
             .fire({
               icon: "error",
-              html: `<div style="text-align: justify; font-family: Helvetica, Arial, sans-serif; font-size: 15px; border-radius: 4px; padding: 8px;">Lo sentimos. No tienes cotizaciones disponibles, por favor comunicate con tu analista asignado.`,
+              html: `<div style="text-align: center; font-family: Helvetica, Arial, sans-serif; font-size: 15px; border-radius: 4px; padding: 8px;">Lo sentimos. No tienes cotizaciones disponibles, por favor comunicate con tu analista asignado.`,
               width: "50%",
               showConfirmButton: true,
               confirmButtonText: "Cerrar",
               customClass: {
                 popup: "custom-swal-popupCotExcep",
-                icon: "swal2-icon_monto",
               },
             })
             .then(function (result) {
@@ -925,21 +924,21 @@ function cotizarFinesaMotos(ofertasCotizaciones) {
               .then((dbResponse) => dbResponse.json())
               .then((dbData) => {
                 const elementDiv = document.getElementById(element.objFinesa);
-                if (dbData.data.mensaje.includes("Por políticas de Finesa")) {
-                  cotizacionesFinesaMotos[index].cotizada = true;
+               if (element.aseguradora == "Seguros Bolivar" || element.aseguradora == "Liberty")
+                {
+                   cotizacionesFinesa[index].cotizada = true;
+                   elementDiv.innerHTML = `Financiación Aseguradora:<br /> Consulte analista`;
+                } else if (dbData?.data?.mensaje.includes("Por políticas de Finesa")) {
+                  cotizacionesFinesa[index].cotizada = true;
                   elementDiv.innerHTML = `Financiación:<br /> No aplica financiación`;
-                } else if (
-                  dbData.data.mensaje.includes(
-                    "Asegurado no viable para financiacion"
-                  )
-                ) {
-                  cotizacionesFinesaMotos[index].cotizada = true;
+                } else if (element.aseguradora == "Asegurado no viable para financiacion") {
+                  cotizacionesFinesa[index].cotizada = true;
                   elementDiv.innerHTML = `Financiación Finesa:<br /> Asegurado no viable para financiación`;
                 } else {
-                  cotizacionesFinesaMotos[index].cotizada = true;
-                  elementDiv.innerHTML = `Financiación Finesa:<br />$${dbData.data.data.val_cuo.toLocaleString(
+                  cotizacionesFinesa[index].cotizada = true;
+                  elementDiv.innerHTML = `Financiación Finesa:<br />$${dbData?.data?.data?.val_cuo.toLocaleString(
                     "es-ES"
-                  )} (${dbData.data.cuotas} Cuotas)`;
+                  )} (${dbData?.data?.cuotas} Cuotas)`;
                 }
                 elementDiv.style.display = "block";
                 // Agrega el resultado final al array
@@ -1167,7 +1166,7 @@ ${
                   <h5 class='entidad' style='font-size: 15px'><b>${aseguradora} - ${producto}</b></h5>
                   <h5 class='precio' style='margin-top: 0px !important;'>Desde $ ${prima}</h5>
                   <p class='title-precio' style='margin: 0 0 3px !important'>Precio (IVA incluido)</p>
-                  <div id='${actIdentityMotos}' style='display: none; color: #88d600; font-weight: bold'>
+                  <div id='${actIdentityMotos}' style='display: none; color: #88d600;'>
               </div>
             </div>
           <div class="col-xs-12 col-sm-6 col-md-4">

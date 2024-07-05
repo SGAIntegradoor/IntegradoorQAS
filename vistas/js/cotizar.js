@@ -390,15 +390,12 @@ $(document).ready(function () {
             .fire({
               icon: "error",
               title: "Cotizaciones Totales Excedidas",
-              html: `<div style="text-align: justify; font-family: Helvetica, Arial, sans-serif; font-size: 15px; border-radius: 4px; padding: 8px;">El usuario ha excedido las cotizaciones totales. En este momento solo podrás visualizar las cotizaciones realizadas hasta que se agoten los días habilitados. Si quieres seguir haciendo cotizaciones solicita vincularte al Programa. Comunícate con el área encargada de vinculaciones de Grupo Asistencia al:
-                  <br><br>
-                  <div style="text-align: center;">📱+573185127910 o vía 📧 mercadeo@grupoasistencia.com </div></div>`,
-              width: "90%",
+              html: `<div style="text-align: center; font-family: Helvetica, Arial, sans-serif; font-size: 15px; border-radius: 4px; padding: 8px;">Lo sentimos. No tienes cotizaciones disponibles, por favor comunicate con tu analista asignado.`,
+              width: "50%",
               showConfirmButton: true,
               confirmButtonText: "Cerrar",
               customClass: {
                 popup: "custom-swal-popupCotExcep",
-                icon: "swal2-icon_monto",
               },
             })
             .then(function (result) {
@@ -1595,7 +1592,7 @@ const mostrarOferta = (
                       }</b></h5>
                        <h5 class='precio' style='margin-top: 0px !important;'>Desde $ ${prima}</h5>
                        <p class='title-precio' style='margin: 0 0 3px !important'>Precio (IVA incluido)</p>
-                       <div id='${actIdentity}' style='display: none; color: #88d600; font-weight: bold'>
+                       <div id='${actIdentity}' style='display: none; color: #88d600;'>
                       </div>
                     </div>
                                       <div class="col-xs-12 col-sm-6 col-md-4">

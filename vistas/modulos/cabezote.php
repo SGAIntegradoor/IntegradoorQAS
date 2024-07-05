@@ -114,8 +114,8 @@
  						<?php
 							if ($_SESSION['rol'] == 19 || $_SESSION['rol'] == 20) { ?>
  							<ul class="nav navbar-nav">
- 								<li class="calendar_li" style="margin-right: 5px; color: #88d600;font-size: 30px;">
- 									<i class="fa fa-calendar-times-o" aria-hidden="true"></i>
+ 								<li class="calendar_li" style="margin-right: 5px; color: #88d600;font-size: 23px;">
+								 <i class="fa-solid fa-file-lines"></i>
  								</li>
 
  								<li class="li_cotDi">
