@@ -357,21 +357,6 @@ $html2 = '
 <div class="second2">
 <table class="second" cellpadding="2"  border="0">';
 
-// $query4 = "SELECT o.Aseguradora, o.Producto
-// FROM cotizaciones_finesa cf 
-// INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion
-// WHERE o.seleccionar = 'Si' 
-// AND cf.identityElement = o.oferta_finesa
-// AND cf.id_cotizacion = $identificador ORDER BY o.Aseguradora ASC";
-
-// $respuestaquery4 = $conexion->query($query4);
-// $rowValidate = mysqli_num_rows($respuestaquery4);
-
-// if ($rowValidate == 0 || $rowValidate == false || $rowValidate == null) {
-// 	$query4 = "SELECT Aseguradora, Producto FROM ofertas WHERE `id_cotizacion` = $identificador AND `seleccionar` = 'Si' ORDER BY Aseguradora ASC";
-// 	$respuestaquery4 = $conexion->query($query4);
-// 	$rowValidate = mysqli_num_rows($respuestaquery4);
-// }
 $html2 .= '<tr>';
 $cont = 1;
 $i = 0;
@@ -534,7 +519,6 @@ while ($i < count($resultados)) {
 }
 $html2 .= '</tr>';
 
-
 $pdf->SetFont('dejavusanscondensed', '', 12);
 
 $i1 = 0;
@@ -663,12 +647,8 @@ if ($rowValidateF > 1) {
 	}
 	$html2 .= '</tr>';
 }
-// var_dump($finesa_cot);
-// var_dump($ofertas_cot);
-// var_dump($resultados);
 
 $html2 .= '</table></div>';
-// echo $html2;
 
 $html3 = '
 <style>
