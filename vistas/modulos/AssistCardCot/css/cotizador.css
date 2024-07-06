@@ -56,11 +56,16 @@
 
 .planeCot{
   color: #88d600;
-  margin-left: 15px;
-  transform: rotate(-45deg) scale(2) translateY(-1px) translatex(3px);
+  margin-left: 10px;
+  transform: scale(1.5); 
+
 }
 
 #containerCards{
   margin-top: 35PX;
+  display: none;
+}
+.mainDataContainer{
+  margin-top: 20px;
 }
 /*///////////////////////////////////////////////////////////////////////////////// */

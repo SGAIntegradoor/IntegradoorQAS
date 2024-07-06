@@ -304,7 +304,7 @@ select:invalid + .error-message {
     </section>
     <section class="content">
         <div class="box">
-            <div class="row card-container">
+            <div class="row card-container" id="mainCardContainer">
                 <!-- TITULO PLANES -->
                 <div class="content">
                     
@@ -398,6 +398,8 @@ select:invalid + .error-message {
                                         <li><b>Nivel 1: 67,5%</b></li>
                                         <li><b>Nivel 2: 70%</b></li>
                                         <li><b>Nivel 3: 75%</b></li>
+                                        <br />
+                                        <b>*Nota:</b> algunos productos tienen una comisión diferente: corporativo 20%, página web 15%, add on 15%, entre otros.
                                     </ul>
                                 </div>
                             </div>

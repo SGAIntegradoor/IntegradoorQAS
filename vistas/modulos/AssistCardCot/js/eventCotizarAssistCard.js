@@ -1,4 +1,5 @@
 //Constante con los nombre de productos, esto sepuede migrar despues a base de datos
+// ToDo: Pasar esto por base de datos
 const equivalencias = {
     "5D": "AC 60",
     "5C": "AC 150",
@@ -7,6 +8,26 @@ const equivalencias = {
     "GD": "AC 60",
     "GC": "AC 150",
     "HK": "AC 250"
+};
+
+//Constantes con los planes permitidos, si se quiere agregar otro solo es colocar su codigo aqui y revisar las coberturas
+// ToDo: Pasar esto por base de datos
+const vacacionalPermitidos = ["5D", "5C", "5B", "5E"];
+const empresarialPermitidos = ["GD", "GC", "HK"];
+
+//Constantes con las coberturas de los planes
+// ToDo: Pasar esto por base de datos o en su defecto pintar lo que llegue del servicio y no hardcode
+const coberturasVacacional = {
+  "5D": "60.000",
+  "5C": "150.000",
+  "5B": "250.000",
+  "5E": "35.000"
+};
+
+const coberturasEmpresarial= {
+  "GD": "60.000",
+  "GC": "150.000",
+  "HK": "250.000",
 };
 
 // Cargar el select de origen
@@ -92,10 +113,48 @@ function toggleContainerCards(){
 }
 // ========================================================================================================================
 
+// Funcion que muestra el container de cards
+function showContainerCards(){
+  $("#containerCards").show();
+}
+// ========================================================================================================================
+
+// Funcion que oculta el container de las cars informativas
+function hideMainContainerCards(){
+  $("#mainCardContainer").hide();
+}
+// ========================================================================================================================
+
+// Validar si se puede mostrar ese producto
+function validarCodigoVacacional(codigo) {
+  return vacacionalPermitidos.includes(codigo);
+}
+// ========================================================================================================================
+
+// Validar si se puede mostrar ese producto
+function validarCodigoEmpresarial(codigo) {
+  return empresarialPermitidos.includes(codigo);
+}
+// ========================================================================================================================
+
 // Permitir cambiar los nombres de los produtos, por ahora se hace para vacacional
 function changeNameProduct(codeProduct, nameOriginal) {
   var equivalente = equivalencias[codeProduct];
   return equivalente !== undefined ? equivalente : nameOriginal;
+}
+// ========================================================================================================================
+
+// Permitir cambiar la cobertura de cada plan vacacional
+function changeRateVacationalProduct(codeProduct) {
+  var equivalente = coberturasVacacional[codeProduct];
+  return equivalente !== undefined ? equivalente : "No disponible";
+}
+// ========================================================================================================================
+
+// Permitir cambiar la cobertura de cada plan Empresarial
+function changeRateBusinessProduct(codeProduct) {
+  var equivalente = coberturasEmpresarial[codeProduct];
+  return equivalente !== undefined ? equivalente : "No disponible";
 }
 // ========================================================================================================================
 
@@ -161,6 +220,53 @@ function invaldateBeforeDate(){
 }
 // ========================================================================================================================
 
+//funcion para invalidar las fechas anteriores a fecha de salida
+function InvalidReturnDates(){
+  var $fechaSalidaInput = $('#fechaSalida');
+  var $fechaRegresoInput = $('#fechaRegreso');
+  $fechaRegresoInput.attr('min', $fechaSalidaInput.val());
+  if ($fechaRegresoInput.val() < $fechaSalidaInput.val()) {
+      $fechaRegresoInput.val($fechaSalidaInput.val());
+  }
+}
+
+//funcion para validar que la edad sea mayor a 18 cuando el motivo es empresarial
+function validateDateToBusinessProduct (){
+    var motivoViaje = document.getElementById('motivoViaje').value;
+    var diaNacimiento = document.getElementById('dianacimiento').value;
+    var mesNacimiento = document.getElementById('mesnacimiento').value;
+    var anioNacimiento = document.getElementById('anionacimiento').value;
+    var fechaSalida = document.getElementById('fechaSalida').value;
+
+    if (motivoViaje !== 'Empresarial') {
+        return true;
+    }
+
+    if (!diaNacimiento || !mesNacimiento || !anioNacimiento || !fechaSalida) {
+        return false;
+    }
+
+    var fechaNacimiento = new Date(anioNacimiento, mesNacimiento - 1, diaNacimiento);
+    var fechaSalidaDate = new Date(fechaSalida);
+
+    var edad = fechaSalidaDate.getFullYear() - fechaNacimiento.getFullYear();
+    var mes = fechaSalidaDate.getMonth() - fechaNacimiento.getMonth();
+    if (mes < 0 || (mes === 0 && fechaSalidaDate.getDate() < fechaNacimiento.getDate())) {
+        edad--;
+    }
+
+    if (edad < 18){
+      Swal.fire({
+        icon: "error",
+        title: "Si el motivo de viaje es Empresarial, la edad debe ser mayor a 18 años para el día de salida del viaje."
+      });
+    }
+
+    return edad >= 18;
+
+}
+// ========================================================================================================================
+
 // Funcion para cargar estilos una vez se generan las cards
 function cargarEstilos(url) {
   $('<link>')
@@ -177,7 +283,7 @@ function cargarEstilos(url) {
 function toogleDataContainer(){
   var newTittle = "DATOS DEL VIAJE"
   $("#lblDataTrip").text(newTittle);
-  $("#colradioPeople, #colBtnCotizar").toggle();
+  $("#colradioPeople, #colBtnCotizar").hide();
 }
 
 //Cambiar titulo data container una vez se cotiza
@@ -219,7 +325,6 @@ function validarCampos() {
 function cotizar() {
   document.getElementById("spinener-cot").style.display = "flex";
   // Capturamos los valores de los campos del formulario
-  document.getElementById("btnCotizar").disabled = true;
   var PlanFamilair = "false";
   var txtOrigen = $("#lugarOrigen").val();
   var txtDestino = $("#lugarDestino").val();
@@ -289,7 +394,7 @@ var edadPrincipalParaVerDetalles = Math.floor(diferencia / (1000 * 60 * 60 * 24 
             document.getElementById("spinener-cot").style.display = "none";
             Swal.fire({
               icon: "error",
-              title: "Oops... Por favor revisa toda la información ingresada 🤔",
+              title: "Oops... Por favor revisa toda la información ingresada",
             });
         } else { 
           var dolarHoy = objResponse.cotizacionDolar;
@@ -298,10 +403,12 @@ var edadPrincipalParaVerDetalles = Math.floor(diferencia / (1000 * 60 * 60 * 24 
           var SelmotivoViaje2 = $("#motivoViaje").val();
           console.log(cotizacion);
           var html_data = "";
+          hideMainContainerCards();
+          showContainerCards();
           $.each(cotizacion, function (key, cotizacionArray) {
               
               if(SelmotivoViaje2 =="Empresarial"){
-                  if (cotizacionArray.codigo == "GD" || cotizacionArray.codigo == "GC" || cotizacionArray.codigo == "HK") {
+                  if ( validarCodigoEmpresarial(cotizacionArray.codigo)) {
                     toogleDataContainer();
                       html_data += ` 
                             <div class='card-ofertas'>
@@ -324,9 +431,9 @@ var edadPrincipalParaVerDetalles = Math.floor(diferencia / (1000 * 60 * 60 * 24 
                                       </span><br> 
                                   </div>
 
-                                  <div class="col-xs-12 col-sm-6 col-md-3 oferta-logo">                
+                                  <div class="col-xs-12 col-sm-6 col-md-3 textCards">                
                                       <ul>
-                                          <li>Cobertura USD 60.000</li>
+                                          <li>Cobertura USD ${changeRateBusinessProduct(cotizacionArray.codigo)}</li>
                                           <li>Cobertura de accidentes</li>
                                           <li>Cobertura por enfermedades no preexistente</li>
                                           <li>Cobertura de estabilización de cuadro agudo de preexistencias</li>
@@ -334,7 +441,7 @@ var edadPrincipalParaVerDetalles = Math.floor(diferencia / (1000 * 60 * 60 * 24 
                                       </ul>
                                   </div>
 
-                                  <div class="col-xs-12 col-sm-6 col-md-3 oferta-logo">
+                                  <div class="col-xs-12 col-sm-6 col-md-3 textCards">
                                       <ul>
                                           <li>Odontología de urgencia</li>
                                           <li>Repatriación Sanitaria derivada de una atención médica</li>
@@ -344,14 +451,16 @@ var edadPrincipalParaVerDetalles = Math.floor(diferencia / (1000 * 60 * 60 * 24 
                                       </ul>
                                   </div>
 
-                                  <div class="col-xs-12 col-sm-6 col-md-2 oferta-logo">
-                                    <span> Muchas más coberturas  
-                                    <i class="fa fa-hand-o-down" aria-hidden="true"></i>  
-                                    </span>
-                                      <button class="btn btn-primary btn-block btn-cot" id="">
-                                          <span class="span_titulo_item">
-                                              <a target="_blank" style="text-decoration:none;" href='https://serviciocondiciones.assist-card.com/DetalleCcpp.ashx?codigoPais=${cotizacionArray.pais}&producto=${cotizacionArray.codigo}&tarifa=${cotizacionArray.codigoTarifa}&edad=${edadPrincipalParaVerDetalles}&idLanguage=1&anual=${cotizacionArray.cantidadDias == 365 ? `True` : `False`}'>Ver detalles</a>
-                                          </span>
+                                  <div class="col-xs-12 col-sm-6 col-md-2 colPdf">
+                                        <span> Muchas más <br>
+                                        </span>
+                                        <span> coberturas  
+                                        <span class="bigEmoji">👇🏼</span>  
+                                        </span>
+                                          <button class="btn btn-info btn-block btn-pdf" id="">
+                                              <span class="span_titulo_item">
+                                                  <a target="_blank" class="btnText" href='https://serviciocondiciones.assist-card.com/DetalleCcpp.ashx?codigoPais=${cotizacionArray.pais}&producto=${cotizacionArray.codigo}&tarifa=${cotizacionArray.codigoTarifa}&edad=${edadPrincipalParaVerDetalles}&idLanguage=1&anual=${cotizacionArray.cantidadDias == 365 ? `True` : `False`}'>Ver detalles</a>
+                                              </span>
                                       </button>
                                   </div>
                               </div>
@@ -360,7 +469,7 @@ var edadPrincipalParaVerDetalles = Math.floor(diferencia / (1000 * 60 * 60 * 24 
                   }
               }                   
               if(SelmotivoViaje2 =="Vacacional"){
-                  if(cotizacionArray.codigo !== "4C"){
+                  if(validarCodigoVacacional(cotizacionArray.codigo)){
                     toogleDataContainer();
                           html_data += ` 
                                 <div class='card-ofertas'>
@@ -383,16 +492,16 @@ var edadPrincipalParaVerDetalles = Math.floor(diferencia / (1000 * 60 * 60 * 24 
                                           </span><br> 
                                       </div>
 
-                                      <div class="col-xs-12 col-sm-6 col-md-3 oferta-logo">                
+                                      <div class="col-xs-12 col-sm-6 col-md-3 textCards">                
                                           <ul>
-                                              <li>Cobertura USD 60.000</li>
+                                              <li>Cobertura USD ${changeRateVacationalProduct(cotizacionArray.codigo)}</li>
                                               <li>Cobertura de accidentes</li>
                                               <li>Cobertura por enfermedades no preexistente</li>
                                               <li>Cobertura de estabilización de cuadro agudo de preexistencias</li>
                                           </ul>
                                       </div>
 
-                                      <div class="col-xs-12 col-sm-6 col-md-3 oferta-logo">
+                                      <div class="col-xs-12 col-sm-6 col-md-3 textCards">
                                           <ul>
                                               <li>Odontología de urgencia</li>
                                               <li>Repatriación Sanitaria derivada de una atención médica</li>
@@ -401,14 +510,17 @@ var edadPrincipalParaVerDetalles = Math.floor(diferencia / (1000 * 60 * 60 * 24 
                                           </ul>
                                       </div>
 
-                                      <div class="col-xs-12 col-sm-6 col-md-2 oferta-logo">
-                                        <span> Muchas más coberturas  
-                                        <i class="fa fa-hand-o-down" aria-hidden="true"></i>  
+                                      <div class="col-xs-12 col-sm-6 col-md-2 colPdf">
+                                        <span> Muchas más <br>
                                         </span>
-                                          <button class="btn btn-primary btn-block btn-cot" id="">
+                                        <span> coberturas  
+                                        <span class="bigEmoji">👇🏼</span>  
+                                        </span>
+                                          <button class="btn btn-info btn-block btn-pdf" id="">
                                               <span class="span_titulo_item">
-                                                  <a target="_blank" style="text-decoration:none;" href='https://serviciocondiciones.assist-card.com/DetalleCcpp.ashx?codigoPais=${cotizacionArray.pais}&producto=${cotizacionArray.codigo}&tarifa=${cotizacionArray.codigoTarifa}&edad=${edadPrincipalParaVerDetalles}&idLanguage=1&anual=${cotizacionArray.cantidadDias == 365 ? `True` : `False`}'>Ver detalles</a>
+                                                  <a target="_blank" class="btnText" href='https://serviciocondiciones.assist-card.com/DetalleCcpp.ashx?codigoPais=${cotizacionArray.pais}&producto=${cotizacionArray.codigo}&tarifa=${cotizacionArray.codigoTarifa}&edad=${edadPrincipalParaVerDetalles}&idLanguage=1&anual=${cotizacionArray.cantidadDias == 365 ? `True` : `False`}'>Ver detalles  </a>
                                               </span>
+                                              <span class="fa fa-file-text" aria-hidden="true"></span>
                                           </button>
                                       </div>
                                   </div>
@@ -422,7 +534,7 @@ var edadPrincipalParaVerDetalles = Math.floor(diferencia / (1000 * 60 * 60 * 24 
           //   });
           cargarEstilos("vistas/modulos/AssistCardCot/css/cards.css")
           Swal.fire({
-            title: "¡Cotización Exitosa 😎!",
+            title: "¡Cotización Exitosa!",
             icon: "success"
           });
         }
@@ -443,9 +555,10 @@ $(document).ready(function() {
   //Inicializamos el tooltip
   $('[data-toggle="tooltip"]').tooltip();
 
-  $("#btnCotizar").click(function() { 
+  $("#btnCotizarAsiss").click(function() { 
     var dataOk = validarCampos()
-    if (dataOk){
+    var edadOK = validateDateToBusinessProduct ()
+    if (dataOk & edadOK){
       cotizar();
     }
   });
@@ -456,6 +569,10 @@ $(document).ready(function() {
 
   $("#menosParrilla, #masParrilla").click(function(){
     toggleContainerCards();
+  })
+
+  $('#fechaSalida').on('change', function(){
+    InvalidReturnDates()
   })
  
   invaldateBeforeDate();

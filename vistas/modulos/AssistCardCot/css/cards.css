@@ -35,5 +35,29 @@
     align-items: center;
     justify-content: center;
 }
+
+.btn-pdf{
+    margin-top: 20px;
+    width: auto;
+}
+
+.btnText{
+    text-decoration:none; 
+    color:white;
+    margin-right: 5px;
+}
+.colPdf{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-weight: bold;
+}
+.bigEmoji{
+    font-size: 10px; /* Cambia el tamaño según tus necesidades */
+}
+
+.textCards{
+    font-size: 12px;
+}
 /*///////////////////////////////////////////////////////////////////////////////// */
 
