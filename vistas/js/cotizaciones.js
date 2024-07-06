@@ -1088,12 +1088,39 @@ function editarCotizacion(id) {
 
         dataType: "json",
 
-        success: function (respuesta) {
+        success: async function (respuesta) {
           // console.log(respuesta);
 
+          let offerts = [];
+
+          const headers = new Headers();
+          headers.append("Content-Type", "application/json");
+
+          const body = {
+            idCotizacion: idCotizacion,
+          };
+
+          try {
+            const dbResponse = await fetch(
+              "https://www.grupoasistencia.com/motor_webservice/getOffertsFinesa",
+              // "http://localhost/motorTest/getOffertsFinesa",
+              {
+                method: "POST",
+                headers: headers,
+                body: JSON.stringify(body),
+              }
+            );
+
+            offerts = await dbResponse.json();
+            console.log(offerts);
+          } catch (error) {
+            console.error("Error fetching data:", error);
+          }
+
+          menosRE();
           if (respuesta.length > 0) {
             var cardCotizacion = "";
-
+            console.log(offerts);
             respuesta.forEach(function (oferta, i) {
               // Nombre aseguradoras
               function nombreAseguradora(data) {
@@ -1199,7 +1226,7 @@ function editarCotizacion(id) {
                 // Volver a formatear con puntos
                 var valorRCFormat = RC.toLocaleString();
               }
-
+              console.log(oferta.Producto);
               if (
                 oferta.Aseguradora == "SBS Seguros" &&
                 oferta.Producto == "RCE Daños"
@@ -1236,7 +1263,9 @@ function editarCotizacion(id) {
 
                       <center> 
 
-												<img src='${oferta.logo}'>
+												<img src='${oferta.logo}' style="${
+                oferta.Aseguradora == "Mundial" ? "margin-top: 65px;" : null
+              }">
 
                         </center>
 
@@ -1263,22 +1292,75 @@ function editarCotizacion(id) {
                               : ""
                           }
                         </div>
-
-
-
 											</div>
+											<div class="col-xs-12 col-sm-6 col-md-2 oferta-headerEdit" style='${
+                        oferta.Aseguradora == "Liberty" &&
+                        (oferta.oferta_finesa == "" ||
+                          oferta.oferta_finesa == null)
+                          ? "padding-top: 42px;"
+                          : oferta.Aseguradora == "Mundial" &&
+                            oferta.oferta_finesa &&
+                            oferta.oferta_finesa != null
+                          ? "padding-top: 14px;"
+                          : oferta.Aseguradora == "Liberty" &&
+                            oferta.oferta_finesa != null
+                          ? "padding-top: 14px"
+                          : "padding-top: 14px"
+                      }'>
+                      <h5 class='entidad' style='font-size: 15px'><b>${
+                        oferta.Aseguradora
+                        } - ${
+                          oferta.Producto == "Pesados con RCE en exceso"
+                            ? "Pesados RCE + Exceso"
+                            : oferta.Producto == "PREVILIVIANOS INDIVIDUAL - "
+                            ? "PREVILIVIANOS INDIVIDUAL"
+                            : oferta.Producto == "AU DEDUCIBLE UNICO LIVIANOS - "
+                            ? "AU DEDUCIBLE UNICO LIVIANOS"
+                            : oferta.Producto == "LIVIANOS MIA - "
+                            ? "LIVIANOS MIA"
+                            : oferta.Producto == "Pesados Full1"
+                            ? "Pesados Full"
+                            : oferta.Producto == "Pesados Integral1"
+                            ? "Pesados Integral"
+                            : oferta.Producto
+                        }</b></h5>
+                      <h5 class='precio' style='${
+                        oferta.Aseguradora == "Liberty"
+                          ? "padding-bottom: 0px; !important"
+                          : ""
+                      }'>Precio $ ${primaFormat}</h5>
+                      <p class='title-precio'>(IVA incluido)</p>
 
-											<div class="col-xs-12 col-sm-6 col-md-2 oferta-header">
-
-												<h5 class='entidad'>${oferta.Aseguradora} - ${oferta.Producto}</h5>
-
-												<h5 class='precio'>Precio $ ${primaFormat}</h5>
-
-												<p class='title-precio'>(IVA incluido)</p>
-
-											</div>
-
-											<div class="col-xs-12 col-sm-6 col-md-4">
+                      ${
+                        oferta.oferta_finesa && oferta.oferta_finesa != null
+                          ? `
+                          <div id=${
+                            oferta.oferta_finesa
+                          } style="display: block; color: #88d600;">
+                            ${offerts
+                              .map((element) => {
+                                if (
+                                  element.identityElement ==
+                                  oferta.oferta_finesa
+                                ) {
+                                  if (element.cuota_1 == null) {
+                                    return `Financiación Finesa:<br />No aplica para financiación`;
+                                  } else {
+                                    return `Financiación Finesa:<br />$${Number(
+                                      element.cuota_1
+                                    ).toLocaleString("de-DE")}
+                                  (${element.cuotas} Cuotas)`;
+                                  }
+                                }
+                                return "";
+                              })
+                              .join("")}
+                          </div>
+                        `
+                          : ""
+                      }
+                    </div>
+										<div class="col-xs-12 col-sm-6 col-md-4">
 
 												<ul class="list-group">
 
@@ -1415,7 +1497,7 @@ function editarCotizacion(id) {
 
 											<div class="col-xs-12 col-sm-6 col-md-2 verpdf-oferta">
 
-											<button type="button" class="btn btn-info" id="btnAsegPDF${oferta.NumCotizOferta}${numId}\" onclick='verPdfOferta(\"${oferta.Aseguradora}\", \"${oferta.NumCotizOferta}\", \"${numId}\");'>
+											<button type="button" class="btn btn-info" id="btnAsegPDF${oferta.NumCotizOferta}${numId}\" onclick='verPdfOferta(\"${oferta.Aseguradora}\", \"${oferta.NumCotizOferta}\", \"${numId}\", \"${id_intermediario}\");'>
 
 												<div id="verPdf${oferta.NumCotizOferta}${numId}\">VER PDF &nbsp;&nbsp;<span class="fa fa-file-text"></span></div>
 
@@ -1580,7 +1662,7 @@ function editarCotizacion(id) {
           document.getElementById("contenParrilla").style.display = "block";
 
           menosAseg();
-          menosRE();
+          menosRECot();
         },
       });
     },
@@ -1725,7 +1807,7 @@ FUNCION PARA CARGAR EL PDF OFICIAL DE LA ASEGURADORA
 
 ==================================================*/
 
-function verPdfOferta(aseguradora, numCotizOferta, numId) {
+function verPdfOferta(aseguradora, numCotizOferta, numId, intermediario) {
   // desactive
   // console.log(aseguradora)
   // console.log(numCotizOferta)
@@ -1773,6 +1855,7 @@ function verPdfOferta(aseguradora, numCotizOferta, numId) {
       aseguradora: aseguradora,
 
       numero_cotizacion: numCotizOferta,
+      intermediario: intermediario,
     });
 
     var requestOptions = {
@@ -1790,7 +1873,7 @@ function verPdfOferta(aseguradora, numCotizOferta, numId) {
     // Llama la URL del PDF oficial de la oferta generada por la aseguradora
 
     fetch(
-      "https://www.grupoasistencia.com/motor_webservice_tst/ImpresionPdf",
+      "https://www.grupoasistencia.com/motor_webservice/ImpresionPdf",
 
       requestOptions
     )
@@ -1931,7 +2014,7 @@ const obtenerPdfprevisora = async (cotizacion) => {
   formData.append("cotizacion", cotizacion);
 
   const pdfText = await fetch(
-    "https://www.grupoasistencia.com/motor_webservice_tst2/WSPrevisora/get_pdf_previsora.php",
+    "https://www.grupoasistencia.com/motor_webservice/WSPrevisora/get_pdf_previsora.php",
 
     {
       method: "POST",
@@ -2045,7 +2128,7 @@ const obtenerPdfSolidaria = async (cotizacion) => {
   // console.log(formDataObj);
 
   const pdfText = await fetch(
-    "https://www.grupoasistencia.com/webservice_autosv1/WSSolidaria/get_pdf.php",
+    "https://www.grupoasistencia.com/motor_webservice/WSSolidaria/get_pdf.php",
 
     {
       method: "POST",
@@ -2917,8 +3000,8 @@ const deleteManualOffer = (id) => {
       confirmButtonText: "Si, eliminar",
       reverseButtons: true,
       customClass: {
-        popup: 'custom-swal-popup-warning' // Clase personalizada para esta caja
-      }
+        popup: "custom-swal-popup-warning", // Clase personalizada para esta caja
+      },
     })
     .then(function (result) {
       if (result.value) {
@@ -2935,14 +3018,15 @@ const deleteManualOffer = (id) => {
                 showConfirmButton: true,
                 confirmButtonText: "Cerrar",
                 customClass: {
-                  popup: 'custom-swal-popup-success' // Clase personalizada para esta caja
-                }
+                  popup: "custom-swal-popup-success", // Clase personalizada para esta caja
+                },
               })
               .then((result) => {
                 if (result.isConfirmed) {
-                  console.log("entre aqui")
+                  console.log("entre aqui");
                   window.location.href =
-                    "index.php?ruta=editar-cotizacion&idCotizacion=" + idCotizacion;
+                    "index.php?ruta=editar-cotizacion&idCotizacion=" +
+                    idCotizacion;
                 }
               });
           },
@@ -2953,7 +3037,6 @@ const deleteManualOffer = (id) => {
       }
     });
 };
-
 
 $("#btnCancelar").click((e) => {
   document.getElementById("formularioCotizacionManual").style.display = "none";
@@ -3074,4 +3157,12 @@ function menosRE() {
   document.getElementById("menosResOferta").style.display = "none";
 
   document.getElementById("masResOferta").style.display = "block";
+}
+
+function menosRECot() {
+  document.getElementById("resumenCotizaciones").style.display = "block";
+
+  document.getElementById("menosResOferta").style.display = "block";
+
+  document.getElementById("masResOferta").style.display = "none";
 }

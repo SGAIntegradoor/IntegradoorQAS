@@ -439,7 +439,12 @@
     padding-top: 24px;
 }
 
-.entidad {
+.oferta-headerEdit {
+    padding-top: 14px;
+}
+
+.entidad > h5{
+    margin-top: 0px;
     font-size: 16px;
     font-weight:600;
     color:#24b5d6;
@@ -481,6 +486,7 @@
     padding-top: 60px;
     text-align:center
 }
+
 
 
 
@@ -559,6 +565,10 @@
 
     .btnAgregar {
         padding-top: 10px;
+    }
+
+    .entidad > h5{
+        margin-top: 10px !important;
     }
 
 }

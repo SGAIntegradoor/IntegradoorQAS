@@ -159,6 +159,560 @@ $rolAsesor = $_SESSION['permisos']['idRol'];
     }
   }
 
+
+  .custom-title-messageFinesa {
+    font-size: 16px;
+    font-weight: bold;
+    color: #000000 !important;;
+  }
+
+  .custom-text-messageFinesa {
+    font-size: 15px !important;
+    width: 100%;
+    text-align: center !important;
+    font-weight: bold !important;
+    color: #000000 !important;
+    padding-left: 27px !important;
+    padding-right: 27px !important;
+  }
+
+  .custom-popup-messageFinesa {
+    border-radius: 10px;
+    text-align: center;
+    padding-top: 6px !important;
+  }
+
+  .custom-actions-messageFinesa {
+    flex-direction: row-reverse;
+    gap: 25px;
+    padding-top: 10px;
+  }
+
+  .custom-confirmnButton-messageFinesa {
+    background-color: #88d600 !important;
+    color: white;
+    width: 55px !important;
+    height: 30px !important;
+    border-radius: 5px !important;
+  }
+
+  .custom-cancelButton-messageFinesa {
+    background-color: #000000 !important;
+    color: white;
+    width: 55px !important;
+    height: 30px !important;
+    border-radius: 5px !important;
+  }
+
+  #pTableModal {
+    font-size: 12px !important;
+  }
+
+  .custom-swal-alertaMontoMotos {
+    display: flex;
+    flex-direction: column;
+    width: 30%;
+    padding: 30px;
+    border-radius: 15px !important;
+  }
+
+  .swal2-icon_monto {
+    width: 90px;
+    height: 90px;
+    border: 4px solid #f8bb86 !important;
+  }
+
+  .custom-swal-popup {
+    border-radius: 25px;
+  }
+
+  .swal2-actions {
+    align-content: center !important;
+    margin: 0 !important;
+  }
+
+  .custom-swal-confirm-button23 {
+    font-size: 16px !important;
+    height: 50px;
+    width: 150px;
+    border-radius: 10px !important;
+  }
+
+  .custom-swal-actions-motos {
+    padding-bottom: 25px !important;
+  }
+
+
+  @media (min-width: 320px) and (max-width: 577px) {
+
+    #tableModal td {
+      text-align: center;
+      font-size: 12px;
+    }
+
+    .custom-swal-alertaMontoMotos {
+      display: flex;
+      flex-direction: column;
+      width: 92% !important;
+      padding-bottom: 15px !important;
+      padding: 5px;
+      border-radius: 15px !important;
+    }
+
+    #tdAsegurado {
+      width: 300px;
+      text-align: center;
+      font-size: 14px;
+    }
+
+    #tdCondiciones {
+      width: 300px;
+      text-align: center;
+      font-size: 14px;
+    }
+
+    .custom-swal-alertaMontoMotos .swal2-html-container {
+      display: flex !important;
+      flex-direction: column;
+      gap: 10px;
+      padding-right: 17px;
+      padding-left: 17px;
+      padding-bottom: 20px;
+    }
+
+    .custom-swal-alertaMontoMotos .swal2-html-container>p {
+      font-size: 17px;
+      padding-top: 20px;
+      text-align: justify;
+    }
+
+
+    #pTableModal {
+      font-size: 10px !important;
+    }
+
+    .swal2-actions {
+      align-content: center !important;
+      margin: 0 !important;
+    }
+
+    .custom-swal-confirm-button23 {
+      font-size: 16px !important;
+      height: 50px;
+      width: 150px;
+      border-radius: 10px !important;
+    }
+
+    .swal2-title {
+      font-size: 18px !important;
+      font-weight: bold;
+    }
+
+    .swal2-icon_monto {
+      width: 60px !important;
+      height: 60px !important;
+      border: 3px solid #f8bb86 !important;
+    }
+
+    .custom-swal-actions-motos {
+      padding-bottom: 25px !important;
+    }
+
+  }
+
+  @media (min-width: 577px) and (max-width: 768px) {
+
+    #tableModal td {
+      text-align: center;
+      font-size: 15px;
+    }
+
+    .custom-swal-alertaMontoMotos {
+      display: flex;
+      flex-direction: column;
+      width: 70% !important;
+      padding-bottom: 15px !important;
+      padding: 30px;
+      border-radius: 15px !important;
+    }
+
+    #tdAsegurado {
+      width: 270px;
+      text-align: center;
+      font-size: 16px;
+    }
+
+    #tdCondiciones {
+      width: 335px;
+      text-align: center;
+      font-size: 16px;
+    }
+
+    .custom-swal-alertaMontoMotos .swal2-html-container {
+      display: flex !important;
+      flex-direction: column;
+      gap: 10px;
+      padding-right: 17px;
+      padding-left: 17px;
+      padding-bottom: 20px;
+    }
+
+    .custom-swal-alertaMontoMotos .swal2-html-container>p {
+      font-size: 17px;
+      padding-top: 20px;
+      text-align: justify;
+    }
+
+
+    .swal2-title {
+      font-size: 23px !important;
+      font-weight: bold;
+    }
+
+    .swal2-actions {
+      align-content: center !important;
+      margin: 0 !important;
+    }
+
+    .custom-swal-confirm-button23 {
+      font-size: 16px !important;
+      height: 50px;
+      width: 150px;
+      border-radius: 10px !important;
+    }
+
+    #pTableModal {
+      font-size: 12px !important;
+    }
+
+     .swal2-icon_monto {
+      width: 60px !important;
+      height: 60px !important;
+      border: 3px solid #f8bb86 !important;
+    }
+
+    .custom-swal-actions-motos {
+      padding-bottom: 25px !important;
+    }
+
+  }
+
+  @media (min-width: 769px) and (max-width: 992px) {
+    #tableModal td {
+      text-align: center;
+      font-size: 15px;
+    }
+
+    .custom-swal-alertaMontoMotos {
+      display: flex;
+      flex-direction: column;
+      width: 60% !important;
+      padding-bottom: 15px !important;
+      padding: 30px;
+      border-radius: 15px !important;
+    }
+
+    #tdAsegurado {
+      width: 330px;
+      text-align: center;
+      font-size: 16px;
+    }
+
+    #tdCondiciones {
+      width: 335px;
+      text-align: center;
+      font-size: 16px;
+    }
+
+    .custom-swal-alertaMontoMotos .swal2-html-container {
+      display: flex !important;
+      flex-direction: column;
+      gap: 10px;
+      padding-right: 17px;
+      padding-left: 17px;
+      padding-bottom: 20px;
+    }
+
+    .custom-swal-alertaMontoMotos .swal2-html-container>p {
+      font-size: 17px;
+      padding-top: 20px;
+      text-align: justify;
+    }
+
+
+    .swal2-title {
+      font-size: 23px !important;
+      font-weight: bold;
+    }
+
+    .swal2-actions {
+      align-content: center !important;
+      margin: 0 !important;
+    }
+
+    .custom-swal-confirm-button23 {
+      font-size: 16px !important;
+      height: 50px;
+      width: 150px;
+      border-radius: 10px !important;
+    }
+
+    #pTableModal {
+      font-size: 12px !important;
+    }
+
+     .swal2-icon_monto {
+      width: 60px !important;
+      height: 60px !important;
+      border: 3px solid #f8bb86 !important;
+    }
+
+    .custom-swal-actions-motos {
+      padding-bottom: 25px !important;
+    }
+
+  }
+
+  @media (min-width: 993px) and (max-width: 1200px) {
+    #tableModal td {
+      text-align: center;
+      font-size: 15px;
+    }
+
+    .custom-swal-alertaMontoMotos {
+      display: flex;
+      flex-direction: column;
+      width: 50% !important;
+      padding-bottom: 15px !important;
+      padding: 30px;
+      border-radius: 15px !important;
+    }
+
+    #tdAsegurado {
+      width: 330px;
+      text-align: center;
+      font-size: 16px;
+    }
+
+    #tdCondiciones {
+      width: 335px;
+      text-align: center;
+      font-size: 16px;
+    }
+
+    .custom-swal-alertaMontoMotos .swal2-html-container {
+      display: flex !important;
+      flex-direction: column;
+      gap: 10px;
+      padding-right: 17px;
+      padding-left: 17px;
+      padding-bottom: 20px;
+    }
+
+    .custom-swal-alertaMontoMotos .swal2-html-container>p {
+      font-size: 17px;
+      padding-top: 20px;
+      text-align: justify;
+    }
+
+
+    .swal2-actions {
+      align-content: center !important;
+      margin: 0 !important;
+    }
+
+    .custom-swal-confirm-button23 {
+      font-size: 16px !important;
+      height: 50px;
+      width: 150px;
+      border-radius: 10px !important;
+    }
+
+    .swal2-title {
+      font-size: 23px !important;
+      font-weight: bold;
+    }
+
+    #pTableModal {
+      font-size: 12px !important;
+    }
+
+     .swal2-icon_monto {
+      width: 60px !important;
+      height: 60px !important;
+      border: 3px solid #f8bb86 !important;
+    }
+
+    .custom-swal-actions-motos {
+      padding-bottom: 25px !important;
+    }
+
+  }
+
+  @media (min-width: 1200px) and (max-width: 1440px) {
+    #tableModal td {
+      text-align: center;
+      font-size: 15px;
+    }
+
+    .custom-swal-alertaMontoMotos {
+      display: flex !important;
+      flex-direction: column;
+      width: 44% !important;
+      padding-bottom: 15px !important;
+      padding: 30px;
+      border-radius: 15px !important;
+    }
+
+    #tdAsegurado {
+      width: 330px;
+      text-align: center;
+      font-size: 16px;
+    }
+
+    #tdCondiciones {
+      width: 335px;
+      text-align: center;
+      font-size: 16px;
+    }
+
+    .swal2-title {
+      font-size: 19px !important;
+      font-weight: bold;
+    }
+
+    #pTableModal {
+      font-size: 16px !important;
+    }
+
+    .custom-swal-alertaMontoMotos .swal2-html-container {
+      display: flex !important;
+      flex-direction: column;
+      gap: 10px;
+      padding-right: 17px;
+      padding-left: 17px;
+      padding-bottom: 20px;
+    }
+
+    .custom-swal-alertaMontoMotos .swal2-html-container>p {
+      font-size: 16px;
+      padding-top: 20px;
+      text-align: justify;
+    }
+
+
+    .swal2-actions {
+      align-content: center !important;
+      margin: 0 !important;
+    }
+
+    .custom-swal-confirm-button23 {
+      font-size: 16px !important;
+      height: 50px;
+      width: 150px;
+      border-radius: 10px !important;
+    }
+
+    .custom-swal-actions-motos {
+      padding-bottom: 25px !important;
+    }
+
+     .swal2-icon_monto {
+      width: 90px !important;
+      height: 90px !important;
+      border: 3px solid #f8bb86 !important;
+    }
+
+    .swal2-icon-content {
+      font-size: 65px !important;
+    }
+
+  }
+
+  @media (min-width: 1441px) {
+    #tableModal td {
+      text-align: center;
+      font-size: 15px;
+    }
+
+    .custom-swal-alertaMontoMotos {
+      display: flex !important;
+      flex-direction: column;
+      width: 23% !important;
+      /* padding-bottom: 15px !important; */
+      padding: 3px;
+      gap: 10px;
+      border-radius: 15px !important;
+    }
+
+    #tdAsegurado {
+      width: 330px;
+      text-align: center;
+      font-size: 16px;
+    }
+
+    #tdCondiciones {
+      width: 335px;
+      text-align: center;
+      font-size: 16px;
+    }
+
+    .swal2-title {
+      font-size: 16px !important;
+      font-weight: bold;
+    }
+
+    #pTableModalMotos {
+      font-size: 14px !important;
+    }
+
+    .custom-swal-alertaMontoMotos .swal2-html-container {
+      display: flex !important;
+      flex-direction: column;
+      gap: 10px;
+      padding-top: 0px;
+      padding-right: 17px;
+      padding-left: 17px;
+      /* padding-bottom: 20px; */
+    }
+
+    .custom-swal-alertaMontoMotos .swal2-html-container>p {
+      margin: 0;
+      font-size: 14px;
+      padding-top: 0px;
+      text-align: justify;
+    }
+
+    .swal2-actions {
+      align-content: center !important;
+      margin: 0 !important;
+    }
+
+    .custom-swal-confirm-button23 {
+      font-size: 16px !important;
+      height: 50px;
+      width: 150px;
+      border-radius: 10px !important;
+      padding-bottom: 17px;
+    }
+
+     .swal2-icon_monto {
+      margin-top: 14px;
+      width: 90px !important;
+      height: 90px !important;
+      border: 3px solid #f8bb86 !important;
+    }
+
+    .custom-swal-actions-motos {
+      padding-bottom: 9px !important;
+    }
+
+    .swal2-icon-content {
+      font-size: 65px !important;
+    }
+
+  }
+
   .form-coti {
     padding-top: 25px;
   }
@@ -238,7 +792,7 @@ $rolAsesor = $_SESSION['permisos']['idRol'];
 
       <h1>
 
-        Cotizar Todo Riesgo Motocicletas
+        Cotizar Seguro Motocicletas
 
       </h1>
 
@@ -317,24 +871,25 @@ $rolAsesor = $_SESSION['permisos']['idRol'];
 
 
                       <div class="col-xs-12 col-sm-6 col-md-3 form-group">
-                        <input type="hidden" class="form-control" id="intermediario" value="<?php echo $_SESSION["intermediario"]; ?>">
-                        <input type="hidden" class="form-control" id="cotRestanv" value="<?php echo $_SESSION["cotRestantes"]; ?>">
-                        <!-- <input type="hidden" class="form-control" id="cotRestanInter" value="<?php #echo $_SESSION["cotRestantesInter"]; 
-                                                                                                  ?>"> -->
-                        <label for="tipoDocumentoID">Tipo de Documento</label>
-                        <select class="form-control" id="tipoDocumentoID" required>
-                          <option value=""></option>
-                          <option value="1" selected>Cedula de ciudadania</option>
-                          <option value="2">NIT</option>
-                          <option value="3">Cédula de extranjería</option>
-                          <option value="4">Tarjeta de identidad</option>
-                          <option value="5">Pasaporte</option>
-                          <option value="6">Carné diplomático</option>
-                          <option value="7">Sociedad extranjera sin NIT en Colombia</option>
-                          <option value="8">Fideicomiso</option>
-                          <option value="9">Registro civil de nacimiento</option>
-                        </select>
+                      <input type="hidden" class="form-control" id="intermediario" value="<?php echo $_SESSION["intermediario"]; ?>">
+                      <!--<input type="hidden" class="form-control" id="cotRestanv" value="<//?php echo $_SESSION["cotRestantes"]; ?>">-->
+                      <label for="tipoDocumentoID">Tipo de Documento</label>
+                      <select class="form-control" id="tipoDocumentoID" required>
+                        <option value="" disabled selected>Selecciona el tipo de documento</option>
+                        <option value="1">Cedula de ciudadania</option>
+                        <option value="2">NIT</option>
+                        <option value="3">Cédula de extranjería</option>
+                        <option value="4">Tarjeta de identidad</option>
+                        <option value="5">Pasaporte</option>
+                        <option value="6">Carné diplomático</option>
+                        <option value="7">Sociedad extranjera sin NIT en Colombia</option>
+                        <option value="8">Fideicomiso</option>
+                        <option value="9">Registro civil de nacimiento</option>
+                      </select>
+                      <div id="alertaTipoDocumento" class="alert alert-danger mt-2" style="display: none;">
+                        Debes seleccionar un tipo de documento.
                       </div>
+                    </div>
                       <div class="col-xs-12 col-sm-6 col-md-3 form-group">
                         <label for="numDocumentoID">No. Documento</label>
                         <input type="text" maxlength="10" class="form-control" id="numDocumentoID" required placeholder="Número de Documento">
@@ -471,7 +1026,7 @@ $rolAsesor = $_SESSION['permisos']['idRol'];
                   </div>
 
                   <div style="padding-top: 25px !important;" class="col-xs-12 col-sm-6 col-md-2 form-group">
-                    <button class="btn btn-primary btn-block" id="btnConsultarVehmanualbuscador">Consultar Vehículo</button>
+                    <button class="btn btn-primary btn-block" id="btnConsultarVehmanualbuscadorMotos">Consultar Vehículo</button>
                   </div>
                 </div>
               </div>
@@ -827,7 +1382,7 @@ $rolAsesor = $_SESSION['permisos']['idRol'];
                           <strong>Condiciones Generales:</strong><br>
                           • Para motos con valores asegurados menores a $7 millones de pesos solo se presentan las condiciones que genere el cotizador web.<br>
                           • El equipo del Canal Asesores Freelance solo cotiza manualmente motos con valores asegurados mayores a $7 millones.<br>
-                          • Valor asegurado máximo $50 millones. Motos por encima de ese valor, deben ser autorizadas por la Gerencia General.<br>
+                          • Valor asegurado máximo $50 millones. Motos por encima de ese valor deben ser autorizadas por el Gerente General, quien podrá hacer excepciones de valor asegurado superior cuando el asesor sea productivo, tenga más de 6 meses de antigüedad con Grupo Asistencia, no tenga altos indices de siniestralidad en su cartera, y si el cliente tiene vinculación con otros productos de la aseguradora.<br>
                           • Motos con valor de prima total menor de $1 millón de pesos solo se permite pago de contado.<br><br>
                           <strong>Condiciones de Financiación:</strong><br>
                           • Se puede financiar motos con valor de prima total mayor a $1 millón de pesos.<br>

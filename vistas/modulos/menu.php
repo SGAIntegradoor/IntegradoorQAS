@@ -38,12 +38,11 @@ checkUserStatus();
 
 ?>
 <script>
-	$(document).ready(function() {
+	$(document).ready( async function() {
 		// Obtener el valor de la variable de sesión PHP en JavaScript
 		let permisosCotizacionesTotales = <?php echo isset($cotizTotales) ? json_encode($cotizTotales) : 'null'; ?>;
-
+		let cotHechas = await mostrarCotRestantes();
 		var arrayCot = ["menuCotLiv", "menuCotMot", "menuCotPes", "menuCotMas"];
-
 		// Verificar si el valor obtenido es válido y está definido
 		if (permisosCotizacionesTotales !== null && permisosCotizacionesTotales !== undefined) {
 			/* Iteramos sobre el array de vistas el cual sera unico y generamos un 
@@ -52,31 +51,31 @@ checkUserStatus();
 			arrayCot.forEach(view => {
 				return $(`#${view}`).on("click", function(e) {
 					// Verificar los permisos
-					if (permisosCotizacionesTotales <= "0") {
-						e.preventDefault();
-						swal
-							.fire({
-								icon: "error",
-								title: "Sin Cotizaciones Disponibles",
-								html: `<div style="text-align: justify; font-family: Helvetica, Arial, sans-serif; font-size: 15px; border-radius: 4px; padding: 8px;">El usuario no cuenta con cotizaciones disponibles. En este momento solo podrás visualizar las cotizaciones realizadas hasta que se agoten los días habilitados. Si quieres seguir haciendo cotizaciones solicita vincularte al Programa. Comunícate con el área encargada de vinculaciones de Grupo Asistencia al:
-								<br><br>
-								<div style="text-align: center;">📱<strong>+573185127910</strong> o vía 📧 <strong>mercadeo@grupoasistencia.com</strong> </div></div>`,
-								width:"40%",
-								showConfirmButton: true,
-								confirmButtonText: "Cerrar",
-								customClass: {
-									popup: "custom-swal-popup",
-									title: "custom-swal-title",
-									content: "custom-swal-content",
-									confirmButton: "custom-swal-confirm-button",
-								},
-							})
-							.then(function(result) {
-								if (result.value) {
-									window.location = "inicio";
-								}
-							});
-					}
+					// if (cotHechas >= permisosCotizacionesTotales ) {
+					// 	e.preventDefault();
+					// 	swal
+					// 		.fire({
+					// 			icon: "error",
+					// 			title: "Sin Cotizaciones Disponibles",
+					// 			html: `<div style="text-align: justify; font-family: Helvetica, Arial, sans-serif; font-size: 15px; border-radius: 4px; padding: 8px;">El usuario no cuenta con cotizaciones disponibles. En este momento solo podrás visualizar las cotizaciones realizadas hasta que se agoten los días habilitados. Si quieres seguir haciendo cotizaciones solicita vincularte al Programa. Comunícate con el área encargada de vinculaciones de Grupo Asistencia al:
+					// 			<br><br>
+					// 			<div style="text-align: center;">📱<strong>+573185127910</strong> o vía 📧 <strong>mercadeo@grupoasistencia.com</strong> </div></div>`,
+					// 			width: "60%",
+					// 			showConfirmButton: true,
+					// 			confirmButtonText: "Cerrar",
+					// 			customClass: {
+					// 				popup: "custom-swal-popup",
+					// 				title: "custom-swal-title",
+					// 				content: "custom-swal-content",
+					// 				confirmButton: "custom-swal-confirm-button",
+					// 			},
+					// 		})
+					// 		.then(function(result) {
+					// 			if (result.value) {
+					// 				window.location = "inicio";
+					// 			}
+					// 		});
+					// }
 				});
 			})
 		}
@@ -197,14 +196,14 @@ checkUserStatus();
 			/*=============================================
 		COTIZACIONES MASIVAS
 		=============================================*/
-			if ($_SESSION["permisos"]["Cotizacionesmasivas"] == "x") {
-				echo  '<li class="' . ($currentPage == 'livianoMasivas' ? 'active' : '') . '">
-				<a id="menuCotMas" href="livianoMasivas">
-					<i class="fa fa-file-archive-o"></i>
-					<span>Cotizaciones masivas liviano</span>
-				</a>
-			</li>';
-			}
+			// if ($_SESSION["permisos"]["Cotizacionesmasivas"] == "x") {
+			// 	echo  '<li class="' . ($currentPage == 'livianoMasivas' ? 'active' : '') . '">
+			// 	<a id="menuCotMas" href="livianoMasivas">
+			// 		<i class="fa fa-file-archive-o"></i>
+			// 		<span>Cotizaciones masivas liviano</span>
+			// 	</a>
+			// </li>';
+			// }
 			/*=============================================
 		PESADOS
 		=============================================*/
@@ -228,6 +227,18 @@ checkUserStatus();
 				</a>
 			</li>';
 			}
+
+			/*=============================================
+		HOGAR
+		=============================================*/
+		if (isset($_SESSION["permisos"])) {
+			echo '<li id="menuCotHog" class="' . ($currentPage == 'hogar' ? 'active' : '') . '">
+			<a href="hogar">
+				<i class="fa-solid fa-house-circle-check"></i>
+				<span>Cotizar Hogar</span>
+			</a>
+		</li>';
+		}
 
 			/*=============================================
 		MÓDULO SOAT

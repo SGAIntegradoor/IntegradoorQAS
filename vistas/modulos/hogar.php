@@ -278,7 +278,7 @@ select:invalid + .error-message {
 .miIframe {
             width: 100%;
             max-width: none;
-            height: 1200px;
+            height: 900px;
             transition: width 0.5s;
         }
 
@@ -289,7 +289,7 @@ select:invalid + .error-message {
 
         <h1 style="margin-bottom: 0%;">
 
-        Solicitud de Cotización Asistencia en Viajes Internacionales
+        Solicitud de Cotización de Hogar
 
         </h1>
 
@@ -297,7 +297,7 @@ select:invalid + .error-message {
 
             <li><a href="inicio"><i class="fa fa-dashboard"></i> Inicio</a></li>
 
-            <li class="active">Viajes</li>
+            <li class="active">Hogar</li>
 
         </ol>
 
@@ -405,7 +405,17 @@ select:invalid + .error-message {
                 </div>
             </div>
             
-            <?php include_once './vistas/modulos/AssistCardCot/cotizadorAssistCard.php'; ?>
+
+                     <!-- //FORMULARIO VIAJES -->
+                <div class="content" style="margin-top: -5px; margin-bottom: 5px" data-evaluar="si">
+                        <!-- TITULO FORMULARIO VIAJES -->
+                    <h4 style="font-family: 'Arial Arabic', Arial; font-weight: bold; margin-bottom: 5px; margin-top: 3px;">Solicita una cotización en el siguiente formulario:</h4>
+                    <div style="width: 100%; max-width: 640px; margin: 0 auto; margin-top: 30px; margin-bottom: -2px">
+                        <img src="vistas/img/bannerHogar.png" alt="Banner de hogar" style="width: 100%; height: auto; display: block; margin: 0 auto;">
+                        <iframe src="https://docs.google.com/forms/d/e/1FAIpQLScks_rMKBx5uGqHWaqLSkUvJP5hBc8jls2msWKYM0AVsXWxXw/viewform?embedded=true" width="640" height="1950" frameborder="0" marginheight="0" marginwidth="0">Cargando…</iframe>
+                    </div>
+                </div>
+
         </div>           
     </section>
 </div>

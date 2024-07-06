@@ -1,14 +1,30 @@
 <?php
 require_once "../config/dbconfig.php";
 
+session_start();
+
 // Obtener parámetros de la solicitud
 $start = $_POST['start'];
 $length = $_POST['length'];
 
+
+$intermediario = $_SESSION['intermediario'];
+$idUsuario = $_SESSION['idUsuario'];
+$rol = $_SESSION['rol'];
+
 $search = isset($_POST['search']['value']) ? $_POST['search']['value'] : '';
 
 // Construir la consulta
-$sql = "SELECT * FROM clientes WHERE 1";
+
+if ($rol == 10) {
+    $sql = "SELECT DISTINCT * FROM clientes WHERE cli_estado = 1";
+} else {
+    $sql = "SELECT DISTINCT clientes.*
+    FROM clientes
+    INNER JOIN cotizaciones ON clientes.id_cliente = cotizaciones.id_cliente
+    WHERE cotizaciones.id_usuario = $idUsuario AND id_Intermediario = $intermediario AND cli_estado = 1";
+}
+
 
 if (!empty($search)) {
     // Convertir la cadena de búsqueda a UTF-8 si es necesario
@@ -52,4 +68,3 @@ echo json_encode($response);
 
 // Cerrar la conexión a la base de datos
 $enlace->close();
-?>

@@ -136,6 +136,51 @@ if ($_SESSION["permisos"]["Cotizarpesados"] != "x") {
     /* Puedes ajustar el valor según tus preferencias */
   }
 
+  .custom-title-messageFinesa {
+    font-size: 16px;
+    font-weight: bold;
+    color: #000000 !important;
+    ;
+  }
+
+  .custom-text-messageFinesa {
+    font-size: 15px !important;
+    width: 100%;
+    text-align: center !important;
+    font-weight: bold !important;
+    color: #000000 !important;
+    padding-left: 27px !important;
+    padding-right: 27px !important;
+  }
+
+  .custom-popup-messageFinesa {
+    border-radius: 10px;
+    text-align: center;
+    padding-top: 6px !important;
+  }
+
+  .custom-actions-messageFinesa {
+    flex-direction: row-reverse;
+    gap: 25px;
+    padding-top: 10px;
+  }
+
+  .custom-confirmnButton-messageFinesa {
+    background-color: #88d600 !important;
+    color: white;
+    width: 55px !important;
+    height: 30px !important;
+    border-radius: 5px !important;
+  }
+
+  .custom-cancelButton-messageFinesa {
+    background-color: #000000 !important;
+    color: white;
+    width: 55px !important;
+    height: 30px !important;
+    border-radius: 5px !important;
+  }
+
   /* Estilo para pantallas más pequeñas (menos de 495px) */
   @media (max-width: 495px) {
     .table-responsive {
@@ -147,6 +192,542 @@ if ($_SESSION["permisos"]["Cotizarpesados"] != "x") {
     .table-responsive {
       overflow-x: auto;
     }
+  }
+
+  #pTableModalPesados {
+    font-size: 12px !important;
+  }
+
+  .custom-swal-alertaMontoPesados {
+    display: flex;
+    flex-direction: column;
+    width: 30%;
+    padding: 30px;
+    border-radius: 15px !important;
+  }
+
+  .swal2-icon_monto {
+    width: 90px;
+    height: 90px;
+    border: 4px solid #f8bb86 !important;
+  }
+
+  .custom-swal-popup {
+    border-radius: 25px;
+  }
+
+  .swal2-actions {
+    align-content: center !important;
+    margin: 0 !important;
+  }
+
+  .custom-swal-confirm-button24 {
+    font-size: 16px !important;
+    height: 50px;
+    width: 150px;
+    border-radius: 10px !important;
+  }
+
+  .custom-swal-actions-pesados {
+    padding-bottom: 25px !important;
+  }
+
+
+  @media (min-width: 320px) and (max-width: 577px) {
+
+    #tableModal td {
+      text-align: center;
+      font-size: 12px;
+    }
+
+    .custom-swal-alertaMontoPesados {
+      display: flex;
+      flex-direction: column;
+      width: 95% !important;
+      padding: 0px 0px 0px 0px !important;
+      /* gap: 10px; */
+      border-radius: 15px !important;
+    }
+
+    #tdAsegurado {
+      width: 300px;
+      text-align: center;
+      font-size: 14px;
+    }
+
+    #tdCondiciones {
+      width: 300px;
+      text-align: center;
+      font-size: 14px;
+    }
+
+    .custom-swal-alertaMontoPesados .swal2-html-container {
+      display: flex !important;
+      flex-direction: column;
+      gap: 10px;
+      padding-top: 2px;
+      padding-right: 12px;
+      padding-left: 12px;
+      /* padding-bottom: 6px; */
+      align-items: center;
+    }
+
+    .custom-swal-alertaMontoPesados .swal2-html-container>p {
+      font-size: 17px;
+      /* padding-top: 6px; */
+      text-align: justify;
+      margin: 0px;
+    }
+
+
+    #pTableModal {
+      font-size: 10px !important;
+    }
+
+    .swal2-actions {
+      align-content: center !important;
+      margin: 0 !important;
+    }
+
+    .custom-swal-confirm-button24 {
+      font-size: 16px !important;
+      height: 50px;
+      width: 150px;
+      border-radius: 10px !important;
+    }
+
+    .custom-swal-titlePesados {
+      font-size: 17px !important;
+      font-weight: bold;
+      margin: 0px;
+      padding: 0px
+    }
+
+    .swal2-icon_monto {
+      width: 60px !important;
+      height: 60px !important;
+      border: 3px solid #f8bb86 !important;
+    }
+
+    .custom-swal-actions-pesados {
+      padding-bottom: 3px !important;
+    }
+
+  }
+
+  @media (min-width: 577px) and (max-width: 768px) {
+
+    #tableModal td {
+      text-align: center;
+      font-size: 15px;
+    }
+
+    .custom-swal-alertaMontoPesados {
+      display: flex;
+      flex-direction: column;
+      width: 70% !important;
+      padding: 20px 30px 20px 30px !important;
+      gap: 10px;
+      border-radius: 15px !important;
+    }
+
+    #tdAsegurado {
+      width: 270px;
+      text-align: center;
+      font-size: 16px;
+    }
+
+    #tdCondiciones {
+      width: 335px;
+      text-align: center;
+      font-size: 16px;
+    }
+
+    .custom-swal-alertaMontoPesados .swal2-html-container {
+      display: flex !important;
+      flex-direction: column;
+      gap: 10px;
+      padding-right: 17px;
+      padding-left: 17px;
+      padding-bottom: 20px;
+      align-items: center;
+    }
+
+    .custom-swal-alertaMontoPesados .swal2-html-container>p {
+      font-size: 17px;
+      padding-top: 20px;
+      text-align: justify;
+    }
+
+
+    .custom-swal-titlePesados {
+      font-size: 23px !important;
+      font-weight: bold;
+    }
+
+    .swal2-actions {
+      align-content: center !important;
+      margin: 0 !important;
+    }
+
+    .custom-swal-confirm-button24 {
+      font-size: 16px !important;
+      height: 50px;
+      width: 150px;
+      border-radius: 10px !important;
+    }
+
+    #pTableModal {
+      font-size: 12px !important;
+    }
+
+    .swal2-icon_monto {
+      width: 60px !important;
+      height: 60px !important;
+      border: 3px solid #f8bb86 !important;
+    }
+
+    .custom-swal-actions-pesados {
+      padding-bottom: 25px !important;
+    }
+
+  }
+
+  @media (min-width: 769px) and (max-width: 992px) {
+    #tableModal td {
+      text-align: center;
+      font-size: 15px;
+    }
+
+    .custom-swal-alertaMontoPesados {
+      display: flex;
+      flex-direction: column;
+      width: 60% !important;
+      padding: 20px 30px 20px 30px !important;
+      gap: 10px;
+      border-radius: 15px !important;
+    }
+
+    #tdAsegurado {
+      width: 330px;
+      text-align: center;
+      font-size: 16px;
+    }
+
+    #tdCondiciones {
+      width: 335px;
+      text-align: center;
+      font-size: 16px;
+    }
+
+    .custom-swal-alertaMontoPesados .swal2-html-container {
+      display: flex !important;
+      flex-direction: column;
+      gap: 10px;
+      padding-right: 17px;
+      padding-left: 17px;
+      padding-bottom: 20px;
+      align-items: center;
+    }
+
+    .custom-swal-alertaMontoPesados .swal2-html-container>p {
+      font-size: 17px;
+      padding-top: 20px;
+      text-align: justify;
+    }
+
+
+    .custom-swal-titlePesados {
+      font-size: 23px !important;
+      font-weight: bold;
+    }
+
+    .swal2-actions {
+      align-content: center !important;
+      margin: 0 !important;
+    }
+
+    .custom-swal-confirm-button24 {
+      font-size: 16px !important;
+      height: 50px;
+      width: 150px;
+      border-radius: 10px !important;
+    }
+
+    #pTableModal {
+      font-size: 12px !important;
+    }
+
+    .swal2-icon_monto {
+      width: 60px !important;
+      height: 60px !important;
+      border: 3px solid #f8bb86 !important;
+    }
+
+    .custom-swal-actions-pesados {
+      padding-bottom: 25px !important;
+    }
+
+  }
+
+  @media (min-width: 993px) and (max-width: 1200px) {
+    #tableModal td {
+      text-align: center;
+      font-size: 14px;
+    }
+
+    .custom-swal-alertaMontoPesados {
+      display: flex;
+      flex-direction: column;
+      width: 50% !important;
+      padding: 0px 12px 0px 12px !important;
+      /* gap: 10px; */
+      border-radius: 15px !important;
+    }
+
+    #tdAsegurado {
+      width: 330px;
+      text-align: center;
+      font-size: 15px;
+    }
+
+    #tdCondiciones {
+      width: 335px;
+      text-align: center;
+      font-size: 15px;
+    }
+
+    .custom-swal-alertaMontoPesados .swal2-html-container {
+      display: flex !important;
+      flex-direction: column;
+      gap: 10px;
+      padding-top: 3px;
+      padding-right: 17px;
+      padding-left: 17px;
+      padding-bottom: 5px;
+      align-items: center;
+    }
+
+    .custom-swal-alertaMontoPesados .swal2-html-container>p {
+      margin: 0px;
+      font-size: 15px;
+      padding-top: 0px;
+      text-align: justify;
+    }
+
+
+    .swal2-actions {
+      align-content: center !important;
+      margin: 0 !important;
+    }
+
+    .custom-swal-confirm-button24 {
+      font-size: 16px !important;
+      height: 50px;
+      width: 150px;
+      border-radius: 10px !important;
+    }
+
+    .custom-swal-titlePesados {
+      font-size: 20px !important;
+      padding: 3px;
+      font-weight: bold;
+    }
+
+    #pTableModal {
+      font-size: 12px !important;
+    }
+
+    .swal2-icon_monto {
+      margin-top: 10px;
+      width: 60px !important;
+      height: 60px !important;
+      border: 3px solid #f8bb86 !important;
+    }
+
+    .custom-swal-actions-pesados {
+      padding-bottom: 10px !important;
+    }
+
+  }
+
+  @media (min-width: 1200px) and (max-width: 1440px) {
+    #tableModalPesados td {
+      text-align: center;
+      font-size: 12px;
+    }
+
+    .custom-swal-alertaMontoPesados {
+      display: flex;
+      flex-direction: column;
+      width: 40% !important;
+      padding: 20px 20px 20px 20px !important;
+      /* gap: 10px; */
+      border-radius: 15px !important;
+      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    }
+
+    #tdAsegurado {
+      width: 330px;
+      text-align: center;
+      font-size: 15px;
+    }
+
+    #tdCondiciones {
+      width: 335px;
+      text-align: center;
+      font-size: 14px;
+    }
+
+    .custom-swal-alertaMontoPesados .swal2-html-container {
+      display: flex !important;
+      flex-direction: column;
+      gap: 10px;
+      padding-top: 3px;
+      padding-right: 63px;
+      padding-left: 63px;
+      padding-bottom: 5px;
+      align-items: center;
+    }
+
+    .custom-swal-alertaMontoPesados .swal2-html-container>p {
+      margin: 0px;
+      font-size: 15px;
+      padding-top: 0px;
+      text-align: justify;
+    }
+
+
+    .swal2-actions {
+      align-content: center !important;
+      margin: 0 !important;
+    }
+
+    .custom-swal-confirm-button24 {
+      margin: 0px;
+      font-size: 16px !important;
+      height: 50px;
+      width: 150px;
+      border-radius: 10px !important;
+      padding-top: 12px;
+    }
+
+    .custom-swal-titlePesados {
+      font-size: 20px !important;
+      padding: 3px;
+      font-weight: bold;
+      padding-bottom: 12px;
+    }
+
+    #pTableModalPesados {
+      font-size: 12px !important;
+    }
+
+    .swal2-icon_monto {
+      margin-top: 0px;
+      width: 60px !important;
+      height: 60px !important;
+      border: 3px solid #f8bb86 !important;
+      margin-bottom: 10px;
+    }
+
+    .custom-swal-actions-pesados {
+      padding-bottom: 0px !important;
+      padding-top: 8px;
+    }
+
+  }
+
+  @media (min-width: 1441px) {
+
+    #tableModalPesados {
+      text-align: center;
+    }
+
+    #tableModalPesados td {
+      text-align: center;
+      font-size: 14px;
+    }
+
+    .custom-swal-alertaMontoPesados {
+      display: flex !important;
+      flex-direction: column;
+      width: 37% !important;
+      padding: 20px 20px 20px 20px !important;
+      /* gap: 10px; */
+      border-radius: 15px !important;
+      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    }
+
+    #tdAsegurado {
+      width: 230px;
+      font-size: 14px;
+    }
+
+    #tdCondiciones {
+      width: 230px;
+      font-size: 14px;
+    }
+
+    .custom-swal-titlePesados {
+      font-size: 18px !important;
+      padding: 3px;
+      font-weight: bold;
+      padding-bottom: 8px;
+    }
+
+    #pTableModalPesados {
+      font-size: 13px !important;
+      margin: 0;
+    }
+
+    .custom-swal-alertaMontoPesados .swal2-html-container {
+      display: flex !important;
+      flex-direction: column;
+      /* gap: 10px; */
+      padding-right: 10px;
+      padding-left: 10px;
+      /* padding-bottom: 8px; */
+      align-items: center;
+    }
+
+    .custom-swal-alertaMontoPesados .swal2-html-container>p {
+      font-size: 19px;
+      padding-top: 10px;
+      text-align: justify;
+      padding-left: 8px;
+      padding-right: 8px;
+    }
+
+    .swal2-actions {
+      align-content: center !important;
+      margin: 0 !important;
+    }
+
+    .custom-swal-confirm-button24 {
+      font-size: 16px !important;
+      height: 50px;
+      width: 150px;
+      border-radius: 10px !important;
+      padding-bottom: 17px;
+    }
+
+    .swal2-icon_monto {
+      width: 90px !important;
+      height: 90px !important;
+      border: 3px solid #f8bb86 !important;
+      margin-bottom: 8px;
+    }
+
+    .custom-swal-actions-pesados {
+      padding-bottom: 0px !important;
+      padding-top: 13px;
+    }
+
+    .swal2-icon-content {
+      font-size: 65px !important;
+    }
+
   }
 
   .form-coti {
@@ -224,7 +805,7 @@ if ($_SESSION["permisos"]["Cotizarpesados"] != "x") {
 
     <h1>
 
-      Cotizar Todo Riesgo Pesados
+      Cotizar Seguro Pesados
 
     </h1>
 
@@ -303,12 +884,11 @@ if ($_SESSION["permisos"]["Cotizarpesados"] != "x") {
 
                     <div class="col-xs-12 col-sm-6 col-md-3 form-group">
                       <input type="hidden" class="form-control" id="intermediario" value="<?php echo $_SESSION["intermediario"]; ?>">
-                      <input type="hidden" class="form-control" id="cotRestanv" value="<?php echo $_SESSION["cotRestantes"]; ?>">
-                      <!-- <input type="hidden" class="form-control" id="cotRestanInter" value="<#?php echo $_SESSION["cotRestantesInter"]; ?>"> -->
+                      <!--<input type="hidden" class="form-control" id="cotRestanv" value="<//?php echo $_SESSION["cotRestantes"]; ?>">-->
                       <label for="tipoDocumentoID">Tipo de Documento</label>
                       <select class="form-control" id="tipoDocumentoID" required>
-                        <option value=""></option>
-                        <option value="1" selected>Cedula de ciudadania</option>
+                        <option value="" disabled selected>Selecciona el tipo de documento</option>
+                        <option value="1">Cedula de ciudadania</option>
                         <option value="2">NIT</option>
                         <option value="3">Cédula de extranjería</option>
                         <option value="4">Tarjeta de identidad</option>
@@ -318,6 +898,9 @@ if ($_SESSION["permisos"]["Cotizarpesados"] != "x") {
                         <option value="8">Fideicomiso</option>
                         <option value="9">Registro civil de nacimiento</option>
                       </select>
+                      <div id="alertaTipoDocumento" class="alert alert-danger mt-2" style="display: none;">
+                        Debes seleccionar un tipo de documento.
+                      </div>
                     </div>
                     <div class="col-xs-12 col-sm-6 col-md-3 form-group">
                       <label for="numDocumentoID">No. Documento</label>
@@ -756,8 +1339,11 @@ if ($_SESSION["permisos"]["Cotizarpesados"] != "x") {
                   <div class="col-xs-12 col-sm-6 col-md-3 form-group">
                     <button class="btn btn-primary btn-block" id="btnCotizarPesados">Cotizar Ofertas</button>
                   </div>
-                  <div class="col-xs-12 col-sm-6 col-md-3 form-group">
+                  <div class="col-xs-12 col-sm-6 col-md-3 form-group" id="loaderOfertaBox">
                     <div id="loaderOferta"></div>
+                  </div>
+                  <div class="col-xs-12 col-sm-6 col-md-3 form-group" id="loaderRecotOfertaBox">
+                    <div id="loaderRecotOferta"></div>
                   </div>
                 </div>
               </div>
@@ -801,7 +1387,6 @@ if ($_SESSION["permisos"]["Cotizarpesados"] != "x") {
                           </tr>
                         </thead>
                         <tbody>
-
                           <!-- <tr id="Previsora">
                             <td id="Previsora">Previsora</td>
                             <td class="text-center" id="PrevisoraResponse"><i class="fa fa-times" aria-hidden="true" style="color: red; margin-right: 5px;"></i></td>
@@ -820,18 +1405,17 @@ if ($_SESSION["permisos"]["Cotizarpesados"] != "x") {
                     </div>
                   </div>
                 </div>
-
-
-                <!-- <div id="mensajePrevisora">
-                  <div class="aviso-container col-lg-12">
-                    <p style="font-weight: bold;">
-                      NOTA: Si a tu cliente le interesa Previsora, ten en cuenta que ciertas líneas de vehículos requieren la instalación del dispositivo Cazador al tomar su seguro y este tiene un costo adicional a la póliza. Por favor confirma con tu área comercial.
-                    </p>
-                  </div>
-                </div> -->
-
-
-
+                <div class="aviso-container col-lg-12">
+                  <ul style="    padding-left: 16px; padding-right: 3px;">
+                    <li style="text-align: justify;">
+                      <p style="font-weight: bold;">Política de valor asegurado pesados:</p>
+                      <p>El Valor asegurado máximo de acuerdo a la aseguradora es el siguiente: Seguros Mundial 700 millones. AXA Colpatria 400 millones. Liberty 310 millones. Previsora 700 millones</p>
+                      <p>
+                        <strong>Nota:</strong> Tener en cuenta que aunque el cotizador genere ofertas, no todos los vehículos son asegurables. Se podrán hacer excepciones de valor asegurado superior cuando el asesor sea productivo, tenga más de 6 meses de antigüedad con Grupo Asistencia, no tenga altos indices de siniestralidad en su cartera, y si el cliente tiene vinculación con otros productos de la aseguradora. El valor de las primas de las cotizaciones puede variar al momento de emitir en los casos autorizados de manera excepcional.
+                      </p>
+                    </li>
+                  </ul>
+                </div>
               </div>
             </div>
           </div>

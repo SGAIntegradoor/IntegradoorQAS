@@ -9,8 +9,9 @@ class ModeloCiudades{
         $stmt = Conexion::conectar()->prepare("SELECT * FROM $item");
         $stmt -> execute();
         $resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        // Cerrar la conexión
+        $stmt = null;
         return $resultados;
-        
     }
     
     public static function MdlBuscarCiudades($item, $valor, $item2){
@@ -19,6 +20,7 @@ class ModeloCiudades{
         $stmt -> bindParam(":valor", $valor, PDO::PARAM_STR);
 		$stmt -> execute();
 		$respuesta = $stmt -> fetch(PDO::FETCH_ASSOC);
+        $stmt = null;
         return $respuesta;
     }
 

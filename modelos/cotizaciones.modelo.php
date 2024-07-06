@@ -31,7 +31,7 @@ class ModeloCotizaciones
 			}
 		}
 
-		$stmt->close();
+		$stmt->closeCursor();
 
 		$stmt = null;
 	}

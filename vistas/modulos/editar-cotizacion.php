@@ -60,7 +60,7 @@ $response = retrieveQuotation($idCotizacion);
     font-size: 14px !important;
   }
 
-  .custom-swal-popup-warning{
+  .custom-swal-popup-warning {
     width: 300px !important;
     /* Ajusta el ancho según sea necesario */
     height: 250px !important;
@@ -960,6 +960,16 @@ $response = retrieveQuotation($idCotizacion);
                                     Los vehículos KIA de las líneas PICANTO y SPORTAGE se encuentran fuera de políticas en Seguros del Estado. Si se genera cotización con esta Aseguradora, omitir dicha oferta. Igualmente con esta compañía, la clase de vehículo PICK UP solo se asegura como vehículo publico.
                                 </p>
                             </li>
+                            <li>
+                                <p style="font-weight: bold;">Nota: Vehículos livianos con valor asegurado mayor a 300 millones no
+                                    son asegurables para Grupo Asistencia; Ten en cuenta que aunque el
+                                    cotizador te genere ofertas, no todos los vehículos son asegurables. Si
+                                    el cliente tiene vinculación con otros productos de la aseguradora se
+                                    pueden autorizar valores asegurados superiores. Cuando el valor
+                                    asegurado sea superior a los montos indicados, el valor de las primas
+                                    puede variar en el momento de emitir en caso de autorización.
+                                </p>
+                            </li>
                       </ul>
                     </div>';
                 }
@@ -989,7 +999,14 @@ $response = retrieveQuotation($idCotizacion);
                 || $response['cot_clase'] == "REMOLCADOR" || $response['cot_clase'] == "FURGON" || $response['cot_clase'] == "CHASIS"
                 || $response['cot_clase'] == "BUS" || $response['cot_clase'] == "CAMION"
               ) {
-                echo '<div></div>';
+                echo '<div class="col-lg-12>
+                        <strong>Nota:</strong> Ten en cuenta que aunque el cotizador te genere ofertas, no
+                        todos los vehículos son asegurables. Si el cliente tiene vinculación con
+                        otros productos de la aseguradora se pueden autorizar valores
+                        asegurados superiores. Cuando el valor asegurado sea superior a los
+                        montos indicados, el valor de las primas puede variar en el momento
+                        de emitir en caso de autorización
+                      </div>';
               }
               ?>
             </div>

@@ -77,28 +77,43 @@ getRolUser().then(function(respuesta) {
     console.error("Error fetching user role:", error);
 });
 
-function mostrarCotRestantes (){
-    fecha1 = new Date;
-    const year = fecha1.getFullYear();
-    const month = String(fecha1.getMonth() + 1).padStart(2, '0'); 
-    const day = String(fecha1.getDate()).padStart(2, '0');
-    const nowDate = `${year}-${month}-${day}`;
+async function mostrarCotRestantes() {
+    let fecha1 = new Date();
 
-    $.ajax({
-      url: "ajax/compararFecha.php",
-      method: "POST",
-      data: { fecha: nowDate },
-      success: function (respuesta) {
-        $p=document.getElementById("cotRestantes1");
-            if($p){
-                $p.innerHTML = respuesta;
+    // Obtener el último día del mes pasado
+    const year = fecha1.getFullYear();
+    const month = String(fecha1.getMonth() + 1).padStart(2, '0');
+    const startDay = '01';
+    const nowDate = `${year}-${month}-${startDay}`;
+
+    // Obtener el último día del mes actual
+    let endOfMonthDate = new Date(fecha1.getFullYear(), fecha1.getMonth() + 1, 0);
+    const yearEndOfMonth = endOfMonthDate.getFullYear();
+    const monthEndOfMonth = String(endOfMonthDate.getMonth() + 1).padStart(2, '0'); // +1 porque getMonth() devuelve 0-11
+    const dayEndOfMonth = String(endOfMonthDate.getDate()).padStart(2, '0');
+    const lastDateOfCurrentMonth = `${yearEndOfMonth}-${monthEndOfMonth}-${dayEndOfMonth}`;
+
+    // Convertir la solicitud AJAX a una promesa
+    const response = await new Promise((resolve, reject) => {
+        $.ajax({
+            url: "ajax/compararFecha.php",
+            method: "POST",
+            data: { fechaInicio: nowDate, fechaFin: lastDateOfCurrentMonth },
+            success: function (respuesta) {
+                let $p = document.getElementById("cotRestantes1");
+                if ($p) {
+                    $p.innerHTML = respuesta;
+                }
+                resolve(respuesta);
+            },
+            error: function (xhr, status, error) {
+                reject(error);
             }
-      },
-      error: function (xhr, status, error) {
-        console.log(xhr, status, error)
-      }
-    })
-  
+        });
+    });
+
+    return response;
 }
+
 
 mostrarCotRestantes();

@@ -35,7 +35,7 @@ class ControladorUsuarios
 				$respuesta = ModeloUsuarios::mdlUsuariosLogin($tabla, $tabla2, $tabla3, $tabla4, $item, $valor);
 				if ($respuesta["usu_usuario"] == $_POST["ingUsuario"] && $respuesta["usu_password"] === $encriptar) {
 					if ($respuesta["usu_estado"] == 1) {
-						if ($respuesta["fechaFin"] != null && ($fechaAct >= $respuesta["fechaFin"])) {
+						if ($respuesta["fechaFin"] != null && ($fechaAct >= $respuesta["fechaFin"]) && $respuesta['rol'] == 20) {
 							echo '<script>
 								Swal.fire({
 									html:  `
@@ -45,6 +45,46 @@ class ControladorUsuarios
 										<br>
 										<strong>Si deseas volver a ingresar a la plataforma debes vincularte al Programa donde te daremos un usuario personalizado y permanente.</strong>
 										<br><br>Si quieres hacer este proceso comunícate con el área encargada de vinculaciones de Grupo Asistencia al: 📱+573185127910 o vía 📧 mercadeo@grupoasistencia.com.
+									</div>
+									`,
+									confirmButtonColor: "#88d600",
+									width: "40%", 
+									customClass: {
+										container: "swal-container",
+										title: "swal-title",
+										confirmButton: "swal-confirm-button", 
+									},
+									confirmButtonText: "Cerrar",
+								}).then(function () {
+									window.location.href = "/login"; 
+								});
+
+								const swalContainer = document.querySelector(".swal-container");
+								swalContainer.style.marginTop = "20px"; // Ajusta este valor según tu necesidad
+
+								// Agrega estilos adicionales para pantallas móviles aquí
+								if (window.innerWidth <= 768) {
+									// Estilos para pantallas con un ancho máximo de 768px (ajusta según sea necesario)
+									swalContainer.style.padding = "5px";
+								}
+							</script>
+							
+							<style>
+								.swal-confirm-button {
+									font-size: 15px !important; /* Aumenta el tamaño del botón */
+									padding: 6px 15px; /* Ajusta el padding para hacer que el botón sea más grande */
+								}
+							</style>';
+							die();
+						} else if ($respuesta["fechaFin"] != null && ($fechaAct >= $respuesta["fechaFin"])) {
+							echo '<script>
+								Swal.fire({
+									html:  `
+									<div style="text-align: justify; font-family: Helvetica, Arial, sans-serif; font-size: 15px; border-radius: 4px; padding: 8px;">
+										Hola, lamentamos comunicarte que este usuario ha sido inhabilitado.
+										<br>
+										<br>
+										<strong>Si deseas volver a ingresar a la plataforma comunícate con el área de vinculaciones de Grupo Asistencia al: 📱+573185127910 o vía 📧 mercadeo@grupoasistencia.com.
 									</div>
 									`,
 									confirmButtonColor: "#88d600",
@@ -367,8 +407,8 @@ class ControladorUsuarios
 
 					swal.fire({
 
-						type: "success",
-						title: "¡El usuario ha sido guardado correctamente!",
+						icon: "success",
+						text: "¡El usuario ha sido guardado correctamente!",
 						showConfirmButton: true,
 						confirmButtonText: "Cerrar"
 
@@ -390,7 +430,7 @@ class ControladorUsuarios
 
 					swal.fire({
 
-						type: "error",
+						icon: "error",
 						title: "¡Algo ha salido mal!",
 						showConfirmButton: true,
 						confirmButtonText: "Cerrar"
@@ -417,7 +457,7 @@ class ControladorUsuarios
 					swal.fire({
 
 						type: "error",
-						title: "¡El usuario no puede ir vacío o llevar caracteres especiales!",
+						text: "¡El usuario no puede ir vacío o llevar caracteres especiales!",
 						showConfirmButton: true,
 						confirmButtonText: "Cerrar"
 

@@ -1,7 +1,6 @@
 <?php
 require_once "config/dbconfig.php";
 
-
 function obtenerCredenciales($enlace, $tabla, $columnas, $idIntermediario)
 {
   $query = "SELECT $columnas FROM `$tabla` WHERE `id_intermediario` = '$idIntermediario'";
@@ -53,6 +52,7 @@ $cre_est_usuario = $creEstado['cre_est_usuario'];
 $cre_equ_contrasena = $creEstado['cre_equ_contrasena'];
 $Cre_Est_Entity_Id = $creEstado['Cre_Est_Entity_Id'];
 $cre_est_zona = $creEstado['cre_est_zona'];
+
 
 // Lógica para AXA
 if ($aseguradoras['AXA']['C'] == "1") {
@@ -113,6 +113,10 @@ if ($_SESSION["permisos"]["Cotizarlivianos"] != "x") {
 $rolAsesor = $_SESSION['permisos']['id_rol'];
 $idIntermediario = $_SESSION['permisos']['id_Intermediario'];
 
+if (isset($_SESSION)) {
+}
+
+echo '<script>console.log(' . $idIntermediario . ", " . $rolAsesor . ')</script>';
 ?>
 
 <style>
@@ -133,21 +137,597 @@ $idIntermediario = $_SESSION['permisos']['id_Intermediario'];
   }
 
   /* Estilo para pantallas más pequeñas (menos de 495px) */
-  @media (max-width: 495px) {
+  /* @media (max-width: 495px) {
     .table-responsive {
       overflow-x: auto;
     }
+  }
+*/
+
+  .custom-title-messageFinesa {
+    font-size: 16px;
+    font-weight: bold;
+    color: #000000 !important;
+    ;
+  }
+
+  .custom-text-messageFinesa {
+    font-size: 15px !important;
+    width: 100%;
+    text-align: center !important;
+    font-weight: bold !important;
+    color: #000000 !important;
+    padding-left: 27px !important;
+    padding-right: 27px !important;
+  }
+
+  .custom-popup-messageFinesa {
+    border-radius: 10px;
+    text-align: center;
+    padding-top: 6px !important;
+  }
+
+  .custom-actions-messageFinesa {
+    flex-direction: row-reverse;
+    gap: 25px;
+    padding-top: 10px;
+  }
+
+  .custom-confirmnButton-messageFinesa {
+    background-color: #88d600 !important;
+    color: white;
+    width: 55px !important;
+    height: 30px !important;
+    border-radius: 5px !important;
+  }
+
+  .custom-cancelButton-messageFinesa {
+    background-color: #000000 !important;
+    color: white;
+    width: 55px !important;
+    height: 30px !important;
+    border-radius: 5px !important;
+  }
+
+  #pTableModal {
+    font-size: 12px !important;
+  }
+
+  .custom-swal-alertaMontoLivianos {
+    display: flex;
+    flex-direction: column;
+    width: 30%;
+    padding: 30px;
+    border-radius: 15px !important;
+  }
+
+  .swal2-icon_monto {
+    width: 90px;
+    height: 90px;
+    border: 4px solid #f8bb86 !important;
+  }
+
+  .custom-swal-popup {
+    border-radius: 25px;
+  }
+
+  .swal2-actions {
+    align-content: center !important;
+    margin: 0 !important;
+  }
+
+  .custom-swal-confirm-button20 {
+    font-size: 16px !important;
+    height: 50px;
+    width: 150px;
+    border-radius: 10px !important;
+  }
+
+  .custom-swal-actions-livianos {
+    padding-bottom: 25px !important;
+  }
+
+
+  @media (min-width: 320px) and (max-width: 577px) {
+
+    #tableModal td {
+      text-align: center;
+      font-size: 12px;
+    }
+
+    .custom-swal-alertaMontoLivianos {
+      display: flex;
+      flex-direction: column;
+      width: 95% !important;
+      padding: 0px 0px 0px 0px !important;
+      /* gap: 10px; */
+      border-radius: 15px !important;
+    }
+
+    #tdAsegurado {
+      width: 300px;
+      text-align: center;
+      font-size: 14px;
+    }
+
+    #tdCondiciones {
+      width: 300px;
+      text-align: center;
+      font-size: 14px;
+    }
+
+    .custom-swal-alertaMontoLivianos .swal2-html-container {
+      display: flex !important;
+      flex-direction: column;
+      gap: 10px;
+      padding-top: 2px;
+      padding-right: 12px;
+      padding-left: 12px;
+      /* padding-bottom: 6px; */
+      align-items: center;
+    }
+
+    .custom-swal-alertaMontoLivianos .swal2-html-container>p {
+      font-size: 17px;
+      /* padding-top: 6px; */
+      text-align: justify;
+      margin: 0px;
+    }
+
+
+    #pTableModal {
+      font-size: 10px !important;
+    }
+
+    .swal2-actions {
+      align-content: center !important;
+      margin: 0 !important;
+    }
+
+    .custom-swal-confirm-button20 {
+      font-size: 16px !important;
+      height: 50px;
+      width: 150px;
+      border-radius: 10px !important;
+    }
+
+    .custom-swal-titleLivianos {
+      font-size: 17px !important;
+      font-weight: bold;
+      margin: 0px;
+      padding: 0px
+    }
+
+    .swal2-icon_monto {
+      width: 60px !important;
+      height: 60px !important;
+      border: 3px solid #f8bb86 !important;
+    }
+
+    .custom-swal-actions-livianos {
+      padding-bottom: 3px !important;
+    }
+
+  }
+
+  @media (min-width: 577px) and (max-width: 768px) {
+
+    #tableModal td {
+      text-align: center;
+      font-size: 15px;
+    }
+
+    .custom-swal-alertaMontoLivianos {
+      display: flex;
+      flex-direction: column;
+      width: 70% !important;
+      padding: 20px 30px 20px 30px !important;
+      gap: 10px;
+      border-radius: 15px !important;
+    }
+
+    #tdAsegurado {
+      width: 270px;
+      text-align: center;
+      font-size: 16px;
+    }
+
+    #tdCondiciones {
+      width: 335px;
+      text-align: center;
+      font-size: 16px;
+    }
+
+    .custom-swal-alertaMontoLivianos .swal2-html-container {
+      display: flex !important;
+      flex-direction: column;
+      gap: 10px;
+      padding-right: 17px;
+      padding-left: 17px;
+      padding-bottom: 20px;
+      align-items: center;
+    }
+
+    .custom-swal-alertaMontoLivianos .swal2-html-container>p {
+      font-size: 17px;
+      padding-top: 20px;
+      text-align: justify;
+    }
+
+
+    .custom-swal-titleLivianos {
+      font-size: 23px !important;
+      font-weight: bold;
+    }
+
+    .swal2-actions {
+      align-content: center !important;
+      margin: 0 !important;
+    }
+
+    .custom-swal-confirm-button20 {
+      font-size: 16px !important;
+      height: 50px;
+      width: 150px;
+      border-radius: 10px !important;
+    }
+
+    #pTableModal {
+      font-size: 12px !important;
+    }
+
+    .swal2-icon_monto {
+      width: 60px !important;
+      height: 60px !important;
+      border: 3px solid #f8bb86 !important;
+    }
+
+    .custom-swal-actions-livianos {
+      padding-bottom: 25px !important;
+    }
+
+  }
+
+  @media (min-width: 769px) and (max-width: 992px) {
+    #tableModal td {
+      text-align: center;
+      font-size: 15px;
+    }
+
+    .custom-swal-alertaMontoLivianos {
+      display: flex;
+      flex-direction: column;
+      width: 60% !important;
+      padding: 20px 30px 20px 30px !important;
+      gap: 10px;
+      border-radius: 15px !important;
+    }
+
+    #tdAsegurado {
+      width: 330px;
+      text-align: center;
+      font-size: 16px;
+    }
+
+    #tdCondiciones {
+      width: 335px;
+      text-align: center;
+      font-size: 16px;
+    }
+
+    .custom-swal-alertaMontoLivianos .swal2-html-container {
+      display: flex !important;
+      flex-direction: column;
+      gap: 10px;
+      padding-right: 17px;
+      padding-left: 17px;
+      padding-bottom: 20px;
+      align-items: center;
+    }
+
+    .custom-swal-alertaMontoLivianos .swal2-html-container>p {
+      font-size: 17px;
+      padding-top: 20px;
+      text-align: justify;
+    }
+
+
+    .custom-swal-titleLivianos {
+      font-size: 23px !important;
+      font-weight: bold;
+    }
+
+    .swal2-actions {
+      align-content: center !important;
+      margin: 0 !important;
+    }
+
+    .custom-swal-confirm-button20 {
+      font-size: 16px !important;
+      height: 50px;
+      width: 150px;
+      border-radius: 10px !important;
+    }
+
+    #pTableModal {
+      font-size: 12px !important;
+    }
+
+    .swal2-icon_monto {
+      width: 60px !important;
+      height: 60px !important;
+      border: 3px solid #f8bb86 !important;
+    }
+
+    .custom-swal-actions-livianos {
+      padding-bottom: 25px !important;
+    }
+
+  }
+
+  @media (min-width: 993px) and (max-width: 1200px) {
+    #tableModal td {
+      text-align: center;
+      font-size: 14px;
+    }
+
+    .custom-swal-alertaMontoLivianos {
+      display: flex;
+      flex-direction: column;
+      width: 50% !important;
+      padding: 0px 12px 0px 12px !important;
+      /* gap: 10px; */
+      border-radius: 15px !important;
+    }
+
+    #tdAsegurado {
+      width: 330px;
+      text-align: center;
+      font-size: 15px;
+    }
+
+    #tdCondiciones {
+      width: 335px;
+      text-align: center;
+      font-size: 15px;
+    }
+
+    .custom-swal-alertaMontoLivianos .swal2-html-container {
+      display: flex !important;
+      flex-direction: column;
+      gap: 10px;
+      padding-top: 3px;
+      padding-right: 17px;
+      padding-left: 17px;
+      padding-bottom: 5px;
+      align-items: center;
+    }
+
+    .custom-swal-alertaMontoLivianos .swal2-html-container>p {
+      margin: 0px;
+      font-size: 15px;
+      padding-top: 0px;
+      text-align: justify;
+    }
+
+
+    .swal2-actions {
+      align-content: center !important;
+      margin: 0 !important;
+    }
+
+    .custom-swal-confirm-button20 {
+      font-size: 16px !important;
+      height: 50px;
+      width: 150px;
+      border-radius: 10px !important;
+    }
+
+    .custom-swal-titleLivianos {
+      font-size: 20px !important;
+      padding: 3px;
+      font-weight: bold;
+    }
+
+    #pTableModal {
+      font-size: 12px !important;
+    }
+
+    .swal2-icon_monto {
+      margin-top: 10px;
+      width: 60px !important;
+      height: 60px !important;
+      border: 3px solid #f8bb86 !important;
+    }
+
+    .custom-swal-actions-livianos {
+      padding-bottom: 10px !important;
+    }
+
+  }
+
+  @media (min-width: 1200px) and (max-width: 1440px) {
+    #tableModal td {
+      text-align: center;
+      font-size: 12px;
+    }
+
+    .custom-swal-alertaMontoLivianos {
+      display: flex;
+      flex-direction: column;
+      width: 43% !important;
+      padding: 20px 20px 20px 20px !important;
+      /* gap: 10px; */
+      border-radius: 15px !important;
+      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    }
+
+    #tdAsegurado {
+      width: 330px;
+      text-align: center;
+      font-size: 15px;
+    }
+
+    #tdCondiciones {
+      width: 335px;
+      text-align: center;
+      font-size: 15px;
+    }
+
+    .custom-swal-alertaMontoLivianos .swal2-html-container {
+      display: flex !important;
+      flex-direction: column;
+      gap: 10px;
+      padding-top: 3px;
+      padding-right: 50px;
+      padding-left: 50px;
+      padding-bottom: 5px;
+      align-items: center;
+    }
+
+    .custom-swal-alertaMontoLivianos .swal2-html-container>p {
+      margin: 0px;
+      font-size: 15px;
+      padding-top: 0px;
+      text-align: justify;
+    }
+
+
+    .swal2-actions {
+      align-content: center !important;
+      margin: 0 !important;
+    }
+
+    .custom-swal-confirm-button20 {
+      font-size: 16px !important;
+      height: 50px;
+      width: 150px;
+      border-radius: 10px !important;
+    }
+
+    .custom-swal-titleLivianos {
+      font-size: 20px !important;
+      padding-bottom: 8px;
+      font-weight: bold;
+    }
+
+    #pTableModal {
+      font-size: 12px !important;
+    }
+
+    .swal2-icon_monto {
+      margin-top: 10px;
+      width: 60px !important;
+      height: 60px !important;
+      border: 3px solid #f8bb86 !important;
+    }
+
+    .custom-swal-actions-livianos {
+      padding-top: 7px !important;
+      padding-bottom: 0px !important;
+    }
+
+  }
+
+  @media (min-width: 1441px) {
+
+    #tableModal {
+      text-align: center;
+    }
+
+    #tableModal td {
+      text-align: center;
+      font-size: 14px;
+    }
+
+    .custom-swal-alertaMontoLivianos {
+      display: flex !important;
+      flex-direction: column;
+      width: 35% !important;
+      padding: 0px 27px 0px 27px;
+      /* gap: 10px; */
+      border-radius: 15px !important;
+    }
+
+    #tdAsegurado {
+      width: 260px;
+      font-size: 14px;
+    }
+
+    #tdCondiciones {
+      width: 260px;
+      font-size: 14px;
+    }
+
+    .custom-swal-titleLivianos {
+      font-size: 18px !important;
+      padding: 3px;
+      font-weight: bold;
+    }
+
+    #pTableModalPesados {
+      font-size: 13px !important;
+      margin: 0;
+    }
+
+    .custom-swal-alertaMontoLivianos .swal2-html-container {
+      display: flex !important;
+      flex-direction: column;
+      /* gap: 10px; */
+      padding-right: 10px;
+      padding-left: 10px;
+      /* padding-bottom: 8px; */
+      align-items: center;
+    }
+
+    .custom-swal-alertaMontoLivianos .swal2-html-container>p {
+      font-size: 19px;
+      padding-top: 10px;
+      text-align: justify;
+      /* padding-left: 20px; */
+      /* padding-right: 20px; */
+    }
+
+    .swal2-actions {
+      align-content: center !important;
+      margin: 0 !important;
+    }
+
+    .custom-swal-confirm-button20 {
+      font-size: 16px !important;
+      height: 50px;
+      width: 150px;
+      border-radius: 10px !important;
+      padding-bottom: 17px;
+    }
+
+    .swal2-icon_monto {
+      margin-top: 14px;
+      width: 90px !important;
+      height: 90px !important;
+      border: 3px solid #f8bb86 !important;
+    }
+
+    .custom-swal-actions-livianos {
+      padding-bottom: 10px !important;
+    }
+
+    .swal2-icon-content {
+      font-size: 65px !important;
+    }
+
   }
 
   .btnConfirm {
     background: #88d600;
   }
 
+  /* 
   @media (max-width: 495px) {
     .table-responsive {
       overflow-x: auto;
     }
-  }
+  } */
 
   .form-coti {
     padding-top: 25px;
@@ -235,7 +815,40 @@ $idIntermediario = $_SESSION['permisos']['id_Intermediario'];
     width: 150px;
     height: 30px;
     color: white;
-  } 
+  }
+
+  /* 
+  .swal2-icon {
+    width: 90px;
+    height: 90px;
+    border: 4px solid #f8bb86 !important;
+  }
+
+  .custom-swal-popup {
+    border-radius: 25px;
+  } */
+
+  /* .swal2-icon-content {
+    font-size: 65px !important;
+  } */
+  /* 
+  .custom-swal-title {
+    font-size: 20px !important;
+    font-weight: bold;
+   } */
+
+  /* .custom-swal-popup {
+    display: flex !important;
+    flex-direction: column !important;
+    padding: 10px;
+  } */
+
+  /* 
+
+  .custom-swal-title {
+    font-size: 20px !important;
+    font-weight: bold;
+   } */
 </style>
 
 <div class="content-wrapper">
@@ -244,7 +857,7 @@ $idIntermediario = $_SESSION['permisos']['id_Intermediario'];
 
     <h1>
 
-      Cotizar Todo Riesgo Livianos
+      Cotizar Seguro Autos Livianos
 
     </h1>
 
@@ -327,8 +940,8 @@ $idIntermediario = $_SESSION['permisos']['id_Intermediario'];
                       <input type="hidden" class="form-control" id="cotRestanv" value="<?php echo $_SESSION["cotRestantes"]; ?>">
                       <label for="tipoDocumentoID">Tipo de Documento</label>
                       <select class="form-control" id="tipoDocumentoID" required>
-                        <option value=""></option>
-                        <option value="1" selected>Cedula de ciudadania</option>
+                        <option value="" disabled selected>Selecciona el tipo de documento</option>
+                        <option value="1">Cedula de ciudadania</option>
                         <option value="2">NIT</option>
                         <option value="3">Cédula de extranjería</option>
                         <option value="4">Tarjeta de identidad</option>
@@ -338,6 +951,9 @@ $idIntermediario = $_SESSION['permisos']['id_Intermediario'];
                         <option value="8">Fideicomiso</option>
                         <option value="9">Registro civil de nacimiento</option>
                       </select>
+                      <div id="alertaTipoDocumento" class="alert alert-danger mt-2" style="display: none;">
+                        Debes seleccionar un tipo de documento.
+                      </div>
                     </div>
                     <div class="col-xs-12 col-sm-6 col-md-3 form-group">
                       <label for="numDocumentoID">No. Documento</label>
@@ -836,24 +1452,29 @@ $idIntermediario = $_SESSION['permisos']['id_Intermediario'];
 
 
                 <div id="mensajePrevisora">
-                  <div class="aviso-container col-lg-12">
-                    <ul>
-                        <li>
-                          <p style="font-weight: bold;">
-                            Si a tu cliente le interesa Previsora, ten en cuenta que ciertas líneas de vehículos requieren
-                            la instalación del dispositivo Cazador al tomar su seguro y este tiene un costo adicional a la
-                            póliza. Por favor confirma con tu área comercial.
-                          </p>
-                        </li>
-                      <li>
-                        <p style="font-weight: bold;">
-                          Los vehículos KIA de las líneas PICANTO y SPORTAGE se encuentran fuera de políticas en Seguros
-                          del Estado. Si se genera cotización con esta Aseguradora, omitir dicha oferta. Igualmente con
-                          esta compañía, la clase de vehículo PICK UP solo se asegura como vehículo publico.
-                        </p>
-                      </li>
-                    </ul>
-                  </div>
+                  <p class="aviso-container col-lg-12">
+                  <ul style="padding-right: 25px !important; text-align: justify;">
+                    <li>
+                      <p>
+                        Si a tu cliente le interesa Previsora, ten en cuenta que ciertas líneas de vehículos requieren
+                        la instalación del dispositivo Cazador al tomar su seguro y este tiene un costo adicional a la
+                        póliza. Por favor confirma con tu área comercial.
+                      </p>
+                    </li>
+                    <li>
+                      <p>
+                        Los vehículos KIA de las líneas PICANTO y SPORTAGE se encuentran fuera de políticas en Seguros
+                        del Estado. Si se genera cotización con esta Aseguradora, omitir dicha oferta. Igualmente con
+                        esta compañía, la clase de vehículo PICK UP solo se asegura como vehículo publico.
+                      </p>
+                    </li>
+                    <li>
+                      <p style="font-weight: bold;">Política de valor asegurado livianos:</p>
+                      <p>Menos de 200 millones, se asegura de acuerdo a políticas de cada aseguradora. Entre 200 a 250 millones, se puede asegurar con autorización del Director Comercial de Grupo Asistencia. Entre 250 a 300 millones, se puede asegurar solo bajo autorización de Gerencia de Grupo Asistencia, de acuerdo al nivel de productividad del Asesor.</p>
+                      <p><b>Nota:</b> Tener en cuenta que aunque el cotizador genere ofertas, no todos los vehículos son asegurables. Se podrán hacer excepciones de valor asegurado superior cuando el asesor sea productivo, tenga más de 6 meses de antigüedad con Grupo Asistencia, no tenga altos indices de siniestralidad en su cartera, y si el cliente tiene vinculación con otros productos de la aseguradora. El valor de las primas de las cotizaciones puede variar al momento de emitir en los casos autorizados de manera excepcional.
+                      </p>
+                    </li>
+                  </ul>
                 </div>
               </div>
             </div>
@@ -1033,6 +1654,51 @@ $idIntermediario = $_SESSION['permisos']['id_Intermediario'];
           </div>
         </div>
       </div>
+      <!-- <div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog2">
+          <div class="modal-content2">
+            <div class="modal-header2">
+              <h5 class="modal-title2" id="staticBackdropLabel2">POLÍTICA DE VALOR ASEGURADO LIVIANOS</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body2">
+              <form>
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Valor Asegurado</th>
+                      <th>Condiciones</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>Menos de 200 millones</td>
+                      <td>De acuerdo a políticas de cada aseguradora</td>
+                    </tr>
+                    <tr>
+                      <td>200 a 250 millones</td>
+                      <td>Requieren autorización del Director Comercial de Grupo Asistencia</td>
+                    </tr>
+                    <tr>
+                      <td>250 a 300 millones</td>
+                      <td>Requieren autorización de Gerencia de Grupo Asistencia de acuerdo al nivel de productividad del Asesor</td>
+                    </tr>
+                  </tbody>
+                </table>
+
+                
+
+                <div class="divsButtonsModals">
+                  <button type="button" class="btn btn-primary buttonsModal" id="btn-cerrar-fasecolda">Cerrar</button>
+                  <button type="button" class="btn btn-primary buttonsModal" id="btn-consultar-fasecolda">Consultar</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div> -->
       <!-- END MODAL FASECOLDA -->
 
   </section>

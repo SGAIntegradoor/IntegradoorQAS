@@ -219,7 +219,7 @@ function validarCampos() {
 function cotizar() {
   document.getElementById("spinener-cot").style.display = "flex";
   // Capturamos los valores de los campos del formulario
- 
+  document.getElementById("btnCotizar").disabled = true;
   var PlanFamilair = "false";
   var txtOrigen = $("#lugarOrigen").val();
   var txtDestino = $("#lugarDestino").val();
@@ -319,8 +319,8 @@ var edadPrincipalParaVerDetalles = Math.floor(diferencia / (1000 * 60 * 60 * 24 
                                       </span><br> 
                                       <span class="tittlePrice">
                                           Desde ${contPasajeros > 1 ?
-                                          `US $` + parseFloat(cotizacionArray.clientesCotizados.clienteCotizacion[0].valorAsistencia).toFixed(2) :
-                                          `US $` + parseFloat(cotizacionArray.clientesCotizados.clienteCotizacion.valorAsistencia).toFixed(2)}
+                                          `${cotizacionArray.moneda == "1" ? 'US' : 'COP' } $` + parseFloat(cotizacionArray.clientesCotizados.clienteCotizacion[0].valorAsistencia).toFixed(2) :
+                                          `${cotizacionArray.moneda == "1" ? 'US' : 'COP' } $` + parseFloat(cotizacionArray.clientesCotizados.clienteCotizacion.valorAsistencia).toFixed(2)}
                                       </span><br> 
                                   </div>
 
@@ -378,8 +378,8 @@ var edadPrincipalParaVerDetalles = Math.floor(diferencia / (1000 * 60 * 60 * 24 
                                           </span><br> 
                                           <span class="tittlePrice">
                                               Desde  ${contPasajeros > 1 ?
-                                              `US $` + parseFloat(cotizacionArray.clientesCotizados.clienteCotizacion[0].valorAsistencia).toFixed(2) :
-                                              `US $` + parseFloat(cotizacionArray.clientesCotizados.clienteCotizacion.valorAsistencia).toFixed(2)}
+                                              `${cotizacionArray.moneda == "1" ? 'US' : 'COP' } $` + parseFloat(cotizacionArray.clientesCotizados.clienteCotizacion[0].valorAsistencia).toFixed(2):
+                                              `${cotizacionArray.moneda == "1" ? 'US' : 'COP' } $` + parseFloat(cotizacionArray.clientesCotizados.clienteCotizacion.valorAsistencia).toFixed(2)}
                                           </span><br> 
                                       </div>
 
