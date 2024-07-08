@@ -1277,7 +1277,6 @@ function saveQuotations(responses) {
 function cotizarFinesa(ofertasCotizaciones) {
   let cotEnFinesaResponse = [];
   let promisesFinesa = [];
-  document.getElementById("#btnReCotizarFallidas").disabled = true;
   const headers = new Headers();
   headers.append("Content-Type", "application/json");
 
