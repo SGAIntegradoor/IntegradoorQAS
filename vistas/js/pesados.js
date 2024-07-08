@@ -1744,7 +1744,7 @@ function cotizarFinesa(ofertasCotizaciones) {
 
   const headers = new Headers();
   headers.append("Content-Type", "application/json");
-
+  document.getElementById("#btnReCotizarFallidas").disabled = true;
   const tipoId = document.getElementById("tipoDocumentoID").value;
 
   ofertasCotizaciones.forEach((element, index) => {
@@ -1831,7 +1831,6 @@ function cotizarFinesa(ofertasCotizaciones) {
 
   Promise.all(promisesFinesa)
     .then((results) => {
-      document.querySelector("#btnReCotizarFallidas").disabled = true;
       cotEnFinesaResponse = saveQuotations(results);
       swal
         .fire({
@@ -1843,7 +1842,7 @@ function cotizarFinesa(ofertasCotizaciones) {
           $("#loaderOferta").html("");
           $("#loaderOfertaBox").css("display", "none");
           $("#loaderRecotOferta").html("");
-          document.querySelector("#btnReCotizarFallidas").disabled = false;
+          document.getElementById("#btnReCotizarFallidas").disabled = false;
         });
     })
     .catch((error) => {

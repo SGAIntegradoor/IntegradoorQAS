@@ -868,7 +868,7 @@ function saveQuotations(responses) {
 function cotizarFinesaMotos(ofertasCotizaciones) {
   let cotEnFinesaResponse = [];
   let promisesFinesa = [];
-
+  document.getElementById("#btnReCotizarFallidas").disabled = true;
   const headers = new Headers();
   headers.append("Content-Type", "application/json");
 
@@ -963,8 +963,7 @@ function cotizarFinesaMotos(ofertasCotizaciones) {
   });
 
   Promise.all(promisesFinesa)
-    .then((results) => {
-      document.querySelector("#btnReCotizarFallidas").disabled = true;
+    .then((results) => {    
       cotEnFinesaResponse = saveQuotations(results);
       swal
         .fire({
@@ -973,11 +972,11 @@ function cotizarFinesaMotos(ofertasCotizaciones) {
           confirmButtonText: "Cerrar",
         })
         .then(() => {
+          document.getElementById("#btnReCotizarFallidas").disabled = false;
           $("#loaderOferta").html("");
           $("#loaderOfertaBox").css("display", "none");
           $("#loaderRecotOferta").html("");
           $("#loaderRecotOfertaBox").css("display", "none");
-          document.querySelector("#btnReCotizarFallidas").disabled = false;
         });
     })
     .catch((error) => {

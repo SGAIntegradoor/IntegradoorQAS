@@ -1277,7 +1277,7 @@ function saveQuotations(responses) {
 function cotizarFinesa(ofertasCotizaciones) {
   let cotEnFinesaResponse = [];
   let promisesFinesa = [];
-
+  document.getElementById("#btnReCotizarFallidas").disabled = true;
   const headers = new Headers();
   headers.append("Content-Type", "application/json");
 
@@ -1374,7 +1374,6 @@ function cotizarFinesa(ofertasCotizaciones) {
 
   Promise.all(promisesFinesa)
     .then((results) => {
-      document.querySelector("#btnReCotizarFallidas").disabled = true;
       cotEnFinesaResponse = saveQuotations(results);
       $("#loaderOferta").html("");
       $("#loaderOfertaBox").css("display", "none");
@@ -1389,7 +1388,7 @@ function cotizarFinesa(ofertasCotizaciones) {
         .then(() => {
           $("#loaderOferta").html("");
           $("#loaderOfertaBox").css("display", "none");
-          document.querySelector("#btnReCotizarFallidas").disabled = false;
+          document.getElementById("#btnReCotizarFallidas").disabled = false;
         });
     })
     .catch((error) => {
