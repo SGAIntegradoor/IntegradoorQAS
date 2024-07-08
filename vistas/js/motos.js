@@ -2523,7 +2523,7 @@ function cotizarOfertasMotos() {
         // $("#loaderOferta").html("");
         $("#loaderRecotOferta").html("");
         let nuevas = cotizacionesFinesaMotos.filter((cotizaciones) => 
-          cotizaciones.cotizada == null
+          cotizaciones.cotizada === null
         );
         if(nuevas.length > 0){
           swal
@@ -2568,24 +2568,6 @@ function cotizarOfertasMotos() {
               showConfirmButton: true,
               confirmButtonText: "Cerrar",
             })
-          // .then(function (result) {
-          //   if (result.isConfirmed) {
-          //     $("#loaderRecotOfertaBox").css("display", "block");
-          //     $("#loaderRecotOferta").html(
-          //       '<img src="vistas/img/plantilla/loader-update.gif" width="34" height="34"><strong>Re-Cotizando en Finesa...</strong>'
-          //     );
-          //     cotizarFinesaMotos(cotizacionesFinesaMotos);
-          //   } else if (result.isDismissed) {
-          //     if (result.dismiss === "cancel") {
-          //       // console.log("El usuario seleccionó 'No'");
-          //       $("#loaderRecotOferta").html("");
-          //       $("#loaderRecotOfertaBox").css("display", "none");
-          //     } else if (result.dismiss === "backdrop") {
-          //       $("#loaderRecotOferta").html("");
-          //       $("#loaderRecotOfertaBox").css("display", "none");
-          //     }
-          //   }
-          // });
         }
         
       });

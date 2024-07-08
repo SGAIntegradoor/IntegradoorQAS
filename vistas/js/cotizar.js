@@ -3393,8 +3393,8 @@ function cotizarOfertas() {
         Promise.all(cont).then(() => {
           $("#loaderOferta").html("");
           $("#loaderRecotOferta").html("");
-          let nuevas = cotizacionesFinesa.find((cotizaciones) => 
-            cotizaciones.cotizada == null
+          let nuevas = cotizacionesFinesa.filter((cotizaciones) => 
+            cotizaciones.cotizada === null
           );
           if(nuevas.length > 0){
             swal
@@ -3415,7 +3415,7 @@ function cotizarOfertas() {
               },
             })
             .then(function (result) {
-              if ((result.isConfirmed && nuevas.length > 0)) {
+              if (result.isConfirmed) {
                 $("#loaderRecotOfertaBox").css("display", "block");
                 $("#loaderRecotOferta").html(
                   '<img src="vistas/img/plantilla/loader-update.gif" width="34" height="34"><strong>Re-Cotizando en Finesa...</strong>'
