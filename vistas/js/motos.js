@@ -964,6 +964,7 @@ function cotizarFinesaMotos(ofertasCotizaciones) {
 
   Promise.all(promisesFinesa)
     .then((results) => {
+      document.querySelector("#btnReCotizarFallidas").disabled = true;
       cotEnFinesaResponse = saveQuotations(results);
       swal
         .fire({
@@ -976,6 +977,7 @@ function cotizarFinesaMotos(ofertasCotizaciones) {
           $("#loaderOfertaBox").css("display", "none");
           $("#loaderRecotOferta").html("");
           $("#loaderRecotOfertaBox").css("display", "none");
+          document.querySelector("#btnReCotizarFallidas").disabled = false;
         });
     })
     .catch((error) => {

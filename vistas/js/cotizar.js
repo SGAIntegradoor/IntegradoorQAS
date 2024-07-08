@@ -1374,6 +1374,7 @@ function cotizarFinesa(ofertasCotizaciones) {
 
   Promise.all(promisesFinesa)
     .then((results) => {
+      document.querySelector("#btnReCotizarFallidas").disabled = true;
       cotEnFinesaResponse = saveQuotations(results);
       $("#loaderOferta").html("");
       $("#loaderOfertaBox").css("display", "none");
@@ -1388,7 +1389,7 @@ function cotizarFinesa(ofertasCotizaciones) {
         .then(() => {
           $("#loaderOferta").html("");
           $("#loaderOfertaBox").css("display", "none");
-
+          document.querySelector("#btnReCotizarFallidas").disabled = false;
         });
     })
     .catch((error) => {
