@@ -1,9 +1,9 @@
-    <div class="container-fluid">
+    <div class="container-fluid mainDataContainer">
         <div class="col-lg-12">
             <div class="row row-aseg">
                 <div class="col-xs-12 col-sm-6 col-md-6">
                     <label id="lblDataTrip">Ingresa Informacion del Viaje a Cotizar</label>
-                    <i id="iconDataTrip" class="fa fa-plane planeCot" aria-hidden="true"></i>         
+                    <i id="iconDataTrip" class="fa fa-globe planeCot" aria-hidden="true"></i>         
                 </div>
 
                 <div class="col-xs-12 col-sm-6 col-md-6">
@@ -128,10 +128,16 @@
 
             <div class="col-xs-12 col-sm-6 col-md-3" id="colBtnCotizar">
                 <div class="form-group">
-                    <button class="btn btn-primary btn-block btn-cot" id="btnCotizar">Cotizar</button>
+                    <button class="btn btn-primary btn-block btn-cot" id="btnCotizarAsiss">Cotizar</button>
                 </div>
             </div>
-
+        </div>
+        <div class="row">
+            <div class="col-xs-12 text-center">
+                <div class="spinner-container" id="spinener-cot">
+                    <div class="spinner"></div>
+                </div>
+            </div>
         </div>
     </div>
     <div class="container-fluid"  id="containerCards">
@@ -154,14 +160,9 @@
         </div> 
         <div class="container-fluid"  id="Cards">
             <div class="row">
-            <div class="col-xs-12">
-                <p><strong>Nota: </strong>Esta cotización aplica para una sola persona. Si requieres una cotización para un grupo (2 o más personas), ponte en contacto con el equipo comercial a través de tu analista asignado.</p>
-            </div>                                                                                         
-                <div class="col-xs-12 text-center">
-                    <div class="spinner-container" id="spinener-cot">
-                        <div class="spinner"></div>
-                    </div>
-                </div>
+                <div class="col-xs-12">
+                    <p><strong>Nota: </strong>Esta cotización aplica para una sola persona. Si requieres una cotización para un grupo (2 o más personas), ponte en contacto con el equipo comercial a través de tu analista asignado.</p>
+                </div>                                                                                         
             </div>
             <div class="row" id="row_contenedor_general"></div>
         </div>
