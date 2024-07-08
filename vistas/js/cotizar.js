@@ -1388,7 +1388,7 @@ function cotizarFinesa(ofertasCotizaciones) {
         .then(() => {
           $("#loaderOferta").html("");
           $("#loaderOfertaBox").css("display", "none");
-          document.getElementById("#btnReCotizarFallidas").disabled = false;
+          document.getElementById("btnReCotizarFallidas").disabled = false;
         });
     })
     .catch((error) => {
@@ -2663,7 +2663,8 @@ function cotizarOfertas() {
                   },
                 })
                 .then(function (result) {
-                  if (result.isConfirmed) {
+                  if (result.isConfirmed) {                   
+                    document.getElementById("btnReCotizarFallidas").disabled = true;
                     $("#loaderOferta").html(
                       '<img src="vistas/img/plantilla/loader-update.gif" width="34" height="34"><strong> Cotizando en Finesa...</strong>'
                     );

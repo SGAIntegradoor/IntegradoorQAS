@@ -866,9 +866,10 @@ function saveQuotations(responses) {
 }
 
 function cotizarFinesaMotos(ofertasCotizaciones) {
+  
   let cotEnFinesaResponse = [];
   let promisesFinesa = [];
-  document.getElementById("#btnReCotizarFallidas").disabled = true;
+
   const headers = new Headers();
   headers.append("Content-Type", "application/json");
 
@@ -972,11 +973,11 @@ function cotizarFinesaMotos(ofertasCotizaciones) {
           confirmButtonText: "Cerrar",
         })
         .then(() => {
-          document.getElementById("#btnReCotizarFallidas").disabled = false;
           $("#loaderOferta").html("");
           $("#loaderOfertaBox").css("display", "none");
           $("#loaderRecotOferta").html("");
           $("#loaderRecotOfertaBox").css("display", "none");
+          document.getElementById("btnReCotizarFallidas").disabled = false;
         });
     })
     .catch((error) => {
@@ -2132,6 +2133,7 @@ function cotizarOfertasMotos() {
               })
               .then(function (result) {
                 if (result.isConfirmed) {
+                  document.getElementById("btnReCotizarFallidas").disabled = true;
                   $("#loaderOferta").html(
                     '<img src="vistas/img/plantilla/loader-update.gif" width="34" height="34"><strong> Cotizando en Finesa...</strong>'
                   );
