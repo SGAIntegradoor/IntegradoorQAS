@@ -648,21 +648,21 @@ $html2 .= '</tr>';
 
 $viable = true;
 
-if ($rowValidateF > 1) {
+if ($rowValidateF >= 1) {
 	$contV = 0;
 	foreach ($resultados as $resultado) {
 		if ($resultado['cuota_1'] == null) {
 			$contV++;
 		}
 	}
-	if ($contV == $rowValidateF) {
+	if ($contV == $rowValidateF ) {
 		$viable = false;
 	}
 }
 
 $cont3 = 1;
 
-if ($rowValidateF > 1) {
+if ($rowValidateF >= 1) {
 	$html2 .= '<tr>';
 	foreach ($resultados as $resultado) {
 		$fondo_class = ($cont3 % 2 == 0) ? 'fondo' : 'fondo2';
@@ -711,7 +711,7 @@ if ($rowValidateF > 1) {
 		}
 	}
 	$html2 .= '</tr>';
-}
+} 
 // var_dump($finesa_cot);
 // var_dump($ofertas_cot);
 // var_dump($resultados);
