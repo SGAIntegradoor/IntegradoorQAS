@@ -61,6 +61,11 @@ while ($rowRespuesta5f = $respuestaquery5f->fetch_assoc()) {
 	$finesa_cot[] = $rowRespuesta5f;
 }
 
+// var_dump($finesa_cot);
+// var_dump($ofertas_cot);
+
+
+
 $resultados = [];
 foreach ($ofertas_cot as $oferta) {
 	$encontrado = false;
@@ -76,6 +81,21 @@ foreach ($ofertas_cot as $oferta) {
 	}
 }
 
+$diferencia1 = [];
+foreach ($ofertas_cot as $oferta) {
+    $encontrado = false;
+    foreach ($finesa_cot as $finesa) {
+        // Debugging: Verificar valores comparados
+        //echo "Comparando oferta_finesa: '" . trim($oferta['oferta_finesa']) . "' con identityElement: '" . trim($finesa['identityElement']) . "'\n";
+        if (trim($oferta['oferta_finesa']) == trim($finesa['identityElement'])) {
+            $encontrado = true;
+            break;
+        }
+    }
+    if (!$encontrado) {
+        $diferencia1[] = $oferta;
+    }
+}
 
 
 $query2 = "SELECT *	FROM cotizaciones, clientes WHERE cotizaciones.id_cliente = clientes.id_cliente AND `id_cotizacion` = $identificador";
@@ -621,10 +641,10 @@ if ($rowValidateF >= 1) {
 				$cont3++;
 			} else {
 				$html2 .= '<td style="font-size:' . ($font_size - 2) . 'px; color:#666666; font-family:dejavusanscondensedb; text-align: center;" class="puntos td2 ' . $fondo_class . '">
-                No aplica
-                <br>
-                financiación
-                </td>';
+					Pdte. cotizar 
+					<br>
+					financiación
+					</td>';
 
 				$cont3++;
 			}
