@@ -2698,7 +2698,6 @@ function cotizarOfertasPesados() {
         });
       } else {
         //ZONA RECOTIZACIÓN//
-        debugger;
         $("#loaderRecotOferta").html(
           '<img src="vistas/img/plantilla/loader-update.gif" width="34" height="34"><strong> Recotizando Ofertas...</strong>'
         );
