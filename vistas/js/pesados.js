@@ -2939,10 +2939,10 @@ function cotizarOfertasPesados() {
         Promise.all(cont).then(() => {
           $("#loaderOferta").html("");
           $("#loaderRecotOferta").html("");
-          let nuevas = cotizacionesFinesa.filter((cotizaciones) => 
+          let nuevasPesadas = cotizacionesFinesa.filter((cotizaciones) => 
             cotizaciones.cotizada === null
           );
-          if(nuevas.length > 0){
+          if(nuevasPesadas.length > 0){
             swal
             .fire({
               title: "¡Proceso de Re-Cotización Finalizada!",

@@ -943,7 +943,7 @@ foreach ($resultados as $resultado) {
 }
 $html3 .= '</tr>';
 $html3 .= '<tr>';
-$html3 .= '<td class="puntos fondo" style="width:25%; text-align: center; font-family:dejavusanscondensedb;"><font size="8">Límite máximo </font><font size="8"> (En millones)</font></td>';
+$html3 .= '<td class="puntos fondo" style="width:25%; text-align: center; font-family:dejavusanscondensedb;"><div style="font-size:3pt">&nbsp;</div><font size="8">Límite máximo </font><font size="8"> (En millones)</font></td>';
 
 //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 //CONSULTA LIMITE MAXIMO
@@ -962,10 +962,10 @@ if ($rowValidate == 10) {
 
 		if ($cont4 % 2 == 0) {
 
-			$html3 .= '<td class="puntos fondo" style="width:' . $valorTabla . '%; font-family:dejavusanscondensed;"><center><font size="8" style="text-align: center;">' . $pdfValorRC . '</font></center></td>';
+			$html3 .= '<td class="puntos fondo" style="width:' . $valorTabla . '%; font-family:dejavusanscondensed;"><center><div style="font-size:3pt">&nbsp;</div><font size="7" style="text-align: center;">' . $pdfValorRC . '</font></center></td>';
 		} else {
 
-			$html3 .= '<td class="puntos fondo2" style="width:' . $valorTabla . '%; font-family:dejavusanscondensed;"><center><font size="8" style="text-align: center;">' . $pdfValorRC . '</font></center></td>';
+			$html3 .= '<td class="puntos fondo2" style="width:' . $valorTabla . '%; font-family:dejavusanscondensed;"><center><div style="font-size:3pt">&nbsp;</div><font size="7" style="text-align: center;">' . $pdfValorRC . '</font></center></td>';
 		}
 
 		$cont4 += 1;
@@ -981,10 +981,10 @@ if ($rowValidate == 10) {
 
 		if ($cont4 % 2 == 0) {
 
-			$html3 .= '<td class="puntos fondo" style="width:' . $valorTabla . '%; font-family:dejavusanscondensed;"><center><font size="8" style="text-align: center;">' . $pdfValorRC . '</font></center></td>';
+			$html3 .= '<td class="puntos fondo" style="width:' . $valorTabla . '%; font-family:dejavusanscondensed;"><center><div style="font-size:3pt">&nbsp;</div><font size="7" style="text-align: center;">' . $pdfValorRC . '</font></center></td>';
 		} else {
 
-			$html3 .= '<td class="puntos fondo2" style="width:' . $valorTabla . '%; font-family:dejavusanscondensed;"><center><font size="8" style="text-align: center;">' . $pdfValorRC . '</font></center></td>';
+			$html3 .= '<td class="puntos fondo2" style="width:' . $valorTabla . '%; font-family:dejavusanscondensed;"><center><div style="font-size:3pt">&nbsp;</div><font size="7" style="text-align: center;">' . $pdfValorRC . '</font></center></td>';
 		}
 
 		$cont4 += 1;
@@ -1001,10 +1001,10 @@ if ($rowValidate == 10) {
 
 		if ($cont4 % 2 == 0) {
 
-			$html3 .= '<td class="puntos fondo" style="width:' . $valorTabla . '%; font-family:dejavusanscondensed;"><center><font size="8" style="text-align: center;">' . $pdfValorRC . '</font></center></td>';
+			$html3 .= '<td class="puntos fondo" style="width:' . $valorTabla . '%; font-family:dejavusanscondensed;"><center><div style="font-size:3pt">&nbsp;</div><font size="7" style="text-align: center;">' . $pdfValorRC . '</font></center></td>';
 		} else {
 
-			$html3 .= '<td class="puntos fondo2" style="width:' . $valorTabla . '%; font-family:dejavusanscondensed;"><center><font size="8" style="text-align: center;">' . $pdfValorRC . '</font></center></td>';
+			$html3 .= '<td class="puntos fondo2" style="width:' . $valorTabla . '%; font-family:dejavusanscondensed;"><center><div style="font-size:3pt">&nbsp;</div><font size="7" style="text-align: center;">' . $pdfValorRC . '</font></center></td>';
 		}
 
 		$cont4 += 1;
@@ -1802,7 +1802,13 @@ foreach ($resultados as $resultado) {
 $html4 .= '</tr>';
 
 $html4 .= '<tr>';
-$html4 .= '<td class="fondo2 puntos" style="width:25%; text-align: center; font-family:dejavusanscondensedb;"><div style="font-size:2pt">&nbsp;</div><font size="8">Grua varada o accidente.</font></td>';
+
+
+if($rowValidate > 3){
+	$html4 .= '<td class="fondo2 puntos" style="width:25%;"><div style="font-size:6pt">&nbsp;</div><font size="8" style="font-family:dejavusanscondensedb; text-align: center;">Grua varada o accidente</font></td>';
+} else if($rowValidate > 1){
+	$html4 .= '<td class="fondo2 puntos" style="width:25%;"><div style="font-size:6pt">&nbsp;</div><font size="8" style="font-family:dejavusanscondensedb; text-align: center;">Grua varada o accidente</font></td>';
+} 
 
 $cont11 = 1;
 foreach ($resultados as $resultado) {
@@ -1834,7 +1840,12 @@ $html4 .= '</tr>';
 
 
 $html4 .= '<tr>';
-$html4 .= '<td class="fondo2 puntos" style="width:25%; text-align: center; font-family:dejavusanscondensedb;"><font size="8">Gastos de Transporte en pérdida total</font></td>';
+
+if($rowValidate > 3){
+	$html4 .= '<td class="fondo2 puntos" style="width:25%;"><div style="font-size:5pt">&nbsp;</div><font size="8" style="font-family:dejavusanscondensedb; text-align: center;">Gastos de Transporte en pérdida total</font></td>';
+} else if($rowValidate > 1){
+	$html4 .= '<td class="fondo2 puntos" style="width:25%;"><div style="font-size:5pt">&nbsp;</div><font size="8" style="font-family:dejavusanscondensedb; text-align: center;">Gastos de Transporte en pérdida total</font></td>';
+} 
 
 $cont15 = 1;
 foreach ($resultados as $resultado) {
@@ -1853,10 +1864,10 @@ foreach ($resultados as $resultado) {
 
 	$fondo_class = ($cont15 % 2 == 0) ? 'fondo2' : 'fondo';
 	if ($rowRespuestaAsistencia11['Gastosdetransportept'] == "Si ampara") {
-		$html4 .= '<td class="puntos ' . $fondo_class . '" style="width:' . $valorTabla . '%; text-align: center;">
+		$html4 .= '<td class="puntos ' . $fondo_class . '" style="width:' . $valorTabla . '%; text-align: center;"><div style="font-size:9pt">&nbsp;</div>
         <img style="width:16px;" src="../../../vistas/img/logos/cheque.png" alt=""></td>';
 	} else {
-		$html4 .= '<td class="puntos ' . $fondo_class . '" style="width:' . $valorTabla . '%; text-align: center;">
+		$html4 .= '<td class="puntos ' . $fondo_class . '" style="width:' . $valorTabla . '%; text-align: center;"><div style="font-size:9pt">&nbsp;</div>
         <font size="7" style="text-align: center; font-family:dejavusanscondensed;">' .($rowRespuestaAsistencia11['Gastosdetransportept'] == '' ? 'No cubre' : $rowRespuestaAsistencia11['Gastosdetransportept']) . '</font></center></td>';
 	}
 	$cont15 += 1;
@@ -1865,7 +1876,12 @@ foreach ($resultados as $resultado) {
 $html4 .= '</tr>';
 
 $html4 .= '<tr>';
-$html4 .= '<td class="fondo2 puntos" style="width:25%; text-align: center; font-family:dejavusanscondensedb;"><font size="8">Accidentes personales</font></td>';
+
+if($rowValidate > 3){
+	$html4 .= '<td class="fondo2 puntos" style="width:25%;"><div style="font-size:5pt">&nbsp;</div><font size="8" style="font-family:dejavusanscondensedb; text-align: center;">Accidentes personales</font></td>';
+} else if($rowValidate > 1){
+	$html4 .= '<td class="fondo2 puntos" style="width:25%;"><div style="font-size:5pt">&nbsp;</div><font size="8" style="font-family:dejavusanscondensedb; text-align: center;">Accidentes personales</font></td>';
+} 
 
 $cont14 = 1;
 
@@ -1882,13 +1898,13 @@ foreach ($resultados as $resultado) {
 		if ($rowRespuestaAsistencia10['Accidentespersonales'] == "Si ampara") {
 			$html4 .= '<td class="puntos fondo2" style="width:' . $valorTabla . '%;text-align: center;"><div style="font-size:9pt">&nbsp;</div><img style="width:16px;" src="../../../vistas/img/logos/cheque.png" alt=""></td>';
 		} else {
-			$html4 .= '<td class="puntos fondo2" style="width:' . $valorTabla . '%;"><center><div style="font-size:9pt">&nbsp;</div><font size="7"style="text-align: center; font-family:dejavusanscondensed;">' . $rowRespuestaAsistencia10['Accidentespersonales'] . '</font></center></td>';
+			$html4 .= '<td class="puntos fondo2" style="width:' . $valorTabla . '%;"><center><div style="font-size:7pt">&nbsp;</div><font size="7"style="text-align: center; font-family:dejavusanscondensed;">' . $rowRespuestaAsistencia10['Accidentespersonales'] . '</font></center></td>';
 		}
 	} else {
 		if ($rowRespuestaAsistencia10['Accidentespersonales'] == "Si ampara") {
 			$html4 .= '<td class="puntos fondo" style="width:' . $valorTabla . '%;text-align: center;"><div style="font-size:9pt">&nbsp;</div><img style="width:16px;" src="../../../vistas/img/logos/cheque.png" alt=""></td>';
 		} else {
-			$html4 .= '<td class="puntos fondo" style="width:' . $valorTabla . '%;"><center><div style="font-size:9pt">&nbsp;</div><font size="7"style="text-align: center; font-family:dejavusanscondensed;">' . $rowRespuestaAsistencia10['Accidentespersonales'] . '</font></center></td>';
+			$html4 .= '<td class="puntos fondo" style="width:' . $valorTabla . '%;"><center><div style="font-size:7pt">&nbsp;</div><font size="7"style="text-align: center; font-family:dejavusanscondensed;">' . $rowRespuestaAsistencia10['Accidentespersonales'] . '</font></center></td>';
 		}
 	}
 
@@ -1898,7 +1914,11 @@ foreach ($resultados as $resultado) {
 $html4 .= '</tr>';
 
 $html4 .= '<tr>';
-$html4 .= '<td class="fondo2 puntos" style="width:25%; text-align: center; font-family:dejavusanscondensedb;"><font size="8">Asistencia Jurídica civil y penal</font></td>';
+if($rowValidate > 3){
+	$html4 .= '<td class="fondo2 puntos" style="width:25%;"><div style="font-size:5pt">&nbsp;</div><font size="8" style="font-family:dejavusanscondensedb; text-align: center;">Asistencia Jurídica civil y penal</font></td>';
+} else if($rowValidate > 1){
+	$html4 .= '<td class="fondo2 puntos" style="width:25%;"><div style="font-size:5pt">&nbsp;</div><font size="8" style="font-family:dejavusanscondensedb; text-align: center;">Asistencia Jurídica civil y penal</font></td>';
+} 
 
 $cont13 = 1;
 
@@ -1913,13 +1933,13 @@ foreach ($resultados as $resultado) {
 
 	if ($cont13 % 2 == 0) {
 		if ($rowRespuestaAsistencia9['Asistenciajuridica'] == "Si ampara") {
-			$html4 .= '<td class="puntos fondo2" style="width:' . $valorTabla . '%;text-align: center;"><div style="font-size:8pt">&nbsp;</div><img style="width:16px;" src="../../../vistas/img/logos/cheque.png" alt=""></td>';
+			$html4 .= '<td class="puntos fondo2" style="width:' . $valorTabla . '%;text-align: center;"><div style="font-size:5pt">&nbsp;</div><img style="width:16px;" src="../../../vistas/img/logos/cheque.png" alt=""></td>';
 		} else {
 			$html4 .= '<td class="puntos fondo2" style="width:' . $valorTabla . '%;"><div style="font-size:8pt">&nbsp;</div><center><font size="7"style="text-align: center;">' . $rowRespuestaAsistencia9['Asistenciajuridica'] . '</font></center></td>';
 		}
 	} else {
 		if ($rowRespuestaAsistencia9['Asistenciajuridica'] == "Si ampara") {
-			$html4 .= '<td class="puntos fondo" style="width:' . $valorTabla . '%;text-align: center;"><div style="font-size:8pt">&nbsp;</div><img style="width:16px;" src="../../../vistas/img/logos/cheque.png" alt=""></td>';
+			$html4 .= '<td class="puntos fondo" style="width:' . $valorTabla . '%;text-align: center;"><div style="font-size:5pt">&nbsp;</div><img style="width:16px;" src="../../../vistas/img/logos/cheque.png" alt=""></td>';
 		} else {
 			$html4 .= '<td class="puntos fondo" style="width:' . $valorTabla . '%;"><div style="font-size:8pt">&nbsp;</div><center><font size="7"style="text-align: center;">' . $rowRespuestaAsistencia9['Asistenciajuridica'] . '</font></center></td>';
 		}
@@ -1970,7 +1990,12 @@ $html4 .= '</tr>';
 //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
 $html4 .= '<tr>';
-$html4 .= '<td class ="fondo2 puntos" style="width:25%; text-align: center; font-family:dejavusanscondensedb;"><font size="8">Responsabilidad civil general familiar</font></td>';
+
+if($rowValidate > 3){
+	$html4 .= '<td class="fondo2 puntos" style="width:25%;"><div style="font-size:5pt">&nbsp;</div><font size="8" style="font-family:dejavusanscondensedb; text-align: center;">Responsabilidad civil general familiar</font></td>';
+} else if($rowValidate > 1){
+	$html4 .= '<td class="fondo2 puntos" style="width:25%;"><div style="font-size:5pt">&nbsp;</div><font size="8" style="font-family:dejavusanscondensedb; text-align: center;">Responsabilidad civil general familiar</font></td>';
+} 
 
 $cont17 = 1;
 
@@ -1986,15 +2011,15 @@ foreach ($resultados as $resultado) {
 
 	if ($cont17 % 2 == 0) {
 		if ($rowRespuestaAsistencia13['ResponsabilidadCivilGeneralFamiliar'] == "Si ampara") {
-			$html4 .= '<td class="puntos fondo2" style="width:' . $valorTabla . '%;text-align: center;"><div style="font-size:10pt">&nbsp;</div><img style="width:16px;" src="../../../vistas/img/logos/cheque.png" alt=""></td>';
+			$html4 .= '<td class="puntos fondo2" style="width:' . $valorTabla . '%;text-align: center;"><div style="font-size:5pt">&nbsp;</div><img style="width:16px;" src="../../../vistas/img/logos/cheque.png" alt=""></td>';
 		} else {
-			$html4 .= '<td class="puntos fondo2" style="width:' . $valorTabla . '%;"><center><div style="font-size:12pt">&nbsp;</div><font size="7"style="text-align: center;font-family:dejavusanscondensed;">' . ($rowRespuestaAsistencia13['ResponsabilidadCivilGeneralFamiliar'] == '' ? 'No cubre' : $rowRespuestaAsistencia13['ResponsabilidadCivilGeneralFamiliar']) . '</font></center></td>';
+			$html4 .= '<td class="puntos fondo2" style="width:' . $valorTabla . '%;"><center><div style="font-size:8pt">&nbsp;</div><font size="7"style="text-align: center;font-family:dejavusanscondensed;">' . ($rowRespuestaAsistencia13['ResponsabilidadCivilGeneralFamiliar'] == '' ? 'No cubre' : $rowRespuestaAsistencia13['ResponsabilidadCivilGeneralFamiliar']) . '</font></center></td>';
 		}
 	} else {
 		if ($rowRespuestaAsistencia13['ResponsabilidadCivilGeneralFamiliar'] == "Si ampara") {
-			$html4 .= '<td class="puntos fondo" style="width:' . $valorTabla . '%;text-align: center;"><div style="font-size:10pt">&nbsp;</div><img style="width:16px;" src="../../../vistas/img/logos/cheque.png" alt=""></td>';
+			$html4 .= '<td class="puntos fondo" style="width:' . $valorTabla . '%;text-align: center;"><div style="font-size:5pt">&nbsp;</div><img style="width:16px;" src="../../../vistas/img/logos/cheque.png" alt=""></td>';
 		} else {
-			$html4 .= '<td class="puntos fondo" style="width:' . $valorTabla . '%;"><center><div style="font-size:12pt">&nbsp;</div><font size="7"style="text-align: center;font-family:dejavusanscondensed;">' . ($rowRespuestaAsistencia13['ResponsabilidadCivilGeneralFamiliar'] == '' ? 'No cubre' : $rowRespuestaAsistencia13['ResponsabilidadCivilGeneralFamiliar']) . '</font></center></td>';
+			$html4 .= '<td class="puntos fondo" style="width:' . $valorTabla . '%;"><center><div style="font-size:8pt">&nbsp;</div><font size="7"style="text-align: center;font-family:dejavusanscondensed;">' . ($rowRespuestaAsistencia13['ResponsabilidadCivilGeneralFamiliar'] == '' ? 'No cubre' : $rowRespuestaAsistencia13['ResponsabilidadCivilGeneralFamiliar']) . '</font></center></td>';
 		}
 	}
 
@@ -2008,7 +2033,12 @@ $html4 .= '</tr>';
 //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
 $html4 .= '<tr>';
-$html4 .= '<td class="fondo2 puntos" style="width:25%; text-align: center; font-family:dejavusanscondensedb;"><font size="8">Cobertura de vidrios</font></td>';
+
+if($rowValidate > 3){
+	$html4 .= '<td class="fondo2 puntos" style="width:25%;"><div style="font-size:5pt">&nbsp;</div><font size="8" style="font-family:dejavusanscondensedb; text-align: center;">Cobertura de vidrios</font></td>';
+} else if($rowValidate > 1){
+	$html4 .= '<td class="fondo2 puntos" style="width:25%;"><div style="font-size:5pt">&nbsp;</div><font size="8" style="font-family:dejavusanscondensedb; text-align: center;">Cobertura de vidrios</font></td>';
+} 
 
 $cont18 = 1;
 
@@ -2045,7 +2075,14 @@ $html4 .= '</tr>';
 //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
 $html4 .= '<tr>';
-$html4 .= '<td class="fondo2 puntos" style="width:25%; text-align: center; font-family:dejavusanscondensedb;"><font size="7">Asistencia en viajes con cobertura a nivel nacional</font></td>';
+
+if($rowValidate > 3){
+	$html4 .= '<td class="fondo2 puntos" style="width:25%;"><div style="font-size:5pt">&nbsp;</div><font size="8" style="font-family:dejavusanscondensedb; text-align: center;">Asistencia en viajes con cobertura a nivel nacional</font></td>';
+} else if($rowValidate > 1){
+	$html4 .= '<td class="fondo2 puntos" style="width:25%;"><div style="font-size:5pt">&nbsp;</div><font size="8" style="font-family:dejavusanscondensedb; text-align: center;">Asistencia en viajes con cobertura a nivel nacional</font></td>';
+} 
+
+// $html4 .= '<td class="fondo2 puntos" style="width:25%; text-align: center; font-family:dejavusanscondensedb;"><font size="8">Asistencia en viajes con cobertura a nivel nacional</font></td>';
 
 $cont19 = 1;
 foreach ($resultados as $resultado) {
@@ -2118,9 +2155,14 @@ $html4 .= '</tr>';
 //Lucro cesante/Auxilio de paralización del vehículo
 //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
-
 $html4 .= '<tr>';
-$html4 .= '<td class="fondo2 puntos" style="width:25%;"><font size="8" style="font-family:dejavusanscondensedb; text-align: center;"><div style="font-size:2pt">&nbsp;</div>Lucro cesante/Auxilio de paralización del vehículo</font></td>';
+if($rowValidate > 3){
+	$html4 .= '<td class="fondo2 puntos" style="width:25%;"><div style="font-size:8pt">&nbsp;</div><font size="8" style="font-family:dejavusanscondensedb; text-align: center;">Lucro cesante/Auxilio de paralización del vehículo</font></td>';
+} else if($rowValidate > 1){
+	$html4 .= '<td class="fondo2 puntos" style="width:25%;"><div style="font-size:4pt">&nbsp;</div><font size="8" style="font-family:dejavusanscondensedb; text-align: center;">Lucro cesante/Auxilio de paralización del vehículo</font></td>';
+} else {
+	$html4 .= '<td class="fondo2 puntos" style="width:25%;"><div style="font-size:12pt">&nbsp;</div><font size="8" style="font-family:dejavusanscondensedb; text-align: center;">Lucro cesante/Auxilio de paralización del vehículo</font></td>';
+}
 
 $cont22 = 1;
 foreach ($resultados as $resultado) {
@@ -2157,7 +2199,16 @@ $html4 .= '</tr>';
 //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
 $html4 .= '<tr>';
-$html4 .= '<td class="fondo2 puntos" style="width:25%;"><div style="font-size:19pt">&nbsp;</div><font size="9" style="font-family:dejavusanscondensedb; text-align: center;">Obligaciones financieras</font></td>';
+
+if($rowValidate > 3){
+	$html4 .= '<td class="fondo2 puntos" style="width:25%;"><div style="font-size:17pt">&nbsp;</div><font size="9" style="font-family:dejavusanscondensedb; text-align: center;">Obligaciones financieras</font></td>';
+} else if($rowValidate > 1){
+	$html4 .= '<td class="fondo2 puntos" style="width:25%;"><div style="font-size:9pt">&nbsp;</div><font size="9" style="font-family:dejavusanscondensedb; text-align: center;">Obligaciones financieras</font></td>';
+} else {
+	$html4 .= '<td class="fondo2 puntos" style="width:25%;"><div style="font-size:12pt">&nbsp;</div><font size="9" style="font-family:dejavusanscondensedb; text-align: center;">Obligaciones financieras</font></td>';
+}
+
+
 
 $cont23 = 1;
 foreach ($resultados as $resultado) {
@@ -2171,7 +2222,11 @@ foreach ($resultados as $resultado) {
 
 	if ($cont23 % 2 != 0) {
 		if ($rowRespuestaAsistencia18['obligacionfinanciera'] == '' || $rowRespuestaAsistencia18['obligacionfinanciera'] == 'No cubre') {
-			$contenido = '<div style="font-size:8pt">&nbsp;</div>No cubre';
+			if($rowValidate > 3){
+				$contenido = '<div style="font-size:4pt">&nbsp;</div>No cubre';
+			} else {
+				$contenido = '<div style="font-size:1pt">&nbsp;</div>No cubre';
+			}
 		} else {
 			$contenido = $rowRespuestaAsistencia18['obligacionfinanciera'];
 		}
@@ -2237,7 +2292,12 @@ $html4 .= '</tr>';
 //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
 $html4 .= '<tr>';
-$html4 .= '<td class="fondo2 puntos" style="width:25%;"><font size="8" style="font-family:dejavusanscondensedb; text-align: center;">Asesoria y gestión de trámites de Tránsito</font></td>';
+
+if($rowValidate > 3){
+	$html4 .= '<td class="fondo2 puntos" style="width:25%;"><div style="font-size:3pt">&nbsp;</div><font size="8" style="font-family:dejavusanscondensedb; text-align: center;">Asesoria y gestión de trámites de Tránsito</font></td>';
+} else if($rowValidate > 1){
+	$html4 .= '<td class="fondo2 puntos" style="width:25%;"><div style="font-size:4pt">&nbsp;</div><font size="8" style="font-family:dejavusanscondensedb; text-align: center;">Asesoria y gestión de trámites de Tránsito</font></td>';
+}
 
 $cont25 = 1;
 foreach ($resultados as $resultado) {
@@ -2270,7 +2330,13 @@ foreach ($resultados as $resultado) {
 $html4 .= '</tr>';
 
 $html4 .= '<tr>';
-$html4 .= '<td class="fondo2 puntos" style="width:25%;"><font size="8" style="font-family:dejavusanscondensedb; text-align: center;">Gastos médicos</font></td>';
+if($rowValidate > 3){
+	$html4 .= '<td class="fondo2 puntos" style="width:25%;"><div style="font-size:3pt">&nbsp;</div><font size="8" style="font-family:dejavusanscondensedb; text-align: center;">Gastos médicos</font></td>';
+} else if($rowValidate > 1){
+	$html4 .= '<td class="fondo2 puntos" style="width:25%;"><div style="font-size:4pt">&nbsp;</div><font size="8" style="font-family:dejavusanscondensedb; text-align: center;">Gastos médicos</font></td>';
+} else {
+	$html4 .= '<td class="fondo2 puntos" style="width:25%;"><div style="font-size:12pt">&nbsp;</div><font size="8" style="font-family:dejavusanscondensedb; text-align: center;">Gastos médicos</font></td>';
+}
 
 $cont25 = 1;
 foreach ($resultados as $resultado) {

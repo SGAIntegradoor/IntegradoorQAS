@@ -1187,6 +1187,18 @@ function editarCotizacion(id) {
                 }
               }
 
+              let viable = true;
+
+              let count = 0;
+
+              offerts.forEach((element) => {
+                if(element.cuota_1 == null){
+                  count++;
+                }
+              })
+
+              viable = count == offerts.length ? false : true;
+
               let aseguradora = oferta.Aseguradora;
               let aseguradoraName = nombreAseguradora(aseguradora);
               let aseguradoraPermisos = obtenerValorC(aseguradoraName);
@@ -1309,21 +1321,21 @@ function editarCotizacion(id) {
                       }'>
                       <h5 class='entidad' style='font-size: 15px'><b>${
                         oferta.Aseguradora
-                        } - ${
-                          oferta.Producto == "Pesados con RCE en exceso"
-                            ? "Pesados RCE + Exceso"
-                            : oferta.Producto == "PREVILIVIANOS INDIVIDUAL - "
-                            ? "PREVILIVIANOS INDIVIDUAL"
-                            : oferta.Producto == "AU DEDUCIBLE UNICO LIVIANOS - "
-                            ? "AU DEDUCIBLE UNICO LIVIANOS"
-                            : oferta.Producto == "LIVIANOS MIA - "
-                            ? "LIVIANOS MIA"
-                            : oferta.Producto == "Pesados Full1"
-                            ? "Pesados Full"
-                            : oferta.Producto == "Pesados Integral1"
-                            ? "Pesados Integral"
-                            : oferta.Producto
-                        }</b></h5>
+                      } - ${
+                oferta.Producto == "Pesados con RCE en exceso"
+                  ? "Pesados RCE + Exceso"
+                  : oferta.Producto == "PREVILIVIANOS INDIVIDUAL - "
+                  ? "PREVILIVIANOS INDIVIDUAL"
+                  : oferta.Producto == "AU DEDUCIBLE UNICO LIVIANOS - "
+                  ? "AU DEDUCIBLE UNICO LIVIANOS"
+                  : oferta.Producto == "LIVIANOS MIA - "
+                  ? "LIVIANOS MIA"
+                  : oferta.Producto == "Pesados Full1"
+                  ? "Pesados Full"
+                  : oferta.Producto == "Pesados Integral1"
+                  ? "Pesados Integral"
+                  : oferta.Producto
+              }</b></h5>
                       <h5 class='precio' style='${
                         oferta.Aseguradora == "Liberty"
                           ? "padding-bottom: 0px; !important"
@@ -1343,7 +1355,15 @@ function editarCotizacion(id) {
                                   element.identityElement ==
                                   oferta.oferta_finesa
                                 ) {
-                                  if (element.cuota_1 == null) {
+                                  if(!viable){
+                                    if(element.identityElement.includes("Liberty") || element.identityElement.includes("Bolivar") || element.identityElement.includes("Seguros Bolivar") || element.identityElement.includes("Liberty Seguros")){
+                                       return `Financiación Aseguradora:<br /> Consulte analista`;
+                                    } else {
+                                       return `Financiación Finesa:<br />Asegurado no viable para financiación`; 
+                                    }
+                                  } else if (element.identityElement.includes("Liberty") || element.identityElement.includes("Bolivar") || element.identityElement.includes("Seguros Bolivar") || element.identityElement.includes("Liberty Seguros")) {
+                                    return `Financiación Aseguradora:<br /> Consulte analista`;
+                                  } else if (element.cuota_1 == null) {
                                     return `Financiación Finesa:<br />No aplica para financiación`;
                                   } else {
                                     return `Financiación Finesa:<br />$${Number(
@@ -1441,25 +1461,6 @@ function editarCotizacion(id) {
 											</div>`;
 
               if (oferta.Manual == "1") {
-                /*
-                cardCotizacion += `
-
-							<div class="col-xs-12 col-sm-6 col-md-2 verpdf-oferta">
-
-								<button type="button" class="btn btn-success editar-manual" id="${oferta.id_oferta}">
-
-									<div>EDITAR &nbsp;&nbsp;<span class="fa fa-edit"></span></div>
-
-								</button>
-
-								<button type="button" class="btn btn-danger eliminar-manual" id="eliminar-${oferta.id_oferta}">
-
-									<div>ELIMINAR &nbsp;&nbsp;<span class="fa fa-trash"></span></div>
-
-								</button>
-
-							</div>`;*/
-
                 cardCotizacion += `
 
 							<div class="col-xs-12 col-sm-6 col-md-2 verpdf-oferta">

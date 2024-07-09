@@ -932,7 +932,7 @@ $response = retrieveQuotation($idCotizacion);
                 </div>
                 <?php if ($response['cot_clase'] == "AUTOMOVIL" || $response['cot_clase'] == "AUTOMOVILES" || $response['cot_clase'] == "UTILITARIOS DEPORTIVOS" || $response['cot_clase'] == "CAMPEROS" || $response['cot_clase'] == "PICK UPS") {
 
-                  echo '<div>
+                  echo '<div >
                           <p class="text-justify"><strong>¿Por qué algunas compañías no cotizan? R/. 0.</strong>Tiene póliza vigente con esa compañía. <strong>1.</strong> Aseguradora
                             caída, en mantenimiento o en actualización. <strong>2.</strong> RUNT, Cexper, Sistema Fasecolda caído. <strong>3.</strong> Fallas Portal
                             Integradoor. <strong>4.</strong> Vehículo fuera de políticas por marca, línea o modelo. <strong>5.</strong> Ciudad bloqueada. <strong>6.</strong> Error en
@@ -951,17 +951,17 @@ $response = retrieveQuotation($idCotizacion);
                   echo '<div class="aviso-container col-lg-12">
                         <ul>
                             <li>
-                                <p style="font-weight: bold;">
+                                <p>
                                     Si a tu cliente le interesa Previsora, ten en cuenta que ciertas líneas de vehículos requieren la instalación del dispositivo Cazador al tomar su seguro y este tiene un costo adicional a la póliza. Por favor confirma con tu área comercial.
                                 </p>
                             </li>
                             <li>
-                                <p style="font-weight: bold;">
+                                <p>
                                     Los vehículos KIA de las líneas PICANTO y SPORTAGE se encuentran fuera de políticas en Seguros del Estado. Si se genera cotización con esta Aseguradora, omitir dicha oferta. Igualmente con esta compañía, la clase de vehículo PICK UP solo se asegura como vehículo publico.
                                 </p>
                             </li>
                             <li>
-                                <p style="font-weight: bold;">Nota: Vehículos livianos con valor asegurado mayor a 300 millones no
+                                <p><b>Nota:</b> Vehículos livianos con valor asegurado mayor a 300 millones no
                                     son asegurables para Grupo Asistencia; Ten en cuenta que aunque el
                                     cotizador te genere ofertas, no todos los vehículos son asegurables. Si
                                     el cliente tiene vinculación con otros productos de la aseguradora se
@@ -977,14 +977,14 @@ $response = retrieveQuotation($idCotizacion);
               ?>
               <?php if ($response['cot_clase'] == "MOTOCICLETA") {
                 if ($idIntermediario != 78) {
-                  echo '<div class="col-lg-12">
+                  echo '<div class="aviso-container col-lg-12">
                       <p>
                         <strong>Condiciones Generales:</strong><br>
                         • Para motos con valores asegurados menores a $7 millones de pesos solo se presentan las condiciones que genere el cotizador web.<br>
                         • El equipo del Canal Asesores Freelance solo cotiza manualmente motos con valores asegurados mayores a $7 millones.<br>
-                        • Valor asegurado máximo $50 millones. Motos por encima de ese valor, deben ser autorizadas por la Gerencia General.<br>
+                        • <b>Nota:</b> Para motocicletas el valor asegurado máximo es $50 millones. Motos por encima de ese valor deben ser autorizadas por el Gerente General, quien podrá hacer excepciones de valor asegurado superior cuando  el asesor sea productivo, tenga más de 6 meses de antigüedad con Grupo Asistencia, no tenga altos indices de siniestralidad en su cartera, y si el cliente tiene vinculación con otros productos de la aseguradora.<br>
                         • Motos con valor de prima total menor de $1 millón de pesos solo se permite pago de contado.<br><br>
-                        <strong>Condiciones de Financiación:</strong><br>
+                        <b>Condiciones de Financiación:</b><br>
                         • Se puede financiar motos con valor de prima total mayor a $1 millón de pesos.<br>
                         • Se pueden financiar hasta en 11 cuotas, motos con beneficiarios onerosos de modelos de 2022 en adelante, después de que la prima con IVA supere $1 millón de pesos.<br>
                         • Las cuotas máximas de financiación dependen del valor de prima total, de acuerdo a los siguientes rangos: entre $1 y $1,4 millones máx. 7 cuotas; mayor a 1,4 y menor a $2 millones máx 9 cuotas; y para motos con valor de prima total mayor a $2 millones se pueden financiar hasta en 11 cuotas.<br>
@@ -999,13 +999,10 @@ $response = retrieveQuotation($idCotizacion);
                 || $response['cot_clase'] == "REMOLCADOR" || $response['cot_clase'] == "FURGON" || $response['cot_clase'] == "CHASIS"
                 || $response['cot_clase'] == "BUS" || $response['cot_clase'] == "CAMION"
               ) {
-                echo '<div class="col-lg-12>
-                        <strong>Nota:</strong> Ten en cuenta que aunque el cotizador te genere ofertas, no
-                        todos los vehículos son asegurables. Si el cliente tiene vinculación con
-                        otros productos de la aseguradora se pueden autorizar valores
-                        asegurados superiores. Cuando el valor asegurado sea superior a los
-                        montos indicados, el valor de las primas puede variar en el momento
-                        de emitir en caso de autorización
+                echo '<div class="aviso-container col-lg-12">
+                        <p>
+                          <b>Nota:</b> Tener en cuenta que aunque el cotizador genere ofertas, no todos los vehículos son asegurables. Se podrán hacer excepciones de valor asegurado superior cuando el asesor sea productivo, tenga más de 6 meses de antigüedad con Grupo Asistencia, no tenga altos indices de siniestralidad en su cartera, y si el cliente tiene vinculación con otros productos de la aseguradora. El valor de las primas de las cotizaciones puede variar al momento de emitir en los casos autorizados de manera excepcional.
+                        </p>
                       </div>';
               }
               ?>

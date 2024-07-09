@@ -2562,12 +2562,16 @@ function cotizarOfertasMotos() {
             }
           });
         } else {
-          swal
-            .fire({
-              title: "¡Proceso de Re-Cotización Finalizada!",
-              showConfirmButton: true,
-              confirmButtonText: "Cerrar",
-            })
+          let anuncio = true;
+          if(anuncio){
+            anuncio = false;
+            swal
+              .fire({
+                title: "¡Proceso de Re-Cotización Finalizada!",
+                showConfirmButton: true,
+                confirmButtonText: "Cerrar",
+              })
+          }
         }
         
       });
