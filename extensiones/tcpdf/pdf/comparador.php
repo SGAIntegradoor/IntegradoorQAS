@@ -605,7 +605,7 @@ if ($rowValidateF >= 1) {
 
 		if ($viable) {
 			if ($resultado['cuota_1'] != null) {
-				if ($resultado['Aseguradora'] == "Liberty" || $resultado['Aseguradora'] == "Bolivar") {
+				if ($resultado['Aseguradora'] == "Liberty" || $resultado['Aseguradora'] == "Seguros Bolivar") {
 					$html2 .= '<td style="font-size:' . ($font_size - 2) . 'px; color:#666666; font-family:dejavusanscondensedb; text-align: center;" class="puntos td2 ' . $fondo_class . '">
 					Pdte. cotizar 
 					<br>
@@ -965,7 +965,7 @@ if ($rowValidate == 10) {
 			$pdfValorRCM = $resultado['ValorRC'] / 1000000;
 			$pdfValorRC = '$' . number_format($pdfValorRCM, 0, ',', '.'); // Agregar el símbolo de peso aquí
 		} else {
-			$pdfValorRC = $rowRespuesta9['ValorRC'];
+			$pdfValorRC = $resultado['ValorRC'];
 		}
 
 		if ($cont4 % 2 == 0) {
@@ -2050,15 +2050,15 @@ foreach ($resultados as $resultado) {
 
 	if ($cont19 % 2 == 0) {
 		if ($rowRespuestaAsistencia15['Transportevehiculorecuperdo'] == "Si ampara") {
-			$html4 .= '<td class="puntos fondo" style="width:' . $valorTabla . '%;text-align: center;"><div style="font-size:10pt">&nbsp;</div><img style="width:16px;" src="../../../vistas/img/logos/cheque.png" alt=""></td>';
+			$html4 .= '<td class="puntos fondo" style="width:' . $valorTabla . '%;text-align: center;"><img style="width:16px;" src="../../../vistas/img/logos/cheque.png" alt=""></td>';
 		} else {
-			$html4 .= '<td class="puntos fondo" style="width:' . $valorTabla . '%;"><center><div style="font-size:12pt">&nbsp;</div><font size="7"style="text-align: center; font-family:dejavusanscondensed;">' . $rowRespuestaAsistencia15['Transportevehiculorecuperdo'] . '</font></center></td>';
+			$html4 .= '<td class="puntos fondo" style="width:' . $valorTabla . '%;"><center><font size="7"style="text-align: center; font-family:dejavusanscondensed;">' . $rowRespuestaAsistencia15['Transportevehiculorecuperdo'] . '</font></center></td>';
 		}
 	} else {
 		if ($rowRespuestaAsistencia15['Transportevehiculorecuperdo'] == "Si ampara") {
-			$html4 .= '<td class="puntos fondo2" style="width:' . $valorTabla . '%;text-align: center;"><div style="font-size:10pt">&nbsp;</div><img style="width:16px;" src="../../../vistas/img/logos/cheque.png" alt=""></td>';
+			$html4 .= '<td class="puntos fondo2" style="width:' . $valorTabla . '%;text-align: center;"><img style="width:16px;" src="../../../vistas/img/logos/cheque.png" alt=""></td>';
 		} else {
-			$html4 .= '<td class="puntos fondo2" style="width:' . $valorTabla . '%;"><center><div style="font-size:12pt">&nbsp;</div><font size="7"style="text-align: center; font-family:dejavusanscondensed;">' . $rowRespuestaAsistencia15['Transportevehiculorecuperdo'] . '</font></center></td>';
+			$html4 .= '<td class="puntos fondo2" style="width:' . $valorTabla . '%;"><center><font size="7"style="text-align: center; font-family:dejavusanscondensed;">' . $rowRespuestaAsistencia15['Transportevehiculorecuperdo'] . '</font></center></td>';
 		}
 	}
 

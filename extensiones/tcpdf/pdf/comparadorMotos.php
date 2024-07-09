@@ -694,7 +694,7 @@ if ($rowValidateF >= 1) {
 				$cont3++;
 			}
 		} else {
-			if ($resultado['Aseguradora'] == "Liberty" || $resultado['Aseguradora'] == "Bolivar") {
+			if ($resultado['Aseguradora'] == "Liberty" || $resultado['Aseguradora'] == "Seguros Bolivar") {
 				$html2 .= '<td style="font-size:' . ($font_size - 2) . 'px; color:#666666; font-family:dejavusanscondensedb; text-align: center;" class="puntos td2 ' . $fondo_class . '">
                 Pdte. cotizar 
                 <br>
