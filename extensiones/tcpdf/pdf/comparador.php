@@ -1129,23 +1129,6 @@ $html3 .= '</tr>';
 
 $html3 .= '<tr>';
 $html3 .= '<td class="puntos fondo" style="width:10%; text-align: center; font-family:dejavusanscondensedb;"><font size="8">Pérdida parcial por daño</font></td>';
-
-// $query11 = "SELECT DISTINCT cf.identityElement, o.Aseguradora, o.PerdidaParcial, o.Producto
-// FROM cotizaciones_finesa cf 
-// INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion
-// WHERE o.seleccionar = 'Si' 
-// AND cf.identityElement = o.oferta_finesa
-// AND cf.id_cotizacion = $identificador";
-
-// $respuestaquery11 = $conexion->query($query11);
-// $rowValidate = mysqli_num_rows($respuestaquery11);
-
-// if ($rowValidate == 0 || $rowValidate == false || $rowValidate == null) {
-// 	mysqli_free_result($respuestaquery11);
-// 	$query11 = "SELECT PerdidaParcial, Aseguradora, Producto FROM ofertas WHERE `id_cotizacion` = $identificador AND `seleccionar` = 'Si'";
-// 	$respuestaquery11 = $conexion->query($query11);
-// 	$rowValidate = mysqli_num_rows($respuestaquery11);
-// }
 $cont7 = 1;
 
 foreach ($resultados as $resultado) {
