@@ -19,9 +19,7 @@ $seleccionar = $_POST['seleccionar'];
 $sql = "UPDATE `ofertas` SET `seleccionar` = '$seleccionar' WHERE `Placa` LIKE '$placa' AND `NumCotizOferta` LIKE '$numCotizOferta' 
 		AND `Aseguradora` LIKE '$aseguradora' AND `Producto` LIKE '$producto' AND `Prima` LIKE '$valorPrima' AND `id_cotizacion` = $idCotizacion";
 
-echo $sql;
-
-die();
+//echo $sql;
 
 $res = mysqli_query($con, $sql);
 $num_rows = mysqli_affected_rows($con);
@@ -35,5 +33,6 @@ if ($num_rows > 0) {
 }else{
 	$data['Success'] = $res;
 	$data['Message'] = 'Error: ' . mysqli_error($con);
+	echo $sql;
 	echo json_encode($data, JSON_UNESCAPED_UNICODE);
 }
