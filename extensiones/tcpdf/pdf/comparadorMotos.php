@@ -637,7 +637,7 @@ if ($rowValidateF >= 1) {
 			$contV++;
 		}
 	}
-	if ($contV == $rowValidateF ) {
+	if ($contV == $rowValidateF) {
 		$viable = false;
 	}
 }
@@ -652,7 +652,7 @@ if ($rowValidateF >= 1) {
 
 		if ($viable) {
 			if ($resultado['cuota_1'] != null) {
-				if ($resultado['Aseguradora'] == "Liberty" || $resultado['Aseguradora'] == "Bolivar") {
+				if ($resultado['Aseguradora'] == "Liberty" || $resultado['Aseguradora'] == "Seguros Bolivar") {
 					$html2 .= '<td style="font-size:' . ($font_size - 2) . 'px; color:#666666; font-family:dejavusanscondensedb; text-align: center;" class="puntos td2 ' . $fondo_class . '">
 					Pdte. cotizar 
 					<br>
@@ -668,10 +668,10 @@ if ($rowValidateF >= 1) {
 				$cont3++;
 			} else {
 				$html2 .= '<td style="font-size:' . ($font_size - 2) . 'px; color:#666666; font-family:dejavusanscondensedb; text-align: center;" class="puntos td2 ' . $fondo_class . '">
-                Pdte. cotizar 
-				<br>
-				financiación
-                </td>';
+					Pdte. cotizar 
+					<br>
+					financiación
+					</td>';
 
 				$cont3++;
 			}
@@ -693,13 +693,9 @@ if ($rowValidateF >= 1) {
 		}
 	}
 	$html2 .= '</tr>';
-} 
-// var_dump($finesa_cot);
-// var_dump($ofertas_cot);
-// var_dump($resultados);
+}
 
 $html2 .= '</table></div>';
-// echo $html2;
 
 $html3 = '
 <style>

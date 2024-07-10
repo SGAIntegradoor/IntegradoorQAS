@@ -654,6 +654,7 @@ if ($rowValidateF >= 1) {
 	foreach ($resultados as $resultado) {
 		$fondo_class = ($cont3 % 2 == 0) ? 'fondo' : 'fondo2';
 		$font_size = ($rowValidate > 10) ? 7 : (($rowValidate == 10) ? 8 : 9);
+
 		if ($viable) {
 			if ($resultado['cuota_1'] != null) {
 				if ($resultado['Aseguradora'] == "Liberty" || $resultado['Aseguradora'] == "Seguros Bolivar") {
@@ -672,10 +673,10 @@ if ($rowValidateF >= 1) {
 				$cont3++;
 			} else {
 				$html2 .= '<td style="font-size:' . ($font_size - 2) . 'px; color:#666666; font-family:dejavusanscondensedb; text-align: center;" class="puntos td2 ' . $fondo_class . '">
-                No aplica
-                <br>
-                financiación
-                </td>';
+					Pdte. cotizar 
+					<br>
+					financiación
+					</td>';
 
 				$cont3++;
 			}
@@ -698,6 +699,7 @@ if ($rowValidateF >= 1) {
 	}
 	$html2 .= '</tr>';
 }
+
 $html2 .= '</table></div>';
 
 $html3 = '
