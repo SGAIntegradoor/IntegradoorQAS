@@ -961,14 +961,9 @@ $response = retrieveQuotation($idCotizacion);
                                 </p>
                             </li>
                             <li>
-                                <p><b>Nota:</b> Vehículos livianos con valor asegurado mayor a 300 millones no
-                                    son asegurables para Grupo Asistencia; Ten en cuenta que aunque el
-                                    cotizador te genere ofertas, no todos los vehículos son asegurables. Si
-                                    el cliente tiene vinculación con otros productos de la aseguradora se
-                                    pueden autorizar valores asegurados superiores. Cuando el valor
-                                    asegurado sea superior a los montos indicados, el valor de las primas
-                                    puede variar en el momento de emitir en caso de autorización.
-                                </p>
+                                <p style="font-weight: bold;">Política de valor asegurado livianos:</p>
+                                <p>Menos de 200 millones, se asegura de acuerdo a políticas de cada aseguradora. Entre 200 a 250 millones, se puede asegurar con autorización del Director Comercial de Grupo Asistencia. Entre 250 a 300 millones, se puede asegurar solo bajo autorización de Gerencia de Grupo Asistencia, de acuerdo al nivel de productividad del Asesor.</p>
+                                <p><b>Nota:</b> Tener en cuenta que aunque el cotizador genere ofertas, no todos los vehículos son asegurables. Se podrán hacer excepciones de valor asegurado superior cuando el asesor sea productivo, tenga más de 6 meses de antigüedad con Grupo Asistencia, no tenga altos indices de siniestralidad en su cartera, y si el cliente tiene vinculación con otros productos de la aseguradora. El valor de las primas de las cotizaciones puede variar al momento de emitir en los casos autorizados de manera excepcional.
                             </li>
                       </ul>
                     </div>';
@@ -982,7 +977,7 @@ $response = retrieveQuotation($idCotizacion);
                         <strong>Condiciones Generales:</strong><br>
                         • Para motos con valores asegurados menores a $7 millones de pesos solo se presentan las condiciones que genere el cotizador web.<br>
                         • El equipo del Canal Asesores Freelance solo cotiza manualmente motos con valores asegurados mayores a $7 millones.<br>
-                        • <b>Nota:</b> Para motocicletas el valor asegurado máximo es $50 millones. Motos por encima de ese valor deben ser autorizadas por el Gerente General, quien podrá hacer excepciones de valor asegurado superior cuando  el asesor sea productivo, tenga más de 6 meses de antigüedad con Grupo Asistencia, no tenga altos indices de siniestralidad en su cartera, y si el cliente tiene vinculación con otros productos de la aseguradora.<br>
+                        • Para motocicletas el valor asegurado máximo es $50 millones. Motos por encima de ese valor deben ser autorizadas por el Gerente General, quien podrá hacer excepciones de valor asegurado superior cuando  el asesor sea productivo, tenga más de 6 meses de antigüedad con Grupo Asistencia, no tenga altos indices de siniestralidad en su cartera, y si el cliente tiene vinculación con otros productos de la aseguradora.<br>
                         • Motos con valor de prima total menor de $1 millón de pesos solo se permite pago de contado.<br><br>
                         <b>Condiciones de Financiación:</b><br>
                         • Se puede financiar motos con valor de prima total mayor a $1 millón de pesos.<br>
@@ -1000,9 +995,11 @@ $response = retrieveQuotation($idCotizacion);
                 || $response['cot_clase'] == "BUS" || $response['cot_clase'] == "CAMION"
               ) {
                 echo '<div class="aviso-container col-lg-12">
-                        <p>
-                          <b>Nota:</b> Tener en cuenta que aunque el cotizador genere ofertas, no todos los vehículos son asegurables. Se podrán hacer excepciones de valor asegurado superior cuando el asesor sea productivo, tenga más de 6 meses de antigüedad con Grupo Asistencia, no tenga altos indices de siniestralidad en su cartera, y si el cliente tiene vinculación con otros productos de la aseguradora. El valor de las primas de las cotizaciones puede variar al momento de emitir en los casos autorizados de manera excepcional.
-                        </p>
+                      <p style="font-weight: bold;">Política de valor asegurado pesados:</p>
+                      <p>El Valor asegurado máximo de acuerdo a la aseguradora es el siguiente: Seguros Mundial 700 millones. AXA Colpatria 400 millones. Liberty 310 millones. Previsora 700 millones</p>
+                      <p>
+                        <strong>Nota:</strong> Tener en cuenta que aunque el cotizador genere ofertas, no todos los vehículos son asegurables. Se podrán hacer excepciones de valor asegurado superior cuando el asesor sea productivo, tenga más de 6 meses de antigüedad con Grupo Asistencia, no tenga altos indices de siniestralidad en su cartera, y si el cliente tiene vinculación con otros productos de la aseguradora. El valor de las primas de las cotizaciones puede variar al momento de emitir en los casos autorizados de manera excepcional.
+                      </p>
                       </div>';
               }
               ?>
