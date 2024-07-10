@@ -488,7 +488,8 @@ while ($i < count($resultados)) {
 			$productosMap = [
 				"AUTOPLUS LIGERO" => "Autoplus Ligero",
 				"AUTOPLUS BÁSICO" => "Autoplus Básico",
-				"AUTOPLUS FULL" => "Autoplus Full"
+				"AUTOPLUS FULL" => "Autoplus Full",
+				"AUTOPLUS RCE" => "Autoplus RCE"
 			];
 			$productoOriginal = $resultados[$i]['Producto'];
 			$equidadProducto = isset($productosMap[$productoOriginal]) ? $productosMap[$productoOriginal] : $productoOriginal;
