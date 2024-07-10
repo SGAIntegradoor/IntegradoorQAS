@@ -2020,6 +2020,49 @@ function cotizarOfertasMotos() {
                 );
               });
               return; // Salir del bucle después de procesar Zurich
+            } else if (aseguradora === "Liberty") {
+              const planes = ["INTEGRAL", "BASICO + PT", "FULL"];
+              planes.forEach((plan) => {
+                let body = JSON.parse(requestOptions.body);
+                body.plan = plan;
+                requestOptions.body = JSON.stringify(body);
+                url = `https://grupoasistencia.com/motor_webservice/${aseguradora}_motos?callback=myCallback`;
+                cont.push(
+                  fetch(url, requestOptions)
+                    .then((res) => {
+                      if (!res.ok) throw Error(res.statusText);
+                      return res.json();
+                    })
+                    .then((ofertas) => {
+                      if (typeof ofertas[0].Resultado !== "undefined") {
+                        validarProblemaMotos(aseguradora, ofertas);
+                        agregarAseguradoraFallidaMotos(aseguradora);
+                        ofertas[0].Mensajes.forEach((mensaje) => {
+                          mostrarAlertarCotizacionFallida(aseguradora, mensaje);
+                        });
+                      } else {
+                        const contadorPorEntidad = validarOfertasMotos(
+                          ofertas,
+                          aseguradora,
+                          1
+                        );
+                        mostrarAlertaCotizacionExitosa(
+                          aseguradora,
+                          contadorPorEntidad
+                        );
+                      }
+                    })
+                    .catch((err) => {
+                      agregarAseguradoraFallidaMotos(aseguradora);
+                      mostrarAlertarCotizacionFallida(
+                        aseguradora,
+                        "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
+                      );
+                      console.error(err);
+                    })
+                );
+              });
+              return; // Salir del bucle después de procesar Zurich
             } else if (aseguradora === "Estado") {
               const aseguradorasEstado = ["Estado", "Estado2"]; // Agrega más aseguradoras según sea necesario
               aseguradorasEstado.forEach((aseguradora) => {
@@ -2037,13 +2080,13 @@ function cotizarOfertasMotos() {
                       let result = [];
                       result.push(ofertas);
                       if (typeof result[0].Resultado !== "undefined") {
+                        validarProblemaMotos(aseguradora, result);
                         agregarAseguradoraFallidaMotos("Estado");
-                        validarProblema(aseguradora, result);
                         result[0].Mensajes.forEach((mensaje) => {
                           mostrarAlertarCotizacionFallida(aseguradora, mensaje);
                         });
                       } else {
-                        const contadorPorEntidad = validarOfertas(
+                        const contadorPorEntidad = validarOfertasMotos(
                           result,
                           aseguradora,
                           1

@@ -1221,6 +1221,7 @@ foreach ($resultados as $resultado) {
 	$respuestaqueryAsistencia5 =  $conexion->query($queryConsultaAsistencia5);
 	$rowRespuestaAsistencia5 = mysqli_fetch_assoc($respuestaqueryAsistencia5);
 
+	var_dump($rowRespuestaAsistencia5);
 
 	if ($cont9 % 2 == 0) {
 		$html3 .= '<td class="puntos fondo" style="width:' . $valorTabla . '%;"><center><div style="font-size:12pt">&nbsp;</div><font size="7"style="text-align: center;  font-family:dejavusanscondensed;">' . $rowRespuestaAsistencia5['eventos'] . '</font></center></td>';
@@ -1230,7 +1231,7 @@ foreach ($resultados as $resultado) {
 
 	$cont9 += 1;
 }
-
+die();
 $html3 .= '</tr>';
 
 //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
