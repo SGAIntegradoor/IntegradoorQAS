@@ -64,8 +64,9 @@ while ($rowRespuesta5f = $respuestaquery5f->fetch_assoc()) {
 // var_dump($finesa_cot);
 // var_dump($ofertas_cot);
 
-
-
+var_dump($finesa_cot);
+var_dump($ofertas_cot);
+die();
 $resultados = [];
 foreach ($ofertas_cot as $oferta) {
 	$encontrado = false;
