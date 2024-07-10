@@ -1738,6 +1738,8 @@ function saveQuotations(responses) {
   return dataToDB;
 }
 
+let cotizoFinesa = false;
+
 function cotizarFinesa(ofertasCotizaciones) {
   let cotEnFinesaResponse = [];
   let promisesFinesa = [];
@@ -1841,7 +1843,10 @@ function cotizarFinesa(ofertasCotizaciones) {
           $("#loaderOferta").html("");
           $("#loaderOfertaBox").css("display", "none");
           $("#loaderRecotOferta").html("");
-          document.getElementById("btnReCotizarFallidas").disabled = false;
+          if(!cotizoFinesa){
+            document.getElementById("btnReCotizarFallidas").disabled = false;
+            cotizoFinesa = true;
+          }
         });
     })
     .catch((error) => {

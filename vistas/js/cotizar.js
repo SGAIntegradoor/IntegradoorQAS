@@ -1274,7 +1274,10 @@ function saveQuotations(responses) {
   return dataToDB;
 }
 
+let cotizoFinesa = false;
+
 function cotizarFinesa(ofertasCotizaciones) {
+  
   let cotEnFinesaResponse = [];
   let promisesFinesa = [];
   const headers = new Headers();
@@ -1350,6 +1353,7 @@ function cotizarFinesa(ofertasCotizaciones) {
                       "es-ES"
                     )} (${dbData?.data?.cuotas} Cuotas)`;
                   }
+
                 elementDiv.style.display = "block";
                 // Agrega el resultado final al array
                 cotEnFinesaResponse.push({
@@ -1387,7 +1391,10 @@ function cotizarFinesa(ofertasCotizaciones) {
         .then(() => {
           $("#loaderOferta").html("");
           $("#loaderOfertaBox").css("display", "none");
-          document.getElementById("btnReCotizarFallidas").disabled = false;
+          if(!cotizoFinesa){
+            document.getElementById("btnReCotizarFallidas").disabled = false;
+            cotizoFinesa = true;
+          }
         });
     })
     .catch((error) => {
@@ -3419,6 +3426,8 @@ function cotizarOfertas() {
                 $("#loaderRecotOferta").html(
                   '<img src="vistas/img/plantilla/loader-update.gif" width="34" height="34"><strong>Re-Cotizando en Finesa...</strong>'
                 );
+                let btnRecot = document.getElementById("btnReCotizarFallidas");
+                btnRecot.disabled = true;
                 cotizarFinesa(cotizacionesFinesa);
               } else if (result.isDismissed && cotizacionesFinesaMotos) {
                 if (result.dismiss === "cancel") {
