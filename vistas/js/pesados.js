@@ -1738,7 +1738,7 @@ function saveQuotations(responses) {
   return dataToDB;
 }
 
-let cotizoFinesa = false;
+let cotizoFinesaPesados = false;
 
 function cotizarFinesa(ofertasCotizaciones) {
   let cotEnFinesaResponse = [];
@@ -1843,9 +1843,9 @@ function cotizarFinesa(ofertasCotizaciones) {
           $("#loaderOferta").html("");
           $("#loaderOfertaBox").css("display", "none");
           $("#loaderRecotOferta").html("");
-          if(!cotizoFinesa){
+          if(!cotizoFinesaPesados){
             document.getElementById("btnReCotizarFallidas").disabled = false;
-            cotizoFinesa = true;
+            cotizoFinesaPesados = true;
           }
         });
     })
