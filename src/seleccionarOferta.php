@@ -12,8 +12,7 @@ $numCotizOferta = $_POST['numCotizOferta'];
 $valorPrima = str_replace('.', '', $_POST['valorPrima']);
 $seleccionar = $_POST['seleccionar'];
 
-
-
+echo " Placa: ".$placa."<br/> Id Cotizacion: ".$idCotizacion."<br/> Aseguradora: ".$aseguradora."<br/> Producto ".$producto."<br/> Num Coti: ".$numCotizOferta."<br/> Valor Prima: ".$valorPrima."<br/> Seleccionar: ".$seleccionar;
 
 
 $sql = "UPDATE `ofertas` SET `seleccionar` = '$seleccionar' WHERE `Placa` LIKE '$placa' AND `NumCotizOferta` LIKE '$numCotizOferta' 
@@ -33,6 +32,6 @@ if ($num_rows > 0) {
 }else{
 	$data['Success'] = $res;
 	$data['Message'] = 'Error: ' . mysqli_error($con);
-	echo $sql;
+
 	echo json_encode($data, JSON_UNESCAPED_UNICODE);
 }
