@@ -2339,7 +2339,10 @@ $pdf->Ln();
 $pdf->writeHTML($html3, true, false, true, false, '');
 //$pdf->AddPage();
 //$pdf->writeHTML($html3s, true, false, true, false, '');
-
+$pdf->Ln();
+$pdf->Ln();
+$pdf->Ln();
+$pdf->Ln();
 $pdf->writeHTML($html4, true, false, true, false, '');
 $pdf->Ln();
 //$pdf->writeHTML($html5, true, false, true, false, '');
