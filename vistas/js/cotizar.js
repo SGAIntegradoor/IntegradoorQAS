@@ -1310,8 +1310,6 @@ function cotizarFinesa(ofertasCotizaciones) {
           {
             method: "POST",
             headers: headers,
-            redirect: "follow",
-            referrerPolicy: "no-referrer",
             body: JSON.stringify(data),
           }
         )
