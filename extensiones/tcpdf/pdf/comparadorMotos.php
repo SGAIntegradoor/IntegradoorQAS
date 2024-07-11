@@ -666,7 +666,15 @@ if ($rowValidateF >= 1) {
                 </td>';
 				}
 				$cont3++;
-			} else {
+			} else if ($resultado['Prima'] < "800000") {
+				$html2 .= '<td style="font-size:' . ($font_size - 2) . 'px; color:#666666; font-family:dejavusanscondensedb; text-align: center;" class="puntos td2 ' . $fondo_class . '">
+					No Aplica
+					<br>
+					financiación
+					</td>';
+
+				$cont3++;
+			}else {
 				$html2 .= '<td style="font-size:' . ($font_size - 2) . 'px; color:#666666; font-family:dejavusanscondensedb; text-align: center;" class="puntos td2 ' . $fondo_class . '">
 					Pdte. cotizar 
 					<br>
