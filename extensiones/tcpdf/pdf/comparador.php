@@ -1732,16 +1732,16 @@ foreach ($resultados as $resultado) {
 	$rowRespuestaAsistencia9 = mysqli_fetch_assoc($respuestaqueryAsistencia9);
 
 	if ($cont13 % 2 == 0) {
-		if ($rowRespuestaAsistencia9['amparopatrimonial'] == "Si ampara") {
+		if ($rowRespuestaAsistencia9['Asistenciajuridica'] == "Si ampara") {
 			$html4 .= '<td class="puntos fondo" style="width:' . $valorTabla . '%;text-align: center;"><div style="font-size:8pt">&nbsp;</div><img style="width:16px;" src="../../../vistas/img/logos/cheque.png" alt=""></td>';
 		} else {
-			$html4 .= '<td class="puntos fondo" style="width:' . $valorTabla . '%;"><div style="font-size:8pt">&nbsp;</div><center><font size="7"style="text-align: center;">' . $rowRespuestaAsistencia9['amparopatrimonial'] . '</font></center></td>';
+			$html4 .= '<td class="puntos fondo" style="width:' . $valorTabla . '%;"><div style="font-size:8pt">&nbsp;</div><center><font size="7"style="text-align: center;">' . $rowRespuestaAsistencia9['Asistenciajuridica'] . '</font></center></td>';
 		}
 	} else {
-		if ($rowRespuestaAsistencia9['amparopatrimonial'] == "Si ampara") {
+		if ($rowRespuestaAsistencia9['Asistenciajuridica'] == "Si ampara") {
 			$html4 .= '<td class="puntos fondo2" style="width:' . $valorTabla . '%;text-align: center;"><div style="font-size:8pt">&nbsp;</div><img style="width:16px;" src="../../../vistas/img/logos/cheque.png" alt=""></td>';
 		} else {
-			$html4 .= '<td class="puntos fondo2" style="width:' . $valorTabla . '%;"><div style="font-size:8pt">&nbsp;</div><center><font size="7"style="text-align: center;">' . $rowRespuestaAsistencia9['amparopatrimonial'] . '</font></center></td>';
+			$html4 .= '<td class="puntos fondo2" style="width:' . $valorTabla . '%;"><div style="font-size:8pt">&nbsp;</div><center><font size="7"style="text-align: center;">' . $rowRespuestaAsistencia9['Asistenciajuridica'] . '</font></center></td>';
 		}
 	}
 
