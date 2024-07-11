@@ -865,7 +865,7 @@ function saveQuotations(responses) {
   return dataToDB;
 }
 
-let cotizoFinesa = false;
+let cotizoFinesaMotos = false;
 
 function cotizarFinesaMotos(ofertasCotizaciones) {
   
@@ -979,9 +979,9 @@ function cotizarFinesaMotos(ofertasCotizaciones) {
           $("#loaderOfertaBox").css("display", "none");
           $("#loaderRecotOferta").html("");
           $("#loaderRecotOfertaBox").css("display", "none");
-          if(!cotizoFinesa){
+          if(!cotizoFinesaMotos){
             document.getElementById("btnReCotizarFallidas").disabled = false;
-            cotizoFinesa = true;
+            cotizoFinesaMotos = true;
           }
         });
     })
