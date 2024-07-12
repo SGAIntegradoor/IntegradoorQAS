@@ -1738,13 +1738,14 @@ function saveQuotations(responses) {
   return dataToDB;
 }
 
+let cotizoFinesaPesados = false;
+
 function cotizarFinesa(ofertasCotizaciones) {
   let cotEnFinesaResponse = [];
   let promisesFinesa = [];
 
   const headers = new Headers();
   headers.append("Content-Type", "application/json");
-
   const tipoId = document.getElementById("tipoDocumentoID").value;
 
   ofertasCotizaciones.forEach((element, index) => {
@@ -1842,6 +1843,10 @@ function cotizarFinesa(ofertasCotizaciones) {
           $("#loaderOferta").html("");
           $("#loaderOfertaBox").css("display", "none");
           $("#loaderRecotOferta").html("");
+          if(!cotizoFinesaPesados){
+            document.getElementById("btnReCotizarFallidas").disabled = false;
+            cotizoFinesaPesados = true;
+          }
         });
     })
     .catch((error) => {
@@ -2621,6 +2626,7 @@ function cotizarOfertasPesados() {
                 })
                 .then(function (result) {
                   if (result.isConfirmed) {
+                    document.getElementById("btnReCotizarFallidas").disabled = true;
                     $("#loaderOferta").html(
                       '<img src="vistas/img/plantilla/loader-update.gif" width="34" height="34"><strong> Cotizando en Finesa...</strong>'
                     );
@@ -2697,7 +2703,6 @@ function cotizarOfertasPesados() {
         });
       } else {
         //ZONA RECOTIZACIÓN//
-        debugger;
         $("#loaderRecotOferta").html(
           '<img src="vistas/img/plantilla/loader-update.gif" width="34" height="34"><strong> Recotizando Ofertas...</strong>'
         );
@@ -2939,10 +2944,10 @@ function cotizarOfertasPesados() {
         Promise.all(cont).then(() => {
           $("#loaderOferta").html("");
           $("#loaderRecotOferta").html("");
-          let nuevas = cotizacionesFinesa.find((cotizaciones) => 
-            cotizaciones.cotizada == null
+          let nuevasPesadas = cotizacionesFinesa.filter((cotizaciones) => 
+            cotizaciones.cotizada === null
           );
-          if(nuevas.length > 0){
+          if(nuevasPesadas.length > 0){
             swal
             .fire({
               title: "¡Proceso de Re-Cotización Finalizada!",
@@ -2961,7 +2966,7 @@ function cotizarOfertasPesados() {
               },
             })
             .then(function (result) {
-              if (result.isConfirmed && nuevas.length > 0) {
+              if (result.isConfirmed) {
                 $("#loaderRecotOfertaBox").css("display", "block");
                 $("#loaderRecotOferta").html(
                   '<img src="vistas/img/plantilla/loader-update.gif" width="34" height="34"><strong>Re-Cotizando en Finesa...</strong>'
