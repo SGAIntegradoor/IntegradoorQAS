@@ -2031,7 +2031,7 @@ function cotizarOfertasMotos() {
                 let body = JSON.parse(requestOptions.body);
                 body.plan = plan;
                 requestOptions.body = JSON.stringify(body);
-                url = `https://grupoasistencia.com/motor_webservice_tst2/${aseguradora}_motos?callback=myCallback`;
+                url = `https://grupoasistencia.com/motor_webservice_tst2/${aseguradora}_motos`;
                 cont.push(
                   fetch(url, requestOptions)
                     .then((res) => {
