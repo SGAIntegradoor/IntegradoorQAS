@@ -720,7 +720,7 @@ $pdf->SetFont('dejavusanscondensed', '', 8);
 // AND cf.id_cotizacion = $identificador";
 
 // $valor6 = $conexion->query($query6);
-// $fila6 = mysqli_num_rows($valor6);
+// $rowValidate = mysqli_num_rows($valor6);
 
 // if ($fila6 == 0 || $fila6 == false || $fila6 == null) {
 // 	mysqli_free_result($valor6);
@@ -2378,7 +2378,7 @@ $html6 = '
 
 
 
-$query29 = "SELECT Aseguradora FROM ofertas WHERE `id_cotizacion` = $identificador AND `seleccionar` = 'Si' and `recomendar` = 'Si'";
+$query29 = "SELECT * FROM ofertas WHERE `id_cotizacion` = $identificador AND `seleccionar` = 'Si' and `recomendar` = 'Si'";
 $respuestaquery29 =  $conexion->query($query29);
 $asegRecomendada = mysqli_num_rows($respuestaquery29);
 
@@ -2394,7 +2394,7 @@ $contador = 0;
 
 while ($rowRespuesta29 = mysqli_fetch_assoc($respuestaquery29)) {
 	$contador++;
-
+	//var_dump($rowRespuesta29);
 	$nombreAseguradora = nombreAseguradora($rowRespuesta29['Aseguradora']);
 	$nombreProducto = productoAseguradora($rowRespuesta29['Aseguradora'], $rowRespuesta29['Producto']);
 	$valorRC = $rowRespuesta29['ValorRC'];
@@ -2402,15 +2402,19 @@ while ($rowRespuesta29 = mysqli_fetch_assoc($respuestaquery29)) {
 
 	$queryConsultaAsistencia29 = "SELECT * FROM asistencias WHERE `aseguradora` LIKE '$nombreAseguradora' AND `producto` LIKE '$nombreProducto' 
 									AND `rce` LIKE '$valorRC' AND `ppd` LIKE '$perdidaParcial'";
+
+	//var_dump($queryConsultaAsistencia29);
+
 	$respuestaqueryAsistencia29 =  $conexion->query($queryConsultaAsistencia29);
 	$rowRespuestaAsistencia29 = mysqli_fetch_assoc($respuestaqueryAsistencia29);
 
+	//var_dump($rowRespuestaAsistencia29);
 	$color = $rowRespuestaAsistencia29['color'];
 
 	$html6 .= '<table style="width: 100%;" class="second2" cellpadding="2"  border="0">';
 
 	$html6 .= '<tr>';
-	$html6 .= '<td class="redondeotabla" style ="border-radius:50px; width: 100%;  background-color: #88D600' . $color . '; color:white; font-family:dejavusanscondensedb; " colspan="' . ($fila6 + 1) . '"><div style="font-size:3pt">&nbsp;</div>OPCIÓN ' . $contador . '<div style="font-size:3pt">&nbsp;</div></td>';
+	$html6 .= '<td class="redondeotabla" style ="border-radius:50px; width: 100%;  background-color: #88D600' . $color . '; color:white; font-family:dejavusanscondensedb; " colspan="' . ($rowValidate + 1) . '"><div style="font-size:3pt">&nbsp;</div>OPCIÓN ' . $contador . '<div style="font-size:3pt">&nbsp;</div></td>';
 	$html6 .= '</tr>';
 	$html6 .= '<tr>';
 
@@ -2501,7 +2505,7 @@ while ($rowRespuesta29 = mysqli_fetch_assoc($respuestaquery29)) {
 	$html6 .= '</tr>';
 
 	$html6 .= '<tr>';
-	$html6 .= '<td style ="width: 100%;  background-color: #D1D1D1; font-family:dejavusanscondensedb;" colspan="' . ($fila6 + 1) . '">COBERTURA DEL VEHÍCULO</td>';
+	$html6 .= '<td style ="width: 100%;  background-color: #D1D1D1; font-family:dejavusanscondensedb;" colspan="' . ($rowValidate + 1) . '">COBERTURA DEL VEHÍCULO</td>';
 	$html6 .= '</tr>';
 
 	$html6 .= '<tr>';
@@ -2528,7 +2532,7 @@ while ($rowRespuesta29 = mysqli_fetch_assoc($respuestaquery29)) {
 	$html6 .= '</td>';
 	$html6 .= '</tr>';
 	$html6 .= '<tr>';
-	$html6 .= '<td style ="width: 100%;  background-color: #D1D1D1; font-family:dejavusanscondensedb;" colspan="' . ($fila6 + 1) . '">COBERTURA DEL VEHÍCULO</td>';
+	$html6 .= '<td style ="width: 100%;  background-color: #D1D1D1; font-family:dejavusanscondensedb;" colspan="' . ($rowValidate + 1) . '">COBERTURA DEL VEHÍCULO</td>';
 	$html6 .= '</tr>';
 	$html6 .= '<tr>';
 	$html6 .= '<td class="fondo puntos2" style ="width: 20%; text-align: center; font-family:dejavusanscondensedb;" ><font size="8">Pérdida total daños</font></td>';
@@ -2553,7 +2557,7 @@ while ($rowRespuesta29 = mysqli_fetch_assoc($respuestaquery29)) {
 	$html6 .= '</td>';
 	$html6 .= '</tr>';
 	$html6 .= '<tr>';
-	$html6 .= '<td style ="width: 100%;  background-color: #D1D1D1; font-family:dejavusanscondensedb;" colspan="' . ($fila6 + 1) . '">ASISTENCIA</td>';
+	$html6 .= '<td style ="width: 100%;  background-color: #D1D1D1; font-family:dejavusanscondensedb;" colspan="' . ($rowValidate + 1) . '">ASISTENCIA</td>';
 	$html6 .= '</tr>';
 	$html6 .= '<tr>';
 	$html6 .= '<td class="fondo puntos2" style ="width: 25%; text-align: center; font-family:dejavusanscondensedb;"><font size="8">Gastos de movilización ante pérdidas parciales</font></td>';
@@ -2584,7 +2588,7 @@ while ($rowRespuesta29 = mysqli_fetch_assoc($respuestaquery29)) {
 	$html6 .= '</table>';
 	$html6 .= '<p></p>';
 }
-
+// die();
 $html7 = '
 <style>
   .puntos {

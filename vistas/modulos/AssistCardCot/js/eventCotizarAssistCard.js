@@ -258,7 +258,7 @@ function validateDateToBusinessProduct (){
     if (edad < 18){
       Swal.fire({
         icon: "error",
-        title: "Si el motivo de viaje es Empresarial, la edad debe ser mayor a 18 años para el día de salida del viaje."
+        title: "Edad fuera de politicas (Corporativo entre 18 a 79 años)"
       });
     }
 
@@ -354,11 +354,11 @@ var edadPrincipalParaVerDetalles = Math.floor(diferencia / (1000 * 60 * 60 * 24 
 
   txtFecSalida = txtFecSalidaOr.split("-");
   txtFecRegreso = txtFecRegresoOr.split("-");
-  txtFecSalida = txtFecSalida[2] + "/" + txtFecSalida[1] + "/" + txtFecSalida[0];    
-  txtFecRegreso = txtFecRegreso[2] + "/" + txtFecRegreso[1] + "/" + txtFecRegreso[0];  
+  txtFecSalida = txtFecSalida[0] + "/" + txtFecSalida[1] + "/" + txtFecSalida[2];    
+  txtFecRegreso = txtFecRegreso[0] + "/" + txtFecRegreso[1] + "/" + txtFecRegreso[2];  
 
   var DiasViaje = (new Date(txtFecRegresoOr).getTime() - new Date(txtFecSalidaOr).getTime()); 
-  var txtDiasViaje = (Math.round(DiasViaje / (1000 * 60 * 60 * 24))) 
+  var txtDiasViaje = (Math.round(DiasViaje / (1000 * 60 * 60 * 24))) +1
 
   var info_inputs = { txtOrigen, txtFecSalida, PlanFamilair, txtDestino, txtFecRegreso, contPasajeros, txtDiasViaje, arrayPajaseros, SelmotivoViaje2,fechaNacimientoStr ,edadPrincipalParaVerDetalles }; //Asignacion de valores a un array para mandarlo por POST
 

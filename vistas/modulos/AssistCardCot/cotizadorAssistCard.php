@@ -47,7 +47,7 @@
                 </div>
             </div>
         </div>
-        <div class="row">
+        <div class="row marginBot">
             <div class="col-xs-12 col-sm-6 col-md-3">
                 <div class="form-group">
                     <label for="motivoViaje">Motivo de viaje</label>
