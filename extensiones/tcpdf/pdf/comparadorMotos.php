@@ -1520,7 +1520,7 @@ $html4 .= '</tr>';
 
 
 $html4 .= '<tr>';
-$html4 .= '<td class="fondo puntos" style="width:25%; text-align: center; font-family:dejavusanscondensedb;"><div style="font-size:2pt">&nbsp;</div><font size="8">Grua varada o accidente</font></td>';
+$html4 .= '<td class="fondo puntos" style="width:25%; text-align: center; font-family:dejavusanscondensedb;"><div style="font-size:8pt">&nbsp;</div><font size="8">Grua varada o accidente</font></td>';
 
 $cont11 = 1;
 foreach ($resultados as $resultado) {
