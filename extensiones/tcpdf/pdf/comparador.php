@@ -1597,7 +1597,7 @@ foreach ($resultados as $resultado) {
 $html4 .= '</tr>';
 
 $html4 .= '<tr>';
-$html4 .= '<td class="fondo puntos" style="width:10%; text-align: center; font-family:dejavusanscondensedb;"><div style="font-size:2pt">&nbsp;</div><font size="8">Grua varada o accidente.</font></td>';
+$html4 .= '<td class="fondo puntos" style="width:10%; text-align: center; font-family:dejavusanscondensedb;"><div style="font-size:2pt">&nbsp;</div><font size="8">Grua varada o accidente</font></td>';
 // $query15 = "SELECT DISTINCT o.Aseguradora, o.Producto
 // FROM cotizaciones_finesa cf 
 // INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion
@@ -1649,7 +1649,7 @@ $html4 .= '</tr>';
 
 
 $html4 .= '<tr>';
-$html4 .= '<td class="fondo puntos" style="width:10%; text-align: center; font-family:dejavusanscondensedb;"><font size="8">Carrotaller </font> <font size="5">.</font></td>';
+$html4 .= '<td class="fondo puntos" style="width:10%; text-align: center; font-family:dejavusanscondensedb;"><font size="8">Carrotaller</font></td>';
 
 // $query16 = "SELECT DISTINCT o.Aseguradora, o.Producto
 // FROM cotizaciones_finesa cf 

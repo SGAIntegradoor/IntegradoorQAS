@@ -1102,8 +1102,8 @@ function editarCotizacion(id) {
 
           try {
             const dbResponse = await fetch(
-              "https://www.grupoasistencia.com/motor_webservice/getOffertsFinesa",
-              // "http://localhost/motorTest/getOffertsFinesa",
+              // "https://www.grupoasistencia.com/motor_webservice/getOffertsFinesa",
+              "http://localhost/motorTest/getOffertsFinesa",
               {
                 method: "POST",
                 headers: headers,
@@ -1192,10 +1192,10 @@ function editarCotizacion(id) {
               let count = 0;
 
               offerts.forEach((element) => {
-                if(element.cuota_1 == null){
+                if (element.cuota_1 == null) {
                   count++;
                 }
-              })
+              });
 
               viable = count == offerts.length ? false : true;
 
@@ -1342,7 +1342,7 @@ function editarCotizacion(id) {
                           : ""
                       }'>Precio $ ${primaFormat}</h5>
                       <p class='title-precio'>(IVA incluido)</p>
-
+                      
                       ${
                         oferta.oferta_finesa && oferta.oferta_finesa != null
                           ? `
@@ -1355,13 +1355,52 @@ function editarCotizacion(id) {
                                   element.identityElement ==
                                   oferta.oferta_finesa
                                 ) {
-                                  if(!viable){
-                                    if(element.identityElement.includes("Liberty") || element.identityElement.includes("Bolivar") || element.identityElement.includes("Seguros Bolivar") || element.identityElement.includes("Liberty Seguros")){
-                                       return `Financiación Aseguradora:<br /> Consulte analista`;
+                                  if (
+                                    ($("#CodigoClase").val() == 17 ||
+                                      $("#CodigoClase").val() == 18 ||
+                                      $("#CodigoClase").val() == 19) &&
+                                    oferta.Prima < 1000000 &&
+                                    !(
+                                      oferta.Aseguradora == "Liberty" ||
+                                      oferta.Aseguradora == "Bolivar" ||
+                                      oferta.Aseguradora == "Seguros Bolivar" ||
+                                      oferta.Aseguradora == "Liberty Seguros"
+                                    )
+                                  ) {
+                                    return `Financiación Finesa:<br />No aplica para financiación`;
+                                  } else if (!viable) {
+                                    if (
+                                      element.identityElement.includes(
+                                        "Liberty"
+                                      ) ||
+                                      element.identityElement.includes(
+                                        "Bolivar"
+                                      ) ||
+                                      element.identityElement.includes(
+                                        "Seguros Bolivar"
+                                      ) ||
+                                      element.identityElement.includes(
+                                        "Liberty Seguros"
+                                      )
+                                    ) {
+                                      return `Financiación Aseguradora:<br /> Consulte analista`;
                                     } else {
-                                       return `Financiación Finesa:<br />Asegurado no viable para financiación`; 
+                                      return `Financiación Finesa:<br />Asegurado no viable para financiación`;
                                     }
-                                  } else if (element.identityElement.includes("Liberty") || element.identityElement.includes("Bolivar") || element.identityElement.includes("Seguros Bolivar") || element.identityElement.includes("Liberty Seguros")) {
+                                  } else if (
+                                    element.identityElement.includes(
+                                      "Liberty"
+                                    ) ||
+                                    element.identityElement.includes(
+                                      "Bolivar"
+                                    ) ||
+                                    element.identityElement.includes(
+                                      "Seguros Bolivar"
+                                    ) ||
+                                    element.identityElement.includes(
+                                      "Liberty Seguros"
+                                    )
+                                  ) {
                                     return `Financiación Aseguradora:<br /> Consulte analista`;
                                   } else if (element.cuota_1 == null) {
                                     return `Financiación Finesa:<br />No aplica para financiación`;
