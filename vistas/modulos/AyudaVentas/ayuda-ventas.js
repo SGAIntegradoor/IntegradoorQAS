@@ -407,7 +407,6 @@ const obtenerAyudaVentas = async () => {
                                             style="background: red; color: #fff; font-weight: 500; margin-bottom: 5px;" 
                                             onclick="validarPermisoPdfPersonaJuridica('./vistas/modulos/AyudaVentas/pdf/sarlaft2/${ayudaVenta.path_sarlaft2}', '${ayudaVenta.aseguradora}')">PDF PJ</button>`
                                             : ""
-                                         
                                         }
                                         </ul>
                                     </td>

@@ -1371,7 +1371,7 @@ $rolAsesor = $_SESSION['permisos']['idRol'];
                       <div class="row button-recotizar" style="display: none; margin:5px">
                         <div class="col-md-6"></div>
                         <div class="col-xs-12 col-sm-12 col-md-3 form-group">
-                          <button class="btn btn-primary btn-block" id="btnReCotizarFallidas">Recotizar Ofertas Fallidas</button>
+                          <button class="btn btn-primary btn-block" id="btnReCotizarFallidasMotos">Recotizar Ofertas Fallidas</button>
                         </div>
                         <div class="col-md-3"></div>
                       </div>
