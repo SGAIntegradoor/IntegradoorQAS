@@ -48,14 +48,14 @@ $(document).ready(function () {
     }
     masRE();
     if (intermediario != 3) {
-          checkCotTotales().then((response) => {
-            if (response.result == 1 || response.result == 2) {
-              cotizarOfertasMotos();
-            } else {
-              e.preventDefault();
-              mostrarAlertaCotizacionesExcedidasMotos();
-            }
-          });
+      checkCotTotales().then((response) => {
+        if (response.result == 1 || response.result == 2) {
+          cotizarOfertasMotos();
+        } else {
+          e.preventDefault();
+          mostrarAlertaCotizacionesExcedidasMotos();
+        }
+      });
     } else {
       checkCotTotales().then((response) => {
         if (response.result == 1 || response.result == 2) {
@@ -71,51 +71,49 @@ $(document).ready(function () {
 
   function mostrarAlertaCotizacionesExcedidasMotos() {
     swal
-            .fire({
-              icon: "error",
-              html: `<div style="text-align: center; font-family: Helvetica, Arial, sans-serif; font-size: 15px; border-radius: 4px; padding: 8px;">Lo sentimos. No tienes cotizaciones disponibles, por favor comunicate con tu analista asignado.`,
-              width: "50%",
-              showConfirmButton: true,
-              confirmButtonText: "Cerrar",
-              customClass: {
-                popup: "custom-swal-popupCotExcep",
-              },
-            })
-            .then(function (result) {
-              if (result.isConfirmed) {
-                window.location = "inicio";
-              } else if (result.isDismissed) {
-                if (result.dismiss === "cancel") {
-                  window.location = "inicio";
-                } else if (result.dismiss === "backdrop") {
-                  window.location = "inicio";
-                }
-              }
-            });
-  }
-  
-  function mostrarPoliticaValorAseguradoMotos() {
-    swal
-        .fire({
-          icon: "warning",
-          title: "POL\u00cdTICA DE VALOR ASEGURADO MOTOS",
-          //html: "<p style='font-family: Helvetica, Arial, sans-serif;'>Para motocicletas el valor asegurado m\u00e1ximo es $50 millones. Motos por encima de ese valor, deben ser autorizadas por la Gerencia General.</p>",
-          html: "<p style='font-family: Helvetica, Arial, sans-serif;'>Nota: Para motocicletas el valor asegurado m\u00e1ximo es $50 millones. Motos por encima de ese valor deben ser autorizadas por el Gerente General, quien podrá hacer excepciones de valor asegurado superior cuando el asesor sea productivo, tenga más de 6 meses de antigüedad con Grupo Asistencia, no tenga altos indices de siniestralidad en su cartera, y si el cliente tiene vinculación con otros productos de la aseguradora.</p>",
-          width: "30%",
-          showConfirmButton: true,
-          confirmButtonText: "Continuar",
-          customClass: {
-            popup: "custom-swal-alertaMontoMotos",
-            title: "custom-swal-title",
-            confirmButton: "custom-swal-confirm-button23",
-            actions: "custom-swal-actions-motos",
-            icon: "swal2-icon_monto",
-          },
-          timer: 20000,
-          timerProgressBar: true,
-        })
+      .fire({
+        icon: "error",
+        html: `<div style="text-align: center; font-family: Helvetica, Arial, sans-serif; font-size: 15px; border-radius: 4px; padding: 8px;">Lo sentimos. No tienes cotizaciones disponibles, por favor comunicate con tu analista asignado.`,
+        width: "50%",
+        showConfirmButton: true,
+        confirmButtonText: "Cerrar",
+        customClass: {
+          popup: "custom-swal-popupCotExcep",
+        },
+      })
+      .then(function (result) {
+        if (result.isConfirmed) {
+          window.location = "inicio";
+        } else if (result.isDismissed) {
+          if (result.dismiss === "cancel") {
+            window.location = "inicio";
+          } else if (result.dismiss === "backdrop") {
+            window.location = "inicio";
+          }
+        }
+      });
   }
 
+  function mostrarPoliticaValorAseguradoMotos() {
+    swal.fire({
+      icon: "warning",
+      title: "POL\u00cdTICA DE VALOR ASEGURADO MOTOS",
+      //html: "<p style='font-family: Helvetica, Arial, sans-serif;'>Para motocicletas el valor asegurado m\u00e1ximo es $50 millones. Motos por encima de ese valor, deben ser autorizadas por la Gerencia General.</p>",
+      html: "<p style='font-family: Helvetica, Arial, sans-serif;'>Nota: Para motocicletas el valor asegurado m\u00e1ximo es $50 millones. Motos por encima de ese valor deben ser autorizadas por el Gerente General, quien podrá hacer excepciones de valor asegurado superior cuando el asesor sea productivo, tenga más de 6 meses de antigüedad con Grupo Asistencia, no tenga altos indices de siniestralidad en su cartera, y si el cliente tiene vinculación con otros productos de la aseguradora.</p>",
+      width: "30%",
+      showConfirmButton: true,
+      confirmButtonText: "Continuar",
+      customClass: {
+        popup: "custom-swal-alertaMontoMotos",
+        title: "custom-swal-title",
+        confirmButton: "custom-swal-confirm-button23",
+        actions: "custom-swal-actions-motos",
+        icon: "swal2-icon_monto",
+      },
+      timer: 20000,
+      timerProgressBar: true,
+    });
+  }
 
   $("#btnConsultarPlacaMotos").click(function () {
     consulPlacaMotos();
@@ -868,7 +866,6 @@ function saveQuotations(responses) {
 let cotizoFinesaMotos = false;
 
 function cotizarFinesaMotos(ofertasCotizaciones) {
-  
   let cotEnFinesaResponse = [];
   let promisesFinesa = [];
 
@@ -882,7 +879,7 @@ function cotizarFinesaMotos(ofertasCotizaciones) {
       fecha_cotizacion: obtenerFechaActual(),
       valor_poliza: element.prima,
       beneficiario_oneroso: false,
-      cuotas: 11,
+      cuotas: element.cuotas,
       fecha_inicio_poliza: obtenerFechaActual(),
       primera_cuota: "min",
       valor_primera_cuota: 0,
@@ -897,8 +894,8 @@ function cotizarFinesaMotos(ofertasCotizaciones) {
       //console.log(element);
       promisesFinesa.push(
         fetch(
-          "https://www.grupoasistencia.com/motor_webservice/paymentInstallmentsFinesa",
-          // "http://localhost/motorTest/paymentInstallmentsFinesa",
+          // "https://www.grupoasistencia.com/motor_webservice/paymentInstallmentsFinesa",
+          "http://localhost/motorTest/paymentInstallmentsFinesa",
           {
             method: "POST",
             headers: headers,
@@ -918,8 +915,8 @@ function cotizarFinesaMotos(ofertasCotizaciones) {
             finesaData.cuotas = element.cuotas;
 
             return fetch(
-              "https://www.grupoasistencia.com/motor_webservice/saveDataQuotationsFinesa",
-              // "http://localhost/motorTest/saveDataQuotationsFinesa",
+              // "https://www.grupoasistencia.com/motor_webservice/saveDataQuotationsFinesa",
+              "http://localhost/motorTest/saveDataQuotationsFinesa",
               {
                 method: "POST",
                 headers: headers,
@@ -931,14 +928,22 @@ function cotizarFinesaMotos(ofertasCotizaciones) {
                 const elementDiv = document.getElementById(element.objFinesa);
                 console.log(dbData);
                 console.log(element.aseguradora);
-               if (element.aseguradora == "Seguros Bolivar" || element.aseguradora == "Liberty")
-                {
+                if (
+                  element.aseguradora == "Seguros Bolivar" ||
+                  element.aseguradora == "Liberty"
+                ) {
                   cotizacionesFinesaMotos[index].cotizada = true;
-                   elementDiv.innerHTML = `Financiación Aseguradora:<br /> Consulte analista`;
-                } else if (dbData?.data?.mensaje.includes("Por políticas de Finesa")) {
+                  elementDiv.innerHTML = `Financiación Aseguradora:<br /> Consulte analista`;
+                } else if (
+                  dbData?.data?.mensaje.includes("Por políticas de Finesa")
+                ) {
                   cotizacionesFinesaMotos[index].cotizada = true;
                   elementDiv.innerHTML = `Financiación:<br /> No aplica financiación`;
-                } else if (dbData?.data?.mensaje.includes("Asegurado no viable para financiacion")) {
+                } else if (
+                  dbData?.data?.mensaje.includes(
+                    "Asegurado no viable para financiacion"
+                  )
+                ) {
                   cotizacionesFinesaMotos[index].cotizada = true;
                   elementDiv.innerHTML = `Financiación Finesa:<br /> Asegurado no viable para financiación`;
                 } else {
@@ -966,7 +971,7 @@ function cotizarFinesaMotos(ofertasCotizaciones) {
   });
 
   Promise.all(promisesFinesa)
-    .then((results) => {    
+    .then((results) => {
       cotEnFinesaResponse = saveQuotations(results);
       swal
         .fire({
@@ -979,7 +984,7 @@ function cotizarFinesaMotos(ofertasCotizaciones) {
           $("#loaderOfertaBox").css("display", "none");
           $("#loaderRecotOferta").html("");
           $("#loaderRecotOfertaBox").css("display", "none");
-          if(!cotizoFinesaMotos){
+          if (!cotizoFinesaMotos) {
             document.getElementById("btnReCotizarFallidas").disabled = false;
             cotizoFinesaMotos = true;
           }
@@ -1123,12 +1128,23 @@ const mostrarOfertaMotos = (
   var aseguradoraCredenciales = nombreAseguradora + "_C_motos";
   var permisosCredenciales = permisos[aseguradoraCredenciales];
 
+  console.log(prima);
+
+  let calcCuotas =
+    prima.replace(/\./g, "") > 800000 && prima.replace(/\./g, "") <= 1400000
+      ? 7
+      : prima.replace(/\./g, "") > 1400000 && prima.replace(/\./g, "") < 2000000
+      ? 9
+      : prima.replace(/\./g, "") > 2000000
+      ? 11
+      : 11;
+
   let cotOferta = {
     aseguradora: aseguradora,
     objFinesa: aseguradora + "_" + contCotizacionMotos,
     producto: producto,
     prima: Number(prima.replace(/\./g, "")),
-    cuotas: 11,
+    cuotas: calcCuotas,
     cotizada: null,
   };
 
@@ -2181,7 +2197,9 @@ function cotizarOfertasMotos() {
               })
               .then(function (result) {
                 if (result.isConfirmed) {
-                  document.getElementById("btnReCotizarFallidas").disabled = true;
+                  document.getElementById(
+                    "btnReCotizarFallidas"
+                  ).disabled = true;
                   $("#loaderOferta").html(
                     '<img src="vistas/img/plantilla/loader-update.gif" width="34" height="34"><strong> Cotizando en Finesa...</strong>'
                   );
@@ -2570,58 +2588,56 @@ function cotizarOfertasMotos() {
       Promise.all(cont).then(() => {
         // $("#loaderOferta").html("");
         $("#loaderRecotOferta").html("");
-        let nuevas = cotizacionesFinesaMotos.filter((cotizaciones) => 
-          cotizaciones.cotizada === null
+        let nuevas = cotizacionesFinesaMotos.filter(
+          (cotizaciones) => cotizaciones.cotizada === null
         );
-        if(nuevas.length > 0){
+        if (nuevas.length > 0) {
           swal
-          .fire({
-            title: "¡Proceso de Re-Cotización Finalizada!",
-            text: "¿Deseas incluir la financiación con Finesa a 11 cuotas?",
-            showConfirmButton: true,
-            confirmButtonText: "Si",
-            showCancelButton: true,
-            cancelButtonText: "No",
-            customClass: {
-              title: "custom-title-messageFinesa",
-              htmlContainer: "custom-text-messageFinesa",
-              popup: "custom-popup-messageFinesa",
-              actions: "custom-actions-messageFinesa",
-              confirmButton: "custom-confirmnButton-messageFinesa",
-              cancelButton: "custom-cancelButton-messageFinesa",
-            },
-          })
-          .then(function (result) {
-            if (result.isConfirmed) {
-              $("#loaderRecotOfertaBox").css("display", "block");
-              $("#loaderRecotOferta").html(
-                '<img src="vistas/img/plantilla/loader-update.gif" width="34" height="34"><strong>Re-Cotizando en Finesa...</strong>'
-              );
-              cotizarFinesaMotos(cotizacionesFinesaMotos);
-            } else if (result.isDismissed) {
-              if (result.dismiss === "cancel") {
-                // console.log("El usuario seleccionó 'No'");
-                $("#loaderRecotOferta").html("");
-                $("#loaderRecotOfertaBox").css("display", "none");
-              } else if (result.dismiss === "backdrop") {
-                $("#loaderRecotOferta").html("");
-                $("#loaderRecotOfertaBox").css("display", "none");
+            .fire({
+              title: "¡Proceso de Re-Cotización Finalizada!",
+              text: "¿Deseas incluir la financiación con Finesa a 11 cuotas?",
+              showConfirmButton: true,
+              confirmButtonText: "Si",
+              showCancelButton: true,
+              cancelButtonText: "No",
+              customClass: {
+                title: "custom-title-messageFinesa",
+                htmlContainer: "custom-text-messageFinesa",
+                popup: "custom-popup-messageFinesa",
+                actions: "custom-actions-messageFinesa",
+                confirmButton: "custom-confirmnButton-messageFinesa",
+                cancelButton: "custom-cancelButton-messageFinesa",
+              },
+            })
+            .then(function (result) {
+              if (result.isConfirmed) {
+                $("#loaderRecotOfertaBox").css("display", "block");
+                $("#loaderRecotOferta").html(
+                  '<img src="vistas/img/plantilla/loader-update.gif" width="34" height="34"><strong>Re-Cotizando en Finesa...</strong>'
+                );
+                cotizarFinesaMotos(cotizacionesFinesaMotos);
+              } else if (result.isDismissed) {
+                if (result.dismiss === "cancel") {
+                  // console.log("El usuario seleccionó 'No'");
+                  $("#loaderRecotOferta").html("");
+                  $("#loaderRecotOfertaBox").css("display", "none");
+                } else if (result.dismiss === "backdrop") {
+                  $("#loaderRecotOferta").html("");
+                  $("#loaderRecotOfertaBox").css("display", "none");
+                }
               }
-            }
-          });
+            });
         } else {
           let anuncio = true;
-          if(anuncio){
+          if (anuncio) {
             anuncio = false;
-            swal
-              .fire({
-                title: "¡Proceso de Re-Cotización Finalizada!",
-                showConfirmButton: true,
-                confirmButtonText: "Cerrar",
-              })
+            swal.fire({
+              title: "¡Proceso de Re-Cotización Finalizada!",
+              showConfirmButton: true,
+              confirmButtonText: "Cerrar",
+            });
           }
         }
-        
       });
     }
   }
