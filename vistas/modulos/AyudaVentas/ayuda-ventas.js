@@ -271,9 +271,11 @@ const llenarFormulario = (_data) => {
 };
 
 const abrirSarlaftAseguradora = () => {
-    window.open("https://app.legops.com/forms/es/f/92c704c9-1967-4c90-b460-212af6bfa7fd", "_blank")
-}
-
+  window.open(
+    "https://app.legops.com/forms/es/f/92c704c9-1967-4c90-b460-212af6bfa7fd",
+    "_blank"
+  );
+};
 
 const obtenerAyudaVentas = async () => {
   const formData = new FormData();
@@ -384,30 +386,28 @@ const obtenerAyudaVentas = async () => {
                                     <td>
                                         <ul style="margin-top: 60px; display: flex; flex-direction: column;">
                                         ${
-                                            ayudaVenta.path_sarlaft
+                                          ayudaVenta.path_sarlaft
                                             ? `
                                             <button 
                                             class="btn btn-alert" 
                                             style="background: red; color: #fff; font-weight: 500; margin-bottom: 5px;" 
                                             ${
-                                                ayudaVenta.aseguradora === "Mundial"
+                                              ayudaVenta.aseguradora ===
+                                              "Mundial"
                                                 ? `onclick="abrirSarlaftAseguradora('https://app.legops.com/forms/es/f/92c704c9-1967-4c90-b460-212af6bfa7fd', '${ayudaVenta.aseguradora}')">PDF PN</button>`
                                                 : `onclick="validarPermisoPdfPersonaNatural('./vistas/modulos/AyudaVentas/pdf/sarlaft/${ayudaVenta.path_sarlaft}', '${ayudaVenta.aseguradora}')">PDF PN</button>`
                                             }`
                                             : ""
                                         }
                                         ${
-                                            ayudaVenta.path_sarlaft2
+                                          ayudaVenta.path_sarlaft2
                                             ? `
                                             <button 
                                             class="btn btn-alert" 
                                             style="background: red; color: #fff; font-weight: 500; margin-bottom: 5px;" 
-                                            ${
-                                                ayudaVenta.aseguradora === "Mundial"
-                                                ? `onclick="abrirSarlaftAseguradora('https://app.legops.com/forms/es/f/92c704c9-1967-4c90-b460-212af6bfa7fd', '${ayudaVenta.aseguradora}')">PDF PJ</button>`
-                                                : `onclick="validarPermisoPdfPersonaJuridica('./vistas/modulos/AyudaVentas/pdf/sarlaft/${ayudaVenta.path_sarlaft}', '${ayudaVenta.aseguradora}')">PDF PJ</button>`
-                                            }`
+                                            onclick="validarPermisoPdfPersonaJuridica('./vistas/modulos/AyudaVentas/pdf/sarlaft2/${ayudaVenta.path_sarlaft2}', '${ayudaVenta.aseguradora}')">PDF PJ</button>`
                                             : ""
+                                         
                                         }
                                         </ul>
                                     </td>

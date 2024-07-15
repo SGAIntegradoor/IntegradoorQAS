@@ -123,6 +123,7 @@ Validamos el permiso para el boton que genera pdf persona juridica de cada asegu
 ===============================================================================================================*/
     function validarPermisoPdfPersonaJuridica(link, aseguradora)
     {
+        console.log(link, aseguradora)
         console.log(aseguradora)
         if(link == './vistas/modulos/AyudaVentas/pdf/sarlaft2/2' && aseguradora !== 'Estado'){
 
