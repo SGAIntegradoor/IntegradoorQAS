@@ -330,22 +330,22 @@ $pdf->writeHTML($htmlpesado1, true, false, true, false, '');
 
 $pdf->SetFont('dejavusanscondensed', 'I', 15);
 $pdf->SetTextColor(104, 104, 104);
-$pdf->SetXY(46.5, 110);
+$pdf->SetXY(46.5, 109.5);
 $pdf->Cell(10, 0, 'Hemos   ', 0, $ln = 0, 'C', 0, '', 0, false, 'C', 'C');
 
 $pdf->SetFont('dejavusanscondensed', 'BI', 15);
 $pdf->SetTextColor(103,181,252);
-$pdf->SetXY(90.5, 110);
+$pdf->SetXY(90.5, 109.5);
 $pdf->Cell(10, 0, ' cotizado ' . $asegSelecionada .' aseguradora(s), ', 0, $ln = 0, 'C', 0, '', 0, false, 'C', 'C');
 
 $pdf->SetFont('dejavusanscondensed', 'I', 15);
 $pdf->SetTextColor(104, 104, 104);
-$pdf->SetXY(145.5, 110);
+$pdf->SetXY(145.5, 109.5);
 $pdf->Cell(10, 0, 'a continuación ', 0, $ln = 0, 'C', 0, '', 0, false, 'C', 'C');
 
 $pdf->SetFont('dejavusanscondensed', 'I', 15);
 $pdf->SetTextColor(104, 104, 104);
-$pdf->SetXY(98, 117);
+$pdf->SetXY(98, 115.5);
 $pdf->Cell(10, 0, 'te presentamos un comparativo de precios', 0, $ln = 0, 'C', 0, '', 0, false, 'C', 'C');
 
 $pdf->SetAlpha(0.7);
@@ -2299,7 +2299,7 @@ $html7 .= '</table>';
 
 
 
-$pdf->SetXY(80, 122);
+$pdf->SetXY(80, 120.5);
 $pdf->writeHTML($html2, true, false, true, false, '');
 
 $pdf->SetFont('dejavusanscondensed', 'I', 15);
