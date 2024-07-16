@@ -294,7 +294,7 @@ select:invalid + .error-message {
 
         <h1 style="margin-bottom: 0%;">
 
-        Solicitud de Cotización Asistencia en Viajes Internacionales
+        Cotizar Asistencia en Viajes Internacionales
 
         </h1>
 

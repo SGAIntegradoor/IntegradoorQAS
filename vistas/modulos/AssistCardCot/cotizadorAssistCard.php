@@ -2,13 +2,13 @@
         <div class="col-lg-12">
             <div class="row row-aseg">
                 <div class="col-xs-12 col-sm-6 col-md-6">
-                    <label id="lblDataTrip">Ingresa Informacion del Viaje a Cotizar</label>
+                    <label id="lblDataTrip">Ingresa Información del Viaje a Cotizar</label>
                     <i id="iconDataTrip" class="fa fa-globe planeCot" aria-hidden="true"></i>         
                 </div>
 
                 <div class="col-xs-12 col-sm-6 col-md-6">
                     <div id="masCotizacion">
-                        <p id="masCot">Ver mas <i class="fa fa-plus-square-o"></i></p>
+                        <p id="masCot">Ver más <i class="fa fa-plus-square-o"></i></p>
                     </div>
                     <div id="menosCotizacion">
                         <p id="menosCot">Ver menos <i class="fa fa-minus-square-o"></i></p>
@@ -150,7 +150,7 @@
                 <div class="col-xs-12 col-sm-6 col-md-3"></div>
                 <div class="col-xs-12 col-sm-6 col-md-3">
                     <div id="masParrilla">
-                        <p id="masPar">Ver mas <i class="fa fa-plus-square-o"></i></p>
+                        <p id="masPar">Ver más <i class="fa fa-plus-square-o"></i></p>
                     </div>
                     <div id="menosParrilla">
                         <p id="menos">Ver menos <i class="fa fa-minus-square-o"></i></p>
