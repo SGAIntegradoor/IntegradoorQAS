@@ -89,6 +89,17 @@ $cre_sol_Cookie_token = $creSolidaria['cre_sol_Cookie_token'] ?? null;
 $cre_sol_token = $creSolidaria['cre_sol_token'] ?? null;
 $cre_sol_fecha_token = $creSolidaria['cre_sol_fecha_token'] ?? null;
 
+if ($aseguradoras['Previsora']['C'] == "1") {
+  $crePrevisora = obtenerCredenciales($enlace, 'Credenciales_Previsora', '*', $_SESSION['intermediario']);
+} else {
+  $crePrevisora = obtenerCredenciales($enlace, 'Credenciales_Previsora', '*', '3');
+}
+
+$cre_pre_usu = $crePrevisora['cre_pre_Username'];
+$cre_pre_pass = $crePrevisora['cre_pre_Password'];
+$cre_pre_source_code = $_SESSION['intermediario'] == 153 ? 24 : ($_SESSION['intermediario'] == 3 ? 12 : 12);
+$cre_pre_bussinessId = $_SESSION['intermediario'] == 153 ? 23 : ($_SESSION['intermediario'] == 3 ? 11 : 11);
+$cre_pre_key = $crePrevisora['cre_pre_AgentCode'];
 
 // Lógica para BOLIVAR
 if ($aseguradoras['Bolivar']['C'] == "1") {
@@ -1574,13 +1585,12 @@ echo '<script>console.log(' . $idIntermediario . ", " . $rolAsesor . ')</script>
             <input type="text" class="form-control" id="cre_sol_fecha_token" value="<?php echo $cre_sol_fecha_token; ?>">
 
             <!--PREVISORA-->
-            <!-- <input type="text" class="form-control" id="cre_pre_AgentCodeListCoin" value="</?php echo $_SESSION["cre_pre_AgentCodeListCoin"]; ?>">
-            <input type="text" class="form-control" id="cre_pre_AgentAgencyTypeCode" value="</?php echo $_SESSION["cre_pre_AgentAgencyTypeCode"]; ?>">
-            <input type="text" class="form-control" id="cre_pre_ParticipationCia" value="</?php echo $_SESSION["cre_pre_ParticipationCia"]; ?>">
-            <input type="text" class="form-control" id="cre_pre_AgentCode" value="</?php echo $_SESSION["cre_pre_AgentCode"]; ?>">
-            <input type="text" class="form-control" id="cre_pre_Username" value="</?php echo $_SESSION["cre_pre_Username"]; ?>">
-            <input type="text" class="form-control" id="cre_pre_Password" value="</?php echo $_SESSION["cre_pre_Password"]; ?>"> -->
-
+            <input type="text" class="form-control" id="cre_pre_BusinessId" value="<?php echo $cre_pre_bussinessId ?>">
+            <input type="text" class="form-control" id="cre_pre_SourceCode" value="<?php echo $cre_pre_source_code ?>">
+            <input type="text" class="form-control" id="cre_pre_AgentCode" value="<?php echo $cre_pre_key ?>">
+            <input type="text" class="form-control" id="cre_pre_Username" value="<?php echo $cre_pre_usu ?>">
+            <input type="text" class="form-control" id="cre_pre_Password" value="<?php echo $cre_pre_pass ?>">
+        
             <!--MAPFRE-->
             <!-- <input type="text" class="form-control" id="cre_map_codCliente" value="</?php echo $_SESSION["cre_map_codCliente"]; ?>">
             <input type="text" class="form-control" id="cre_map_codigoOficinaAsociado" value="</?php echo $_SESSION["cre_map_codigoOficinaAsociado"]; ?>">
@@ -1588,7 +1598,6 @@ echo '<script>console.log(' . $idIntermediario . ", " . $rolAsesor . ')</script>
             <input type="text" class="form-control" id="cre_map_username" value="</?php echo $_SESSION["cre_map_username"]; ?>">
             <input type="text" class="form-control" id="cre_map_password" value="</?php echo $_SESSION["cre_map_password"]; ?>">
             <input type="text" class="form-control" id="cre_map_codigonivel3GA" value="</?php echo $_SESSION["cre_map_codigonivel3GA"]; ?>"> -->
-
 
             <!--SBS-->
             <input type="text" class="form-control" id="cre_sbs_usuario" value="<?php echo $cre_sbs_usuario; ?>">

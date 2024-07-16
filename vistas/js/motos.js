@@ -2195,7 +2195,7 @@ function cotizarOfertasMotos() {
               swal
                 .fire({
                   title: "¡Proceso de Cotización Finalizada!",
-                  text: "¿Deseas incluir la financiación con Finesa a 11 cuotas?",
+                  text: "¿Deseas incluir la financiación con Finesa?",
                   showConfirmButton: true,
                   confirmButtonText: "Si",
                   showCancelButton: true,
@@ -2624,7 +2624,7 @@ function cotizarOfertasMotos() {
           swal
             .fire({
               title: "¡Proceso de Re-Cotización Finalizada!",
-              text: "¿Deseas incluir la financiación con Finesa a 11 cuotas?",
+              text: "¿Deseas incluir la financiación con Finesa?",
               showConfirmButton: true,
               confirmButtonText: "Si",
               showCancelButton: true,
