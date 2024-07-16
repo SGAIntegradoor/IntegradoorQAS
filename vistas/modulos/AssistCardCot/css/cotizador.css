@@ -72,4 +72,9 @@
 .marginBot{
   margin-bottom: 25px;
 }
+
+.select2-container--bootstrap .select2-results>.select2-results__options {
+  max-height: 100px !important;
+  overflow-y: auto;
+}
 /*///////////////////////////////////////////////////////////////////////////////// */

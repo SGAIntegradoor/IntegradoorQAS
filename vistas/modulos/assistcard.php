@@ -275,6 +275,11 @@ select:invalid + .error-message {
     height: 100%;
 } */
 
+.select2-container--above .select2-dropdown {
+        bottom: auto !important;;
+        top: -100% !important;;
+}
+
 .miIframe {
             width: 100%;
             max-width: none;
