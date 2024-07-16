@@ -2613,7 +2613,6 @@ function cotizarOfertasMotos() {
         : // : Promise.resolve();
           null;
       // cont.push(sbsPromise);
-      console.log(cont);
       Promise.all(cont).then(() => {
         // $("#loaderOferta").html("");
         $("#loaderRecotOferta").html("");
