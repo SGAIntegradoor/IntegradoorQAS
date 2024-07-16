@@ -293,8 +293,8 @@ function traerCredenciales(id) {
     data: { id },
     success: function (data) {
       data = JSON.parse(data);
-      console.log(data);
-      return
+      // console.log(data);
+      // return
       //enviar datos del intermediario al formulario de arriba
 
 

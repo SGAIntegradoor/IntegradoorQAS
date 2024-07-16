@@ -24,9 +24,9 @@ class ModeloInternediario{
 
             $inter = $variable;
 
-            $stmt = Conexion::conectar()->prepare("SELECT * FROM intermediario i, Credenciales_Zurich z, Credenciales_Solidaria so, Credenciales_SBS sb, Credenciales_Liberty l, Credenciales_HDI h, Credenciales_Estado e, Credenciales_Bolivar b, Credenciales_AXA ax, Credenciales_Allianz al, Credenciales_Equidad eq WHERE i.id_Intermediario = ".$inter."  AND i.id_Intermediario = z.id_Intermediario  AND i.id_Intermediario = so.id_Intermediario  AND i.id_Intermediario = sb.id_intermediario AND i.id_Intermediario = l.id_Intermediario AND i.id_Intermediario = h.id_intermediario AND i.id_Intermediario = e.id_Intermediario AND i.id_Intermediario = b.id_Intermediario AND i.id_Intermediario = ax.id_Intermediario AND i.id_Intermediario = al.id_Intermediario AND i.id_Intermediario = eq.id_Intermediario ORDER BY i.id_intermediario DESC");
-            echo $stmt->queryString;
-            die();
+            $stmt = Conexion::conectar()->prepare("SELECT * FROM intermediario i, Credenciales_Previsora pre, Credenciales_Zurich z, Credenciales_Solidaria so, Credenciales_SBS sb, Credenciales_Liberty l, Credenciales_HDI h, Credenciales_Estado e, Credenciales_Bolivar b, Credenciales_AXA ax, Credenciales_Allianz al, Credenciales_Equidad eq WHERE i.id_Intermediario = ".$inter."  AND i.id_Intermediario = z.id_Intermediario  AND i.id_Intermediario = so.id_Intermediario  AND i.id_Intermediario = sb.id_intermediario AND i.id_Intermediario = l.id_Intermediario AND i.id_Intermediario = h.id_intermediario AND i.id_Intermediario = e.id_Intermediario AND i.id_Intermediario = b.id_Intermediario AND i.id_Intermediario = ax.id_Intermediario AND i.id_Intermediario = al.id_Intermediario AND i.id_Intermediario = eq.id_Intermediario AND i.id_Intermediario = pre.id_Intermediario ORDER BY i.id_intermediario DESC");
+            // echo $stmt->queryString;
+            // die();
             $stmt -> execute();
 
             return $stmt -> fetchAll(PDO::FETCH_ASSOC);
@@ -38,11 +38,7 @@ class ModeloInternediario{
             $inter = $_SESSION["intermediario"];
 
             // $stmt = Conexion::conectar()->prepare("SELECT * FROM intermediario i, Credenciales_Zurich z,Credenciales_Solidaria so, Credenciales_SBS sb, Credenciales_Liberty l, Credenciales_HDI h, Credenciales_Estado e, Credenciales_Bolivar b, Credenciales_AXA ax, Credenciales_Allianz al, Credenciales_Equidad eq WHERE i.id_Intermediario = ".$inter."  AND i.id_Intermediario = z.id_Intermediario  AND i.id_Intermediario = so.id_Intermediario  AND i.id_Intermediario = sb.id_intermediario AND i.id_Intermediario = l.id_Intermediario AND i.id_Intermediario = h.id_intermediario AND i.id_Intermediario = e.id_Intermediario AND i.id_Intermediario = b.id_Intermediario AND i.id_Intermediario = ax.id_Intermediario AND i.id_Intermediario = al.id_Intermediario AND i.id_Intermediario = eq.id_Intermediario ORDER BY i.id_intermediario DESC");
-            $stmt = Conexion::conectar()->prepare("SELECT * FROM intermediario i, Credenciales_Zurich z,Credenciales_Solidaria so, Credenciales_SBS sb, Credenciales_Liberty l, Credenciales_HDI h, Credenciales_Estado e, Credenciales_Bolivar b, Credenciales_AXA ax, Credenciales_Allianz al, Credenciales_Equidad eq WHERE i.id_Intermediario = ".$inter."  AND i.id_Intermediario = z.id_Intermediario  AND i.id_Intermediario = so.id_Intermediario  AND i.id_Intermediario = sb.id_intermediario AND i.id_Intermediario = l.id_Intermediario AND i.id_Intermediario = h.id_intermediario AND i.id_Intermediario = e.id_Intermediario AND i.id_Intermediario = b.id_Intermediario AND i.id_Intermediario = ax.id_Intermediario AND i.id_Intermediario = al.id_Intermediario AND i.id_Intermediario = eq.id_Intermediario ORDER BY i.id_intermediario DESC");
-
-            var_dump($stmt->queryString);
-            die();
-
+            $stmt = Conexion::conectar()->prepare("SELECT * FROM intermediario i, Credenciales_Previsora pre, Credenciales_Zurich z, Credenciales_Solidaria so, Credenciales_SBS sb, Credenciales_Liberty l, Credenciales_HDI h, Credenciales_Estado e, Credenciales_Bolivar b, Credenciales_AXA ax, Credenciales_Allianz al, Credenciales_Equidad eq WHERE i.id_Intermediario = ".$inter."  AND i.id_Intermediario = z.id_Intermediario  AND i.id_Intermediario = so.id_Intermediario  AND i.id_Intermediario = sb.id_intermediario AND i.id_Intermediario = l.id_Intermediario AND i.id_Intermediario = h.id_intermediario AND i.id_Intermediario = e.id_Intermediario AND i.id_Intermediario = b.id_Intermediario AND i.id_Intermediario = ax.id_Intermediario AND i.id_Intermediario = al.id_Intermediario AND i.id_Intermediario = eq.id_Intermediario AND i.id_Intermediario = pre.id_Intermediario ORDER BY i.id_intermediario DESC");
             $stmt -> execute();
 
             return $stmt -> fetchAll(PDO::FETCH_ASSOC);
