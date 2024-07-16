@@ -1,9 +1,15 @@
 //Al cargar la pagina
 (() => {
   cargar_intermediarios();
+  cargartipDoc();
 })();
 
 //funcion previsualizar img nueva
+
+$(".btnEditarUsuario").click( function() {
+  Editiinter()
+})
+
 
 $("#img_register").change(function () {
   var imagen = this.files[0];
@@ -87,7 +93,6 @@ function cargartipDoc() {
     method: "POST",
     success: function (respuesta) {
       tip_doc_update.innerHTML = respuesta;
-
       tip_doc_register.innerHTML = respuesta;
     },
   });
@@ -288,8 +293,10 @@ function traerCredenciales(id) {
     data: { id },
     success: function (data) {
       data = JSON.parse(data);
-
+      console.log(data);
+      return
       //enviar datos del intermediario al formulario de arriba
+
 
       $("#tip_doc_update").val(data[0].tipo_documento);
       $("#razon_update").val(data[0].nombre);

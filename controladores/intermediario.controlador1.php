@@ -4,6 +4,9 @@ mb_internal_encoding("UTF-8");
 
 require_once("../modelos/intermediario.modelo.php");
 
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
 
 Switch ($_GET['function']){
     //funcion para cargar la informacion del intermediario
@@ -11,19 +14,16 @@ Switch ($_GET['function']){
         if(isset($_POST['menu'])){
 
             $modelo = ModeloInternediario::mostrarCredenciales('S');
-
             print_r(json_encode($modelo));
-
+            
         }else if(isset($_POST['id'])){
-
+            //echo "entre por aca";
             $modelo = ModeloInternediario::mostrarCredenciales($_POST['id']);
-
             print_r(json_encode($modelo));
             
         }else{
-
             $modelo = ModeloInternediario::mostrarCredenciales('N');
-
+            //var_dump("por aqui 3");
             $resp = $modelo[0];
 
             print_r(json_encode($resp));
@@ -181,8 +181,8 @@ Switch ($_GET['function']){
 
                 $modelo = ModeloInternediario::guardarAlliRe($_POST['contraseñaAlli_register'], $_POST['idPartAlli_register'], $_POST['idagentAlli_register'], $_POST['codigoPartAlli_register'], $_POST['codigoagenAlli_register'], $id);
                 
-                echo $modelo;
-                die();
+                //echo $modelo;
+                //die();
 
                 $modelo = ModeloInternediario::guardarBoliRe($_POST['apikeyBo_register'], $_POST['ClaveABo_register'], $id);      
                 

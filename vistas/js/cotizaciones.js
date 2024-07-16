@@ -2268,6 +2268,7 @@ const verPdfHdi = async (cotizacion) => {
 
   const formData = new FormData();
   formData.append("cotizacion", cotizacion);
+  formData.append("idCotizacion", idCotizacion);
 
   try {
     const blobPdfHdi = await fetch(
