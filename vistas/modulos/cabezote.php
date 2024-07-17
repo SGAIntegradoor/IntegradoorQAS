@@ -47,13 +47,13 @@
  			margin-top: 0px;
  		}
 
-		.cuentatras_li > p {
-			margin: 0px;
-		}
+ 		.cuentatras_li>p {
+ 			margin: 0px;
+ 		}
 
-		.li_cotDi > p {
-			margin: 0px;
-		}
+ 		.li_cotDi>p {
+ 			margin: 0px;
+ 		}
 
  		.navbar-nav {
  			display: flex !important;
@@ -112,17 +112,17 @@
  				<ul class="nav navbar-nav">
  					<li style="display: flex !important; flex-direction: row">
  						<?php
-							if ($_SESSION['rol'] == 19 || $_SESSION['rol'] == 20 || $_SESSION['rol'] == 2) { ?>
+							if ($_SESSION['rol'] == 19 || $_SESSION['rol'] == 20 ) { ?>
  							<ul class="nav navbar-nav">
  								<li class="calendar_li" style="margin-right: 5px; color: #88d600;font-size: 23px;">
-								 <i class="fa-solid fa-file-lines"></i>
+ 									<i class="fa-solid fa-file-lines"></i>
  								</li>
 
  								<li class="li_cotDi">
  									<p>Cotizaciones totales: <b><?php echo $_SESSION['permisos']['cotizacionesTotales']; ?></b>, llevas: <b id="cotRestantes1"></b> </p>
  								</li>
  							</ul>
-						<?php } else if($_SESSION['rol'] == 20 | $_SESSION['rol'] == 2) { ?>
+ 						<?php } else if ($_SESSION['rol'] == 20) { ?>
  							<ul class="nav navbar-nav">
  								<li class="li_reloj">
  									<i class="fa fa-clock-o" aria-hidden="true"></i>
@@ -135,11 +135,32 @@
  							</ul>
  						<?php
 
-						} else if ($_SESSION['rol'] == 3) { ?>
+							} else if ($_SESSION['rol'] == 3) { ?>
 
  							<ul class="nav navbar-nav">
  								<li class="li_cotDi">
  									<p>Cot. disp. plan : <b id="cot_lleva_inter_"> </b> <strong> | </strong> Cot. disp. recargas : <b id="cot_recar_inter_"></b></p>
+
+ 								</li>
+ 							</ul>
+ 						<?php } else if ($_SESSION['rol'] == 2 ) { ?>
+							<ul class="nav navbar-nav">
+ 								<li class="calendar_li" style="margin-right: 5px; color: #88d600;font-size: 23px;">
+ 									<i class="fa-solid fa-file-lines"></i>
+ 								</li>
+
+ 								<li class="li_cotDi">
+ 									<p>Cotizaciones totales: <b><?php echo $_SESSION['permisos']['cotizacionesTotales']; ?></b>, llevas: <b id="cotRestantes1"></b> </p>
+ 								</li>
+ 							</ul>
+
+ 							<ul class="nav navbar-nav">
+ 								<li class="li_reloj">
+ 									<i class="fa fa-clock-o" aria-hidden="true"></i>
+ 								</li>
+
+ 								<li class="cuentatras_li">
+ 									<p id="cuentatras"></p>
 
  								</li>
  							</ul>
@@ -149,7 +170,6 @@
 							}
 
 							?>
-
 
  					</li>
 
