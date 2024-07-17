@@ -112,7 +112,7 @@
  				<ul class="nav navbar-nav">
  					<li style="display: flex !important; flex-direction: row">
  						<?php
-							if ($_SESSION['rol'] == 19 || $_SESSION['rol'] == 20) { ?>
+							if ($_SESSION['rol'] == 19 || $_SESSION['rol'] == 20 || $_SESSION['rol'] == 2) { ?>
  							<ul class="nav navbar-nav">
  								<li class="calendar_li" style="margin-right: 5px; color: #88d600;font-size: 23px;">
 								 <i class="fa-solid fa-file-lines"></i>
@@ -122,7 +122,7 @@
  									<p>Cotizaciones totales: <b><?php echo $_SESSION['permisos']['cotizacionesTotales']; ?></b>, llevas: <b id="cotRestantes1"></b> </p>
  								</li>
  							</ul>
-						<?php } else if($_SESSION['rol'] == 20) { ?>
+						<?php } else if($_SESSION['rol'] == 20 | $_SESSION['rol'] == 2) { ?>
  							<ul class="nav navbar-nav">
  								<li class="li_reloj">
  									<i class="fa fa-clock-o" aria-hidden="true"></i>

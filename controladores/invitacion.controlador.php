@@ -2,6 +2,14 @@
 
 require "../modelos/registro.modelo.php";
 
+    // echo "user: ". $userPrev ."
+    // pass: ". $passPrev ."
+    // agentCode: ". $agentCodePrev ."
+    // sourceCode: ". $sourceCodePrev ."
+    // bussinessCodePrev: ". $bussinessCodePrev. "
+    // branchCodePrev: ". $branchCodePrev." 
+    // url: ". $url;
+    // die();
 class invitationController{
 
     public static function authValidate(){
