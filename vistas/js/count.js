@@ -17,7 +17,7 @@ const getTime = dateTo => {
 let cont = 0
 const countdown = (dateTo, element, rol) => {
     
-    if(rol == "20" || rol == "19"){
+    if(rol == "20" || rol == "19" || rol == "2"){
         const item = document.getElementById(element);
         const timerUpdate = setInterval( () => {
             let currenTime = getTime(dateTo);          
