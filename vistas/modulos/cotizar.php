@@ -97,8 +97,8 @@ if ($aseguradoras['Previsora']['C'] == "1") {
 
 $cre_pre_usu = $crePrevisora['cre_pre_Username'];
 $cre_pre_pass = $crePrevisora['cre_pre_Password'];
-$cre_pre_source_code = $_SESSION['intermediario'] == 153 ? 24 : ($_SESSION['intermediario'] == 3 ? 12 : 12);
-$cre_pre_bussinessId = $_SESSION['intermediario'] == 153 ? 23 : ($_SESSION['intermediario'] == 3 ? 11 : 11);
+$cre_pre_source_code = $_SESSION['intermediario'] == 156 ? 24 : ($_SESSION['intermediario'] == 3 ? 12 : 12);
+$cre_pre_bussinessId = $_SESSION['intermediario'] == 156 ? 23 : ($_SESSION['intermediario'] == 3 ? 11 : 11);
 $cre_pre_key = $crePrevisora['cre_pre_AgentCode'];
 
 // Lógica para BOLIVAR

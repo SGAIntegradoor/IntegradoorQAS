@@ -2122,6 +2122,21 @@ function cotizarOfertas() {
     "cre_sol_fecha_token"
   ).value;
 
+  /**
+   * Variables de Previsora
+   */
+  var cre_pre_username = document.getElementById(
+    "cre_pre_Username"
+  ).value;
+  var cre_pre_password= document.getElementById("cre_pre_Password").value;
+  var cre_pre_agentcode = document.getElementById(
+    "cre_pre_AgentCode"
+  ).value;
+  var cre_pre_sourcecode = document.getElementById("cre_pre_SourceCode").value;
+  var cre_pre_bussinedId = document.getElementById(
+    "cre_pre_BusinessId"
+  ).value;
+
   var aseguradoras_autorizar = JSON.parse(
     document.getElementById("aseguradoras").value
   );
@@ -2197,6 +2212,13 @@ function cotizarOfertas() {
         SBS: {
           cre_sbs_usuario: cre_sbs_usuario,
           cre_sbs_contrasena: cre_sbs_contrasena,
+        },
+        PREVISORA: {
+          cre_pre_username: cre_pre_username,
+          cre_pre_password: cre_pre_password,
+          cre_pre_agentcode: cre_pre_agentcode,
+          cre_pre_sourcecode: cre_pre_sourcecode,
+          cre_pre_bussinedId: cre_pre_bussinedId
         },
         ALLIANZ: {
           cre_alli_sslcertfile: cre_alli_sslcertfile,
