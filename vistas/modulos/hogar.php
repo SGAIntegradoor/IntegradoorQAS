@@ -431,9 +431,9 @@
                 </ul>
                 <h4 class="card-title" style="font-weight: bold;">Clausulados</h4>
                 <p style="text-align:justify">
-                  Para conocer más del <b>Seguro de Hogar</b> de <b>Allianz</b> ingresa <b><a href="https://integradoor.com/app/vistas/pdfs/Clausulado%20Hogar%20Allianz.pdf">AQUÍ</a></b>
+                  Para conocer más del <b>Seguro de Hogar</b> de <b>Allianz</b> ingresa <b><a href="https://integradoor.com/app/vistas/pdfs/Clausulado%20Hogar%20Allianz.pdf" target="_blank">AQUÍ</a></b>
                   <br>
-                  Para conocer más del <b>Seguro de Hogar</b> de <b>Bolívar</b> ingresa <b><a href="https://integradoor.com/app/vistas/pdfs/Clausulado%20Hogar%20Bolivar.pdf">AQUÍ</a></b>
+                  Para conocer más del <b>Seguro de Hogar</b> de <b>Bolívar</b> ingresa <b><a href="https://integradoor.com/app/vistas/pdfs/Clausulado%20Hogar%20Bolivar.pdf" target="_blank">AQUÍ</a></b>
                 </p>
               </div>
             </div>
