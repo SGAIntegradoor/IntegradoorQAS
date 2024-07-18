@@ -321,7 +321,6 @@
                 <img src="vistas/img/plantilla/imagenHogar.png" class="img-fluid mx-auto" style="max-width: 40%; margin-bottom: 10px;">
                 <p class="card-text" style="width: 300px">El <b>Seguro de Hogar</b> protege tanto la estructura de la casa o apartamento, es decir, la parte destructible de la vivienda, como también, los contenidos (muebles y enseres, equipos eléctricos y/o electrónicos, entre otros).
                   <br>
-                  <br>
                   Además protege a las familias ante daños que puedan ser ocasionados a terceras personas (puede incluirse daños causados por empleados domésticos y mascotas).
                 </p>
               </div>
@@ -386,7 +385,6 @@
             <div class="card-exequias">
               <div class="card-body">
               <h4 class="card-title" style="font-weight: bold; padding-top: 20px">¿Cuáles son las principales coberturas del Seguro de Hogar?</h4>
-              <br>
               <p class="card-text" style="text-align: justify;">Ten a la mano los siguientes datos para solicitar una cotización de <b>Seguro de Hogar:</b></p>
                 <ul class="card-text" style="padding-left: 18px; text-align: justify;">
                   <li><b>Datos del asegurado</b> (Ej: No. de Identificación, nombre completo, etc.)</li>
@@ -402,7 +400,6 @@
             <div class="card-exequias">
               <div class="card-body">
                 <h4 class="card-title" style="font-weight: bold; padding-top: 20px">Políticas de Suscripción</h4>
-                <br>
                 <br>
                 <p class="card-text">Estas son algunas de las políticas de suscripción, las cuales pueden cambiar en cualquier momento, sin previo aviso:</p>
                 <ul class="card-text" style="padding-left: 18px; text-align: justify;">
@@ -426,7 +423,6 @@
               <div class="card-body text-center">
                 <h4 class="card-title" style="font-weight: bold; padding-top: 20px">Comisión</h4>
                 <br>
-                <br>
                 <p class="card-text">La comisión base que nos ofrece Seguros Bolívar y Allianz Seguros para nuestra alianza de asesores es del 15%. De este porcentaje, tu participación será de acuerdo al nivel de ventas de todos los negocios (sin IVA), sumando todos los ramos, que realices en el mes.</p>
                 <ul class="card-text" style="padding-left: 0px; list-style-position: inside;">
                   <li>Nivel 1: 67,5%</li>
@@ -435,9 +431,9 @@
                 </ul>
                 <h4 class="card-title" style="font-weight: bold;">Clausulados</h4>
                 <p style="text-align:justify">
-                  Para conocer más del <b>Seguro de Hogar</b> de <b>Allianz</b> ingresa <b><a href="">AQUÍ</a></b>
+                  Para conocer más del <b>Seguro de Hogar</b> de <b>Allianz</b> ingresa <b><a href="https://integradoor.com/app/vistas/pdfs/Clausulado%20Hogar%20Allianz.pdf">AQUÍ</a></b>
                   <br>
-                  Para conocer más del <b>Seguro de Hogar</b> de <b>Bolívar</b> ingresa <b><a href="">AQUÍ</a></b>
+                  Para conocer más del <b>Seguro de Hogar</b> de <b>Bolívar</b> ingresa <b><a href="https://integradoor.com/app/vistas/pdfs/Clausulado%20Hogar%20Bolivar.pdf">AQUÍ</a></b>
                 </p>
               </div>
             </div>
