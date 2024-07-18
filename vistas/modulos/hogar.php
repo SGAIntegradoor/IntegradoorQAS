@@ -359,7 +359,7 @@
                   <br>
                   <b>Principales coberturas y asistencias:</b></p>
                 
-                <ul style="padding-left: 18px; text-align: justify;">
+                <ul class="card-text" style="padding-left: 16px; text-align: justify;">
                   <li>
                   Incendio, rayo, terremoto, daños por agua, anegación, huracán, granizo, vientos fuertes y otros eventos de la naturaleza
                   </li>
