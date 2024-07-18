@@ -339,8 +339,8 @@
                   <b>Cotizamos con 2 aseguradoras:</b>
                 </p>
                 <div style="display: flex; flex-direction: row; gap: 30px; justify-content: center; padding-top: 30px;">
-                  <img src="vistas/img/logos/bolivar.png" class="img-fluid mx-auto" style="max-width: 30%;">
-                  <img src="vistas/img/logos/allianz.png" class="img-fluid mx-auto" style="max-width: 30%;">
+                  <img src="vistas/img/logos/bolivar.png" class="img-fluid mx-auto" style="max-width: 35%;">
+                  <img src="vistas/img/logos/allianz.png" class="img-fluid mx-auto" style="max-width: 35%; max-height: 100%;">
                 </div>
                 <br>
                 <br>
