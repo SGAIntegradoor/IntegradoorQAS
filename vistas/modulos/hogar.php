@@ -405,7 +405,7 @@
                 <br>
                 <br>
                 <p class="card-text">Estas son algunas de las políticas de suscripción, las cuales pueden cambiar en cualquier momento, sin previo aviso:</p>
-                <ul class="card-text" style="padding-left: 18px; text-align: justify; font-size: 13px">
+                <ul class="card-text" style="padding-left: 18px; text-align: justify;">
                   <li>Se aseguran riesgos en ciudades capitales y municipios principales.</li>
                   <li>Inmuebles de estrato 3 en adelante.</li>
                   <li>Inmuebles de máximo 35 años de construcción.</li>
