@@ -482,7 +482,7 @@ function cotizar() {
                                             contPasajeros > 1
                                               ? `${
                                                   cotizacionArray.moneda == "1"
-                                                    ? "US"
+                                                    ? "USD"
                                                     : "COP"
                                                 } $` +
                                                 parseFloat(
@@ -493,7 +493,7 @@ function cotizar() {
                                                 ).toFixed(2)
                                               : `${
                                                   cotizacionArray.moneda == "1"
-                                                    ? "US"
+                                                    ? "USD"
                                                     : "COP"
                                                 } $` +
                                                 parseFloat(
