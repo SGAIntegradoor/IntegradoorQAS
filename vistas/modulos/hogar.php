@@ -384,7 +384,7 @@
           <div class="col-md-4 col-sm-12 mb-3">
             <div class="card-exequias">
               <div class="card-body">
-              <h4 class="card-title" style="font-weight: bold; padding-top: 20px">¿Cuáles son las principales coberturas del Seguro de Hogar?</h4>
+              <h4 class="card-title" style="font-weight: bold; padding-top: 20px">¿Qué datos se requieren para cotizar?</h4>
               <p class="card-text" style="text-align: justify;">Ten a la mano los siguientes datos para solicitar una cotización de <b>Seguro de Hogar:</b></p>
                 <ul class="card-text" style="padding-left: 18px; text-align: justify;">
                   <li><b>Datos del asegurado</b> (Ej: No. de Identificación, nombre completo, etc.)</li>
