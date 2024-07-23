@@ -947,6 +947,12 @@ function consulCodFasecolda() {
   var refe2 = $(".refe1").val();
   var refe3 = $(".refe22").val();
 
+  console.log("Clase: "+claseVeh+"\n"+
+        "Clase: "+marcaVeh+"\n"+
+        "Clase: "+edadVeh+"\n"+
+        "Clase: "+refe+"\n"
+   )
+
   if (
     claseVeh != "" &&
     marcaVeh != "" &&

@@ -1104,7 +1104,7 @@ $rolAsesor = $_SESSION['permisos']['idRol'];
                     <div class="col-xs-12 col-sm-6 col-md-12">
                       <div class="row">
                         <div class="col-xs-12 col-sm-6 col-md-2 form-group btnConsultarVeh">
-                          <button class="btn btn-primary btn-block" id="btnConsultarVeh">Consultar Vehículo</button>
+                          <button class="btn btn-primary btn-block" id="btnConsultarVehmanualMotos">Consultar Vehículo</button>
                         </div>
                       </div>
                     </div>

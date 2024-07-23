@@ -1181,7 +1181,7 @@ echo '<script>console.log(' . $idIntermediario . ", " . $rolAsesor . ')</script>
                   <div class="col-xs-12 col-sm-6 col-md-12">
                     <div class="row">
                       <div class="col-xs-12 col-sm-6 col-md-2 form-group btnConsultarVeh">
-                        <button class="btn btn-primary btn-block" id="btnConsultarVehmanualbuscador">Consultar
+                        <button class="btn btn-primary btn-block" id="btnConsultarVehmanual">Consultar
                           Vehículo</button>
                       </div>
                     </div>

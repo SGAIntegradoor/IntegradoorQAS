@@ -915,6 +915,10 @@ function consulPlacaMapfre(valnumplaca) {
     });
 }
 
+$("#btnConsultarVehmanual").on("click", function (){
+   consulCodFasecolda();
+ })
+
 // CONSULTA LA GUIA PARA OBTENER EL CODIGO FASECOLDA MANUALMENTE
 function consulCodFasecolda() {
   var claseVeh = document.getElementById("clase").value;
@@ -3703,7 +3707,6 @@ $("#btnConsultarVehmanualbuscador").click(function () {
         if (data.estado == undefined) {
           alert("Vehículo no encontrado");
         } else {
-          // console.log(data);
           var claseVeh = data.clase;
           var marcaVeh = data.marca;
           var ref1Veh = data.referencia1;
@@ -3739,7 +3742,69 @@ $("#btnConsultarVehmanualbuscador").click(function () {
           document.getElementById("txtReferenciaVeh").value = lineaVeh;
           document.getElementById("txtClaseVeh").value = claseVeh;
         }
+
+        //01601146
+
+        // menosAseg();
       },
     });
   }
 });
+
+// $("#btnConsultarVehmanual").click(function () {
+//   var fasecolda = document.getElementById("fasecoldabuscadormanual").value;
+//   var modelo = document.getElementById("modelobuscadormanual").value;
+
+//   if (fasecolda != "" && modelo != "") {
+//     $.ajax({
+//       type: "POST",
+//       url: "src/fasecolda/consulDatosFasecolda.php",
+//       dataType: "json",
+//       data: {
+//         fasecolda: fasecolda,
+//         modelo: modelo,
+//       },
+//       success: function (data) {
+//         if (data.estado == undefined) {
+//           alert("Vehículo no encontrado");
+//         } else {
+//           // console.log(data);
+//           var claseVeh = data.clase;
+//           var marcaVeh = data.marca;
+//           var ref1Veh = data.referencia1;
+//           var ref2Veh = data.referencia2;
+//           var ref3Veh = data.referencia3;
+//           var lineaVeh = ref1Veh + " " + ref2Veh + " " + ref3Veh;
+
+//           var valorFasecVeh = data[modelo];
+//           var valorVeh = Number(valorFasecVeh) * 1000;
+//           var clase = data.clase;
+
+//           $("#clasepesados").val(clase);
+
+//           var placaVeh = $("#placaVeh").val();
+//           if (placaVeh == "WWW404") {
+//             $("#txtPlacaVeh").val("SIN PLACA - VEHÍCULO 0 KM").val();
+//           } else {
+//             $("#txtPlacaVeh").val(placaVeh).val();
+//           }
+
+//           document.getElementById("resumenVehiculo").style.display = "block";
+//           document.getElementById("contenBtnCotizar").style.display = "block";
+//           document.getElementById("headerAsegurado").style.display = "block";
+//           document.getElementById("masA").style.display = "block";
+
+//           document.getElementById("formularioVehiculo").style.display = "none";
+//           document.getElementById("DatosAsegurado").style.display = "none";
+
+//           document.getElementById("txtFasecolda").value = fasecolda;
+//           document.getElementById("txtModeloVeh").value = modelo;
+//           document.getElementById("txtMarcaVeh").value = data.marca;
+//           document.getElementById("txtValorFasecolda").value = valorVeh;
+//           document.getElementById("txtReferenciaVeh").value = lineaVeh;
+//           document.getElementById("txtClaseVeh").value = claseVeh;
+//         }
+//       },
+//     });
+//   }
+// });
