@@ -2,8 +2,8 @@
 CARGANDO DATOS DE INICIO
 =============================================*/
 (() => {
-  cargarIntermediario();
-  cargarRoll();
+  //cargarIntermediario();
+  //cargarRoll();
 })();
 
 $("#creaTemporal").on("click", function () {
