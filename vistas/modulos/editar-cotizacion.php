@@ -947,7 +947,7 @@ $response = retrieveQuotation($idCotizacion);
                 ?>
               </div>
               <?php if ($response['cot_clase'] == "AUTOMOVIL" || $response['cot_clase'] == "AUTOMOVILES" || $response['cot_clase'] == "UTILITARIOS DEPORTIVOS" || $response['cot_clase'] == "CAMPEROS") {
-                if ($idIntermediario != 78) {
+                if ($idIntermediario != 78 && $idIntermediario != 4) {
                   echo '<div class="aviso-container col-lg-12">
                         <ul>
                             <li>
@@ -971,7 +971,7 @@ $response = retrieveQuotation($idCotizacion);
               }
               ?>
               <?php if ($response['cot_clase'] == "MOTOCICLETA") {
-                if ($idIntermediario != 78) {
+                if ($idIntermediario != 78 && $idIntermediario != 4) {
                   echo '<div class="aviso-container col-lg-12">
                       <p>
                         <strong>Condiciones Generales:</strong><br>
@@ -994,13 +994,15 @@ $response = retrieveQuotation($idCotizacion);
                 || $response['cot_clase'] == "REMOLCADOR" || $response['cot_clase'] == "FURGON" || $response['cot_clase'] == "CHASIS"
                 || $response['cot_clase'] == "BUS" || $response['cot_clase'] == "CAMION"
               ) {
-                echo '<div class="aviso-container col-lg-12">
+                if ($idIntermediario != 78 && $idIntermediario != 4) {
+                  echo '<div class="aviso-container col-lg-12">
                       <p style="font-weight: bold;">Política de valor asegurado pesados:</p>
                       <p>El Valor asegurado máximo de acuerdo a la aseguradora es el siguiente: Seguros Mundial 700 millones. AXA Colpatria 400 millones. Liberty 310 millones. Previsora 700 millones</p>
                       <p>
                         <strong>Nota:</strong> Tener en cuenta que aunque el cotizador genere ofertas, no todos los vehículos son asegurables. Se podrán hacer excepciones de valor asegurado superior cuando el asesor sea productivo, tenga más de 6 meses de antigüedad con Grupo Asistencia, no tenga altos indices de siniestralidad en su cartera, y si el cliente tiene vinculación con otros productos de la aseguradora. El valor de las primas de las cotizaciones puede variar al momento de emitir en los casos autorizados de manera excepcional.
                       </p>
                       </div>';
+                }
               }
               ?>
             </div>
