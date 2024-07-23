@@ -339,7 +339,7 @@
                 </p>
                 <div style="display: flex; flex-direction: row; gap: 30px; justify-content: center; padding-top: 30px;">
                   <img src="vistas/img/logos/LOGO BOLIVAR.png" class="img-fluid mx-auto" style="max-width: 35%;">
-                  <img src="vistas/img/logos/LOGO ALLIANZ.png" class="img-fluid mx-auto" style="max-width: 35%;">
+                  <img src="vistas/img/logos/LOGO ALLIANZ.png" class="img-fluid mx-auto" style="max-width: 35%; margin-top: 3px;">
                 </div>
                 <br>
                 <br>
