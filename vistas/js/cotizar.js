@@ -355,7 +355,7 @@ $(document).ready(function () {
   $("#btnCotizar").click(function (e) {
     let deptoCirc = $("#DptoCirculacion").val();
     let ciudadCirc = $("#ciudadCirculacion").val();
-  
+
     if (!deptoCirc) {
       return;
     }
@@ -369,54 +369,89 @@ $(document).ready(function () {
           cotizarOfertas();
         } else {
           e.preventDefault();
-          mostrarAlertaCotizacionesExcedidas();
+          if (intermediario == 89) {
+            mostrarAlertaCotizacionesExcedidasDemo();
+          } else {
+            mostrarAlertaCotizacionesExcedidasFreelance();
+          }
         }
       });
     } else {
-        checkCotTotales().then((response) => {
-          if (response.result == 1 || response.result == 2) {
-            mostrarPoliticaValorAsegurado();
-            cotizarOfertas();
-          } else {
-            e.preventDefault();
-            mostrarAlertaCotizacionesExcedidas();
-          }
-        });
+      checkCotTotales().then((response) => {
+        if (response.result == 1 || response.result == 2) {
+          mostrarPoliticaValorAsegurado();
+          cotizarOfertas();
+        } else {
+          e.preventDefault();
+          mostrarAlertaCotizacionesExcedidasFreelance();
+        }
+      });
     }
   });
-  
-  function mostrarAlertaCotizacionesExcedidas() {
+
+  function mostrarAlertaCotizacionesExcedidasFreelance() {
     swal
-            .fire({
-              icon: "error",
-              title: "Cotizaciones Totales Excedidas",
-              html: `<div style="text-align: center; font-family: Helvetica, Arial, sans-serif; font-size: 15px; border-radius: 4px; padding: 8px;">Lo sentimos. No tienes cotizaciones disponibles, por favor comunicate con tu analista asignado.`,
-              width: "50%",
-              showConfirmButton: true,
-              confirmButtonText: "Cerrar",
-              customClass: {
-                popup: "custom-swal-popupCotExcep",
-              },
-            })
-            .then(function (result) {
-              if (result.isConfirmed) {
-                window.location = "inicio";
-              } else if (result.isDismissed) {
-                if (result.dismiss === "cancel") {
-                  window.location = "inicio";
-                } else if (result.dismiss === "backdrop") {
-                  window.location = "inicio";
-                }
-              }
-            });
-  }
-  
-  function mostrarPoliticaValorAsegurado() {
-    return swal
       .fire({
-        icon: "warning",
-        title: "POLÍTICA DE VALOR ASEGURADO<br>LIVIANOS",
-        html: `
+        icon: "error",
+        title:
+          "Llegaste al tope máximo de Multicotizaciones de Seguros de Autos",
+        html: `<div style="text-align: center; font-family: Helvetica, Arial, sans-serif; font-size: 15px; border-radius: 4px; padding: 8px;"><p>Ponte en contacto con tu Analista Comercial si deseas recargar tus multicotizaciones del mes.</p>
+          <p>Nota: Ten en cuenta que el cupo mensual depende de tu productividad.</p>
+      </div>`,
+        width: "50%",
+        showConfirmButton: true,
+        confirmButtonText: "Cerrar",
+        customClass: {
+          popup: "custom-swal-popupCotExcep",
+        },
+      })
+      .then(function (result) {
+        if (result.isConfirmed) {
+          window.location = "inicio";
+        } else if (result.isDismissed) {
+          if (result.dismiss === "cancel") {
+            window.location = "inicio";
+          } else if (result.dismiss === "backdrop") {
+            window.location = "inicio";
+          }
+        }
+      });
+  }
+
+  function mostrarAlertaCotizacionesExcedidasDemo() {
+    swal
+    .fire({
+      icon: "error",
+      title:
+        "Llegaste al tope máximo de Multicotizaciones de Seguros de Autos",
+      html: `<div style="text-align: center; font-family: Helvetica, Arial, sans-serif; font-size: 15px; border-radius: 4px; padding: 8px;">
+              <p>Si te interesa tener tu propia versión personalizada del software para generar cotizaciones y cuadros comparativos, comunícate con nosotros, Strategico Technologies, desarrolladores de esta plataforma, para conocer acerca de los planes de pago.</p>
+            </div>`,
+      width: "50%",
+      showConfirmButton: true,
+      confirmButtonText: "Cerrar",
+      customClass: {
+        popup: "custom-swal-popupCotExcep",
+      },
+    })
+    .then(function (result) {
+      if (result.isConfirmed) {
+        window.location = "inicio";
+      } else if (result.isDismissed) {
+        if (result.dismiss === "cancel") {
+          window.location = "inicio";
+        } else if (result.dismiss === "backdrop") {
+          window.location = "inicio";
+        }
+      }
+    });
+  }
+
+  function mostrarPoliticaValorAsegurado() {
+    return swal.fire({
+      icon: "warning",
+      title: "POLÍTICA DE VALOR ASEGURADO<br>LIVIANOS",
+      html: `
           <div style="overflow-x: auto;">
             <table style="border: 2px solid gray; border-collapse: collapse;" id="tableModal">
               <thead style="padding: 5px;">
@@ -445,19 +480,19 @@ $(document).ready(function () {
             <strong>Nota:</strong> Tener en cuenta que aunque el cotizador genere ofertas, no todos los vehículos son asegurables. Se podrán hacer excepciones de valor asegurado superior cuando el asesor sea productivo, tenga más de 6 meses de antigüedad con Grupo Asistencia, no tenga altos indices de siniestralidad en su cartera, y si el cliente tiene vinculación con otros productos de la aseguradora. El valor de las primas de las cotizaciones puede variar al momento de emitir en los casos autorizados de manera excepcional.
           </p>
         `,
-        width: "30%",
-        showConfirmButton: true,
-        confirmButtonText: "Continuar",
-        customClass: {
-          popup: "custom-swal-alertaMontoLivianos",
-          title: "custom-swal-titleLivianos",
-          confirmButton: "custom-swal-confirm-button20",
-          actions: "custom-swal-actions-livianos",
-          icon: "swal2-icon_monto",
-        },
-        timer: 20000,
-        timerProgressBar: true,
-      });
+      width: "30%",
+      showConfirmButton: true,
+      confirmButtonText: "Continuar",
+      customClass: {
+        popup: "custom-swal-alertaMontoLivianos",
+        title: "custom-swal-titleLivianos",
+        confirmButton: "custom-swal-confirm-button20",
+        actions: "custom-swal-actions-livianos",
+        icon: "swal2-icon_monto",
+      },
+      timer: 20000,
+      timerProgressBar: true,
+    });
   }
 });
 
@@ -915,9 +950,9 @@ function consulPlacaMapfre(valnumplaca) {
     });
 }
 
-$("#btnConsultarVehmanual").on("click", function (){
-   consulCodFasecolda();
- })
+$("#btnConsultarVehmanual").on("click", function () {
+  consulCodFasecolda();
+});
 
 // CONSULTA LA GUIA PARA OBTENER EL CODIGO FASECOLDA MANUALMENTE
 function consulCodFasecolda() {
@@ -1281,7 +1316,6 @@ function saveQuotations(responses) {
 let cotizoFinesa = false;
 
 function cotizarFinesa(ofertasCotizaciones) {
-  
   let cotEnFinesaResponse = [];
   let promisesFinesa = [];
   const headers = new Headers();
@@ -1339,22 +1373,30 @@ function cotizarFinesa(ofertasCotizaciones) {
               .then((dbResponse) => dbResponse.json())
               .then((dbData) => {
                 const elementDiv = document.getElementById(element.objFinesa);
-                if (element.aseguradora == "Seguros Bolivar" || element.aseguradora == "Liberty")
-                  {
-                    cotizacionesFinesa[index].cotizada = true;
-                     elementDiv.innerHTML = `Financiación Aseguradora:<br /> Consulte analista`;
-                  } else if (dbData?.data?.mensaje.includes("Por políticas de Finesa")) {
-                    cotizacionesFinesa[index].cotizada = true;
-                    elementDiv.innerHTML = `Financiación:<br /> No aplica financiación`;
-                  } else if (dbData?.data?.mensaje.includes("Asegurado no viable para financiacion")) {
-                    cotizacionesFinesa[index].cotizada = true;
-                    elementDiv.innerHTML = `Financiación Finesa:<br /> Asegurado no viable para financiación`;
-                  } else {
-                    cotizacionesFinesa[index].cotizada = true;
-                    elementDiv.innerHTML = `Financiación Finesa:<br />$${dbData?.data?.data?.val_cuo.toLocaleString(
-                      "es-ES"
-                    )} (${dbData?.data?.cuotas} Cuotas)`;
-                  }
+                if (
+                  element.aseguradora == "Seguros Bolivar" ||
+                  element.aseguradora == "Liberty"
+                ) {
+                  cotizacionesFinesa[index].cotizada = true;
+                  elementDiv.innerHTML = `Financiación Aseguradora:<br /> Consulte analista`;
+                } else if (
+                  dbData?.data?.mensaje.includes("Por políticas de Finesa")
+                ) {
+                  cotizacionesFinesa[index].cotizada = true;
+                  elementDiv.innerHTML = `Financiación:<br /> No aplica financiación`;
+                } else if (
+                  dbData?.data?.mensaje.includes(
+                    "Asegurado no viable para financiacion"
+                  )
+                ) {
+                  cotizacionesFinesa[index].cotizada = true;
+                  elementDiv.innerHTML = `Financiación Finesa:<br /> Asegurado no viable para financiación`;
+                } else {
+                  cotizacionesFinesa[index].cotizada = true;
+                  elementDiv.innerHTML = `Financiación Finesa:<br />$${dbData?.data?.data?.val_cuo.toLocaleString(
+                    "es-ES"
+                  )} (${dbData?.data?.cuotas} Cuotas)`;
+                }
 
                 elementDiv.style.display = "block";
                 // Agrega el resultado final al array
@@ -1393,7 +1435,7 @@ function cotizarFinesa(ofertasCotizaciones) {
         .then(() => {
           $("#loaderOferta").html("");
           $("#loaderOfertaBox").css("display", "none");
-          if(!cotizoFinesa){
+          if (!cotizoFinesa) {
             document.getElementById("btnReCotizarFallidas").disabled = false;
             cotizoFinesa = true;
           }
@@ -1588,16 +1630,16 @@ const mostrarOferta = (
                        </div>
                        <div class="col-xs-12 col-sm-6 col-md-2 oferta-headerEdit">
                        <h5 class='entidad' style='font-size: 15px'><b>${aseguradora} - ${
-                        producto == "Pesados con RCE en exceso"
-                          ? "Pesados RCE + Exceso"
-                          : producto == "PREVILIVIANOS INDIVIDUAL - "
-                          ? "PREVILIVIANOS INDIVIDUAL"
-                          : producto == "AU DEDUCIBLE UNICO LIVIANOS - "
-                          ? "AU DEDUCIBLE UNICO LIVIANOS"
-                          : producto == "LIVIANOS MIA - "
-                          ? "LIVIANOS MIA"
-                          : producto
-                      }</b></h5>
+    producto == "Pesados con RCE en exceso"
+      ? "Pesados RCE + Exceso"
+      : producto == "PREVILIVIANOS INDIVIDUAL - "
+      ? "PREVILIVIANOS INDIVIDUAL"
+      : producto == "AU DEDUCIBLE UNICO LIVIANOS - "
+      ? "AU DEDUCIBLE UNICO LIVIANOS"
+      : producto == "LIVIANOS MIA - "
+      ? "LIVIANOS MIA"
+      : producto
+  }</b></h5>
                        <h5 class='precio' style='margin-top: 0px !important;'>Desde $ ${prima}</h5>
                        <p class='title-precio' style='margin: 0 0 3px !important'>Precio (IVA incluido)</p>
                        <div id='${actIdentity}' style='display: none; color: #88d600;'>
@@ -2129,17 +2171,11 @@ function cotizarOfertas() {
   /**
    * Variables de Previsora
    */
-  var cre_pre_username = document.getElementById(
-    "cre_pre_Username"
-  ).value;
-  var cre_pre_password= document.getElementById("cre_pre_Password").value;
-  var cre_pre_agentcode = document.getElementById(
-    "cre_pre_AgentCode"
-  ).value;
+  var cre_pre_username = document.getElementById("cre_pre_Username").value;
+  var cre_pre_password = document.getElementById("cre_pre_Password").value;
+  var cre_pre_agentcode = document.getElementById("cre_pre_AgentCode").value;
   var cre_pre_sourcecode = document.getElementById("cre_pre_SourceCode").value;
-  var cre_pre_bussinedId = document.getElementById(
-    "cre_pre_BusinessId"
-  ).value;
+  var cre_pre_bussinedId = document.getElementById("cre_pre_BusinessId").value;
 
   var aseguradoras_autorizar = JSON.parse(
     document.getElementById("aseguradoras").value
@@ -2222,7 +2258,7 @@ function cotizarOfertas() {
           cre_pre_password: cre_pre_password,
           cre_pre_agentcode: cre_pre_agentcode,
           cre_pre_sourcecode: cre_pre_sourcecode,
-          cre_pre_bussinedId: cre_pre_bussinedId
+          cre_pre_bussinedId: cre_pre_bussinedId,
         },
         ALLIANZ: {
           cre_alli_sslcertfile: cre_alli_sslcertfile,
@@ -2693,8 +2729,10 @@ function cotizarOfertas() {
                   },
                 })
                 .then(function (result) {
-                  if (result.isConfirmed) {                   
-                    document.getElementById("btnReCotizarFallidas").disabled = true;
+                  if (result.isConfirmed) {
+                    document.getElementById(
+                      "btnReCotizarFallidas"
+                    ).disabled = true;
                     $("#loaderOferta").html(
                       '<img src="vistas/img/plantilla/loader-update.gif" width="34" height="34"><strong> Cotizando en Finesa...</strong>'
                     );
@@ -3423,56 +3461,55 @@ function cotizarOfertas() {
         Promise.all(cont).then(() => {
           $("#loaderOferta").html("");
           $("#loaderRecotOferta").html("");
-          let nuevas = cotizacionesFinesa.filter((cotizaciones) => 
-            cotizaciones.cotizada === null
+          let nuevas = cotizacionesFinesa.filter(
+            (cotizaciones) => cotizaciones.cotizada === null
           );
-          if(nuevas.length > 0){
+          if (nuevas.length > 0) {
             swal
-            .fire({
-              title: "¡Proceso de Re-Cotización Finalizada!",
-              text: "¿Deseas incluir la financiación con Finesa a 11 cuotas?",
-              showConfirmButton: true,
-              confirmButtonText: "Si",
-              showCancelButton: true,
-              cancelButtonText: "No",
-              customClass: {
-                title: "custom-title-messageFinesa",
-                htmlContainer: "custom-text-messageFinesa",
-                popup: "custom-popup-messageFinesa",
-                actions: "custom-actions-messageFinesa",
-                confirmButton: "custom-confirmnButton-messageFinesa",
-                cancelButton: "custom-cancelButton-messageFinesa",
-              },
-            })
-            .then(function (result) {
-              if (result.isConfirmed) {
-                $("#loaderRecotOfertaBox").css("display", "block");
-                $("#loaderRecotOferta").html(
-                  '<img src="vistas/img/plantilla/loader-update.gif" width="34" height="34"><strong>Re-Cotizando en Finesa...</strong>'
-                );
-                let btnRecot = document.getElementById("btnReCotizarFallidas");
-                btnRecot.disabled = true;
-                cotizarFinesa(cotizacionesFinesa);
-              } else if (result.isDismissed && cotizacionesFinesaMotos) {
-                if (result.dismiss === "cancel") {
-                  // console.log("El usuario seleccionó 'No'");
-                  $("#loaderRecotOfertaBox").css("display", "none");
-                  $("#loaderRecotOferta").html("");
-                } else if (result.dismiss === "backdrop") {
-                  $("#loaderRecotOfertaBox").css("display", "none");
-                  $("#loaderRecotOferta").html("");
+              .fire({
+                title: "¡Proceso de Re-Cotización Finalizada!",
+                text: "¿Deseas incluir la financiación con Finesa a 11 cuotas?",
+                showConfirmButton: true,
+                confirmButtonText: "Si",
+                showCancelButton: true,
+                cancelButtonText: "No",
+                customClass: {
+                  title: "custom-title-messageFinesa",
+                  htmlContainer: "custom-text-messageFinesa",
+                  popup: "custom-popup-messageFinesa",
+                  actions: "custom-actions-messageFinesa",
+                  confirmButton: "custom-confirmnButton-messageFinesa",
+                  cancelButton: "custom-cancelButton-messageFinesa",
+                },
+              })
+              .then(function (result) {
+                if (result.isConfirmed) {
+                  $("#loaderRecotOfertaBox").css("display", "block");
+                  $("#loaderRecotOferta").html(
+                    '<img src="vistas/img/plantilla/loader-update.gif" width="34" height="34"><strong>Re-Cotizando en Finesa...</strong>'
+                  );
+                  let btnRecot = document.getElementById(
+                    "btnReCotizarFallidas"
+                  );
+                  btnRecot.disabled = true;
+                  cotizarFinesa(cotizacionesFinesa);
+                } else if (result.isDismissed && cotizacionesFinesaMotos) {
+                  if (result.dismiss === "cancel") {
+                    $("#loaderRecotOfertaBox").css("display", "none");
+                    $("#loaderRecotOferta").html("");
+                  } else if (result.dismiss === "backdrop") {
+                    $("#loaderRecotOfertaBox").css("display", "none");
+                    $("#loaderRecotOferta").html("");
+                  }
                 }
-              }
-            });
+              });
           } else {
-            swal
-            .fire({
+            swal.fire({
               title: "¡Proceso de Re-Cotización Finalizada!",
               showConfirmButton: true,
               confirmButtonText: "Cerrar",
-            })
+            });
           }
-          
         });
       }
       let zurichErrors = true;
@@ -3481,60 +3518,6 @@ function cotizarOfertas() {
     }
   }
 }
-
-// function createModal(
-//   title,
-//   selectorModal,
-//   btnTriggerOpen,
-//   width,
-//   height,
-//   btnTriggerClose = null
-// ) {
-//   $(selectorModal).dialog({
-//     autoOpen: true,
-//     modal: true,
-//     width: width, // overcomes width:'auto' and maxWidth bug
-//     maxWidth: width,
-//     height: "auto",
-//     fluid: true, //new option
-//     resizable: false,
-//     title: title,
-//     dialogClass: "no-close",
-//     show: { effect: "slide", duration: 500, direction: "down" }, // Efecto de slide hacia abajo
-//     hide: { effect: "slide", duration: 500, direction: "down" }, // Efecto de slide hacia abajo
-//     open: function (event, ui) {
-//       // Cambiar el color del título del diálogo
-//       $(this).prev().find(".ui-dialog-title").css({
-//         color: "white",
-//         "font-weight": "lighter",
-//       });
-//     },
-//   });
-//   $(btnTriggerOpen)
-//     .button()
-//     .click(function () {
-//       $(selectorModal).dialog("option", "width", width);
-//       $(selectorModal).dialog("option", "height", height);
-//       $(selectorModal).dialog("option", "resizable", false);
-//       $(selectorModal).dialog("open");
-//     });
-//   if (btnTriggerClose) {
-//     $(btnTriggerClose)
-//       .button()
-//       .click(function () {
-//         $(selectorModal).dialog("close");
-//       });
-//   }
-// }
-
-// createModal(
-//   "Modal Test",
-//   ".modal-body2",
-//   "#btnCotizar",
-//   400,
-//   500,
-//   "#btn-cerrar-fasecolda"
-// );
 
 // Consultar datos del vehiculo
 document
@@ -3742,69 +3725,7 @@ $("#btnConsultarVehmanualbuscador").click(function () {
           document.getElementById("txtReferenciaVeh").value = lineaVeh;
           document.getElementById("txtClaseVeh").value = claseVeh;
         }
-
-        //01601146
-
-        // menosAseg();
       },
     });
   }
 });
-
-// $("#btnConsultarVehmanual").click(function () {
-//   var fasecolda = document.getElementById("fasecoldabuscadormanual").value;
-//   var modelo = document.getElementById("modelobuscadormanual").value;
-
-//   if (fasecolda != "" && modelo != "") {
-//     $.ajax({
-//       type: "POST",
-//       url: "src/fasecolda/consulDatosFasecolda.php",
-//       dataType: "json",
-//       data: {
-//         fasecolda: fasecolda,
-//         modelo: modelo,
-//       },
-//       success: function (data) {
-//         if (data.estado == undefined) {
-//           alert("Vehículo no encontrado");
-//         } else {
-//           // console.log(data);
-//           var claseVeh = data.clase;
-//           var marcaVeh = data.marca;
-//           var ref1Veh = data.referencia1;
-//           var ref2Veh = data.referencia2;
-//           var ref3Veh = data.referencia3;
-//           var lineaVeh = ref1Veh + " " + ref2Veh + " " + ref3Veh;
-
-//           var valorFasecVeh = data[modelo];
-//           var valorVeh = Number(valorFasecVeh) * 1000;
-//           var clase = data.clase;
-
-//           $("#clasepesados").val(clase);
-
-//           var placaVeh = $("#placaVeh").val();
-//           if (placaVeh == "WWW404") {
-//             $("#txtPlacaVeh").val("SIN PLACA - VEHÍCULO 0 KM").val();
-//           } else {
-//             $("#txtPlacaVeh").val(placaVeh).val();
-//           }
-
-//           document.getElementById("resumenVehiculo").style.display = "block";
-//           document.getElementById("contenBtnCotizar").style.display = "block";
-//           document.getElementById("headerAsegurado").style.display = "block";
-//           document.getElementById("masA").style.display = "block";
-
-//           document.getElementById("formularioVehiculo").style.display = "none";
-//           document.getElementById("DatosAsegurado").style.display = "none";
-
-//           document.getElementById("txtFasecolda").value = fasecolda;
-//           document.getElementById("txtModeloVeh").value = modelo;
-//           document.getElementById("txtMarcaVeh").value = data.marca;
-//           document.getElementById("txtValorFasecolda").value = valorVeh;
-//           document.getElementById("txtReferenciaVeh").value = lineaVeh;
-//           document.getElementById("txtClaseVeh").value = claseVeh;
-//         }
-//       },
-//     });
-//   }
-// });

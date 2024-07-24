@@ -53,7 +53,11 @@ $(document).ready(function () {
           cotizarOfertasMotos();
         } else {
           e.preventDefault();
-          mostrarAlertaCotizacionesExcedidasMotos();
+          if(intermediario == 89){
+            mostrarAlertaCotizacionesExcedidasMotosDemo();
+          } else {
+            mostrarAlertaCotizacionesExcedidasMotosFreelance();
+          }
         }
       });
     } else {
@@ -63,35 +67,68 @@ $(document).ready(function () {
           cotizarOfertasMotos();
         } else {
           e.preventDefault();
-          mostrarAlertaCotizacionesExcedidasMotos();
+          mostrarAlertaCotizacionesExcedidasMotosFreelance();
         }
       });
     }
   });
 
-  function mostrarAlertaCotizacionesExcedidasMotos() {
+  function mostrarAlertaCotizacionesExcedidasMotosFreelance() {
     swal
-      .fire({
-        icon: "error",
-        html: `<div style="text-align: center; font-family: Helvetica, Arial, sans-serif; font-size: 15px; border-radius: 4px; padding: 8px;">Lo sentimos. No tienes cotizaciones disponibles, por favor comunicate con tu analista asignado.`,
-        width: "50%",
-        showConfirmButton: true,
-        confirmButtonText: "Cerrar",
-        customClass: {
-          popup: "custom-swal-popupCotExcep",
-        },
-      })
-      .then(function (result) {
-        if (result.isConfirmed) {
+    .fire({
+      icon: "error",
+      title:
+        "Llegaste al tope máximo de Multicotizaciones de Seguros de Autos",
+      html: `<div style="text-align: center; font-family: Helvetica, Arial, sans-serif; font-size: 15px; border-radius: 4px; padding: 8px;"><p>Ponte en contacto con tu Analista Comercial si deseas recargar tus multicotizaciones del mes.</p>
+        <p>Nota: Ten en cuenta que el cupo mensual depende de tu productividad.</p>
+    </div>`,
+      width: "50%",
+      showConfirmButton: true,
+      confirmButtonText: "Cerrar",
+      customClass: {
+        popup: "custom-swal-popupCotExcep",
+      },
+    })
+    .then(function (result) {
+      if (result.isConfirmed) {
+        window.location = "inicio";
+      } else if (result.isDismissed) {
+        if (result.dismiss === "cancel") {
           window.location = "inicio";
-        } else if (result.isDismissed) {
-          if (result.dismiss === "cancel") {
-            window.location = "inicio";
-          } else if (result.dismiss === "backdrop") {
-            window.location = "inicio";
-          }
+        } else if (result.dismiss === "backdrop") {
+          window.location = "inicio";
         }
-      });
+      }
+    });
+  }
+
+  function mostrarAlertaCotizacionesExcedidasMotosDemo() {
+    swal
+    .fire({
+      icon: "error",
+      title:
+        "Llegaste al tope máximo de Multicotizaciones de Seguros de Autos",
+      html: `<div style="text-align: center; font-family: Helvetica, Arial, sans-serif; font-size: 15px; border-radius: 4px; padding: 8px;">
+              <p>Si te interesa tener tu propia versión personalizada del software para generar cotizaciones y cuadros comparativos, comunícate con nosotros, Strategico Technologies, desarrolladores de esta plataforma, para conocer acerca de los planes de pago.</p>
+            </div>`,
+      width: "50%",
+      showConfirmButton: true,
+      confirmButtonText: "Cerrar",
+      customClass: {
+        popup: "custom-swal-popupCotExcep",
+      },
+    })
+    .then(function (result) {
+      if (result.isConfirmed) {
+        window.location = "inicio";
+      } else if (result.isDismissed) {
+        if (result.dismiss === "cancel") {
+          window.location = "inicio";
+        } else if (result.dismiss === "backdrop") {
+          window.location = "inicio";
+        }
+      }
+    });
   }
 
   function mostrarPoliticaValorAseguradoMotos() {
