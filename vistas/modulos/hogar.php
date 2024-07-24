@@ -400,7 +400,6 @@
             <div class="card-exequias">
               <div class="card-body">
                 <h4 class="card-title" style="font-weight: bold; padding-top: 20px">Políticas de Suscripción</h4>
-                <br>
                 <p class="card-text">Estas son algunas de las políticas de suscripción, las cuales pueden cambiar en cualquier momento, sin previo aviso:</p>
                 <ul class="card-text" style="padding-left: 18px; text-align: justify;">
                   <li>Se aseguran riesgos en ciudades capitales y municipios principales.</li>
@@ -422,7 +421,6 @@
             <div class="card-exequias">
               <div class="card-body text-center">
                 <h4 class="card-title" style="font-weight: bold; padding-top: 20px">Comisión</h4>
-                <br>
                 <p class="card-text">La comisión base que nos ofrece Seguros Bolívar y Allianz Seguros para nuestra alianza de asesores es del 15%. De este porcentaje, tu participación será de acuerdo al nivel de ventas de todos los negocios (sin IVA), sumando todos los ramos, que realices en el mes.</p>
                 <ul class="card-text" style="padding-left: 0px; list-style-position: inside;">
                   <li>Nivel 1: 67,5%</li>
@@ -430,7 +428,7 @@
                   <li>Nivel 3: 75%</li>
                 </ul>
                 <h4 class="card-title" style="font-weight: bold;">Clausulados</h4>
-                <p style="text-align:justify">
+                <p class="card-text" style="text-align:justify">
                   Para conocer más del <b>Seguro de Hogar</b> de <b>Allianz</b> ingresa <b><a href="https://integradoor.com/app/vistas/pdfs/Clausulado%20Hogar%20Allianz.pdf" target="_blank">AQUÍ</a></b>
                   <br>
                   Para conocer más del <b>Seguro de Hogar</b> de <b>Bolívar</b> ingresa <b><a href="https://integradoor.com/app/vistas/pdfs/Clausulado%20Hogar%20Bolivar.pdf" target="_blank">AQUÍ</a></b>
@@ -448,7 +446,7 @@
         <h4 style="font-family: 'Arial Arabic', Arial; font-weight: bold; margin-bottom: 5px; margin-top: 3px;">Solicita una cotización en el siguiente formulario:</h4>
         <div style="width: 100%; max-width: 640px; margin: 0 auto; margin-top: 30px; margin-bottom: -2px">
           <img src="vistas/img/bannerHogar.png" alt="Banner de hogar" style="width: 100%; height: auto; display: block; margin: 0 auto;">
-          <iframe src="https://docs.google.com/forms/d/e/1FAIpQLScks_rMKBx5uGqHWaqLSkUvJP5hBc8jls2msWKYM0AVsXWxXw/viewform?embedded=true" width="640" height="1950" frameborder="0" marginheight="0" marginwidth="0">Cargando…</iframe>
+          <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSfpwY-AgJ7VWmmUh7dVcjKoLisjqpN1QFfFVe22Xuv3jmpHxw/viewform?embedded=true" width="640" height="2875" frameborder="0" marginheight="0" marginwidth="0">Cargando…</iframe>
         </div>
       </div>
 
