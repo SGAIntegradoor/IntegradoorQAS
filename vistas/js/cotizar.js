@@ -2552,16 +2552,16 @@ function cotizarOfertas() {
               // } else
 
               if (aseguradora === "HDI") {
-                url = `https://grupoasistencia.com/motor_webservice/HdiPlus?callback=myCallback`;
+                url = `https://grupoasistencia.com/motor_webservice/HdiPlus`;
               } else if (aseguradora === "Zurich") {
-                const planes = ["FULL"];
+                const planes = ["FULL", "MEDIUM"];
                 planes.forEach((plan) => {
                   let body = JSON.parse(requestOptions.body);
                   body.plan = plan;
                   body.Email = "@gmail.com";
                   body.Email2 = Math.round(Math.random() * 999999) + body.Email;
                   requestOptions.body = JSON.stringify(body);
-                  url = `https://grupoasistencia.com/motor_webservice/${aseguradora}_autos?callback=myCallback`;
+                  url = `https://grupoasistencia.com/motor_webservice/${aseguradora}_autos`;
 
                   cont.push(
                     fetch(url, requestOptions)
@@ -3261,6 +3261,64 @@ function cotizarOfertas() {
           : Promise.resolve();
 
         cont.push(ZFullPromise);
+
+        const ZMediumPromise = comprobarFallida("MEDIUM")
+        ? fetch(
+            "https://grupoasistencia.com/motor_webservice/Zurich_autos?callback=myCallback",
+            {
+              ...requestOptions,
+              method: "POST",
+              headers: {
+                ...requestOptions.headers,
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                ...JSON.parse(requestOptions.body),
+                plan: "MEDIUM",
+                Email2: Math.round(Math.random() * 999999) + "@gmail.com",
+              }),
+            }
+          )
+            .then((res) => {
+              if (!res.ok) throw Error(res.statusText);
+              return res.json();
+            })
+            .then((ofertas) => {
+              if (typeof ofertas.Resultado !== "undefined") {
+                let plan = "MEDIUM";
+                validarProblema("Zurich", ofertas);
+                agregarAseguradoraFallida(plan);
+                let mensaje = "";
+                ofertas.Mensajes.map((element, index) => {
+                  if (element.includes("Referred")) {
+                    if (index == 2) {
+                      mensaje += " - " + element;
+                    } else {
+                      mensaje += element;
+                    }
+                  }
+                });
+                mostrarAlertarCotizacionFallida(`Zurich`, mensaje);
+              } else {
+                const contadorPorEntidad = validarOfertas(
+                  ofertas,
+                  "Zurich",
+                  1
+                );
+                mostrarAlertaCotizacionExitosa("Zurich", contadorPorEntidad);
+              }
+            })
+            .catch((err) => {
+              agregarAseguradoraFallida("Zurich");
+              mostrarAlertarCotizacionFallida(
+                "Zurich",
+                "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
+              );
+              console.error(err);
+            })
+        : Promise.resolve();
+
+      cont.push(ZMediumPromise);
 
         /* Estado */
         const aseguradorasEstado = ["Estado", "Estado2"]; // Agrega más aseguradoras según sea necesario
