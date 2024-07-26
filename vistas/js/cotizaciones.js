@@ -2492,6 +2492,51 @@ function selecProductoManual() {
                 " Motos 30 a 90 MM" +
                 "</option>";
               break;
+            case "145":
+              producto +=
+                "<option value='" +
+                item.id_asistencias +
+                "'>" +
+                item.producto +
+                " Motos 0 a 6 MM" +
+                "</option>";
+              break;
+            case "146":
+              producto +=
+                "<option value='" +
+                item.id_asistencias +
+                "'>" +
+                item.producto +
+                " Motos 6 a 10 MM" +
+                "</option>";
+              break;
+            case "147":
+              producto +=
+                "<option value='" +
+                item.id_asistencias +
+                "'>" +
+                item.producto +
+                " Motos 10 a 20 MM" +
+                "</option>";
+              break;
+            case "148":
+              producto +=
+                "<option value='" +
+                item.id_asistencias +
+                "'>" +
+                item.producto +
+                " Motos 20 a 30 MM" +
+                "</option>";
+              break;
+            case "149":
+              producto +=
+                "<option value='" +
+                item.id_asistencias +
+                "'>" +
+                item.producto +
+                " Motos 30 a 90 MM" +
+                "</option>";
+              break;      
             case "31":
               producto +=
                 "<option value='" +

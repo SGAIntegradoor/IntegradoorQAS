@@ -649,12 +649,16 @@ if ($rowValidateF >= 1) {
 	$html2 .= '<tr>';
 	foreach ($resultados as $resultado) {
 		
+		// var_dump($resultado);
+		// var_dump($resultado["Prima"] >= "1000000" ? true: false);
+		// var_dump($resultado["cuota_1"] != null ? true: false);
+		// var_dump(($resultado['cuota_1'] != null && $resultado['Prima'] >= "1000000") ? true: false);
 		$fondo_class = ($cont3 % 2 == 0) ? 'fondo' : 'fondo2';
 		$font_size = ($rowValidate > 10) ? 7 : (($rowValidate == 10) ? 8 : 9);
 
 		if ($viable) {
 			if ($resultado['cuota_1'] != null && $resultado['Prima'] >= "1000000") {
-				if ($resultado['Aseguradora'] == "Liberty" || $resultado['Aseguradora'] == "Seguros Bolivar") {
+				if ($resultado['Aseguradora'] == "Liberty Seguros" || $resultado['Aseguradora'] == "Seguros Bolivar") {
 					$html2 .= '<td style="font-size:' . ($font_size - 2) . 'px; color:#666666; font-family:dejavusanscondensedb; text-align: center;" class="puntos td2 ' . $fondo_class . '">
 					Pdte. cotizar 
 					<br>
@@ -668,7 +672,7 @@ if ($rowValidateF >= 1) {
 					</td>';
 				}
 				$cont3++;
-			} else if (($resultado['Prima'] < "1000000" && $resultado['Aseguradora'] !== "Liberty") && ($resultado['Prima'] < "1000000" && $resultado['Aseguradora'] !== "Seguros Bolivar")) {
+			} else if (($resultado['Prima'] < "1000000" && $resultado['Aseguradora'] != "Liberty Seguros") && ($resultado['Prima'] < "1000000" && $resultado['Aseguradora'] != "Seguros Bolivar")) {
 				$html2 .= '<td style="font-size:' . ($font_size - 2) . 'px; color:#666666; font-family:dejavusanscondensedb; text-align: center;" class="puntos td2 ' . $fondo_class . '">
 				No Aplica
 				<br>
@@ -684,7 +688,7 @@ if ($rowValidateF >= 1) {
 				$cont3++;
 			}
 		} else {
-			if ($resultado['Aseguradora'] == "Liberty" || $resultado['Aseguradora'] == "Seguros Bolivar") {
+			if ($resultado['Aseguradora'] == "Liberty Seguros" || $resultado['Aseguradora'] == "Seguros Bolivar") {
 				$html2 .= '<td style="font-size:' . ($font_size - 2) . 'px; color:#666666; font-family:dejavusanscondensedb; text-align: center;" class="puntos td2 ' . $fondo_class . '">
                 Pdte. cotizar 
                 <br>
@@ -703,6 +707,9 @@ if ($rowValidateF >= 1) {
 	$html2 .= '</tr>';
 }
 $html2 .= '</table></div>';
+
+// var_dump($resultados);
+// die();
 
 $html3 = '
 <style>

@@ -63,6 +63,21 @@ switch ($producto) {
 	case "112":
 		$producto = "Remolques";
 		break;
+	case "145":
+		$producto = "Premium";
+		break;
+	case "146":
+		$producto = "Premium";
+		break;
+	case "147":
+		$producto = "Premium";
+		break;
+	case "148":
+		$producto = "Premium";
+		break;
+	case "149":
+		$producto = "Premium";
+		break;
 	default:
 		$producto;
 }
