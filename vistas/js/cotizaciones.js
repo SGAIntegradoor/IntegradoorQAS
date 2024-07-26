@@ -1368,6 +1368,16 @@ function editarCotizacion(id) {
                   ? "Remolques"
                   : oferta.Producto == "112"
                   ? "Remolques"
+                  : oferta.Producto == "145"
+                  ? "Premium Motos 0 a 6 MM"
+                  : oferta.Producto == "112"
+                  ? "Premium Motos 6 a 10 MM"
+                  : oferta.Producto == "112"
+                  ? "Premium Motos 10 a 20 MM"
+                  : oferta.Producto == "112"
+                  ? "Premium Motos 20 a 30 MM"
+                  : oferta.Producto == "112"
+                  ? "Premium Motos 30 a 90 MM"
                   : oferta.Producto
               }</b></h5>
                       <h5 class='precio' style='${
