@@ -55,8 +55,13 @@ if($_POST['aseguradora'] && $_POST['producto'] && $_POST['valorRC']) {
 	$producto = $_POST['producto'];
 	$valorRC = $_POST['valorRC'];
 		
-	$stmt = $DB_con->prepare("SELECT pth, ppd, Conductorelegido, Grua FROM asistencias WHERE aseguradora=:aseguradora AND producto=:producto AND rce=:rce ORDER BY id_asistencias");
-	$stmt->execute(array(':aseguradora' => $aseguradora, ':producto' => $producto, ':rce' => $valorRC));
+	if($aseguradora == "Liberty"){
+		$stmt = $DB_con->prepare("SELECT pth, ppd, Conductorelegido, Grua FROM asistencias WHERE aseguradora=:aseguradora AND id_asistencias =:id_asistencias AND rce=:rce ORDER BY id_asistencias");
+		$stmt->execute(array(':aseguradora' => $aseguradora, ':id_asistencias' => $producto, ':rce' => $valorRC));
+	}else{
+		$stmt = $DB_con->prepare("SELECT pth, ppd, Conductorelegido, Grua FROM asistencias WHERE aseguradora=:aseguradora AND producto=:producto AND rce=:rce ORDER BY id_asistencias");
+		$stmt->execute(array(':aseguradora' => $aseguradora, ':producto' => $producto, ':rce' => $valorRC));
+	}
 
 	while($row=$stmt->fetch(PDO::FETCH_ASSOC)) {
 		

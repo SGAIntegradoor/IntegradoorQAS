@@ -816,7 +816,7 @@ $response = retrieveQuotation($idCotizacion);
                     <option class="clsAseguradora" value="Liberty Seguros">Liberty Seguros</option>
                     <option class="clsAseguradora" value="Seguros Mapfre">Seguros Mapfre</option>
                     <option class="clsAseguradora" value="Equidad Seguros">Equidad Seguros</option>
-                    <option class="clsAseguradora" value="Previsora">Previsora Seguros</option>
+                    <option class="clsAseguradora" value="Previsora Seguros">Previsora Seguros</option>
                     <option class="clsAseguradora" value="Aseguradora Solidaria">Aseguradora Solidaria</option>
                   </select>
                 </div>

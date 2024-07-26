@@ -1334,6 +1334,40 @@ function editarCotizacion(id) {
                   ? "Pesados Full"
                   : oferta.Producto == "Pesados Integral1"
                   ? "Pesados Integral"
+                  : oferta.Producto == "134"
+                  ? "Integral Motos 0 a 6 MM"
+                  : oferta.Producto == "135"
+                  ? "Integral Motos 6 a 10 MM"
+                  : oferta.Producto == "136"
+                  ? "Integral Motos 10 a 20 MM"
+                  : oferta.Producto == "137"
+                  ? "Integral Motos 20 a 30 MM"
+                  : oferta.Producto == "138"
+                  ? "Integral Motos 30 a 90 MM"
+                  : oferta.Producto == "139"
+                  ? "Basico + PT Motos 0 a 6 MM"
+                  : oferta.Producto == "140"
+                  ? "Basico + PT Motos 10 a 20 MM"
+                  : oferta.Producto == "141"
+                  ? "Basico + PT Motos 20 a 30 MM"
+                  : oferta.Producto == "142"
+                  ? "Basico + PT Motos 30 a 90 MM"
+                  : oferta.Producto == "31"
+                  ? "Premium Motos"
+                  : oferta.Producto == "30"
+                  ? "Total CAR"
+                  : oferta.Producto == "99"
+                  ? "Pesados Full"
+                  : oferta.Producto == "100"
+                  ? "Pesados Integral"
+                  : oferta.Producto == "103"
+                  ? "Pesados Full"
+                  : oferta.Producto == "104"
+                  ? "Pesados Integral"
+                  : oferta.Producto == "111"
+                  ? "Remolques"
+                  : oferta.Producto == "112"
+                  ? "Remolques"
                   : oferta.Producto
               }</b></h5>
                       <h5 class='precio' style='${
@@ -2356,12 +2390,123 @@ function selecProductoManual() {
       var producto = "<option value=''>Seleccione Producto</option>";
 
       $.each(data, function (key, item) {
-        producto +=
-          "<option value='" +
-          item.producto +
-          "'>" +
-          item.producto +
-          "</option>";
+        if (item.aseguradora == "Liberty") {
+          switch (item.id_asistencias) {
+            case "134":
+              producto +=
+                "<option value='" +
+                item.id_asistencias +
+                "'>" +
+                item.producto +
+                " Motos 0 a 6 MM" +
+                "</option>";
+              break;
+            case "135":
+              producto +=
+                "<option value='" +
+                item.id_asistencias +
+                "'>" +
+                item.producto +
+                " Motos 6 a 10 MM" +
+                "</option>";
+              break;
+            case "136":
+              producto +=
+                "<option value='" +
+                item.id_asistencias +
+                "'>" +
+                item.producto +
+                " Motos 10 a 20 MM" +
+                "</option>";
+              break;
+            case "137":
+              producto +=
+                "<option value='" +
+                item.id_asistencias +
+                "'>" +
+                item.producto +
+                " Motos 20 a 30 MM" +
+                "</option>";
+              break;
+            case "138":
+              producto +=
+                "<option value='" +
+                item.id_asistencias +
+                "'>" +
+                item.producto +
+                " Motos 30 a 90 MM" +
+                "</option>";
+              break;
+            case "139":
+              producto +=
+                "<option value='" +
+                item.id_asistencias +
+                "'>" +
+                item.producto +
+                " Motos 0 a 6 MM" +
+                "</option>";
+              break;
+            case "140":
+              producto +=
+                "<option value='" +
+                item.id_asistencias +
+                "'>" +
+                item.producto +
+                " Motos 6 a 10 MM" +
+                "</option>";
+              break;
+            case "141":
+              producto +=
+                "<option value='" +
+                item.id_asistencias +
+                "'>" +
+                item.producto +
+                " Motos 10 a 20 MM" +
+                "</option>";
+              break;
+            case "142":
+              producto +=
+                "<option value='" +
+                item.id_asistencias +
+                "'>" +
+                item.producto +
+                " Motos 20 a 30 MM" +
+                "</option>";
+              break;
+            case "143":
+              producto +=
+                "<option value='" +
+                item.id_asistencias +
+                "'>" +
+                item.producto +
+                " Motos 30 a 90 MM" +
+                "</option>";
+              break;
+            case "31":
+              producto +=
+                "<option value='" +
+                item.id_asistencias +
+                "'>" +
+                item.producto +
+                " Motos" +
+                "</option>";
+              break;
+            default:
+              producto +=
+                "<option value='" +
+                item.id_asistencias +
+                "'>" +
+                item.producto +
+                "</option>";
+          }
+        } else {
+          producto +=
+            "<option value='" +
+            item.producto +
+            "'>" +
+            item.producto +
+            "</option>";
+        }
       });
 
       $("#producto").html(producto);

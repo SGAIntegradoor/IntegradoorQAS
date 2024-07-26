@@ -7,6 +7,66 @@ require_once("../config/conexion.php"); //Contiene funcion que conecta a la base
 $aseguradora = $_POST['aseguradora'];
 $valorPrima = str_replace('.', '', $_POST['prima']);
 $producto = $_POST['producto'];
+
+switch ($producto) {
+	case "134":
+		$producto = "Integral";
+		break;
+	case "135":
+		$producto = "Integral";
+		break;
+	case "136":
+		$producto = "Integral";
+		break;
+	case "137":
+		$producto = "Integral";
+		break;
+	case "138":
+		$producto = "Integral";
+		break;
+	case "139":
+		$producto = "Basico + PT";
+		break;
+	case "140":
+		$producto = "Basico + PT";
+		break;
+	case "141":
+		$producto = "Basico + PT";
+		break;
+	case "142":
+		$producto = "Basico + PT";
+		break;
+	case "143":
+		$producto = "Basico + PT";
+		break;
+	case "31":
+		$producto = "Basico + PT";
+		break;
+	case "30":
+		$producto = "Total CAR";
+		break;
+	case "99":
+		$producto = "Pesados Full";
+		break;
+	case "100":
+		$producto = "Pesados Integral";
+		break;
+	case "103":
+		$producto = "Pesados Full";
+		break;
+	case "104":
+		$producto = "Pesados Integral";
+		break;
+	case "111":
+		$producto = "Remolques";
+		break;
+	case "112":
+		$producto = "Remolques";
+		break;
+	default:
+		$producto;
+}
+
 $numCotizOferta = $_POST['numCotizOferta'];
 $placa = $_POST['placa'];
 $idCotizacion = $_POST['id_oferta'];
@@ -41,30 +101,16 @@ if ($aseguradora == "Seguros Bolivar") {
 	$logo = "vistas/img/logos/equidad.png";
 } else if ($aseguradora == "Liberty Seguros") {
 	$logo = "vistas/img/logos/liberty.png";
-}else if ($aseguradora == "Previsora") {
+} else if ($aseguradora == "Previsora Seguros") {
 	$logo = "vistas/img/logos/previsora.png";
 }
 
-
-
-
-
-
-
-
-
 $numIdentificacion = $_POST['numIdentificacion'];
-
-
-
 
 $UrlPdf = "";
 $manual = $_POST['manual'];
 
-
-
 $sql = "INSERT INTO `ofertas` (`id_oferta`, `Placa`, `Identificacion`, `NumCotizOferta`, `Aseguradora`, `Producto`, `Prima`,`ValorRC`, `PerdidaTotal`, `PerdidaParcial`, `ConductorElegido`, `Grua`, `logo`, `UrlPdf`, `id_cotizacion`, `Manual`) VALUES (NULL, '$placa', '$numIdentificacion', '$numCotizOferta', '$aseguradora', '$producto', '$valorPrima', '$valorRC', '$PT', '$PP', '$CE', '$GR', '$logo', '$UrlPdf', '$idCotizacion', $manual);";
-
 
 $res = mysqli_query($con, $sql);
 $num_rows = mysqli_affected_rows($con);
