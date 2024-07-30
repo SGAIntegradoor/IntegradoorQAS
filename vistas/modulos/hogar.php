@@ -343,7 +343,7 @@
                 </div>
                 <br>
                 <br>
-                <p class="card-text">Nuestros tiempos de respuesta para cotizaciones es de <b>3 horas hábiles</b>, siempre y cuando el formulario esté debidamente diligenciado.</p>
+                <p class="card-text">Nuestros tiempos de respuesta para cotizaciones es de <b>5 horas hábiles</b>, siempre y cuando el formulario esté debidamente diligenciado.</p>
               </div>
             </div>
           </div>
