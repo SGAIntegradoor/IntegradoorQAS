@@ -420,31 +420,31 @@ $(document).ready(function () {
 
   function mostrarAlertaCotizacionesExcedidasDemo() {
     swal
-    .fire({
-      icon: "error",
-      title:
-        "Llegaste al tope máximo de Multicotizaciones de Seguros de Autos",
-      html: `<div style="text-align: center; font-family: Helvetica, Arial, sans-serif; font-size: 15px; border-radius: 4px; padding: 8px;">
+      .fire({
+        icon: "error",
+        title:
+          "Llegaste al tope máximo de Multicotizaciones de Seguros de Autos",
+        html: `<div style="text-align: center; font-family: Helvetica, Arial, sans-serif; font-size: 15px; border-radius: 4px; padding: 8px;">
               <p>Si te interesa tener tu propia versión personalizada del software para generar cotizaciones y cuadros comparativos, comunícate con nosotros, Strategico Technologies, desarrolladores de esta plataforma, para conocer acerca de los planes de pago.</p>
             </div>`,
-      width: "50%",
-      showConfirmButton: true,
-      confirmButtonText: "Cerrar",
-      customClass: {
-        popup: "custom-swal-popupCotExcep",
-      },
-    })
-    .then(function (result) {
-      if (result.isConfirmed) {
-        window.location = "inicio";
-      } else if (result.isDismissed) {
-        if (result.dismiss === "cancel") {
+        width: "50%",
+        showConfirmButton: true,
+        confirmButtonText: "Cerrar",
+        customClass: {
+          popup: "custom-swal-popupCotExcep",
+        },
+      })
+      .then(function (result) {
+        if (result.isConfirmed) {
           window.location = "inicio";
-        } else if (result.dismiss === "backdrop") {
-          window.location = "inicio";
+        } else if (result.isDismissed) {
+          if (result.dismiss === "cancel") {
+            window.location = "inicio";
+          } else if (result.dismiss === "backdrop") {
+            window.location = "inicio";
+          }
         }
-      }
-    });
+      });
   }
 
   function mostrarPoliticaValorAsegurado() {
@@ -3263,62 +3263,62 @@ function cotizarOfertas() {
         cont.push(ZFullPromise);
 
         const ZMediumPromise = comprobarFallida("MEDIUM")
-        ? fetch(
-            "https://grupoasistencia.com/motor_webservice/Zurich_autos?callback=myCallback",
-            {
-              ...requestOptions,
-              method: "POST",
-              headers: {
-                ...requestOptions.headers,
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({
-                ...JSON.parse(requestOptions.body),
-                plan: "MEDIUM",
-                Email2: Math.round(Math.random() * 999999) + "@gmail.com",
-              }),
-            }
-          )
-            .then((res) => {
-              if (!res.ok) throw Error(res.statusText);
-              return res.json();
-            })
-            .then((ofertas) => {
-              if (typeof ofertas.Resultado !== "undefined") {
-                let plan = "MEDIUM";
-                validarProblema("Zurich", ofertas);
-                agregarAseguradoraFallida(plan);
-                let mensaje = "";
-                ofertas.Mensajes.map((element, index) => {
-                  if (element.includes("Referred")) {
-                    if (index == 2) {
-                      mensaje += " - " + element;
-                    } else {
-                      mensaje += element;
-                    }
-                  }
-                });
-                mostrarAlertarCotizacionFallida(`Zurich`, mensaje);
-              } else {
-                const contadorPorEntidad = validarOfertas(
-                  ofertas,
-                  "Zurich",
-                  1
-                );
-                mostrarAlertaCotizacionExitosa("Zurich", contadorPorEntidad);
+          ? fetch(
+              "https://grupoasistencia.com/motor_webservice/Zurich_autos?callback=myCallback",
+              {
+                ...requestOptions,
+                method: "POST",
+                headers: {
+                  ...requestOptions.headers,
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                  ...JSON.parse(requestOptions.body),
+                  plan: "MEDIUM",
+                  Email2: Math.round(Math.random() * 999999) + "@gmail.com",
+                }),
               }
-            })
-            .catch((err) => {
-              agregarAseguradoraFallida("Zurich");
-              mostrarAlertarCotizacionFallida(
-                "Zurich",
-                "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
-              );
-              console.error(err);
-            })
-        : Promise.resolve();
+            )
+              .then((res) => {
+                if (!res.ok) throw Error(res.statusText);
+                return res.json();
+              })
+              .then((ofertas) => {
+                if (typeof ofertas.Resultado !== "undefined") {
+                  let plan = "MEDIUM";
+                  validarProblema("Zurich", ofertas);
+                  agregarAseguradoraFallida(plan);
+                  let mensaje = "";
+                  ofertas.Mensajes.map((element, index) => {
+                    if (element.includes("Referred")) {
+                      if (index == 2) {
+                        mensaje += " - " + element;
+                      } else {
+                        mensaje += element;
+                      }
+                    }
+                  });
+                  mostrarAlertarCotizacionFallida(`Zurich`, mensaje);
+                } else {
+                  const contadorPorEntidad = validarOfertas(
+                    ofertas,
+                    "Zurich",
+                    1
+                  );
+                  mostrarAlertaCotizacionExitosa("Zurich", contadorPorEntidad);
+                }
+              })
+              .catch((err) => {
+                agregarAseguradoraFallida("Zurich");
+                mostrarAlertarCotizacionFallida(
+                  "Zurich",
+                  "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
+                );
+                console.error(err);
+              })
+          : Promise.resolve();
 
-      cont.push(ZMediumPromise);
+        cont.push(ZMediumPromise);
 
         /* Estado */
         const aseguradorasEstado = ["Estado", "Estado2"]; // Agrega más aseguradoras según sea necesario
@@ -3723,6 +3723,14 @@ function validarNumCotizaciones() {
   });
 }
 
+const tipoVehiculo = [
+  "PICK UPS",
+  "AUTOMOVIL",
+  "AUTOMOVILES",
+  "CAMPEROS",
+  "CAMPERO",
+];
+
 $("#btnConsultarVehmanualbuscador").click(function () {
   var fasecolda = document.getElementById("fasecoldabuscadormanual").value;
   var modelo = document.getElementById("modelobuscadormanual").value;
@@ -3749,39 +3757,59 @@ $("#btnConsultarVehmanualbuscador").click(function () {
           alert("Vehículo no encontrado");
         } else {
           var claseVeh = data.clase;
-          var marcaVeh = data.marca;
-          var ref1Veh = data.referencia1;
-          var ref2Veh = data.referencia2;
-          var ref3Veh = data.referencia3;
-          var lineaVeh = ref1Veh + " " + ref2Veh + " " + ref3Veh;
 
-          var valorFasecVeh = data[modelo];
-          var valorVeh = Number(valorFasecVeh) * 1000;
-          var clase = data.clase;
+          let found = tipoVehiculo.find((element) => element == claseVeh);
 
-          $("#clasepesados").val(clase);
-
-          var placaVeh = $("#placaVeh").val();
-          if (placaVeh == "WWW404") {
-            $("#txtPlacaVeh").val("SIN PLACA - VEHÍCULO 0 KM").val();
+          if (!found) {
+            Swal.fire({
+              icon: "error",
+              title:
+                "Lo sentimos, no puedes cotizar vehÍculos diferentes a livianos por este módulo.",
+              confirmButtonText: "Cerrar",
+              allowOutsideClick: false
+            }).then((result) => {
+              if (result.isConfirmed) {
+                window.location = "cotizar";
+              } else if (result.isDenied) {
+                window.location = "cotizar";
+              }
+            });
           } else {
-            $("#txtPlacaVeh").val(placaVeh).val();
+            var marcaVeh = data.marca;
+            var ref1Veh = data.referencia1;
+            var ref2Veh = data.referencia2;
+            var ref3Veh = data.referencia3;
+            var lineaVeh = ref1Veh + " " + ref2Veh + " " + ref3Veh;
+
+            var valorFasecVeh = data[modelo];
+            var valorVeh = Number(valorFasecVeh) * 1000;
+            var clase = data.clase;
+
+            $("#clasepesados").val(clase);
+
+            var placaVeh = $("#placaVeh").val();
+            if (placaVeh == "WWW404") {
+              $("#txtPlacaVeh").val("SIN PLACA - VEHÍCULO 0 KM").val();
+            } else {
+              $("#txtPlacaVeh").val(placaVeh).val();
+            }
+
+            document.getElementById("resumenVehiculo").style.display = "block";
+            document.getElementById("contenBtnCotizar").style.display = "block";
+            document.getElementById("headerAsegurado").style.display = "block";
+            document.getElementById("masA").style.display = "block";
+
+            document.getElementById("formularioVehiculo").style.display =
+              "none";
+            document.getElementById("DatosAsegurado").style.display = "none";
+
+            document.getElementById("txtFasecolda").value = fasecolda;
+            document.getElementById("txtModeloVeh").value = modelo;
+            document.getElementById("txtMarcaVeh").value = data.marca;
+            document.getElementById("txtValorFasecolda").value = valorVeh;
+            document.getElementById("txtReferenciaVeh").value = lineaVeh;
+            document.getElementById("txtClaseVeh").value = claseVeh;
           }
-
-          document.getElementById("resumenVehiculo").style.display = "block";
-          document.getElementById("contenBtnCotizar").style.display = "block";
-          document.getElementById("headerAsegurado").style.display = "block";
-          document.getElementById("masA").style.display = "block";
-
-          document.getElementById("formularioVehiculo").style.display = "none";
-          document.getElementById("DatosAsegurado").style.display = "none";
-
-          document.getElementById("txtFasecolda").value = fasecolda;
-          document.getElementById("txtModeloVeh").value = modelo;
-          document.getElementById("txtMarcaVeh").value = data.marca;
-          document.getElementById("txtValorFasecolda").value = valorVeh;
-          document.getElementById("txtReferenciaVeh").value = lineaVeh;
-          document.getElementById("txtClaseVeh").value = claseVeh;
         }
       },
     });

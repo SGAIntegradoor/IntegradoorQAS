@@ -53,7 +53,7 @@ $(document).ready(function () {
           cotizarOfertasMotos();
         } else {
           e.preventDefault();
-          if(intermediario == 89){
+          if (intermediario == 89) {
             mostrarAlertaCotizacionesExcedidasMotosDemo();
           } else {
             mostrarAlertaCotizacionesExcedidasMotosFreelance();
@@ -75,60 +75,60 @@ $(document).ready(function () {
 
   function mostrarAlertaCotizacionesExcedidasMotosFreelance() {
     swal
-    .fire({
-      icon: "error",
-      title:
-        "Llegaste al tope máximo de Multicotizaciones de Seguros de Autos",
-      html: `<div style="text-align: center; font-family: Helvetica, Arial, sans-serif; font-size: 15px; border-radius: 4px; padding: 8px;"><p>Ponte en contacto con tu Analista Comercial si deseas recargar tus multicotizaciones del mes.</p>
+      .fire({
+        icon: "error",
+        title:
+          "Llegaste al tope máximo de Multicotizaciones de Seguros de Autos",
+        html: `<div style="text-align: center; font-family: Helvetica, Arial, sans-serif; font-size: 15px; border-radius: 4px; padding: 8px;"><p>Ponte en contacto con tu Analista Comercial si deseas recargar tus multicotizaciones del mes.</p>
         <p>Nota: Ten en cuenta que el cupo mensual depende de tu productividad.</p>
     </div>`,
-      width: "50%",
-      showConfirmButton: true,
-      confirmButtonText: "Cerrar",
-      customClass: {
-        popup: "custom-swal-popupCotExcep",
-      },
-    })
-    .then(function (result) {
-      if (result.isConfirmed) {
-        window.location = "inicio";
-      } else if (result.isDismissed) {
-        if (result.dismiss === "cancel") {
+        width: "50%",
+        showConfirmButton: true,
+        confirmButtonText: "Cerrar",
+        customClass: {
+          popup: "custom-swal-popupCotExcep",
+        },
+      })
+      .then(function (result) {
+        if (result.isConfirmed) {
           window.location = "inicio";
-        } else if (result.dismiss === "backdrop") {
-          window.location = "inicio";
+        } else if (result.isDismissed) {
+          if (result.dismiss === "cancel") {
+            window.location = "inicio";
+          } else if (result.dismiss === "backdrop") {
+            window.location = "inicio";
+          }
         }
-      }
-    });
+      });
   }
 
   function mostrarAlertaCotizacionesExcedidasMotosDemo() {
     swal
-    .fire({
-      icon: "error",
-      title:
-        "Llegaste al tope máximo de Multicotizaciones de Seguros de Autos",
-      html: `<div style="text-align: center; font-family: Helvetica, Arial, sans-serif; font-size: 15px; border-radius: 4px; padding: 8px;">
+      .fire({
+        icon: "error",
+        title:
+          "Llegaste al tope máximo de Multicotizaciones de Seguros de Autos",
+        html: `<div style="text-align: center; font-family: Helvetica, Arial, sans-serif; font-size: 15px; border-radius: 4px; padding: 8px;">
               <p>Si te interesa tener tu propia versión personalizada del software para generar cotizaciones y cuadros comparativos, comunícate con nosotros, Strategico Technologies, desarrolladores de esta plataforma, para conocer acerca de los planes de pago.</p>
             </div>`,
-      width: "50%",
-      showConfirmButton: true,
-      confirmButtonText: "Cerrar",
-      customClass: {
-        popup: "custom-swal-popupCotExcep",
-      },
-    })
-    .then(function (result) {
-      if (result.isConfirmed) {
-        window.location = "inicio";
-      } else if (result.isDismissed) {
-        if (result.dismiss === "cancel") {
+        width: "50%",
+        showConfirmButton: true,
+        confirmButtonText: "Cerrar",
+        customClass: {
+          popup: "custom-swal-popupCotExcep",
+        },
+      })
+      .then(function (result) {
+        if (result.isConfirmed) {
           window.location = "inicio";
-        } else if (result.dismiss === "backdrop") {
-          window.location = "inicio";
+        } else if (result.isDismissed) {
+          if (result.dismiss === "cancel") {
+            window.location = "inicio";
+          } else if (result.dismiss === "backdrop") {
+            window.location = "inicio";
+          }
         }
-      }
-    });
+      });
   }
 
   function mostrarPoliticaValorAseguradoMotos() {
@@ -165,6 +165,8 @@ $(document).ready(function () {
 
 var idCotizacion = "";
 
+const vehiculoPermitido = ["MOTOCICLETA", "MOTO", "MOTOCICLETAS", "MOTOCARRO"];
+
 $("#btnConsultarVehmanualbuscadorMotos").click(function () {
   var fasecolda = document.getElementById("fasecoldabuscadormanual").value;
   var modelo = document.getElementById("modelobuscadormanual").value;
@@ -191,51 +193,69 @@ $("#btnConsultarVehmanualbuscadorMotos").click(function () {
           alert("Vehículo no encontrado");
         } else {
           var claseVeh = data.clase;
-          var marcaVeh = data.marca;
-          var ref1Veh = data.referencia1;
-          var ref2Veh = data.referencia2;
-          var ref3Veh = data.referencia3;
-          var lineaVeh = ref1Veh + " " + ref2Veh + " " + ref3Veh;
-
-          var valorFasecVeh = data[modelo];
-          var valorVeh = Number(valorFasecVeh) * 1000;
-          var clase = data.clase;
-
-          $("#clasepesados").val(clase);
-
-          var placaVeh = $("#placaVeh").val();
-          if (placaVeh == "WWW404") {
-            $("#txtPlacaVeh").val("SIN PLACA - VEHÍCULO 0 KM").val();
+          let found = vehiculoPermitido.find((element) => element == claseVeh);
+          if (!found) {
+            Swal.fire({
+              icon: "error",
+              title:
+                "Lo sentimos, no puedes cotizar vehÍculos diferentes a motos por este módulo.",
+              confirmButtonText: "Cerrar",
+              allowOutsideClick: false,
+            }).then((result) => {
+              if (result.isConfirmed) {
+                window.location = "motos";
+              } else if (result.isDenied) {
+                window.location = "motos";
+              }
+            });
           } else {
-            $("#txtPlacaVeh").val(placaVeh).val();
+            var marcaVeh = data.marca;
+            var ref1Veh = data.referencia1;
+            var ref2Veh = data.referencia2;
+            var ref3Veh = data.referencia3;
+            var lineaVeh = ref1Veh + " " + ref2Veh + " " + ref3Veh;
+
+            var valorFasecVeh = data[modelo];
+            var valorVeh = Number(valorFasecVeh) * 1000;
+            var clase = data.clase;
+
+            $("#clasepesados").val(clase);
+
+            var placaVeh = $("#placaVeh").val();
+            if (placaVeh == "WWW404") {
+              $("#txtPlacaVeh").val("SIN PLACA - VEHÍCULO 0 KM").val();
+            } else {
+              $("#txtPlacaVeh").val(placaVeh).val();
+            }
+
+            document.getElementById("resumenVehiculo").style.display = "block";
+            document.getElementById("contenBtnCotizar").style.display = "block";
+            document.getElementById("headerAsegurado").style.display = "block";
+            document.getElementById("masA").style.display = "block";
+
+            document.getElementById("formularioVehiculo").style.display =
+              "none";
+            document.getElementById("DatosAsegurado").style.display = "none";
+
+            document.getElementById("txtFasecolda").value = fasecolda;
+            document.getElementById("txtModeloVeh").value = modelo;
+            document.getElementById("txtMarcaVeh").value = data.marca;
+            document.getElementById("txtValorFasecolda").value = valorVeh;
+            document.getElementById("txtReferenciaVeh").value = lineaVeh;
+            document.getElementById("txtClaseVeh").value = claseVeh;
           }
 
-          document.getElementById("resumenVehiculo").style.display = "block";
-          document.getElementById("contenBtnCotizar").style.display = "block";
-          document.getElementById("headerAsegurado").style.display = "block";
-          document.getElementById("masA").style.display = "block";
+          //01601146
 
-          document.getElementById("formularioVehiculo").style.display = "none";
-          document.getElementById("DatosAsegurado").style.display = "none";
-
-          document.getElementById("txtFasecolda").value = fasecolda;
-          document.getElementById("txtModeloVeh").value = modelo;
-          document.getElementById("txtMarcaVeh").value = data.marca;
-          document.getElementById("txtValorFasecolda").value = valorVeh;
-          document.getElementById("txtReferenciaVeh").value = lineaVeh;
-          document.getElementById("txtClaseVeh").value = claseVeh;
+          // menosAseg();
         }
-
-        //01601146
-
-        // menosAseg();
       },
     });
   }
 });
 
 $("#btnConsultarVehmanualMotos").click(function () {
-  consulCodFasecoldaMotos()
+  consulCodFasecoldaMotos();
   // var fasecolda = document.getElementById("fasecoldabuscadormanual").value;
   // var modelo = document.getElementById("modelobuscadormanual").value;
 
@@ -292,7 +312,6 @@ $("#btnConsultarVehmanualMotos").click(function () {
   //   });
   // }
 });
-
 
 // Permite consultar la informacion del vehiculo por medio de la Placa (Seguros del Estado)
 function consulPlacaMotos() {
@@ -1026,13 +1045,11 @@ function cotizarFinesaMotos(ofertasCotizaciones) {
                 console.log(dbData);
                 console.log(element.aseguradora);
                 if (
-                  element.prima < 1000000 &&
-                  !(
-                    element.aseguradora == "Liberty") ||
-                    element.aseguradora == "Bolivar"  ||
-                    element.aseguradora == "Seguros Bolivar" ||
-                    element.aseguradora == "Liberty Seguros"
-                  
+                  (element.prima < 1000000 &&
+                    !(element.aseguradora == "Liberty")) ||
+                  element.aseguradora == "Bolivar" ||
+                  element.aseguradora == "Seguros Bolivar" ||
+                  element.aseguradora == "Liberty Seguros"
                 ) {
                   cotizacionesFinesaMotos[index].cotizada = true;
                   elementDiv.innerHTML = `Financiación:<br /> No aplica financiación`;

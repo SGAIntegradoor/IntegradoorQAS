@@ -316,18 +316,18 @@ $(document).ready(function () {
     menosRECot();
 
     if (intermediario != 3) {
-          checkCotTotales().then((response) => {
-            if (response.result == 1 || response.result == 2) {
-              cotizarOfertasPesados();
-            } else {
-              e.preventDefault();
-              if(intermediario == 89){
-                mostrarAlertaCotizacionesExcedidasPesadosDemo();
-              } else {
-                mostrarAlertaCotizacionesExcedidasPesadosFreelance();
-              }
-            }
-          });
+      checkCotTotales().then((response) => {
+        if (response.result == 1 || response.result == 2) {
+          cotizarOfertasPesados();
+        } else {
+          e.preventDefault();
+          if (intermediario == 89) {
+            mostrarAlertaCotizacionesExcedidasPesadosDemo();
+          } else {
+            mostrarAlertaCotizacionesExcedidasPesadosFreelance();
+          }
+        }
+      });
     } else {
       checkCotTotales().then((response) => {
         if (response.result == 1 || response.result == 2) {
@@ -343,31 +343,31 @@ $(document).ready(function () {
 
   function mostrarAlertaCotizacionesExcedidasPesadosFreelance() {
     swal
-    .fire({
-      icon: "error",
-      title:
-        "Llegaste al tope máximo de Multicotizaciones de Seguros de Autos",
-      html: `<div style="text-align: center; font-family: Helvetica, Arial, sans-serif; font-size: 15px; border-radius: 4px; padding: 8px;"><p>Ponte en contacto con tu Analista Comercial si deseas recargar tus multicotizaciones del mes.</p>
+      .fire({
+        icon: "error",
+        title:
+          "Llegaste al tope máximo de Multicotizaciones de Seguros de Autos",
+        html: `<div style="text-align: center; font-family: Helvetica, Arial, sans-serif; font-size: 15px; border-radius: 4px; padding: 8px;"><p>Ponte en contacto con tu Analista Comercial si deseas recargar tus multicotizaciones del mes.</p>
         <p>Nota: Ten en cuenta que el cupo mensual depende de tu productividad.</p>
     </div>`,
-      width: "50%",
-      showConfirmButton: true,
-      confirmButtonText: "Cerrar",
-      customClass: {
-        popup: "custom-swal-popupCotExcep",
-      },
-    })
-    .then(function (result) {
-      if (result.isConfirmed) {
-        window.location = "inicio";
-      } else if (result.isDismissed) {
-        if (result.dismiss === "cancel") {
+        width: "50%",
+        showConfirmButton: true,
+        confirmButtonText: "Cerrar",
+        customClass: {
+          popup: "custom-swal-popupCotExcep",
+        },
+      })
+      .then(function (result) {
+        if (result.isConfirmed) {
           window.location = "inicio";
-        } else if (result.dismiss === "backdrop") {
-          window.location = "inicio";
+        } else if (result.isDismissed) {
+          if (result.dismiss === "cancel") {
+            window.location = "inicio";
+          } else if (result.dismiss === "backdrop") {
+            window.location = "inicio";
+          }
         }
-      }
-    });
+      });
   }
 
   function mostrarAlertaCotizacionesExcedidasPesadosDemo() {
@@ -398,13 +398,12 @@ $(document).ready(function () {
         }
       });
   }
-  
+
   function mostrarPoliticaValorAseguradoPesados() {
-    swal
-        .fire({
-          icon: "warning",
-          title: "POLÍTICA DE VALOR ASEGURADO<br/> PESADOS",
-          html: `
+    swal.fire({
+      icon: "warning",
+      title: "POLÍTICA DE VALOR ASEGURADO<br/> PESADOS",
+      html: `
         <div style="overflow-x: auto;">
           <table style="border: 2px solid gray; border-collapse: collapse;  text-align: center;" id="tableModalPesados">
             <thead style="padding: 5px;">
@@ -437,19 +436,19 @@ $(document).ready(function () {
           <strong>Nota:</strong> Tener en cuenta que aunque el cotizador genere ofertas, no todos los vehículos son asegurables. Se podrán hacer excepciones de valor asegurado superior cuando el asesor sea productivo, tenga más de 6 meses de antigüedad con Grupo Asistencia, no tenga altos indices de siniestralidad en su cartera, y si el cliente tiene vinculación con otros productos de la aseguradora. El valor de las primas de las cotizaciones puede variar al momento de emitir en los casos autorizados de manera excepcional.
         </p>
         `,
-          width: "30%",
-          showConfirmButton: true,
-          confirmButtonText: "Continuar",
-          customClass: {
-            popup: "custom-swal-alertaMontoPesados",
-            title: "custom-swal-titlePesados",
-            confirmButton: "custom-swal-confirm-button24",
-            actions: "custom-swal-actions-pesados",
-            icon: "swal2-icon_monto",
-          },
-          timer: 20000,
-          timerProgressBar: true,
-        })
+      width: "30%",
+      showConfirmButton: true,
+      confirmButtonText: "Continuar",
+      customClass: {
+        popup: "custom-swal-alertaMontoPesados",
+        title: "custom-swal-titlePesados",
+        confirmButton: "custom-swal-confirm-button24",
+        actions: "custom-swal-actions-pesados",
+        icon: "swal2-icon_monto",
+      },
+      timer: 20000,
+      timerProgressBar: true,
+    });
   }
 });
 
@@ -565,167 +564,6 @@ function obtenerNombreMes(numero) {
 
 var contErrMetEstado = 0;
 var contErrProtocolo = 0;
-
-//* FUNCIONES PROPIAS MÓDULOS DE COTIZACIÓN, CONSULTA DE DATOS DEL VEHÍCULO *//
-
-// function consulPlaca() {
-//   var numplaca = document.getElementById("placaVeh").value;
-//   var valnumplaca = numplaca.toUpperCase(); // Convierte la Placa en Mayusculas
-//   var tipoDocumentoID = document.getElementById("tipoDocumentoID").value;
-//   var numDocumentoID = document.getElementById("numDocumentoID").value;
-//   var dianacimiento = document.getElementById("dianacimiento").value;
-//   var mesnacimiento = document.getElementById("mesnacimiento").value;
-//   var anionacimiento = document.getElementById("anionacimiento").value;
-//   var nombresAseg = document.getElementById("txtNombres").value;
-//   var apellidosAseg = document.getElementById("txtApellidos").value;
-//   var generoAseg = document.getElementById("genero").value;
-//   var estadoCivil = document.getElementById("estadoCivil").value;
-//   var intermediario = document.getElementById("intermediario").value;
-
-//   if (
-//     numplaca != "" &&
-//     tipoDocumentoID != "" &&
-//     numDocumentoID != "" &&
-//     dianacimiento != "" &&
-//     mesnacimiento != "" &&
-//     anionacimiento != "" &&
-//     nombresAseg != "" &&
-//     apellidosAseg != "" &&
-//     generoAseg != "" &&
-//     estadoCivil != ""
-//   ) {
-//     // Oculta los campos de consultar Vehiculo paso a paso desde la Guia Fasecolda
-//     document.getElementById("formularioVehiculo").style.display = "none";
-//     $("#loaderPlaca").html(
-//       '<img src="vistas/img/plantilla/loader-loading.gif" width="34" height="34"><strong> Consultando Placa...</strong>'
-//     );
-
-//     //INICIO DE CABECERA PARA INGRESAR INFORMACION DEL METODO
-//     var myHeaders = new Headers();
-//     myHeaders.append("Content-Type", "application/json");
-
-//     var raw = JSON.stringify({ Placa: valnumplaca, intermediario: intermediario });
-
-//     var requestOptions = {
-//       mode: "cors",
-//       method: "POST",
-//       headers: myHeaders,
-//       body: raw,
-//       redirect: "follow",
-//     };
-
-//     // Llama la informacion del Vehiculo por medio de la Placa
-//     fetch("https://grupoasistencia.com/motor_webservice/Vehiculo", requestOptions)
-//       .then(function (response) {
-//         if (!response.ok) {
-//           throw Error(response.statusText);
-//         }
-//         return response.json();
-//       })
-//       .then(function (myJson) {
-//         var estadoConsulta = myJson.Success;
-//         var mensajeConsulta = myJson.Message;
-
-//         //VALIDA SI LA CONSULTA FUE EXITOSA
-//         if (estadoConsulta == true) {
-//           var codigoClase = myJson.Data.ClassId;
-//           var codigoMarca = myJson.Data.Brand;
-//           var modeloVehiculo = myJson.Data.Modelo;
-//           var codigoLinea = myJson.Data.BrandLine;
-//           var codigoFasecolda = myJson.Data.CodigoFasecolda;
-//           var valorAsegurado = myJson.Data.ValorAsegurado;
-
-//           if (codigoFasecolda != null) {
-//             if (valorAsegurado == "null" || valorAsegurado == null) {
-//               document.getElementById("formularioVehiculo").style.display =
-//                 "block";
-//               $("#loaderPlaca").html("");
-//             } else {
-//               var claseVehiculo = "";
-//               var limiteRCESTADO = "";
-
-//               if (codigoClase == 1) {
-//                 claseVehiculo = "AUTOMOVILES";
-//                 limiteRCESTADO = 6;
-//               } else if (codigoClase == 2) {
-//                 claseVehiculo = "CAMPEROS";
-//                 limiteRCESTADO = 18;
-//               } else if (codigoClase == 3) {
-//                 claseVehiculo = "PICK UPS";
-//                 limiteRCESTADO = 18;
-//               } else if (codigoClase == 4) {
-//                 claseVehiculo = "UTILITARIOS DEPORTIVOS";
-//                 limiteRCESTADO = 6;
-//               } else if (codigoClase == 12) {
-//                 claseVehiculo = "MOTOCICLETA";
-//                 limiteRCESTADO = 6;
-//               } else if (codigoClase == 14) {
-//                 claseVehiculo = "PESADO";
-//                 limiteRCESTADO = 18;
-//               } else if (codigoClase == 19) {
-//                 claseVehiculo = "VAN";
-//                 limiteRCESTADO = 18;
-//               } else if (codigoClase == 16) {
-//                 claseVehiculo = "MOTOCICLETA";
-//                 limiteRCESTADO = 6;
-//               }
-
-//               $("#CodigoClase").val(codigoClase);
-//               $("#clasepesados").val(claseVehiculo);
-//               $("#LimiteRC").val(limiteRCESTADO);
-//               $("#CodigoMarca").val(codigoMarca);
-//               $("#txtModeloVeh").val(modeloVehiculo);
-//               $("#CodigoLinea").val(codigoLinea);
-//               $("#txtFasecolda").val(codigoFasecolda);
-//               $("#txtValorFasecolda").val(valorAsegurado);
-
-//               consulDatosFasecolda(codigoFasecolda, modeloVehiculo).then(
-//                 function (resp) {
-//                   $("#txtMarcaVeh").val(resp.marcaVeh);
-//                   $("#txtReferenciaVeh").val(resp.lineaVeh);
-//                 }
-//               );
-//             }
-//           }
-//         } else {
-//           if (
-//             mensajeConsulta == "Parámetros Inválidos. Placa es requerido." ||
-//             mensajeConsulta == "Favor diligenciar correctamente la placa"
-//           ) {
-//             swal.fire({ text: "! Favor diligenciar correctamente la placa. ¡" });
-//           } else if (
-//             mensajeConsulta == "Vehículo no encontrado." ||
-//             mensajeConsulta == "Unable to connect to the remote server"
-//           ) {
-//             document.getElementById("formularioVehiculo").style.display =
-//               "block";
-//           } else {
-//             contErrMetEstado++;
-//             if (contErrMetEstado > 1) {
-//               document.getElementById("formularioVehiculo").style.display =
-//                 "block";
-//               contErrMetEstado = 0;
-//             } else {
-//               setTimeout(consulPlaca, 2000);
-//             }
-//           }
-//           $("#loaderPlaca").html("");
-//         }
-//       })
-//       .catch(function (error) {
-//         console.log("Parece que hubo un problema: \n", error);
-
-//         contErrProtocolo++;
-//         if (contErrProtocolo > 1) {
-//           $("#loaderPlaca").html("");
-//           document.getElementById("formularioVehiculo").style.display = "block";
-//           contErrProtocolo = 0;
-//         } else {
-//           setTimeout(consulPlaca, 4000);
-//         }
-//       });
-//   }
-// }
 
 // Permite consultar la informacion del vehiculo por medio de la Placa (Seguros del Estado)
 function consulPlacaPesados() {
@@ -984,11 +822,20 @@ function consulCodFasecolda() {
   var refe2 = $(".refe1").val();
   var refe3 = $(".refe22").val();
 
-  console.log("Clase: "+claseVeh+"\n"+
-        "Clase: "+marcaVeh+"\n"+
-        "Clase: "+edadVeh+"\n"+
-        "Clase: "+refe+"\n"
-   )
+  console.log(
+    "Clase: " +
+      claseVeh +
+      "\n" +
+      "Clase: " +
+      marcaVeh +
+      "\n" +
+      "Clase: " +
+      edadVeh +
+      "\n" +
+      "Clase: " +
+      refe +
+      "\n"
+  );
 
   if (
     claseVeh != "" &&
@@ -1295,9 +1142,6 @@ function registrarOfertaPesados(
       },
       success: function (data) {
         console.log(data);
-        // var datos = data.Data;
-        // var message = data.Message;
-        // var success = data.Success;
         resolve();
       },
       error: function (error) {
@@ -1561,52 +1405,7 @@ const mostrarOfertaPesados = (
           `;
   var container = document.getElementById("cardCotizacion");
   container.innerHTML += cardCotizacion;
-  // console.log(cotizacionesFinesa);
-  //console.log(container);
 };
-
-// VALIDA QUE LAS OFERTAS COTIZADAS HAYAN SIDO GUARDADAS EN SU TOTALIDAD
-// function validarOfertasPesados((ofertas) {
-//   $responsabilidadCivilFamiliar = ofertas[0].responsabilidad_civil_familiar;
-//   ofertas.forEach((oferta, i) => {
-//       var numCotizacion = oferta.numero_cotizacion;
-//       var precioOferta = oferta.precio;
-//       if (oferta == null) return;
-//       if (numCotizacion == null && precioOferta == "0") return;
-//       if (precioOferta.length <= 3) return;
-//       mostrarOfertaPesados(
-//         oferta.entidad,
-//         oferta.precio,
-//         oferta.producto,
-//         oferta.numero_cotizacion,
-//         oferta.responsabilidad_civil,
-//         oferta.cubrimiento,
-//         oferta.deducible,
-//         oferta.conductores_elegidos,
-//         oferta.servicio_grua,
-//         oferta.imagen,
-//         oferta.pdf
-//       );
-
-//       registrarOfertaPesados(
-//         oferta.entidad,
-//         oferta.precio,
-//         oferta.producto,
-//         oferta.numero_cotizacion,
-//         oferta.responsabilidad_civil,
-//         oferta.cubrimiento,
-//         oferta.deducible,
-//         oferta.conductores_elegidos,
-//         oferta.servicio_grua,
-//         oferta.imagen,
-//         oferta.pdf,
-//         $responsabilidadCivilFamiliar,
-//         0,
-//         null,
-//         oferta.pph
-//       );
-//     });
-// }
 
 function validarOfertasPesados(ofertas, aseguradora, exito) {
   let contadorPorEntidad = {};
@@ -1808,7 +1607,6 @@ function cotizarFinesa(ofertasCotizaciones) {
       typeId: tipoId,
     };
     if (element.cotizada == null || element.cotizada == false) {
-
       promisesFinesa.push(
         fetch(
           "https://www.grupoasistencia.com/motor_webservice/paymentInstallmentsFinesa",
@@ -1840,22 +1638,30 @@ function cotizarFinesa(ofertasCotizaciones) {
               .then((dbResponse) => dbResponse.json())
               .then((dbData) => {
                 const elementDiv = document.getElementById(element.objFinesa);
-                if (element.aseguradora == "Seguros Bolivar" || element.aseguradora == "Liberty")
-                  {
-                    cotizacionesFinesa[index].cotizada = true;
-                     elementDiv.innerHTML = `Financiación Aseguradora:<br /> Consulte analista`;
-                  } else if (dbData?.data?.mensaje.includes("Por políticas de Finesa")) {
-                    cotizacionesFinesa[index].cotizada = true;
-                    elementDiv.innerHTML = `Financiación:<br /> No aplica financiación`;
-                  } else if (dbData?.data?.mensaje.includes("Asegurado no viable para financiacion")) {
-                    cotizacionesFinesa[index].cotizada = true;
-                    elementDiv.innerHTML = `Financiación Finesa:<br /> Asegurado no viable para financiación`;
-                  } else {
-                    cotizacionesFinesa[index].cotizada = true;
-                    elementDiv.innerHTML = `Financiación Finesa:<br />$${dbData?.data?.data?.val_cuo.toLocaleString(
-                      "es-ES"
-                    )} (${dbData?.data?.cuotas} Cuotas)`;
-                  }
+                if (
+                  element.aseguradora == "Seguros Bolivar" ||
+                  element.aseguradora == "Liberty"
+                ) {
+                  cotizacionesFinesa[index].cotizada = true;
+                  elementDiv.innerHTML = `Financiación Aseguradora:<br /> Consulte analista`;
+                } else if (
+                  dbData?.data?.mensaje.includes("Por políticas de Finesa")
+                ) {
+                  cotizacionesFinesa[index].cotizada = true;
+                  elementDiv.innerHTML = `Financiación:<br /> No aplica financiación`;
+                } else if (
+                  dbData?.data?.mensaje.includes(
+                    "Asegurado no viable para financiacion"
+                  )
+                ) {
+                  cotizacionesFinesa[index].cotizada = true;
+                  elementDiv.innerHTML = `Financiación Finesa:<br /> Asegurado no viable para financiación`;
+                } else {
+                  cotizacionesFinesa[index].cotizada = true;
+                  elementDiv.innerHTML = `Financiación Finesa:<br />$${dbData?.data?.data?.val_cuo.toLocaleString(
+                    "es-ES"
+                  )} (${dbData?.data?.cuotas} Cuotas)`;
+                }
                 elementDiv.style.display = "block";
                 cotEnFinesaResponse.push({
                   finesaData: finesaData,
@@ -1886,7 +1692,7 @@ function cotizarFinesa(ofertasCotizaciones) {
           $("#loaderOferta").html("");
           $("#loaderOfertaBox").css("display", "none");
           $("#loaderRecotOferta").html("");
-          if(!cotizoFinesaPesados){
+          if (!cotizoFinesaPesados) {
             document.getElementById("btnReCotizarFallidas").disabled = false;
             cotizoFinesaPesados = true;
           }
@@ -2669,7 +2475,9 @@ function cotizarOfertasPesados() {
                 })
                 .then(function (result) {
                   if (result.isConfirmed) {
-                    document.getElementById("btnReCotizarFallidas").disabled = true;
+                    document.getElementById(
+                      "btnReCotizarFallidas"
+                    ).disabled = true;
                     $("#loaderOferta").html(
                       '<img src="vistas/img/plantilla/loader-update.gif" width="34" height="34"><strong> Cotizando en Finesa...</strong>'
                     );
@@ -2987,54 +2795,52 @@ function cotizarOfertasPesados() {
         Promise.all(cont).then(() => {
           $("#loaderOferta").html("");
           $("#loaderRecotOferta").html("");
-          let nuevasPesadas = cotizacionesFinesa.filter((cotizaciones) => 
-            cotizaciones.cotizada === null
+          let nuevasPesadas = cotizacionesFinesa.filter(
+            (cotizaciones) => cotizaciones.cotizada === null
           );
-          if(nuevasPesadas.length > 0){
+          if (nuevasPesadas.length > 0) {
             swal
-            .fire({
-              title: "¡Proceso de Re-Cotización Finalizada!",
-              text: "¿Deseas incluir la financiación con Finesa a 11 cuotas?",
-              showConfirmButton: true,
-              confirmButtonText: "Si",
-              showCancelButton: true,
-              cancelButtonText: "No",
-              customClass: {
-                title: "custom-title-messageFinesa",
-                htmlContainer: "custom-text-messageFinesa",
-                popup: "custom-popup-messageFinesa",
-                actions: "custom-actions-messageFinesa",
-                confirmButton: "custom-confirmnButton-messageFinesa",
-                cancelButton: "custom-cancelButton-messageFinesa",
-              },
-            })
-            .then(function (result) {
-              if (result.isConfirmed) {
-                $("#loaderRecotOfertaBox").css("display", "block");
-                $("#loaderRecotOferta").html(
-                  '<img src="vistas/img/plantilla/loader-update.gif" width="34" height="34"><strong>Re-Cotizando en Finesa...</strong>'
-                );
-                cotizarFinesa(cotizacionesFinesa);
-              } else if (result.isDismissed) {
-                if (result.dismiss === "cancel") {
-                  // console.log("El usuario seleccionó 'No'");
-                  $("#loaderRecotOferta").html("");
-                  $("#loaderRecotOfertaBox").css("display", "none");
-                } else if (result.dismiss === "backdrop") {
-                  $("#loaderRecotOferta").html("");
-                  $("#loaderRecotOfertaBox").css("display", "none");
+              .fire({
+                title: "¡Proceso de Re-Cotización Finalizada!",
+                text: "¿Deseas incluir la financiación con Finesa a 11 cuotas?",
+                showConfirmButton: true,
+                confirmButtonText: "Si",
+                showCancelButton: true,
+                cancelButtonText: "No",
+                customClass: {
+                  title: "custom-title-messageFinesa",
+                  htmlContainer: "custom-text-messageFinesa",
+                  popup: "custom-popup-messageFinesa",
+                  actions: "custom-actions-messageFinesa",
+                  confirmButton: "custom-confirmnButton-messageFinesa",
+                  cancelButton: "custom-cancelButton-messageFinesa",
+                },
+              })
+              .then(function (result) {
+                if (result.isConfirmed) {
+                  $("#loaderRecotOfertaBox").css("display", "block");
+                  $("#loaderRecotOferta").html(
+                    '<img src="vistas/img/plantilla/loader-update.gif" width="34" height="34"><strong>Re-Cotizando en Finesa...</strong>'
+                  );
+                  cotizarFinesa(cotizacionesFinesa);
+                } else if (result.isDismissed) {
+                  if (result.dismiss === "cancel") {
+                    // console.log("El usuario seleccionó 'No'");
+                    $("#loaderRecotOferta").html("");
+                    $("#loaderRecotOfertaBox").css("display", "none");
+                  } else if (result.dismiss === "backdrop") {
+                    $("#loaderRecotOferta").html("");
+                    $("#loaderRecotOfertaBox").css("display", "none");
+                  }
                 }
-              }
-            });
+              });
           } else {
-            swal
-            .fire({
+            swal.fire({
               title: "¡Proceso de Re-Cotización Finalizada!",
               showConfirmButton: true,
               confirmButtonText: "Cerrar",
-            })
+            });
           }
-          
         });
       }
       let zurichErrors = true;
@@ -3196,6 +3002,22 @@ function validarNumCotizaciones() {
     },
   });
 }
+
+const vehiculoPermitidoPesados = [
+  "CAMION",
+  "VOLQUETAS",
+  "VOLQUETA",
+  "REMOLCADOR",
+  "REMOLQUE",
+  "FURGONETA",
+  "FURGON",
+  "CHASIS",
+  "CAMIONETA REPARTIDORA",
+  "BUS",
+  "CARROTANQUE",
+  "GRUA"
+];
+
 $("#btnConsultarVehmanualbuscador").click(function () {
   var fasecolda = document.getElementById("fasecoldabuscadormanual").value;
   var modelo = document.getElementById("modelobuscadormanual").value;
@@ -3223,44 +3045,64 @@ $("#btnConsultarVehmanualbuscador").click(function () {
         } else {
           // console.log(data);
           var claseVeh = data.clase;
-          var marcaVeh = data.marca;
-          var ref1Veh = data.referencia1;
-          var ref2Veh = data.referencia2;
-          var ref3Veh = data.referencia3;
-          var lineaVeh = ref1Veh + " " + ref2Veh + " " + ref3Veh;
 
-          var valorFasecVeh = data[modelo];
-          var valorVeh = Number(valorFasecVeh) * 1000;
-          var clase = data.clase;
+          let found = vehiculoPermitidoPesados.find((element) => element == claseVeh);
 
-          $("#clasepesados").val(clase);
-
-          var placaVeh = $("#placaVeh").val();
-          if (placaVeh == "WWW404") {
-            $("#txtPlacaVeh").val("SIN PLACA - VEHÍCULO 0 KM").val();
+          if (!found) {
+            Swal.fire({
+              icon: "error",
+              title:
+                "Lo sentimos, no puedes cotizar vehÍculos diferentes a pesados por este módulo.",
+              confirmButtonText: "Cerrar",
+              allowOutsideClick: false,
+            }).then((result) => {
+              if (result.isConfirmed) {
+                window.location = "pesados";
+              } else if (result.isDenied) {
+                window.location = "pesados";
+              }
+            });
           } else {
-            $("#txtPlacaVeh").val(placaVeh).val();
+            var marcaVeh = data.marca;
+            var ref1Veh = data.referencia1;
+            var ref2Veh = data.referencia2;
+            var ref3Veh = data.referencia3;
+            var lineaVeh = ref1Veh + " " + ref2Veh + " " + ref3Veh;
+
+            var valorFasecVeh = data[modelo];
+            var valorVeh = Number(valorFasecVeh) * 1000;
+            var clase = data.clase;
+
+            $("#clasepesados").val(clase);
+
+            var placaVeh = $("#placaVeh").val();
+            if (placaVeh == "WWW404") {
+              $("#txtPlacaVeh").val("SIN PLACA - VEHÍCULO 0 KM").val();
+            } else {
+              $("#txtPlacaVeh").val(placaVeh).val();
+            }
+
+            document.getElementById("resumenVehiculo").style.display = "block";
+            document.getElementById("contenBtnCotizar").style.display = "block";
+            document.getElementById("headerAsegurado").style.display = "block";
+            document.getElementById("masA").style.display = "block";
+
+            document.getElementById("formularioVehiculo").style.display =
+              "none";
+            document.getElementById("DatosAsegurado").style.display = "none";
+
+            document.getElementById("txtFasecolda").value = fasecolda;
+            document.getElementById("txtModeloVeh").value = modelo;
+            document.getElementById("txtMarcaVeh").value = data.marca;
+            document.getElementById("txtValorFasecolda").value = valorVeh;
+            document.getElementById("txtReferenciaVeh").value = lineaVeh;
+            document.getElementById("clasepesados").value = claseVeh;
           }
 
-          document.getElementById("resumenVehiculo").style.display = "block";
-          document.getElementById("contenBtnCotizar").style.display = "block";
-          document.getElementById("headerAsegurado").style.display = "block";
-          document.getElementById("masA").style.display = "block";
+          //01601146
 
-          document.getElementById("formularioVehiculo").style.display = "none";
-          document.getElementById("DatosAsegurado").style.display = "none";
-
-          document.getElementById("txtFasecolda").value = fasecolda;
-          document.getElementById("txtModeloVeh").value = modelo;
-          document.getElementById("txtMarcaVeh").value = data.marca;
-          document.getElementById("txtValorFasecolda").value = valorVeh;
-          document.getElementById("txtReferenciaVeh").value = lineaVeh;
-          document.getElementById("clasepesados").value = claseVeh;
+          // menosAseg();
         }
-
-        //01601146
-
-        // menosAseg();
       },
     });
   }
