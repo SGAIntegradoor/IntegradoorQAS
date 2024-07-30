@@ -423,6 +423,8 @@ function validarCampos() {
 }
 // ========================================================================================================================
 
+  let id_usuario = permisos.id_usuario;
+
 //Funcion que permite cotizar la asistencia en viajes con AssitCard
 function cotizar() {
   document.getElementById("spinener-cot").style.display = "flex";
@@ -470,6 +472,8 @@ function cotizar() {
     new Date(txtFecRegresoOr).getTime() - new Date(txtFecSalidaOr).getTime();
   var txtDiasViaje = Math.round(DiasViaje / (1000 * 60 * 60 * 24)) + 1;
 
+  
+
   var info_inputs = {
     txtOrigen,
     txtFecSalida,
@@ -482,6 +486,7 @@ function cotizar() {
     SelmotivoViaje2,
     fechaNacimientoStr,
     edadPrincipalParaVerDetalles,
+    id_usuario
   }; //Asignacion de valores a un array para mandarlo por POST
 
   // Ajax para mandar la informacion a cotizar con AssitCard
@@ -963,6 +968,8 @@ $(document).ready(function () {
       if (dataOk & edadOK) {
         cotizar();
       }
+    } else{
+      cotizar();
     }
 
   });
