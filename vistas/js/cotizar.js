@@ -1804,8 +1804,6 @@ function validarOfertas(ofertas, aseguradora, exito) {
 //VERSION DEFINITIVA "validarProblema()""
 function validarProblema(aseguradora, ofertas) {
   var idCotizOferta = idCotizacion;
-  //console.log(ofertas);
-
   // Verificar si ofertas es un array
   if (Array.isArray(ofertas)) {
     ofertas.forEach((oferta) => {
@@ -2609,6 +2607,11 @@ function cotizarOfertas() {
                           "Zurich",
                           "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
                         );
+                        validarProblema(aseguradora, [
+                          {
+                            Mensajes: ["Error Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"],
+                          },
+                        ]);
                         console.error(err);
                       })
                   );
@@ -2660,6 +2663,11 @@ function cotizarOfertas() {
                           aseguradora,
                           "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
                         );
+                        validarProblema(aseguradora, [
+                          {
+                            Mensajes: ["Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"],
+                          },
+                        ]);
                         console.error(err);
                       })
                   );
@@ -2702,6 +2710,11 @@ function cotizarOfertas() {
                       aseguradora,
                       "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
                     );
+                    validarProblema(aseguradora, [
+                      {
+                        Mensajes: ["Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"],
+                      },
+                    ]);
                     console.error(err);
                   })
               );
@@ -3766,7 +3779,7 @@ $("#btnConsultarVehmanualbuscador").click(function () {
               title:
                 "Lo sentimos, no puedes cotizar vehÍculos diferentes a livianos por este módulo.",
               confirmButtonText: "Cerrar",
-              allowOutsideClick: false
+              allowOutsideClick: false,
             }).then((result) => {
               if (result.isConfirmed) {
                 window.location = "cotizar";
