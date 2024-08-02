@@ -528,8 +528,6 @@ function cotizar() {
           var html_data = "";
           hideMainContainerCards();
           showContainerCards();
-          console.log(cotizacion);
-          debugger;
           if (typeof cotizacion == "object" && cotizacion.length == undefined) {
             console.log("entre aqui 1");
             if (SelmotivoViaje2 == "Empresarial") {
@@ -627,7 +625,6 @@ function cotizar() {
               }
             }
             if (SelmotivoViaje2 == "Vacacional") {
-              cotizacion
               if (validarCodigoVacacional(cotizacion.codigo)) {
                 toogleDataContainer();
                 html_data += ` 
