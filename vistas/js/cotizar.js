@@ -2559,6 +2559,7 @@ function cotizarOfertas() {
                   body.Email = "@gmail.com";
                   body.Email2 = Math.round(Math.random() * 999999) + body.Email;
                   requestOptions.body = JSON.stringify(body);
+                  body.linea = lineaVeh;
                   url = `https://grupoasistencia.com/motor_webservice/${aseguradora}_autos`;
 
                   cont.push(
@@ -3215,7 +3216,8 @@ function cotizarOfertas() {
           : Promise.resolve();
 
         cont.push(HDIPromise);
-
+        
+        const lineaVeh = document.getElementById("txtReferenciaVeh");
         // Para 'FULL'
         const ZFullPromise = comprobarFallida("FULL")
           ? fetch(
@@ -3231,6 +3233,7 @@ function cotizarOfertas() {
                   ...JSON.parse(requestOptions.body),
                   plan: "FULL",
                   Email2: Math.round(Math.random() * 999999) + "@gmail.com",
+                  linea:  lineaVeh,
                 }),
               }
             )

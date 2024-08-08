@@ -1117,16 +1117,32 @@ $html3 .= '<td class="puntos fondo" style="width:10%; text-align: center; font-f
 // 	$rowValidate = mysqli_num_rows($respuestaquery10);
 // }
 
+$ptotales = "Deducible: 30% min 3 SMMLV";
+
 $cont6 = 1;
 foreach ($resultados as $resultado) {
+    
+    $existLinea = false;
+    
+    if (strpos($linea, "SPARK") !== false || strpos($linea, "spark") !== false || strpos($linea, "Spark") !== false) {
+        $existLinea = true;
+    }
 
 	$nombreAseguradora = nombreAseguradora($resultado['Aseguradora']);
 	$nombreProducto = productoAseguradora($resultado['Aseguradora'], $resultado['Producto']);
 
 	if ($cont6 % 2 == 0) {
-		$html3 .= '<td class="puntos fondo" style="width:' . $valorTabla . '%;"><div style="font-size:8pt">&nbsp;</div><center><font size="7"style="text-align: center;  font-family:dejavusanscondensed;">' . $resultado['PerdidaTotal'] . '</font></center></td>';
+	    if($existLinea && $nombreAseguradora == "Zurich"){
+	        $html3 .= '<td class="puntos fondo" style="width:' . $valorTabla . '%;"><div style="font-size:8pt">&nbsp;</div><center><font size="7"style="text-align: center;  font-family:dejavusanscondensed;">' . $ptotales . '</font></center></td>';
+	    }else {
+		    $html3 .= '<td class="puntos fondo" style="width:' . $valorTabla . '%;"><div style="font-size:8pt">&nbsp;</div><center><font size="7"style="text-align: center;  font-family:dejavusanscondensed;">' . $resultado['PerdidaTotal'] . '</font></center></td>';
+	    }
 	} else {
-		$html3 .= '<td class="puntos fondo2" style="width:' . $valorTabla . '%;"><div style="font-size:8pt">&nbsp;</div><center><font size="7"style="text-align: center;  font-family:dejavusanscondensed;">' . $resultado['PerdidaTotal'] . '</font></center></td>';
+		if($existLinea && $nombreAseguradora == "Zurich"){
+	        $html3 .= '<td class="puntos fondo2" style="width:' . $valorTabla . '%;"><div style="font-size:8pt">&nbsp;</div><center><font size="7"style="text-align: center;  font-family:dejavusanscondensed;">' . $ptotales . '</font></center></td>';
+	    }else {
+		    $html3 .= '<td class="puntos fondo2" style="width:' . $valorTabla . '%;"><div style="font-size:8pt">&nbsp;</div><center><font size="7"style="text-align: center;  font-family:dejavusanscondensed;">' . $resultado['PerdidaTotal'] . '</font></center></td>';
+	    }
 	}
 
 	$cont6 += 1;
