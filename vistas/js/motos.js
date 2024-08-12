@@ -821,8 +821,23 @@ function consulDatosFasecoldaMotos(codFasecolda, edadVeh) {
         modelo: edadVeh,
       },
       success: function (data) {
-        if (data.mensaje == "No hay Registros") {
+        if (data.mensaje == "No hay Registros.") {
           document.getElementById("formularioVehiculo").style.display = "block";
+          Swal.fire({
+            icon: "error",
+            title:
+              "Error al traer la información",
+            text: "No se obtuvieron registros, verifique la información del vehículo e intente nuevamente",
+            showConfirmButton: true,
+            confirmButtonText: "Cerrar",
+          })
+          // .then((result) => {
+          //   if (result.isConfirmed) {
+          //     window.location.href = "cotizar";
+          //   } else if (result.isDismissed) {
+          //     window.location.href = "cotizar";
+          //   }
+          // });
         } else {
           var claseVeh = data.clase;
           var marcaVeh = data.marca;

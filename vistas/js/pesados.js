@@ -1018,42 +1018,60 @@ function consulDatosFasecolda(codFasecolda, edadVeh) {
         modelo: edadVeh,
       },
       success: function (data) {
-        // console.log(data);
-        var claseVeh = data.clase;
-        var marcaVeh = data.marca;
-        var ref1Veh = data.referencia1;
-        var ref2Veh = data.referencia2;
-        var ref3Veh = data.referencia3;
-        var lineaVeh = ref1Veh + " " + ref2Veh + " " + ref3Veh;
-        var valorFasecVeh = data[edadVeh];
-        var valorVeh = Number(valorFasecVeh) * 1000;
-        var clase = data.clase;
-
-        $("#clasepesados").val(clase);
-
-        var placaVeh = $("#placaVeh").val();
-        if (placaVeh == "WWW404") {
-          $("#txtPlacaVeh").val("SIN PLACA - VEHÍCULO 0 KM").val();
+        if (data.mensaje == "No hay Registros.") {
+          document.getElementById("formularioVehiculo").style.display = "block";
+          Swal.fire({
+            icon: "error",
+            title: "Error al traer la información",
+            text: "No se obtuvieron registros, verifique la información del vehículo e intente nuevamente",
+            showConfirmButton: true,
+            confirmButtonText: "Cerrar",
+          })
+          // .then((result) => {
+          //   if (result.isConfirmed) {
+          //     window.location.href = "cotizar";
+          //   } else if (result.isDismissed) {
+          //     window.location.href = "cotizar";
+          //   }
+          // });
         } else {
-          $("#txtPlacaVeh").val(placaVeh).val();
-        }
-        document.getElementById("formularioVehiculo").style.display = "none";
-        document.getElementById("headerAsegurado").style.display = "block";
-        document.getElementById("contenSuperiorPlaca").style.display = "none";
-        document.getElementById("contenBtnConsultarPlaca").style.display =
-          "none";
-        document.getElementById("resumenVehiculo").style.display = "block";
-        document.getElementById("contenBtnCotizar").style.display = "block";
-        $("#loaderPlaca").html("");
-        menosAseg();
+          // console.log(data);
+          var claseVeh = data.clase;
+          var marcaVeh = data.marca;
+          var ref1Veh = data.referencia1;
+          var ref2Veh = data.referencia2;
+          var ref3Veh = data.referencia3;
+          var lineaVeh = ref1Veh + " " + ref2Veh + " " + ref3Veh;
+          var valorFasecVeh = data[edadVeh];
+          var valorVeh = Number(valorFasecVeh) * 1000;
+          var clase = data.clase;
 
-        resolve({
-          claseVeh: claseVeh,
-          marcaVeh: marcaVeh,
-          lineaVeh: lineaVeh,
-          valorVeh: valorVeh,
-        });
-        reject(new Error("Fallo la Consulta"));
+          $("#clasepesados").val(clase);
+
+          var placaVeh = $("#placaVeh").val();
+          if (placaVeh == "WWW404") {
+            $("#txtPlacaVeh").val("SIN PLACA - VEHÍCULO 0 KM").val();
+          } else {
+            $("#txtPlacaVeh").val(placaVeh).val();
+          }
+          document.getElementById("formularioVehiculo").style.display = "none";
+          document.getElementById("headerAsegurado").style.display = "block";
+          document.getElementById("contenSuperiorPlaca").style.display = "none";
+          document.getElementById("contenBtnConsultarPlaca").style.display =
+            "none";
+          document.getElementById("resumenVehiculo").style.display = "block";
+          document.getElementById("contenBtnCotizar").style.display = "block";
+          $("#loaderPlaca").html("");
+          menosAseg();
+
+          resolve({
+            claseVeh: claseVeh,
+            marcaVeh: marcaVeh,
+            lineaVeh: lineaVeh,
+            valorVeh: valorVeh,
+          });
+          reject(new Error("Fallo la Consulta"));
+        }
       },
     });
   });
@@ -3015,7 +3033,7 @@ const vehiculoPermitidoPesados = [
   "CAMIONETA REPARTIDORA",
   "BUS",
   "CARROTANQUE",
-  "GRUA"
+  "GRUA",
 ];
 
 $("#btnConsultarVehmanualbuscador").click(function () {
@@ -3046,7 +3064,9 @@ $("#btnConsultarVehmanualbuscador").click(function () {
           // console.log(data);
           var claseVeh = data.clase;
 
-          let found = vehiculoPermitidoPesados.find((element) => element == claseVeh);
+          let found = vehiculoPermitidoPesados.find(
+            (element) => element == claseVeh
+          );
 
           if (!found) {
             Swal.fire({

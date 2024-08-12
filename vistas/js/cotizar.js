@@ -1157,13 +1157,14 @@ function consulDatosFasecolda(codFasecolda, edadVeh) {
             text: "No se obtuvieron registros, verifique la información del vehículo e intente nuevamente",
             showConfirmButton: true,
             confirmButtonText: "Cerrar",
-          }).then((result) => {
-            if (result.isConfirmed) {
-              window.location.href = "cotizar";
-            } else if (result.isDismissed) {
-              window.location.href = "cotizar";
-            }
-          });
+          })
+          // .then((result) => {
+          //   if (result.isConfirmed) {
+          //     window.location.href = "cotizar";
+          //   } else if (result.isDismissed) {
+          //     window.location.href = "cotizar";
+          //   }
+          // });
         } else {
           // console.log(data);
           var claseVeh = data.clase;
