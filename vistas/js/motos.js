@@ -831,6 +831,7 @@ function consulDatosFasecoldaMotos(codFasecolda, edadVeh) {
             showConfirmButton: true,
             confirmButtonText: "Cerrar",
           })
+          $("#loaderPlaca").html("");
           // .then((result) => {
           //   if (result.isConfirmed) {
           //     window.location.href = "cotizar";
