@@ -34,7 +34,6 @@ $(document).ready(function () {
   }
 
   let intermediario = document.getElementById("intermediario").value;
-
   // Ejectura la funcion Cotizar Ofertas
   $("#btnCotizarMotos").click(function (e) {
     let deptoCirc = $("#DptoCirculacion").val();
@@ -831,7 +830,6 @@ function consulDatosFasecoldaMotos(codFasecolda, edadVeh) {
             showConfirmButton: true,
             confirmButtonText: "Cerrar",
           })
-          $("#loaderPlaca").html("");
           // .then((result) => {
           //   if (result.isConfirmed) {
           //     window.location.href = "cotizar";
@@ -2359,12 +2357,15 @@ function cotizarOfertasMotos() {
               //       }
               //     }
               //   });
-              if(intermediario != 3){
+              let intermediario = document.getElementById("intermediario").value;
+              if (intermediario != 3) {
                 swal.fire({
                   title: "¡Proceso de Cotización Finalizada!",
                   showConfirmButton: true,
                   confirmButtonText: "Cerrar",
                 });
+                $("#loaderOferta").html("");
+                $("#loaderOfertaBox").css("display", "none");
               } else {
                 swal
                   .fire({
@@ -2386,12 +2387,12 @@ function cotizarOfertasMotos() {
                   .then(function (result) {
                     if (result.isConfirmed) {
                       document.getElementById(
-                        "btnReCotizarFallidas"
+                        "btnReCotizarFallidasMotos"
                       ).disabled = true;
                       $("#loaderOferta").html(
                         '<img src="vistas/img/plantilla/loader-update.gif" width="34" height="34"><strong> Cotizando en Finesa...</strong>'
                       );
-                      cotizarFinesa(cotizacionesFinesa);
+                      cotizarFinesaMotos(cotizacionesFinesaMotos);
                     } else if (result.isDismissed) {
                       if (result.dismiss === "cancel") {
                         // console.log("El usuario seleccionó 'No'");
@@ -2403,9 +2404,6 @@ function cotizarOfertasMotos() {
                       }
                     }
                   });
-                setTimeout(function () {}, 1000);
-                document.querySelector(".button-recotizar").style.display =
-                  "block";
               }
             } else {
               return swal.fire({
@@ -2798,52 +2796,41 @@ function cotizarOfertasMotos() {
           (cotizaciones) => cotizaciones.cotizada === null
         );
         if (nuevas.length > 0) {
-          if (intermediario != 3) {
-            swal.fire({
-              title: "¡Proceso de  Re-Cotización Finalizada!",
+          swal
+            .fire({
+              title: "¡Proceso de Re-Cotización Finalizada!",
+              text: "¿Deseas incluir la financiación con Finesa?",
               showConfirmButton: true,
-              confirmButtonText: "Cerrar",
-            });
-          } else {
-            swal
-              .fire({
-                title: "¡Proceso de Re-Cotización Finalizada!",
-                text: "¿Deseas incluir la financiación con Finesa?",
-                showConfirmButton: true,
-                confirmButtonText: "Si",
-                showCancelButton: true,
-                cancelButtonText: "No",
-                customClass: {
-                  title: "custom-title-messageFinesa",
-                  htmlContainer: "custom-text-messageFinesa",
-                  popup: "custom-popup-messageFinesa",
-                  actions: "custom-actions-messageFinesa",
-                  confirmButton: "custom-confirmnButton-messageFinesa",
-                  cancelButton: "custom-cancelButton-messageFinesa",
-                },
-              })
-              .then(function (result) {
-                if (result.isConfirmed) {
-                  $("#loaderRecotOfertaBox").css("display", "block");
-                  $("#loaderRecotOferta").html(
-                    '<img src="vistas/img/plantilla/loader-update.gif" width="34" height="34"><strong>Re-Cotizando en Finesa...</strong>'
-                  );
-                  let btnRecot = document.getElementById(
-                    "btnReCotizarFallidas"
-                  );
-                  btnRecot.disabled = true;
-                  cotizarFinesa(cotizacionesFinesa);
-                } else if (result.isDismissed && cotizacionesFinesaMotos) {
-                  if (result.dismiss === "cancel") {
-                    $("#loaderRecotOfertaBox").css("display", "none");
-                    $("#loaderRecotOferta").html("");
-                  } else if (result.dismiss === "backdrop") {
-                    $("#loaderRecotOfertaBox").css("display", "none");
-                    $("#loaderRecotOferta").html("");
-                  }
+              confirmButtonText: "Si",
+              showCancelButton: true,
+              cancelButtonText: "No",
+              customClass: {
+                title: "custom-title-messageFinesa",
+                htmlContainer: "custom-text-messageFinesa",
+                popup: "custom-popup-messageFinesa",
+                actions: "custom-actions-messageFinesa",
+                confirmButton: "custom-confirmnButton-messageFinesa",
+                cancelButton: "custom-cancelButton-messageFinesa",
+              },
+            })
+            .then(function (result) {
+              if (result.isConfirmed) {
+                $("#loaderRecotOfertaBox").css("display", "block");
+                $("#loaderRecotOferta").html(
+                  '<img src="vistas/img/plantilla/loader-update.gif" width="34" height="34"><strong>Re-Cotizando en Finesa...</strong>'
+                );
+                cotizarFinesaMotos(cotizacionesFinesaMotos);
+              } else if (result.isDismissed) {
+                if (result.dismiss === "cancel") {
+                  // console.log("El usuario seleccionó 'No'");
+                  $("#loaderRecotOferta").html("");
+                  $("#loaderRecotOfertaBox").css("display", "none");
+                } else if (result.dismiss === "backdrop") {
+                  $("#loaderRecotOferta").html("");
+                  $("#loaderRecotOfertaBox").css("display", "none");
                 }
-              });
-          }
+              }
+            });
         } else {
           let anuncio = true;
           if (anuncio) {
