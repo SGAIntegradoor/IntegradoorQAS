@@ -1148,16 +1148,15 @@ function consulDatosFasecolda(codFasecolda, edadVeh) {
       },
       success: function (data) {
         if (data.mensaje == "No hay Registros.") {
-          console.log("entr aqui")
+          console.log("entr aqui");
           document.getElementById("formularioVehiculo").style.display = "block";
           Swal.fire({
             icon: "error",
-            title:
-              "Error al traer la información",
+            title: "Error al traer la información",
             text: "No se obtuvieron registros, verifique la información del vehículo e intente nuevamente",
             showConfirmButton: true,
             confirmButtonText: "Cerrar",
-          })
+          });
           $("#loaderPlaca").html("");
           // .then((result) => {
           //   if (result.isConfirmed) {
@@ -2627,7 +2626,9 @@ function cotizarOfertas() {
                         );
                         validarProblema(aseguradora, [
                           {
-                            Mensajes: ["Error Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"],
+                            Mensajes: [
+                              "Error Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
+                            ],
                           },
                         ]);
                         console.error(err);
@@ -2683,7 +2684,9 @@ function cotizarOfertas() {
                         );
                         validarProblema(aseguradora, [
                           {
-                            Mensajes: ["Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"],
+                            Mensajes: [
+                              "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
+                            ],
                           },
                         ]);
                         console.error(err);
@@ -2730,7 +2733,9 @@ function cotizarOfertas() {
                     );
                     validarProblema(aseguradora, [
                       {
-                        Mensajes: ["Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"],
+                        Mensajes: [
+                          "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
+                        ],
                       },
                     ]);
                     console.error(err);
@@ -2742,43 +2747,51 @@ function cotizarOfertas() {
               // $("#btnCotizar").hide();
               $("#loaderOferta").html("");
               //$("#loaderOfertaBox").css("display", "none");
-              swal
-                .fire({
+              if (intermediario != 3) {
+                swal.fire({
                   title: "¡Proceso de Cotización Finalizada!",
-                  text: "¿Deseas incluir la financiación con Finesa a 11 cuotas?",
                   showConfirmButton: true,
-                  confirmButtonText: "Si",
-                  showCancelButton: true,
-                  cancelButtonText: "No",
-                  customClass: {
-                    title: "custom-title-messageFinesa",
-                    htmlContainer: "custom-text-messageFinesa",
-                    popup: "custom-popup-messageFinesa",
-                    actions: "custom-actions-messageFinesa",
-                    confirmButton: "custom-confirmnButton-messageFinesa",
-                    cancelButton: "custom-cancelButton-messageFinesa",
-                  },
-                })
-                .then(function (result) {
-                  if (result.isConfirmed) {
-                    document.getElementById(
-                      "btnReCotizarFallidas"
-                    ).disabled = true;
-                    $("#loaderOferta").html(
-                      '<img src="vistas/img/plantilla/loader-update.gif" width="34" height="34"><strong> Cotizando en Finesa...</strong>'
-                    );
-                    cotizarFinesa(cotizacionesFinesa);
-                  } else if (result.isDismissed) {
-                    if (result.dismiss === "cancel") {
-                      // console.log("El usuario seleccionó 'No'");
-                      $("#loaderOferta").html("");
-                      $("#loaderOfertaBox").css("display", "none");
-                    } else if (result.dismiss === "backdrop") {
-                      $("#loaderOferta").html("");
-                      $("#loaderOfertaBox").css("display", "none");
-                    }
-                  }
+                  confirmButtonText: "Cerrar",
                 });
+              } else {
+                swal
+                  .fire({
+                    title: "¡Proceso de Cotización Finalizada!",
+                    text: "¿Deseas incluir la financiación con Finesa a 11 cuotas?",
+                    showConfirmButton: true,
+                    confirmButtonText: "Si",
+                    showCancelButton: true,
+                    cancelButtonText: "No",
+                    customClass: {
+                      title: "custom-title-messageFinesa",
+                      htmlContainer: "custom-text-messageFinesa",
+                      popup: "custom-popup-messageFinesa",
+                      actions: "custom-actions-messageFinesa",
+                      confirmButton: "custom-confirmnButton-messageFinesa",
+                      cancelButton: "custom-cancelButton-messageFinesa",
+                    },
+                  })
+                  .then(function (result) {
+                    if (result.isConfirmed) {
+                      document.getElementById(
+                        "btnReCotizarFallidas"
+                      ).disabled = true;
+                      $("#loaderOferta").html(
+                        '<img src="vistas/img/plantilla/loader-update.gif" width="34" height="34"><strong> Cotizando en Finesa...</strong>'
+                      );
+                      cotizarFinesa(cotizacionesFinesa);
+                    } else if (result.isDismissed) {
+                      if (result.dismiss === "cancel") {
+                        // console.log("El usuario seleccionó 'No'");
+                        $("#loaderOferta").html("");
+                        $("#loaderOfertaBox").css("display", "none");
+                      } else if (result.dismiss === "backdrop") {
+                        $("#loaderOferta").html("");
+                        $("#loaderOfertaBox").css("display", "none");
+                      }
+                    }
+                  });
+              }
               document.querySelector(".button-recotizar").style.display =
                 "block";
               /* Se monta el botón para generar el pdf con 
@@ -3233,7 +3246,7 @@ function cotizarOfertas() {
           : Promise.resolve();
 
         cont.push(HDIPromise);
-        
+
         const lineaVeh = document.getElementById("txtReferenciaVeh");
         // Para 'FULL'
         const ZFullPromise = comprobarFallida("FULL")
@@ -3250,7 +3263,7 @@ function cotizarOfertas() {
                   ...JSON.parse(requestOptions.body),
                   plan: "FULL",
                   Email2: Math.round(Math.random() * 999999) + "@gmail.com",
-                  linea:  lineaVeh,
+                  linea: lineaVeh,
                 }),
               }
             )
@@ -3556,44 +3569,52 @@ function cotizarOfertas() {
             (cotizaciones) => cotizaciones.cotizada === null
           );
           if (nuevas.length > 0) {
-            swal
-              .fire({
-                title: "¡Proceso de Re-Cotización Finalizada!",
-                text: "¿Deseas incluir la financiación con Finesa a 11 cuotas?",
+            if (intermediario != 3) {
+              swal.fire({
+                title: "¡Proceso de  Re-Cotización Finalizada!",
                 showConfirmButton: true,
-                confirmButtonText: "Si",
-                showCancelButton: true,
-                cancelButtonText: "No",
-                customClass: {
-                  title: "custom-title-messageFinesa",
-                  htmlContainer: "custom-text-messageFinesa",
-                  popup: "custom-popup-messageFinesa",
-                  actions: "custom-actions-messageFinesa",
-                  confirmButton: "custom-confirmnButton-messageFinesa",
-                  cancelButton: "custom-cancelButton-messageFinesa",
-                },
-              })
-              .then(function (result) {
-                if (result.isConfirmed) {
-                  $("#loaderRecotOfertaBox").css("display", "block");
-                  $("#loaderRecotOferta").html(
-                    '<img src="vistas/img/plantilla/loader-update.gif" width="34" height="34"><strong>Re-Cotizando en Finesa...</strong>'
-                  );
-                  let btnRecot = document.getElementById(
-                    "btnReCotizarFallidas"
-                  );
-                  btnRecot.disabled = true;
-                  cotizarFinesa(cotizacionesFinesa);
-                } else if (result.isDismissed && cotizacionesFinesaMotos) {
-                  if (result.dismiss === "cancel") {
-                    $("#loaderRecotOfertaBox").css("display", "none");
-                    $("#loaderRecotOferta").html("");
-                  } else if (result.dismiss === "backdrop") {
-                    $("#loaderRecotOfertaBox").css("display", "none");
-                    $("#loaderRecotOferta").html("");
-                  }
-                }
+                confirmButtonText: "Cerrar",
               });
+            } else {
+              swal
+                .fire({
+                  title: "¡Proceso de Re-Cotización Finalizada!",
+                  text: "¿Deseas incluir la financiación con Finesa a 11 cuotas?",
+                  showConfirmButton: true,
+                  confirmButtonText: "Si",
+                  showCancelButton: true,
+                  cancelButtonText: "No",
+                  customClass: {
+                    title: "custom-title-messageFinesa",
+                    htmlContainer: "custom-text-messageFinesa",
+                    popup: "custom-popup-messageFinesa",
+                    actions: "custom-actions-messageFinesa",
+                    confirmButton: "custom-confirmnButton-messageFinesa",
+                    cancelButton: "custom-cancelButton-messageFinesa",
+                  },
+                })
+                .then(function (result) {
+                  if (result.isConfirmed) {
+                    $("#loaderRecotOfertaBox").css("display", "block");
+                    $("#loaderRecotOferta").html(
+                      '<img src="vistas/img/plantilla/loader-update.gif" width="34" height="34"><strong>Re-Cotizando en Finesa...</strong>'
+                    );
+                    let btnRecot = document.getElementById(
+                      "btnReCotizarFallidas"
+                    );
+                    btnRecot.disabled = true;
+                    cotizarFinesa(cotizacionesFinesa);
+                  } else if (result.isDismissed && cotizacionesFinesaMotos) {
+                    if (result.dismiss === "cancel") {
+                      $("#loaderRecotOfertaBox").css("display", "none");
+                      $("#loaderRecotOferta").html("");
+                    } else if (result.dismiss === "backdrop") {
+                      $("#loaderRecotOfertaBox").css("display", "none");
+                      $("#loaderRecotOferta").html("");
+                    }
+                  }
+                });
+            }
           } else {
             swal.fire({
               title: "¡Proceso de Re-Cotización Finalizada!",
