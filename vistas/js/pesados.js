@@ -1026,7 +1026,7 @@ function consulDatosFasecolda(codFasecolda, edadVeh) {
             text: "No se obtuvieron registros, verifique la información del vehículo e intente nuevamente",
             showConfirmButton: true,
             confirmButtonText: "Cerrar",
-          })
+          });
           $("#loaderPlaca").html("");
           // .then((result) => {
           //   if (result.isConfirmed) {
@@ -1280,6 +1280,8 @@ const mostrarOfertaPesados = (
     cotizacionesFinesa.push(cotOferta);
   }
 
+  
+
   let cardCotizacion = `
             <div class='col-lg-12'>
               <div class='card-ofertas'>
@@ -1408,7 +1410,7 @@ const mostrarOfertaPesados = (
                 <div>VER PDF &nbsp;&nbsp;<span class="fa fa-file-text"></span></div>
               </button>
             </div>`;
-  } else if (aseguradora == "Previsora Seguros") {
+  } else if (aseguradora == "Previsora Seguros" || aseguradora == "Previsora" ) {
     cardCotizacion += `
             <div class="col-xs-12 col-sm-6 col-md-2 verpdf-oferta">
               <button id="previsora-pdf${numCotizOferta}" type="button" class="btn btn-info" onclick='verPdfPrevisora(${numCotizOferta})'>
@@ -1927,6 +1929,12 @@ function cotizarOfertasPesados() {
     "cre_axa_productos_pesados"
   ).value;
 
+  var cre_pre_username = document.getElementById("cre_pre_Username").value;
+  var cre_pre_password = document.getElementById("cre_pre_Password").value;
+  var cre_pre_agentcode = document.getElementById("cre_pre_AgentCode").value;
+  var cre_pre_sourcecode = document.getElementById("cre_pre_SourceCode").value;
+  var cre_pre_bussinedId = document.getElementById("cre_pre_BusinessId").value;
+
   var aseguradoras_autorizar = JSON.parse(
     document.getElementById("aseguradoras").value
   );
@@ -1998,6 +2006,7 @@ function cotizarOfertasPesados() {
         TokenPrevisora: TokenPrevisora,
         intermediario: intermediario,
         mundial: mundial,
+        lineaVeh: lineaVeh,
         AXA: {
           cre_axa_sslcertfile: cre_axa_sslcertfile,
           cre_axa_sslkeyfile: cre_axa_sslkeyfile,
@@ -2008,6 +2017,13 @@ function cotizarOfertasPesados() {
           cre_axa_canal: cre_axa_canal,
           cre_axa_validacionEventos: cre_axa_validacionEventos,
           url_axa: url_axa,
+        },
+        PREVISORA: {
+          cre_pre_username: cre_pre_username,
+          cre_pre_password: cre_pre_password,
+          cre_pre_agentcode: cre_pre_agentcode,
+          cre_pre_sourcecode: cre_pre_sourcecode,
+          cre_pre_bussinedId: cre_pre_bussinedId,
         },
       };
 
@@ -2349,7 +2365,7 @@ function cotizarOfertasPesados() {
                 } else {
                   productosAXA = [array[3]]; // Extraer el cuarto elemento del array
                 }
-                console.log(productosAXA);
+                //console.log(productosAXA);
 
                 productosAXA.forEach((plan) => {
                   bodyAXA.plan = plan;
@@ -2397,7 +2413,7 @@ function cotizarOfertasPesados() {
                 } else {
                   planesLiberty = ["Full", "Integral"];
                 }
-                console.log(planesLiberty);
+                //console.log(planesLiberty);
                 planesLiberty.forEach((plan) => {
                   body.plan = plan;
                   requestOptions.body = JSON.stringify(body);
@@ -2447,27 +2463,44 @@ function cotizarOfertasPesados() {
 
                   cont.push(libertyPromise);
                 });
-              } else if (aseguradora === "Previsora") {
-                let previsoraPromise = new Promise((resolve, reject) => {
-                  try {
-                    let arrAseguradora = [
-                      {
-                        Mensajes: [
-                          "Solicita cotización manual con tu Analista Comercial asignado",
-                        ],
-                      },
-                    ];
-                    setTimeout(function () {
-                      validarProblema("Previsora", arrAseguradora);
-                      addPrevisora();
-                      resolve();
-                    }, 3000);
-                  } catch (error) {
-                    resolve();
-                  }
-                });
-
-                cont.push(previsoraPromise);
+              } else {
+                let promise = fetch(
+                  `https://grupoasistencia.com/motor_webservice/${aseguradora}_pesados`,
+                  requestOptions
+                )
+                  .then((res) => {
+                    if (!res.ok) throw Error(res.statusText);
+                    return res.json();
+                  })
+                  .then((ofertas) => {
+                    if (typeof ofertas[0].Resultado !== "undefined") {
+                      validarProblema(aseguradora, ofertas);
+                      agregarAseguradoraFallidaPesados(aseguradora);
+                      if (ofertas[0].length > 1) {
+                        ofertas[0].Mensajes.forEach((mensaje) => {
+                          mostrarAlertarCotizacionFallida(aseguradora, mensaje);
+                        });
+                      } else {
+                        ofertas[0].Mensajes.forEach((mensaje) => {
+                          mostrarAlertarCotizacionFallida(aseguradora, mensaje);
+                        });
+                      }
+                    } else {
+                      const contadorPorEntidad = validarOfertasPesados(
+                        ofertas,
+                        aseguradora,
+                        1
+                      );
+                      mostrarAlertaCotizacionExitosa(
+                        aseguradora,
+                        contadorPorEntidad
+                      );
+                    }
+                  })
+                  .catch((err) => {
+                    console.error(err);
+                  });
+                cont.push(promise);
               }
             });
 
@@ -2475,7 +2508,7 @@ function cotizarOfertasPesados() {
               // $("#btnCotizar").hide();
               $("#loaderOferta").html("");
               //$("#loaderOfertaBox").css("display", "none");
-              if(intermediario != 3){
+              if (intermediario != 3) {
                 swal.fire({
                   title: "¡Proceso de Cotización Finalizada!",
                   showConfirmButton: true,

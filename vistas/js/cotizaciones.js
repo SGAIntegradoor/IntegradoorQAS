@@ -2093,9 +2093,13 @@ const verPdfPrevisora = async (cotizacion) => {
 };
 
 const obtenerPdfprevisora = async (cotizacion) => {
+  
   const formData = new FormData();
+  
+  const id_intermediario = document.getElementById("idIntermediario").value;
 
   formData.append("cotizacion", cotizacion);
+  formData.append("intermediario", id_intermediario );
 
   const pdfText = await fetch(
     "https://www.grupoasistencia.com/motor_webservice/WSPrevisora/get_pdf_previsora.php",
@@ -2198,8 +2202,10 @@ const verPdfSolidaria = async (cotizacion) => {
 
 const obtenerPdfSolidaria = async (cotizacion) => {
   const formData = new FormData();
+  const id_intermediario = document.getElementById("idIntermediario").value;
 
   formData.append("cotizacion", cotizacion);
+  formData.append("intermediario", id_intermediario );
 
   for (const entry of formData) {
     // desactive
