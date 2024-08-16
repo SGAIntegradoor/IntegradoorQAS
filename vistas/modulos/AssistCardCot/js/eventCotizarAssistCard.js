@@ -441,7 +441,7 @@ function cotizar() {
   var diaNac = $("#dianacimiento").val();
   var mesNac = $("#mesnacimiento").val();
   var anioNac = $("#anionacimiento").val();
-  let nombreProspecto = $("#nombreProspect").val();
+  let nombreProspecto = $("#nombreProspecto").val();
   var contPasajeros = 1;
   var arrayPajaseros = {};
   var fechaNacimientoStr = diaNac + "/" + mesNac + "/" + anioNac;
