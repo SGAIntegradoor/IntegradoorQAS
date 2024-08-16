@@ -12,6 +12,22 @@ $(document).ready(function () {
   $("#numCotizacion").numeric();
   $("#valorTotal").numeric();
 
+  $("#txtValorFasecolda").on("input", function() {
+    this.value = this.value.replace(/\./g, '');
+  });
+
+  // Previene el ingreso de puntos desde el teclado
+  $("#txtValorFasecolda").on("keydown", function(event) {
+      if (event.which === 190 || event.which === 110) {
+          event.preventDefault();
+      }
+  });
+
+  // // Previene que el usuario pegue datos en el campo (opcional)
+  // $("#txtValorFasecolda").on("paste", function(event) {
+  //     event.preventDefault();
+  // });
+
   tokenPrevisora();
 
   //FUNCION PARA LEVANTAR EL TOKEN DE PREVISORA APENAS INICIE LA PAGINA
@@ -2182,6 +2198,7 @@ function cotizarOfertas() {
     "cre_sol_fecha_token"
   ).value;
 
+ 
   /**
    * Variables de Previsora
    */

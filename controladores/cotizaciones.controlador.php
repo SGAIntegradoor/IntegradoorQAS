@@ -98,6 +98,20 @@ class ControladorCotizaciones
 		return $respuesta;
 	}
 
+	static public function ctrRangoFechasCotizacionesAssistCard($fechaFinalCotizaciones, $fechaInicialCotizaciones)
+	{
+
+		$tabla = "cotizaciones_assistcard";
+		$tabla5 = "usuarios";
+
+		$respuesta = ModeloCotizaciones::mdlRangoFechasCotizacionesAssistCard($tabla, $tabla5, $fechaInicialCotizaciones, $fechaFinalCotizaciones);
+
+
+
+		return $respuesta;
+	}
+
+
 	static public function ctrGetDataLastRegisters($fechaInicialCotizaciones, $fechaFinalCotizaciones, $condicion)
 	{
 		if (isset($_GET["fechaInicialCotizaciones"]) && isset($_GET["fechaFinalCotizaciones"])) {

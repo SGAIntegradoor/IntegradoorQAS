@@ -15,6 +15,17 @@ $(document).ready(function () {
   //   });
   // }
 
+  $("#txtValorFasecolda").on("input", function() {
+    this.value = this.value.replace(/\./g, '');
+  });
+
+  // Previene el ingreso de puntos desde el teclado
+  $("#txtValorFasecolda").on("keydown", function(event) {
+      if (event.which === 190 || event.which === 110) {
+          event.preventDefault();
+      }
+  });
+
   async function checkCotTotales() {
     let cotHechas = await mostrarCotRestantes();
     return new Promise(function (resolve, reject) {
