@@ -441,6 +441,7 @@ function cotizar() {
   var diaNac = $("#dianacimiento").val();
   var mesNac = $("#mesnacimiento").val();
   var anioNac = $("#anionacimiento").val();
+  let nombreProspecto = $("#nombreProspect").val();
   var contPasajeros = 1;
   var arrayPajaseros = {};
   var fechaNacimientoStr = diaNac + "/" + mesNac + "/" + anioNac;
@@ -487,6 +488,7 @@ function cotizar() {
     SelmotivoViaje2,
     fechaNacimientoStr,
     edadPrincipalParaVerDetalles,
+    nombreProspecto,
     id_usuario,
   }; //Asignacion de valores a un array para mandarlo por POST
 
