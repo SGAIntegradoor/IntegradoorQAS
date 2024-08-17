@@ -128,6 +128,7 @@ if (isset($_SESSION)) {
   <!-- jQuery 3 -->
   <!-- <script type="text/javascript" src="libraries\JQueryUI\external\jquery\jquery.js"></script> -->
 
+  <script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
 
   <!-- Bootstrap 3.3.7 -->
   <script src="vistas/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>

@@ -25,10 +25,10 @@
         <div class="row">
             <div class="col-xs-12 col-sm-6 col-md-3">
                 <div class="form-group">
-                    <label for="nombreProspecto">Nombre Prospecto</label>
+                    <label for="nombreProspecto">Nombre viajero principal</label>
                     <div class="row">
                         <div class="col-xs-12">
-                            <input type="text" class="form-control" name="nombres" id="nombreProspecto" placeholder="Nombre Prospecto" required>
+                            <input type="text" class="form-control" name="nombres" id="nombreProspecto" placeholder="Nombre viajero principal" required>
                         </div>
                     </div>
                 </div>

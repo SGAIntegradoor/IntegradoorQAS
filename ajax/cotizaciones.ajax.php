@@ -39,6 +39,20 @@ class AjaxCotizaciones {
 
 	}
 
+	public $assistCardControl;
+
+	public function ajaxRetriveQuotationsAssistCard(){
+
+		
+		$valor = $this->assistCardControl;
+		$item = "assistcard_cots";
+
+		$respuesta = ControladorCotizaciones::ctrShowQuotesAssistCard($valor, $item);
+
+		echo json_encode($respuesta);
+
+	}
+
 }
 
 
@@ -63,4 +77,16 @@ if(isset($_POST["idCotizaOferta"])){
 	$editarCotizaOfertas -> ajaxEditarCotizaOfertas();
 
 }
+
+/*=============================================
+EDITAR COTIZACIONES "OFERTAS"
+=============================================*/
+if(isset($_POST["cotAssistCard"])){
+
+	$retriveQuoteAssistCard = new AjaxCotizaciones();
+	$retriveQuoteAssistCard -> assistCardControl = $_POST["cotAssistCard"];
+	$retriveQuoteAssistCard -> ajaxRetriveQuotationsAssistCard();
+
+}
+
 

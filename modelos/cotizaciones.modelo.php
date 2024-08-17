@@ -62,6 +62,29 @@ class ModeloCotizaciones
 		$stmt = null;
 	}
 
+
+	static public function mdlShowQuotesAssistCard($tabla, $valor, $item)
+	{
+
+
+		if ($valor != null) {
+
+			if ($item == 'assistcard_cots') {
+
+
+				$stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla");
+
+				$stmt->execute();
+
+				return $stmt->fetchAll(PDO::FETCH_ASSOC);
+			}
+		}
+
+		$stmt->closeCursor();
+
+		$stmt = null;
+	}
+
 	/*=============================================
 	ELIMINAR COTIZACIONES
 	=============================================*/

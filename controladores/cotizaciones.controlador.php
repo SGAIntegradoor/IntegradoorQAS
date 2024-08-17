@@ -24,6 +24,18 @@ class ControladorCotizaciones
 		return $respuesta;
 	}
 
+	static public function ctrShowQuotesAssistCard($valor, $item)
+	{
+
+		session_start();
+		$tabla = "Cotizaciones_Assistcard";
+
+		$respuesta = ModeloCotizaciones::mdlShowQuotesAssistCard($tabla, $valor, $item);
+
+		return $respuesta;
+	}
+
+
 
 	/*=============================================
 	MOSTRAR COTIZACIONES "OFERTAS"

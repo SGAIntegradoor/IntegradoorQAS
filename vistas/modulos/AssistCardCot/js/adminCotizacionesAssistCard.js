@@ -11,7 +11,6 @@ $(document).ready(function () {
 
 })
 
-
 $(".tablas-assistcard").DataTable({
     layout: {
       topStart: "buttons",
@@ -22,7 +21,7 @@ $(".tablas-assistcard").DataTable({
       },
       topEnd: {
         pageLength: {
-          menu: [5, 10, 25, 50, 10],
+          menu: [10, 25, 50, 100],
         },
       },
       bottomEnd: {
@@ -31,12 +30,15 @@ $(".tablas-assistcard").DataTable({
         },
       },
     },
+    columnDefs: [
+        { targets: [3], visible: false } // Oculta las columnas 10 y 11 (ajusta según el índice de tus columnas ocultas)
+      ],
     buttons: [
-      {
-        extend: "excelHtml5",
-        className: "btn-excel",
-        text: '<img src="vistas/img/excelIco.png" />', // Agrega un texto descriptivo
-        titleAttr: "Exportar a Excel", // Agrega un tooltip
+        {
+          extend: "excelHtml5",
+          className: "btn-excel",
+          text: '<img src="vistas/img/excelIco.png" />', // Agrega un texto descriptivo
+          titleAttr: "Exportar a Excel", // Agrega un tooltip
       },
     ],
     responsive: true,
