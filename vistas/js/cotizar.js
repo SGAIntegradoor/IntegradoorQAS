@@ -3049,6 +3049,8 @@ function cotizarOfertas() {
                 celdaResponse.textContent.trim() !== "Cotización exitosa"
               ) {
                 if (celdaResponse.textContent !== "") {
+                  celdaCotizo.innerHTML =
+                  '<i class="fa fa-times" aria-hidden="true" style="color: red; margin-right: 10px;"></i>';
                   return;
                 } else {
                   celdaContador.textContent = 0;
