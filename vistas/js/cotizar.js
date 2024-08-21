@@ -12,15 +12,15 @@ $(document).ready(function () {
   $("#numCotizacion").numeric();
   $("#valorTotal").numeric();
 
-  $("#txtValorFasecolda").on("input", function() {
-    this.value = this.value.replace(/\./g, '');
+  $("#txtValorFasecolda").on("input", function () {
+    this.value = this.value.replace(/\./g, "");
   });
 
   // Previene el ingreso de puntos desde el teclado
-  $("#txtValorFasecolda").on("keydown", function(event) {
-      if (event.which === 190 || event.which === 110) {
-          event.preventDefault();
-      }
+  $("#txtValorFasecolda").on("keydown", function (event) {
+    if (event.which === 190 || event.which === 110) {
+      event.preventDefault();
+    }
   });
 
   // // Previene que el usuario pegue datos en el campo (opcional)
@@ -1529,7 +1529,7 @@ function registrarOferta(
         identityElement: actIdentity != "" ? actIdentity : NULL,
       },
       success: function (data) {
-        console.log(data);
+        //console.log(data);
         // var datos = data.Data;
         // var message = data.Message;
         // var success = data.Success;
@@ -1776,11 +1776,10 @@ const mostrarOferta = (
 // VALIDA QUE LAS OFERTAS COTIZADAS HAYAN SIDO GUARDADAS EN SU TOTALIDAD
 function validarOfertas(ofertas, aseguradora, exito) {
   let contadorPorEntidad = {};
-
-  if (aseguradora == "Bolivar" || aseguradora == "Seguros Bolivar") {
-  }
-
+  // if (aseguradora == "Bolivar" || aseguradora == "Seguros Bolivar") {
+  // }
   ofertas.forEach((oferta, i) => {
+    //console.log(oferta);
     var numCotizacion = oferta.numero_cotizacion;
     var precioOferta = oferta.precio;
     if (oferta == null) return;
@@ -1835,13 +1834,22 @@ function validarOfertas(ofertas, aseguradora, exito) {
 
 //VERSION DEFINITIVA "validarProblema()""
 function validarProblema(aseguradora, ofertas) {
+  // if(aseguradora == "Estado" || aseguradora == "Estado2" ){
+  //   debugger;
+  // }
   var idCotizOferta = idCotizacion;
   // Verificar si ofertas es un array
   if (Array.isArray(ofertas)) {
+    // console.log("entre aca isArray");
+    // console.log(ofertas)
+    if((aseguradora == "Estado" || aseguradora == "Estado2") && ofertas[0][0]['Mensajes'].length > 0 ){
+      ofertas = ofertas[0];
+    }
     ofertas.forEach((oferta) => {
+      // console.log("entre aca forEach");
       // Obtener mensajes de la oferta
       var mensajes = oferta.Mensajes || [];
-
+      // console.log(mensajes)
       // Verificar si mensajes es un array y tiene al menos un mensaje
       if (Array.isArray(mensajes) && mensajes.length > 0) {
         // Concatenar mensajes en un solo párrafo
@@ -1888,9 +1896,9 @@ function validarProblema(aseguradora, ofertas) {
       //   .map((m) => m.messageText)
       //   .join(", ");
       if (mensajesZurich.length == 1) {
-        console.log(mensajesZurich);
+        //console.log(mensajesZurich);
         mensajeConcatenadoZurich = mensajesZurich[0];
-        console.log(mensajeConcatenadoZurich);
+        //console.log(mensajeConcatenadoZurich);
       } else {
         mensajesZurich.map((element, index) => {
           if (element.includes("Referred")) {
@@ -2198,7 +2206,6 @@ function cotizarOfertas() {
     "cre_sol_fecha_token"
   ).value;
 
- 
   /**
    * Variables de Previsora
    */
@@ -2520,53 +2527,113 @@ function cotizarOfertas() {
             };
 
             const mostrarAlertarCotizacionFallida = (aseguradora, mensaje) => {
-              if (aseguradora == "Estado2") {
-                aseguradora = "Estado";
-              }
-              // console.log(aseguradora);
-              // console.log(mensaje);
-              // Referecnia de la tabla
-              const tablaResumenCotBody = document.querySelector(
-                "#tablaResumenCot tbody"
-              );
-              // Verificar si ya existe una fila para la aseguradora
-              const filaExistente = document.getElementById(aseguradora);
-              // desactive
-              // console.log(filaExistente)
-              if (filaExistente) {
-                // Si la fila existe, actualiza el mensaje de observaciones
-
-                // Acceder directamente a las celdas de la fila existente
-                const celdaContador = filaExistente.cells[2]; // Tercera celda de la fila
-                const celdaCotizo = filaExistente.cells[1]; // Segunda celda de la fila
-                const celdaResponse = filaExistente.cells[3]; // Cuarta celda de la fila
-
-                if (celdaResponse.textContent.trim() !== "Cotización exitosa") {
-                  celdaContador.textContent = 0;
-                  celdaCotizo.innerHTML =
-                    '<i class="fa fa-times" aria-hidden="true" style="color: red; margin-right: 10px;"></i>';
-                  celdaResponse.textContent = mensaje;
+              if (aseguradora == "Estado" || aseguradora == "Estado2") {
+                // debugger;
+                if (aseguradora == "Estado2") {
+                  aseguradora = "Estado";
                 }
-                // Verifica si el mensaje es diferente antes de actualizar
-                // if (observacionesActuales !== mensaje) {
-                //   celdaObservaciones.textContent = mensaje;
-                // } else {
-                //   console.log(`${aseguradora} tiene alertas iguales: "${observacionesActuales}" === "${mensaje}"`);
-                // }
-              } else {
-                console.log(mensaje);
-                // Si no existe, crea una nueva fila
-                const nuevaFila = document.createElement("tr");
-                nuevaFila.setAttribute("data-aseguradora", aseguradora);
-                nuevaFila.innerHTML = `
+                // console.log(aseguradora);
+                // console.log(mensaje);
+                // Referecnia de la tabla
+                const tablaResumenCotBody = document.querySelector(
+                  "#tablaResumenCot tbody"
+                );
+                // Verificar si ya existe una fila para la aseguradora
+                const filaExistente = document.getElementById(aseguradora);
+                // desactive
+                // console.log(filaExistente)
+                if (filaExistente) {
+                  // Si la fila existe, actualiza el mensaje de observaciones
+
+                  // Acceder directamente a las celdas de la fila existente
+                  const celdaContador = filaExistente.cells[2]; // Tercera celda de la fila
+                  const celdaCotizo = filaExistente.cells[1]; // Segunda celda de la fila
+                  const celdaResponse = filaExistente.cells[3]; // Cuarta celda de la fila
+
+                  if (
+                    celdaResponse.textContent.trim() !== "Cotización exitosa"
+                  ) {
+                    if (celdaResponse.textContent !== "") {
+                      return;
+                    } else {
+                      celdaContador.textContent = 0;
+                      celdaCotizo.innerHTML =
+                      '<i class="fa fa-times" aria-hidden="true" style="color: red; margin-right: 10px;"></i>';
+                      celdaResponse.textContent = mensaje;
+                    }
+                  } else {
+                    celdaCotizo.innerHTML =
+                      '<i class="fa fa-check" aria-hidden="true" style="color: green; margin-right: 5px;"></i>';
+                  }
+                  // Verifica si el mensaje es diferente antes de actualizar
+                  // if (observacionesActuales !== mensaje) {
+                  //   celdaObservaciones.textContent = mensaje;
+                  // } else {
+                  //   console.log(`${aseguradora} tiene alertas iguales: "${observacionesActuales}" === "${mensaje}"`);
+                  // }
+                } else {
+                  //console.log(mensaje);
+                  // Si no existe, crea una nueva fila
+                  const nuevaFila = document.createElement("tr");
+                  nuevaFila.setAttribute("data-aseguradora", aseguradora);
+                  nuevaFila.innerHTML = `
                         <td>${aseguradora}</td>
                         <td style="text-align: center;"><i class="fa fa-times" aria-hidden="true" style="color: red; margin-right: 10px;"></i></td>
                         <td style="text-align: center;">0</td> <!-- Valor predeterminado para 'Productos cotizados' -->
                         <td>${mensaje}</td> <!-- Valor predeterminado para 'Observaciones' -->
                     `;
 
-                // Agregar la fila a la tabla
-                tablaResumenCotBody.appendChild(nuevaFila);
+                  // Agregar la fila a la tabla
+                  tablaResumenCotBody.appendChild(nuevaFila);
+                }
+              } else {
+                // console.log(aseguradora);
+                // console.log(mensaje);
+                // Referecnia de la tabla
+                const tablaResumenCotBody = document.querySelector(
+                  "#tablaResumenCot tbody"
+                );
+                // V  erificar si ya existe una fila para la aseguradora
+                const filaExistente = document.getElementById(aseguradora);
+                // desactive
+                // console.log(filaExistente)
+                if (filaExistente) {
+                  // Si la fila existe, actualiza el mensaje de observaciones
+
+                  // Acceder directamente a las celdas de la fila existente
+                  const celdaContador = filaExistente.cells[2]; // Tercera celda de la fila
+                  const celdaCotizo = filaExistente.cells[1]; // Segunda celda de la fila
+                  const celdaResponse = filaExistente.cells[3]; // Cuarta celda de la fila
+
+                  if (
+                    celdaResponse.textContent.trim() !== "Cotización exitosa"
+                  ) {
+                    celdaContador.textContent = 0;
+                    celdaCotizo.innerHTML =
+                      '<i class="fa fa-times" aria-hidden="true" style="color: red; margin-right: 10px;"></i>';
+                    celdaResponse.textContent = mensaje;
+                  } 
+                  // Verifica si el mensaje es diferente antes de actualizar
+                  // if (observacionesActuales !== mensaje) {
+                  //   celdaObservaciones.textContent = mensaje;
+                  // } else {
+                  //   console.log(`${aseguradora} tiene alertas iguales: "${observacionesActuales}" === "${mensaje}"`);
+                  // }
+                } else {
+                  // console.log(mensaje);
+                  // Si no existe, crea una nueva fila
+                  const nuevaFila = document.createElement("tr");
+                  nuevaFila.setAttribute("data-aseguradora", aseguradora);
+                  nuevaFila.innerHTML = `
+                          <td>${aseguradora}</td>
+                          <td style="text-align: center;"><i class="fa fa-times" aria-hidden="true" style="color: red; margin-right: 10px;"></i></td>
+                          <td style="text-align: center;">0</td> <!-- Valor predeterminado para 'Productos cotizados' -->
+                          <td>${mensaje}</td> <!-- Valor predeterminado para 'Observaciones' -->
+                      `;
+
+                  // Agregar la fila a la tabla
+                  tablaResumenCotBody.appendChild(nuevaFila);
+                }
               }
             };
 
@@ -2585,7 +2652,8 @@ function cotizarOfertas() {
               if (aseguradora === "HDI") {
                 url = `https://grupoasistencia.com/motor_webservice/HdiPlus`;
               } else if (aseguradora === "Zurich") {
-                const planes = ["FULL", "MEDIUM"];
+                // const planes = ["FULL", "MEDIUM"];
+                const planes = ["FULL"];
                 planes.forEach((plan) => {
                   let body = JSON.parse(requestOptions.body);
                   body.plan = plan;
@@ -2659,20 +2727,26 @@ function cotizarOfertas() {
                   let successAseguradora = true;
                   cont.push(
                     fetch(
-                      `https://grupoasistencia.com/motor_webservice/${aseguradora}?callback=myCallback`,
+                      `https://grupoasistencia.com/motor_webservice/${aseguradora}_autos?callback=myCallback`,
                       requestOptions
                     )
-                      .then((res) => {
-                        if (!res.ok) throw Error(res.statusText);
-                        return res.json();
-                      })
-                      .then((ofertas) => {
-                        let result = [];
+                    .then((res) => {
+                      if (!res.ok) throw Error(res.statusText);
+                      return res.json();
+                    })
+                    .then((ofertas) => {
+                        let result2 = "";
+                        let result = []; 
                         result.push(ofertas);
-                        if (typeof result[0].Resultado !== "undefined") {
+                        if(!Array.isArray(ofertas)){
+                          result2 = ofertas.Resultado;
+                        } else {
+                          result2 = ofertas[0].Resultado;
+                        }
+                        if (result2 !== undefined) {
                           agregarAseguradoraFallida("Estado");
                           validarProblema(aseguradora, result);
-                          result[0].Mensajes.forEach((mensaje) => {
+                          ofertas[0].Mensajes.forEach((mensaje) => {
                             mostrarAlertarCotizacionFallida(
                               aseguradora,
                               mensaje
@@ -2949,51 +3023,112 @@ function cotizarOfertas() {
         };
 
         const mostrarAlertarCotizacionFallida = (aseguradora, mensaje) => {
-          if (aseguradora == "Estado2") {
-            aseguradora = "Estado";
-          }
-          // console.log(aseguradora);
-          // console.log(mensaje);
-          // Referecnia de la tabla
-          const tablaResumenCotBody = document.querySelector(
-            "#tablaResumenCot tbody"
-          );
+          if (aseguradora == "Estado" || aseguradora == "Estado2") {
+            if (aseguradora == "Estado2") {
+              aseguradora = "Estado";
+            }
+            // console.log(aseguradora);
+            // console.log(mensaje);
+            // Referecnia de la tabla
+            const tablaResumenCotBody = document.querySelector(
+              "#tablaResumenCot tbody"
+            );
+            // Verificar si ya existe una fila para la aseguradora
+            const filaExistente = document.getElementById(aseguradora);
+            // desactive
+            // console.log(filaExistente)
+            if (filaExistente) {
+              // Si la fila existe, actualiza el mensaje de observaciones
 
-          // Verificar si ya existe una fila para la aseguradora
-          const filaExistente = document.getElementById(aseguradora);
+              // Acceder directamente a las celdas de la fila existente
+              const celdaContador = filaExistente.cells[2]; // Tercera celda de la fila
+              const celdaCotizo = filaExistente.cells[1]; // Segunda celda de la fila
+              const celdaResponse = filaExistente.cells[3]; // Cuarta celda de la fila
 
-          if (filaExistente) {
-            // Si la fila existe, actualiza el mensaje de observaciones
-
-            // Acceder directamente a las celdas de la fila existente
-            const celdaContador = filaExistente.cells[2]; // Tercera celda de la fila
-            const celdaCotizo = filaExistente.cells[1]; // Segunda celda de la fila
-            const celdaResponse = filaExistente.cells[3]; // Cuarta celda de la fila
-
-            celdaContador.textContent = 0;
-            celdaCotizo.innerHTML =
-              '<i class="fa fa-times" aria-hidden="true" style="color: red; margin-right: 10px;"></i>';
-            celdaResponse.textContent = mensaje;
-
-            // Verifica si el mensaje es diferente antes de actualizar
-            // if (observacionesActuales !== mensaje) {
-            //   celdaObservaciones.textContent = mensaje;
-            // } else {
-            //   console.log(`${aseguradora} tiene alertas iguales: "${observacionesActuales}" === "${mensaje}"`);
-            // }
-          } else {
-            // Si no existe, crea una nueva fila
-            const nuevaFila = document.createElement("tr");
-            nuevaFila.setAttribute("data-aseguradora", aseguradora);
-            nuevaFila.innerHTML = `
+              if (
+                celdaResponse.textContent.trim() !== "Cotización exitosa"
+              ) {
+                if (celdaResponse.textContent !== "") {
+                  return;
+                } else {
+                  celdaContador.textContent = 0;
+                  celdaCotizo.innerHTML =
+                  '<i class="fa fa-times" aria-hidden="true" style="color: red; margin-right: 10px;"></i>';
+                  celdaResponse.textContent = mensaje;
+                }
+              } else {
+                celdaCotizo.innerHTML =
+                  '<i class="fa fa-check" aria-hidden="true" style="color: green; margin-right: 5px;"></i>';
+              }
+              // Verifica si el mensaje es diferente antes de actualizar
+              // if (observacionesActuales !== mensaje) {
+              //   celdaObservaciones.textContent = mensaje;
+              // } else {
+              //   console.log(`${aseguradora} tiene alertas iguales: "${observacionesActuales}" === "${mensaje}"`);
+              // }
+            } else {
+              //console.log(mensaje);
+              // Si no existe, crea una nueva fila
+              const nuevaFila = document.createElement("tr");
+              nuevaFila.setAttribute("data-aseguradora", aseguradora);
+              nuevaFila.innerHTML = `
                     <td>${aseguradora}</td>
                     <td style="text-align: center;"><i class="fa fa-times" aria-hidden="true" style="color: red; margin-right: 10px;"></i></td>
                     <td style="text-align: center;">0</td> <!-- Valor predeterminado para 'Productos cotizados' -->
                     <td>${mensaje}</td> <!-- Valor predeterminado para 'Observaciones' -->
                 `;
 
-            // Agregar la fila a la tabla
-            tablaResumenCotBody.appendChild(nuevaFila);
+              // Agregar la fila a la tabla
+              tablaResumenCotBody.appendChild(nuevaFila);
+            }
+          } else {
+            // console.log(aseguradora);
+            // console.log(mensaje);
+            // Referecnia de la tabla
+            const tablaResumenCotBody = document.querySelector(
+              "#tablaResumenCot tbody"
+            );
+            // V  erificar si ya existe una fila para la aseguradora
+            const filaExistente = document.getElementById(aseguradora);
+            // desactive
+            // console.log(filaExistente)
+            if (filaExistente) {
+              // Si la fila existe, actualiza el mensaje de observaciones
+
+              // Acceder directamente a las celdas de la fila existente
+              const celdaContador = filaExistente.cells[2]; // Tercera celda de la fila
+              const celdaCotizo = filaExistente.cells[1]; // Segunda celda de la fila
+              const celdaResponse = filaExistente.cells[3]; // Cuarta celda de la fila
+
+              if (
+                celdaResponse.textContent.trim() !== "Cotización exitosa"
+              ) {
+                celdaContador.textContent = 0;
+                celdaCotizo.innerHTML =
+                  '<i class="fa fa-times" aria-hidden="true" style="color: red; margin-right: 10px;"></i>';
+                celdaResponse.textContent = mensaje;
+              }
+              // Verifica si el mensaje es diferente antes de actualizar
+              // if (observacionesActuales !== mensaje) {
+              //   celdaObservaciones.textContent = mensaje;
+              // } else {
+              //   console.log(`${aseguradora} tiene alertas iguales: "${observacionesActuales}" === "${mensaje}"`);
+              // }
+            } else {
+              //console.log(mensaje);
+              // Si no existe, crea una nueva fila
+              const nuevaFila = document.createElement("tr");
+              nuevaFila.setAttribute("data-aseguradora", aseguradora);
+              nuevaFila.innerHTML = `
+                      <td>${aseguradora}</td>
+                      <td style="text-align: center;"><i class="fa fa-times" aria-hidden="true" style="color: red; margin-right: 10px;"></i></td>
+                      <td style="text-align: center;">0</td> <!-- Valor predeterminado para 'Productos cotizados' -->
+                      <td>${mensaje}</td> <!-- Valor predeterminado para 'Observaciones' -->
+                  `;
+
+              // Agregar la fila a la tabla
+              tablaResumenCotBody.appendChild(nuevaFila);
+            }
           }
         };
 
@@ -3064,7 +3199,14 @@ function cotizarOfertas() {
                   "Solidaria",
                   "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
                 );
-                console.error(err);
+                validarProblema(aseguradora, [
+                      {
+                        Mensajes: [
+                          "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
+                        ],
+                      },
+                    ]);
+                    console.error(err);
               })
           : Promise.resolve();
 
@@ -3106,7 +3248,14 @@ function cotizarOfertas() {
                   "Previsora",
                   "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
                 );
-                console.error(err);
+                validarProblema(aseguradora, [
+                      {
+                        Mensajes: [
+                          "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
+                        ],
+                      },
+                    ]);
+                    console.error(err);
               })
           : Promise.resolve();
 
@@ -3145,7 +3294,14 @@ function cotizarOfertas() {
                   "Equidad",
                   "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
                 );
-                console.error(err);
+                validarProblema(aseguradora, [
+                      {
+                        Mensajes: [
+                          "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
+                        ],
+                      },
+                    ]);
+                    console.error(err);
               })
           : Promise.resolve();
 
@@ -3184,7 +3340,14 @@ function cotizarOfertas() {
                   "Mapfre",
                   "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
                 );
-                console.error(err);
+                validarProblema(aseguradora, [
+                      {
+                        Mensajes: [
+                          "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
+                        ],
+                      },
+                    ]);
+                    console.error(err);
               })
           : Promise.resolve();
 
@@ -3223,7 +3386,14 @@ function cotizarOfertas() {
                   "Bolivar",
                   "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
                 );
-                console.error(err);
+                validarProblema(aseguradora, [
+                      {
+                        Mensajes: [
+                          "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
+                        ],
+                      },
+                    ]);
+                    console.error(err);
               })
           : Promise.resolve();
 
@@ -3258,7 +3428,14 @@ function cotizarOfertas() {
                   "HDI",
                   "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
                 );
-                console.error(err);
+                validarProblema(aseguradora, [
+                      {
+                        Mensajes: [
+                          "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
+                        ],
+                      },
+                    ]);
+                    console.error(err);
               })
           : Promise.resolve();
 
@@ -3319,69 +3496,83 @@ function cotizarOfertas() {
                   "Zurich",
                   "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
                 );
-                console.error(err);
+                validarProblema(aseguradora, [
+                      {
+                        Mensajes: [
+                          "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
+                        ],
+                      },
+                    ]);
+                    console.error(err);
               })
           : Promise.resolve();
 
         cont.push(ZFullPromise);
 
-        const ZMediumPromise = comprobarFallida("MEDIUM")
-          ? fetch(
-              "https://grupoasistencia.com/motor_webservice/Zurich_autos?callback=myCallback",
-              {
-                ...requestOptions,
-                method: "POST",
-                headers: {
-                  ...requestOptions.headers,
-                  "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                  ...JSON.parse(requestOptions.body),
-                  plan: "MEDIUM",
-                  Email2: Math.round(Math.random() * 999999) + "@gmail.com",
-                }),
-              }
-            )
-              .then((res) => {
-                if (!res.ok) throw Error(res.statusText);
-                return res.json();
-              })
-              .then((ofertas) => {
-                if (typeof ofertas.Resultado !== "undefined") {
-                  let plan = "MEDIUM";
-                  validarProblema("Zurich", ofertas);
-                  agregarAseguradoraFallida(plan);
-                  let mensaje = "";
-                  ofertas.Mensajes.map((element, index) => {
-                    if (element.includes("Referred")) {
-                      if (index == 2) {
-                        mensaje += " - " + element;
-                      } else {
-                        mensaje += element;
-                      }
-                    }
-                  });
-                  mostrarAlertarCotizacionFallida(`Zurich`, mensaje);
-                } else {
-                  const contadorPorEntidad = validarOfertas(
-                    ofertas,
-                    "Zurich",
-                    1
-                  );
-                  mostrarAlertaCotizacionExitosa("Zurich", contadorPorEntidad);
-                }
-              })
-              .catch((err) => {
-                agregarAseguradoraFallida("Zurich");
-                mostrarAlertarCotizacionFallida(
-                  "Zurich",
-                  "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
-                );
-                console.error(err);
-              })
-          : Promise.resolve();
+        // const ZMediumPromise = comprobarFallida("MEDIUM")
+        //   ? fetch(
+        //       "https://grupoasistencia.com/motor_webservice/Zurich_autos?callback=myCallback",
+        //       {
+        //         ...requestOptions,
+        //         method: "POST",
+        //         headers: {
+        //           ...requestOptions.headers,
+        //           "Content-Type": "application/json",
+        //         },
+        //         body: JSON.stringify({
+        //           ...JSON.parse(requestOptions.body),
+        //           plan: "MEDIUM",
+        //           Email2: Math.round(Math.random() * 999999) + "@gmail.com",
+        //         }),
+        //       }
+        //     )
+        //       .then((res) => {
+        //         if (!res.ok) throw Error(res.statusText);
+        //         return res.json();
+        //       })
+        //       .then((ofertas) => {
+        //         if (typeof ofertas.Resultado !== "undefined") {
+        //           let plan = "MEDIUM";
+        //           validarProblema("Zurich", ofertas);
+        //           agregarAseguradoraFallida(plan);
+        //           let mensaje = "";
+        //           ofertas.Mensajes.map((element, index) => {
+        //             if (element.includes("Referred")) {
+        //               if (index == 2) {
+        //                 mensaje += " - " + element;
+        //               } else {
+        //                 mensaje += element;
+        //               }
+        //             }
+        //           });
+        //           mostrarAlertarCotizacionFallida(`Zurich`, mensaje);
+        //         } else {
+        //           const contadorPorEntidad = validarOfertas(
+        //             ofertas,
+        //             "Zurich",
+        //             1
+        //           );
+        //           mostrarAlertaCotizacionExitosa("Zurich", contadorPorEntidad);
+        //         }
+        //       })
+        //       .catch((err) => {
+        //         agregarAseguradoraFallida("Zurich");
+        //         mostrarAlertarCotizacionFallida(
+        //           "Zurich",
+        //           "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
+        //         );
+        //         validarProblema(aseguradora, [
+        //               {
+        //                 Mensajes: [
+        //                   "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
+        //                 ],
+        //               },
+        //             ]);
+        //             console.error(err);
+        //       })
+        //   : Promise.resolve();
 
-        cont.push(ZMediumPromise);
+        // cont.push(ZMediumPromise);
 
         /* Estado */
         const aseguradorasEstado = ["Estado", "Estado2"]; // Agrega más aseguradoras según sea necesario
@@ -3389,7 +3580,7 @@ function cotizarOfertas() {
           let successAseguradora = true;
           const aseguradoraPromise = comprobarFallida(aseguradora)
             ? fetch(
-                `https://grupoasistencia.com/motor_webservice/${aseguradora}?callback=myCallback`,
+                `https://grupoasistencia.com/motor_webservice/${aseguradora}`,
                 requestOptions
               )
                 .then((res) => {
@@ -3397,13 +3588,22 @@ function cotizarOfertas() {
                   return res.json();
                 })
                 .then((ofertas) => {
-                  let result = [];
+                  let result2 = "";
+                  let result = []; 
                   result.push(ofertas);
-                  if (typeof result[0].Resultado !== "undefined") {
+                  if(!Array.isArray(ofertas)){
+                    result2 = ofertas.Resultado;
+                  } else {
+                    result2 = ofertas[0].Resultado;
+                  }
+                  if (result2 !== undefined) {
                     agregarAseguradoraFallida("Estado");
                     validarProblema(aseguradora, result);
-                    result[0].Mensajes.forEach((mensaje) => {
-                      mostrarAlertarCotizacionFallida(aseguradora, mensaje);
+                    ofertas[0].Mensajes.forEach((mensaje) => {
+                      mostrarAlertarCotizacionFallida(
+                        aseguradora,
+                        mensaje
+                      );
                     });
                   } else {
                     const contadorPorEntidad = validarOfertas(
@@ -3426,6 +3626,13 @@ function cotizarOfertas() {
                     aseguradora,
                     "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
                   );
+                  validarProblema(aseguradora, [
+                    {
+                      Mensajes: [
+                        "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
+                      ],
+                    },
+                  ]);
                   console.error(err);
                 })
             : Promise.resolve();
@@ -3466,7 +3673,14 @@ function cotizarOfertas() {
                   "Liberty",
                   "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
                 );
-                console.error(err);
+                validarProblema(aseguradora, [
+                      {
+                        Mensajes: [
+                          "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
+                        ],
+                      },
+                    ]);
+                    console.error(err);
               })
           : Promise.resolve();
 
@@ -3505,7 +3719,14 @@ function cotizarOfertas() {
                   "Allianz",
                   "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
                 );
-                console.error(err);
+                validarProblema(aseguradora, [
+                      {
+                        Mensajes: [
+                          "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
+                        ],
+                      },
+                    ]);
+                    console.error(err);
               })
           : Promise.resolve();
 
@@ -3539,7 +3760,14 @@ function cotizarOfertas() {
                   "AXA",
                   "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
                 );
-                console.error(err);
+                validarProblema(aseguradora, [
+                      {
+                        Mensajes: [
+                          "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
+                        ],
+                      },
+                    ]);
+                    console.error(err);
               })
           : Promise.resolve();
 
@@ -3573,7 +3801,14 @@ function cotizarOfertas() {
                   "SBS",
                   "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
                 );
-                console.error(err);
+                validarProblema(aseguradora, [
+                      {
+                        Mensajes: [
+                          "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
+                        ],
+                      },
+                    ]);
+                    console.error(err);
               })
           : Promise.resolve();
 
@@ -3621,7 +3856,7 @@ function cotizarOfertas() {
                     );
                     btnRecot.disabled = true;
                     cotizarFinesa(cotizacionesFinesa);
-                  } else if (result.isDismissed && cotizacionesFinesaMotos) {
+                  } else if (result.isDismissed && cotizacionesFinesa) {
                     if (result.dismiss === "cancel") {
                       $("#loaderRecotOfertaBox").css("display", "none");
                       $("#loaderRecotOferta").html("");

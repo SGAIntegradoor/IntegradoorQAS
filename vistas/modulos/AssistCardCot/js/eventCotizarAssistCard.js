@@ -8,6 +8,7 @@ const equivalencias = {
   GD: "AC 60",
   GC: "AC 150",
   HK: "AC 250",
+  WS: "TRABAJO / ESTUDIO 110"
 };
 
 //Constantes con los planes permitidos, si se quiere agregar otro solo es colocar su codigo aqui y revisar las coberturas
@@ -38,13 +39,13 @@ const coberturasEstudiantil = {
 };
 
 const planesPorDestinoEstudiantiles = {
-  "01": "10477", // Norte America
-  "02": "10475", // Europa
-  "03": "10473", // LATAM
-  "04": "10473", // LATAM
-  "05": "10475", // Africa
-  "06": "10475", // Asia
-  "07": "10475", // Oceania
+  "01": "10477", // Norte America // Norte America y Canada
+  "02": "10475", // Europa // Internacional
+  "03": "10473", // LATAM // Latinoamerica
+  "04": "10473", // LATAM // Latinoamerica
+  "05": "10475", // Africa // Internacional
+  "06": "10475", // Asia // Internacional
+  "07": "10475", // Oceania // Internacional
 };
 
 // Cargar el select de origen
@@ -141,9 +142,18 @@ function showContainerCards() {
 }
 // ========================================================================================================================
 
+// Funcion que oculta el container del cuadro de cotizaciones
+function hideContainerQuotations() {
+  $("#containerDataTableTittle").hide(); 
+  $("#containerDataTable").hide(); 
+  $("#DataTables_Table_0_wrapper").hide(); 
+}
+// ========================================================================================================================
+
+
 // Funcion que oculta el container de las cars informativas
-function hideMainContainerCards() {
-  $("#mainCardContainer").hide();
+function hideMainContainers() {
+  $("#mainCardContainer").hide(); 
 }
 // ========================================================================================================================
 
@@ -239,6 +249,38 @@ function validarModalidad(modalidad) {
   }
   return result;
 }
+// ========================================================================================================================
+
+// Funcion para obtener el destino y convertirlo
+
+// "01": "10477", // Norte America // Norte America y Canada
+// "02": "10475", // Europa // Internacional
+// "03": "10473", // LATAM // Latinoamerica
+// "04": "10473", // LATAM // Latinoamerica
+// "05": "10475", // Africa // Internacional
+// "06": "10475", // Asia // Internacional
+// "07": "10475", // Oceania // Internacional
+
+function regionConvert(codigoDestino) {
+  let result = "";
+  switch (codigoDestino) {
+    case "10477":
+      result = "USA Y CANADA";
+      break;
+    case "10475":
+      result = "INTERNACIONAL";
+      break;
+    case "10473":
+      result = "LATINOAMERICA";
+      break;
+    default:
+      alert("Codigo de Region No Disponible");
+      break;
+  }
+
+  return result;
+}
+
 // ========================================================================================================================
 
 // Funcion para formatear los numeros
@@ -472,9 +514,9 @@ function cotizar() {
   txtFecRegreso =
     txtFecRegreso[0] + "/" + txtFecRegreso[1] + "/" + txtFecRegreso[2];
 
-  var DiasViaje =
+  var diasViaje =
     new Date(txtFecRegresoOr).getTime() - new Date(txtFecSalidaOr).getTime();
-  var txtDiasViaje = Math.round(DiasViaje / (1000 * 60 * 60 * 24)) + 1;
+  var txtDiasViaje = Math.round(diasViaje / (1000 * 60 * 60 * 24)) + 1;
 
   var info_inputs = {
     txtOrigen,
@@ -495,6 +537,7 @@ function cotizar() {
   // Ajax para mandar la informacion a cotizar con AssitCard
   let validar = validarCampos();
   if(validar){
+    var SelmotivoViaje2 = $("#motivoViaje").val();
     document.getElementById("spinener-cot").style.display = "flex";
     $.ajax({
       url: "https://grupoasistencia.com/assist_engine/WSAssistCard/assistCard.php",
@@ -525,19 +568,28 @@ function cotizar() {
         } else {
           if (objResponse.codigo) {
             document.getElementById("spinener-cot").style.display = "none";
-            Swal.fire({
-              icon: "error",
-              title: "Oops... Por favor revisa toda la información ingresada",
-            });
+            console.log(SelmotivoViaje2, " ", txtDiasViaje)
+            if(SelmotivoViaje2 === "Estudiantil" && txtDiasViaje < 60){
+              Swal.fire({
+                icon: "error",
+                title: "Plan Estudiantil partir de 60 días y hasta 365 días corridos.",
+              });
+            } else {
+              Swal.fire({
+                icon: "error",
+                title: "Oops... Por favor revisa toda la información ingresada",
+              });
+            }
           } else {
-            
             var dolarHoy = objResponse.cotizacionDolar;
             var cotizaciones = objResponse.cotizaciones;
             var cotizacion = cotizaciones.cotizacion;
-            var SelmotivoViaje2 = $("#motivoViaje").val();
+            
             var html_data = "";
-            hideMainContainerCards();
+            //debugger
+            hideMainContainers();
             showContainerCards();
+            hideContainerQuotations();
             if (typeof cotizacion == "object" && cotizacion.length == undefined) {
               if (SelmotivoViaje2 == "Empresarial") {
                 if (validarCodigoEmpresarial(cotizacion.codigo)) {
@@ -938,10 +990,10 @@ function cotizar() {
                                                   Assist Card - ${changeNameProduct(
                                                     cotizacionArray.codigo,
                                                     cotizacionArray.nombreTarifa
-                                                  )}
+                                                  )} - ${regionConvert(cotizacionArray.codigoTarifa)}
                                               </span><br> 
                                               <span class="tittleCard">
-                                                  VACACIONAL
+                                                  ESTUDIANTIL
                                               </span><br> 
                                               <span class="tittlePrice">
                                                   Desde  ${
@@ -982,14 +1034,17 @@ function cotizar() {
                                                   <li>Cobertura de accidentes</li>
                                                   <li>Cobertura por enfermedades no preexistente</li>
                                                   <li>Cobertura de estabilización de cuadro agudo de preexistencias</li>
+                                                  <li>Acompañamiento psicológico</li>
+                                                  <li>Odontología de urgencia</li>
                                               </ul>
                                           </div>
     
                                           <div class="col-xs-12 col-sm-6 col-md-3 textCards">
                                               <ul>
-                                                  <li>Odontología de urgencia</li>
+                                                  <li>Traslado de un familiar es caso de hospitalización prevista de 5 días.</li>
                                                   <li>Repatriación Sanitaria derivada de una atención médica</li>
                                                   <li>Repatriación funeraria</li>
+                                                  <li>Cobertura salvoconducto ante Pérdida de Pasaporte</li>
                                                   <li>Seguro de equipaje ante demora y pérdida</li>
                                               </ul>
                                           </div>
