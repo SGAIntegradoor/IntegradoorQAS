@@ -568,7 +568,7 @@ function cotizar() {
         } else {
           if (objResponse.codigo) {
             document.getElementById("spinener-cot").style.display = "none";
-            console.log(SelmotivoViaje2, " ", txtDiasViaje)
+            //console.log(SelmotivoViaje2, " ", txtDiasViaje)
             if(SelmotivoViaje2 === "Estudiantil" && txtDiasViaje < 60){
               Swal.fire({
                 icon: "error",

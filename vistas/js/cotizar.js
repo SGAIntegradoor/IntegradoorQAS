@@ -2727,7 +2727,7 @@ function cotizarOfertas() {
                   let successAseguradora = true;
                   cont.push(
                     fetch(
-                      `https://grupoasistencia.com/motor_webservice/${aseguradora}_autos?callback=myCallback`,
+                      `https://grupoasistencia.com/motor_webservice/${aseguradora}?callback=myCallback`,
                       requestOptions
                     )
                     .then((res) => {
