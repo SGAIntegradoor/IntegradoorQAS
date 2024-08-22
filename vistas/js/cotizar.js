@@ -348,7 +348,7 @@ $(document).ready(function () {
 
   async function checkCotTotales() {
     let cotHechas = await mostrarCotRestantes();
-    console.log(cotHechas);
+    //console.log(cotHechas);
 
     return new Promise(function (resolve, reject) {
       $.ajax({
@@ -1164,7 +1164,7 @@ function consulDatosFasecolda(codFasecolda, edadVeh) {
       },
       success: function (data) {
         if (data.mensaje == "No hay Registros.") {
-          console.log("entr aqui");
+          //console.log("entr aqui");
           document.getElementById("formularioVehiculo").style.display = "block";
           Swal.fire({
             icon: "error",
@@ -1335,7 +1335,7 @@ function obtenerFechaActual(incrementarAnio = false) {
 }
 
 function saveQuotations(responses) {
-  console.log(responses);
+  //console.log(responses);
   let dataToDB = [];
   if (Array.isArray(responses) && responses.length >= 1) {
     dataToDB = responses.map((element) => {
@@ -1477,7 +1477,7 @@ function cotizarFinesa(ofertasCotizaciones) {
       console.error("Error en las promesas: ", error);
     })
     .finally(() => {
-      console.log(cotEnFinesaResponse);
+      //console.log(cotEnFinesaResponse);
     });
 }
 
@@ -1537,7 +1537,7 @@ function registrarOferta(
       },
       error: function (error) {
         // desactive
-        console.log(error);
+        //console.log(error);
         reject(error);
       },
     });
