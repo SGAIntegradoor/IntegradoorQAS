@@ -256,28 +256,30 @@ class ModeloCotizaciones
 			$stmt->execute();
 
 			return $stmt->fetchAll(PDO::FETCH_ASSOC);
-		} else if ($fechaInicialCotizaciones == $fechaFinalCotizaciones) {
-			$stmt = Conexion::conectar()->prepare("
-			SELECT * FROM $tabla, $tabla2, $tabla3, $tabla4, $tabla5 
-			WHERE $tabla.id_cliente = $tabla2.id_cliente
-				AND $tabla.id_usuario = $tabla5.id_usuario 
-				AND $tabla2.id_tipo_documento = $tabla3.id_tipo_documento 
-				AND $tabla2.id_estado_civil = $tabla4.id_estado_civil 
-				AND cot_fch_cotizacion LIKE CONCAT('%', :fecha, '%') 
-				AND usuarios.id_Intermediario = :idIntermediario
-				$condicion
-			");
-			$stmt->bindParam(":fecha", $fechaFinalCotizaciones, PDO::PARAM_STR);
-			$stmt->bindParam(":idIntermediario", $_SESSION["intermediario"], PDO::PARAM_INT);
+		} 
+		// else if ($fechaInicialCotizaciones == $fechaFinalCotizaciones) {
+		// 	$stmt = Conexion::conectar()->prepare("
+		// 	SELECT * FROM $tabla, $tabla2, $tabla3, $tabla4, $tabla5 
+		// 	WHERE $tabla.id_cliente = $tabla2.id_cliente
+		// 		AND $tabla.id_usuario = $tabla5.id_usuario 
+		// 		AND $tabla2.id_tipo_documento = $tabla3.id_tipo_documento 
+		// 		AND $tabla2.id_estado_civil = $tabla4.id_estado_civil 
+		// 		AND cot_fch_cotizacion LIKE CONCAT('%', :fecha, '%') 
+		// 		AND usuarios.id_Intermediario = :idIntermediario
+		// 		$condicion
+		// 	");
+		// 	$stmt->bindParam(":fecha", $fechaFinalCotizaciones, PDO::PARAM_STR);
+		// 	$stmt->bindParam(":idIntermediario", $_SESSION["intermediario"], PDO::PARAM_INT);
 
-			if ($_SESSION["permisos"]["Verlistadodecotizacionesdelaagencia"] != "x") {
-				$stmt->bindParam(":idUsuario", $_SESSION["idUsuario"], PDO::PARAM_INT);
-			}
+		// 	if ($_SESSION["permisos"]["Verlistadodecotizacionesdelaagencia"] != "x") {
+		// 		$stmt->bindParam(":idUsuario", $_SESSION["idUsuario"], PDO::PARAM_INT);
+		// 	}
 
-			$stmt->execute();
+		// 	$stmt->execute();
 
-			return $stmt->fetchAll(PDO::FETCH_ASSOC);
-		} else {
+		// 	return $stmt->fetchAll(PDO::FETCH_ASSOC);
+		// } 
+		else {
 			$inicioMes = new DateTime($fechaInicialCotizaciones);
 			$inicioMes = $inicioMes->format('Y-m-d');
 			$finMes = new DateTime($fechaFinalCotizaciones);
@@ -285,7 +287,7 @@ class ModeloCotizaciones
 
 			if($_SESSION['rol'] == 10){
 				$stmt = Conexion::conectar()->prepare("
-				SELECT c.id_cotizacion, c.fecha_cot, c.fch_nacimiento, c.lugar_origen, c.lugar_destino, c.nom_prospecto, c.fch_salida, c.fch_regreso, c.modalidad_cot, us.usu_nombre, us.usu_apellido FROM $tabla c
+				SELECT c.id_cotizacion, c.fecha_cot, c.fch_nacimiento, c.lugar_origen, c.lugar_destino, c.nom_prospecto, c.fch_salida, c.fch_regreso, c.modalidad_cot, us.usu_nombre, us.usu_apellido, c.numero_pasajeros FROM $tabla c
 				INNER JOIN $tabla5 us ON c.id_usuario = us.id_usuario
 				WHERE c.fecha_cot >= :fechaInicial AND c.fecha_cot <= :fechaFinal
 				ORDER BY c.fecha_cot DESC
