@@ -8,7 +8,7 @@ const equivalencias = {
   GD: "AC 60",
   GC: "AC 150",
   HK: "AC 250",
-  WS: "TRABAJO / ESTUDIO 110"
+  WS: "AC 110 ESTUDIANTIL",
 };
 
 //Constantes con los planes permitidos, si se quiere agregar otro solo es colocar su codigo aqui y revisar las coberturas
@@ -46,6 +46,9 @@ const planesPorDestinoEstudiantiles = {
   "05": "10475", // Africa // Internacional
   "06": "10475", // Asia // Internacional
   "07": "10475", // Oceania // Internacional
+  "08": "10474", // Latam 365 Dias +
+  "09": "10476", // Internacional 365 Dias +
+  "10": "10478" // Norte America y Canada 365 +
 };
 
 // Cargar el select de origen
@@ -144,16 +147,15 @@ function showContainerCards() {
 
 // Funcion que oculta el container del cuadro de cotizaciones
 function hideContainerQuotations() {
-  $("#containerDataTableTittle").hide(); 
-  $("#containerDataTable").hide(); 
-  $("#DataTables_Table_0_wrapper").hide(); 
+  $("#containerDataTableTittle").hide();
+  $("#containerDataTable").hide();
+  $("#containerTable").hide();
 }
 // ========================================================================================================================
 
-
 // Funcion que oculta el container de las cars informativas
 function hideMainContainers() {
-  $("#mainCardContainer").hide(); 
+  $("#mainCardContainer").hide();
 }
 // ========================================================================================================================
 
@@ -273,6 +275,15 @@ function regionConvert(codigoDestino) {
     case "10473":
       result = "LATINOAMERICA";
       break;
+    case "10474":
+      result = "LATINOAMERICA";
+      break;
+    case "10476":
+      result = "INTERNACIONAL";
+      break;
+    case "10478":
+      result = "USA Y CANADA";
+      break;
     default:
       alert("Codigo de Region No Disponible");
       break;
@@ -360,6 +371,7 @@ function validateDateToStudyingProduct() {
   var mesNacimiento = document.getElementById("mesnacimiento").value;
   var anioNacimiento = document.getElementById("anionacimiento").value;
   var fechaSalida = document.getElementById("fechaSalida").value;
+  var fechaRegreso = document.getElementById("fechaRegreso").value;
 
   if (motivoViaje !== "Estudiantil") {
     return true;
@@ -472,7 +484,6 @@ let id_usuario = permisos.id_usuario;
 
 //Funcion que permite cotizar la asistencia en viajes con AssitCard
 function cotizar() {
-  
   // Capturamos los valores de los campos del formulario
   var PlanFamilair = "false";
   var txtOrigen = $("#lugarOrigen").val();
@@ -536,7 +547,7 @@ function cotizar() {
 
   // Ajax para mandar la informacion a cotizar con AssitCard
   let validar = validarCampos();
-  if(validar){
+  if (validar) {
     var SelmotivoViaje2 = $("#motivoViaje").val();
     document.getElementById("spinener-cot").style.display = "flex";
     $.ajax({
@@ -569,10 +580,11 @@ function cotizar() {
           if (objResponse.codigo) {
             document.getElementById("spinener-cot").style.display = "none";
             //console.log(SelmotivoViaje2, " ", txtDiasViaje)
-            if(SelmotivoViaje2 === "Estudiantil" && txtDiasViaje < 60){
+            if ((SelmotivoViaje2 === "Estudiantil" && txtDiasViaje < 60) || (SelmotivoViaje2 === "Estudiantil" && txtDiasViaje > 365 )) {
               Swal.fire({
                 icon: "error",
-                title: "Plan Estudiantil partir de 60 días y hasta 365 días corridos.",
+                title:
+                  "Plan Estudiantil partir de 60 días y hasta 365 días corridos.",
               });
             } else {
               Swal.fire({
@@ -584,13 +596,16 @@ function cotizar() {
             var dolarHoy = objResponse.cotizacionDolar;
             var cotizaciones = objResponse.cotizaciones;
             var cotizacion = cotizaciones.cotizacion;
-            
+
             var html_data = "";
             //debugger
             hideMainContainers();
             showContainerCards();
             hideContainerQuotations();
-            if (typeof cotizacion == "object" && cotizacion.length == undefined) {
+            if (
+              typeof cotizacion == "object" &&
+              cotizacion.length == undefined
+            ) {
               if (SelmotivoViaje2 == "Empresarial") {
                 if (validarCodigoEmpresarial(cotizacion.codigo)) {
                   toogleDataContainer();
@@ -805,7 +820,8 @@ function cotizar() {
                                             Desde ${
                                               contPasajeros > 1
                                                 ? `${
-                                                    cotizacionArray.moneda == "1"
+                                                    cotizacionArray.moneda ==
+                                                    "1"
                                                       ? "USD"
                                                       : "COP"
                                                   } $` +
@@ -816,7 +832,8 @@ function cotizar() {
                                                       .valorAsistencia
                                                   ).toFixed(2)
                                                 : `${
-                                                    cotizacionArray.moneda == "1"
+                                                    cotizacionArray.moneda ==
+                                                    "1"
                                                       ? "USD"
                                                       : "COP"
                                                   } $` +
@@ -902,7 +919,7 @@ function cotizar() {
                                                     ? `${
                                                         cotizacionArray.moneda ==
                                                         "1"
-                                                          ? "US"
+                                                          ? "USD"
                                                           : "COP"
                                                       } $` +
                                                       parseFloat(
@@ -914,7 +931,7 @@ function cotizar() {
                                                     : `${
                                                         cotizacionArray.moneda ==
                                                         "1"
-                                                          ? "US"
+                                                          ? "USD"
                                                           : "COP"
                                                       } $` +
                                                       parseFloat(
@@ -973,8 +990,28 @@ function cotizar() {
                             `;
                   }
                 } else if (SelmotivoViaje2 == "Estudiantil") {
+                  // "01": "10477", // Norte America // Norte America y Canada
+                  // "02": "10475", // Europa // Internacional
+                  // "03": "10473", // LATAM // Latinoamerica
+                  // "04": "10473", // LATAM // Latinoamerica
+                  // "05": "10475", // Africa // Internacional
+                  // "06": "10475", // Asia // Internacional
+                  // "07": "10475", // Oceania // Internacional
+                  // "08": "10474", // Latam 365 Dias +
+                  // "09": "10476", // Internacional 365 Dias +
+                  // "10": "10478" // Norte America y Canada 365 +
                   var txtDestino = $("#lugarDestino").val();
-                  let codigoOferta = planesPorDestinoEstudiantiles[txtDestino];
+                  let codigoOferta = "";
+                  var codOfertaEstatico = planesPorDestinoEstudiantiles[txtDestino];
+                  if(cotizacionArray.codigoTarifa == "10474" && codOfertaEstatico == "10473"){
+                    codigoOferta = cotizacionArray.codigoTarifa;
+                  } else if(cotizacionArray.codigoTarifa == "10476" && codOfertaEstatico == "10475"){
+                    codigoOferta = cotizacionArray.codigoTarifa;
+                  } else if(cotizacionArray.codigoTarifa == "10478" && codOfertaEstatico == "10477"){
+                    codigoOferta = cotizacionArray.codigoTarifa;
+                  } else {
+                    codigoOferta = planesPorDestinoEstudiantiles[txtDestino];
+                  }
                   if (codigoOferta == cotizacionArray.codigoTarifa) {
                     if (validarCodigoEstudiantil(cotizacionArray.codigo)) {
                       toogleDataContainer();
@@ -990,18 +1027,18 @@ function cotizar() {
                                                   Assist Card - ${changeNameProduct(
                                                     cotizacionArray.codigo,
                                                     cotizacionArray.nombreTarifa
-                                                  )} - ${regionConvert(cotizacionArray.codigoTarifa)}
+                                                  )} - ${regionConvert(
+                        cotizacionArray.codigoTarifa
+                      )}
                                               </span><br> 
-                                              <span class="tittleCard">
-                                                  ESTUDIANTIL
-                                              </span><br> 
+                                             
                                               <span class="tittlePrice">
                                                   Desde  ${
                                                     contPasajeros > 1
                                                       ? `${
                                                           cotizacionArray.moneda ==
                                                           "1"
-                                                            ? "US"
+                                                            ? "USD"
                                                             : "COP"
                                                         } $` +
                                                         parseFloat(
@@ -1013,7 +1050,7 @@ function cotizar() {
                                                       : `${
                                                           cotizacionArray.moneda ==
                                                           "1"
-                                                            ? "US"
+                                                            ? "USD"
                                                             : "COP"
                                                         } $` +
                                                         parseFloat(
@@ -1100,8 +1137,6 @@ function cotizar() {
       title: "Por favor revisa toda la información ingresada",
     });
   }
-
-  
 }
 
 // Inicializacion de funciones
