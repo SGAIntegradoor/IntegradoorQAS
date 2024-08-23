@@ -176,7 +176,7 @@
         </div>
         <div class="container-fluid" id="Cards">
             <div class="row">
-                <div class="col-xs-12">
+                <div class="col-xs-12" style="padding-left: 0px;">
                     <p><strong>Nota: </strong>Esta cotización aplica para una sola persona. Si requieres una cotización para un grupo (2 o más personas), ponte en contacto con el equipo comercial a través de tu analista asignado.</p>
                     <p><strong>Nota: </strong>Los valores cotizados se encuentran en dolares americanos (USD).</p>
                 </div>
