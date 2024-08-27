@@ -2655,12 +2655,14 @@ function cotizarOfertas() {
                 // const planes = ["FULL", "MEDIUM"];
                 const planes = ["FULL"];
                 planes.forEach((plan) => {
+                  let lineaVeh = document.getElementById("txtReferenciaVeh").value;
+                  console.log(lineaVeh)
                   let body = JSON.parse(requestOptions.body);
                   body.plan = plan;
                   body.Email = "@gmail.com";
                   body.Email2 = Math.round(Math.random() * 999999) + body.Email;
-                  requestOptions.body = JSON.stringify(body);
                   body.linea = lineaVeh;
+                  requestOptions.body = JSON.stringify(body);
                   url = `https://grupoasistencia.com/motor_webservice/${aseguradora}_autos`;
 
                   cont.push(
