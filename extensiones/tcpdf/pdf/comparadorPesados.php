@@ -1150,7 +1150,6 @@ $html3 .= '</tr>';
 $html3 .= '<tr>';
 $html3 .= '<td class="puntos fondo" style="width:25%; text-align: center; font-family:dejavusanscondensedb;"><div style="font-size:6pt">&nbsp;</div><font size="8">Pérdida total daños o hurto</font></td>';
 
-var_dump($resultados);
 
 $cont6 = 1;
 foreach ($resultados as $resultado) {
