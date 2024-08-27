@@ -420,7 +420,8 @@ function cargarEstilos(url) {
 
 //Cambiar titulo data container una vez se cotiza
 function toogleDataContainer() {
-  var newTittle = "DATOS DEL VIAJE";
+  
+  var newTittle = "Datos del Viaje";
   $("#lblDataTrip").text(newTittle);
   $("#colradioPeople, #colBtnCotizar").hide();
 }
@@ -483,6 +484,7 @@ function validarCampos() {
 let id_usuario = permisos.id_usuario;
 
 //Funcion que permite cotizar la asistencia en viajes con AssitCard
+
 function cotizar() {
   // Capturamos los valores de los campos del formulario
   var PlanFamilair = "false";
@@ -598,7 +600,6 @@ function cotizar() {
             var cotizacion = cotizaciones.cotizacion;
 
             var html_data = "";
-            //debugger
             hideMainContainers();
             showContainerCards();
             hideContainerQuotations();
@@ -990,16 +991,6 @@ function cotizar() {
                             `;
                   }
                 } else if (SelmotivoViaje2 == "Estudiantil") {
-                  // "01": "10477", // Norte America // Norte America y Canada
-                  // "02": "10475", // Europa // Internacional
-                  // "03": "10473", // LATAM // Latinoamerica
-                  // "04": "10473", // LATAM // Latinoamerica
-                  // "05": "10475", // Africa // Internacional
-                  // "06": "10475", // Asia // Internacional
-                  // "07": "10475", // Oceania // Internacional
-                  // "08": "10474", // Latam 365 Dias +
-                  // "09": "10476", // Internacional 365 Dias +
-                  // "10": "10478" // Norte America y Canada 365 +
                   var txtDestino = $("#lugarDestino").val();
                   let codigoOferta = "";
                   var codOfertaEstatico = planesPorDestinoEstudiantiles[txtDestino];
