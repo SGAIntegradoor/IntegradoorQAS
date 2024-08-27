@@ -280,6 +280,18 @@ checkUserStatus();
 			}
 
 
+					/*=============================================
+		SALUD
+		=============================================*/
+
+			echo '<li id="menuCoAssist" class="' . ($currentPage == 'salud' ? 'active' : '') . '">
+			<a href="salud">
+				<i class="fa fa-heartbeat" aria-hidden="true" style="font-size: 1.2em;"></i>
+				<span>Cotizador Seguro de Salud</span>
+			</a>
+		</li>';
+		
+
 			/*=============================================
 		USUARIOS
 		=============================================*/

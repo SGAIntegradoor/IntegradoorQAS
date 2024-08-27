@@ -1,0 +1,241 @@
+input[type="checkbox"] {
+    content: "";
+    width: 26px;
+    height: 26px;
+    border: 2px solid #ccc;
+    background: #ddd;
+  }
+
+  .gray-header {
+    color: #808080;
+  }
+
+  .divBoton {
+    display: flex;
+    justify-content: end;
+  }
+
+  .separador {
+    margin-left: 15px;
+  }
+
+  .smaller-input {
+    max-width: 200px;
+    margin: 0 auto;
+  }
+
+  .input-addon {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 325px;
+    z-index: 1;
+  }
+
+  .placeholder {
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 6px;
+    color: #aaa;
+    pointer-events: none;
+    transition: all 0.2s;
+  }
+
+  .input-container {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+  }
+
+  .input-container .form-control {
+    margin-left: 10px;
+  }
+
+  .form {
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .form input {
+    width: 90%;
+    height: 80px;
+    margin: 0.5rem;
+  }
+
+  .form button {
+    padding: 0.5em 1em;
+    border: none;
+    background: rgb(100, 200, 255);
+    cursor: pointer;
+  }
+
+
+  .container {
+    display: flex;
+    justify-content: center;
+  }
+
+  .login-logo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* margin-right: 20px; */
+  }
+
+  .rounded-container {
+    border-radius: 20px;
+    background-color: white;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+    padding: 10px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+  }
+
+  .rounded-container-logo {
+    border-radius: 20px;
+    background-color: white;
+    box-shadow: 0 0 0px rgba(0, 0, 0, 0.3);
+    padding: 10px;
+    max-width: 400px;
+    margin: 0 auto;
+    text-align: center;
+    margin-bottom: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .circle-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+  }
+
+
+  .circle {
+    width: 90%;
+    height: 90%;
+    border-radius: 100%;
+    overflow: hidden;
+  }
+
+
+  .circle img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  #contenBtnConsultarExequial {
+    padding-top: 25px;
+  }
+
+  .card-exequias {
+    flex: 0 1 calc(15% - 0px);
+    border-radius: 20px;
+    background-color: white;
+    box-shadow: 0 0 7px rgba(0, 0, 0, 0.3);
+    padding: 10px 30px;
+    max-width: 100%;
+    margin: 0 auto;
+    margin-top: 12px;
+    text-align: center;
+    margin-bottom: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .card-exequias-logo {
+    flex: 0 1 calc(15% - 0px);
+    border-radius: 20px;
+    background-color: white;
+    box-shadow: 0 0 0px rgba(0, 0, 0, 0.3);
+    max-width: 100%;
+    margin: 0 auto;
+    margin-top: 12px;
+    text-align: center;
+    margin-bottom: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+
+  .row-card {
+    padding-top: 3%;
+    padding-left: 3%;
+    padding-right: 3%;
+    display: flex;
+
+  }
+
+  .row-card-end {
+    padding-bottom: 3%;
+    padding-left: 7%;
+    padding-right: 7%;
+  }
+
+  .error-message {
+    display: none;
+    color: red;
+    font-size: 12px;
+    margin-top: 5px;
+  }
+
+  input:invalid+.error-message,
+  select:invalid+.error-message {
+    display: block;
+  }
+
+  .row1 {
+    display: flex;
+  }
+
+  .card-text {
+    text-align: justify;
+  }
+
+  .card-container {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .card-exequias .card-title {
+
+    font-size: 19px;
+    margin-bottom: 5.5%;
+  }
+
+  .card-exequias .card-text {
+    font-size: 13px;
+    margin-bottom: 14px;
+  }
+
+  .special-card {
+    box-shadow: none;
+  }
+
+  .select2-container--bootstrap .select2-results>.select2-results__options {
+    max-height: 90px !important;
+    overflow-y: auto;
+  }
+
+  .miIframe {
+    width: 100%;
+    max-width: none;
+    height: 1200px;
+    transition: width 0.5s;
+  }
