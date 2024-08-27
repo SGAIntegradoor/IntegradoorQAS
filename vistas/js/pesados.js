@@ -15,15 +15,15 @@ $(document).ready(function () {
   $("#numCotizacion").numeric();
   $("#valorTotal").numeric();
 
-  $("#txtValorFasecolda").on("input", function() {
-    this.value = this.value.replace(/\./g, '');
+  $("#txtValorFasecolda").on("input", function () {
+    this.value = this.value.replace(/\./g, "");
   });
 
   // Previene el ingreso de puntos desde el teclado
-  $("#txtValorFasecolda").on("keydown", function(event) {
-      if (event.which === 190 || event.which === 110) {
-          event.preventDefault();
-      }
+  $("#txtValorFasecolda").on("keydown", function (event) {
+    if (event.which === 190 || event.which === 110) {
+      event.preventDefault();
+    }
   });
 
   tokenPrevisora();
@@ -1291,8 +1291,6 @@ const mostrarOfertaPesados = (
     cotizacionesFinesa.push(cotOferta);
   }
 
-  
-
   let cardCotizacion = `
             <div class='col-lg-12'>
               <div class='card-ofertas'>
@@ -1421,7 +1419,7 @@ const mostrarOfertaPesados = (
                 <div>VER PDF &nbsp;&nbsp;<span class="fa fa-file-text"></span></div>
               </button>
             </div>`;
-  } else if (aseguradora == "Previsora Seguros" || aseguradora == "Previsora" ) {
+  } else if (aseguradora == "Previsora Seguros" || aseguradora == "Previsora") {
     cardCotizacion += `
             <div class="col-xs-12 col-sm-6 col-md-2 verpdf-oferta">
               <button id="previsora-pdf${numCotizOferta}" type="button" class="btn btn-info" onclick='verPdfPrevisora(${numCotizOferta})'>
@@ -2298,11 +2296,21 @@ function cotizarOfertasPesados() {
                       }
                     })
                     .catch((err) => {
-                      console.error(err);
+                      agregarAseguradoraFallidaPesados(aseguradora);
+                      mostrarAlertarCotizacionFallida(
+                        aseguradora,
+                        "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
+                      );
+                      validarProblema(aseguradora, [
+                        {
+                          Mensajes: [
+                            "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
+                          ],
+                        },
+                      ]);
+                      console.error(err)
                     })
-                    .catch(function (error) {
-                      console.log("Parece que hubo un problema: \n", error);
-                    });
+
 
                   cont.push(mundialPromise);
                 } else {
@@ -2344,7 +2352,19 @@ function cotizarOfertasPesados() {
                         }
                       })
                       .catch((err) => {
-                        console.error(err);
+                        agregarAseguradoraFallidaPesados(aseguradora);
+                      mostrarAlertarCotizacionFallida(
+                        aseguradora,
+                        "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
+                      );
+                      validarProblema(aseguradora, [
+                        {
+                          Mensajes: [
+                            "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
+                          ],
+                        },
+                      ]);
+                      console.error(err)
                       });
 
                     cont.push(mundialPromise);
@@ -2410,7 +2430,19 @@ function cotizarOfertasPesados() {
                       }
                     })
                     .catch((err) => {
-                      console.error(err);
+                      agregarAseguradoraFallidaPesados(aseguradora);
+                      mostrarAlertarCotizacionFallida(
+                        aseguradora,
+                        "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
+                      );
+                      validarProblema(aseguradora, [
+                        {
+                          Mensajes: [
+                            "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
+                          ],
+                        },
+                      ]);
+                      console.error(err)
                     });
 
                   cont.push(axaPromise);
@@ -2469,7 +2501,19 @@ function cotizarOfertasPesados() {
                       }
                     })
                     .catch((err) => {
-                      console.error(err);
+                      agregarAseguradoraFallidaPesados(aseguradora);
+                      mostrarAlertarCotizacionFallida(
+                        aseguradora,
+                        "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
+                      );
+                      validarProblema(aseguradora, [
+                        {
+                          Mensajes: [
+                            "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
+                          ],
+                        },
+                      ]);
+                      console.error(err)
                     });
 
                   cont.push(libertyPromise);
@@ -2509,7 +2553,19 @@ function cotizarOfertasPesados() {
                     }
                   })
                   .catch((err) => {
-                    console.error(err);
+                    agregarAseguradoraFallidaPesados(aseguradora);
+                    mostrarAlertarCotizacionFallida(
+                      aseguradora,
+                      "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
+                    );
+                    validarProblema(aseguradora, [
+                      {
+                        Mensajes: [
+                          "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
+                        ],
+                      },
+                    ]);
+                    console.error(err)
                   });
                 cont.push(promise);
               }
@@ -2753,7 +2809,7 @@ function cotizarOfertasPesados() {
           }
         };
 
-        console.log(aseguradorasFallidas);
+        //console.log(aseguradorasFallidas);
 
         aseguradorasFallidas.forEach((aseguradora) => {
           if (
@@ -2815,11 +2871,18 @@ function cotizarOfertasPesados() {
               })
               .catch((err) => {
                 agregarAseguradoraFallidaPesados("Liberty");
-                mostrarAlertarCotizacionFallida(
-                  "Liberty",
-                  "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
-                );
-                console.error(err);
+                      mostrarAlertarCotizacionFallida(
+                        "Liberty",
+                        "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
+                      );
+                      validarProblema("Liberty", [
+                        {
+                          Mensajes: [
+                            "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
+                          ],
+                        },
+                      ]);
+                      console.error(err)
               })
           : Promise.resolve();
 
@@ -2853,15 +2916,70 @@ function cotizarOfertasPesados() {
               })
               .catch((err) => {
                 agregarAseguradoraFallidaPesados("AXA");
-                mostrarAlertarCotizacionFallida(
-                  "AXA",
-                  "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
-                );
-                console.error(err);
+                      mostrarAlertarCotizacionFallida(
+                        "AXA",
+                        "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
+                      );
+                      validarProblema("AXA", [
+                        {
+                          Mensajes: [
+                            "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
+                          ],
+                        },
+                      ]);
+                      console.error(err)
               })
           : Promise.resolve();
 
         cont.push(axaPromise);
+
+        const previsoraPromise = comprobarFallidaPesados("Previsora")
+          ? fetch(
+              "https://grupoasistencia.com/motor_webservice/Previsora_pesados",
+              requestOptions
+            )
+              .then((res) => {
+                if (!res.ok) throw Error(res.statusText);
+                return res.json();
+              })
+              .then((ofertas) => {
+                if (typeof ofertas[0].Resultado !== "undefined") {
+                  agregarAseguradoraFallidaPesados("Previsora");
+                  validarProblema("Previsora", ofertas);
+                  ofertas[0].Mensajes.forEach((mensaje) => {
+                    mostrarAlertarCotizacionFallida("Previsora", mensaje);
+                  });
+                } else {
+                  // eliminarAseguradoraFallida('Previsora');
+                  const contadorPorEntidad = validarOfertasPesados(
+                    ofertas,
+                    "Previsora",
+                    1
+                  );
+                  mostrarAlertaCotizacionExitosa(
+                    "Previsora",
+                    contadorPorEntidad
+                  );
+                }
+              })
+              .catch((err) => {
+                agregarAseguradoraFallidaPesados("Previsora");
+                mostrarAlertarCotizacionFallida(
+                  "Previsora",
+                  "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
+                );
+                validarProblema("Previsora", [
+                  {
+                    Mensajes: [
+                      "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
+                    ],
+                  },
+                ]);
+                console.error(err)
+              })
+          : Promise.resolve();
+
+        cont.push(previsoraPromise);
 
         Promise.all(cont).then(() => {
           $("#loaderOferta").html("");
@@ -2905,7 +3023,7 @@ function cotizarOfertasPesados() {
                     );
                     btnRecot.disabled = true;
                     cotizarFinesa(cotizacionesFinesa);
-                  } else if (result.isDismissed && cotizacionesFinesaMotos) {
+                  } else if (result.isDismissed && cotizacionesFinesa) {
                     if (result.dismiss === "cancel") {
                       $("#loaderRecotOfertaBox").css("display", "none");
                       $("#loaderRecotOferta").html("");
@@ -2925,9 +3043,6 @@ function cotizarOfertasPesados() {
           }
         });
       }
-      let zurichErrors = true;
-      let zurichSuccess = true;
-      let successEstado = true;
     }
   }
 }
