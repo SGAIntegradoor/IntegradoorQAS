@@ -95,11 +95,11 @@
                     <td class="text-center" style="font-size: 14px; text-align: center;">' . $value['usu_nombre'] . ' ' . $value['usu_apellido'] . '</td>
                     <td class="text-center">
                         <div class="btn-group">
-                            <button class="btn btn-primary btnEditarCotizacion" idCotizacion="' . $value["id_cotizacion"] . '">Seleccionar</button>';
+                            <button class="btn btn-primary btnEditarCotizacionAssistCard" idCotizacion="' . $value["id_cotizacion"] . '">Seleccionar</button>';
         
-            if ($_SESSION["rol"] == 1) {
-                echo '<button class="btn btn-danger btnEliminarCotizacion" style="display: none !important;" idCotizacion="' . $value["id_cotizacion"] . '"><i class="fa fa-times"></i></button>';
-            }
+            // if ($_SESSION["rol"] == 1) {
+            //     echo '<button class="btn btn-danger btnEliminarCotizacion" style="display: none !important;" idCotizacion="' . $value["id_cotizacion"] . '"><i class="fa fa-times"></i></button>';
+            // }
         
             echo '   </div>
                     </td>
@@ -118,5 +118,6 @@
 
 <link rel="stylesheet" href="vistas\modulos\AssistCardCot\css\admincotizaciones.css">
 <script src="vistas\modulos\AssistCardCot\js\adminCotizacionesAssistCard.js?v=<?php echo (rand()); ?>" defer></script>
+<script src="vistas\js\cotizaciones_assistcard.js?v=<?php echo (rand()); ?>" defer></script>
 <!-- use version 0.20.3 -->
 <script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js" defer></script>

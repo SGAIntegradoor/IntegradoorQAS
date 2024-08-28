@@ -48,7 +48,7 @@ const planesPorDestinoEstudiantiles = {
   "07": "10475", // Oceania // Internacional
   "08": "10474", // Latam 365 Dias +
   "09": "10476", // Internacional 365 Dias +
-  "10": "10478" // Norte America y Canada 365 +
+  10: "10478", // Norte America y Canada 365 +
 };
 
 // Cargar el select de origen
@@ -420,7 +420,6 @@ function cargarEstilos(url) {
 
 //Cambiar titulo data container una vez se cotiza
 function toogleDataContainer() {
-  
   var newTittle = "Datos del Viaje";
   $("#lblDataTrip").text(newTittle);
   $("#colradioPeople, #colBtnCotizar").hide();
@@ -482,6 +481,20 @@ function validarCampos() {
 // ========================================================================================================================
 
 let id_usuario = permisos.id_usuario;
+
+const guardarOfertas = (oferta) => {
+  try {
+    fetch(
+      "https://grupoasistencia.com/assist_engine/WSAssistCard/pushOfferts.php",
+      { method: "POST", body: JSON.stringify({ oferta: oferta }) }
+    ).then((response) => {
+      if (response.data.status) {
+        console.log(response);
+        console.log("se guardo correctamente las ofertasd de la cotizacion");
+      }
+    });
+  } catch (error) {}
+};
 
 //Funcion que permite cotizar la asistencia en viajes con AssitCard
 
@@ -582,7 +595,10 @@ function cotizar() {
           if (objResponse.codigo) {
             document.getElementById("spinener-cot").style.display = "none";
             //console.log(SelmotivoViaje2, " ", txtDiasViaje)
-            if ((SelmotivoViaje2 === "Estudiantil" && txtDiasViaje < 60) || (SelmotivoViaje2 === "Estudiantil" && txtDiasViaje > 365 )) {
+            if (
+              (SelmotivoViaje2 === "Estudiantil" && txtDiasViaje < 60) ||
+              (SelmotivoViaje2 === "Estudiantil" && txtDiasViaje > 365)
+            ) {
               Swal.fire({
                 icon: "error",
                 title:
@@ -609,6 +625,10 @@ function cotizar() {
             ) {
               if (SelmotivoViaje2 == "Empresarial") {
                 if (validarCodigoEmpresarial(cotizacion.codigo)) {
+                  // console.log(objResponse)
+                  cotizacion.last_id = objResponse.last_id;
+                  cotizacion.modalidad = SelmotivoViaje2;
+                  guardarOfertas(cotizacion);
                   toogleDataContainer();
                   html_data += ` 
                               <div class='card-ofertas'>
@@ -703,6 +723,9 @@ function cotizar() {
               }
               if (SelmotivoViaje2 == "Vacacional") {
                 if (validarCodigoVacacional(cotizacion.codigo)) {
+                  cotizacion.modalidad = SelmotivoViaje2;
+                  cotizacion.last_id = objResponse.last_id;
+                  guardarOfertas(cotizacion);
                   toogleDataContainer();
                   html_data += ` 
                               <div class='card-ofertas'>
@@ -799,6 +822,9 @@ function cotizar() {
               $.each(cotizacion, function (key, cotizacionArray) {
                 if (SelmotivoViaje2 == "Empresarial") {
                   if (validarCodigoEmpresarial(cotizacionArray.codigo)) {
+                    cotizacionArray.modalidad = SelmotivoViaje2;
+                    cotizacionArray.last_id = objResponse.last_id;
+                    guardarOfertas(cotizacionArray);
                     toogleDataContainer();
                     html_data += ` 
                               <div class='card-ofertas'>
@@ -896,6 +922,9 @@ function cotizar() {
                   }
                 } else if (SelmotivoViaje2 == "Vacacional") {
                   if (validarCodigoVacacional(cotizacionArray.codigo)) {
+                    cotizacionArray.modalidad = SelmotivoViaje2;
+                    cotizacionArray.last_id = objResponse.last_id;
+                    guardarOfertas(cotizacionArray);
                     toogleDataContainer();
                     html_data += ` 
                                   <div class='card-ofertas'>
@@ -993,18 +1022,31 @@ function cotizar() {
                 } else if (SelmotivoViaje2 == "Estudiantil") {
                   var txtDestino = $("#lugarDestino").val();
                   let codigoOferta = "";
-                  var codOfertaEstatico = planesPorDestinoEstudiantiles[txtDestino];
-                  if(cotizacionArray.codigoTarifa == "10474" && codOfertaEstatico == "10473"){
+                  var codOfertaEstatico =
+                    planesPorDestinoEstudiantiles[txtDestino];
+                  if (
+                    cotizacionArray.codigoTarifa == "10474" &&
+                    codOfertaEstatico == "10473"
+                  ) {
                     codigoOferta = cotizacionArray.codigoTarifa;
-                  } else if(cotizacionArray.codigoTarifa == "10476" && codOfertaEstatico == "10475"){
+                  } else if (
+                    cotizacionArray.codigoTarifa == "10476" &&
+                    codOfertaEstatico == "10475"
+                  ) {
                     codigoOferta = cotizacionArray.codigoTarifa;
-                  } else if(cotizacionArray.codigoTarifa == "10478" && codOfertaEstatico == "10477"){
+                  } else if (
+                    cotizacionArray.codigoTarifa == "10478" &&
+                    codOfertaEstatico == "10477"
+                  ) {
                     codigoOferta = cotizacionArray.codigoTarifa;
                   } else {
                     codigoOferta = planesPorDestinoEstudiantiles[txtDestino];
                   }
                   if (codigoOferta == cotizacionArray.codigoTarifa) {
                     if (validarCodigoEstudiantil(cotizacionArray.codigo)) {
+                      cotizacionArray.modalidad = SelmotivoViaje2;
+                      cotizacionArray.last_id = objResponse.last_id;
+                      guardarOfertas(cotizacionArray);
                       toogleDataContainer();
                       html_data += ` 
                                     <div class='card-ofertas'>

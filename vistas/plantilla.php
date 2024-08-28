@@ -381,7 +381,8 @@ CUERPO DOCUMENTO
         $_GET["ruta"] == "assistcard" ||
         $_GET["ruta"] == "soat" ||
         $_GET["ruta"] == "configuracion-pdf" ||
-        $_GET["ruta"] == "hogar"
+        $_GET["ruta"] == "hogar" ||
+        $_GET["ruta"] == "retomar-cotizacion-assistcard" 
       ) {
         if ($_GET['ruta'] == 'modificacion-productos') {
           $_GET['ruta'] = 'ModificacionProductos/ModificacionProductosView';
