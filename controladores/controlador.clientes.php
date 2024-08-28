@@ -3,6 +3,10 @@ require_once "../config/dbconfig.php";
 
 session_start();
 
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 // Obtener parámetros de la solicitud
 $start = $_POST['start'];
 $length = $_POST['length'];
