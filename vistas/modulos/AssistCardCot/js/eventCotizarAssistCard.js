@@ -488,9 +488,8 @@ const guardarOfertas = (oferta) => {
       "https://grupoasistencia.com/assist_engine/WSAssistCard/pushOfferts.php",
       { method: "POST", body: JSON.stringify({ oferta: oferta }) }
     ).then((response) => {
-      if (response.data.status) {
-        console.log(response);
-        console.log("se guardo correctamente las ofertasd de la cotizacion");
+      if (response.status == 200) {
+        // console.log("se guardo correctamente las ofertasd de la cotizacion");
       }
     });
   } catch (error) {}
@@ -625,7 +624,6 @@ function cotizar() {
             ) {
               if (SelmotivoViaje2 == "Empresarial") {
                 if (validarCodigoEmpresarial(cotizacion.codigo)) {
-                  // console.log(objResponse)
                   cotizacion.last_id = objResponse.last_id;
                   cotizacion.modalidad = SelmotivoViaje2;
                   console.log(cotizacion)
@@ -724,7 +722,6 @@ function cotizar() {
               }
               if (SelmotivoViaje2 == "Vacacional") {
                 if (validarCodigoVacacional(cotizacion.codigo)) {
-                  console.log(cotizacion); 
                   cotizacion.modalidad = SelmotivoViaje2;
                   cotizacion.last_id = objResponse.last_id;
                   guardarOfertas(cotizacion);
@@ -822,7 +819,6 @@ function cotizar() {
               }
             } else {
               $.each(cotizacion, function (key, cotizacionArray) {
-                console.log(cotizacionArray)
                 if (SelmotivoViaje2 == "Empresarial") {
                   if (validarCodigoEmpresarial(cotizacionArray.codigo)) {
                     cotizacionArray.modalidad = SelmotivoViaje2;
