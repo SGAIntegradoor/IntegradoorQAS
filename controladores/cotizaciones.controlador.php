@@ -35,10 +35,14 @@ class ControladorCotizaciones
 		return $respuesta;
 	}
 
+	/*=============================================
+	MOSTRAR COTIZACIONES "OFERTAS ASSISTCARD"
+	=============================================*/
+
 	static public function ctrShowQuoteAssistCard($id)
 	{
 		session_start();
-		$tabla = "Cotizaciones_Assistcard";
+		$tabla = "cotizaciones_assistcard";
 		$field = "id_cotizacion";
 
 		$respuesta = ModeloCotizaciones::mdlShowQuoteAssistCard($tabla, $field, $id);

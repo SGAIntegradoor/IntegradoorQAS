@@ -114,15 +114,11 @@ class ModeloCotizaciones
 	{
 		// Inicializa la variable $stmt
 		$stmt = null;
-
+		echo ($id);
 		if ($id != null) {
 
-
-			$stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE $field = :field");
-			// var_dump($stmt->queryString);
-
-			// die();
-			$stmt->bindParam(":field", $id, PDO::PARAM_STR);
+			$stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE $field = :id");
+			$stmt->bindParam(":id", $id, PDO::PARAM_STR);
 
 			if ($stmt->execute()) {
 				$resultado = $stmt->fetch(PDO::FETCH_ASSOC);
