@@ -1,27 +1,26 @@
-  $(".tablas-assistcard").on(
-    "click",
-    ".btnEditarCotizacionAssistCard",
-    function () {
-      var idCotizacionAssistCard = $(this).attr("idCotizacionAssistCard");
+$(".tablas-assistcard").on(
+  "click",
+  ".btnEditarCotizacionAssistCard",
+  function () {
+    var idCotizacionAssistCard = $(this).attr("idCotizacionAssistCard");
 
-      window.location =
-        "index.php?ruta=retomar-cotizacion-assistcard&idCotizacionAssistCard=" +
-        idCotizacionAssistCard;
-    }
-  );
-
-  var urlPage = new URL(window.location.href); // Instancia la URL Actual
-
-  var options = urlPage.searchParams.getAll("idCotizacionAssistCard"); //Buscar todos los parametros
-
-  if (options.length > 0) {
-    editarCotizacionAssistcard(options[0]);
+    window.location =
+      "index.php?ruta=retomar-cotizacion-assistcard&idCotizacionAssistCard=" +
+      idCotizacionAssistCard;
   }
+);
 
-  // Carga la fecha de Nacimiento
-  $(
-    "#dianacimientoResumen, #mesnacimientoResumen, #anionacimientoResumen"
-  ).each(function () {
+var urlPage = new URL(window.location.href); // Instancia la URL Actual
+
+var options = urlPage.searchParams.getAll("idCotizacionAssistCard"); //Buscar todos los parametros
+
+if (options.length > 0) {
+  editarCotizacionAssistcard(options[0]);
+}
+
+// Carga la fecha de Nacimiento
+$("#dianacimientoResumen, #mesnacimientoResumen, #anionacimientoResumen").each(
+  function () {
     $(this).select2({
       theme: "bootstrap fecnacimiento",
       language: "es",
@@ -32,8 +31,8 @@
       var $select2 = $(this).data("select2");
       $select2.dropdown.$dropdownContainer.addClass("select2-container--above");
     });
-  });
-
+  }
+);
 
 $("#menosCotizacion, #masCotizacion").click(function () {
   toggleContainerData();
@@ -258,21 +257,28 @@ function editarCotizacionAssistcard(id) {
                               </div>
                           `;
             });
-            
           } else {
             $("#loaderOferta").html("");
 
-            swal.fire({
-              type: "warning",
+            swal
+              .fire({
+                type: "warning",
 
-              title: "¡ UPS, Lo Sentimos !",
+                title: "¡ UPS, Lo Sentimos !",
 
-              text: "¡ No hay ofertas disponibles para esta cotización !",
+                text: "¡ No hay ofertas disponibles para esta cotización !",
 
-              showConfirmButton: true,
+                showConfirmButton: true,
 
-              confirmButtonText: "Cerrar",
-            });
+                confirmButtonText: "Cerrar",
+              })
+              .then((result) => {
+                if (result.isConfirmed) {
+                  window.location.href = "assistcard";
+                } else {
+                  window.location.href = "assistcard";
+                }
+              });
           }
           $("#row_contenedor_general").html(html_cards);
         },
