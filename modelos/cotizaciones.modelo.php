@@ -114,7 +114,6 @@ class ModeloCotizaciones
 	{
 		// Inicializa la variable $stmt
 		$stmt = null;
-		echo ($id);
 		if ($id != null) {
 
 			$stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE $field = :id");
