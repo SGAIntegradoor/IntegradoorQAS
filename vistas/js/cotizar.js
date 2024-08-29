@@ -393,15 +393,20 @@ $(document).ready(function () {
         }
       });
     } else {
-      checkCotTotales().then((response) => {
-        if (response.result == 1 || response.result == 2) {
-          mostrarPoliticaValorAsegurado();
-          cotizarOfertas();
-        } else {
-          e.preventDefault();
-          mostrarAlertaCotizacionesExcedidasFreelance();
-        }
-      });
+      try {
+        checkCotTotales().then((response) => {
+          if (response.result == 1 || response.result == 2) {
+            mostrarPoliticaValorAsegurado();
+            cotizarOfertas();
+          } else {
+            e.preventDefault();
+            mostrarAlertaCotizacionesExcedidasFreelance();
+          }
+        });
+      } catch (error) {
+        
+      }
+      
     }
   });
 

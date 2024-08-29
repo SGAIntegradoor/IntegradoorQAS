@@ -150,7 +150,7 @@ class ControladorUsuarios
 						$item2 = "id_usuario";
 						$valor2 = $respuesta["id_usuario"];
 
-						$ultimoLogin = ModeloUsuarios::mdlActualizarUsuario($tabla, $item1, $valor1, $item2, $valor2);
+						$ultimoLogin = ModeloUsuarios::mdlActualizarUsuario($tabla, $item1, $valor1, $item2, $valor2, null);
 
 
 

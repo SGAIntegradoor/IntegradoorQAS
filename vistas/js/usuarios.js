@@ -587,7 +587,7 @@ $(".tablas").on("click", ".btnActivar", function () {
   datos.append("activarUsuario", estadoUsuario);
   datos.append("usuarioId", userIdOwner);
 
-  console.log(estadoUsuario, userIdOwner, idUsuario);
+  // console.log(estadoUsuario, userIdOwner, idUsuario);
 
   $.ajax({
     url: "ajax/usuarios.ajax.php",
