@@ -373,5 +373,3 @@ echo '<script>
     </div>
   </section>
 </div>
-
-<link rel="stylesheet" href="">

@@ -192,6 +192,7 @@ function editarCotizacionAssistcard(id) {
           $("#containerCardsResum").css("display", "block");
           var html_cards = "";
           if (respuesta.length > 0) {
+            console.log(respuesta)
             respuesta.forEach(function (oferta, i) {
               console.log(oferta)
               const cobertura = oferta.producto.split(" ").at(1);
@@ -278,30 +279,6 @@ function editarCotizacionAssistcard(id) {
             });
           }
           $("#row_contenedor_general").html(html_cards);
-          document.getElementById("headerAsegurado").style.display = "block";
-
-          document.getElementById("contenSuperiorPlaca").style.display = "none";
-
-          document.getElementById("contenBtnConsultarPlaca").style.display =
-            "none";
-
-          document.getElementById("resumenVehiculo").style.display = "block";
-
-          // Oculta el Boton Cotizar Ofertas al cargar la Parrilla
-
-          document.getElementById("contenBtnCotizar").style.display = "none";
-
-          // Muestra los Botones Recotizar y Agregar Cotizacion
-
-          document.getElementById("contenRecotizarYAgregar").style.display =
-            "block";
-
-          // Muestra el Contenido de la Parrilla de Ofertas, Cotizaciones Manuales y PDF
-
-          document.getElementById("contenParrilla").style.display = "block";
-
-          menosAseg();
-          menosRECot();
         },
         error: function (jqXHR, textStatus, errorThrown) {
           console.error("Error en la solicitud AJAX:");
