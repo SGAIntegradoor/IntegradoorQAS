@@ -267,7 +267,7 @@ function editarCotizacionAssistcard(id) {
 
               title: "¡ UPS, Lo Sentimos !",
 
-              text: "¡ No hay ofertas disponibles para tu vehículo !",
+              text: "¡ No hay ofertas disponibles para esta cotización !",
 
               showConfirmButton: true,
 
