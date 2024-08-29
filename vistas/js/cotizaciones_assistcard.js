@@ -34,7 +34,7 @@ $(document).ready(function () {
       $select2.dropdown.$dropdownContainer.addClass("select2-container--above");
     });
   });
-});
+
 
 $("#menosCotizacion, #masCotizacion").click(function () {
   toggleContainerData();
@@ -73,7 +73,7 @@ function editarCotizacionAssistcard(id) {
 
     success: function (respuesta) {
       /* FORMULARIO INFORMACIÓN DEL ASEGURADO */
-
+      console.log(respuesta);
       // Esta funcion se encuentra en eventCotizarAssistCard.js se usa desde alla para no crearla nuevamente.
       cargarEstilos("vistas/modulos/AssistCardCot/css/cards.css");
 
@@ -320,3 +320,5 @@ function editarCotizacionAssistcard(id) {
     },
   });
 }
+
+});
