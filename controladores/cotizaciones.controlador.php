@@ -37,7 +37,7 @@ class ControladorCotizaciones
 
 	static public function ctrShowQuoteAssistCard($id)
 	{
-
+		session_start();
 		$tabla = "Cotizaciones_Assistcard";
 		$field = "id_cotizacion";
 
@@ -54,7 +54,7 @@ class ControladorCotizaciones
 
 	static public function ctrMostrarCotizaOfertas($item, $valor)
 	{
-
+		session_start();
 		$tabla = "ofertas";
 
 		$respuesta = ModeloCotizaciones::ctrMostrarCotizaOfertas($tabla, $item, $valor);
@@ -68,7 +68,7 @@ class ControladorCotizaciones
 
 	static public function ctrShowOffertsQuoteAssistCard($id)
 	{
-
+		session_start();
 		$tabla = "ofertas_assistcard";
 		$field = "id_cotizacion";
 		$respuesta = ModeloCotizaciones::ctrMostrarCotizaOfertasAssistCard($tabla, $field, $id);
