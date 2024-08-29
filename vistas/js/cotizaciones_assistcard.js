@@ -72,7 +72,6 @@ function editarCotizacionAssistcard(id) {
 
     success: function (respuesta) {
       /* FORMULARIO INFORMACIÓN DEL ASEGURADO */
-      console.log(respuesta);
       // Esta funcion se encuentra en eventCotizarAssistCard.js se usa desde alla para no crearla nuevamente.
       cargarEstilos("vistas/modulos/AssistCardCot/css/cards.css");
 
@@ -191,9 +190,7 @@ function editarCotizacionAssistcard(id) {
           $("#containerCardsResum").css("display", "block");
           var html_cards = "";
           if (respuesta.length > 0) {
-            console.log(respuesta)
             respuesta.forEach(function (oferta, i) {
-              console.log(oferta)
               const cobertura = oferta.producto.split(" ").at(1);
               html_cards += ` 
                                 <div class='card-ofertas'>
