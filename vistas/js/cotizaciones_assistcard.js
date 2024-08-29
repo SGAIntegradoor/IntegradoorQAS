@@ -1,4 +1,3 @@
-$(document).ready(function () {
   $(".tablas-assistcard").on(
     "click",
     ".btnEditarCotizacionAssistCard",
@@ -297,5 +296,3 @@ function editarCotizacionAssistcard(id) {
     },
   });
 }
-
-});
