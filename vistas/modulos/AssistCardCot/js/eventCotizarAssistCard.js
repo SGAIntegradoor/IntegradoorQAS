@@ -628,6 +628,7 @@ function cotizar() {
                   // console.log(objResponse)
                   cotizacion.last_id = objResponse.last_id;
                   cotizacion.modalidad = SelmotivoViaje2;
+                  console.log(cotizacion)
                   guardarOfertas(cotizacion);
                   toogleDataContainer();
                   html_data += ` 
@@ -723,6 +724,7 @@ function cotizar() {
               }
               if (SelmotivoViaje2 == "Vacacional") {
                 if (validarCodigoVacacional(cotizacion.codigo)) {
+                  console.log(cotizacion); 
                   cotizacion.modalidad = SelmotivoViaje2;
                   cotizacion.last_id = objResponse.last_id;
                   guardarOfertas(cotizacion);
@@ -820,6 +822,7 @@ function cotizar() {
               }
             } else {
               $.each(cotizacion, function (key, cotizacionArray) {
+                console.log(cotizacionArray)
                 if (SelmotivoViaje2 == "Empresarial") {
                   if (validarCodigoEmpresarial(cotizacionArray.codigo)) {
                     cotizacionArray.modalidad = SelmotivoViaje2;

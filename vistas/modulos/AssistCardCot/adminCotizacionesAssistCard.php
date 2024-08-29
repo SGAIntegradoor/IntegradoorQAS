@@ -95,7 +95,7 @@
                     <td class="text-center" style="font-size: 14px; text-align: center;">' . $value['usu_nombre'] . ' ' . $value['usu_apellido'] . '</td>
                     <td class="text-center">
                         <div class="btn-group">
-                            <button class="btn btn-primary btnEditarCotizacionAssistCard" idCotizacion="' . $value["id_cotizacion"] . '">Seleccionar</button>';
+                            <button class="btn btn-primary btnEditarCotizacionAssistCard" idCotizacionAssistCard="' . $value["id_cotizacion"] . '">Seleccionar</button>';
         
             // if ($_SESSION["rol"] == 1) {
             //     echo '<button class="btn btn-danger btnEliminarCotizacion" style="display: none !important;" idCotizacion="' . $value["id_cotizacion"] . '"><i class="fa fa-times"></i></button>';

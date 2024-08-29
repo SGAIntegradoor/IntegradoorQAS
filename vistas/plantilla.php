@@ -433,6 +433,14 @@ CUERPO DOCUMENTO
   <script src="vistas/js/count.js?v=<?php echo (rand()); ?>"></script>
   <script src="vistas/js/clientes.js?v=<?php echo (rand()); ?>"></script>
   <script src="vistas/js/fasecolda.js?v=<?php echo (rand()); ?>"></script>
+
+  <?php 
+
+    if(isset($_GET['idCotizacionAssistCard'])){
+      echo '<script src="vistas/js/cotizaciones_assistcard.js?v=<?php echo (rand()); ?>" defer></script>';
+    }
+  
+  ?>
   <script src="vistas/js/cotizaciones.js?v=<?php echo (rand()); ?>"></script>
   <script src="vistas/js/validacionPermisos.js?v=<?php echo (rand()); ?>"></script>
 

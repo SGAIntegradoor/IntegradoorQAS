@@ -35,10 +35,21 @@ class ControladorCotizaciones
 		return $respuesta;
 	}
 
+	static public function ctrShowQuoteAssistCard($id)
+	{
+
+		$tabla = "Cotizaciones_Assistcard";
+		$field = "id_cotizacion";
+
+		$respuesta = ModeloCotizaciones::mdlShowQuoteAssistCard($tabla, $field, $id);
+
+		return $respuesta;
+	}
+
 
 
 	/*=============================================
-	MOSTRAR COTIZACIONES "OFERTAS"
+	MOSTRAR COTIZACION "OFERTAS"
 	=============================================*/
 
 	static public function ctrMostrarCotizaOfertas($item, $valor)
@@ -47,6 +58,20 @@ class ControladorCotizaciones
 		$tabla = "ofertas";
 
 		$respuesta = ModeloCotizaciones::ctrMostrarCotizaOfertas($tabla, $item, $valor);
+
+		return $respuesta;
+	}
+
+	/*=============================================
+	MOSTRAR COTIZACIONES "OFERTAS ASSISTCARD"
+	=============================================*/
+
+	static public function ctrShowOffertsQuoteAssistCard($id)
+	{
+
+		$tabla = "ofertas_assistcard";
+		$field = "id_cotizacion";
+		$respuesta = ModeloCotizaciones::ctrMostrarCotizaOfertasAssistCard($tabla, $field, $id);
 
 		return $respuesta;
 	}

@@ -334,14 +334,26 @@
   }
 </style>
 
-<?php
+<?php 
+
+if(!isset($_GET['idCotizacionAssistCard'])){
+
+echo '<script>
+
+  window.location = "inicio";
+  
+  </script>';
+  
+}
+
+?>
 
 <div class="content-wrapper">
   <section class="content-header">
 
     <h1 style="margin-bottom: 0%;">
 
-      Cotización # <?php echo $_GET['idCotizacion'] ?>
+      Cotización # <?php echo $_GET['idCotizacionAssistCard'] ?>
 
     </h1>
 
@@ -356,161 +368,10 @@
   </section>
   <section class="content">
     <div class="box">
-      <?php include_once './vistas/modulos/AssistCardCot/adminCotizacionesAssistCard.php'; ?>
-      <div class="row card-container" id="mainCardContainer">
-        <div class="container-fluid" style="width: 100%; margin-left: 15px; margin-right: 15px; margin-top: 10px">
-          <div class="col-lg-12">
-            <div class="row row-aseg">
-              
-                <label style="margin-left: 15px">   información del producto</label>
-            
-              
-            </div>
-          </div>
-        </div>
-        <!-- TITULO PLANES -->
-        <div class="content">
-
-          <!-- //LOGO Y DESCRIPCIÓN// -->
-          <!-- Primera tarjeta con el logo -->
-          <div class="col-md-4 col-sm-12 mb-3">
-            <div class="card-exequias special-card">
-              <div class="card-body">
-                <img src="vistas/img/plantilla/logo_assistcard.jpg" class="img-fluid mx-auto" style="max-width: 108%;">
-              </div>
-            </div>
-          </div>
-
-          <!-- Segunda tarjeta con título y párrafo -->
-          <div class="col-md-4 col-sm-12 mb-3">
-            <div class="card-exequias">
-              <div class="card-body">
-                <h4 class="card-title" style="font-weight: bold;">¿Qué es una Asistencia en Viajes?</h4>
-                <p class="card-text">Conjunto de servicios ofrecidos que cubren los eventos fortuitos que puedan ocurrir durante un viaje en el extranjero, como gastos médicos, asistencia legal, cancelaciones de vuelos, perdidas de equipaje, muerte, entre otros.</p>
-                <p class="card-text">Con una asistencia de viaje, el pasajero cuenta con coberturas y montos de dinero específicos en caso de que se presenten imprevistos o emergencias en el exterior.</p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Tercera tarjeta con título y párrafo -->
-          <div class="col-md-4 col-sm-12 mb-3">
-            <div class="card-exequias">
-              <div class="card-body">
-                <h4 class="card-title" style="font-weight: bold;">Sobre Assist Card</h4>
-                <p class="card-text">Pertenece al grupo STARR Companies, es la compañía N° 1 en el mundo dedicada a brindar asistencia al viajero de manera integral desde 1972.</p>
-                <p class="card-text">Para conocer más sobre Assist Card, ingresa <b><a href="https://Grupoasistencia.com/pdfViajes/assistCard.pdf" target="_blank">AQUÍ</a></b></p>
-              </div>
-            </div>
-          </div>
-          <!-- </div> -->
-          <!-- </div> -->
-
-
-          <!-- //INFORMACION SEGUNDA FILA -->
-          <!-- <div class="row card-container"> -->
-          <!-- <div class="content"> -->
-          <!-- <div class="content-header">
-                        <h4 style="font-family: 'Arial Arabic', Arial; text-align: left; font-weight: bold; margin-bottom: -12px; margin-top: -8px;">Adicionales Opcionales</h4>
-                        <HR>
-                    </div> -->
-          <!-- //AFILIADO ADICIONAL -->
-          <!-- cuarta tarjeta con título y párrafo -->
-          <div class="col-md-4 col-sm-12 mb-3">
-            <div class="card-exequias">
-              <div class="card-body">
-                <h4 class="card-title" style="font-weight: bold;">¿Cuales son sus principales coberturas?</h4>
-                <ul class="card-text" style="padding-left: 0px; list-style-position: inside;">
-                  <li>Asistencia médica en caso de enfermedad (preexistente o no preexistente)</li>
-                  <li>Atención con especialistas </li>
-                  <li>Medicamentos ambulatorios</li>
-                  <li>Urgencias Odontológicas</li>
-                  <li>Repatriación o traslados sanitarios o funerarios</li>
-                  <li>Gastos de hotel por reposo forzoso (hospitalización)</li>
-                  <li>Traslado y estancia de un familiar (hospitalización)</li>
-                  <li>Coberturas por extravío de equipajes</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-
-          <!-- quinta tarjeta con título y párrafo -->
-          <div class="col-md-4 col-sm-12 mb-3">
-            <div class="card-exequias">
-              <div class="card-body">
-                <h4 class="card-title" style="font-weight: bold;">¿Qué datos se requieren para cotizar?</h4>
-                <p class="card-text">Este producto esta diseñado para todas las edades y necesidades. Para cotizarlo se requiere la siguiente información:</p>
-                <ul class="card-text" style="padding-left: 0px; list-style-position: inside;">
-                  <li>Nombre completo</li>
-                  <li>Fecha de nacimiento</li>
-                  <li>Motivo del viaje</li>
-                  <li>País de origen y destino</li>
-                  <li>Fecha de salida</li>
-                  <li>Fecha de regreso</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-
-          <!-- sexta tarjeta con título y párrafo -->
-          <div class="col-md-4 col-sm-12 mb-3">
-            <div class="card-exequias">
-              <div class="card-body text-center">
-                <h4 class="card-title" style="font-weight: bold;">Comisión</h4>
-                <p class="card-text">La <b>comisión que Assist Card ofrece para nuestra alianza de asesores es del 23%</b>. De este porcentaje, tu participación será de acuerdo al nivel de ventas de todos los negocios (sin IVA), sumando todos los ramos, que realices en el mes.</p>
-                <ul class="card-text" style="padding-left: 0px; list-style-position: inside;">
-                  <li><b>Nivel 1: 67,5%</b></li>
-                  <li><b>Nivel 2: 70%</b></li>
-                  <li><b>Nivel 3: 75%</b></li>
-                  <br />
-                  <b>*Nota:</b> algunos productos tienen una comisión diferente: corporativo 20%, página web 15%, add on 15%, entre otros.
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
+      
       <?php include_once './vistas/modulos/AssistCardCot/cotizadorAssistCard.php'; ?>
     </div>
   </section>
 </div>
 
-<script>
-  document.addEventListener("DOMContentLoaded", function() {
-    function ajustarAlturaTarjetas() {
-      var filas = document.querySelectorAll('.row.card-container'); // Modificado el selector
-
-      filas.forEach(function(fila) {
-        var tarjetas = fila.querySelectorAll('.card-exequias');
-
-        var alturaMaxima = 0;
-
-        tarjetas.forEach(function(tarjeta) {
-          tarjeta.style.height = 'auto'; // Restablecer la altura a 'auto' antes de medir
-          var altura = tarjeta.offsetHeight;
-
-          if (altura > alturaMaxima) {
-            alturaMaxima = altura;
-          }
-        });
-
-        tarjetas.forEach(function(tarjeta) {
-          tarjeta.style.height = alturaMaxima + 'px';
-
-          if (tarjeta.classList.contains('special-card')) {
-            tarjeta.style.display = 'flex';
-            tarjeta.style.flexDirection = 'column';
-            tarjeta.style.alignItems = 'center';
-            tarjeta.style.justifyContent = 'center';
-          }
-
-        });
-      });
-
-    }
-
-    // Llamada inicial y en redimensionamiento de la ventana
-    ajustarAlturaTarjetas();
-    window.addEventListener('resize', ajustarAlturaTarjetas);
-  });
-</script>
+<link rel="stylesheet" href="">

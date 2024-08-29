@@ -62,6 +62,31 @@ class ModeloCotizaciones
 		$stmt = null;
 	}
 
+	/*=============================================
+	MOSTRAR COTIZACIONES "OFERTAS ASSISTCARD"
+	=============================================*/
+
+	static public function ctrMostrarCotizaOfertasAssistCard($tabla, $item, $valor)
+	{
+
+		if ($item != null) {
+
+			if ($item == 'id_cotizacion') {
+
+				$stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE $item = $valor");
+				$stmt->execute();
+
+				return $stmt->fetchAll(PDO::FETCH_ASSOC);
+			}
+		}
+
+		$stmt->close();
+
+		$stmt = null;
+	}
+
+
+
 
 	static public function mdlShowQuotesAssistCard($tabla, $valor, $item)
 	{
@@ -83,6 +108,32 @@ class ModeloCotizaciones
 		$stmt->closeCursor();
 
 		$stmt = null;
+	}
+
+	static public function mdlShowQuoteAssistCard($tabla, $field, $id)
+	{
+		// Inicializa la variable $stmt
+		$stmt = null;
+
+		if ($id != null) {
+
+
+			$stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE $field = :field");
+			// var_dump($stmt->queryString);
+
+			// die();
+			$stmt->bindParam(":field", $id, PDO::PARAM_STR);
+
+			if ($stmt->execute()) {
+				$resultado = $stmt->fetch(PDO::FETCH_ASSOC);
+				$stmt->closeCursor(); // Correctamente cerrando el cursor
+				return $resultado;
+			} else {
+				return null; // Si la consulta falla, devuelve null
+			}
+		}
+
+		return null; // En caso de que no se cumplan las condiciones, devuelve null
 	}
 
 	/*=============================================
@@ -177,7 +228,7 @@ class ModeloCotizaciones
 			$finMes = new DateTime($fechaFinalCotizaciones);
 			$finMes = $finMes->format('Y-m-d');
 
-			if($_SESSION['rol'] == 10){
+			if ($_SESSION['rol'] == 10) {
 				$stmt = Conexion::conectar()->prepare("
 				SELECT * FROM $tabla
 				INNER JOIN $tabla2 ON $tabla.id_cliente = $tabla2.id_cliente
@@ -209,13 +260,13 @@ class ModeloCotizaciones
 			if ($_SESSION["permisos"]["Verlistadodecotizacionesdelaagencia"] != "x") {
 				$stmt->bindParam(":idUsuario", $_SESSION["idUsuario"], PDO::PARAM_INT);
 			}
-			
+
 			$stmt->execute();
 
 			return $stmt->fetchAll(PDO::FETCH_ASSOC);
 		}
 	}
-	
+
 	static public function mdlRangoFechasCotizacionesAssistCard($tabla, $tabla5, $fechaInicialCotizaciones, $fechaFinalCotizaciones)
 	{
 		$condicion = "";
@@ -256,7 +307,7 @@ class ModeloCotizaciones
 			$stmt->execute();
 
 			return $stmt->fetchAll(PDO::FETCH_ASSOC);
-		} 
+		}
 		// else if ($fechaInicialCotizaciones == $fechaFinalCotizaciones) {
 		// 	$stmt = Conexion::conectar()->prepare("
 		// 	SELECT * FROM $tabla, $tabla2, $tabla3, $tabla4, $tabla5 
@@ -285,7 +336,7 @@ class ModeloCotizaciones
 			$finMes = new DateTime($fechaFinalCotizaciones);
 			$finMes = $finMes->format('Y-m-d');
 
-			if($_SESSION['rol'] == 10){
+			if ($_SESSION['rol'] == 10) {
 				$stmt = Conexion::conectar()->prepare("
 				SELECT c.id_cotizacion, c.fecha_cot, c.fch_nacimiento, c.lugar_origen, c.lugar_destino, c.nom_prospecto, c.fch_salida, c.fch_regreso, c.modalidad_cot, us.usu_nombre, us.usu_apellido, c.numero_pasajeros FROM $tabla c
 				INNER JOIN $tabla5 us ON c.id_usuario = us.id_usuario
@@ -310,7 +361,7 @@ class ModeloCotizaciones
 			if ($_SESSION["permisos"]["Verlistadodecotizacionesdelaagencia"] != "x") {
 				$stmt->bindParam(":idUsuario", $_SESSION["idUsuario"], PDO::PARAM_INT);
 			}
-			
+
 			$stmt->execute();
 			//echo json_encode($stmt->fetchAll(PDO::FETCH_ASSOC));
 			return $stmt->fetchAll(PDO::FETCH_ASSOC);
