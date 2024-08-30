@@ -198,31 +198,9 @@ function editarCotizacionAssistcard(id) {
           $("#containerCardsResum").css("display", "block");
           var html_cards = "";
           if (respuesta.length > 0) {
-            var txtDestino = $("#lugarDestinoResum").val();
-            let codigoOferta = "";
-            var codOfertaEstatico = planesPorDestinoEstudiantiles[txtDestino];
-            if (
-              respuesta.codigoTarifa == "10474" &&
-              codOfertaEstatico == "10473"
-            ) {
-              codigoOferta = respuesta.codigoTarifa;
-            } else if (
-              respuesta.codigoTarifa == "10476" &&
-              codOfertaEstatico == "10475"
-            ) {
-              codigoOferta = respuesta.codigoTarifa;
-            } else if (
-              respuesta.codigoTarifa == "10478" &&
-              codOfertaEstatico == "10477"
-            ) {
-              codigoOferta = respuesta.codigoTarifa;
-            } else {
-              codigoOferta = planesPorDestinoEstudiantiles[txtDestino];
-            }
-            if (codigoOferta == respuesta.codigoTarifa) {
-              respuesta.forEach(function (oferta, i) {
-                const cobertura = oferta.producto.split(" ").at(1);
-                html_cards += ` 
+            respuesta.forEach(function (oferta, i) {
+              const cobertura = oferta.producto.split(" ").at(1);
+              html_cards += ` 
                                 <div class='card-ofertas'>
                                   <div class='row card-body'>
                                       <div class="col-xs-12 col-sm-6 col-md-2 align-horizontal ">
@@ -235,10 +213,10 @@ function editarCotizacionAssistcard(id) {
                                                 oferta.codigo,
                                                 oferta.producto
                                               )} ${
-                  oferta.tipo_modalidad == "Estudiantil"
-                    ? " - " + regionConvert(oferta.codigoTarifa)
-                    : ""
-                }
+                oferta.tipo_modalidad == "Estudiantil"
+                  ? regionConvert(oferta.codigo_tarifa)
+                  : ""
+              }
                                           </span><br> 
                                           <span class="tittleCard">
                                           ${oferta.tipo_modalidad}
@@ -282,20 +260,19 @@ function editarCotizacionAssistcard(id) {
                                                       <a target="_blank" class="btnText" href='https://serviciocondiciones.assist-card.com/DetalleCcpp.ashx?codigoPais=${
                                                         oferta.pais
                                                       }&producto=${
-                  oferta.codigo
-                }&tarifa=${
-                  oferta.codigo_tarifa
-                }&edad=${edadPrincipalParaVerDetalles}&idLanguage=1&anual=${
-                  oferta.cantidad_dias == 365 ? `True` : `False`
-                }'>Ver detalles</a>
+                oferta.codigo
+              }&tarifa=${
+                oferta.codigo_tarifa
+              }&edad=${edadPrincipalParaVerDetalles}&idLanguage=1&anual=${
+                oferta.cantidad_dias == 365 ? `True` : `False`
+              }'>Ver detalles</a>
                                                   </span>
                                           </button>
                                       </div>
                                   </div>
                               </div>
                           `;
-              });
-            }
+            });
           } else {
             $("#loaderOferta").html("");
 
