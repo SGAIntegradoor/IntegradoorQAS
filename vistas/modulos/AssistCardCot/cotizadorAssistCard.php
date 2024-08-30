@@ -128,6 +128,12 @@
                         <input type="date" id="fechaRegreso" name="fechaRegreso" class="form-control">
                     </div>
                 </div>
+                <div class="col-xs-12 col-sm-6 col-md-3" id="boxDays" style="display:none">
+                    <div class="form-group">
+                        <label for="numeroDias">Número de días</label>
+                        <input type="text" id="numeroDias" name="numeroDias" class="form-control" disabled>
+                    </div>
+                </div>
                 <div class="col-xs-12 col-sm-6 col-md-3">
                     <div class="form-group">
                         <label for="motivoViaje">Motivo de viaje</label>
