@@ -294,7 +294,7 @@
                 </div>
                 <div class="col-xs-12 col-sm-6 col-md-3">
                     <div class="form-group">
-                        <label for="fechaRegreso">Numero de Dias:</label>
+                        <label for="fechaRegreso">Número de días</label>
                         <input type="text" id="numeroDiasResumen" name="numeroDias" class="form-control" disabled>
                     </div>
                 </div>

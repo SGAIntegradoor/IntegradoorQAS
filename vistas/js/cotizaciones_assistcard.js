@@ -18,6 +18,13 @@ if (options.length > 0) {
   editarCotizacionAssistcard(options[0]);
 }
 
+function changeTitlePage() {
+  var newTittle = "Datos del Viaje";
+  $("#lblDataTrip").text(newTittle);
+}
+
+changeTitlePage();
+
 // Carga la fecha de Nacimiento
 $("#dianacimientoResumen, #mesnacimientoResumen, #anionacimientoResumen").each(
   function () {
@@ -151,11 +158,13 @@ function editarCotizacionAssistcard(id) {
 
       const calcCobertura = (cobertura, modalidad) => {
         if (modalidad == "Vacacional") {
-          if (cobertura == "60" && modalidad != "Estudiantil") {
+          if (cobertura == "35" && modalidad != "Estudiantil") {
+            return cobertura + ".000";
+          } else if (cobertura == "60" && modalidad != "Estudiantil") {
             return cobertura + ".000";
           } else if (cobertura == "150" && modalidad != "Estudiantil") {
             return cobertura + ".000";
-          } else if (cobertura == "250" && modalidad != "Estudiantil") {
+          }else if (cobertura == "250" && modalidad != "Estudiantil") {
             return cobertura + ".000";
           }
         } else if (modalidad == "Empresarial") {
@@ -200,13 +209,16 @@ function editarCotizacionAssistcard(id) {
     
                                       <div class="col-xs-12 col-sm-6 col-md-2 oferta-logo">
                                           <span class="tittleCard">
-                                              Assist Card - ${oferta.producto}
+                                              Assist Card - ${changeNameProduct(
+                                                oferta.codigo,
+                                                oferta.producto
+                                              )}
                                           </span><br> 
                                           <span class="tittleCard">
                                           ${oferta.tipo_modalidad}
                                           </span><br> 
                                           <span class="tittlePrice">
-                                              Desde ${oferta.precio}
+                                              Desde USD $${oferta.precio}
                                           </span><br> 
                                       </div>
     
