@@ -8,7 +8,7 @@ const equivalencias = {
   GD: "AC 60",
   GC: "AC 150",
   HK: "AC 250",
-  WS: "AC 110 ESTUDIANTIL",
+  WS: "AC 110",
 };
 
 //Constantes con los planes permitidos, si se quiere agregar otro solo es colocar su codigo aqui y revisar las coberturas
