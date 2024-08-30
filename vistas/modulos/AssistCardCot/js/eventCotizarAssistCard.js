@@ -1063,7 +1063,9 @@ function cotizar() {
                         cotizacionArray.codigoTarifa
                       )}
                                               </span><br> 
-                                             
+                                              <span class="tittleCard">
+                                                ESTUDIANTIL
+                                            </span><br>
                                               <span class="tittlePrice">
                                                   Desde  ${
                                                     contPasajeros > 1
