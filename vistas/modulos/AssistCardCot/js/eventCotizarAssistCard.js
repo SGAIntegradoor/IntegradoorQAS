@@ -512,7 +512,7 @@ function cotizar() {
   var contPasajeros = 1;
   var arrayPajaseros = {};
   var fechaNacimientoStr = diaNac + "/" + mesNac + "/" + anioNac;
-
+//
   // Parsear la fecha de nacimiento a un objeto Date
   var partesFecha = fechaNacimientoStr.split("/");
   var fechaNacimiento = new Date(
