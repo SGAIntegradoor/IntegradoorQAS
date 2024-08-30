@@ -2706,7 +2706,6 @@ function cotizarOfertas() {
                 const planes = ["FULL"];
                 planes.forEach((plan) => {
                   let lineaVeh = document.getElementById("txtReferenciaVeh").value;
-                  console.log(lineaVeh)
                   let body = JSON.parse(requestOptions.body);
                   body.plan = plan;
                   body.Email = "@gmail.com";
