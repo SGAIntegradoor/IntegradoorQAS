@@ -10,19 +10,64 @@ $(".tablas-assistcard").on(
   }
 );
 
-var urlPage = new URL(window.location.href); // Instancia la URL Actual
+let getParams = (param) => { 
+  var urlPage = new URL(window.location.href); // Instancia la URL Actual
+  var options = urlPage.searchParams.getAll(param); //Buscar todos los parametros
+  return options;
+}
 
-var options = urlPage.searchParams.getAll("idCotizacionAssistCard"); //Buscar todos los parametros
 function changeTitlePage() {
   var newTittle = "Datos del Viaje";
   $("#lblDataTrip").text(newTittle);
 }
 
-if (options.length > 0) {
+if (getParams("idCotizacionAssistCard").length > 0) {
   editarCotizacionAssistcard(options[0]);
   changeTitlePage();
+} else if(getParams("fechaInicialCotizaciones").length > 0){
+  menosCotizaciones();
 }
 
+
+$("#daterange-btnCotizacionesAssistCard").daterangepicker(
+  {
+    ranges: {
+      Hoy: [moment(), moment()],
+      Ayer: [moment().subtract(1, "days"), moment().subtract(1, "days")],
+      "Últimos 7 días": [moment().subtract(7, "days"), moment()],
+      "Últimos 30 días": [moment().subtract(30, "days"), moment()],
+      "Este mes": [moment().startOf("month"), moment()],
+      "Último mes": [
+        moment().subtract(1, "month").startOf("month"),
+        moment().subtract(1, "month").endOf("month"),
+      ],
+      "Últimos 3 meses": [
+        moment().subtract(3, "month").startOf("month"),
+        moment(),
+      ],
+    },
+  },
+  function (startDate, endDate) {
+    $("#daterange-btnCotizacionesAssistCard span").html(
+      startDate.format("MMMM D, YYYY") +
+        " - " +
+        endDate.format("MMMM D, YYYY")
+    );
+    var fechaInicialCotizaciones = startDate.format("YYYY-MM-DD");
+    var fechaFinalCotizaciones = endDate.format("YYYY-MM-DD");
+    var capturarRango = $("#daterange-btnCotizacionesAssistCard span").html();
+    localStorage.setItem("capturarRango", capturarRango);
+    var selectedOption = $("#daterange-btnCotizacionesAssistCard").data(
+      "daterangepicker"
+    ).chosenLabel;
+    localStorage.setItem("Selected", selectedOption);
+    window.location =
+      "index.php?ruta=assistcard&fechaInicialCotizaciones=" +
+      fechaInicialCotizaciones +
+      "&fechaFinalCotizaciones=" +
+      fechaFinalCotizaciones;
+  }
+);
 
 
 

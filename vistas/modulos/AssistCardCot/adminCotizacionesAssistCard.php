@@ -16,7 +16,7 @@
     </div>
 </div>
 <div class="container-fluid"  id="containerTable">
-    <button type="button" class="btn btn-default pull-right" id="daterange-btnCotizaciones">       
+    <button type="button" class="btn btn-default pull-right" id="daterange-btnCotizacionesAssistCard">       
         <span>
         <i class="fa fa-calendar"></i> 
         <?php
