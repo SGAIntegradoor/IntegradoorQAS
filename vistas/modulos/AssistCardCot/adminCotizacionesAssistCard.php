@@ -2,7 +2,7 @@
     <div class="col-lg-12">
         <div class="row row-aseg">
             <div class="col-xs-12 col-sm-6 col-md-6">
-                <label id="lblDataTrip2">Administracion de cotizaciones asistencia en viajes</label>        
+                <label id="lblDataTrip2">Administración de cotizaciones asistencia en viajes</label>        
             </div>
             <div class="col-xs-12 col-sm-6 col-md-6">
                 <div id="masAdminCoti" >
