@@ -13,17 +13,19 @@ $(".tablas-assistcard").on(
 var urlPage = new URL(window.location.href); // Instancia la URL Actual
 
 var options = urlPage.searchParams.getAll("idCotizacionAssistCard"); //Buscar todos los parametros
-
-if (options.length > 0) {
-  editarCotizacionAssistcard(options[0]);
-}
-
 function changeTitlePage() {
   var newTittle = "Datos del Viaje";
   $("#lblDataTrip").text(newTittle);
 }
 
-changeTitlePage();
+if (options.length > 0) {
+  editarCotizacionAssistcard(options[0]);
+  changeTitlePage();
+}
+
+
+
+
 
 // Carga la fecha de Nacimiento
 $("#dianacimientoResumen, #mesnacimientoResumen, #anionacimientoResumen").each(

@@ -618,6 +618,8 @@ function cotizar() {
             hideMainContainers();
             showContainerCards();
             hideContainerQuotations();
+            $("#boxDays").css("display", "block");
+            $("#numeroDias").val(objResponse.num_dias);
             if (
               typeof cotizacion == "object" &&
               cotizacion.length == undefined

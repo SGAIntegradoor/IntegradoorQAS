@@ -360,7 +360,7 @@
           <div class="col-lg-12">
             <div class="row row-aseg">
               
-                <label style="margin-left: 15px">   información del producto</label>
+                <label style="margin-left: 15px">   Información del producto</label>
             
               
             </div>
