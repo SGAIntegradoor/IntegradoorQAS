@@ -219,7 +219,18 @@ function editarCotizacionAssistcard(id) {
               }
                                           </span><br> 
                                           <span class="tittleCard">
-                                          ${oferta.tipo_modalidad}
+                                          ${
+                                            oferta.tipo_modalidad ==
+                                            "Estudiantil"
+                                              ? "ESTUDIANTIL"
+                                              : oferta.tipo_modalidad ==
+                                                "Empresarial"
+                                              ? "CORPORATIVO"
+                                              : oferta.tipo_modalidad ==
+                                                "Vacacional"
+                                              ? "VACACIONAL"
+                                              : oferta.tipo_modalidad
+                                          }
                                           </span><br> 
                                           <span class="tittlePrice">
                                               Desde USD $${oferta.precio}
