@@ -262,7 +262,7 @@ class ModeloCotizaciones
 		}
 	}
 
-	static public function mdlRangoFechasCotizacionesAssistCard($tabla, $tabla5, $fechaInicialCotizaciones, $fechaFinalCotizaciones)
+	static public function mdlRangoFechasCotizacionesAssistCard($tabla, $tabla5,  $fechaInicialCotizaciones, $fechaFinalCotizaciones)
 	{
 		$condicion = "";
 		if ($_SESSION["permisos"]["Verlistadodecotizacionesdelaagencia"] != "x") {
@@ -326,11 +326,19 @@ class ModeloCotizaciones
 
 		// 	return $stmt->fetchAll(PDO::FETCH_ASSOC);
 		// } 
-		else {
 
+		else {
 			$inicioMes = new DateTime($fechaInicialCotizaciones);
 			$inicioMes = $inicioMes->format('Y-m-d');
 			$finMes = new DateTime($fechaFinalCotizaciones);
+			if ($finMes->format('t') == $finMes->format('d')) {
+				// Si es el último día del mes, ajustar al primer día del siguiente mes
+				$finMes->modify('first day of next month');
+			} else {
+				// Si no, simplemente agregar un día
+				$finMes->modify('+1 day');
+			}
+
 			$finMes = $finMes->format('Y-m-d');
 
 			if ($_SESSION['rol'] == 10) {
@@ -345,10 +353,6 @@ class ModeloCotizaciones
 				ORDER BY c.fecha_cot DESC
 			");
 			} else {
-				var_dump($inicioMes);
-				var_dump($finMes);
-				
-				var_dump($_SESSION['rol']);
 				$stmt = Conexion::conectar()->prepare("
 					SELECT * FROM $tabla
 					INNER JOIN $tabla5 ON $tabla.id_usuario = $tabla5.id_usuario
