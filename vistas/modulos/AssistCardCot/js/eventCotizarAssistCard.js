@@ -1175,9 +1175,16 @@ function cotizar() {
 
 // Inicializacion de funciones
 $(document).ready(function () {
-  CargarSelectOrigen();
-  CargarSelectDestino();
-  CargarSelectMotivoViaje();
+
+  var urlPage = new URL(window.location.href); // Instancia la URL Actual
+
+  var options = urlPage.searchParams.getAll("idCotizacionAssistCard"); //Buscar todos los parametros
+
+  if(options.length < 0){
+    CargarSelectOrigen();
+    CargarSelectDestino();
+    CargarSelectMotivoViaje();
+  }
 
   //Inicializamos el tooltip
   $('[data-toggle="tooltip"]').tooltip();

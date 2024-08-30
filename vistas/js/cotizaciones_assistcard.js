@@ -175,9 +175,7 @@ function editarCotizacionAssistcard(id) {
           } else if (cobertura == "250" && modalidad != "Estudiantil") {
             return cobertura + ".000";
           }
-        } else {
-          return cobertura + "000";
-        }
+        } 
       };
       $.ajax({
         url: "ajax/cotizaciones.ajax.php",
