@@ -342,10 +342,6 @@ class ModeloCotizaciones
 			$finMes = $finMes->format('Y-m-d');
 
 			if ($_SESSION['rol'] == 10) {
-				var_dump("entre aca");
-				var_dump($_SESSION['rol']);
-				var_dump($inicioMes);
-				var_dump($finMes);
 				$stmt = Conexion::conectar()->prepare("
 				SELECT c.id_cotizacion, c.fecha_cot, c.fch_nacimiento, c.lugar_origen, c.lugar_destino, c.nom_prospecto, c.fch_salida, c.fch_regreso, c.modalidad_cot, us.usu_nombre, us.usu_apellido, c.numero_pasajeros FROM $tabla c
 				INNER JOIN $tabla5 us ON c.id_usuario = us.id_usuario

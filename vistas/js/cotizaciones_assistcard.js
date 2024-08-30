@@ -56,11 +56,11 @@ $("#daterange-btnCotizacionesAssistCard").daterangepicker(
     var fechaInicialCotizaciones = startDate.format("YYYY-MM-DD");
     var fechaFinalCotizaciones = endDate.format("YYYY-MM-DD");
     var capturarRango = $("#daterange-btnCotizacionesAssistCard span").html();
-    localStorage.setItem("capturarRango", capturarRango);
+    localStorage.setItem("capturarRango2", capturarRango);
     var selectedOption = $("#daterange-btnCotizacionesAssistCard").data(
       "daterangepicker"
     ).chosenLabel;
-    localStorage.setItem("Selected", selectedOption);
+    localStorage.setItem("Selected2", selectedOption);
     window.location =
       "index.php?ruta=assistcard&fechaInicialCotizaciones=" +
       fechaInicialCotizaciones +
@@ -68,6 +68,118 @@ $("#daterange-btnCotizacionesAssistCard").daterangepicker(
       fechaFinalCotizaciones;
   }
 );
+
+let selected = localStorage.getItem("Selected2");
+  switch (selected) {
+    case "Hoy":
+      $("#daterange-btnCotizacionesAssistCard")
+        .data("daterangepicker")
+        .setStartDate(moment());
+      $("#daterange-btnCotizacionesAssistCard")
+        .data("daterangepicker")
+        .setEndDate(moment());
+      break;
+    case "Ayer":
+      $("#daterange-btnCotizacionesAssistCard")
+        .data("daterangepicker")
+        .setStartDate(moment().subtract(1, "days"));
+      $("#daterange-btnCotizacionesAssistCard")
+        .data("daterangepicker")
+        .setEndDate(moment().subtract(1, "days"));
+      break;
+    case "Últimos 7 días":
+      $("#daterange-btnCotizacionesAssistCard")
+        .data("daterangepicker")
+        .setStartDate(moment().subtract(7, "days"));
+      $("#daterange-btnCotizacionesAssistCard")
+        .data("daterangepicker")
+        .setEndDate(moment());
+      break;
+    case "Últimos 30 días":
+      $("#daterange-btnCotizacionesAssistCard")
+        .data("daterangepicker")
+        .setStartDate(moment().subtract(30, "days"));
+      $("#daterange-btnCotizacionesAssistCard")
+        .data("daterangepicker")
+        .setEndDate(moment());
+      break;
+    case "Este mes":
+      $("#daterange-btnCotizacionesAssistCard")
+        .data("daterangepicker")
+        .setStartDate(moment().startOf("month"));
+      $("#daterange-btnCotizacionesAssistCard")
+        .data("daterangepicker")
+        .setEndDate(moment().endOf("month"));
+      break;
+    case "Último mes":
+      $("#daterange-btnCotizacionesAssistCard")
+        .data("daterangepicker")
+        .setStartDate(moment().subtract(1, "month").startOf("month"));
+      $("#daterange-btnCotizacionesAssistCard")
+        .data("daterangepicker")
+        .setEndDate(moment().subtract(1, "month").endOf("month"));
+      break;
+    case "Últimos 3 meses":
+      $("#daterange-btnCotizacionesAssistCard")
+        .data("daterangepicker")
+        .setStartDate(moment().subtract(3, "month").startOf("month"));
+      $("#daterange-btnCotizacionesAssistCard")
+        .data("daterangepicker")
+        .setEndDate(moment());
+      break;
+    default:
+      break;
+  }
+
+  $("#daterange-btnCotizacionesAssistCard").on(
+    "cancel.daterangepicker",
+
+    function (ev, picker) {
+      localStorage.removeItem("capturarRango2");
+
+      localStorage.clear();
+
+      window.location = "assistcard";
+    }
+  );
+
+  $(".daterangepicker.opensleft").on("click", ".liCotizaciones", function () {
+    var textoHoy = $(this).attr("data-range-key");
+
+    if (textoHoy == "Hoy") {
+      var d = new Date();
+
+      var dia = d.getDate();
+
+      var mes = d.getMonth() + 1;
+
+      var año = d.getFullYear();
+
+      dia = ("0" + dia).slice(-2);
+
+      mes = ("0" + mes).slice(-2);
+
+      var fechaInicialCotizaciones = año + "-" + mes + "-" + dia;
+
+      var fechaFinalCotizaciones = año + "-" + mes + "-" + dia;
+
+      var fechaInicialCotizaciones1 =
+        fechaInicialCotizaciones.format("YYYY-MM-DD");
+
+      var fechaFinalCotizaciones1 = fechaFinalCotizaciones.format("YYYY-MM-DD");
+
+      localStorage.setItem("capturarRango", "Hoy");
+
+      window.location =
+        "index.php?ruta=assistcard&" +
+        "fechaInicialCotizaciones=" +
+        fechaInicialCotizaciones1 +
+        "&fechaFinalCotizaciones=" +
+        fechaFinalCotizaciones1;
+    }
+  });
+
+  
 
 
 
