@@ -59,25 +59,47 @@ $(document).ready(function () {
     masRE();
     if (intermediario != 3) {
       checkCotTotales().then((response) => {
-        if (response.result == 1 || response.result == 2) {
-          cotizarOfertasMotos();
-        } else {
-          e.preventDefault();
-          if (intermediario == 89) {
-            mostrarAlertaCotizacionesExcedidasMotosDemo();
-          } else {
-            mostrarAlertaCotizacionesExcedidasMotosFreelance();
+        if (response.result !== undefined) {
+          switch (response.result) {
+            case 1:
+            case 2:
+              cotizarOfertasMotos();
+              break;
+            case -1:
+              if (intermediario == 89) {
+                mostrarAlertaCotizacionesExcedidasMotosDemo();
+              } else {
+                e.preventDefault();
+                mostrarAlertaCotizacionesExcedidasMotosFreelance();
+              }
+              break;
+            default:
+              mostrarAlertaErrorDeConexionMotos();
+              break;
           }
+        } else {
+          mostrarAlertaErrorDeConexionMotos();
         }
       });
     } else {
       checkCotTotales().then((response) => {
-        if (response.result == 1 || response.result == 2) {
-          mostrarPoliticaValorAseguradoMotos();
-          cotizarOfertasMotos();
+        if(response.result){
+          switch(response.result){
+            case 1:
+            case 2:
+              mostrarPoliticaValorAseguradoMotos();
+              cotizarOfertasMotos();
+              break;
+            case -1:
+              e.preventDefault();
+              mostrarAlertaCotizacionesExcedidasMotosFreelance();
+              break;
+            default:
+              mostrarAlertaErrorDeConexionMotos()
+              break;
+          }
         } else {
-          e.preventDefault();
-          mostrarAlertaCotizacionesExcedidasMotosFreelance();
+          mostrarAlertaErrorDeConexionMotos();
         }
       });
     }
@@ -109,6 +131,34 @@ $(document).ready(function () {
             window.location = "inicio";
           }
         }
+      });
+  }
+
+  function mostrarAlertaErrorDeConexionMotos() {
+    swal
+      .fire({
+        icon: "error",
+        title:
+          "Error de conexion",
+        html: `<div style="text-align: center; font-family: Helvetica, Arial, sans-serif; font-size: 15px; border-radius: 4px; padding: 8px;"><p>Ocurrio un error de conexion porfavor vuelve a intentarlo.</p>
+      </div>`,
+        width: "50%",
+        showConfirmButton: true,
+        confirmButtonText: "Cerrar",
+        customClass: {
+          popup: "custom-swal-popupCotExcep",
+        },
+      })
+      .then(function (result) {
+        // if (result.isConfirmed) {
+        //   window.location = "inicio";
+        // } else if (result.isDismissed) {
+        //   if (result.dismiss === "cancel") {
+        //     window.location = "inicio";
+        //   } else if (result.dismiss === "backdrop") {
+        //     window.location = "inicio";
+        //   }
+        // }
       });
   }
 

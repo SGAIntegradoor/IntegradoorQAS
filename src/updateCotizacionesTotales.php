@@ -1,6 +1,6 @@
 <?php
 
-// require_once("../config/db.php"); //Contiene las variables de configuracion para conectar a la base de datos
+
 // require_once("../config/conexion.php"); //Contiene funcion que conecta a la base de datos
 
 // session_start();
@@ -40,11 +40,11 @@
 
 require_once("../config/db.php"); //Contiene las variables de configuracion para conectar a la base de datos
 require_once("../config/conexion.php"); //Contiene funcion que conecta a la base de datos
-
 session_start();
 
 $identidad = $_SESSION['permisos']['usu_documento'];
 $cotHechas = $_POST['cotHechas'];
+
 
 $sqlConfirm = "SELECT * from usuarios where usu_documento = $identidad";
 

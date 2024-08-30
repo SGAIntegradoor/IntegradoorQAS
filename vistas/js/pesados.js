@@ -328,27 +328,49 @@ $(document).ready(function () {
 
     if (intermediario != 3) {
       checkCotTotales().then((response) => {
-        if (response.result == 1 || response.result == 2) {
-          cotizarOfertasPesados();
-        } else {
-          e.preventDefault();
-          if (intermediario == 89) {
-            mostrarAlertaCotizacionesExcedidasPesadosDemo();
-          } else {
-            mostrarAlertaCotizacionesExcedidasPesadosFreelance();
+        if (response.result !== undefined) {
+          switch (response.result) {
+            case 1:
+            case 2:
+              cotizarOfertasPesados();
+              break;
+            case -1:
+              if (intermediario == 89) {
+                mostrarAlertaCotizacionesExcedidasPesadosDemo();
+              } else {
+                e.preventDefault();
+                mostrarAlertaCotizacionesExcedidasPesadosFreelance();
+              }
+              break;
+            default:
+              mostrarAlertaErrorDeConexionPesados();
+              break;
           }
+        } else {
+          mostrarAlertaErrorDeConexionPesados();
         }
       });
     } else {
-      checkCotTotales().then((response) => {
-        if (response.result == 1 || response.result == 2) {
-          mostrarPoliticaValorAseguradoPesados();
-          cotizarOfertasPesados();
+        checkCotTotales().then((response) => {
+        if(response.result){
+          switch(response.result){
+            case 1:
+            case 2:
+              mostrarPoliticaValorAseguradoPesados();
+              cotizarOfertasPesados();
+              break;
+            case -1:
+              e.preventDefault();
+              mostrarAlertaCotizacionesExcedidasPesadosFreelance();
+              break;
+            default:
+              mostrarAlertaErrorDeConexionPesados()
+              break;
+          }
         } else {
-          e.preventDefault();
-          mostrarAlertaCotizacionesExcedidasPesadosFreelance();
+          mostrarAlertaErrorDeConexionPesados();
         }
-      });
+        });    
     }
   });
 
@@ -407,6 +429,34 @@ $(document).ready(function () {
             window.location = "inicio";
           }
         }
+      });
+  }
+
+  function mostrarAlertaErrorDeConexionPesados() {
+    swal
+      .fire({
+        icon: "error",
+        title:
+          "Error de conexion",
+        html: `<div style="text-align: center; font-family: Helvetica, Arial, sans-serif; font-size: 15px; border-radius: 4px; padding: 8px;"><p>Ocurrio un error de conexion porfavor vuelve a intentarlo.</p>
+      </div>`,
+        width: "50%",
+        showConfirmButton: true,
+        confirmButtonText: "Cerrar",
+        customClass: {
+          popup: "custom-swal-popupCotExcep",
+        },
+      })
+      .then(function (result) {
+        // if (result.isConfirmed) {
+        //   window.location = "inicio";
+        // } else if (result.isDismissed) {
+        //   if (result.dismiss === "cancel") {
+        //     window.location = "inicio";
+        //   } else if (result.dismiss === "backdrop") {
+        //     window.location = "inicio";
+        //   }
+        // }
       });
   }
 

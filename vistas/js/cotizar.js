@@ -365,7 +365,7 @@ $(document).ready(function () {
       });
     });
   }
-
+  
   let intermediario = document.getElementById("idIntermediario").value;
 
   $("#btnCotizar").click(function (e) {
@@ -381,34 +381,79 @@ $(document).ready(function () {
     masRE();
     if (intermediario != 3) {
       checkCotTotales().then((response) => {
-        if (response.result == 1 || response.result == 2) {
-          cotizarOfertas();
-        } else {
-          e.preventDefault();
-          if (intermediario == 89) {
-            mostrarAlertaCotizacionesExcedidasDemo();
-          } else {
-            mostrarAlertaCotizacionesExcedidasFreelance();
+        if (response.result !== undefined) {
+          switch (response.result) {
+            case 1:
+            case 2:
+              cotizarOfertas();
+              break;
+            case -1:
+              if (intermediario == 89) {
+                mostrarAlertaCotizacionesExcedidasDemo();
+              } else {
+                e.preventDefault();
+                mostrarAlertaCotizacionesExcedidasFreelance();
+              }
+              break;
+            default:
+              mostrarAlertaErrorDeConexion();
+              break;
           }
+        } else {
+          mostrarAlertaErrorDeConexion();
         }
       });
     } else {
-      try {
         checkCotTotales().then((response) => {
-          if (response.result == 1 || response.result == 2) {
-            mostrarPoliticaValorAsegurado();
-            cotizarOfertas();
-          } else {
-            e.preventDefault();
-            mostrarAlertaCotizacionesExcedidasFreelance();
+        if(response.result){
+          switch(response.result){
+            case 1:
+            case 2:
+              mostrarPoliticaValorAsegurado();
+              cotizarOfertas();
+              break;
+            case -1:
+              e.preventDefault();
+              mostrarAlertaCotizacionesExcedidasFreelance();
+              break;
+            default:
+              mostrarAlertaErrorDeConexion()
+              break;
           }
-        });
-      } catch (error) {
-        
-      }
-      
+        } else {
+          mostrarAlertaErrorDeConexion();
+        }
+        });    
     }
   });
+
+  function mostrarAlertaErrorDeConexion() {
+    swal
+      .fire({
+        icon: "error",
+        title:
+          "Error de conexion",
+        html: `<div style="text-align: center; font-family: Helvetica, Arial, sans-serif; font-size: 15px; border-radius: 4px; padding: 8px;"><p>Ocurrio un error de conexion porfavor vuelve a intentarlo.</p>
+      </div>`,
+        width: "50%",
+        showConfirmButton: true,
+        confirmButtonText: "Cerrar",
+        customClass: {
+          popup: "custom-swal-popupCotExcep",
+        },
+      })
+      .then(function (result) {
+        // if (result.isConfirmed) {
+        //   window.location = "inicio";
+        // } else if (result.isDismissed) {
+        //   if (result.dismiss === "cancel") {
+        //     window.location = "inicio";
+        //   } else if (result.dismiss === "backdrop") {
+        //     window.location = "inicio";
+        //   }
+        // }
+      });
+  }
 
   function mostrarAlertaCotizacionesExcedidasFreelance() {
     swal
