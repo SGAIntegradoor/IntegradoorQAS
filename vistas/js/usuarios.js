@@ -581,10 +581,13 @@ ACTIVAR USUARIO
 $(".tablas").on("click", ".btnActivar", function () {
   var idUsuario = $(this).attr("idUsuario");
   var estadoUsuario = $(this).attr("estadoUsuario");
-
+  let userIdOwner = permisos.id_usuario;
   var datos = new FormData();
   datos.append("activarId", idUsuario);
   datos.append("activarUsuario", estadoUsuario);
+  datos.append("usuarioId", userIdOwner);
+
+  // console.log(estadoUsuario, userIdOwner, idUsuario);
 
   $.ajax({
     url: "ajax/usuarios.ajax.php",

@@ -17,9 +17,9 @@ $search = isset($_POST['search']['value']) ? $_POST['search']['value'] : '';
 // Construir la consulta
 
 if ($rol == 10) {
-    $sql = "SELECT DISTINCT * FROM clientes WHERE cli_estado = 1";
+    $sql = "SELECT * FROM clientes WHERE cli_estado = 1";
 } else {
-    $sql = "SELECT DISTINCT clientes.*
+    $sql = "SELECT clientes.*
     FROM clientes
     INNER JOIN cotizaciones ON clientes.id_cliente = cotizaciones.id_cliente
     WHERE cotizaciones.id_usuario = $idUsuario AND id_Intermediario = $intermediario AND cli_estado = 1";
@@ -30,7 +30,7 @@ if (!empty($search)) {
     // Convertir la cadena de búsqueda a UTF-8 si es necesario
     $search = mb_convert_encoding($search, 'UTF-8', 'UTF-8');
 
-    $sql .= " AND (cli_nombre LIKE '%$search%' OR cli_email LIKE '%$search%' OR cli_telefono LIKE '%$search%')";
+    $sql .= " AND (cli_nombre LIKE '%$search%' OR cli_email LIKE '%$search%' OR cli_telefono LIKE '%$search%'  OR cli_num_documento LIKE '%$search%')";
 }
 
 $totalFiltered = $enlace->query($sql)->num_rows;

@@ -2,6 +2,10 @@
 
 require_once "conexion.php";
 
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 class ModeloUsuarios
 {
 
@@ -330,7 +334,7 @@ class ModeloUsuarios
 								  ACTUALIZAR USUARIO
 								  =============================================*/
 
-	static public function mdlActualizarUsuario($tabla, $item1, $valor1, $item2, $valor2)
+	static public function mdlActualizarUsuario($tabla, $item1, $valor1, $item2, $valor2, $usuarioBanner = null)
 	{
 
 		$stmt = Conexion::conectar()->prepare("UPDATE $tabla SET $item1 = :$item1 WHERE $item2 = :$item2");
@@ -339,7 +343,21 @@ class ModeloUsuarios
 		$stmt->bindParam(":" . $item2, $valor2, PDO::PARAM_STR);
 
 		if ($stmt->execute()) {
+			$accion = "";
 
+			if ($usuarioBanner != null) {
+				if ($valor1 == "0" || $valor1 == 0) {
+					$accion = "Bloqueo";
+				} else {
+					$accion = "Desbloqueo";
+				}
+				$stmt2 = Conexion::conectar()->prepare("INSERT INTO novedades_usuarios (id, id_usuario_bloqueado, id_usuario_bloqueo, accion, fecha_bloqueo) values (NULL, :valor2 ,:usuarioBanner, '$accion', current_timestamp())");
+				$stmt2->bindParam(':valor2', $valor2, PDO::PARAM_INT);
+				$stmt2->bindParam(':usuarioBanner', $usuarioBanner, PDO::PARAM_INT);
+				if ($stmt2->execute()) {
+					return "ok";
+				}
+			}
 			return "ok";
 		} else {
 

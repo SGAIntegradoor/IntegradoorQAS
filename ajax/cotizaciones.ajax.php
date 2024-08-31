@@ -7,7 +7,7 @@ class AjaxCotizaciones {
 
 	/*=============================================
 	EDITAR COTIZACIONES
-	=============================================*/	
+	=============================================*/
 
 	public $idCotizacion;
 
@@ -39,6 +39,46 @@ class AjaxCotizaciones {
 
 	}
 
+	public $assistCardControl;
+
+	public function ajaxRetriveQuotationsAssistCard(){
+
+
+		$valor = $this->assistCardControl;
+		$item = "assistcard_cots";
+
+		$respuesta = ControladorCotizaciones::ctrShowQuotesAssistCard($valor, $item);
+
+		echo json_encode($respuesta);
+
+	}
+
+	public $idCotizacionAssistCard;
+
+	public function ajaxRetriveQuotationAssistCard(){
+
+
+		$id = $this->idCotizacionAssistCard;
+
+		$respuesta = ControladorCotizaciones::ctrShowQuoteAssistCard($id);
+
+		echo json_encode($respuesta);
+
+	}
+
+	public $idCotizacionOfertas;
+
+	public function ajaxRetriveOffertsQuotationAssistCard(){
+
+
+		$id = $this->idCotizacionOfertas;
+
+		$respuesta = ControladorCotizaciones::ctrShowOffertsQuoteAssistCard($id);
+
+		echo json_encode($respuesta);
+
+	}
+
 }
 
 
@@ -61,6 +101,35 @@ if(isset($_POST["idCotizaOferta"])){
 	$editarCotizaOfertas = new AjaxCotizaciones();
 	$editarCotizaOfertas -> idCotizaOferta = $_POST["idCotizaOferta"];
 	$editarCotizaOfertas -> ajaxEditarCotizaOfertas();
+}
 
+/*=============================================
+COTIZACIONES ASSISTCARD "OFERTAS"
+=============================================*/
+if(isset($_POST["cotAssistCard"])){
+
+	$retriveQuoteAssistCard = new AjaxCotizaciones();
+	$retriveQuoteAssistCard -> assistCardControl = $_POST["cotAssistCard"];
+	$retriveQuoteAssistCard -> ajaxRetriveQuotationsAssistCard();
+}
+
+// /*=============================================
+// RETOMAR COTIZACIONE ASSISTCARD POR ID
+// =============================================*/
+if(isset($_POST["idCotizacionAssistCard"])){
+
+	$retriveQuoteAssistCard = new AjaxCotizaciones();
+	$retriveQuoteAssistCard -> idCotizacionAssistCard = $_POST["idCotizacionAssistCard"];
+	$retriveQuoteAssistCard -> ajaxRetriveQuotationAssistCard();
+}
+
+// /*=============================================
+// RETOMAR COTIZACION OFERTAS ASSISTCARD POR ID
+// =============================================*/
+if(isset($_POST["ofertasCotizacion"])){
+
+	$retriveQuoteAssist= new AjaxCotizaciones();
+	$retriveQuoteAssist -> idCotizacionOfertas = $_POST["ofertasCotizacion"];
+	$retriveQuoteAssist -> ajaxRetriveOffertsQuotationAssistCard();
 }
 

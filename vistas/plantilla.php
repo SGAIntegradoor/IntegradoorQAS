@@ -128,6 +128,7 @@ if (isset($_SESSION)) {
   <!-- jQuery 3 -->
   <!-- <script type="text/javascript" src="libraries\JQueryUI\external\jquery\jquery.js"></script> -->
 
+  <script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
 
   <!-- Bootstrap 3.3.7 -->
   <script src="vistas/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
@@ -381,7 +382,8 @@ CUERPO DOCUMENTO
         $_GET["ruta"] == "salud" ||
         $_GET["ruta"] == "soat" ||
         $_GET["ruta"] == "configuracion-pdf" ||
-        $_GET["ruta"] == "hogar"
+        $_GET["ruta"] == "hogar" ||
+        $_GET["ruta"] == "retomar-cotizacion-assistcard" 
       ) {
         if ($_GET['ruta'] == 'modificacion-productos') {
           $_GET['ruta'] = 'ModificacionProductos/ModificacionProductosView';
@@ -432,6 +434,14 @@ CUERPO DOCUMENTO
   <script src="vistas/js/count.js?v=<?php echo (rand()); ?>"></script>
   <script src="vistas/js/clientes.js?v=<?php echo (rand()); ?>"></script>
   <script src="vistas/js/fasecolda.js?v=<?php echo (rand()); ?>"></script>
+
+  <?php 
+
+    if(isset($_GET['idCotizacionAssistCard'])){
+      echo '<script src="vistas/js/cotizaciones_assistcard.js?v=<?php echo (rand()); ?>" defer></script>';
+    }
+  
+  ?>
   <script src="vistas/js/cotizaciones.js?v=<?php echo (rand()); ?>"></script>
   <script src="vistas/js/validacionPermisos.js?v=<?php echo (rand()); ?>"></script>
 

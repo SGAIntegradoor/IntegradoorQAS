@@ -502,6 +502,7 @@ while ($i < count($resultados)) {
 			</td>';
 			break;
 		case 'Previsora Seguros':
+		case 'Previsora':
 			// Mapeo de productos
 			$productosMap = [
 				"PREVILIVIANOS INDIVIDUAL - " => "Preliv. Ind",
@@ -664,7 +665,7 @@ if ($rowValidateF >= 1) {
 					financiación
 					</td>';
 				} else {
-				$html2 .= '<td style="font-size:' . ($font_size - 2) . 'px; color:#666666; font-family:dejavusanscondensedb; text-align: center;" class="puntos td2 ' . $fondo_class . '">
+					$html2 .= '<td style="font-size:' . ($font_size - 2) . 'px; color:#666666; font-family:dejavusanscondensedb; text-align: center;" class="puntos td2 ' . $fondo_class . '">
 				 $' . number_format($resultado['cuota_1'], 0, ',', '.') . '
                 <br>
                 (' . $resultado['cuotas'] . ' Cuotas)
@@ -679,7 +680,7 @@ if ($rowValidateF >= 1) {
 					</td>';
 
 				$cont3++;
-			}else {
+			} else {
 				$html2 .= '<td style="font-size:' . ($font_size - 2) . 'px; color:#666666; font-family:dejavusanscondensedb; text-align: center;" class="puntos td2 ' . $fondo_class . '">
 					Pdte. cotizar 
 					<br>
@@ -710,6 +711,12 @@ if ($rowValidateF >= 1) {
 
 $html2 .= '</table></div>';
 
+
+
+
+$query6 = "SELECT Aseguradora FROM ofertas WHERE `id_cotizacion` = $identificador AND `seleccionar` = 'Si' AND `recomendar` = 'Si'";
+$valor6 = $conexion->query($query6);
+$fila6 = mysqli_num_rows($valor6);
 $html3 = '
 <style>
   .puntos {
@@ -1076,17 +1083,19 @@ foreach ($resultados as $resultado) {
 	$perdidaParcial = $resultado['PerdidaParcial'];
 
 	$queryConsultaAsistencia1 = "SELECT * FROM asistencias WHERE `aseguradora` LIKE '$nombreAseguradora' AND `producto` LIKE '$nombreProducto'";
-									// -- AND `rce` LIKE '$valorRC' AND `ppd` LIKE '$perdidaParcial'";
+	// -- AND `rce` LIKE '$valorRC' AND `ppd` LIKE '$perdidaParcial'";
 	$respuestaqueryAsistencia1 =  $conexion->query($queryConsultaAsistencia1);
 	$rowRespuestaAsistencia1 = mysqli_fetch_assoc($respuestaqueryAsistencia1);
+	// var_dump($rowRespuestaAsistencia1);
+	// die();
 	$rce_excesoNumeric = $rowRespuestaAsistencia1['rceexceso'];
 
 	if (is_numeric($rce_excesoNumeric)) {
-		$pdfValorRCM = $rce_excesoNumeric/1000000;
+		$pdfValorRCM = $rce_excesoNumeric / 1000000;
 		$pdfValorRC_Exceso = '$' . number_format($pdfValorRCM, 0, ',', '.'); // Agregar el símbolo de peso aquí
 	} else {
 		$pdfValorRC_Exceso = $rowRespuestaAsistencia1['rceexceso'];
-	} 
+	}
 
 	if ($cont5 % 2 == 0) {
 		$html3 .= '<td class="puntos fondo" style="width:' . $valorTabla . '%; text-align: center;"><center><div style="font-size:6pt">&nbsp;</div><font size="7"style="text-align: center;  font-family:dejavusanscondensed;">' . $pdfValorRC_Exceso . '</font></center></td>';
@@ -1100,6 +1109,9 @@ foreach ($resultados as $resultado) {
 $html3 .= '</tr>';
 
 $html3 .= '<tr>';
+
+
+
 $html3 .= '<td class="puntos fondo" style="width:25%; text-align: center; font-family:dejavusanscondensedb;"><div style="font-size:3pt">&nbsp;</div><font size="8">Deducible RCE Exceso</font></td>';
 
 $cont5xs = 1;
@@ -1111,7 +1123,7 @@ foreach ($resultados as $resultado) {
 	$valorRC = $resultado['ValorRC'];
 
 	$queryConsultaAsistencia1s = "SELECT * FROM asistencias WHERE `aseguradora` LIKE '$nombreAseguradora' AND `producto` LIKE '$nombreProducto'";
-									// -- AND `rce` LIKE '$valorRC' AND `ppd` LIKE '$perdidaParcial'";
+	// -- AND `rce` LIKE '$valorRC' AND `ppd` LIKE '$perdidaParcial'";
 	$respuestaqueryAsistencia1s =  $conexion->query($queryConsultaAsistencia1s);
 	$rowRespuestaAsistencia1s = mysqli_fetch_assoc($respuestaqueryAsistencia1s);
 
@@ -1137,6 +1149,7 @@ $html3 .= '</tr>';
 
 $html3 .= '<tr>';
 $html3 .= '<td class="puntos fondo" style="width:25%; text-align: center; font-family:dejavusanscondensedb;"><div style="font-size:6pt">&nbsp;</div><font size="8">Pérdida total daños o hurto</font></td>';
+
 
 $cont6 = 1;
 foreach ($resultados as $resultado) {
@@ -1243,6 +1256,7 @@ $html3 .= '</tr>';
 
 
 $html3 .= '</table>';
+
 
 
 $html4 = '
@@ -1807,9 +1821,9 @@ $html4 .= '</tr>';
 $html4 .= '<tr>';
 
 
-if($rowValidate > 3){
+if ($rowValidate > 3) {
 	$html4 .= '<td class="fondo2 puntos" style="width:25%;"><div style="font-size:6pt">&nbsp;</div><font size="8" style="font-family:dejavusanscondensedb; text-align: center;">Grua varada o accidente</font></td>';
-} else if($rowValidate > 1){
+} else if ($rowValidate > 1) {
 	$html4 .= '<td class="fondo2 puntos" style="width:25%;"><div style="font-size:6pt">&nbsp;</div><font size="8" style="font-family:dejavusanscondensedb; text-align: center;">Grua varada o accidente</font></td>';
 } else {
 	$html4 .= '<td class="fondo2 puntos" style="width:25%;"><div style="font-size:6pt">&nbsp;</div><font size="8" style="font-family:dejavusanscondensedb; text-align: center;">Grua varada o accidente</font></td>';
@@ -1846,13 +1860,13 @@ $html4 .= '</tr>';
 
 $html4 .= '<tr>';
 
-if($rowValidate > 3){
+if ($rowValidate > 3) {
 	$html4 .= '<td class="fondo2 puntos" style="width:25%;"><div style="font-size:5pt">&nbsp;</div><font size="8" style="font-family:dejavusanscondensedb; text-align: center;">Gastos de Transporte en pérdida total</font></td>';
-} else if($rowValidate > 1){
+} else if ($rowValidate > 1) {
 	$html4 .= '<td class="fondo2 puntos" style="width:25%;"><div style="font-size:5pt">&nbsp;</div><font size="8" style="font-family:dejavusanscondensedb; text-align: center;">Gastos de Transporte en pérdida total</font></td>';
 } else {
 	$html4 .= '<td class="fondo2 puntos" style="width:25%;"><div style="font-size:5pt">&nbsp;</div><font size="8" style="font-family:dejavusanscondensedb; text-align: center;">Gastos de Transporte en pérdida total</font></td>';
-} 
+}
 
 $cont15 = 1;
 foreach ($resultados as $resultado) {
@@ -1875,7 +1889,7 @@ foreach ($resultados as $resultado) {
         <img style="width:16px;" src="../../../vistas/img/logos/cheque.png" alt=""></td>';
 	} else {
 		$html4 .= '<td class="puntos ' . $fondo_class . '" style="width:' . $valorTabla . '%; text-align: center;"><div style="font-size:9pt">&nbsp;</div>
-        <font size="7" style="text-align: center; font-family:dejavusanscondensed;">' .($rowRespuestaAsistencia11['Gastosdetransportept'] == '' ? 'No cubre' : $rowRespuestaAsistencia11['Gastosdetransportept']) . '</font></center></td>';
+        <font size="7" style="text-align: center; font-family:dejavusanscondensed;">' . ($rowRespuestaAsistencia11['Gastosdetransportept'] == '' ? 'No cubre' : $rowRespuestaAsistencia11['Gastosdetransportept']) . '</font></center></td>';
 	}
 	$cont15 += 1;
 }
@@ -1884,13 +1898,13 @@ $html4 .= '</tr>';
 
 $html4 .= '<tr>';
 
-if($rowValidate > 3){
+if ($rowValidate > 3) {
 	$html4 .= '<td class="fondo2 puntos" style="width:25%;"><div style="font-size:5pt">&nbsp;</div><font size="8" style="font-family:dejavusanscondensedb; text-align: center;">Accidentes personales</font></td>';
-} else if($rowValidate > 1){
+} else if ($rowValidate > 1) {
 	$html4 .= '<td class="fondo2 puntos" style="width:25%;"><div style="font-size:5pt">&nbsp;</div><font size="8" style="font-family:dejavusanscondensedb; text-align: center;">Accidentes personales</font></td>';
 } else {
 	$html4 .= '<td class="fondo2 puntos" style="width:25%;"><div style="font-size:5pt">&nbsp;</div><font size="8" style="font-family:dejavusanscondensedb; text-align: center;">Accidentes personales</font></td>';
-} 
+}
 
 $cont14 = 1;
 
@@ -1923,13 +1937,13 @@ foreach ($resultados as $resultado) {
 $html4 .= '</tr>';
 
 $html4 .= '<tr>';
-if($rowValidate > 3){
+if ($rowValidate > 3) {
 	$html4 .= '<td class="fondo2 puntos" style="width:25%;"><div style="font-size:5pt">&nbsp;</div><font size="8" style="font-family:dejavusanscondensedb; text-align: center;">Asistencia Jurídica civil y penal</font></td>';
-} else if($rowValidate > 1){
+} else if ($rowValidate > 1) {
 	$html4 .= '<td class="fondo2 puntos" style="width:25%;"><div style="font-size:5pt">&nbsp;</div><font size="8" style="font-family:dejavusanscondensedb; text-align: center;">Asistencia Jurídica civil y penal</font></td>';
 } else {
 	$html4 .= '<td class="fondo2 puntos" style="width:25%;"><div style="font-size:5pt">&nbsp;</div><font size="8" style="font-family:dejavusanscondensedb; text-align: center;">Asistencia Jurídica civil y penal</font></td>';
-} 
+}
 
 
 $cont13 = 1;
@@ -2003,13 +2017,13 @@ $html4 .= '</tr>';
 
 $html4 .= '<tr>';
 
-if($rowValidate > 3){
+if ($rowValidate > 3) {
 	$html4 .= '<td class="fondo2 puntos" style="width:25%;"><div style="font-size:5pt">&nbsp;</div><font size="8" style="font-family:dejavusanscondensedb; text-align: center;">Responsabilidad civil general familiar</font></td>';
-} else if($rowValidate > 1){
+} else if ($rowValidate > 1) {
 	$html4 .= '<td class="fondo2 puntos" style="width:25%;"><div style="font-size:5pt">&nbsp;</div><font size="8" style="font-family:dejavusanscondensedb; text-align: center;">Responsabilidad civil general familiar</font></td>';
 } else {
 	$html4 .= '<td class="fondo2 puntos" style="width:25%;"><div style="font-size:5pt">&nbsp;</div><font size="8" style="font-family:dejavusanscondensedb; text-align: center;">Responsabilidad civil general familiar</font></td>';
-} 
+}
 
 
 $cont17 = 1;
@@ -2049,13 +2063,13 @@ $html4 .= '</tr>';
 
 $html4 .= '<tr>';
 
-if($rowValidate > 3){
+if ($rowValidate > 3) {
 	$html4 .= '<td class="fondo2 puntos" style="width:25%;"><div style="font-size:5pt">&nbsp;</div><font size="8" style="font-family:dejavusanscondensedb; text-align: center;">Cobertura de vidrios</font></td>';
-} else if($rowValidate > 1){
+} else if ($rowValidate > 1) {
 	$html4 .= '<td class="fondo2 puntos" style="width:25%;"><div style="font-size:5pt">&nbsp;</div><font size="8" style="font-family:dejavusanscondensedb; text-align: center;">Cobertura de vidrios</font></td>';
 } else {
 	$html4 .= '<td class="fondo2 puntos" style="width:25%;"><div style="font-size:5pt">&nbsp;</div><font size="8" style="font-family:dejavusanscondensedb; text-align: center;">Cobertura de vidrios</font></td>';
-} 
+}
 
 $cont18 = 1;
 
@@ -2093,13 +2107,13 @@ $html4 .= '</tr>';
 
 $html4 .= '<tr>';
 
-if($rowValidate > 3){
+if ($rowValidate > 3) {
 	$html4 .= '<td class="fondo2 puntos" style="width:25%;"><div style="font-size:5pt">&nbsp;</div><font size="8" style="font-family:dejavusanscondensedb; text-align: center;">Asistencia en viajes con cobertura a nivel nacional</font></td>';
-} else if($rowValidate > 1){
+} else if ($rowValidate > 1) {
 	$html4 .= '<td class="fondo2 puntos" style="width:25%;"><div style="font-size:5pt">&nbsp;</div><font size="8" style="font-family:dejavusanscondensedb; text-align: center;">Asistencia en viajes con cobertura a nivel nacional</font></td>';
 } else {
 	$html4 .= '<td class="fondo2 puntos" style="width:25%;"><div style="font-size:5pt">&nbsp;</div><font size="8" style="font-family:dejavusanscondensedb; text-align: center;">Asistencia en viajes con cobertura a nivel nacional</font></td>';
-} 
+}
 
 // $html4 .= '<td class="fondo2 puntos" style="width:25%; text-align: center; font-family:dejavusanscondensedb;"><font size="8">Asistencia en viajes con cobertura a nivel nacional</font></td>';
 
@@ -2154,7 +2168,7 @@ foreach ($resultados as $resultado) {
 		if ($rowRespuestaAsistencia16['AsistenciaOdontologica'] == "Si ampara") {
 			$html4 .= '<td class="puntos fondo2" style="width:' . $valorTabla . '%;text-align: center;"><div style="font-size:5pt">&nbsp;</div><img style="width:16px;" src="../../../vistas/img/logos/cheque.png" alt=""></td>';
 		} else {
-			$html4 .= '<td class="puntos fondo2" style="width:' . $valorTabla . '%;"><center><div style="font-size:7pt">&nbsp;</div><font size="7"style="text-align: center; font-family:dejavusanscondensed;">' .($rowRespuestaAsistencia16['AsistenciaOdontologica'] == '' ? 'No cubre' : $rowRespuestaAsistencia16['AsistenciaOdontologica']) . '</font></center></td>';
+			$html4 .= '<td class="puntos fondo2" style="width:' . $valorTabla . '%;"><center><div style="font-size:7pt">&nbsp;</div><font size="7"style="text-align: center; font-family:dejavusanscondensed;">' . ($rowRespuestaAsistencia16['AsistenciaOdontologica'] == '' ? 'No cubre' : $rowRespuestaAsistencia16['AsistenciaOdontologica']) . '</font></center></td>';
 		}
 	} else {
 		if ($rowRespuestaAsistencia16['AsistenciaOdontologica'] == "Si ampara") {
@@ -2175,9 +2189,9 @@ $html4 .= '</tr>';
 //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
 $html4 .= '<tr>';
-if($rowValidate > 3){
+if ($rowValidate > 3) {
 	$html4 .= '<td class="fondo2 puntos" style="width:25%;"><div style="font-size:8pt">&nbsp;</div><font size="8" style="font-family:dejavusanscondensedb; text-align: center;">Lucro cesante/Auxilio de paralización del vehículo</font></td>';
-} else if($rowValidate > 1){
+} else if ($rowValidate > 1) {
 	$html4 .= '<td class="fondo2 puntos" style="width:25%;"><div style="font-size:4pt">&nbsp;</div><font size="8" style="font-family:dejavusanscondensedb; text-align: center;">Lucro cesante/Auxilio de paralización del vehículo</font></td>';
 } else {
 	$html4 .= '<td class="fondo2 puntos" style="width:25%;"><div style="font-size:0pt">&nbsp;</div><font size="8" style="font-family:dejavusanscondensedb; text-align: center;">Lucro cesante/Auxilio de paralización del vehículo</font></td>';
@@ -2204,7 +2218,7 @@ foreach ($resultados as $resultado) {
 		if ($rowRespuestaAsistencia17['paralizacionvehiculo'] == "Si ampara") {
 			$html4 .= '<td class="puntos fondo" style="width:' . $valorTabla . '%;text-align: center;"><div style="font-size:10pt">&nbsp;</div><img style="width:16px;" src="../../../vistas/img/logos/cheque.png" alt=""></td>';
 		} else {
-			$html4 .= '<td class="puntos fondo" style="width:' . $valorTabla . '%;"><center><div style="font-size:4pt">&nbsp;</div><font size="7"style="text-align: center; font-family:dejavusanscondensed;">' . ($rowRespuestaAsistencia17['paralizacionvehiculo'] == '' ? 'No cubre' : $rowRespuestaAsistencia17['paralizacionvehiculo']). '</font></center></td>';
+			$html4 .= '<td class="puntos fondo" style="width:' . $valorTabla . '%;"><center><div style="font-size:4pt">&nbsp;</div><font size="7"style="text-align: center; font-family:dejavusanscondensed;">' . ($rowRespuestaAsistencia17['paralizacionvehiculo'] == '' ? 'No cubre' : $rowRespuestaAsistencia17['paralizacionvehiculo']) . '</font></center></td>';
 		}
 	}
 
@@ -2219,9 +2233,9 @@ $html4 .= '</tr>';
 
 $html4 .= '<tr>';
 
-if($rowValidate > 3){
+if ($rowValidate > 3) {
 	$html4 .= '<td class="fondo2 puntos" style="width:25%;"><div style="font-size:17pt">&nbsp;</div><font size="8" style="font-family:dejavusanscondensedb; text-align: center;">Obligaciones financieras</font></td>';
-} else if($rowValidate > 1){
+} else if ($rowValidate > 1) {
 	$html4 .= '<td class="fondo2 puntos" style="width:25%;"><div style="font-size:9pt">&nbsp;</div><font size="8" style="font-family:dejavusanscondensedb; text-align: center;">Obligaciones financieras</font></td>';
 } else {
 	$html4 .= '<td class="fondo2 puntos" style="width:25%;"><div style="font-size:5pt">&nbsp;</div><font size="8" style="font-family:dejavusanscondensedb; text-align: center;">Obligaciones financieras</font></td>';
@@ -2241,7 +2255,7 @@ foreach ($resultados as $resultado) {
 
 	if ($cont23 % 2 != 0) {
 		if ($rowRespuestaAsistencia18['obligacionfinanciera'] == '' || $rowRespuestaAsistencia18['obligacionfinanciera'] == 'No cubre') {
-			if($rowValidate > 3){
+			if ($rowValidate > 3) {
 				$contenido = '<div style="font-size:4pt">&nbsp;</div>No cubre';
 			} else {
 				$contenido = '<div style="font-size:1pt">&nbsp;</div>No cubre';
@@ -2312,9 +2326,9 @@ $html4 .= '</tr>';
 
 $html4 .= '<tr>';
 
-if($rowValidate > 3){
+if ($rowValidate > 3) {
 	$html4 .= '<td class="fondo2 puntos" style="width:25%;"><div style="font-size:3pt">&nbsp;</div><font size="8" style="font-family:dejavusanscondensedb; text-align: center;">Asesoria y gestión de trámites de Tránsito</font></td>';
-} else if($rowValidate > 1){
+} else if ($rowValidate > 1) {
 	$html4 .= '<td class="fondo2 puntos" style="width:25%;"><div style="font-size:4pt">&nbsp;</div><font size="8" style="font-family:dejavusanscondensedb; text-align: center;">Asesoria y gestión de trámites de Tránsito</font></td>';
 } else {
 	$html4 .= '<td class="fondo2 puntos" style="width:25%;"><div style="font-size:4pt">&nbsp;</div><font size="8" style="font-family:dejavusanscondensedb; text-align: center;">Asesoria y gestión de trámites de Tránsito</font></td>';
@@ -2352,9 +2366,9 @@ foreach ($resultados as $resultado) {
 $html4 .= '</tr>';
 
 $html4 .= '<tr>';
-if($rowValidate > 3){
+if ($rowValidate > 3) {
 	$html4 .= '<td class="fondo2 puntos" style="width:25%;"><div style="font-size:3pt">&nbsp;</div><font size="8" style="font-family:dejavusanscondensedb; text-align: center;">Gastos médicos</font></td>';
-} else if($rowValidate > 1){
+} else if ($rowValidate > 1) {
 	$html4 .= '<td class="fondo2 puntos" style="width:25%;"><div style="font-size:4pt">&nbsp;</div><font size="8" style="font-family:dejavusanscondensedb; text-align: center;">Gastos médicos</font></td>';
 } else {
 	$html4 .= '<td class="fondo2 puntos" style="width:25%;"><div style="font-size:12pt">&nbsp;</div><font size="8" style="font-family:dejavusanscondensedb; text-align: center;">Gastos médicos</font></td>';
@@ -2395,6 +2409,7 @@ $html4 .= '</tr>';
 $html4 .= '</table>';
 
 
+
 $html6 = '
 <style>
   .puntos {
@@ -2433,15 +2448,16 @@ $html6 = '
 
 
 
-$query29 = "SELECT Aseguradora FROM ofertas WHERE `id_cotizacion` = $identificador AND `seleccionar` = 'Si' and `recomendar` = 'Si'";
+$query29 = "SELECT * FROM ofertas WHERE `id_cotizacion` = $identificador AND `seleccionar` = 'Si' and `recomendar` = 'Si'";
 $respuestaquery29 =  $conexion->query($query29);
 $asegRecomendada = mysqli_num_rows($respuestaquery29);
 
-
 $query40 = "SELECT * FROM cotizaciones WHERE `id_cotizacion` = $identificador";
+
 $respuestaquery40 =  $conexion->query($query40);
 $rowRespuestaAsistencia40 = mysqli_fetch_assoc($respuestaquery40);
-
+// var_dump($rowRespuestaAsistencia40);
+// die();
 
 $rest = substr($rowRespuestaAsistencia40['cot_fch_cotizacion'], 0, -9);
 
@@ -2465,7 +2481,7 @@ while ($rowRespuesta29 = mysqli_fetch_assoc($respuestaquery29)) {
 	$html6 .= '<table style="width: 100%;" class="second2" cellpadding="2"  border="0">';
 
 	$html6 .= '<tr>';
-	$html6 .= '<td class="redondeotabla" style ="border-radius:50px; width: 100%;  background-color: #88D600' . $color . '; color:white; font-family:dejavusanscondensedb; " colspan="' . ($fila6 + 1) . '"><div style="font-size:3pt">&nbsp;</div>OPCIÓN ' . $contador . '<div style="font-size:3pt">&nbsp;</div></td>';
+	$html6 .= '<td class="redondeotabla" style ="border-radius:50px; width: 100%;  background-color: #88D600' . $color . '; color:white; font-family:dejavusanscondensedb; " colspan="' . ($rowValidate + 1) . '"><div style="font-size:3pt">&nbsp;</div>OPCIÓN ' . $contador . '<div style="font-size:3pt">&nbsp;</div></td>';
 	$html6 .= '</tr>';
 	$html6 .= '<tr>';
 
@@ -2551,26 +2567,25 @@ while ($rowRespuesta29 = mysqli_fetch_assoc($respuestaquery29)) {
 		<img style="width:75px;" src="../../../vistas/img/logos/solidaria.png" alt=""></td>';
 	}
 
-
 	$html6 .= '<td style ="width: 60%; text-align: center;"><div style="font-size:4pt">&nbsp;</div><font style="color:#' . $color . '">Producto: </font>' . $rowRespuesta29['Producto'] . '<font style="color:#' . $color . '"> Fecha Vigencia: </font>' . date("d/m/Y", strtotime($rest)) . ' <br> <font style="color:#' . $color . '; font-size:22px; ">$' . number_format($rowRespuesta29['Prima'], 0, ',', '.') . '</font><div style="font-size:4pt">&nbsp;</div></td>';
 	$html6 .= '</tr>';
 
 	$html6 .= '<tr>';
-	$html6 .= '<td style ="width: 100%;  background-color: #D1D1D1; font-family:dejavusanscondensedb;" colspan="' . ($fila6 + 1) . '">COBERTURA DEL VEHÍCULO</td>';
+	$html6 .= '<td style ="width: 100%;  background-color: #D1D1D1; font-family:dejavusanscondensedb;" colspan="' . ($rowValidate + 1) . '">COBERTURA DEL VEHÍCULO</td>';
 	$html6 .= '</tr>';
 
 	$html6 .= '<tr>';
-	$html6 .= '<td class="fondo puntos2" style ="width: 20%; text-align: center; font-family:dejavusanscondensedb;" ><font size="8">Daños a terceros</font></td>';
-	$html6 .= '<td class="fondo puntos2" style ="width: 20%; text-align: center; font-family:dejavusanscondensedb;" ><font size="8">Muertes a una persona</font></td>';
-	$html6 .= '<td class="fondo puntos2" style ="width: 30%; text-align: center; font-family:dejavusanscondensedb;" ><font size="8">Muerte a dos personas o más</font></td>';
+	$html6 .= '<td class="fondo puntos2" style ="width: 15%; text-align: center; font-family:dejavusanscondensedb;" ><font size="8">Daños a terceros</font></td>';
+	$html6 .= '<td class="fondo puntos2" style ="width: 15%; text-align: center; font-family:dejavusanscondensedb;" ><font size="8">Muertes a una persona</font></td>';
+	$html6 .= '<td class="fondo puntos2" style ="width: 25%; text-align: center; font-family:dejavusanscondensedb;" ><font size="8">Muerte a dos personas o más</font></td>';
 	$html6 .= '<td class="fondo puntos2" style ="width: 25%; text-align: center; font-family:dejavusanscondensedb;" ><font size="8">Deducible</font></td>';
 	$html6 .= '<td class="fondo" style ="width: 20%; text-align: center; font-family:dejavusanscondensedb;" ><font size="8">Asistencia Jurídica</font></td>';
 	$html6 .= '</tr>';
 
 	$html6 .= '<tr>';
-	$html6 .= '<td class="fondo puntos2" style ="width: 20%; text-align: center;" ><font size="7">' . number_format($rowRespuestaAsistencia29['rce'], 0, ',', '.') . '</font></td>';
-	$html6 .= '<td class="fondo puntos2" style ="width: 20%; text-align: center;" ><font size="7">' . number_format($rowRespuestaAsistencia29['rce'], 0, ',', '.') . '</font></td>';
-	$html6 .= '<td class="fondo puntos2" style ="width: 30%; text-align: center;" ><font size="7">' . number_format($rowRespuestaAsistencia29['rce'], 0, ',', '.') . '</font></td>';
+	$html6 .= '<td class="fondo puntos2" style ="width: 15%; text-align: center;" ><font size="7">' . ($rowRespuestaAsistencia29['rce'] == "No cubre" ? "No cubre" : number_format($rowRespuestaAsistencia29['rce'], 0, ',', '.')) . '</font></td>';
+	$html6 .= '<td class="fondo puntos2" style ="width: 15%; text-align: center;" ><font size="7">' . ($rowRespuestaAsistencia29['rce'] == "No cubre" ? "No cubre" : number_format($rowRespuestaAsistencia29['rce'], 0, ',', '.')) . '</font></td>';
+	$html6 .= '<td class="fondo puntos2" style ="width: 25%; text-align: center;" ><font size="7">' . ($rowRespuestaAsistencia29['rce'] == "No cubre" ? "No cubre" : number_format($rowRespuestaAsistencia29['rce'], 0, ',', '.')) . '</font></td>';
 	$html6 .= '<td class="fondo puntos2" style ="width: 25%; text-align: center;" ><font size="7">' . $rowRespuestaAsistencia29['deducible'] . '</font></td>';
 	if ($rowRespuestaAsistencia29['Asistenciajuridica'] == "Si ampara") {
 		$html6 .= '<td class="fondo" style="width:20%;text-align: center;"><img style="width:16px;" src="../../../vistas/img/logos/cheque.png" alt=""></td>';
@@ -2583,19 +2598,19 @@ while ($rowRespuesta29 = mysqli_fetch_assoc($respuestaquery29)) {
 	$html6 .= '</td>';
 	$html6 .= '</tr>';
 	$html6 .= '<tr>';
-	$html6 .= '<td style ="width: 100%;  background-color: #D1D1D1; font-family:dejavusanscondensedb;" colspan="' . ($fila6 + 1) . '">COBERTURA DEL VEHÍCULO</td>';
+	$html6 .= '<td style ="width: 100%;  background-color: #D1D1D1; font-family:dejavusanscondensedb;" colspan="' . ($rowValidate + 1) . '">COBERTURA DEL VEHÍCULO</td>';
 	$html6 .= '</tr>';
 	$html6 .= '<tr>';
-	$html6 .= '<td class="fondo puntos2" style ="width: 20%; text-align: center; font-family:dejavusanscondensedb;" ><font size="8">Pérdida total daños</font></td>';
-	$html6 .= '<td class="fondo puntos2" style ="width: 20%; text-align: center; font-family:dejavusanscondensedb;" ><font size="8">Pérdida parcial daños</font></td>';
-	$html6 .= '<td class="fondo puntos2" style ="width: 30%; text-align: center; font-family:dejavusanscondensedb;" ><font size="8">Pérdida total hurto</font></td>';
+	$html6 .= '<td class="fondo puntos2" style ="width: 15%; text-align: center; font-family:dejavusanscondensedb;" ><font size="8">Pérdida total daños</font></td>';
+	$html6 .= '<td class="fondo puntos2" style ="width: 15%; text-align: center; font-family:dejavusanscondensedb;" ><font size="8">Pérdida parcial daños</font></td>';
+	$html6 .= '<td class="fondo puntos2" style ="width: 25%; text-align: center; font-family:dejavusanscondensedb;" ><font size="8">Pérdida total hurto</font></td>';
 	$html6 .= '<td class="fondo puntos2" style ="width: 25%; text-align: center; font-family:dejavusanscondensedb;" ><font size="8">Deducible</font></td>';
 	$html6 .= '<td class="fondo" style ="width: 20%; text-align: center; font-family:dejavusanscondensedb;" ><font size="8">Desastre natural</font></td>';
 	$html6 .= '</tr>';
 	$html6 .= '<tr>';
-	$html6 .= '<td class="fondo puntos2" style ="width: 20%; text-align: center;" ><font size="7">' . $rowRespuesta29['PerdidaTotal'] . '</font></td>';
-	$html6 .= '<td class="fondo puntos2" style ="width: 20%; text-align: center;" ><font size="7">' . $rowRespuesta29['PerdidaParcial'] . '</font></td>';
-	$html6 .= '<td class="fondo puntos2" style ="width: 30%; text-align: center;" ><font size="7">' . $rowRespuesta29['PerdidaTotal'] . '</font></td>';
+	$html6 .= '<td class="fondo puntos2" style ="width: 15%; text-align: center;" ><font size="7">' . $rowRespuesta29['PerdidaTotal'] . '</font></td>';
+	$html6 .= '<td class="fondo puntos2" style ="width: 15%; text-align: center;" ><font size="7">' . $rowRespuesta29['PerdidaParcial'] . '</font></td>';
+	$html6 .= '<td class="fondo puntos2" style ="width: 25%; text-align: center;" ><font size="7">' . $rowRespuesta29['PerdidaTotal'] . '</font></td>';
 	$html6 .= '<td class="fondo puntos2" style ="width: 25%; text-align: center;" ><font size="7">' . $rowRespuestaAsistencia29['deducible'] . '</font></td>';
 	if ($rowRespuestaAsistencia29['eventos'] == "Si ampara") {
 		$html6 .= '<td class="fondo" style="width:20%;text-align: center;"><img style="width:16px;" src="../../../vistas/img/logos/cheque.png" alt=""></td>';
@@ -2608,7 +2623,7 @@ while ($rowRespuesta29 = mysqli_fetch_assoc($respuestaquery29)) {
 	$html6 .= '</td>';
 	$html6 .= '</tr>';
 	$html6 .= '<tr>';
-	$html6 .= '<td style ="width: 100%;  background-color: #D1D1D1; font-family:dejavusanscondensedb;" colspan="' . ($fila6 + 1) . '">ASISTENCIA</td>';
+	$html6 .= '<td style ="width: 100%;  background-color: #D1D1D1; font-family:dejavusanscondensedb;" colspan="' . ($rowValidate + 1) . '">ASISTENCIA</td>';
 	$html6 .= '</tr>';
 	$html6 .= '<tr>';
 	$html6 .= '<td class="fondo puntos2" style ="width: 25%; text-align: center; font-family:dejavusanscondensedb;"><font size="8">Gastos de movilización ante pérdidas parciales</font></td>';
@@ -2623,16 +2638,16 @@ while ($rowRespuesta29 = mysqli_fetch_assoc($respuestaquery29)) {
 	$html6 .= '<td class="fondo puntos" style ="width: 25%; text-align: center;" ><font size="7">' . $rowRespuestaAsistencia29['Vehiculoreemplazopt'] . '</font></td>';
 	$html6 .= '</tr>';
 	$html6 .= '<tr>';
-	$html6 .= '<td class="fondo puntos2" style ="width: 20%; text-align: center; font-family:dejavusanscondensedb;"><font size="8">Asesoría con abogado en caso de accidente</font></td>';
-	$html6 .= '<td class="fondo puntos2" style ="width: 20%; text-align: center; font-family:dejavusanscondensedb;"><font size="8">Revisión antes de viaje</font></td>';
-	$html6 .= '<td class="fondo puntos2" style ="width: 30%; text-align: center; font-family:dejavusanscondensedb;"><font size="8">Carro-Taller</font></td>';
+	$html6 .= '<td class="fondo puntos2" style ="width: 15%; text-align: center; font-family:dejavusanscondensedb;"><font size="8">Asesoría con abogado en caso de accidente</font></td>';
+	$html6 .= '<td class="fondo puntos2" style ="width: 15%; text-align: center; font-family:dejavusanscondensedb;"><font size="8">Revisión antes de viaje</font></td>';
+	$html6 .= '<td class="fondo puntos2" style ="width: 25%; text-align: center; font-family:dejavusanscondensedb;"><font size="8">Carro-Taller</font></td>';
 	$html6 .= '<td class="fondo puntos2" style ="width: 25%; text-align: center; font-family:dejavusanscondensedb;"><font size="8">Conductor elegido</font></td>';
 	$html6 .= '<td class="fondo" style ="width: 20%; text-align: center; font-family:dejavusanscondensedb;"><font size="8">Servicio de grúa ante accidente o varada</font></td>';
 	$html6 .= '</tr>';
 	$html6 .= '<tr>';
-	$html6 .= '<td class="fondo puntos2" style ="width: 20%; text-align: center;" ><font size="7">' . $rowRespuestaAsistencia29['Asistenciajuridica'] . '</font></td>';
-	$html6 .= '<td class="fondo puntos2" style="width:20%;text-align: center;"><img style="width:16px;" src="../../../vistas/img/logos/cheque.png" alt=""></td>';
-	$html6 .= '<td class="fondo puntos2" style ="width: 30%; text-align: center;" ><font size="7">' . $rowRespuestaAsistencia29['Carrotaller'] . '</font></td>';
+	$html6 .= '<td class="fondo puntos2" style ="width: 15%; text-align: center;" ><font size="7">' . $rowRespuestaAsistencia29['Asistenciajuridica'] . '</font></td>';
+	$html6 .= '<td class="fondo puntos2" style="width:15%;text-align: center;"><img style="width:16px;" src="../../../vistas/img/logos/cheque.png" alt=""></td>';
+	$html6 .= '<td class="fondo puntos2" style ="width: 25%; text-align: center;" ><font size="7">' . $rowRespuestaAsistencia29['Carrotaller'] . '</font></td>';
 	$html6 .= '<td class="fondo puntos2" style ="width: 25%; text-align: center;" ><font size="7">' . $rowRespuestaAsistencia29['Conductorelegido'] . '</font></td>';
 	$html6 .= '<td class="fondo" style ="width: 20%; text-align: center;" ><font size="7">' . $rowRespuestaAsistencia29['Grua'] . '</font></td>';
 	$html6 .= '</tr>';
@@ -2663,9 +2678,6 @@ $html7 .= '<td style ="width: 100%;" colspan="' . ($rowValidate + 1) . '"><font 
 $html7 .= '</tr>';
 
 $html7 .= '</table>';
-
-
-
 
 $pdf->SetXY(80, 121);
 $pdf->writeHTML($html2, true, false, true, false, '');
@@ -2936,9 +2948,19 @@ function productoAseguradora($aseguradora, $producto)
 		$resultado = "Pesados Full";
 	} else if ($aseguradora == 'Liberty' && $producto == 'Pesados Integral1') {
 		$resultado = "Pesados Integral";
-	}else {
+	} else if ($aseguradora == 'Previsora' && $producto == 'Pesados Integral1') {
+		$resultado = "Pesados Integral";
+	} else if ($aseguradora == 'Liberty' && $producto == 'Pesados Full1') {
+		$resultado = "Pesados Full";
+	} else if ($aseguradora == 'Liberty' && $producto == 'Pesados Integral1') {
+		$resultado = "Pesados Integral";
+	} else if ($aseguradora == 'Liberty' && $producto == 'Pesados Integral1') {
+		$resultado = "Pesados Integral";
+	} else {
 		$resultado = $producto;
 	}
+
+
 	return $resultado;
 }
 

@@ -231,7 +231,7 @@ checkUserStatus();
 			/*=============================================
 		HOGAR
 		=============================================*/
-		if (isset($_SESSION["permisos"])) {
+		if ($_SESSION["intermediario"] == "3" || $_SESSION["intermediario"] == "149") {
 			echo '<li id="menuCotHog" class="' . ($currentPage == 'hogar' ? 'active' : '') . '">
 			<a href="hogar">
 				<i class="fa-solid fa-house-circle-check"></i>

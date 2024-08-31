@@ -192,7 +192,7 @@ if ($_SESSION["rol"] != 1) {
         </style>
 
         <?php
-        if ($_SESSION["permisos"]["Agregarunusuarionuevo"] == "x") {
+        if ($_SESSION["permisos"]["Agregarunusuarionuevo"] == "x" && $_SESSION['intermediario'] == "3") {
           echo '<button class="btnAgregarUsuario" data-toggle="modal" data-target="#modalAgregarUsuario">
 
           Agregar usuario
@@ -200,7 +200,7 @@ if ($_SESSION["rol"] != 1) {
         </button>';
         }
 
-        if ($_SESSION["permisos"]["Agregarunusuarionuevo"] == "x") {
+        if ($_SESSION["permisos"]["Agregarunusuarionuevo"] == "x" && $_SESSION['intermediario'] == "3") {
           echo '<button class="btnAgregarUsuario" id="creaTemporal">
 
           Crear Usuario Temporal
@@ -228,10 +228,20 @@ if ($_SESSION["rol"] != 1) {
               <th style="font-weight: bold;">Últ_login</th>
               <th style="font-weight: bold;">Fecha_Creacion</th>
               <th style="font-weight: bold;">Foto</th>
-              <th style="font-weight: bold;">Estado</th>
-              <th style="font-weight: bold;">Cotizaciones_totales</th>
+              <th style="font-weight: bold;">Estado</th>             
+              <?php 
+              if($_SESSION['intermediario'] == "3"){
+
+                echo '<th style="font-weight: bold;">Cotizaciones_totales</th>';
+              }
+              ?>
               <th style="font-weight: bold;">Fecha_Limite</th>
-              <th style="width: 110px;">Acciones</th>
+              <?php 
+              if($_SESSION['intermediario'] == "3"){
+
+                echo '<th style="width: 110px;">Acciones</th>';
+              }
+              ?>
 
             </tr>
 
@@ -283,8 +293,13 @@ if ($_SESSION["rol"] != 1) {
                 } else {
                   echo '<td><button class="btn btn-danger btn-xs btnActivar" idUsuario="' . $value["id_usuario"] . '" estadoUsuario="1">Bloqueado</button></td>';
                 }
+                if($_SESSION['intermediario'] == "3"){
                 echo '<td>' . $value['cotizacionesTotales'] . '</td>';
+                }
                 echo '<td>' . $value['fechaFin'] . '</td>';
+
+                if($_SESSION['intermediario'] == "3"){
+
                 echo '<td>
 
                     <div class="btn-group">
@@ -299,6 +314,7 @@ if ($_SESSION["rol"] != 1) {
                   
                 </tr>';
               }
+            }
             }
 
             ?>

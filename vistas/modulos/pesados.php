@@ -105,7 +105,17 @@ if ($aseguradoras['Bolivar']['C'] == "1") {
 $cre_bol_api_key = $creBolivar['cre_bol_api_key'] ?? null;
 $cre_bol_claveAsesor = $creBolivar['cre_bol_claveAsesor'] ?? null;
 
+if ($aseguradoras['Previsora']['C'] == "1") {
+  $crePrevisora = obtenerCredenciales($enlace, 'Credenciales_Previsora', '*', $_SESSION['intermediario']);
+} else {
+  $crePrevisora = obtenerCredenciales($enlace, 'Credenciales_Previsora', '*', '3');
+}
 
+$cre_pre_usu = $crePrevisora['cre_pre_Username'];
+$cre_pre_pass = $crePrevisora['cre_pre_Password'];
+$cre_pre_source_code = $_SESSION['intermediario'] == 156 ? 24 : ($_SESSION['intermediario'] == 3 ? 12 : 12);
+$cre_pre_bussinessId = $_SESSION['intermediario'] == 156 ? 23 : ($_SESSION['intermediario'] == 3 ? 11 : 11);
+$cre_pre_key = $crePrevisora['cre_pre_AgentCode'];
 
 if ($_SESSION["permisos"]["Cotizarpesados"] != "x") {
 
@@ -1513,13 +1523,12 @@ if ($_SESSION["permisos"]["Cotizarpesados"] != "x") {
           <input type="text" class="form-control" id="cre_sol_token" value="<?php echo $cre_sol_token; ?>">
           <input type="text" class="form-control" id="cre_sol_fecha_token" value="<?php echo $cre_sol_fecha_token; ?>">
 
-          <!--PREVISORA-->
-          <!-- <input type="text" class="form-control" id="cre_pre_AgentCodeListCoin" value="<#?php echo $_SESSION["cre_pre_AgentCodeListCoin"]; ?>">
-          <input type="text" class="form-control" id="cre_pre_AgentAgencyTypeCode" value="<#?php echo $_SESSION["cre_pre_AgentAgencyTypeCode"]; ?>">
-          <input type="text" class="form-control" id="cre_pre_ParticipationCia" value="<#?php echo $_SESSION["cre_pre_ParticipationCia"]; ?>">
-          <input type="text" class="form-control" id="cre_pre_AgentCode" value="<#?php echo $_SESSION["cre_pre_AgentCode"]; ?>">
-          <input type="text" class="form-control" id="cre_pre_Username" value="<#?php echo $_SESSION["cre_pre_Username"]; ?>">
-          <input type="text" class="form-control" id="cre_pre_Password" value="<#?php echo $_SESSION["cre_pre_Password"]; ?>"> -->
+          <!-- PREVISORA -->
+          <input type="text" class="form-control" id="cre_pre_BusinessId" value="<?php echo $cre_pre_bussinessId ?>">
+          <input type="text" class="form-control" id="cre_pre_SourceCode" value="<?php echo $cre_pre_source_code ?>">
+          <input type="text" class="form-control" id="cre_pre_AgentCode" value="<?php echo $cre_pre_key ?>">
+          <input type="text" class="form-control" id="cre_pre_Username" value="<?php echo $cre_pre_usu ?>">
+          <input type="text" class="form-control" id="cre_pre_Password" value="<?php echo $cre_pre_pass ?>">
 
           <!--MAPFRE-->
           <!-- <input type="text" class="form-control" id="cre_map_codCliente" value="<#?php echo $_SESSION["cre_map_codCliente"]; ?>">

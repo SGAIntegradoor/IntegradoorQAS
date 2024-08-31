@@ -421,7 +421,7 @@
             <div class="card-exequias">
               <div class="card-body text-center">
                 <h4 class="card-title" style="font-weight: bold; padding-top: 20px">Comisión</h4>
-                <p class="card-text">La comisión base que nos ofrece Seguros Bolívar y Allianz Seguros para nuestra alianza de asesores es del 15%. De este porcentaje, tu participación será de acuerdo al nivel de ventas de todos los negocios (sin IVA), sumando todos los ramos, que realices en el mes.</p>
+                <p class="card-text">La comisión base que nos ofrece Seguros Bolívar y Allianz Seguros para nuestra alianza de asesores es del 15% y 20% respectivamente. De este porcentaje, tu participación será de acuerdo al nivel de ventas de todos los negocios (sin IVA), sumando todos los ramos, que realices en el mes.</p>
                 <ul class="card-text" style="padding-left: 0px; list-style-position: inside;">
                   <li>Nivel 1: 67,5%</li>
                   <li>Nivel 2: 70%</li>

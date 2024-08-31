@@ -24,17 +24,58 @@ class ControladorCotizaciones
 		return $respuesta;
 	}
 
+	static public function ctrShowQuotesAssistCard($valor, $item)
+	{
+
+		session_start();
+		$tabla = "Cotizaciones_Assistcard";
+
+		$respuesta = ModeloCotizaciones::mdlShowQuotesAssistCard($tabla, $valor, $item);
+
+		return $respuesta;
+	}
 
 	/*=============================================
-	MOSTRAR COTIZACIONES "OFERTAS"
+	MOSTRAR COTIZACIONES "OFERTAS ASSISTCARD"
+	=============================================*/
+
+	static public function ctrShowQuoteAssistCard($id)
+	{
+		session_start();
+		$tabla = "cotizaciones_assistcard";
+		$field = "id_cotizacion";
+
+		$respuesta = ModeloCotizaciones::mdlShowQuoteAssistCard($tabla, $field, $id);
+
+		return $respuesta;
+	}
+
+
+
+	/*=============================================
+	MOSTRAR COTIZACION "OFERTAS"
 	=============================================*/
 
 	static public function ctrMostrarCotizaOfertas($item, $valor)
 	{
-
+		session_start();
 		$tabla = "ofertas";
 
 		$respuesta = ModeloCotizaciones::ctrMostrarCotizaOfertas($tabla, $item, $valor);
+
+		return $respuesta;
+	}
+
+	/*=============================================
+	MOSTRAR COTIZACIONES "OFERTAS ASSISTCARD"
+	=============================================*/
+
+	static public function ctrShowOffertsQuoteAssistCard($id)
+	{
+		session_start();
+		$tabla = "ofertas_assistcard";
+		$field = "id_cotizacion";
+		$respuesta = ModeloCotizaciones::ctrMostrarCotizaOfertasAssistCard($tabla, $field, $id);
 
 		return $respuesta;
 	}
@@ -97,6 +138,20 @@ class ControladorCotizaciones
 
 		return $respuesta;
 	}
+
+	static public function ctrRangoFechasCotizacionesAssistCard($fechaFinalCotizaciones, $fechaInicialCotizaciones)
+	{
+
+		$tabla = "cotizaciones_assistcard";
+		$tabla5 = "usuarios";
+
+		$respuesta = ModeloCotizaciones::mdlRangoFechasCotizacionesAssistCard($tabla, $tabla5, $fechaInicialCotizaciones, $fechaFinalCotizaciones);
+
+
+
+		return $respuesta;
+	}
+
 
 	static public function ctrGetDataLastRegisters($fechaInicialCotizaciones, $fechaFinalCotizaciones, $condicion)
 	{

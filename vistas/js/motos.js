@@ -15,6 +15,17 @@ $(document).ready(function () {
   //   });
   // }
 
+  $("#txtValorFasecolda").on("input", function() {
+    this.value = this.value.replace(/\./g, '');
+  });
+
+  // Previene el ingreso de puntos desde el teclado
+  $("#txtValorFasecolda").on("keydown", function(event) {
+      if (event.which === 190 || event.which === 110) {
+          event.preventDefault();
+      }
+  });
+
   async function checkCotTotales() {
     let cotHechas = await mostrarCotRestantes();
     return new Promise(function (resolve, reject) {
@@ -34,7 +45,6 @@ $(document).ready(function () {
   }
 
   let intermediario = document.getElementById("intermediario").value;
-
   // Ejectura la funcion Cotizar Ofertas
   $("#btnCotizarMotos").click(function (e) {
     let deptoCirc = $("#DptoCirculacion").val();
@@ -49,25 +59,47 @@ $(document).ready(function () {
     masRE();
     if (intermediario != 3) {
       checkCotTotales().then((response) => {
-        if (response.result == 1 || response.result == 2) {
-          cotizarOfertasMotos();
-        } else {
-          e.preventDefault();
-          if (intermediario == 89) {
-            mostrarAlertaCotizacionesExcedidasMotosDemo();
-          } else {
-            mostrarAlertaCotizacionesExcedidasMotosFreelance();
+        if (response.result !== undefined) {
+          switch (response.result) {
+            case 1:
+            case 2:
+              cotizarOfertasMotos();
+              break;
+            case -1:
+              if (intermediario == 89) {
+                mostrarAlertaCotizacionesExcedidasMotosDemo();
+              } else {
+                e.preventDefault();
+                mostrarAlertaCotizacionesExcedidasMotosFreelance();
+              }
+              break;
+            default:
+              mostrarAlertaErrorDeConexionMotos();
+              break;
           }
+        } else {
+          mostrarAlertaErrorDeConexionMotos();
         }
       });
     } else {
       checkCotTotales().then((response) => {
-        if (response.result == 1 || response.result == 2) {
-          mostrarPoliticaValorAseguradoMotos();
-          cotizarOfertasMotos();
+        if(response.result){
+          switch(response.result){
+            case 1:
+            case 2:
+              mostrarPoliticaValorAseguradoMotos();
+              cotizarOfertasMotos();
+              break;
+            case -1:
+              e.preventDefault();
+              mostrarAlertaCotizacionesExcedidasMotosFreelance();
+              break;
+            default:
+              mostrarAlertaErrorDeConexionMotos()
+              break;
+          }
         } else {
-          e.preventDefault();
-          mostrarAlertaCotizacionesExcedidasMotosFreelance();
+          mostrarAlertaErrorDeConexionMotos();
         }
       });
     }
@@ -99,6 +131,34 @@ $(document).ready(function () {
             window.location = "inicio";
           }
         }
+      });
+  }
+
+  function mostrarAlertaErrorDeConexionMotos() {
+    swal
+      .fire({
+        icon: "error",
+        title:
+          "Error de conexion",
+        html: `<div style="text-align: center; font-family: Helvetica, Arial, sans-serif; font-size: 15px; border-radius: 4px; padding: 8px;"><p>Ocurrio un error de conexion porfavor vuelve a intentarlo.</p>
+      </div>`,
+        width: "50%",
+        showConfirmButton: true,
+        confirmButtonText: "Cerrar",
+        customClass: {
+          popup: "custom-swal-popupCotExcep",
+        },
+      })
+      .then(function (result) {
+        // if (result.isConfirmed) {
+        //   window.location = "inicio";
+        // } else if (result.isDismissed) {
+        //   if (result.dismiss === "cancel") {
+        //     window.location = "inicio";
+        //   } else if (result.dismiss === "backdrop") {
+        //     window.location = "inicio";
+        //   }
+        // }
       });
   }
 
@@ -831,7 +891,6 @@ function consulDatosFasecoldaMotos(codFasecolda, edadVeh) {
             showConfirmButton: true,
             confirmButtonText: "Cerrar",
           })
-          $("#loaderPlaca").html("");
           // .then((result) => {
           //   if (result.isConfirmed) {
           //     window.location.href = "cotizar";
@@ -2322,43 +2381,91 @@ function cotizarOfertasMotos() {
             $("#loaderOferta").html("");
             //$("#loaderOfertaBox").css("display", "none");
             if (contCotizacionMotos > 0) {
-              swal
-                .fire({
+              // swal
+              //   .fire({
+              //     title: "¡Proceso de Cotización Finalizada!",
+              //     text: "¿Deseas incluir la financiación con Finesa?",
+              //     showConfirmButton: true,
+              //     confirmButtonText: "Si",
+              //     showCancelButton: true,
+              //     cancelButtonText: "No",
+              //     customClass: {
+              //       title: "custom-title-messageFinesa",
+              //       htmlContainer: "custom-text-messageFinesa",
+              //       popup: "custom-popup-messageFinesa",
+              //       actions: "custom-actions-messageFinesa",
+              //       confirmButton: "custom-confirmnButton-messageFinesa",
+              //       cancelButton: "custom-cancelButton-messageFinesa",
+              //     },
+              //   })
+              //   .then(function (result) {
+              //     if (result.isConfirmed) {
+              //       document.getElementById(
+              //         "btnReCotizarFallidasMotos"
+              //       ).disabled = true;
+              //       $("#loaderOferta").html(
+              //         '<img src="vistas/img/plantilla/loader-update.gif" width="34" height="34"><strong> Cotizando en Finesa...</strong>'
+              //       );
+              //       cotizarFinesaMotos(cotizacionesFinesaMotos);
+              //     } else if (result.isDismissed) {
+              //       if (result.dismiss === "cancel") {
+              //         // console.log("El usuario seleccionó 'No'");
+              //         $("#loaderOferta").html("");
+              //         $("#loaderOfertaBox").css("display", "none");
+              //       } else if (result.dismiss === "backdrop") {
+              //         $("#loaderOferta").html("");
+              //         $("#loaderOfertaBox").css("display", "none");
+              //       }
+              //     }
+              //   });
+              let intermediario = document.getElementById("intermediario").value;
+              if (intermediario != 3) {
+                swal.fire({
                   title: "¡Proceso de Cotización Finalizada!",
-                  text: "¿Deseas incluir la financiación con Finesa?",
                   showConfirmButton: true,
-                  confirmButtonText: "Si",
-                  showCancelButton: true,
-                  cancelButtonText: "No",
-                  customClass: {
-                    title: "custom-title-messageFinesa",
-                    htmlContainer: "custom-text-messageFinesa",
-                    popup: "custom-popup-messageFinesa",
-                    actions: "custom-actions-messageFinesa",
-                    confirmButton: "custom-confirmnButton-messageFinesa",
-                    cancelButton: "custom-cancelButton-messageFinesa",
-                  },
-                })
-                .then(function (result) {
-                  if (result.isConfirmed) {
-                    document.getElementById(
-                      "btnReCotizarFallidasMotos"
-                    ).disabled = true;
-                    $("#loaderOferta").html(
-                      '<img src="vistas/img/plantilla/loader-update.gif" width="34" height="34"><strong> Cotizando en Finesa...</strong>'
-                    );
-                    cotizarFinesaMotos(cotizacionesFinesaMotos);
-                  } else if (result.isDismissed) {
-                    if (result.dismiss === "cancel") {
-                      // console.log("El usuario seleccionó 'No'");
-                      $("#loaderOferta").html("");
-                      $("#loaderOfertaBox").css("display", "none");
-                    } else if (result.dismiss === "backdrop") {
-                      $("#loaderOferta").html("");
-                      $("#loaderOfertaBox").css("display", "none");
-                    }
-                  }
+                  confirmButtonText: "Cerrar",
                 });
+                $("#loaderOferta").html("");
+                $("#loaderOfertaBox").css("display", "none");
+              } else {
+                swal
+                  .fire({
+                    title: "¡Proceso de Cotización Finalizada!",
+                    text: "¿Deseas incluir la financiación con Finesa a 11 cuotas?",
+                    showConfirmButton: true,
+                    confirmButtonText: "Si",
+                    showCancelButton: true,
+                    cancelButtonText: "No",
+                    customClass: {
+                      title: "custom-title-messageFinesa",
+                      htmlContainer: "custom-text-messageFinesa",
+                      popup: "custom-popup-messageFinesa",
+                      actions: "custom-actions-messageFinesa",
+                      confirmButton: "custom-confirmnButton-messageFinesa",
+                      cancelButton: "custom-cancelButton-messageFinesa",
+                    },
+                  })
+                  .then(function (result) {
+                    if (result.isConfirmed) {
+                      document.getElementById(
+                        "btnReCotizarFallidasMotos"
+                      ).disabled = true;
+                      $("#loaderOferta").html(
+                        '<img src="vistas/img/plantilla/loader-update.gif" width="34" height="34"><strong> Cotizando en Finesa...</strong>'
+                      );
+                      cotizarFinesaMotos(cotizacionesFinesaMotos);
+                    } else if (result.isDismissed) {
+                      if (result.dismiss === "cancel") {
+                        // console.log("El usuario seleccionó 'No'");
+                        $("#loaderOferta").html("");
+                        $("#loaderOfertaBox").css("display", "none");
+                      } else if (result.dismiss === "backdrop") {
+                        $("#loaderOferta").html("");
+                        $("#loaderOfertaBox").css("display", "none");
+                      }
+                    }
+                  });
+              }
             } else {
               return swal.fire({
                 title: "Proceso de Cotización Finalizado",

@@ -291,6 +291,47 @@
     height: 1200px;
     transition: width 0.5s;
   }
+
+  .btn-excel {
+    display: flex !important;
+    border: 0px !important;
+    height: 32px;
+    align-items: center;
+  }
+
+  .dt-search {
+    display: flex !important;
+    align-items: center;
+    justify-content: flex-end;
+  }
+
+  .paging_full_numbers {
+    display: flex !important;
+    justify-content: flex-end;
+  }
+
+  .dt-length {
+    display: flex;
+  }
+
+  .dt-start {
+    width: 60px !important;
+  }
+
+  .dt-info {
+    width: 600px !important;
+  }
+
+  .dt-column-title {
+    font-size: 14px !important;
+  }
+
+  @media (max-width: 495px) {
+    .dt-info {
+      width: 300px !important;
+      text-align: left;
+    }
+  }
 </style>
 
 <div class="content-wrapper">
@@ -313,7 +354,18 @@
   </section>
   <section class="content">
     <div class="box">
+      <?php include_once './vistas/modulos/AssistCardCot/adminCotizacionesAssistCard.php'; ?>
       <div class="row card-container" id="mainCardContainer">
+        <div class="container-fluid" style="width: 100%; margin-left: 15px; margin-right: 15px; margin-top: 10px">
+          <div class="col-lg-12">
+            <div class="row row-aseg">
+              
+                <label style="margin-left: 15px">   Información del producto</label>
+            
+              
+            </div>
+          </div>
+        </div>
         <!-- TITULO PLANES -->
         <div class="content">
 

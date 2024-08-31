@@ -31,6 +31,7 @@ class AjaxUsuarios{
 
 	public $activarUsuario;
 	public $activarId;
+	public $usuarioId;
 
 
 	public function ajaxActivarUsuario(){
@@ -43,8 +44,11 @@ class AjaxUsuarios{
 		$item2 = "id_usuario";
 		$valor2 = $this->activarId;
 
-		$respuesta = ModeloUsuarios::mdlActualizarUsuario($tabla, $item1, $valor1, $item2, $valor2);
+		$valor3 = $this->usuarioId;
 
+		$respuesta = ModeloUsuarios::mdlActualizarUsuario($tabla, $item1, $valor1, $item2, $valor2, $valor3);
+
+		return $respuesta;
 	}
 
 	/*=============================================
@@ -105,6 +109,7 @@ if(isset($_POST["activarUsuario"])){
 	$activarUsuario = new AjaxUsuarios();
 	$activarUsuario -> activarUsuario = $_POST["activarUsuario"];
 	$activarUsuario -> activarId = $_POST["activarId"];
+	$activarUsuario -> usuarioId = $_POST["usuarioId"];
 	$activarUsuario -> ajaxActivarUsuario();
 
 }

@@ -15,6 +15,17 @@ $(document).ready(function () {
   $("#numCotizacion").numeric();
   $("#valorTotal").numeric();
 
+  $("#txtValorFasecolda").on("input", function () {
+    this.value = this.value.replace(/\./g, "");
+  });
+
+  // Previene el ingreso de puntos desde el teclado
+  $("#txtValorFasecolda").on("keydown", function (event) {
+    if (event.which === 190 || event.which === 110) {
+      event.preventDefault();
+    }
+  });
+
   tokenPrevisora();
 
   //FUNCION PARA LEVANTAR EL TOKEN DE PREVISORA APENAS INICIE LA PAGINA
@@ -317,27 +328,49 @@ $(document).ready(function () {
 
     if (intermediario != 3) {
       checkCotTotales().then((response) => {
-        if (response.result == 1 || response.result == 2) {
-          cotizarOfertasPesados();
-        } else {
-          e.preventDefault();
-          if (intermediario == 89) {
-            mostrarAlertaCotizacionesExcedidasPesadosDemo();
-          } else {
-            mostrarAlertaCotizacionesExcedidasPesadosFreelance();
+        if (response.result !== undefined) {
+          switch (response.result) {
+            case 1:
+            case 2:
+              cotizarOfertasPesados();
+              break;
+            case -1:
+              if (intermediario == 89) {
+                mostrarAlertaCotizacionesExcedidasPesadosDemo();
+              } else {
+                e.preventDefault();
+                mostrarAlertaCotizacionesExcedidasPesadosFreelance();
+              }
+              break;
+            default:
+              mostrarAlertaErrorDeConexionPesados();
+              break;
           }
+        } else {
+          mostrarAlertaErrorDeConexionPesados();
         }
       });
     } else {
-      checkCotTotales().then((response) => {
-        if (response.result == 1 || response.result == 2) {
-          mostrarPoliticaValorAseguradoPesados();
-          cotizarOfertasPesados();
+        checkCotTotales().then((response) => {
+        if(response.result){
+          switch(response.result){
+            case 1:
+            case 2:
+              mostrarPoliticaValorAseguradoPesados();
+              cotizarOfertasPesados();
+              break;
+            case -1:
+              e.preventDefault();
+              mostrarAlertaCotizacionesExcedidasPesadosFreelance();
+              break;
+            default:
+              mostrarAlertaErrorDeConexionPesados()
+              break;
+          }
         } else {
-          e.preventDefault();
-          mostrarAlertaCotizacionesExcedidasPesadosFreelance();
+          mostrarAlertaErrorDeConexionPesados();
         }
-      });
+        });    
     }
   });
 
@@ -396,6 +429,34 @@ $(document).ready(function () {
             window.location = "inicio";
           }
         }
+      });
+  }
+
+  function mostrarAlertaErrorDeConexionPesados() {
+    swal
+      .fire({
+        icon: "error",
+        title:
+          "Error de conexion",
+        html: `<div style="text-align: center; font-family: Helvetica, Arial, sans-serif; font-size: 15px; border-radius: 4px; padding: 8px;"><p>Ocurrio un error de conexion porfavor vuelve a intentarlo.</p>
+      </div>`,
+        width: "50%",
+        showConfirmButton: true,
+        confirmButtonText: "Cerrar",
+        customClass: {
+          popup: "custom-swal-popupCotExcep",
+        },
+      })
+      .then(function (result) {
+        // if (result.isConfirmed) {
+        //   window.location = "inicio";
+        // } else if (result.isDismissed) {
+        //   if (result.dismiss === "cancel") {
+        //     window.location = "inicio";
+        //   } else if (result.dismiss === "backdrop") {
+        //     window.location = "inicio";
+        //   }
+        // }
       });
   }
 
@@ -1026,7 +1087,7 @@ function consulDatosFasecolda(codFasecolda, edadVeh) {
             text: "No se obtuvieron registros, verifique la información del vehículo e intente nuevamente",
             showConfirmButton: true,
             confirmButtonText: "Cerrar",
-          })
+          });
           $("#loaderPlaca").html("");
           // .then((result) => {
           //   if (result.isConfirmed) {
@@ -1408,7 +1469,7 @@ const mostrarOfertaPesados = (
                 <div>VER PDF &nbsp;&nbsp;<span class="fa fa-file-text"></span></div>
               </button>
             </div>`;
-  } else if (aseguradora == "Previsora Seguros") {
+  } else if (aseguradora == "Previsora Seguros" || aseguradora == "Previsora") {
     cardCotizacion += `
             <div class="col-xs-12 col-sm-6 col-md-2 verpdf-oferta">
               <button id="previsora-pdf${numCotizOferta}" type="button" class="btn btn-info" onclick='verPdfPrevisora(${numCotizOferta})'>
@@ -1927,6 +1988,12 @@ function cotizarOfertasPesados() {
     "cre_axa_productos_pesados"
   ).value;
 
+  var cre_pre_username = document.getElementById("cre_pre_Username").value;
+  var cre_pre_password = document.getElementById("cre_pre_Password").value;
+  var cre_pre_agentcode = document.getElementById("cre_pre_AgentCode").value;
+  var cre_pre_sourcecode = document.getElementById("cre_pre_SourceCode").value;
+  var cre_pre_bussinedId = document.getElementById("cre_pre_BusinessId").value;
+
   var aseguradoras_autorizar = JSON.parse(
     document.getElementById("aseguradoras").value
   );
@@ -1998,6 +2065,7 @@ function cotizarOfertasPesados() {
         TokenPrevisora: TokenPrevisora,
         intermediario: intermediario,
         mundial: mundial,
+        lineaVeh: lineaVeh,
         AXA: {
           cre_axa_sslcertfile: cre_axa_sslcertfile,
           cre_axa_sslkeyfile: cre_axa_sslkeyfile,
@@ -2008,6 +2076,13 @@ function cotizarOfertasPesados() {
           cre_axa_canal: cre_axa_canal,
           cre_axa_validacionEventos: cre_axa_validacionEventos,
           url_axa: url_axa,
+        },
+        PREVISORA: {
+          cre_pre_username: cre_pre_username,
+          cre_pre_password: cre_pre_password,
+          cre_pre_agentcode: cre_pre_agentcode,
+          cre_pre_sourcecode: cre_pre_sourcecode,
+          cre_pre_bussinedId: cre_pre_bussinedId,
         },
       };
 
@@ -2271,11 +2346,21 @@ function cotizarOfertasPesados() {
                       }
                     })
                     .catch((err) => {
-                      console.error(err);
+                      agregarAseguradoraFallidaPesados(aseguradora);
+                      mostrarAlertarCotizacionFallida(
+                        aseguradora,
+                        "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
+                      );
+                      validarProblema(aseguradora, [
+                        {
+                          Mensajes: [
+                            "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
+                          ],
+                        },
+                      ]);
+                      console.error(err)
                     })
-                    .catch(function (error) {
-                      console.log("Parece que hubo un problema: \n", error);
-                    });
+
 
                   cont.push(mundialPromise);
                 } else {
@@ -2317,7 +2402,19 @@ function cotizarOfertasPesados() {
                         }
                       })
                       .catch((err) => {
-                        console.error(err);
+                        agregarAseguradoraFallidaPesados(aseguradora);
+                      mostrarAlertarCotizacionFallida(
+                        aseguradora,
+                        "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
+                      );
+                      validarProblema(aseguradora, [
+                        {
+                          Mensajes: [
+                            "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
+                          ],
+                        },
+                      ]);
+                      console.error(err)
                       });
 
                     cont.push(mundialPromise);
@@ -2349,7 +2446,7 @@ function cotizarOfertasPesados() {
                 } else {
                   productosAXA = [array[3]]; // Extraer el cuarto elemento del array
                 }
-                console.log(productosAXA);
+                //console.log(productosAXA);
 
                 productosAXA.forEach((plan) => {
                   bodyAXA.plan = plan;
@@ -2383,7 +2480,19 @@ function cotizarOfertasPesados() {
                       }
                     })
                     .catch((err) => {
-                      console.error(err);
+                      agregarAseguradoraFallidaPesados(aseguradora);
+                      mostrarAlertarCotizacionFallida(
+                        aseguradora,
+                        "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
+                      );
+                      validarProblema(aseguradora, [
+                        {
+                          Mensajes: [
+                            "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
+                          ],
+                        },
+                      ]);
+                      console.error(err)
                     });
 
                   cont.push(axaPromise);
@@ -2397,7 +2506,7 @@ function cotizarOfertasPesados() {
                 } else {
                   planesLiberty = ["Full", "Integral"];
                 }
-                console.log(planesLiberty);
+                //console.log(planesLiberty);
                 planesLiberty.forEach((plan) => {
                   body.plan = plan;
                   requestOptions.body = JSON.stringify(body);
@@ -2442,32 +2551,73 @@ function cotizarOfertasPesados() {
                       }
                     })
                     .catch((err) => {
-                      console.error(err);
+                      agregarAseguradoraFallidaPesados(aseguradora);
+                      mostrarAlertarCotizacionFallida(
+                        aseguradora,
+                        "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
+                      );
+                      validarProblema(aseguradora, [
+                        {
+                          Mensajes: [
+                            "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
+                          ],
+                        },
+                      ]);
+                      console.error(err)
                     });
 
                   cont.push(libertyPromise);
                 });
-              } else if (aseguradora === "Previsora") {
-                let previsoraPromise = new Promise((resolve, reject) => {
-                  try {
-                    let arrAseguradora = [
+              } else {
+                let promise = fetch(
+                  `https://grupoasistencia.com/motor_webservice/${aseguradora}_pesados`,
+                  requestOptions
+                )
+                  .then((res) => {
+                    if (!res.ok) throw Error(res.statusText);
+                    return res.json();
+                  })
+                  .then((ofertas) => {
+                    if (typeof ofertas[0].Resultado !== "undefined") {
+                      validarProblema(aseguradora, ofertas);
+                      agregarAseguradoraFallidaPesados(aseguradora);
+                      if (ofertas[0].length > 1) {
+                        ofertas[0].Mensajes.forEach((mensaje) => {
+                          mostrarAlertarCotizacionFallida(aseguradora, mensaje);
+                        });
+                      } else {
+                        ofertas[0].Mensajes.forEach((mensaje) => {
+                          mostrarAlertarCotizacionFallida(aseguradora, mensaje);
+                        });
+                      }
+                    } else {
+                      const contadorPorEntidad = validarOfertasPesados(
+                        ofertas,
+                        aseguradora,
+                        1
+                      );
+                      mostrarAlertaCotizacionExitosa(
+                        aseguradora,
+                        contadorPorEntidad
+                      );
+                    }
+                  })
+                  .catch((err) => {
+                    agregarAseguradoraFallidaPesados(aseguradora);
+                    mostrarAlertarCotizacionFallida(
+                      aseguradora,
+                      "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
+                    );
+                    validarProblema(aseguradora, [
                       {
                         Mensajes: [
-                          "Solicita cotización manual con tu Analista Comercial asignado",
+                          "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
                         ],
                       },
-                    ];
-                    setTimeout(function () {
-                      validarProblema("Previsora", arrAseguradora);
-                      addPrevisora();
-                      resolve();
-                    }, 3000);
-                  } catch (error) {
-                    resolve();
-                  }
-                });
-
-                cont.push(previsoraPromise);
+                    ]);
+                    console.error(err)
+                  });
+                cont.push(promise);
               }
             });
 
@@ -2475,46 +2625,54 @@ function cotizarOfertasPesados() {
               // $("#btnCotizar").hide();
               $("#loaderOferta").html("");
               //$("#loaderOfertaBox").css("display", "none");
-              swal
-                .fire({
+              if (intermediario != 3) {
+                swal.fire({
                   title: "¡Proceso de Cotización Finalizada!",
-                  text: "¿Deseas incluir la financiación con Finesa a 11 cuotas?",
                   showConfirmButton: true,
-                  confirmButtonText: "Si",
-                  showCancelButton: true,
-                  cancelButtonText: "No",
-                  customClass: {
-                    title: "custom-title-messageFinesa",
-                    htmlContainer: "custom-text-messageFinesa",
-                    popup: "custom-popup-messageFinesa",
-                    actions: "custom-actions-messageFinesa",
-                    confirmButton: "custom-confirmnButton-messageFinesa",
-                    cancelButton: "custom-cancelButton-messageFinesa",
-                  },
-                })
-                .then(function (result) {
-                  if (result.isConfirmed) {
-                    document.getElementById(
-                      "btnReCotizarFallidas"
-                    ).disabled = true;
-                    $("#loaderOferta").html(
-                      '<img src="vistas/img/plantilla/loader-update.gif" width="34" height="34"><strong> Cotizando en Finesa...</strong>'
-                    );
-                    cotizarFinesa(cotizacionesFinesa);
-                  } else if (result.isDismissed) {
-                    if (result.dismiss === "cancel") {
-                      // console.log("El usuario seleccionó 'No'");
-                      $("#loaderOferta").html("");
-                      $("#loaderOfertaBox").css("display", "none");
-                    } else if (result.dismiss === "backdrop") {
-                      $("#loaderOferta").html("");
-                      $("#loaderOfertaBox").css("display", "none");
-                    }
-                  }
+                  confirmButtonText: "Cerrar",
                 });
-              setTimeout(function () {}, 1000);
-              document.querySelector(".button-recotizar").style.display =
-                "block";
+              } else {
+                swal
+                  .fire({
+                    title: "¡Proceso de Cotización Finalizada!",
+                    text: "¿Deseas incluir la financiación con Finesa a 11 cuotas?",
+                    showConfirmButton: true,
+                    confirmButtonText: "Si",
+                    showCancelButton: true,
+                    cancelButtonText: "No",
+                    customClass: {
+                      title: "custom-title-messageFinesa",
+                      htmlContainer: "custom-text-messageFinesa",
+                      popup: "custom-popup-messageFinesa",
+                      actions: "custom-actions-messageFinesa",
+                      confirmButton: "custom-confirmnButton-messageFinesa",
+                      cancelButton: "custom-cancelButton-messageFinesa",
+                    },
+                  })
+                  .then(function (result) {
+                    if (result.isConfirmed) {
+                      document.getElementById(
+                        "btnReCotizarFallidas"
+                      ).disabled = true;
+                      $("#loaderOferta").html(
+                        '<img src="vistas/img/plantilla/loader-update.gif" width="34" height="34"><strong> Cotizando en Finesa...</strong>'
+                      );
+                      cotizarFinesa(cotizacionesFinesa);
+                    } else if (result.isDismissed) {
+                      if (result.dismiss === "cancel") {
+                        // console.log("El usuario seleccionó 'No'");
+                        $("#loaderOferta").html("");
+                        $("#loaderOfertaBox").css("display", "none");
+                      } else if (result.dismiss === "backdrop") {
+                        $("#loaderOferta").html("");
+                        $("#loaderOfertaBox").css("display", "none");
+                      }
+                    }
+                  });
+                setTimeout(function () {}, 1000);
+                document.querySelector(".button-recotizar").style.display =
+                  "block";
+              }
               /* Se monta el botón para generar el pdf con 
                     el valor de la variable idCotizacion */
               const contentCotizacionPDF = document.querySelector(
@@ -2701,7 +2859,7 @@ function cotizarOfertasPesados() {
           }
         };
 
-        console.log(aseguradorasFallidas);
+        //console.log(aseguradorasFallidas);
 
         aseguradorasFallidas.forEach((aseguradora) => {
           if (
@@ -2763,11 +2921,18 @@ function cotizarOfertasPesados() {
               })
               .catch((err) => {
                 agregarAseguradoraFallidaPesados("Liberty");
-                mostrarAlertarCotizacionFallida(
-                  "Liberty",
-                  "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
-                );
-                console.error(err);
+                      mostrarAlertarCotizacionFallida(
+                        "Liberty",
+                        "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
+                      );
+                      validarProblema("Liberty", [
+                        {
+                          Mensajes: [
+                            "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
+                          ],
+                        },
+                      ]);
+                      console.error(err)
               })
           : Promise.resolve();
 
@@ -2801,15 +2966,70 @@ function cotizarOfertasPesados() {
               })
               .catch((err) => {
                 agregarAseguradoraFallidaPesados("AXA");
-                mostrarAlertarCotizacionFallida(
-                  "AXA",
-                  "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
-                );
-                console.error(err);
+                      mostrarAlertarCotizacionFallida(
+                        "AXA",
+                        "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
+                      );
+                      validarProblema("AXA", [
+                        {
+                          Mensajes: [
+                            "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
+                          ],
+                        },
+                      ]);
+                      console.error(err)
               })
           : Promise.resolve();
 
         cont.push(axaPromise);
+
+        const previsoraPromise = comprobarFallidaPesados("Previsora")
+          ? fetch(
+              "https://grupoasistencia.com/motor_webservice/Previsora_pesados",
+              requestOptions
+            )
+              .then((res) => {
+                if (!res.ok) throw Error(res.statusText);
+                return res.json();
+              })
+              .then((ofertas) => {
+                if (typeof ofertas[0].Resultado !== "undefined") {
+                  agregarAseguradoraFallidaPesados("Previsora");
+                  validarProblema("Previsora", ofertas);
+                  ofertas[0].Mensajes.forEach((mensaje) => {
+                    mostrarAlertarCotizacionFallida("Previsora", mensaje);
+                  });
+                } else {
+                  // eliminarAseguradoraFallida('Previsora');
+                  const contadorPorEntidad = validarOfertasPesados(
+                    ofertas,
+                    "Previsora",
+                    1
+                  );
+                  mostrarAlertaCotizacionExitosa(
+                    "Previsora",
+                    contadorPorEntidad
+                  );
+                }
+              })
+              .catch((err) => {
+                agregarAseguradoraFallidaPesados("Previsora");
+                mostrarAlertarCotizacionFallida(
+                  "Previsora",
+                  "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
+                );
+                validarProblema("Previsora", [
+                  {
+                    Mensajes: [
+                      "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
+                    ],
+                  },
+                ]);
+                console.error(err)
+              })
+          : Promise.resolve();
+
+        cont.push(previsoraPromise);
 
         Promise.all(cont).then(() => {
           $("#loaderOferta").html("");
@@ -2818,41 +3038,52 @@ function cotizarOfertasPesados() {
             (cotizaciones) => cotizaciones.cotizada === null
           );
           if (nuevasPesadas.length > 0) {
-            swal
-              .fire({
-                title: "¡Proceso de Re-Cotización Finalizada!",
-                text: "¿Deseas incluir la financiación con Finesa a 11 cuotas?",
+            if (intermediario != 3) {
+              swal.fire({
+                title: "¡Proceso de  Re-Cotización Finalizada!",
                 showConfirmButton: true,
-                confirmButtonText: "Si",
-                showCancelButton: true,
-                cancelButtonText: "No",
-                customClass: {
-                  title: "custom-title-messageFinesa",
-                  htmlContainer: "custom-text-messageFinesa",
-                  popup: "custom-popup-messageFinesa",
-                  actions: "custom-actions-messageFinesa",
-                  confirmButton: "custom-confirmnButton-messageFinesa",
-                  cancelButton: "custom-cancelButton-messageFinesa",
-                },
-              })
-              .then(function (result) {
-                if (result.isConfirmed) {
-                  $("#loaderRecotOfertaBox").css("display", "block");
-                  $("#loaderRecotOferta").html(
-                    '<img src="vistas/img/plantilla/loader-update.gif" width="34" height="34"><strong>Re-Cotizando en Finesa...</strong>'
-                  );
-                  cotizarFinesa(cotizacionesFinesa);
-                } else if (result.isDismissed) {
-                  if (result.dismiss === "cancel") {
-                    // console.log("El usuario seleccionó 'No'");
-                    $("#loaderRecotOferta").html("");
-                    $("#loaderRecotOfertaBox").css("display", "none");
-                  } else if (result.dismiss === "backdrop") {
-                    $("#loaderRecotOferta").html("");
-                    $("#loaderRecotOfertaBox").css("display", "none");
-                  }
-                }
+                confirmButtonText: "Cerrar",
               });
+            } else {
+              swal
+                .fire({
+                  title: "¡Proceso de Re-Cotización Finalizada!",
+                  text: "¿Deseas incluir la financiación con Finesa a 11 cuotas?",
+                  showConfirmButton: true,
+                  confirmButtonText: "Si",
+                  showCancelButton: true,
+                  cancelButtonText: "No",
+                  customClass: {
+                    title: "custom-title-messageFinesa",
+                    htmlContainer: "custom-text-messageFinesa",
+                    popup: "custom-popup-messageFinesa",
+                    actions: "custom-actions-messageFinesa",
+                    confirmButton: "custom-confirmnButton-messageFinesa",
+                    cancelButton: "custom-cancelButton-messageFinesa",
+                  },
+                })
+                .then(function (result) {
+                  if (result.isConfirmed) {
+                    $("#loaderRecotOfertaBox").css("display", "block");
+                    $("#loaderRecotOferta").html(
+                      '<img src="vistas/img/plantilla/loader-update.gif" width="34" height="34"><strong>Re-Cotizando en Finesa...</strong>'
+                    );
+                    let btnRecot = document.getElementById(
+                      "btnReCotizarFallidas"
+                    );
+                    btnRecot.disabled = true;
+                    cotizarFinesa(cotizacionesFinesa);
+                  } else if (result.isDismissed && cotizacionesFinesa) {
+                    if (result.dismiss === "cancel") {
+                      $("#loaderRecotOfertaBox").css("display", "none");
+                      $("#loaderRecotOferta").html("");
+                    } else if (result.dismiss === "backdrop") {
+                      $("#loaderRecotOfertaBox").css("display", "none");
+                      $("#loaderRecotOferta").html("");
+                    }
+                  }
+                });
+            }
           } else {
             swal.fire({
               title: "¡Proceso de Re-Cotización Finalizada!",
@@ -2862,9 +3093,6 @@ function cotizarOfertasPesados() {
           }
         });
       }
-      let zurichErrors = true;
-      let zurichSuccess = true;
-      let successEstado = true;
     }
   }
 }
