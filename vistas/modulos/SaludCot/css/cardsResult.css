@@ -1,0 +1,141 @@
+/* //new cards// */
+
+.logoCardAsist {
+    max-width: 130px; 
+    width: auto;
+    height: auto;
+}
+
+.tittleCard{
+    font-weight: bold;
+    font-size: larger;
+    color: #88d600;
+}
+
+.tittlePrice{
+    font-weight: bold;
+    font-size: medium;
+    color: black;
+}
+
+
+.card-ofertas{
+    padding: 20px;
+}
+
+.card-body {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.align-horizontal {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.aling-start{
+    display: flex;
+
+    flex-direction: column;
+}
+.btn-pdf{
+    margin-top: 20px;
+    width: auto;
+}
+
+.btnText{
+    text-decoration:none; 
+    color:white;
+    margin-right: 5px;
+}
+.colPdf{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-weight: bold;
+}
+.bigEmoji{
+    font-size: 10px; /* Cambia el tamaño según tus necesidades */
+}
+
+.textCards{
+    font-size: 12px;
+    padding-left: 60px;
+}
+
+.infoPlanes{
+    display: flex;
+    flex-direction: column;
+}
+
+.textCenter{
+    margin-bottom: 10px;
+    padding-left: 15px;
+}
+
+.lista-coberturas{
+    margin-top: 10px;
+}
+.flex-colum{
+    flex-direction: column;
+}
+.custom-table {
+    max-width: 70%;
+    margin: 15px auto;
+    border-collapse: collapse;
+}
+
+.custom-table-colum {
+    max-width: 70%;
+   margin-left: 125px;
+}
+
+.custom-table th,
+.custom-table td {
+    padding: 8px;
+    text-align: center;
+}
+
+.custom-table .header-row th {
+    font-weight: bold;
+    background-color: #88d600;
+    color: #000;
+    border: none;
+}
+
+
+
+.custom-table .periodicity-header {
+    font-weight: bold;
+    background-color:#d3d3d3;
+    color: #000;
+    border: none !important;
+}
+
+.custom-table .periodicity-header-empty {
+    border: none !important;
+}
+
+
+.custom-table tr:not(.header-row) th,
+.custom-table tr:not(.header-row) td {
+    border: 1px solid #000;
+}
+
+.custom-table tfoot .bold-row th,
+.custom-table tfoot .bold-row td {
+    font-weight: bold;
+    border-top: 2px solid #000;
+}
+
+.custom-table tfoot {
+    background-color: #f2f2f2;
+}
+
+
+/*///////////////////////////////////////////////////////////////////////////////// */
+

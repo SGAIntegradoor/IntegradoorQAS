@@ -61,7 +61,7 @@
 
 }
 
-#containerCards{
+#containerCardsSalud{
   margin-top: 35PX;
   display: none;
 }
@@ -85,10 +85,10 @@
 .nombre, .apellido{
     flex: 1;
 }
-
+/* 
 .form-check-input[type="radio"] {
     accent-color: #88d600;
-}
+} */
 
 .rowAseg{
     margin: 15px 0px 20px 15px;

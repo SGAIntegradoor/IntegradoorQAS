@@ -130,12 +130,26 @@ input[type="checkbox"] {
     border-radius: 100%;
     overflow: hidden;
   }
-
+  .img-fluid{
+    max-width: 25%;
+    margin: 20px;
+  }
+ 
+  .img-fluid-axa{
+    max-width: 30%;
+    margin: 50px 0px;
+  }
 
   .circle img {
     width: 100%;
     height: 100%;
     object-fit: cover;
+  }
+
+  .tittle-p{
+    font-weight: 700;
+    font-size: medium !important;;
+    padding: 15px 0px;
   }
 
   #contenBtnConsultarExequial {
@@ -214,9 +228,14 @@ input[type="checkbox"] {
   }
 
   .card-exequias .card-title {
-
+    font-weight: bold;
     font-size: 19px;
     margin-bottom: 5.5%;
+  }
+
+  .ul-card{
+    padding-left: 0px;
+    list-style-position: inside;
   }
 
   .card-exequias .card-text {
@@ -238,4 +257,9 @@ input[type="checkbox"] {
     max-width: none;
     height: 1200px;
     transition: width 0.5s;
+  }
+
+  .swal2-confirm {
+    font-size: 17px; /* Ajusta el tamaño del texto */
+    
   }

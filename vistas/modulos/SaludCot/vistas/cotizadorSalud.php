@@ -191,40 +191,27 @@
 
     <div class="row">
         <div class="col-xs-12 text-center">
-            <div class="spinner-container" id="spinener-cot">
+            <div class="spinner-container" id="spinener-cot-salud">
                 <div class="spinner"></div>
             </div>
         </div>
     </div>
 </div>
-<div class="container-fluid" id="containerCards">
+<div class="container-fluid" id="containerCardsSalud">
     <div class="col-lg-12">
         <div class="row row-aseg">
             <div class="col-xs-12 col-sm-6 col-md-3">
                 <label for="">PARRILLA DE COTIZACIONES</label>
-            </div>
-            <div class="col-xs-12 col-sm-6 col-md-3"></div>
-            <div class="col-xs-12 col-sm-6 col-md-3"></div>
-            <div class="col-xs-12 col-sm-6 col-md-3">
-                <div id="masParrilla">
-                    <p id="masPar">Ver más <i class="fa fa-plus-square-o"></i></p>
-                </div>
-                <div id="menosParrilla">
-                    <p id="menos">Ver menos <i class="fa fa-minus-square-o"></i></p>
-                </div>
-            </div>
+            </div>           
         </div>
     </div>
     <div class="container-fluid" id="Cards">
         <div class="row">
             <div class="col-xs-12">
-                <p><strong>Nota: </strong>Esta cotización aplica para una sola persona. Si requieres una cotización para
-                    un grupo (2 o más personas), ponte en contacto con el equipo comercial a través de tu analista
-                    asignado.</p>
-                <p><strong>Nota: </strong>Los valores cotizados se encuentran en dolares americanos (USD).</p>
+                <p><strong>Nota: </strong>Esta cotización tiene una vigencia de x dias.</p>
             </div>
         </div>
-        <div class="row" id="row_contenedor_general"></div>
+        <div class="row" id="row_contenedor_general_salud"></div>
     </div>
 </div>
 
