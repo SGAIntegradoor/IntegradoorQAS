@@ -450,20 +450,36 @@ function validateNames() {
   }
 }
 
+/**
+ * Ocultar 6 cards principales.
+ * @function
+ */
 function hideMainContainerCards() {
   $("#mainCardContainerSalud").hide();
 }
 
+/**
+ * Mostrar container salud.
+ * @function
+ */
 function showContainerCardsSalud() {
   $("#containerCardsSalud").show();
 }
 
+/**
+ * Alternar nombre y visibilidad del container donde estan los datos a cotizar.
+ * @function
+ */
 function toogleDataContainer() {
   var newTittle = "DATOS DE LA COTIZACION";
   $("#lblAseData").text(newTittle);
   toggleContainerData();
 }
 
+/**
+ * Calculmaos la edad del asegurado con la fecha actual
+ * @function
+ */
 function calcularEdadAsegurado(dia, mes, anio) {
   var hoy = new Date();
   var fechaNacimiento = new Date(anio, mes - 1, dia);
@@ -483,6 +499,10 @@ function calcularEdadAsegurado(dia, mes, anio) {
   return edad;
 }
 
+/**
+ * Cargamos estilos de las cards de result, se cargan despues de que se genera el hmtl, porque si lo hacemos antes al moento de generar el html no lo toma.
+ * @function
+ */
 function cargarEstilos(url) {
     $("<link>").appendTo("head").attr({
       type: "text/css",
@@ -491,6 +511,10 @@ function cargarEstilos(url) {
     });
 }
 
+/**
+ * Generamos un card individual por cada plan
+ * @function
+ */
 function makeIndividualCard(nombrePlan, precioMensual, precioTrimestral, precioSemestral, precioAnual, coberturas, tipoCotizacion,cantAseg,tableHTML) {
     return `
     <div class='card-ofertas'>
@@ -574,6 +598,10 @@ function makeIndividualCard(nombrePlan, precioMensual, precioTrimestral, precioS
   </div>`;
 }
 
+/**
+ * Cuando la cotizacion es grupal generamos tabla resumen.
+ * @function
+ */
 function makeTable(asegurados, plan_id) {
   const uniqueId = `table_${plan_id}`; // Crear un ID único basado en plan_id
   const buttonId = `toggleBtn_${plan_id}`;
@@ -683,6 +711,10 @@ function makeTable(asegurados, plan_id) {
   return tableHTML;
 }
 
+/**
+ * Manager para generar las cards en general.
+ * @function
+ */
 function makeCards(data, tipoCotizacion) {
   let html_data = "";
 
@@ -793,6 +825,10 @@ function makeCards(data, tipoCotizacion) {
   });
 }
 
+/**
+ * Aplicamos iva a los valores y formateamos.
+ * @function
+ */
 function processValue(value, percentage) {
 
   const updatedValue = value * (1 + (percentage / 100));
@@ -802,6 +838,10 @@ function processValue(value, percentage) {
   return formattedValue;
 }
 
+/**
+ * Cotizamos.
+ * @function
+ */
 function cotizar() {
   document.getElementById("spinener-cot-salud").style.display = "flex";
   var tipoCotizacion = $("#individual").is(":checked") ? 1 : 2;
