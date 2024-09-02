@@ -3054,9 +3054,9 @@ function cotizarOfertasPesados() {
         //   : Promise.resolve();
 
         // cont.push(previsoraPromise);
+        const previsoraFallida = comprobarFallidaPesados("Previsora");
 
-        const previsoraPromise = comprobarFallidaPesados("Previsora"); 
-        if (previsoraPromise) {
+        if (previsoraFallida) {
           const previsoraPromise = new Promise((resolve, reject) => {
             try {
               let arrAseguradora = [
@@ -3072,13 +3072,13 @@ function cotizarOfertasPesados() {
                 resolve();
               }, 3000);
             } catch (error) {
-              resolve();
+              resolve(); // Resuelve la promesa incluso en caso de error
             }
           });
-          cont.push(previsoraPromise);
-        } else {
-          Promise.resolve();
-        }        
+          
+          cont.push(previsoraPromise); // Añade la promesa a `cont`
+        }
+        
         }
 
         Promise.all(cont).then(() => {
