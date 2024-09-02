@@ -1653,16 +1653,16 @@ foreach ($resultados as $resultado) {
 	$rowRespuestaAsistencia15 = mysqli_fetch_assoc($respuestaqueryAsistencia15);
 
 	if ($cont19 % 2 == 0) {
-		if ($rowRespuestaAsistencia15['asistenciaNacional'] == "Si ampara") {
+		if ($rowRespuestaAsistencia15['AsistenciaViajes'] == "Si ampara") {
 			$html4 .= '<td class="puntos fondo" style="width:' . $valorTabla . '%;text-align: center;"><div style="font-size:5pt">&nbsp;</div><img style="width:16px;" src="../../../vistas/img/logos/cheque.png" alt=""></td>';
 		} else {
-			$html4 .= '<td class="puntos fondo" style="width:' . $valorTabla . '%;"><center><div style="font-size:6pt">&nbsp;</div><font size="7"style="text-align: center; font-family:dejavusanscondensed;">' . ($rowRespuestaAsistencia15['asistenciaNacional'] == '' ? 'No cubre' : $rowRespuestaAsistencia15['asistenciaNacional']) . '</font></center></td>';
+			$html4 .= '<td class="puntos fondo" style="width:' . $valorTabla . '%;"><center><div style="font-size:6pt">&nbsp;</div><font size="7"style="text-align: center; font-family:dejavusanscondensed;">' . ($rowRespuestaAsistencia15['AsistenciaViajes'] == '' ? 'No cubre' : $rowRespuestaAsistencia15['AsistenciaViajes']) . '</font></center></td>';
 		}
 	} else {
-		if ($rowRespuestaAsistencia15['asistenciaNacional'] == "Si ampara") {
+		if ($rowRespuestaAsistencia15['AsistenciaViajes'] == "Si ampara") {
 			$html4 .= '<td class="puntos fondo2" style="width:' . $valorTabla . '%;text-align: center;"><div style="font-size:5pt">&nbsp;</div><img style="width:16px;" src="../../../vistas/img/logos/cheque.png" alt=""></td>';
 		} else {
-			$html4 .= '<td class="puntos fondo2" style="width:' . $valorTabla . '%;"><center><div style="font-size:6pt">&nbsp;</div><font size="7"style="text-align: center; font-family:dejavusanscondensed;">' . ($rowRespuestaAsistencia15['asistenciaNacional'] == '' ? 'No cubre' : $rowRespuestaAsistencia15['asistenciaNacional']) . '</font></center></td>';
+			$html4 .= '<td class="puntos fondo2" style="width:' . $valorTabla . '%;"><center><div style="font-size:6pt">&nbsp;</div><font size="7"style="text-align: center; font-family:dejavusanscondensed;">' . ($rowRespuestaAsistencia15['AsistenciaViajes'] == '' ? 'No cubre' : $rowRespuestaAsistencia15['AsistenciaViajes']) . '</font></center></td>';
 		}
 	}
 

@@ -289,6 +289,23 @@ $(document).ready(function () {
   // $('#btnMotosX').click(function (){
   //   window.location = "motos"
   // })
+  $("#valorTotal").numeric();
+  const parseNumbersToString = (selector) => {
+    $(selector).on("input", function () {
+      this.value = this.value.replace(/\./g, "");
+    });
+  
+    // Previene el ingreso de puntos desde el teclado
+    $(selector).on("keydown", function (event) {
+      if (event.which === 190 || event.which === 110) {
+        event.preventDefault();
+      }
+    });
+  }
+
+
+  parseNumbersToString("#valorTotal")
+
   // Limpia los contenedores de las Cards y del Boton PDF y Recotiza
 
   $("#btnRecotizar").click(function () {
