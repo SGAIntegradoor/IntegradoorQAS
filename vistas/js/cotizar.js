@@ -435,7 +435,7 @@ $(document).ready(function () {
               mostrarAlertaCotizacionesExcedidasFreelance();
               break;
             default:
-              mostrarAlertaErrorDeConexion()
+              mostrarAlertaErrorDeConexion();
               break;
           }
         } else {
@@ -1703,7 +1703,7 @@ const mostrarOferta = (
                                       <div class="col-xs-12 col-sm-6 col-md-2 oferta-logo">
                                       <center>
   
-                                          <img src='vistas/img/logos/${logo}'>
+                                          <img src='vistas/img/logos/${logo}' style="${aseguradora == "Liberty" ? "margin-top: 3px;" : null}">
   
                     </center>  
   
