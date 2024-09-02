@@ -2760,7 +2760,7 @@ function cotizarOfertas() {
                           "Zurich",
                           "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
                         );
-                        validarProblema(aseguradora, [
+                        validarProblema("Zurich", [
                           {
                             Mensajes: [
                               "Error Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
@@ -2821,10 +2821,10 @@ function cotizarOfertas() {
                       .catch((err) => {
                         agregarAseguradoraFallida("Estado");
                         mostrarAlertarCotizacionFallida(
-                          aseguradora,
+                          "Estado",
                           "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
                         );
-                        validarProblema(aseguradora, [
+                        validarProblema("Estado", [
                           {
                             Mensajes: [
                               "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
