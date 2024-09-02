@@ -1295,7 +1295,6 @@ function editarCotizacion(id) {
 												<img src='${oferta.logo}' style="${
                 oferta.Aseguradora == "Mundial" ? "margin-top: 65px;" : oferta.Aseguradora == "Liberty" ? "margin-top: 3px;" : null
               }">
-              }">
 
                         </center>
 
