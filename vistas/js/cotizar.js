@@ -1022,6 +1022,7 @@ function consulPlacaMapfre(valnumplaca) {
         document.getElementById("headerAsegurado").style.display = "block";
         document.getElementById("masA").style.display = "block";
         document.getElementById("DatosAsegurado").style.display = "none";
+        document.getElementById("loaderPlaca").style.display = "none";
       }
     })
     .catch(function (error) {
@@ -1031,6 +1032,7 @@ function consulPlacaMapfre(valnumplaca) {
       document.getElementById("headerAsegurado").style.display = "block";
       document.getElementById("masA").style.display = "block";
       document.getElementById("DatosAsegurado").style.display = "none";
+      document.getElementById("loaderPlaca").style.display = "none";
     });
 }
 
