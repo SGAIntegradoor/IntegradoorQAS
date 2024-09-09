@@ -2330,7 +2330,7 @@ function cotizarOfertasPesados() {
                       if (typeof ofertas[0].Resultado !== "undefined") {
                         validarProblema(aseguradora, ofertas);
                         agregarAseguradoraFallidaPesados(aseguradora);
-                        ofertas.Mensajes.forEach((mensaje) => {
+                        ofertas.Mensajes[0].forEach((mensaje) => {
                           mostrarAlertarCotizacionFallida(aseguradora, mensaje);
                         });
                       } else {
