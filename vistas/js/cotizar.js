@@ -2783,7 +2783,7 @@ function cotizarOfertas() {
                         validarProblema("Zurich", [
                           {
                             Mensajes: [
-                              "Error Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
+                              "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
                             ],
                           },
                         ]);
