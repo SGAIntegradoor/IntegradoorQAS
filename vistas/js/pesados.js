@@ -2383,7 +2383,7 @@ function cotizarOfertasPesados() {
                         if (typeof ofertas[0].Resultado !== "undefined") {
                           validarProblema(aseguradora, ofertas);
                           agregarAseguradoraFallidaPesados(aseguradora);
-                          ofertas.Mensajes.forEach((mensaje) => {
+                          ofertas[0].Mensajes.forEach((mensaje) => {
                             mostrarAlertarCotizacionFallida(
                               aseguradora,
                               mensaje
