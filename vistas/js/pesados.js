@@ -2570,79 +2570,79 @@ function cotizarOfertasPesados() {
                 });
               } 
 
-              else if (aseguradora === "Previsora") {
-                let previsoraPromise = new Promise((resolve, reject) => {
-                  try {
-                    let arrAseguradora = [
-                      {
-                        Mensajes: [
-                          "Solicita cotización manual con tu Analista Comercial asignado",
-                        ],
-                      },
-                    ];
-                    setTimeout(function () {
-                      validarProblema("Previsora", arrAseguradora);
-                      addPrevisora();
-                      resolve();
-                    }, 3000);
-                  } catch (error) {
-                    resolve();
-                  }
-                });
-
-                cont.push(previsoraPromise);
-              }
-              // else {
-              //   let promise = fetch(
-              //     `https://grupoasistencia.com/motor_webservice/${aseguradora}_pesados`,
-              //     requestOptions
-              //   )
-              //     .then((res) => {
-              //       if (!res.ok) throw Error(res.statusText);
-              //       return res.json();
-              //     })
-              //     .then((ofertas) => {
-              //       if (typeof ofertas[0].Resultado !== "undefined") {
-              //         validarProblema(aseguradora, ofertas);
-              //         agregarAseguradoraFallidaPesados(aseguradora);
-              //         if (ofertas[0].length > 1) {
-              //           ofertas[0].Mensajes.forEach((mensaje) => {
-              //             mostrarAlertarCotizacionFallida(aseguradora, mensaje);
-              //           });
-              //         } else {
-              //           ofertas[0].Mensajes.forEach((mensaje) => {
-              //             mostrarAlertarCotizacionFallida(aseguradora, mensaje);
-              //           });
-              //         }
-              //       } else {
-              //         const contadorPorEntidad = validarOfertasPesados(
-              //           ofertas,
-              //           aseguradora,
-              //           1
-              //         );
-              //         mostrarAlertaCotizacionExitosa(
-              //           aseguradora,
-              //           contadorPorEntidad
-              //         );
-              //       }
-              //     })
-              //     .catch((err) => {
-              //       agregarAseguradoraFallidaPesados(aseguradora);
-              //       mostrarAlertarCotizacionFallida(
-              //         aseguradora,
-              //         "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
-              //       );
-              //       validarProblema(aseguradora, [
+              // else if (aseguradora === "Previsora") {
+              //   let previsoraPromise = new Promise((resolve, reject) => {
+              //     try {
+              //       let arrAseguradora = [
               //         {
               //           Mensajes: [
-              //             "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
+              //             "Solicita cotización manual con tu Analista Comercial asignado",
               //           ],
               //         },
-              //       ]);
-              //       console.error(err)
-              //     });
-              //   cont.push(promise);
+              //       ];
+              //       setTimeout(function () {
+              //         validarProblema("Previsora", arrAseguradora);
+              //         addPrevisora();
+              //         resolve();
+              //       }, 3000);
+              //     } catch (error) {
+              //       resolve();
+              //     }
+              //   });
+
+              //   cont.push(previsoraPromise);
               // }
+              else {
+                let promise = fetch(
+                  `https://grupoasistencia.com/motor_webservice/${aseguradora}_pesados`,
+                  requestOptions
+                )
+                  .then((res) => {
+                    if (!res.ok) throw Error(res.statusText);
+                    return res.json();
+                  })
+                  .then((ofertas) => {
+                    if (typeof ofertas[0].Resultado !== "undefined") {
+                      validarProblema(aseguradora, ofertas);
+                      agregarAseguradoraFallidaPesados(aseguradora);
+                      if (ofertas[0].length > 1) {
+                        ofertas[0].Mensajes.forEach((mensaje) => {
+                          mostrarAlertarCotizacionFallida(aseguradora, mensaje);
+                        });
+                      } else {
+                        ofertas[0].Mensajes.forEach((mensaje) => {
+                          mostrarAlertarCotizacionFallida(aseguradora, mensaje);
+                        });
+                      }
+                    } else {
+                      const contadorPorEntidad = validarOfertasPesados(
+                        ofertas,
+                        aseguradora,
+                        1
+                      );
+                      mostrarAlertaCotizacionExitosa(
+                        aseguradora,
+                        contadorPorEntidad
+                      );
+                    }
+                  })
+                  .catch((err) => {
+                    agregarAseguradoraFallidaPesados(aseguradora);
+                    mostrarAlertarCotizacionFallida(
+                      aseguradora,
+                      "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
+                    );
+                    validarProblema(aseguradora, [
+                      {
+                        Mensajes: [
+                          "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
+                        ],
+                      },
+                    ]);
+                    console.error(err)
+                  });
+                cont.push(promise);
+              }
             });
 
             Promise.all(cont).then(() => {
