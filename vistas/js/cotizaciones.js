@@ -285,11 +285,8 @@ $(document).ready(function () {
   //   })
 
   // })
-
-  // $('#btnMotosX').click(function (){
-  //   window.location = "motos"
-  // })
-  $("#valorTotal").numeric();
+  
+    $("#valorTotal").numeric();
   const parseNumbersToString = (selector) => {
     $(selector).on("input", function () {
       this.value = this.value.replace(/\./g, "");
@@ -305,7 +302,11 @@ $(document).ready(function () {
 
 
   parseNumbersToString("#valorTotal")
+  
 
+  // $('#btnMotosX').click(function (){
+  //   window.location = "motos"
+  // })
   // Limpia los contenedores de las Cards y del Boton PDF y Recotiza
 
   $("#btnRecotizar").click(function () {

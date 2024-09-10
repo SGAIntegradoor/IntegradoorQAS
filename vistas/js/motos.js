@@ -685,6 +685,7 @@ function consulPlacaMapfre(valnumplaca) {
         document.getElementById("headerAsegurado").style.display = "block";
         document.getElementById("masA").style.display = "block";
         document.getElementById("DatosAsegurado").style.display = "none";
+        document.getElementById("loaderPlaca").style.display = "none";
       }
     })
     .catch(function (error) {
@@ -692,6 +693,7 @@ function consulPlacaMapfre(valnumplaca) {
       document.getElementById("headerAsegurado").style.display = "block";
       document.getElementById("masA").style.display = "block";
       document.getElementById("DatosAsegurado").style.display = "none";
+      document.getElementById("loaderPlaca").style.display = "none";
     });
 }
 
@@ -2244,12 +2246,13 @@ function cotizarOfertasMotos() {
               });
               return; // Salir del bucle después de procesar Zurich
             } else if (aseguradora === "Liberty") {
-              const planes = ["INTEGRAL", "BASICO + PT", "FULL"];
-              planes.forEach((plan) => {
-                let body = JSON.parse(requestOptions.body);
-                body.plan = plan;
-                requestOptions.body = JSON.stringify(body);
-                url = `https://grupoasistencia.com/motor_webservice_tst2/${aseguradora}_motos`;
+              //const planes = ["INTEGRAL", "BASICO + PT", "FULL"];
+              //planes.forEach((plan) => {
+              // let body = JSON.parse(requestOptions.body);
+              //body.plan = plan;
+              //requestOptions.body = JSON.stringify(body);
+                //url = `https://grupoasistencia.com/motor_webservice_tst2/${aseguradora}_motos`;
+                url = `https://grupoasistencia.com/motor_webservice/${aseguradora}_motos`;
                 cont.push(
                   fetch(url, requestOptions)
                     .then((res) => {
@@ -2284,7 +2287,7 @@ function cotizarOfertasMotos() {
                       console.error(err);
                     })
                 );
-              });
+              //});
               return;
             } else if (aseguradora === "Estado") {
               const aseguradorasEstado = ["Estado", "Estado2"]; // Agrega más aseguradoras según sea necesario

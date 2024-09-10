@@ -329,7 +329,7 @@ $pdf->Cell(10, 0, 'a continuación ', 0, $ln = 0, 'C', 0, '', 0, false, 'C', 'C'
 
 $pdf->SetFont('dejavusanscondensed', 'I', 15);
 $pdf->SetTextColor(104, 104, 104);
-$pdf->SetXY(98, 97);
+$pdf->SetXY(98, 94);
 $pdf->Cell(10, 0, 'te presentamos un comparativo de precios (IVA incluido)', 0, $ln = 0, 'C', 0, '', 0, false, 'C', 'C');
 
 $pdf->SetFont('dejavusanscondensed', 'B', 9);
@@ -401,7 +401,7 @@ while ($i < count($resultados)) {
 			$AxaProducto = isset($productosMap[$productoOriginal]) ? $productosMap[$productoOriginal] : $productoOriginal;
 			$html2 .= '<td class="puntos td2 ' . $fondo_class . '" style=" font-size: 6.5px; font-family:dejavusanscondensedb;"><center>
 			<img style="width:40px;" src="../../../vistas/img/logos/axa.png" alt=""></center>
-			<div style="font-size:6.5pt">&nbsp;</div>
+			<div style="font-size:10pt">&nbsp;</div>
 			<span style="color:#666666;">' . $AxaProducto  . '</span>
 			</td>';
 			break;
@@ -426,7 +426,7 @@ while ($i < count($resultados)) {
 			$html2 .= '<td class="puntos td2 ' . $fondo_class . '" style="  font-size: 6.5px; font-family:dejavusanscondensedb;">
 			<div style="font-size:6.5pt">&nbsp;</div>
 			<img style="width:40px; padding-top: 0px" src="../../../vistas/img/logos/sbs.png" alt="">
-			<div style="font-size:6.5pt">&nbsp;</div>
+			<div style="font-size:10pt">&nbsp;</div>
 			<span style="color:#666666;">' . $resultados[$i]['Producto']  . '</span>
 			</td>';
 			break;
@@ -453,7 +453,7 @@ while ($i < count($resultados)) {
 			$html2 .= '<td class="puntos td2 ' . $fondo_class . '" style="  font-size: 6.5px; font-family:dejavusanscondensedb;">
 			<div style="font-size:7.5pt">&nbsp;</div>
 			<img style="width:40px;" src="../../../vistas/img/logos/zurich.png" alt="">
-			<div style="font-size:7pt">&nbsp;</div>
+			<div style="font-size:10pt">&nbsp;</div>
 			<span style="color:#666666;">' . $resultados[$i]['Producto']  . '</span>
 			</td>';
 			break;
@@ -462,7 +462,7 @@ while ($i < count($resultados)) {
 			$html2 .= '<td class="puntos td2 ' . $fondo_class . '" style="  font-size: 6.5px; font-family:dejavusanscondensedb;">
 			<div style="font-size:6.5pt">&nbsp;</div>
 			<img style="width:40px;" src="../../../vistas/img/logos/allianz.png" alt="">
-			<div style="font-size:7pt">&nbsp;</div>
+			<div style="font-size:11pt">&nbsp;</div>
 			<span style="color:#666666;">' . ($resultados[$i]['Producto'] == 'Autos Esencial + Totales' ? 'Esen.+Totales' : $resultados[$i]['Producto']) . '</span>
 			</td>';
 			break;
@@ -470,8 +470,8 @@ while ($i < count($resultados)) {
 		case 'Liberty':
 			$html2 .= '<td class="puntos td2 ' . $fondo_class . '" style="  font-size: 6.5px; font-family:dejavusanscondensedb;">
 			<div style="font-size:1pt">&nbsp;</div>
-			<img style="width:40px;" src="../../../vistas/img/logos/liberty.png" alt="">
-			<div style="font-size:5.5pt">&nbsp;</div>
+			<img style="width:30px;" src="../../../vistas/img/logos/liberty.png" alt="">
+			<div style="font-size:3pt">&nbsp;</div>
 			<span style="color:#666666;">' . $resultados[$i]['Producto']  . '</span>
 			
 			</td>';
@@ -480,7 +480,7 @@ while ($i < count($resultados)) {
 		case 'Mapfre':
 			$html2 .= '<td class="puntos td2 ' . $fondo_class . '" style=" font-size: 6.5px; font-family:dejavusanscondensedb;">
 			<img style="width:40px;" src="../../../vistas/img/logos/mapfre.png" alt="">
-			<div style="font-size: 7pt">&nbsp;</div>
+			<div style="font-size: 11pt">&nbsp;</div>
 			<span style="color:#666666;">' . ($resultados[$i]['Producto'] == 'SUPER TREBOL' ? 'Super Trebol' : $resultados[$i]['Producto']) . '</span>
 			</td>';
 			break;
@@ -514,7 +514,7 @@ while ($i < count($resultados)) {
 			$html2 .= '<td class="puntos td2 ' . $fondo_class . '" style="font-size: 6.5px; font-family:dejavusanscondensedb;">
 			<div style="font-size: 1.2pt">&nbsp;</div>
 			<img style="width:40px;" src="../../../vistas/img/logos/previsora.png" alt="">
-			<div style="font-size: 5.5pt">&nbsp;</div>
+			<div style="font-size: 9.5pt">&nbsp;</div>
 			<span style="color:#666666;">' . $previsoraProducto . '</span>
 			</td>';
 			break;
@@ -2629,7 +2629,7 @@ $html7 .= '</tr>';
 
 $html7 .= '</table>';
 
-$pdf->SetXY(80, 103);
+$pdf->SetXY(80, 98);
 $pdf->writeHTML($html2, true, false, true, false, '');
 $pdf->Ln();
 

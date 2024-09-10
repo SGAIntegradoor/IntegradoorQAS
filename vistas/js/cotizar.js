@@ -12,34 +12,16 @@ $(document).ready(function () {
   $("#numCotizacion").numeric();
   $("#valorTotal").numeric();
 
-  // $("#txtValorFasecolda").on("input", function () {
-  //   this.value = this.value.replace(/\./g, "");
-  // });
+  $("#txtValorFasecolda").on("input", function () {
+    this.value = this.value.replace(/\./g, "");
+  });
 
-  // // Previene el ingreso de puntos desde el teclado
-  // $("#txtValorFasecolda").on("keydown", function (event) {
-  //   if (event.which === 190 || event.which === 110) {
-  //     event.preventDefault();
-  //   }
-  // });
-  
-  const parseNumbersToString = (selector) => {
-    $(selector).on("input", function () {
-      this.value = this.value.replace(/\./g, "");
-    });
-  
-    // Previene el ingreso de puntos desde el teclado
-    $(selector).on("keydown", function (event) {
-      if (event.which === 190 || event.which === 110) {
-        event.preventDefault();
-      }
-    });
-  }
-
-  parseNumbersToString("#txtValorFasecolda")
-
-
-
+  // Previene el ingreso de puntos desde el teclado
+  $("#txtValorFasecolda").on("keydown", function (event) {
+    if (event.which === 190 || event.which === 110) {
+      event.preventDefault();
+    }
+  });
 
   // // Previene que el usuario pegue datos en el campo (opcional)
   // $("#txtValorFasecolda").on("paste", function(event) {
@@ -435,7 +417,7 @@ $(document).ready(function () {
               mostrarAlertaCotizacionesExcedidasFreelance();
               break;
             default:
-              mostrarAlertaErrorDeConexion();
+              mostrarAlertaErrorDeConexion()
               break;
           }
         } else {
@@ -775,12 +757,12 @@ function consulPlaca() {
           return response.json();
         })
         .then(function (myJson) {
-          //console.log(myJson)
           var estadoConsulta = myJson.Success;
           var mensajeConsulta = myJson.Message;
 
           //VALIDA SI LA CONSULTA FUE EXITOSA
           if (estadoConsulta == true) {
+            //console.log(myJson)
             var codigoClase = myJson.Data.ClassId;
             var codigoMarca = myJson.Data.Brand;
             var modeloVehiculo = myJson.Data.Modelo;
@@ -790,6 +772,7 @@ function consulPlaca() {
 
             if (codigoFasecolda != null) {
               if (valorAsegurado == "null" || valorAsegurado == null) {
+                //console.log(myJson)
                 consulPlacaMapfre(valnumplaca);
                 // document.getElementById("formularioVehiculo").style.display =
                 //   "block";
@@ -941,6 +924,7 @@ function consulPlacaMapfre(valnumplaca) {
       return response.json();
     })
     .then(async function (data) {
+      
       var resultadoConsulta = data.respuesta.errorEjecucion;
       var codigoClase = data.polizaReciente.COD_MODELO;
       var marcaCod = data.polizaReciente.COD_MARCA;
@@ -973,14 +957,17 @@ function consulPlacaMapfre(valnumplaca) {
       if (resultadoConsulta == false || resultadoConsulta == "false") {
         var claseVehiculo = "";
         var limiteRCESTADO = "";
-
+        //console.log(codigoClase);
         if (codigoClase == 1) {
           claseVehiculo = "AUTOMOVILES";
           limiteRCESTADO = 6;
         } else if (codigoClase == 2) {
           claseVehiculo = "CAMPEROS";
           limiteRCESTADO = 18;
-        } else if (codigoClase == 3) {
+        } else if (codigoClase == 8) {
+          claseVehiculo = "CAMPERO";
+          limiteRCESTADO = 21;
+        }else if (codigoClase == 3) {
           claseVehiculo = "PICK UPS";
           limiteRCESTADO = 18;
         } else if (codigoClase == 4) {
@@ -999,7 +986,9 @@ function consulPlacaMapfre(valnumplaca) {
           claseVehiculo = "MOTOCICLETA";
           limiteRCESTADO = 6;
         }
-
+        
+       // console.log(claseVehiculo);
+        
         $("#CodigoClase").val(codigoClase);
         $("#txtClaseVeh").val(claseVehiculo);
         $("#LimiteRC").val(limiteRCESTADO);
@@ -1252,7 +1241,8 @@ function consulDatosFasecolda(codFasecolda, edadVeh) {
           //   }
           // });
         } else {
-          // console.log(data);
+          //console.log(data);
+          console.log(data);
           var claseVeh = data.clase;
           var marcaVeh = data.marca;
           var ref1Veh = data.referencia1;
@@ -1304,7 +1294,7 @@ function consulDatosFasecoldaPesados(codFasecolda, edadVeh) {
       },
       success: function (data) {
         // desactive
-        // console.log(data);
+        console.log(data);
         var claseVeh = data.clase;
         var marcaVeh = data.marca;
         var ref1Veh = data.referencia1;
@@ -1704,9 +1694,7 @@ const mostrarOferta = (
                                   <div class='row card-body'>
                                       <div class="col-xs-12 col-sm-6 col-md-2 oferta-logo">
                                       <center>
-  
-                                          <img src='vistas/img/logos/${logo}' style="${aseguradora == "Liberty" ? "margin-top: 3px;" : null}">
-  
+                                    <img src='vistas/img/logos/${logo}' style="${aseguradora == "Liberty" ? "margin-top: 0px;" : null}">
                     </center>  
   
                     <div class='col-12' style='margin-top:2%;'>
@@ -1911,10 +1899,10 @@ function validarProblema(aseguradora, ofertas) {
   // Verificar si ofertas es un array
   if (Array.isArray(ofertas)) {
     // console.log("entre aca isArray");
-    // console.log(ofertas)
-    if((aseguradora == "Estado" || aseguradora == "Estado2") && ofertas[0][0]['Mensajes'].length > 0 ){
-      ofertas = ofertas[0];
-    }
+    //console.log(ofertas[0])
+   // if((aseguradora == "Estado" || aseguradora == "Estado2") && ofertas[0]['Mensajes'].length > 0 ){
+     // ofertas = ofertas[0];
+    //}
     ofertas.forEach((oferta) => {
       // console.log("entre aca forEach");
       // Obtener mensajes de la oferta
@@ -2783,7 +2771,7 @@ function cotizarOfertas() {
                         validarProblema("Zurich", [
                           {
                             Mensajes: [
-                              "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
+                              "Error Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
                             ],
                           },
                         ]);
@@ -2817,7 +2805,7 @@ function cotizarOfertas() {
                         if (result2 !== undefined) {
                           agregarAseguradoraFallida("Estado");
                           validarProblema(aseguradora, result);
-                          ofertas[0].Mensajes.forEach((mensaje) => {
+                          ofertas.Mensajes.forEach((mensaje) => {
                             mostrarAlertarCotizacionFallida(
                               aseguradora,
                               mensaje
@@ -4104,10 +4092,14 @@ function validarNumCotizaciones() {
 
 const tipoVehiculo = [
   "PICK UPS",
+  "PICK UP",
+  "PICKUP",
+  "PICKUP DOBLE CAB",
   "AUTOMOVIL",
   "AUTOMOVILES",
   "CAMPEROS",
   "CAMPERO",
+  "CAMIONETA PASAJ."
 ];
 
 $("#btnConsultarVehmanualbuscador").click(function () {
@@ -4154,6 +4146,7 @@ $("#btnConsultarVehmanualbuscador").click(function () {
               }
             });
           } else {
+            console.log(data);
             var marcaVeh = data.marca;
             var ref1Veh = data.referencia1;
             var ref2Veh = data.referencia2;

@@ -2330,7 +2330,7 @@ function cotizarOfertasPesados() {
                       if (typeof ofertas[0].Resultado !== "undefined") {
                         validarProblema(aseguradora, ofertas);
                         agregarAseguradoraFallidaPesados(aseguradora);
-                        ofertas.Mensajes[0].forEach((mensaje) => {
+                        ofertas.Mensajes.forEach((mensaje) => {
                           mostrarAlertarCotizacionFallida(aseguradora, mensaje);
                         });
                       } else {
@@ -2383,7 +2383,7 @@ function cotizarOfertasPesados() {
                         if (typeof ofertas[0].Resultado !== "undefined") {
                           validarProblema(aseguradora, ofertas);
                           agregarAseguradoraFallidaPesados(aseguradora);
-                          ofertas[0].Mensajes.forEach((mensaje) => {
+                          ofertas.Mensajes.forEach((mensaje) => {
                             mostrarAlertarCotizacionFallida(
                               aseguradora,
                               mensaje
@@ -2570,79 +2570,79 @@ function cotizarOfertasPesados() {
                 });
               } 
 
-              // else if (aseguradora === "Previsora") {
-              //   let previsoraPromise = new Promise((resolve, reject) => {
-              //     try {
-              //       let arrAseguradora = [
-              //         {
-              //           Mensajes: [
-              //             "Solicita cotización manual con tu Analista Comercial asignado",
-              //           ],
-              //         },
-              //       ];
-              //       setTimeout(function () {
-              //         validarProblema("Previsora", arrAseguradora);
-              //         addPrevisora();
-              //         resolve();
-              //       }, 3000);
-              //     } catch (error) {
-              //       resolve();
-              //     }
-              //   });
-
-              //   cont.push(previsoraPromise);
-              // }
-              else {
-                let promise = fetch(
-                  `https://grupoasistencia.com/motor_webservice/${aseguradora}_pesados`,
-                  requestOptions
-                )
-                  .then((res) => {
-                    if (!res.ok) throw Error(res.statusText);
-                    return res.json();
-                  })
-                  .then((ofertas) => {
-                    if (typeof ofertas[0].Resultado !== "undefined") {
-                      validarProblema(aseguradora, ofertas);
-                      agregarAseguradoraFallidaPesados(aseguradora);
-                      if (ofertas[0].length > 1) {
-                        ofertas[0].Mensajes.forEach((mensaje) => {
-                          mostrarAlertarCotizacionFallida(aseguradora, mensaje);
-                        });
-                      } else {
-                        ofertas[0].Mensajes.forEach((mensaje) => {
-                          mostrarAlertarCotizacionFallida(aseguradora, mensaje);
-                        });
-                      }
-                    } else {
-                      const contadorPorEntidad = validarOfertasPesados(
-                        ofertas,
-                        aseguradora,
-                        1
-                      );
-                      mostrarAlertaCotizacionExitosa(
-                        aseguradora,
-                        contadorPorEntidad
-                      );
-                    }
-                  })
-                  .catch((err) => {
-                    agregarAseguradoraFallidaPesados(aseguradora);
-                    mostrarAlertarCotizacionFallida(
-                      aseguradora,
-                      "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
-                    );
-                    validarProblema(aseguradora, [
+              else if (aseguradora === "Previsora") {
+                let previsoraPromise = new Promise((resolve, reject) => {
+                  try {
+                    let arrAseguradora = [
                       {
                         Mensajes: [
-                          "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
+                          "Solicita cotización manual con tu Analista Comercial asignado",
                         ],
                       },
-                    ]);
-                    console.error(err)
-                  });
-                cont.push(promise);
+                    ];
+                    setTimeout(function () {
+                      validarProblema("Previsora", arrAseguradora);
+                      addPrevisora();
+                      resolve();
+                    }, 3000);
+                  } catch (error) {
+                    resolve();
+                  }
+                });
+
+                cont.push(previsoraPromise);
               }
+              // else {
+              //   let promise = fetch(
+              //     `https://grupoasistencia.com/motor_webservice/${aseguradora}_pesados`,
+              //     requestOptions
+              //   )
+              //     .then((res) => {
+              //       if (!res.ok) throw Error(res.statusText);
+              //       return res.json();
+              //     })
+              //     .then((ofertas) => {
+              //       if (typeof ofertas[0].Resultado !== "undefined") {
+              //         validarProblema(aseguradora, ofertas);
+              //         agregarAseguradoraFallidaPesados(aseguradora);
+              //         if (ofertas[0].length > 1) {
+              //           ofertas[0].Mensajes.forEach((mensaje) => {
+              //             mostrarAlertarCotizacionFallida(aseguradora, mensaje);
+              //           });
+              //         } else {
+              //           ofertas[0].Mensajes.forEach((mensaje) => {
+              //             mostrarAlertarCotizacionFallida(aseguradora, mensaje);
+              //           });
+              //         }
+              //       } else {
+              //         const contadorPorEntidad = validarOfertasPesados(
+              //           ofertas,
+              //           aseguradora,
+              //           1
+              //         );
+              //         mostrarAlertaCotizacionExitosa(
+              //           aseguradora,
+              //           contadorPorEntidad
+              //         );
+              //       }
+              //     })
+              //     .catch((err) => {
+              //       agregarAseguradoraFallidaPesados(aseguradora);
+              //       mostrarAlertarCotizacionFallida(
+              //         aseguradora,
+              //         "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
+              //       );
+              //       validarProblema(aseguradora, [
+              //         {
+              //           Mensajes: [
+              //             "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
+              //           ],
+              //         },
+              //       ]);
+              //       console.error(err)
+              //     });
+              //   cont.push(promise);
+              // }
             });
 
             Promise.all(cont).then(() => {
@@ -3007,77 +3007,77 @@ function cotizarOfertasPesados() {
 
         cont.push(axaPromise);
 
-        const previsoraPromise = comprobarFallidaPesados("Previsora")
-          ? fetch(
-              "https://grupoasistencia.com/motor_webservice/Previsora_pesados",
-              requestOptions
-            )
-              .then((res) => {
-                if (!res.ok) throw Error(res.statusText);
-                return res.json();
-              })
-              .then((ofertas) => {
-                if (typeof ofertas[0].Resultado !== "undefined") {
-                  agregarAseguradoraFallidaPesados("Previsora");
-                  validarProblema("Previsora", ofertas);
-                  ofertas[0].Mensajes.forEach((mensaje) => {
-                    mostrarAlertarCotizacionFallida("Previsora", mensaje);
-                  });
-                } else {
-                  // eliminarAseguradoraFallida('Previsora');
-                  const contadorPorEntidad = validarOfertasPesados(
-                    ofertas,
-                    "Previsora",
-                    1
-                  );
-                  mostrarAlertaCotizacionExitosa(
-                    "Previsora",
-                    contadorPorEntidad
-                  );
-                }
-              })
-              .catch((err) => {
-                agregarAseguradoraFallidaPesados("Previsora");
-                mostrarAlertarCotizacionFallida(
-                  "Previsora",
-                  "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
-                );
-                validarProblema("Previsora", [
-                  {
-                    Mensajes: [
-                      "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
-                    ],
-                  },
-                ]);
-                console.error(err)
-              })
-          : Promise.resolve();
+        // const previsoraPromise = comprobarFallidaPesados("Previsora")
+        //   ? fetch(
+        //       "https://grupoasistencia.com/motor_webservice/Previsora_pesados",
+        //       requestOptions
+        //     )
+        //       .then((res) => {
+        //         if (!res.ok) throw Error(res.statusText);
+        //         return res.json();
+        //       })
+        //       .then((ofertas) => {
+        //         if (typeof ofertas[0].Resultado !== "undefined") {
+        //           agregarAseguradoraFallidaPesados("Previsora");
+        //           validarProblema("Previsora", ofertas);
+        //           ofertas[0].Mensajes.forEach((mensaje) => {
+        //             mostrarAlertarCotizacionFallida("Previsora", mensaje);
+        //           });
+        //         } else {
+        //           // eliminarAseguradoraFallida('Previsora');
+        //           const contadorPorEntidad = validarOfertasPesados(
+        //             ofertas,
+        //             "Previsora",
+        //             1
+        //           );
+        //           mostrarAlertaCotizacionExitosa(
+        //             "Previsora",
+        //             contadorPorEntidad
+        //           );
+        //         }
+        //       })
+        //       .catch((err) => {
+        //         agregarAseguradoraFallidaPesados("Previsora");
+        //         mostrarAlertarCotizacionFallida(
+        //           "Previsora",
+        //           "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
+        //         );
+        //         validarProblema("Previsora", [
+        //           {
+        //             Mensajes: [
+        //               "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
+        //             ],
+        //           },
+        //         ]);
+        //         console.error(err)
+        //       })
+        //   : Promise.resolve();
 
-        cont.push(previsoraPromise);
-        // const previsoraFallida = comprobarFallidaPesados("Previsora");
+        // cont.push(previsoraPromise);
+        const previsoraFallida = comprobarFallidaPesados("Previsora");
 
-        // if (previsoraFallida) {
-        //   const previsoraPromise = new Promise((resolve, reject) => {
-        //     try {
-        //       let arrAseguradora = [
-        //         {
-        //           Mensajes: [
-        //             "Solicita cotización manual con tu Analista Comercial asignado",
-        //           ],
-        //         },
-        //       ];
-        //       setTimeout(function () {
-        //         validarProblema("Previsora", arrAseguradora);
-        //         addPrevisora();
-        //         resolve();
-        //       }, 3000);
-        //     } catch (error) {
-        //       resolve(); // Resuelve la promesa incluso en caso de error
-        //     }
-        //   });
+        if (previsoraFallida) {
+          const previsoraPromise = new Promise((resolve, reject) => {
+            try {
+              let arrAseguradora = [
+                {
+                  Mensajes: [
+                    "Solicita cotización manual con tu Analista Comercial asignado",
+                  ],
+                },
+              ];
+              setTimeout(function () {
+                validarProblema("Previsora", arrAseguradora);
+                addPrevisora();
+                resolve();
+              }, 3000);
+            } catch (error) {
+              resolve(); // Resuelve la promesa incluso en caso de error
+            }
+          });
           
-        //   cont.push(previsoraPromise); // Añade la promesa a `cont`
-       // }
+          cont.push(previsoraPromise); // Añade la promesa a `cont`
+        }
         
         }
 
@@ -3313,6 +3313,10 @@ const vehiculoPermitidoPesados = [
   "BUS",
   "CARROTANQUE",
   "GRUA",
+  "PICKUP DOBLE CAB",
+  "PICK UPS",
+  "PICK UP",
+  "PICKUP",
 ];
 
 $("#btnConsultarVehmanualbuscador").click(function () {
