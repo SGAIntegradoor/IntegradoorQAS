@@ -62,7 +62,7 @@
 }
 
 #containerCardsSalud{
-  margin-top: 35PX;
+  margin-top: 10px;
   display: none;
 }
 .mainDataContainer{
@@ -91,7 +91,7 @@
 } */
 
 .rowAseg{
-    margin: 15px 0px 20px 15px;
+    margin: 15px 0px 20px 0px;
 }
 
 .colorGray{

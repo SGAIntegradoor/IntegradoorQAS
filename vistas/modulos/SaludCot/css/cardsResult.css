@@ -1,7 +1,7 @@
 /* //new cards// */
 
 .logoCardAsist {
-    max-width: 130px; 
+    max-width: 90px; 
     width: auto;
     height: auto;
 }
@@ -14,13 +14,14 @@
 
 .tittlePrice{
     font-weight: bold;
-    font-size: medium;
+    font-size: 14px;
     color: black;
 }
 
 
 .card-ofertas{
-    padding: 20px;
+    padding: 30px 20px;
+    font-size: 12px;
 }
 
 .card-body {
@@ -35,6 +36,7 @@
     align-items: center;
     justify-content: center;
     flex-direction: column;
+    margin-top: 10px;
 }
 
 .aling-start{
@@ -90,8 +92,10 @@
 }
 
 .custom-table-colum {
-    max-width: 70%;
-   margin-left: 125px;
+    margin-top: 20px;
+    display: flex;
+    justify-content: flex-start;
+    margin-left: 130px;
 }
 
 .custom-table th,
@@ -102,7 +106,7 @@
 
 .custom-table .header-row th {
     font-weight: bold;
-    background-color: #88d600;
+    background-color: #e3e5e0;
     color: #000;
     border: none;
 }
@@ -111,7 +115,6 @@
 
 .custom-table .periodicity-header {
     font-weight: bold;
-    background-color:#d3d3d3;
     color: #000;
     border: none !important;
 }
@@ -123,19 +126,40 @@
 
 .custom-table tr:not(.header-row) th,
 .custom-table tr:not(.header-row) td {
-    border: 1px solid #000;
+    border: 1px solid #494949;
 }
 
 .custom-table tfoot .bold-row th,
 .custom-table tfoot .bold-row td {
     font-weight: bold;
-    border-top: 2px solid #000;
+    border-top: 2px solid #494949;
 }
 
-.custom-table tfoot {
-    background-color: #f2f2f2;
+.th-out-border{
+    border: none !important;
 }
 
+.centar-span-txt{
+    text-align: center;
+}
+
+.btn-table{
+    background: black;
+    color: white;
+    padding: 6px 12px;
+    margin-bottom: 0;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.42857143;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    border-radius: 5px;
+}
+
+.btn-table:active {
+    color: white; /* Cambia el color del texto cuando el botón esté activo (presionado) */
+}
 
 /*///////////////////////////////////////////////////////////////////////////////// */
 
