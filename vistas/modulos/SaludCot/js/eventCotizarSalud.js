@@ -5,6 +5,14 @@ const COBERTURAS_FESALUD_AMPARADO = [
   "XXXXXX"
 ];
 
+const COBERTURAS_SALUD_IDEAL_EMERMEDICA = [
+  "XXXXXX"
+];
+
+const COBERTURAS_PLAN_AMBULATORIO = [
+  "XXXXXX"
+];
+
 const COBERTURAS_ORIGINAL_AMPARADO = [
   "XXXXXX"
 ];
@@ -47,29 +55,30 @@ function openModal() {
             <li>Cáncer</li>
             <li>Antecedentes de accidente cerebro vascular</li>
             <li>Obesos con IMC > 36</li>
-            <li>Enfermedades del colágeno</li>
+            <li>Enfermedades del colágeno: Artritis reumatoide, Lupus Eritematoso sistémico, Dermatomiositis, Síndrome antifosfolípidos</li>
+            <li>Enfermedades autoinmunes</li>
             <li>Neurofibromatosis</li>
-            <li>Valvulopatía cardíaca</li>
+            <li>Valvulopatía cardíaca y otras enfermedades del corazón</li>
             <li>Trastorno psiquiátrico mayor</li>
             <li>Anorexia nerviosa y bulimia</li>
             <li>Autismo</li>
             <li>Enfermedades huérfanas</li>
+            <li>Antecedente de hospitalización por Covid-19, se valida con copia de historia clínica</li>
           </ul>
         </div>
         <div style="width: 45%;">
           <ul style="text-align: left;">
-            <li>Hemofilia o trastornos de coagulación</li>
+            <li>Hemofilia o trastornos de coagulación Pacientes anticoagulados.</li>
             <li>VIH-SIDA</li>
             <li>Paciente oxígeno dependiente</li>
             <li>Síndrome de Down</li>
             <li>Malformaciones congénitas</li>
-            <li>Drogadicción</li>
+            <li>Drogadicción, consumo de sustancias psicoactivas</li>
             <li>Epilepsia</li>
-            <li>Embarazadas</li>
-            <li>Bebés en "Plan canguro"</li>
-            <li>EPOC</li>
-            <li>Antecedente de hospitalización por Covid-19</li>
-            <li>Cirugías pendientes</li>
+            <li>Embarazadas (Opción de compra de anexo de maternidad de acuerdo con el producto a ingresar)</li>
+            <li>Bebés en "Plan canguro" (Opción de posponer e ingreso)</li>
+            <li>EPOC (Enfermedad Pulmonar Obstructiva Crónica)</li>
+            <li>Cirugías pendientes,  post operatorio recientes, tratamientos médicos en curso</li>
             <li>Insuficiencia renal</li>
           </ul>
         </div>
@@ -228,9 +237,9 @@ function generateAseguradosFields() {
                 </div>
             </div>
             <div class="row asegurado" data-asegurado-id="${i}">
-                <div class="col-xs-12 col-sm-6 col-md-1">
+                <div class="col-xs-12 col-sm-6 col-md-2">
                     <div class="form-group">
-                        <label for="tipoDocumento_${i}">Tipo de Doc</label>
+                        <label for="tipoDocumento_${i}">Tipo de Documento</label>
                         <select id="tipoDocumento_${i}" class="form-control tipoDocumento"></select>
                     </div>
                 </div>
@@ -242,12 +251,12 @@ function generateAseguradosFields() {
                     </div>
                 </div>
 
-                <div class="col-xs-12 col-sm-6 col-md-4">
+                <div class="col-xs-12 col-sm-6 col-md-3">
                     <div class="form-group">
                         <label for="nombreCompleto_${i}">Nombre Completo</label>
                         <div class="nombreCompleto">
-                            <input id="nombre_${i}" class="form-control nombre" placeholder="Nombre" />
-                            <input id="apellido_${i}" class="form-control apellido" placeholder="Apellido" />
+                            <input id="nombre_${i}" class="form-control nombre format-text" placeholder="Nombre" />
+                            <input id="apellido_${i}" class="form-control apellido format-text" placeholder="Apellido" />
                         </div>
                     </div>
                 </div>
@@ -289,6 +298,7 @@ function generateAseguradosFields() {
 
     // Agregar los nuevos campos al contenedor
     $("#aseguradosContainer").append(newFields);
+    activateFormate();
   }
 
   // Inicializa Select2 solo en los nuevos elementos clonados
@@ -471,9 +481,11 @@ function showContainerCardsSalud() {
  * @function
  */
 function toogleDataContainer() {
-  var newTittle = "DATOS DE LA COTIZACION";
+  var newTittle = "DATOS DE LA COTIZACIÓN";
   $("#lblAseData").text(newTittle);
   toggleContainerData();
+  $("#btnCotizarAsiss").toggle();
+
 }
 
 /**
@@ -512,6 +524,14 @@ function cargarEstilos(url) {
 }
 
 /**
+ * Convertimos una cadena a miscula menos la primera letra
+ * @function
+ */
+function capitalizeFirstLetter(str) {
+  return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+}
+
+/**
  * Generamos un card individual por cada plan
  * @function
  */
@@ -522,7 +542,7 @@ function makeIndividualCard(nombrePlan, precioMensual, precioTrimestral, precioS
           <div class="col-xs-12 col-sm-6 col-md-2 align-horizontal ">
               <img src="vistas/modulos/SaludCot/img/logo-convenio-axa-colpatria.png" class="logoCardAsist" alt="Logo">  
               <span class="tittleCard">
-                  ${nombrePlan}
+                  ${capitalizeFirstLetter(nombrePlan)}
               </span>
           </div>
 
@@ -536,35 +556,35 @@ function makeIndividualCard(nombrePlan, precioMensual, precioTrimestral, precioS
                 </div>
                 <div class="row">
                     <div class="col-xs-12 col-sm-6 col-md-3 aling-start">
-                        <span class="tittleCard">
+                        <span class="tittleCard centar-span-txt">
                             Mensual
                         </span>
-                        <span class="tittlePrice">
-                            ${precioMensual}
+                        <span class="tittlePrice centar-span-txt">
+                            $${precioMensual}
                         </span>
                     </div>
                     <div class="col-xs-12 col-sm-6 col-md-3 aling-start">
-                         <span class="tittleCard">
+                         <span class="tittleCard centar-span-txt">
                             Trimestral
                         </span>
-                        <span class="tittlePrice">
-                            ${precioTrimestral}
+                        <span class="tittlePrice centar-span-txt">
+                            $${precioTrimestral}
                         </span>                      
                     </div>
                     <div class="col-xs-12 col-sm-6 col-md-3 aling-start">
-                        <span class="tittleCard">
+                        <span class="tittleCard centar-span-txt">
                             Semestral
                         </span>
-                        <span class="tittlePrice">
-                            ${precioSemestral}
+                        <span class="tittlePrice centar-span-txt">
+                            $${precioSemestral}
                         </span>                     
                     </div>
                     <div class="col-xs-12 col-sm-6 col-md-3 aling-start">
-                        <span class="tittleCard">
+                        <span class="tittleCard centar-span-txt">
                             Anual
                         </span>
-                        <span class="tittlePrice">
-                            ${precioAnual}
+                        <span class="tittlePrice centar-span-txt">
+                            $${precioAnual}
                         </span>                       
                     </div>
                 </div>
@@ -599,6 +619,15 @@ function makeIndividualCard(nombrePlan, precioMensual, precioTrimestral, precioS
 }
 
 /**
+ * Eliminamos numeros y colocamos la primera en mayuscula
+ * @function
+ */
+function formatInput(value) {
+  value = value.replace(/[0-9]/g, '');
+  return value.charAt(0).toUpperCase() + value.slice(1).toLowerCase();
+}
+
+/**
  * Cuando la cotizacion es grupal generamos tabla resumen.
  * @function
  */
@@ -610,7 +639,7 @@ function makeTable(asegurados, plan_id) {
   <div class="container flex-colum">
       <div class="row custom-table-colum">
           <div class="col-12">
-              <button id="${buttonId}" class="btn btn-primary float-left" data-target="#${uniqueId}">Ver detalle de precios por asegurado</button>
+              <button id="${buttonId}" class=" btn-table float-left" data-target="#${uniqueId}">Ver detalle de precios por asegurado</button>
           </div>
       </div>
       <div class="row">
@@ -654,10 +683,10 @@ function makeTable(asegurados, plan_id) {
               <td>${asegurado.nombre} ${asegurado.apellido}</td>
               <td>${generoTexto}</td>
               <td>${asegurado.edad}</td>
-              <td>${processValue(mensual, 0)}</td>
-              <td>${processValue(trimestral, 0)}</td>
-              <td>${processValue(semestral, 0)}</td>
-              <td>${processValue(anual, 0)}</td>
+              <td>$${processValue(mensual, 0)}</td>
+              <td>$${processValue(trimestral, 0)}</td>
+              <td>$${processValue(semestral, 0)}</td>
+              <td>$${processValue(anual, 0)}</td>
           </tr>`;
       }
   });
@@ -676,31 +705,28 @@ function makeTable(asegurados, plan_id) {
               </tbody>
               <tfoot>
                   <tr class="bold-row">
-                      <th>Subtotal</th>
-                      <td></td>
-                      <td></td>
-                      <td>${processValue(subtotalMensual, 0)}</td>
-                      <td>${processValue(subtotalTrimestral, 0)}</td>
-                      <td>${processValue(subtotalSemestral, 0)}</td>
-                      <td>${processValue(subtotalAnual, 0)}</td>
+                      <th class="th-out-border"></th>
+                      <td colspan="2">Subtotal</td>
+                      <td>$${processValue(subtotalMensual, 0)}</td>
+                      <td>$${processValue(subtotalTrimestral, 0)}</td>
+                      <td>$${processValue(subtotalSemestral, 0)}</td>
+                      <td>$${processValue(subtotalAnual, 0)}</td>
                   </tr>
                   <tr class="bold-row">
-                      <th>IVA (5%)</th>
-                      <td></td>
-                      <td></td>
-                      <td>${processValue(ivaMensual, 0)}</td>
-                      <td>${processValue(ivaTrimestral, 0)}</td>
-                      <td>${processValue(ivaSemestral, 0)}</td>
-                      <td>${processValue(ivaAnual, 0)}</td>
+                      <th class="th-out-border"></th>
+                      <td colspan="2">IVA (5%)</td>
+                      <td>$${processValue(ivaMensual, 0)}</td>
+                      <td>$${processValue(ivaTrimestral, 0)}</td>
+                      <td>$${processValue(ivaSemestral, 0)}</td>
+                      <td>$${processValue(ivaAnual, 0)}</td>
                   </tr>
                   <tr class="bold-row">
-                      <th>Total</th>
-                      <td></td>
-                      <td></td>
-                      <td>${processValue(totalMensual, 0)}</td>
-                      <td>${processValue(totalTrimestral, 0)}</td>
-                      <td>${processValue(totalSemestral, 0)}</td>
-                      <td>${processValue(totalAnual, 0)}</td>
+                      <th class="th-out-border"></th>
+                      <td colspan="2">Total</td>
+                      <td>$${processValue(totalMensual, 0)}</td>
+                      <td>$${processValue(totalTrimestral, 0)}</td>
+                      <td>$${processValue(totalSemestral, 0)}</td>
+                      <td>$${processValue(totalAnual, 0)}</td>
                   </tr>
               </tfoot>
           </table>
@@ -736,6 +762,12 @@ function makeCards(data, tipoCotizacion) {
                   break;
               case 'SALUD IDEAL':
                   coberturas = COBERTURAS_SALUD_IDEAL;
+                  break;
+              case 'SALUD IDEAL + EMERMEDICA':
+                  coberturas = COBERTURAS_SALUD_IDEAL_EMERMEDICA;
+                  break;
+              case 'PLAN AMBULATORIO':
+                  coberturas = COBERTURAS_PLAN_AMBULATORIO;
                   break;
               default:
                   coberturas = ["Cobertura estándar"];
@@ -780,21 +812,27 @@ function makeCards(data, tipoCotizacion) {
               if (planesSumados[plan.plan_id].coberturas.length === 0) {
                   let nombrePlanUpper = plan.nombre.toUpperCase();
                   switch (nombrePlanUpper) {
-                      case 'FESALUD AMPARADO':
-                          planesSumados[plan.plan_id].coberturas = COBERTURAS_FESALUD_AMPARADO;
-                          break;
-                      case 'ORIGINAL AMPARADO':
-                          planesSumados[plan.plan_id].coberturas = COBERTURAS_ORIGINAL_AMPARADO;
-                          break;
-                      case 'ALTERNO AMPARADO':
-                          planesSumados[plan.plan_id].coberturas = COBERTURAS_ALTERNO_AMPARADO;
-                          break;
-                      case 'SALUD IDEAL':
-                          planesSumados[plan.plan_id].coberturas = COBERTURAS_SALUD_IDEAL;
-                          break;
-                      default:
-                          planesSumados[plan.plan_id].coberturas = ["Cobertura estándar"];
-                  }
+                    case 'FESALUD AMPARADO':
+                        planesSumados[plan.plan_id].coberturas = COBERTURAS_FESALUD_AMPARADO;
+                        break;
+                    case 'ORIGINAL AMPARADO':
+                        planesSumados[plan.plan_id].coberturas = COBERTURAS_ORIGINAL_AMPARADO;
+                        break;
+                    case 'ALTERNO AMPARADO':
+                        planesSumados[plan.plan_id].coberturas = COBERTURAS_ALTERNO_AMPARADO;
+                        break;
+                    case 'SALUD IDEAL':
+                        planesSumados[plan.plan_id].coberturas = COBERTURAS_SALUD_IDEAL;
+                        break;
+                    case 'SALUD IDEAL + EMERMEDICA':
+                        planesSumados[plan.plan_id].coberturas = COBERTURAS_SALUD_IDEAL_EMERMEDICA;
+                        break;
+                    case 'PLAN AMBULATORIO':
+                        planesSumados[plan.plan_id].coberturas = COBERTURAS_PLAN_AMBULATORIO;
+                        break;
+                    default:
+                        planesSumados[plan.plan_id].coberturas = ["Cobertura estándar"];
+                }                
               }
           });
       });
@@ -838,6 +876,15 @@ function processValue(value, percentage) {
   return formattedValue;
 }
 
+/**
+ * formeamos texto
+ * @function
+ */
+function activateFormate(){
+  $('.format-text').on('input blur', function() {
+    $(this).val(formatInput($(this).val()));
+});
+}
 /**
  * Cotizamos.
  * @function
@@ -939,7 +986,7 @@ function cotizar() {
  */
 $(document).ready(function () {
   initializeSelect2(".fecha-nacimiento");
-
+  activateFormate();
   CargarSelectTipoDocumento();
   CargarSelectCantidadAsegurados();
   CargarSelectGenero();
@@ -971,16 +1018,18 @@ $(document).ready(function () {
   });
 
   $(document).on('click', '[id^=toggleBtn_]', function() {
-    var targetTable = $($(this).data('target')); // Obtener la tabla objetivo basada en el data-target del botón
+    // Obtener la tabla objetivo basada en el data-target del botón
+    var targetTable = $($(this).data('target'));
 
     // Alterna entre mostrar y ocultar la tabla con efecto de deslizamiento
-    targetTable.slideToggle();
+    targetTable.slideToggle('fast');
 
-    // Cambia el texto del botón dependiendo de si la tabla está visible o no
-    if (targetTable.is(':visible')) {
-        $(this).text('Cerrar detalle de precios por asegurado');
+    // Cambia el texto del botón dependiendo de su texto actual
+    var button = $(this);
+    if (button.text() === 'Ver detalle de precios por asegurado') {
+        button.text('Cerrar detalle de precios por asegurado');
     } else {
-        $(this).text('Ver detalle de precios por asegurado');
+        button.text('Ver detalle de precios por asegurado');
     }
   });
 
@@ -996,5 +1045,7 @@ $(document).ready(function () {
       cotizar();
     }
   });
+
+
 });
 // ========================================================================================================================

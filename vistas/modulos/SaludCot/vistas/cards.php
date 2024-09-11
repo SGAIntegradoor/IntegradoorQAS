@@ -95,7 +95,7 @@
             <div class="card-exequias">
                 <div class="card-body">
                     <h4 class="card-title">Políticas de Suscripción</h4>
-                    <ul class="card-text ul-card">
+                    <ul class="card-text ul-card margen-sup">
                         <li>Edad Máxima de Ingreso para usuarios nuevos: 63 años y 364 días</li>
                         <li>Edad Máxima de Ingreso para continuidades externas: 60 años y 364 días</li>
                         <li>Las pólizas de salud de AXA presentan las siguientes exclusiones: Diabetes, cáncer,
@@ -112,7 +112,7 @@
             <div class="card-exequias">
                 <div class="card-body text-center">
                     <h4 class="card-title">Comisión</h4>
-                    <p class="card-text">La comisión base que nos ofrece Axa Colpatria para nuestra alianza de asesores
+                    <p class="card-text margen-sup">La comisión base que nos ofrece Axa Colpatria para nuestra alianza de asesores
                         es del 13% para negocios nuevos y 10% para renovaciones. De este porcentaje, tu participación
                         será de acuerdo al nivel de ventas de todos los negocios (sin IVA), sumando todos los ramos, que
                         realices en el mes.<br></p>

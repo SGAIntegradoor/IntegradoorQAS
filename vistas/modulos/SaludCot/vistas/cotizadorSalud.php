@@ -16,7 +16,7 @@
         </div>
     </div>
 </div>
-<div class="container-fluid" id="containerDatosSalud">
+<div class="container-salud" id="containerDatosSalud">
     <div class="row">
         <div class="col-xs-12 col-sm-6 col-md-2">
             <div class="form-group">
@@ -32,25 +32,25 @@
             </div>
         </div>
 
-        <div class="col-xs-12 col-sm-6 col-md-5">
+        <div class="col-xs-12 col-sm-6 col-md-4">
             <div class="form-group">
                 <label for="fechaSalida">Nombre Completo</label>
                 <div class="nombreCompleto">
-                    <input id="nombre" class="form-control nombre" placeholder="Nombre"></input>
-                    <input id="apellido" class="form-control apellido" placeholder="Apellido"></input>
+                    <input id="nombre" class="form-control nombre format-text " placeholder="Nombre"></input>
+                    <input id="apellido" class="form-control apellido format-text" placeholder="Apellido"></input>
                 </div>
             </div>
         </div>
 
-        <div class="col-xs-12 col-sm-6 col-md-3">
+        <div class="col-xs-12 col-sm-6 col-md-4">
             <div class="form-group">
-                <label>¿Se requeire cotizar individual o grupo familiar?</label><br>
+                <label>¿Se requiere cotizar individual o grupo familiar?</label><br>
                 <div class="form-check form-check-inline">
-                    <span class="radio-container">
+                    <span class="center-elements">
                         <input type="radio" id="individual" name="tipoCotizacion" class="form-check-input" checked>
                         <label for="individual" class="form-check-label colorGray">Individual</label>
                     </span>
-                    <span class="radio-container">
+                    <span class="radio-container center-elements">
                         <input type="radio" id="grupoFamiliar" name="tipoCotizacion" class="form-check-input">
                         <label for="grupoFamiliar" class="form-check-label colorGray">Grupo Familiar</label>
                     </span>
@@ -70,11 +70,11 @@
             <div class="form-group">
                 <label id="lblTomador">¿El tomador es el mismo asegurado?</label><br>
                 <div class="form-check form-check-inline">
-                    <span class="radio-container">
+                    <span class=" center-elements">
                         <input type="radio" id="si" name="mismoAsegurado" class="form-check-input">
                         <label for="si" class="form-check-label colorGray">Si</label>
                     </span>
-                    <span class="radio-container">
+                    <span class="radio-container center-elements">
                         <input type="radio" id="no" name="mismoAsegurado" class="form-check-input" checked>
                         <label for="no" class="form-check-label colorGray">No</label>
                     </span>
@@ -90,9 +90,9 @@
     </div>
 
     <div class="row asegurado" id="aseguradoTemplate" data-asegurado-id="1">
-        <div class="col-xs-12 col-sm-6 col-md-1">
+        <div class="col-xs-12 col-sm-6 col-md-2">
             <div class="form-group">
-                <label for="tipoDocumento">Tipo de Doc</label>
+                <label for="tipoDocumento">Tipo de Documento</label>
                 <select id="tipoDocumento" class="form-control tipoDocumento"></select>
             </div>
         </div>
@@ -104,12 +104,12 @@
             </div>
         </div>
 
-        <div class="col-xs-12 col-sm-6 col-md-4">
+        <div class="col-xs-12 col-sm-6 col-md-3">
             <div class="form-group">
                 <label for="fechaSalida">Nombre Completo</label>
                 <div class="nombreCompleto">
-                    <input id="nombre" class="form-control nombre" placeholder="Nombre"></input>
-                    <input id="apellido" class="form-control apellido" placeholder="Apellido"></input>
+                    <input id="nombre" class="form-control nombre format-text" placeholder="Nombre"></input>
+                    <input id="apellido" class="form-control apellido format-text" placeholder="Apellido"></input>
                 </div>
             </div>
         </div>
