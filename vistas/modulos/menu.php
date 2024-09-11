@@ -222,61 +222,71 @@ checkUserStatus();
 			if ($_SESSION["permisos"]["Cotizarmotos"] == "x") {
 				echo '<li id="menuCotMot" class="' . ($currentPage == 'motos' ? 'active' : '') . '">
 				<a href="motos">
-					<i class="fa fa-motorcycle"></i>
-					<span>Cotizar Motos</span>
+				<i class="fa fa-motorcycle"></i>
+				<span>Cotizar Motos</span>
 				</a>
 			</li>';
-			}
-
-			/*=============================================
+		}
+		
+		/*=============================================
 		HOGAR
 		=============================================*/
-			if ($_SESSION["intermediario"] == "3" || $_SESSION["intermediario"] == "149" || $_SESSION["idUsuario"] == 34) {
-				echo '<li id="menuCotHog" class="' . ($currentPage == 'hogar' ? 'active' : '') . '">
+		if ($_SESSION["intermediario"] == "3" || $_SESSION["intermediario"] == "149" || $_SESSION["idUsuario"] == 34) {
+			echo '<li id="menuCotHog" class="' . ($currentPage == 'hogar' ? 'active' : '') . '">
 			<a href="hogar">
-				<i class="fa-solid fa-house-circle-check"></i>
-				<span>Cotizar Hogar</span>
+			<i class="fa-solid fa-house-circle-check"></i>
+			<span>Cotizar Hogar</span>
 			</a>
-		</li>';
-			}
-
+			</li>';
+		}
 			/*=============================================
-		MÓDULO SOAT
+		SALUD
 		=============================================*/
 
+			echo '<li id="menuCoAssist" class="' . ($currentPage == 'salud' ? 'active' : '') . '">
+		<a href="salud">
+			<i class="fa fa-heartbeat" aria-hidden="true" style="font-size: 1.2em;"></i>
+			<span>Cotizador Seguro de Salud</span>
+		</a>
+	</li>';
+			
+			/*=============================================
+			MÓDULO SOAT
+			=============================================*/
+			
 			if ($_SESSION["permisos"]["SeguroExequial"] == "x") {
 				echo '<li id="menuCotSoat" role="presentation" style="width: 50px; height: 44px;" class="' . ($currentPage == 'soat' ? 'active' : '') . '">
-					<a href="soat">
-						<img class="imagen" style="margin-left: -5px;" width="25" height="25" src="vistas/img/plantilla/soat.png" alt="SOAT">
-						<span>SOAT</span>
-					</a>
-				  </li>';
+				<a href="soat">
+				<img class="imagen" style="margin-left: -5px;" width="25" height="25" src="vistas/img/plantilla/soat.png" alt="SOAT">
+				<span>SOAT</span>
+				</a>
+				</li>';
 			}
 
 			/*=============================================
 		EXEQUIAS
 		=============================================*/
 
-			if ($_SESSION["permisos"]["SeguroExequial"] == "x") {
-				echo '<li id="menuCotExe" class="' . ($currentPage == 'exequias' ? 'active' : '') . '">
-				<a href="exequias">
+		if ($_SESSION["permisos"]["SeguroExequial"] == "x") {
+			echo '<li id="menuCotExe" class="' . ($currentPage == 'exequias' ? 'active' : '') . '">
+			<a href="exequias">
 				<i class="fa fa-umbrella" aria-hidden="true"></i>
 				<span>Exequias</span>
 				</a>
-			</li>';
+				</li>';
 			}
-
+			
 			/*=============================================
-		ASSITCARD
-		=============================================*/
-
+			ASSITCARD
+			=============================================*/
+			
 			if (($_SESSION["permisos"]["AsistenciaEnViajes"] == "x") || $_SESSION["idUsuario"] == 34) {
 				echo '<li id="menuCoAssist" class="' . ($currentPage == 'assistcard' ? 'active' : '') . '">
 				<a href="assistcard">
-					<i class="fa fa-plane" aria-hidden="true" style="font-size: 1.2em;"></i>
-					<span>Asistencia en viajes</span>
+				<i class="fa fa-plane" aria-hidden="true" style="font-size: 1.2em;"></i>
+				<span>Asistencia en viajes</span>
 				</a>
-			</li>';
+				</li>';
 			}
 
 
@@ -324,16 +334,6 @@ checkUserStatus();
 				</a>
 			</li>';
 			}
-			/*=============================================
-		SALUD
-		=============================================*/
-
-			echo '<li id="menuCoAssist" class="' . ($currentPage == 'salud' ? 'active' : '') . '">
-		<a href="salud">
-			<i class="fa fa-heartbeat" aria-hidden="true" style="font-size: 1.2em;"></i>
-			<span>Cotizador Seguro de Salud</span>
-		</a>
-	</li>';
 
 			/*=============================================
 		INVITACIÓN
