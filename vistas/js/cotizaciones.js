@@ -285,6 +285,24 @@ $(document).ready(function () {
   //   })
 
   // })
+  
+    $("#valorTotal").numeric();
+  const parseNumbersToString = (selector) => {
+    $(selector).on("input", function () {
+      this.value = this.value.replace(/\./g, "");
+    });
+  
+    // Previene el ingreso de puntos desde el teclado
+    $(selector).on("keydown", function (event) {
+      if (event.which === 190 || event.which === 110) {
+        event.preventDefault();
+      }
+    });
+  }
+
+
+  parseNumbersToString("#valorTotal")
+  
 
   // $('#btnMotosX').click(function (){
   //   window.location = "motos"
@@ -1276,7 +1294,7 @@ function editarCotizacion(id) {
                       <center> 
 
 												<img src='${oferta.logo}' style="${
-                oferta.Aseguradora == "Mundial" ? "margin-top: 65px;" : null
+                oferta.Aseguradora == "Mundial" ? "margin-top: 65px;" : oferta.Aseguradora == "Liberty" ? "margin-top: 3px;" : null
               }">
 
                         </center>

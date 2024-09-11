@@ -231,7 +231,7 @@ checkUserStatus();
 			/*=============================================
 		HOGAR
 		=============================================*/
-		if ($_SESSION["intermediario"] == "3" || $_SESSION["intermediario"] == "149") {
+		if ($_SESSION["intermediario"] == "3" || $_SESSION["intermediario"] == "149" || $_SESSION["idUsuario"] == 34) {
 			echo '<li id="menuCotHog" class="' . ($currentPage == 'hogar' ? 'active' : '') . '">
 			<a href="hogar">
 				<i class="fa-solid fa-house-circle-check"></i>
@@ -270,7 +270,7 @@ checkUserStatus();
 		ASSITCARD
 		=============================================*/
 
-			if ($_SESSION["permisos"]["AsistenciaEnViajes"] == "x") {
+			if (($_SESSION["permisos"]["AsistenciaEnViajes"] == "x") || $_SESSION["idUsuario"] == 34) {
 				echo '<li id="menuCoAssist" class="' . ($currentPage == 'assistcard' ? 'active' : '') . '">
 				<a href="assistcard">
 					<i class="fa fa-plane" aria-hidden="true" style="font-size: 1.2em;"></i>
@@ -279,18 +279,6 @@ checkUserStatus();
 			</li>';
 			}
 
-
-					/*=============================================
-		SALUD
-		=============================================*/
-
-			echo '<li id="menuCoAssist" class="' . ($currentPage == 'salud' ? 'active' : '') . '">
-			<a href="salud">
-				<i class="fa fa-heartbeat" aria-hidden="true" style="font-size: 1.2em;"></i>
-				<span>Cotizador Seguro de Salud</span>
-			</a>
-		</li>';
-		
 
 			/*=============================================
 		USUARIOS

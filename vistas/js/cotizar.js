@@ -12,16 +12,34 @@ $(document).ready(function () {
   $("#numCotizacion").numeric();
   $("#valorTotal").numeric();
 
-  $("#txtValorFasecolda").on("input", function () {
-    this.value = this.value.replace(/\./g, "");
-  });
+  // $("#txtValorFasecolda").on("input", function () {
+  //   this.value = this.value.replace(/\./g, "");
+  // });
 
-  // Previene el ingreso de puntos desde el teclado
-  $("#txtValorFasecolda").on("keydown", function (event) {
-    if (event.which === 190 || event.which === 110) {
-      event.preventDefault();
-    }
-  });
+  // // Previene el ingreso de puntos desde el teclado
+  // $("#txtValorFasecolda").on("keydown", function (event) {
+  //   if (event.which === 190 || event.which === 110) {
+  //     event.preventDefault();
+  //   }
+  // });
+  
+  const parseNumbersToString = (selector) => {
+    $(selector).on("input", function () {
+      this.value = this.value.replace(/\./g, "");
+    });
+  
+    // Previene el ingreso de puntos desde el teclado
+    $(selector).on("keydown", function (event) {
+      if (event.which === 190 || event.which === 110) {
+        event.preventDefault();
+      }
+    });
+  }
+
+  parseNumbersToString("#txtValorFasecolda")
+
+
+
 
   // // Previene que el usuario pegue datos en el campo (opcional)
   // $("#txtValorFasecolda").on("paste", function(event) {
@@ -417,7 +435,7 @@ $(document).ready(function () {
               mostrarAlertaCotizacionesExcedidasFreelance();
               break;
             default:
-              mostrarAlertaErrorDeConexion()
+              mostrarAlertaErrorDeConexion();
               break;
           }
         } else {
@@ -1004,6 +1022,7 @@ function consulPlacaMapfre(valnumplaca) {
         document.getElementById("headerAsegurado").style.display = "block";
         document.getElementById("masA").style.display = "block";
         document.getElementById("DatosAsegurado").style.display = "none";
+        document.getElementById("loaderPlaca").style.display = "none";
       }
     })
     .catch(function (error) {
@@ -1013,6 +1032,7 @@ function consulPlacaMapfre(valnumplaca) {
       document.getElementById("headerAsegurado").style.display = "block";
       document.getElementById("masA").style.display = "block";
       document.getElementById("DatosAsegurado").style.display = "none";
+      document.getElementById("loaderPlaca").style.display = "none";
     });
 }
 
@@ -1685,7 +1705,7 @@ const mostrarOferta = (
                                       <div class="col-xs-12 col-sm-6 col-md-2 oferta-logo">
                                       <center>
   
-                                          <img src='vistas/img/logos/${logo}'>
+                                          <img src='vistas/img/logos/${logo}' style="${aseguradora == "Liberty" ? "margin-top: 3px;" : null}">
   
                     </center>  
   
@@ -2760,10 +2780,10 @@ function cotizarOfertas() {
                           "Zurich",
                           "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
                         );
-                        validarProblema(aseguradora, [
+                        validarProblema("Zurich", [
                           {
                             Mensajes: [
-                              "Error Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
+                              "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
                             ],
                           },
                         ]);
@@ -2821,10 +2841,10 @@ function cotizarOfertas() {
                       .catch((err) => {
                         agregarAseguradoraFallida("Estado");
                         mostrarAlertarCotizacionFallida(
-                          aseguradora,
+                          "Estado",
                           "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
                         );
-                        validarProblema(aseguradora, [
+                        validarProblema("Estado", [
                           {
                             Mensajes: [
                               "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",

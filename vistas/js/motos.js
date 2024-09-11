@@ -685,6 +685,7 @@ function consulPlacaMapfre(valnumplaca) {
         document.getElementById("headerAsegurado").style.display = "block";
         document.getElementById("masA").style.display = "block";
         document.getElementById("DatosAsegurado").style.display = "none";
+        document.getElementById("loaderPlaca").style.display = "none";
       }
     })
     .catch(function (error) {
@@ -692,6 +693,7 @@ function consulPlacaMapfre(valnumplaca) {
       document.getElementById("headerAsegurado").style.display = "block";
       document.getElementById("masA").style.display = "block";
       document.getElementById("DatosAsegurado").style.display = "none";
+      document.getElementById("loaderPlaca").style.display = "none";
     });
 }
 
@@ -1107,7 +1109,7 @@ function cotizarFinesaMotos(ofertasCotizaciones) {
 
             return fetch(
               "https://www.grupoasistencia.com/motor_webservice/saveDataQuotationsFinesa",
-              // "http://localhost/motorTest/saveDataQuotationsFinesa",
+             //"http://localhost/motorTest/saveDataQuotationsFinesa",
               {
                 method: "POST",
                 headers: headers,
@@ -2246,10 +2248,11 @@ function cotizarOfertasMotos() {
             } else if (aseguradora === "Liberty") {
               const planes = ["INTEGRAL", "BASICO + PT", "FULL"];
               planes.forEach((plan) => {
-                let body = JSON.parse(requestOptions.body);
-                body.plan = plan;
-                requestOptions.body = JSON.stringify(body);
-                url = `https://grupoasistencia.com/motor_webservice_tst2/${aseguradora}_motos`;
+              let body = JSON.parse(requestOptions.body);
+              body.plan = plan;
+              requestOptions.body = JSON.stringify(body);
+              url = `https://grupoasistencia.com/motor_webservice_tst2/${aseguradora}_motos`;
+                //url = `https://grupoasistencia.com/motor_webservice/${aseguradora}_motos`;
                 cont.push(
                   fetch(url, requestOptions)
                     .then((res) => {
