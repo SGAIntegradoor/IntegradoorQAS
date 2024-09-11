@@ -38,7 +38,7 @@ checkUserStatus();
 
 ?>
 <script>
-	$(document).ready( async function() {
+	$(document).ready(async function() {
 		// Obtener el valor de la variable de sesión PHP en JavaScript
 		let permisosCotizacionesTotales = <?php echo isset($cotizTotales) ? json_encode($cotizTotales) : 'null'; ?>;
 		let cotHechas = await mostrarCotRestantes();
@@ -231,14 +231,14 @@ checkUserStatus();
 			/*=============================================
 		HOGAR
 		=============================================*/
-		if ($_SESSION["intermediario"] == "3" || $_SESSION["intermediario"] == "149" || $_SESSION["idUsuario"] == 34) {
-			echo '<li id="menuCotHog" class="' . ($currentPage == 'hogar' ? 'active' : '') . '">
+			if ($_SESSION["intermediario"] == "3" || $_SESSION["intermediario"] == "149" || $_SESSION["idUsuario"] == 34) {
+				echo '<li id="menuCotHog" class="' . ($currentPage == 'hogar' ? 'active' : '') . '">
 			<a href="hogar">
 				<i class="fa-solid fa-house-circle-check"></i>
 				<span>Cotizar Hogar</span>
 			</a>
 		</li>';
-		}
+			}
 
 			/*=============================================
 		MÓDULO SOAT
@@ -324,6 +324,16 @@ checkUserStatus();
 				</a>
 			</li>';
 			}
+			/*=============================================
+		SALUD
+		=============================================*/
+
+			echo '<li id="menuCoAssist" class="' . ($currentPage == 'salud' ? 'active' : '') . '">
+		<a href="salud">
+			<i class="fa fa-heartbeat" aria-hidden="true" style="font-size: 1.2em;"></i>
+			<span>Cotizador Seguro de Salud</span>
+		</a>
+	</li>';
 
 			/*=============================================
 		INVITACIÓN

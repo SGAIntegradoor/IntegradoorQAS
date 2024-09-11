@@ -379,6 +379,7 @@ CUERPO DOCUMENTO
         $_GET["ruta"] == "invitar" ||
         $_GET["ruta"] == "exequias" ||
         $_GET["ruta"] == "assistcard" ||
+        $_GET["ruta"] == "salud" ||
         $_GET["ruta"] == "soat" ||
         $_GET["ruta"] == "configuracion-pdf" ||
         $_GET["ruta"] == "hogar" ||
