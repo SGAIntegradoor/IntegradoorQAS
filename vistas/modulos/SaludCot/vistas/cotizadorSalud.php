@@ -85,7 +85,7 @@
 
     <div class="row ">
         <div class="col-xs-12 col-sm-6 col-md-6 rowAseg">
-            <label id="lblDatosAse">Datos Asegurado</label>
+            <label id="lblDatosAse">Datos Asegurado.</label>
         </div>
     </div>
 
