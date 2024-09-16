@@ -1153,7 +1153,7 @@ function editarCotizacion(id) {
                   case "Axa Colpatria":
                     resultado = "AXA";
                     break;
-                  case "HDI Seguros":
+                  case "HDI (Antes Liberty)":
                     resultado = "HDI";
                     break;
                   case "SBS Seguros":
@@ -1171,7 +1171,7 @@ function editarCotizacion(id) {
                     resultado = "Mapfre";
                     break;
                   case "Liberty Seguros":
-                    resultado = "Liberty";
+                    resultado = "HDI (Antes Liberty)";
                     break;
                   case "Aseguradora Solidaria":
                   case "Solidaria":
@@ -1312,7 +1312,7 @@ function editarCotizacion(id) {
                               <!-- Código para el caso específico de Axa Colpatria, Liberty, Equidad o Mapfre -->
                               <!-- Agrega aquí el contenido específico para estas aseguradoras -->
                             </center>`
-                              : oferta.Aseguradora !== "Mundial" &&
+                              : oferta.Aseguradora !== "Mundial" && oferta.Aseguradora !== "HDI (Antes Liberty)" &&
                                 permisos.Vernumerodecotizacionencadaaseguradora ==
                                   "x" &&
                                 aseguradoraPermisos == "1"
