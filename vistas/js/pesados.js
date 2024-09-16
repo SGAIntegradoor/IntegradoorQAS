@@ -2509,9 +2509,8 @@ function cotizarOfertasPesados() {
                 planesLiberty.forEach((plan) => {
                   body.plan = plan;
                   requestOptions.body = JSON.stringify(body);
-
                   let libertyPromise = fetch(
-                    "https://grupoasistencia.com/motor_webservice/Liberty_pesados",
+                    "https://grupoasistencia.com/motor_webservice/Liberty_pesadosQAS",
                     requestOptions
                   )
                     .then((res) => {
