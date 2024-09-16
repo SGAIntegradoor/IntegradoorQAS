@@ -1360,7 +1360,7 @@ const mostrarOfertaPesados = (
                         <div class='col-12' style='margin-top:2%;'>
                           ${
                             aseguradora !== "Mundial" &&
-                            aseguradora !== "HDI (Antes Liberty)" &&
+                            aseguradora !== "HDI" &&
                             permisos.Vernumerodecotizacionencadaaseguradora ==
                               "x"
                               ? `<center>
