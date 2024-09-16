@@ -1282,8 +1282,8 @@ const mostrarOfertaPesados = (
       $resultado = "Bolivar";
     } else if ($data == "Axa Colpatria") {
       $resultado = "AXA";
-    } else if ($data == "HDI (Antes Liberty)") {
-      $resultado = "HDI (Antes Liberty)";
+    } else if ($data == "HDI Seguros") {
+      $resultado = "HDI";
     } else if ($data == "SBS Seguros") {
       $resultado = "SBS";
     } else if ($data == "Allianz Seguros") {
@@ -1297,7 +1297,7 @@ const mostrarOfertaPesados = (
     } else if ($data == "Mapfre") {
       $resultado = "Mapfre";
     } else if ($data == "Liberty Seguros") {
-      $resultado = "Liberty";
+      $resultado = "HDI (Antes Liberty)";
     } else if ($data == "Aseguradora Solidaria") {
       $resultado = "Solidaria";
     } else if ($data == "Seguros Sura") {
