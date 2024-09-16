@@ -1283,7 +1283,7 @@ const mostrarOfertaPesados = (
     } else if ($data == "Axa Colpatria") {
       $resultado = "AXA";
     } else if ($data == "HDI Seguros") {
-      $resultado = "HDI";
+      $resultado = "HDI Seguros";
     } else if ($data == "SBS Seguros") {
       $resultado = "SBS";
     } else if ($data == "Allianz Seguros") {
@@ -1360,7 +1360,7 @@ const mostrarOfertaPesados = (
                         <div class='col-12' style='margin-top:2%;'>
                           ${
                             aseguradora !== "Mundial" &&
-                            aseguradora !== "HDI" &&
+                            aseguradora !== "HDI Seguros" &&
                             permisos.Vernumerodecotizacionencadaaseguradora ==
                               "x"
                               ? `<center>

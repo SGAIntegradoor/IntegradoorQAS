@@ -1154,7 +1154,7 @@ function editarCotizacion(id) {
                     resultado = "AXA";
                     break;
                   case "HDI Seguros":
-                    resultado = "HDI";
+                    resultado = "HDI Seguros";
                     break;
                   case "SBS Seguros":
                     resultado = "SBS";
