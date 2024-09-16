@@ -10,12 +10,19 @@
     font-weight: bold;
     font-size: larger;
     color: #88d600;
+    text-align: center;
 }
 
 .tittlePrice{
     font-weight: bold;
     font-size: 14px;
     color: black;
+}
+
+@media (max-width: 576px) {
+    .tittlePrice2 {
+        margin-top: 10px;
+    }
 }
 
 
@@ -94,8 +101,8 @@
 .custom-table-colum {
     margin-top: 20px;
     display: flex;
-    justify-content: flex-start;
-    margin-left: 130px;
+    justify-content: center;
+   
 }
 
 .custom-table th,
@@ -160,6 +167,11 @@
 .btn-table:active {
     color: white; /* Cambia el color del texto cuando el botón esté activo (presionado) */
 }
+
+.table-responsive {
+    overflow-x: auto;
+    border: none !important;
+  }
 
 /*///////////////////////////////////////////////////////////////////////////////// */
 

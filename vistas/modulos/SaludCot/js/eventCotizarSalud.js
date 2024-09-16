@@ -36,7 +36,7 @@ const COBERTURAS_SALUD_IDEAL = [
 function openModal() {
   Swal.fire({
     title: `
-      <div style="display: flex; align-items: center; border-top: 1px solid #d3d3d3; padding-top: 10px; margin-top: 20px;">
+      <div style="display: flex; align-items: center; border-top: 1px solid #d3d3d3;  margin: 0px 20px;">
         <div style="flex: 1;margin-left: 90px;">
           <strong>EXCLUSIONES PÓLIZAS DE SALUD</strong>
         </div>
@@ -44,7 +44,7 @@ function openModal() {
           <img src="vistas/modulos/SaludCot/img/logo-convenio-axa-colpatria.png" alt="Logo" style="max-height: 50px;">
         </div>
       </div>
-      <div style="border-bottom: 1px solid #d3d3d3; padding-bottom: 10px;"></div>`,
+      <div style="border-bottom: 1px solid #d3d3d3; margin: 0px 20px;"></div>`,
     html: `
       <div style="display: flex; justify-content: space-between; padding: 20px;">
         <div style="width: 45%;">
@@ -54,7 +54,7 @@ function openModal() {
             <li>Hipertensión arterial severa</li>
             <li>Cáncer</li>
             <li>Antecedentes de accidente cerebro vascular</li>
-            <li>Obesos con IMC > 36</li>
+            <li>Obesos con IMC (Índice de Masa Corporal)  > 36</li>
             <li>Enfermedades del colágeno: Artritis reumatoide, Lupus Eritematoso sistémico, Dermatomiositis, Síndrome antifosfolípidos</li>
             <li>Enfermedades autoinmunes</li>
             <li>Neurofibromatosis</li>
@@ -63,12 +63,11 @@ function openModal() {
             <li>Anorexia nerviosa y bulimia</li>
             <li>Autismo</li>
             <li>Enfermedades huérfanas</li>
-            <li>Antecedente de hospitalización por Covid-19, se valida con copia de historia clínica</li>
           </ul>
         </div>
         <div style="width: 45%;">
           <ul style="text-align: left;">
-            <li>Hemofilia o trastornos de coagulación Pacientes anticoagulados.</li>
+            <li>Hemofilia o trastornos de coagulación. Pacientes anticoagulados.</li>
             <li>VIH-SIDA</li>
             <li>Paciente oxígeno dependiente</li>
             <li>Síndrome de Down</li>
@@ -80,13 +79,14 @@ function openModal() {
             <li>EPOC (Enfermedad Pulmonar Obstructiva Crónica)</li>
             <li>Cirugías pendientes,  post operatorio recientes, tratamientos médicos en curso</li>
             <li>Insuficiencia renal</li>
+            <li>Antecedente de hospitalización por Covid-19, se valida con copia de historia clínica</li>
           </ul>
         </div>
       </div>
     `,
     showCloseButton: true,
     confirmButtonText: 'Cerrar',
-    width: '47%',
+    width: '80%',
     customClass: {
       closeButton: 'swal2-close'
     }
@@ -452,12 +452,9 @@ function validateFormFields() {
 function validateNames() {
   var lblName = $("#lblDatosAse");
   var suffix = $("#grupoFamiliar").is(":checked") ? "1" : "";
+  var text = $("#si").is(":checked") ? "Tomador Asegurado" : "Datos Asegurado";
 
-  if ($("#si").is(":checked")) {
-    lblName.text("Tomador Asegurado " + suffix);
-  } else {
-    lblName.text("Datos Asegurado " + suffix);
-  }
+  lblName.text(text + (suffix ? " " + suffix : "") + ".");
 }
 
 /**
@@ -547,7 +544,7 @@ function makeIndividualCard(nombrePlan, precioMensual, precioTrimestral, precioS
           </div>
 
           <div class="col-xs-12 col-sm-6 col-md-5 oferta-logo infoPlanes">
-                <div class='row textCenter'>
+                <div class='row textCenter tittlePrice2'>
                     <span class="tittlePrice">
                         ${tipoCotizacion === 1 
                             ? "Precio total según periodicidad de pago (IVA incluido)" 
@@ -636,31 +633,33 @@ function makeTable(asegurados, plan_id) {
   const buttonId = `toggleBtn_${plan_id}`;
 
   let tableHTML = `
-  <div class="container flex-colum">
+
+  <div class="container flex-colum table-responsive">
       <div class="row custom-table-colum">
-          <div class="col-12">
-              <button id="${buttonId}" class=" btn-table float-left" data-target="#${uniqueId}">Ver detalle de precios por asegurado</button>
+            <div class="col-12">
+              <button id="${buttonId}" class="btn-table float-left" data-target="#${uniqueId}">Ver detalle de precios por asegurado</button>
           </div>
       </div>
       <div class="row">
           <div class="col-12">
-              <table id="${uniqueId}" class="table table-striped custom-table" style="display: none;">
-                  <thead>
-                      <tr class="">
-                          <th colspan="3" class="periodicity-header-empty"></th> 
-                          <th colspan="4" class="periodicity-header">Periodicidad de Pago</th>
-                      </tr>
-                      <tr class="header-row">
-                          <th>Asegurado</th>
-                          <th>Género</th>
-                          <th>Edad</th>
-                          <th>Mensual</th>
-                          <th>Trimestral</th>
-                          <th>Semestral</th>
-                          <th>Anual</th>
-                      </tr>
-                  </thead>
-                  <tbody>`;
+              <div class="table-responsive"> 
+                  <table id="${uniqueId}" class="table table-striped custom-table" style="display: none;">
+                      <thead>
+                          <tr class="">
+                              <th colspan="3" class="periodicity-header-empty"></th> 
+                              <th colspan="4" class="periodicity-header">Periodicidad de Pago</th>
+                          </tr>
+                          <tr class="header-row">
+                              <th>Asegurado</th>
+                              <th>Género</th>
+                              <th>Edad</th>
+                              <th>Mensual</th>
+                              <th>Trimestral</th>
+                              <th>Semestral</th>
+                              <th>Anual</th>
+                          </tr>
+                      </thead>
+                      <tbody>`;
 
   let subtotalMensual = 0, subtotalTrimestral = 0, subtotalSemestral = 0, subtotalAnual = 0;
 
@@ -702,40 +701,42 @@ function makeTable(asegurados, plan_id) {
   let totalAnual = subtotalAnual + ivaAnual;
 
   tableHTML += `
-              </tbody>
-              <tfoot>
-                  <tr class="bold-row">
-                      <th class="th-out-border"></th>
-                      <td colspan="2">Subtotal</td>
-                      <td>$${processValue(subtotalMensual, 0)}</td>
-                      <td>$${processValue(subtotalTrimestral, 0)}</td>
-                      <td>$${processValue(subtotalSemestral, 0)}</td>
-                      <td>$${processValue(subtotalAnual, 0)}</td>
-                  </tr>
-                  <tr class="bold-row">
-                      <th class="th-out-border"></th>
-                      <td colspan="2">IVA (5%)</td>
-                      <td>$${processValue(ivaMensual, 0)}</td>
-                      <td>$${processValue(ivaTrimestral, 0)}</td>
-                      <td>$${processValue(ivaSemestral, 0)}</td>
-                      <td>$${processValue(ivaAnual, 0)}</td>
-                  </tr>
-                  <tr class="bold-row">
-                      <th class="th-out-border"></th>
-                      <td colspan="2">Total</td>
-                      <td>$${processValue(totalMensual, 0)}</td>
-                      <td>$${processValue(totalTrimestral, 0)}</td>
-                      <td>$${processValue(totalSemestral, 0)}</td>
-                      <td>$${processValue(totalAnual, 0)}</td>
-                  </tr>
-              </tfoot>
-          </table>
+                      </tbody>
+                      <tfoot>
+                          <tr class="bold-row">
+                              <th class="th-out-border"></th>
+                              <td colspan="2">Subtotal</td>
+                              <td>$${processValue(subtotalMensual, 0)}</td>
+                              <td>$${processValue(subtotalTrimestral, 0)}</td>
+                              <td>$${processValue(subtotalSemestral, 0)}</td>
+                              <td>$${processValue(subtotalAnual, 0)}</td>
+                          </tr>
+                          <tr class="bold-row">
+                              <th class="th-out-border"></th>
+                              <td colspan="2">IVA (5%)</td>
+                              <td>$${processValue(ivaMensual, 0)}</td>
+                              <td>$${processValue(ivaTrimestral, 0)}</td>
+                              <td>$${processValue(ivaSemestral, 0)}</td>
+                              <td>$${processValue(ivaAnual, 0)}</td>
+                          </tr>
+                          <tr class="bold-row">
+                              <th class="th-out-border"></th>
+                              <td colspan="2">Total</td>
+                              <td>$${processValue(totalMensual, 0)}</td>
+                              <td>$${processValue(totalTrimestral, 0)}</td>
+                              <td>$${processValue(totalSemestral, 0)}</td>
+                              <td>$${processValue(totalAnual, 0)}</td>
+                          </tr>
+                      </tfoot>
+                  </table>
+              </div> <!-- Fin del contenedor table-responsive -->
+          </div>
       </div>
-  </div>
-</div>`;
+  </div>`;
 
   return tableHTML;
 }
+
 
 /**
  * Manager para generar las cards en general.
@@ -978,6 +979,7 @@ function cotizar() {
       alert("Error");
     },
   });
+  window.scrollTo(0, 0);
 }
 
 /**
