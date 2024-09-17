@@ -3390,7 +3390,7 @@ $("#btnConsultarVehmanualbuscador").click(function () {
               }
             });
           }
-          let found = tipoVehiculo.find((element) => element == claseVeh);
+          let found = vehiculoPermitidoPesados.find((element) => element == claseVeh);
 
           if (!found && control) {
             Swal.fire({
