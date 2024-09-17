@@ -3373,12 +3373,26 @@ $("#btnConsultarVehmanualbuscador").click(function () {
         } else {
           // console.log(data);
           var claseVeh = data.clase;
+          let control = false;
+          if(!data.estado){
+            control = true;
+            return  Swal.fire({
+              icon: "warning",
+              title:
+                "Vehículo no encontrado, revise el código fasecolda e inténtelo nuevamente.",
+              confirmButtonText: "Cerrar",
+              allowOutsideClick: false,
+            }).then((result) => {
+              if (result.isConfirmed) {
+                window.location = "cotizar";
+              } else if (result.isDenied) {
+                window.location = "cotizar";
+              }
+            });
+          }
+          let found = tipoVehiculo.find((element) => element == claseVeh);
 
-          let found = vehiculoPermitidoPesados.find(
-            (element) => element == claseVeh
-          );
-
-          if (!found) {
+          if (!found && control) {
             Swal.fire({
               icon: "error",
               title:
