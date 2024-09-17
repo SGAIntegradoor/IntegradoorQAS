@@ -2909,7 +2909,7 @@ function cotizarOfertas() {
               // $("#btnCotizar").hide();
               $("#loaderOferta").html("");
               //$("#loaderOfertaBox").css("display", "none");
-              if (intermediario != 3) {
+              if (intermediario != 3 && intermediario != 149) {
                 swal.fire({
                   title: "¡Proceso de Cotización Finalizada!",
                   showConfirmButton: true,
@@ -3894,7 +3894,7 @@ function cotizarOfertas() {
             (cotizaciones) => cotizaciones.cotizada === null
           );
           if (nuevas.length > 0) {
-            if (intermediario != 3) {
+            if (intermediario != 3 && intermediario != 149) {
               swal.fire({
                 title: "¡Proceso de  Re-Cotización Finalizada!",
                 showConfirmButton: true,
