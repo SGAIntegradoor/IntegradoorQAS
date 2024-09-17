@@ -1608,7 +1608,7 @@ function editarCotizacion(id) {
 											</div>`;
               } else if (
                 oferta.Manual == "0" &&
-                oferta.Aseguradora == "Previsora Seguros" &&
+                oferta.Aseguradora == "Previsora" &&
                 oferta.UrlPdf !== null &&
                 aseguradoraPermisos == "1"
               ) {
