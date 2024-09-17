@@ -2066,6 +2066,7 @@ function cotizarOfertasPesados() {
         intermediario: intermediario,
         mundial: mundial,
         lineaVeh: lineaVeh,
+        marcaVeh: marcaVeh,
         AXA: {
           cre_axa_sslcertfile: cre_axa_sslcertfile,
           cre_axa_sslkeyfile: cre_axa_sslkeyfile,
