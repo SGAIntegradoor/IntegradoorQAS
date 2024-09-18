@@ -1781,7 +1781,7 @@ function cotizarFinesa(ofertasCotizaciones) {
       console.error("Error en las promesas: ", error);
     })
     .finally(() => {
-      console.log(cotEnFinesaResponse);
+      // console.log(cotEnFinesaResponse);
     });
 }
 
