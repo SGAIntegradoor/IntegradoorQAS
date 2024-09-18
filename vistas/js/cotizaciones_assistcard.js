@@ -16,18 +16,19 @@ let getParams = (param) => {
   return options;
 }
 
+
 function changeTitlePage() {
   var newTittle = "Datos del Viaje";
   $("#lblDataTrip").text(newTittle);
 }
-
 if (getParams("idCotizacionAssistCard").length > 0) {
-  editarCotizacionAssistcard(options[0]);
+  editarCotizacionAssistcard(getParams("idCotizacionAssistCard")[0]);
   changeTitlePage();
 } else if(getParams("fechaInicialCotizaciones").length > 0){
   menosCotizaciones();
 }
 
+console.log()
 
 $("#daterange-btnCotizacionesAssistCard").daterangepicker(
   {
@@ -210,6 +211,7 @@ $("#menosParrilla, #masParrilla").click(function () {
 
 function editarCotizacionAssistcard(id) {
   idCotizacionAssistCard = id; // Almacena el Id en la variable global de idCotización
+  console.log(id)
   var datos = new FormData();
 
   datos.append("idCotizacionAssistCard", idCotizacionAssistCard);

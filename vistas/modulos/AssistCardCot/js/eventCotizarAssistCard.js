@@ -48,7 +48,7 @@ const planesPorDestinoEstudiantiles = {
   "07": "10475", // Oceania // Internacional
   "08": "10474", // Latam 365 Dias +
   "09": "10476", // Internacional 365 Dias +
-  10: "10478", // Norte America y Canada 365 +
+  "10": "10478", // Norte America y Canada 365 +
 };
 
 // Cargar el select de origen
