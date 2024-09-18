@@ -1094,7 +1094,7 @@ function consulDatosFasecolda(codFasecolda, edadVeh) {
           //   } else if (result.isDismissed) {
           //     window.location.href = "cotizar";
           //   }
-          // });
+          // });console.log(data);
         } else {
           // console.log(data);
           var claseVeh = data.clase;
@@ -1220,7 +1220,7 @@ function registrarOfertaPesados(
         identityElement: actIdentity != "" ? actIdentity : NULL,
       },
       success: function (data) {
-        console.log(data);
+        //console.log(data);
         resolve();
       },
       error: function (error) {
@@ -1516,9 +1516,6 @@ function validarOfertasPesados(ofertas, aseguradora, exito) {
       oferta.imagen,
       oferta.pdf
     );
-
-    console.log(actIdentity);
-
     registrarOfertaPesados(
       oferta.entidad,
       oferta.precio,
@@ -1652,7 +1649,7 @@ function obtenerFechaActual(incrementarAnio = false) {
 }
 
 function saveQuotations(responses) {
-  console.log(responses);
+  // console.log(responses);
   let dataToDB = [];
   if (Array.isArray(responses) && responses.length >= 1) {
     dataToDB = responses.map((element) => {
@@ -1673,7 +1670,7 @@ function cotizarFinesa(ofertasCotizaciones) {
   const tipoId = document.getElementById("tipoDocumentoID").value;
 
   ofertasCotizaciones.forEach((element, index) => {
-    console.log(element);
+    //console.log(element);
     let data = {
       fecha_cotizacion: obtenerFechaActual(),
       valor_poliza: element.prima,
@@ -2699,7 +2696,7 @@ function cotizarOfertasPesados() {
                 cont.push(promise);
               }
             });
-            console.log(cont, "cotizacion");
+            //console.log(cont, "cotizacion");
             Promise.all(cont).then(() => {
               // $("#btnCotizar").hide();
               $("#loaderOferta").html("");

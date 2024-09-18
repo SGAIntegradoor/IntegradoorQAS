@@ -1818,44 +1818,44 @@ foreach ($resultados as $resultado) {
 
 $html4 .= '</tr>';
 
-$html4 .= '<tr>';
+// $html4 .= '<tr>';
 
 
-if ($rowValidate > 3) {
-	$html4 .= '<td class="fondo2 puntos" style="width:25%;"><div style="font-size:6pt">&nbsp;</div><font size="8" style="font-family:dejavusanscondensedb; text-align: center;">Grua varada o accidente</font></td>';
-} else if ($rowValidate > 1) {
-	$html4 .= '<td class="fondo2 puntos" style="width:25%;"><div style="font-size:6pt">&nbsp;</div><font size="8" style="font-family:dejavusanscondensedb; text-align: center;">Grua varada o accidente</font></td>';
-} else {
-	$html4 .= '<td class="fondo2 puntos" style="width:25%;"><div style="font-size:6pt">&nbsp;</div><font size="8" style="font-family:dejavusanscondensedb; text-align: center;">Grua varada o accidente</font></td>';
-}
+// if ($rowValidate > 3) {
+// 	$html4 .= '<td class="fondo2 puntos" style="width:25%;"><div style="font-size:6pt">&nbsp;</div><font size="8" style="font-family:dejavusanscondensedb; text-align: center;">Grua varada o accidente</font></td>';
+// } else if ($rowValidate > 1) {
+// 	$html4 .= '<td class="fondo2 puntos" style="width:25%;"><div style="font-size:6pt">&nbsp;</div><font size="8" style="font-family:dejavusanscondensedb; text-align: center;">Grua varada o accidente</font></td>';
+// } else {
+// 	$html4 .= '<td class="fondo2 puntos" style="width:25%;"><div style="font-size:6pt">&nbsp;</div><font size="8" style="font-family:dejavusanscondensedb; text-align: center;">Grua varada o accidente</font></td>';
+// }
 
-$cont11 = 1;
-foreach ($resultados as $resultado) {
+// $cont11 = 1;
+// foreach ($resultados as $resultado) {
 
-	$pdf->SetFont('dejavusanscondensed', '', 8);
-	$nombreAseguradora = nombreAseguradora($resultado['Aseguradora']);
-	$nombreProducto = productoAseguradora($resultado['Aseguradora'], $resultado['Producto']);
+// 	$pdf->SetFont('dejavusanscondensed', '', 8);
+// 	$nombreAseguradora = nombreAseguradora($resultado['Aseguradora']);
+// 	$nombreProducto = productoAseguradora($resultado['Aseguradora'], $resultado['Producto']);
 
-	$queryConsultaAsistencia7 = "SELECT * FROM asistencias WHERE `aseguradora` LIKE '$nombreAseguradora' AND `producto` LIKE '$nombreProducto'";
-	$respuestaqueryAsistencia7 =  $conexion->query($queryConsultaAsistencia7);
-	$rowRespuestaAsistencia7 = mysqli_fetch_assoc($respuestaqueryAsistencia7);
+// 	$queryConsultaAsistencia7 = "SELECT * FROM asistencias WHERE `aseguradora` LIKE '$nombreAseguradora' AND `producto` LIKE '$nombreProducto'";
+// 	$respuestaqueryAsistencia7 =  $conexion->query($queryConsultaAsistencia7);
+// 	$rowRespuestaAsistencia7 = mysqli_fetch_assoc($respuestaqueryAsistencia7);
 
-	if ($cont11 % 2 == 0) {
-		if ($rowRespuestaAsistencia7['Grua'] == "Si ampara") {
-			$html4 .= '<td class="puntos fondo2" style="width:' . $valorTabla . '%;text-align: center;"><div style="font-size:6pt">&nbsp;</div><img style="width:16px;" src="../../../vistas/img/logos/cheque.png" alt=""></td>';
-		} else {
-			$html4 .= '<td class="puntos fondo2" style="width:' . $valorTabla . '%;"><center><div style="font-size:6pt">&nbsp;</div><font size="7"style="text-align: center; font-family:dejavusanscondensed;">' . $rowRespuestaAsistencia7['Grua'] . '</font></center></td>';
-		}
-	} else {
-		if ($rowRespuestaAsistencia7['Grua'] == "Si ampara") {
-			$html4 .= '<td class="puntos fondo" style="width:' . $valorTabla . '%;text-align: center;"><div style="font-size:6pt">&nbsp;</div><img style="width:16px;" src="../../../vistas/img/logos/cheque.png" alt=""></td>';
-		} else {
-			$html4 .= '<td class="puntos fondo" style="width:' . $valorTabla . '%;"><center><div style="font-size:6pt">&nbsp;</div><font size="7"style="text-align: center; font-family:dejavusanscondensed;">' . $rowRespuestaAsistencia7['Grua'] . '</font></center></td>';
-		}
-	}
-	$cont11 += 1;
-}
-$html4 .= '</tr>';
+// 	if ($cont11 % 2 == 0) {
+// 		if ($rowRespuestaAsistencia7['Grua'] == "Si ampara") {
+// 			$html4 .= '<td class="puntos fondo2" style="width:' . $valorTabla . '%;text-align: center;"><div style="font-size:6pt">&nbsp;</div><img style="width:16px;" src="../../../vistas/img/logos/cheque.png" alt=""></td>';
+// 		} else {
+// 			$html4 .= '<td class="puntos fondo2" style="width:' . $valorTabla . '%;"><center><div style="font-size:6pt">&nbsp;</div><font size="7"style="text-align: center; font-family:dejavusanscondensed;">' . $rowRespuestaAsistencia7['Grua'] . '</font></center></td>';
+// 		}
+// 	} else {
+// 		if ($rowRespuestaAsistencia7['Grua'] == "Si ampara") {
+// 			$html4 .= '<td class="puntos fondo" style="width:' . $valorTabla . '%;text-align: center;"><div style="font-size:6pt">&nbsp;</div><img style="width:16px;" src="../../../vistas/img/logos/cheque.png" alt=""></td>';
+// 		} else {
+// 			$html4 .= '<td class="puntos fondo" style="width:' . $valorTabla . '%;"><center><div style="font-size:6pt">&nbsp;</div><font size="7"style="text-align: center; font-family:dejavusanscondensed;">' . $rowRespuestaAsistencia7['Grua'] . '</font></center></td>';
+// 		}
+// 	}
+// 	$cont11 += 1;
+// }
+// $html4 .= '</tr>';
 
 
 $html4 .= '<tr>';
@@ -2884,9 +2884,9 @@ function nombreAseguradora($data)
 	} else if ($data == 'Axa Colpatria') {
 		$resultado = "Axa Colpatria";
 	} else if ($data == 'HDI Seguros') {
-		$resultado = "HDI";
+		$resultado = "HDI Seguros";
 	} else if ($data == 'Seguros HDI') {
-		$resultado = "HDI";
+		$resultado = "HDI Seguros";
 	} else if ($data == 'SBS Seguros') {
 		$resultado = "SBS";
 	} else if ($data == 'Allianz Seguros') {
