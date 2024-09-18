@@ -1403,7 +1403,9 @@ const mostrarOfertaPesados = (
                   <div class="col-xs-12 col-sm-6 col-md-4">
                     <ul class="list-group">
                       <li class="list-group-item">
-                        <span class="badge">* ${RC !== "No cubre" ? "$" : ""}${RC}</span>
+                        <span class="badge">* ${
+                          RC !== "No cubre" ? "$" : ""
+                        }${RC}</span>
                         Responsabilidad Civil (RCE)
                       </li>
                       <li class="list-group-item">
@@ -1720,7 +1722,7 @@ function cotizarFinesa(ofertasCotizaciones) {
                 const elementDiv = document.getElementById(element.objFinesa);
                 if (
                   element.aseguradora == "Seguros Bolivar" ||
-                  element.aseguradora == "Liberty"
+                  element.aseguradora == "HDI (Antes Liberty)"
                 ) {
                   cotizacionesFinesa[index].cotizada = true;
                   elementDiv.innerHTML = `Financiación Aseguradora:<br /> Consulte analista`;
@@ -2697,7 +2699,7 @@ function cotizarOfertasPesados() {
                 cont.push(promise);
               }
             });
-
+            console.log(cont, "cotizacion");
             Promise.all(cont).then(() => {
               // $("#btnCotizar").hide();
               $("#loaderOferta").html("");
@@ -2822,7 +2824,7 @@ function cotizarOfertasPesados() {
           body: JSON.stringify(raw),
           redirect: "follow",
         };
-
+        let cont2 = [];
         const mostrarAlertaCotizacionExitosa = (aseguradora, contador) => {
           if (aseguradora == "Estado2") {
             aseguradora = "Estado";
@@ -2967,8 +2969,6 @@ function cotizarOfertasPesados() {
           celdaResponse.appendChild(loadingElement);
         });
 
-        let cont = [];
-
         /* Liberty */
         const libertyPromise = comprobarFallidaPesados("Liberty")
           ? fetch(
@@ -3013,7 +3013,7 @@ function cotizarOfertasPesados() {
               })
           : Promise.resolve();
 
-        cont.push(libertyPromise);
+        cont2.push(libertyPromise);
 
         const axaPromise = comprobarFallidaPesados("AXA")
           ? fetch(
@@ -3058,7 +3058,7 @@ function cotizarOfertasPesados() {
               })
           : Promise.resolve();
 
-        cont.push(axaPromise);
+        cont2.push(axaPromise);
 
         const previsoraPromise = comprobarFallidaPesados("Previsora")
           ? fetch(
@@ -3102,78 +3102,81 @@ function cotizarOfertasPesados() {
                     ],
                   },
                 ]);
-                console.error(err)
+                console.error(err);
               })
           : Promise.resolve();
 
-        cont.push(previsoraPromise);
-      }
+        cont2.push(previsoraPromise);
 
-      Promise.all(cont).then(() => {
-        $("#loaderOferta").html("");
-        $("#loaderRecotOferta").html("");
-        let nuevasPesadas = cotizacionesFinesa.filter(
-          (cotizaciones) => cotizaciones.cotizada === null
-        );
-        if (nuevasPesadas.length > 0) {
-          if (intermediario != 3 && intermediario != 149) {
+        if (cont2 == 0) {
+          console.log("Es Cero");
+        }
+
+        Promise.all(cont2).then(() => {
+          $("#loaderOferta").html("");
+          $("#loaderRecotOferta").html("");
+          let nuevasPesadas = cotizacionesFinesa.filter(
+            (cotizaciones) => cotizaciones.cotizada === null
+          );
+          if (nuevasPesadas.length > 0) {
+            if (intermediario != 3 && intermediario != 149) {
+              swal.fire({
+                title: "¡Proceso de  Re-Cotización Finalizada!",
+                showConfirmButton: true,
+                confirmButtonText: "Cerrar",
+              });
+            } else {
+              swal
+                .fire({
+                  title: "¡Proceso de Re-Cotización Finalizada!",
+                  text: "¿Deseas incluir la financiación con Finesa a 11 cuotas?",
+                  showConfirmButton: true,
+                  confirmButtonText: "Si",
+                  showCancelButton: true,
+                  cancelButtonText: "No",
+                  customClass: {
+                    title: "custom-title-messageFinesa",
+                    htmlContainer: "custom-text-messageFinesa",
+                    popup: "custom-popup-messageFinesa",
+                    actions: "custom-actions-messageFinesa",
+                    confirmButton: "custom-confirmnButton-messageFinesa",
+                    cancelButton: "custom-cancelButton-messageFinesa",
+                  },
+                })
+                .then(function (result) {
+                  if (result.isConfirmed) {
+                    $("#loaderRecotOfertaBox").css("display", "block");
+                    $("#loaderRecotOferta").html(
+                      '<img src="vistas/img/plantilla/loader-update.gif" width="34" height="34"><strong>Re-Cotizando en Finesa...</strong>'
+                    );
+                    let btnRecot = document.getElementById(
+                      "btnReCotizarFallidas"
+                    );
+                    btnRecot.disabled = true;
+                    cotizarFinesa(cotizacionesFinesa);
+                  } else if (result.isDismissed && cotizacionesFinesa) {
+                    if (result.dismiss === "cancel") {
+                      $("#loaderRecotOfertaBox").css("display", "none");
+                      $("#loaderRecotOferta").html("");
+                    } else if (result.dismiss === "backdrop") {
+                      $("#loaderRecotOfertaBox").css("display", "none");
+                      $("#loaderRecotOferta").html("");
+                    }
+                  }
+                });
+            }
+          } else {
             swal.fire({
-              title: "¡Proceso de  Re-Cotización Finalizada!",
+              title: "¡Proceso de Re-Cotización Finalizada!",
               showConfirmButton: true,
               confirmButtonText: "Cerrar",
             });
-          } else {
-            swal
-              .fire({
-                title: "¡Proceso de Re-Cotización Finalizada!",
-                text: "¿Deseas incluir la financiación con Finesa a 11 cuotas?",
-                showConfirmButton: true,
-                confirmButtonText: "Si",
-                showCancelButton: true,
-                cancelButtonText: "No",
-                customClass: {
-                  title: "custom-title-messageFinesa",
-                  htmlContainer: "custom-text-messageFinesa",
-                  popup: "custom-popup-messageFinesa",
-                  actions: "custom-actions-messageFinesa",
-                  confirmButton: "custom-confirmnButton-messageFinesa",
-                  cancelButton: "custom-cancelButton-messageFinesa",
-                },
-              })
-              .then(function (result) {
-                if (result.isConfirmed) {
-                  $("#loaderRecotOfertaBox").css("display", "block");
-                  $("#loaderRecotOferta").html(
-                    '<img src="vistas/img/plantilla/loader-update.gif" width="34" height="34"><strong>Re-Cotizando en Finesa...</strong>'
-                  );
-                  let btnRecot = document.getElementById(
-                    "btnReCotizarFallidas"
-                  );
-                  btnRecot.disabled = true;
-                  cotizarFinesa(cotizacionesFinesa);
-                } else if (result.isDismissed && cotizacionesFinesa) {
-                  if (result.dismiss === "cancel") {
-                    $("#loaderRecotOfertaBox").css("display", "none");
-                    $("#loaderRecotOferta").html("");
-                  } else if (result.dismiss === "backdrop") {
-                    $("#loaderRecotOfertaBox").css("display", "none");
-                    $("#loaderRecotOferta").html("");
-                  }
-                }
-              });
           }
-        } else {
-          swal.fire({
-            title: "¡Proceso de Re-Cotización Finalizada!",
-            showConfirmButton: true,
-            confirmButtonText: "Cerrar",
-          });
-        }
-      });
+        });
+      }
     }
   }
 }
-
 document.querySelector("#txtFasecolda").addEventListener("keypress", (e) => {
   if (e.keyCode === 13) {
     e.preventDefault();
@@ -3374,9 +3377,9 @@ $("#btnConsultarVehmanualbuscador").click(function () {
           // console.log(data);
           var claseVeh = data.clase;
           let control = false;
-          if(!data.estado){
+          if (!data.estado) {
             control = true;
-            return  Swal.fire({
+            return Swal.fire({
               icon: "warning",
               title:
                 "Vehículo no encontrado, revise el código fasecolda e inténtelo nuevamente.",
@@ -3390,7 +3393,9 @@ $("#btnConsultarVehmanualbuscador").click(function () {
               }
             });
           }
-          let found = vehiculoPermitidoPesados.find((element) => element == claseVeh);
+          let found = vehiculoPermitidoPesados.find(
+            (element) => element == claseVeh
+          );
 
           if (!found && control) {
             Swal.fire({
