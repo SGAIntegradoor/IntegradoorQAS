@@ -432,8 +432,9 @@ while ($i < count($resultados)) {
 		case 'Seguros HDI':
 		case 'HDI Seguros':
 			$html2 .= '<td class="puntos td2 ' . $fondo_class . '" style="  font-size: 6.5px; font-family:dejavusanscondensedb;">
+			<div style="font-size:8.5pt">&nbsp;</div>
 			<img style="width:40px;" src="../../../vistas/img/logos/hdi.png" alt="">
-			<div style="font-size:16pt">&nbsp;</div>
+			<div style="font-size:8.5pt">&nbsp;</div>
 			<span style="color:#666666;">' . ($resultados[$i]['Producto'] == 'VEHICULO SEGURO HDI PEAU 100%' ? 'HDI Peau 100%' : $resultados[$i]['Producto']) . '</span>
 			</td>';
 			break;
@@ -517,9 +518,9 @@ while ($i < count($resultados)) {
 			$productoOriginal = $resultados[$i]['Producto'];
 			$previsoraProducto = isset($productosMap[$productoOriginal]) ? $productosMap[$productoOriginal] : $productoOriginal;
 			$html2 .= '<td class="puntos td2 ' . $fondo_class . '" style="font-size: 6.5px; font-family:dejavusanscondensedb;">
-			<div style="font-size: 1.2pt">&nbsp;</div>
+			<div style="font-size: 11.2pt">&nbsp;</div>
 			<img style="width:40px;" src="../../../vistas/img/logos/previsora.png" alt="">
-			<div style="font-size: 5.5pt">&nbsp;</div>
+			<div style="font-size: 10pt">&nbsp;</div>
 			<span style="color:#666666;">' . $previsoraProducto . '</span>
 			</td>';
 			break;
