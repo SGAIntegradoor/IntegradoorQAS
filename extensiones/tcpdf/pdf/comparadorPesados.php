@@ -310,6 +310,10 @@ $htmlpesado1 .= '
 </table>
 ';
 
+
+// var_dump($resultados);
+
+
 $pdf->SetFont('dejavusanscondensed', 'I', 15);
 $pdf->SetXY(0, 86);
 $pdf->writeHTML($htmlpesado1, true, false, true, false, '');
@@ -429,7 +433,7 @@ while ($i < count($resultados)) {
 		case 'HDI Seguros':
 			$html2 .= '<td class="puntos td2 ' . $fondo_class . '" style="  font-size: 6.5px; font-family:dejavusanscondensedb;">
 			<img style="width:40px;" src="../../../vistas/img/logos/hdi.png" alt="">
-			<div style="font-size:3pt">&nbsp;</div>
+			<div style="font-size:16pt">&nbsp;</div>
 			<span style="color:#666666;">' . ($resultados[$i]['Producto'] == 'VEHICULO SEGURO HDI PEAU 100%' ? 'HDI Peau 100%' : $resultados[$i]['Producto']) . '</span>
 			</td>';
 			break;
@@ -538,6 +542,7 @@ while ($i < count($resultados)) {
 			break;
 		case 'Liberty Seguros':
 		case 'Liberty':
+		case 'HDI (Antes Liberty)':
 			$productosMap = [
 				"Pesados Integral1" => "Pesados Integral",
 				"Pesados Full1" => "Pesados Full",
@@ -571,6 +576,8 @@ while ($i < count($resultados)) {
 
 $html2 .= '</tr>';
 
+// echo $html2;
+// die();
 
 $pdf->SetFont('dejavusanscondensed', '', 12);
 
@@ -816,11 +823,11 @@ foreach ($resultados as $resultado) {
 			<div style="font-size:4pt">&nbsp;</div>
 			<center><img style="width:35px;" src="../../../vistas/img/logos/allianz.png" alt=""></center>
 			</td>';
-		} else if ($resultado['Aseguradora'] == 'Liberty Seguros') {
+		} else if ($resultado['Aseguradora'] == 'HDI (Antes Liberty)') {
 			$html3 .= '<td class="puntos fondo" style="width:' . $valorTabla . '%;text-align: center;">
 			<center><img style="width:35px;" src="../../../vistas/img/logos/liberty.png" alt=""></center>
 			</td>';
-		} else if ($resultado['Aseguradora'] == 'Liberty') {
+		} else if ($resultado['Aseguradora'] == 'HDI (Antes Liberty)') {
 			$html3 .= '<td class="puntos fondo" style="width:' . $valorTabla . '%;text-align: center;">
 			<center><img style="width:35px;" src="../../../vistas/img/logos/liberty.png" alt=""></center>
 			</td>';
@@ -911,10 +918,10 @@ foreach ($resultados as $resultado) {
 			$html3 .= '<td class="puntos fondo2" style="width:' . $valorTabla . '%;text-align: center;">
 			<div style="font-size:4pt">&nbsp;</div>
 			<center><img style="width:35px;" src="../../../vistas/img/logos/allianz.png" alt=""></center></td>';
-		} else if ($resultado['Aseguradora'] == 'Liberty Seguros') {
+		} else if ($resultado['Aseguradora'] == 'HDI (Antes Liberty)') {
 			$html3 .= '<td class="puntos fondo2" style="width:' . $valorTabla . '%;text-align: center;">
 			<center><img style="width:35px;" src="../../../vistas/img/logos/liberty.png" alt=""></center></td>';
-		} else if ($resultado['Aseguradora'] == 'Liberty') {
+		} else if ($resultado['Aseguradora'] == 'HDI (Antes Liberty)') {
 			$html3 .= '<td class="puntos fondo2" style="width:' . $valorTabla . '%;text-align: center;">
 			<center><img style="width:35px;" src="../../../vistas/img/logos/liberty.png" alt=""></center></td>';
 		} else if ($resultado['Aseguradora'] == 'Seguros Mapfre') {
@@ -1362,13 +1369,13 @@ foreach ($resultados as $resultado) {
 			<img style="width:35px;" src="../../../vistas/img/logos/allianz.png" alt="">
 			<div style="font-size:5pt">&nbsp;</div>
 			</td>';
-		} else if ($resultado['Aseguradora'] == 'Liberty Seguros') {
+		} else if ($resultado['Aseguradora'] == 'HDI (Antes Liberty)') {
 			$html4 .= '<td class="puntos fondo" style="width:' . $valorTabla . '%;text-align: center;">
 			<div style="font-size:5pt">&nbsp;</div>
 			<img style="width:35px;" src="../../../vistas/img/logos/liberty.png" alt="">
 			<div style="font-size:5pt">&nbsp;</div>
 			</td>';
-		} else if ($resultado['Aseguradora'] == 'Liberty') {
+		} else if ($resultado['Aseguradora'] == 'HDI (Antes Liberty)') {
 			$html4 .= '<td class="puntos fondo" style="width:' . $valorTabla . '%;text-align: center;">
 			<div style="font-size:5pt">&nbsp;</div>
 			<img style="width:35px;" src="../../../vistas/img/logos/liberty.png" alt="">
@@ -1470,11 +1477,11 @@ foreach ($resultados as $resultado) {
 			$html4 .= '<td class="puntos fondo2" style="width:' . $valorTabla . '%;text-align: center;">
 			<div style="font-size:5pt">&nbsp;</div>
 			<img style="width:35px;" src="../../../vistas/img/logos/allianz.png" alt=""></td>';
-		} else if ($resultado['Aseguradora'] == 'Liberty Seguros') {
+		} else if ($resultado['Aseguradora'] == 'HDI (Antes Liberty)') {
 			$html4 .= '<td class="puntos fondo2" style="width:' . $valorTabla . '%;text-align: center;">
 			<div style="font-size:5pt">&nbsp;</div>
 			<img style="width:35px;" src="../../../vistas/img/logos/liberty.png" alt=""></td>';
-		} else if ($resultado['Aseguradora'] == 'Liberty') {
+		} else if ($resultado['Aseguradora'] == 'HDI (Antes Liberty)') {
 			$html4 .= '<td class="puntos fondo2" style="width:' . $valorTabla . '%;text-align: center;">
 			<div style="font-size:5pt">&nbsp;</div>
 			<img style="width:35px;" src="../../../vistas/img/logos/liberty.png" alt=""></td>';
@@ -1624,13 +1631,13 @@ foreach ($resultados as $resultado) {
 			<img style="width:35px;" src="../../../vistas/img/logos/allianz.png" alt="">
 			<div style="font-size:5pt">&nbsp;</div>
 			</td>';
-		} else if ($resultado['Aseguradora'] == 'Liberty Seguros') {
+		} else if ($resultado['Aseguradora'] == 'HDI (Antes Liberty)') {
 			$html4 .= '<td class="puntos fondo2" style="width:' . $valorTabla . '%;text-align: center;">
 			<div style="font-size:5pt">&nbsp;</div>
 			<img style="width:35px;" src="../../../vistas/img/logos/liberty.png" alt="">
 			<div style="font-size:5pt">&nbsp;</div>
 			</td>';
-		} else if ($resultado['Aseguradora'] == 'Liberty') {
+		} else if ($resultado['Aseguradora'] == 'HDI (Antes Liberty)') {
 			$html4 .= '<td class="puntos fondo2" style="width:' . $valorTabla . '%;text-align: center;">
 			<div style="font-size:5pt">&nbsp;</div>
 			<img style="width:35px;" src="../../../vistas/img/logos/liberty.png" alt="">
@@ -1732,11 +1739,11 @@ foreach ($resultados as $resultado) {
 			$html4 .= '<td class="puntos fondo" style="width:' . $valorTabla . '%;text-align: center;">
 			<div style="font-size:5pt">&nbsp;</div>
 			<img style="width:35px;" src="../../../vistas/img/logos/allianz.png" alt=""></td>';
-		} else if ($resultado['Aseguradora'] == 'Liberty Seguros') {
+		} else if ($resultado['Aseguradora'] == 'HDI (Antes Liberty)') {
 			$html4 .= '<td class="puntos fondo" style="width:' . $valorTabla . '%;text-align: center;">
 			<div style="font-size:5pt">&nbsp;</div>
 			<img style="width:35px;" src="../../../vistas/img/logos/liberty.png" alt=""></td>';
-		} else if ($resultado['Aseguradora'] == 'Liberty') {
+		} else if ($resultado['Aseguradora'] == 'HDI (Antes Liberty)') {
 			$html4 .= '<td class="puntos fondo" style="width:' . $valorTabla . '%;text-align: center;">
 			<div style="font-size:5pt">&nbsp;</div>
 			<img style="width:35px;" src="../../../vistas/img/logos/liberty.png" alt=""></td>';
@@ -2893,8 +2900,8 @@ function nombreAseguradora($data)
 		$resultado = "Equidad";
 	} else if ($data == 'Seguros Mapfre') {
 		$resultado = "Mapfre";
-	} else if ($data == 'Liberty Seguros') {
-		$resultado = "Liberty";
+	} else if ($data == 'HDI (Antes Liberty)') {
+		$resultado = "HDI (Antes Liberty)";
 	} else if ($data == 'Aseguradora Solidaria') {
 		$resultado = "Solidaria";
 	} else if ($data == 'Seguros Sura') {
@@ -2942,17 +2949,17 @@ function productoAseguradora($aseguradora, $producto)
 		$resultado = "Motocicletas";
 	} else if ($aseguradora == 'Seguros Mundial' && $producto == 'Pesados') {
 		$resultado = "Pesados";
-	} else if ($aseguradora == 'Liberty' && $producto == 'Pesados Full1') {
+	} else if ($aseguradora == 'HDI (Antes Liberty)' && $producto == 'Pesados Full1') {
 		$resultado = "Pesados Full";
-	} else if ($aseguradora == 'Liberty' && $producto == 'Pesados Integral1') {
+	} else if ($aseguradora == 'HDI (Antes Liberty)' && $producto == 'Pesados Integral1') {
 		$resultado = "Pesados Integral";
 	} else if ($aseguradora == 'Previsora' && $producto == 'Pesados Integral1') {
 		$resultado = "Pesados Integral";
-	} else if ($aseguradora == 'Liberty' && $producto == 'Pesados Full1') {
+	} else if ($aseguradora == 'HDI (Antes Liberty)' && $producto == 'Pesados Full1') {
 		$resultado = "Pesados Full";
-	} else if ($aseguradora == 'Liberty' && $producto == 'Pesados Integral1') {
+	} else if ($aseguradora == 'HDI (Antes Liberty)' && $producto == 'Pesados Integral1') {
 		$resultado = "Pesados Integral";
-	} else if ($aseguradora == 'Liberty' && $producto == 'Pesados Integral1') {
+	} else if ($aseguradora == 'HDI (Antes Liberty)' && $producto == 'Pesados Integral1') {
 		$resultado = "Pesados Integral";
 	} else {
 		$resultado = $producto;
