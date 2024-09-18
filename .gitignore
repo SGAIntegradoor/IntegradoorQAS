@@ -1,0 +1,4 @@
+config/db.php
+config/dbconfig.php
+config/dbHost.php
+modelos/conexion.php
