@@ -1403,7 +1403,7 @@ const mostrarOfertaPesados = (
                   <div class="col-xs-12 col-sm-6 col-md-4">
                     <ul class="list-group">
                       <li class="list-group-item">
-                        <span class="badge">* $${RC}</span>
+                        <span class="badge">* ${RC !== "No cubre" ? "$" : ""}${RC}</span>
                         Responsabilidad Civil (RCE)
                       </li>
                       <li class="list-group-item">

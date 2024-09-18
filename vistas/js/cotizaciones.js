@@ -1205,8 +1205,6 @@ function editarCotizacion(id) {
                 }
               }
 
-
-
               let viable = true;
 
               let count = 0;
@@ -1222,7 +1220,7 @@ function editarCotizacion(id) {
               let aseguradora = oferta.Aseguradora;
               let aseguradoraName = nombreAseguradora(aseguradora);
               let aseguradoraPermisos = obtenerValorC(aseguradoraName);
-              console.log(aseguradoraPermisos)
+
               var primaFormat = formatNumber(oferta.Prima);
               var id_intermediario =
                 document.getElementById("idIntermediario").value;
