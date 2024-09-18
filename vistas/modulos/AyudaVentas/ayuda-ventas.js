@@ -270,11 +270,12 @@ const llenarFormulario = (_data) => {
   window.scroll(0, 0);
 };
 
-const abrirSarlaftAseguradora = () => {
-  window.open(
-    "https://app.legops.com/forms/es/f/92c704c9-1967-4c90-b460-212af6bfa7fd",
-    "_blank"
-  );
+const abrirSarlaftAseguradora = (link, aseguradora) => {
+  if (aseguradora === "Mundial") {
+    window.open(link, "_blank");
+  } else if (aseguradora === "Solidaria") {
+    window.open(link, "_blank");
+  }
 };
 
 const obtenerAyudaVentas = async () => {
@@ -381,7 +382,7 @@ const obtenerAyudaVentas = async () => {
             // let sarlaftButtons2 = '<td><ul style="margin-top: 60px;">'
             // sarlaftButtons2 += ayudaVenta.path_sarlaft2 ? `<button class="btn btn-alert" style="background: red; color: #fff; font-weight: 500;" onclick="validarPermisoPdfPersonaJuridica('./vistas/modulos/AyudaVentas/pdf/sarlaft2/${ayudaVenta.path_sarlaft2}')">PDF PJ</button>` : ''
             // partTemplate += sarlaftButtons2 + '</ul></td>'
-
+            console.log(ayudaVenta.aseguradora);
             let sarlaftButtons = `
                                     <td>
                                         <ul style="margin-top: 60px; display: flex; flex-direction: column;">
@@ -395,6 +396,9 @@ const obtenerAyudaVentas = async () => {
                                               ayudaVenta.aseguradora ===
                                               "Mundial"
                                                 ? `onclick="abrirSarlaftAseguradora('https://app.legops.com/forms/es/f/92c704c9-1967-4c90-b460-212af6bfa7fd', '${ayudaVenta.aseguradora}')">PDF PN</button>`
+                                                : ayudaVenta.aseguradora ===
+                                                  "Solidaria"
+                                                ? `onclick="abrirSarlaftAseguradora('https://www.solidaria.com.co/WA_DigitalClient/#/login', '${ayudaVenta.aseguradora}')">PDF PN</button>`
                                                 : `onclick="validarPermisoPdfPersonaNatural('./vistas/modulos/AyudaVentas/pdf/sarlaft/${ayudaVenta.path_sarlaft}', '${ayudaVenta.aseguradora}')">PDF PN</button>`
                                             }`
                                             : ""
@@ -404,8 +408,13 @@ const obtenerAyudaVentas = async () => {
                                             ? `
                                             <button 
                                             class="btn btn-alert" 
-                                            style="background: red; color: #fff; font-weight: 500; margin-bottom: 5px;" 
-                                            onclick="validarPermisoPdfPersonaJuridica('./vistas/modulos/AyudaVentas/pdf/sarlaft2/${ayudaVenta.path_sarlaft2}', '${ayudaVenta.aseguradora}')">PDF PJ</button>`
+                                            style="background: red; color: #fff; font-weight: 500; margin-bottom: 5px;"
+                                             ${
+                                               ayudaVenta.aseguradora ===
+                                               "Solidaria"
+                                                 ? `onclick="abrirSarlaftAseguradora('https://www.solidaria.com.co/WA_DigitalClient/#/login', '${ayudaVenta.aseguradora}')">PDF PJ</button>`
+                                                 : `onclick="validarPermisoPdfPersonaJuridica('./vistas/modulos/AyudaVentas/pdf/sarlaft2/${ayudaVenta.path_sarlaft2}', '${ayudaVenta.aseguradora}')">PDF PJ</button>`
+                                             }`
                                             : ""
                                         }
                                         </ul>

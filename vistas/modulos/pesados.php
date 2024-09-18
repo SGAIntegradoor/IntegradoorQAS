@@ -1416,14 +1416,29 @@ if ($_SESSION["permisos"]["Cotizarpesados"] != "x") {
                   </div>
                 </div>
                 <div class="aviso-container col-lg-12">
-                  <ul style="    padding-left: 16px; padding-right: 3px;">
-                    <li style="text-align: justify;">
+                  <ul>
+                    <li>
+                      <p>
+                        El precio de la póliza con Seguros Mundial tiene incluido un descuento del 5%, solo aplica
+                        para pago de contado o financiación con Finesa.
+                      </p>
+                    </li>
+                    <li>
+                      <p>
+                        HDI Seguros se reserva el derecho de aceptar marcas, clases, tipos y modelos de vehículos
+                        que no se encuentren expresamente incluidos en el listado de exclusiones. No se autoriza
+                        la vinculación de vehículos que hayan presentado siniestros en la última vigencia.
+                      </p>
+                    </li>
+                  </ul>
+                  <ul style="padding-left: 16px; padding-right: 3px;">
+                    <div style="text-align: justify;">
                       <p style="font-weight: bold;">Política de valor asegurado pesados:</p>
                       <p>El Valor asegurado máximo de acuerdo a la aseguradora es el siguiente: Seguros Mundial 700 millones. AXA Colpatria 400 millones. Liberty 310 millones. Previsora 700 millones</p>
                       <p>
                         <strong>Nota:</strong> Tener en cuenta que aunque el cotizador genere ofertas, no todos los vehículos son asegurables. Se podrán hacer excepciones de valor asegurado superior cuando el asesor sea productivo, tenga más de 6 meses de antigüedad con Grupo Asistencia, no tenga altos indices de siniestralidad en su cartera, y si el cliente tiene vinculación con otros productos de la aseguradora. El valor de las primas de las cotizaciones puede variar al momento de emitir en los casos autorizados de manera excepcional.
                       </p>
-                    </li>
+                    </div>
                   </ul>
                 </div>
               </div>
