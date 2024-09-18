@@ -1487,7 +1487,7 @@ function editarCotizacion(id) {
 
 													<li class="list-group-item">
 
-														<span class="badge">* $${valorRCFormat}</span>
+														<span class="badge">* ${valorRCFormat !== "No cubre" ? "$" : ""}${RC}${valorRCFormat}</span>
 
 														Responsabilidad Civil (RCE)
 
