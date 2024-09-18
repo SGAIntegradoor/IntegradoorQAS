@@ -6,7 +6,7 @@ class Conexion{
 		// $link = new PDO("mysql:host=localhost;dbname=grupoasi_cotizautos",
 		//  	            "root",
 		//  	            "");
-		$link = new PDO("mysql:host=localhost;dbname=grupoasi_cotizautos",
+		$link = new PDO("mysql:host=localhost;dbname=grupoasi_cotizautos_qas",
 			            "grupoasi_cotizautos",
 			            "M1graci0n123");
 		// $link = new PDO("mysql:host=52.15.158.65:3306;dbname=grupoasi_cotizautos",
