@@ -1326,8 +1326,8 @@ const mostrarOfertaMotos = (
       $resultado = "Mapfre";
     } else if ($data == "Mapfre") {
       $resultado = "Mapfre";
-    } else if ($data == "Liberty Seguros") {
-      $resultado = "Liberty";
+    } else if ($data == "HDI (Antes Liberty)") {
+      $resultado = "HDI (Antes Liberty)";
     } else if ($data == "Aseguradora Solidaria") {
       $resultado = "Solidaria";
     } else if ($data == "Seguros Sura") {
@@ -1391,13 +1391,13 @@ const mostrarOfertaMotos = (
 <div class='col-12' style='margin-top:2%;'>
 ${
   (aseguradora == "Axa Colpatria" ||
-    aseguradora == "Liberty" ||
+    aseguradora == "HDI (Antes Liberty)" ||
     aseguradora == "Equidad" ||
     aseguradora == "Mapfre" ||
     aseguradora == "Seguros Bolivar") &&
   id_intermediario == "78"
     ? `<center>
-          <!-- Código para el caso específico de Axa Colpatria, Liberty, Equidad o Mapfre y id_intermediario no es 78 -->
+          <!-- Código para el caso específico de Axa Colpatria, HDI (Antes Liberty), Equidad o Mapfre y id_intermediario no es 78 -->
           <!-- Agrega aquí el contenido específico para estas aseguradoras y el id_intermediario no es 78 -->
           </center>`
     : permisos.Vernumerodecotizacionencadaaseguradora == "x" &&
@@ -2287,17 +2287,17 @@ function cotizarOfertasMotos() {
                       } else {
                         const contadorPorEntidad = validarOfertasMotos(
                           ofertas,
-                          "Liberty",
+                          "HDI (Antes Liberty)",
                           1
                         );
                         mostrarAlertaCotizacionExitosa(
-                          "Liberty",
+                          "HDI (Antes Liberty)",
                           contadorPorEntidad
                         );
                       }
                     })
                     .catch((err) => {
-                      agregarAseguradoraFallidaMotos("Liberty");
+                      agregarAseguradoraFallidaMotos("HDI (Antes Liberty)");
                       mostrarAlertarCotizacionFallida(
                         aseguradora,
                         "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
