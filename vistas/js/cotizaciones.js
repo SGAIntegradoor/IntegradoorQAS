@@ -1116,6 +1116,7 @@ function editarCotizacion(id) {
 
           const body = {
             idCotizacion: idCotizacion,
+            env: "QAS"
           };
 
           try {
