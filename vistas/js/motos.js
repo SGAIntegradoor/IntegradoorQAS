@@ -2263,7 +2263,7 @@ function cotizarOfertasMotos() {
                 );
               });
               return; // Salir del bucle después de procesar Zurich
-            } else if (aseguradora === "Liberty") {
+            } else if (aseguradora === "HDI (Antes Liberty)") {
               const planes = ["INTEGRAL", "BASICO + PT", "FULL"];
               planes.forEach((plan) => {
               let body = JSON.parse(requestOptions.body);
