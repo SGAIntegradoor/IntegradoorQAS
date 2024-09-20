@@ -374,6 +374,7 @@ CUERPO DOCUMENTO
         $_GET["ruta"] == "modificacion-productos" ||
         $_GET["ruta"] == "ayuda-ventas" ||
         $_GET["ruta"] == "perfilintermediario" ||
+        $_GET["ruta"] == "miperfil" ||
         $_GET["ruta"] == "intermediario" ||
         $_GET["ruta"] == "Productos" ||
         $_GET["ruta"] == "invitar" ||

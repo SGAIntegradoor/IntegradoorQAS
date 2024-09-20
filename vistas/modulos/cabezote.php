@@ -112,7 +112,7 @@
  				<ul class="nav navbar-nav">
  					<li style="display: flex !important; flex-direction: row">
  						<?php
-							if ($_SESSION['rol'] == 19 || $_SESSION['rol'] == 20 ) { ?>
+							if ($_SESSION['rol'] == 19 || $_SESSION['rol'] == 20) { ?>
  							<ul class="nav navbar-nav">
  								<li class="calendar_li" style="margin-right: 5px; color: #88d600;font-size: 23px;">
  									<i class="fa-solid fa-file-lines"></i>
@@ -139,14 +139,14 @@
 
  							<ul class="nav navbar-nav">
  								<li class="li_cotDi">
-								 <!-- <b id="cot_lleva_inter_"> | </strong> Cot. disp. recargas : <b id="cot_recar_inter_"></b> -->
+ 									<!-- <b id="cot_lleva_inter_"> | </strong> Cot. disp. recargas : <b id="cot_recar_inter_"></b> -->
  									<p>Cot. disp. plan : <b><?php echo $_SESSION['permisos']['cotizacionesTotales']; ?> <strong>|</strong></b> Cot. hechas: <b id="cotRestantes1"></b> </p>
 
  								</li>
  							</ul>
-						
- 						<?php } else if ($_SESSION['rol'] == 2 ) { ?>
-							<ul class="nav navbar-nav">
+
+ 						<?php } else if ($_SESSION['rol'] == 2) { ?>
+ 							<ul class="nav navbar-nav">
  								<li class="calendar_li" style="margin-right: 5px; color: #88d600;font-size: 23px;">
  									<i class="fa-solid fa-file-lines"></i>
  								</li>
@@ -166,15 +166,15 @@
 
  								</li>
  							</ul>
-					 <?php } else if ($_SESSION['rol'] == 5) { ?>
- 					<ul class="nav navbar-nav">
- 						<li class="li_cotDi">
-						<!-- <b id="cot_lleva_inter_"> | </strong> Cot. disp. recargas : <b id="cot_recar_inter_"></b> -->
- 							<p>Cot. disp. plan : <b><?php echo $_SESSION['permisos']['Num_cot_plan']; ?> <strong>|</strong></b> Cot. hechas: <b id="cotRestantes1"></b> </p>
+ 						<?php } else if ($_SESSION['rol'] == 5) { ?>
+ 							<ul class="nav navbar-nav">
+ 								<li class="li_cotDi">
+ 									<!-- <b id="cot_lleva_inter_"> | </strong> Cot. disp. recargas : <b id="cot_recar_inter_"></b> -->
+ 									<p>Cot. disp. plan : <b><?php echo $_SESSION['permisos']['Num_cot_plan']; ?> <strong>|</strong></b> Cot. hechas: <b id="cotRestantes1"></b> </p>
 
- 						</li>
- 					</ul>
-                        
+ 								</li>
+ 							</ul>
+
 
  						<?php
 
@@ -225,6 +225,12 @@
  							<?php
 								}
 								?>
+ 							<li class="user-body">
+
+
+
+ 								<a href="miperfil" class="btn btn-default btn-flat "><i class="fa fa-user" style="color: #88D600;"></i>Mi perfil</a>
+ 							</li>
 
  							<li class="user-body">
 

@@ -125,6 +125,7 @@ class ControladorUsuarios
 						$_SESSION["usuario"] = $respuesta["usu_usuario"];
 						$_SESSION["foto"] = $respuesta["usu_foto"];
 						$_SESSION["rol"] = $respuesta["id_rol"];
+						$_SESSION["tipo_documento_id"] = $respuesta["id_rol"];
 						$_SESSION["intermediario"] = $respuesta["id_Intermediario"];
 						$_SESSION["cotRestantes"] = $respuesta["numCotizaciones"];
 						$_SESSION["fechaLimi"] = $respuesta["fechaFin"];
@@ -554,7 +555,7 @@ class ControladorUsuarios
 						if (!empty($_POST["fotoActual"])) {
 							// Verificar si el archivo existe antes de intentar eliminarlo
 							if (file_exists($_POST["fotoActual"])) {
-								unlink($_POST["fotoActual"]);
+								unlink(filename: $_POST["fotoActual"]);
 							} else {
 								// Manejar el caso en que el archivo no exista
 								echo "El archivo no existe: " . $_POST["fotoActual"];
