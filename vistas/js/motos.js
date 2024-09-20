@@ -1124,7 +1124,7 @@ function cotizarFinesaMotos(ofertasCotizaciones) {
             finesaData.id_cotizacion = idCotizacion;
             finesaData.identity = element.objFinesa;
             finesaData.cuotas = element.cuotas;
-
+            finesaData.env = "QAS"
             return fetch(
               "https://www.grupoasistencia.com/motor_webservice/saveDataQuotationsFinesa",
              //"http://localhost/motorTest/saveDataQuotationsFinesa",
