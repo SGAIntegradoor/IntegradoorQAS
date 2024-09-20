@@ -2269,7 +2269,7 @@ function cotizarOfertasMotos() {
               let body = JSON.parse(requestOptions.body);
               body.plan = plan;
               requestOptions.body = JSON.stringify(body);
-              url = `https://grupoasistencia.com/motor_webservice_tst2/${aseguradora}_motos`;
+              url = `https://grupoasistencia.com/motor_webservice_tst2/Liberty_motos`;
                 //url = `https://grupoasistencia.com/motor_webservice/${aseguradora}_motos`;
                 cont.push(
                   fetch(url, requestOptions)
