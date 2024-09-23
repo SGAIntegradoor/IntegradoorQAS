@@ -2383,12 +2383,15 @@ function cotizarOfertasPesados() {
                         if (typeof ofertas[0].Resultado !== "undefined") {
                           validarProblema(aseguradora, ofertas);
                           agregarAseguradoraFallidaPesados(aseguradora);
-                          ofertas.Mensajes.forEach((mensaje) => {
-                            mostrarAlertarCotizacionFallida(
-                              aseguradora,
-                              mensaje
-                            );
-                          });
+                          if (ofertas[0].length > 1) {
+                            ofertas.Mensajes[0].forEach((mensaje) => {
+                              mostrarAlertarCotizacionFallida(aseguradora, mensaje);
+                            });
+                          } else {
+                            ofertas[0].Mensajes.forEach((mensaje) => {
+                              mostrarAlertarCotizacionFallida(aseguradora, mensaje);
+                            });
+                          }
                         } else {
                           const contadorPorEntidad = validarOfertasPesados(
                             ofertas,
