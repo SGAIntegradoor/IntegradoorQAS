@@ -1476,7 +1476,7 @@ function cotizarFinesa(ofertasCotizaciones) {
               .then((dbData) => {
                 const elementDiv = document.getElementById(element.objFinesa);
                 if (
-                  element.aseguradora == "HDI (Antes Liberty)" ||
+                  element.aseguradora == "Seguros Bolivar" ||
                   element.aseguradora == "Liberty"
                 ) {
                   cotizacionesFinesa[index].cotizada = true;
@@ -1656,8 +1656,8 @@ const mostrarOferta = (
       $resultado = "Mapfre";
     } else if ($data == "Mapfre") {
       $resultado = "Mapfre";
-    } else if ($data == "HDI (Antes Liberty)") {
-      $resultado = "HDI (Antes Liberty)";
+    } else if ($data == "Liberty Seguros") {
+      $resultado = "Liberty";
     } else if ($data == "Aseguradora Solidaria") {
       $resultado = "Solidaria";
     } else if ($data == "Seguros Sura") {
@@ -1705,14 +1705,14 @@ const mostrarOferta = (
                                       <div class="col-xs-12 col-sm-6 col-md-2 oferta-logo">
                                       <center>
   
-                                          <img src='vistas/img/logos/${logo}' style="${aseguradora == "HDI (Antes Liberty)" ? "margin-top: 3px;" : null}">
+                                          <img src='vistas/img/logos/${logo}' style="${aseguradora == "Liberty" ? "margin-top: 3px;" : null}">
   
                     </center>  
   
                     <div class='col-12' style='margin-top:2%;'>
                       ${
                         (aseguradora == "Axa Colpatria" ||
-                          aseguradora == "HDI (Antes Liberty)" ||
+                          aseguradora == "Liberty" ||
                           aseguradora == "Equidad" ||
                           aseguradora == "Mapfre" ||
                           aseguradora == "Seguros Bolivar") &&
@@ -3624,6 +3624,71 @@ function cotizarOfertas() {
 
         cont.push(ZFullPromise);
 
+        // const ZMediumPromise = comprobarFallida("MEDIUM")
+        //   ? fetch(
+        //       "https://grupoasistencia.com/motor_webservice/Zurich_autos?callback=myCallback",
+        //       {
+        //         ...requestOptions,
+        //         method: "POST",
+        //         headers: {
+        //           ...requestOptions.headers,
+        //           "Content-Type": "application/json",
+        //         },
+        //         body: JSON.stringify({
+        //           ...JSON.parse(requestOptions.body),
+        //           plan: "MEDIUM",
+        //           Email2: Math.round(Math.random() * 999999) + "@gmail.com",
+        //         }),
+        //       }
+        //     )
+        //       .then((res) => {
+        //         if (!res.ok) throw Error(res.statusText);
+        //         return res.json();
+        //       })
+        //       .then((ofertas) => {
+        //         if (typeof ofertas.Resultado !== "undefined") {
+        //           let plan = "MEDIUM";
+        //           validarProblema("Zurich", ofertas);
+        //           agregarAseguradoraFallida(plan);
+        //           let mensaje = "";
+        //           ofertas.Mensajes.map((element, index) => {
+        //             if (element.includes("Referred")) {
+        //               if (index == 2) {
+        //                 mensaje += " - " + element;
+        //               } else {
+        //                 mensaje += element;
+        //               }
+        //             }
+        //           });
+        //           mostrarAlertarCotizacionFallida(`Zurich`, mensaje);
+        //         } else {
+        //           const contadorPorEntidad = validarOfertas(
+        //             ofertas,
+        //             "Zurich",
+        //             1
+        //           );
+        //           mostrarAlertaCotizacionExitosa("Zurich", contadorPorEntidad);
+        //         }
+        //       })
+        //       .catch((err) => {
+        //         agregarAseguradoraFallida("Zurich");
+        //         mostrarAlertarCotizacionFallida(
+        //           "Zurich",
+        //           "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
+        //         );
+        //         validarProblema(aseguradora, [
+        //               {
+        //                 Mensajes: [
+        //                   "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
+        //                 ],
+        //               },
+        //             ]);
+        //             console.error(err);
+        //       })
+        //   : Promise.resolve();
+
+        // cont.push(ZMediumPromise);
+
         /* Estado */
         const aseguradorasEstado = ["Estado", "Estado2"]; // Agrega más aseguradoras según sea necesario
         aseguradorasEstado.forEach((aseguradora) => {
@@ -3691,9 +3756,9 @@ function cotizarOfertas() {
         });
 
         /* Liberty */
-        const libertyPromise = comprobarFallida("HDI (Antes Liberty)")
+        const libertyPromise = comprobarFallida("Liberty")
           ? fetch(
-              "https://grupoasistencia.com/motor_webservice/Liberty_autos",
+              "https://grupoasistencia.com/motor_webservice/Liberty_autos?callback=myCallback",
               requestOptions
             )
               .then((res) => {
@@ -3702,8 +3767,8 @@ function cotizarOfertas() {
               })
               .then((ofertas) => {
                 if (typeof ofertas[0].Resultado !== "undefined") {
-                  agregarAseguradoraFallida("HDI (Antes Liberty)");
-                  validarProblema("HDI (Antes Liberty)", ofertas);
+                  agregarAseguradoraFallida("Liberty");
+                  validarProblema("Liberty", ofertas);
                   ofertas[0].Mensajes.forEach((mensaje) => {
                     mostrarAlertarCotizacionFallida("Liberty", mensaje);
                   });
@@ -3711,16 +3776,16 @@ function cotizarOfertas() {
                   // eliminarAseguradoraFallida('Liberty');
                   const contadorPorEntidad = validarOfertas(
                     ofertas,
-                    "HDI (Antes Liberty)",
+                    "Liberty",
                     1
                   );
-                  mostrarAlertaCotizacionExitosa("HDI (Antes Liberty)", contadorPorEntidad);
+                  mostrarAlertaCotizacionExitosa("Liberty", contadorPorEntidad);
                 }
               })
               .catch((err) => {
-                agregarAseguradoraFallida("HDI (Antes Liberty)");
+                agregarAseguradoraFallida("Liberty");
                 mostrarAlertarCotizacionFallida(
-                  "HDI (Antes Liberty)",
+                  "Liberty",
                   "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
                 );
                 validarProblema(aseguradora, [
