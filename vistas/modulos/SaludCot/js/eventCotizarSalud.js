@@ -33,28 +33,59 @@ const COBERTURAS_SALUD_IDEAL = [
  * Abrir modal con info.
  * @function
  */
+function adjustModalWidth() {
+  return new Promise((resolve) => {
+    const modal = document.querySelector('.swal2-popup');
+    if (window.innerWidth < 768) {
+      modal.style.width = '90%'; // Ancho para móvil
+    } else {
+      modal.style.width = '70%'; // Ancho para desktop
+    }
+    resolve(); // Resolvemos la promesa
+  });
+}
+
 function openModal() {
   Swal.fire({
     title: `
-      <div style="display: flex; align-items: center; border-top: 1px solid #d3d3d3;  margin: 0px 20px;">
-        <div style="flex: 1;margin-left: 90px;">
+      <div style="display: flex; align-items: center; border-top: 1px solid #d3d3d3; margin: 0px 20px;">
+        <div style="flex: 1; margin-left: 10px;">
           <strong>EXCLUSIONES PÓLIZAS DE SALUD</strong>
         </div>
         <div>
-          <img src="vistas/modulos/SaludCot/img/logo-convenio-axa-colpatria.png" alt="Logo" style="max-height: 50px;">
+          <img src="vistas/modulos/SaludCot/img/logo-convenio-axa-colpatria.png" alt="Logo" style="max-height: 40px;">
         </div>
       </div>
       <div style="border-bottom: 1px solid #d3d3d3; margin: 0px 20px;"></div>`,
     html: `
-      <div style="display: flex; justify-content: space-between; padding: 20px;">
-        <div style="width: 45%;">
+      <style>
+        .responsive-ul {
+          display: flex;
+          flex-wrap: wrap;
+          justify-content: space-between;
+          padding: 20px;
+        }
+        .responsive-ul > div {
+          width: 100%;
+          max-width: 45%;
+          margin-bottom: 20px;
+        }
+        @media (max-width: 768px) {
+          .responsive-ul > div {
+            width: 100%;
+            max-width: 100%;
+          }
+        }
+      </style>
+      <div class="responsive-ul">
+        <div>
           <ul style="text-align: left;">
             <li>Diabetes</li>
             <li>Enfermedad coronaria</li>
             <li>Hipertensión arterial severa</li>
             <li>Cáncer</li>
             <li>Antecedentes de accidente cerebro vascular</li>
-            <li>Obesos con IMC (Índice de Masa Corporal)  > 36</li>
+            <li>Obesos con IMC (Índice de Masa Corporal) > 36</li>
             <li>Enfermedades del colágeno: Artritis reumatoide, Lupus Eritematoso sistémico, Dermatomiositis, Síndrome antifosfolípidos</li>
             <li>Enfermedades autoinmunes</li>
             <li>Neurofibromatosis</li>
@@ -65,7 +96,7 @@ function openModal() {
             <li>Enfermedades huérfanas</li>
           </ul>
         </div>
-        <div style="width: 45%;">
+        <div>
           <ul style="text-align: left;">
             <li>Hemofilia o trastornos de coagulación. Pacientes anticoagulados.</li>
             <li>VIH-SIDA</li>
@@ -77,20 +108,28 @@ function openModal() {
             <li>Embarazadas (Opción de compra de anexo de maternidad de acuerdo con el producto a ingresar)</li>
             <li>Bebés en "Plan canguro" (Opción de posponer e ingreso)</li>
             <li>EPOC (Enfermedad Pulmonar Obstructiva Crónica)</li>
-            <li>Cirugías pendientes,  post operatorio recientes, tratamientos médicos en curso</li>
+            <li>Cirugías pendientes, post operatorio recientes, tratamientos médicos en curso</li>
             <li>Insuficiencia renal</li>
             <li>Antecedente de hospitalización por Covid-19, se valida con copia de historia clínica</li>
           </ul>
         </div>
-      </div>
-    `,
+      </div>`,
     showCloseButton: true,
     confirmButtonText: 'Cerrar',
-    width: '80%',
+    width: '70%', // Ancho predeterminado
     customClass: {
       closeButton: 'swal2-close'
     }
+  }).then(() => {
+    // Ajustar el ancho al cerrar el modal
+    adjustModalWidth();
   });
+
+  // Ajustar el ancho inmediatamente después de abrir el modal
+  adjustModalWidth();
+
+  // También ajustar el ancho al cambiar el tamaño de la ventana
+  window.addEventListener('resize', adjustModalWidth);
 }
 
 /**

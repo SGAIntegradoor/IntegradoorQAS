@@ -133,7 +133,7 @@
 
 .custom-table tr:not(.header-row) th,
 .custom-table tr:not(.header-row) td {
-    border: 1px solid #494949;
+    border: 1px solid #c7bfbf;
 }
 
 .custom-table tfoot .bold-row th,
