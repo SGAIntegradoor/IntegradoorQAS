@@ -562,6 +562,7 @@ function cotizar() {
   // Ajax para mandar la informacion a cotizar con AssitCard
   let validar = validarCampos();
   if (validar) {
+    
     if (
       (SelmotivoViaje2 === "Estudiantil" && txtDiasViaje < 60) ||
       (SelmotivoViaje2 === "Estudiantil" && txtDiasViaje > 365)
