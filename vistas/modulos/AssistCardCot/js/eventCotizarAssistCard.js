@@ -562,489 +562,377 @@ function cotizar() {
   // Ajax para mandar la informacion a cotizar con AssitCard
   let validar = validarCampos();
   if (validar) {
-    var SelmotivoViaje2 = $("#motivoViaje").val();
-    document.getElementById("spinener-cot").style.display = "flex";
-    $.ajax({
-      url: "https://grupoasistencia.com/assist_engine/WSAssistCard/assistCard.php",
-      type: "POST",
-      data: { info_inputs_string: info_inputs },
-      success: function (data) {
-        // Volvemos la respueta en formato JSON
-        const objResponse = JSON.parse(data);
-        // console.log(objResponse);
-        if (objResponse == false) {
-          var html_error = `
-          <div class="col-lg-12 col-md-12 col-xs-12 col-sm-12">
-            <div class="row">
-              <div class="col-lg-12 col-md-12 col-xs-12 col-sm-12">
-                <div class="col-lg-12 col-md-12 col-xs-12 col-sm-12 contenedor_error">
-                    <span>
-                      ❌<br>
-                      !Ocurrió un error¡
-                    </span> <br><br>          
-                  </div>
+    if (
+      (SelmotivoViaje2 === "Estudiantil" && txtDiasViaje < 60) ||
+      (SelmotivoViaje2 === "Estudiantil" && txtDiasViaje > 365)
+    ) {
+      Swal.fire({
+        icon: "error",
+        title:
+          "Plan Estudiantil partir de 60 días y hasta 365 días corridos.",
+      });
+    } else {
+      var SelmotivoViaje2 = $("#motivoViaje").val();
+      document.getElementById("spinener-cot").style.display = "flex";
+      $.ajax({
+        url: "https://grupoasistencia.com/assist_engine/WSAssistCard/assistCard.php",
+        type: "POST",
+        data: { info_inputs_string: info_inputs },
+        success: function (data) {
+          // Volvemos la respueta en formato JSON
+          const objResponse = JSON.parse(data);
+          // console.log(objResponse);
+          if (objResponse == false) {
+            var html_error = `
+            <div class="col-lg-12 col-md-12 col-xs-12 col-sm-12">
+              <div class="row">
+                <div class="col-lg-12 col-md-12 col-xs-12 col-sm-12">
+                  <div class="col-lg-12 col-md-12 col-xs-12 col-sm-12 contenedor_error">
+                      <span>
+                        ❌<br>
+                        !Ocurrió un error¡
+                      </span> <br><br>          
+                    </div>
+                </div>
               </div>
             </div>
-          </div>
-        `;
-          document.getElementById("spinener-cot").style.display = "none";
-          document.getElementById("row_contenedor_general").innerHTML =
-            html_error;
-        } else {
-          if (objResponse.codigo) {
+          `;
             document.getElementById("spinener-cot").style.display = "none";
-            //console.log(SelmotivoViaje2, " ", txtDiasViaje)
-            if (
-              (SelmotivoViaje2 === "Estudiantil" && txtDiasViaje < 60) ||
-              (SelmotivoViaje2 === "Estudiantil" && txtDiasViaje > 365)
-            ) {
-              Swal.fire({
-                icon: "error",
-                title:
-                  "Plan Estudiantil partir de 60 días y hasta 365 días corridos.",
-              });
-            } else {
-              Swal.fire({
-                icon: "error",
-                title: "Oops... Por favor revisa toda la información ingresada",
-              });
-            }
+            document.getElementById("row_contenedor_general").innerHTML =
+              html_error;
           } else {
-            var dolarHoy = objResponse.cotizacionDolar;
-            var cotizaciones = objResponse.cotizaciones;
-            var cotizacion = cotizaciones.cotizacion;
-
-            var html_data = "";
-            hideMainContainers();
-            showContainerCards();
-            hideContainerQuotations();
-            $("#boxDays").css("display", "block");
-            $("#numeroDias").val(objResponse.num_dias);
-            if (
-              typeof cotizacion == "object" &&
-              cotizacion.length == undefined
-            ) {
-              if (SelmotivoViaje2 == "Empresarial") {
-                if (validarCodigoEmpresarial(cotizacion.codigo)) {
-                  cotizacion.last_id = objResponse.last_id;
-                  cotizacion.modalidad = SelmotivoViaje2;
-                  console.log(cotizacion)
-                  guardarOfertas(cotizacion);
-                  toogleDataContainer();
-                  html_data += ` 
-                              <div class='card-ofertas'>
-                                <div class='row card-body'>
-                                    <div class="col-xs-12 col-sm-6 col-md-2 align-horizontal ">
-                                        <img src="vistas/modulos/AssistCardCot/img/LOGO-ROJO-01.png" class="logoCardAsist" alt="Logo">
-                                    </div>
-  
-                                    <div class="col-xs-12 col-sm-6 col-md-2 oferta-logo">
-                                        <span class="tittleCard">
-                                            Assist Card - ${changeNameProduct(
-                                              cotizacion.codigo,
-                                              cotizacion.nombreTarifa
-                                            )}
-                                        </span><br> 
-                                        <span class="tittleCard">
-                                            CORPORATIVO
-                                        </span><br> 
-                                        <span class="tittlePrice">
-                                            Desde ${
-                                              contPasajeros > 1
-                                                ? `${
-                                                    cotizacion.moneda == "1"
-                                                      ? "USD"
-                                                      : "COP"
-                                                  } $` +
-                                                  parseFloat(
-                                                    cotizacion.clientesCotizados
-                                                      .clienteCotizacion[0]
-                                                      .valorAsistencia
-                                                  ).toFixed(2)
-                                                : `${
-                                                    cotizacion.moneda == "1"
-                                                      ? "USD"
-                                                      : "COP"
-                                                  } $` +
-                                                  parseFloat(
-                                                    cotizacion.clientesCotizados
-                                                      .clienteCotizacion
-                                                      .valorAsistencia
-                                                  ).toFixed(2)
-                                            }
-                                        </span><br> 
-                                    </div>
-  
-                                    <div class="col-xs-12 col-sm-6 col-md-3 textCards">                
-                                        <ul>
-                                            <li>Cobertura USD ${changeRateBusinessProduct(
-                                              cotizacion.codigo
-                                            )}</li>
-                                            <li>Cobertura de accidentes</li>
-                                            <li>Cobertura por enfermedades no preexistente</li>
-                                            <li>Cobertura de estabilización de cuadro agudo de preexistencias</li>
-                                            <li>Traslado ejecutivo por reemplazo de funcionario asistido</li>
-                                        </ul>
-                                    </div>
-  
-                                    <div class="col-xs-12 col-sm-6 col-md-3 textCards">
-                                        <ul>
-                                            <li>Odontología de urgencia</li>
-                                            <li>Repatriación Sanitaria derivada de una atención médica</li>
-                                            <li>Repatriación funeraria</li>
-                                            <li>Seguro de equipaje ante demora y pérdida</li>
-                                            <li>Cobertura salvoconducto ante perdida de pasaporte</li>
-                                        </ul>
-                                    </div>
-  
-                                    <div class="col-xs-12 col-sm-6 col-md-2 colPdf">
-                                          <span> Muchas más <br>
-                                          </span>
-                                          <span> coberturas  
-                                          <span class="bigEmoji">👇🏼</span>  
-                                          </span>
-                                            <button class="btn btn-info btn-block btn-pdf" id="">
-                                                <span class="span_titulo_item">
-                                                    <a target="_blank" class="btnText" href='https://serviciocondiciones.assist-card.com/DetalleCcpp.ashx?codigoPais=${
-                                                      cotizacion.pais
-                                                    }&producto=${
-                    cotizacion.codigo
-                  }&tarifa=${
-                    cotizacion.codigoTarifa
-                  }&edad=${edadPrincipalParaVerDetalles}&idLanguage=1&anual=${
-                    cotizacion.cantidadDias == 365 ? `True` : `False`
-                  }'>Ver detalles</a>
-                                                </span>
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        `;
-                }
-              }
-              if (SelmotivoViaje2 == "Vacacional") {
-                if (validarCodigoVacacional(cotizacion.codigo)) {
-                  cotizacion.modalidad = SelmotivoViaje2;
-                  cotizacion.last_id = objResponse.last_id;
-                  guardarOfertas(cotizacion);
-                  toogleDataContainer();
-                  html_data += ` 
-                              <div class='card-ofertas'>
-                                <div class='row card-body'>
-                                    <div class="col-xs-12 col-sm-6 col-md-2 align-horizontal ">
-                                        <img src="vistas/modulos/AssistCardCot/img/LOGO-ROJO-01.png" class="logoCardAsist" alt="Logo">
-                                    </div>
-  
-                                    <div class="col-xs-12 col-sm-6 col-md-2 oferta-logo">
-                                        <span class="tittleCard">
-                                            Assist Card - ${changeNameProduct(
-                                              cotizacion.codigo,
-                                              cotizacion.nombreTarifa
-                                            )}
-                                        </span><br> 
-                                        <span class="tittleCard">
-                                            CORPORATIVO
-                                        </span><br> 
-                                        <span class="tittlePrice">
-                                            Desde ${
-                                              contPasajeros > 1
-                                                ? `${
-                                                    cotizacion.moneda == "1"
-                                                      ? "USD"
-                                                      : "COP"
-                                                  } $` +
-                                                  parseFloat(
-                                                    cotizacion.clientesCotizados
-                                                      .clienteCotizacion[0]
-                                                      .valorAsistencia
-                                                  ).toFixed(2)
-                                                : `${
-                                                    cotizacion.moneda == "1"
-                                                      ? "USD"
-                                                      : "COP"
-                                                  } $` +
-                                                  parseFloat(
-                                                    cotizacion.clientesCotizados
-                                                      .clienteCotizacion
-                                                      .valorAsistencia
-                                                  ).toFixed(2)
-                                            }
-                                        </span><br> 
-                                    </div>
-  
-                                    <div class="col-xs-12 col-sm-6 col-md-3 textCards">                
-                                        <ul>
-                                            <li>Cobertura USD ${changeRateBusinessProduct(
-                                              cotizacion.codigo
-                                            )}</li>
-                                            <li>Cobertura de accidentes</li>
-                                            <li>Cobertura por enfermedades no preexistente</li>
-                                            <li>Cobertura de estabilización de cuadro agudo de preexistencias</li>
-                                            <li>Traslado ejecutivo por reemplazo de funcionario asistido</li>
-                                        </ul>
-                                    </div>
-  
-                                    <div class="col-xs-12 col-sm-6 col-md-3 textCards">
-                                        <ul>
-                                            <li>Odontología de urgencia</li>
-                                            <li>Repatriación Sanitaria derivada de una atención médica</li>
-                                            <li>Repatriación funeraria</li>
-                                            <li>Seguro de equipaje ante demora y pérdida</li>
-                                            <li>Cobertura salvoconducto ante perdida de pasaporte</li>
-                                        </ul>
-                                    </div>
-  
-                                    <div class="col-xs-12 col-sm-6 col-md-2 colPdf">
-                                          <span> Muchas más <br>
-                                          </span>
-                                          <span> coberturas  
-                                          <span class="bigEmoji">👇🏼</span>  
-                                          </span>
-                                            <button class="btn btn-info btn-block btn-pdf" id="">
-                                                <span class="span_titulo_item">
-                                                    <a target="_blank" class="btnText" href='https://serviciocondiciones.assist-card.com/DetalleCcpp.ashx?codigoPais=${
-                                                      cotizacion.pais
-                                                    }&producto=${
-                    cotizacion.codigo
-                  }&tarifa=${
-                    cotizacion.codigoTarifa
-                  }&edad=${edadPrincipalParaVerDetalles}&idLanguage=1&anual=${
-                    cotizacion.cantidadDias == 365 ? `True` : `False`
-                  }'>Ver detalles</a>
-                                                </span>
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        `;
-                }
+            if (objResponse.codigo) {
+              document.getElementById("spinener-cot").style.display = "none";
+              //console.log(SelmotivoViaje2, " ", txtDiasViaje)
+              if (
+                (SelmotivoViaje2 === "Estudiantil" && txtDiasViaje < 60) ||
+                (SelmotivoViaje2 === "Estudiantil" && txtDiasViaje > 365)
+              ) {
+                Swal.fire({
+                  icon: "error",
+                  title:
+                    "Plan Estudiantil partir de 60 días y hasta 365 días corridos.",
+                });
+              } else {
+                Swal.fire({
+                  icon: "error",
+                  title: "Oops... Por favor revisa toda la información ingresada",
+                });
               }
             } else {
-              $.each(cotizacion, function (key, cotizacionArray) {
+              var dolarHoy = objResponse.cotizacionDolar;
+              var cotizaciones = objResponse.cotizaciones;
+              var cotizacion = cotizaciones.cotizacion;
+  
+              var html_data = "";
+              hideMainContainers();
+              showContainerCards();
+              hideContainerQuotations();
+              $("#boxDays").css("display", "block");
+              $("#numeroDias").val(objResponse.num_dias);
+              if (
+                typeof cotizacion == "object" &&
+                cotizacion.length == undefined
+              ) {
                 if (SelmotivoViaje2 == "Empresarial") {
-                  if (validarCodigoEmpresarial(cotizacionArray.codigo)) {
-                    cotizacionArray.modalidad = SelmotivoViaje2;
-                    cotizacionArray.last_id = objResponse.last_id;
-                    guardarOfertas(cotizacionArray);
+                  if (validarCodigoEmpresarial(cotizacion.codigo)) {
+                    cotizacion.last_id = objResponse.last_id;
+                    cotizacion.modalidad = SelmotivoViaje2;
+                    console.log(cotizacion)
+                    guardarOfertas(cotizacion);
                     toogleDataContainer();
                     html_data += ` 
-                              <div class='card-ofertas'>
-                                <div class='row card-body'>
-                                    <div class="col-xs-12 col-sm-6 col-md-2 align-horizontal ">
-                                        <img src="vistas/modulos/AssistCardCot/img/LOGO-ROJO-01.png" class="logoCardAsist" alt="Logo">
-                                    </div>
-  
-                                    <div class="col-xs-12 col-sm-6 col-md-2 oferta-logo">
-                                        <span class="tittleCard">
-                                            Assist Card - ${changeNameProduct(
-                                              cotizacionArray.codigo,
-                                              cotizacionArray.nombreTarifa
-                                            )}
-                                        </span><br> 
-                                        <span class="tittleCard">
-                                            CORPORATIVO
-                                        </span><br> 
-                                        <span class="tittlePrice">
-                                            Desde ${
-                                              contPasajeros > 1
-                                                ? `${
-                                                    cotizacionArray.moneda ==
-                                                    "1"
-                                                      ? "USD"
-                                                      : "COP"
-                                                  } $` +
-                                                  parseFloat(
-                                                    cotizacionArray
-                                                      .clientesCotizados
-                                                      .clienteCotizacion[0]
-                                                      .valorAsistencia
-                                                  ).toFixed(2)
-                                                : `${
-                                                    cotizacionArray.moneda ==
-                                                    "1"
-                                                      ? "USD"
-                                                      : "COP"
-                                                  } $` +
-                                                  parseFloat(
-                                                    cotizacionArray
-                                                      .clientesCotizados
-                                                      .clienteCotizacion
-                                                      .valorAsistencia
-                                                  ).toFixed(2)
-                                            }
-                                        </span><br> 
-                                    </div>
-  
-                                    <div class="col-xs-12 col-sm-6 col-md-3 textCards">                
-                                        <ul>
-                                            <li>Cobertura USD ${changeRateBusinessProduct(
-                                              cotizacionArray.codigo
-                                            )}</li>
-                                            <li>Cobertura de accidentes</li>
-                                            <li>Cobertura por enfermedades no preexistente</li>
-                                            <li>Cobertura de estabilización de cuadro agudo de preexistencias</li>
-                                            <li>Traslado ejecutivo por reemplazo de funcionario asistido</li>
-                                        </ul>
-                                    </div>
-  
-                                    <div class="col-xs-12 col-sm-6 col-md-3 textCards">
-                                        <ul>
-                                            <li>Odontología de urgencia</li>
-                                            <li>Repatriación Sanitaria derivada de una atención médica</li>
-                                            <li>Repatriación funeraria</li>
-                                            <li>Seguro de equipaje ante demora y pérdida</li>
-                                            <li>Cobertura salvoconducto ante perdida de pasaporte</li>
-                                        </ul>
-                                    </div>
-  
-                                    <div class="col-xs-12 col-sm-6 col-md-2 colPdf">
-                                          <span> Muchas más <br>
-                                          </span>
-                                          <span> coberturas  
-                                          <span class="bigEmoji">👇🏼</span>  
-                                          </span>
-                                            <button class="btn btn-info btn-block btn-pdf" id="">
-                                                <span class="span_titulo_item">
-                                                    <a target="_blank" class="btnText" href='https://serviciocondiciones.assist-card.com/DetalleCcpp.ashx?codigoPais=${
-                                                      cotizacionArray.pais
-                                                    }&producto=${
-                      cotizacionArray.codigo
+                                <div class='card-ofertas'>
+                                  <div class='row card-body'>
+                                      <div class="col-xs-12 col-sm-6 col-md-2 align-horizontal ">
+                                          <img src="vistas/modulos/AssistCardCot/img/LOGO-ROJO-01.png" class="logoCardAsist" alt="Logo">
+                                      </div>
+    
+                                      <div class="col-xs-12 col-sm-6 col-md-2 oferta-logo">
+                                          <span class="tittleCard">
+                                              Assist Card - ${changeNameProduct(
+                                                cotizacion.codigo,
+                                                cotizacion.nombreTarifa
+                                              )}
+                                          </span><br> 
+                                          <span class="tittleCard">
+                                              CORPORATIVO
+                                          </span><br> 
+                                          <span class="tittlePrice">
+                                              Desde ${
+                                                contPasajeros > 1
+                                                  ? `${
+                                                      cotizacion.moneda == "1"
+                                                        ? "USD"
+                                                        : "COP"
+                                                    } $` +
+                                                    parseFloat(
+                                                      cotizacion.clientesCotizados
+                                                        .clienteCotizacion[0]
+                                                        .valorAsistencia
+                                                    ).toFixed(2)
+                                                  : `${
+                                                      cotizacion.moneda == "1"
+                                                        ? "USD"
+                                                        : "COP"
+                                                    } $` +
+                                                    parseFloat(
+                                                      cotizacion.clientesCotizados
+                                                        .clienteCotizacion
+                                                        .valorAsistencia
+                                                    ).toFixed(2)
+                                              }
+                                          </span><br> 
+                                      </div>
+    
+                                      <div class="col-xs-12 col-sm-6 col-md-3 textCards">                
+                                          <ul>
+                                              <li>Cobertura USD ${changeRateBusinessProduct(
+                                                cotizacion.codigo
+                                              )}</li>
+                                              <li>Cobertura de accidentes</li>
+                                              <li>Cobertura por enfermedades no preexistente</li>
+                                              <li>Cobertura de estabilización de cuadro agudo de preexistencias</li>
+                                              <li>Traslado ejecutivo por reemplazo de funcionario asistido</li>
+                                          </ul>
+                                      </div>
+    
+                                      <div class="col-xs-12 col-sm-6 col-md-3 textCards">
+                                          <ul>
+                                              <li>Odontología de urgencia</li>
+                                              <li>Repatriación Sanitaria derivada de una atención médica</li>
+                                              <li>Repatriación funeraria</li>
+                                              <li>Seguro de equipaje ante demora y pérdida</li>
+                                              <li>Cobertura salvoconducto ante perdida de pasaporte</li>
+                                          </ul>
+                                      </div>
+    
+                                      <div class="col-xs-12 col-sm-6 col-md-2 colPdf">
+                                            <span> Muchas más <br>
+                                            </span>
+                                            <span> coberturas  
+                                            <span class="bigEmoji">👇🏼</span>  
+                                            </span>
+                                              <button class="btn btn-info btn-block btn-pdf" id="">
+                                                  <span class="span_titulo_item">
+                                                      <a target="_blank" class="btnText" href='https://serviciocondiciones.assist-card.com/DetalleCcpp.ashx?codigoPais=${
+                                                        cotizacion.pais
+                                                      }&producto=${
+                      cotizacion.codigo
                     }&tarifa=${
-                      cotizacionArray.codigoTarifa
+                      cotizacion.codigoTarifa
                     }&edad=${edadPrincipalParaVerDetalles}&idLanguage=1&anual=${
-                      cotizacionArray.cantidadDias == 365 ? `True` : `False`
+                      cotizacion.cantidadDias == 365 ? `True` : `False`
                     }'>Ver detalles</a>
-                                                </span>
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        `;
+                                                  </span>
+                                          </button>
+                                      </div>
+                                  </div>
+                              </div>
+                          `;
                   }
-                } else if (SelmotivoViaje2 == "Vacacional") {
-                  if (validarCodigoVacacional(cotizacionArray.codigo)) {
-                    cotizacionArray.modalidad = SelmotivoViaje2;
-                    cotizacionArray.last_id = objResponse.last_id;
-                    guardarOfertas(cotizacionArray);
+                }
+                if (SelmotivoViaje2 == "Vacacional") {
+                  if (validarCodigoVacacional(cotizacion.codigo)) {
+                    cotizacion.modalidad = SelmotivoViaje2;
+                    cotizacion.last_id = objResponse.last_id;
+                    guardarOfertas(cotizacion);
                     toogleDataContainer();
                     html_data += ` 
-                                  <div class='card-ofertas'>
-                                    <div class='row card-body'>
-                                        <div class="col-xs-12 col-sm-6 col-md-2 ">
-                                            <img src="vistas/modulos/AssistCardCot/img/LOGO-ROJO-01.png" class="logoCardAsist" alt="Logo">
-                                        </div>
-  
-                                        <div class="col-xs-12 col-sm-6 col-md-2 oferta-logo">
-                                            <span class="tittleCard">
-                                                Assist Card - ${changeNameProduct(
-                                                  cotizacionArray.codigo,
-                                                  cotizacionArray.nombreTarifa
-                                                )}
-                                            </span><br> 
-                                            <span class="tittleCard">
-                                                VACACIONAL
-                                            </span><br> 
-                                            <span class="tittlePrice">
-                                                Desde  ${
-                                                  contPasajeros > 1
-                                                    ? `${
-                                                        cotizacionArray.moneda ==
-                                                        "1"
-                                                          ? "USD"
-                                                          : "COP"
-                                                      } $` +
-                                                      parseFloat(
-                                                        cotizacionArray
-                                                          .clientesCotizados
-                                                          .clienteCotizacion[0]
-                                                          .valorAsistencia
-                                                      ).toFixed(2)
-                                                    : `${
-                                                        cotizacionArray.moneda ==
-                                                        "1"
-                                                          ? "USD"
-                                                          : "COP"
-                                                      } $` +
-                                                      parseFloat(
-                                                        cotizacionArray
-                                                          .clientesCotizados
-                                                          .clienteCotizacion
-                                                          .valorAsistencia
-                                                      ).toFixed(2)
-                                                }
-                                            </span><br> 
-                                        </div>
-  
-                                        <div class="col-xs-12 col-sm-6 col-md-3 textCards">                
-                                            <ul>
-                                                <li>Cobertura USD ${changeRateVacationalProduct(
-                                                  cotizacionArray.codigo
-                                                )}</li>
-                                                <li>Cobertura de accidentes</li>
-                                                <li>Cobertura por enfermedades no preexistente</li>
-                                                <li>Cobertura de estabilización de cuadro agudo de preexistencias</li>
-                                            </ul>
-                                        </div>
-  
-                                        <div class="col-xs-12 col-sm-6 col-md-3 textCards">
-                                            <ul>
-                                                <li>Odontología de urgencia</li>
-                                                <li>Repatriación Sanitaria derivada de una atención médica</li>
-                                                <li>Repatriación funeraria</li>
-                                                <li>Seguro de equipaje ante demora y pérdida</li>
-                                            </ul>
-                                        </div>
-  
-                                        <div class="col-xs-12 col-sm-6 col-md-2 colPdf">
-                                          <span> Muchas más <br>
-                                          </span>
-                                          <span> coberturas  
-                                          <span class="bigEmoji">👇🏼</span>  
-                                          </span>
-                                            <button class="btn btn-info btn-block btn-pdf" id="">
-                                                <span class="span_titulo_item">
-                                                    <a target="_blank" class="btnText" href='https://serviciocondiciones.assist-card.com/DetalleCcpp.ashx?codigoPais=${
-                                                      cotizacionArray.pais
-                                                    }&producto=${
-                      cotizacionArray.codigo
+                                <div class='card-ofertas'>
+                                  <div class='row card-body'>
+                                      <div class="col-xs-12 col-sm-6 col-md-2 align-horizontal ">
+                                          <img src="vistas/modulos/AssistCardCot/img/LOGO-ROJO-01.png" class="logoCardAsist" alt="Logo">
+                                      </div>
+    
+                                      <div class="col-xs-12 col-sm-6 col-md-2 oferta-logo">
+                                          <span class="tittleCard">
+                                              Assist Card - ${changeNameProduct(
+                                                cotizacion.codigo,
+                                                cotizacion.nombreTarifa
+                                              )}
+                                          </span><br> 
+                                          <span class="tittleCard">
+                                              CORPORATIVO
+                                          </span><br> 
+                                          <span class="tittlePrice">
+                                              Desde ${
+                                                contPasajeros > 1
+                                                  ? `${
+                                                      cotizacion.moneda == "1"
+                                                        ? "USD"
+                                                        : "COP"
+                                                    } $` +
+                                                    parseFloat(
+                                                      cotizacion.clientesCotizados
+                                                        .clienteCotizacion[0]
+                                                        .valorAsistencia
+                                                    ).toFixed(2)
+                                                  : `${
+                                                      cotizacion.moneda == "1"
+                                                        ? "USD"
+                                                        : "COP"
+                                                    } $` +
+                                                    parseFloat(
+                                                      cotizacion.clientesCotizados
+                                                        .clienteCotizacion
+                                                        .valorAsistencia
+                                                    ).toFixed(2)
+                                              }
+                                          </span><br> 
+                                      </div>
+    
+                                      <div class="col-xs-12 col-sm-6 col-md-3 textCards">                
+                                          <ul>
+                                              <li>Cobertura USD ${changeRateBusinessProduct(
+                                                cotizacion.codigo
+                                              )}</li>
+                                              <li>Cobertura de accidentes</li>
+                                              <li>Cobertura por enfermedades no preexistente</li>
+                                              <li>Cobertura de estabilización de cuadro agudo de preexistencias</li>
+                                              <li>Traslado ejecutivo por reemplazo de funcionario asistido</li>
+                                          </ul>
+                                      </div>
+    
+                                      <div class="col-xs-12 col-sm-6 col-md-3 textCards">
+                                          <ul>
+                                              <li>Odontología de urgencia</li>
+                                              <li>Repatriación Sanitaria derivada de una atención médica</li>
+                                              <li>Repatriación funeraria</li>
+                                              <li>Seguro de equipaje ante demora y pérdida</li>
+                                              <li>Cobertura salvoconducto ante perdida de pasaporte</li>
+                                          </ul>
+                                      </div>
+    
+                                      <div class="col-xs-12 col-sm-6 col-md-2 colPdf">
+                                            <span> Muchas más <br>
+                                            </span>
+                                            <span> coberturas  
+                                            <span class="bigEmoji">👇🏼</span>  
+                                            </span>
+                                              <button class="btn btn-info btn-block btn-pdf" id="">
+                                                  <span class="span_titulo_item">
+                                                      <a target="_blank" class="btnText" href='https://serviciocondiciones.assist-card.com/DetalleCcpp.ashx?codigoPais=${
+                                                        cotizacion.pais
+                                                      }&producto=${
+                      cotizacion.codigo
                     }&tarifa=${
-                      cotizacionArray.codigoTarifa
+                      cotizacion.codigoTarifa
                     }&edad=${edadPrincipalParaVerDetalles}&idLanguage=1&anual=${
-                      cotizacionArray.cantidadDias == 365 ? `True` : `False`
-                    }'>Ver detalles  </a>
-                                                </span>
-                                                <span class="fa fa-file-text" aria-hidden="true"></span>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            `;
+                      cotizacion.cantidadDias == 365 ? `True` : `False`
+                    }'>Ver detalles</a>
+                                                  </span>
+                                          </button>
+                                      </div>
+                                  </div>
+                              </div>
+                          `;
                   }
-                } else if (SelmotivoViaje2 == "Estudiantil") {
-                  var txtDestino = $("#lugarDestino").val();
-                  let codigoOferta = "";
-                  var codOfertaEstatico =
-                    planesPorDestinoEstudiantiles[txtDestino];
-                  if (
-                    cotizacionArray.codigoTarifa == "10474" &&
-                    codOfertaEstatico == "10473"
-                  ) {
-                    codigoOferta = cotizacionArray.codigoTarifa;
-                  } else if (
-                    cotizacionArray.codigoTarifa == "10476" &&
-                    codOfertaEstatico == "10475"
-                  ) {
-                    codigoOferta = cotizacionArray.codigoTarifa;
-                  } else if (
-                    cotizacionArray.codigoTarifa == "10478" &&
-                    codOfertaEstatico == "10477"
-                  ) {
-                    codigoOferta = cotizacionArray.codigoTarifa;
-                  } else {
-                    codigoOferta = planesPorDestinoEstudiantiles[txtDestino];
-                  }
-                  if (codigoOferta == cotizacionArray.codigoTarifa) {
-                    if (validarCodigoEstudiantil(cotizacionArray.codigo)) {
+                }
+              } else {
+                $.each(cotizacion, function (key, cotizacionArray) {
+                  if (SelmotivoViaje2 == "Empresarial") {
+                    if (validarCodigoEmpresarial(cotizacionArray.codigo)) {
+                      cotizacionArray.modalidad = SelmotivoViaje2;
+                      cotizacionArray.last_id = objResponse.last_id;
+                      guardarOfertas(cotizacionArray);
+                      toogleDataContainer();
+                      html_data += ` 
+                                <div class='card-ofertas'>
+                                  <div class='row card-body'>
+                                      <div class="col-xs-12 col-sm-6 col-md-2 align-horizontal ">
+                                          <img src="vistas/modulos/AssistCardCot/img/LOGO-ROJO-01.png" class="logoCardAsist" alt="Logo">
+                                      </div>
+    
+                                      <div class="col-xs-12 col-sm-6 col-md-2 oferta-logo">
+                                          <span class="tittleCard">
+                                              Assist Card - ${changeNameProduct(
+                                                cotizacionArray.codigo,
+                                                cotizacionArray.nombreTarifa
+                                              )}
+                                          </span><br> 
+                                          <span class="tittleCard">
+                                              CORPORATIVO
+                                          </span><br> 
+                                          <span class="tittlePrice">
+                                              Desde ${
+                                                contPasajeros > 1
+                                                  ? `${
+                                                      cotizacionArray.moneda ==
+                                                      "1"
+                                                        ? "USD"
+                                                        : "COP"
+                                                    } $` +
+                                                    parseFloat(
+                                                      cotizacionArray
+                                                        .clientesCotizados
+                                                        .clienteCotizacion[0]
+                                                        .valorAsistencia
+                                                    ).toFixed(2)
+                                                  : `${
+                                                      cotizacionArray.moneda ==
+                                                      "1"
+                                                        ? "USD"
+                                                        : "COP"
+                                                    } $` +
+                                                    parseFloat(
+                                                      cotizacionArray
+                                                        .clientesCotizados
+                                                        .clienteCotizacion
+                                                        .valorAsistencia
+                                                    ).toFixed(2)
+                                              }
+                                          </span><br> 
+                                      </div>
+    
+                                      <div class="col-xs-12 col-sm-6 col-md-3 textCards">                
+                                          <ul>
+                                              <li>Cobertura USD ${changeRateBusinessProduct(
+                                                cotizacionArray.codigo
+                                              )}</li>
+                                              <li>Cobertura de accidentes</li>
+                                              <li>Cobertura por enfermedades no preexistente</li>
+                                              <li>Cobertura de estabilización de cuadro agudo de preexistencias</li>
+                                              <li>Traslado ejecutivo por reemplazo de funcionario asistido</li>
+                                          </ul>
+                                      </div>
+    
+                                      <div class="col-xs-12 col-sm-6 col-md-3 textCards">
+                                          <ul>
+                                              <li>Odontología de urgencia</li>
+                                              <li>Repatriación Sanitaria derivada de una atención médica</li>
+                                              <li>Repatriación funeraria</li>
+                                              <li>Seguro de equipaje ante demora y pérdida</li>
+                                              <li>Cobertura salvoconducto ante perdida de pasaporte</li>
+                                          </ul>
+                                      </div>
+    
+                                      <div class="col-xs-12 col-sm-6 col-md-2 colPdf">
+                                            <span> Muchas más <br>
+                                            </span>
+                                            <span> coberturas  
+                                            <span class="bigEmoji">👇🏼</span>  
+                                            </span>
+                                              <button class="btn btn-info btn-block btn-pdf" id="">
+                                                  <span class="span_titulo_item">
+                                                      <a target="_blank" class="btnText" href='https://serviciocondiciones.assist-card.com/DetalleCcpp.ashx?codigoPais=${
+                                                        cotizacionArray.pais
+                                                      }&producto=${
+                        cotizacionArray.codigo
+                      }&tarifa=${
+                        cotizacionArray.codigoTarifa
+                      }&edad=${edadPrincipalParaVerDetalles}&idLanguage=1&anual=${
+                        cotizacionArray.cantidadDias == 365 ? `True` : `False`
+                      }'>Ver detalles</a>
+                                                  </span>
+                                          </button>
+                                      </div>
+                                  </div>
+                              </div>
+                          `;
+                    }
+                  } else if (SelmotivoViaje2 == "Vacacional") {
+                    if (validarCodigoVacacional(cotizacionArray.codigo)) {
                       cotizacionArray.modalidad = SelmotivoViaje2;
                       cotizacionArray.last_id = objResponse.last_id;
                       guardarOfertas(cotizacionArray);
@@ -1061,13 +949,11 @@ function cotizar() {
                                                   Assist Card - ${changeNameProduct(
                                                     cotizacionArray.codigo,
                                                     cotizacionArray.nombreTarifa
-                                                  )} - ${regionConvert(
-                        cotizacionArray.codigoTarifa
-                      )}
+                                                  )}
                                               </span><br> 
                                               <span class="tittleCard">
-                                                ESTUDIANTIL
-                                            </span><br>
+                                                  VACACIONAL
+                                              </span><br> 
                                               <span class="tittlePrice">
                                                   Desde  ${
                                                     contPasajeros > 1
@@ -1101,23 +987,20 @@ function cotizar() {
     
                                           <div class="col-xs-12 col-sm-6 col-md-3 textCards">                
                                               <ul>
-                                                  <li>Cobertura USD ${changeRateStudyingProduct(
+                                                  <li>Cobertura USD ${changeRateVacationalProduct(
                                                     cotizacionArray.codigo
                                                   )}</li>
                                                   <li>Cobertura de accidentes</li>
                                                   <li>Cobertura por enfermedades no preexistente</li>
                                                   <li>Cobertura de estabilización de cuadro agudo de preexistencias</li>
-                                                  <li>Acompañamiento psicológico</li>
-                                                  <li>Odontología de urgencia</li>
                                               </ul>
                                           </div>
     
                                           <div class="col-xs-12 col-sm-6 col-md-3 textCards">
                                               <ul>
-                                                  <li>Traslado de un familiar es caso de hospitalización prevista de 5 días.</li>
+                                                  <li>Odontología de urgencia</li>
                                                   <li>Repatriación Sanitaria derivada de una atención médica</li>
                                                   <li>Repatriación funeraria</li>
-                                                  <li>Cobertura salvoconducto ante Pérdida de Pasaporte</li>
                                                   <li>Seguro de equipaje ante demora y pérdida</li>
                                               </ul>
                                           </div>
@@ -1147,26 +1030,154 @@ function cotizar() {
                                   </div>
                               `;
                     }
+                  } else if (SelmotivoViaje2 == "Estudiantil") {
+                    var txtDestino = $("#lugarDestino").val();
+                    let codigoOferta = "";
+                    var codOfertaEstatico =
+                      planesPorDestinoEstudiantiles[txtDestino];
+                    if (
+                      cotizacionArray.codigoTarifa == "10474" &&
+                      codOfertaEstatico == "10473"
+                    ) {
+                      codigoOferta = cotizacionArray.codigoTarifa;
+                    } else if (
+                      cotizacionArray.codigoTarifa == "10476" &&
+                      codOfertaEstatico == "10475"
+                    ) {
+                      codigoOferta = cotizacionArray.codigoTarifa;
+                    } else if (
+                      cotizacionArray.codigoTarifa == "10478" &&
+                      codOfertaEstatico == "10477"
+                    ) {
+                      codigoOferta = cotizacionArray.codigoTarifa;
+                    } else {
+                      codigoOferta = planesPorDestinoEstudiantiles[txtDestino];
+                    }
+                    if (codigoOferta == cotizacionArray.codigoTarifa) {
+                      if (validarCodigoEstudiantil(cotizacionArray.codigo)) {
+                        cotizacionArray.modalidad = SelmotivoViaje2;
+                        cotizacionArray.last_id = objResponse.last_id;
+                        guardarOfertas(cotizacionArray);
+                        toogleDataContainer();
+                        html_data += ` 
+                                      <div class='card-ofertas'>
+                                        <div class='row card-body'>
+                                            <div class="col-xs-12 col-sm-6 col-md-2 ">
+                                                <img src="vistas/modulos/AssistCardCot/img/LOGO-ROJO-01.png" class="logoCardAsist" alt="Logo">
+                                            </div>
+      
+                                            <div class="col-xs-12 col-sm-6 col-md-2 oferta-logo">
+                                                <span class="tittleCard">
+                                                    Assist Card - ${changeNameProduct(
+                                                      cotizacionArray.codigo,
+                                                      cotizacionArray.nombreTarifa
+                                                    )} - ${regionConvert(
+                          cotizacionArray.codigoTarifa
+                        )}
+                                                </span><br> 
+                                                <span class="tittleCard">
+                                                  ESTUDIANTIL
+                                              </span><br>
+                                                <span class="tittlePrice">
+                                                    Desde  ${
+                                                      contPasajeros > 1
+                                                        ? `${
+                                                            cotizacionArray.moneda ==
+                                                            "1"
+                                                              ? "USD"
+                                                              : "COP"
+                                                          } $` +
+                                                          parseFloat(
+                                                            cotizacionArray
+                                                              .clientesCotizados
+                                                              .clienteCotizacion[0]
+                                                              .valorAsistencia
+                                                          ).toFixed(2)
+                                                        : `${
+                                                            cotizacionArray.moneda ==
+                                                            "1"
+                                                              ? "USD"
+                                                              : "COP"
+                                                          } $` +
+                                                          parseFloat(
+                                                            cotizacionArray
+                                                              .clientesCotizados
+                                                              .clienteCotizacion
+                                                              .valorAsistencia
+                                                          ).toFixed(2)
+                                                    }
+                                                </span><br> 
+                                            </div>
+      
+                                            <div class="col-xs-12 col-sm-6 col-md-3 textCards">                
+                                                <ul>
+                                                    <li>Cobertura USD ${changeRateStudyingProduct(
+                                                      cotizacionArray.codigo
+                                                    )}</li>
+                                                    <li>Cobertura de accidentes</li>
+                                                    <li>Cobertura por enfermedades no preexistente</li>
+                                                    <li>Cobertura de estabilización de cuadro agudo de preexistencias</li>
+                                                    <li>Acompañamiento psicológico</li>
+                                                    <li>Odontología de urgencia</li>
+                                                </ul>
+                                            </div>
+      
+                                            <div class="col-xs-12 col-sm-6 col-md-3 textCards">
+                                                <ul>
+                                                    <li>Traslado de un familiar es caso de hospitalización prevista de 5 días.</li>
+                                                    <li>Repatriación Sanitaria derivada de una atención médica</li>
+                                                    <li>Repatriación funeraria</li>
+                                                    <li>Cobertura salvoconducto ante Pérdida de Pasaporte</li>
+                                                    <li>Seguro de equipaje ante demora y pérdida</li>
+                                                </ul>
+                                            </div>
+      
+                                            <div class="col-xs-12 col-sm-6 col-md-2 colPdf">
+                                              <span> Muchas más <br>
+                                              </span>
+                                              <span> coberturas  
+                                              <span class="bigEmoji">👇🏼</span>  
+                                              </span>
+                                                <button class="btn btn-info btn-block btn-pdf" id="">
+                                                    <span class="span_titulo_item">
+                                                        <a target="_blank" class="btnText" href='https://serviciocondiciones.assist-card.com/DetalleCcpp.ashx?codigoPais=${
+                                                          cotizacionArray.pais
+                                                        }&producto=${
+                          cotizacionArray.codigo
+                        }&tarifa=${
+                          cotizacionArray.codigoTarifa
+                        }&edad=${edadPrincipalParaVerDetalles}&idLanguage=1&anual=${
+                          cotizacionArray.cantidadDias == 365 ? `True` : `False`
+                        }'>Ver detalles  </a>
+                                                    </span>
+                                                    <span class="fa fa-file-text" aria-hidden="true"></span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                `;
+                      }
+                    }
                   }
-                }
+                });
+              }
+              document.getElementById("spinener-cot").style.display = "none";
+              document.getElementById("row_contenedor_general").innerHTML =
+                html_data;
+              //   });
+              cargarEstilos("vistas/modulos/AssistCardCot/css/cards.css");
+              Swal.fire({
+                title: "¡Cotización Exitosa!",
+                icon: "success",
               });
             }
-            document.getElementById("spinener-cot").style.display = "none";
-            document.getElementById("row_contenedor_general").innerHTML =
-              html_data;
-            //   });
-            cargarEstilos("vistas/modulos/AssistCardCot/css/cards.css");
-            Swal.fire({
-              title: "¡Cotización Exitosa!",
-              icon: "success",
-            });
           }
-        }
-      },
-      error: function (data) {
-        alert("Error");
-      },
-    });
+        },
+        error: function (data) {
+          alert("Error");
+        },
+      });
+    }
   } else {
     Swal.fire({
       icon: "error",
