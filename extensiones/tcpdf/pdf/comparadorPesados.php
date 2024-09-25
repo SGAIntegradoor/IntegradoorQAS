@@ -2722,7 +2722,6 @@ $pdf->Cell(10, 0, '(Recuerda que este icono       significa Si Aplica o Si Cubre
 
 //$pdf->Cell(210, 0, 'las aseguradoras, revisa el siguiente cuadro', 0, $ln = 0, 'C', 0, '', 0, false, 'C', 'C');
 $pdf->Ln();
-$pdf->Ln();
 $pdf->writeHTML($html3, true, false, true, false, '');
 //$pdf->writeHTML($html3s, true, false, true, false, '');
 $pdf->writeHTML($html4, true, false, true, false, '');
