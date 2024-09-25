@@ -285,24 +285,22 @@ $(document).ready(function () {
   //   })
 
   // })
-  
-    $("#valorTotal").numeric();
+
+  $("#valorTotal").numeric();
   const parseNumbersToString = (selector) => {
     $(selector).on("input", function () {
       this.value = this.value.replace(/\./g, "");
     });
-  
+
     // Previene el ingreso de puntos desde el teclado
     $(selector).on("keydown", function (event) {
       if (event.which === 190 || event.which === 110) {
         event.preventDefault();
       }
     });
-  }
+  };
 
-
-  parseNumbersToString("#valorTotal")
-  
+  parseNumbersToString("#valorTotal");
 
   // $('#btnMotosX').click(function (){
   //   window.location = "motos"
@@ -1107,8 +1105,6 @@ function editarCotizacion(id) {
         dataType: "json",
 
         success: async function (respuesta) {
-          // console.log(respuesta);
-
           let offerts = [];
 
           const headers = new Headers();
@@ -1116,7 +1112,7 @@ function editarCotizacion(id) {
 
           const body = {
             idCotizacion: idCotizacion,
-            env: "QAS"
+            env: "QAS",
           };
 
           try {
@@ -1131,7 +1127,7 @@ function editarCotizacion(id) {
             );
 
             offerts = await dbResponse.json();
-            console.log(offerts);
+            // console.log(offerts);
           } catch (error) {
             console.error("Error fetching data:", error);
           }
@@ -1139,7 +1135,7 @@ function editarCotizacion(id) {
           menosRE();
           if (respuesta.length > 0) {
             var cardCotizacion = "";
-            console.log(offerts);
+            // console.log(offerts);
             respuesta.forEach(function (oferta, i) {
               // Nombre aseguradoras
               function nombreAseguradora(data) {
@@ -1239,9 +1235,6 @@ function editarCotizacion(id) {
                 var valorRCFormat = oferta.ValorRC;
               }
               // Desactive
-              //console.log(oferta.Aseguradora)
-              //console.log(oferta.Producto)
-
               //FUNCION QUE ACOMODA RCE EN PARRILLA CUANDO LLEGA MUNDIAL
               if (
                 oferta.Aseguradora == "Mundial" &&
@@ -1257,7 +1250,22 @@ function editarCotizacion(id) {
                 // Volver a formatear con puntos
                 var valorRCFormat = RC.toLocaleString();
               }
-              console.log(oferta.Producto);
+              if (
+                (oferta.Aseguradora == "HDI Seguros" &&
+                  oferta.Producto == "Pesados") ||
+                (oferta.Aseguradora == "HDI Seguros" &&
+                  oferta.Producto == "Linea F Chevrolet")
+              ) {
+                // Eliminar los puntos y convertir a número
+                var RC = oferta.ValorRC;
+                RC = parseFloat(RC.replace(/\./g, ""));
+
+                // Sumar 1.000.000.000
+                RC += 1000000000;
+
+                // Volver a formatear con puntos
+                var valorRCFormat = RC.toLocaleString();
+              }
               if (
                 oferta.Aseguradora == "SBS Seguros" &&
                 oferta.Producto == "RCE Daños"
@@ -1295,7 +1303,11 @@ function editarCotizacion(id) {
                       <center> 
 
 												<img src='${oferta.logo}' style="${
-                oferta.Aseguradora == "Mundial" ? "margin-top: 65px;" : oferta.Aseguradora == "Liberty" ? "margin-top: 3px;" : null
+                oferta.Aseguradora == "Mundial"
+                  ? "margin-top: 65px;"
+                  : oferta.Aseguradora == "Liberty"
+                  ? "margin-top: 3px;"
+                  : null
               }">
 
                         </center>
@@ -1313,7 +1325,8 @@ function editarCotizacion(id) {
                               <!-- Código para el caso específico de Axa Colpatria, Liberty, Equidad o Mapfre -->
                               <!-- Agrega aquí el contenido específico para estas aseguradoras -->
                             </center>`
-                              : oferta.Aseguradora !== "Mundial" && oferta.Aseguradora !== "HDI Seguros" &&
+                              : oferta.Aseguradora !== "Mundial" &&
+                                oferta.Aseguradora !== "HDI Seguros" &&
                                 permisos.Vernumerodecotizacionencadaaseguradora ==
                                   "x" &&
                                 aseguradoraPermisos == "1"
@@ -1488,7 +1501,9 @@ function editarCotizacion(id) {
 
 													<li class="list-group-item">
 
-														<span class="badge">* ${valorRCFormat !== "No cubre" ? "$" : ""}${RC}${valorRCFormat}</span>
+														<span class="badge">* ${
+                              valorRCFormat !== "No cubre" ? "$" : ""
+                            }${valorRCFormat}</span>
 
 														Responsabilidad Civil (RCE)
 
@@ -2112,13 +2127,12 @@ const verPdfPrevisora = async (cotizacion) => {
 };
 
 const obtenerPdfprevisora = async (cotizacion) => {
-  
   const formData = new FormData();
-  
+
   const id_intermediario = document.getElementById("idIntermediario").value;
 
   formData.append("cotizacion", cotizacion);
-  formData.append("intermediario", id_intermediario );
+  formData.append("intermediario", id_intermediario);
 
   const pdfText = await fetch(
     "https://www.grupoasistencia.com/motor_webservice/WSPrevisora/get_pdf_previsora.php",
@@ -2224,7 +2238,7 @@ const obtenerPdfSolidaria = async (cotizacion) => {
   const id_intermediario = document.getElementById("idIntermediario").value;
 
   formData.append("cotizacion", cotizacion);
-  formData.append("intermediario", id_intermediario );
+  formData.append("intermediario", id_intermediario);
 
   for (const entry of formData) {
     // desactive
@@ -2561,7 +2575,7 @@ function selecProductoManual() {
                 item.producto +
                 " Motos 30 a 90 MM" +
                 "</option>";
-              break;      
+              break;
             case "31":
               producto +=
                 "<option value='" +
