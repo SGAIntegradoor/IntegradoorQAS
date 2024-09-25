@@ -1248,6 +1248,8 @@ const mostrarOfertaPesados = (
 ) => {
   var id_intermediario = document.getElementById("idIntermediario").value;
 
+  console.log(aseguradora," ", producto);
+
   //FUNCION QUE ACOMODA RCE EN PARRILLA CUANDO LLEGA MUNDIAL
   if (aseguradora == "Mundial" && producto == "Pesados con RCE en exceso") {
     // Eliminar los puntos y convertir a número
@@ -1255,6 +1257,15 @@ const mostrarOfertaPesados = (
 
     // Sumar 1.500.000.000
     RC += 1500000000;
+
+    // Volver a formatear con puntos
+    var RC = RC.toLocaleString();
+  } else if ((aseguradora == "HDI Seguros" && producto == "Pesados") || (aseguradora == "HDI Seguros" &&  producto == "Linea F Chevrolet")) {
+    // Eliminar los puntos y convertir a número
+    RC = parseFloat(RC.replace(/\./g, ""));
+
+    // Sumar 1.500.000.000
+    RC += 1000000000;
 
     // Volver a formatear con puntos
     var RC = RC.toLocaleString();
