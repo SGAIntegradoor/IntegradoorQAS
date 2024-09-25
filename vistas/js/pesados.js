@@ -489,6 +489,11 @@ $(document).ready(function () {
                 <td style="border: 2px solid gray; padding: 10px;">Previsora</td>
                 <td style="border: 2px solid gray; padding: 10px;">700 millones</td>
               </tr>
+               <tr style="border: 2px solid gray;">
+                <td style="border: 2px solid gray; padding: 10px;">HDI</td>
+                <td style="border: 2px solid gray; padding: 10px;">700 millones</td>
+                <td style="border: 2px solid gray; padding: 10px;">200 millones remolques</td>
+              </tr>
               </tbody>
           </table>
         </div>
