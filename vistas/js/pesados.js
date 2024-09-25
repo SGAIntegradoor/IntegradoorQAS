@@ -491,8 +491,11 @@ $(document).ready(function () {
               </tr>
                <tr style="border: 2px solid gray;">
                 <td style="border: 2px solid gray; padding: 10px;">HDI</td>
-                <td style="border: 2px solid gray; padding: 10px;">700 millones</td>
-                <td style="border: 2px solid gray; padding: 10px;">200 millones remolques</td>
+                <td style="border: 2px solid gray; padding: 10px;">
+                700 millones
+                <br>
+                200 millones remolques
+                </td>
               </tr>
               </tbody>
           </table>
