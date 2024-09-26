@@ -1268,7 +1268,7 @@ const mostrarOfertaPesados = (
 
     // Volver a formatear con puntos
     var RC = RC.toLocaleString();
-  } else if ((aseguradora == "HDI Seguros" && producto == "Pesados") || (aseguradora == "HDI Seguros" &&  producto == "Linea F Chevrolet")) {
+  } else if ((aseguradora == "HDI Seguros" && producto == "Convenio Pesados") || (aseguradora == "HDI Seguros" &&  producto == "Convenio Linea F Chevrolet")) {
     // Eliminar los puntos y convertir a número
     RC = parseFloat(RC.replace(/\./g, ""));
 
