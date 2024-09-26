@@ -1434,7 +1434,7 @@ if ($_SESSION["permisos"]["Cotizarpesados"] != "x") {
                   <ul style="padding-left: 16px; padding-right: 3px;">
                     <div style="text-align: justify;">
                       <p style="font-weight: bold;">Política de valor asegurado pesados:</p>
-                      <p>El Valor asegurado máximo de acuerdo a la aseguradora es el siguiente: Seguros Mundial 700 millones. AXA Colpatria 400 millones. Liberty 310 millones. Previsora 700 millones</p>
+                      <p>El Valor asegurado máximo de acuerdo a la aseguradora es el siguiente: Seguros Mundial 700 millones. AXA Colpatria 400 millones. Liberty 310 millones. Previsora 700 millones. HDI 700 millones y 200 millones para remolques</p>
                       <p>
                         <strong>Nota:</strong> Tener en cuenta que aunque el cotizador genere ofertas, no todos los vehículos son asegurables. Se podrán hacer excepciones de valor asegurado superior cuando el asesor sea productivo, tenga más de 6 meses de antigüedad con Grupo Asistencia, no tenga altos indices de siniestralidad en su cartera, y si el cliente tiene vinculación con otros productos de la aseguradora. El valor de las primas de las cotizaciones puede variar al momento de emitir en los casos autorizados de manera excepcional.
                       </p>
