@@ -996,10 +996,14 @@ $response = retrieveQuotation($idCotizacion);
               ) {
                 if ($idIntermediario != 78 && $idIntermediario != 4) {
                   echo '<div class="aviso-container col-lg-12">
-                      <p>El precio de la póliza con Seguros Mundial tiene incluido un descuento del 5%, solo aplica para pago de contado o financiación con Finesa.</p>
-                      <p>
-                      HDI Seguros se reserva el derecho de aceptar marcas, clases, tipos y modelos de vehículos que no se encuentren expresamente incluidos en el listado de exclusiones. No se autoriza la vinculación de vehículos que hayan presentado siniestros en la última vigencia. No se autoriza la cotización de vehículos vinculados a pólizas individuales o colectivas vigentes en HDI. No se aseguran remolques o carrocerías sin el cabezote o chasis.
+                  <ul>
+                    <li>
+                      <p>El precio de la póliza con Seguros Mundial tiene incluido un descuento del 5%, solo aplica para pago de contado o financiación con Finesa.</p></li>
+                    <li>
+                      <p> HDI Seguros se reserva el derecho de aceptar marcas, clases, tipos y modelos de vehículos que no se encuentren expresamente incluidos en el listado de exclusiones. No se autoriza la vinculación de vehículos que hayan presentado siniestros en la última vigencia. No se autoriza la cotización de vehículos vinculados a pólizas individuales o colectivas vigentes en HDI. No se aseguran remolques o carrocerías sin el cabezote o chasis.
                       </p>
+                    </li>                
+                  </ul>                 
                       <p style="font-weight: bold;">Política de valor asegurado pesados:</p>
                       <p>El Valor asegurado máximo de acuerdo a la aseguradora es el siguiente: Seguros Mundial 700 millones. AXA Colpatria 400 millones. Liberty 310 millones. Previsora 700 millones. HDI 700 millones y 200 millones para remolques</p>
                       <p>
