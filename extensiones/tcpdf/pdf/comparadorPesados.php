@@ -16,7 +16,7 @@ $identificador = $_GET['cotizacion'];
 $server = "localhost";
 $user = "grupoasi_cotizautos";
 $password = "M1graci0n123"; //poner tu propia contraseña, si tienes una.
-$bd = "grupoasi_cotizautos_qas";
+$bd = "grupoasi_cotizautos";
 
 $conexion = mysqli_connect($server, $user, $password, $bd);
 if (!$conexion) {
@@ -2722,11 +2722,11 @@ $pdf->Cell(10, 0, '(Recuerda que este icono       significa Si Aplica o Si Cubre
 
 //$pdf->Cell(210, 0, 'las aseguradoras, revisa el siguiente cuadro', 0, $ln = 0, 'C', 0, '', 0, false, 'C', 'C');
 $pdf->Ln();
-$pdf->writeHTML($html3, true, false, true, false, '');
 $pdf->Ln();
+$pdf->writeHTML($html3, true, false, true, false, '');
 //$pdf->writeHTML($html3s, true, false, true, false, '');
 $pdf->writeHTML($html4, true, false, true, false, '');
-$pdf->Ln();
+
 //$pdf->writeHTML($html5, true, false, true, false, '');
 //$pdf->Ln();
 
