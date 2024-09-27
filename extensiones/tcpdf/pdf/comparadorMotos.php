@@ -16,7 +16,7 @@ $identificador = $_GET['cotizacion'];
 $server = "localhost";
 $user = "grupoasi_cotizautos";
 $password = "M1graci0n123"; //poner tu propia contraseña, si tienes una.
-$bd = "grupoasi_cotizautos_qas";
+$bd = "grupoasi_cotizautos";
 
 
 $conexion = mysqli_connect($server, $user, $password, $bd);
@@ -2017,14 +2017,14 @@ if($rowValidate > 3){
 	$html4 .= '<td class="fondo puntos" style="width:25%;"><div style="font-size:4pt">&nbsp;</div><font size="8" style="font-family:dejavusanscondensedb; text-align: center;">Gastos médicos</font></td>';
 
 }
-
+// var_dump($resultados);
 $cont25 = 1;
 foreach ($resultados as $resultado) {
 
 	$nombreAseguradora = nombreAseguradora($resultado['Aseguradora']);
 	$nombreProducto = productoAseguradora($resultado['Aseguradora'], $resultado['Producto']);
 
-	$queryConsultaAsistencia21xs = "SELECT * FROM asistencias WHERE `aseguradora` LIKE '$nombreAseguradora' AND `producto` LIKE '$nombreProducto'";
+	$queryConsultaAsistencia21xs = "SELECT * FROM asistencias WHERE `aseguradora` LIKE '$nombreAseguradora' AND `producto` LIKE '$nombreProducto' AND `ppd` LIKE '{$resultado['PerdidaParcial']}' ";
 	$respuestaqueryAsistencia21xs =  $conexion->query($queryConsultaAsistencia21xs);
 	$rowRespuestaAsistencia21xs = mysqli_fetch_assoc($respuestaqueryAsistencia21xs);
 
