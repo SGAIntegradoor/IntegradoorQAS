@@ -1425,9 +1425,7 @@ if ($_SESSION["permisos"]["Cotizarpesados"] != "x") {
                     </li>
                     <li>
                       <p>
-                        HDI Seguros se reserva el derecho de aceptar marcas, clases, tipos y modelos de vehículos
-                        que no se encuentren expresamente incluidos en el listado de exclusiones. No se autoriza
-                        la vinculación de vehículos que hayan presentado siniestros en la última vigencia.
+                      HDI Seguros se reserva el derecho de aceptar marcas, clases, tipos y modelos de vehículos que no se encuentren expresamente incluidos en el listado de exclusiones. No se autoriza la vinculación de vehículos que hayan presentado siniestros en la última vigencia. No se autoriza la cotización de vehículos vinculados a pólizas individuales o colectivas vigentes en HDI. No se aseguran remolques o carrocerías sin el cabezote o chasis.
                       </p>
                     </li>
                   </ul>
