@@ -2287,6 +2287,8 @@ function cotizarOfertas() {
   var aseguradoras_autorizar = JSON.parse(
     document.getElementById("aseguradoras").value
   );
+
+  console.log(aseguradoras_autorizar)
   // desactive
   //console.log(aseguradoras_autorizar)
 
@@ -2706,18 +2708,10 @@ function cotizarOfertas() {
               }
             };
 
-            // console.log(aseguradorasCoti); // Esto imprimirá el array con los nombres de aseguradoras autorizadas
-
+            console.log(aseguradorasCoti); // Esto imprimirá el array con los nombres de aseguradoras autorizadas
+            
             aseguradorasCoti.forEach((aseguradora) => {
               let url;
-
-              // if (aseguradora === "Mapfre") {
-              //   url = `https://grupoasistencia.com/motor_webservice_tst2/mapfrecotizacion4?callback=myCallback`;
-              // } else
-              // if (aseguradora === "AXA") {
-              //   url = `https://grupoasistencia.com/motor_webservice_tst2/AXA?callback=myCallback`;
-              // } else
-
               if (aseguradora === "HDI") {
                 url = `https://grupoasistencia.com/motor_webservice/HdiPlus`;
               } else if (aseguradora === "Zurich") {
@@ -2797,7 +2791,7 @@ function cotizarOfertas() {
                   let successAseguradora = true;
                   cont.push(
                     fetch(
-                      `https://grupoasistencia.com/motor_webservice/${aseguradora}?callback=myCallback`,
+                      `https://grupoasistencia.com/motor_webservice/${aseguradora}`,
                       requestOptions
                     )
                     .then((res) => {
@@ -2857,6 +2851,7 @@ function cotizarOfertas() {
                 return; // Salir del bucle después de procesar Estado
                 // Construir la URL de la solicitud para cada aseguradora
               } else if (aseguradora === "HDI (Antes Liberty)") {
+                url = `https://grupoasistencia.com/motor_webservice/Liberty_autos`;
                 cont.push(
                   fetch(url, requestOptions)
                     .then((res) => {
@@ -2898,10 +2893,11 @@ function cotizarOfertas() {
                       console.error(err);
                     })
                 );
+                return; 
               } else {
                 url = `https://grupoasistencia.com/motor_webservice/${aseguradora}_autos?callback=myCallback`;
               }
-
+              
               // Realizar la solicitud fetch y agregar la promesa al array
               cont.push(
                 fetch(url, requestOptions)
@@ -2945,7 +2941,7 @@ function cotizarOfertas() {
                   })
               );
             });
-
+            //console.log(cont)
             Promise.all(cont).then(() => {
               // $("#btnCotizar").hide();
               $("#loaderOferta").html("");

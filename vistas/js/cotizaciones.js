@@ -1167,7 +1167,7 @@ function editarCotizacion(id) {
                   case "Mapfre":
                     resultado = "Mapfre";
                     break;
-                  case "Liberty Seguros":
+                  case "HDI (Antes Liberty)":
                     resultado = "HDI (Antes Liberty)";
                     break;
                   case "Aseguradora Solidaria":
@@ -1305,7 +1305,7 @@ function editarCotizacion(id) {
 												<img src='${oferta.logo}' style="${
                 oferta.Aseguradora == "Mundial"
                   ? "margin-top: 65px;"
-                  : oferta.Aseguradora == "Liberty"
+                  : oferta.Aseguradora == "HDI (Antes Liberty)"
                   ? "margin-top: 3px;"
                   : null
               }">
@@ -1317,7 +1317,7 @@ function editarCotizacion(id) {
                       <div class='col-12' style='margin-top:2%;'>
                           ${
                             (oferta.Aseguradora === "Axa Colpatria" ||
-                              oferta.Aseguradora === "Liberty" ||
+                              oferta.Aseguradora === "HDI (Antes Liberty)" ||
                               oferta.Aseguradora === "Equidad" ||
                               oferta.Aseguradora === "Mapfre") &&
                             id_intermediario == "79"
@@ -1338,15 +1338,15 @@ function editarCotizacion(id) {
                         </div>
 											</div>
 											<div class="col-xs-12 col-sm-6 col-md-2 oferta-headerEdit" style='${
-                        oferta.Aseguradora == "Liberty" &&
+                        oferta.Aseguradora == "HDI (Antes Liberty)" &&
                         (oferta.oferta_finesa == "" ||
                           oferta.oferta_finesa == null)
-                          ? "padding-top: 42px;"
+                          ? "padding-top: 10px;"
                           : oferta.Aseguradora == "Mundial" &&
                             oferta.oferta_finesa &&
                             oferta.oferta_finesa != null
                           ? "padding-top: 14px;"
-                          : oferta.Aseguradora == "Liberty" &&
+                          : oferta.Aseguradora == "HDI (Antes Liberty)" &&
                             oferta.oferta_finesa != null
                           ? "padding-top: 14px"
                           : "padding-top: 14px"
@@ -1413,7 +1413,7 @@ function editarCotizacion(id) {
                   : oferta.Producto
               }</b></h5>
                       <h5 class='precio' style='${
-                        oferta.Aseguradora == "Liberty"
+                        oferta.Aseguradora == "HDI (Antes Liberty)"
                           ? "padding-bottom: 0px; !important"
                           : ""
                       }'>Precio $ ${primaFormat}</h5>
@@ -1437,27 +1437,23 @@ function editarCotizacion(id) {
                                       $("#CodigoClase").val() == 19) &&
                                     oferta.Prima < 1000000 &&
                                     !(
-                                      oferta.Aseguradora == "Liberty" ||
+                                      oferta.Aseguradora == "HDI (Antes Liberty)" ||
                                       oferta.Aseguradora == "Bolivar" ||
-                                      oferta.Aseguradora == "Seguros Bolivar" ||
-                                      oferta.Aseguradora == "Liberty Seguros"
+                                      oferta.Aseguradora == "Seguros Bolivar" 
                                     )
                                   ) {
                                     return `Financiación Finesa:<br />No aplica para financiación`;
                                   } else if (!viable) {
                                     if (
                                       element.identityElement.includes(
-                                        "Liberty"
+                                        "HDI (Antes Liberty)"
                                       ) ||
                                       element.identityElement.includes(
                                         "Bolivar"
                                       ) ||
                                       element.identityElement.includes(
                                         "Seguros Bolivar"
-                                      ) ||
-                                      element.identityElement.includes(
-                                        "Liberty Seguros"
-                                      )
+                                      ) 
                                     ) {
                                       return `Financiación Aseguradora:<br /> Consulte analista`;
                                     } else {
@@ -1465,17 +1461,14 @@ function editarCotizacion(id) {
                                     }
                                   } else if (
                                     element.identityElement.includes(
-                                      "Liberty"
+                                      "HDI (Antes Liberty)"
                                     ) ||
                                     element.identityElement.includes(
                                       "Bolivar"
                                     ) ||
                                     element.identityElement.includes(
                                       "Seguros Bolivar"
-                                    ) ||
-                                    element.identityElement.includes(
-                                      "Liberty Seguros"
-                                    )
+                                    ) 
                                   ) {
                                     return `Financiación Aseguradora:<br /> Consulte analista`;
                                   } else if (element.cuota_1 == null) {
@@ -2439,7 +2432,7 @@ function selecProductoManual() {
       var producto = "<option value=''>Seleccione Producto</option>";
 
       $.each(data, function (key, item) {
-        if (item.aseguradora == "Liberty") {
+        if (item.aseguradora == "HDI (Antes Liberty)") {
           switch (item.id_asistencias) {
             case "134":
               producto +=
@@ -2991,7 +2984,7 @@ function logoOfertaManual(aseguradora) {
     logo = "equidad.png";
   } else if (aseguradora == "Seguros Mapfre") {
     logo = "mapfre.png";
-  } else if (aseguradora == "Liberty Seguros") {
+  } else if (aseguradora == "HDI (Antes Liberty)") {
     logo = "liberty.png";
   } else if (aseguradora == "Aseguradora Solidaria") {
     logo = "solidaria.png";
