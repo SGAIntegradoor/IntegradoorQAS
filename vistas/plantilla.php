@@ -267,7 +267,7 @@ CUERPO DOCUMENTO
       "Equidad" => array("A" => $permisos["Equidad_A"], "C" => $permisos["Equidad_C"]),
       "Estado" => array("A" => $permisos["Estado_A"], "C" => $permisos["Estado_C"]),
       "HDI" => array("A" => $permisos["HDI_A"], "C" => $permisos["HDI_C"]),
-      "Liberty" => array("A" => $permisos["Liberty_A"], "C" => $permisos["Liberty_C"]),
+      "HDI (Antes Liberty)" => array("A" => $permisos["Liberty_A"], "C" => $permisos["Liberty_C"]),
       "Mapfre" => array("A" => $permisos["Mapfre_A"], "C" => $permisos["Mapfre_C"]),
       "Previsora" => array("A" => $permisos["Previsora_A"], "C" => $permisos["Previsora_C"]),
       "SBS" => array("A" => $permisos["SBS_A"], "C" => $permisos["SBS_C"]),

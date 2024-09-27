@@ -1477,7 +1477,7 @@ function cotizarFinesa(ofertasCotizaciones) {
                 const elementDiv = document.getElementById(element.objFinesa);
                 if (
                   element.aseguradora == "Seguros Bolivar" ||
-                  element.aseguradora == "Liberty"
+                  element.aseguradora == "HDI (Antes Liberty)"
                 ) {
                   cotizacionesFinesa[index].cotizada = true;
                   elementDiv.innerHTML = `Financiación Aseguradora:<br /> Consulte analista`;
@@ -1656,8 +1656,8 @@ const mostrarOferta = (
       $resultado = "Mapfre";
     } else if ($data == "Mapfre") {
       $resultado = "Mapfre";
-    } else if ($data == "Liberty Seguros") {
-      $resultado = "Liberty";
+    } else if ($data == "HDI (Antes Liberty)") {
+      $resultado = "HDI (Antes Liberty)";
     } else if ($data == "Aseguradora Solidaria") {
       $resultado = "Solidaria";
     } else if ($data == "Seguros Sura") {
@@ -1705,14 +1705,14 @@ const mostrarOferta = (
                                       <div class="col-xs-12 col-sm-6 col-md-2 oferta-logo">
                                       <center>
   
-                                          <img src='vistas/img/logos/${logo}' style="${aseguradora == "Liberty" ? "margin-top: 3px;" : null}">
+                                          <img src='vistas/img/logos/${logo}' style="${aseguradora == "HDI (Antes Liberty)" ? "margin-top: 3px;" : null}">
   
                     </center>  
   
                     <div class='col-12' style='margin-top:2%;'>
                       ${
                         (aseguradora == "Axa Colpatria" ||
-                          aseguradora == "Liberty" ||
+                          aseguradora == "HDI (Antes Liberty)" ||
                           aseguradora == "Equidad" ||
                           aseguradora == "Mapfre" ||
                           aseguradora == "Seguros Bolivar") &&
@@ -3756,9 +3756,9 @@ function cotizarOfertas() {
         });
 
         /* Liberty */
-        const libertyPromise = comprobarFallida("Liberty")
+        const libertyPromise = comprobarFallida("HDI (Antes Liberty)")
           ? fetch(
-              "https://grupoasistencia.com/motor_webservice/Liberty_autos?callback=myCallback",
+              "https://grupoasistencia.com/motor_webservice/Liberty_autos",
               requestOptions
             )
               .then((res) => {
@@ -3767,25 +3767,25 @@ function cotizarOfertas() {
               })
               .then((ofertas) => {
                 if (typeof ofertas[0].Resultado !== "undefined") {
-                  agregarAseguradoraFallida("Liberty");
-                  validarProblema("Liberty", ofertas);
+                  agregarAseguradoraFallida("HDI (Antes Liberty)");
+                  validarProblema("HDI (Antes Liberty)", ofertas);
                   ofertas[0].Mensajes.forEach((mensaje) => {
-                    mostrarAlertarCotizacionFallida("Liberty", mensaje);
+                    mostrarAlertarCotizacionFallida("HDI (Antes Liberty)", mensaje);
                   });
                 } else {
-                  // eliminarAseguradoraFallida('Liberty');
+                  // eliminarAseguradoraFallida('HDI (Antes Liberty)');
                   const contadorPorEntidad = validarOfertas(
                     ofertas,
-                    "Liberty",
+                    "HDI (Antes Liberty)",
                     1
                   );
-                  mostrarAlertaCotizacionExitosa("Liberty", contadorPorEntidad);
+                  mostrarAlertaCotizacionExitosa("HDI (Antes Liberty)", contadorPorEntidad);
                 }
               })
               .catch((err) => {
-                agregarAseguradoraFallida("Liberty");
+                agregarAseguradoraFallida("HDI (Antes Liberty)");
                 mostrarAlertarCotizacionFallida(
-                  "Liberty",
+                  "HDI (Antes Liberty)",
                   "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
                 );
                 validarProblema(aseguradora, [

@@ -1141,16 +1141,16 @@ function cotizarFinesaMotos(ofertasCotizaciones) {
                 console.log(element.aseguradora);
                 if (
                   (element.prima < 1000000 &&
-                    !(element.aseguradora == "Liberty")) ||
+                    !(element.aseguradora == "HDI (Antes Liberty)")) ||
                   element.aseguradora == "Bolivar" ||
                   element.aseguradora == "Seguros Bolivar" ||
-                  element.aseguradora == "Liberty Seguros"
+                  element.aseguradora == "HDI (Antes Liberty)"
                 ) {
                   cotizacionesFinesaMotos[index].cotizada = true;
                   elementDiv.innerHTML = `Financiación:<br /> No aplica financiación`;
                 } else if (
                   element.aseguradora == "Seguros Bolivar" ||
-                  element.aseguradora == "Liberty"
+                  element.aseguradora == "HDI (Antes Liberty)"
                 ) {
                   cotizacionesFinesaMotos[index].cotizada = true;
                   elementDiv.innerHTML = `Financiación Aseguradora:<br /> Consulte analista`;
@@ -2269,7 +2269,7 @@ function cotizarOfertasMotos() {
               let body = JSON.parse(requestOptions.body);
               body.plan = plan;
               requestOptions.body = JSON.stringify(body);
-              url = `https://grupoasistencia.com/motor_webservice_tst2/Liberty_motos`;
+              url = `https://grupoasistencia.com/motor_webservice/Liberty_motos`;
                 //url = `https://grupoasistencia.com/motor_webservice/${aseguradora}_motos`;
                 cont.push(
                   fetch(url, requestOptions)
