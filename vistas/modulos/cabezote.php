@@ -225,12 +225,10 @@
  							<?php
 								}
 								?>
- 							<li class="user-body">
-
-
+ 							<!-- <li class="user-body">
 
  								<a href="miperfil" class="btn btn-default btn-flat "><i class="fa fa-user" style="color: #88D600;"></i>Mi perfil</a>
- 							</li>
+ 							</li> -->
 
  							<li class="user-body">
 
