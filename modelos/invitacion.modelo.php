@@ -42,12 +42,12 @@ class ModeloInvitacion{
                 $mail->SMTPSecure = 'tls';
                 $mail->SMTPAuth = true;
                 $mail->Username = 'correosmtpsga@gmail.com';
-                $mail->Password = 'SGA.Tecno2024*';
+                $mail->Password = 'Sga.Tecno2024*';
 
                 // Configurar el remitente y destinatario del correo
                 $emailString = $email;
                 // echo $emailString;
-                $mail->setFrom('correosmtpsha@gmail.com', 'Equipo Integradoor');
+                $mail->setFrom('correosmtpsga@gmail.com', 'Equipo Integradoor');
                 $mail->addAddress($emailString, 'Usuario');
 
                 //Configuración asunto y cuerpo del correo
