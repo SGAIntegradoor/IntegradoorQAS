@@ -40,7 +40,7 @@ class ModeloInvitacion{
                 $mail->Host = 'smtp.gmail.com';
                 $mail->Port = 587;
                 $mail->SMTPSecure = 'tls';
-                $mail->SMTPAuth = true;
+                //$mail->SMTPAuth = true;
                 $mail->Username = 'correosmtpsga@gmail.com';
                 $mail->Password = 'Sga.Tecno2024*';
 
