@@ -48,18 +48,18 @@ class ModeloPassword{
 			
 			// Configuracion SMTP
 			$mail = new PHPMailer();
-			$mail->isSMTP();
-			$mail->Host = 'smtp.office365.com';
-			$mail->Port = 587;
-			$mail->SMTPSecure = 'tls';
-			$mail->SMTPAuth = true;
-			$mail->Username = 'correopruebaSMTP@outlook.com';
-			$mail->Password = 'Sga.Tecno2024*';
+            $mail->isSMTP();
+            $mail->Host = 'strategico.tech';
+            $mail->Port = 465;
+            $mail->SMTPSecure = 'ssl';
+            $mail->SMTPAuth = true;
+            $mail->Username = 'notificaciones@strategico.tech';
+            $mail->Password = 'Sga.Tecno2024*';
 
 			// Configurar el remitente y destinatario del correo
 			$emailString = $resultado['usu_email'];
 			// echo $emailString;
-			$mail->setFrom('correopruebaSMTP@outlook.com', 'Equipo Integradoor');
+			$mail->setFrom('notificaciones@strategico.tech', 'Equipo Integradoor');
 			$mail->addAddress($emailString, 'Usuario');
 
 			//Configuración asunto y cuerpo del correo
