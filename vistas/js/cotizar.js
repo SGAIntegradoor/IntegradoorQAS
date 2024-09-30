@@ -1903,17 +1903,16 @@ function validarOfertas(ofertas, aseguradora, exito) {
 
 //VERSION DEFINITIVA "validarProblema()""
 function validarProblema(aseguradora, ofertas) {
-  // if(aseguradora == "Estado" || aseguradora == "Estado2" ){
-  //   debugger;
-  // }
+  if(aseguradora == "Estado" || aseguradora == "Estado2" ){
+     //debugger;
+   }
   var idCotizOferta = idCotizacion;
   // Verificar si ofertas es un array
   if (Array.isArray(ofertas)) {
-    // console.log("entre aca isArray");
-    // console.log(ofertas)
-    if((aseguradora == "Estado" || aseguradora == "Estado2") && ofertas[0][0]['Mensajes'].length > 0 ){
-      ofertas = ofertas[0];
-    }
+    // console.log("entre aca isArray")
+    // if((aseguradora == "Estado" || aseguradora == "Estado2") && ofertas[0]['Mensajes'].length > 0 ){
+    //   ofertas = ofertas[0];
+    // }
     ofertas.forEach((oferta) => {
       // console.log("entre aca forEach");
       // Obtener mensajes de la oferta
@@ -2810,7 +2809,7 @@ function cotizarOfertas() {
                         if (result2 !== undefined) {
                           agregarAseguradoraFallida("Estado");
                           validarProblema(aseguradora, result);
-                          ofertas[0].Mensajes.forEach((mensaje) => {
+                          ofertas.Mensajes.forEach((mensaje) => {
                             mostrarAlertarCotizacionFallida(
                               aseguradora,
                               mensaje

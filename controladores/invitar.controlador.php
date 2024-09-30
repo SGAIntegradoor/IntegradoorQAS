@@ -22,6 +22,8 @@ class GuestController{
                 $nombre = $requestData['nombre'];
 
                 $response = ModeloInvitacion::mdlBuscarIdentificacion($email, $cedula, $nombre, $tabla, $item);
+                var_dump($response);
+                die();
                 if(isset($response['success'])){
                     return $response;
                 } else {

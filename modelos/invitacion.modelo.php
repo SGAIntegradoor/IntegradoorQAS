@@ -19,13 +19,15 @@ class ModeloInvitacion{
 		$stmt -> execute();
 		$resultado = $stmt -> fetch(PDO::FETCH_ASSOC);
 
+        //die();
+
 		if($resultado === false){
 
         function generarToken() {
             $token = openssl_random_pseudo_bytes(16); 
             $token = bin2hex($token); 
             return $token;
-            }
+        }
             $token = generarToken();
             $preRegistro = new ModeloInvitacion();
             $response = $preRegistro-> mdlPreRegistro($email, $cedula, $tabla, $token, $nombre);
@@ -33,17 +35,19 @@ class ModeloInvitacion{
                 // Configuracion SMTP
                 $mail = new PHPMailer();
                 $mail->isSMTP();
-                $mail->Host = 'smtp.office365.com';
+                //$mail->SMTPDebug = SMTP::DEBUG_SERVER;  // Muestra mensajes de depuración
+                $mail->SMTPDebug = 2; 
+                $mail->Host = 'smtp-relay.gmail.com';
                 $mail->Port = 587;
                 $mail->SMTPSecure = 'tls';
                 $mail->SMTPAuth = true;
-                $mail->Username = 'correopruebaSMTP@outlook.com';
+                $mail->Username = 'correosmtpsga@gmail.com';
                 $mail->Password = 'Sga.Tecno2024*';
 
                 // Configurar el remitente y destinatario del correo
                 $emailString = $email;
                 // echo $emailString;
-                $mail->setFrom('correopruebaSMTP@outlook.com', 'Equipo Integradoor');
+                $mail->setFrom('correosmtpsha@gmail.com', 'Equipo Integradoor');
                 $mail->addAddress($emailString, 'Usuario');
 
                 //Configuración asunto y cuerpo del correo
@@ -157,14 +161,20 @@ class ModeloInvitacion{
                 $mail->Body = $message;
                 $mail->IsHTML(true);
 
-                    //Manjeo de respuestas
-                    if ($mail->send()) {
-                        $response = array('success' => 'Registro exitoso');
-                        $jsonResponse = json_encode($response);
-                        echo $jsonResponse;
+                    // //Manjeo de respuestas
+                    // if ($mail->send()) {
+                    //     $response = array('success' => 'Registro exitoso');
+                    //     $jsonResponse = json_encode($response);
+                    //     echo $jsonResponse;
+                    // } else {
+                    //     $preRegistro = new ModeloInvitacion();
+                    //     $request = $preRegistro-> mdlEliminarPreRegistro($cedula, $tabla);
+                    // }
+
+                    if (!$mail->send()) {
+                        echo "Error al enviar el correo: " . $mail->ErrorInfo;
                     } else {
-                        $preRegistro = new ModeloInvitacion();
-                        $request = $preRegistro-> mdlEliminarPreRegistro($cedula, $tabla);
+                        echo "Correo enviado con éxito.";
                     }
             }else{
                 $response = array('error' => 'Error de conexion');
