@@ -37,17 +37,17 @@ class ModeloInvitacion{
                 $mail->isSMTP();
                 //$mail->SMTPDebug = SMTP::DEBUG_SERVER;  // Muestra mensajes de depuración
                 $mail->SMTPDebug = 2; 
-                $mail->Host = 'smtp-relay.gmail.com';
-                $mail->Port = 587;
-                $mail->SMTPSecure = 'tls';
+                $mail->Host = 'strategico.tech';
+                $mail->Port = 465;
+                $mail->SMTPSecure = 'ssl';
                 $mail->SMTPAuth = true;
-                $mail->Username = 'correosmtpsga@gmail.com';
+                $mail->Username = 'notificaciones@strategico.tech';
                 $mail->Password = 'Sga.Tecno2024*';
 
                 // Configurar el remitente y destinatario del correo
                 $emailString = $email;
                 // echo $emailString;
-                $mail->setFrom('correosmtpsga@gmail.com', 'Equipo Integradoor');
+                $mail->setFrom('notificaciones@strategico.tech', 'Equipo Integradoor');
                 $mail->addAddress($emailString, 'Usuario');
 
                 //Configuración asunto y cuerpo del correo
