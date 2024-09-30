@@ -37,12 +37,12 @@ class ModeloInvitacion{
                 $mail->isSMTP();
                 //$mail->SMTPDebug = SMTP::DEBUG_SERVER;  // Muestra mensajes de depuración
                 $mail->SMTPDebug = 2; 
-                $mail->Host = 'smtp-relay.gmail.com';
+                $mail->Host = 'smtp.gmail.com';
                 $mail->Port = 587;
                 $mail->SMTPSecure = 'tls';
                 $mail->SMTPAuth = true;
                 $mail->Username = 'correosmtpsga@gmail.com';
-                $mail->Password = 'Sga.Tecno2024*';
+                $mail->Password = 'SGA.Tecno2024*';
 
                 // Configurar el remitente y destinatario del correo
                 $emailString = $email;
