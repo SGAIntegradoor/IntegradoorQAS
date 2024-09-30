@@ -36,7 +36,6 @@ class ModeloInvitacion{
                 $mail = new PHPMailer();
                 $mail->isSMTP();
                 //$mail->SMTPDebug = SMTP::DEBUG_SERVER;  // Muestra mensajes de depuración
-                $mail->SMTPDebug = 2; 
                 $mail->Host = 'strategico.tech';
                 $mail->Port = 465;
                 $mail->SMTPSecure = 'ssl';
@@ -162,20 +161,20 @@ class ModeloInvitacion{
                 $mail->IsHTML(true);
 
                     // //Manjeo de respuestas
-                    // if ($mail->send()) {
-                    //     $response = array('success' => 'Registro exitoso');
-                    //     $jsonResponse = json_encode($response);
-                    //     echo $jsonResponse;
-                    // } else {
-                    //     $preRegistro = new ModeloInvitacion();
-                    //     $request = $preRegistro-> mdlEliminarPreRegistro($cedula, $tabla);
-                    // }
-
-                    if (!$mail->send()) {
-                        echo "Error al enviar el correo: " . $mail->ErrorInfo;
+                    if ($mail->send()) {
+                        $response = array('success' => 'Registro exitoso');
+                        $jsonResponse = json_encode($response);
+                        echo $jsonResponse;
                     } else {
-                        echo "Correo enviado con éxito.";
+                        $preRegistro = new ModeloInvitacion();
+                        $request = $preRegistro-> mdlEliminarPreRegistro($cedula, $tabla);
                     }
+
+                    // if (!$mail->send()) {
+                    //     echo "Error al enviar el correo: " . $mail->ErrorInfo;
+                    // } else {
+                    //     echo "Correo enviado con éxito.";
+                    // }
             }else{
                 $response = array('error' => 'Error de conexion');
                 $jsonResponse = json_encode($response);
