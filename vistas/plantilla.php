@@ -124,7 +124,7 @@ if (isset($_SESSION)) {
   ======================================-->
 
   <!-- Font - Awesome -->
-  <script src="https://kit.fontawesome.com/3a9385df11.js" crossorigin="anonymous"></script>
+  <script src="https://kit.fontawesome.com/6fed49f72f.js" crossorigin="anonymous"></script>
   <!-- jQuery 3 -->
   <!-- <script type="text/javascript" src="libraries\JQueryUI\external\jquery\jquery.js"></script> -->
 
