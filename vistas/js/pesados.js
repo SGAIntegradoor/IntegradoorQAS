@@ -1441,7 +1441,7 @@ const mostrarOfertaPesados = (
                       </li>
                       <li class="list-group-item">
                         <span class="badge">* ${GR}</span>
-                        Servicio de Grúa
+                        ${aseguradora == "Mundial" || aseguradora == "HDI Seguros"  }
                       </li>
                     </ul>
                   </div>
