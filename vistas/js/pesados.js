@@ -1358,6 +1358,13 @@ const mostrarOfertaPesados = (
   ) {
     cotizacionesFinesa.push(cotOferta);
   }
+  const aseguradorasViajes = [
+    "Mundial", 
+    "HDI Seguros", 
+    "HDI (Antes Liberty)", 
+    "Axa Colpatria", 
+    "Previsora Seguros"
+  ];
 
   let cardCotizacion = `
             <div class='col-lg-12'>
@@ -1441,7 +1448,7 @@ const mostrarOfertaPesados = (
                       </li>
                       <li class="list-group-item">
                         <span class="badge">* ${GR}</span>
-                        ${aseguradora == "Mundial" || aseguradora == "HDI Seguros"  }
+                        ${aseguradorasViajes.includes(aseguradora) ? "Asistencia en Viajes" :"Servicio de"} 
                       </li>
                     </ul>
                   </div>

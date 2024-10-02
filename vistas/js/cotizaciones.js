@@ -1226,7 +1226,13 @@ function editarCotizacion(id) {
                 // Comprueba si es un número válido o una cadena numérica válida
                 return !isNaN(parseFloat(value)) && isFinite(value);
               }
-
+              const aseguradorasViajes = [
+                "Mundial", 
+                "HDI Seguros", 
+                "HDI (Antes Liberty)", 
+                "Axa Colpatria", 
+                "Previsora Seguros"
+              ];
               var valorRC = isNumeric(oferta.ValorRC);
 
               if (valorRC) {
@@ -1311,9 +1317,6 @@ function editarCotizacion(id) {
               }">
 
                         </center>
-
-												
-
                       <div class='col-12' style='margin-top:2%;'>
                           ${
                             (oferta.Aseguradora === "Axa Colpatria" ||
@@ -1530,7 +1533,7 @@ function editarCotizacion(id) {
 
 														<span class="badge">* ${oferta.Grua}</span>
 
-														Servicio de Grúa
+														${aseguradorasViajes.includes(aseguradora) ? "Asistencia en Viajes" :"Servicio de Grúa"} 
 
 													</li>
 
@@ -1617,7 +1620,8 @@ function editarCotizacion(id) {
 											</div>`;
               } else if (
                 oferta.Manual == "0" &&
-                oferta.Aseguradora == "Previsora Seguros" &&
+                (oferta.Aseguradora == "Previsora Seguros" ||
+                oferta.Aseguradora == "Previsora") &&
                 oferta.UrlPdf !== null &&
                 aseguradoraPermisos == "1"
               ) {
