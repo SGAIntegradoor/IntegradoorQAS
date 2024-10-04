@@ -1903,13 +1903,14 @@ function validarOfertas(ofertas, aseguradora, exito) {
 
 //VERSION DEFINITIVA "validarProblema()""
 function validarProblema(aseguradora, ofertas) {
-  if(aseguradora == "Estado" || aseguradora == "Estado2" ){
-     //debugger;
-   }
+  // if(aseguradora == "Zurich" || aseguradora == "FULL" ){
+  //    debugger;
+  //  }
+   console.log(ofertas)
   var idCotizOferta = idCotizacion;
   // Verificar si ofertas es un array
   if (Array.isArray(ofertas)) {
-    // console.log("entre aca isArray")
+    console.log("entre aca isArray not zurich")
     // if((aseguradora == "Estado" || aseguradora == "Estado2") && ofertas[0]['Mensajes'].length > 0 ){
     //   ofertas = ofertas[0];
     // }
@@ -1917,7 +1918,7 @@ function validarProblema(aseguradora, ofertas) {
       // console.log("entre aca forEach");
       // Obtener mensajes de la oferta
       var mensajes = oferta.Mensajes || [];
-      // console.log(mensajes)
+      console.log("Mensajes ", mensajes)
       // Verificar si mensajes es un array y tiene al menos un mensaje
       if (Array.isArray(mensajes) && mensajes.length > 0) {
         // Concatenar mensajes en un solo párrafo
@@ -1954,6 +1955,9 @@ function validarProblema(aseguradora, ofertas) {
     ofertas.jsonZurich &&
     typeof ofertas.jsonZurich === "object"
   ) {
+    debugger
+    console.log("Entre a zurich porque es Zurich")
+    console.log("ofertas Zurich", ofertas);
     // let cadena = ""
     // Caso específico para la estructura de Zurich
     let mensajesZurich = ofertas.Mensajes || [];
@@ -2734,6 +2738,8 @@ function cotizarOfertas() {
                       })
                       .then((ofertas) => {
                         if (typeof ofertas.Resultado !== "undefined") {
+                          console.log("Cotizadas js", ofertas)
+                          debugger
                           validarProblema("Zurich", ofertas);
                           agregarAseguradoraFallida(plan);
                           let mensaje = "";
@@ -2894,9 +2900,8 @@ function cotizarOfertas() {
                 );
                 return; 
               } else {
-                url = `https://grupoasistencia.com/motor_webservice/${aseguradora}_autos?callback=myCallback`;
-              }
-              
+                url = `https://grupoasistencia.com/motor_webservice/${aseguradora}_autos`;
+              }           
               // Realizar la solicitud fetch y agregar la promesa al array
               cont.push(
                 fetch(url, requestOptions)

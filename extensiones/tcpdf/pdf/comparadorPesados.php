@@ -16,7 +16,7 @@ $identificador = $_GET['cotizacion'];
 $server = "localhost";
 $user = "grupoasi_cotizautos";
 $password = "M1graci0n123"; //poner tu propia contraseña, si tienes una.
-$bd = "grupoasi_cotizautos";
+$bd = "grupoasi_cotizautos_qas";
 
 $conexion = mysqli_connect($server, $user, $password, $bd);
 if (!$conexion) {
@@ -416,7 +416,7 @@ while ($i < count($resultados)) {
 			$AxaProducto = isset($productosMap[$productoOriginal]) ? $productosMap[$productoOriginal] : $productoOriginal;
 			$html2 .= '<td class="puntos td2 ' . $fondo_class . '" style=" font-size: 6.5px; font-family:dejavusanscondensedb;"><center>
 			<img style="width:40px;" src="../../../vistas/img/logos/axa.png" alt=""></center>
-			<div style="font-size:6.5pt">&nbsp;</div>
+			<div style="font-size:7.5pt">&nbsp;</div>
 			<span style="color:#666666;">' . $AxaProducto  . '</span>
 			</td>';
 			break;
@@ -432,9 +432,9 @@ while ($i < count($resultados)) {
 		case 'Seguros HDI':
 		case 'HDI Seguros':
 			$html2 .= '<td class="puntos td2 ' . $fondo_class . '" style="  font-size: 6.5px; font-family:dejavusanscondensedb;">
-			<div style="font-size:8.5pt">&nbsp;</div>
+			<div style="font-size:0pt">&nbsp;</div>
 			<img style="width:40px;" src="../../../vistas/img/logos/hdi.png" alt="">
-			<div style="font-size:8.5pt">&nbsp;</div>
+			<div style="font-size:4.5pt">&nbsp;</div>
 			<span style="color:#666666;">' . ($resultados[$i]['Producto'] == 'VEHICULO SEGURO HDI PEAU 100%' ? 'HDI Peau 100%' : $resultados[$i]['Producto']) . '</span>
 			</td>';
 			break;
@@ -518,9 +518,9 @@ while ($i < count($resultados)) {
 			$productoOriginal = $resultados[$i]['Producto'];
 			$previsoraProducto = isset($productosMap[$productoOriginal]) ? $productosMap[$productoOriginal] : $productoOriginal;
 			$html2 .= '<td class="puntos td2 ' . $fondo_class . '" style="font-size: 6.5px; font-family:dejavusanscondensedb;">
-			<div style="font-size: 11.2pt">&nbsp;</div>
+			<div style="font-size: 0pt">&nbsp;</div>
 			<img style="width:40px;" src="../../../vistas/img/logos/previsora.png" alt="">
-			<div style="font-size: 10pt">&nbsp;</div>
+			<div style="font-size: 9pt">&nbsp;</div>
 			<span style="color:#666666;">' . $previsoraProducto . '</span>
 			</td>';
 			break;
@@ -561,7 +561,7 @@ while ($i < count($resultados)) {
 			$html2 .= '<td class="puntos td2 ' . $fondo_class . '" style="font-size: 6.5px; font-family:dejavusanscondensedb;">
 			<div style="font-size:3pt">&nbsp;</div>
 			<img style="width:50px;" src="../../../vistas/img/logos/mundial.png" alt="">
-			<div style="font-size:9pt">&nbsp;</div>
+			<div style="font-size:12pt">&nbsp;</div>
 			<span style="color:#666666;">
 			'
 				. ($resultados[$i]['Producto'] == 'Pesados con RCE en exceso' ? 'Pesados RCE + Exceso' : $resultados[$i]['Producto']) .
