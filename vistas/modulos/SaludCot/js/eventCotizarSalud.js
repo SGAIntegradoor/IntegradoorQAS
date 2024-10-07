@@ -577,7 +577,7 @@ function makeIndividualCard(nombrePlan, precioMensual, precioTrimestral, precioS
       <div class='row card-body'>
           <div class="col-xs-12 col-sm-6 col-md-2 align-horizontal ">
               <img src="vistas/modulos/SaludCot/img/logo-convenio-axa-colpatria.png" class="logoCardAsist" alt="Logo">  
-              <span class="tittleCard">
+              <span class="tittleCard tittleCard_top">
                   ${capitalizeFirstLetter(nombrePlan)}
               </span>
           </div>
@@ -627,17 +627,17 @@ function makeIndividualCard(nombrePlan, precioMensual, precioTrimestral, precioS
           </div>
 
           <div class="col-xs-12 col-sm-6 col-md-3 textCards">     
-                <div class='row'>
-                    <span class="tittlePrice">
+                <div class='row center-row'>
+                    <span class="tittlePrice ">
                         Coberturas principales:
                     </span>
                 </div>
-                <div class="row">
+                <div class="row center-ul">
                     <ul class="lista-coberturas">
                         ${coberturas.map(cobertura => `<li>${cobertura}</li>`).join('')}
                     </ul>
                 </div>
-                <div class="row">
+                <div class="row center-row">
                     <span class="tittlePrice">
                         Nota: 
                     </span> Esta cotización tiene una vigencia de x días
@@ -649,7 +649,7 @@ function makeIndividualCard(nombrePlan, precioMensual, precioTrimestral, precioS
           </div>
       </div>
       <div class='row card-body'>
-       ${tipoCotizacion === 2?tableHTML:""}
+       ${tipoCotizacion === 2?tableHTML:tableHTML}
       </div>
   </div>`;
 }
@@ -786,44 +786,73 @@ function makeCards(data, tipoCotizacion) {
 
   if (tipoCotizacion === 1) {
       // Generar tarjetas individuales para cada plan
-      data.asegurados[0].planes.forEach(plan => {
-          let nombrePlanUpper = plan.nombre.toUpperCase();
-          let coberturas;
+     // Acumular los valores por plan_id
+     let planesSumados = {};
 
-          switch (nombrePlanUpper) {
-              case 'FESALUD AMPARADO':
-                  coberturas = COBERTURAS_FESALUD_AMPARADO;
-                  break;
-              case 'ORIGINAL AMPARADO':
-                  coberturas = COBERTURAS_ORIGINAL_AMPARADO;
-                  break;
-              case 'ALTERNO AMPARADO':
-                  coberturas = COBERTURAS_ALTERNO_AMPARADO;
-                  break;
-              case 'SALUD IDEAL':
-                  coberturas = COBERTURAS_SALUD_IDEAL;
-                  break;
-              case 'SALUD IDEAL + EMERMEDICA':
-                  coberturas = COBERTURAS_SALUD_IDEAL_EMERMEDICA;
-                  break;
-              case 'PLAN AMBULATORIO':
-                  coberturas = COBERTURAS_PLAN_AMBULATORIO;
-                  break;
-              default:
-                  coberturas = ["Cobertura estándar"];
-          }
+     data.asegurados.forEach(asegurado => {
+         asegurado.planes.forEach(plan => {
+             if (!planesSumados[plan.plan_id]) {
+                 planesSumados[plan.plan_id] = {
+                     nombre: plan.nombre,
+                     mensual: 0,
+                     trimestral: 0,
+                     semestral: 0,
+                     anual: 0,
+                     coberturas: []
+                 };
+             }
 
-          html_data += makeIndividualCard(
-              plan.nombre,
-              processValue(parseFloat(plan.mensual.replace(/\./g, '').replace(',', '.')), iva),
-              processValue(parseFloat(plan.trimestral.replace(/\./g, '').replace(',', '.')), iva),
-              processValue(parseFloat(plan.semestral.replace(/\./g, '').replace(',', '.')), iva),
-              processValue(parseFloat(plan.anual.replace(/\./g, '').replace(',', '.')), iva),
-              coberturas,
-              tipoCotizacion,
-              data.asegurados.length
-          );
-      });
+             planesSumados[plan.plan_id].mensual += parseFloat(plan.mensual.replace(/\./g, '').replace(',', '.'));
+             planesSumados[plan.plan_id].trimestral += parseFloat(plan.trimestral.replace(/\./g, '').replace(',', '.'));
+             planesSumados[plan.plan_id].semestral += parseFloat(plan.semestral.replace(/\./g, '').replace(',', '.'));
+             planesSumados[plan.plan_id].anual += parseFloat(plan.anual.replace(/\./g, '').replace(',', '.'));
+             
+             // Si el plan tiene coberturas, agregarlas
+             if (planesSumados[plan.plan_id].coberturas.length === 0) {
+                 let nombrePlanUpper = plan.nombre.toUpperCase();
+                 switch (nombrePlanUpper) {
+                   case 'FESALUD AMPARADO':
+                       planesSumados[plan.plan_id].coberturas = COBERTURAS_FESALUD_AMPARADO;
+                       break;
+                   case 'ORIGINAL AMPARADO':
+                       planesSumados[plan.plan_id].coberturas = COBERTURAS_ORIGINAL_AMPARADO;
+                       break;
+                   case 'ALTERNO AMPARADO':
+                       planesSumados[plan.plan_id].coberturas = COBERTURAS_ALTERNO_AMPARADO;
+                       break;
+                   case 'SALUD IDEAL':
+                       planesSumados[plan.plan_id].coberturas = COBERTURAS_SALUD_IDEAL;
+                       break;
+                   case 'SALUD IDEAL + EMERMEDICA':
+                       planesSumados[plan.plan_id].coberturas = COBERTURAS_SALUD_IDEAL_EMERMEDICA;
+                       break;
+                   case 'PLAN AMBULATORIO':
+                       planesSumados[plan.plan_id].coberturas = COBERTURAS_PLAN_AMBULATORIO;
+                       break;
+                   default:
+                       planesSumados[plan.plan_id].coberturas = ["Cobertura estándar"];
+               }                
+             }
+         });
+     });
+
+     // Generar tarjetas grupales con los valores sumados
+     for (let plan_id in planesSumados) {
+         let plan = planesSumados[plan_id];
+         let tableHTML = makeTable(data.asegurados,plan_id);
+         html_data += makeIndividualCard(
+             plan.nombre,
+             processValue(plan.mensual, iva),
+             processValue(plan.trimestral, iva),
+             processValue(plan.semestral, iva),
+             processValue(plan.anual, iva),
+             plan.coberturas,
+             tipoCotizacion,
+             data.asegurados.length,
+             tableHTML
+         );
+     
+      };
   } else if (tipoCotizacion === 2) {
 
 
