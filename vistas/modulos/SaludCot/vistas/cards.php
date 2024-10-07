@@ -33,9 +33,9 @@
                     <p style="text-align: justify;">Conoce más sobre AXA COLPATRIA y sus productos de Seguros de Salud a continuación:
                         <br>
                         <br>
-                                Presentación pólizas livianas ingresa <a href="vistas\pdfs\Pólizas Livianas Salud AXA COLPATRIA.pdf" target="_blank">AQUÍ</a>
+                                Presentación pólizas livianas ingresa <a href="vistas\pdfs\Pólizas Livianas Salud AXA COLPATRIA.pdf" target="_blank"><b>AQUÍ</b></a>
                                 <br>
-                                Presentación pólizas robustas ingresa <a href="vistas\pdfs\Pólizas Robustas Amparadas AXA COLPATRIA.pdf" target="_blank">AQUÍ</a>
+                                Presentación pólizas robustas ingresa <a href="vistas\pdfs\Pólizas Robustas Amparadas AXA COLPATRIA.pdf" target="_blank"><b>AQUÍ</b></a>
                     </p>
                 </div>
             </div>
@@ -110,9 +110,9 @@
                         <li>
                             Edad Máxima de Ingreso para usuarios nuevos: 
                             <ul>
-                                <li>Ambulatorio: 59 años</li>
                                 <li>Fesalud, Original, Alterno: 63 años y 364 días</li>
                                 <li>Salud Ideal: 63 años</li>
+                                <li>Ambulatorio: 59 años</li>
                             </ul>
                         </li>
                         <li>Edad de permanencia: Ilimitada</li>
