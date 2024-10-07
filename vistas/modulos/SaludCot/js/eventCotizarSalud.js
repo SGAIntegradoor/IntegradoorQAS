@@ -726,7 +726,7 @@ function makeIndividualCard(
                         Consulta Médica domiciliaria ilimitada sin Pago de bono.
                         </li>
                       </ul>
-                      <a src="vistas/pdfs/PDF SALUD IDEAL + EMERMEDICA.pdf" target="_blank">Ver más</a> 
+                      <a src="vistas/pdfs/PDF SALUD IDEAL + EMERMEDICA.pdf" target="_blank"><img src="vistas/img/iconosResources/icons8-pdf-office-m/icons8-pdf-30.png"/> Ver más</a> 
                     </div>
                   </div>`
                     : capitalizeFirstLetter(nombrePlan) === "Plan ambulatorio" ? `<div class="col-xs-12 col-sm-6 col-md-5 textCards">     
