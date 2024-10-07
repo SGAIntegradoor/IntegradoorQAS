@@ -412,7 +412,8 @@ const obtenerAyudaVentas = async () => {
                                              ${
                                                ayudaVenta.aseguradora ===
                                                "Solidaria"
-                                                 ? `onclick="abrirSarlaftAseguradora('https://www.solidaria.com.co/WA_DigitalClient/#/login', '${ayudaVenta.aseguradora}')">PDF PJ</button>`
+                                                 ? `onclick="abrirSarlaftAseguradora('https://www.solidaria.com.co/WA_DigitalClient/#/login', '${ayudaVenta.aseguradora}')">PDF PJ</button>` 
+                                                 : ayudaVenta.aseguradora === "Mundial" ? `onclick="abrirSarlaftAseguradora('https://sarlaft.segurosmundial.com.co/forms/f/9211808c-f920-4af2-8eaf-d50ee3c3140d', '${ayudaVenta.aseguradora}')">PDF PJ</button>`
                                                  : `onclick="validarPermisoPdfPersonaJuridica('./vistas/modulos/AyudaVentas/pdf/sarlaft2/${ayudaVenta.path_sarlaft2}', '${ayudaVenta.aseguradora}')">PDF PJ</button>`
                                              }`
                                             : ""

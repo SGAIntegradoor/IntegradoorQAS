@@ -2738,9 +2738,6 @@ function cotizarOfertas() {
                       })
                       .then((ofertas) => {
                         if (typeof ofertas.Resultado !== "undefined") {
-                          console.log("Cotizadas js", ofertas)
-                          debugger
-                          validarProblema("Zurich", ofertas);
                           agregarAseguradoraFallida(plan);
                           let mensaje = "";
                           if (ofertas.Mensajes.length == 1) {
@@ -3313,7 +3310,7 @@ function cotizarOfertas() {
                   "Solidaria",
                   "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
                 );
-                validarProblema(aseguradora, [
+                validarProblema("Previsora", [
                       {
                         Mensajes: [
                           "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
@@ -3362,7 +3359,7 @@ function cotizarOfertas() {
                   "Previsora",
                   "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
                 );
-                validarProblema(aseguradora, [
+                validarProblema("Previsora", [
                       {
                         Mensajes: [
                           "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
@@ -3408,7 +3405,7 @@ function cotizarOfertas() {
                   "Equidad",
                   "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
                 );
-                validarProblema(aseguradora, [
+                validarProblema("Equidad", [
                       {
                         Mensajes: [
                           "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
@@ -3454,7 +3451,7 @@ function cotizarOfertas() {
                   "Mapfre",
                   "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
                 );
-                validarProblema(aseguradora, [
+                validarProblema("Mapfre", [
                       {
                         Mensajes: [
                           "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
@@ -3500,7 +3497,7 @@ function cotizarOfertas() {
                   "Bolivar",
                   "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
                 );
-                validarProblema(aseguradora, [
+                validarProblema("Bolivar", [
                       {
                         Mensajes: [
                           "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
@@ -3542,7 +3539,7 @@ function cotizarOfertas() {
                   "HDI",
                   "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
                 );
-                validarProblema(aseguradora, [
+                validarProblema("HDI", [
                       {
                         Mensajes: [
                           "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
@@ -3556,34 +3553,33 @@ function cotizarOfertas() {
         cont.push(HDIPromise);
 
         const lineaVeh = document.getElementById("txtReferenciaVeh");
+        const planes = ["FULL"];
         // Para 'FULL'
         const ZFullPromise = comprobarFallida("FULL")
-          ? fetch(
-              "https://grupoasistencia.com/motor_webservice/Zurich_autos?callback=myCallback",
-              {
-                ...requestOptions,
-                method: "POST",
-                headers: {
-                  ...requestOptions.headers,
-                  "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                  ...JSON.parse(requestOptions.body),
-                  plan: "FULL",
-                  Email2: Math.round(Math.random() * 999999) + "@gmail.com",
-                  linea: lineaVeh,
-                }),
-              }
-            )
+          ? planes.forEach((plan) => {
+            let body = JSON.parse(requestOptions.body);
+            body.plan = plan;
+            body.Email = "@gmail.com";
+            body.Email2 = Math.round(Math.random() * 999999) + body.Email;
+            body.linea = lineaVeh;
+            requestOptions.body = JSON.stringify(body);
+          
+            let url = `https://grupoasistencia.com/motor_webservice/Zurich_autos`;
+          
+            fetch(url, {
+              ...requestOptions,
+              method: "POST",
+              headers: {
+                ...requestOptions.headers,
+                "Content-Type": "application/json",
+              },
+            })
               .then((res) => {
                 if (!res.ok) throw Error(res.statusText);
                 return res.json();
               })
               .then((ofertas) => {
                 if (typeof ofertas.Resultado !== "undefined") {
-                  let plan = "FULL";
-                  validarProblema("Zurich", ofertas);
-                  agregarAseguradoraFallida(plan);
                   let mensaje = "";
                   ofertas.Mensajes.map((element, index) => {
                     if (element.includes("Referred")) {
@@ -3594,31 +3590,30 @@ function cotizarOfertas() {
                       }
                     }
                   });
-                  mostrarAlertarCotizacionFallida(`Zurich`, mensaje);
+                  validarProblema("FULL", ofertas);
+                  agregarAseguradoraFallida(plan);
+                  mostrarAlertarCotizacionFallida(`FULL`, mensaje);
                 } else {
-                  const contadorPorEntidad = validarOfertas(
-                    ofertas,
-                    "Zurich",
-                    1
-                  );
-                  mostrarAlertaCotizacionExitosa("Zurich", contadorPorEntidad);
+                  const contadorPorEntidad = validarOfertas(ofertas, "FULL", 1);
+                  mostrarAlertaCotizacionExitosa("FULL", contadorPorEntidad);
                 }
               })
               .catch((err) => {
-                agregarAseguradoraFallida("Zurich");
+                agregarAseguradoraFallida("FULL");
                 mostrarAlertarCotizacionFallida(
-                  "Zurich",
+                  "FULL",
                   "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
                 );
-                validarProblema(aseguradora, [
-                      {
-                        Mensajes: [
-                          "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
-                        ],
-                      },
-                    ]);
-                    console.error(err);
-              })
+                validarProblema("FULL", [
+                  {
+                    Mensajes: [
+                      "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
+                    ],
+                  },
+                ]);
+                console.error(err);
+              });
+          })
           : Promise.resolve();
 
         cont.push(ZFullPromise);
