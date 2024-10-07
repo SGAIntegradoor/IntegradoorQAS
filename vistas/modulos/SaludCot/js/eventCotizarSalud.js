@@ -678,7 +678,7 @@ function makeIndividualCard(
                         Asistencia internacional USD$30.000
                         </li>
                       </ul>
-                      <a src="vistas/pdfs/PDF ORIGINAL AMPARADO.pdf" target="_blank"><img src="vistas/img/iconosResources/icons8-pdf-office-m/icons8-pdf-30.png"/> Ver más</a> 
+                      <a href="vistas/pdfs/PDF ORIGINAL AMPARADO.pdf" target="_blank"><img src="vistas/img/iconosResources/icons8-pdf-office-m/icons8-pdf-30.png"/> Ver más</a> 
                     </div>
                   </div>`
                     : capitalizeFirstLetter(nombrePlan) === "Alterno amparado"
@@ -706,11 +706,11 @@ function makeIndividualCard(
                           Asistencia medica domiciliaria (primeras 5 sin pago de bono)
                           </li>
                         </ul>
-                        <a src="vistas/pdfs/PDF ALTERNO AMPARADO.pdf" target="_blank"><img src="vistas/img/iconosResources/icons8-pdf-office-m/icons8-pdf-30.png"/> Ver más</a> 
+                        <a href="vistas/pdfs/PDF ALTERNO AMPARADO.pdf" target="_blank"><img src="vistas/img/iconosResources/icons8-pdf-office-m/icons8-pdf-30.png"/> Ver más</a> 
                       </div>
                     </div>`
                     : capitalizeFirstLetter(nombrePlan) === "Salud ideal"
-                    ? `<a src="vistas/pdfs/PDF SALUD IDEAL.pdf" target="_blank"> <img src="vistas/img/iconosResources/icons8-pdf-office-m/icons8-pdf-30.png"/>Ver más</a>`
+                    ? `<a href="vistas/pdfs/PDF SALUD IDEAL.pdf" target="_blank"> <img src="vistas/img/iconosResources/icons8-pdf-office-m/icons8-pdf-30.png"/>Ver más</a>`
                     : capitalizeFirstLetter(nombrePlan) === "Salud ideal + emermedica"
                     ? `<div class="col-xs-12 col-sm-6 col-md-5 textCards">
                     <div style="width: 100%; text-align: justify;">
@@ -726,7 +726,7 @@ function makeIndividualCard(
                         Consulta Médica domiciliaria ilimitada sin Pago de bono.
                         </li>
                       </ul>
-                      <a src="vistas/pdfs/PDF SALUD IDEAL + EMERMEDICA.pdf" target="_blank"><img src="vistas/img/iconosResources/icons8-pdf-office-m/icons8-pdf-30.png"/> Ver más</a> 
+                      <a href="vistas/pdfs/PDF SALUD IDEAL + EMERMEDICA.pdf" target="_blank"><img src="vistas/img/iconosResources/icons8-pdf-office-m/icons8-pdf-30.png"/> Ver más</a> 
                     </div>
                   </div>`
                     : capitalizeFirstLetter(nombrePlan) === "Plan ambulatorio" ? `<div class="col-xs-12 col-sm-6 col-md-5 textCards">     
@@ -753,7 +753,7 @@ function makeIndividualCard(
                          Terapias ilimitadas con pago de bono y muchas coberturas más
                         </li>
                       </ul>
-                      <a src="vistas/pdfs/PDF PLAN AMBULTARIO.pdf" target="_blank"><img src="vistas/img/iconosResources/icons8-pdf-office-m/icons8-pdf-30.png"/> Ver más</a> 
+                      <a href="vistas/pdfs/PDF PLAN AMBULTARIO.pdf" target="_blank"><img src="vistas/img/iconosResources/icons8-pdf-office-m/icons8-pdf-30.png"/> Ver más</a> 
                     </div>
                   </div>` : ""
                 }
