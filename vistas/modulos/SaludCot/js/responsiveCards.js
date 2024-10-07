@@ -23,7 +23,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     tarjeta.style.display = 'flex';
                     tarjeta.style.flexDirection = 'column';
                     tarjeta.style.alignItems = 'center';
-                    tarjeta.style.justifyContent = 'center';
+                   // tarjeta.style.justifyContent = 'center';
                 }
 
             });

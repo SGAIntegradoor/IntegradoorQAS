@@ -1,32 +1,24 @@
 // Declaramos las constantes que vamos a utilizar
 const numMaxAseg = 10;
 const iva = 5;
-const COBERTURAS_FESALUD_AMPARADO = [
-  "XXXXXX"
-];
+const COBERTURAS_FESALUD_AMPARADO = ["XXXXXX"];
 
-const COBERTURAS_SALUD_IDEAL_EMERMEDICA = [
-  "XXXXXX"
-];
+const COBERTURAS_SALUD_IDEAL_EMERMEDICA = ["XXXXXX"];
 
-const COBERTURAS_PLAN_AMBULATORIO = [
-  "XXXXXX"
-];
+const COBERTURAS_PLAN_AMBULATORIO = ["XXXXXX"];
 
-const COBERTURAS_ORIGINAL_AMPARADO = [
-  "XXXXXX"
-];
+const COBERTURAS_ORIGINAL_AMPARADO = ["XXXXXX"];
 
 const COBERTURAS_ALTERNO_AMPARADO = [
   "Coberturas Salud ideal",
   "+ Consulta externa",
-  "+ Continuidad pago de prima por desempleo"
+  "+ Continuidad pago de prima por desempleo",
 ];
 
 const COBERTURAS_SALUD_IDEAL = [
   "Urgencias",
   "Hospitalización y cirugía",
-  "Urgencias odontológicas"
+  "Urgencias odontológicas",
 ];
 
 /**
@@ -35,11 +27,11 @@ const COBERTURAS_SALUD_IDEAL = [
  */
 function adjustModalWidth() {
   return new Promise((resolve) => {
-    const modal = document.querySelector('.swal2-popup');
+    const modal = document.querySelector(".swal2-popup");
     if (window.innerWidth < 768) {
-      modal.style.width = '90%'; // Ancho para móvil
+      modal.style.width = "90%"; // Ancho para móvil
     } else {
-      modal.style.width = '70%'; // Ancho para desktop
+      modal.style.width = "70%"; // Ancho para desktop
     }
     resolve(); // Resolvemos la promesa
   });
@@ -115,11 +107,11 @@ function openModal() {
         </div>
       </div>`,
     showCloseButton: true,
-    confirmButtonText: 'Cerrar',
-    width: '70%', // Ancho predeterminado
+    confirmButtonText: "Cerrar",
+    width: "70%", // Ancho predeterminado
     customClass: {
-      closeButton: 'swal2-close'
-    }
+      closeButton: "swal2-close",
+    },
   }).then(() => {
     // Ajustar el ancho al cerrar el modal
     adjustModalWidth();
@@ -129,7 +121,7 @@ function openModal() {
   adjustModalWidth();
 
   // También ajustar el ancho al cambiar el tamaño de la ventana
-  window.addEventListener('resize', adjustModalWidth);
+  window.addEventListener("resize", adjustModalWidth);
 }
 
 /**
@@ -521,7 +513,6 @@ function toogleDataContainer() {
   $("#lblAseData").text(newTittle);
   toggleContainerData();
   $("#btnCotizarAsiss").toggle();
-
 }
 
 /**
@@ -552,11 +543,11 @@ function calcularEdadAsegurado(dia, mes, anio) {
  * @function
  */
 function cargarEstilos(url) {
-    $("<link>").appendTo("head").attr({
-      type: "text/css",
-      rel: "stylesheet",
-      href: url,
-    });
+  $("<link>").appendTo("head").attr({
+    type: "text/css",
+    rel: "stylesheet",
+    href: url,
+  });
 }
 
 /**
@@ -571,8 +562,18 @@ function capitalizeFirstLetter(str) {
  * Generamos un card individual por cada plan
  * @function
  */
-function makeIndividualCard(nombrePlan, precioMensual, precioTrimestral, precioSemestral, precioAnual, coberturas, tipoCotizacion,cantAseg,tableHTML) {
-    return `
+function makeIndividualCard(
+  nombrePlan,
+  precioMensual,
+  precioTrimestral,
+  precioSemestral,
+  precioAnual,
+  coberturas,
+  tipoCotizacion,
+  cantAseg,
+  tableHTML
+) {
+  return `
     <div class='card-ofertas'>
       <div class='row card-body'>
           <div class="col-xs-12 col-sm-6 col-md-2 align-horizontal ">
@@ -585,9 +586,11 @@ function makeIndividualCard(nombrePlan, precioMensual, precioTrimestral, precioS
           <div class="col-xs-12 col-sm-6 col-md-5 oferta-logo infoPlanes">
                 <div class='row textCenter tittlePrice2'>
                     <span class="tittlePrice">
-                        ${tipoCotizacion === 1 
-                            ? "Precio total según periodicidad de pago (IVA incluido)" 
-                            : `Precio total ${cantAseg} personas según periodicidad de pago (IVA incluido)`}
+                        ${
+                          tipoCotizacion === 1
+                            ? "Precio total según periodicidad de pago (IVA incluido)"
+                            : `Precio total ${cantAseg} personas según periodicidad de pago (IVA incluido)`
+                        }
                     </span>
                 </div>
                 <div class="row">
@@ -624,34 +627,142 @@ function makeIndividualCard(nombrePlan, precioMensual, precioTrimestral, precioS
                         </span>                       
                     </div>
                 </div>
-          </div>
-
-          <div class="col-xs-12 col-sm-6 col-md-3 textCards">     
-                <div class='row center-row'>
-                    <span class="tittlePrice ">
-                        Coberturas principales:
-                    </span>
+                <div class="row center-row" style="padding-top: 11px !important; padding-bottom: 10px;">
+                    <span class="tittlePrice" style="padding-left: 15px;">
+                    </span> Esta cotización tiene una vigencia limitada
                 </div>
-                <div class="row center-ul">
-                    <ul class="lista-coberturas">
-                        ${coberturas.map(cobertura => `<li>${cobertura}</li>`).join('')}
+                </div>
+                ${
+                  capitalizeFirstLetter(nombrePlan) === "Fesalud amparado"
+                    ? `<div class="col-xs-12 col-sm-6 col-md-5 textCards">     
+                  <div style="width: 100%; text-align: justify;">
+                    <b>Este Plan es mejor que el Plan Original, incluyendo coberturas como:</b> Urgencias + Hospitalización y cirugía + Consulta externa ilimitada en todas las especialidades + Examenes y laboratorios + Asistencia medica domiciliaria (primeras 5 sin pago de bono) + Continuidad en el pago de prima por desempleo + Exoneración pago de prima por fallecimiento + Urgencias odontologicas
+                    <br>
+                    <b>Más estas otras coberturas como:</b>
+                    <br>
+                    <ul>
+                      <li>
+                      Clínicas TOP
+                      </li>
+                      <li>
+                      Deportes de Alto riesgo
+                      </li>
+                      <li>
+                      Acceso a servicios sin cobro de bono (terapias y exámenes)
+                      </li>
+                      <li>
+                      Asistencia internacional USD$50.000
+                      </li>
                     </ul>
-                </div>
-                <div class="row center-row">
-                    <span class="tittlePrice">
-                        Nota: 
-                    </span> Esta cotización tiene una vigencia de x días
-                </div>
-          </div>
-
-          <div class="col-xs-12 col-sm-6 col-md-2 colPdf">
-             <button class="btn btn-info btn-block btn-pdf">Ver detalle</button>
-          </div>
-      </div>
-      <div class='row card-body'>
-       ${tipoCotizacion === 2?tableHTML:tableHTML}
-      </div>
-  </div>`;
+                    <a href="vistas/pdfs/PDF FESALUD AMPARADO.pdf" target="_blank"><img src="vistas/img/iconosResources/icons8-pdf-office-m/icons8-pdf-30.png"/> Ver más</a> 
+                  </div>
+                </div>`
+                    : capitalizeFirstLetter(nombrePlan) === "Original amparado"
+                    ? `<div class="col-xs-12 col-sm-6 col-md-5 textCards">     
+                    <div style="width: 100%; text-align: justify;">
+                      <b>Este Plan es mejor que el Plan Alterno, incluyendo coberturas como:</b> Urgencias + Hospitalización y cirugía + Consulta externa ilimitada en todas las especialidades + Examenes y laboratorios + Asistencia medica domiciliaria (primeras 5 sin pago de bono)
+                      <br>
+                      <b>Más estas otras coberturas como:</b>
+                      <br>
+                      <ul>
+                        <li>
+                        Continuidad en el pago de prima por desempleo
+                        </li>
+                        <li>
+                        Exoneración pago de prima por fallecimiento
+                        </li>
+                        <li>
+                        Urgencias odontologicas
+                        </li>
+                        <li>
+                        Asistencia internacional USD$30.000
+                        </li>
+                      </ul>
+                      <a src="vistas/pdfs/PDF ORIGINAL AMPARADO.pdf" target="_blank"><img src="vistas/img/iconosResources/icons8-pdf-office-m/icons8-pdf-30.png"/> Ver más</a> 
+                    </div>
+                  </div>`
+                    : capitalizeFirstLetter(nombrePlan) === "Alterno amparado"
+                    ? `<div class="col-xs-12 col-sm-6 col-md-5 textCards">     
+                      <div style="width: 100%; text-align: justify;">
+                        <b>El Plan Alterno incluye coberturas como:</b> 
+                        <br>
+                        <ul>
+                          <li>
+                          Urgencias
+                          </li>
+                          <li>
+                          Hospitalización y cirugía
+                          </li>
+                          <li>
+                          Consulta externa ilimitada en todas las especialidades
+                          </li>
+                          <li>
+                          Examenes y laboratorios
+                          </li>
+                          <li>
+                          Asistencia internacional USD$25.000
+                          </li>
+                          <li>
+                          Asistencia medica domiciliaria (primeras 5 sin pago de bono)
+                          </li>
+                        </ul>
+                        <a src="vistas/pdfs/PDF ALTERNO AMPARADO.pdf" target="_blank"><img src="vistas/img/iconosResources/icons8-pdf-office-m/icons8-pdf-30.png"/> Ver más</a> 
+                      </div>
+                    </div>`
+                    : capitalizeFirstLetter(nombrePlan) === "Salud ideal"
+                    ? `<a src="vistas/pdfs/PDF SALUD IDEAL.pdf" target="_blank"> <img src="vistas/img/iconosResources/icons8-pdf-office-m/icons8-pdf-30.png"/>Ver más</a>`
+                    : capitalizeFirstLetter(nombrePlan) === "Salud ideal + emermedica"
+                    ? `<div class="col-xs-12 col-sm-6 col-md-5 textCards">
+                    <div style="width: 100%; text-align: justify;">
+                      <b>Incluye coberturas del Plan Salud Ideal como: </b>emergencias odontológicas + consultas, exámenes complementarios y terapias relacionados con hospitalización + medicamentos ambulatorios de hospitalización + atención médica de urgencias en el exterior.
+                    <br>
+                    <b>Más estas otras coberturas como:</b>
+                      <br>
+                      <ul>
+                        <li>
+                        Asesoría en Lactancia Materna
+                        </li>
+                        <li>
+                        Consulta Médica domiciliaria ilimitada sin Pago de bono.
+                        </li>
+                      </ul>
+                      <a src="vistas/pdfs/PDF SALUD IDEAL + EMERMEDICA.pdf" target="_blank">Ver más</a> 
+                    </div>
+                  </div>`
+                    : capitalizeFirstLetter(nombrePlan) === "Plan ambulatorio" ? `<div class="col-xs-12 col-sm-6 col-md-5 textCards">     
+                    <div style="width: 100%; text-align: justify;">
+                      <b>Coberturas:</b>
+                      <br>
+                      <ul>
+                        <li>
+                        Consulta médica general, prioritaria y especializada con bono
+                        </li>
+                        <li>
+                        Traslado a consulta médica 3 eventos por año de vigencia sin pago de bono
+                        </li>
+                        <li>
+                        Servicio odontologicos de urgencia y prevención
+                        </li>
+                        <li>
+                        Exámenes de laboratorio y diagnóstico simple 
+                        </li>
+                        <li>
+                         Renta diaria por hospitalización
+                        </li>
+                        <li>
+                         Terapias ilimitadas con pago de bono y muchas coberturas más
+                        </li>
+                      </ul>
+                      <a src="vistas/pdfs/PDF PLAN AMBULTARIO.pdf" target="_blank"><img src="vistas/img/iconosResources/icons8-pdf-office-m/icons8-pdf-30.png"/> Ver más</a> 
+                    </div>
+                  </div>` : ""
+                }
+                
+              </div>
+              <div class='row card-body'>
+              ${tipoCotizacion === 2 ? tableHTML : tableHTML}
+              </div>
+        </div>`;
 }
 
 /**
@@ -659,7 +770,7 @@ function makeIndividualCard(nombrePlan, precioMensual, precioTrimestral, precioS
  * @function
  */
 function formatInput(value) {
-  value = value.replace(/[0-9]/g, '');
+  value = value.replace(/[0-9]/g, "");
   return value.charAt(0).toUpperCase() + value.slice(1).toLowerCase();
 }
 
@@ -700,23 +811,32 @@ function makeTable(asegurados, plan_id) {
                       </thead>
                       <tbody>`;
 
-  let subtotalMensual = 0, subtotalTrimestral = 0, subtotalSemestral = 0, subtotalAnual = 0;
+  let subtotalMensual = 0,
+    subtotalTrimestral = 0,
+    subtotalSemestral = 0,
+    subtotalAnual = 0;
 
-  asegurados.forEach(asegurado => {
-      let plan = asegurado.planes.find(p => p.plan_id === plan_id);
-      if (plan) {
-          let mensual = parseFloat(plan.mensual.replace(/\./g, '').replace(',', '.'));
-          let trimestral = parseFloat(plan.trimestral.replace(/\./g, '').replace(',', '.'));
-          let semestral = parseFloat(plan.semestral.replace(/\./g, '').replace(',', '.'));
-          let anual = parseFloat(plan.anual.replace(/\./g, '').replace(',', '.'));
+  asegurados.forEach((asegurado) => {
+    let plan = asegurado.planes.find((p) => p.plan_id === plan_id);
+    if (plan) {
+      let mensual = parseFloat(
+        plan.mensual.replace(/\./g, "").replace(",", ".")
+      );
+      let trimestral = parseFloat(
+        plan.trimestral.replace(/\./g, "").replace(",", ".")
+      );
+      let semestral = parseFloat(
+        plan.semestral.replace(/\./g, "").replace(",", ".")
+      );
+      let anual = parseFloat(plan.anual.replace(/\./g, "").replace(",", "."));
 
-          subtotalMensual += mensual;
-          subtotalTrimestral += trimestral;
-          subtotalSemestral += semestral;
-          subtotalAnual += anual;
-          let generoTexto = asegurado.genero === '1' ? 'Masculino' : 'Femenino';
+      subtotalMensual += mensual;
+      subtotalTrimestral += trimestral;
+      subtotalSemestral += semestral;
+      subtotalAnual += anual;
+      let generoTexto = asegurado.genero === "1" ? "Masculino" : "Femenino";
 
-          tableHTML += `
+      tableHTML += `
           <tr>
               <td>${asegurado.nombre} ${asegurado.apellido}</td>
               <td>${generoTexto}</td>
@@ -726,7 +846,7 @@ function makeTable(asegurados, plan_id) {
               <td>$${processValue(semestral, 0)}</td>
               <td>$${processValue(anual, 0)}</td>
           </tr>`;
-      }
+    }
   });
 
   let ivaMensual = subtotalMensual * (iva / 100);
@@ -776,7 +896,6 @@ function makeTable(asegurados, plan_id) {
   return tableHTML;
 }
 
-
 /**
  * Manager para generar las cards en general.
  * @function
@@ -785,150 +904,173 @@ function makeCards(data, tipoCotizacion) {
   let html_data = "";
 
   if (tipoCotizacion === 1) {
-      // Generar tarjetas individuales para cada plan
-     // Acumular los valores por plan_id
-     let planesSumados = {};
+    // Generar tarjetas individuales para cada plan
+    // Acumular los valores por plan_id
+    let planesSumados = {};
 
-     data.asegurados.forEach(asegurado => {
-         asegurado.planes.forEach(plan => {
-             if (!planesSumados[plan.plan_id]) {
-                 planesSumados[plan.plan_id] = {
-                     nombre: plan.nombre,
-                     mensual: 0,
-                     trimestral: 0,
-                     semestral: 0,
-                     anual: 0,
-                     coberturas: []
-                 };
-             }
+    data.asegurados.forEach((asegurado) => {
+      asegurado.planes.forEach((plan) => {
+        if (!planesSumados[plan.plan_id]) {
+          planesSumados[plan.plan_id] = {
+            nombre: plan.nombre,
+            mensual: 0,
+            trimestral: 0,
+            semestral: 0,
+            anual: 0,
+            coberturas: [],
+          };
+        }
 
-             planesSumados[plan.plan_id].mensual += parseFloat(plan.mensual.replace(/\./g, '').replace(',', '.'));
-             planesSumados[plan.plan_id].trimestral += parseFloat(plan.trimestral.replace(/\./g, '').replace(',', '.'));
-             planesSumados[plan.plan_id].semestral += parseFloat(plan.semestral.replace(/\./g, '').replace(',', '.'));
-             planesSumados[plan.plan_id].anual += parseFloat(plan.anual.replace(/\./g, '').replace(',', '.'));
-             
-             // Si el plan tiene coberturas, agregarlas
-             if (planesSumados[plan.plan_id].coberturas.length === 0) {
-                 let nombrePlanUpper = plan.nombre.toUpperCase();
-                 switch (nombrePlanUpper) {
-                   case 'FESALUD AMPARADO':
-                       planesSumados[plan.plan_id].coberturas = COBERTURAS_FESALUD_AMPARADO;
-                       break;
-                   case 'ORIGINAL AMPARADO':
-                       planesSumados[plan.plan_id].coberturas = COBERTURAS_ORIGINAL_AMPARADO;
-                       break;
-                   case 'ALTERNO AMPARADO':
-                       planesSumados[plan.plan_id].coberturas = COBERTURAS_ALTERNO_AMPARADO;
-                       break;
-                   case 'SALUD IDEAL':
-                       planesSumados[plan.plan_id].coberturas = COBERTURAS_SALUD_IDEAL;
-                       break;
-                   case 'SALUD IDEAL + EMERMEDICA':
-                       planesSumados[plan.plan_id].coberturas = COBERTURAS_SALUD_IDEAL_EMERMEDICA;
-                       break;
-                   case 'PLAN AMBULATORIO':
-                       planesSumados[plan.plan_id].coberturas = COBERTURAS_PLAN_AMBULATORIO;
-                       break;
-                   default:
-                       planesSumados[plan.plan_id].coberturas = ["Cobertura estándar"];
-               }                
-             }
-         });
-     });
+        planesSumados[plan.plan_id].mensual += parseFloat(
+          plan.mensual.replace(/\./g, "").replace(",", ".")
+        );
+        planesSumados[plan.plan_id].trimestral += parseFloat(
+          plan.trimestral.replace(/\./g, "").replace(",", ".")
+        );
+        planesSumados[plan.plan_id].semestral += parseFloat(
+          plan.semestral.replace(/\./g, "").replace(",", ".")
+        );
+        planesSumados[plan.plan_id].anual += parseFloat(
+          plan.anual.replace(/\./g, "").replace(",", ".")
+        );
 
-     // Generar tarjetas grupales con los valores sumados
-     for (let plan_id in planesSumados) {
-         let plan = planesSumados[plan_id];
-         let tableHTML = makeTable(data.asegurados,plan_id);
-         html_data += makeIndividualCard(
-             plan.nombre,
-             processValue(plan.mensual, iva),
-             processValue(plan.trimestral, iva),
-             processValue(plan.semestral, iva),
-             processValue(plan.anual, iva),
-             plan.coberturas,
-             tipoCotizacion,
-             data.asegurados.length,
-             tableHTML
-         );
-     
-      };
-  } else if (tipoCotizacion === 2) {
-
-
-      // Acumular los valores por plan_id
-      let planesSumados = {};
-
-      data.asegurados.forEach(asegurado => {
-          asegurado.planes.forEach(plan => {
-              if (!planesSumados[plan.plan_id]) {
-                  planesSumados[plan.plan_id] = {
-                      nombre: plan.nombre,
-                      mensual: 0,
-                      trimestral: 0,
-                      semestral: 0,
-                      anual: 0,
-                      coberturas: []
-                  };
-              }
-
-              planesSumados[plan.plan_id].mensual += parseFloat(plan.mensual.replace(/\./g, '').replace(',', '.'));
-              planesSumados[plan.plan_id].trimestral += parseFloat(plan.trimestral.replace(/\./g, '').replace(',', '.'));
-              planesSumados[plan.plan_id].semestral += parseFloat(plan.semestral.replace(/\./g, '').replace(',', '.'));
-              planesSumados[plan.plan_id].anual += parseFloat(plan.anual.replace(/\./g, '').replace(',', '.'));
-              
-              // Si el plan tiene coberturas, agregarlas
-              if (planesSumados[plan.plan_id].coberturas.length === 0) {
-                  let nombrePlanUpper = plan.nombre.toUpperCase();
-                  switch (nombrePlanUpper) {
-                    case 'FESALUD AMPARADO':
-                        planesSumados[plan.plan_id].coberturas = COBERTURAS_FESALUD_AMPARADO;
-                        break;
-                    case 'ORIGINAL AMPARADO':
-                        planesSumados[plan.plan_id].coberturas = COBERTURAS_ORIGINAL_AMPARADO;
-                        break;
-                    case 'ALTERNO AMPARADO':
-                        planesSumados[plan.plan_id].coberturas = COBERTURAS_ALTERNO_AMPARADO;
-                        break;
-                    case 'SALUD IDEAL':
-                        planesSumados[plan.plan_id].coberturas = COBERTURAS_SALUD_IDEAL;
-                        break;
-                    case 'SALUD IDEAL + EMERMEDICA':
-                        planesSumados[plan.plan_id].coberturas = COBERTURAS_SALUD_IDEAL_EMERMEDICA;
-                        break;
-                    case 'PLAN AMBULATORIO':
-                        planesSumados[plan.plan_id].coberturas = COBERTURAS_PLAN_AMBULATORIO;
-                        break;
-                    default:
-                        planesSumados[plan.plan_id].coberturas = ["Cobertura estándar"];
-                }                
-              }
-          });
+        // Si el plan tiene coberturas, agregarlas
+        if (planesSumados[plan.plan_id].coberturas.length === 0) {
+          let nombrePlanUpper = plan.nombre.toUpperCase();
+          switch (nombrePlanUpper) {
+            case "FESALUD AMPARADO":
+              planesSumados[plan.plan_id].coberturas =
+                COBERTURAS_FESALUD_AMPARADO;
+              break;
+            case "ORIGINAL AMPARADO":
+              planesSumados[plan.plan_id].coberturas =
+                COBERTURAS_ORIGINAL_AMPARADO;
+              break;
+            case "ALTERNO AMPARADO":
+              planesSumados[plan.plan_id].coberturas =
+                COBERTURAS_ALTERNO_AMPARADO;
+              break;
+            case "SALUD IDEAL":
+              planesSumados[plan.plan_id].coberturas = COBERTURAS_SALUD_IDEAL;
+              break;
+            case "SALUD IDEAL + EMERMEDICA":
+              planesSumados[plan.plan_id].coberturas =
+                COBERTURAS_SALUD_IDEAL_EMERMEDICA;
+              break;
+            case "PLAN AMBULATORIO":
+              planesSumados[plan.plan_id].coberturas =
+                COBERTURAS_PLAN_AMBULATORIO;
+              break;
+            default:
+              planesSumados[plan.plan_id].coberturas = ["Cobertura estándar"];
+          }
+        }
       });
+    });
 
-      // Generar tarjetas grupales con los valores sumados
-      for (let plan_id in planesSumados) {
-          let plan = planesSumados[plan_id];
-          let tableHTML = makeTable(data.asegurados,plan_id);
-          html_data += makeIndividualCard(
-              plan.nombre,
-              processValue(plan.mensual, iva),
-              processValue(plan.trimestral, iva),
-              processValue(plan.semestral, iva),
-              processValue(plan.anual, iva),
-              plan.coberturas,
-              tipoCotizacion,
-              data.asegurados.length,
-              tableHTML
-          );
-      }
+    // Generar tarjetas grupales con los valores sumados
+    for (let plan_id in planesSumados) {
+      let plan = planesSumados[plan_id];
+      let tableHTML = makeTable(data.asegurados, plan_id);
+      html_data += makeIndividualCard(
+        plan.nombre,
+        processValue(plan.mensual, iva),
+        processValue(plan.trimestral, iva),
+        processValue(plan.semestral, iva),
+        processValue(plan.anual, iva),
+        plan.coberturas,
+        tipoCotizacion,
+        data.asegurados.length,
+        tableHTML
+      );
+    }
+  } else if (tipoCotizacion === 2) {
+    // Acumular los valores por plan_id
+    let planesSumados = {};
+
+    data.asegurados.forEach((asegurado) => {
+      asegurado.planes.forEach((plan) => {
+        if (!planesSumados[plan.plan_id]) {
+          planesSumados[plan.plan_id] = {
+            nombre: plan.nombre,
+            mensual: 0,
+            trimestral: 0,
+            semestral: 0,
+            anual: 0,
+            coberturas: [],
+          };
+        }
+
+        planesSumados[plan.plan_id].mensual += parseFloat(
+          plan.mensual.replace(/\./g, "").replace(",", ".")
+        );
+        planesSumados[plan.plan_id].trimestral += parseFloat(
+          plan.trimestral.replace(/\./g, "").replace(",", ".")
+        );
+        planesSumados[plan.plan_id].semestral += parseFloat(
+          plan.semestral.replace(/\./g, "").replace(",", ".")
+        );
+        planesSumados[plan.plan_id].anual += parseFloat(
+          plan.anual.replace(/\./g, "").replace(",", ".")
+        );
+
+        // Si el plan tiene coberturas, agregarlas
+        if (planesSumados[plan.plan_id].coberturas.length === 0) {
+          let nombrePlanUpper = plan.nombre.toUpperCase();
+          switch (nombrePlanUpper) {
+            case "FESALUD AMPARADO":
+              planesSumados[plan.plan_id].coberturas =
+                COBERTURAS_FESALUD_AMPARADO;
+              break;
+            case "ORIGINAL AMPARADO":
+              planesSumados[plan.plan_id].coberturas =
+                COBERTURAS_ORIGINAL_AMPARADO;
+              break;
+            case "ALTERNO AMPARADO":
+              planesSumados[plan.plan_id].coberturas =
+                COBERTURAS_ALTERNO_AMPARADO;
+              break;
+            case "SALUD IDEAL":
+              planesSumados[plan.plan_id].coberturas = COBERTURAS_SALUD_IDEAL;
+              break;
+            case "SALUD IDEAL + EMERMEDICA":
+              planesSumados[plan.plan_id].coberturas =
+                COBERTURAS_SALUD_IDEAL_EMERMEDICA;
+              break;
+            case "PLAN AMBULATORIO":
+              planesSumados[plan.plan_id].coberturas =
+                COBERTURAS_PLAN_AMBULATORIO;
+              break;
+            default:
+              planesSumados[plan.plan_id].coberturas = ["Cobertura estándar"];
+          }
+        }
+      });
+    });
+
+    // Generar tarjetas grupales con los valores sumados
+    for (let plan_id in planesSumados) {
+      let plan = planesSumados[plan_id];
+      let tableHTML = makeTable(data.asegurados, plan_id);
+      html_data += makeIndividualCard(
+        plan.nombre,
+        processValue(plan.mensual, iva),
+        processValue(plan.trimestral, iva),
+        processValue(plan.semestral, iva),
+        processValue(plan.anual, iva),
+        plan.coberturas,
+        tipoCotizacion,
+        data.asegurados.length,
+        tableHTML
+      );
+    }
   }
 
   document.getElementById("row_contenedor_general_salud").innerHTML = html_data;
   cargarEstilos("vistas/modulos/SaludCot/css/cardsResult.css");
   Swal.fire({
-      title: "¡Cotización Exitosa!",
-      icon: "success",
+    title: "¡Cotización Exitosa!",
+    icon: "success",
   });
 }
 
@@ -937,10 +1079,12 @@ function makeCards(data, tipoCotizacion) {
  * @function
  */
 function processValue(value, percentage) {
-
-  const updatedValue = value * (1 + (percentage / 100));
+  const updatedValue = value * (1 + percentage / 100);
   const roundedValue = Math.round(updatedValue);
-  const formattedValue = (roundedValue / 100).toLocaleString('es-ES', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
+  const formattedValue = (roundedValue / 100).toLocaleString("es-ES", {
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
+  });
 
   return formattedValue;
 }
@@ -949,10 +1093,10 @@ function processValue(value, percentage) {
  * formeamos texto
  * @function
  */
-function activateFormate(){
-  $('.format-text').on('input blur', function() {
+function activateFormate() {
+  $(".format-text").on("input blur", function () {
     $(this).val(formatInput($(this).val()));
-});
+  });
 }
 /**
  * Cotizamos.
@@ -1082,24 +1226,23 @@ $(document).ready(function () {
     validateNames();
   });
 
-
   $("#modalCards").click(function (event) {
     openModal();
   });
 
-  $(document).on('click', '[id^=toggleBtn_]', function() {
+  $(document).on("click", "[id^=toggleBtn_]", function () {
     // Obtener la tabla objetivo basada en el data-target del botón
-    var targetTable = $($(this).data('target'));
+    var targetTable = $($(this).data("target"));
 
     // Alterna entre mostrar y ocultar la tabla con efecto de deslizamiento
-    targetTable.slideToggle('fast');
+    targetTable.slideToggle("fast");
 
     // Cambia el texto del botón dependiendo de su texto actual
     var button = $(this);
-    if (button.text() === 'Ver detalle de precios por asegurado') {
-        button.text('Cerrar detalle de precios por asegurado');
+    if (button.text() === "Ver detalle de precios por asegurado") {
+      button.text("Cerrar detalle de precios por asegurado");
     } else {
-        button.text('Ver detalle de precios por asegurado');
+      button.text("Ver detalle de precios por asegurado");
     }
   });
 
@@ -1115,7 +1258,5 @@ $(document).ready(function () {
       cotizar();
     }
   });
-
-
 });
 // ========================================================================================================================

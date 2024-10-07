@@ -208,7 +208,7 @@
     <div class="container-fluid" id="Cards">
         <div class="row">
             <div class="col-xs-12">
-                <p><strong>Nota: </strong>Esta cotización tiene una vigencia de x dias.</p>
+                <p><strong>Nota: </strong>Esta propuesta tiene una vigencia limitada</p>
             </div>
         </div>
         <div class="row" id="row_contenedor_general_salud"></div>

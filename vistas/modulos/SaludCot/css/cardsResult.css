@@ -184,7 +184,7 @@
 
     .center-row{
         text-align: center;
-        margin-right: 25px;
+        margin-right: 0px !important;
     }
 
     .center-ul{
@@ -202,6 +202,10 @@
     }
     .centar-span-txt {
         margin-right: 10px;
+    }
+
+    .textCards{
+        padding-left: 15px !important;
     }
 
 }
