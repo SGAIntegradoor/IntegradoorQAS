@@ -16,7 +16,7 @@ $identificador = $_GET['cotizacion'];
 $server = "localhost";
 $user = "grupoasi_cotizautos";
 $password = "M1graci0n123"; //poner tu propia contraseña, si tienes una.
-$bd = "grupoasi_cotizautos_qas";
+$bd = "grupoasi_cotizautos";
 
 $conexion = mysqli_connect($server, $user, $password, $bd);
 if (!$conexion) {
@@ -1907,11 +1907,11 @@ $html4 .= '</tr>';
 $html4 .= '<tr>';
 
 if ($rowValidate > 3) {
-	$html4 .= '<td class="fondo2 puntos" style="width:25%;"><div style="font-size:5pt">&nbsp;</div><font size="8" style="font-family:dejavusanscondensedb; text-align: center;">Accidentes personales</font></td>';
+	$html4 .= '<td class="fondo2 puntos" style="width:25%;"><div style="font-size:5pt">&nbsp;</div><font size="8" style="font-family:dejavusanscondensedb; text-align: center;">Indemnización por accidentes</font><span style="font-size: 6pt; text-align: center;"><br>(asegurado, conductor u ocupantes)</span></td>';
 } else if ($rowValidate > 1) {
-	$html4 .= '<td class="fondo2 puntos" style="width:25%;"><div style="font-size:5pt">&nbsp;</div><font size="8" style="font-family:dejavusanscondensedb; text-align: center;">Accidentes personales</font></td>';
+	$html4 .= '<td class="fondo2 puntos" style="width:25%;"><div style="font-size:5pt">&nbsp;</div><font size="8" style="font-family:dejavusanscondensedb; text-align: center;">Indemnización por accidentes</font><span style="font-size: 6pt; text-align: center;"><br>(asegurado, conductor u ocupantes)</span></td>';
 } else {
-	$html4 .= '<td class="fondo2 puntos" style="width:25%;"><div style="font-size:5pt">&nbsp;</div><font size="8" style="font-family:dejavusanscondensedb; text-align: center;">Accidentes personales</font></td>';
+	$html4 .= '<td class="fondo2 puntos" style="width:25%;"><div style="font-size:5pt">&nbsp;</div><font size="8" style="font-family:dejavusanscondensedb; text-align: center;">Indemnización por accidentes</font><span style="font-size: 6pt; text-align: center;"><br>(asegurado, conductor u ocupantes)</span></td>';
 }
 
 $cont14 = 1;

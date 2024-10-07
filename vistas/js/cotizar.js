@@ -3601,10 +3601,10 @@ function cotizarOfertas() {
               .catch((err) => {
                 agregarAseguradoraFallida("FULL");
                 mostrarAlertarCotizacionFallida(
-                  "FULL",
+                  "Zurich",
                   "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
                 );
-                validarProblema("FULL", [
+                validarProblema("Zurich", [
                   {
                     Mensajes: [
                       "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
