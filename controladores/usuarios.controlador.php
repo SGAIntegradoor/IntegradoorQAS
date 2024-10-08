@@ -131,6 +131,8 @@ class ControladorUsuarios
 						$_SESSION["permisos"] = $respuesta;
 
 
+
+
 						/*=============================================
 																																	REGISTRAR FECHA PARA SABER EL ÚLTIMO LOGIN
 																																	=============================================*/
@@ -150,48 +152,15 @@ class ControladorUsuarios
 
 						$ultimoLogin = ModeloUsuarios::mdlActualizarUsuario($tabla, $item1, $valor1, $item2, $valor2, null);
 
-						echo "<script>
-							// Redirigir al usuario a la página de inicio
-							window.location = 'inicio';
 
-							// Una vez que el usuario esté en la página 'inicio', ejecutamos el siguiente código
-							document.addEventListener('DOMContentLoaded', function() {
-								let modalShown = localStorage.getItem('initModal');
-
-								// Solo mostrar el modal si no se ha mostrado antes (initModal no existe o es 'false')
-								if (!modalShown || modalShown === 'false') {
-									swal.fire({
-										html: `
-											<div style='display: flex; align-items: center'>
-											<img src='vistas/img/modals/img/home/modalHome.jpg' />
-											</div>
-											<p style='text-align: justify; font-family: Helvetica, Arial, sans-serif;' id='pTableModalPesados'>
-											<strong>Nota:</strong> Tener en cuenta que aunque el cotizador genere ofertas, no todos los vehículos son asegurables. Se podrán hacer excepciones de valor asegurado superior cuando el asesor sea productivo, tenga más de 6 meses de antigüedad con Grupo Asistencia, no tenga altos índices de siniestralidad en su cartera, y si el cliente tiene vinculación con otros productos de la aseguradora. El valor de las primas de las cotizaciones puede variar al momento de emitir en los casos autorizados de manera excepcional.
-											</p>
-										`,
-										width: '30%',
-										showConfirmButton: true,
-										confirmButtonText: 'Continuar',
-										customClass: {
-											popup: 'custom-swal-alertaMontoPesados',
-											title: 'custom-swal-titlePesados',
-											confirmButton: 'custom-swal-confirm-button24',
-											actions: 'custom-swal-actions-pesados',
-											icon: 'swal2-icon_monto',
-										},
-										timer: 20000,
-										timerProgressBar: true,
-									}).then(() => {
-										// Después de que el modal se cierre, guardamos en localStorage que ya se mostró
-										localStorage.setItem('initModal', true);
-									});
-								}
-							});
-						</script>";
 
 						if ($ultimoLogin == "ok") {
-							
-							
+
+							echo '<script>
+
+									window.location = "inicio";
+
+								</script>';
 						}
 					} elseif ($respuesta["id_rol"] == 19) {
 
@@ -546,7 +515,7 @@ class ControladorUsuarios
 	{
 
 		if (isset($_POST["editarUsuario"])) {
-			if ($_SESSION["permisos"]["EditarUsuarioInvitado"] == "x") {
+			if($_SESSION["permisos"]["EditarUsuarioInvitado"] == "x"){
 				if (
 					preg_match('/^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ ]+$/', $_POST["editarNombre"]) &&
 					preg_match('/^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ ]+$/', $_POST["editarApellido"] &&
@@ -555,33 +524,33 @@ class ControladorUsuarios
 					preg_match('/^[a-zA-Z0-9_\-\.~]{2,}@[a-zA-Z0-9_\-\.~]{2,}\.[a-zA-Z]{2,4}$/', $_POST["editarEmail"])
 					//    preg_match('/^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ ]+$/', $_POST["editarCargo"])
 				) {
-
+	
 					// Convierto el usuario a Minisculas
 					$editarUsuario = strtolower($_POST["editarUsuario"]);
-
+	
 					/*=============================================
 																							VALIDAR IMAGEN
 																							=============================================*/
-
+	
 					$ruta = $_POST["fotoActual"];
-
+	
 					if (isset($_FILES["editarFoto"]["tmp_name"]) && !empty($_FILES["editarFoto"]["tmp_name"])) {
-
+	
 						list($ancho, $alto) = getimagesize($_FILES["editarFoto"]["tmp_name"]);
-
+	
 						$nuevoAncho = 500;
 						$nuevoAlto = 500;
-
+	
 						/*=============================================
 																												  CREAMOS EL DIRECTORIO DONDE VAMOS A GUARDAR LA FOTO DEL USUARIO
 																												  =============================================*/
-
+	
 						$directorio = "vistas/img/usuarios/" . $editarUsuario;
-
+	
 						/*=============================================
 																												  PRIMERO PREGUNTAMOS SI EXISTE OTRA IMAGEN EN LA BD
 																												  =============================================*/
-
+	
 						if (!empty($_POST["fotoActual"])) {
 							// Verificar si el archivo existe antes de intentar eliminarlo
 							if (file_exists($_POST["fotoActual"])) {
@@ -595,61 +564,61 @@ class ControladorUsuarios
 								mkdir($directorio, 0755, true); // El tercer parámetro true permite la creación de directorios anidados
 							}
 						}
-
+	
 						/*=============================================
 																												  DE ACUERDO AL TIPO DE IMAGEN APLICAMOS LAS FUNCIONES POR DEFECTO DE PHP
 																												  =============================================*/
-
+	
 						if ($_FILES["editarFoto"]["type"] == "image/jpeg") {
-
+	
 							/*=============================================
 																																		GUARDAMOS LA IMAGEN EN EL DIRECTORIO
 																																		=============================================*/
-
+	
 							$aleatorio = mt_rand(100, 999);
-
+	
 							$ruta = "vistas/img/usuarios/" . $editarUsuario . "/" . $aleatorio . ".jpg";
-
+	
 							$origen = imagecreatefromjpeg($_FILES["editarFoto"]["tmp_name"]);
-
+	
 							$destino = imagecreatetruecolor($nuevoAncho, $nuevoAlto);
-
+	
 							imagecopyresized($destino, $origen, 0, 0, 0, 0, $nuevoAncho, $nuevoAlto, $ancho, $alto);
-
+	
 							imagejpeg($destino, $ruta);
 						}
-
+	
 						if ($_FILES["editarFoto"]["type"] == "image/png") {
-
+	
 							/*=============================================
 																																		GUARDAMOS LA IMAGEN EN EL DIRECTORIO
 																																		=============================================*/
-
+	
 							$aleatorio = mt_rand(100, 999);
-
+	
 							$ruta = "vistas/img/usuarios/" . $editarUsuario . "/" . $aleatorio . ".png";
-
+	
 							$origen = imagecreatefrompng($_FILES["editarFoto"]["tmp_name"]);
-
+	
 							$destino = imagecreatetruecolor($nuevoAncho, $nuevoAlto);
-
+	
 							imagecopyresized($destino, $origen, 0, 0, 0, 0, $nuevoAncho, $nuevoAlto, $ancho, $alto);
-
+	
 							imagepng($destino, $ruta);
 						}
 					}
-
+	
 					$tabla = "usuarios";
-
-
+	
+	
 					// 	if (preg_match('/^[a-zA-Z0-9]+$/', $_POST["passwordActual"])) {
-
+	
 					// 		$encriptar = crypt($_POST["passwordActual"], '$2a$07$asxx54ahjppf45sd87a5a4dDDGsystemdev$');
-
+	
 					// 	} else {
-
+	
 					// 		echo '<script>
-
+	
 					// 				swal.fire({
 					// 					  type: "error",
 					// 					  title: "¡La contraseña no puede ir vacía o llevar caracteres especiales!",
@@ -657,33 +626,33 @@ class ControladorUsuarios
 					// 					  confirmButtonText: "Cerrar"
 					// 					  }).then(function(result) {
 					// 						if (result.value) {
-
+	
 					// 						window.location = "usuarios";
-
+	
 					// 						}
 					// 					})
-
+	
 					// 		  	</script>';
-
+	
 					// 		return;
-
+	
 					// 	}
-
+	
 					// if($_POST['passwordActual'])
-
+	
 					// // }
 					// $intermediario = $_POST["idIntermediario2"];
 					// var_dump($intermediario);
 					// die();
-
+	
 					$actualPassword = crypt($_POST["passwordActual"], '$2a$07$asxx54ahjppf45sd87a5a4dDDGsystemdev$');
 					$actualPassw = $_POST["passwordActual"];
 					$actualIdUser = $_POST['idUsuEdit'];
-
+					
 					$checkPass = ModeloUsuarios::mdlCheckPassword($actualPassw, $actualIdUser);
 					if (!$checkPass) {
 						if (isset($_POST["ciudad2"]) && $_POST["ciudad2"] == NULL) {
-
+							
 							$datos = array(
 								"id" => $_POST["idUsuEdit"],
 								"nombre" => $_POST["editarNombre"],
@@ -706,6 +675,8 @@ class ControladorUsuarios
 								"ciudad" => $_POST["codigoCiudadActual"],
 								"foto" => $ruta
 							);
+
+	
 						} else {
 							$datos = array(
 								"id" => $_POST["idUsuEdit"],
@@ -729,11 +700,12 @@ class ControladorUsuarios
 								"ciudad" => $_POST["codigoCiudadActual"],
 								"foto" => $ruta
 							);
+
 						}
 						$respuesta = ModeloUsuarios::mdlEditarUsuario($tabla, $datos);
-
+	
 						if ($respuesta == "ok") {
-
+	
 							echo '<script>
 		
 							swal.fire({
@@ -749,7 +721,7 @@ class ControladorUsuarios
 		
 							</script>';
 						} else {
-
+	
 							echo '<script>
 		
 							swal.fire({
@@ -789,6 +761,7 @@ class ControladorUsuarios
 								"ciudad" => $_POST["codigoCiudadActual"],
 								"foto" => $ruta
 							);
+
 						} else {
 							$datos = array(
 								"id" => $_POST["idUsuEdit"],
@@ -812,13 +785,14 @@ class ControladorUsuarios
 								"ciudad" => $_POST["codigoCiudadActual"],
 								"foto" => $ruta
 							);
+
 						}
-
+	
 						$respuesta = ModeloUsuarios::mdlEditarUsuario($tabla, $datos);
-
-
+	
+	
 						if ($respuesta == "ok") {
-
+	
 							echo '<script>
 		
 							swal.fire({
@@ -834,7 +808,7 @@ class ControladorUsuarios
 		
 							</script>';
 						} else {
-
+	
 							echo '<script>
 		
 							swal.fire({
@@ -868,6 +842,7 @@ class ControladorUsuarios
 		
 						  </script>';
 			}
+			
 		}
 	}
 	/*=============================================
