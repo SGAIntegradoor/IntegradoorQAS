@@ -137,7 +137,7 @@
             <div class="card-exequias">
                 <div class="card-body text-center">
                     <h4 class="card-title">Comisión</h4>
-                    <p class="card-text margen-sup">
+                    <div class="card-text margen-sup" style="display: flex; align-items: center; flex-direction:column">
                         La comisión base que nos ofrece Axa Colpatria para nuestra alianza de asesores es:
                     <br>
                     <br>
@@ -161,7 +161,7 @@
                     <br>
                     <br>
                     De este porcentaje, tu participación será de acuerdo al nivel de ventas de todos los negocios (sin IVA), sumando todos los ramos, que realices en el mes.
-                    </p>
+                    </div>
 
                     <ul class="card-text ul-card" style="padding-left: 15px;">
                         <li>Nivel 1: 67,5%</li>

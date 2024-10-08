@@ -130,8 +130,11 @@ class ControladorUsuarios
 						$_SESSION["fechaLimi"] = $respuesta["fechaFin"];
 						$_SESSION["permisos"] = $respuesta;
 
-
-
+						echo 
+						
+						"<script>
+							localStorage.setItem('initModal', true);
+						</script>";
 
 						/*=============================================
 																																	REGISTRAR FECHA PARA SABER EL ÚLTIMO LOGIN
