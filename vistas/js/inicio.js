@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', function() {
         swal.fire({
             html: `
                 <div style='display: flex; align-items: center; justify-content: center;'>
-                 <img id="modalHome" src='vistas/img/modals/img/home/modalHome.jpg'/>
+                 <img id="modalHome" src='vistas/img/modals/img/home/homeModal.png'/>
                 </div>
             `,
             showConfirmButton: true,

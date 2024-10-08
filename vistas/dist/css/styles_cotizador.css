@@ -492,11 +492,11 @@
 }
 
 .popup_control {
-    width: 50%;
+    width: 51%;
 }
 
 #modalHome {
-    width:400px;
+    width:500px;
 
 }
 
@@ -510,13 +510,13 @@
 @media only screen and (min-width: 1281px) and (max-width: 1990px) {
 
     .popup_control {
-        width: 32%;
+        width: 33%;
 
     }
 
     #modalHome {
-        width:400px;
-        
+        width:500px;
+    
     }
 
 }
@@ -524,13 +524,13 @@
 @media only screen and (min-width: 993px) and (max-width: 1280px) {
 
     .popup_control {
-        width: 42%;
+        width: 43%;
 
     }
 
     #modalHome {
-        width:400px;
-        
+        width:500px;
+    
     }
 
 }
@@ -549,8 +549,8 @@
     }
 
     #modalHome {
-        width:400px;
-        
+        width:500px;
+    
     }
 
 }
