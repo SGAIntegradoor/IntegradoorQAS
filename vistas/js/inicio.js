@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', function() {
             confirmButtonText: 'Continuar',
             customClass: {
                 popup: "popup_control",
-                confirmButton: 'custom-swal-confirm-button24',
+                confirmButton: 'popup-confirm-button24',
             },
             timer: 20000,
             timerProgressBar: true,

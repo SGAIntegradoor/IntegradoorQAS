@@ -500,6 +500,13 @@
 
 }
 
+.popup-confirm-button24 {
+    font-size: 16px !important;
+    height: 40px;
+    width: 120px;
+    border-radius: 10px !important;
+  }
+
 @media only screen and (min-width: 1281px) and (max-width: 1990px) {
 
     .popup_control {
