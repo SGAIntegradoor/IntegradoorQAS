@@ -30,12 +30,12 @@
                     <!-- <p class="card-text">Nuestros tiempos de respuesta para emisión es de <b>x horas hábiles</b>,
                         siempre y
                         cuando la información se encuentre debidamente diligenciada y completa.<br></p> -->
-                    <p style="text-align: justify;">Conoce más sobre AXA COLPATRIA y sus productos de Seguros de Salud a continuación:
+                    <p class="card-text" style="text-align: justify;">Conoce más sobre AXA COLPATRIA y sus productos de Seguros de Salud a continuación:
                         <br>
                         <br>
-                        Presentación pólizas livianas ingresa <a href="vistas\pdfs\Pólizas Livianas Salud AXA COLPATRIA.pdf" target="_blank"><b>AQUÍ</b></a>
+                        <span class="card-text">Presentación pólizas robustas ingresa <a href="vistas\pdfs\Pólizas Robustas Amparadas AXA COLPATRIA.pdf" target="_blank"><b>AQUÍ</b></a></span>
                         <br>
-                        Presentación pólizas robustas ingresa <a href="vistas\pdfs\Pólizas Robustas Amparadas AXA COLPATRIA.pdf" target="_blank"><b>AQUÍ</b></a>
+                        <span class="card-text">Presentación pólizas livianas ingresa <a href="vistas\pdfs\Pólizas Livianas Salud AXA COLPATRIA.pdf" target="_blank"><b>AQUÍ</b></a></span>
                     </p>
                 </div>
             </div>
@@ -109,21 +109,16 @@
                     <h4 class="card-title">Políticas de Suscripción</h4>
                     <ul class="card-text ul-card margen-sup">
                         <li>
-                            Edad Máxima de Ingreso para usuarios nuevos:
-                            <ul>
-                                <li>Fesalud, Original, Alterno: 63 años y 364 días</li>
-                                <li>Salud Ideal: 63 años</li>
-                                <li>Ambulatorio: 59 años</li>
-                            </ul>
+                        Edad máxima de ingreso usuarios nuevos: Fesalud, Original, Alterno (63 años y 364 días). Salud Ideal (63 años) y Ambulatorio (59 años)
                         </li>
                         <li>Edad de permanencia: Ilimitada</li>
                         <li>Edad Máxima de Ingreso para continuidades externas: 60 años y 364 días (no aplica Plan Ambulatorio).</li>
                         <li>No se acepta ingreso en continuidad externa si el usuario tiene procedimientos quirúrgicos pendientes, post-operatorios recientes, patologías no asegurables, patologías en estudio y/o tratamientos en curso; hipertensión arterial o antecedente de cirugía bariátrica.</li>
                         <li>Planes sujetos a períodos de carencia.</li>
-                        <li>El cliente debe estar afiliado y cotizando en régimen contributivo o especial</li>
-                        <li>En cada solicitud se evalúa la info de los asegurados; teniendo en cuenta el listado de patologías no asegurables se define el ingreso o no de un usuario, y se establece las condiciones de vinculación. Si se evidencia un riesgo médico importante no se suscribirá el contrato.</li>
+                        <li>El usuario debe estar afiliado y cotizando en régimen contributivo o especial.</li>
+                        <li>En cada solicitud se evalúa la info de los asegurados; según el listado de patologías no asegurables se define el ingreso o no de un usuario, y se establecen las condiciones de vinculación. Si se evidencia un riesgo médico importante no se suscribirá el contrato.</li>
                         <li>El Suscriptor podrá solicitar información adicional, conceptos médicos, exámenes complementarios o copia de historia clínica.</li>
-                        <li>Estas son algunas exclusiones: Diabetes, cáncer, hipertensión, entre otras. Ver listado ampliado de exclusiones <a href="#"
+                        <li>Estas son algunas exclusiones: Diabetes, cáncer, hipertensión, entre otras. Ver listado de exclusiones<a href="#"
                                 data-toggle="modal" data-target="#exclusionesModal" id="modalCards">
                                 <b>AQUI</b></a></li>
                     </ul>
@@ -141,17 +136,17 @@
                         La comisión base que nos ofrece Axa Colpatria para nuestra alianza de asesores es:
                     <br>
                     <br>
-                    <table border="1" style="text-align: center; font-size: 14px; border: 1px black solid">
-                        <th style="width: 150px; text-align: center; height: 40px;">Tipo de usuario</th>
-                        <th style="width: 100px; text-align: center; height: 40px;">Nuevo</th>
-                        <th style="width: 100px; text-align: center; height: 40px;">Renovación</th>
+                    <table border="1" style="text-align: center; font-size: 12.5px; border: 1px solid #c7bfbf">
+                        <th style="width: 130px; text-align: center; height: 30px;">Tipo de usuario</th>
+                        <th style="width: 80px; text-align: center; height: 30px;">Nuevo</th>
+                        <th style="width: 80px; text-align: center; height: 30px;">Renovación</th>
                         <tbody>
-                            <tr style="height: 40px;">
+                            <tr style="height: 30px;">
                                 <td>Menor de 60 años</td>
                                 <td>14%</td>
                                 <td>10%</td>
                             </tr>
-                            <tr style="height: 40px;">
+                            <tr style="height: 30px;">
                                 <td>Mayor de 60 años</td>
                                 <td>6%</td>
                                 <td>7%</td>

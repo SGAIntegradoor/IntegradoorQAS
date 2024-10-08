@@ -161,9 +161,9 @@
 
 /* CONFIGURACION MODULO USUARIOS AGREGAR */
 
-.rol.select2-container .select2-selection--single{
-    /* height: 100% !important; */
-}
+/* .rol.select2-container .select2-selection--single{
+    height: 100% !important;
+} */
 
 .rol.select2-container--bootstrap .select2-selection--single .select2-selection__rendered {
     padding-top: 7px;
@@ -174,9 +174,9 @@
     border-color: #000000 transparent transparent;
 }
 
-.doc.select2-container .select2-selection--single{
-    /* height: 100% !important; */
-}
+/* .doc.select2-container .select2-selection--single{
+    height: 100% !important;
+} */
 
 .doc.select2-container--bootstrap .select2-selection--single .select2-selection__rendered {
     padding-top: 7px;
@@ -187,9 +187,9 @@
     border-color: #000000 transparent transparent;
 }
 
-.gen.select2-container .select2-selection--single{
-    /* height: 100% !important; */
-}
+/* .gen.select2-container .select2-selection--single{
+    height: 100% !important;
+} */
 
 .gen.select2-container--bootstrap .select2-selection--single .select2-selection__rendered {
     padding-top: 7px;
@@ -200,9 +200,9 @@
     border-color: #000000 transparent transparent;
 }
 
-.int.select2-container .select2-selection--single{
-    /* height: 100% !important; */
-}
+/* .int.select2-container .select2-selection--single{
+    height: 100% !important;
+} */
 
 .int.select2-container--bootstrap .select2-selection--single .select2-selection__rendered {
     padding-top: 7px;
@@ -231,9 +231,9 @@
 /* ------------------------------------------------------------------------------------------- */
 
 
-.dpto1.select2-container .select2-selection--single{
-    /* height: 100% !important; */
-}
+/* .dpto1.select2-container .select2-selection--single{
+    height: 100% !important;
+} */
 
 .dpto1.select2-container--bootstrap .select2-selection--single .select2-selection__rendered {
     padding-top: 7px;
@@ -261,10 +261,10 @@
 
 /* ------------------------------------------------------------------------------------------- */
 
-.ciudad1.select2-container .select2-selection--single{
-    /* height: 35px !important; */
+/* .ciudad1.select2-container .select2-selection--single{
+    height: 35px !important;
 
-}
+} */
 
 .ciudad1.select2-container--bootstrap .select2-selection--single .select2-selection__rendered {
     padding-top: 7px;
@@ -378,10 +378,10 @@
     border-bottom: solid #dedede;
 }
 
-.btnAgregar {
-    /* padding-top: 25px;
-    padding-bottom: 15px; */
-}
+/* .btnAgregar {
+    padding-top: 25px;
+    padding-bottom: 15px; 
+} */
 
 #contenParrilla {
     display: none;
@@ -395,6 +395,8 @@
 .row-parrilla {
     border-bottom: solid #dedede;
 }
+
+/* .popup_login{} */
 
 
 .card-ofertas {

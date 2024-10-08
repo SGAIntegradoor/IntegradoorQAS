@@ -35,4 +35,40 @@
 //   // Detén la ejecución del script actual
 // }
 
+
+
 ?>
+
+<div>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        let modalShown = localStorage.getItem('initModal');
+
+        // Solo mostrar el modal si no se ha mostrado antes
+        if (!modalShown || modalShown === 'false') {
+            swal.fire({
+                html: `
+                    <div style='display: flex; align-items: center; justify-content: center; padding: 20px;'>
+                    <img src='vistas/img/modals/img/home/modalHome.jpg' style="max-width: 350px"/>
+                    </div>
+                `,
+  
+                showConfirmButton: true,
+                confirmButtonText: 'Continuar',
+                customClass: {
+                    popup: 'popup-login',
+                    title: 'custom-swal-titlePesados',
+                    confirmButton: 'custom-swal-confirm-button24',
+                    actions: 'custom-swal-actions-pesados',
+                    icon: 'swal2-icon_monto',
+                },
+                timer: 20000,
+                timerProgressBar: true,
+            }).then(() => {
+                // Después de cerrar el modal, establecer initModal en true para no mostrarlo de nuevo
+                localStorage.setItem('initModal', true);
+            });
+        }
+    });
+  </script>
+</div>
