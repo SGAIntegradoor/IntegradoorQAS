@@ -636,7 +636,7 @@ function makeIndividualCard(
                 ${
                   capitalizeFirstLetter(nombrePlan) === "Fesalud amparado"
                     ? `<div class="col-xs-12 col-sm-6 col-md-5 textCards">     
-                  <div style="width: 100%; text-align: justify;">
+                  <div style="width: 100%; text-align: justify; padding-right: 25px">
                     <b>Este Plan es mejor que el Plan Original, incluyendo coberturas como:</b> Urgencias + Hospitalización y cirugía + Consulta externa ilimitada en todas las especialidades + Examenes y laboratorios + Asistencia medica domiciliaria (primeras 5 sin pago de bono) + Continuidad en el pago de prima por desempleo + Exoneración pago de prima por fallecimiento + Urgencias odontologicas
                     <br>
                     <b>Más estas otras coberturas como:</b>
@@ -660,7 +660,7 @@ function makeIndividualCard(
                 </div>`
                     : capitalizeFirstLetter(nombrePlan) === "Original amparado"
                     ? `<div class="col-xs-12 col-sm-6 col-md-5 textCards">     
-                    <div style="width: 100%; text-align: justify;">
+                    <div style="width: 100%; text-align: justify; padding-right: 25px">
                       <b>Este Plan es mejor que el Plan Alterno, incluyendo coberturas como:</b> Urgencias + Hospitalización y cirugía + Consulta externa ilimitada en todas las especialidades + Examenes y laboratorios + Asistencia medica domiciliaria (primeras 5 sin pago de bono)
                       <br>
                       <b>Más estas otras coberturas como:</b>
@@ -684,7 +684,7 @@ function makeIndividualCard(
                   </div>`
                     : capitalizeFirstLetter(nombrePlan) === "Alterno amparado"
                     ? `<div class="col-xs-12 col-sm-6 col-md-5 textCards">     
-                      <div style="width: 100%; text-align: justify;">
+                      <div style="width: 100%; text-align: justify; padding-right: 25px">
                         <b>El Plan Alterno incluye coberturas como:</b> 
                         <br>
                         <ul>
@@ -714,7 +714,7 @@ function makeIndividualCard(
                     ? `<a href="vistas/pdfs/PDF SALUD IDEAL.pdf" target="_blank"> <img src="vistas/img/iconosResources/icons8-pdf-office-m/icons8-pdf-30.png" width="25px"/>Ver más</a>`
                     : capitalizeFirstLetter(nombrePlan) === "Salud ideal + emermedica"
                     ? `<div class="col-xs-12 col-sm-6 col-md-5 textCards">
-                    <div style="width: 100%; text-align: justify;">
+                    <div style="width: 100%; text-align: justify; padding-right: 25px">
                       <b>Incluye coberturas del Plan Salud Ideal como: </b>emergencias odontológicas + consultas, exámenes complementarios y terapias relacionados con hospitalización + medicamentos ambulatorios de hospitalización + atención médica de urgencias en el exterior.
                     <br>
                     <b>Más estas otras coberturas como:</b>
@@ -731,7 +731,7 @@ function makeIndividualCard(
                     </div>
                   </div>`
                     : capitalizeFirstLetter(nombrePlan) === "Plan ambulatorio" ? `<div class="col-xs-12 col-sm-6 col-md-5 textCards">     
-                    <div style="width: 100%; text-align: justify;">
+                    <div style="width: 100%; text-align: justify; padding-right: 25px">
                       <b>Coberturas:</b>
                       <br>
                       <ul>
@@ -1104,95 +1104,124 @@ function activateFormate() {
  * @function
  */
 function cotizar() {
-  document.getElementById("spinener-cot-salud").style.display = "flex";
-  var tipoCotizacion = $("#individual").is(":checked") ? 1 : 2;
-  var esCotizacionIndividual = $("#individual").is(":checked");
-  var tomador = {
-    tipoDocumento: $("#tipoDocumento").val(),
-    numeroDocumento: $("#numeroDocumento").val(),
-    nombre: $("#nombre").val(),
-    apellido: $("#apellido").val(),
+  
+  let param = false;
+
+  let documentUser = permisos.usu_documento;
+  const dataValidation = {
+    cedula: documentUser
   };
-
-  // Obtener y convertir las variables para la fecha de nacimiento a números enteros
-  var diaNacimiento = parseInt($("#dianacimiento").val(), 10);
-  var mesNacimiento = parseInt($("#mesnacimiento").val(), 10);
-  var anioNacimiento = parseInt($("#anionacimiento").val(), 10);
-
-  // Añadir el asegurado base
-  var aseguradoBase = {
-    id: 1, // Aquí debes poner un ID apropiado si es necesario
-    tipoDocumento: $("#tipoDocumento").val(),
-    numeroDocumento: $("#numeroDocumento").val(),
-    nombre: $("#nombre").val(),
-    apellido: $("#apellido").val(),
-    genero: $("#genero").val(),
-    edad: calcularEdadAsegurado(diaNacimiento, mesNacimiento, anioNacimiento),
-    fechaNacimiento: {
-      dia: diaNacimiento,
-      mes: mesNacimiento,
-      anio: anioNacimiento,
-    },
-  };
-
-  var asegurados = [aseguradoBase];
-
-  // Añadir los asegurados adicionales si es una cotización grupal
-  if (!esCotizacionIndividual) {
-    $(".row.asegurado").each(function () {
-      var aseguradoId = $(this).data("asegurado-id");
-      if (aseguradoId > 1) {
-        // Comienza desde el ID 2
-        var dia = parseInt($(this).find('[id^="dianacimiento_"]').val(), 10);
-        var mes = parseInt($(this).find('[id^="mesnacimiento_"]').val(), 10);
-        var anio = parseInt($(this).find('[id^="anionacimiento_"]').val(), 10);
-
-        var asegurado = {
-          id: aseguradoId,
-          tipoDocumento: $(this).find('[id^="tipoDocumento_"]').val(),
-          numeroDocumento: $(this).find('[id^="numeroDocumento_"]').val(),
-          nombre: $(this).find('[id^="nombre_"]').val(),
-          apellido: $(this).find('[id^="apellido_"]').val(),
-          genero: $(this).find('[id^="genero_"]').val(),
-          edad: calcularEdadAsegurado(dia, mes, anio),
-          fechaNacimiento: {
-            dia: dia,
-            mes: mes,
-            anio: anio,
-          },
-        };
-        asegurados.push(asegurado);
-      }
-    });
-  }
-
-  // Finalmente, construimos el objeto final que se enviará
-  var datosCotizacion = {
-    tipoCotizacion: tipoCotizacion,
-    tomador: tomador,
-    asegurados: asegurados,
-  };
-
-  // Puedes ver el JSON en la consola para verificar
-  console.log(JSON.stringify(datosCotizacion, null, 2));
 
   $.ajax({
-    url: "https://grupoasistencia.com/health_engine/WSAxa/axa.php",
+    url: "https://grupoasistencia.com/motor_webservice/validate_person",
     type: "POST",
-    data: JSON.stringify(datosCotizacion),
+    data: JSON.stringify(dataValidation),
     success: function (data) {
-      hideMainContainerCards();
-      showContainerCardsSalud();
-      toogleDataContainer();
-      makeCards(data, tipoCotizacion);
-      console.log(data);
-      document.getElementById("spinener-cot-salud").style.display = "none";
+      console.log();
+      let convertedData = JSON.parse(data);
+      if(convertedData.cedula){
+        document.getElementById("spinener-cot-salud").style.display = "flex";
+        var tipoCotizacion = $("#individual").is(":checked") ? 1 : 2;
+        var esCotizacionIndividual = $("#individual").is(":checked");
+        var tomador = {
+          tipoDocumento: $("#tipoDocumento").val(),
+          numeroDocumento: $("#numeroDocumento").val(),
+          nombre: $("#nombre").val(),
+          apellido: $("#apellido").val(),
+        };
+    
+      // Obtener y convertir las variables para la fecha de nacimiento a números enteros
+      var diaNacimiento = parseInt($("#dianacimiento").val(), 10);
+      var mesNacimiento = parseInt($("#mesnacimiento").val(), 10);
+      var anioNacimiento = parseInt($("#anionacimiento").val(), 10);
+    
+      // Añadir el asegurado base
+      var aseguradoBase = {
+        id: 1, // Aquí debes poner un ID apropiado si es necesario
+        tipoDocumento: $("#tipoDocumento").val(),
+        numeroDocumento: $("#numeroDocumento").val(),
+        nombre: $("#nombre").val(),
+        apellido: $("#apellido").val(),
+        genero: $("#genero").val(),
+        edad: calcularEdadAsegurado(diaNacimiento, mesNacimiento, anioNacimiento),
+        fechaNacimiento: {
+          dia: diaNacimiento,
+          mes: mesNacimiento,
+          anio: anioNacimiento,
+        },
+      };
+    
+      var asegurados = [aseguradoBase];
+    
+      // Añadir los asegurados adicionales si es una cotización grupal
+      if (!esCotizacionIndividual) {
+        $(".row.asegurado").each(function () {
+          var aseguradoId = $(this).data("asegurado-id");
+          if (aseguradoId > 1) {
+            // Comienza desde el ID 2
+            var dia = parseInt($(this).find('[id^="dianacimiento_"]').val(), 10);
+            var mes = parseInt($(this).find('[id^="mesnacimiento_"]').val(), 10);
+            var anio = parseInt($(this).find('[id^="anionacimiento_"]').val(), 10);
+    
+            var asegurado = {
+              id: aseguradoId,
+              tipoDocumento: $(this).find('[id^="tipoDocumento_"]').val(),
+              numeroDocumento: $(this).find('[id^="numeroDocumento_"]').val(),
+              nombre: $(this).find('[id^="nombre_"]').val(),
+              apellido: $(this).find('[id^="apellido_"]').val(),
+              genero: $(this).find('[id^="genero_"]').val(),
+              edad: calcularEdadAsegurado(dia, mes, anio),
+              fechaNacimiento: {
+                dia: dia,
+                mes: mes,
+                anio: anio,
+              },
+            };
+            asegurados.push(asegurado);
+          }
+        });
+      }
+    
+      // Finalmente, construimos el objeto final que se enviará
+      var datosCotizacion = {
+        tipoCotizacion: tipoCotizacion,
+        tomador: tomador,
+        asegurados: asegurados,
+      };
+    
+      // Puedes ver el JSON en la consola para verificar
+      console.log(JSON.stringify(datosCotizacion, null, 2));
+    
+      $.ajax({
+        url: "https://grupoasistencia.com/health_engine/WSAxa/axa.php",
+        type: "POST",
+        data: JSON.stringify(datosCotizacion),
+        success: function (data) {
+          hideMainContainerCards();
+          showContainerCardsSalud();
+          toogleDataContainer();
+          makeCards(data, tipoCotizacion);
+          console.log(data);
+          document.getElementById("spinener-cot-salud").style.display = "none";
+        },
+        error: function (data) {
+          alert("Error");
+        },
+      });
+      window.scrollTo(0, 0);
+      }  else {
+        Swal.fire({
+          icon: "error",
+          title:
+            "No tienes autorización para usar este modulo en este momento.",
+        });
+      }
+
     },
     error: function (data) {
       alert("Error");
     },
   });
-  window.scrollTo(0, 0);
 }
 
 /**
