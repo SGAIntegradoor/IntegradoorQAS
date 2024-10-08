@@ -711,7 +711,33 @@ function makeIndividualCard(
                       </div>
                     </div>`
                     : capitalizeFirstLetter(nombrePlan) === "Salud ideal"
-                    ? `<a href="vistas/pdfs/PDF SALUD IDEAL.pdf" target="_blank"> <img src="vistas/img/iconosResources/icons8-pdf-office-m/icons8-pdf-30.png" width="25px"/>Ver más</a>`
+                    ? `<div class="col-xs-12 col-sm-6 col-md-5 textCards">     
+                      <div style="width: 100%; text-align: justify; padding-right: 25px">
+                        <b>Coberturas:</b> 
+                        <br>
+                        <ul>
+                          <li>
+                          Urgencias y hospitalización
+                          </li>
+                          <li>
+                          Cirugía
+                          </li>
+                          <li>
+                          Consultas, exámenes complementarios y terapias relacionadas con hospitalización
+                          </li>
+                          <li>
+                          Urgencias odontológicas
+                          </li>
+                          <li>
+                          Acceso a una amplia red de médicos especialistas con tarifas preferenciales.
+                          </li>
+                          <li>
+                          Asistencia internacional y muchas coberturas más
+                          </li>
+                        </ul>
+                        <a href="vistas/pdfs/PDF SALUD IDEAL.pdf" target="_blank"> <img src="vistas/img/iconosResources/icons8-pdf-office-m/icons8-pdf-30.png" width="25px"/>Ver más</a>
+                      </div>
+                    </div>`
                     : capitalizeFirstLetter(nombrePlan) === "Salud ideal + emermedica"
                     ? `<div class="col-xs-12 col-sm-6 col-md-5 textCards">
                     <div style="width: 100%; text-align: justify; padding-right: 25px">
