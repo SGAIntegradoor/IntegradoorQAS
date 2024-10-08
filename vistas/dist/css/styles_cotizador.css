@@ -396,7 +396,9 @@
     border-bottom: solid #dedede;
 }
 
-/* .popup_login{} */
+
+
+
 
 
 .card-ofertas {
@@ -489,8 +491,42 @@
     text-align:center
 }
 
+.popup_control {
+    width: 50%;
+}
 
+#modalHome {
+    width:400px;
 
+}
+
+@media only screen and (min-width: 1281px) and (max-width: 1990px) {
+
+    .popup_control {
+        width: 32%;
+
+    }
+
+    #modalHome {
+        width:400px;
+        
+    }
+
+}
+
+@media only screen and (min-width: 993px) and (max-width: 1280px) {
+
+    .popup_control {
+        width: 42%;
+
+    }
+
+    #modalHome {
+        width:400px;
+        
+    }
+
+}
 
 @media only screen and (min-width: 736px) and (max-width: 992px) {
     .verpdf-oferta {
@@ -498,6 +534,16 @@
         padding-bottom: 30px;
         text-align: center;
         width: 100%;
+    }
+
+    .popup_control {
+        width: 57%;
+
+    }
+
+    #modalHome {
+        width:400px;
+        
     }
 
 }
@@ -571,6 +617,16 @@
 
     .entidad > h5{
         margin-top: 10px !important;
+    }
+
+    .popup_control {
+        width: 90%;
+
+    }
+
+    #modalHome {
+        width:290px;
+        
     }
 
 }
