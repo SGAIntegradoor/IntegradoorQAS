@@ -33,9 +33,9 @@
                     <p style="text-align: justify;">Conoce más sobre AXA COLPATRIA y sus productos de Seguros de Salud a continuación:
                         <br>
                         <br>
-                                Presentación pólizas livianas ingresa <a href="vistas\pdfs\Pólizas Livianas Salud AXA COLPATRIA.pdf" target="_blank"><b>AQUÍ</b></a>
-                                <br>
-                                Presentación pólizas robustas ingresa <a href="vistas\pdfs\Pólizas Robustas Amparadas AXA COLPATRIA.pdf" target="_blank"><b>AQUÍ</b></a>
+                        Presentación pólizas livianas ingresa <a href="vistas\pdfs\Pólizas Livianas Salud AXA COLPATRIA.pdf" target="_blank"><b>AQUÍ</b></a>
+                        <br>
+                        Presentación pólizas robustas ingresa <a href="vistas\pdfs\Pólizas Robustas Amparadas AXA COLPATRIA.pdf" target="_blank"><b>AQUÍ</b></a>
                     </p>
                 </div>
             </div>
@@ -71,7 +71,8 @@
                     <h4 class="card-title">¿Qué datos y documentos se requieren para cotizar
                         y emitir?</h4>
                     <p class="card-text ">Para cotizar solo se requieren datos del contratante y de los beneficiarios:
-                    <br></p>
+                        <br>
+                    </p>
                     <ul class="card-text ul-card">
                         <li>No. de Identificación</li>
                         <li>Nombre completo </li>
@@ -108,7 +109,7 @@
                     <h4 class="card-title">Políticas de Suscripción</h4>
                     <ul class="card-text ul-card margen-sup">
                         <li>
-                            Edad Máxima de Ingreso para usuarios nuevos: 
+                            Edad Máxima de Ingreso para usuarios nuevos:
                             <ul>
                                 <li>Fesalud, Original, Alterno: 63 años y 364 días</li>
                                 <li>Salud Ideal: 63 años</li>
@@ -123,8 +124,8 @@
                         <li>En cada solicitud se evalúa la info de los asegurados; teniendo en cuenta el listado de patologías no asegurables se define el ingreso o no de un usuario, y se establece las condiciones de vinculación. Si se evidencia un riesgo médico importante no se suscribirá el contrato.</li>
                         <li>El Suscriptor podrá solicitar información adicional, conceptos médicos, exámenes complementarios o copia de historia clínica.</li>
                         <li>Estas son algunas exclusiones: Diabetes, cáncer, hipertensión, entre otras. Ver listado ampliado de exclusiones <a href="#"
-                            data-toggle="modal" data-target="#exclusionesModal" id="modalCards">
-                            <b>AQUI</b></a></li>
+                                data-toggle="modal" data-target="#exclusionesModal" id="modalCards">
+                                <b>AQUI</b></a></li>
                     </ul>
 
 
@@ -137,13 +138,32 @@
                 <div class="card-body text-center">
                     <h4 class="card-title">Comisión</h4>
                     <p class="card-text margen-sup">
-                        <!-- La comisión base que nos ofrece Axa Colpatria para nuestra alianza de asesores
-                        es del 13% para negocios nuevos y 10% para renovaciones. De este porcentaje, tu participación
-                        será de acuerdo al nivel de ventas de todos los negocios (sin IVA), sumando todos los ramos, que
-                        realices en el mes.<br> -->
+                        La comisión base que nos ofrece Axa Colpatria para nuestra alianza de asesores es:
+                    <br>
+                    <br>
+                    <table border="1" style="text-align: center; font-size: 14px; border: 1px black solid">
+                        <th style="width: 150px; text-align: center; height: 40px;">Tipo de usuario</th>
+                        <th style="width: 100px; text-align: center; height: 40px;">Nuevo</th>
+                        <th style="width: 100px; text-align: center; height: 40px;">Renovación</th>
+                        <tbody>
+                            <tr style="height: 40px;">
+                                <td>Menor de 60 años</td>
+                                <td>14%</td>
+                                <td>10%</td>
+                            </tr>
+                            <tr style="height: 40px;">
+                                <td>Mayor de 60 años</td>
+                                <td>6%</td>
+                                <td>7%</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <br>
+                    <br>
+                    De este porcentaje, tu participación será de acuerdo al nivel de ventas de todos los negocios (sin IVA), sumando todos los ramos, que realices en el mes.
                     </p>
 
-                    <ul class="card-text ul-card">
+                    <ul class="card-text ul-card" style="padding-left: 15px;">
                         <li>Nivel 1: 67,5%</li>
                         <li>Nivel 2: 70%</li>
                         <li>Nivel 3: 75%</li>
