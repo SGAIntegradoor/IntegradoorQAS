@@ -1239,7 +1239,7 @@ function cotizar() {
         Swal.fire({
           icon: "error",
           title:
-            "No tienes autorización para usar este modulo en este momento.",
+            "No tienes permiso para cotizar salud, habla con tu Analista Comercial.",
         });
       }
 
