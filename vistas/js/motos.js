@@ -270,7 +270,7 @@ $("#btnConsultarVehmanualbuscadorMotos").click(function () {
               }
             });
           }
-          let found = tipoVehiculo.find((element) => element == claseVeh);
+          let found = vehiculoPermitido.find((element) => element == claseVeh);
 
           if (!found && control) {
             Swal.fire({
