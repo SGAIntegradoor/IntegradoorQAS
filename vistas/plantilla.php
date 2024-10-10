@@ -1,11 +1,13 @@
 <?php
 
 
-if (isset($_SESSION)) {
-  echo '<script>console.log(' . json_encode($_SESSION) . ')</script>';
-}
 
-// session_start();
+$sessionDuration = ini_get('session.gc_maxlifetime');
+$cookieLifetime = ini_get('session.cookie_lifetime');
+
+var_dump($cookieLifetime);
+var_dump($sessionDuration);
+
 ?>
 
 <!DOCTYPE html>

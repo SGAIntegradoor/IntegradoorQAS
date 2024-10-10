@@ -1,5 +1,5 @@
 
-<div class="content-wrapper">
+<div class="content-wrapper" >
 
   <section class="content-header">
 
@@ -36,7 +36,6 @@
 // }
 
 
-
 ?>
-
 <script src="vistas\js\inicio.js" defer></script>
+
