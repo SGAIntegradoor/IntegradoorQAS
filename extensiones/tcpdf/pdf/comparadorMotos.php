@@ -2601,4 +2601,6 @@ function productoAseguradora($aseguradora, $producto) {
 
 // Close and output PDF document
 // This method has several options, check the source code documentation for more information.
-$pdf->Output('cotizacionAutos.pdf', 'I');
+$placa_limpia = trim($placa); // Eliminar espacios en blanco al inicio y al final
+$filename = $placa_limpia . ' - comparativo de autos.pdf';
+$pdf->Output($filename, 'I');

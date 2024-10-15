@@ -107,7 +107,7 @@ if ($_SESSION["permisos"]["PerfilAgencia"] != "x") {
 
     <h1>
 
-      Mi Perfil
+      Perfil de usuario
 
     </h1>
 
@@ -120,121 +120,206 @@ if ($_SESSION["permisos"]["PerfilAgencia"] != "x") {
     </ol>
 
   </section>
+
+  <style>
+    #boxes-wrapper input, select {
+      height: 40px;
+      border: 2px solid #DBDBDB;
+      padding: 8px;
+    }
+
+    #boxes-wrapper input:disabled, select:disabled {
+      background-color: #E6E6E6;
+    }
+
+    #btnGuardar {
+      background-color: #88d600;
+      /* Color de fondo normal */
+      border: 0;
+      margin-right: 80px;
+      border-radius: 5px;
+      width: 140px;
+      color: white;
+      height: 40px;
+      transition: background-color 0.3s ease;
+      /* Transición suave */
+    }
+
+    #btnGuardar:hover {
+      background-color: #5f9800;
+      /* Color de fondo cuando pasas el cursor (verde más oscuro) */
+    }
+
+    #selFotoPerfil {
+      background-color: #88d600;
+      /* Color de fondo normal */
+      border: 0;
+      margin-right: 80px;
+      border-radius: 5px;
+      width: 140px;
+      color: white;
+      height: 40px;
+      transition: background-color 0.3s ease;
+      /* Transición suave */
+    }
+
+    #selFotoPerfil:hover {
+      background-color: #5f9800;
+      /* Color de fondo cuando pasas el cursor (verde más oscuro) */
+    }
+
+    .file-upload-btn {
+      background-color: #88d600;
+      border: 0;
+      border-radius: 5px;
+      width: 140px;
+      color: white;
+      height: 40px;
+      text-align: center;
+      line-height: 40px;
+      /* Para centrar el texto verticalmente */
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      display: inline-block;
+    }
+
+
+    #selFotoAgencia {
+      background-color: #88d600;
+      /* Color de fondo normal */
+      border: 0;
+      margin-right: 80px;
+      border-radius: 5px;
+      width: 140px;
+      color: white;
+      height: 40px;
+      transition: background-color 0.3s ease;
+      /* Transición suave */
+    }
+
+    #selFotoAgencia:hover {
+      background-color: #5f9800;
+      /* Color de fondo cuando pasas el cursor (verde más oscuro) */
+    }
+  </style>
+
   <section class="container-fluid">
     <div class="box">
       <div class="box-header with-border ">
-        <div style="display: flex; flex-direction: row">
-          <div style="display:flex; flex-direction:row; justify-content: center; align-items: center; gap: 50px;">
-            <div style="display: flex; flex-direction:column; align-items: center; justify-content: center; max-width: 150px; margin-top:30px">
-              <p style="font-weight:bold; vertical-align:middle; margin-bottom: 10px;">Logo Perfil</p>
-              <?php
-              echo '<img class="profile-pic previsualizarEditar" src="' . $_SESSION['foto'] . '" width="' . (strpos($_SESSION['foto'], "anonymous.png") !== false ? '100%' : '50%') . '" style="margin-bottom: 25px; border-radius: 50%;">';
-              ?>
+        <div style="display: flex; flex-direction: column">
 
-              <?php
-              if ($_SESSION["permisos"]["Modificarlogodepdfdecotizaciondelaagencia"] == "x") {
-                echo '<label class="btn btn-primary"  disabled>
-                  <input type="file" name="ImgInter" id="imgUser" style="display:none;"  disabled/>
+          <div style="padding-left: 60px; margin-top: 40px; display:flex; flex-direction: row; gap: 50px;">
+            <div style="display: flex; flex-direction:column; ">
+              <div>
+                <p>Imagen de perfil de usuario</p>
+              </div>
+              <div style="display: flex; flex-direction:row; align-items: flex-end; gap: 20px;">
+                <!-- <img src="vistas/img/views/user.png" alt="" width="100"> -->
+                <?php
+                echo '<img class="profile-pic previsualizarEditar" src="' . $_SESSION['foto'] . '" width="' . (strpos($_SESSION['foto'], "user.png") !== false ? '150' : '100') . '" style="border-radius: 50%;">';
+                ?>
+                <label class="btn btn-primary">
+                  <input type="file" name="imgUser" id="imgUser" style="display:none;" />
                   Subir archivo
-                </label>';
-              }
-              ?>
+                </label>
+                <p style="color: gray; margin-bottom: 0px; padding-bottom: 0px; font-size: 17px;">Max. 2MB</p>
+              </div>
+            </div>
+            <div style="display: flex; flex-direction:column">
+              <div>
+                <p>Logo asesor o agencia (Si eres un asesor productivo y tienes autorización, sube tu logo para el
+                  PDF comparativo)
+                </p>
+              </div>
+              <div style="display: flex; flex-direction:row; align-items: flex-end; gap: 20px">
+                <!-- <img src="vistas/img/views/user.png" alt="" width="100"> -->
+                <?php
+                echo '<img class="profile-pic previsualizarEditar" src="' . $_SESSION['foto'] . '" width="' . (strpos($_SESSION['foto'], "user.png") !== false ? '150' : '100') . '" style="border-radius: 50%;">';
+                ?>
+                
+                <label class="btn btn-primary">
+                  <input type="file" name="ImgInter" id="imgUser" style="display:none;" />
+                  Subir archivo
+                </label>
+                <p style="color: gray; margin-bottom: 0px; padding-bottom: 0px; font-size: 17px;">Max. 2MB</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-12" style="margin-top: 50px; padding-right: 60px; padding-left: 50px;">
+          <div clas="row" style="margin-bottom: 30px;">
+            <u><b style="font-size: 16px;">Información del usuario</b></u>
+          </div>
+          <div id="boxes-wrapper" style="margin-left: 10px">
+            <div class="" style="margin-bottom: 15px; display:flex; flex-direction: row; gap: 40px; align-content:flex-start">
+              <div class="col-md-3" style="display:flex; flex-direction:column; padding-left: 0px !important;">
+                <label for="tipoDocumento"><b>Tipo de documento</b></label>
+                <select disabled type="text" name="tipoDocumento" id="tipoDocumento"> </select>
+              </div>
+              <div class="col-md-3" style="display:flex; flex-direction:column; padding-left: 0px !important;">
+                <label for="documento"><b>Documento</b></label>
+                <input disabled type="text" name="documento" id="documento">
+              </div>
+              <div class="col-md-3" style="display:flex; flex-direction:column; padding-left: 0px !important;">
+                <label for="nombres"><b>Nombres</b></label>
+                <input disabled type="text" name="nombres" id="nombres">
+              </div>
+              <div class="col-md-3" style="display:flex; flex-direction:column; padding-left: 0px !important;">
+                <label for="apellidos"><b>Apellidos</b></label>
+                <input disabled type="text" name="apellidos" id="apellidos">
+              </div>
+            </div>
+            <div class="" style="margin-bottom: 15px; display:flex; flex-direction: row; gap: 40px; align-content:flex-start">
+              <div class="col-md-3" style="display:flex; flex-direction:column; padding-left: 0px !important;">
+                <label for="fechaNacimiento"><b>Fecha de nacimiento</b></label>
+                <input disabled type="text" name="fechaNacimiento" id="fechaNacimiento">
+              </div>
+              <div class="col-md-3" style="display:flex; flex-direction:column; padding-left: 0px !important;">
+                <label for="genero"><b>Genero</b></label>
+                <input disabled type="text" name="genero" id="genero">
+              </div>
+              <div class="col-md-3" style="display:flex; flex-direction:column; padding-left: 0px !important;">
+                <label for="celular"><b>Celular</b></label>
+                <input disabled type="text" name="celular" id="celular">
+              </div>
+              <div class="col-md-3" style="display:flex; flex-direction:column; padding-left: 0px !important;">
+                <label for="correoElectronico"><b>Correo Electronico</b></label>
+                <input disabled type="text" name="correoElectronico" id="correoElectronico">
+              </div>
+            </div>
+            <div class="" style="display:flex; flex-direction: row; gap: 40px; align-content:flex-start">
+              <div class="col-md-3" style="display:flex; flex-direction:column; padding-left: 0px !important;">
+                <label for="direccion"><b>Dirección</b></label>
+                <input disabled type="text" name="direccion" id="direccion">
+              </div>
+              <div class="col-md-3" style="display:flex; flex-direction:column; padding-left: 0px !important;">
+                <label for="departamento"><b>Departamento</b></label>
+                <input disabled type="text" name="departamento" id="departamento">
+              </div>
+              <div class="col-md-3" style="display:flex; flex-direction:column; padding-left: 0px !important;">
+                <label for="ciudad"><b>Ciudad</b></label>
+                <input disabled type="text" name="ciudad" id="ciudad">
+              </div>
+              <div class="col-md-3" style="display:flex; flex-direction:column; padding-left: 0px !important;">
+                <div style="margin-top: 25px"></div>
+                <button id="btnGuardar">Guardar</button>
+              </div>
             </div>
 
-            <!-- <input type="text" style="display: none;" id="fotoActual"> -->
-            <div style="display: flex; flex-direction:column; align-items: center; justify-content: center;  max-width: 150px; margin-top:30px">
-              <p style="font-weight:bold; vertical-align:middle; margin-bottom: 10px;"> Logo PDF</p>
-              <?php
-              echo '<img class="profile-pic previsualizarEditar" src="' . $_SESSION['foto'] . '" width="' . (strpos($_SESSION['foto'], "anonymous.png") !== false ? '100%' : '50%') . '" style="margin-bottom: 25px; border-radius: 50%;">';
-              ?>
-              <?php
-              if ($_SESSION["permisos"]["Modificarlogodepdfdecotizaciondelaagencia"] == "x") {
-                echo '<label class="btn btn-primary">
-                  <input type="file" name="ImgInter" id="imgPdf" style="display:none;" />
-                  Subir archivo
-                </label>';
-              }
-              ?>
-            </div>
-            <!-- <input type="text" style="display: none;" id="fotoActual"> -->
           </div>
 
-          <div class="col-md-8" style="margin-top: 50px; margin-left: 50px">
-            <div clas="row" style="margin-bottom: 30px;">
-              <b style="font-size: 40px">Perfil de usuario</b>
-            </div>
-            <div class="row" style="margin-bottom: 22px;">
-              <div class="col-md-3">
-                <label for="">Tipo de documento:</label>
-              </div>
-              <div class="col-md-3">
-                <div style="width: 164px">
-                  <select name="tip_doc" id="tip_doc" style="width: 164px" >
-                  </select>
-                </div>
-              </div>
-              <div class="col-md-3">
-                <label for="">Correo Electrónico:</label>
-              </div>
-              <div class="col-md-3">
-                <input type="email" name="email" id="email_perfil">
-              </div>
-            </div>
-            <div class="row" style="margin-bottom: 22px;">
-              <div class="col-md-3">
-                <label for="">No. Identificación:</label>
-              </div>
-              <div class="col-md-3">
-                <input type="number" id="documento_perfil">
-              </div>
-              <div class="col-md-3">
-                <label for="">Dirección:</label>
-              </div>
-              <div class="col-md-3">
-                <input type="text" name="direccion" id="direccion_perfil">
-              </div>
-            </div>
-            <div class="row" style="margin-bottom: 22px;">
-              <div class="col-md-3">
-                <label for="">Nombre:</label>
-              </div>
-              <div class="col-md-3">
-                <input type="text" id="nombre_perfil">
-              </div>
-              <div class="col-md-3">
-                <label for="">Ciudad:</label>
-              </div>
-              <div class="col-md-3">
-                <input type="text" name="ciudad" id="ciudad_perfil">
-              </div>
-            </div>
-            <div class="row" style="margin-bottom:22px;">
-              <div class="col-md-3">
-                <label for="">Apellido:</label>
-              </div>
-              <div class="col-md-3">
-                <input type="text" id="apellido_perfil">
-              </div>
-              <div class="col-md-3">
-                <label for="">Celular:</label>
-              </div>
-              <div class="col-md-3">
-                <input type="text" id="telefono_perfil">
-              </div>
-            </div>
 
-
-            <div class="row" style="margin-bottom: 22px;">
-              <div class="" style="display: flex; flex-direction: row; gap: 5px; justify-content: center; align-items: center;">
-                <!-- <button class="btn btn-primary" onclick="activarCamposEditables()" style="color: black; margin-bottom:30px"><strong>Editar</strong></button> -->
-                <button class="btn btn-primary" style="color: white ; margin-bottom:30px" disabled><strong>Actualizar</strong></button>
-                <button class="btn btn-primary" onclick="editarPerfil()" style="color: white ; margin-bottom:30px" disabled><strong>Editar Perfil</strong></button>
-              </div>
+          <div class="row" style="margin-bottom: 22px;">
+            <div class="" style="display: flex; flex-direction: row; gap: 5px; justify-content: center; align-items: center;">
+              <!-- <button class="btn btn-primary" onclick="activarCamposEditables()" style="color: black; margin-bottom:40px"><strong>Editar</strong></button> -->
+              <!-- <button class="btn btn-primary" style="color: white ; margin-bottom:30px" disabled><strong>Actualizar</strong></button>
+                <button class="btn btn-primary" onclick="editarPerfil()" style="color: white ; margin-bottom:30px" disabled><strong>Editar Perfil</strong></button> -->
             </div>
           </div>
         </div>
       </div>
     </div>
+</div>
 </div>
 </div>
 </div>
