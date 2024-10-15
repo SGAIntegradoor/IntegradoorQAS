@@ -25,17 +25,44 @@
                     <p class="card-text">Actualmente tenemos convenio con Axa Colpatria, aseguradora que hace parte del
                         grupo multinacional francés Axa, el cual está presente en más de 50 países, en mercados como
                         Europa, América, África y Asia, atendiendo a más de 95 millones de clientes, entre particulares
-                        y empresas.<br></p>
+                        y empresas.</p>
                     <img src="vistas\modulos\SaludCot\img\logo-convenio-axa-colpatria.png" class="img-fluid-axa">
                     <!-- <p class="card-text">Nuestros tiempos de respuesta para emisión es de <b>x horas hábiles</b>,
                         siempre y
                         cuando la información se encuentre debidamente diligenciada y completa.<br></p> -->
                     <p class="card-text" style="text-align: justify;">Conoce más sobre AXA COLPATRIA y sus productos de Seguros de Salud a continuación:
-                        <br>
-                        <br>
-                        <span class="card-text">Presentación pólizas robustas ingresa <a href="vistas\pdfs\Pólizas Robustas Amparadas AXA COLPATRIA.pdf" target="_blank"><b>AQUÍ</b></a></span>
-                        <br>
-                        <span class="card-text">Presentación pólizas livianas ingresa <a href="vistas\pdfs\Pólizas Livianas Salud AXA COLPATRIA.pdf" target="_blank"><b>AQUÍ</b></a></span>
+                        <br />
+
+                        <table id="tablePolizas" border="1" style="text-align: center; font-size: 12.5px; border: 1px solid #c7bfbf">
+                            <thead>
+                                <th style="text-align: center; height: 30px;">
+                                    <b>Pólizas Robustas</b>
+                                </th>
+                                <th style="text-align: center; height: 30px;">
+                                    <b>Pólizas Livianas</b>
+                                </th>
+                            </thead>
+                            <tbody>
+                                <tr style="height: 30px;">
+                                    <td><a href="https://www.axacolpatria.co/portalpublico-lf-plan-fesalud-amparada" target="_blank">Fesalud Amparado</a></td>
+                                    <td><a href="https://www.axacolpatria.co/portalpublico-lf-salud-ideal" target="_blank">Salud Ideal</a></td>
+                                </tr>
+                                <tr style="height: 30px;">
+                                    <td><a href="https://www.axacolpatria.co/portalpublico-lf-plan-original-amparada" target="_blank">Original Amparado</a></td>
+                                    <td rowspan="2" ><a href="https://www.axacolpatria.co/portalpublico-lf-plan-ambulatorio#coberturas" target="_blank">Plan Ambulatorio</a></td>
+                                </tr>
+                                <tr style="height: 30px;">
+                                    <td><a href="https://www.axacolpatria.co/portalpublico-lf-alterno-amparado" target="_blank">Alterno Amparado</a></td>
+                                </tr>
+                                <tr style="height: 30px;">
+                                    <td>Presentación pólizas robustas ingresa<b><a href="vistas\pdfs\Pólizas Robustas Amparadas AXA COLPATRIA.pdf" target="_blank"> AQUÍ</a></b></td>
+                                    <td>Presentación pólizas livianas ingresa<b><a href="vistas\pdfs\Pólizas Livianas Salud AXA COLPATRIA.pdf" target="_blank"> AQUÍ</a></b></td>
+                                </tr>
+                                <tr style="height: 30px; text-align: center;">
+                                    <td colspan="2">Directorio médico ingresa<b><a href="https://www.axacolpatria.co/portalpublico-lf/directorio-medico" target="_blank"> AQUÍ</a></b></td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </p>
                 </div>
             </div>

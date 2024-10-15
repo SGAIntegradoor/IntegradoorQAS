@@ -123,6 +123,11 @@ input[type="checkbox"] {
     overflow: hidden;
   }
 
+  #tablePolizas tbody tr:nth-child(-n+3) {
+    text-decoration: underline;
+    color: #337ab7;
+  }
+
 
   .circle {
     width: 90%;
@@ -136,8 +141,8 @@ input[type="checkbox"] {
   }
  
   .img-fluid-axa{
-    max-width: 30%;
-    margin: 50px 0px;
+    max-width: 25%;
+    margin: 20px;
   }
 
   .circle img {
