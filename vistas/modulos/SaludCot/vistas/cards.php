@@ -55,8 +55,8 @@
                                     <td><a href="https://www.axacolpatria.co/portalpublico-lf-alterno-amparado" target="_blank">Alterno Amparado</a></td>
                                 </tr>
                                 <tr style="height: 30px;">
-                                    <td>Presentación pólizas robustas ingresa<b><a href="vistas\pdfs\Pólizas Robustas Amparadas AXA COLPATRIA.pdf" target="_blank"> AQUÍ</a></b></td>
-                                    <td>Presentación pólizas livianas ingresa<b><a href="vistas\pdfs\Pólizas Livianas Salud AXA COLPATRIA.pdf" target="_blank"> AQUÍ</a></b></td>
+                                    <td>Presentación general pólizas robustas ingresa<b><a href="vistas\pdfs\Pólizas Robustas Amparadas AXA COLPATRIA.pdf" target="_blank"> AQUÍ</a></b></td>
+                                    <td>Presentación general pólizas livianas ingresa<b><a href="vistas\pdfs\Pólizas Livianas Salud AXA COLPATRIA.pdf" target="_blank"> AQUÍ</a></b></td>
                                 </tr>
                                 <tr style="height: 30px; text-align: center;">
                                     <td colspan="2">Directorio médico ingresa<b><a href="https://www.axacolpatria.co/portalpublico-lf/directorio-medico" target="_blank"> AQUÍ</a></b></td>
