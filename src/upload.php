@@ -24,7 +24,7 @@ if ((isset($_FILES['file']) && $_FILES['file']['error'] === UPLOAD_ERR_OK)) {
     }
     // Mover el archivo al servidor
     if (!is_dir($directorio)) {
-        if (!mkdir($directorio, 0777, true)) {
+        if (!mkdir($directorio, 0755, true)) {
             echo json_encode(["error" => "No se pudo crear el directorio para la carga de archivos"]);
             exit;
         } else {
