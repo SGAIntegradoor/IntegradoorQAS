@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once "../config/conexion.php"; // Archivo de configuración con la conexión a la base de datos
+require_once "config/conexion.php"; // Archivo de configuración con la conexión a la base de datos
 
 if ((isset($_FILES['file']) && $_FILES['file']['error'] === UPLOAD_ERR_OK)) {
     $idUsuario = $_POST['idUsuario'];
