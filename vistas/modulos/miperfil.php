@@ -22,6 +22,13 @@ if ($_SESSION["permisos"]["PerfilAgencia"] != "x") {
     background: #ddd;
   }
 
+  .containerImg img {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 50%;
+  }
+
   .contentnav {
     display: table;
     justify-content: space-around;
@@ -122,13 +129,15 @@ if ($_SESSION["permisos"]["PerfilAgencia"] != "x") {
   </section>
 
   <style>
-    #boxes-wrapper input, select {
+    #boxes-wrapper input,
+    select {
       height: 40px;
       border: 2px solid #DBDBDB;
       padding: 8px;
     }
 
-    #boxes-wrapper input:disabled, select:disabled {
+    #boxes-wrapper input:disabled,
+    select:disabled {
       background-color: #E6E6E6;
     }
 
@@ -208,39 +217,40 @@ if ($_SESSION["permisos"]["PerfilAgencia"] != "x") {
       <div class="box-header with-border ">
         <div style="display: flex; flex-direction: column">
 
-          <div style="padding-left: 60px; margin-top: 40px; display:flex; flex-direction: row; gap: 50px;">
-            <div style="display: flex; flex-direction:column; ">
+          <div id="imgsContainer" style="padding-left: 60px; margin-top: 40px; display: flex; flex-direction: row; gap: 50px;">
+            <div style="display: flex; flex-direction: column;">
               <div>
                 <p>Imagen de perfil de usuario</p>
               </div>
-              <div style="display: flex; flex-direction:row; align-items: flex-end; gap: 20px;">
-                <!-- <img src="vistas/img/views/user.png" alt="" width="100"> -->
+              <div class="containerImg" style="display: flex; flex-direction: row; align-items: flex-end; gap: 20px;">
                 <?php
-                echo '<img class="profile-pic previsualizarEditar" src="' . $_SESSION['foto'] . '" width="' . (strpos($_SESSION['foto'], "user.png") !== false ? '150' : '100') . '" style="border-radius: 50%;">';
+                echo '<img class="profile-pic previsualizarEditar" src="' . $_SESSION['foto'] . '" width="' . (strpos($_SESSION['foto'], "user.png") !== false ? '100' : '100') . '" style="border-radius: 50%; min-width: 100px; width: 100px; height: 100px">';
                 ?>
-                <label class="btn btn-primary">
-                  <input type="file" name="imgUser" id="imgUser" style="display:none;" />
-                  Subir archivo
-                </label>
+                <div style="display: flex; flex-direction: column">
+                  <p id="fileNameUser" style="color: gray; margin: 0; padding: 0; font-size: 14px;">No se ha seleccionado ningún archivo</p>
+                  <label class="btn btn-primary">
+                    <input type="file" name="imgUser" id="imgUser" style="display:none;" />
+                    Subir archivo
+                  </label>
+                </div>
                 <p style="color: gray; margin-bottom: 0px; padding-bottom: 0px; font-size: 17px;">Max. 2MB</p>
               </div>
             </div>
-            <div style="display: flex; flex-direction:column">
+            <div style="display: flex; flex-direction: column;">
               <div>
-                <p>Logo asesor o agencia (Si eres un asesor productivo y tienes autorización, sube tu logo para el
-                  PDF comparativo)
-                </p>
+                <p>Logo asesor o agencia (Si eres un asesor productivo y tienes autorización, sube tu logo para el PDF comparativo)</p>
               </div>
-              <div style="display: flex; flex-direction:row; align-items: flex-end; gap: 20px">
-                <!-- <img src="vistas/img/views/user.png" alt="" width="100"> -->
+              <div class="containerImg" style="display: flex; flex-direction: row; align-items: flex-end; gap: 20px;">
                 <?php
-                echo '<img class="profile-pic previsualizarEditar" src="' . $_SESSION['foto'] . '" width="' . (strpos($_SESSION['foto'], "user.png") !== false ? '150' : '100') . '" style="border-radius: 50%;">';
+                echo '<img class="profile-pic previsualizarEditarPDF" src="' . $_SESSION['imgPDF'] . '" width="' . (strpos($_SESSION['imgPDF'], "user.png") !== false ? '100' : '100') . '" style="border-radius: 50%; min-width: 100px; width: 100px; height: 100px">';
                 ?>
-                
-                <label class="btn btn-primary">
-                  <input type="file" name="ImgInter" id="imgUser" style="display:none;" />
-                  Subir archivo
-                </label>
+                <div style="display: flex; flex-direction: column">
+                  <p id="fileNamePDF" style="color: gray; margin: 0; padding: 0; font-size: 14px;">No se ha seleccionado ningún archivo</p>
+                  <label class="btn btn-primary">
+                    <input type="file" name="imgLogo" id="imgLogo" style="display:none;" />
+                    Subir archivo
+                  </label>
+                </div>
                 <p style="color: gray; margin-bottom: 0px; padding-bottom: 0px; font-size: 17px;">Max. 2MB</p>
               </div>
             </div>
@@ -250,65 +260,62 @@ if ($_SESSION["permisos"]["PerfilAgencia"] != "x") {
           <div clas="row" style="margin-bottom: 30px;">
             <u><b style="font-size: 16px;">Información del usuario</b></u>
           </div>
-          <div id="boxes-wrapper" style="margin-left: 10px">
+          <div id="boxes-wrapper" style="display:flex; margin-left: 10px; flex-direction: column; flex-wrap: wrap">
             <div class="" style="margin-bottom: 15px; display:flex; flex-direction: row; gap: 40px; align-content:flex-start">
               <div class="col-md-3" style="display:flex; flex-direction:column; padding-left: 0px !important;">
                 <label for="tipoDocumento"><b>Tipo de documento</b></label>
-                <select disabled type="text" name="tipoDocumento" id="tipoDocumento"> </select>
+                <select disabled type="text" name="tipodocumento_perfil" id="tipodocumento_perfil"> </select>
               </div>
               <div class="col-md-3" style="display:flex; flex-direction:column; padding-left: 0px !important;">
                 <label for="documento"><b>Documento</b></label>
-                <input disabled type="text" name="documento" id="documento">
+                <input disabled type="text" name="documento" id="documento_perfil">
               </div>
               <div class="col-md-3" style="display:flex; flex-direction:column; padding-left: 0px !important;">
                 <label for="nombres"><b>Nombres</b></label>
-                <input disabled type="text" name="nombres" id="nombres">
+                <input disabled type="text" name="nombres" id="nombres_perfil">
               </div>
               <div class="col-md-3" style="display:flex; flex-direction:column; padding-left: 0px !important;">
                 <label for="apellidos"><b>Apellidos</b></label>
-                <input disabled type="text" name="apellidos" id="apellidos">
+                <input disabled type="text" name="apellidos" id="apellidos_perfil">
               </div>
             </div>
-            <div class="" style="margin-bottom: 15px; display:flex; flex-direction: row; gap: 40px; align-content:flex-start">
+            <div class="" style="margin-bottom: 15px; display:flex; flex-direction: row; gap: 40px; align-content:flex-start;">
               <div class="col-md-3" style="display:flex; flex-direction:column; padding-left: 0px !important;">
                 <label for="fechaNacimiento"><b>Fecha de nacimiento</b></label>
-                <input disabled type="text" name="fechaNacimiento" id="fechaNacimiento">
+                <input disabled type="text" name="fechaNacimiento_perfil" id="fechaNacimiento_perfil">
               </div>
               <div class="col-md-3" style="display:flex; flex-direction:column; padding-left: 0px !important;">
                 <label for="genero"><b>Genero</b></label>
-                <input disabled type="text" name="genero" id="genero">
+                <input disabled type="text" name="genero" id="genero_perfil">
               </div>
               <div class="col-md-3" style="display:flex; flex-direction:column; padding-left: 0px !important;">
                 <label for="celular"><b>Celular</b></label>
-                <input disabled type="text" name="celular" id="celular">
+                <input disabled type="text" name="telefono_perfil" id="telefono_perfil">
               </div>
               <div class="col-md-3" style="display:flex; flex-direction:column; padding-left: 0px !important;">
                 <label for="correoElectronico"><b>Correo Electronico</b></label>
-                <input disabled type="text" name="correoElectronico" id="correoElectronico">
+                <input disabled type="text" name="email_perfil" id="email_perfil">
               </div>
             </div>
             <div class="" style="display:flex; flex-direction: row; gap: 40px; align-content:flex-start">
               <div class="col-md-3" style="display:flex; flex-direction:column; padding-left: 0px !important;">
                 <label for="direccion"><b>Dirección</b></label>
-                <input disabled type="text" name="direccion" id="direccion">
+                <input disabled type="text" name="direccion_perfil" id="direccion_perfil">
               </div>
               <div class="col-md-3" style="display:flex; flex-direction:column; padding-left: 0px !important;">
                 <label for="departamento"><b>Departamento</b></label>
-                <input disabled type="text" name="departamento" id="departamento">
+                <input disabled type="text" name="departamento" id="departamento_perfil">
               </div>
               <div class="col-md-3" style="display:flex; flex-direction:column; padding-left: 0px !important;">
                 <label for="ciudad"><b>Ciudad</b></label>
-                <input disabled type="text" name="ciudad" id="ciudad">
+                <input disabled type="text" name="ciudad" id="ciudad_perfil">
               </div>
               <div class="col-md-3" style="display:flex; flex-direction:column; padding-left: 0px !important;">
                 <div style="margin-top: 25px"></div>
                 <button id="btnGuardar">Guardar</button>
               </div>
             </div>
-
           </div>
-
-
           <div class="row" style="margin-bottom: 22px;">
             <div class="" style="display: flex; flex-direction: row; gap: 5px; justify-content: center; align-items: center;">
               <!-- <button class="btn btn-primary" onclick="activarCamposEditables()" style="color: black; margin-bottom:40px"><strong>Editar</strong></button> -->

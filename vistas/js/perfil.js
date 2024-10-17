@@ -3,10 +3,96 @@ $(document).ready(function () {
   cargarPerfil();
 });
 
+/* Start Variables Globales */
+let documento = permisos.usu_documento;
+let idUsuario = permisos.id_usuario;
+//let conUploads = 0;
+/* End Variables Globales */
+
+let btnGuardar = document.getElementById("btnGuardar");
+const inputs = document.querySelector("#imgsContainer");
+const images = document.querySelectorAll("div.containerImg > div> label > input");
+
+btnGuardar.addEventListener("click", function () {
+  images.forEach((element) => {
+    if (element.files.length == 0) {
+      return;
+    } else {
+      uploadImageToServer(element.files[0], element.id);
+    }
+  });
+});
+
+
+function uploadImageToServer(file, inputId) {
+  const formData = new FormData();
+  formData.append("file", file);
+  formData.append("inputId", inputId);
+  formData.append("documento", documento);
+  formData.append("idUsuario", idUsuario);
+
+  // Llamada AJAX para enviar el archivo al servidor
+  $.ajax({
+    url: "src/upload.php",
+    method: "POST",
+    data: formData, // Agrega el nombre del campo "ciudad"
+    cache: false,
+    contentType: false,
+    processData: false,
+    dataType: "json",
+    success: function (respuesta) {
+      console.log(respuesta);
+      if (respuesta.hasOwnProperty("success")) {
+        Swal.fire({
+          icon: "success",
+          title: "Modificacion correcta",
+          text: respuesta["success"],
+          showConfirmButton: true,
+          confirmButtonText: "Aceptar",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            window.location.reload();
+          } else if (result.isDismissed) {
+            //window.location.reload();
+          }
+        });
+      } else if (respuesta.hasOwnProperty("error")) {
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: respuesta["error"],
+          showConfirmButton: true,
+          confirmButtonText: "Aceptar",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            window.location.reload();
+          } else if (result.isDismissed) {
+            //window.location.reload();
+          }
+        });
+      } else if (respuesta.hasOwnProperty("warning")) {
+        Swal.fire({
+          icon: "warning",
+          title: "Advertencia",
+          text: respuesta["warning"],
+          showConfirmButton: true,
+          confirmButtonText: "Aceptar",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            window.location.reload();
+          } else if (result.isDismissed) {
+            //window.location.reload();
+          }
+        });
+      }
+    },
+  });
+}
+
 const editarPerfil = () => {
   if (permisos.Modificarlogodepdfdecotizaciondelaagencia !== "x") {
     $("#nombre_perfil").prop("disabled", false);
-    $("#tip_doc").prop("disabled", false);
+    $("#tipoDocumento").prop("disabled", false);
     $("#apellido_perfil").prop("disabled", false);
     $("#documento_perfil").prop("disabled", false);
     $("#telefono_perfil").prop("disabled", false);
@@ -34,17 +120,17 @@ const tipos_doc = [
 ];
 
 const tipoDocTip = () => {
-    let id = "1";
-    tipos_doc.map((element) =>{
-        if(element.tipo == permisos.tipos_documento_id){
-            id = element.id;
-        }
-    })
-    return id;
-}
+  let id = "1";
+  tipos_doc.map((element) => {
+    if (element.tipo == permisos.tipos_documento_id) {
+      id = element.id;
+    }
+  });
+  return id;
+};
 
 function cargartipDoc() {
-  const tip_doc_update = document.getElementById("tip_doc");
+  const tip_doc_update = document.getElementById("tipodocumento_perfil");
   //console.log(permisos.tipo_documento)
   $.ajax({
     url: "ajax/tipdoc.php",
@@ -70,16 +156,20 @@ function cargarPerfil() {
     dataType: "json",
     success: function (respuesta) {
       //console.log(respuesta);
-      $("#nombre_perfil").val(respuesta["usu_nombre"]);
-      $("#apellido_perfil").val(respuesta["usu_apellido"]);
+      $("#nombres_perfil").val(respuesta["usu_nombre"]);
+      $("#apellidos_perfil").val(respuesta["usu_apellido"]);
       cargartipDoc();
       $("#documento_perfil").val(respuesta["usu_documento"]);
       $("#direccion_perfil").val(respuesta["direccion"]);
       $("#telefono_perfil").val(respuesta["usu_telefono"]);
+      $("#fechaNacimiento_perfil").val(respuesta["usu_fch_nac"]);
       $("#email_perfil").val(respuesta["usu_email"]);
+      $("#genero_perfil").val(
+        respuesta["usu_genero"] == "F" ? "Femenino" : "Masculino"
+      );
 
       $("#nombre_perfil").prop("disabled", true);
-      $("#tip_doc").prop("disabled", true);
+      $("#tipoDocumento").prop("disabled", true);
       $("#apellido_perfil").prop("disabled", true);
       $("#documento_perfil").prop("disabled", true);
       $("#telefono_perfil").prop("disabled", true);
@@ -124,6 +214,8 @@ function cargarPerfil() {
       // Logica foto de usuario
       if (respuesta["usu_foto"] != "") {
         $(".previsualizarEditar").attr("src", respuesta["usu_foto"]);
+        $(".previsualizarEditarPDF").attr("src", respuesta["usu_logo_pdf"]);
+        $(".user-image").attr("src", respuesta["usu_foto"]);
       } else {
         $(".previsualizarEditar").attr(
           "src",
@@ -149,8 +241,11 @@ function cargarPerfil() {
         success: function (respuesta) {
           var municipio = respuesta.Nombre; // Nombre del departamento obtenido desde la respuesta
           var codigo = respuesta.Codigo;
-          $("#ciudad_perfil").val(municipio);
-          $("#codigoCiudadActual").val(codigo);
+
+          const departamento = municipio.split("-");
+
+          $("#departamento_perfil").val(departamento[1]);
+          $("#ciudad_perfil").val(departamento[0]);
         },
       });
 
@@ -183,6 +278,3 @@ function cargarPerfil() {
     },
   });
 }
-
-
-

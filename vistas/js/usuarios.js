@@ -437,6 +437,7 @@ $(".tablas").on("click", ".btnEditarUsuario", function (e) {
       // Logica foto de usuario
       if (respuesta["usu_foto"] != "") {
         $(".previsualizarEditar").attr("src", respuesta["usu_foto"]);
+        $(".previsualizarEditarPDF").attr("src", respuesta["usu_logo_pdf"]);
       } else {
         $(".previsualizarEditar").attr(
           "src",

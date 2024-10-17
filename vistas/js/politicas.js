@@ -149,8 +149,10 @@ CARGANDO DATOS DE INICIO
     
                 if(respuesta["usu_foto"] != ""){
                     $(".previsualizarEditar").attr("src", respuesta["usu_foto"]);
+                    $(".previsualizarEditarPDF").attr("src", respuesta["usu_logo_pdf"]);
                 }else{
                     $(".previsualizarEditar").attr("src", "vistas/img/usuarios/default/anonymous.png");
+                    $(".previsualizarEditarPDF").attr("src", "vistas/img/usuarios/default/anonymous.png");
                 }
     
             }

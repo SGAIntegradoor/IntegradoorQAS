@@ -62,4 +62,4 @@ function checkSession() {
 }
 
 // Verificar la sesión cada 10 segundos
-setInterval(checkSession, 10000);
+setInterval(checkSession, 900000);
