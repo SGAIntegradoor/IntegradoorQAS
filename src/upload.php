@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once "config/conexion.php"; // Archivo de configuración con la conexión a la base de datos
+require_once "../config/conexion.php"; // Archivo de configuración con la conexión a la base de datos
 
 if ((isset($_FILES['file']) && $_FILES['file']['error'] === UPLOAD_ERR_OK)) {
     $idUsuario = $_POST['idUsuario'];
@@ -29,6 +29,7 @@ if ((isset($_FILES['file']) && $_FILES['file']['error'] === UPLOAD_ERR_OK)) {
             exit;
         } else {
             if (move_uploaded_file($archivoTemporal, $rutaCompleta)) {
+                chmod($rutaCompleta, 0644);
                 // Actualizar la base de datos con la nueva ruta de la imagen
                 $tableUserSelect = ($tipInput == "imgUser") ? "usu_foto" : "usu_logo_pdf";
                 $sql = "UPDATE usuarios SET $tableUserSelect = ? WHERE id_usuario = ?";
