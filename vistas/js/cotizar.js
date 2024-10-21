@@ -22,24 +22,95 @@ $(document).ready(function () {
   //     event.preventDefault();
   //   }
   // });
-  
+
+  const controlFields = (val) => {
+    if(val){
+      // Fila Placa, nombres, id, doc
+      $('label[for="txtNombres"]').text("Digito de Verificacion");
+      $("#divNombre").css("display", "none")
+      $("#digitoVerificacion").css("display", "block")
+
+      // Fila Fecha, Razon Social (Para Nit), Genero, Estado Civil, Celular (Todas menos NIT)
+      $('label[name="lblFechaNacimiento"]').html('Fecha Constitucion Empresa <span style="font-weight: normal;">(Opcional. Se requiere para Zurich y Allianz)</span>');
+      $('label[name="lblFechaNacimiento"]').css("max-width","447px");
+      $('label[name="lblFechaNacimiento"]').css("width","447px");
+
+      $('#divRazonSocial').css("display", "block")
+
+      $('label[for="genero"]').css("display", "none")
+      $("#genero").css("display", "none")
+      
+      $('label[for="estadoCivil"]').css("display", "none")
+      $("#estadoCivil").css("display", "none")
+
+      $('label[for="correo"]').css("display", "none")
+      $("#txtCorreo").css("display", "none")
+
+      $('label[for="celular"]').css("display", "none")
+      $("#txtCelular").css("display", "none")
+
+      $('#rowBoton').css("display", "none")
+
+      // CAMPOS REPRESENTANTE LEGAL
+      $('#datosAseguradoNIT').css("display", "block")
+
+
+
+    } else {
+
+      $('label[for="txtNombres"]').text("Nombre Completo");
+      $("#divNombre").css("display", "block")
+      $("#digitoVerificacion").css("display", "none")
+
+      // Fila Fecha, Razon Social (Para Nit), Genero, Estado Civil, Celular (Todas menos NIT)
+      $('label[name="lblFechaNacimiento"]').html('Fecha de Nacimiento');
+      $('label[name="lblFechaNacimiento"]').css("max-width","");
+      $('label[name="lblFechaNacimiento"]').css("width","");
+
+      $('#divRazonSocial').css("display", "none")
+      
+      $('label[for="genero"]').css("display", "block")
+      $("#genero").css("display", "block")
+      
+      $('label[for="estadoCivil"]').css("display", "block")
+      $("#estadoCivil").css("display", "block")
+
+      $('label[for="correo"]').css("display", "block")
+      $("#txtCorreo").css("display", "block")
+
+      $('label[for="celular"]').css("display", "block")
+      $("#txtCelular").css("display", "block")
+    
+      // CAMPOS REPRESENTANTE LEGAL
+      $('#datosAseguradoNIT').css("display", "none")
+    }
+  } 
+
+  $("#tipoDocumentoID").on("change", function () {
+    let doctype = $("#tipoDocumentoID").val();
+    // console.log(doctype)
+    if (doctype == 2) {
+      controlFields(true)
+    } else {
+      controlFields(false)
+
+    }
+  });
+
   const parseNumbersToString = (selector) => {
     $(selector).on("input", function () {
       this.value = this.value.replace(/\./g, "");
     });
-  
+
     // Previene el ingreso de puntos desde el teclado
     $(selector).on("keydown", function (event) {
       if (event.which === 190 || event.which === 110) {
         event.preventDefault();
       }
     });
-  }
+  };
 
-  parseNumbersToString("#txtValorFasecolda")
-
-
-
+  parseNumbersToString("#txtValorFasecolda");
 
   // // Previene que el usuario pegue datos en el campo (opcional)
   // $("#txtValorFasecolda").on("paste", function(event) {
@@ -251,7 +322,7 @@ $(document).ready(function () {
   });
 
   // Carga la fecha de Nacimiento
-  $("#dianacimiento, #mesnacimiento, #anionacimiento").select2({
+  $("#dianacimiento, #mesnacimiento, #anionacimiento, #dianacimientoRepresentante, #mesnacimientoRepresentante, #anionacimientoRepresentante").select2({
     theme: "bootstrap fecnacimiento",
     language: "es",
     width: "100%",
@@ -383,7 +454,7 @@ $(document).ready(function () {
       });
     });
   }
-  
+
   let intermediario = document.getElementById("idIntermediario").value;
 
   $("#btnCotizar").click(function (e) {
@@ -422,9 +493,9 @@ $(document).ready(function () {
         }
       });
     } else {
-        checkCotTotales().then((response) => {
-        if(response.result){
-          switch(response.result){
+      checkCotTotales().then((response) => {
+        if (response.result) {
+          switch (response.result) {
             case 1:
             case 2:
               mostrarPoliticaValorAsegurado();
@@ -441,7 +512,7 @@ $(document).ready(function () {
         } else {
           mostrarAlertaErrorDeConexion();
         }
-        });    
+      });
     }
   });
 
@@ -449,8 +520,7 @@ $(document).ready(function () {
     swal
       .fire({
         icon: "error",
-        title:
-          "Error de conexion",
+        title: "Error de conexion",
         html: `<div style="text-align: center; font-family: Helvetica, Arial, sans-serif; font-size: 15px; border-radius: 4px; padding: 8px;"><p>Ocurrio un error de conexion porfavor vuelve a intentarlo.</p>
       </div>`,
         width: "50%",
@@ -710,24 +780,24 @@ function consulPlaca() {
     var generoAseg = document.getElementById("genero").value;
     var estadoCivil = document.getElementById("estadoCivil").value;
     var intermediario = document.getElementById("intermediario").value;
-    if (tipoDocumentoID == "2") {
-      var restriccion = "";
-      if (rolAsesor == 19) {
-        restriccion =
-          "Lo sentimos, no puedes realizar cotizaciones para personas jurídicas por este cotizador. Para hacerlo debes comunicarte con el Equipo de Asesores Freelance de Grupo Asistencia, quienes podrán ayudarte a cotizar de manera manual con diferentes aseguradoras.";
-      } else {
-        restriccion =
-          "Lo sentimos, no puedes realizar cotizaciones para personas jurídicas por este cotizador.";
-      }
-      Swal.fire({
-        icon: "error",
-        text: restriccion,
-        confirmButtonText: "Cerrar",
-      }).then(() => {
-        // Recargar la página después de cerrar el SweetAlert
-        location.reload();
-      });
-    }
+    // if (tipoDocumentoID == "2") {
+    //   var restriccion = "";
+    //   if (rolAsesor == 19) {
+    //     restriccion =
+    //       "Lo sentimos, no puedes realizar cotizaciones para personas jurídicas por este cotizador. Para hacerlo debes comunicarte con el Equipo de Asesores Freelance de Grupo Asistencia, quienes podrán ayudarte a cotizar de manera manual con diferentes aseguradoras.";
+    //   } else {
+    //     restriccion =
+    //       "Lo sentimos, no puedes realizar cotizaciones para personas jurídicas por este cotizador.";
+    //   }
+    //   Swal.fire({
+    //     icon: "error",
+    //     text: restriccion,
+    //     confirmButtonText: "Cerrar",
+    //   }).then(() => {
+    //     // Recargar la página después de cerrar el SweetAlert
+    //     location.reload();
+    //   });
+    // }
     if (
       numplaca != "" &&
       tipoDocumentoID != "" &&
@@ -1704,7 +1774,9 @@ const mostrarOferta = (
                                       <div class="col-xs-12 col-sm-6 col-md-2 oferta-logo">
                                       <center>
   
-                                          <img src='vistas/img/logos/${logo}' style="${aseguradora == "HDI (Antes Liberty)" ? "margin-top: 3px;" : null}">
+                                          <img src='vistas/img/logos/${logo}' style="${
+    aseguradora == "HDI (Antes Liberty)" ? "margin-top: 3px;" : null
+  }">
   
                     </center>  
   
@@ -1906,11 +1978,11 @@ function validarProblema(aseguradora, ofertas) {
   // if(aseguradora == "Zurich" || aseguradora == "FULL" ){
   //    debugger;
   //  }
-   console.log(ofertas)
+  console.log(ofertas);
   var idCotizOferta = idCotizacion;
   // Verificar si ofertas es un array
   if (Array.isArray(ofertas)) {
-    console.log("entre aca isArray not zurich")
+    console.log("entre aca isArray not zurich");
     // if((aseguradora == "Estado" || aseguradora == "Estado2") && ofertas[0]['Mensajes'].length > 0 ){
     //   ofertas = ofertas[0];
     // }
@@ -1918,7 +1990,7 @@ function validarProblema(aseguradora, ofertas) {
       // console.log("entre aca forEach");
       // Obtener mensajes de la oferta
       var mensajes = oferta.Mensajes || [];
-      console.log("Mensajes ", mensajes)
+      console.log("Mensajes ", mensajes);
       // Verificar si mensajes es un array y tiene al menos un mensaje
       if (Array.isArray(mensajes) && mensajes.length > 0) {
         // Concatenar mensajes en un solo párrafo
@@ -1955,8 +2027,8 @@ function validarProblema(aseguradora, ofertas) {
     ofertas.jsonZurich &&
     typeof ofertas.jsonZurich === "object"
   ) {
-    debugger
-    console.log("Entre a zurich porque es Zurich")
+    debugger;
+    console.log("Entre a zurich porque es Zurich");
     console.log("ofertas Zurich", ofertas);
     // let cadena = ""
     // Caso específico para la estructura de Zurich
@@ -2291,7 +2363,7 @@ function cotizarOfertas() {
     document.getElementById("aseguradoras").value
   );
 
-  console.log(aseguradoras_autorizar)
+  console.log(aseguradoras_autorizar);
   // desactive
   //console.log(aseguradoras_autorizar)
 
@@ -2632,7 +2704,7 @@ function cotizarOfertas() {
                     } else {
                       celdaContador.textContent = 0;
                       celdaCotizo.innerHTML =
-                      '<i class="fa fa-times" aria-hidden="true" style="color: red; margin-right: 10px;"></i>';
+                        '<i class="fa fa-times" aria-hidden="true" style="color: red; margin-right: 10px;"></i>';
                       celdaResponse.textContent = mensaje;
                     }
                   } else {
@@ -2686,7 +2758,7 @@ function cotizarOfertas() {
                     celdaCotizo.innerHTML =
                       '<i class="fa fa-times" aria-hidden="true" style="color: red; margin-right: 10px;"></i>';
                     celdaResponse.textContent = mensaje;
-                  } 
+                  }
                   // Verifica si el mensaje es diferente antes de actualizar
                   // if (observacionesActuales !== mensaje) {
                   //   celdaObservaciones.textContent = mensaje;
@@ -2712,7 +2784,7 @@ function cotizarOfertas() {
             };
 
             console.log(aseguradorasCoti); // Esto imprimirá el array con los nombres de aseguradoras autorizadas
-            
+
             aseguradorasCoti.forEach((aseguradora) => {
               let url;
               if (aseguradora === "HDI") {
@@ -2721,7 +2793,8 @@ function cotizarOfertas() {
                 // const planes = ["FULL", "MEDIUM"];
                 const planes = ["FULL"];
                 planes.forEach((plan) => {
-                  let lineaVeh = document.getElementById("txtReferenciaVeh").value;
+                  let lineaVeh =
+                    document.getElementById("txtReferenciaVeh").value;
                   let body = JSON.parse(requestOptions.body);
                   body.plan = plan;
                   body.Email = "@gmail.com";
@@ -2796,15 +2869,15 @@ function cotizarOfertas() {
                       `https://grupoasistencia.com/motor_webservice/${aseguradora}`,
                       requestOptions
                     )
-                    .then((res) => {
-                      if (!res.ok) throw Error(res.statusText);
-                      return res.json();
-                    })
-                    .then((ofertas) => {
+                      .then((res) => {
+                        if (!res.ok) throw Error(res.statusText);
+                        return res.json();
+                      })
+                      .then((ofertas) => {
                         let result2 = "";
-                        let result = []; 
+                        let result = [];
                         result.push(ofertas);
-                        if(!Array.isArray(ofertas)){
+                        if (!Array.isArray(ofertas)) {
                           result2 = ofertas.Resultado;
                         } else {
                           result2 = ofertas[0].Resultado;
@@ -2895,10 +2968,10 @@ function cotizarOfertas() {
                       console.error(err);
                     })
                 );
-                return; 
+                return;
               } else {
                 url = `https://grupoasistencia.com/motor_webservice/${aseguradora}_autos`;
-              }           
+              }
               // Realizar la solicitud fetch y agregar la promesa al array
               cont.push(
                 fetch(url, requestOptions)
@@ -3154,17 +3227,15 @@ function cotizarOfertas() {
               const celdaCotizo = filaExistente.cells[1]; // Segunda celda de la fila
               const celdaResponse = filaExistente.cells[3]; // Cuarta celda de la fila
 
-              if (
-                celdaResponse.textContent.trim() !== "Cotización exitosa"
-              ) {
+              if (celdaResponse.textContent.trim() !== "Cotización exitosa") {
                 if (celdaResponse.textContent !== "") {
                   celdaCotizo.innerHTML =
-                  '<i class="fa fa-times" aria-hidden="true" style="color: red; margin-right: 10px;"></i>';
+                    '<i class="fa fa-times" aria-hidden="true" style="color: red; margin-right: 10px;"></i>';
                   return;
                 } else {
                   celdaContador.textContent = 0;
                   celdaCotizo.innerHTML =
-                  '<i class="fa fa-times" aria-hidden="true" style="color: red; margin-right: 10px;"></i>';
+                    '<i class="fa fa-times" aria-hidden="true" style="color: red; margin-right: 10px;"></i>';
                   celdaResponse.textContent = mensaje;
                 }
               } else {
@@ -3211,9 +3282,7 @@ function cotizarOfertas() {
               const celdaCotizo = filaExistente.cells[1]; // Segunda celda de la fila
               const celdaResponse = filaExistente.cells[3]; // Cuarta celda de la fila
 
-              if (
-                celdaResponse.textContent.trim() !== "Cotización exitosa"
-              ) {
+              if (celdaResponse.textContent.trim() !== "Cotización exitosa") {
                 celdaContador.textContent = 0;
                 celdaCotizo.innerHTML =
                   '<i class="fa fa-times" aria-hidden="true" style="color: red; margin-right: 10px;"></i>';
@@ -3310,14 +3379,14 @@ function cotizarOfertas() {
                   "Solidaria",
                   "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
                 );
-                validarProblema("Previsora", [
-                      {
-                        Mensajes: [
-                          "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
-                        ],
-                      },
-                    ]);
-                    console.error(err);
+                validarProblema("Solidaria", [
+                  {
+                    Mensajes: [
+                      "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
+                    ],
+                  },
+                ]);
+                console.error(err);
               })
           : Promise.resolve();
 
@@ -3360,13 +3429,13 @@ function cotizarOfertas() {
                   "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
                 );
                 validarProblema("Previsora", [
-                      {
-                        Mensajes: [
-                          "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
-                        ],
-                      },
-                    ]);
-                    console.error(err);
+                  {
+                    Mensajes: [
+                      "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
+                    ],
+                  },
+                ]);
+                console.error(err);
               })
           : Promise.resolve();
 
@@ -3406,13 +3475,13 @@ function cotizarOfertas() {
                   "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
                 );
                 validarProblema("Equidad", [
-                      {
-                        Mensajes: [
-                          "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
-                        ],
-                      },
-                    ]);
-                    console.error(err);
+                  {
+                    Mensajes: [
+                      "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
+                    ],
+                  },
+                ]);
+                console.error(err);
               })
           : Promise.resolve();
 
@@ -3452,13 +3521,13 @@ function cotizarOfertas() {
                   "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
                 );
                 validarProblema("Mapfre", [
-                      {
-                        Mensajes: [
-                          "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
-                        ],
-                      },
-                    ]);
-                    console.error(err);
+                  {
+                    Mensajes: [
+                      "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
+                    ],
+                  },
+                ]);
+                console.error(err);
               })
           : Promise.resolve();
 
@@ -3498,13 +3567,13 @@ function cotizarOfertas() {
                   "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
                 );
                 validarProblema("Bolivar", [
-                      {
-                        Mensajes: [
-                          "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
-                        ],
-                      },
-                    ]);
-                    console.error(err);
+                  {
+                    Mensajes: [
+                      "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
+                    ],
+                  },
+                ]);
+                console.error(err);
               })
           : Promise.resolve();
 
@@ -3540,13 +3609,13 @@ function cotizarOfertas() {
                   "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
                 );
                 validarProblema("HDI", [
-                      {
-                        Mensajes: [
-                          "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
-                        ],
-                      },
-                    ]);
-                    console.error(err);
+                  {
+                    Mensajes: [
+                      "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
+                    ],
+                  },
+                ]);
+                console.error(err);
               })
           : Promise.resolve();
 
@@ -3557,63 +3626,67 @@ function cotizarOfertas() {
         // Para 'FULL'
         const ZFullPromise = comprobarFallida("FULL")
           ? planes.forEach((plan) => {
-            let body = JSON.parse(requestOptions.body);
-            body.plan = plan;
-            body.Email = "@gmail.com";
-            body.Email2 = Math.round(Math.random() * 999999) + body.Email;
-            body.linea = lineaVeh;
-            requestOptions.body = JSON.stringify(body);
-          
-            let url = `https://grupoasistencia.com/motor_webservice/Zurich_autos`;
-          
-            fetch(url, {
-              ...requestOptions,
-              method: "POST",
-              headers: {
-                ...requestOptions.headers,
-                "Content-Type": "application/json",
-              },
-            })
-              .then((res) => {
-                if (!res.ok) throw Error(res.statusText);
-                return res.json();
+              let body = JSON.parse(requestOptions.body);
+              body.plan = plan;
+              body.Email = "@gmail.com";
+              body.Email2 = Math.round(Math.random() * 999999) + body.Email;
+              body.linea = lineaVeh;
+              requestOptions.body = JSON.stringify(body);
+
+              let url = `https://grupoasistencia.com/motor_webservice/Zurich_autos`;
+
+              fetch(url, {
+                ...requestOptions,
+                method: "POST",
+                headers: {
+                  ...requestOptions.headers,
+                  "Content-Type": "application/json",
+                },
               })
-              .then((ofertas) => {
-                if (typeof ofertas.Resultado !== "undefined") {
-                  let mensaje = "";
-                  ofertas.Mensajes.map((element, index) => {
-                    if (element.includes("Referred")) {
-                      if (index == 2) {
-                        mensaje += " - " + element;
-                      } else {
-                        mensaje += element;
+                .then((res) => {
+                  if (!res.ok) throw Error(res.statusText);
+                  return res.json();
+                })
+                .then((ofertas) => {
+                  if (typeof ofertas.Resultado !== "undefined") {
+                    let mensaje = "";
+                    ofertas.Mensajes.map((element, index) => {
+                      if (element.includes("Referred")) {
+                        if (index == 2) {
+                          mensaje += " - " + element;
+                        } else {
+                          mensaje += element;
+                        }
                       }
-                    }
-                  });
-                  validarProblema("FULL", ofertas);
-                  agregarAseguradoraFallida(plan);
-                  mostrarAlertarCotizacionFallida(`FULL`, mensaje);
-                } else {
-                  const contadorPorEntidad = validarOfertas(ofertas, "FULL", 1);
-                  mostrarAlertaCotizacionExitosa("FULL", contadorPorEntidad);
-                }
-              })
-              .catch((err) => {
-                agregarAseguradoraFallida("FULL");
-                mostrarAlertarCotizacionFallida(
-                  "Zurich",
-                  "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
-                );
-                validarProblema("Zurich", [
-                  {
-                    Mensajes: [
-                      "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
-                    ],
-                  },
-                ]);
-                console.error(err);
-              });
-          })
+                    });
+                    validarProblema("FULL", ofertas);
+                    agregarAseguradoraFallida(plan);
+                    mostrarAlertarCotizacionFallida(`FULL`, mensaje);
+                  } else {
+                    const contadorPorEntidad = validarOfertas(
+                      ofertas,
+                      "FULL",
+                      1
+                    );
+                    mostrarAlertaCotizacionExitosa("FULL", contadorPorEntidad);
+                  }
+                })
+                .catch((err) => {
+                  agregarAseguradoraFallida("FULL");
+                  mostrarAlertarCotizacionFallida(
+                    "Zurich",
+                    "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
+                  );
+                  validarProblema("Zurich", [
+                    {
+                      Mensajes: [
+                        "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
+                      ],
+                    },
+                  ]);
+                  console.error(err);
+                });
+            })
           : Promise.resolve();
 
         cont.push(ZFullPromise);
@@ -3698,9 +3771,9 @@ function cotizarOfertas() {
                 })
                 .then((ofertas) => {
                   let result2 = "";
-                  let result = []; 
+                  let result = [];
                   result.push(ofertas);
-                  if(!Array.isArray(ofertas)){
+                  if (!Array.isArray(ofertas)) {
                     result2 = ofertas.Resultado;
                   } else {
                     result2 = ofertas[0].Resultado;
@@ -3709,10 +3782,7 @@ function cotizarOfertas() {
                     agregarAseguradoraFallida("Estado");
                     validarProblema(aseguradora, result);
                     ofertas[0].Mensajes.forEach((mensaje) => {
-                      mostrarAlertarCotizacionFallida(
-                        aseguradora,
-                        mensaje
-                      );
+                      mostrarAlertarCotizacionFallida(aseguradora, mensaje);
                     });
                   } else {
                     const contadorPorEntidad = validarOfertas(
@@ -3764,7 +3834,10 @@ function cotizarOfertas() {
                   agregarAseguradoraFallida("HDI (Antes Liberty)");
                   validarProblema("HDI (Antes Liberty)", ofertas);
                   ofertas[0].Mensajes.forEach((mensaje) => {
-                    mostrarAlertarCotizacionFallida("HDI (Antes Liberty)", mensaje);
+                    mostrarAlertarCotizacionFallida(
+                      "HDI (Antes Liberty)",
+                      mensaje
+                    );
                   });
                 } else {
                   // eliminarAseguradoraFallida('HDI (Antes Liberty)');
@@ -3773,7 +3846,10 @@ function cotizarOfertas() {
                     "HDI (Antes Liberty)",
                     1
                   );
-                  mostrarAlertaCotizacionExitosa("HDI (Antes Liberty)", contadorPorEntidad);
+                  mostrarAlertaCotizacionExitosa(
+                    "HDI (Antes Liberty)",
+                    contadorPorEntidad
+                  );
                 }
               })
               .catch((err) => {
@@ -3782,14 +3858,14 @@ function cotizarOfertas() {
                   "HDI (Antes Liberty)",
                   "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
                 );
-                validarProblema(aseguradora, [
-                      {
-                        Mensajes: [
-                          "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
-                        ],
-                      },
-                    ]);
-                    console.error(err);
+                validarProblema("HDI (Antes Liberty)", [
+                  {
+                    Mensajes: [
+                      "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
+                    ],
+                  },
+                ]);
+                console.error(err);
               })
           : Promise.resolve();
 
@@ -3828,14 +3904,14 @@ function cotizarOfertas() {
                   "Allianz",
                   "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
                 );
-                validarProblema(aseguradora, [
-                      {
-                        Mensajes: [
-                          "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
-                        ],
-                      },
-                    ]);
-                    console.error(err);
+                validarProblema("Allianz", [
+                  {
+                    Mensajes: [
+                      "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
+                    ],
+                  },
+                ]);
+                console.error(err);
               })
           : Promise.resolve();
 
@@ -3869,14 +3945,14 @@ function cotizarOfertas() {
                   "AXA",
                   "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
                 );
-                validarProblema(aseguradora, [
-                      {
-                        Mensajes: [
-                          "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
-                        ],
-                      },
-                    ]);
-                    console.error(err);
+                validarProblema("AXA", [
+                  {
+                    Mensajes: [
+                      "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
+                    ],
+                  },
+                ]);
+                console.error(err);
               })
           : Promise.resolve();
 
@@ -3910,14 +3986,14 @@ function cotizarOfertas() {
                   "SBS",
                   "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
                 );
-                validarProblema(aseguradora, [
-                      {
-                        Mensajes: [
-                          "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
-                        ],
-                      },
-                    ]);
-                    console.error(err);
+                validarProblema("SBS", [
+                  {
+                    Mensajes: [
+                      "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
+                    ],
+                  },
+                ]);
+                console.error(err);
               })
           : Promise.resolve();
 
@@ -4173,9 +4249,9 @@ $("#btnConsultarVehmanualbuscador").click(function () {
         } else {
           var claseVeh = data.clase;
           let control = false;
-          if(!data.estado){
+          if (!data.estado) {
             control = true;
-            return  Swal.fire({
+            return Swal.fire({
               icon: "warning",
               title:
                 "Vehículo no encontrado, revise el código fasecolda e inténtelo nuevamente.",
