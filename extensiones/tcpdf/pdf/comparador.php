@@ -177,7 +177,7 @@ if ($genero == 1) {
 } else if ($genero == 2) {
 	$nomGenero = "Femenino";
 } else {
-	$nomGenero = "Juridico";
+	$nomGenero = "No aplica";
 }
 
 
