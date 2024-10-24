@@ -3886,7 +3886,7 @@ function cotizarOfertas() {
 
         cont.push(HDIPromise);
 
-        const lineaVeh = document.getElementById("txtReferenciaVeh");
+        const lineaVeh = document.getElementById("txtReferenciaVeh").value;
         const planes = ["FULL"];
         // Para 'FULL'
         const ZFullPromise = comprobarFallida("FULL")
@@ -3914,35 +3914,44 @@ function cotizarOfertas() {
                 })
                 .then((ofertas) => {
                   if (typeof ofertas.Resultado !== "undefined") {
-                    let mensaje = "";
-                    ofertas.Mensajes.map((element, index) => {
-                      if (element.includes("Referred")) {
-                        if (index == 2) {
-                          mensaje += " - " + element;
-                        } else {
-                          mensaje += element;
-                        }
-                      }
-                    });
-                    validarProblema(`Zurich`, ofertas);
                     agregarAseguradoraFallida(plan);
+                    let mensaje = "";
+                    if (ofertas.Mensajes.length == 1) {
+                      mensaje = ofertas.Mensajes[0];
+                    } else {
+                      ofertas.Mensajes.map((element, index) => {
+                        if (element.includes("Lo sentimos")) {
+                          mensaje += " - " + element;
+                        }
+                        if (element.includes("Referred")) {
+                          if (index == 2) {
+                            mensaje += " - " + element;
+                          } else {
+                            mensaje += element;
+                          }
+                        }
+                      });
+                    }
                     mostrarAlertarCotizacionFallida(`Zurich`, mensaje);
                   } else {
                     const contadorPorEntidad = validarOfertas(
                       ofertas,
-                      `Zurich`,
+                      "Zurich",
                       1
                     );
-                    mostrarAlertaCotizacionExitosa(`Zurich`, contadorPorEntidad);
+                    mostrarAlertaCotizacionExitosa(
+                      `Zurich`,
+                      contadorPorEntidad
+                    );
                   }
                 })
                 .catch((err) => {
-                  agregarAseguradoraFallida(`Zurich`);
+                  agregarAseguradoraFallida(plan);
                   mostrarAlertarCotizacionFallida(
-                    `Zurich`,
+                    "Zurich",
                     "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
                   );
-                  validarProblema(`Zurich`, [
+                  validarProblema("Zurich", [
                     {
                       Mensajes: [
                         "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
@@ -3950,7 +3959,7 @@ function cotizarOfertas() {
                     },
                   ]);
                   console.error(err);
-                });
+                })
             })
           : Promise.resolve();
 
