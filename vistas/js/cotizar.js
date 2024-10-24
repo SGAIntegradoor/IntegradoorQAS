@@ -971,9 +971,9 @@ function consulPlaca(query = "1") {
           nomRep != "" &&
           apellidoRep != "" &&
           generoRep != "" &&
-          estadoCivilRep != "" &&
-          correoRep != "" &&
-          celularRep != "";
+          estadoCivilRep != "";
+          //correoRep != "" &&
+          //celularRep != "";
 
     //! Agregar esto a MOTOS y Pesados END
 
@@ -2611,9 +2611,9 @@ function cotizarOfertas() {
         nombresRep != "" &&
         apellidosRep != "" &&
         generoRep != "" &&
-        estCivRep != "" &&
-        correoRep != "" &&
-        celRep != "";
+        estCivRep != "";
+        //correoRep != "" &&
+        //celRep != "";
 
   //! Agregar a Motos y Pesados END
   
@@ -2734,8 +2734,8 @@ function cotizarOfertas() {
         raw.fechaNacimientoRep = fechaNacimientoRep;
         raw.generoRep = generoRep;
         raw.estCivRep = estCivRep;
-        raw.correoRep = correoRep;
-        raw.celRep = celRep;
+        raw.correoRep = correoRep == "" ? null : correoRep;
+        raw.celRep = celRep == "" ? null : celRep;
       }
 
       //! Agregar a Motos y Pesados END
