@@ -54,7 +54,7 @@ function checkSession() {
                   // Redirigir al usuario a la página de inicio de sesión
                   window.location.href = 'login';
               } else {
-                  console.log("me ejecute cada 10 segs", data.sessionActive);
+                  //console.log("me ejecute cada 10 segs", data.sessionActive);
               }
           })
           .catch(error => console.error('Error:', error));
