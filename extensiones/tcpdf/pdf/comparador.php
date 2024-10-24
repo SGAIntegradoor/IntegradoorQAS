@@ -29,7 +29,7 @@ $identificador = $_GET['cotizacion'];
 $server = "localhost";
 $user = "grupoasi_cotizautos";
 $password = "M1graci0n123"; //poner tu propia contraseña, si tienes una.
-$bd = "grupoasi_cotizautos";
+$bd = "grupoasi_cotizautos_qas";
 
 $conexion = mysqli_connect($server, $user, $password, $bd);
 if (!$conexion) {
@@ -103,7 +103,8 @@ $query2 = "SELECT *	FROM cotizaciones, clientes WHERE cotizaciones.id_cliente = 
 $valor2 = $conexion->query($query2);
 $fila = mysqli_fetch_array($valor2);
 
-
+// var_dump($fila);
+// die();
 
 
 $query3 = "SELECT o.Aseguradora
@@ -175,7 +176,11 @@ if ($genero == 1) {
 	$nomGenero = "Masculino";
 } else if ($genero == 2) {
 	$nomGenero = "Femenino";
+} else {
+	$nomGenero = "Juridico";
 }
+
+
 
 $generarPDF = $_GET['generar_pdf'] ?? '';
 $ocultarAsesor = ($generarPDF == 1);
@@ -265,6 +270,14 @@ $pdf->Cell(35, 6, $modelo, 0, 1, '');
 
 $pdf->SetXY(155, 24);
 $pdf->Cell(25, 6, strtoupper($nombre) . " " . strtoupper($apellido), 0, 1, '');
+
+if($fila['id_tipo_documento'] == 2) {
+	$longitud = strlen($identificacion);
+	$parte_inicial = substr($identificacion, 0, $longitud - 1);
+	$ultimo_caracter = substr($identificacion, -1);
+	$resultado = $parte_inicial . '-' . $ultimo_caracter;
+	$identificacion = $resultado;
+} 
 
 $pdf->SetXY(166, 31.5);
 $pdf->Cell(25, 6, $identificacion, 0, 1, '');
