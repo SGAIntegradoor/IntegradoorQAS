@@ -948,7 +948,7 @@ echo '<script>console.log(' . $idIntermediario . ", " . $rolAsesor . ')</script>
 
                     <div class="col-xs-12 col-sm-6 col-md-3 form-group" id="tipoDocumento">
                       <input type="hidden" class="form-control" id="intermediario" value="<?php echo $_SESSION["intermediario"]; ?>">
-                      <input type="hidden" class="form-control" id="cotRestanv" value="<?php echo $_SESSION["cotRestantes"]; ?>">
+                      <!-- <input type="hidden" class="form-control" id="cotRestanv" value="<?//?php echo $_SESSION["cotRestantes"]; ?>"> -->
                       <label for="tipoDocumentoID">Tipo de Documento</label>
                       <select class="form-control" id="tipoDocumentoID" required>
                         <option value="" disabled selected>Selecciona el tipo de documento</option>
@@ -998,7 +998,7 @@ echo '<script>console.log(' . $idIntermediario . ", " . $rolAsesor . ')</script>
                     </div>
                     <div class="col-xs-12 col-sm-6 col-md-3 form-group" id="fechaNacimiento">
                       <label name="lblFechaNacimiento">Fecha de Nacimiento</label>
-                      <div div id="fechaCompleta" class="row">
+                      <div id="fechaCompleta" class="row">
                         <div class="col-xs-4 col-sm-4 col-md-4 conten-dia">
                           <select class="form-control fecha-nacimiento" name="dianacimiento" id="dianacimiento" required>
                             <option value="">Dia</option>
@@ -1034,7 +1034,7 @@ echo '<script>console.log(' . $idIntermediario . ", " . $rolAsesor . ')</script>
                           <select class="form-control fecha-nacimiento" name="anionacimiento" id="anionacimiento" required>
                             <option value="">Año</option>
                             <?php
-                            for ($j = 1920; $j <= 2021; $j++) {
+                            for ($j = 1920; $j <= 2025; $j++) {
                             ?>
                               <option value="<?php echo $j ?>"><?php echo $j ?></option><?php
                                                                                       }
@@ -1207,7 +1207,7 @@ echo '<script>console.log(' . $idIntermediario . ", " . $rolAsesor . ')</script>
                       </div>
 
                       <div class="col-xs-12 col-sm-6 col-md-3 form-group" id="contenBtnConsultarPlaca">
-                        <button class="btn btn-primary btn-block" id="btnConsultarPlaca2">Siguiente</button>
+                        <button class="btn btn-primary btn-block" id="btnConsultarPlacaMotos2">Siguiente</button>
                       </div>
 
                       <div class="col-xs-12 col-sm-6 col-md-3 form-group">
