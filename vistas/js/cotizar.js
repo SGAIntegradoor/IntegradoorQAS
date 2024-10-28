@@ -11,6 +11,7 @@ $(document).ready(function () {
   $("#txtValorFasecolda").numeric();
   $("#numCotizacion").numeric();
   $("#valorTotal").numeric();
+  $("#txtDigitoVerif").numeric();
 
   // $("#txtValorFasecolda").on("input", function () {
   //   this.value = this.value.replace(/\./g, "");
@@ -106,9 +107,12 @@ $(document).ready(function () {
   });
 
   // Obtener los campos de entrada por su ID
-  var nombreInput = document.getElementById("txtNombres");
-  var apellidoInput = document.getElementById("txtApellidos");
-  var ceroKilometros = document.getElementById("txtEsCeroKmSi");
+  // var nombreInput = document.getElementById("txtNombres");
+  // var nombreInputRep = document.getElementById("txtNombresRepresentante");
+  // var apellidoInput = document.getElementById("txtApellidos");
+  // var ceroKilometros = document.getElementById("txtEsCeroKmSi");
+
+  let inputsArr = ["txtNombres","txtNombresRepresentante","txtApellidos","txtApellidosRepresentante"]
 
   // Función para filtrar caracteres especiales
   function filtrarCaracteresEspeciales(input) {
@@ -116,55 +120,36 @@ $(document).ready(function () {
     var valorFiltrado = valor.replace(/[^a-zA-ZñÑ ]/g, ""); // Permitir letras, espacios y la letra "ñ" en mayúsculas o minúsculas
     input.value = valorFiltrado;
   }
-
+  
   // MANEJO DE NOMBRES Y APELLIDOS
+  inputsArr.forEach(element => {
+    let temp = document.getElementById(element);
 
-  // Agregar eventos de escucha para el evento "input" en ambos campos
-  nombreInput.addEventListener("input", function () {
-    filtrarCaracteresEspeciales(nombreInput);
-  });
+    // Agregar eventos de escucha para el evento "input" en ambos campos
+    temp.addEventListener("input", function () {
+      filtrarCaracteresEspeciales(temp);
+    });
+    
+    // Agregar un evento 'blur' para eliminar espacios en blanco al final y al principio
+    temp.addEventListener("blur", function () {
+      this.value = this.value.trim(); // Elimina espacios en blanco al principio y al final
+  
+      // Divide la cadena en palabras
+      var words = this.value.split(" ");
+  
+      // Capitaliza la primera letra de cada palabra y convierte el resto en minúsculas
+      for (var i = 0; i < words.length; i++) {
+        words[i] =
+          words[i].charAt(0).toUpperCase() + words[i].slice(1).toLowerCase();
+      }
+  
+      // Vuelve a unir las palabras en una sola cadena
+      var formattedValue = words.join(" ");
+  
+      // Asigna el valor formateado al campo de entrada
+      this.value = formattedValue;
+    });
 
-  apellidoInput.addEventListener("input", function () {
-    filtrarCaracteresEspeciales(apellidoInput);
-  });
-
-  // Agregar un evento 'blur' para eliminar espacios en blanco al final y al principio
-  nombreInput.addEventListener("blur", function () {
-    this.value = this.value.trim(); // Elimina espacios en blanco al principio y al final
-
-    // Divide la cadena en palabras
-    var words = this.value.split(" ");
-
-    // Capitaliza la primera letra de cada palabra y convierte el resto en minúsculas
-    for (var i = 0; i < words.length; i++) {
-      words[i] =
-        words[i].charAt(0).toUpperCase() + words[i].slice(1).toLowerCase();
-    }
-
-    // Vuelve a unir las palabras en una sola cadena
-    var formattedValue = words.join(" ");
-
-    // Asigna el valor formateado al campo de entrada
-    this.value = formattedValue;
-  });
-
-  apellidoInput.addEventListener("blur", function () {
-    this.value = this.value.trim(); // Elimina espacios en blanco al principio y al final
-
-    // Divide la cadena en palabras
-    var words = this.value.split(" ");
-
-    // Capitaliza la primera letra de cada palabra y convierte el resto en minúsculas
-    for (var i = 0; i < words.length; i++) {
-      words[i] =
-        words[i].charAt(0).toUpperCase() + words[i].slice(1).toLowerCase();
-    }
-
-    // Vuelve a unir las palabras en una sola cadena
-    var formattedValue = words.join(" ");
-
-    // Asigna el valor formateado al campo de entrada
-    this.value = formattedValue;
   });
 
   // Conviete la letras iniciales del Nombre y el Apellido deL Cliente en Mayusculas
@@ -3245,6 +3230,7 @@ function cotizarOfertas() {
                     return res.json();
                   })
                   .then((ofertas) => {
+                    console.log(ofertas);
                     if (typeof ofertas[0].Resultado !== "undefined") {
                       agregarAseguradoraFallida(aseguradora);
                       validarProblema(aseguradora, ofertas);

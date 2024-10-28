@@ -15,15 +15,130 @@ $(document).ready(function () {
   //   });
   // }
 
-  $("#txtValorFasecolda").on("input", function () {
-    this.value = this.value.replace(/\./g, "");
+  $("#numDocumentoID").numeric();
+  $("#txtFasecolda").numeric();
+  $("#txtValorFasecolda").numeric();
+  $("#numCotizacion").numeric();
+  $("#valorTotal").numeric();
+  $("#txtDigitoVerif").numeric();
+  
+
+  let inputsArr = ["txtNombres","txtNombresRepresentante","txtApellidos","txtApellidosRepresentante"]
+
+  // Función para filtrar caracteres especiales
+  function filtrarCaracteresEspeciales(input) {
+    var valor = input.value;
+    var valorFiltrado = valor.replace(/[^a-zA-ZñÑ ]/g, ""); // Permitir letras, espacios y la letra "ñ" en mayúsculas o minúsculas
+    input.value = valorFiltrado;
+  }
+  
+  // MANEJO DE NOMBRES Y APELLIDOS
+  inputsArr.forEach(element => {
+    let temp = document.getElementById(element);
+
+    // Agregar eventos de escucha para el evento "input" en ambos campos
+    temp.addEventListener("input", function () {
+      filtrarCaracteresEspeciales(temp);
+    });
+    
+    // Agregar un evento 'blur' para eliminar espacios en blanco al final y al principio
+    temp.addEventListener("blur", function () {
+      this.value = this.value.trim(); // Elimina espacios en blanco al principio y al final
+  
+      // Divide la cadena en palabras
+      var words = this.value.split(" ");
+  
+      // Capitaliza la primera letra de cada palabra y convierte el resto en minúsculas
+      for (var i = 0; i < words.length; i++) {
+        words[i] =
+          words[i].charAt(0).toUpperCase() + words[i].slice(1).toLowerCase();
+      }
+  
+      // Vuelve a unir las palabras en una sola cadena
+      var formattedValue = words.join(" ");
+  
+      // Asigna el valor formateado al campo de entrada
+      this.value = formattedValue;
+    });
+
   });
 
-  // Previene el ingreso de puntos desde el teclado
-  $("#txtValorFasecolda").on("keydown", function (event) {
-    if (event.which === 190 || event.which === 110) {
-      event.preventDefault();
+  $("#txtNombres").keyup(function () {
+    var cliNombres = document.getElementById("txtNombres").value.toLowerCase();
+    $("#txtNombres").val(
+      cliNombres.replace(/^(.)|\s(.)/g, function ($1) {
+        return $1.toUpperCase();
+      })
+    );
+  });
+
+  $("#txtApellidos").keyup(function () {
+    var cliApellido = document
+      .getElementById("txtApellidos")
+      .value.toLowerCase();
+    $("#txtApellidos").val(
+      cliApellido.replace(/^(.)|\s(.)/g, function ($1) {
+        return $1.toUpperCase();
+      })
+    );
+  });
+
+  // Valida que el dato ingresado sea numerico
+  $("#numDocumentoID").numeric();
+  $("#txtFasecolda").numeric();
+  $("#txtValorFasecolda").numeric();
+  $("#numCotizacion").numeric();
+  $("#valorTotal").numeric();
+
+  // $("#txtValorFasecolda").on("input", function () {
+  //   this.value = this.value.replace(/\./g, "");
+  // });
+
+  // // Previene el ingreso de puntos desde el teclado
+  // $("#txtValorFasecolda").on("keydown", function (event) {
+  //   if (event.which === 190 || event.which === 110) {
+  //     event.preventDefault();
+  //   }
+  // });
+
+  const parseNumbersToString = (selector) => {
+    $(selector).on("input", function () {
+      this.value = this.value.replace(/\./g, "");
+    });
+
+    // Previene el ingreso de puntos desde el teclado
+    $(selector).on("keydown", function (event) {
+      if (event.which === 190 || event.which === 110) {
+        event.preventDefault();
+      }
+    });
+  };
+
+  parseNumbersToString("#txtValorFasecolda");
+
+  $("#formResumAseg, #formVehManual, #formResumVeh, #agregarOferta").on(
+    "submit",
+    function (e) {
+      e.preventDefault(); // Evita que la pagina se recargue
     }
+  );
+
+  document.addEventListener("DOMContentLoaded", function () {
+    var formulario = document.getElementById("formResumAseg"); // Reemplaza 'formulario' con el ID de tu formulario
+    var tipoDocumento = document.getElementById("tipoDocumentoID");
+
+    formulario.addEventListener("submit", function (event) {
+      if (tipoDocumento.value === "") {
+        event.preventDefault(); // Evita que el formulario se envíe
+        document.getElementById("alertaTipoDocumento").style.display = "block"; // Muestra la alerta
+      }
+    });
+
+    tipoDocumento.addEventListener("change", function () {
+      if (tipoDocumento.value !== "") {
+        document.getElementById("alertaTipoDocumento").style.display = "none"; // Oculta la alerta si se selecciona un documento
+      }
+    });
   });
 
   async function checkCotTotales() {
@@ -211,12 +326,12 @@ $(document).ready(function () {
     });
   }
 
-  $("#btnConsultarPlacaMotos").click(function () {
-    consulPlacaMotos();
+  $("#btnConsultarPlacaMotos2").click(function () {
+    consulPlacaMotos(2);
   });
 
-  $("#btnConsultarPlacaMotos2").click(function () {
-    consulPlaca(2);
+  $("#btnConsultarPlacaMotos").click(function () {
+    consulPlacaMotos();
   });
 
   document
@@ -519,8 +634,173 @@ $("#tipoDocumentoID").on("change", function () {
   }
 });
 
+// Maximiza el formulario Datos Asegurado
+function masAseg() {
+  document.getElementById("DatosAsegurado").style.display = "block";
+  document.getElementById("datosAseguradoNIT").style.display = "block";
+  document.getElementById("menosAsegurado").style.display = "block";
+  document.getElementById("masAsegurado").style.display = "none";
+}
+// Minimiza el formulario Datos Asegurado
+function menosAseg() {
+  document.getElementById("DatosAsegurado").style.display = "none";
+  document.getElementById("datosAseguradoNIT").style.display = "none";
+  document.getElementById("menosAsegurado").style.display = "none";
+  document.getElementById("masAsegurado").style.display = "block";
+}
+
+// Maximizar el formulario Datos Vehiculo
+function masVeh() {
+  document.getElementById("DatosVehiculo").style.display = "block";
+  document.getElementById("menosVehiculo").style.display = "block";
+  document.getElementById("masVehiculo").style.display = "none";
+}
+// Minimiza el formulario Datos Vehiculo
+function menosVeh() {
+  document.getElementById("DatosVehiculo").style.display = "none";
+  document.getElementById("menosVehiculo").style.display = "none";
+  document.getElementById("masVehiculo").style.display = "block";
+}
+
+// Maximiza el Formulario Agregar Oferta
+function masAgr() {
+  document.getElementById("DatosAgregarOferta").style.display = "block";
+  document.getElementById("menosAgrOferta").style.display = "block";
+  document.getElementById("masAgrOferta").style.display = "none";
+}
+// Minimiza el Formulario Agregar Oferta
+function menosAgr() {
+  document.getElementById("DatosAgregarOferta").style.display = "none";
+  document.getElementById("menosAgrOferta").style.display = "none";
+  document.getElementById("masAgrOferta").style.display = "block";
+}
+
+$("#numDocumentoID").change(function () {
+  consultarAsegurado();
+});
+
+function consultarAsegurado() {
+  var tipoDocumentoID = document.getElementById("tipoDocumentoID").value;
+  var numDocumentoID = document.getElementById("numDocumentoID");
+  $.ajax({
+    type: "POST",
+    url: "src/consultarAsegurado.php",
+    dataType: "json",
+    data: {
+      tipoDocumento: tipoDocumentoID,
+      numDocumento: numDocumentoID.value,
+    },
+    success: function (data) {
+      var estado = data.estado;
+      var fechaNac = data.cli_fch_nacimiento;
+      let documentCli = data.cli_num_documento.slice(0, -1);
+
+      if (estado && data.id_tipo_documento == 2) {
+        let fechaNacRep = data.rep_legal.rep_fch_nacimiento;
+        $("#idCliente").val(data.id_cliente);
+        $("#tipoDocumentoID").val(data.id_tipo_documento);
+        $("#txtRazonSocial").val(data.cli_nombre + " " + data.cli_apellidos);
+        $("#txtDigitoVerif").val(data.cli_num_documento.slice(-1)); // Último dígito
+        numDocumentoID.value = documentCli;
+
+        var fecha = fechaNac.split("-");
+        var nombreMes = obtenerNombreMes(fecha[1]);
+        $("#dianacimiento").append(
+          "<option value='" + fecha[2] + "' selected>" + fecha[2] + "</option>"
+        );
+        $("#mesnacimiento").append(
+          "<option value='" +
+            fecha[1] +
+            "' selected>" +
+            nombreMes[0].toUpperCase() +
+            nombreMes.slice(1) +
+            "</option>"
+        );
+        $("#anionacimiento").append(
+          "<option value='" + fecha[0] + "' selected>" + fecha[0] + "</option>"
+        );
+
+        // Asignar datos del representante legal
+        $("#tipoDocumentoIDRepresentante").val(
+          data.rep_legal.rep_tipo_documento
+        );
+        $("#numDocumentoIDRepresentante").val(data.rep_legal.rep_num_documento);
+        $("#txtNombresRepresentante").val(data.rep_legal.rep_nombre);
+        $("#txtApellidosRepresentante").val(data.rep_legal.rep_apellidos);
+        $("#generoRepresentante").val(data.rep_legal.rep_genero);
+        $("#estadoCivilRepresentante").val(data.rep_legal.rep_est_civil);
+        $("#txtCorreoRepresentante").val(data.rep_legal.rep_email);
+        $("#txtCelularRepresentante").val(data.rep_legal.rep_telefono);
+        controlFields(true);
+
+        var fecha = fechaNacRep.split("-");
+        var nombreMes = obtenerNombreMes(fecha[1]);
+        $("#dianacimientoRepresentante").append(
+          "<option value='" + fecha[2] + "' selected>" + fecha[2] + "</option>"
+        );
+        $("#mesnacimientoRepresentante").append(
+          "<option value='" +
+            fecha[1] +
+            "' selected>" +
+            nombreMes[0].toUpperCase() +
+            nombreMes.slice(1) +
+            "</option>"
+        );
+        $("#anionacimientoRepresentante").append(
+          "<option value='" + fecha[0] + "' selected>" + fecha[0] + "</option>"
+        );
+      } else if (estado) {
+        $("#idCliente").val(data.id_cliente);
+        $("#tipoDocumentoID").val(data.id_tipo_documento);
+        $("#txtNombres").val(data.cli_nombre);
+        $("#txtApellidos").val(data.cli_apellidos);
+        $("#genero").val(data.cli_genero);
+        $("#estadoCivil").val(data.id_estado_civil);
+        $("#txtCorreo").val(data.cli_email);
+        $("#txtCelular").val(data.cli_telefono);
+        // Adjuntar correo y número
+
+        var fecha = fechaNac.split("-");
+        var nombreMes = obtenerNombreMes(fecha[1]);
+        $("#dianacimiento").append(
+          "<option value='" + fecha[2] + "' selected>" + fecha[2] + "</option>"
+        );
+        $("#mesnacimiento").append(
+          "<option value='" +
+            fecha[1] +
+            "' selected>" +
+            nombreMes[0].toUpperCase() +
+            nombreMes.slice(1) +
+            "</option>"
+        );
+        $("#anionacimiento").append(
+          "<option value='" + fecha[0] + "' selected>" + fecha[0] + "</option>"
+        );
+      } else {
+        $("#idCliente").val("");
+        //$("#tipoDocumentoID").val("");
+        $("#txtNombres").val("");
+        $("#txtApellidos").val("");
+        $("#genero").val("");
+        $("#estadoCivil").val("");
+        $("#txtCorreo").val("");
+        $("#txtCelular").val("");
+
+        $("#dianacimiento").append("<option value='' selected></option>");
+        $("#mesnacimiento").append("<option value=''selected ></option>");
+        $("#anionacimiento").append("<option value='' selected></option>");
+        //console.log(data.mensaje);
+      }
+    },
+  });
+}
+
+var contErrMetEstado = 0;
+var contErrProtocolo = 0;
+
 // Permite consultar la informacion del vehiculo por medio de la Placa (Seguros del Estado)
 function consulPlacaMotos(query = "1") {
+  debugger;
   var numplaca = document.getElementById("placaVeh").value;
   if (numplaca == "WWW404") {
     document.getElementById("formularioVehiculo").style.display = "block";
@@ -542,24 +822,6 @@ function consulPlacaMotos(query = "1") {
       var mensajeSga = document.getElementById("mensajeSga");
       mensajeSga.style.display = "none"; // o cualquier otro valor como 'inline', 'flex', etc.
     }
-    // if (tipoDocumentoID == "2") {
-    //   var restriccion = "";
-    //   if (rolAsesor == 19) {
-    //     restriccion =
-    //       "Lo sentimos, no puedes realizar cotizaciones para personas jurídicas por este cotizador. Para hacerlo debes comunicarte con el Equipo de Asesores Freelance de Grupo Asistencia, quienes podrán ayudarte a cotizar de manera manual con diferentes aseguradoras.";
-    //   } else {
-    //     restriccion =
-    //       "Lo sentimos, no puedes realizar cotizaciones para personas jurídicas por este cotizador.";
-    //   }
-    //   Swal.fire({
-    //     icon: "error",
-    //     title: "Lo sentimos",
-    //     text: restriccion,
-    //   }).then(() => {
-    //     // Recargar la página después de cerrar el SweetAlert
-    //     location.reload();
-    //   });
-    // }
 
     //! Agregar esto a MOTOS y Pesados START
     let digitoVerif = $("#txtDigitoVerif").val();
@@ -576,8 +838,40 @@ function consulPlacaMotos(query = "1") {
     let celularRep = $("#txtCelularRepresentante").val();
     //! Agregar esto a MOTOS y Pesados END
 
-    //! Agregar esto a MOTOS y Pesados START
+    // console.log(
+    //   rolAsesor,
+    //   valnumplaca,
+    //   tipoDocumentoID,
+    //   numDocumentoID,
+    //   dianacimiento,
+    //   mesnacimiento,
+    //   anionacimiento,
+    //   nombresAseg,
+    //   apellidosAseg,
+    //   generoAseg,
+    //   estadoCivil,
+    //   intermediario
+    // );
+    // if (tipoDocumentoID == "2") {
+    //   var restriccion = "";
+    //   if (rolAsesor == 19) {
+    //     restriccion =
+    //       "Lo sentimos, no puedes realizar cotizaciones para personas jurídicas por este cotizador. Para hacerlo debes comunicarte con el Equipo de Asesores Freelance de Grupo Asistencia, quienes podrán ayudarte a cotizar de manera manual con diferentes aseguradoras.";
+    //   } else {
+    //     restriccion =
+    //       "Lo sentimos, no puedes realizar cotizaciones para personas jurídicas por este cotizador.";
+    //   }
+    //   Swal.fire({
+    //     icon: "error",
+    //     text: restriccion,
+    //     confirmButtonText: "Cerrar",
+    //   }).then(() => {
+    //     // Recargar la página después de cerrar el SweetAlert
+    //     location.reload();
+    //   });
+    // }
 
+    //! Agregar esto a MOTOS y Pesados START
     let typeQuery =
       query != "2"
         ? numplaca != "" &&
@@ -640,146 +934,168 @@ function consulPlacaMotos(query = "1") {
         body: raw,
         redirect: "follow",
       };
+      try {
+        // Llama la informacion del Vehiculo por medio de la Placa
+        fetch(
+          "https://grupoasistencia.com/motor_webservice/Vehiculo",
+          requestOptions
+        )
+          .then(function (response) {
+            if (!response.ok) {
+              throw Error(response.statusText);
+            }
+            try {
+              return response.json();
+            } catch (error) {
+              console.error("Error al procesar JSON:", error);
+              throw error; // Vuelve a lanzar el error para que puedas verlo en el bloque catch siguiente
+            }
+          })
+          // .then(function (myJson) {
+          //   // Procesar myJson si todo está bien
+          //   console.log("Respuesta JSON:", myJson);
+          // })
+          // .catch(function (error) {
+          //   console.error("Error en la petición fetch:", error);
+          // })
+          // return;
+          .then(function (myJson) {
+            debugger;
+            var estadoConsulta = myJson.Success;
+            var mensajeConsulta = myJson.Message;
+            //console.log(myJson);
+            //VALIDA SI LA CONSULTA FUE EXITOSA
+            if (estadoConsulta == true) {
+              var codigoClase = myJson.Data.ClassId;
+              var codigoMarca = myJson.Data.Brand;
+              var modeloVehiculo = myJson.Data.Modelo;
+              var codigoLinea = myJson.Data.BrandLine;
+              var codigoFasecolda = myJson.Data.CodigoFasecolda;
+              var valorAsegurado = myJson.Data.ValorAsegurado;
 
-      // Llama la informacion del Vehiculo por medio de la Placa
-      fetch(
-        "https://grupoasistencia.com/motor_webservice/Vehiculo",
-        requestOptions
-      )
-        .then(function (response) {
-          if (!response.ok) {
-            throw Error(response.statusText);
-          }
-          return response.json();
-        })
-        .then(function (myJson) {
-          var estadoConsulta = myJson.Success;
-          var mensajeConsulta = myJson.Message;
-          //console.log(myJson);
-          //VALIDA SI LA CONSULTA FUE EXITOSA
-          if (estadoConsulta == true) {
-            var codigoClase = myJson.Data.ClassId;
-            var codigoMarca = myJson.Data.Brand;
-            var modeloVehiculo = myJson.Data.Modelo;
-            var codigoLinea = myJson.Data.BrandLine;
-            var codigoFasecolda = myJson.Data.CodigoFasecolda;
-            var valorAsegurado = myJson.Data.ValorAsegurado;
+              if (codigoFasecolda != null) {
+                if (valorAsegurado == "null" || valorAsegurado == null) {
+                  consulPlacaMapfre(valnumplaca);
+                  // document.getElementById("formularioVehiculo").style.display =
+                  //   "block";
+                  // $("#loaderPlaca").html("");
+                  //! Agregar esto a MOTOS y Pesados START
+                  $("#loaderPlaca").html("");
+                  $("#loaderPlaca2").html("");
+                  //! Agregar esto a MOTOS y Pesados END
+                } else {
+                  var claseVehiculo = "";
+                  var limiteRCESTADO = "";
 
-            if (codigoFasecolda != null) {
-              if (valorAsegurado == "null" || valorAsegurado == null) {
-                consulPlacaMapfre(valnumplaca);
-                // document.getElementById("formularioVehiculo").style.display =
-                //   "block";
-                // $("#loaderPlaca").html("");
-                //! Agregar esto a MOTOS y Pesados START
-                $("#loaderPlaca").html("");
-                $("#loaderPlaca2").html("");
-                //! Agregar esto a MOTOS y Pesados END
-              } else {
-                var claseVehiculo = "";
-                var limiteRCESTADO = "";
-
-                if (codigoClase == 1) {
-                  claseVehiculo = "AUTOMOVILES";
-                  limiteRCESTADO = 6;
-                  var restriccion = "";
-                  if (rolAsesor == 19) {
-                    restriccion =
-                      "Lo sentimos, no puedes cotizar vehÍculos livianos por este módulo. Para hacerlo debes ingresar al modulo Cotizar Livianos.";
-                  } else {
-                    restriccion =
-                      "Lo sentimos, no puedes cotizar vehÍculos livianos por este módulo.";
+                  if (codigoClase == 1) {
+                    claseVehiculo = "AUTOMOVILES";
+                    limiteRCESTADO = 6;
+                    var restriccion = "";
+                    if (rolAsesor == 19) {
+                      restriccion =
+                        "Lo sentimos, no puedes cotizar vehÍculos livianos por este módulo. Para hacerlo debes ingresar al modulo Cotizar Livianos.";
+                    } else {
+                      restriccion =
+                        "Lo sentimos, no puedes cotizar vehÍculos livianos por este módulo.";
+                    }
+                    Swal.fire({
+                      icon: "error",
+                      text: restriccion,
+                      confirmButtonText: "Cerrar",
+                    }).then(() => {
+                      // Recargar la página después de cerrar el SweetAlert
+                      // location.reload();
+                    });
+                  } else if (codigoClase == 2) {
+                    claseVehiculo = "CAMPEROS";
+                    limiteRCESTADO = 18;
+                  } else if (codigoClase == 3) {
+                    claseVehiculo = "PICK UPS";
+                    limiteRCESTADO = 18;
+                  } else if (codigoClase == 4) {
+                    claseVehiculo = "UTILITARIOS DEPORTIVOS";
+                    limiteRCESTADO = 6;
+                  } else if (codigoClase == 12) {
+                    claseVehiculo = "MOTOCICLETA";
+                    limiteRCESTADO = 6;
+                  } else if (codigoClase == 14 || codigoClase == 21) {
+                    claseVehiculo = "PESADO";
+                    limiteRCESTADO = 18;
+                    var restriccion = "";
+                    if (rolAsesor == 19) {
+                      restriccion =
+                        "Lo sentimos, no puedes cotizar vehículos pesados por este módulo. Para hacerlo debes ingresar al modulo Cotizar Pesados.";
+                    } else {
+                      restriccion =
+                        "Lo sentimos, no puedes cotizar pesados por este módulo.";
+                    }
+                    Swal.fire({
+                      icon: "error",
+                      text: restriccion,
+                      confirmButtonText: "Cerrar",
+                    }).then(() => {
+                      // Recargar la página después de cerrar el SweetAlert
+                      // location.reload();
+                    });
+                  } else if (codigoClase == 19) {
+                    claseVehiculo = "VAN";
+                    limiteRCESTADO = 18;
+                  } else if (codigoClase == 16) {
+                    claseVehiculo = "MOTOCICLETA";
+                    limiteRCESTADO = 6;
                   }
-                  Swal.fire({
-                    icon: "error",
-                    text: restriccion,
-                    confirmButtonText: "Cerrar",
-                  }).then(() => {
-                    // Recargar la página después de cerrar el SweetAlert
-                    location.reload();
-                  });
-                } else if (codigoClase == 2) {
-                  claseVehiculo = "CAMPEROS";
-                  limiteRCESTADO = 18;
-                } else if (codigoClase == 3) {
-                  claseVehiculo = "PICK UPS";
-                  limiteRCESTADO = 18;
-                } else if (codigoClase == 4) {
-                  claseVehiculo = "UTILITARIOS DEPORTIVOS";
-                  limiteRCESTADO = 6;
-                } else if (codigoClase == 12) {
-                  claseVehiculo = "MOTOCICLETA";
-                  limiteRCESTADO = 6;
-                } else if (codigoClase == 14 || codigoClase == 21) {
-                  claseVehiculo = "PESADO";
-                  limiteRCESTADO = 18;
-                  var restriccion = "";
-                  if (rolAsesor == 19) {
-                    restriccion =
-                      "Lo sentimos, no puedes cotizar vehículos pesados por este módulo. Para hacerlo debes ingresar al modulo Cotizar Pesados.";
-                  } else {
-                    restriccion =
-                      "Lo sentimos, no puedes cotizar pesados por este módulo.";
-                  }
-                  Swal.fire({
-                    icon: "error",
-                    text: restriccion,
-                    confirmButtonText: "Cerrar",
-                  }).then(() => {
-                    // Recargar la página después de cerrar el SweetAlert
-                    location.reload();
-                  });
-                } else if (codigoClase == 19) {
-                  claseVehiculo = "VAN";
-                  limiteRCESTADO = 18;
-                } else if (codigoClase == 16) {
-                  claseVehiculo = "MOTOCICLETA";
-                  limiteRCESTADO = 6;
-                }
 
-                $("#CodigoClase").val(codigoClase);
-                $("#txtClaseVeh").val(claseVehiculo);
-                $("#LimiteRC").val(limiteRCESTADO);
-                $("#CodigoMarca").val(codigoMarca);
-                $("#txtModeloVeh").val(modeloVehiculo);
-                $("#CodigoLinea").val(codigoLinea);
-                $("#txtFasecolda").val(codigoFasecolda);
-                $("#txtValorFasecolda").val(valorAsegurado);
+                  $("#CodigoClase").val(codigoClase);
+                  $("#txtClaseVeh").val(claseVehiculo);
+                  $("#LimiteRC").val(limiteRCESTADO);
+                  $("#CodigoMarca").val(codigoMarca);
+                  $("#txtModeloVeh").val(modeloVehiculo);
+                  $("#CodigoLinea").val(codigoLinea);
+                  $("#txtFasecolda").val(codigoFasecolda);
+                  $("#txtValorFasecolda").val(valorAsegurado);
 
-                consulDatosFasecolda(codigoFasecolda, modeloVehiculo).then(
-                  function (resp) {
+                  consulDatosFasecoldaMotos(
+                    codigoFasecolda,
+                    modeloVehiculo
+                  ).then(function (resp) {
                     $("#txtMarcaVeh").val(resp.marcaVeh);
                     $("#txtReferenciaVeh").val(resp.lineaVeh);
-                  }
-                );
+                  });
+                }
               }
-            }
-          } else {
-            if (
-              mensajeConsulta == "Parámetros Inválidos. Placa es requerido." ||
-              mensajeConsulta == "Favor diligenciar correctamente la placa"
-            ) {
-              swal.fire({
-                text: "! Favor diligenciar correctamente la placa. ¡",
-              });
             } else {
+              if (
+                mensajeConsulta ==
+                  "Parámetros Inválidos. Placa es requerido." ||
+                mensajeConsulta == "Favor diligenciar correctamente la placa"
+              ) {
+                swal.fire({
+                  text: "! Favor diligenciar correctamente la placa. ¡",
+                });
+              } else {
+                consulPlacaMapfre(valnumplaca);
+              }
               consulPlacaMapfre(valnumplaca);
             }
-            consulPlacaMapfre(valnumplaca);
-          }
-        })
-        .catch(function (error) {
-          consulPlacaMapfre(valnumplaca);
-
-          contErrProtocolo++;
-          if (contErrProtocolo > 1) {
+          })
+          .catch(function (error) {
             consulPlacaMapfre(valnumplaca);
 
-            contErrProtocolo = 0;
-          } else {
-            // setTimeout(consulPlacaMapfre, 4000);
-          }
-        });
+            contErrProtocolo++;
+            if (contErrProtocolo > 1) {
+              consulPlacaMapfre(valnumplaca);
+
+              contErrProtocolo = 0;
+            } else {
+              // setTimeout(consulPlacaMapfre, 4000);
+            }
+          });
+      } catch (error) {
+        console.log(error);
+      }
+      return;
+    } else {
+      console.log("me fui por aqui");
     }
   }
 }
@@ -1055,7 +1371,7 @@ function consulValorfasecoldaMotos(codFasecolda, edadVeh) {
         $("#txtModeloVeh").val(edadVeh);
         $("#txtFasecolda").val(codFasecolda);
 
-        consulDatosFasecolda(codFasecolda, edadVeh).then(function (resp) {
+        consulDatosFasecoldaMotos(codFasecolda, edadVeh).then(function (resp) {
           var codigoClaseEstado = "";
           if (resp.claseVeh == "MOTOS") {
             codigoClaseEstado = 12;
@@ -1075,6 +1391,9 @@ function consulValorfasecoldaMotos(codFasecolda, edadVeh) {
 
 //FUNCION PARA CONSULTAR VALORES EN FASECOLDA
 function consulDatosFasecoldaMotos(codFasecolda, edadVeh) {
+  debugger;
+  console.log("entre aqui");
+
   return new Promise(function (resolve, reject) {
     $.ajax({
       type: "POST",
@@ -1107,9 +1426,6 @@ function consulDatosFasecoldaMotos(codFasecolda, edadVeh) {
           var lineaVeh = ref1Veh + " " + ref2Veh + " " + ref3Veh;
           var valorFasecVeh = data[edadVeh];
           var valorVeh = Number(valorFasecVeh) * 1000;
-          var clase = data.clase;
-
-          $("#clasepesados").val(clase);
 
           var placaVeh = $("#placaVeh").val();
           if (placaVeh == "WWW404") {
@@ -1120,8 +1436,9 @@ function consulDatosFasecoldaMotos(codFasecolda, edadVeh) {
           document.getElementById("formularioVehiculo").style.display = "none";
           document.getElementById("headerAsegurado").style.display = "block";
           document.getElementById("contenSuperiorPlaca").style.display = "none";
-          document.getElementById("contenBtnConsultarPlaca").style.display =
-            "none";
+          document.getElementById(
+            "contenBtnConsultarPlacaMotos"
+          ).style.display = "none";
           document.getElementById("resumenVehiculo").style.display = "block";
           document.getElementById("contenBtnCotizar").style.display = "block";
           $("#loaderPlaca").html("");
@@ -1903,7 +2220,7 @@ const comprobarFallida = (_aseguradora) => {
 //   });
 
 $(
-  "#dianacimientoRepresentante, #mesnacimientoRepresentante, #anionacimientoRepresentante"
+  "#dianacimiento, #mesnacimiento, #anionacimiento, #dianacimientoRepresentante, #mesnacimientoRepresentante, #anionacimientoRepresentante"
 ).select2({
   theme: "bootstrap fecnacimiento",
   language: "es",
@@ -1950,7 +2267,7 @@ function cotizarOfertasMotos() {
       // Agregar un retraso antes de recargar la página (por ejemplo, 2 segundos)
       setTimeout(() => {
         // Recargar la página después del retraso
-        location.reload();
+        //location.reload();
       }, 2000); // 2000 milisegundos = 2 segundos
     });
     // Salir del código aquí para evitar la ejecución del resto del código
@@ -1974,7 +2291,7 @@ function cotizarOfertasMotos() {
       // Agregar un retraso antes de recargar la página (por ejemplo, 2 segundos)
       setTimeout(() => {
         // Recargar la página después del retraso
-        location.reload();
+        // location.reload();
       }, 2000); // 2000 milisegundos = 2 segundos
     });
     // Salir del código aquí para evitar la ejecución del resto del código
@@ -2214,9 +2531,9 @@ function cotizarOfertasMotos() {
         },
       };
 
-       //! Agregar a Motos y Pesados START
+      //! Agregar a Motos y Pesados START
 
-       if (tipoDocumentoID == 2) {
+      if (tipoDocumentoID == 2) {
         raw.razonSocial = razonSocial;
         raw.digitoVerif = digitoVerif;
         raw.tipoDocRep = tipoDocRep;
@@ -2345,7 +2662,7 @@ function cotizarOfertasMotos() {
             generoRep: generoRep,
             estCivRep: estCivRep,
             correoRep: correoRep,
-            celRep: celRep
+            celRep: celRep,
           },
           cache: false,
           success: function (data) {
@@ -3199,3 +3516,110 @@ function cotizarOfertasMotos() {
     }
   }
 }
+
+document
+  .querySelector("#btn-consultar-fasecolda")
+  .addEventListener("click", (e) => {
+    const fasecolda = document.querySelector("#txtFasecolda_modal").value;
+    const modelo = document.querySelector("#txtModeloVeh_modal").value;
+    if (fasecolda === "" || modelo === "") {
+      return;
+    }
+    consulDatosFasecoldaMotos(fasecolda, modelo)
+      .then((data) => {
+        if (typeof data.marcaVeh === "undefined") {
+          alert("Vehículo no Encontrado");
+        } else {
+          alert("Vehículo Encontrado");
+          $("#txtClaseVeh").val(data.claseVeh);
+          $("#txtMarcaVeh").val(data.marcaVeh);
+          $("#txtReferenciaVeh").val(data.lineaVeh);
+          $("#txtValorFasecolda").val(data.valorVeh);
+          document.querySelector("#txtFasecolda").value = fasecolda;
+          document.querySelector("#txtModeloVeh").value = modelo;
+          $(".modal-body").dialog("close");
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  });
+
+// Cuando se cierra el modal
+$("#btn-cerrar-fasecolda").on(() => {
+  document.querySelector("#txtFasecolda_modal").value = "";
+  document.querySelector("#txtModeloVeh_modal").value = "";
+  $(".modal-body").dialog("close");
+});
+
+$(function () {
+  $(".modal-body").dialog({
+    autoOpen: false,
+    modal: true,
+    width: 300, // overcomes width:'auto' and maxWidth bug
+    maxWidth: 300,
+    height: "auto",
+    fluid: true, //new option
+    resizable: false,
+    title: "Busqueda Manual Fasecolda",
+    dialogClass: "no-close",
+    show: { effect: "slide", duration: 500, direction: "down" }, // Efecto de slide hacia abajo
+    hide: { effect: "slide", duration: 500, direction: "down" }, // Efecto de slide hacia abajo
+    open: function (event, ui) {
+      // Cambiar el color del título del diálogo
+      $(this).prev().find(".ui-dialog-title").css({
+        color: "white",
+        "font-weight": "lighter",
+      });
+    },
+  });
+  $(".buscarFasecolda")
+    .button()
+    .click(function () {
+      txtFasecolda_modal.value = txtFasecolda.value;
+      txtModeloVeh_modal.value = txtModeloVeh.value;
+      $(".modal-body").dialog("option", "width", 300);
+      $(".modal-body").dialog("option", "height", 270);
+      $(".modal-body").dialog("option", "resizable", false);
+      $(".modal-body").dialog("open");
+    });
+  $("#btn-cerrar-fasecolda")
+    .button()
+    .click(function () {
+      document.querySelector("#txtFasecolda_modal").value = "";
+      document.querySelector("#txtModeloVeh_modal").value = "";
+      $(".modal-body").dialog("close");
+    });
+});
+
+function fluidDialog() {
+  var $visible = $(".ui-dialog:visible");
+  // each open dialog
+  $visible.each(function () {
+    var $this = $(this);
+    var dialog = $this.find(".ui-dialog-content").data("ui-dialog");
+    // if fluid option == true
+    if (dialog.options.fluid) {
+      var wWidth = $(window).width();
+      // check window width against dialog width
+      if (wWidth < parseInt(dialog.options.maxWidth) + 50) {
+        // keep dialog from filling entire screen
+        $this.css("max-width", "90%");
+      } else {
+        // fix maxWidth bug
+        $this.css("max-width", dialog.options.maxWidth + "px");
+      }
+      //reposition dialog
+      dialog.option("position", dialog.options.position);
+    }
+  });
+}
+
+$(window).resize(function () {
+  fluidDialog();
+});
+
+// Ejecuta function Fluid Dialog cuando detecta que se abre algun dialogo con el nombre dialogopen o ui-dialog como clase
+$(document).on("dialogopen", ".ui-dialog", function (event, ui) {
+  fluidDialog();
+});
