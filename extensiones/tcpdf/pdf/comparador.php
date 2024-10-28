@@ -180,8 +180,6 @@ if ($genero == 1) {
 	$nomGenero = "No aplica";
 }
 
-
-
 $generarPDF = $_GET['generar_pdf'] ?? '';
 $ocultarAsesor = ($generarPDF == 1);
 if ($ocultarAsesor) {
@@ -2209,7 +2207,7 @@ $html4 .= '</tr>';
 //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
 $html4 .= '<tr>';
-$html4 .= '<td class="fondo puntos" style="width:10%;"><font size="8" style="font-family:dejavusanscondensedb; text-align: center;">Accidentes personales</font></td>';
+$html4 .= '<td class="fondo puntos" style="width:10%;"><div style="font-size:5pt">&nbsp;</div><font size="8" style="font-family:dejavusanscondensedb; text-align: center;">Indemnización por accidentes</font><span style="font-size: 6pt; text-align: center;"><br>(asegurado, conductor u ocupantes)</span></td>';
 
 // $query25 = "SELECT DISTINCT o.Producto, o.Aseguradora
 // FROM cotizaciones_finesa cf 
