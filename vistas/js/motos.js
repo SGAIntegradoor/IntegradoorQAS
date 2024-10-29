@@ -22,8 +22,12 @@ $(document).ready(function () {
   $("#valorTotal").numeric();
   $("#txtDigitoVerif").numeric();
 
-
-  let inputsArr = ["txtNombres","txtNombresRepresentante","txtApellidos","txtApellidosRepresentante"]
+  let inputsArr = [
+    "txtNombres",
+    "txtNombresRepresentante",
+    "txtApellidos",
+    "txtApellidosRepresentante",
+  ];
 
   // Función para filtrar caracteres especiales
   function filtrarCaracteresEspeciales(input) {
@@ -31,36 +35,35 @@ $(document).ready(function () {
     var valorFiltrado = valor.replace(/[^a-zA-ZñÑ ]/g, ""); // Permitir letras, espacios y la letra "ñ" en mayúsculas o minúsculas
     input.value = valorFiltrado;
   }
-  
+
   // MANEJO DE NOMBRES Y APELLIDOS
-  inputsArr.forEach(element => {
+  inputsArr.forEach((element) => {
     let temp = document.getElementById(element);
 
     // Agregar eventos de escucha para el evento "input" en ambos campos
     temp.addEventListener("input", function () {
       filtrarCaracteresEspeciales(temp);
     });
-    
+
     // Agregar un evento 'blur' para eliminar espacios en blanco al final y al principio
     temp.addEventListener("blur", function () {
       this.value = this.value.trim(); // Elimina espacios en blanco al principio y al final
-  
+
       // Divide la cadena en palabras
       var words = this.value.split(" ");
-  
+
       // Capitaliza la primera letra de cada palabra y convierte el resto en minúsculas
       for (var i = 0; i < words.length; i++) {
         words[i] =
           words[i].charAt(0).toUpperCase() + words[i].slice(1).toLowerCase();
       }
-  
+
       // Vuelve a unir las palabras en una sola cadena
       var formattedValue = words.join(" ");
-  
+
       // Asigna el valor formateado al campo de entrada
       this.value = formattedValue;
     });
-
   });
 
   $("#txtNombres").keyup(function () {
@@ -3114,9 +3117,10 @@ function cotizarOfertasMotos() {
               });
             });
           },
-          error: () {
-            
-          }
+          error: function (jqXHR, textStatus, errorThrown) {
+            // Mostrar el contenido completo de la respuesta del servidor
+            console.log("Respuesta del servidor (error):", jqXHR.responseText);
+          },
         });
       } else if (primerIntentoRealizado && !recotizacionIntentoRealizado) {
         //ZONA RECOTIZACIÓN//
