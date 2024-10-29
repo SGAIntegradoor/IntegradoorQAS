@@ -2234,7 +2234,7 @@ $(
 var recotizacionIntentoRealizado = false;
 
 function cotizarOfertasMotos() {
-  debugger;
+  // debugger;
   var codigoFasecolda1 = document.getElementById("txtFasecolda");
   var contenido = codigoFasecolda1.value;
 
