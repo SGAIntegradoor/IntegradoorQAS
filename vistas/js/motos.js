@@ -901,7 +901,7 @@ function consulPlacaMotos(query = "1") {
     //celularRep != "";
 
     //! Agregar esto a MOTOS y Pesados END
-
+    debugger
     if (typeQuery) {
       // Oculta los campos de consultar Vehiculo paso a paso desde la Guia Fasecolda
       document.getElementById("formularioVehiculo").style.display = "none";
