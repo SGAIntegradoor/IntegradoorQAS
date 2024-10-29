@@ -7,6 +7,7 @@ $(document).ready(function () {
 
   // Valida que el dato ingresado sea numerico
   $("#numDocumentoID").numeric();
+  $("#numDocumentoIDRepresentante").numeric();
   $("#txtFasecolda").numeric();
   $("#txtValorFasecolda").numeric();
   $("#numCotizacion").numeric();
@@ -209,6 +210,10 @@ $(document).ready(function () {
   // DOCUMENTO
 
   //Elimina espacios y caracteres especiales en el campo DOCUMENTO al copiar y pegar informacion
+  $("#numDocumentoIDRepresentante").change(function () {
+    convertirNumeroRep();
+  });
+
   $("#numDocumentoID").change(function () {
     convertirNumero();
   });
@@ -218,13 +223,26 @@ $(document).ready(function () {
     $("#numDocumentoID").on("input", function () {
       convertirNumero();
     });
+
+    $("#numDocumentoIDRepresentante").on("input", function () {
+      convertirNumeroRep();
+    });
   });
 
   function convertirNumero() {
+
+
     var numeroInput = document.getElementById("numDocumentoID").value;
     var numeroSinCaracteresEspeciales = numeroInput.replace(/[^0-9]/g, "");
     document.getElementById("numDocumentoID").value =
       numeroSinCaracteresEspeciales;
+  }
+
+  function convertirNumeroRep() {
+      let numeroInput2 = $("#numDocumentoIDRepresentante").val() 
+      let numeroSinCaracteresEspeciales2 = numeroInput2.replace(/[^0-9]/g, "");
+      document.getElementById("numDocumentoIDRepresentante").value =
+        numeroSinCaracteresEspeciales2;
   }
 
   // Convierte la Placa ingresada en Mayusculas
@@ -2228,9 +2246,10 @@ function validarProblema(aseguradora, ofertas) {
             } else {
               mensajeConcatenadoZurich += element;
             }
-          }
-          if (element.includes("Lo sentimos")) {
+          } else if (element.includes("Lo sentimos")) {
             mensajeConcatenadoZurich += " - " + element;
+          } else {
+            mensajeConcatenadoZurich += element;
           }
         });
       }
@@ -3060,6 +3079,7 @@ function cotizarOfertas() {
                         return res.json();
                       })
                       .then((ofertas) => {
+                        console.log(ofertas)
                         if (typeof ofertas.Resultado !== "undefined") {
                           agregarAseguradoraFallida(plan);
                           let mensaje = "";
@@ -3079,6 +3099,7 @@ function cotizarOfertas() {
                               }
                             });
                           }
+                          validarProblema(aseguradora, ofertas);
                           mostrarAlertarCotizacionFallida(`Zurich`, mensaje);
                         } else {
                           const contadorPorEntidad = validarOfertas(
@@ -3230,7 +3251,6 @@ function cotizarOfertas() {
                     return res.json();
                   })
                   .then((ofertas) => {
-                    console.log(ofertas);
                     if (typeof ofertas[0].Resultado !== "undefined") {
                       agregarAseguradoraFallida(aseguradora);
                       validarProblema(aseguradora, ofertas);
@@ -3901,6 +3921,7 @@ function cotizarOfertas() {
                 .then((ofertas) => {
                   if (typeof ofertas.Resultado !== "undefined") {
                     agregarAseguradoraFallida(plan);
+                    validarProblema("Zurich", ofertas);
                     let mensaje = "";
                     if (ofertas.Mensajes.length == 1) {
                       mensaje = ofertas.Mensajes[0];
@@ -3908,9 +3929,14 @@ function cotizarOfertas() {
                       ofertas.Mensajes.map((element, index) => {
                         if (element.includes("Lo sentimos")) {
                           mensaje += " - " + element;
-                        }
-                        if (element.includes("Referred")) {
+                        } else if (element.includes("Referred")) {
                           if (index == 2) {
+                            mensaje += " - " + element;
+                          } else {
+                            mensaje += element;
+                          }
+                        } else {
+                          if((index >= 1)){
                             mensaje += " - " + element;
                           } else {
                             mensaje += element;

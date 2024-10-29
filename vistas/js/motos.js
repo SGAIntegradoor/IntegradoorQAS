@@ -21,7 +21,7 @@ $(document).ready(function () {
   $("#numCotizacion").numeric();
   $("#valorTotal").numeric();
   $("#txtDigitoVerif").numeric();
-  
+
 
   let inputsArr = ["txtNombres","txtNombresRepresentante","txtApellidos","txtApellidosRepresentante"]
 
@@ -800,7 +800,6 @@ var contErrProtocolo = 0;
 
 // Permite consultar la informacion del vehiculo por medio de la Placa (Seguros del Estado)
 function consulPlacaMotos(query = "1") {
-  debugger;
   var numplaca = document.getElementById("placaVeh").value;
   if (numplaca == "WWW404") {
     document.getElementById("formularioVehiculo").style.display = "block";
@@ -960,7 +959,7 @@ function consulPlacaMotos(query = "1") {
           // })
           // return;
           .then(function (myJson) {
-            debugger;
+            // debugger;
             var estadoConsulta = myJson.Success;
             var mensajeConsulta = myJson.Message;
             //console.log(myJson);
@@ -1391,8 +1390,8 @@ function consulValorfasecoldaMotos(codFasecolda, edadVeh) {
 
 //FUNCION PARA CONSULTAR VALORES EN FASECOLDA
 function consulDatosFasecoldaMotos(codFasecolda, edadVeh) {
-  debugger;
-  console.log("entre aqui");
+  // debugger;
+  // console.log("entre aqui");
 
   return new Promise(function (resolve, reject) {
     $.ajax({
