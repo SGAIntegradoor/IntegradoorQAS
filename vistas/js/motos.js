@@ -901,7 +901,6 @@ function consulPlacaMotos(query = "1") {
     //celularRep != "";
 
     //! Agregar esto a MOTOS y Pesados END
-    debugger
     if (typeQuery) {
       // Oculta los campos de consultar Vehiculo paso a paso desde la Guia Fasecolda
       document.getElementById("formularioVehiculo").style.display = "none";
@@ -2232,6 +2231,7 @@ $(
 var recotizacionIntentoRealizado = false;
 
 function cotizarOfertasMotos() {
+  debugger;
   var codigoFasecolda1 = document.getElementById("txtFasecolda");
   var contenido = codigoFasecolda1.value;
 
@@ -2492,7 +2492,7 @@ function cotizarOfertasMotos() {
         ZonaCirculacion: DptoCirculacion,
         CodigoMarca: CodigoMarca,
         CodigoLinea: CodigoLinea,
-        CodigoClase: condicional,
+        CodigoClase: CodigoClase,
         CodigoFasecolda: fasecoldaVeh,
         Modelo: modelovehiculo,
         ValorAsegurado: valorfasecoldaVeh,
@@ -2555,7 +2555,7 @@ function cotizarOfertasMotos() {
         redirect: "follow",
       };
 
-      if (!primerIntentoRealizado && !recotizacionIntentoRealizado) {
+      if (!primerIntentoRealizado) {
         // Primer intento de cotización
         const aseguradorasCoti = Object.keys(
           aseguradoras_motos_autorizar
