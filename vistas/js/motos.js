@@ -2495,7 +2495,7 @@ function cotizarOfertasMotos() {
         ZonaCirculacion: DptoCirculacion,
         CodigoMarca: CodigoMarca,
         CodigoLinea: CodigoLinea,
-        CodigoClase: CodigoClase,
+        CodigoClase: condicional,
         CodigoFasecolda: fasecoldaVeh,
         Modelo: modelovehiculo,
         ValorAsegurado: valorfasecoldaVeh,
