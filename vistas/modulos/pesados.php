@@ -840,191 +840,333 @@ if ($_SESSION["permisos"]["Cotizarpesados"] != "x") {
 
           <!-- FORMULARIO RESUMEN ASEGURADO -->
           <form method="Post" id="formResumAseg">
-            <div id="resumenAsegurado">
-              <div class="col-lg-12" id="headerAsegurado">
-                <div class="row row-aseg">
-                  <div class="col-xs-12 col-sm-6 col-md-3">
-                    <label for="">DATOS DEL ASEGURADO</label>
-                  </div>
-                  <div class="col-xs-12 col-sm-6 col-md-3">
-                  </div>
-                  <div class="col-xs-12 col-sm-6 col-md-3">
-                  </div>
-                  <div class="col-xs-12 col-sm-6 col-md-3">
-                    <div id="masAsegurado">
-                      <p id="masA" onclick="masAseg();">Ver mas <i class="fa fa-plus-square-o"></i></p>
+              <div id="resumenAsegurado">
+                <div class="col-lg-12" id="headerAsegurado">
+                  <div class="row row-aseg">
+                    <div class="col-xs-12 col-sm-6 col-md-3">
+                      <label for="">DATOS DEL ASEGURADO</label>
                     </div>
-                    <div id="menosAsegurado">
-                      <p id="menosA" onclick="menosAseg();">Ver menos <i class="fa fa-minus-square-o"></i></p>
+                    <div class="col-xs-12 col-sm-6 col-md-3">
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-3">
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-3">
+                      <div id="masAsegurado">
+                        <p id="masA" onclick="masAseg();">Ver mas <i class="fa fa-plus-square-o"></i></p>
+                      </div>
+                      <div id="menosAsegurado">
+                        <p id="menosA" onclick="menosAseg();">Ver menos <i class="fa fa-minus-square-o"></i></p>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
 
-              <div id="DatosAsegurado">
-                <div class="col-lg-12 form-resumAseg">
-                  <div class="row">
+                <div id="DatosAsegurado">
+                  <div class="col-lg-12 form-resumAseg">
+                    <div class="row">
 
-                    <div class="col-xs-12 col-sm-6 col-md-3" id="contenSuperiorPlaca">
-                      <div class="row">
-                        <div class="col-xs-12 col-sm-6 col-md-6 form-group" id="conocesPlaca">
-                          <label>Conoces la Placa?</label>
-                          <div class="conten-conocesPlaca">
-                            <label for="Si">Si</label>
-                            <input type="radio" name="conocesPlaca" id="txtConocesLaPlacaSi" value="Si" checked>&nbsp;&nbsp;&nbsp;&nbsp;
-                            <label for="No">No</label>
-                            <input type="radio" name="conocesPlaca" id="txtConocesLaPlacaNo" value="No" required>
+                      <div class="col-xs-12 col-sm-6 col-md-3" id="contenSuperiorPlaca">
+                        <div class="row">
+                          <div class="col-xs-12 col-sm-6 col-md-6 form-group" id="conocesPlaca">
+                            <label>Conoces la Placa?</label>
+                            <div class="conten-conocesPlaca">
+                              <label for="Si">Si</label>
+                              <input type="radio" name="conocesPlaca" id="txtConocesLaPlacaSi" value="Si" checked>&nbsp;&nbsp;&nbsp;&nbsp;
+                              <label for="No">No</label>
+                              <input type="radio" name="conocesPlaca" id="txtConocesLaPlacaNo" value="No" required>
+                            </div>
+                          </div>
+                          <div class="col-xs-12 col-sm-6 col-md-6 form-group" id="contenPlaca">
+                            <label for="placaVeh">Placa</label>
+                            <input type="text" minlength="6" maxlength="6" class="form-control" id="placaVeh" required placeholder="Placa">
+                          </div>
+                          <div class="col-xs-12 col-sm-6 col-md-6 form-group" id="contenCeroKM">
+                            <label>Vehiculo 0 KM?</label>
+                            <div class="conten-ceroKM">
+                              <label for="Si">Si</label>
+                              <input type="radio" name="ceroKM" id="txtEsCeroKmSi" value="Si" required>&nbsp;&nbsp;&nbsp;&nbsp;
+                              <label for="No">No</label>
+                              <input type="radio" name="ceroKM" id="txtEsCeroKmNo" value="No" checked>
+                            </div>
                           </div>
                         </div>
-                        <div class="col-xs-12 col-sm-6 col-md-6 form-group" id="contenPlaca">
-                          <label for="placaVeh">Placa</label>
-                          <input type="text" minlength="6" maxlength="6" class="form-control" id="placaVeh" required placeholder="Placa">
+                      </div>
+
+
+                      <div class="col-xs-12 col-sm-6 col-md-3 form-group" id="tipoDocumento">
+                        <input type="hidden" class="form-control" id="intermediario" value="<?php echo $_SESSION["intermediario"]; ?>">
+                        <!-- <input type="hidden" class="form-control" id="cotRestanv" value="<? //?php echo $_SESSION["cotRestantes"]; 
+                                                                                              ?>"> -->
+                        <label for="tipoDocumentoID">Tipo de Documento</label>
+                        <select class="form-control" id="tipoDocumentoID" required>
+                          <option value="" disabled selected>Selecciona el tipo de documento</option>
+                          <option value="1">Cedula de ciudadania</option>
+                          <option value="2">NIT</option>
+                          <option value="3">Cédula de extranjería</option>
+                          <option value="4">Tarjeta de identidad</option>
+                          <option value="5">Pasaporte</option>
+                          <option value="6">Carné diplomático</option>
+                          <option value="7">Sociedad extranjera sin NIT en Colombia</option>
+                          <option value="8">Fideicomiso</option>
+                          <option value="9">Registro civil de nacimiento</option>
+                        </select>
+                        <div id="alertaTipoDocumento" class="alert alert-danger mt-2" style="display: none;">
+                          Debes seleccionar un tipo de documento.
                         </div>
-                        <div class="col-xs-12 col-sm-6 col-md-6 form-group" id="contenCeroKM">
-                          <label>Vehiculo 0 KM?</label>
-                          <div class="conten-ceroKM">
-                            <label for="Si">Si</label>
-                            <input type="radio" name="ceroKM" id="txtEsCeroKmSi" value="Si" required>&nbsp;&nbsp;&nbsp;&nbsp;
-                            <label for="No">No</label>
-                            <input type="radio" name="ceroKM" id="txtEsCeroKmNo" value="No" checked>
+                      </div>
+                      <div class="col-xs-12 col-sm-6 col-md-3 form-group" id="numDocumento">
+                        <label for="numDocumentoID">No. Documento</label>
+                        <input type="text" maxlength="10" class="form-control" id="numDocumentoID" required placeholder="Número de Documento">
+                      </div>
+
+                      <div class="col-xs-12 col-sm-6 col-md-3 form-group" id="nombreCompleto">
+                        <label for="txtNombres">Nombre Completo</label>
+                        <div id="divNombre" class="row">
+                          <div class="col-xs-12 col-sm-6 col-md-6 nomAseg">
+                            <input type="text" class="form-control" name="nombres" id="txtNombres" placeholder="Nombres">
+                          </div>
+                          <div id="divApellidos" class="col-xs-12 col-sm-6 col-md-6 form-group apeAseg">
+                            <input type="text" class="form-control" name="apellidos" id="txtApellidos" placeholder="Apellidos">
+                          </div>
+                        </div>
+                        <div id="digitoVerificacion" class="row" style="display: none">
+                          <div id="divDigitoVerif" class="col-xs-12 col-sm-6 col-md-12 nomAseg">
+                            <input type="text" class="form-control" id="txtDigitoVerif" max="1" maxlength="1" placeholder="Digito de Verificación">
                           </div>
                         </div>
                       </div>
                     </div>
 
-                    <div class="col-xs-12 col-sm-6 col-md-3 form-group">
-                      <input type="hidden" class="form-control" id="intermediario" value="<?php echo $_SESSION["intermediario"]; ?>">
-                      <!--<input type="hidden" class="form-control" id="cotRestanv" value="<//?php echo $_SESSION["cotRestantes"]; ?>">-->
-                      <label for="tipoDocumentoID">Tipo de Documento</label>
-                      <select class="form-control" id="tipoDocumentoID" required>
-                        <option value="" disabled selected>Selecciona el tipo de documento</option>
-                        <option value="1">Cedula de ciudadania</option>
-                        <option value="2">NIT</option>
-                        <option value="3">Cédula de extranjería</option>
-                        <option value="4">Tarjeta de identidad</option>
-                        <option value="5">Pasaporte</option>
-                        <option value="6">Carné diplomático</option>
-                        <option value="7">Sociedad extranjera sin NIT en Colombia</option>
-                        <option value="8">Fideicomiso</option>
-                        <option value="9">Registro civil de nacimiento</option>
-                      </select>
-                      <div id="alertaTipoDocumento" class="alert alert-danger mt-2" style="display: none;">
-                        Debes seleccionar un tipo de documento.
-                      </div>
-                    </div>
-                    <div class="col-xs-12 col-sm-6 col-md-3 form-group">
-                      <label for="numDocumentoID">No. Documento</label>
-                      <input type="text" maxlength="10" class="form-control" id="numDocumentoID" required placeholder="Número de Documento">
-                    </div>
-
-                    <div class="col-xs-12 col-sm-6 col-md-3 form-group">
-                      <label for="txtNombres">Nombre Completo</label>
-                      <div class="row">
-                        <div class="col-xs-12 col-sm-6 col-md-6 nomAseg">
-                          <input type="text" class="form-control" name="nombres" id="txtNombres" placeholder="Nombres" required>
-                        </div>
-                        <div class="col-xs-12 col-sm-6 col-md-6 apeAseg">
-                          <input type="text" class="form-control" name="apellidos" id="txtApellidos" placeholder="Apellidos" required>
+                    <div class="row">
+                      <div id="divRazonSocial" style="display: none">
+                        <div id="razonSocial" class="col-xs-12 col-sm-6 col-md-3 form-group nomAseg">
+                          <label name="lblRazonSocial">Razon Social</label>
+                          <input type="text" class="form-control" id="txtRazonSocial" placeholder="Razón Social" required>
                         </div>
                       </div>
-                    </div>
-                  </div>
-
-                  <div class="row">
-                    <div class="col-xs-12 col-sm-6 col-md-3 form-group">
-                      <label for="">Fecha de Nacimiento</label>
-                      <div class="row">
-                        <div class="col-xs-4 col-sm-4 col-md-4 conten-dia">
-                          <select class="form-control fecha-nacimiento" name="dianacimiento" id="dianacimiento" required>
-                            <option value="">Dia</option>
-                            <?php
-                            for ($i = 1; $i <= 31; $i++) {
-                              if (strlen($i) == 1) { ?>
-                                <option value="<?php echo "0" . $i ?>"><?php echo "0" . $i ?></option><?php
-                                                                                                    } else { ?>
-                                <option value="<?php echo $i ?>"><?php echo $i ?></option><?php
+                      <div class="col-xs-12 col-sm-6 col-md-3 form-group" id="fechaNacimiento">
+                        <label name="lblFechaNacimiento">Fecha de Nacimiento</label>
+                        <div id="fechaCompleta" class="row">
+                          <div class="col-xs-4 col-sm-4 col-md-4 conten-dia">
+                            <select class="form-control fecha-nacimiento" name="dianacimiento" id="dianacimiento" required>
+                              <option value="">Dia</option>
+                              <?php
+                              for ($i = 1; $i <= 31; $i++) {
+                                if (strlen($i) == 1) { ?>
+                                  <option value="<?php echo "0" . $i ?>"><?php echo "0" . $i ?></option><?php
+                                                                                                      } else { ?>
+                                  <option value="<?php echo $i ?>"><?php echo $i ?></option><?php
+                                                                                                      }
                                                                                                     }
-                                                                                                  }
+                                                                                            ?>
+                            </select>
+                          </div>
+                          <div class="col-xs-4 col-sm-4 col-md-4 conten-mes">
+                            <select class="form-control fecha-nacimiento" name="mesnacimiento" id="mesnacimiento" required>
+                              <option value="" selected>Mes</option>
+                              <option value="01">Enero</option>
+                              <option value="02">Febrero</option>
+                              <option value="03">Marzo</option>
+                              <option value="04">Abril</option>
+                              <option value="05">Mayo</option>
+                              <option value="06">Junio</option>
+                              <option value="07">Julio</option>
+                              <option value="08">Agosto</option>
+                              <option value="09">Septiembre</option>
+                              <option value="10">Octubre</option>
+                              <option value="11">Noviembre</option>
+                              <option value="12">Diciembre</option>
+                            </select>
+                          </div>
+                          <div class="col-xs-4 col-sm-4 col-md-4 conten-anio">
+                            <select class="form-control fecha-nacimiento" name="anionacimiento" id="anionacimiento" required>
+                              <option value="">Año</option>
+                              <?php
+                              for ($j = 1920; $j <= 2025; $j++) {
+                              ?>
+                                <option value="<?php echo $j ?>"><?php echo $j ?></option><?php
+                                                                                        }
                                                                                           ?>
-                          </select>
-                        </div>
-                        <div class="col-xs-4 col-sm-4 col-md-4 conten-mes">
-                          <select class="form-control fecha-nacimiento" name="mesnacimiento" id="mesnacimiento" required>
-                            <option value="">Mes</option>
-                            <option value="01">Enero</option>
-                            <option value="02">Febrero</option>
-                            <option value="03">Marzo</option>
-                            <option value="04">Abril</option>
-                            <option value="05">Mayo</option>
-                            <option value="06">Junio</option>
-                            <option value="07">Julio</option>
-                            <option value="08">Agosto</option>
-                            <option value="09">Septiembre</option>
-                            <option value="10">Octubre</option>
-                            <option value="11">Noviembre</option>
-                            <option value="12">Diciembre</option>
-                          </select>
-                        </div>
-                        <div class="col-xs-4 col-sm-4 col-md-4 conten-anio">
-                          <select class="form-control fecha-nacimiento" name="anionacimiento" id="anionacimiento" required>
-                            <option value="">Año</option>
-                            <?php
-                            for ($j = 1920; $j <= 2021; $j++) {
-                            ?><option value="<?php echo $j ?>"><?php echo $j ?></option><?php
-                                                                                      }
-                                                                                        ?>
-                          </select>
+                            </select>
+                          </div>
                         </div>
                       </div>
-                    </div>
+                      <div class="col-xs-12 col-sm-6 col-md-3 form-group" id="divGenero">
+                        <label for="genero">Genero</label>
+                        <select class="form-control" id="genero" required>
+                          <option value="" selected>Género</option>
+                          <option value="1">Masculino</option>
+                          <option value="2">Femenino</option>
+                        </select>
+                      </div>
 
-                    <div class="col-xs-12 col-sm-6 col-md-3 form-group">
-                      <label for="genero">Genero</label>
-                      <select class="form-control" id="genero" required>
-                        <option value=""></option>
-                        <option value="" selected>Género</option>
-                        <option value="1">Masculino</option>
-                        <option value="2">Femenino</option>
-                      </select>
+                      <div class="col-xs-12 col-sm-6 col-md-3 form-group" id="divEstadoCivil">
+                        <label for="estadoCivil">Estado Civil</label>
+                        <select class="form-control" id="estadoCivil" required>
+                          <option value="" selected>Estado Civil</option>
+                          <option value="1">Soltero (a)</option>
+                          <option value="2">Casado (a)</option>
+                          <option value="3">Viudo (a)</option>
+                          <option value="4">Divorciado (a)</option>
+                          <option value="5">Unión Libre</option>
+                          <option value="6">Separado (a)</option>
+                        </select>
+                      </div>
+                      <div class="col-xs-12 col-sm-6 col-md-3 form-group" id="correo">
+                        <label for="txtCorreo">Correo</label>
+                        <input type="text" class="form-control" id="txtCorreo" placeholder="Correo">
+                      </div>
                     </div>
+                    <div id="rowBoton" class="row">
+                      <div class="col-xs-12 col-sm-6 col-md-3 form-group" id="celular">
+                        <label for="txtCelular">Celular</label>
+                        <input type="text" class="form-control" id="txtCelular" placeholder="Celular">
+                      </div>
 
-                    <div class="col-xs-12 col-sm-6 col-md-3 form-group">
-                      <label for="estadoCivil">Estado Civil</label>
-                      <select class="form-control" id="estadoCivil" required>
-                        <option value=""></option>
-                        <option value="" selected>Estado Civil</option>
-                        <option value="1">Soltero (a)</option>
-                        <option value="2">Casado (a)</option>
-                        <option value="3">Viudo (a)</option>
-                        <option value="4">Divorciado (a)</option>
-                        <option value="5">Unión Libre</option>
-                        <option value="6">Separado (a)</option>
-                      </select>
-                    </div>
+                      <div class="col-xs-12 col-sm-6 col-md-3 form-group" id="contenBtnConsultarPlacaPesados">
+                        <button class="btn btn-primary btn-block" id="btnConsultarPlacaPesados">Siguiente</button>
+                      </div>
 
-                    <div class="col-xs-12 col-sm-6 col-md-3 form-group">
-                      <label for="correo">Correo</label>
-                      <input type="text" class="form-control" id="txtCorreo" placeholder="Correo">
+                      <div class="col-xs-12 col-sm-6 col-md-3 form-group">
+                        <div id="loaderPlaca"></div>
+                      </div>
                     </div>
                   </div>
 
-                  <div class="row">
-                    <div class="col-xs-12 col-sm-6 col-md-3 form-group">
-                      <label for="celular">Celular</label>
-                      <input type="text" class="form-control" id="txtCelular" placeholder="Celular">
-                    </div>
+                  <div id="datosAseguradoNIT" style="display:none">
+                    <div class="col-lg-12 form-resumAseg">
+                      <label style="font-style: underline; text-decoration: underline; padding-bottom: 15px">Datos Representante Legal</label>
+                      <div class="row">
+                        <div class="col-xs-12 col-sm-6 col-md-3 form-group" id="tipoDocumento">
+                          <input type="hidden" class="form-control" id="intermediario" value="<?php echo $_SESSION["intermediario"]; ?>">
+                          <input type="hidden" class="form-control" id="cotRestanv" value="<?php echo $_SESSION["cotRestantes"]; ?>">
+                          <label for="tipoDocumentoIDRepresentante">Tipo de Documento</label>
+                          <select class="form-control" id="tipoDocumentoIDRepresentante" name="tipoDocumentoIDRepresentante" required>
+                            <option value="" disabled selected>Selecciona el tipo de documento</option>
+                            <option value="1">Cedula de ciudadania</option>
+                            <option value="3">Cédula de extranjería</option>
+                            <option value="4">Tarjeta de identidad</option>
+                            <option value="5">Pasaporte</option>
+                            <option value="6">Carné diplomático</option>
+                            <option value="7">Sociedad extranjera sin NIT en Colombia</option>
+                            <option value="8">Fideicomiso</option>
+                            <option value="9">Registro civil de nacimiento</option>
+                          </select>
+                          <div id="alertaTipoDocumento" class="alert alert-danger mt-2" style="display: none;">
+                            Debes seleccionar un tipo de documento.
+                          </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-6 col-md-3 form-group" id="numDocumento">
+                          <label for="numDocumentoIDRepresentante">No. Documento</label>
+                          <input type="text" maxlength="10" class="form-control" id="numDocumentoIDRepresentante" name="numDocumentoIDRepresentante" required placeholder="Número de Documento">
+                        </div>
 
-                    <div class="col-xs-12 col-sm-6 col-md-3 form-group" id="contenBtnConsultarPlaca">
-                      <button class="btn btn-primary btn-block" id="btnConsultarPlacaPesados">Siguiente</button>
-                    </div>
+                        <div class="col-xs-12 col-sm-6 col-md-6 form-group" id="nombreCompleto">
+                          <label for="txtNombresRepresentante">Nombre Completo</label>
+                          <div id="divNombreRepresentante" class="row">
+                            <div class="col-xs-12 col-sm-6 col-md-6 form-group nomAseg">
+                              <input type="text" class="form-control" name="nombres" id="txtNombresRepresentante" placeholder="Nombres">
+                            </div>
+                            <div id="divApellidosRepresentante" class="col-xs-12 col-sm-6 col-md-6 form-group apeAseg">
+                              <input type="text" class="form-control" name="apellidos" id="txtApellidosRepresentante" placeholder="Apellidos">
+                            </div>
+                          </div>
+                        </div>
+                      </div>
 
-                    <div class="col-xs-12 col-sm-6 col-md-3 form-group">
-                      <div id="loaderPlaca"></div>
+                      <div class="row">
+                        <div class="col-xs-12 col-sm-6 col-md-3 form-group" id="fechaNacimiento">
+                          <label name="lblFechaNacimientoRepresentante">Fecha de Nacimiento</label>
+                          <div id="fechaCompletaRepresentante" class="row">
+                            <div class="col-xs-4 col-sm-4 col-md-4 conten-dia">
+                              <select class="form-control fecha-nacimiento" name="dianacimientoRepresentante" id="dianacimientoRepresentante">
+                                <option value="">Dia</option>
+                                <?php
+                                for ($i = 1; $i <= 31; $i++) {
+                                  if (strlen($i) == 1) { ?>
+                                    <option value="<?php echo "0" . $i ?>"><?php echo "0" . $i ?></option><?php
+                                                                                                        } else { ?>
+                                    <option value="<?php echo $i ?>"><?php echo $i ?></option><?php
+                                                                                                        }
+                                                                                                      }
+                                                                                              ?>
+                              </select>
+                            </div>
+                            <div class="col-xs-4 col-sm-4 col-md-4 conten-mes">
+                              <select class="form-control fecha-nacimiento" name="mesnacimientoRepresentante" id="mesnacimientoRepresentante">
+                                <option value="" selected>Mes</option>
+                                <option value="01">Enero</option>
+                                <option value="02">Febrero</option>
+                                <option value="03">Marzo</option>
+                                <option value="04">Abril</option>
+                                <option value="05">Mayo</option>
+                                <option value="06">Junio</option>
+                                <option value="07">Julio</option>
+                                <option value="08">Agosto</option>
+                                <option value="09">Septiembre</option>
+                                <option value="10">Octubre</option>
+                                <option value="11">Noviembre</option>
+                                <option value="12">Diciembre</option>
+                              </select>
+                            </div>
+                            <div class="col-xs-4 col-sm-4 col-md-4 conten-anio">
+                              <select class="form-control fecha-nacimiento" name="anionacimientoRepresentante" id="anionacimientoRepresentante">
+                                <option value="">Año</option>
+                                <?php
+                                for ($j = 1920; $j <= 2025; $j++) {
+                                ?>
+                                  <option value="<?php echo $j ?>"><?php echo $j ?></option><?php
+                                                                                          }
+                                                                                            ?>
+                              </select>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-6 col-md-3 form-group" id="genero">
+                          <label for="generoRepresentante">Genero</label>
+                          <select class="form-control" name="generoRepresentante" id="generoRepresentante" required>
+                            <option value="" selected>Género</option>
+                            <option value="1">Masculino</option>
+                            <option value="2">Femenino</option>
+                          </select>
+                        </div>
+
+                        <div class="col-xs-12 col-sm-6 col-md-3 form-group" id="estadoCivil">
+                          <label for="estadoCivilRepresentante">Estado Civil</label>
+                          <select class="form-control" id="estadoCivilRepresentante" name="" required>
+                            <option value="" selected>Estado Civil</option>
+                            <option value="1">Soltero (a)</option>
+                            <option value="2">Casado (a)</option>
+                            <option value="3">Viudo (a)</option>
+                            <option value="4">Divorciado (a)</option>
+                            <option value="5">Unión Libre</option>
+                            <option value="6">Separado (a)</option>
+                          </select>
+                        </div>
+                        <div class="col-xs-12 col-sm-6 col-md-3 form-group" id="correo">
+                          <label for="txtCorreoRepresentante">Correo</label>
+                          <input class="form-control" type="text" id="txtCorreoRepresentante" name="" placeholder="Correo">
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-xs-12 col-sm-6 col-md-3 form-group" id="celular">
+                          <label for="txtCelularRepresentante">Celular</label>
+                          <input class="form-control" type="text" id="txtCelularRepresentante" name="" placeholder="Celular">
+                        </div>
+
+                        <div class="col-xs-12 col-sm-6 col-md-3 form-group" id="contenBtnConsultarPlacaPesados2">
+                          <button class="btn btn-primary btn-block" id="btnConsultarPlacaPesados2">Siguiente</button>
+                        </div>
+
+                        <div class="col-xs-12 col-sm-6 col-md-3 form-group">
+                          <div id="loaderPlaca2"></div>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
+          </div>
           </form>
 
           <!-- FORMULARIO VEHICULO MANUAL -->

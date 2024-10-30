@@ -16,7 +16,7 @@ $identificador = $_GET['cotizacion'];
 $server = "localhost";
 $user = "grupoasi_cotizautos";
 $password = "M1graci0n123"; //poner tu propia contraseña, si tienes una.
-$bd = "grupoasi_cotizautos";
+$bd = "grupoasi_cotizautos_qas";
 
 $conexion = mysqli_connect($server, $user, $password, $bd);
 if (!$conexion) {
@@ -134,6 +134,8 @@ if ($genero == 1) {
 	$nomGenero = "Masculino";
 } else if ($genero == 2) {
 	$nomGenero = "Femenino";
+} else {
+	$nomGenero = "No aplica";
 }
 
 $generarPDF = $_GET['generar_pdf'] ?? '';

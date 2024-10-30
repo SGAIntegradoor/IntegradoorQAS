@@ -984,7 +984,7 @@ echo '<script>console.log(' . $idIntermediario . ", " . $rolAsesor . ')</script>
                       </div>
                       <div id="digitoVerificacion" class="row" style="display: none">
                         <div id="divDigitoVerif" class="col-xs-12 col-sm-6 col-md-12 nomAseg">
-                          <input type="text" class="form-control" id="txtDigitoVerif" placeholder="Digito de Verificación" max="1" maxlength="1">
+                          <input type="text" class="form-control" id="txtDigitoVerif" placeholder="Dígito de Verificación" max="1" maxlength="1">
                         </div>
                       </div>
                     </div>
@@ -993,7 +993,7 @@ echo '<script>console.log(' . $idIntermediario . ", " . $rolAsesor . ')</script>
                   <div class="row">
                     <div id="divRazonSocial" style="display: none">
                       <div id="razonSocial" class="col-xs-12 col-sm-6 col-md-3 form-group nomAseg">
-                        <label name="lblRazonSocial">Razon Social</label>
+                        <label name="lblRazonSocial">Razón Social</label>
                         <input type="text" class="form-control" id="txtRazonSocial" placeholder="Razón Social" required>
                       </div>
                     </div>

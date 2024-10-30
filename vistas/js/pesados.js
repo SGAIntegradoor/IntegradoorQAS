@@ -1,11 +1,4 @@
 $(document).ready(function () {
-  //   validarNumCotizaciones();
-
-  //inicio
-  // Mostrar alertas
-
-  // Valida que el dato ingresado sea numerico
-
   const parrillaCotizaciones = document.getElementById("parrillaCotizaciones");
   parrillaCotizaciones.style.display = "none";
 
@@ -14,45 +7,93 @@ $(document).ready(function () {
   $("#txtValorFasecolda").numeric();
   $("#numCotizacion").numeric();
   $("#valorTotal").numeric();
+  $("#txtDigitoVerif").numeric();
 
-  $("#txtValorFasecolda").on("input", function () {
-    this.value = this.value.replace(/\./g, "");
-  });
+  let inputsArr = [
+    "txtNombres",
+    "txtNombresRepresentante",
+    "txtApellidos",
+    "txtApellidosRepresentante",
+  ];
 
-  // Previene el ingreso de puntos desde el teclado
-  $("#txtValorFasecolda").on("keydown", function (event) {
-    if (event.which === 190 || event.which === 110) {
-      event.preventDefault();
-    }
-  });
-
-  tokenPrevisora();
-
-  //FUNCION PARA LEVANTAR EL TOKEN DE PREVISORA APENAS INICIE LA PAGINA
-  function tokenPrevisora() {
-    var myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/json");
-
-    var raw = JSON.stringify({});
-
-    var requestOptions = {
-      method: "POST",
-      headers: myHeaders,
-      body: raw,
-      redirect: "follow",
-    };
-
-    fetch(
-      "https://grupoasistencia.com/motor_webservice/codigoTokenPrevisora",
-      requestOptions
-    )
-      .then(function (response) {
-        return response.json();
-      })
-      .then(function (myJson) {
-        $("#previsoraToken").val(myJson.TokenPrevisora);
-      });
+  // Función para filtrar caracteres especiales
+  function filtrarCaracteresEspeciales(input) {
+    var valor = input.value;
+    var valorFiltrado = valor.replace(/[^a-zA-ZñÑ ]/g, ""); // Permitir letras, espacios y la letra "ñ" en mayúsculas o minúsculas
+    input.value = valorFiltrado;
   }
+
+  // MANEJO DE NOMBRES Y APELLIDOS
+  inputsArr.forEach((element) => {
+    let temp = document.getElementById(element);
+
+    // Agregar eventos de escucha para el evento "input" en ambos campos
+    temp.addEventListener("input", function () {
+      filtrarCaracteresEspeciales(temp);
+    });
+
+    // Agregar un evento 'blur' para eliminar espacios en blanco al final y al principio
+    temp.addEventListener("blur", function () {
+      this.value = this.value.trim(); // Elimina espacios en blanco al principio y al final
+
+      // Divide la cadena en palabras
+      var words = this.value.split(" ");
+
+      // Capitaliza la primera letra de cada palabra y convierte el resto en minúsculas
+      for (var i = 0; i < words.length; i++) {
+        words[i] =
+          words[i].charAt(0).toUpperCase() + words[i].slice(1).toLowerCase();
+      }
+
+      // Vuelve a unir las palabras en una sola cadena
+      var formattedValue = words.join(" ");
+
+      // Asigna el valor formateado al campo de entrada
+      this.value = formattedValue;
+    });
+  });
+
+  $("#txtNombres").keyup(function () {
+    var cliNombres = document.getElementById("txtNombres").value.toLowerCase();
+    $("#txtNombres").val(
+      cliNombres.replace(/^(.)|\s(.)/g, function ($1) {
+        return $1.toUpperCase();
+      })
+    );
+  });
+
+  $("#txtApellidos").keyup(function () {
+    var cliApellido = document
+      .getElementById("txtApellidos")
+      .value.toLowerCase();
+    $("#txtApellidos").val(
+      cliApellido.replace(/^(.)|\s(.)/g, function ($1) {
+        return $1.toUpperCase();
+      })
+    );
+  });
+
+  const parseNumbersToString = (selector) => {
+    $(selector).on("input", function () {
+      this.value = this.value.replace(/\./g, "");
+    });
+
+    // Previene el ingreso de puntos desde el teclado
+    $(selector).on("keydown", function (event) {
+      if (event.which === 190 || event.which === 110) {
+        event.preventDefault();
+      }
+    });
+  };
+
+  parseNumbersToString("#txtValorFasecolda");
+
+  $("#formResumAseg, #formVehManual, #formResumVeh, #agregarOferta").on(
+    "submit",
+    function (e) {
+      e.preventDefault(); // Evita que la pagina se recargue
+    }
+  );
 
   // Elimina los espacios de la placa
   $("#placaVeh").keyup(function () {
@@ -123,6 +164,10 @@ $(document).ready(function () {
 
   // DOCUMENTO
 
+  $("#numDocumentoIDRepresentante").change(function () {
+    convertirNumeroRep();
+  });
+
   //Elimina espacios y caracteres especiales en el campo DOCUMENTO al copiar y pegar informacion
   $("#numDocumentoID").change(function () {
     convertirNumero();
@@ -133,6 +178,10 @@ $(document).ready(function () {
     $("#numDocumentoID").on("input", function () {
       convertirNumero();
     });
+
+    $("#numDocumentoIDRepresentante").on("input", function () {
+      convertirNumeroRep();
+    });
   });
 
   function convertirNumero() {
@@ -142,14 +191,12 @@ $(document).ready(function () {
       numeroSinCaracteresEspeciales;
   }
 
-  // Consulta informacion del usuario en la bdd
-  $("#numDocumentoID").change(function () {
-    consultarAsegurado();
-  });
-
-  // Obtener los campos de entrada por su ID
-  var nombreInput = document.getElementById("txtNombres");
-  var apellidoInput = document.getElementById("txtApellidos");
+  function convertirNumeroRep() {
+    let numeroInput2 = $("#numDocumentoIDRepresentante").val();
+    let numeroSinCaracteresEspeciales2 = numeroInput2.replace(/[^0-9]/g, "");
+    document.getElementById("numDocumentoIDRepresentante").value =
+      numeroSinCaracteresEspeciales2;
+  }
 
   // Función para filtrar caracteres especiales
   function filtrarCaracteresEspeciales(input) {
@@ -158,79 +205,10 @@ $(document).ready(function () {
     input.value = valorFiltrado;
   }
 
-  // MANEJO DE NOMBRES Y APELLIDOS
-
-  // Agregar eventos de escucha para el evento "input" en ambos campos
-  nombreInput.addEventListener("input", function () {
-    filtrarCaracteresEspeciales(nombreInput);
-  });
-
-  apellidoInput.addEventListener("input", function () {
-    filtrarCaracteresEspeciales(apellidoInput);
-  });
-
-  // Agregar un evento 'blur' para eliminar espacios en blanco al final y al principio
-  nombreInput.addEventListener("blur", function () {
-    this.value = this.value.trim(); // Elimina espacios en blanco al principio y al final
-
-    // Divide la cadena en palabras
-    var words = this.value.split(" ");
-
-    // Capitaliza la primera letra de cada palabra y convierte el resto en minúsculas
-    for (var i = 0; i < words.length; i++) {
-      words[i] =
-        words[i].charAt(0).toUpperCase() + words[i].slice(1).toLowerCase();
-    }
-
-    // Vuelve a unir las palabras en una sola cadena
-    var formattedValue = words.join(" ");
-
-    // Asigna el valor formateado al campo de entrada
-    this.value = formattedValue;
-  });
-
-  apellidoInput.addEventListener("blur", function () {
-    this.value = this.value.trim(); // Elimina espacios en blanco al principio y al final
-
-    // Divide la cadena en palabras
-    var words = this.value.split(" ");
-
-    // Capitaliza la primera letra de cada palabra y convierte el resto en minúsculas
-    for (var i = 0; i < words.length; i++) {
-      words[i] =
-        words[i].charAt(0).toUpperCase() + words[i].slice(1).toLowerCase();
-    }
-
-    // Vuelve a unir las palabras en una sola cadena
-    var formattedValue = words.join(" ");
-
-    // Asigna el valor formateado al campo de entrada
-    this.value = formattedValue;
-  });
-
-  // Conviete la letras iniciales del Nombre y el Apellido deL Cliente en Mayusculas
-  $("#txtNombres").keyup(function () {
-    var cliNombres = document.getElementById("txtNombres").value.toLowerCase();
-    $("#txtNombres").val(
-      cliNombres.replace(/^(.)|\s(.)/g, function ($1) {
-        return $1.toUpperCase();
-      })
-    );
-  });
-
-  $("#txtApellidos").keyup(function () {
-    var cliApellido = document
-      .getElementById("txtApellidos")
-      .value.toLowerCase();
-    $("#txtApellidos").val(
-      cliApellido.replace(/^(.)|\s(.)/g, function ($1) {
-        return $1.toUpperCase();
-      })
-    );
-  });
-
   // Carga la fecha de Nacimiento
-  $("#dianacimiento, #mesnacimiento, #anionacimiento").select2({
+  $(
+    "#dianacimiento, #mesnacimiento, #anionacimiento, #dianacimientoRepresentante, #mesnacimientoRepresentante, #anionacimientoRepresentante"
+  ).select2({
     theme: "bootstrap fecnacimiento",
     language: "es",
     width: "100%",
@@ -271,13 +249,9 @@ $(document).ready(function () {
     document.getElementById("benefOneroso").value = "";
   });
 
-  // Obtiene los datos de cada campo del formulario y Valida que no esten Vacios
-  $("#formResumAseg, #formVehManual, #formResumVeh, #agregarOferta").on(
-    "submit",
-    function (e) {
-      e.preventDefault(); // Evita que la pagina se recargue
-    }
-  );
+  $("#btnConsultarPlacaPesados2").click(function () {
+    consulPlacaPesados(2);
+  });
 
   // Ejectura la funcion Consultar Placa Vehiculo pesado
   $("#btnConsultarPlacaPesados").click(function () {
@@ -446,17 +420,7 @@ $(document).ready(function () {
           popup: "custom-swal-popupCotExcep",
         },
       })
-      .then(function (result) {
-        // if (result.isConfirmed) {
-        //   window.location = "inicio";
-        // } else if (result.isDismissed) {
-        //   if (result.dismiss === "cancel") {
-        //     window.location = "inicio";
-        //   } else if (result.dismiss === "backdrop") {
-        //     window.location = "inicio";
-        //   }
-        // }
-      });
+      .then(function (result) {});
   }
 
   function mostrarPoliticaValorAseguradoPesados() {
@@ -520,6 +484,131 @@ $(document).ready(function () {
   }
 });
 
+const requiredFieldsNotNit = (val) => {
+  if (val) {
+    const arrIDs = ["txtNombres", "txtApellidos", "genero", "estadoCivil"];
+
+    arrIDs.map((id) => {
+      document.getElementById(id).removeAttribute("required");
+      // document.getElementById(id).classList.remove("form-control");
+    });
+  } else {
+    const arrIDs = ["txtNombres", "txtApellidos", "genero", "estadoCivil"];
+
+    arrIDs.map((id) => {
+      document.getElementById(id).setAttribute("required", true);
+      //document.getElementById(id).classList.add("form-control");
+    });
+  }
+};
+
+const requiredFields = (val) => {
+  if (val) {
+    const arrIDs = [
+      "txtNombresRepresentante",
+      "txtApellidosRepresentante",
+      "dianacimientoRepresentante",
+      "mesnacimientoRepresentante",
+      "anionacimientoRepresentante",
+    ];
+
+    arrIDs.map((id) => {
+      document.getElementById(id).setAttribute("required", true);
+    });
+  } else {
+    const arrIDs = [
+      "txtNombresRepresentante",
+      "txtApellidosRepresentante",
+      "dianacimientoRepresentante",
+      "mesnacimientoRepresentante",
+      "anionacimientoRepresentante",
+    ];
+
+    arrIDs.map((id) => {
+      document.getElementById(id).removeAttribute("required");
+    });
+  }
+};
+
+const controlFields = (val) => {
+  if (val) {
+    // Fila Placa, nombres, id, doc
+    $('label[for="txtNombres"]').text("Digito de Verificacion");
+    $("#divNombre").css("display", "none");
+    $("#digitoVerificacion").css("display", "block");
+
+    // Fila Fecha, Razon Social (Para Nit), Genero, Estado Civil, Celular (Todas menos NIT)
+    $('label[name="lblFechaNacimiento"]').html(
+      'Fecha Constitucion Empresa <span style="font-weight: normal;">(Opcional. Se requiere para Zurich y Allianz)</span>'
+    );
+    $('label[name="lblFechaNacimiento"]').css("max-width", "447px");
+    $('label[name="lblFechaNacimiento"]').css("width", "447px");
+
+    $("#divRazonSocial").css("display", "block");
+
+    $('label[for="genero"]').css("display", "none");
+    $("#genero").css("display", "none");
+
+    $('label[for="estadoCivil"]').css("display", "none");
+    $("#estadoCivil").css("display", "none");
+
+    $('label[for="txtCorreo"]').css("display", "none");
+    $("#txtCorreo").css("display", "none");
+
+    $('label[for="celular"]').css("display", "none");
+    $("#txtCelular").css("display", "none");
+
+    $("#rowBoton").css("display", "none");
+
+    // CAMPOS REPRESENTANTE LEGAL
+    $("#datosAseguradoNIT").css("display", "block");
+
+    requiredFields(val);
+    requiredFieldsNotNit(val);
+  } else {
+    $('label[for="txtNombres"]').text("Nombre Completo");
+    $("#divNombre").css("display", "block");
+    $("#digitoVerificacion").css("display", "none");
+
+    // Fila Fecha, Razon Social (Para Nit), Genero, Estado Civil, Celular (Todas menos NIT)
+    $('label[name="lblFechaNacimiento"]').html("Fecha de Nacimiento");
+    $('label[name="lblFechaNacimiento"]').css("max-width", "");
+    $('label[name="lblFechaNacimiento"]').css("width", "");
+
+    $("#divRazonSocial").css("display", "none");
+
+    $('label[for="genero"]').css("display", "block");
+    $("#genero").css("display", "block");
+
+    $('label[for="estadoCivil"]').css("display", "block");
+    $("#estadoCivil").css("display", "block");
+
+    $('label[for="txtCorreo"]').css("display", "block");
+    $("#txtCorreo").css("display", "block");
+
+    $('label[for="celular"]').css("display", "block");
+    $("#txtCelular").css("display", "block");
+
+    // CAMPOS REPRESENTANTE LEGAL
+    $("#datosAseguradoNIT").css("display", "none");
+
+    $("#rowBoton").css("display", "block");
+
+    requiredFields(val);
+    requiredFieldsNotNit(val);
+  }
+};
+
+$("#tipoDocumentoID").on("change", function () {
+  let doctype = $("#tipoDocumentoID").val();
+  // console.log(doctype)
+  if (doctype == 2) {
+    controlFields(true);
+  } else {
+    controlFields(false);
+  }
+});
+
 //FUNCIONES EN COMUN MODULOS DE COTIZACIÓN
 
 // Maximiza el formulario Datos Asegurado
@@ -562,20 +651,82 @@ function menosAgr() {
 }
 
 // Permite consultar los datos del Asegurado si existe en el sistema
+$("#numDocumentoID").change(function () {
+  consultarAsegurado();
+});
+
 function consultarAsegurado() {
   var tipoDocumentoID = document.getElementById("tipoDocumentoID").value;
-  var numDocumentoID = document.getElementById("numDocumentoID").value;
+  var numDocumentoID = document.getElementById("numDocumentoID");
 
   $.ajax({
     type: "POST",
     url: "src/consultarAsegurado.php",
     dataType: "json",
-    data: { tipoDocumento: tipoDocumentoID, numDocumento: numDocumentoID },
+    data: {
+      tipoDocumento: tipoDocumentoID,
+      numDocumento: numDocumentoID.value,
+    },
     success: function (data) {
       var estado = data.estado;
       var fechaNac = data.cli_fch_nacimiento;
+      let documentCli = data.cli_num_documento.slice(0, -1);
 
-      if (estado) {
+      if (estado && data.id_tipo_documento == 2) {
+        let fechaNacRep = data.rep_legal.rep_fch_nacimiento;
+        $("#idCliente").val(data.id_cliente);
+        $("#tipoDocumentoID").val(data.id_tipo_documento);
+        $("#txtRazonSocial").val(data.cli_nombre + " " + data.cli_apellidos);
+        $("#txtDigitoVerif").val(data.cli_num_documento.slice(-1)); // Último dígito
+        numDocumentoID.value = documentCli;
+
+        var fecha = fechaNac.split("-");
+        var nombreMes = obtenerNombreMes(fecha[1]);
+        $("#dianacimiento").append(
+          "<option value='" + fecha[2] + "' selected>" + fecha[2] + "</option>"
+        );
+        $("#mesnacimiento").append(
+          "<option value='" +
+            fecha[1] +
+            "' selected>" +
+            nombreMes[0].toUpperCase() +
+            nombreMes.slice(1) +
+            "</option>"
+        );
+        $("#anionacimiento").append(
+          "<option value='" + fecha[0] + "' selected>" + fecha[0] + "</option>"
+        );
+
+        // Asignar datos del representante legal
+        $("#tipoDocumentoIDRepresentante").val(
+          data.rep_legal.rep_tipo_documento
+        );
+        $("#numDocumentoIDRepresentante").val(data.rep_legal.rep_num_documento);
+        $("#txtNombresRepresentante").val(data.rep_legal.rep_nombre);
+        $("#txtApellidosRepresentante").val(data.rep_legal.rep_apellidos);
+        $("#generoRepresentante").val(data.rep_legal.rep_genero);
+        $("#estadoCivilRepresentante").val(data.rep_legal.rep_est_civil);
+        $("#txtCorreoRepresentante").val(data.rep_legal.rep_email);
+        $("#txtCelularRepresentante").val(data.rep_legal.rep_telefono);
+        controlFields(true);
+
+        var fecha = fechaNacRep.split("-");
+        var nombreMes = obtenerNombreMes(fecha[1]);
+        $("#dianacimientoRepresentante").append(
+          "<option value='" + fecha[2] + "' selected>" + fecha[2] + "</option>"
+        );
+        $("#mesnacimientoRepresentante").append(
+          "<option value='" +
+            fecha[1] +
+            "' selected>" +
+            nombreMes[0].toUpperCase() +
+            nombreMes.slice(1) +
+            "</option>"
+        );
+        $("#anionacimientoRepresentante").append(
+          "<option value='" + fecha[0] + "' selected>" + fecha[0] + "</option>"
+        );
+      } else if (estado) {
         $("#idCliente").val(data.id_cliente);
         $("#tipoDocumentoID").val(data.id_tipo_documento);
         $("#txtNombres").val(data.cli_nombre);
@@ -615,7 +766,7 @@ function consultarAsegurado() {
         $("#dianacimiento").append("<option value='' selected></option>");
         $("#mesnacimiento").append("<option value=''selected ></option>");
         $("#anionacimiento").append("<option value='' selected></option>");
-        console.log(data.mensaje);
+        //console.log(data.mensaje);
       }
     },
   });
@@ -634,7 +785,7 @@ var contErrMetEstado = 0;
 var contErrProtocolo = 0;
 
 // Permite consultar la informacion del vehiculo por medio de la Placa (Seguros del Estado)
-function consulPlacaPesados() {
+function consulPlacaPesados(query = "1") {
   var rolAsesor = document.getElementById("rolAsesorPesados").value;
   var numplaca = document.getElementById("placaVeh").value;
   var valnumplaca = numplaca.toUpperCase(); // Convierte la Placa en Mayusculas
@@ -647,41 +798,68 @@ function consulPlacaPesados() {
   var apellidosAseg = document.getElementById("txtApellidos").value;
   var generoAseg = document.getElementById("genero").value;
   var estadoCivil = document.getElementById("estadoCivil").value;
-  if (tipoDocumentoID == "2") {
-    var restriccion = "";
-    if (rolAsesor == 19) {
-      restriccion =
-        "Lo sentimos, no puedes realizar cotizaciones para personas jurídicas por este cotizador. Para hacerlo debes comunicarte con el Equipo de Asesores Freelance de Grupo Asistencia, quienes podrán ayudarte a cotizar de manera manual con diferentes aseguradoras.";
-    } else {
-      restriccion =
-        "Lo sentimos, no puedes realizar cotizaciones para personas jurídicas por este cotizador.";
-    }
-    Swal.fire({
-      icon: "error",
-      title: "Lo sentimos",
-      text: restriccion,
-    }).then(() => {
-      // Recargar la página después de cerrar el SweetAlert
-      location.reload();
-    });
-  }
-  if (
-    numplaca != "" &&
-    tipoDocumentoID != "" &&
-    numDocumentoID != "" &&
-    dianacimiento != "" &&
-    mesnacimiento != "" &&
-    anionacimiento != "" &&
-    nombresAseg != "" &&
-    apellidosAseg != "" &&
-    generoAseg != "" &&
-    estadoCivil != ""
-  ) {
+
+  //! Agregar esto a MOTOS y Pesados START
+  let digitoVerif = $("#txtDigitoVerif").val();
+  let razonSocial = $("#txtRazonSocial").val();
+  let numDocRep = $("#numDocumentoIDRepresentante").val();
+  let nomRep = $("#txtNombresRepresentante").val();
+  let apellidoRep = $("#txtApellidosRepresentante").val();
+  let generoRep = $("#generoRepresentante").val();
+  let estadoCivilRep = $("#estadoCivilRepresentante").val();
+  let correoRep = $("#txtCorreoRepresentante").val();
+  let anioRep = $("#anionacimientoRepresentante").val();
+  let diaRep = $("#dianacimientoRepresentante").val();
+  let mesRep = $("#mesnacimientoRepresentante").val();
+  let celularRep = $("#txtCelularRepresentante").val();
+  //! Agregar esto a MOTOS y Pesados END
+
+  //! Agregar esto a MOTOS y Pesados START
+  let typeQuery =
+    query != "2"
+      ? numplaca != "" &&
+        tipoDocumentoID != "" &&
+        numDocumentoID != "" &&
+        dianacimiento != "" &&
+        mesnacimiento != "" &&
+        anionacimiento != "" &&
+        nombresAseg != "" &&
+        apellidosAseg != "" &&
+        generoAseg != "" &&
+        estadoCivil != ""
+      : numplaca != "" &&
+        digitoVerif != "" &&
+        razonSocial != "" &&
+        anioRep != "" &&
+        diaRep != "" &&
+        mesRep != "" &&
+        dianacimiento != "" &&
+        mesnacimiento != "" &&
+        anionacimiento != "" &&
+        numDocRep != "" &&
+        nomRep != "" &&
+        apellidoRep != "" &&
+        generoRep != "" &&
+        estadoCivilRep != "";
+  //correoRep != "" &&
+  //celularRep != "";
+
+  //! Agregar esto a MOTOS y Pesados END
+
+  if (typeQuery) {
     // Oculta los campos de consultar Vehiculo paso a paso desde la Guia Fasecolda
     document.getElementById("formularioVehiculo").style.display = "none";
     $("#loaderPlaca").html(
       '<img src="vistas/img/plantilla/loader-loading.gif" width="34" height="34"><strong> Consultando Placa...</strong>'
     );
+
+    //! Agregar esto a MOTOS y Pesados START
+
+    $("#loaderPlaca2").html(
+      '<img src="vistas/img/plantilla/loader-loading.gif" width="34" height="34"><strong> Consultando Placa...</strong>'
+    );
+
+    //! Agregar esto a MOTOS y Pesados END
 
     //INICIO DE CABECERA PARA INGRESAR INFORMACION DEL METODO
     var myHeaders = new Headers();
@@ -726,7 +904,10 @@ function consulPlacaPesados() {
             if (valorAsegurado == "null" || valorAsegurado == null) {
               document.getElementById("formularioVehiculo").style.display =
                 "block";
+              //! Agregar esto a MOTOS y Pesados START
               $("#loaderPlaca").html("");
+              $("#loaderPlaca2").html("");
+              //! Agregar esto a MOTOS y Pesados END
             } else {
               var claseVehiculo = "";
               var limiteRCESTADO = "";
@@ -1096,15 +1277,10 @@ function consulDatosFasecolda(codFasecolda, edadVeh) {
             confirmButtonText: "Cerrar",
           });
           $("#loaderPlaca").html("");
-          // .then((result) => {
-          //   if (result.isConfirmed) {
-          //     window.location.href = "cotizar";
-          //   } else if (result.isDismissed) {
-          //     window.location.href = "cotizar";
-          //   }
-          // });console.log(data);
+          //! Agregar esto a MOTOS y Pesados START
+          $("#loaderPlaca2").html("");
+          //! Agregar esto a MOTOS y Pesados END
         } else {
-          // console.log(data);
           var claseVeh = data.clase;
           var marcaVeh = data.marca;
           var ref1Veh = data.referencia1;
@@ -1126,11 +1302,14 @@ function consulDatosFasecolda(codFasecolda, edadVeh) {
           document.getElementById("formularioVehiculo").style.display = "none";
           document.getElementById("headerAsegurado").style.display = "block";
           document.getElementById("contenSuperiorPlaca").style.display = "none";
-          document.getElementById("contenBtnConsultarPlaca").style.display =
+          document.getElementById("contenBtnConsultarPlacaPesados").style.display =
             "none";
           document.getElementById("resumenVehiculo").style.display = "block";
           document.getElementById("contenBtnCotizar").style.display = "block";
           $("#loaderPlaca").html("");
+          //! Agregar esto a MOTOS y Pesados START
+          $("#loaderPlaca2").html("");
+          //! Agregar esto a MOTOS y Pesados END
           menosAseg();
 
           resolve({
@@ -1256,7 +1435,7 @@ const mostrarOfertaPesados = (
 ) => {
   var id_intermediario = document.getElementById("idIntermediario").value;
 
-  console.log(aseguradora," ", producto);
+  console.log(aseguradora, " ", producto);
 
   //FUNCION QUE ACOMODA RCE EN PARRILLA CUANDO LLEGA MUNDIAL
   if (aseguradora == "Mundial" && producto == "Pesados con RCE en exceso") {
@@ -1268,7 +1447,10 @@ const mostrarOfertaPesados = (
 
     // Volver a formatear con puntos
     var RC = RC.toLocaleString();
-  } else if ((aseguradora == "HDI Seguros" && producto == "Convenio Pesados") || (aseguradora == "HDI Seguros" &&  producto == "Convenio Linea F Chevrolet")) {
+  } else if (
+    (aseguradora == "HDI Seguros" && producto == "Convenio Pesados") ||
+    (aseguradora == "HDI Seguros" && producto == "Convenio Linea F Chevrolet")
+  ) {
     // Eliminar los puntos y convertir a número
     RC = parseFloat(RC.replace(/\./g, ""));
 
@@ -1359,11 +1541,11 @@ const mostrarOfertaPesados = (
     cotizacionesFinesa.push(cotOferta);
   }
   const aseguradorasViajes = [
-    "Mundial", 
-    "HDI Seguros", 
-    "HDI (Antes Liberty)", 
-    "Axa Colpatria", 
-    "Previsora Seguros"
+    "Mundial",
+    "HDI Seguros",
+    "HDI (Antes Liberty)",
+    "Axa Colpatria",
+    "Previsora Seguros",
   ];
 
   let cardCotizacion = `
@@ -1448,7 +1630,11 @@ const mostrarOfertaPesados = (
                       </li>
                       <li class="list-group-item">
                         <span class="badge">* ${GR}</span>
-                        ${aseguradorasViajes.includes(aseguradora) ? "Asistencia en Viajes" :"Servicio de"} 
+                        ${
+                          aseguradorasViajes.includes(aseguradora)
+                            ? "Asistencia en Viajes"
+                            : "Servicio de"
+                        } 
                       </li>
                     </ul>
                   </div>
@@ -1714,8 +1900,8 @@ function cotizarFinesa(ofertasCotizaciones) {
     if (element.cotizada == null || element.cotizada == false) {
       promisesFinesa.push(
         fetch(
-         // "https://www.grupoasistencia.com/motor_webservice/paymentInstallmentsFinesa",
-           "http://localhost/motorTest/paymentInstallmentsFinesa",
+          // "https://www.grupoasistencia.com/motor_webservice/paymentInstallmentsFinesa",
+          "http://localhost/motorTest/paymentInstallmentsFinesa",
           {
             method: "POST",
             headers: headers,
@@ -1733,7 +1919,7 @@ function cotizarFinesa(ofertasCotizaciones) {
             finesaData.cuotas = element.cuotas;
             return fetch(
               // "https://www.grupoasistencia.com/motor_webservice/saveDataQuotationsFinesa",
-               "http://localhost/motorTest//saveDataQuotationsFinesa",
+              "http://localhost/motorTest//saveDataQuotationsFinesa",
               {
                 method: "POST",
                 headers: headers,
@@ -1950,11 +2136,35 @@ function cotizarOfertasPesados() {
   var Nombre = document.getElementById("txtNombres").value;
   var Apellido1 = document.getElementById("txtApellidos").value;
   var Apellido2 = "";
+
+  //! Agregar a Motos y Pesados START
+  let razonSocial = document.getElementById("txtRazonSocial").value;
+  let digitoVerif = document.getElementById("txtDigitoVerif").value;
+  // Representante Legal START
+  let tipoDocRep = document.getElementById(
+    "tipoDocumentoIDRepresentante"
+  ).value;
+  let numDocRep = document.getElementById("numDocumentoIDRepresentante").value;
+  let nombresRep = document.getElementById("txtNombresRepresentante").value;
+  let apellidosRep = document.getElementById("txtApellidosRepresentante").value;
+  let diaRep = document.getElementById("dianacimientoRepresentante").value;
+  let mesRep = document.getElementById("mesnacimientoRepresentante").value;
+  let anioRep = document.getElementById("anionacimientoRepresentante").value;
+  let fechaNacimientoRep = anioRep + "-" + mesRep + "-" + diaRep;
+  let generoRep = document.getElementById("generoRepresentante").value;
+  let estCivRep = document.getElementById("estadoCivilRepresentante").value;
+  let correoRep = document.getElementById("txtCorreoRepresentante").value;
+  let celRep = document.getElementById("txtCelularRepresentante").value;
+  // Representante Legal END
+  //! Agregar a Motos y Pesados END
+
   var dia = document.getElementById("dianacimiento").value;
   var mes = document.getElementById("mesnacimiento").value;
   var anio = document.getElementById("anionacimiento").value;
   var FechaNacimiento = anio + "-" + mes + "-" + dia;
+
   var Genero = document.getElementById("genero").value;
+
   var estadoCivil = document.getElementById("estadoCivil").value;
   var celularAseg = document.getElementById("txtCelular").value;
   var emailAseg = document.getElementById("txtCorreo").value;
@@ -2029,6 +2239,33 @@ function cotizarOfertasPesados() {
     ciudadCirculacion = "00" + ciudadCirculacion;
   }
 
+  //! Agregar a Motos y Pesados START
+
+  let typeQuery =
+    tipoDocumentoID != "2"
+      ? placa != "" &&
+        tipoDocumentoID != "" &&
+        numDocumentoID != "" &&
+        dia != "" &&
+        mes != "" &&
+        anio != "" &&
+        Nombre != "" &&
+        Apellido1 != "" &&
+        Genero != "" &&
+        estadoCivil != ""
+      : placa != "" &&
+        digitoVerif != "" &&
+        razonSocial != "" &&
+        numDocRep != "" &&
+        nombresRep != "" &&
+        apellidosRep != "" &&
+        generoRep != "" &&
+        estCivRep != "";
+        //correoRep != "" &&
+        //celRep != "";
+
+  //! Agregar a Motos y Pesados END
+
   if (
     fasecoldaVeh != "" &&
     valorFasecolda != "" &&
@@ -2038,18 +2275,7 @@ function cotizarOfertasPesados() {
     ciudadCirculacion != "" &&
     isBenefOneroso != undefined
   ) {
-    if (
-      placa != "" &&
-      tipoDocumentoID != "" &&
-      numDocumentoID != "" &&
-      Nombre != "" &&
-      Apellido1 != "" &&
-      dia != "" &&
-      mes != "" &&
-      anio != "" &&
-      Genero != "" &&
-      estadoCivil != ""
-    ) {
+    if (typeQuery) {
       $("#loaderOferta").html(
         '<img src="vistas/img/plantilla/loader-update.gif" width="34" height="34"><strong> Consultando Ofertas...</strong>'
       );
@@ -2111,6 +2337,24 @@ function cotizarOfertasPesados() {
           cre_pre_bussinedId: cre_pre_bussinedId,
         },
       };
+
+       //! Agregar a Motos y Pesados START
+
+       if (tipoDocumentoID == 2) {
+        raw.razonSocial = razonSocial;
+        raw.digitoVerif = digitoVerif;
+        raw.tipoDocRep = tipoDocRep;
+        raw.numDocRep = numDocRep;
+        raw.nombresRep = nombresRep;
+        raw.apellidosRep = apellidosRep;
+        raw.fechaNacimientoRep = fechaNacimientoRep;
+        raw.generoRep = generoRep;
+        raw.estCivRep = estCivRep;
+        raw.correoRep = correoRep == "" ? null : correoRep;
+        raw.celRep = celRep == "" ? null : celRep;
+      }
+
+      //! Agregar a Motos y Pesados END
 
       var requestOptions = {
         method: "POST",
@@ -2212,6 +2456,17 @@ function cotizarOfertasPesados() {
             idCotizacion: idCotizacion,
             mundial: mundial,
             credenciales: aseguradorasCredenciales,
+            razonSocial: razonSocial,
+            digitoVerif: digitoVerif,
+            tipoDocRep: tipoDocRep,
+            numDocRep: numDocRep,
+            nombresRep: nombresRep,
+            apellidosRep: apellidosRep,
+            fechaNacimientoRep: fechaNacimientoRep,
+            generoRep: generoRep,
+            estCivRep: estCivRep,
+            correoRep: correoRep,
+            celRep: celRep,
           },
           cache: false,
           success: function (data) {
@@ -2410,11 +2665,17 @@ function cotizarOfertasPesados() {
                           agregarAseguradoraFallidaPesados(aseguradora);
                           if (ofertas[0].length > 1) {
                             ofertas.Mensajes[0].forEach((mensaje) => {
-                              mostrarAlertarCotizacionFallida(aseguradora, mensaje);
+                              mostrarAlertarCotizacionFallida(
+                                aseguradora,
+                                mensaje
+                              );
                             });
                           } else {
                             ofertas[0].Mensajes.forEach((mensaje) => {
-                              mostrarAlertarCotizacionFallida(aseguradora, mensaje);
+                              mostrarAlertarCotizacionFallida(
+                                aseguradora,
+                                mensaje
+                              );
                             });
                           }
                         } else {

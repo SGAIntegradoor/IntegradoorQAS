@@ -113,7 +113,12 @@ $(document).ready(function () {
   // var apellidoInput = document.getElementById("txtApellidos");
   // var ceroKilometros = document.getElementById("txtEsCeroKmSi");
 
-  let inputsArr = ["txtNombres","txtNombresRepresentante","txtApellidos","txtApellidosRepresentante"]
+  let inputsArr = [
+    "txtNombres",
+    "txtNombresRepresentante",
+    "txtApellidos",
+    "txtApellidosRepresentante",
+  ];
 
   // Función para filtrar caracteres especiales
   function filtrarCaracteresEspeciales(input) {
@@ -121,36 +126,35 @@ $(document).ready(function () {
     var valorFiltrado = valor.replace(/[^a-zA-ZñÑ ]/g, ""); // Permitir letras, espacios y la letra "ñ" en mayúsculas o minúsculas
     input.value = valorFiltrado;
   }
-  
+
   // MANEJO DE NOMBRES Y APELLIDOS
-  inputsArr.forEach(element => {
+  inputsArr.forEach((element) => {
     let temp = document.getElementById(element);
 
     // Agregar eventos de escucha para el evento "input" en ambos campos
     temp.addEventListener("input", function () {
       filtrarCaracteresEspeciales(temp);
     });
-    
+
     // Agregar un evento 'blur' para eliminar espacios en blanco al final y al principio
     temp.addEventListener("blur", function () {
       this.value = this.value.trim(); // Elimina espacios en blanco al principio y al final
-  
+
       // Divide la cadena en palabras
       var words = this.value.split(" ");
-  
+
       // Capitaliza la primera letra de cada palabra y convierte el resto en minúsculas
       for (var i = 0; i < words.length; i++) {
         words[i] =
           words[i].charAt(0).toUpperCase() + words[i].slice(1).toLowerCase();
       }
-  
+
       // Vuelve a unir las palabras en una sola cadena
       var formattedValue = words.join(" ");
-  
+
       // Asigna el valor formateado al campo de entrada
       this.value = formattedValue;
     });
-
   });
 
   // Conviete la letras iniciales del Nombre y el Apellido deL Cliente en Mayusculas
@@ -230,8 +234,6 @@ $(document).ready(function () {
   });
 
   function convertirNumero() {
-
-
     var numeroInput = document.getElementById("numDocumentoID").value;
     var numeroSinCaracteresEspeciales = numeroInput.replace(/[^0-9]/g, "");
     document.getElementById("numDocumentoID").value =
@@ -239,10 +241,10 @@ $(document).ready(function () {
   }
 
   function convertirNumeroRep() {
-      let numeroInput2 = $("#numDocumentoIDRepresentante").val() 
-      let numeroSinCaracteresEspeciales2 = numeroInput2.replace(/[^0-9]/g, "");
-      document.getElementById("numDocumentoIDRepresentante").value =
-        numeroSinCaracteresEspeciales2;
+    let numeroInput2 = $("#numDocumentoIDRepresentante").val();
+    let numeroSinCaracteresEspeciales2 = numeroInput2.replace(/[^0-9]/g, "");
+    document.getElementById("numDocumentoIDRepresentante").value =
+      numeroSinCaracteresEspeciales2;
   }
 
   // Convierte la Placa ingresada en Mayusculas
@@ -633,13 +635,13 @@ const requiredFields = (val) => {
 const controlFields = (val) => {
   if (val) {
     // Fila Placa, nombres, id, doc
-    $('label[for="txtNombres"]').text("Digito de Verificacion");
+    $('label[for="txtNombres"]').text("Dígito de Verificación");
     $("#divNombre").css("display", "none");
     $("#digitoVerificacion").css("display", "block");
 
     // Fila Fecha, Razon Social (Para Nit), Genero, Estado Civil, Celular (Todas menos NIT)
     $('label[name="lblFechaNacimiento"]').html(
-      'Fecha Constitucion Empresa <span style="font-weight: normal;">(Opcional. Se requiere para Zurich y Allianz)</span>'
+      'Fecha Constitución Empresa <span style="font-weight: normal;">(Opcional. Se requiere para Zurich y Allianz)</span>'
     );
     $('label[name="lblFechaNacimiento"]').css("max-width", "447px");
     $('label[name="lblFechaNacimiento"]').css("width", "447px");
@@ -975,8 +977,8 @@ function consulPlaca(query = "1") {
           apellidoRep != "" &&
           generoRep != "" &&
           estadoCivilRep != "";
-          //correoRep != "" &&
-          //celularRep != "";
+    //correoRep != "" &&
+    //celularRep != "";
 
     //! Agregar esto a MOTOS y Pesados END
 
@@ -2342,7 +2344,6 @@ document
 //console.log(permisosPlantilla)
 // Captura los datos suministrados por el cliente y los envia al API para recibir la cotizacion.
 function cotizarOfertas() {
-
   var codigoFasecolda1 = document.getElementById("txtFasecolda");
   var contenido = codigoFasecolda1.value;
 
@@ -2584,7 +2585,7 @@ function cotizarOfertas() {
     document.getElementById("aseguradoras").value
   );
 
- // console.log(aseguradoras_autorizar);
+  // console.log(aseguradoras_autorizar);
   // desactive
   //console.log(aseguradoras_autorizar)
 
@@ -2620,7 +2621,6 @@ function cotizarOfertas() {
         //celRep != "";
 
   //! Agregar a Motos y Pesados END
-  
 
   if (
     fasecoldaVeh != "" &&
@@ -2750,8 +2750,7 @@ function cotizarOfertas() {
         body: JSON.stringify(raw),
         redirect: "follow",
       };
-      
-      
+
       if (!primerIntentoRealizado) {
         //menosVeh();
         const aseguradorasCoti = Object.keys(aseguradoras_autorizar).filter(
@@ -2860,7 +2859,7 @@ function cotizarOfertas() {
             generoRep: generoRep,
             estCivRep: estCivRep,
             correoRep: correoRep,
-            celRep: celRep
+            celRep: celRep,
           },
           cache: false,
           success: function (data) {
@@ -3079,7 +3078,7 @@ function cotizarOfertas() {
                         return res.json();
                       })
                       .then((ofertas) => {
-                        console.log(ofertas)
+                        console.log(ofertas);
                         if (typeof ofertas.Resultado !== "undefined") {
                           agregarAseguradoraFallida(plan);
                           let mensaje = "";
@@ -3089,9 +3088,14 @@ function cotizarOfertas() {
                             ofertas.Mensajes.map((element, index) => {
                               if (element.includes("Lo sentimos")) {
                                 mensaje += " - " + element;
-                              }
-                              if (element.includes("Referred")) {
+                              } else if (element.includes("Referred")) {
                                 if (index == 2) {
+                                  mensaje += " - " + element;
+                                } else {
+                                  mensaje += element;
+                                }
+                              } else {
+                                if (index >= 1) {
                                   mensaje += " - " + element;
                                 } else {
                                   mensaje += element;
@@ -3936,7 +3940,7 @@ function cotizarOfertas() {
                             mensaje += element;
                           }
                         } else {
-                          if((index >= 1)){
+                          if (index >= 1) {
                             mensaje += " - " + element;
                           } else {
                             mensaje += element;
@@ -3971,7 +3975,7 @@ function cotizarOfertas() {
                     },
                   ]);
                   console.error(err);
-                })
+                });
             })
           : Promise.resolve();
 

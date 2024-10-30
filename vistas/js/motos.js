@@ -1,19 +1,4 @@
 $(document).ready(function () {
-  // function decresCotTotales() {
-  //   return new Promise(function (resolve, reject) {
-  //     $.ajax({
-  //       type: "POST",
-  //       url: "src/updateCotizacionesTotales.php",
-  //       dataType: "json",
-  //       success: function (data) {
-  //         resolve(data);
-  //       },
-  //       error: function (xhr, status, error) {
-  //         reject(error);
-  //       },
-  //     });
-  //   });
-  // }
 
   $("#numDocumentoID").numeric();
   $("#txtFasecolda").numeric();
@@ -86,24 +71,6 @@ $(document).ready(function () {
     );
   });
 
-  // Valida que el dato ingresado sea numerico
-  $("#numDocumentoID").numeric();
-  $("#txtFasecolda").numeric();
-  $("#txtValorFasecolda").numeric();
-  $("#numCotizacion").numeric();
-  $("#valorTotal").numeric();
-
-  // $("#txtValorFasecolda").on("input", function () {
-  //   this.value = this.value.replace(/\./g, "");
-  // });
-
-  // // Previene el ingreso de puntos desde el teclado
-  // $("#txtValorFasecolda").on("keydown", function (event) {
-  //   if (event.which === 190 || event.which === 110) {
-  //     event.preventDefault();
-  //   }
-  // });
-
   const parseNumbersToString = (selector) => {
     $(selector).on("input", function () {
       this.value = this.value.replace(/\./g, "");
@@ -125,6 +92,40 @@ $(document).ready(function () {
       e.preventDefault(); // Evita que la pagina se recargue
     }
   );
+
+  $("#placaVeh").keyup(function () {
+    var numeroInput = document.getElementById("placaVeh").value;
+    var placaSinEspacios = numeroInput.replace(/\s/g, "");
+    document.getElementById("placaVeh").value = placaSinEspacios;
+  });
+
+  // Convierte la Placa ingresada en Mayusculas
+  $("#placaVeh").keyup(function () {
+    var numPlaca = document.getElementById("placaVeh").value;
+    mayuscPlaca = numPlaca.toUpperCase();
+    $("#placaVeh").val(mayuscPlaca);
+  });
+
+  // Evita Espacios en blanco en el numero de Placa
+  $("#placaVeh").on("keypress", function (e) {
+    if (e.which == 32) return false;
+  });
+
+  
+  // Obtener el campo de entrada por su ID
+  var placaInput = document.getElementById("placaVeh");
+
+  // Agregar un evento de escucha para el evento "input"
+  placaInput.addEventListener("input", function () {
+    // Obtener el valor actual del campo de entrada
+    var valor = placaInput.value;
+
+    // Filtrar caracteres especiales y dejar solo letras y números
+    var valorFiltrado = valor.replace(/[^a-zA-Z0-9]/g, "");
+
+    // Actualizar el valor del campo de entrada con el valor filtrado
+    placaInput.value = valorFiltrado;
+  });
 
   document.addEventListener("DOMContentLoaded", function () {
     var formulario = document.getElementById("formResumAseg"); // Reemplaza 'formulario' con el ID de tu formulario
@@ -455,61 +456,6 @@ $("#btnConsultarVehmanualbuscadorMotos").click(function () {
 
 $("#btnConsultarVehmanualMotos").click(function () {
   consulCodFasecoldaMotos();
-  // var fasecolda = document.getElementById("fasecoldabuscadormanual").value;
-  // var modelo = document.getElementById("modelobuscadormanual").value;
-
-  // if (fasecolda != "" && modelo != "") {
-  //   $.ajax({
-  //     type: "POST",
-  //     url: "src/fasecolda/consulDatosFasecolda.php",
-  //     dataType: "json",
-  //     data: {
-  //       fasecolda: fasecolda,
-  //       modelo: modelo,
-  //     },
-  //     success: function (data) {
-  //       if (data.estado == undefined) {
-  //         alert("Vehículo no encontrado");
-  //       } else {
-  //         // console.log(data);
-  //         var claseVeh = data.clase;
-  //         var marcaVeh = data.marca;
-  //         var ref1Veh = data.referencia1;
-  //         var ref2Veh = data.referencia2;
-  //         var ref3Veh = data.referencia3;
-  //         var lineaVeh = ref1Veh + " " + ref2Veh + " " + ref3Veh;
-
-  //         var valorFasecVeh = data[modelo];
-  //         var valorVeh = Number(valorFasecVeh) * 1000;
-  //         var clase = data.clase;
-
-  //         $("#clasepesados").val(clase);
-
-  //         var placaVeh = $("#placaVeh").val();
-  //         if (placaVeh == "WWW404") {
-  //           $("#txtPlacaVeh").val("SIN PLACA - VEHÍCULO 0 KM").val();
-  //         } else {
-  //           $("#txtPlacaVeh").val(placaVeh).val();
-  //         }
-
-  //         document.getElementById("resumenVehiculo").style.display = "block";
-  //         document.getElementById("contenBtnCotizar").style.display = "block";
-  //         document.getElementById("headerAsegurado").style.display = "block";
-  //         document.getElementById("masA").style.display = "block";
-
-  //         document.getElementById("formularioVehiculo").style.display = "none";
-  //         document.getElementById("DatosAsegurado").style.display = "none";
-
-  //         document.getElementById("txtFasecolda").value = fasecolda;
-  //         document.getElementById("txtModeloVeh").value = modelo;
-  //         document.getElementById("txtMarcaVeh").value = data.marca;
-  //         document.getElementById("txtValorFasecolda").value = valorVeh;
-  //         document.getElementById("txtReferenciaVeh").value = lineaVeh;
-  //         document.getElementById("txtClaseVeh").value = claseVeh;
-  //       }
-  //     },
-  //   });
-  // }
 });
 
 const requiredFieldsNotNit = (val) => {
@@ -561,13 +507,13 @@ const requiredFields = (val) => {
 const controlFields = (val) => {
   if (val) {
     // Fila Placa, nombres, id, doc
-    $('label[for="txtNombres"]').text("Digito de Verificacion");
+    $('label[for="txtNombres"]').text("Dígito de Verificación");
     $("#divNombre").css("display", "none");
     $("#digitoVerificacion").css("display", "block");
 
     // Fila Fecha, Razon Social (Para Nit), Genero, Estado Civil, Celular (Todas menos NIT)
     $('label[name="lblFechaNacimiento"]').html(
-      'Fecha Constitucion Empresa <span style="font-weight: normal;">(Opcional. Se requiere para Zurich y Allianz)</span>'
+      'Fecha Constitución Empresa <span style="font-weight: normal;">(Opcional. Se requiere para Allianz)</span>'
     );
     $('label[name="lblFechaNacimiento"]').css("max-width", "447px");
     $('label[name="lblFechaNacimiento"]').css("width", "447px");
@@ -840,39 +786,6 @@ function consulPlacaMotos(query = "1") {
     let celularRep = $("#txtCelularRepresentante").val();
     //! Agregar esto a MOTOS y Pesados END
 
-    // console.log(
-    //   rolAsesor,
-    //   valnumplaca,
-    //   tipoDocumentoID,
-    //   numDocumentoID,
-    //   dianacimiento,
-    //   mesnacimiento,
-    //   anionacimiento,
-    //   nombresAseg,
-    //   apellidosAseg,
-    //   generoAseg,
-    //   estadoCivil,
-    //   intermediario
-    // );
-    // if (tipoDocumentoID == "2") {
-    //   var restriccion = "";
-    //   if (rolAsesor == 19) {
-    //     restriccion =
-    //       "Lo sentimos, no puedes realizar cotizaciones para personas jurídicas por este cotizador. Para hacerlo debes comunicarte con el Equipo de Asesores Freelance de Grupo Asistencia, quienes podrán ayudarte a cotizar de manera manual con diferentes aseguradoras.";
-    //   } else {
-    //     restriccion =
-    //       "Lo sentimos, no puedes realizar cotizaciones para personas jurídicas por este cotizador.";
-    //   }
-    //   Swal.fire({
-    //     icon: "error",
-    //     text: restriccion,
-    //     confirmButtonText: "Cerrar",
-    //   }).then(() => {
-    //     // Recargar la página después de cerrar el SweetAlert
-    //     location.reload();
-    //   });
-    // }
-
     //! Agregar esto a MOTOS y Pesados START
     let typeQuery =
       query != "2"
@@ -952,19 +865,10 @@ function consulPlacaMotos(query = "1") {
               throw error; // Vuelve a lanzar el error para que puedas verlo en el bloque catch siguiente
             }
           })
-          // .then(function (myJson) {
-          //   // Procesar myJson si todo está bien
-          //   console.log("Respuesta JSON:", myJson);
-          // })
-          // .catch(function (error) {
-          //   console.error("Error en la petición fetch:", error);
-          // })
-          // return;
           .then(function (myJson) {
             // debugger;
             var estadoConsulta = myJson.Success;
             var mensajeConsulta = myJson.Message;
-            //console.log(myJson);
             //VALIDA SI LA CONSULTA FUE EXITOSA
             if (estadoConsulta == true) {
               var codigoClase = myJson.Data.ClassId;
@@ -977,9 +881,6 @@ function consulPlacaMotos(query = "1") {
               if (codigoFasecolda != null) {
                 if (valorAsegurado == "null" || valorAsegurado == null) {
                   consulPlacaMapfre(valnumplaca);
-                  // document.getElementById("formularioVehiculo").style.display =
-                  //   "block";
-                  // $("#loaderPlaca").html("");
                   //! Agregar esto a MOTOS y Pesados START
                   $("#loaderPlaca").html("");
                   $("#loaderPlaca2").html("");
@@ -2306,11 +2207,6 @@ function cotizarOfertasMotos() {
   var modelovehiculo = document.getElementById("txtModeloVeh").value;
   var marca = document.getElementById("txtMarcaVeh").value;
   var linea = document.getElementById("txtReferenciaVeh").value;
-
-  // var hdi = document.getElementById("hdiseguros").value;
-  // var estado = document.getElementById("estadoseguros").value;
-
-  // var ofinanciera = document.getElementById("obligacionfinanciera").value;
 
   //:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
   var placa = document.getElementById("placaVeh").value;
