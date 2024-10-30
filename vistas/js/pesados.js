@@ -3395,6 +3395,48 @@ function cotizarOfertasPesados() {
 
         cont2.push(previsoraPromise);
 
+         /* HDI */
+         const HDIPromise = comprobarFallidaPesados("HDI")
+         ? fetch(
+             "https://grupoasistencia.com/motor_webservice/HDI_pesados",
+             requestOptions
+           )
+             .then((res) => {
+               if (!res.ok) throw Error(res.statusText);
+               return res.json();
+             })
+             .then((ofertas) => {
+               if (typeof ofertas[0].Resultado !== "undefined") {
+                 agregarAseguradoraFallidaPesados("HDI");
+                 validarProblema("HDI", ofertas);
+                 ofertas[0].Mensajes.forEach((mensaje) => {
+                   mostrarAlertarCotizacionFallida("HDI", mensaje);
+                 });
+               } else {
+                 // eliminarAseguradoraFallida('HDI');
+                 const contadorPorEntidad = validarOfertasPesados(ofertas, "HDI", 1);
+                 mostrarAlertaCotizacionExitosa("HDI", contadorPorEntidad);
+               }
+             })
+             .catch((err) => {
+               agregarAseguradoraFallidaPesados("HDI");
+               mostrarAlertarCotizacionFallida(
+                 "HDI",
+                 "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
+               );
+               validarProblema("HDI", [
+                 {
+                   Mensajes: [
+                     "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
+                   ],
+                 },
+               ]);
+               console.error(err);
+             })
+         : Promise.resolve();
+
+       cont2.push(HDIPromise);
+
         if (cont2 == 0) {
           console.log("Es Cero");
         }
