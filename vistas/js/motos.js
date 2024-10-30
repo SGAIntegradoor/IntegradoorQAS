@@ -2080,9 +2080,10 @@ function validarOfertasMotos(ofertas, aseguradora, exito) {
 //VERSION DEFINITIVA "validarProblema()"" COTIZAR.JS
 function validarProblemaMotos(aseguradora, ofertas) {
   var idCotizOferta = idCotizacion;
-  //console.log(ofertas);
-
-  // Verificar si ofertas es un array
+  console.log(ofertas);
+  if(aseguradora == "Allianz"){
+    debugger;
+  }  // Verificar si ofertas es un array
   if (Array.isArray(ofertas)) {
     ofertas.forEach((oferta) => {
       // Obtener mensajes de la oferta
@@ -2853,7 +2854,13 @@ function cotizarOfertasMotos() {
                           "Zurich",
                           "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
                         );
-                        console.error(err);
+                        validarProblemaMotos("Allianz", [
+                    {
+                      Mensajes: [
+                        "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
+                      ],
+                    },
+                  ]);
                       })
                   );
                 });
@@ -2900,7 +2907,13 @@ function cotizarOfertasMotos() {
                           aseguradora,
                           "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
                         );
-                        console.error(err);
+                        validarProblemaMotos("Allianz", [
+                    {
+                      Mensajes: [
+                        "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
+                      ],
+                    },
+                  ]);
                       })
                   );
                 });
@@ -2951,7 +2964,13 @@ function cotizarOfertasMotos() {
                           aseguradora,
                           "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
                         );
-                        console.error(err);
+                        validarProblemaMotos("Allianz", [
+                    {
+                      Mensajes: [
+                        "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
+                      ],
+                    },
+                  ]);
                       })
                   );
                 });
@@ -2993,7 +3012,13 @@ function cotizarOfertasMotos() {
                       aseguradora,
                       "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
                     );
-                    console.error(err);
+                    validarProblemaMotos(aseguradora, [
+                      {
+                        Mensajes: [
+                          "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
+                        ],
+                      },
+                    ]);
                   })
               );
             });
@@ -3283,10 +3308,10 @@ function cotizarOfertasMotos() {
         let cont = [];
 
         /* Liberty */
-        comprobarFallida("Liberty")
+        comprobarFallida("HDI (Antes Liberty)")
           ? cont.push(
               fetch(
-                "https://grupoasistencia.com/motor_webservice_tst2/Liberty_motos",
+                "https://grupoasistencia.com/motor_webservice/Liberty_motos",
                 requestOptions
               )
                 .then((res) => {
@@ -3295,31 +3320,37 @@ function cotizarOfertasMotos() {
                 })
                 .then((ofertas) => {
                   if (typeof ofertas[0].Resultado !== "undefined") {
-                    agregarAseguradoraFallidaMotos("Liberty");
-                    validarProblemaMotos("Liberty", ofertas);
+                    agregarAseguradoraFallidaMotos("HDI (Antes Liberty)");
+                    validarProblemaMotos("HDI (Antes Liberty)", ofertas);
                     ofertas[0].Mensajes.forEach((mensaje) => {
-                      mostrarAlertarCotizacionFallida("Liberty", mensaje);
+                      mostrarAlertarCotizacionFallida("HDI (Antes Liberty)", mensaje);
                     });
                   } else {
                     // eliminarAseguradoraFallida('Liberty');
                     const contadorPorEntidad = validarOfertasMotos(
                       ofertas,
-                      "Liberty",
+                      "HDI (Antes Liberty)",
                       1
                     );
                     mostrarAlertaCotizacionExitosa(
-                      "Liberty",
+                      "HDI (Antes Liberty)",
                       contadorPorEntidad
                     );
                   }
                 })
                 .catch((err) => {
-                  agregarAseguradoraFallidaMotos("Liberty");
+                  agregarAseguradoraFallidaMotos("HDI (Antes Liberty)");
                   mostrarAlertarCotizacionFallida(
-                    "Liberty",
+                    "HDI (Antes Liberty)",
                     "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
                   );
-                  console.error(err);
+                  validarProblemaMotos("HDI (Antes Liberty)", [
+                    {
+                      Mensajes: [
+                        "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
+                      ],
+                    },
+                  ]);
                 })
             )
           : null;
@@ -3363,7 +3394,13 @@ function cotizarOfertasMotos() {
                     "Allianz",
                     "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
                   );
-                  console.error(err);
+                  validarProblemaMotos("Allianz", [
+                    {
+                      Mensajes: [
+                        "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
+                      ],
+                    },
+                  ]);
                 })
             )
           : //  : Promise.resolve();
@@ -3404,7 +3441,13 @@ function cotizarOfertasMotos() {
                     "AXA",
                     "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
                   );
-                  console.error(err);
+                  validarProblemaMotos("AXA", [
+                    {
+                      Mensajes: [
+                        "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
+                      ],
+                    },
+                  ]);
                 })
             )
           : // : Promise.resolve();
@@ -3444,7 +3487,13 @@ function cotizarOfertasMotos() {
                     "SBS",
                     "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
                   );
-                  console.error(err);
+                  validarProblemaMotos("SBS", [
+                    {
+                      Mensajes: [
+                        "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
+                      ],
+                    },
+                  ]);
                 })
             )
           : // : Promise.resolve();
