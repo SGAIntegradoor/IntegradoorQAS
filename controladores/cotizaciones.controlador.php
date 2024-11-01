@@ -17,9 +17,10 @@ class ControladorCotizaciones
 		$tabla4 = "estados_civiles";
 		$tabla5 = "usuarios";
 		$tabla6 = "ciudadesbolivar";
+		$table7 = "clientes_nit_repleg";
 
 
-		$respuesta = ModeloCotizaciones::mdlMostrarCotizaciones($tabla, $tabla2, $tabla3, $tabla4, $tabla5, $tabla6, $item, $valor);
+		$respuesta = ModeloCotizaciones::mdlMostrarCotizaciones($tabla, $tabla2, $tabla3, $tabla4, $tabla5, $tabla6, $table7, $item, $valor);
 
 		return $respuesta;
 	}

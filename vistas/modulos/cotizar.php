@@ -1219,7 +1219,6 @@ echo '<script>console.log(' . $idIntermediario . ", " . $rolAsesor . ')</script>
                 </div>
               </div>
             </div>
-        </div>
         </form>
 
         <!-- FORMULARIO VEHICULO MANUAL -->

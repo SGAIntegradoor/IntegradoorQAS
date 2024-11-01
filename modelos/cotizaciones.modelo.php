@@ -9,18 +9,38 @@ class ModeloCotizaciones
 	MOSTRAR COTIZACIONES
 	=============================================*/
 
-	static public function mdlMostrarCotizaciones($tabla, $tabla2, $tabla3, $tabla4, $tabla5, $tabla6, $item, $valor)
+	static public function mdlMostrarCotizaciones($tabla, $tabla2, $tabla3, $tabla4, $tabla5, $tabla6, $tabla7, $item, $valor)
 	{
+
+		global $stmt;
 
 		if ($item != null) {
 
 			if ($item == 'id_cotizacion') {
 
+				$stmt = Conexion::conectar()->prepare(
+					"SELECT * FROM $tabla, $tabla2
+				WHERE $tabla.id_cliente = $tabla2.id_cliente AND $tabla.id_cotizacion = $valor"
+				);
+				$stmt->execute();
 
-				$stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla, $tabla2, $tabla3, $tabla4, $tabla5, $tabla6 
-														WHERE $tabla.id_cliente = $tabla2.id_cliente AND $tabla.id_usuario = $tabla5.id_usuario 
-														AND $tabla.cot_ciudad = $tabla6.Codigo AND $tabla2.id_tipo_documento = $tabla3.id_tipo_documento 
-														AND $tabla2.id_estado_civil = $tabla4.id_estado_civil AND $tabla.id_cotizacion = :$item AND $tabla5.id_Intermediario = :idIntermediario");
+				$response = $stmt->fetch(PDO::FETCH_ASSOC);
+
+				if ($response['id_tipo_documento'] == "2") {
+					$stmt = Conexion::conectar()->prepare(
+						"SELECT * FROM $tabla, $tabla2, $tabla3, $tabla4, $tabla5, $tabla6, $tabla7 
+															WHERE $tabla.id_cliente = $tabla2.id_cliente AND $tabla.id_usuario = $tabla5.id_usuario 
+															AND $tabla.cot_ciudad = $tabla6.Codigo AND $tabla2.id_tipo_documento = $tabla3.id_tipo_documento 
+															AND $tabla2.id_estado_civil = $tabla4.id_estado_civil AND $tabla.id_cotizacion = :$item AND $tabla5.id_Intermediario = :idIntermediario AND $tabla7.id_cliente_asociado = $tabla2.id_cliente"
+					);
+				} else {
+					$stmt = Conexion::conectar()->prepare(
+						"SELECT * FROM $tabla, $tabla2, $tabla3, $tabla4, $tabla5, $tabla6
+															WHERE $tabla.id_cliente = $tabla2.id_cliente AND $tabla.id_usuario = $tabla5.id_usuario 
+															AND $tabla.cot_ciudad = $tabla6.Codigo AND $tabla2.id_tipo_documento = $tabla3.id_tipo_documento 
+															AND $tabla2.id_estado_civil = $tabla4.id_estado_civil AND $tabla.id_cotizacion = :$item AND $tabla5.id_Intermediario = :idIntermediario"
+					);
+				}
 
 				$stmt->bindParam(":" . $item, $valor, PDO::PARAM_STR);
 				$stmt->bindParam(":idIntermediario", $_SESSION["intermediario"], PDO::PARAM_INT);

@@ -840,11 +840,10 @@ function editarCotizacion(id) {
   var datos = new FormData();
 
   datos.append("idCotizacion", idCotizacion);
-
   /*=============================================			
-
+  
   INFORMACION DEL ASEGURADO Y DEL VEHICULO
-
+  
   =============================================*/
 
   $.ajax({
@@ -864,84 +863,189 @@ function editarCotizacion(id) {
 
     success: function (respuesta) {
       /* FORMULARIO INFORMACIÓN DEL ASEGURADO */
-
       $("#placaVeh").val(respuesta["cot_placa"]);
-
       $("#idCliente").val(respuesta["id_cliente"]);
-
       $("#tipoDocumentoID").val(respuesta["id_tipo_documento"]);
-
       $("#numDocumentoID").val(respuesta["cli_num_documento"]);
-
-      $("#txtNombres").val(respuesta["cli_nombre"]);
-
-      $("#txtApellidos").val(respuesta["cli_apellidos"]);
-
-      $("#genero").val(respuesta["cli_genero"]);
-
-      $("#estadoCivil").val(respuesta["id_estado_civil"]);
-
-      $("#emailID").val(respuesta["cli_email"]);
-
-      $("#telefonoID").val(respuesta["cli_telefono"]);
-
       $("#mundial").val(respuesta["cot_mundial"]);
 
-      // console.log("Valor de #mundial:", respuesta["cot_mundial"]);
-      //Desactive
-      //console.log("CREDENCIALES:", respuesta);
-
-      if (respuesta && respuesta["cli_fch_nacimiento"]) {
-        var fecha = respuesta["cli_fch_nacimiento"].split("-");
-        // Resto del código que utiliza 'fecha'
-      } else {
-        console.error(
-          "La propiedad 'cli_fch_nacimiento' no está definida o es null/undefined."
+      if (respuesta["id_tipo_documento"] == 2) {
+        console.log(respuesta);
+        $("#numDocumentoID").val(
+          respuesta["cli_num_documento"]
+            .split("")
+            .slice(0, respuesta["cli_num_documento"].split("").length - 1)
+            .join("")
         );
-      }
+        $('label[for="txtNombres"]').text("Dígito de Verificación");
+        $("#divNombre").css("display", "none");
+        $("#digitoVerificacion").css("display", "block");
 
-      if (fecha && Array.isArray(fecha) && fecha.length > 1) {
-        var nombreMes = obtenerNombreMes(fecha[1]);
-        // Resto del código que utiliza 'nombreMes'
-      } else {
-        console.error(
-          "La variable 'fecha' no está definida, no es un array o no tiene al menos dos elementos."
+        // Fila Fecha, Razon Social (Para Nit), Genero, Estado Civil, Celular (Todas menos NIT)
+        $('label[name="lblFechaNacimiento"]').html(
+          "Fecha Constitución Empresa"
         );
-      }
+        // <span style="font-weight: normal;">(Opcional. Se requiere para Allianz)</span>
+        $('label[name="lblFechaNacimiento"]').css("max-width", "447px");
+        $('label[name="lblFechaNacimiento"]').css("width", "447px");
 
-      if (fecha && Array.isArray(fecha) && fecha.length >= 3) {
+        $("#divRazonSocial").css("display", "block");
+
+        $('label[for="genero"]').css("display", "none");
+        $("#genero").css("display", "none");
+
+        $('label[for="estadoCivil"]').css("display", "none");
+        $("#estadoCivil").css("display", "none");
+
+        $('label[for="txtCorreo"]').css("display", "none");
+        $("#txtCorreo").css("display", "none");
+
+        $('label[for="celular"]').css("display", "none");
+        $("#txtCelular").css("display", "none");
+
+        $("#rowBoton").css("display", "none");
+
+        // CAMPOS REPRESENTANTE LEGAL
+        $("#datosAseguradoNIT").css("display", "block");
+
+        $("#txtRazonSocial").val(
+          respuesta.cli_nombre + " " + respuesta.cli_apellidos
+        );
+        $("#txtDigitoVerif").val(respuesta.cli_num_documento.split("").pop());
+
+        let fechaNit = respuesta["cli_fch_nacimiento"].split("-");
+
         $("#dianacimiento").append(
-          "<option value='" + fecha[2] + "' selected>" + fecha[2] + "</option>"
-        );
-      } else {
-        console.error(
-          "La variable 'fecha' no está definida, no es un array o no tiene al menos tres elementos."
-        );
-      }
-
-      if (fecha && Array.isArray(fecha) && fecha.length >= 1 && nombreMes) {
-        $("#mesnacimiento").append(
           "<option value='" +
-            fecha[1] +
+            fechaNit[2] +
             "' selected>" +
-            nombreMes[0].toUpperCase() +
-            nombreMes.slice(1) +
+            fechaNit[2] +
             "</option>"
         );
-      } else {
-        console.error(
-          "La variable 'fecha' no está definida, no es un array o no tiene al menos un elemento, o 'nombreMes' no está definida."
+        $("#mesnacimiento").append(
+          "<option value='" +
+            fechaNit[1] +
+            "' selected>" +
+            fechaNit[1] +
+            "</option>"
         );
-      }
-
-      if (fecha && Array.isArray(fecha) && fecha.length >= 1) {
         $("#anionacimiento").append(
-          "<option value='" + fecha[0] + "' selected>" + fecha[0] + "</option>"
+          "<option value='" +
+            fechaNit[0] +
+            "' selected>" +
+            fechaNit[0] +
+            "</option>"
         );
+
+        // Carga de Data del Representante Legal BEGIN
+        $("#tipoDocumentoIDRepresentante").val(respuesta.rep_tipo_documento);
+        $("#numDocumentoIDRepresentante").val(respuesta.rep_num_documento);
+        $("#txtNombresRepresentante").val(respuesta.rep_nombre);
+        $("#txtApellidosRepresentante").val(respuesta.rep_apellidos);
+        $("#generoRepresentante").val(respuesta.rep_genero);
+        $("#estadoCivilRepresentante").val(respuesta.rep_est_civil);
+        $("#txtCorreoRepresentante").val(respuesta.rep_email);
+        $("#txtCelularRepresentante").val(respuesta.rep_telefono);
+
+        let fechaRep = respuesta.rep_fch_nacimiento.split("-");
+
+        $("#dianacimientoRepresentante").append(
+          "<option value='" +
+            fechaRep[2] +
+            "' selected>" +
+            fechaRep[2] +
+            "</option>"
+        );
+        $("#mesnacimientoRepresentante").append(
+          "<option value='" +
+            fechaRep[1] +
+            "' selected>" +
+            fechaRep[1] +
+            "</option>"
+        );
+        $("#anionacimientoRepresentante").append(
+          "<option value='" +
+            fechaRep[0] +
+            "' selected>" +
+            fechaRep[0] +
+            "</option>"
+        );
+
+        $("#DatosVehiculo").css("display", "hidden");
+
+        // Carga de Data del Representante Legal END
       } else {
-        console.error(
-          "La variable 'fecha' no está definida, no es un array o no tiene al menos un elemento."
-        );
+        $("#txtNombres").val(respuesta["cli_nombre"]);
+        $("#txtApellidos").val(respuesta["cli_apellidos"]);
+        $("#genero").val(respuesta["cli_genero"]);
+        $("#estadoCivil").val(respuesta["id_estado_civil"]);
+        $("#telefonoID").val(respuesta["cli_telefono"]);
+        $("#emailID").val(respuesta["cli_email"]);
+
+        // console.log("Valor de #mundial:", respuesta["cot_mundial"]);
+        //Desactive
+        //console.log("CREDENCIALES:", respuesta);
+
+        if (respuesta && respuesta["cli_fch_nacimiento"]) {
+          var fecha = respuesta["cli_fch_nacimiento"].split("-");
+          // Resto del código que utiliza 'fecha'
+        } else {
+          console.error(
+            "La propiedad 'cli_fch_nacimiento' no está definida o es null/undefined."
+          );
+        }
+
+        if (fecha && Array.isArray(fecha) && fecha.length > 1) {
+          var nombreMes = obtenerNombreMes(fecha[1]);
+          // Resto del código que utiliza 'nombreMes'
+        } else {
+          console.error(
+            "La variable 'fecha' no está definida, no es un array o no tiene al menos dos elementos."
+          );
+        }
+
+        if (fecha && Array.isArray(fecha) && fecha.length >= 3) {
+          $("#dianacimiento").append(
+            "<option value='" +
+              fecha[2] +
+              "' selected>" +
+              fecha[2] +
+              "</option>"
+          );
+        } else {
+          console.error(
+            "La variable 'fecha' no está definida, no es un array o no tiene al menos tres elementos."
+          );
+        }
+
+        if (fecha && Array.isArray(fecha) && fecha.length >= 1 && nombreMes) {
+          $("#mesnacimiento").append(
+            "<option value='" +
+              fecha[1] +
+              "' selected>" +
+              nombreMes[0].toUpperCase() +
+              nombreMes.slice(1) +
+              "</option>"
+          );
+        } else {
+          console.error(
+            "La variable 'fecha' no está definida, no es un array o no tiene al menos un elemento, o 'nombreMes' no está definida."
+          );
+        }
+
+        if (fecha && Array.isArray(fecha) && fecha.length >= 1) {
+          $("#anionacimiento").append(
+            "<option value='" +
+              fecha[0] +
+              "' selected>" +
+              fecha[0] +
+              "</option>"
+          );
+        } else {
+          console.error(
+            "La variable 'fecha' no está definida, no es un array o no tiene al menos un elemento."
+          );
+        }
       }
 
       /* FORMULARIO INFORMACIÓN DEL VEHICULO */
@@ -1227,11 +1331,11 @@ function editarCotizacion(id) {
                 return !isNaN(parseFloat(value)) && isFinite(value);
               }
               const aseguradorasViajes = [
-                "Mundial", 
-                "HDI Seguros", 
-                "HDI (Antes Liberty)", 
-                "Axa Colpatria", 
-                "Previsora Seguros"
+                "Mundial",
+                "HDI Seguros",
+                "HDI (Antes Liberty)",
+                "Axa Colpatria",
+                "Previsora Seguros",
               ];
               var valorRC = isNumeric(oferta.ValorRC);
 
@@ -1440,9 +1544,10 @@ function editarCotizacion(id) {
                                       $("#CodigoClase").val() == 19) &&
                                     oferta.Prima < 1000000 &&
                                     !(
-                                      oferta.Aseguradora == "HDI (Antes Liberty)" ||
+                                      oferta.Aseguradora ==
+                                        "HDI (Antes Liberty)" ||
                                       oferta.Aseguradora == "Bolivar" ||
-                                      oferta.Aseguradora == "Seguros Bolivar" 
+                                      oferta.Aseguradora == "Seguros Bolivar"
                                     )
                                   ) {
                                     return `Financiación Finesa:<br />No aplica para financiación`;
@@ -1456,7 +1561,7 @@ function editarCotizacion(id) {
                                       ) ||
                                       element.identityElement.includes(
                                         "Seguros Bolivar"
-                                      ) 
+                                      )
                                     ) {
                                       return `Financiación Aseguradora:<br /> Consulte analista`;
                                     } else {
@@ -1471,7 +1576,7 @@ function editarCotizacion(id) {
                                     ) ||
                                     element.identityElement.includes(
                                       "Seguros Bolivar"
-                                    ) 
+                                    )
                                   ) {
                                     return `Financiación Aseguradora:<br /> Consulte analista`;
                                   } else if (element.cuota_1 == null) {
@@ -1533,7 +1638,11 @@ function editarCotizacion(id) {
 
 														<span class="badge">* ${oferta.Grua}</span>
 
-														${aseguradorasViajes.includes(aseguradora) ? "Asistencia en Viajes" :"Servicio de Grúa"} 
+														${
+                              aseguradorasViajes.includes(aseguradora)
+                                ? "Asistencia en Viajes"
+                                : "Servicio de Grúa"
+                            } 
 
 													</li>
 
@@ -1621,7 +1730,7 @@ function editarCotizacion(id) {
               } else if (
                 oferta.Manual == "0" &&
                 (oferta.Aseguradora == "Previsora Seguros" ||
-                oferta.Aseguradora == "Previsora") &&
+                  oferta.Aseguradora == "Previsora") &&
                 oferta.UrlPdf !== null &&
                 aseguradoraPermisos == "1"
               ) {
@@ -1783,6 +1892,14 @@ function editarCotizacion(id) {
     },
   });
 }
+
+$(
+  "#dianacimiento, #mesnacimiento, #anionacimiento, #dianacimientoRepresentante, #mesnacimientoRepresentante, #anionacimientoRepresentante"
+).select2({
+  theme: "bootstrap fecnacimiento",
+  language: "es",
+  width: "100%",
+});
 
 /*===============================================
 
@@ -2099,9 +2216,9 @@ const verPdfPrevisora = async (cotizacion) => {
     );
 
     let base64 = await obtenerPdfprevisora(cotizacion);
-   // console.log(base64);
+    // console.log(base64);
     const linkSource = `data:application/pdf;base64,${base64}`;
-   // console.log(linkSource);
+    // console.log(linkSource);
     const downloadLink = document.createElement("a");
 
     const fileName = cotizacion + ".pdf";
@@ -3379,7 +3496,10 @@ function menosAseg() {
 // Maximizar el formulario Datos Vehiculo
 
 function masVeh() {
-  document.getElementById("DatosVehiculo").style.display = "block";
+  document.getElementById("tipoDocumentoID").value == "2"
+    ? (document.getElementById("DatosVehiculoPesados").style.display = "block")
+    : (document.getElementById("DatosVehiculo").style.display = "block");
+  // document.getElementById("DatosVehiculo").style.display = "block";
 
   document.getElementById("menosVehiculo").style.display = "block";
 
@@ -3389,7 +3509,10 @@ function masVeh() {
 // Minimiza el formulario Datos Vehiculo
 
 function menosVeh() {
-  document.getElementById("DatosVehiculo").style.display = "none";
+  // document.getElementById("DatosVehiculo").style.display = "none";
+  document.getElementById("tipoDocumentoID").value == "2"
+    ? (document.getElementById("DatosVehiculoPesados").style.display = "none")
+    : (document.getElementById("DatosVehiculo").style.display = "none");
 
   document.getElementById("menosVehiculo").style.display = "none";
 
