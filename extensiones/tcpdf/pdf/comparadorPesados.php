@@ -2270,7 +2270,6 @@ foreach ($resultados as $resultado) {
 	if ($cont23 % 2 != 0) {
 		if ($rowRespuestaAsistencia18['obligacionfinanciera'] == '' || $rowRespuestaAsistencia18['obligacionfinanciera'] == 'No cubre') {
 			if ($rowValidate > 3) {
-				var_dump($rowRespuestaAsistencia18['aseguradora']);
 				$contenido = '<div style="font-size:4pt">&nbsp;</div>No cubre';
 			} else {
 				$contenido = '<div style="font-size:1pt">&nbsp;</div>No cubre';
