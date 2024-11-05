@@ -2263,9 +2263,14 @@ foreach ($resultados as $resultado) {
 	$respuestaqueryAsistencia18 =  $conexion->query($queryConsultaAsistencia18);
 	$rowRespuestaAsistencia18 = mysqli_fetch_assoc($respuestaqueryAsistencia18);
 
+	//var_dump($rowRespuestaAsistencia18);
+
+	$contenido = $rowRespuestaAsistencia18['obligacionfinanciera'];
+
 	if ($cont23 % 2 != 0) {
 		if ($rowRespuestaAsistencia18['obligacionfinanciera'] == '' || $rowRespuestaAsistencia18['obligacionfinanciera'] == 'No cubre') {
 			if ($rowValidate > 3) {
+				var_dump($rowRespuestaAsistencia18['aseguradora']);
 				$contenido = '<div style="font-size:4pt">&nbsp;</div>No cubre';
 			} else {
 				$contenido = '<div style="font-size:1pt">&nbsp;</div>No cubre';

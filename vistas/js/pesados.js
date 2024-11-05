@@ -1545,7 +1545,7 @@ const mostrarOfertaPesados = (
     "HDI Seguros",
     "HDI (Antes Liberty)",
     "Axa Colpatria",
-    "Previsora Seguros",
+    "Previsora",
   ];
 
   let cardCotizacion = `
@@ -1633,7 +1633,7 @@ const mostrarOfertaPesados = (
                         ${
                           aseguradorasViajes.includes(aseguradora)
                             ? "Asistencia en Viajes"
-                            : "Servicio de"
+                            : "Servicio de Grua"
                         } 
                       </li>
                     </ul>
