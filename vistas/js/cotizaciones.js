@@ -1118,6 +1118,8 @@ function editarCotizacion(id) {
         $("#esOnerosoNo").prop("checked", true);
       }
 
+
+      document.getElementById("contentOnerosoCheckBox").style.display = "none";
       //FORMULARIO DE PESADOS//
 
       if (respuesta["cot_placa"] == "CAT770") {

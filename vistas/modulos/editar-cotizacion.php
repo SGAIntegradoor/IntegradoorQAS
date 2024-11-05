@@ -580,7 +580,7 @@ $response = retrieveQuotation($idCotizacion);
                   </div>
 
                   <div class="col-xs-12 col-sm-6 col-md-3">
-                    <div class="row">
+                    <div class="row" id="contentOnerosoCheckBox">
                       <div class="col-xs-5 col-sm-5 col-md-5 form-group">
                         <label>Es Oneroso?</label>
                         <div class="conten-oneroso">

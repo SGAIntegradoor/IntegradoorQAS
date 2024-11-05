@@ -3,7 +3,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     let enabled = false;
 
-
     if(enabled){
         if ((!modalShown || modalShown === 'false') && permisos.id_Intermediario === "3" ) {
             swal.fire({
