@@ -118,6 +118,7 @@ $(document).ready(function () {
     "txtNombresRepresentante",
     "txtApellidos",
     "txtApellidosRepresentante",
+    "txtRazonSocial",
   ];
 
   // Función para filtrar caracteres especiales
@@ -2617,8 +2618,8 @@ function cotizarOfertas() {
         apellidosRep != "" &&
         generoRep != "" &&
         estCivRep != "";
-        //correoRep != "" &&
-        //celRep != "";
+  //correoRep != "" &&
+  //celRep != "";
 
   //! Agregar a Motos y Pesados END
 

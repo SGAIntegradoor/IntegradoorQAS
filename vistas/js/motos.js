@@ -12,6 +12,7 @@ $(document).ready(function () {
     "txtNombresRepresentante",
     "txtApellidos",
     "txtApellidosRepresentante",
+    "txtRazonSocial"
   ];
 
   // Función para filtrar caracteres especiales
