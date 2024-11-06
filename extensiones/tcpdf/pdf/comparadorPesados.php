@@ -197,7 +197,11 @@ $pdf->AddPage();
 //$pdf->Image('../../../vistas/img/logos/imagencotizador.jpg', -5, 0, 0, 92, 'JPG', '', '', true, 160, '', false, false, 0, false, false, false);
 //$pdf->Image('../../../vistas/img/logos/cheque.png', 99.5, 159.5, 0, 0, 'PNG', '', '', true, 160, '', false, false, 0, false, false, false);
 
-$pdf->Image('../../../vistas/img/logos/imagencotizador2.jpg', -5, 0, 0, 92, 'JPG', '', '', true, 200, '', false, false, 0, false, false, false);
+if($fila['id_tipo_documento'] == 2){
+	$pdf->Image('../../../vistas/img/logos/imagencotizador3.jpg', -5, 0, 0, 92, 'JPG', '', '', true, 200, '', false, false, 0, false, false, false);
+} else {
+	$pdf->Image('../../../vistas/img/logos/imagencotizador2.jpg', -5, 0, 0, 92, 'JPG', '', '', true, 200, '', false, false, 0, false, false, false);
+}
 
 if ($porciones[1] == 'png') {
 
@@ -220,22 +224,43 @@ $pdf->Image('../../../vistas/img/logos/camion.png', 24.5, 118.5, 0, 35, 'PNG', '
 
 $pdf->SetFont('dejavusanscondensed', '', 2);
 
-$pdf->SetFont('dejavusanscondensed', 'B', 12);
-$pdf->SetXY(100.7, 19.2);
+$pdf->SetFont('dejavusanscondensed', 'B', 13);
+$pdf->SetXY(99.5, 19.2);
 $pdf->SetTextColor(235, 135, 39);
 $pdf->Cell(25, 6, strtoupper($rest) . "" . strtoupper($rest2), 0, 1, '');
-
 
 $pdf->SetFont('dejavusanscondensed', '', 7);
 $pdf->SetTextColor(104, 104, 104);
 $pdf->SetXY(18, 53);
 $pdf->Cell(35, 6, $modelo, 0, 1, '');
 
-$pdf->SetXY(155, 24);
-$pdf->Cell(25, 6, strtoupper($nombre) . " " . strtoupper($apellido), 0, 1, '');
+if($fila['id_tipo_documento'] == 2) {
 
-$pdf->SetXY(166, 31.5);
-$pdf->Cell(25, 6, $identificacion, 0, 1, '');
+	$longitud = strlen($identificacion);
+	$parte_inicial = substr($identificacion, 0, $longitud - 1);
+	$ultimo_caracter = substr($identificacion, -1);
+	$resultado = $parte_inicial . '-' . $ultimo_caracter;
+	$identificacion = $resultado;
+
+	$pdf->SetFont('dejavusanscondensed', '', 8.5);
+	$pdf->SetXY(141.5, 23.6);
+	$pdf->Cell(25, 6, $nombre . " " . $apellido, 0, 1, '');
+
+	$pdf->SetFont('dejavusanscondensed', '', 7);
+	$pdf->SetXY(166, 31.5);
+	$pdf->Cell(25, 6, $identificacion, 0, 1, '');
+
+} else {
+
+	$pdf->SetFont('dejavusanscondensed', '', 7);
+	$pdf->SetXY(166, 31.5);
+	$pdf->Cell(25, 6, $identificacion, 0, 1, '');
+
+	$pdf->SetFont('dejavusanscondensed', '', 7.5);
+	$pdf->SetXY(155, 23.6);
+	$pdf->Cell(25, 6, strtoupper($nombre) . " " . strtoupper($apellido), 0, 1, '');
+}
+
 
 $pdf->SetXY(138, 39.2);
 $pdf->Cell(25, 6, $edad . " Años", 0, 1, '');
