@@ -2050,8 +2050,10 @@ foreach ($resultados as $resultado) {
 
 	$nombreAseguradora = nombreAseguradora($resultado['Aseguradora']);
 	$nombreProducto = productoAseguradora($resultado['Aseguradora'], $resultado['Producto']);
+	$perdidaParcial = $resultado["PerdidaParcial"];
 
-	$queryConsultaAsistencia21xs = "SELECT * FROM asistencias WHERE `aseguradora` LIKE '$nombreAseguradora' AND `producto` LIKE '$nombreProducto' AND `ppd` LIKE '{$resultado['PerdidaParcial']}' ";
+	$queryConsultaAsistencia21xs = "SELECT * FROM asistencias WHERE `aseguradora` LIKE '$nombreAseguradora' AND `producto` LIKE '$nombreProducto' AND `ppd` LIKE '$perdidaParcial'";
+
 	$respuestaqueryAsistencia21xs =  $conexion->query($queryConsultaAsistencia21xs);
 	$rowRespuestaAsistencia21xs = mysqli_fetch_assoc($respuestaqueryAsistencia21xs);
 
@@ -2072,7 +2074,6 @@ foreach ($resultados as $resultado) {
 
 	$cont25 += 1;
 }
-
 $html4 .= '</tr>';
 
 $html4 .= '</table>';
