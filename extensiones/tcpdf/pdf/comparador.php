@@ -237,7 +237,11 @@ $pdf->SetFont('dejavusanscondensed', '', 11);
 // This method has several options, check the source code documentation for more information.
 $pdf->AddPage();
 
-$pdf->Image('../../../vistas/img/logos/imagencotizador2.jpg', -5, 0, 0, 92, 'JPG', '', '', true, 200, '', false, false, 0, false, false, false);
+if($fila['id_tipo_documento'] == 2){
+	$pdf->Image('../../../vistas/img/logos/imagencotizador3.jpg', -5, 0, 0, 92, 'JPG', '', '', true, 200, '', false, false, 0, false, false, false);
+} else {
+	$pdf->Image('../../../vistas/img/logos/imagencotizador2.jpg', -5, 0, 0, 92, 'JPG', '', '', true, 200, '', false, false, 0, false, false, false);
+}
 
 if ($porciones[1] == 'png') {
 
