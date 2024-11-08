@@ -18,7 +18,7 @@ $(document).ready(function () {
   // Función para filtrar caracteres especiales
   function filtrarCaracteresEspeciales(input) {
     var valor = input.value;
-    var valorFiltrado = valor.replace(/[^a-zA-ZñÑ ]/g, ""); // Permitir letras, espacios y la letra "ñ" en mayúsculas o minúsculas
+    var valorFiltrado = valor.replace(/[^a-zA-ZñÑáéíóúÁÉÍÓÚ ]/g, ""); // Permitir letras, espacios, "ñ" y vocales con tilde
     input.value = valorFiltrado;
   }
 

@@ -124,7 +124,7 @@ $(document).ready(function () {
   // Función para filtrar caracteres especiales
   function filtrarCaracteresEspeciales(input) {
     var valor = input.value;
-    var valorFiltrado = valor.replace(/[^a-zA-ZñÑ ]/g, ""); // Permitir letras, espacios y la letra "ñ" en mayúsculas o minúsculas
+    var valorFiltrado = valor.replace(/[^a-zA-ZñÑáéíóúÁÉÍÓÚ ]/g, ""); // Permitir letras, espacios, "ñ" y vocales con tilde
     input.value = valorFiltrado;
   }
 
@@ -769,7 +769,6 @@ function consultarAsegurado() {
       var estado = data.estado;
       var fechaNac = data.cli_fch_nacimiento;
       let documentCli = data.cli_num_documento;
-
       if (estado && data.id_tipo_documento == 2) {
         let fechaNacRep = data.rep_legal.rep_fch_nacimiento;
         $("#idCliente").val(data.id_cliente);
@@ -778,22 +777,24 @@ function consultarAsegurado() {
         $("#txtDigitoVerif").val(data.digitoVerificacion); // Último dígito
         numDocumentoID.value = documentCli;
 
-        var fecha = fechaNac.split("-");
-        var nombreMes = obtenerNombreMes(fecha[1]);
-        $("#dianacimiento").append(
-          "<option value='" + fecha[2] + "' selected>" + fecha[2] + "</option>"
-        );
-        $("#mesnacimiento").append(
-          "<option value='" +
-            fecha[1] +
-            "' selected>" +
-            nombreMes[0].toUpperCase() +
-            nombreMes.slice(1) +
-            "</option>"
-        );
-        $("#anionacimiento").append(
-          "<option value='" + fecha[0] + "' selected>" + fecha[0] + "</option>"
-        );
+        if(fechaNac != "0000-00-00"){
+          var fecha = fechaNac.split("-");
+          var nombreMes = obtenerNombreMes(fecha[1]);
+          $("#dianacimiento").append(
+            "<option value='" + fecha[2] + "' selected>" + fecha[2] + "</option>"
+          );
+          $("#mesnacimiento").append(
+            "<option value='" +
+              fecha[1] +
+              "' selected>" +
+              nombreMes[0].toUpperCase() +
+              nombreMes.slice(1) +
+              "</option>"
+          );
+          $("#anionacimiento").append(
+            "<option value='" + fecha[0] + "' selected>" + fecha[0] + "</option>"
+          );
+        }
 
         // Asignar datos del representante legal
         $("#tipoDocumentoIDRepresentante").val(
@@ -3079,7 +3080,6 @@ function cotizarOfertas() {
                         return res.json();
                       })
                       .then((ofertas) => {
-                        console.log(ofertas);
                         if (typeof ofertas.Resultado !== "undefined") {
                           agregarAseguradoraFallida(plan);
                           let mensaje = "";
