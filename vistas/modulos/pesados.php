@@ -931,7 +931,7 @@ if ($_SESSION["permisos"]["Cotizarpesados"] != "x") {
                         </div>
                         <div id="digitoVerificacion" class="row" style="display: none">
                           <div id="divDigitoVerif" class="col-xs-12 col-sm-6 col-md-12 nomAseg">
-                            <input type="text" class="form-control" id="txtDigitoVerif" max="1" maxlength="1" placeholder="Digito de Verificación">
+                            <input type="text" class="form-control" id="txtDigitoVerif" max="1" maxlength="1" placeholder="Dígito de Verificación">
                           </div>
                         </div>
                       </div>

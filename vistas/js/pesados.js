@@ -534,13 +534,13 @@ const requiredFields = (val) => {
 const controlFields = (val) => {
   if (val) {
     // Fila Placa, nombres, id, doc
-    $('label[for="txtNombres"]').text("Digito de Verificacion");
+    $('label[for="txtNombres"]').text("Dígito de Verificación");
     $("#divNombre").css("display", "none");
     $("#digitoVerificacion").css("display", "block");
 
     // Fila Fecha, Razon Social (Para Nit), Genero, Estado Civil, Celular (Todas menos NIT)
     $('label[name="lblFechaNacimiento"]').html(
-      'Fecha Constitucion Empresa <span style="font-weight: normal;">(Opcional. Se requiere para Zurich y Allianz)</span>'
+      'Fecha Constitucion Empresa'
     );
     $('label[name="lblFechaNacimiento"]').css("max-width", "447px");
     $('label[name="lblFechaNacimiento"]').css("width", "447px");
@@ -671,14 +671,14 @@ function consultarAsegurado() {
     success: function (data) {
       var estado = data.estado;
       var fechaNac = data.cli_fch_nacimiento;
-      let documentCli = data.cli_num_documento.slice(0, -1);
+      let documentCli = data.cli_num_documento;
 
       if (estado && data.id_tipo_documento == 2) {
         let fechaNacRep = data.rep_legal.rep_fch_nacimiento;
         $("#idCliente").val(data.id_cliente);
         $("#tipoDocumentoID").val(data.id_tipo_documento);
         $("#txtRazonSocial").val(data.cli_nombre + " " + data.cli_apellidos);
-        $("#txtDigitoVerif").val(data.cli_num_documento.slice(-1)); // Último dígito
+        $("#txtDigitoVerif").val(data.digitoVerificacion); // Último dígito
         numDocumentoID.value = documentCli;
 
         var fecha = fechaNac.split("-");
