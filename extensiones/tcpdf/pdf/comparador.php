@@ -270,8 +270,8 @@ $pdf->SetTextColor(104, 104, 104);
 $pdf->SetXY(18, 53);
 $pdf->Cell(35, 6, $modelo, 0, 1, '');
 
-$pdf->SetXY(155, 24);
-$pdf->Cell(25, 6, strtoupper($nombre) . " " . strtoupper($apellido), 0, 1, '');
+// $pdf->SetXY(155, 24);
+// $pdf->Cell(25, 6, strtoupper($nombre) . " " . strtoupper($apellido), 0, 1, '');
 
 if($fila['id_tipo_documento'] == 2) {
 
