@@ -2155,7 +2155,7 @@ function validarOfertas(ofertas, aseguradora, exito) {
       oferta.servicio_grua,
       oferta.imagen,
       oferta.pdf,
-      0
+      9,
     );
 
     // });

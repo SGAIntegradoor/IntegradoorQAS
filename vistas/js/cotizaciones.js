@@ -1337,8 +1337,36 @@ function editarCotizacion(id) {
                 "HDI Seguros",
                 "HDI (Antes Liberty)",
                 "Axa Colpatria",
-                "Previsora Seguros",
+                "Previsora",
               ];
+
+              const planesViajes = [
+                "Convenio Pesados",
+                "Convenio Remolques",
+                "Convenio Linea F Chevrolet",
+                "Pesados Full",
+                "Pesados Full1",
+                "Pesados Integral1",
+                "Pesados Integral",
+                "Remolques",
+                "Remolques1",
+                "Tanques",
+                "Ded. Unico Remolques",
+                "Ded. Unico Tanques",
+                "Carga (deducible tradicional)",
+                "Ded. Unico Pesados",
+                "Ded. Unico Volquetas",
+                "Volquetas",
+                "Pesados - lucro",
+                "Pesados + lucro",
+                "Liv Pub+Lucro",
+                "Microbuses",
+                "Camionetas Repa",
+                "Pesados con RCE en exceso",
+                "Pesados",
+                "Todo riesgo Trailer",
+              ];
+
               var valorRC = isNumeric(oferta.ValorRC);
 
               if (valorRC) {
@@ -1639,9 +1667,8 @@ function editarCotizacion(id) {
 													<li class="list-group-item">
 
 														<span class="badge">* ${oferta.Grua}</span>
-
 														${
-                              aseguradorasViajes.includes(aseguradora)
+                              aseguradorasViajes.includes(aseguradora) && planesViajes.includes(oferta.Producto)
                                 ? "Asistencia en Viajes"
                                 : "Servicio de Grúa"
                             } 

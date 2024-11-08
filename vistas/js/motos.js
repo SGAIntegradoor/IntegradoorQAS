@@ -1966,7 +1966,7 @@ function validarOfertasMotos(ofertas, aseguradora, exito) {
       oferta.imagen,
       oferta.pdf,
       $responsabilidadCivilFamiliar,
-      0,
+      8,
       null,
       oferta.pph
     );
