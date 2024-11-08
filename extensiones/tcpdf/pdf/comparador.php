@@ -2763,8 +2763,13 @@ function calculaedad($fechaNacimiento)
 	$ano_diferencia = date("Y") - $ano;
 	$mes_diferencia = date("m") - $mes;
 	$dia_diferencia = date("d") - $dia;
-	if ($dia_diferencia < 0 || $mes_diferencia < 0)
-		$ano_diferencia--;
+	// if ($dia_diferencia < 0 || $mes_diferencia < 0)
+	// 	$ano_diferencia--;
+	
+	// var_dump($ano_diferencia);
+	// var_dump($mes_diferencia);
+	// var_dump($dia_diferencia);
+	// // var_dump($ano_diferencia);
 	return $ano_diferencia;
 }
 
