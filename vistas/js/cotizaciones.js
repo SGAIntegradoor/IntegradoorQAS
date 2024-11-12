@@ -1481,7 +1481,7 @@ function editarCotizacion(id) {
                             <div style="display: flex; justify-content: center; margin-top: 10px">
                             ${
                               oferta.id_oportunidad == null
-                                ? '<a style="text-decoration: underline; text-underline-offset: 3px; cursor: pointer" onclick="sayHi()">Crear oportunidad</a>'
+                                ? '<a class="open-modal" style="text-decoration: underline; text-underline-offset: 3px; cursor: pointer" onclick="sayHiToModal()">Crear oportunidad</a>'
                                 : `<p style="text-decoration: underline; text-underline-offset: 3px; color: blue;">Oportunidad Creada ID # ${oferta.id_oportunidad}</p>`
                             }
                             </div>

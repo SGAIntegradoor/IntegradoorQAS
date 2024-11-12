@@ -992,7 +992,7 @@ if ($_SESSION["permisos"]["Cotizarpesados"] != "x") {
                         </div>
                       </div>
                       <div class="col-xs-12 col-sm-6 col-md-3 form-group" id="divGenero">
-                        <label for="genero">Genero</label>
+                        <label for="genero">Género</label>
                         <select class="form-control" id="genero" required>
                           <option value="" selected>Género</option>
                           <option value="1">Masculino</option>
