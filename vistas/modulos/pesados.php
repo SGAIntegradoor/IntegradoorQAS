@@ -940,7 +940,7 @@ if ($_SESSION["permisos"]["Cotizarpesados"] != "x") {
                     <div class="row">
                       <div id="divRazonSocial" style="display: none">
                         <div id="razonSocial" class="col-xs-12 col-sm-6 col-md-3 form-group nomAseg">
-                          <label name="lblRazonSocial">Razon Social</label>
+                          <label name="lblRazonSocial">Razón Social</label>
                           <input type="text" class="form-control" id="txtRazonSocial" placeholder="Razón Social" required>
                         </div>
                       </div>

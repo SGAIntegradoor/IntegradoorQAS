@@ -435,8 +435,8 @@
 .oferta-logo img {
     width: 100px;
     height: auto;
-    margin-top: 50px;
-    margin-left: 25px;
+    margin-top: 30px;
+    /* margin-left: 25px; */
 }
 
 .oferta-header {

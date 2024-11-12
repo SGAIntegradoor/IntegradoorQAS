@@ -540,7 +540,7 @@ const controlFields = (val) => {
 
     // Fila Fecha, Razon Social (Para Nit), Genero, Estado Civil, Celular (Todas menos NIT)
     $('label[name="lblFechaNacimiento"]').html(
-      'Fecha Constitucion Empresa'
+      'Fecha Constitución Empresa (Opcional. Se requiere para Allianz)'
     );
     $('label[name="lblFechaNacimiento"]').css("max-width", "447px");
     $('label[name="lblFechaNacimiento"]').css("width", "447px");

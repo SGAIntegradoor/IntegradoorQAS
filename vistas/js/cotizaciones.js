@@ -826,6 +826,14 @@ if (options.length > 0) {
   editarCotizacion(options[0]);
 }
 
+
+// metodo comprobador
+
+// function sayHi() {
+//   console.log("hi!!")
+// }
+
+
 /*=============================================
 
 EDITAR COTIZACION
@@ -1117,7 +1125,6 @@ function editarCotizacion(id) {
       } else {
         $("#esOnerosoNo").prop("checked", true);
       }
-
 
       document.getElementById("contentOnerosoCheckBox").style.display = "none";
       //FORMULARIO DE PESADOS//
@@ -1441,7 +1448,6 @@ function editarCotizacion(id) {
 											<div class="col-xs-12 col-sm-6 col-md-2 oferta-logo">
 
                       <center> 
-
 												<img src='${oferta.logo}' style="${
                 oferta.Aseguradora == "Mundial"
                   ? "margin-top: 65px;"
@@ -1449,8 +1455,7 @@ function editarCotizacion(id) {
                   ? "margin-top: 3px;"
                   : null
               }">
-
-                        </center>
+                      </center>
                       <div class='col-12' style='margin-top:2%;'>
                           ${
                             (oferta.Aseguradora === "Axa Colpatria" ||
@@ -1472,6 +1477,15 @@ function editarCotizacion(id) {
                             </center>`
                               : ""
                           }
+                          
+                            <div style="display: flex; justify-content: center; margin-top: 10px">
+                            ${
+                              oferta.id_oportunidad == null
+                                ? '<a style="text-decoration: underline; text-underline-offset: 3px; cursor: pointer" onclick="sayHi()">Crear oportunidad</a>'
+                                : `<p style="text-decoration: underline; text-underline-offset: 3px; color: blue;">Oportunidad Creada ID # ${oferta.id_oportunidad}</p>`
+                            }
+                            </div>
+                          
                         </div>
 											</div>
 											<div class="col-xs-12 col-sm-6 col-md-2 oferta-headerEdit" style='${
@@ -1668,7 +1682,8 @@ function editarCotizacion(id) {
 
 														<span class="badge">* ${oferta.Grua}</span>
 														${
-                              aseguradorasViajes.includes(aseguradora) && planesViajes.includes(oferta.Producto)
+                              aseguradorasViajes.includes(aseguradora) &&
+                              planesViajes.includes(oferta.Producto)
                                 ? "Asistencia en Viajes"
                                 : "Servicio de Grúa"
                             } 
@@ -3595,3 +3610,5 @@ function menosRECot() {
 
   document.getElementById("masResOferta").style.display = "none";
 }
+
+
