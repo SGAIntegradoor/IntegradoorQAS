@@ -111,7 +111,7 @@ $(document).ready(function () {
   // var nombreInput = document.getElementById("txtNombres");
   // var nombreInputRep = document.getElementById("txtNombresRepresentante");
   // var apellidoInput = document.getElementById("txtApellidos");
-  // var ceroKilometros = document.getElementById("txtEsCeroKmSi");
+  var ceroKilometros = document.getElementById("txtEsCeroKmSi");
 
   let inputsArr = [
     "txtNombres",

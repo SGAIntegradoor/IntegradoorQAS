@@ -15,6 +15,37 @@ $(document).ready(function () {
     "txtRazonSocial"
   ];
 
+  $("#txtConocesLaPlacaSi").click(function () {
+    document.getElementById("contenPlaca").style.display = "block";
+    document.getElementById("contenCeroKM").style.display = "none";
+    document.getElementById("placaVeh").value = "";
+    $("#txtEsCeroKmSi").prop("checked", false);
+    $("#txtEsCeroKmNo").prop("checked", true);
+  });
+
+
+  $("#txtConocesLaPlacaNo").click(function () {
+    document.getElementById("contenPlaca").style.display = "none";
+    document.getElementById("contenCeroKM").style.display = "block";
+    document.getElementById("placaVeh").value = "WWW404";
+    $("#txtEsCeroKmNo").prop("checked", false);
+  });
+
+  $("#txtEsCeroKmNo").click(function () {
+    var conoceslaPlaca = document.getElementById("txtConocesLaPlacaNo").checked;
+    var esCeroKmNo = document.getElementById("txtEsCeroKmNo").checked;
+
+    if (conoceslaPlaca == true && esCeroKmNo == true) {
+      Swal.fire({
+        icon: "error",
+        title: "!Si el vehiculo no es 0 km, debe tener placa!",
+        text: "Si el vehiculo tiene placa, no es 0 km",
+        showConfirmButton: true,
+      });
+      $("#txtEsCeroKmNo").prop("checked", false);
+    }
+  });
+
   // Función para filtrar caracteres especiales
   function filtrarCaracteresEspeciales(input) {
     var valor = input.value;
