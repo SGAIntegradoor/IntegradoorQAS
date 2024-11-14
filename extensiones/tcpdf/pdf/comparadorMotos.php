@@ -251,11 +251,7 @@ $pdf->Cell(35, 6, $modelo, 0, 1, '');
 
 if($fila['id_tipo_documento'] == 2) {
 
-	$longitud = strlen($identificacion);
-	$parte_inicial = substr($identificacion, 0, $longitud - 1);
-	$ultimo_caracter = substr($identificacion, -1);
-	$resultado = $parte_inicial . '-' . $ultimo_caracter;
-	$identificacion = $resultado;
+	$digitoVerif = $fila["digitoVerificacion"];
 
 	$pdf->SetFont('dejavusanscondensed', '', 8.5);
 	$pdf->SetXY(141.5, 23.6);
@@ -263,7 +259,7 @@ if($fila['id_tipo_documento'] == 2) {
 
 	$pdf->SetFont('dejavusanscondensed', '', 7);
 	$pdf->SetXY(166, 31.5);
-	$pdf->Cell(25, 6, $identificacion, 0, 1, '');
+	$pdf->Cell(25, 6, $identificacion."-".$digitoVerif, 0, 1, '');
 	
 } else {
 

@@ -188,7 +188,7 @@ if ($idCliente == "" && $tipoDocumento != 2) {
 	// $numID = $numIdentificacion . '' . $digitoVerif;
 
 	$sqlClient = "UPDATE clientes SET id_tipo_documento = '$tipoDocumento', cli_num_documento = '$numIdentificacion', digitoVerificacion = '$digitoVerif' ,cli_nombre = '$Nombre', 
-                    cli_apellidos = '$Apellido', cli_genero = '3', id_estado_civil = '1', cli_email = '$correoRep', 
+                    cli_apellidos = '$Apellido', cli_genero = '3', cli_fch_nacimiento = '$FechaNacimiento', id_estado_civil = '1', cli_email = '$correoRep', 
                     cli_telefono = '$celRep' WHERE id_cliente = $idCliente";
 	$resClient = mysqli_query($con, $sqlClient);
 	$num_rows = mysqli_affected_rows($con);

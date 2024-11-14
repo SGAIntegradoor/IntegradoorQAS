@@ -1298,8 +1298,8 @@ $response = retrieveQuotation($idCotizacion);
               </div>
               <div class="row" style="margin-bottom: 32px;">
                 <div class="col-xs-12 col-sm-6 col-md-4 form-group">
-                  <label for="txtAsesorOportunidad">¿Tiene oneroso?</label>
-                  <select type="text" class="form-control" id="txtAsesorOportunidad">
+                  <label for="txtAsesorOnerosoOportunidad">¿Tiene oneroso?</label>
+                  <select type="text" class="form-control" id="txtAsesorOnerosoOportunidad">
                     <option value="1">Si</option>
                     <option value="2">No</option>
                   </select>

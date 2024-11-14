@@ -33,7 +33,7 @@ $(document).ready(function () {
 
           let mes = obtenerMesActual();
 
-          let oneroso = $("#txtAsesorOportunidad").val();
+          let oneroso = $("#txtAsesorOnerosoOportunidad").val();
           let estado = $("#txtPlacaOportunidad").val();
           let observaciones = $("#txtObservacionesOportunidad").val();
           
@@ -42,7 +42,11 @@ $(document).ready(function () {
           var data = new FormData();
           //id_oportunidad
           data.append("idCotizacion", idCotizacion);
+
           data.append("valor_cotizacion", oferta.Prima);
+
+          data.append("idOferta", oferta.id_oferta);
+
           data.append("mesOportunidad", mes);
           data.append("asesor_freelance", info.usu_nombre+" "+info.usu_apellido);
           data.append("ramo", "Automoviles");
@@ -60,13 +64,37 @@ $(document).ready(function () {
           $.ajax({
             url: "ajax/oportunidades.ajax.php",
             method: "POST",
-            data: datos,
+            data: data,
             cache: false,
             contentType: false,
             processData: false,
             dataType: "json",
             success: function(respuesta) {
-              if(respuesta.state == "Success"){
+              if(respuesta.code === 1){
+                Swal.fire({
+                  icon: "success",
+                  text: `Oportunidad # ${respuesta.inserted_id} registrada con éxito`,
+                  showConfirmButton: true,          
+                  confirmButtonText: "Ok",
+                }).then((result) => {
+                  if (result.isConfirmed) {
+                    window.location.reload;
+                  } else if (result.isDismissed) {
+                    window.location.reload;
+                  }
+                });
+              }else {
+                Swal.fire({
+                  icon: "error",
+                  showConfirmButton: true,   
+                  confirmButtonText: "Cerrar",
+                }).then((result) => {
+                  if (result.isConfirmed) {
+                    return;
+                  } else if (result.isDismissed) {
+                    return;
+                  }
+                });
 
               }
             },

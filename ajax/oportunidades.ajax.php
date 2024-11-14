@@ -8,6 +8,9 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 $noCotizacion = $_POST['idCotizacion']; //INT
+
+$idOferta = $_POST['idOferta']; //INT
+
 $valor_cotizacion = $_POST['valor_cotizacion']; //INT
 $mesOportunidad = $_POST['mesOportunidad']; //VARCHAR
 $asesor_freelance = $_POST['asesor_freelance'];
@@ -20,7 +23,7 @@ $estado = $_POST['estado']; //VARCHAR
 $asegurado = $_POST['asegurado']; //VARCHAR
 $observaciones = $_POST['observaciones']; //LONGTEXT
 
-$query = "INSERT INTO oportuniades (id_oportunidad, id_cotizacion, valor_cotizacion, mes_oportunidad, asesor_freelance, ramo, placa, oneroso, aseguradora, analista_comercial, estado, no_poliza, asegurado, prima_sin_iva, asist_otros, gastos, iva, valor_total, fecha_expedicion, mes_expedicion, forma_pago, financiera, carpeta, observaciones) VALUES (null, $noCotizacion, $valor_cotizacion, '$mesOportunidad', '$asesor_freelance', '$ramo', '$placa', '$oneroso', '$aseguradora', '$analista_comercial', '$estado', null, '$asegurado', null, null, null, null, null, null, null, null, null, null, '$observaciones')";
+$query = "INSERT INTO oportunidades (id_oportunidad, id_cotizacion, valor_cotizacion, mes_oportunidad, asesor_freelance, ramo, placa, oneroso, aseguradora, analista_comercial, estado, no_poliza, asegurado, prima_sin_iva, asist_otros, gastos, iva, valor_total, fecha_expedicion, mes_expedicion, forma_pago, financiera, carpeta, observaciones) VALUES (null, $noCotizacion, $valor_cotizacion, '$mesOportunidad', '$asesor_freelance', '$ramo', '$placa', '$oneroso', '$aseguradora', '$analista_comercial', '$estado', null, '$asegurado', null, null, null, null, null, null, null, null, null, null, '$observaciones')";
 
 $stmt = $enlace->prepare($query);
 
@@ -35,9 +38,22 @@ if (!$stmt->execute()) {
 $rows = $stmt->affected_rows;
 
 if ($rows > 0) {
-    $data = array("status" => "success", "message" => "Oportunidad Insertada Correctamente", "inserted_id" => $stmt->insert_id);
-    echo json_encode($data, JSON_UNESCAPED_UNICODE);
+    
+    $query2 = "UPDATE ofertas SET id_oportunidad = $stmt->insert_id WHERE id_oferta = $idOferta";
+    $stmt2 = $enlace->prepare($query2);
+
+    if (!$stmt2->execute()) {
+        die("Error en la ejecución de la consulta: " . $stmt2->error);
+    }
+    $rows2 = $stmt2->affected_rows;
+    if($rows2 > 0){
+        $data = array("status" => "success", "code" => 1 ,"message" => "Oportunidad Insertada Correctamente", "inserted_id" => $stmt->insert_id, "offert_updated" => $idOferta );
+        echo json_encode($data, JSON_UNESCAPED_UNICODE);
+    } else {
+        $data = array("status" => "failed", "code" => 0 ,"message" => "Oportunidad insertada pero con errores al modificar la oferta");
+        echo json_encode($data, JSON_UNESCAPED_UNICODE);
+    }
 } else {
-    $data = array("status" => "failed", "message" => "Oportunidad no insertada");
+    $data = array("status" => "failed", "code" => 0 ,"message" => "Oportunidad no insertada");
     echo json_encode($data, JSON_UNESCAPED_UNICODE);
 }

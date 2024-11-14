@@ -953,7 +953,7 @@ function consulPlacaMotos(query = "1") {
                       confirmButtonText: "Cerrar",
                     }).then(() => {
                       // Recargar la página después de cerrar el SweetAlert
-                      // location.reload();
+                      location.reload();
                     });
                   } else if (codigoClase == 2) {
                     claseVehiculo = "CAMPEROS";
@@ -984,7 +984,7 @@ function consulPlacaMotos(query = "1") {
                       confirmButtonText: "Cerrar",
                     }).then(() => {
                       // Recargar la página después de cerrar el SweetAlert
-                      // location.reload();
+                      location.reload();
                     });
                   } else if (codigoClase == 19) {
                     claseVehiculo = "VAN";
