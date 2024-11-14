@@ -78,15 +78,18 @@ $(document).ready(function () {
                   confirmButtonText: "Ok",
                 }).then((result) => {
                   if (result.isConfirmed) {
-                    window.location.reload;
+                    $("#myModal").dialog("close"); // Cerrar el modal
+                    window.location.reload(); // Recargar la página (opcional)
                   } else if (result.isDismissed) {
-                    window.location.reload;
+                    $("#myModal").dialog("close"); // Cerrar el modal
+                    window.location.reload(); // Recargar la página (opcional)
                   }
                 });
               }else {
                 Swal.fire({
                   icon: "error",
                   showConfirmButton: true,   
+                  text: `Error al intentar crear la oportunidad, comuníquese con el administrador del sistema`,
                   confirmButtonText: "Cerrar",
                 }).then((result) => {
                   if (result.isConfirmed) {

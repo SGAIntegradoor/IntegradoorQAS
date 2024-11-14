@@ -23,7 +23,7 @@ $estado = $_POST['estado']; //VARCHAR
 $asegurado = $_POST['asegurado']; //VARCHAR
 $observaciones = $_POST['observaciones']; //LONGTEXT
 
-$query = "INSERT INTO oportunidades (id_oportunidad, id_cotizacion, valor_cotizacion, mes_oportunidad, asesor_freelance, ramo, placa, oneroso, aseguradora, analista_comercial, estado, no_poliza, asegurado, prima_sin_iva, asist_otros, gastos, iva, valor_total, fecha_expedicion, mes_expedicion, forma_pago, financiera, carpeta, observaciones) VALUES (null, $noCotizacion, $valor_cotizacion, '$mesOportunidad', '$asesor_freelance', '$ramo', '$placa', '$oneroso', '$aseguradora', '$analista_comercial', '$estado', null, '$asegurado', null, null, null, null, null, null, null, null, null, null, '$observaciones')";
+$query = "INSERT INTO oportunidades (id_oportunidad, id_cotizacion, valor_cotizacion, mes_oportunidad, asesor_freelance, ramo, placa, oneroso, aseguradora, analista_comercial, estado, no_poliza, asegurado, prima_sin_iva, asist_otros, gastos, iva, valor_total, fecha_expedicion, mes_expedicion, forma_pago, financiera, carpeta, observaciones, id_oferta) VALUES (null, $noCotizacion, $valor_cotizacion, '$mesOportunidad', '$asesor_freelance', '$ramo', '$placa', '$oneroso', '$aseguradora', '$analista_comercial', '$estado', null, '$asegurado', null, null, null, null, null, null, null, null, null, null, '$observaciones', $idOferta)";
 
 $stmt = $enlace->prepare($query);
 
