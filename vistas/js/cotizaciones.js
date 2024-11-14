@@ -1,6 +1,129 @@
 // let permisos = "";
 
 $(document).ready(function () {
+
+  function obtenerMesActual() {
+    const meses = [
+      "Enero", "Febrero", "Marzo", "Abril", 
+      "Mayo", "Junio", "Julio", "Agosto", 
+      "Septiembre", "Octubre", "Noviembre", "Diciembre"
+    ];
+    
+    const mesActual = new Date().getMonth(); // Retorna un valor entre 0 y 11
+    return meses[mesActual]; // Devuelve el nombre del mes
+  }
+
+  function abrirDialogo (idCotizacion, oferta)  {
+    // Configurar el diálogo
+
+    let info = "";
+
+    $("#myModal").dialog({
+      autoOpen: false, 
+      modal: true,     
+      width: 750,      
+      dialogClass: "custom-dialog",
+      buttons: {       
+        "Cerrar": function() {
+          console.log(oferta)
+          console.log(info)
+          $(this).dialog("close");
+        },
+        "Guardar": function() {
+
+          let mes = obtenerMesActual();
+
+          let oneroso = $("#txtAsesorOportunidad").val();
+          let estado = $("#txtPlacaOportunidad").val();
+          let observaciones = $("#txtObservacionesOportunidad").val();
+          
+          // Se valida previamente que los campos este completos
+          // En caso de no estarlos debe dar un error marcando que campo debe ser llenado en el formulario o modal
+          var data = new FormData();
+          //id_oportunidad
+          data.append("idCotizacion", idCotizacion);
+          data.append("valor_cotizacion", oferta.Prima);
+          data.append("mesOportunidad", mes);
+          data.append("asesor_freelance", info.usu_nombre+" "+info.usu_apellido);
+          data.append("ramo", "Automoviles");
+          data.append("placa", oferta.Placa);
+          data.append("oneroso", oneroso);
+          data.append("aseguradora", oferta.Aseguradora);
+          data.append("analista_comercial", permisos.usu_nombre+" "+permisos.usu_apellido);
+          //numero de poliza
+          data.append("estado", estado);
+          data.append("asegurado", info.cli_nombre+" "+info.cli_apellidos);
+          data.append("observaciones", observaciones == "" ? null : observaciones);
+
+          // Se ejecuta la peticion por AJAX para llamar a un controlador que se encargara de guardar la data en la base de datos en la tabla "Oportunidades".
+
+          $.ajax({
+            url: "ajax/oportunidades.ajax.php",
+            method: "POST",
+            data: datos,
+            cache: false,
+            contentType: false,
+            processData: false,
+            dataType: "json",
+            success: function(respuesta) {
+              if(respuesta.state == "Success"){
+
+              }
+            },
+            error: function() {
+              console.log("Error al obtener los datos");
+            }
+          });
+        }     
+      },
+      open: function() {
+        $("body").css("overflow", "hidden");
+        $(".ui-dialog-buttonpane button:contains('Cerrar')").attr("id", "btnCerrar");
+        $(".ui-dialog-buttonpane button:contains('Guardar')").attr("id", "btnGuardar");
+  
+        // Realizar la solicitud AJAX para cargar datos basados en el idCotizacion
+        var datos = new FormData();
+        datos.append("idCotizacion", idCotizacion);
+  
+        $.ajax({
+          url: "ajax/cotizaciones.ajax.php",
+          method: "POST",
+          data: datos,
+          cache: false,
+          contentType: false,
+          processData: false,
+          dataType: "json",
+          success: function(respuesta) {
+            $("#noCotizacion").val(respuesta.id_cotizacion);
+            $("#txtAsesorOportunidad").val(respuesta.usu_nombre + " " + respuesta.usu_apellido);
+            $("#txtPlacaOportunidad").val(respuesta.cot_placa);
+            $("#txtAnalistaOportunidad").val(permisos.usu_nombre + " " + permisos.usu_apellido);
+            $("#txtAseguradoraOportunidad").val(oferta.Aseguradora);
+            info = respuesta;
+          },
+          error: function() {
+            console.log("Error al obtener los datos");
+          }
+        });
+      },
+      close: function() {
+        $("body").css("overflow", "auto");
+      }
+    });
+  
+    // Abrir el diálogo
+    $("#myModal").dialog("open");
+  }
+
+  window.abrirDialogo = abrirDialogo;
+  
+  // Asignar eventos a elementos específicos
+  // $(document).on("click", ".openModal", function() {
+  //   abrirDialogo(); // Llamar la función con el ID específico
+  // });
+  
+  // Abre el modal cuando se hace clic en el botón
+ 
   //permisosPlantilla = permisosPlantilla.replace(/\s+/g, '');
   //let permisos = JSON.parse(permisosPlantilla);
   //console.log(permisos);
@@ -1481,7 +1604,7 @@ function editarCotizacion(id) {
                             <div style="display: flex; justify-content: center; margin-top: 10px">
                             ${
                               oferta.id_oportunidad == null
-                                ? '<a class="open-modal" style="text-decoration: underline; text-underline-offset: 3px; cursor: pointer" onclick="sayHiToModal()">Crear oportunidad</a>'
+                                ? `<p class="openModal" onclick='abrirDialogo(${idCotizacion}, ${JSON.stringify(oferta).replace(/'/g, "\\'")})' style="text-decoration: underline; text-underline-offset: 3px; cursor: pointer">Crear oportunidad</p>`
                                 : `<p style="text-decoration: underline; text-underline-offset: 3px; color: blue;">Oportunidad Creada ID # ${oferta.id_oportunidad}</p>`
                             }
                             </div>

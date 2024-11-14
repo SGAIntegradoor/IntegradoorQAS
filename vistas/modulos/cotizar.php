@@ -1001,7 +1001,7 @@ echo '<script>console.log(' . $idIntermediario . ", " . $rolAsesor . ')</script>
                       <label name="lblFechaNacimiento">Fecha de Nacimiento</label>
                       <div id="fechaCompleta" class="row">
                         <div class="col-xs-4 col-sm-4 col-md-4 conten-dia">
-                          <select class="form-control fecha-nacimiento" name="dianacimiento" id="dianacimiento" required>
+                          <select class="form-control fecha-nacimiento" name="dianacimiento" id="dianacimiento">
                             <option value="">Dia</option>
                             <?php
                             for ($i = 1; $i <= 31; $i++) {
@@ -1015,7 +1015,7 @@ echo '<script>console.log(' . $idIntermediario . ", " . $rolAsesor . ')</script>
                           </select>
                         </div>
                         <div class="col-xs-4 col-sm-4 col-md-4 conten-mes">
-                          <select class="form-control fecha-nacimiento" name="mesnacimiento" id="mesnacimiento" required>
+                          <select class="form-control fecha-nacimiento" name="mesnacimiento" id="mesnacimiento">
                             <option value="" selected>Mes</option>
                             <option value="01">Enero</option>
                             <option value="02">Febrero</option>
@@ -1032,7 +1032,7 @@ echo '<script>console.log(' . $idIntermediario . ", " . $rolAsesor . ')</script>
                           </select>
                         </div>
                         <div class="col-xs-4 col-sm-4 col-md-4 conten-anio">
-                          <select class="form-control fecha-nacimiento" name="anionacimiento" id="anionacimiento" required>
+                          <select class="form-control fecha-nacimiento" name="anionacimiento" id="anionacimiento">
                             <option value="">Año</option>
                             <?php
                             for ($j = 1920; $j <= 2025; $j++) {

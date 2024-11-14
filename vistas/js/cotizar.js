@@ -777,11 +777,15 @@ function consultarAsegurado() {
         $("#txtDigitoVerif").val(data.digitoVerificacion); // Último dígito
         numDocumentoID.value = documentCli;
 
-        if(fechaNac != "0000-00-00"){
+        if (fechaNac != "0000-00-00") {
           var fecha = fechaNac.split("-");
           var nombreMes = obtenerNombreMes(fecha[1]);
           $("#dianacimiento").append(
-            "<option value='" + fecha[2] + "' selected>" + fecha[2] + "</option>"
+            "<option value='" +
+              fecha[2] +
+              "' selected>" +
+              fecha[2] +
+              "</option>"
           );
           $("#mesnacimiento").append(
             "<option value='" +
@@ -792,7 +796,11 @@ function consultarAsegurado() {
               "</option>"
           );
           $("#anionacimiento").append(
-            "<option value='" + fecha[0] + "' selected>" + fecha[0] + "</option>"
+            "<option value='" +
+              fecha[0] +
+              "' selected>" +
+              fecha[0] +
+              "</option>"
           );
         }
 
@@ -865,6 +873,22 @@ function consultarAsegurado() {
         $("#dianacimiento").append("<option value='' selected></option>");
         $("#mesnacimiento").append("<option value=''selected ></option>");
         $("#anionacimiento").append("<option value='' selected></option>");
+
+        $("#txtRazonSocial").val("");
+        $("#txtDigitoVerif").val("");
+        $("#txtNombresRepresentante").val("");
+        $("#txtApellidosRepresentante").val("");
+        $("#generoRepresentante").val("");
+        $("#estadoCivilRepresentante").val("");
+        $("#txtCorreoRepresentante").val("");
+        $("#txtCelularRepresentante").val("");
+        $("#numDocumentoIDRepresentante").val("");
+
+        $("#tipoDocumentoIDRepresentante").val("");
+
+        $("#dianacimientoRepresentante").append("<option value='' selected></option>");
+        $("#mesnacimientoRepresentante").append("<option value=''selected ></option>");
+        $("#anionacimientoRepresentante").append("<option value='' selected></option>");
         //console.log(data.mensaje);
       }
     },
@@ -897,6 +921,7 @@ function consulPlaca(query = "1") {
     var dianacimiento = document.getElementById("dianacimiento").value;
     var mesnacimiento = document.getElementById("mesnacimiento").value;
     var anionacimiento = document.getElementById("anionacimiento").value;
+
     var nombresAseg = document.getElementById("txtNombres").value;
     var apellidosAseg = document.getElementById("txtApellidos").value;
     var generoAseg = document.getElementById("genero").value;
@@ -971,9 +996,9 @@ function consulPlaca(query = "1") {
           anioRep != "" &&
           diaRep != "" &&
           mesRep != "" &&
-          dianacimiento != "" &&
-          mesnacimiento != "" &&
-          anionacimiento != "" &&
+          //dianacimiento != "" &&
+          //mesnacimiento != "" &&
+          //anionacimiento != "" &&
           numDocRep != "" &&
           nomRep != "" &&
           apellidoRep != "" &&
@@ -2156,7 +2181,7 @@ function validarOfertas(ofertas, aseguradora, exito) {
       oferta.servicio_grua,
       oferta.imagen,
       oferta.pdf,
-      9,
+      9
     );
 
     // });
@@ -2434,6 +2459,7 @@ function cotizarOfertas() {
   let diaRep = document.getElementById("dianacimientoRepresentante").value;
   let mesRep = document.getElementById("mesnacimientoRepresentante").value;
   let anioRep = document.getElementById("anionacimientoRepresentante").value;
+
   let fechaNacimientoRep = anioRep + "-" + mesRep + "-" + diaRep;
   let generoRep = document.getElementById("generoRepresentante").value;
   let estCivRep = document.getElementById("estadoCivilRepresentante").value;
@@ -2445,7 +2471,14 @@ function cotizarOfertas() {
   var dia = document.getElementById("dianacimiento").value;
   var mes = document.getElementById("mesnacimiento").value;
   var anio = document.getElementById("anionacimiento").value;
-  var FechaNacimiento = anio + "-" + mes + "-" + dia;
+
+  var FechaNacimiento = "";
+
+  if(anio == "" &&  mes == "" && dia == ""){
+    FechaNacimiento = "";
+  } else {
+    FechaNacimiento = anio + "-" + mes + "-" + dia;
+  }
 
   var Genero = document.getElementById("genero").value;
 

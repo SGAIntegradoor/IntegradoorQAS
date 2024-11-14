@@ -767,7 +767,22 @@ function consultarAsegurado() {
         $("#dianacimiento").append("<option value='' selected></option>");
         $("#mesnacimiento").append("<option value=''selected ></option>");
         $("#anionacimiento").append("<option value='' selected></option>");
-        //console.log(data.mensaje);
+
+        $("#txtRazonSocial").val("");
+        $("#txtDigitoVerif").val("");
+        $("#txtNombresRepresentante").val("");
+        $("#txtApellidosRepresentante").val("");
+        $("#generoRepresentante").val("");
+        $("#estadoCivilRepresentante").val("");
+        $("#txtCorreoRepresentante").val("");
+        $("#txtCelularRepresentante").val("");
+        $("#numDocumentoIDRepresentante").val("");
+
+        $("#tipoDocumentoIDRepresentante").val("");
+
+        $("#dianacimientoRepresentante").append("<option value='' selected></option>");
+        $("#mesnacimientoRepresentante").append("<option value=''selected ></option>");
+        $("#anionacimientoRepresentante").append("<option value='' selected></option>");
       }
     },
   });
@@ -834,9 +849,9 @@ function consulPlacaPesados(query = "1") {
         anioRep != "" &&
         diaRep != "" &&
         mesRep != "" &&
-        dianacimiento != "" &&
-        mesnacimiento != "" &&
-        anionacimiento != "" &&
+        //dianacimiento != "" &&
+        //mesnacimiento != "" &&
+        //anionacimiento != "" &&
         numDocRep != "" &&
         nomRep != "" &&
         apellidoRep != "" &&
@@ -2162,7 +2177,14 @@ function cotizarOfertasPesados() {
   var dia = document.getElementById("dianacimiento").value;
   var mes = document.getElementById("mesnacimiento").value;
   var anio = document.getElementById("anionacimiento").value;
-  var FechaNacimiento = anio + "-" + mes + "-" + dia;
+  
+  var FechaNacimiento = "";
+
+  if(anio == "" &&  mes == "" && dia == ""){
+    FechaNacimiento = "";
+  } else {
+    FechaNacimiento = anio + "-" + mes + "-" + dia;
+  }
 
   var Genero = document.getElementById("genero").value;
 
