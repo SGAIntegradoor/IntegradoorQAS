@@ -2,6 +2,15 @@
 
 $(document).ready(function () {
 
+  function obtenerFechaActual() {
+    const hoy = new Date();
+    const año = hoy.getFullYear();
+    const mes = String(hoy.getMonth() + 1).padStart(2, '0'); // Los meses van de 0 a 11
+    const día = String(hoy.getDate()).padStart(2, '0');
+
+    return `${año}-${mes}-${día}`;
+}
+
   function obtenerMesActual() {
     const meses = [
       "Enero", "Febrero", "Marzo", "Abril", 
@@ -12,6 +21,8 @@ $(document).ready(function () {
     const mesActual = new Date().getMonth(); // Retorna un valor entre 0 y 11
     return meses[mesActual]; // Devuelve el nombre del mes
   }
+
+  
 
   function abrirDialogo (idCotizacion, oferta)  {
     // Configurar el diálogo
@@ -33,34 +44,37 @@ $(document).ready(function () {
 
           let mes = obtenerMesActual();
 
-          let oneroso = $("#txtAsesorOnerosoOportunidad").val();
-          let estado = $("#txtPlacaOportunidad").val();
-          let observaciones = $("#txtObservacionesOportunidad").val();
-          
+          let oneroso = $("#txtAsesorOnerosoOportunidad option:selected").text();
+          let estado = $("#txtEstadoOportunidad option:selected").text();
+          let observaciones = $("#txtObservacionesOportunidad").val() === null;
+          let fechaCreacion = obtenerFechaActual();
+
           // Se valida previamente que los campos este completos
           // En caso de no estarlos debe dar un error marcando que campo debe ser llenado en el formulario o modal
           var data = new FormData();
+          
           //id_oportunidad
           data.append("idCotizacion", idCotizacion);
-
           data.append("valor_cotizacion", oferta.Prima);
-
           data.append("idOferta", oferta.id_oferta);
-
           data.append("mesOportunidad", mes);
           data.append("asesor_freelance", info.usu_nombre+" "+info.usu_apellido);
+          data.append("id_user_freelance", info.id_usuario);
           data.append("ramo", "Automoviles");
           data.append("placa", oferta.Placa);
           data.append("oneroso", oneroso);
           data.append("aseguradora", oferta.Aseguradora);
           data.append("analista_comercial", permisos.usu_nombre+" "+permisos.usu_apellido);
+          data.append("id_analista_comercial", permisos.id_usuario);
           //numero de poliza
           data.append("estado", estado);
           data.append("asegurado", info.cli_nombre+" "+info.cli_apellidos);
-          data.append("observaciones", observaciones == "" ? null : observaciones);
+          data.append("id_asegurado", info.id_cliente);
+          data.append("observaciones", observaciones == null || observaciones == false ? "" : observaciones);
+          data.append("fechaCreacion", fechaCreacion);
+
 
           // Se ejecuta la peticion por AJAX para llamar a un controlador que se encargara de guardar la data en la base de datos en la tabla "Oportunidades".
-
           $.ajax({
             url: "ajax/oportunidades.ajax.php",
             method: "POST",
@@ -1033,12 +1047,8 @@ function editarCotizacion(id) {
 
       if (respuesta["id_tipo_documento"] == 2) {
         console.log(respuesta);
-        $("#numDocumentoID").val(
-          respuesta["cli_num_documento"]
-            .split("")
-            .slice(0, respuesta["cli_num_documento"].split("").length - 1)
-            .join("")
-        );
+        $("#numDocumentoID").val(respuesta["cli_num_documento"]);
+        $("#txtDigitoVerif").val(respuesta["digitoVerificacion"]);
         $('label[for="txtNombres"]').text("Dígito de Verificación");
         $("#divNombre").css("display", "none");
         $("#digitoVerificacion").css("display", "block");
@@ -1073,7 +1083,6 @@ function editarCotizacion(id) {
         $("#txtRazonSocial").val(
           respuesta.cli_nombre + " " + respuesta.cli_apellidos
         );
-        $("#txtDigitoVerif").val(respuesta.cli_num_documento.split("").pop());
 
         let fechaNit = respuesta["cli_fch_nacimiento"].split("-");
 
@@ -1909,7 +1918,7 @@ function editarCotizacion(id) {
               }
 
               if (
-                oferta.Manual == "0" &&
+                (oferta.Manual == "0" || oferta.Manual == "8" || oferta.Manual == "9") &&
                 (oferta.Aseguradora == "Seguros Bolivar" ||
                   oferta.Aseguradora == "Axa Colpatria") &&
                 aseguradoraPermisos == "1"
@@ -1926,7 +1935,7 @@ function editarCotizacion(id) {
 
 											</div>`;
               } else if (
-                oferta.Manual == "0" &&
+                (oferta.Manual == "0" || oferta.Manual == "8" || oferta.Manual == "9") &&
                 (oferta.Aseguradora == "Previsora Seguros" ||
                   oferta.Aseguradora == "Previsora") &&
                 oferta.UrlPdf !== null &&
@@ -1944,7 +1953,7 @@ function editarCotizacion(id) {
 
 											</div>`;
               } else if (
-                oferta.Manual == "0" &&
+                (oferta.Manual == "0" || oferta.Manual == "8" || oferta.Manual == "9") &&
                 oferta.Aseguradora == "Seguros del Estado" &&
                 oferta.UrlPdf !== null &&
                 aseguradoraPermisos == "1"
@@ -1961,7 +1970,7 @@ function editarCotizacion(id) {
 
 											</div>`;
               } else if (
-                oferta.Manual == "0" &&
+                (oferta.Manual == "0" || oferta.Manual == "8" || oferta.Manual == "9") &&
                 oferta.Aseguradora == "Solidaria" &&
                 aseguradoraPermisos == "1"
               ) {
@@ -1977,7 +1986,7 @@ function editarCotizacion(id) {
 
 											</div>`;
               } else if (
-                oferta.Manual == "0" &&
+                (oferta.Manual == "0" || oferta.Manual == "8" || oferta.Manual == "9") &&
                 oferta.Aseguradora == "Zurich" &&
                 aseguradoraPermisos == "1"
               ) {
@@ -1993,7 +2002,7 @@ function editarCotizacion(id) {
 
 											</div>`;
               } else if (
-                oferta.Manual == "0" &&
+                (oferta.Manual == "0" || oferta.Manual == "8" || oferta.Manual == "9") &&
                 oferta.Aseguradora == "HDI Seguros" &&
                 aseguradoraPermisos == "1"
               ) {

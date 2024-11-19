@@ -1309,8 +1309,8 @@ $response = retrieveQuotation($idCotizacion);
                   <input type="text" class="form-control" id="txtAnalistaOportunidad" disabled>
                 </div>
                 <div class="col-xs-12 col-sm-6 col-md-4 form-group">
-                  <label for="txtPlacaOportunidad">Estado</label>
-                  <select type="text" class="form-control" id="txtPlacaOportunidad">
+                  <label for="txtEstadoOportunidad">Estado</label>
+                  <select type="text" class="form-control" id="txtEstadoOportunidad">
                     <option value="1">Pdte orden inspección</option>
                     <option value="2">Pdte inspección</option>
                     <option value="3">Pdt emisión</option>

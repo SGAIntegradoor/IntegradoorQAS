@@ -17,8 +17,6 @@ class IntermediarioController {
     public static function ctrGetIntermediarios (){
         $tabla = "intermediario";
         $respuesta = ModeloInternediario::mdlGetIntermediarios($tabla);
-        var_dump($respuesta);
-        die();
         return $respuesta;
     }
 

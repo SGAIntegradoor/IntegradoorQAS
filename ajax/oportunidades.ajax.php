@@ -11,6 +11,8 @@ $noCotizacion = $_POST['idCotizacion']; //INT
 
 $idOferta = $_POST['idOferta']; //INT
 
+$fechaCreacion = $_POST['fechaCreacion'];
+
 $valor_cotizacion = $_POST['valor_cotizacion']; //INT
 $mesOportunidad = $_POST['mesOportunidad']; //VARCHAR
 $asesor_freelance = $_POST['asesor_freelance'];
@@ -21,9 +23,12 @@ $aseguradora = $_POST['aseguradora']; //VARCHAR
 $analista_comercial = $_POST['analista_comercial']; //VARCHAR
 $estado = $_POST['estado']; //VARCHAR
 $asegurado = $_POST['asegurado']; //VARCHAR
-$observaciones = $_POST['observaciones']; //LONGTEXT
+$observaciones = $_POST['observaciones'] == "" ? NULL : $_POST['observaciones']; //LONGTEXT
+$id_asegurado = $_POST['id_asegurado']; //INT
+$id_analista_comercial = $_POST['id_analista_comercial']; //INT
+$id_user_freelance = $_POST['id_user_freelance']; //INT
 
-$query = "INSERT INTO oportunidades (id_oportunidad, id_cotizacion, valor_cotizacion, mes_oportunidad, asesor_freelance, ramo, placa, oneroso, aseguradora, analista_comercial, estado, no_poliza, asegurado, prima_sin_iva, asist_otros, gastos, iva, valor_total, fecha_expedicion, mes_expedicion, forma_pago, financiera, carpeta, observaciones, id_oferta) VALUES (null, $noCotizacion, $valor_cotizacion, '$mesOportunidad', '$asesor_freelance', '$ramo', '$placa', '$oneroso', '$aseguradora', '$analista_comercial', '$estado', null, '$asegurado', null, null, null, null, null, null, null, null, null, null, '$observaciones', $idOferta)";
+$query = "INSERT INTO oportunidades (id_oportunidad, id_cotizacion, valor_cotizacion, mes_oportunidad, asesor_freelance, id_user_freelance, ramo, placa, oneroso, aseguradora, analista_comercial, id_analista_comercial, estado, no_poliza, asegurado, id_asegurado, prima_sin_iva, asist_otros, gastos, iva, valor_total, fecha_expedicion, mes_expedicion, forma_pago, financiera, carpeta, observaciones, id_oferta, fecha_creacion) VALUES (null, $noCotizacion, $valor_cotizacion, '$mesOportunidad', '$asesor_freelance', $id_user_freelance, '$ramo', '$placa', '$oneroso', '$aseguradora', '$analista_comercial', $id_analista_comercial, '$estado', null, '$asegurado', $id_asegurado ,null, null, null, null, null, null, null, null, null, null, '$observaciones', $idOferta, '$fechaCreacion')";
 
 $stmt = $enlace->prepare($query);
 

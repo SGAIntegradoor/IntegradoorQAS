@@ -16,7 +16,7 @@ $tipoDocumento = $_POST['tipoDocumento'];
 $numIdentificacion = $_POST['numIdentificacion'];
 $Nombre = $_POST["Nombre"];
 $Apellido = $_POST["Apellido"];
-$FechaNacimiento = $_POST["FechaNacimiento"];
+$FechaNacimiento = !empty($_POST["FechaNacimiento"]) ? $_POST["FechaNacimiento"] : null;
 $Genero = $_POST["Genero"];
 $EstCivil = $_POST["EstadoCivil"];
 $Celular = $_POST["Celular"];
@@ -83,7 +83,7 @@ if ($idCliente == "" && $tipoDocumento != 2) {
 	// INSERCIÓN DATOS DEL CLIENTE
 	$sqlCliente = "INSERT INTO `clientes` (`id_cliente`, `cli_codigo`, `cli_num_documento`, `cli_nombre`, `cli_apellidos`, `cli_fch_nacimiento`, 
 											`cli_genero`, `cli_telefono`, `cli_email`, `cli_estado`, `id_tipo_documento`, `id_estado_civil` , `id_Intermediario`) 
-					VALUES (NULL, '$cli_codigo', '$numIdentificacion', '$Nombre', '$Apellido', '$FechaNacimiento', '$Genero', '$Celular', 
+					VALUES (NULL, '$cli_codigo', '$numIdentificacion', '$Nombre', '$Apellido', " . ($FechaNacimiento ? "'$FechaNacimiento'" : "0000-00-00") . ", '$Genero', '$Celular', 
 									'$Correo', 1, '$tipoDocumento', '$EstCivil', '$intermediario');";
 
 	$resCliente = mysqli_query($con, $sqlCliente);
@@ -145,7 +145,7 @@ if ($idCliente == "" && $tipoDocumento != 2) {
 
 	$sqlCliente = "INSERT INTO `clientes` (`id_cliente`, `cli_codigo`, `cli_num_documento`, `digitoVerificacion` ,`cli_nombre`, `cli_apellidos`, `cli_fch_nacimiento`, 
 											`cli_genero`, `cli_telefono`, `cli_email`, `cli_estado`, `id_tipo_documento`, `id_estado_civil` , `id_Intermediario`) 
-					VALUES (NULL, '$cli_codigo', '$numIdentificacion', '$digitoVerif', '$Nombre', '$Apellido', '$FechaNacimiento', '3', '$celRep', 
+					VALUES (NULL, '$cli_codigo', '$numIdentificacion', '$digitoVerif', '$Nombre', '$Apellido', " . ($FechaNacimiento ? "'$FechaNacimiento'" : "NULL") . ", '3', '$celRep', 
 									'$correoRep', 1,  '$tipoDocumento', '1', '$intermediario');";
 
 

@@ -7,10 +7,7 @@ $aseguradora = $_POST['aseguradora'];
 $cantidadOfertas = $_POST['cantidadOfertas'];
 $cotizacion = $_POST['cotizacion'];
 $exito = $_POST['exito'];
-$mensaje = $_POST['mensaje'];
-
-
-
+$mensaje = mysqli_real_escape_string($con, $_POST['mensaje']);
 
 if($aseguradora == "Previsora Seguros"){
     $aseguradora = "Previsora";
@@ -27,6 +24,8 @@ if($aseguradora == "Previsora Seguros"){
 }elseif($aseguradora == "HDI Seguros"){
     $aseguradora = "HDI";
 }
+
+
 
 // var_dump($aseguradora);
 // var_dump($cantidadOfertas);

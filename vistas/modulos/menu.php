@@ -229,6 +229,17 @@ checkUserStatus();
 		}
 		
 		/*=============================================
+		NEGOCIOS
+		=============================================*/
+		if ($_SESSION["intermediario"] == "3" || $_SESSION["intermediario"] == "149" || $_SESSION["idUsuario"] == 34) {
+			echo '<li id="menuCotNeg" class="' . ($currentPage == 'negocios' ? 'active' : '') . '">
+			<a href="negocios">
+			<i class="fa-sharp fa-solid fa-briefcase"></i>
+			<span>Negocios</span>
+			</a>
+			</li>';
+		}
+		/*=============================================
 		HOGAR
 		=============================================*/
 		if ($_SESSION["intermediario"] == "3" || $_SESSION["intermediario"] == "149" || $_SESSION["idUsuario"] == 34) {
