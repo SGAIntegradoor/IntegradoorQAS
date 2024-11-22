@@ -245,7 +245,7 @@ function abrirDialogoCrear(id = null) {
             checkCarpeta ? "Carpeta creada" : "Sin carpeta"
           );
           data.append("observaciones", observaciones);
-          data.append("fechaCreacion", fechaCreacion);
+          data.append("fechaActualizacion", fechaCreacion);
         } else {
           url = "ajax/oportunidades.ajax.php";
           //id_oportunidad
