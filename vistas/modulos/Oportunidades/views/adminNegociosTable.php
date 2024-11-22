@@ -185,30 +185,23 @@
   }
 
   .ui-dialog {
-    width: 100% !important;
-    /* Asegura que ocupe el ancho completo de la ventana padre */
-    max-width: 850px;
+  width: 100% !important; /* Ocupar todo el ancho disponible */
+  max-width: 850px; /* Ancho máximo del modal */
+  position: fixed !important; /* Fijar el modal en relación al viewport */
+  top: 50%; /* Centrar verticalmente */
+  left: 50%; /* Centrar horizontalmente */
+  transform: translate(-50%, -50%); /* Ajustar la posición para centrar exactamente */
+  margin: 0; /* Elimina márgenes adicionales */
+  z-index: 9999; /* Asegura que el modal esté por encima de otros elementos */
+  max-height: 90vh; /* Limita la altura al 90% del viewport */
+  overflow-y: auto; /* Habilita el scroll vertical si el contenido es extenso */
+}
 
-    top: 5% !important;
-    /* Mueve el modal hacia arriba */
-    /* Controla el ancho máximo */
-    margin: 0 auto;
-    /* Centra el modal horizontalmente */
-    z-index: 9999;
-    /* Limita la altura del modal al 90% del viewport */
-    max-height: 100vh;
-    overflow-y: auto;
-    /* Activa el scroll vertical solo dentro del modal */
-  }
-
-  .custom-dialog2 .ui-dialog-content {
-    max-height: calc(100vh - 150px);
-    /* Ajusta el contenido, restando el tamaño del header */
-    overflow-y: auto;
-    padding: 0 !important;
-    /* Elimina el padding dentro del contenido */
-  }
-
+.custom-dialog2 .ui-dialog-content {
+  max-height: calc(80vh - 150px); /* Ajusta el contenido según el viewport */
+  overflow-y: auto; /* Habilita el scroll dentro del contenido */
+  padding: 0 !important; /* Elimina el padding del contenido */
+}
 
   .ui-dialog-titlebar {
     padding: 0;

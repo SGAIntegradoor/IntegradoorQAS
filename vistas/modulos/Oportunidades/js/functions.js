@@ -67,6 +67,7 @@ function cleanFields() {
   $("#txtValorCotizacionModal").val("");
   $("#txtPlacaOportunidadModal").val("");
   $("#txtAnalistaGAModal").val("");
+  $("#txtObservacionesOportunidadModal").val("");
 
   // Restablecer selects al valor por defecto
   $("#txtMesOportunidadModal").val(null).trigger("change"); // Restablece al valor por defecto
@@ -748,6 +749,7 @@ $("#txtEstadoOportunidadModal").on("change", function () {
   } else {
     $("#firstHide").css("display", "none");
     $("#secondHide").css("display", "none");
+    $("#financieraDiv").css("display", "none");
 
     $("#txtNoPolizaOportunidadModal").removeAttr("required");
     $("#txtAseguradoModal").removeAttr("required");
@@ -760,6 +762,21 @@ $("#txtEstadoOportunidadModal").on("change", function () {
     $("#txtMesExpedicionOportunidadModal").removeAttr("required");
     $("#txtFormaDePagoOportunidadModal").removeAttr("required");
     $("#txtFinancieraOportunidadModal").removeAttr("required");
+
+    $("#txtNoPolizaOportunidadModal").val("");
+    $("#txtPrimaSinIvaModal").val("");
+    $("#txtGastosOportunidadModal").val("");
+    $("#txtAsistOtrosOportunidadModal").val("");
+    $("#txtIvaOportunidadModal").val("");
+    $("#txtValorTotalModal").val("");
+    $("#txtFechaExpedicionOportunidadModal").val("");
+    $("#txtObservacionesOportunidadModal").val("");
+
+    $("#txtFormaDePagoOportunidadModal").val(null).trigger("change"); 
+    $("#txtFinancieraOportunidadModal").val(null).trigger("change"); 
+    $("#txtMesExpedicionOportunidadModal").val(null).trigger("change"); 
+
+    $("#checkCarpetaModal").prop("checked", false);
   }
 }); // Aplica el z-index al contenedor
 
