@@ -73,6 +73,8 @@ $(document).ready(function () {
           data.append("observaciones", observaciones == null || observaciones == false ? "" : observaciones);
           data.append("fechaCreacion", fechaCreacion);
 
+          console.log(estado);
+
           // Se ejecuta la peticion por AJAX para llamar a un controlador que se encargara de guardar la data en la base de datos en la tabla "Oportunidades".
           $.ajax({
             url: "ajax/oportunidades.ajax.php",
