@@ -1321,7 +1321,7 @@ $response = retrieveQuotation($idCotizacion);
               </div>
               <div class="col-12">
                 <label for="txtObservacionesOportunidades">Observaciones</label>
-                <textarea class="form-control form-group no-resize full-width-textarea" rows="5" id="txtObservacionesOportunidad"></textarea>
+                <textarea class="form-control form-group no-resize full-width-textarea" rows="5" id="txtObservacionesOportunidades"></textarea>
               </div>
             </div>
           </div>

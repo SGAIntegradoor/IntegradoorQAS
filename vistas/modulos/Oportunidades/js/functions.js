@@ -199,7 +199,7 @@ function abrirDialogoCrear(id = null) {
         var data = new FormData();
 
         let url;
-
+        
         if (id != null && id != "") {
           url = "ajax/updateOportunidad.ajax.php";
           //id_oportunidad

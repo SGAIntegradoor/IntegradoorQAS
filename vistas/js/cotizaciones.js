@@ -46,7 +46,7 @@ $(document).ready(function () {
 
           let oneroso = $("#txtAsesorOnerosoOportunidad option:selected").text();
           let estado = $("#txtEstadoOportunidad option:selected").text();
-          let observaciones = $("#txtObservacionesOportunidad").val() === null;
+          let observaciones = $("#txtObservacionesOportunidades").val();
           let fechaCreacion = obtenerFechaActual();
 
           // Se valida previamente que los campos este completos
@@ -72,7 +72,6 @@ $(document).ready(function () {
           data.append("id_asegurado", info.id_cliente);
           data.append("observaciones", observaciones == null || observaciones == false ? "" : observaciones);
           data.append("fechaCreacion", fechaCreacion);
-
 
           // Se ejecuta la peticion por AJAX para llamar a un controlador que se encargara de guardar la data en la base de datos en la tabla "Oportunidades".
           $.ajax({
