@@ -100,6 +100,11 @@ function obtenerMesActual() {
 
 function selectByText(selector, text) {
   // Encuentra el valor asociado al texto
+
+  if(text == "AXA Colpatria"){
+    debugger
+  }
+
   let valueToSelect = $(selector + " option")
     .filter(function () {
       return $(this).text().trim() === text;
@@ -372,6 +377,7 @@ function abrirDialogoCrear(id = null) {
           processData: false,
           dataType: "json",
           success: function (respuesta) {
+            console.log(respuesta)
             if (
               respuesta[0].id_oportunidad != null ||
               respuesta[0].id_oportunidad != ""
@@ -397,6 +403,7 @@ function abrirDialogoCrear(id = null) {
               selectByText("#txtEstadoOportunidadModal", respuesta[0].estado);
               $("#txtNoPolizaOportunidadModal").val(respuesta[0].no_poliza);
               $("#txtAseguradoModal").val(respuesta[0].asegurado);
+              selectByText("#txtAseguradoraOportunidadModal", respuesta[0].aseguradora);
               $("#txtPrimaSinIvaModal").val(respuesta[0].prima_sin_iva);
               $("#txtAsistOtrosOportunidadModal").val(respuesta[0].asist_otros);
               $("#txtGastosOportunidadModal").val(respuesta[0].gastos);

@@ -371,6 +371,7 @@
           <th style="font-weight: bold; text-align: center;">Observaciones</th>
           <th style="font-weight: bold; text-align: center;">Id_Oferta</th>
           <th style="font-weight: bold; text-align: center;">Fecha Creacion</th>
+          <th style="font-weight: bold; text-align: center;">Fecha Actualizacion</th>
         </tr>
       </thead>
       <tbody>
@@ -429,6 +430,7 @@
             <td class="text-center" style="font-size: 14px;">' . (!empty($value['observaciones']) ? $value['observaciones'] : '') . '</td>
             <td class="text-center" style="font-size: 14px;">' . (!empty($value['id_oferta']) ? $value['id_oferta'] : '') . '</td>
             <td class="text-center" style="font-size: 14px;">' . (!empty($value['fecha_creacion']) ? $value['fecha_creacion'] : '') . '</td>
+            <td class="text-center" style="font-size: 14px;">' . (!empty($value['fecha_actualizacion']) ? $value['fecha_actualizacion'] : '') . '</td>
             </tr>';
             $total += isset($value['valor_cotizacion']) ? $value['valor_cotizacion'] : 0;
             $totalPrimasPoliza += $value['prima_sin_iva'] == "" || $value['prima_sin_iva'] == NULL ? 0 : $value['prima_sin_iva'];
@@ -540,7 +542,7 @@
             <option value="" selected>
             </option>
             <option value="1">Allianz</option>
-            <option value="2">AXA Colpatria</option>
+            <option value="2">Axa Colpatria</option>
             <option value="3">Bolivar</option>
             <option value="4">Equidad</option>
             <option value="5">Estado</option>

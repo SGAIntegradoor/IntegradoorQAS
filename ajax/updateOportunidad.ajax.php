@@ -2,7 +2,6 @@
 
 session_start();
 require_once __DIR__ . '/../modelos/conexion.php';
-mysqli_set_charset($enlace, "utf8mb4");
 // Mostrar errores (solo para desarrollo, no en producción)
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
