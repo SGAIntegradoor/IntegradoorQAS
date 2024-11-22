@@ -295,7 +295,25 @@ function abrirDialogoCrear(id = null) {
           data.append("fechaCreacion", fechaCreacion);
         }
 
-        // Se ejecuta la peticion por AJAX para llamar a un controlador que se encargara de guardar la data en la base de datos en la tabla "Oportunidades".
+        // Se ejecuta la peticion por AJAX para llamar a un controlador que se encargara de guardar la data en la base de datos en la tabla "Oportunidades"
+        if(errors.length){
+          Swal.fire({
+            icon: "error",
+            showConfirmButton: true,
+            text: `Tienes errores en el formulario, valida nuevamente, error en el campo: ${errors[0]}`,
+            confirmButtonText: "Cerrar",
+            customClass: {
+              container: 'swal2-custom-zindex', // Clase personalizada
+            }
+          }).then((result) => {
+            if (result.isConfirmed) {
+              return;
+            } else if (result.isDismissed) {
+              return;
+            }
+          });
+        } 
+        
         $.ajax({
           url: url,
           method: "POST",
@@ -921,6 +939,54 @@ $(
   e.preventDefault();
   // Inserta solo los números o puntos decimales válidos
   document.execCommand('insertText', false, cleanData);
+});
+
+
+$(document).on("input", "#txtPlacaOportunidadModal", function() {
+  var pattern = /^[A-Z]{1,3}[0-9]{3,5}[A-Z]?$/;;
+  var inputValue = $(this).val();
+
+  $(this).val(inputValue.toUpperCase());
+
+  // Validar el valor usando la expresión regular
+  if (pattern.test(inputValue)) {
+      // Si el valor es válido, puedes continuar con la lógica
+      console.log("Valor válido");
+  } else {
+      // Si el valor no es válido, puedes mostrar un mensaje de error o eliminar el valor
+      console.log("Valor no válido");
+  }
+});
+
+let errors = [];
+
+$(document).on("input", "#txtPlacaOportunidadModal", function () {
+  var inputValue = $(this).val().toUpperCase(); // Convertir a mayúsculas
+  $(this).val(inputValue); // Asignar de nuevo al campo
+
+  // Patrones de validación
+  var pattern1 = /^[A-Z]{3}[0-9]{3}$/; // LLLXXX
+  var pattern2 = /^[A-Z]{3}[0-9]{2}[A-Z]$/; // LLLXXL
+  var pattern3 = /^[A-Z]{1}[0-9]{5}$/; // LXXXXX
+
+  // Validar si el valor cumple con alguno de los patrones
+  if(inputValue.length === 6){
+    if (
+        pattern1.test(inputValue) ||
+        pattern2.test(inputValue) ||
+        pattern3.test(inputValue)
+    ) {
+        $("#errorMensaje").css("display", "none"); // Limpiar el mensaje de error si es válido
+        errors = [];
+    } else {
+      $("#errorMensaje").css("display", "block");
+      errors.push("placa")
+    }
+  } else if (inputValue.length > 6) {
+    // Mostrar el mensaje de error solo cuando el input tenga 6 caracteres
+    errors.push("placa");
+    $("#errorMensaje").css("display", "block");
+}
 });
 
 

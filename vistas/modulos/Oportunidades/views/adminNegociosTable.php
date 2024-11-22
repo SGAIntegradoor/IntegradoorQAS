@@ -1,6 +1,11 @@
 <style>
   /* Asegura que los elementos estén en una sola fila */
 
+  .swal2-custom-zindex {
+    z-index: 9999 !important;
+    /* Mayor que el modal */
+  }
+
   /* Hacer que el encabezado del modal sea fijo */
   .ui-dialog .ui-dialog-titlebar {
     position: sticky !important;
@@ -185,23 +190,36 @@
   }
 
   .ui-dialog {
-  width: 100% !important; /* Ocupar todo el ancho disponible */
-  max-width: 850px; /* Ancho máximo del modal */
-  position: fixed !important; /* Fijar el modal en relación al viewport */
-  top: 50%; /* Centrar verticalmente */
-  left: 50%; /* Centrar horizontalmente */
-  transform: translate(-50%, -50%); /* Ajustar la posición para centrar exactamente */
-  margin: 0; /* Elimina márgenes adicionales */
-  z-index: 9999; /* Asegura que el modal esté por encima de otros elementos */
-  max-height: 90vh; /* Limita la altura al 90% del viewport */
-  overflow-y: auto; /* Habilita el scroll vertical si el contenido es extenso */
-}
+    width: 100% !important;
+    /* Ocupar todo el ancho disponible */
+    max-width: 850px;
+    /* Ancho máximo del modal */
+    position: fixed !important;
+    /* Fijar el modal en relación al viewport */
+    top: 50%;
+    /* Centrar verticalmente */
+    left: 50%;
+    /* Centrar horizontalmente */
+    transform: translate(-50%, -50%);
+    /* Ajustar la posición para centrar exactamente */
+    margin: 0;
+    /* Elimina márgenes adicionales */
+    z-index: 9999;
+    /* Asegura que el modal esté por encima de otros elementos */
+    max-height: 90vh;
+    /* Limita la altura al 90% del viewport */
+    overflow-y: auto;
+    /* Habilita el scroll vertical si el contenido es extenso */
+  }
 
-.custom-dialog2 .ui-dialog-content {
-  max-height: calc(80vh - 150px); /* Ajusta el contenido según el viewport */
-  overflow-y: auto; /* Habilita el scroll dentro del contenido */
-  padding: 0 !important; /* Elimina el padding del contenido */
-}
+  .custom-dialog2 .ui-dialog-content {
+    max-height: calc(80vh - 150px);
+    /* Ajusta el contenido según el viewport */
+    overflow-y: auto;
+    /* Habilita el scroll dentro del contenido */
+    padding: 0 !important;
+    /* Elimina el padding del contenido */
+  }
 
   .ui-dialog-titlebar {
     padding: 0;
@@ -403,7 +421,7 @@
         if (!empty($respuesta)) {
           foreach ($respuesta as $key => $value) {
             echo '<tr>
-            <td class="text-center" style="text-align: center !important;"><div class="btn-group"><button class="btn btn-primary btnEditarOportunidad" onclick="editarOportunidad('. $value['id_oportunidad']. ')"><i class="fa-sharp fa-solid fa-pen"></i></button></div></td>
+            <td class="text-center" style="text-align: center !important;"><div class="btn-group"><button class="btn btn-primary btnEditarOportunidad" onclick="editarOportunidad(' . $value['id_oportunidad'] . ')"><i class="fa-sharp fa-solid fa-pen"></i></button></div></td>
             <td class="" style="font-size: 14px;">' . (!empty($value['id_oportunidad']) ? $value['id_oportunidad'] : '') . '</td>
             <td class="text-center" style="font-size: 14px;">' . (!empty($value['id_cotizacion']) ? $value['id_cotizacion'] : '') . '</td>
             <td class="text-center" style="font-size: 14px;">' . (!empty($value['valor_cotizacion']) ? '$ ' . number_format($value['valor_cotizacion'], 0, ',', '.') : '') . '</td>
@@ -522,6 +540,7 @@
         <div class="col-xs-12 col-sm-6 col-md-4 form-group">
           <label for="txtPlacaOportunidadModal">Placa</label>
           <input type="text" class="form-control" name="txtPlacaOportunidadModal" id="txtPlacaOportunidadModal" placeholder="" required>
+          <p id="errorMensaje" style="display: none; color: tomato">Formato placa invalido</p>
         </div>
       </div>
       <div class="row" style="margin-bottom: 10px;margin-top: 18px;">
