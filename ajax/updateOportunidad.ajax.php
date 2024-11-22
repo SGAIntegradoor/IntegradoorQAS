@@ -32,7 +32,7 @@ $formaDePago = trim($_POST["formaDePago"]);
 $financiera = trim($_POST["financiera"]);
 $carpeta = $_POST["carpeta"];
 $observaciones = $_POST["observaciones"];
-$fechaActualizacion = empty($_POST["fechaActualizacion"]) ? null : $_POST["fechaActualizacion"];
+$fechaActualizacion = $_POST["fechaExpedicion"] == "null" ? null : $_POST["fechaActualizacion"];
 
 // Validar ID
 if (empty($id_oportunidad_update)) {
