@@ -32,7 +32,7 @@ $formaDePago = trim($_POST["formaDePago"]);
 $financiera = trim($_POST["financiera"]);
 $carpeta = $_POST["carpeta"];
 $observaciones = $_POST["observaciones"];
-$fechaActualizacion = $_POST["fechaExpedicion"] == "null" ? null : $_POST["fechaActualizacion"];
+$fechaActualizacion = $_POST["fechaActualizacion"] == "null" ? null : $_POST["fechaActualizacion"];
 
 // Validar ID
 if (empty($id_oportunidad_update)) {
@@ -90,14 +90,14 @@ try {
     $stmt->bindParam(':gastos', $gastos, PDO::PARAM_INT);
     $stmt->bindParam(':iva', $iva, PDO::PARAM_INT);
     $stmt->bindParam(':valorTotal', $valorTotal, PDO::PARAM_INT);
-    $stmt->bindParam(':fechaExpedicion', $fechaExpedicion, $fechaExpedicion ? PDO::PARAM_STR : PDO::PARAM_NULL);
+    $stmt->bindParam(':fechaExpedicion', $fechaExpedicion, PDO::PARAM_STR);
     $stmt->bindParam(':mesExpedicion', $mesExpedicion, PDO::PARAM_STR);
     $stmt->bindParam(':formaDePago', $formaDePago, PDO::PARAM_STR);
     $stmt->bindParam(':financiera', $financiera, PDO::PARAM_STR);
     $stmt->bindParam(':carpeta', $carpeta, PDO::PARAM_STR);
     $stmt->bindParam(':observaciones', $observaciones, PDO::PARAM_STR);
     $stmt->bindParam(':idOportunidad', $id_oportunidad_update, PDO::PARAM_INT);
-    $stmt->bindParam(':fechaActualizacion', $fechaExpedicion, PDO::PARAM_STR);
+    $stmt->bindParam(':fechaActualizacion', $fechaActualizacion, PDO::PARAM_STR);
     
     if ($stmt === false) {
         die("Error en la preparación de la consulta: " . $enlace->error);
