@@ -460,7 +460,7 @@ $(document).ready(function () {
     $(selector).on("input", function () {
       this.value = this.value.replace(/\./g, "");
     });
-
+    
     // Previene el ingreso de puntos desde el teclado
     $(selector).on("keydown", function (event) {
       if (event.which === 190 || event.which === 110) {
@@ -468,8 +468,8 @@ $(document).ready(function () {
       }
     });
   };
-
   parseNumbersToString("#valorTotal");
+
 
   // $('#btnMotosX').click(function (){
   //   window.location = "motos"

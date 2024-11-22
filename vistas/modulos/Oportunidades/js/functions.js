@@ -101,8 +101,8 @@ function obtenerMesActual() {
 function selectByText(selector, text) {
   // Encuentra el valor asociado al texto
 
-  if(text == "AXA Colpatria"){
-    debugger
+  if (text == "AXA Colpatria") {
+    debugger;
   }
 
   let valueToSelect = $(selector + " option")
@@ -205,7 +205,7 @@ function abrirDialogoCrear(id = null) {
         var data = new FormData();
 
         let url;
-        
+
         if (id != null && id != "") {
           url = "ajax/updateOportunidad.ajax.php";
           //id_oportunidad
@@ -285,10 +285,7 @@ function abrirDialogoCrear(id = null) {
             mesExpedicion === "" ? null : mesExpedicion
           );
           data.append("formaDePago", formaPago === "" ? null : formaPago);
-          data.append(
-            "financiera",
-            financiera === "" ? "" : financiera
-          );
+          data.append("financiera", financiera === "" ? "" : financiera);
           data.append(
             "carpeta",
             checkCarpeta ? "Carpeta creada" : "Sin carpeta"
@@ -309,11 +306,12 @@ function abrirDialogoCrear(id = null) {
           dataType: "json",
           success: function (respuesta) {
             if (respuesta.code === 1) {
-
               $("#myModal2").dialog("close");
               Swal.fire({
                 icon: "success",
-                text: `Oportunidad # ${id} ${id != "" && id != null ? "actualizada":"creada"} con éxito`,
+                text: `Oportunidad # ${id} ${
+                  id != "" && id != null ? "actualizada" : "creada"
+                } con éxito`,
                 showConfirmButton: true,
                 confirmButtonText: "Ok",
               }).then((result) => {
@@ -377,7 +375,7 @@ function abrirDialogoCrear(id = null) {
           processData: false,
           dataType: "json",
           success: function (respuesta) {
-            console.log(respuesta)
+            console.log(respuesta);
             if (
               respuesta[0].id_oportunidad != null ||
               respuesta[0].id_oportunidad != ""
@@ -403,7 +401,10 @@ function abrirDialogoCrear(id = null) {
               selectByText("#txtEstadoOportunidadModal", respuesta[0].estado);
               $("#txtNoPolizaOportunidadModal").val(respuesta[0].no_poliza);
               $("#txtAseguradoModal").val(respuesta[0].asegurado);
-              selectByText("#txtAseguradoraOportunidadModal", respuesta[0].aseguradora);
+              selectByText(
+                "#txtAseguradoraOportunidadModal",
+                respuesta[0].aseguradora
+              );
               $("#txtPrimaSinIvaModal").val(respuesta[0].prima_sin_iva);
               $("#txtAsistOtrosOportunidadModal").val(respuesta[0].asist_otros);
               $("#txtGastosOportunidadModal").val(respuesta[0].gastos);
@@ -472,6 +473,51 @@ function abrirDialogoCrear(id = null) {
 }
 
 $(document).ready(function () {
+  let inputIDCotizacion = [
+    "#txtnoCotizacionModal",
+    "#txtValorCotizacionModal",
+    "#txtPrimaSinIvaModal",
+    "#txtGastosOportunidadModal",
+    "#txtAsistOtrosOportunidadModal",
+    "#txtIvaOportunidadModal",
+    "#txtValorTotalModal",
+    "#txtNoPolizaOportunidadModal"
+  ];
+
+  $("#txtValorCotizacionModal").numeric();
+  $("#txtPrimaSinIvaModal").numeric();
+  $("#txtGastosOportunidadModal").numeric();
+  $("#txtAsistOtrosOportunidadModal").numeric();
+  $("#txtIvaOportunidadModal").numeric();
+
+
+  const parseNumbersToString = (selector) => {
+    $(selector).on("input", function () {
+      this.value = this.value.replace(
+        /[.,;!?@#$%^&¿¡*¨()_+\-=\[\]{}|\\:"'<>,.?/`~]/g,
+        ""
+      );
+    });
+
+    // Previene el ingreso de puntos desde el teclado
+    $(selector).on("keydown", function (event) {
+      if (event.which === 190 || event.which === 110) {
+        event.preventDefault();
+      }
+    });
+  };
+
+  inputIDCotizacion.map((element) => {
+    parseNumbersToString(element);
+  });
+
+  // $("#noPoliza").on("input", function () {
+  //   this.value = this.value.replace(
+  //     /[.,;!?@#$%^&¿¡*¨()_+\-=\[\]{}|\\:"'<>,.?/`~]/g,
+  //     ""
+  //   );
+  // })
+
   loadAllFreelance();
   Promise.all([loadAnalistas(), loadFreelance()])
     .then(() => {
@@ -779,9 +825,9 @@ $("#txtEstadoOportunidadModal").on("change", function () {
     $("#txtFechaExpedicionOportunidadModal").val("");
     $("#txtObservacionesOportunidadModal").val("");
 
-    $("#txtFormaDePagoOportunidadModal").val(null).trigger("change"); 
-    $("#txtFinancieraOportunidadModal").val(null).trigger("change"); 
-    $("#txtMesExpedicionOportunidadModal").val(null).trigger("change"); 
+    $("#txtFormaDePagoOportunidadModal").val(null).trigger("change");
+    $("#txtFinancieraOportunidadModal").val(null).trigger("change");
+    $("#txtMesExpedicionOportunidadModal").val(null).trigger("change");
 
     $("#checkCarpetaModal").prop("checked", false);
   }
@@ -797,7 +843,7 @@ let inputs = [
   // "txtGastosOportunidadModal",
   // "txtAsistOtrosOportunidadModal",
   // "txtIvaOportunidadModal",
-  // "txtValorTotalModal",
+
 ];
 
 function formatNumber(value) {
@@ -807,41 +853,76 @@ function formatNumber(value) {
   return value.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 }
 
-inputs.map((element) => {
-  const input = document.getElementById(element);
-  // Función para formatear número con separadores de miles
-  // Evento al escribir en el input
-  input.addEventListener("input", (event) => {
-    // Obtén el valor actual
-    let formattedValue = formatNumber(event.target.value);
-    // Actualiza el valor formateado en el input
-    event.target.value = "$ " + formattedValue;
-  });
+// inputs.map((element) => {
+//   const input = document.getElementById(element);
+//   // Función para formatear número con separadores de miles
+//   // Evento al escribir en el input
+//   input.addEventListener("input", (event) => {
+//     // Obtén el valor actual
+//     let formattedValue = formatNumber(event.target.value);
+//     // Actualiza el valor formateado en el input
+//     event.target.value = "$ " + formattedValue;
+//   });
 
-  // Previene que el usuario ingrese caracteres que no sean números
-  input.addEventListener("keypress", (event) => {
-    // Permitir solo números
-    if (!/[0-9]/.test(event.key)) {
-      event.preventDefault();
-    }
+//   // Previene que el usuario ingrese caracteres que no sean números
+//   input.addEventListener("keypress", (event) => {
+//     // Permitir solo números
+//     if (!/[0-9]/.test(event.key)) {
+//       event.preventDefault();
+//     }
+//   });
+// });
+
+$("#txtPrimaSinIvaModal").on("change", function(){
+  formatNumber(this.value);
+})
+
+  $(
+    "#txtPrimaSinIvaModal, #txtGastosOportunidadModal, #txtAsistOtrosOportunidadModal, #txtIvaOportunidadModal"
+  ).on("change", function () {
+    let valor = 0;
+    let primaSinIva = $("#txtPrimaSinIvaModal").val();
+    let gastos = $("#txtGastosOportunidadModal").val();
+    let asistencias = $("#txtAsistOtrosOportunidadModal").val();
+    let iva = $("#txtIvaOportunidadModal").val();
+  
+    valor =
+      Number(primaSinIva) + Number(gastos) + Number(asistencias) + Number(iva);
+  
+    $("#txtValorTotalModal").val("$ " + formatNumber(valor));
   });
-});
 
 $(
   "#txtPrimaSinIvaModal, #txtGastosOportunidadModal, #txtAsistOtrosOportunidadModal, #txtIvaOportunidadModal"
 ).on("input", function () {
   let valor = 0;
-
   let primaSinIva = $("#txtPrimaSinIvaModal").val();
   let gastos = $("#txtGastosOportunidadModal").val();
   let asistencias = $("#txtAsistOtrosOportunidadModal").val();
   let iva = $("#txtIvaOportunidadModal").val();
 
-  valor =
-    Number(primaSinIva) + Number(gastos) + Number(asistencias) + Number(iva);
+  valor = (Number(primaSinIva) || 0) + (Number(gastos) || 0) + (Number(asistencias) || 0) + (Number(iva) || 0);
 
   $("#txtValorTotalModal").val("$ " + formatNumber(valor));
 });
+
+
+
+$(
+  "#txtPrimaSinIvaModal, #txtGastosOportunidadModal, #txtAsistOtrosOportunidadModal, #txtIvaOportunidadModal"
+).on("paste", function (e) {
+  // Detecta el evento de pegar texto
+  var pastedData = e.originalEvent.clipboardData.getData('text');
+  
+  // Reemplaza los caracteres no numéricos del texto pegado
+  var cleanData = pastedData.replace(/[^0-9.]/g, "");
+
+  // Evita que el valor no numérico se pegue
+  e.preventDefault();
+  // Inserta solo los números o puntos decimales válidos
+  document.execCommand('insertText', false, cleanData);
+});
+
 
 /**
  * Formato de inputs del modal END
