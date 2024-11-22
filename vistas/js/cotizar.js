@@ -2104,7 +2104,14 @@ const mostrarOferta = (
                                   <div>VER PDF &nbsp;&nbsp;<span class="fa fa-file-text"></span></div>
                               </button>
                           </div>`;
-  } else if (aseguradora == "Zurich" && permisosCredenciales == "1") {
+  } else if (aseguradora == "Mapfre" && permisosCredenciales == "1") {
+    cardCotizacion += `
+                          <div class="col-xs-12 col-sm-6 col-md-2 verpdf-oferta">
+                              <button id="mapfre-pdf" type="button" class="btn btn-info" onclick='verPdfMapfre(${numCotizOferta})'>
+                                  <div>VER PDF &nbsp;&nbsp;<span class="fa fa-file-text"></span></div>
+                              </button>
+                          </div>`;
+  }else if (aseguradora == "Zurich" && permisosCredenciales == "1") {
     cardCotizacion += `
                           <div class="col-xs-12 col-sm-6 col-md-2 verpdf-oferta">
                               <button id="solidaria-pdf${numCotizOferta}" type="button" class="btn btn-info" onclick='verPdfZurich(${numCotizOferta})'>

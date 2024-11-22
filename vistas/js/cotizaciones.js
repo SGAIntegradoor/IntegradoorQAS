@@ -1988,6 +1988,22 @@ function editarCotizacion(id) {
 											</div>`;
               } else if (
                 (oferta.Manual == "0" || oferta.Manual == "8" || oferta.Manual == "9") &&
+                oferta.Aseguradora == "Mapfre" &&
+                aseguradoraPermisos == "1"
+              ) {
+                cardCotizacion += `
+
+											<div class="col-xs-12 col-sm-6 col-md-2 verpdf-oferta">
+
+    											<button id="mapfre-pdf" type="button" class="btn btn-info" onclick='verPdfMapfre(${oferta.NumCotizOferta})'>
+
+    												<div>VER PDF &nbsp;&nbsp;<span class="fa fa-file-text"></span></div>
+
+    											</button>
+
+											</div>`;
+              }else if (
+                (oferta.Manual == "0" || oferta.Manual == "8" || oferta.Manual == "9") &&
                 oferta.Aseguradora == "Zurich" &&
                 aseguradoraPermisos == "1"
               ) {
@@ -2555,6 +2571,82 @@ const verPdfSolidaria = async (cotizacion) => {
   }
 };
 
+const verPdfMapfre = async (cotizacion) => {
+  if (permisos.Verpdfindividuales != "x") {
+    Swal.fire({
+      icon: "error",
+
+      title: "¡Esta versión no tiene ésta funcionalidad disponible!",
+
+      showCancelButton: true,
+
+      confirmButtonText: "Cerrar",
+
+      cancelButtonText: "Conoce más",
+    }).then((result) => {
+      if (result.isConfirmed) {
+      } else if (result.isDismissed) {
+        window.open("https://www.integradoor.com", "_blank");
+      }
+    });
+  } else {
+    let base64 = await obtenerPdfMapfre(cotizacion);
+
+    const linkSource = `data:application/pdf;base64,${base64}`;
+
+    const downloadLink = document.createElement("a");
+
+    const fileName = cotizacion + ".pdf";
+
+    downloadLink.href = linkSource;
+
+    downloadLink.download = fileName;
+
+    downloadLink.click();
+  }
+};
+
+/*======================================================
+
+FUNCION PARA CARGAR EL PDF OFICIAL DE MAPFRE
+
+======================================================*/
+
+const obtenerPdfMapfre = async (cotizacion) => {
+  const myHeaders = new Headers();
+  myHeaders.append("Content-Type", "application/json");
+
+  const raw = JSON.stringify({
+    aseguradora: "Mapfre",
+    numero_cotizacion: cotizacion,
+  });
+
+  const requestOptions = {
+    mode: "cors",
+    method: "POST",
+    headers: myHeaders,
+    body: raw,
+    redirect: "follow",
+  };
+
+  try {
+    const response = await fetch(
+      "https://www.grupoasistencia.com/motor_webservice/ImpresionPdf",
+      requestOptions
+    );
+
+    if (!response.ok) {
+      throw new Error(`Error en la solicitud: ${response.statusText}`);
+    }
+    const pdfText = await response.json(); // Asume que la respuesta es texto
+    return pdfText.imprimirPolizaCotizacionResponse.stream;
+  } catch (error) {
+    console.error("Error al obtener el PDF:", error);
+    throw error; // Relanza el error para que el llamador lo maneje
+  }
+};
+
+
 const obtenerPdfSolidaria = async (cotizacion) => {
   const formData = new FormData();
   const id_intermediario = document.getElementById("idIntermediario").value;
@@ -2589,6 +2681,7 @@ const obtenerPdfSolidaria = async (cotizacion) => {
 
   return pdfText;
 };
+
 
 /*======================================================
 
