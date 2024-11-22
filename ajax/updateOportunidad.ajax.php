@@ -100,8 +100,10 @@ try {
         die("Error en la preparación de la consulta: " . $enlace->error);
     }
     if (!$stmt->execute()) {
-        die("Error en la ejecución de la consulta: " . $stmt->error);
+        $errorInfo = $stmt->errorInfo();
+        die("Error en la ejecución de la consulta: " . $errorInfo[2]);
     }
+    
 
     if ($stmt->execute()) {
         echo json_encode(array("code" => 1, "message" => "Oportunidad actualizada correctamente"));
