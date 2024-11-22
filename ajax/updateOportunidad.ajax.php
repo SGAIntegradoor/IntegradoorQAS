@@ -2,7 +2,7 @@
 
 session_start();
 require_once __DIR__ . '/../modelos/conexion.php';
-
+mysqli_set_charset($enlace, "utf8mb4");
 // Mostrar errores (solo para desarrollo, no en producción)
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
@@ -95,6 +95,13 @@ try {
     $stmt->bindParam(':carpeta', $carpeta, PDO::PARAM_STR);
     $stmt->bindParam(':observaciones', $observaciones, PDO::PARAM_STR);
     $stmt->bindParam(':idOportunidad', $id_oportunidad_update, PDO::PARAM_INT);
+
+    if ($stmt === false) {
+        die("Error en la preparación de la consulta: " . $enlace->error);
+    }
+    if (!$stmt->execute()) {
+        die("Error en la ejecución de la consulta: " . $stmt->error);
+    }
 
     if ($stmt->execute()) {
         echo json_encode(array("code" => 1, "message" => "Oportunidad actualizada correctamente"));
