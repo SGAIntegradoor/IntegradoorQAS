@@ -1,0 +1,107 @@
+<?php
+
+session_start();
+require_once __DIR__ . '/../modelos/conexion.php';
+
+// Mostrar errores (solo para desarrollo, no en producción)
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+$id_oportunidad_update = $_POST["id"];
+$idCotizacion = $_POST["idCotizacion"];
+$valor_cotizacion = $_POST["valor_cotizacion"];
+$mesOportunidad = $_POST["mesOportunidad"];
+$asesor_freelance = $_POST["asesor_freelance"];
+$ramo = $_POST["ramo"];
+$placa = $_POST["placa"];
+$oneroso = $_POST["oneroso"];
+$aseguradora = $_POST["aseguradora"];
+$analista_comercial = $_POST["analista_comercial"];
+$estado = $_POST["estado"];
+$noPoliza = $_POST["noPoliza"] === "undefined" ? null : $_POST["noPoliza"];
+$asegurado = $_POST["asegurado"];
+$prima_sin_iva = str_replace(',', '', $_POST["prima_sin_iva"]);
+$gastos = str_replace(',', '', $_POST["gastos"]);
+$asistencias = str_replace(',', '', $_POST["asistencias"]);
+$iva = str_replace(',', '', $_POST["iva"]);
+$valorTotal = str_replace(['$', '.', ','], '', trim($_POST["valorTotal"]));
+$fechaExpedicion = empty($_POST["fechaExpedicion"]) ? null : $_POST["fechaExpedicion"];
+$mesExpedicion = $_POST["mesExpedicion"];
+$formaDePago = trim($_POST["formaDePago"]);
+$financiera = trim($_POST["financiera"]);
+$carpeta = $_POST["carpeta"];
+$observaciones = $_POST["observaciones"];
+
+// Validar ID
+if (empty($id_oportunidad_update)) {
+    echo json_encode(array("statusCode" => 0, "message" => "Error al cargar la oportunidad, ID inválido"));
+    exit;
+}
+
+try {
+    $conexion = Conexion::conectar();
+    $stmt = $conexion->prepare("
+        UPDATE oportunidades 
+        SET 
+            id_cotizacion = :idCotizacion, 
+            valor_cotizacion = :valorCotizacion, 
+            mes_oportunidad = :mesOportunidad, 
+            asesor_freelance = :asesorFreelance, 
+            ramo = :ramo, 
+            placa = :placa, 
+            oneroso = :oneroso, 
+            aseguradora = :aseguradora, 
+            analista_comercial = :analistaComercial, 
+            estado = :estado, 
+            no_poliza = :noPoliza, 
+            asegurado = :asegurado, 
+            prima_sin_iva = :primaSinIva, 
+            asist_otros = :asistencias, 
+            gastos = :gastos, 
+            iva = :iva, 
+            valor_total = :valorTotal, 
+            fecha_expedicion = :fechaExpedicion, 
+            mes_expedicion = :mesExpedicion, 
+            forma_pago = :formaDePago, 
+            financiera = :financiera, 
+            carpeta = :carpeta, 
+            observaciones = :observaciones 
+        WHERE id_oportunidad = :idOportunidad
+    ");
+
+    // Bind de parámetros
+    $stmt->bindParam(':idCotizacion', $idCotizacion, PDO::PARAM_INT);
+    $stmt->bindParam(':valorCotizacion', $valor_cotizacion, PDO::PARAM_INT);
+    $stmt->bindParam(':mesOportunidad', $mesOportunidad, PDO::PARAM_STR);
+    $stmt->bindParam(':asesorFreelance', $asesor_freelance, PDO::PARAM_STR);
+    $stmt->bindParam(':ramo', $ramo, PDO::PARAM_STR);
+    $stmt->bindParam(':placa', $placa, PDO::PARAM_STR);
+    $stmt->bindParam(':oneroso', $oneroso, PDO::PARAM_STR);
+    $stmt->bindParam(':aseguradora', $aseguradora, PDO::PARAM_STR);
+    $stmt->bindParam(':analistaComercial', $analista_comercial, PDO::PARAM_STR);
+    $stmt->bindParam(':estado', $estado, PDO::PARAM_STR);
+    $stmt->bindParam(':noPoliza', $noPoliza, PDO::PARAM_STR);
+    $stmt->bindParam(':asegurado', $asegurado, PDO::PARAM_STR);
+    $stmt->bindParam(':primaSinIva', $prima_sin_iva, PDO::PARAM_INT);
+    $stmt->bindParam(':asistencias', $asistencias, PDO::PARAM_INT);
+    $stmt->bindParam(':gastos', $gastos, PDO::PARAM_INT);
+    $stmt->bindParam(':iva', $iva, PDO::PARAM_INT);
+    $stmt->bindParam(':valorTotal', $valorTotal, PDO::PARAM_INT);
+    $stmt->bindParam(':fechaExpedicion', $fechaExpedicion, PDO::PARAM_STR);
+    $stmt->bindParam(':mesExpedicion', $mesExpedicion, PDO::PARAM_STR);
+    $stmt->bindParam(':formaDePago', $formaDePago, PDO::PARAM_STR);
+    $stmt->bindParam(':financiera', $financiera, PDO::PARAM_STR);
+    $stmt->bindParam(':carpeta', $carpeta, PDO::PARAM_STR);
+    $stmt->bindParam(':observaciones', $observaciones, PDO::PARAM_STR);
+    $stmt->bindParam(':idOportunidad', $id_oportunidad_update, PDO::PARAM_INT);
+
+    if ($stmt->execute()) {
+        echo json_encode(array("code" => 1, "message" => "Oportunidad actualizada correctamente"));
+    } else {
+        echo json_encode(array("code" => 0, "message" => "Error al actualizar la oportunidad"));
+    }
+} catch (PDOException $e) {
+    echo json_encode(array("code" => 0, "message" => "Error de base de datos: " . $e->getMessage()));
+}
+?>

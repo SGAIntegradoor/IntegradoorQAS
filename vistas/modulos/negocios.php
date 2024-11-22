@@ -260,26 +260,6 @@
     /* Esto elimina la sombra */
   }
 
-  /* .card-exequias .card-text {
-    margin: 0 auto;  
-  min-height: 100px;
-  border-radius: 20px;
-  text-align: center; 
-  margin-bottom: 10px; 
-  display: flex; 
-  flex-direction: column; 
-  justify-content: center;
-} */
-
-  /* .card-exequias .card-body {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    height: 100%;
-} */
-
   .select2-container--bootstrap .select2-results>.select2-results__options {
     max-height: 90px !important;
     overflow-y: auto;
@@ -332,6 +312,7 @@
       text-align: left;
     }
   }
+
 
   
 </style>

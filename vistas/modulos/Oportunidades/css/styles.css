@@ -42,6 +42,17 @@
     white-space: nowrap; /* Evita el ajuste de texto dentro de celdas */
 }
 
+.tablas-oportunidades td {
+    white-space: nowrap; /* Evita que el texto se envuelva en varias líneas */
+    overflow: hidden; /* Oculta el desbordamiento del contenido */
+    text-overflow: ellipsis; /* Muestra puntos suspensivos si el texto es muy largo */
+    max-width: 150px; /* Define un ancho máximo para las celdas (ajusta según tu diseño) */
+  }
+  
+  .tablas-oportunidades th {
+    white-space: nowrap; /* Asegura que los encabezados sigan el mismo comportamiento */
+  }
+
 /* Asegurar que todo el top esté en una sola fila */
 
 /* Asegura que los elementos estén alineados horizontalmente */
@@ -87,3 +98,4 @@
 .btnCancelar:hover{
     background-color: rgb(55, 55, 55);
 }
+

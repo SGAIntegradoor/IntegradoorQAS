@@ -3,6 +3,7 @@
 
 
     ?>
+    
 
     <link rel="stylesheet" href="vistas/modulos/Oportunidades/css/styles.css">
 
@@ -93,7 +94,7 @@
                                 <option value="" selected>
                                 </option>
                                 <option value="1">Allianz</option>
-                                <option value="2">AXA</option>
+                                <option value="2">AXA Colpatria</option>
                                 <option value="3">Bolivar</option>
                                 <option value="4">Equidad</option>
                                 <option value="5">Estado</option>
@@ -163,7 +164,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-xs-12 col-sm-6 col-md-3" style="padding-left: 20px; padding-right: 20px">
+                    <div class="col-xs-12 col-sm-6 col-md-3" style="padding-left: 25px; padding-right: 25px">
                         <div class="form-group">
                             <label for="financiera">Financiera:</label>
                             <select type="text" class="form-control financiera" name="financiera" id="financiera" placeholder="Financiera">
@@ -175,14 +176,14 @@
                             </select>
                         </div>
                     </div>
-                    <div class="col-xs-12 col-sm-6 col-md-3" style="padding-left: 20px; padding-right: 20px">
+                    <div class="col-xs-12 col-sm-6 col-md-3" style="padding-left: 25px; padding-right: 25px">
                         <div class="form-group">
                             <button class="btn btn-primary btn-block btnConsultar" onclick="searchInfo()">Consultar</button>
                         </div>
                     </div>
                     <div class="col-xs-12 col-sm-6 col-md-3">
                     </div>
-                    <div class="col-xs-12 col-sm-6 col-md-3" style="padding-left: 20px; padding-right: 20px">
+                    <div class="col-xs-12 col-sm-6 col-md-3" style="padding-left: 25px; padding-right: 25px">
                         <div class="form-group">
                             <button class="btn btn-primary btn-block btnCancelar" onclick="reset()">Reiniciar</button>
                         </div>

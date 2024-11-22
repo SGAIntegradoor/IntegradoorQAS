@@ -5,6 +5,7 @@ function loadAnalistas() {
       type: "POST",
       success: function (data) {
         $("#analistaGA").append(data);
+        // $("#txtAnalistaGAModal").append(data);
         resolve(); // Resolviendo la promesa una vez que los datos se han añadido
       },
       error: function (error) {
@@ -30,11 +31,440 @@ function loadFreelance() {
   });
 }
 
+function loadAllFreelance() {
+  let dat = new FormData();
+  dat.append("param", "all");
+  $.ajax({
+    url: "ajax/freelances.ajax.php",
+    type: "POST",
+    data: dat,
+    cache: false, // Importante para evitar problemas con objetos dinámicos
+    contentType: false, // Necesario para enviar `FormData`
+    processData: false, // Evita que jQuery intente procesar `FormData`
+    success: function (response) {
+      $("#txtAsesorOportunidadModal").append(response);
+    },
+    error: function (error) {},
+  });
+}
+
 function reset() {
   window.location.href = "negocios";
 }
 
+function obtenerFechaActual() {
+  const hoy = new Date();
+  const año = hoy.getFullYear();
+  const mes = String(hoy.getMonth() + 1).padStart(2, "0"); // Los meses van de 0 a 11
+  const día = String(hoy.getDate()).padStart(2, "0");
+
+  return `${año}-${mes}-${día}`;
+}
+
+function cleanFields() {
+  // Limpiar los campos de texto
+  $("#txtnoCotizacionModal").val("");
+  $("#txtValorCotizacionModal").val("");
+  $("#txtPlacaOportunidadModal").val("");
+  $("#txtAnalistaGAModal").val("");
+
+  // Restablecer selects al valor por defecto
+  $("#txtMesOportunidadModal").val(null).trigger("change"); // Restablece al valor por defecto
+  $("#txtAsesorOportunidadModal").val(null).trigger("change"); // Restablece al valor por defecto
+  $("#txtRamoModal").val(null).trigger("change"); // Restablece al valor por defecto
+  $("#txtOnerosoOportunidadModal").val(null).trigger("change"); // Restablece al valor por defecto
+  $("#txtAseguradoraOportunidadModal").val(null).trigger("change"); // Restablece al valor por defecto
+  $("#txtEstadoOportunidadModal").val(null).trigger("change"); // Restablece al valor por defecto
+}
+
+function obtenerMesActual() {
+  const meses = [
+    "Enero",
+    "Febrero",
+    "Marzo",
+    "Abril",
+    "Mayo",
+    "Junio",
+    "Julio",
+    "Agosto",
+    "Septiembre",
+    "Octubre",
+    "Noviembre",
+    "Diciembre",
+  ];
+
+  const mesActual = new Date().getMonth(); // Retorna un valor entre 0 y 11
+  return meses[mesActual]; // Devuelve el nombre del mes
+}
+
+function selectByText(selector, text) {
+  // Encuentra el valor asociado al texto
+  let valueToSelect = $(selector + " option")
+    .filter(function () {
+      return $(this).text().trim() === text;
+    })
+    .val();
+
+  // Selecciona el valor y activa el evento change
+  if (valueToSelect) {
+    $(selector).val(valueToSelect).trigger("change");
+  } else {
+    if ($("txtEstadoOportunidadModal").val() == "Emitida") {
+      console.log(
+        `No se encontró una opción con el texto: "${text}" en ${selector}`
+      );
+    } else {
+      return;
+    }
+  }
+}
+
+$(".sorting_1").css("text-align", "center");
+
+function abrirDialogoCrear(id = null) {
+  // Configurar el diálogo
+
+  $("#txtAnalistaGAModal").val(
+    permisos.usu_nombre + " " + permisos.usu_apellido
+  );
+
+  $("#myModal2").dialog({
+    title: "Agregar/editar oportunidad",
+    autoOpen: false,
+    resizable: false, // Desactiva el redimensionamiento
+    draggable: false, // Opcional, si deseas permitir que se pueda mover
+    modal: true,
+    width: 850,
+    dialogClass: "custom-dialog2",
+    buttons: {
+      Cerrar: function () {
+        $(this).dialog("close");
+      },
+      Guardar: function () {
+        const form = $("#myModal2 form")[0];
+
+        // Validar el formulario
+        if (!form.checkValidity()) {
+          // Si hay campos inválidos, mostrará los mensajes de error nativos del navegador
+          form.reportValidity();
+          return; // Detener la ejecución si hay errores
+        }
+
+        // Se valida previamente que los campos este completos
+        // En caso de no estarlos debe dar un error marcando que campo debe ser llenado en el formulario o modal
+
+        let noCotizacion = $("#txtnoCotizacionModal").val();
+        let valorCotizacion = $("#txtValorCotizacionModal").val();
+        let mesOportunidad = $(
+          "#txtMesOportunidadModal option:selected"
+        ).text();
+        let asesor_freelance = $(
+          "#txtAsesorOportunidadModal option:selected"
+        ).text();
+        let id_asesor_freelance = $("#txtAsesorOportunidadModal").val();
+        let ramo = $("#txtRamoModal option:selected").text();
+        let placaModal = $("#txtPlacaOportunidadModal").val();
+        let oneroso = $("#txtOnerosoOportunidadModal option:selected")
+          .text()
+          .trim();
+        let aseguradora = $(
+          "#txtAseguradoraOportunidadModal option:selected"
+        ).text();
+        let asesorGa = $("#txtAnalistaGAModal").val();
+        let estado = $("#txtEstadoOportunidadModal option:selected").text();
+        let noPoliza = $("#txtNoPolizaOportunidadModal").val();
+        let asegurado = $("#txtAseguradoModal").val();
+        let primaSinIva = $("#txtPrimaSinIvaModal").val();
+        let gastos = $("#txtGastosOportunidadModal").val();
+        let asistencias = $("#txtAsistOtrosOportunidadModal").val();
+        let iva = $("#txtIvaOportunidadModal").val();
+        let valorTotal = $("#txtValorTotalModal").val();
+        let fechaExpedicion = $("#txtFechaExpedicionOportunidadModal").val();
+        if (fechaExpedicion === "") {
+          fechaExpedicion = null; // Enviar NULL si el campo está vacío
+        }
+        let mesExpedicion = $(
+          "#txtMesExpedicionOportunidadModal option:selected"
+        ).text();
+        let formaPago = $(
+          "#txtFormaDePagoOportunidadModal option:selected"
+        ).text();
+        let financiera = $(
+          "#txtFinancieraOportunidadModal option:selected"
+        ).text();
+        let checkCarpeta = $("#checkCarpetaModal").prop("checked");
+        let observaciones = $("#txtObservacionesOportunidadModal").val();
+        let fechaCreacion = obtenerFechaActual();
+
+        var data = new FormData();
+
+        let url;
+
+        if (id != null && id != "") {
+          url = "ajax/updateOportunidad.ajax.php";
+          //id_oportunidad
+          data.append("id", id);
+          data.append("idCotizacion", noCotizacion);
+          data.append("valor_cotizacion", valorCotizacion);
+          data.append("idOferta", 0);
+          data.append("mesOportunidad", mesOportunidad);
+          data.append("asesor_freelance", asesor_freelance);
+          data.append("id_user_freelance", id_asesor_freelance);
+          data.append("ramo", ramo);
+          data.append("placa", placaModal);
+          data.append("oneroso", oneroso);
+          data.append("aseguradora", aseguradora);
+          data.append("analista_comercial", asesorGa);
+          data.append("id_analista_comercial", permisos.id_usuario);
+          data.append("estado", estado);
+          data.append("asegurado", asegurado);
+          //numero de poliza
+          data.append(
+            "noPoliza",
+            noPoliza.trim() === "" ? "" : noPoliza.trim()
+          );
+          data.append("id_asegurado", 0);
+          data.append("prima_sin_iva", primaSinIva === "" ? null : primaSinIva);
+          data.append("gastos", gastos === "" ? null : gastos);
+          data.append("asistencias", asistencias === "" ? null : asistencias);
+          data.append("iva", iva === "" ? null : iva);
+          data.append("valorTotal", valorTotal === "" ? null : valorTotal);
+          data.append("fechaExpedicion", fechaExpedicion);
+          data.append(
+            "mesExpedicion",
+            mesExpedicion === "" ? null : mesExpedicion
+          );
+          data.append("formaDePago", formaPago === "" ? null : formaPago);
+          data.append(
+            "financiera",
+            financiera.trim() === "" ? "" : financiera.trim()
+          );
+          data.append(
+            "carpeta",
+            checkCarpeta ? "Carpeta creada" : "Sin carpeta"
+          );
+          data.append("observaciones", observaciones);
+          data.append("fechaCreacion", fechaCreacion);
+        } else {
+          url = "ajax/oportunidades.ajax.php";
+          //id_oportunidad
+          data.append("idCotizacion", noCotizacion);
+          data.append("valor_cotizacion", valorCotizacion);
+          data.append("idOferta", 0);
+          data.append("mesOportunidad", mesOportunidad);
+          data.append("asesor_freelance", asesor_freelance);
+          data.append("id_user_freelance", id_asesor_freelance);
+          data.append("ramo", ramo);
+          data.append("placa", placaModal);
+          data.append("oneroso", oneroso);
+          data.append("aseguradora", aseguradora);
+          data.append("analista_comercial", asesorGa);
+          data.append("id_analista_comercial", permisos.id_usuario);
+          data.append("estado", estado);
+          data.append("asegurado", asegurado);
+          //numero de poliza
+          data.append(
+            "noPoliza",
+            noPoliza.trim() === "" ? "" : noPoliza.trim()
+          );
+          data.append("id_asegurado", 0);
+          data.append("prima_sin_iva", primaSinIva === "" ? null : primaSinIva);
+          data.append("gastos", gastos === "" ? null : gastos);
+          data.append("asistencias", asistencias === "" ? null : asistencias);
+          data.append("iva", iva === "" ? null : iva);
+          data.append("valorTotal", valorTotal === "" ? null : valorTotal);
+          data.append("fechaExpedicion", fechaExpedicion);
+          data.append(
+            "mesExpedicion",
+            mesExpedicion === "" ? null : mesExpedicion
+          );
+          data.append("formaDePago", formaPago === "" ? null : formaPago);
+          data.append(
+            "financiera",
+            financiera === "" ? "" : financiera
+          );
+          data.append(
+            "carpeta",
+            checkCarpeta ? "Carpeta creada" : "Sin carpeta"
+          );
+          data.append("observaciones", observaciones);
+          data.append("manual", "manual");
+          data.append("fechaCreacion", fechaCreacion);
+        }
+
+        // Se ejecuta la peticion por AJAX para llamar a un controlador que se encargara de guardar la data en la base de datos en la tabla "Oportunidades".
+        $.ajax({
+          url: url,
+          method: "POST",
+          data: data,
+          cache: false,
+          contentType: false,
+          processData: false,
+          dataType: "json",
+          success: function (respuesta) {
+            if (respuesta.code === 1) {
+
+              $("#myModal2").dialog("close");
+              Swal.fire({
+                icon: "success",
+                text: `Oportunidad # ${id} ${id != "" && id != null ? "actualizada":"creada"} con éxito`,
+                showConfirmButton: true,
+                confirmButtonText: "Ok",
+              }).then((result) => {
+                if (result.isConfirmed) {
+                  $("#myModal2").dialog("close");
+                  //$("#myModal2").dialog("close"); // Cerrar el modal
+                  window.location.reload(); // Recargar la página (opcional)
+                } else if (result.isDismissed) {
+                  $("#myModal2").dialog("close"); // Cerrar el modal
+                  window.location.reload(); // Recargar la página (opcional)
+                }
+              });
+            } else {
+              Swal.fire({
+                icon: "error",
+                showConfirmButton: true,
+                text: `Error al intentar crear la oportunidad, comuníquese con el administrador del sistema`,
+                confirmButtonText: "Cerrar",
+              }).then((result) => {
+                if (result.isConfirmed) {
+                  return;
+                } else if (result.isDismissed) {
+                  return;
+                }
+              });
+            }
+          },
+          error: function () {
+            console.log("Error al obtener los datos");
+          },
+        });
+      },
+    },
+    open: function () {
+      let asesorGa = $("#txtAnalistaGAModal").val();
+
+      $("body").addClass("modal-open"); // Añade la clase para bloquear el scroll de la página
+      $("body").css("overflow", "hidden");
+      $(".ui-dialog-buttonpane button:contains('Cerrar')").attr(
+        "id",
+        "btnCerrar"
+      );
+      $(".ui-dialog-buttonpane button:contains('Guardar')").attr(
+        "id",
+        "btnGuardar"
+      );
+      $(".ui-dialog-buttonpane button:contains('Guardar')").attr(
+        "type",
+        "submit"
+      );
+      $("#btnGuardar").html("Editar");
+      if (id != null) {
+        let dataEdit = new FormData();
+        dataEdit.append("id_oportunidad_edit", id);
+        $.ajax({
+          url: "ajax/cargarOportunidad.ajax.php",
+          method: "POST",
+          data: dataEdit,
+          cache: false,
+          contentType: false,
+          processData: false,
+          dataType: "json",
+          success: function (respuesta) {
+            if (
+              respuesta[0].id_oportunidad != null ||
+              respuesta[0].id_oportunidad != ""
+            ) {
+              $("#txtnoCotizacionModal").val(respuesta[0].id_cotizacion);
+              $("#txtValorCotizacionModal").val(respuesta[0].valor_cotizacion);
+              selectByText(
+                "#txtMesOportunidadModal",
+                respuesta[0].mes_oportunidad
+              );
+              selectByText(
+                "#txtAsesorOportunidadModal",
+                respuesta[0].asesor_freelance
+              );
+              selectByText("#txtRamoModal", respuesta[0].ramo);
+              $("#txtPlacaOportunidadModal").val(respuesta[0].placa);
+              selectByText("#txtOnerosoOportunidadModal", respuesta[0].oneroso);
+              selectByText(
+                "#txtAseguradoraOportunidadModal",
+                respuesta[0].aseguradora
+              );
+              $("#txtAnalistaGAModal").val(respuesta[0].analista_comercial);
+              selectByText("#txtEstadoOportunidadModal", respuesta[0].estado);
+              $("#txtNoPolizaOportunidadModal").val(respuesta[0].no_poliza);
+              $("#txtAseguradoModal").val(respuesta[0].asegurado);
+              $("#txtPrimaSinIvaModal").val(respuesta[0].prima_sin_iva);
+              $("#txtAsistOtrosOportunidadModal").val(respuesta[0].asist_otros);
+              $("#txtGastosOportunidadModal").val(respuesta[0].gastos);
+              $("#txtIvaOportunidadModal").val(respuesta[0].iva);
+              $("#txtValorTotalModal").val(respuesta[0].valor_total);
+              $("#txtFechaExpedicionOportunidadModal").val(
+                respuesta[0].fecha_expedicion
+              );
+              selectByText(
+                "#txtMesExpedicionOportunidadModal",
+                respuesta[0].mes_expedicion
+              );
+              selectByText(
+                "#txtFormaDePagoOportunidadModal",
+                respuesta[0].forma_pago
+              );
+              selectByText(
+                "#txtFinancieraOportunidadModal",
+                respuesta[0].financiera
+              );
+              $("#checkCarpetaModal").prop(
+                "checked",
+                respuesta[0].carpeta !== null &&
+                  respuesta[0].carpeta == "Carpeta creada"
+                  ? true
+                  : false
+              );
+              $("#txtObservacionesOportunidadModal").val(
+                respuesta[0].observaciones == null
+                  ? ""
+                  : respuesta[0].observaciones
+              );
+            } else {
+              Swal.fire({
+                icon: "error",
+                showConfirmButton: true,
+                text: `Error al intentar cargar la oportunidad, comuníquese con el administrador del sistema`,
+                confirmButtonText: "Cerrar",
+              }).then((result) => {
+                if (result.isConfirmed) {
+                  $("#myModal2").dialog("close");
+                  return;
+                } else if (result.isDismissed) {
+                  $("#myModal2").dialog("close");
+                  return;
+                }
+              });
+            }
+          },
+          error: function () {
+            console.log("Error al obtener los datos");
+          },
+        });
+      }
+      $("#txtAnalistaGAModal").val(asesorGa);
+    },
+    close: function () {
+      cleanFields();
+      $("body").css("overflow", "auto");
+      $("body").removeClass("modal-open"); // Quita la clase para restaurar el scroll
+    },
+  });
+
+  // Abrir el diálogo
+  $("#myModal2").dialog("open");
+}
+
 $(document).ready(function () {
+  loadAllFreelance();
   Promise.all([loadAnalistas(), loadFreelance()])
     .then(() => {
       aplicarCriterios(); // Llama a aplicarCriterios una vez que ambos AJAX han completado
@@ -76,6 +506,10 @@ function aplicarCriterios() {
 }
 
 let url = `index.php?ruta=negocios`;
+
+function editarOportunidad(id) {
+  abrirDialogoCrear(id);
+}
 
 function searchInfo() {
   let mesExpedicion =
@@ -186,6 +620,208 @@ $(
   width: "100%",
   placeholder: "Seleccione una opción",
 });
+
+$("#txtEstadoOportunidadModal").select2({
+  theme: "bootstrap selectingModal",
+  language: {
+    emptyTable: "No se encontraron registros",
+  },
+  width: "100%",
+  placeholder: "Estado",
+  dropdownParent: $("#txtEstadoOportunidadModal").parent(), // Ubica el dropdown dentro del modal
+});
+
+$("#txtAsesorOportunidadModal").select2({
+  theme: "bootstrap selectingModal",
+  language: {
+    emptyTable: "No se encontraron registros",
+  },
+  width: "100%",
+  placeholder: "Asesor Freelance",
+  dropdownParent: $("#txtAsesorOportunidadModal").parent(), // Ubica el dropdown dentro del modal
+});
+
+$("#txtRamoModal").select2({
+  theme: "bootstrap selectingModal",
+  language: {
+    emptyTable: "No se encontraron registros",
+  },
+  width: "100%",
+  placeholder: "Ramo",
+  dropdownParent: $("#txtRamoModal").parent(), // Ubica el dropdown dentro del modal
+});
+
+$("#txtAseguradoraOportunidadModal").select2({
+  theme: "bootstrap selectingModal",
+  language: {
+    emptyTable: "No se encontraron registros",
+  },
+  width: "100%",
+  placeholder: "Aseguradora",
+  dropdownParent: $("#txtAseguradoraOportunidadModal").parent(), // Ubica el dropdown dentro del modal
+});
+
+$("#txtOnerosoOportunidadModal").select2({
+  theme: "bootstrap selectingModal",
+  language: {
+    emptyTable: "No se encontraron registros",
+  },
+  width: "100%",
+  placeholder: "¿ Tiene oneroso ?",
+  dropdownParent: $("#txtOnerosoOportunidadModal").parent(), // Ubica el dropdown dentro del modal
+});
+
+$("#txtMesOportunidadModal").select2({
+  theme: "bootstrap selectingModal",
+  language: {
+    emptyTable: "No se encontraron registros",
+  },
+  width: "100%",
+  placeholder: "Mes Oportunidad",
+  dropdownParent: $("#txtMesOportunidadModal").parent(), // Ubica el dropdown dentro del modal
+});
+$("#txtMesExpedicionOportunidadModal").select2({
+  theme: "bootstrap selectingModal",
+  language: {
+    emptyTable: "No se encontraron registros",
+  },
+  width: "100%",
+  placeholder: "Fecha de expedición",
+  dropdownParent: $("#txtMesExpedicionOportunidadModal").parent(), // Ubica el dropdown dentro del modal
+});
+$("#txtFormaDePagoOportunidadModal").select2({
+  theme: "bootstrap selectingModal",
+  language: {
+    emptyTable: "No se encontraron registros",
+  },
+  width: "100%",
+  placeholder: "Forma de pago",
+  dropdownParent: $("#txtFormaDePagoOportunidadModal").parent(), // Ubica el dropdown dentro del modal
+});
+$("#txtFinancieraOportunidadModal").select2({
+  theme: "bootstrap selectingModal",
+  language: {
+    emptyTable: "No se encontraron registros",
+  },
+  width: "100%",
+  placeholder: "Financiera",
+  dropdownParent: $("#txtFinancieraOportunidadModal").parent(), // Ubica el dropdown dentro del modal
+});
+$("#txtMesOportunidadModal").select2({
+  theme: "bootstrap selectingModal",
+  language: {
+    emptyTable: "No se encontraron registros",
+  },
+  width: "100%",
+  placeholder: "Mes Oportunidad",
+  dropdownParent: $("#txtMesOportunidadModal").parent(), // Ubica el dropdown dentro del modal
+});
+
+$("#txtFormaDePagoOportunidadModal").on("change", function () {
+  if ($(this).val() == 1) {
+    $("#financieraDiv").css("display", "block");
+  } else {
+    $("#financieraDiv").css("display", "none");
+  }
+});
+$("#txtEstadoOportunidadModal").on("change", function () {
+  if ($(this).val() === "4") {
+    $("#firstHide").css("display", "block");
+    $("#secondHide").css("display", "block");
+
+    $("#txtNoPolizaOportunidadModal")[0].required = true;
+    $("#txtAseguradoModal")[0].required = true;
+    $("#txtPrimaSinIvaModal")[0].required = true;
+    $("#txtGastosOportunidadModal")[0].required = true;
+    $("#txtAsistOtrosOportunidadModal")[0].required = true;
+    $("#txtIvaOportunidadModal")[0].required = true;
+    $("#txtValorTotalModal")[0].required = true;
+    $("#txtFechaExpedicionOportunidadModal")[0].required = true;
+    $("#txtMesExpedicionOportunidadModal")[0].required = true;
+    $("#txtFormaDePagoOportunidadModal")[0].required = true;
+
+    // $("#txtPrimaSinIvaModal").val(0);
+    // $("#txtGastosOportunidadModal").val(0);
+    // $("#txtAsistOtrosOportunidadModal").val(0);
+    // $("#txtIvaOportunidadModal").val(0);
+    // $("#txtValorTotalModal").val(0);
+  } else {
+    $("#firstHide").css("display", "none");
+    $("#secondHide").css("display", "none");
+
+    $("#txtNoPolizaOportunidadModal").removeAttr("required");
+    $("#txtAseguradoModal").removeAttr("required");
+    $("#txtPrimaSinIvaModal").removeAttr("required");
+    $("#txtGastosOportunidadModal").removeAttr("required");
+    $("#txtAsistOtrosOportunidadModal").removeAttr("required");
+    $("#txtIvaOportunidadModal").removeAttr("required");
+    $("#txtValorTotalModal").removeAttr("required");
+    $("#txtFechaExpedicionOportunidadModal").removeAttr("required");
+    $("#txtMesExpedicionOportunidadModal").removeAttr("required");
+    $("#txtFormaDePagoOportunidadModal").removeAttr("required");
+    $("#txtFinancieraOportunidadModal").removeAttr("required");
+  }
+}); // Aplica el z-index al contenedor
+
+/**
+ * Formato de inputs del modal START
+ */
+
+let inputs = [
+  // "txtValorCotizacionModal",
+  // "txtPrimaSinIvaModal",
+  // "txtGastosOportunidadModal",
+  // "txtAsistOtrosOportunidadModal",
+  // "txtIvaOportunidadModal",
+  // "txtValorTotalModal",
+];
+
+function formatNumber(value) {
+  // Remueve cualquier carácter que no sea número
+  value = value.replace(/\D/g, "");
+  // Añade los puntos como separadores de miles
+  return value.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+}
+
+inputs.map((element) => {
+  const input = document.getElementById(element);
+  // Función para formatear número con separadores de miles
+  // Evento al escribir en el input
+  input.addEventListener("input", (event) => {
+    // Obtén el valor actual
+    let formattedValue = formatNumber(event.target.value);
+    // Actualiza el valor formateado en el input
+    event.target.value = "$ " + formattedValue;
+  });
+
+  // Previene que el usuario ingrese caracteres que no sean números
+  input.addEventListener("keypress", (event) => {
+    // Permitir solo números
+    if (!/[0-9]/.test(event.key)) {
+      event.preventDefault();
+    }
+  });
+});
+
+$(
+  "#txtPrimaSinIvaModal, #txtGastosOportunidadModal, #txtAsistOtrosOportunidadModal, #txtIvaOportunidadModal"
+).on("input", function () {
+  let valor = 0;
+
+  let primaSinIva = $("#txtPrimaSinIvaModal").val();
+  let gastos = $("#txtGastosOportunidadModal").val();
+  let asistencias = $("#txtAsistOtrosOportunidadModal").val();
+  let iva = $("#txtIvaOportunidadModal").val();
+
+  valor =
+    Number(primaSinIva) + Number(gastos) + Number(asistencias) + Number(iva);
+
+  $("#txtValorTotalModal").val("$ " + formatNumber(valor));
+});
+
+/**
+ * Formato de inputs del modal END
+ */
 
 $("#daterange-btnOportunidades").daterangepicker(
   {
@@ -352,6 +988,7 @@ $(".tablas-oportunidades").DataTable({
     [0, "desc"],
     [1, "desc"],
   ],
+
   language: {
     sProcessing: "Procesando...",
     sLengthMenu: "Mostrar _MENU_ registros",

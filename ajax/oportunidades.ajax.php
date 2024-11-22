@@ -7,43 +7,101 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-$noCotizacion = $_POST['idCotizacion']; //INT
+if (isset($_POST["manual"])) {
+    $idCotizacion = $_POST["idCotizacion"];
+    $valor_cotizacion = $_POST["valor_cotizacion"];
+    $idOferta = $_POST["idOferta"];
+    $mesOportunidad = $_POST["mesOportunidad"];
+    $asesor_freelance = $_POST["asesor_freelance"];
+    $id_user_freelance = $_POST["id_user_freelance"];
+    $ramo = $_POST["ramo"];
+    $placa = $_POST["placa"];
+    $oneroso = $_POST["oneroso"];
+    $aseguradora = $_POST["aseguradora"];
+    $analista_comercial = $_POST["analista_comercial"];
+    $id_analista_comercial = $_POST["id_analista_comercial"];
+    $estado = $_POST["estado"];
+    $noPoliza = $_POST["noPoliza"] == "undefined" ? null : $_POST['noPoliza'];
+    $asegurado = $_POST["asegurado"];
+    $id_asegurado = $_POST["id_asegurado"];
+    $prima_sin_iva = $_POST["prima_sin_iva"];
+    $gastos = $_POST["gastos"];
+    $asistencias = $_POST["asistencias"];
+    $iva = $_POST["iva"];
+    $valorTotal = $_POST["valorTotal"];
+    $fechaExpedicion = $_POST["fechaExpedicion"];
 
-$idOferta = $_POST['idOferta']; //INT
+    $fechaExpedicion = ($fechaExpedicion === "") ? "NULL" : "'$fechaExpedicion'";
 
-$fechaCreacion = $_POST['fechaCreacion'];
+    $mesExpedicion = $_POST["mesExpedicion"];
+    $formaDePago = $_POST["formaDePago"];
+    $financiera = $_POST["financiera"];
+    $carpeta = $_POST["carpeta"];
+    $observaciones = $_POST["observaciones"];
+    $fechaCreacion = $_POST["fechaCreacion"];
 
-$valor_cotizacion = $_POST['valor_cotizacion']; //INT
-$mesOportunidad = $_POST['mesOportunidad']; //VARCHAR
-$asesor_freelance = $_POST['asesor_freelance'];
-$ramo = $_POST['ramo']; //VARCHAR
-$placa = $_POST['placa']; //VARCHAR
-$oneroso = $_POST['oneroso']; //VARCHAR
-$aseguradora = $_POST['aseguradora']; //VARCHAR
-$analista_comercial = $_POST['analista_comercial']; //VARCHAR
-$estado = $_POST['estado']; //VARCHAR
-$asegurado = $_POST['asegurado']; //VARCHAR
-$observaciones = $_POST['observaciones'] == "" ? NULL : $_POST['observaciones']; //LONGTEXT
-$id_asegurado = $_POST['id_asegurado']; //INT
-$id_analista_comercial = $_POST['id_analista_comercial']; //INT
-$id_user_freelance = $_POST['id_user_freelance']; //INT
+    $fechaActualizacion = null;
 
-$query = "INSERT INTO oportunidades (id_oportunidad, id_cotizacion, valor_cotizacion, mes_oportunidad, asesor_freelance, id_user_freelance, ramo, placa, oneroso, aseguradora, analista_comercial, id_analista_comercial, estado, no_poliza, asegurado, id_asegurado, prima_sin_iva, asist_otros, gastos, iva, valor_total, fecha_expedicion, mes_expedicion, forma_pago, financiera, carpeta, observaciones, id_oferta, fecha_creacion) VALUES (null, $noCotizacion, $valor_cotizacion, '$mesOportunidad', '$asesor_freelance', $id_user_freelance, '$ramo', '$placa', '$oneroso', '$aseguradora', '$analista_comercial', $id_analista_comercial, '$estado', null, '$asegurado', $id_asegurado ,null, null, null, null, null, null, null, null, null, null, '$observaciones', $idOferta, '$fechaCreacion')";
+    // preparar valores numericos para ser insertados sin puntos ni comas. START
+
+    $valor_cotizacion = str_replace(',', '', $valor_cotizacion);
+    $prima_sin_iva = str_replace(',', '', $prima_sin_iva);
+    $gastos = str_replace(',', '', $gastos);
+    $asistencias = str_replace(',', '', $asistencias);
+    $iva = str_replace(',', '', $iva);
+    $valorTotal = trim(str_replace(['$', '.', ','], '', $valorTotal));
+
+    // preparar valores numericos para ser insertados sin puntos ni comas. END
+
+    // Prepara la consulta
+    $result = $enlace->prepare("SELECT COALESCE(MAX(id_oportunidad), 0) + 1 AS next_id FROM oportunidades");
+
+    // Ejecuta la consulta
+    $result->execute();
+
+    // Asigna el resultado a una variable
+    $resultado = $result->get_result();
+    $next_id = $resultado->fetch_assoc()['next_id'];
+
+    // Libera los recursos
+    $result->close();
+
+    // Imprime el próximo ID para verificar
+
+    $query = "INSERT INTO oportunidades (id_oportunidad, id_cotizacion, valor_cotizacion, mes_oportunidad, asesor_freelance, id_user_freelance, ramo, placa, oneroso, aseguradora, analista_comercial, id_analista_comercial, estado, no_poliza, asegurado, id_asegurado, prima_sin_iva, asist_otros, gastos, iva, valor_total, fecha_expedicion, mes_expedicion, forma_pago, financiera, carpeta, observaciones, id_oferta, fecha_creacion) VALUES (null, $idCotizacion, $valor_cotizacion, '$mesOportunidad', '$asesor_freelance', $id_user_freelance, '$ramo', '$placa', '$oneroso', '$aseguradora', '$analista_comercial', $id_analista_comercial, '$estado', '$noPoliza', '$asegurado', $id_asegurado ,$prima_sin_iva, $gastos, $asistencias, $iva, $valorTotal, $fechaExpedicion, '$mesExpedicion', '$formaDePago', '$financiera', '$carpeta', '$observaciones', $next_id, '$fechaCreacion', $fechaActualizacion)";
+} else {
+    $noCotizacion = $_POST['idCotizacion']; //INT
+    $idOferta = $_POST['idOferta']; //INT   
+    $fechaCreacion = $_POST['fechaCreacion'];
+    $valor_cotizacion = $_POST['valor_cotizacion']; //INT
+    $mesOportunidad = $_POST['mesOportunidad']; //VARCHAR
+    $asesor_freelance = $_POST['asesor_freelance'];
+    $ramo = $_POST['ramo']; //VARCHAR
+    $placa = $_POST['placa']; //VARCHAR
+    $oneroso = $_POST['oneroso']; //VARCHAR
+    $aseguradora = $_POST['aseguradora']; //VARCHAR
+    $analista_comercial = $_POST['analista_comercial']; //VARCHAR
+    $estado = $_POST['estado']; //VARCHAR
+    $asegurado = $_POST['asegurado']; //VARCHAR
+    $observaciones = $_POST['observaciones'] == "" ? NULL : $_POST['observaciones']; //LONGTEXT
+    $id_asegurado = $_POST['id_asegurado']; //INT
+    $id_analista_comercial = $_POST['id_analista_comercial']; //INT
+    $id_user_freelance = $_POST['id_user_freelance']; //INT
+    $fechaActualizacion = "NULL";
+
+    $query = "INSERT INTO oportunidades (id_oportunidad, id_cotizacion, valor_cotizacion, mes_oportunidad, asesor_freelance, id_user_freelance, ramo, placa, oneroso, aseguradora, analista_comercial, id_analista_comercial, estado, no_poliza, asegurado, id_asegurado, prima_sin_iva, asist_otros, gastos, iva, valor_total, fecha_expedicion, mes_expedicion, forma_pago, financiera, carpeta, observaciones, id_oferta, fecha_creacion, fecha_actualizacion) VALUES (null, $noCotizacion, $valor_cotizacion, '$mesOportunidad', '$asesor_freelance', $id_user_freelance, '$ramo', '$placa', '$oneroso', '$aseguradora', '$analista_comercial', $id_analista_comercial, '$estado', null, '$asegurado', $id_asegurado ,null, null, null, null, null, null, null, null, null, null, '$observaciones', $idOferta, '$fechaCreacion', $fechaActualizacion)";
+}
 
 $stmt = $enlace->prepare($query);
-
 if ($stmt === false) {
     die("Error en la preparación de la consulta: " . $enlace->error);
 }
-
 if (!$stmt->execute()) {
     die("Error en la ejecución de la consulta: " . $stmt->error);
 }
-
 $rows = $stmt->affected_rows;
+if ($rows > 0 && !isset($_POST["manual"])) {
 
-if ($rows > 0) {
-    
     $query2 = "UPDATE ofertas SET id_oportunidad = $stmt->insert_id WHERE id_oferta = $idOferta";
     $stmt2 = $enlace->prepare($query2);
 
@@ -51,14 +109,17 @@ if ($rows > 0) {
         die("Error en la ejecución de la consulta: " . $stmt2->error);
     }
     $rows2 = $stmt2->affected_rows;
-    if($rows2 > 0){
-        $data = array("status" => "success", "code" => 1 ,"message" => "Oportunidad Insertada Correctamente", "inserted_id" => $stmt->insert_id, "offert_updated" => $idOferta );
+    if ($rows2 > 0) {
+        $data = array("status" => "success", "code" => 1, "message" => "Oportunidad Insertada Correctamente", "inserted_id" => $stmt->insert_id, "offert_updated" => $idOferta);
         echo json_encode($data, JSON_UNESCAPED_UNICODE);
     } else {
-        $data = array("status" => "failed", "code" => 0 ,"message" => "Oportunidad insertada pero con errores al modificar la oferta");
+        $data = array("status" => "failed", "code" => 0, "message" => "Oportunidad insertada pero con errores al modificar la oferta");
         echo json_encode($data, JSON_UNESCAPED_UNICODE);
     }
+} else if ($rows > 0 && isset($_POST["manual"])) {
+    $data = array("status" => "success", "code" => 1, "message" => "Oportunidad Insertada Correctamente", "inserted_id" => $stmt->insert_id, "offert_updated" => $idOferta);
+    echo json_encode($data, JSON_UNESCAPED_UNICODE);
 } else {
-    $data = array("status" => "failed", "code" => 0 ,"message" => "Oportunidad no insertada");
+    $data = array("status" => "failed", "code" => 0, "message" => "Oportunidad no insertada");
     echo json_encode($data, JSON_UNESCAPED_UNICODE);
 }
