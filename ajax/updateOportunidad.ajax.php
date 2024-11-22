@@ -28,6 +28,7 @@ $iva = str_replace(',', '', $_POST["iva"]);
 $valorTotal = str_replace(['$', '.', ','], '', trim($_POST["valorTotal"]));
 $fechaExpedicion = empty($_POST["fechaExpedicion"]) ? null : $_POST["fechaExpedicion"];
 var_dump($fechaExpedicion);
+var_dump($_POST["fechaExpedicion"]);
 die();
 $mesExpedicion = $_POST["mesExpedicion"];
 $formaDePago = trim($_POST["formaDePago"]);
