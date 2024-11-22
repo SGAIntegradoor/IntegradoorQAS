@@ -1,7 +1,7 @@
     <?php
     session_start();
     require_once '../config/dbconfig.php';
-
+    mysqli_set_charset($enlace, "utf8mb4");
     // Mostrar errores (solo para desarrollo, no en producción)
     ini_set('display_errors', 1);
     ini_set('display_startup_errors', 1);
@@ -70,26 +70,26 @@
 
         $query = "INSERT INTO oportunidades (id_oportunidad, id_cotizacion, valor_cotizacion, mes_oportunidad, asesor_freelance, id_user_freelance, ramo, placa, oneroso, aseguradora, analista_comercial, id_analista_comercial, estado, no_poliza, asegurado, id_asegurado, prima_sin_iva, asist_otros, gastos, iva, valor_total, fecha_expedicion, mes_expedicion, forma_pago, financiera, carpeta, observaciones, id_oferta, fecha_creacion) VALUES (null, $idCotizacion, $valor_cotizacion, '$mesOportunidad', '$asesor_freelance', $id_user_freelance, '$ramo', '$placa', '$oneroso', '$aseguradora', '$analista_comercial', $id_analista_comercial, '$estado', '$noPoliza', '$asegurado', $id_asegurado ,$prima_sin_iva, $gastos, $asistencias, $iva, $valorTotal, $fechaExpedicion, '$mesExpedicion', '$formaDePago', '$financiera', '$carpeta', '$observaciones', $next_id, '$fechaCreacion', $fechaActualizacion)";
     } else {
-        $noCotizacion = $_POST['idCotizacion']; //INT
-        $idOferta = $_POST['idOferta']; //INT   
-        $fechaCreacion = $_POST['fechaCreacion'];
-        $valor_cotizacion = $_POST['valor_cotizacion']; //INT
-        $mesOportunidad = $_POST['mesOportunidad']; //VARCHAR
-        $asesor_freelance = $_POST['asesor_freelance'];
-        $ramo = $_POST['ramo']; //VARCHAR
-        $placa = $_POST['placa']; //VARCHAR
-        $oneroso = $_POST['oneroso']; //VARCHAR
-        $aseguradora = $_POST['aseguradora']; //VARCHAR
-        $analista_comercial = $_POST['analista_comercial']; //VARCHAR
-        $estado = $_POST['estado']; //VARCHAR
-        $asegurado = $_POST['asegurado']; //VARCHAR
-        $observaciones = $_POST['observaciones'] == "" ? NULL : $_POST['observaciones']; //LONGTEXT
-        $id_asegurado = $_POST['id_asegurado']; //INT
-        $id_analista_comercial = $_POST['id_analista_comercial']; //INT
-        $id_user_freelance = $_POST['id_user_freelance']; //INT
+        $noCotizacion = $_POST['idCotizacion'];
+        $idOferta = $_POST['idOferta'];
+        $fechaCreacion = mysqli_real_escape_string($enlace, $_POST['fechaCreacion']);
+        $valor_cotizacion = $_POST['valor_cotizacion'];
+        $mesOportunidad = mysqli_real_escape_string($enlace, $_POST['mesOportunidad']);
+        $asesor_freelance = mysqli_real_escape_string($enlace, $_POST['asesor_freelance']);
+        $ramo = mysqli_real_escape_string($enlace, $_POST['ramo']);
+        $placa = mysqli_real_escape_string($enlace, $_POST['placa']);
+        $oneroso = mysqli_real_escape_string($enlace, $_POST['oneroso']);
+        $aseguradora = mysqli_real_escape_string($enlace, $_POST['aseguradora']);
+        $analista_comercial = mysqli_real_escape_string($enlace, $_POST['analista_comercial']);
+        $estado = mysqli_real_escape_string($enlace, $_POST['estado']);
+        $asegurado = mysqli_real_escape_string($enlace, $_POST['asegurado']);
+        $observaciones = isset($_POST['observaciones']) && $_POST['observaciones'] !== ""
+            ? mysqli_real_escape_string($enlace, $_POST['observaciones'])
+            : NULL;
+        $id_asegurado = $_POST['id_asegurado'];
+        $id_analista_comercial = $_POST['id_analista_comercial'];
+        $id_user_freelance = $_POST['id_user_freelance'];
         $fechaActualizacion = "NULL";
-
-        var_dump($oportunidades);
 
         $query = "INSERT INTO oportunidades (id_oportunidad, id_cotizacion, valor_cotizacion, mes_oportunidad, asesor_freelance, id_user_freelance, ramo, placa, oneroso, aseguradora, analista_comercial, id_analista_comercial, estado, no_poliza, asegurado, id_asegurado, prima_sin_iva, asist_otros, gastos, iva, valor_total, fecha_expedicion, mes_expedicion, forma_pago, financiera, carpeta, observaciones, id_oferta, fecha_creacion, fecha_actualizacion) VALUES (null, $noCotizacion, $valor_cotizacion, '$mesOportunidad', '$asesor_freelance', $id_user_freelance, '$ramo', '$placa', '$oneroso', '$aseguradora', '$analista_comercial', $id_analista_comercial, '$estado', null, '$asegurado', $id_asegurado ,null, null, null, null, null, null, null, null, null, null, '$observaciones', $idOferta, '$fechaCreacion', $fechaActualizacion)";
     }
