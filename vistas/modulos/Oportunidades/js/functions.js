@@ -774,7 +774,7 @@ $("#txtEstadoOportunidadModal").on("change", function () {
 
     $("#txtFormaDePagoOportunidadModal").val(null).trigger("change"); 
     $("#txtFinancieraOportunidadModal").val(null).trigger("change"); 
-    $("#txtMesExpedicionOportunidadModal").val("").trigger("change"); 
+    $("#txtMesExpedicionOportunidadModal").val(null).trigger("change"); 
 
     $("#checkCarpetaModal").prop("checked", false);
   }
