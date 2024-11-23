@@ -1,50 +1,57 @@
 // let permisos = "";
 
 $(document).ready(function () {
-
   function obtenerFechaActual() {
     const hoy = new Date();
     const año = hoy.getFullYear();
-    const mes = String(hoy.getMonth() + 1).padStart(2, '0'); // Los meses van de 0 a 11
-    const día = String(hoy.getDate()).padStart(2, '0');
+    const mes = String(hoy.getMonth() + 1).padStart(2, "0"); // Los meses van de 0 a 11
+    const día = String(hoy.getDate()).padStart(2, "0");
 
     return `${año}-${mes}-${día}`;
-}
+  }
 
   function obtenerMesActual() {
     const meses = [
-      "Enero", "Febrero", "Marzo", "Abril", 
-      "Mayo", "Junio", "Julio", "Agosto", 
-      "Septiembre", "Octubre", "Noviembre", "Diciembre"
+      "Enero",
+      "Febrero",
+      "Marzo",
+      "Abril",
+      "Mayo",
+      "Junio",
+      "Julio",
+      "Agosto",
+      "Septiembre",
+      "Octubre",
+      "Noviembre",
+      "Diciembre",
     ];
-    
+
     const mesActual = new Date().getMonth(); // Retorna un valor entre 0 y 11
     return meses[mesActual]; // Devuelve el nombre del mes
   }
 
-  
-
-  function abrirDialogo (idCotizacion, oferta)  {
+  function abrirDialogo(idCotizacion, oferta) {
     // Configurar el diálogo
 
     let info = "";
 
     $("#myModal").dialog({
-      autoOpen: false, 
-      modal: true,     
-      width: 750,      
+      autoOpen: false,
+      modal: true,
+      width: 750,
       dialogClass: "custom-dialog",
-      buttons: {       
-        "Cerrar": function() {
-          console.log(oferta)
-          console.log(info)
+      buttons: {
+        Cerrar: function () {
+          console.log(oferta);
+          console.log(info);
           $(this).dialog("close");
         },
-        "Guardar": function() {
-
+        Guardar: function () {
           let mes = obtenerMesActual();
 
-          let oneroso = $("#txtAsesorOnerosoOportunidad option:selected").text();
+          let oneroso = $(
+            "#txtAsesorOnerosoOportunidad option:selected"
+          ).text();
           let estado = $("#txtEstadoOportunidad option:selected").text();
           let observaciones = $("#txtObservacionesOportunidades").val();
           let fechaCreacion = obtenerFechaActual();
@@ -52,25 +59,34 @@ $(document).ready(function () {
           // Se valida previamente que los campos este completos
           // En caso de no estarlos debe dar un error marcando que campo debe ser llenado en el formulario o modal
           var data = new FormData();
-          
+
           //id_oportunidad
           data.append("idCotizacion", idCotizacion);
           data.append("valor_cotizacion", oferta.Prima);
           data.append("idOferta", oferta.id_oferta);
           data.append("mesOportunidad", mes);
-          data.append("asesor_freelance", info.usu_nombre+" "+info.usu_apellido);
+          data.append(
+            "asesor_freelance",
+            info.usu_nombre + " " + info.usu_apellido
+          );
           data.append("id_user_freelance", info.id_usuario);
           data.append("ramo", "Automoviles");
           data.append("placa", oferta.Placa);
           data.append("oneroso", oneroso);
           data.append("aseguradora", oferta.Aseguradora);
-          data.append("analista_comercial", permisos.usu_nombre+" "+permisos.usu_apellido);
+          data.append(
+            "analista_comercial",
+            permisos.usu_nombre + " " + permisos.usu_apellido
+          );
           data.append("id_analista_comercial", permisos.id_usuario);
           //numero de poliza
           data.append("estado", estado);
-          data.append("asegurado", info.cli_nombre+" "+info.cli_apellidos);
+          data.append("asegurado", info.cli_nombre + " " + info.cli_apellidos);
           data.append("id_asegurado", info.id_cliente);
-          data.append("observaciones", observaciones == null || observaciones == false ? "" : observaciones);
+          data.append(
+            "observaciones",
+            observaciones == null || observaciones == false ? "" : observaciones
+          );
           data.append("fechaCreacion", fechaCreacion);
 
           console.log(estado);
@@ -84,12 +100,12 @@ $(document).ready(function () {
             contentType: false,
             processData: false,
             dataType: "json",
-            success: function(respuesta) {
-              if(respuesta.code === 1){
+            success: function (respuesta) {
+              if (respuesta.code === 1) {
                 Swal.fire({
                   icon: "success",
                   text: `Oportunidad # ${respuesta.inserted_id} registrada con éxito`,
-                  showConfirmButton: true,          
+                  showConfirmButton: true,
                   confirmButtonText: "Ok",
                 }).then((result) => {
                   if (result.isConfirmed) {
@@ -100,10 +116,10 @@ $(document).ready(function () {
                     window.location.reload(); // Recargar la página (opcional)
                   }
                 });
-              }else {
+              } else {
                 Swal.fire({
                   icon: "error",
-                  showConfirmButton: true,   
+                  showConfirmButton: true,
                   text: `Error al intentar crear la oportunidad, comuníquese con el administrador del sistema`,
                   confirmButtonText: "Cerrar",
                 }).then((result) => {
@@ -113,24 +129,29 @@ $(document).ready(function () {
                     return;
                   }
                 });
-
               }
             },
-            error: function() {
+            error: function () {
               console.log("Error al obtener los datos");
-            }
+            },
           });
-        }     
+        },
       },
-      open: function() {
+      open: function () {
         $("body").css("overflow", "hidden");
-        $(".ui-dialog-buttonpane button:contains('Cerrar')").attr("id", "btnCerrar");
-        $(".ui-dialog-buttonpane button:contains('Guardar')").attr("id", "btnGuardar");
-  
+        $(".ui-dialog-buttonpane button:contains('Cerrar')").attr(
+          "id",
+          "btnCerrar"
+        );
+        $(".ui-dialog-buttonpane button:contains('Guardar')").attr(
+          "id",
+          "btnGuardar"
+        );
+
         // Realizar la solicitud AJAX para cargar datos basados en el idCotizacion
         var datos = new FormData();
         datos.append("idCotizacion", idCotizacion);
-  
+
         $.ajax({
           url: "ajax/cotizaciones.ajax.php",
           method: "POST",
@@ -139,37 +160,41 @@ $(document).ready(function () {
           contentType: false,
           processData: false,
           dataType: "json",
-          success: function(respuesta) {
+          success: function (respuesta) {
             $("#noCotizacion").val(respuesta.id_cotizacion);
-            $("#txtAsesorOportunidad").val(respuesta.usu_nombre + " " + respuesta.usu_apellido);
+            $("#txtAsesorOportunidad").val(
+              respuesta.usu_nombre + " " + respuesta.usu_apellido
+            );
             $("#txtPlacaOportunidad").val(respuesta.cot_placa);
-            $("#txtAnalistaOportunidad").val(permisos.usu_nombre + " " + permisos.usu_apellido);
+            $("#txtAnalistaOportunidad").val(
+              permisos.usu_nombre + " " + permisos.usu_apellido
+            );
             $("#txtAseguradoraOportunidad").val(oferta.Aseguradora);
             info = respuesta;
           },
-          error: function() {
+          error: function () {
             console.log("Error al obtener los datos");
-          }
+          },
         });
       },
-      close: function() {
+      close: function () {
         $("body").css("overflow", "auto");
-      }
+      },
     });
-  
+
     // Abrir el diálogo
     $("#myModal").dialog("open");
   }
 
   window.abrirDialogo = abrirDialogo;
-  
+
   // Asignar eventos a elementos específicos
   // $(document).on("click", ".openModal", function() {
   //   abrirDialogo(); // Llamar la función con el ID específico
   // });
-  
+
   // Abre el modal cuando se hace clic en el botón
- 
+
   //permisosPlantilla = permisosPlantilla.replace(/\s+/g, '');
   //let permisos = JSON.parse(permisosPlantilla);
   //console.log(permisos);
@@ -460,7 +485,7 @@ $(document).ready(function () {
     $(selector).on("input", function () {
       this.value = this.value.replace(/\./g, "");
     });
-    
+
     // Previene el ingreso de puntos desde el teclado
     $(selector).on("keydown", function (event) {
       if (event.which === 190 || event.which === 110) {
@@ -469,7 +494,6 @@ $(document).ready(function () {
     });
   };
   parseNumbersToString("#valorTotal");
-
 
   // $('#btnMotosX').click(function (){
   //   window.location = "motos"
@@ -995,13 +1019,11 @@ if (options.length > 0) {
   editarCotizacion(options[0]);
 }
 
-
 // metodo comprobador
 
 // function sayHi() {
 //   console.log("hi!!")
 // }
-
 
 /*=============================================
 
@@ -1645,7 +1667,12 @@ function editarCotizacion(id) {
                             <div style="display: flex; justify-content: center; margin-top: 10px">
                             ${
                               oferta.id_oportunidad == null
-                                ? `<p class="openModal" onclick='abrirDialogo(${idCotizacion}, ${JSON.stringify(oferta).replace(/'/g, "\\'")})' style="text-decoration: underline; text-underline-offset: 3px; cursor: pointer">Crear oportunidad</p>`
+                                ? `<p class="openModal" onclick='abrirDialogo(${idCotizacion}, ${JSON.stringify(
+                                    oferta
+                                  ).replace(
+                                    /'/g,
+                                    "\\'"
+                                  )})' style="text-decoration: underline; text-underline-offset: 3px; cursor: pointer">Crear oportunidad</p>`
                                 : `<p style="text-decoration: underline; text-underline-offset: 3px; color: blue;">Oportunidad Creada ID # ${oferta.id_oportunidad}</p>`
                             }
                             </div>
@@ -1919,7 +1946,9 @@ function editarCotizacion(id) {
               }
 
               if (
-                (oferta.Manual == "0" || oferta.Manual == "8" || oferta.Manual == "9") &&
+                (oferta.Manual == "0" ||
+                  oferta.Manual == "8" ||
+                  oferta.Manual == "9") &&
                 (oferta.Aseguradora == "Seguros Bolivar" ||
                   oferta.Aseguradora == "Axa Colpatria") &&
                 aseguradoraPermisos == "1"
@@ -1936,7 +1965,9 @@ function editarCotizacion(id) {
 
 											</div>`;
               } else if (
-                (oferta.Manual == "0" || oferta.Manual == "8" || oferta.Manual == "9") &&
+                (oferta.Manual == "0" ||
+                  oferta.Manual == "8" ||
+                  oferta.Manual == "9") &&
                 (oferta.Aseguradora == "Previsora Seguros" ||
                   oferta.Aseguradora == "Previsora") &&
                 oferta.UrlPdf !== null &&
@@ -1954,7 +1985,9 @@ function editarCotizacion(id) {
 
 											</div>`;
               } else if (
-                (oferta.Manual == "0" || oferta.Manual == "8" || oferta.Manual == "9") &&
+                (oferta.Manual == "0" ||
+                  oferta.Manual == "8" ||
+                  oferta.Manual == "9") &&
                 oferta.Aseguradora == "Seguros del Estado" &&
                 oferta.UrlPdf !== null &&
                 aseguradoraPermisos == "1"
@@ -1971,7 +2004,9 @@ function editarCotizacion(id) {
 
 											</div>`;
               } else if (
-                (oferta.Manual == "0" || oferta.Manual == "8" || oferta.Manual == "9") &&
+                (oferta.Manual == "0" ||
+                  oferta.Manual == "8" ||
+                  oferta.Manual == "9") &&
                 oferta.Aseguradora == "Solidaria" &&
                 aseguradoraPermisos == "1"
               ) {
@@ -1987,7 +2022,9 @@ function editarCotizacion(id) {
 
 											</div>`;
               } else if (
-                (oferta.Manual == "0" || oferta.Manual == "8" || oferta.Manual == "9") &&
+                (oferta.Manual == "0" ||
+                  oferta.Manual == "8" ||
+                  oferta.Manual == "9") &&
                 oferta.Aseguradora == "Mapfre" &&
                 aseguradoraPermisos == "1"
               ) {
@@ -2002,8 +2039,10 @@ function editarCotizacion(id) {
     											</button>
 
 											</div>`;
-              }else if (
-                (oferta.Manual == "0" || oferta.Manual == "8" || oferta.Manual == "9") &&
+              } else if (
+                (oferta.Manual == "0" ||
+                  oferta.Manual == "8" ||
+                  oferta.Manual == "9") &&
                 oferta.Aseguradora == "Zurich" &&
                 aseguradoraPermisos == "1"
               ) {
@@ -2019,7 +2058,9 @@ function editarCotizacion(id) {
 
 											</div>`;
               } else if (
-                (oferta.Manual == "0" || oferta.Manual == "8" || oferta.Manual == "9") &&
+                (oferta.Manual == "0" ||
+                  oferta.Manual == "8" ||
+                  oferta.Manual == "9") &&
                 oferta.Aseguradora == "HDI Seguros" &&
                 aseguradoraPermisos == "1"
               ) {
@@ -2590,18 +2631,18 @@ const verPdfMapfre = async (cotizacion) => {
       }
     });
   } else {
+    $("#mapfre-pdf").html(
+      "VER PDF &nbsp;&nbsp;<img src='vistas/img/plantilla/loading.gif' width='18' height='18'>"
+    );
     let base64 = await obtenerPdfMapfre(cotizacion);
-
+    $("#mapfre-pdf").html(
+      "VER PDF &nbsp;&nbsp;<span class='fa fa-file-text'></span>"
+    );
     const linkSource = `data:application/pdf;base64,${base64}`;
-
     const downloadLink = document.createElement("a");
-
     const fileName = cotizacion + ".pdf";
-
     downloadLink.href = linkSource;
-
     downloadLink.download = fileName;
-
     downloadLink.click();
   }
 };
@@ -2646,7 +2687,6 @@ const obtenerPdfMapfre = async (cotizacion) => {
   }
 };
 
-
 const obtenerPdfSolidaria = async (cotizacion) => {
   const formData = new FormData();
   const id_intermediario = document.getElementById("idIntermediario").value;
@@ -2681,7 +2721,6 @@ const obtenerPdfSolidaria = async (cotizacion) => {
 
   return pdfText;
 };
-
 
 /*======================================================
 
@@ -3867,5 +3906,3 @@ function menosRECot() {
 
   document.getElementById("masResOferta").style.display = "none";
 }
-
-
