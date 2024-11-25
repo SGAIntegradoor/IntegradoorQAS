@@ -1,5 +1,4 @@
 $(document).ready(function () {
-
   $("#numDocumentoID").numeric();
   $("#txtFasecolda").numeric();
   $("#txtValorFasecolda").numeric();
@@ -12,7 +11,7 @@ $(document).ready(function () {
     "txtNombresRepresentante",
     "txtApellidos",
     "txtApellidosRepresentante",
-    "txtRazonSocial"
+    "txtRazonSocial",
   ];
 
   $("#txtConocesLaPlacaSi").click(function () {
@@ -23,6 +22,43 @@ $(document).ready(function () {
     $("#txtEsCeroKmNo").prop("checked", true);
   });
 
+  // Crear función de debounce
+  function debounce(func, delay) {
+    let timeout;
+    return function (...args) {
+      const context = this; // Conservar el contexto de `this`
+      clearTimeout(timeout); // Limpiar el temporizador anterior
+      timeout = setTimeout(() => func.apply(context, args), delay);
+    };
+  }
+
+  // Función que queremos ejecutar con debounce
+  function consultarAseguradoDebounced() {
+    consultarAsegurado();
+  }
+
+  // Asociar eventos con debounce
+  $("#numDocumentoID").on(
+    "input paste change",
+    debounce(function (e) {
+      let valorLimpio;
+
+      if (e.type === "paste") {
+        e.preventDefault(); // Evita el pegado directo
+        const textoPegado = (
+          e.originalEvent.clipboardData || window.clipboardData
+        ).getData("text");
+        valorLimpio = textoPegado.trim(); // Eliminar espacios en el texto pegado
+      } else {
+        valorLimpio = $(this).val().trim(); // Limpia espacios en caso de input o change
+      }
+
+      $(this).val(valorLimpio); // Asigna el valor limpio al input
+
+      // Llamar a la función con debounce
+      consultarAseguradoDebounced();
+    }, 500) // Ajusta el tiempo de debounce (en milisegundos)
+  );
 
   $("#txtConocesLaPlacaNo").click(function () {
     document.getElementById("contenPlaca").style.display = "none";
@@ -143,7 +179,6 @@ $(document).ready(function () {
     if (e.which == 32) return false;
   });
 
-  
   // Obtener el campo de entrada por su ID
   var placaInput = document.getElementById("placaVeh");
 
@@ -656,10 +691,6 @@ function menosAgr() {
   document.getElementById("masAgrOferta").style.display = "block";
 }
 
-$("#numDocumentoID").change(function () {
-  consultarAsegurado();
-});
-
 function consultarAsegurado() {
   var tipoDocumentoID = document.getElementById("tipoDocumentoID").value;
   var numDocumentoID = document.getElementById("numDocumentoID");
@@ -783,9 +814,15 @@ function consultarAsegurado() {
 
         $("#tipoDocumentoIDRepresentante").val("");
 
-        $("#dianacimientoRepresentante").append("<option value='' selected></option>");
-        $("#mesnacimientoRepresentante").append("<option value=''selected ></option>");
-        $("#anionacimientoRepresentante").append("<option value='' selected></option>");
+        $("#dianacimientoRepresentante").append(
+          "<option value='' selected></option>"
+        );
+        $("#mesnacimientoRepresentante").append(
+          "<option value=''selected ></option>"
+        );
+        $("#anionacimientoRepresentante").append(
+          "<option value='' selected></option>"
+        );
       }
     },
   });
@@ -2029,9 +2066,9 @@ function validarOfertasMotos(ofertas, aseguradora, exito) {
 function validarProblemaMotos(aseguradora, ofertas) {
   var idCotizOferta = idCotizacion;
   console.log(ofertas);
-  if(aseguradora == "Allianz"){
+  if (aseguradora == "Allianz") {
     debugger;
-  }  // Verificar si ofertas es un array
+  } // Verificar si ofertas es un array
   if (Array.isArray(ofertas)) {
     ofertas.forEach((oferta) => {
       // Obtener mensajes de la oferta
@@ -2295,7 +2332,7 @@ function cotizarOfertasMotos() {
 
   var FechaNacimiento = "";
 
-  if(anio == "" &&  mes == "" && dia == ""){
+  if (anio == "" && mes == "" && dia == "") {
     FechaNacimiento = "";
   } else {
     FechaNacimiento = anio + "-" + mes + "-" + dia;
@@ -2805,12 +2842,12 @@ function cotizarOfertasMotos() {
                           "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
                         );
                         validarProblemaMotos("Allianz", [
-                    {
-                      Mensajes: [
-                        "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
-                      ],
-                    },
-                  ]);
+                          {
+                            Mensajes: [
+                              "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
+                            ],
+                          },
+                        ]);
                       })
                   );
                 });
@@ -2858,12 +2895,12 @@ function cotizarOfertasMotos() {
                           "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
                         );
                         validarProblemaMotos("Allianz", [
-                    {
-                      Mensajes: [
-                        "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
-                      ],
-                    },
-                  ]);
+                          {
+                            Mensajes: [
+                              "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
+                            ],
+                          },
+                        ]);
                       })
                   );
                 });
@@ -2915,12 +2952,12 @@ function cotizarOfertasMotos() {
                           "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
                         );
                         validarProblemaMotos("Allianz", [
-                    {
-                      Mensajes: [
-                        "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
-                      ],
-                    },
-                  ]);
+                          {
+                            Mensajes: [
+                              "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
+                            ],
+                          },
+                        ]);
                       })
                   );
                 });
@@ -3273,7 +3310,10 @@ function cotizarOfertasMotos() {
                     agregarAseguradoraFallidaMotos("HDI (Antes Liberty)");
                     validarProblemaMotos("HDI (Antes Liberty)", ofertas);
                     ofertas[0].Mensajes.forEach((mensaje) => {
-                      mostrarAlertarCotizacionFallida("HDI (Antes Liberty)", mensaje);
+                      mostrarAlertarCotizacionFallida(
+                        "HDI (Antes Liberty)",
+                        mensaje
+                      );
                     });
                   } else {
                     // eliminarAseguradoraFallida('Liberty');
