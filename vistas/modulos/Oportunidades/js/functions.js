@@ -66,6 +66,7 @@ function cleanFields() {
   $("#txtnoCotizacionModal").val("");
   $("#txtValorCotizacionModal").val("");
   $("#txtPlacaOportunidadModal").val("");
+  $("#txtPlacaOportunidadModal").prop("disabled", false);
   $("#txtAnalistaGAModal").val("");
   $("#txtObservacionesOportunidadModal").val("");
 
@@ -124,6 +125,29 @@ function selectByText(selector, text) {
     }
   }
 }
+
+
+$("#txtRamoModal").on("change", function (){
+  let selectedValue = $(this).val();
+  if(selectedValue != "1" && selectedValue != "2" && selectedValue != "3"){
+    $("#txtPlacaOportunidadModal").prop("disabled", true);
+    $("#txtPlacaOportunidadModal").val("NA");
+  } else {
+    $("#txtPlacaOportunidadModal").val("");
+    $("#txtPlacaOportunidadModal").prop("disabled", false);
+  }
+})
+
+$("#txtFechaExpedicionOportunidadModal").on("change", function (){
+  let selectedValue = $(this).val();
+  let mes = selectedValue.split("-");
+
+  if(mes[1].charAt(0) == 0){
+    mes[1] = mes[1].charAt(1);
+  }
+  $("#txtMesExpedicionOportunidadModal").val(mes[1]).trigger("change");
+})
+
 
 $(".sorting_1").css("text-align", "center");
 
@@ -327,7 +351,7 @@ function abrirDialogoCrear(id = null) {
               $("#myModal2").dialog("close");
               Swal.fire({
                 icon: "success",
-                text: `Oportunidad # ${id} ${
+                text: `Oportunidad # ${ id != "" && id != null ? id : respuesta.inserted_id} ${
                   id != "" && id != null ? "actualizada" : "creada"
                 } con éxito`,
                 showConfirmButton: true,
@@ -380,8 +404,8 @@ function abrirDialogoCrear(id = null) {
         "type",
         "submit"
       );
-      $("#btnGuardar").html("Editar");
       if (id != null) {
+        $("#btnGuardar").html("Editar");
         let dataEdit = new FormData();
         dataEdit.append("id_oportunidad_edit", id);
         $.ajax({
@@ -481,6 +505,8 @@ function abrirDialogoCrear(id = null) {
     },
     close: function () {
       cleanFields();
+      $("#txtPlacaOportunidadModal").prop("disabled", false);
+      $("#txtPlacaOportunidadModal").val("");
       $("body").css("overflow", "auto");
       $("body").removeClass("modal-open"); // Quita la clase para restaurar el scroll
     },
@@ -851,46 +877,12 @@ $("#txtEstadoOportunidadModal").on("change", function () {
   }
 }); // Aplica el z-index al contenedor
 
-/**
- * Formato de inputs del modal START
- */
-
-let inputs = [
-  // "txtValorCotizacionModal",
-  // "txtPrimaSinIvaModal",
-  // "txtGastosOportunidadModal",
-  // "txtAsistOtrosOportunidadModal",
-  // "txtIvaOportunidadModal",
-
-];
-
 function formatNumber(value) {
   // Remueve cualquier carácter que no sea número
   value = value.replace(/\D/g, "");
   // Añade los puntos como separadores de miles
   return value.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 }
-
-// inputs.map((element) => {
-//   const input = document.getElementById(element);
-//   // Función para formatear número con separadores de miles
-//   // Evento al escribir en el input
-//   input.addEventListener("input", (event) => {
-//     // Obtén el valor actual
-//     let formattedValue = formatNumber(event.target.value);
-//     // Actualiza el valor formateado en el input
-//     event.target.value = "$ " + formattedValue;
-//   });
-
-//   // Previene que el usuario ingrese caracteres que no sean números
-//   input.addEventListener("keypress", (event) => {
-//     // Permitir solo números
-//     if (!/[0-9]/.test(event.key)) {
-//       event.preventDefault();
-//     }
-//   });
-// });
-
 $("#txtPrimaSinIvaModal").on("change", function(){
   formatNumber(this.value);
 })
@@ -942,21 +934,21 @@ $(
 });
 
 
-$(document).on("input", "#txtPlacaOportunidadModal", function() {
-  var pattern = /^[A-Z]{1,3}[0-9]{3,5}[A-Z]?$/;;
-  var inputValue = $(this).val();
+// $(document).on("input", "#txtPlacaOportunidadModal", function() {
+//   var pattern = /^[A-Z]{1,3}[0-9]{3,5}[A-Z]?$/;;
+//   var inputValue = $(this).val();
 
-  $(this).val(inputValue.toUpperCase());
+//   $(this).val(inputValue.toUpperCase());
 
-  // Validar el valor usando la expresión regular
-  if (pattern.test(inputValue)) {
-      // Si el valor es válido, puedes continuar con la lógica
-      console.log("Valor válido");
-  } else {
-      // Si el valor no es válido, puedes mostrar un mensaje de error o eliminar el valor
-      console.log("Valor no válido");
-  }
-});
+//   // Validar el valor usando la expresión regular
+//   if (pattern.test(inputValue)) {
+//       // Si el valor es válido, puedes continuar con la lógica
+//       console.log("Valor válido");
+//   } else {
+//       // Si el valor no es válido, puedes mostrar un mensaje de error o eliminar el valor
+//       console.log("Valor no válido");
+//   }
+// });
 
 let errors = [];
 

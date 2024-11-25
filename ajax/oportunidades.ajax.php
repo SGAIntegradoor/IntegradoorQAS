@@ -21,7 +21,7 @@
         $analista_comercial = $_POST["analista_comercial"];
         $id_analista_comercial = $_POST["id_analista_comercial"];
         $estado = $_POST["estado"];
-        $noPoliza = $_POST["noPoliza"] == "undefined" ? null : $_POST['noPoliza'];
+        $noPoliza = $_POST["noPoliza"] == "" ? "null" : $_POST["noPoliza"];
         $asegurado = $_POST["asegurado"];
         $id_asegurado = $_POST["id_asegurado"];
         $prima_sin_iva = $_POST["prima_sin_iva"];
@@ -31,11 +31,16 @@
         $valorTotal = $_POST["valorTotal"];
         $fechaExpedicion = $_POST["fechaExpedicion"];
 
-        $fechaExpedicion = ($fechaExpedicion === "") ? "NULL" : "'$fechaExpedicion'";
+        $mesExpedicion = trim($_POST["mesExpedicion"]) == "" ? null : trim($_POST["mesExpedicion"]);
+        $formaDePago = trim($_POST["formaDePago"]) == "" ? null : trim($_POST["formaDePago"]);
+        $financiera = trim($_POST["financiera"]) == "" ? null : trim($_POST["financiera"]);
+        // $mesExpedicion = empty(trim($_POST["mesExpedicion"]));
+        // $formaDePago = empty(trim($_POST["formaDePago"]));
+        // $financiera = empty(trim($_POST["financiera"]));
+        // $mesExpedicion = trim($_POST["mesExpedicion"]);
+        // $formaDePago = trim($_POST["formaDePago"]);
+        // $financiera = trim($_POST["financiera"]);
 
-        $mesExpedicion = $_POST["mesExpedicion"];
-        $formaDePago = $_POST["formaDePago"];
-        $financiera = $_POST["financiera"];
         $carpeta = $_POST["carpeta"];
         $observaciones = $_POST["observaciones"];
         $fechaCreacion = $_POST["fechaCreacion"];
@@ -61,6 +66,7 @@
 
         // Asigna el resultado a una variable
         $resultado = $result->get_result();
+        global $next_id;
         $next_id = $resultado->fetch_assoc()['next_id'];
 
         // Libera los recursos
@@ -68,7 +74,45 @@
 
         // Imprime el próximo ID para verificar
 
-        $query = "INSERT INTO oportunidades (id_oportunidad, id_cotizacion, valor_cotizacion, mes_oportunidad, asesor_freelance, id_user_freelance, ramo, placa, oneroso, aseguradora, analista_comercial, id_analista_comercial, estado, no_poliza, asegurado, id_asegurado, prima_sin_iva, asist_otros, gastos, iva, valor_total, fecha_expedicion, mes_expedicion, forma_pago, financiera, carpeta, observaciones, id_oferta, fecha_creacion) VALUES (null, $idCotizacion, $valor_cotizacion, '$mesOportunidad', '$asesor_freelance', $id_user_freelance, '$ramo', '$placa', '$oneroso', '$aseguradora', '$analista_comercial', $id_analista_comercial, '$estado', '$noPoliza', '$asegurado', $id_asegurado ,$prima_sin_iva, $gastos, $asistencias, $iva, $valorTotal, $fechaExpedicion, '$mesExpedicion', '$formaDePago', '$financiera', '$carpeta', '$observaciones', $next_id, '$fechaCreacion', $fechaActualizacion)";
+        $query = "INSERT INTO oportunidades (
+            id_oportunidad, id_cotizacion, valor_cotizacion, mes_oportunidad, asesor_freelance, 
+            id_user_freelance, ramo, placa, oneroso, aseguradora, analista_comercial, 
+            id_analista_comercial, estado, no_poliza, asegurado, id_asegurado, prima_sin_iva, 
+            asist_otros, gastos, iva, valor_total, fecha_expedicion, mes_expedicion, 
+            forma_pago, financiera, carpeta, observaciones, id_oferta, fecha_creacion, fecha_actualizacion
+        ) VALUES (
+            null, 
+            $idCotizacion, 
+            $valor_cotizacion, 
+            '$mesOportunidad', 
+            '$asesor_freelance', 
+            $id_user_freelance, 
+            '$ramo', 
+            '$placa', 
+            '$oneroso', 
+            '$aseguradora', 
+            '$analista_comercial', 
+            $id_analista_comercial, 
+            '$estado', 
+            " . ($noPoliza === "" ? "NULL" : $noPoliza) . ", 
+            '$asegurado', 
+            $id_asegurado, 
+            $prima_sin_iva, 
+            $gastos, 
+            $asistencias, 
+            $iva, 
+            $valorTotal, 
+            " . ($fechaExpedicion == "null" ? "null" : "'$fechaExpedicion'") . ", 
+            " . ($mesExpedicion === null ? "null" : "'$mesExpedicion'") . ", 
+            " . ($formaDePago === null ? "null" : "'$formaDePago'") . ", 
+            " . ($financiera === null ? "null" : "'$financiera'") . ", 
+            '$carpeta', 
+            '$observaciones', 
+            $next_id, 
+            '$fechaCreacion', 
+            null
+        )";
+
     } else {
         $noCotizacion = $_POST['idCotizacion'];
         $idOferta = $_POST['idOferta'];
@@ -119,7 +163,7 @@
             echo json_encode($data, JSON_UNESCAPED_UNICODE);
         }
     } else if ($rows > 0 && isset($_POST["manual"])) {
-        $data = array("status" => "success", "code" => 1, "message" => "Oportunidad Insertada Correctamente", "inserted_id" => $stmt->insert_id, "offert_updated" => $idOferta);
+        $data = array("status" => "success", "code" => 1, "message" => "Oportunidad Insertada Correctamente", "inserted_id" => $next_id, "offert_updated" => $idOferta);
         echo json_encode($data, JSON_UNESCAPED_UNICODE);
     } else {
         $data = array("status" => "failed", "code" => 0, "message" => "Oportunidad no insertada");
