@@ -67,8 +67,10 @@ function cleanFields() {
   $("#txtValorCotizacionModal").val("");
   $("#txtPlacaOportunidadModal").val("");
   $("#txtPlacaOportunidadModal").prop("disabled", false);
+  $("#txtAseguradoModal").val("");
   $("#txtAnalistaGAModal").val("");
   $("#txtObservacionesOportunidadModal").val("");
+  
 
   // Restablecer selects al valor por defecto
   $("#txtMesOportunidadModal").val(null).trigger("change"); // Restablece al valor por defecto
