@@ -1774,3 +1774,4 @@ $eliminarCotizacion->ctrEliminarCotizacion();
 
 <!-- <script src="vistas/js/cotizar.js?v=<//?php echo (rand()); ?>"></script> -->
 <script src="vistas/js/pesados.js?v=<?php echo (rand()); ?>"></script>
+<script src="vistas/js/functionsViews.js?v=<?php echo (rand()); ?>"></script>

@@ -828,41 +828,74 @@ function consulPlacaPesados(query = "1") {
   let diaRep = $("#dianacimientoRepresentante").val();
   let mesRep = $("#mesnacimientoRepresentante").val();
   let celularRep = $("#txtCelularRepresentante").val();
-  //! Agregar esto a MOTOS y Pesados END
+  let dianacimientoRequired = document
+      .getElementById("dianacimiento")
+      .hasAttribute("required");
+    let mesnacimientoRequired = document
+      .getElementById("mesnacimiento")
+      .hasAttribute("required");
+    let anionacimientoRequired = document
+      .getElementById("anionacimiento")
+      .hasAttribute("required");
 
-  //! Agregar esto a MOTOS y Pesados START
-  let typeQuery =
-    query != "2"
-      ? numplaca != "" &&
-        tipoDocumentoID != "" &&
-        numDocumentoID != "" &&
-        dianacimiento != "" &&
-        mesnacimiento != "" &&
-        anionacimiento != "" &&
-        nombresAseg != "" &&
-        apellidosAseg != "" &&
-        generoAseg != "" &&
-        estadoCivil != ""
-      : numplaca != "" &&
-        digitoVerif != "" &&
-        razonSocial != "" &&
-        anioRep != "" &&
-        diaRep != "" &&
-        mesRep != "" &&
-        //dianacimiento != "" &&
-        //mesnacimiento != "" &&
-        //anionacimiento != "" &&
-        numDocRep != "" &&
-        nomRep != "" &&
-        apellidoRep != "" &&
-        generoRep != "" &&
-        estadoCivilRep != "";
-  //correoRep != "" &&
-  //celularRep != "";
+    // Variables para las validaciones
+    let mesV = true,
+      diaV = true,
+      anioV = true;
 
-  //! Agregar esto a MOTOS y Pesados END
+    // Validar "required" y valores
+    if (
+      dianacimientoRequired &&
+      mesnacimientoRequired &&
+      anionacimientoRequired
+    ) {
+      mesV = mesnacimiento !== ""; // Verificar si tiene valor
+      diaV = dianacimiento !== "";
+      anioV = anionacimiento !== "";
+    }
 
-  if (typeQuery) {
+    let typeQuery =
+      query != "2"
+        ? numplaca != "" &&
+          tipoDocumentoID != "" &&
+          numDocumentoID != "" &&
+          dianacimiento != "" &&
+          mesnacimiento != "" &&
+          anionacimiento != "" &&
+          nombresAseg != "" &&
+          apellidosAseg != "" &&
+          generoAseg != "" &&
+          estadoCivil != ""
+        : numplaca != "" &&
+          digitoVerif != "" &&
+          razonSocial != "" &&
+          anioRep != "" &&
+          diaRep != "" &&
+          mesRep != "" &&
+          (dianacimientoRequired ? dianacimiento != "" : true) !== false &&
+          (mesnacimientoRequired ? mesnacimiento != "" : true) !== false &&
+          (anionacimientoRequired ? anionacimiento != "" : true) !== false &&
+          numDocRep != "" &&
+          nomRep != "" &&
+          apellidoRep != "" &&
+          generoRep != "" &&
+          estadoCivilRep != "";
+    //correoRep != "" &&
+    //celularRep != "";
+
+    //! Agregar esto a MOTOS y Pesados END
+
+    if (typeQuery) {
+
+      $("btnConsultarPlacaPesados2").remove();
+
+      $("#dianacimiento, #mesnacimiento, #anionacimiento").each(function () {
+        // Restablecer el estilo para los campos que tienen valor
+        $(this)
+          .next(".select2-container")
+          .find(".select2-selection")
+          .css("border", "");
+      });
     // Oculta los campos de consultar Vehiculo paso a paso desde la Guia Fasecolda
     document.getElementById("formularioVehiculo").style.display = "none";
     $("#loaderPlaca").html(
@@ -1075,6 +1108,32 @@ function consulPlacaPesados(query = "1") {
           setTimeout(consulPlacaPesados, 4000);
         }
       });
+  }else{
+    $("#dianacimiento, #mesnacimiento, #anionacimiento").each(function () {
+      // Verificar si el campo tiene un valor
+      if ($(this).val() === "") {
+        // Cambiar el borde a rojo para los campos vacíos
+        $(this)
+          .next(".select2-container")
+          .find(".select2-selection")
+          .css("border", "1px solid red");
+      } else {
+        // Restablecer el estilo para los campos que tienen valor
+        $(this)
+          .next(".select2-container")
+          .find(".select2-selection")
+          .css("border", "");
+      }
+    });
+
+    Swal.fire({
+      icon: "error",
+      title: "Completa toda la información del formulario",
+      text: "Para avanzar debes completa la informacion del formulario",
+      showConfirmButton: true,
+      confirmButtonText: "Cerrar",
+    });
+  
   }
 }
 

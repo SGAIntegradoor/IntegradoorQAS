@@ -254,10 +254,15 @@ $(document).ready(function () {
   });
 
   // Carga la fecha de Nacimiento
-  $(
-    "#dianacimiento, #mesnacimiento, #anionacimiento, #dianacimientoRepresentante, #mesnacimientoRepresentante, #anionacimientoRepresentante"
-  ).select2({
+  $("#dianacimiento, #mesnacimiento, #anionacimiento").select2({
     theme: "bootstrap fecnacimiento",
+    language: "es",
+    width: "100%",
+  });
+  $(
+    "#dianacimientoRepresentante, #mesnacimientoRepresentante, #anionacimientoRepresentante"
+  ).select2({
+    theme: "bootstrap fecnacimientoRep",
     language: "es",
     width: "100%",
   });
@@ -886,9 +891,15 @@ function consultarAsegurado() {
 
         $("#tipoDocumentoIDRepresentante").val("");
 
-        $("#dianacimientoRepresentante").append("<option value='' selected></option>");
-        $("#mesnacimientoRepresentante").append("<option value=''selected ></option>");
-        $("#anionacimientoRepresentante").append("<option value='' selected></option>");
+        $("#dianacimientoRepresentante").append(
+          "<option value='' selected></option>"
+        );
+        $("#mesnacimientoRepresentante").append(
+          "<option value=''selected ></option>"
+        );
+        $("#anionacimientoRepresentante").append(
+          "<option value='' selected></option>"
+        );
         //console.log(data.mensaje);
       }
     },
@@ -941,42 +952,32 @@ function consulPlaca(query = "1") {
     let diaRep = $("#dianacimientoRepresentante").val();
     let mesRep = $("#mesnacimientoRepresentante").val();
     let celularRep = $("#txtCelularRepresentante").val();
-    //! Agregar esto a MOTOS y Pesados END
 
-    // console.log(
-    //   rolAsesor,
-    //   valnumplaca,
-    //   tipoDocumentoID,
-    //   numDocumentoID,
-    //   dianacimiento,
-    //   mesnacimiento,
-    //   anionacimiento,
-    //   nombresAseg,
-    //   apellidosAseg,
-    //   generoAseg,
-    //   estadoCivil,
-    //   intermediario
-    // );
-    // if (tipoDocumentoID == "2") {
-    //   var restriccion = "";
-    //   if (rolAsesor == 19) {
-    //     restriccion =
-    //       "Lo sentimos, no puedes realizar cotizaciones para personas jurídicas por este cotizador. Para hacerlo debes comunicarte con el Equipo de Asesores Freelance de Grupo Asistencia, quienes podrán ayudarte a cotizar de manera manual con diferentes aseguradoras.";
-    //   } else {
-    //     restriccion =
-    //       "Lo sentimos, no puedes realizar cotizaciones para personas jurídicas por este cotizador.";
-    //   }
-    //   Swal.fire({
-    //     icon: "error",
-    //     text: restriccion,
-    //     confirmButtonText: "Cerrar",
-    //   }).then(() => {
-    //     // Recargar la página después de cerrar el SweetAlert
-    //     location.reload();
-    //   });
-    // }
+    let dianacimientoRequired = document
+      .getElementById("dianacimiento")
+      .hasAttribute("required");
+    let mesnacimientoRequired = document
+      .getElementById("mesnacimiento")
+      .hasAttribute("required");
+    let anionacimientoRequired = document
+      .getElementById("anionacimiento")
+      .hasAttribute("required");
 
-    //! Agregar esto a MOTOS y Pesados START
+    // Variables para las validaciones
+    let mesV = true,
+      diaV = true,
+      anioV = true;
+
+    // Validar "required" y valores
+    if (
+      dianacimientoRequired &&
+      mesnacimientoRequired &&
+      anionacimientoRequired
+    ) {
+      mesV = mesnacimiento !== ""; // Verificar si tiene valor
+      diaV = dianacimiento !== "";
+      anioV = anionacimiento !== "";
+    }
 
     let typeQuery =
       query != "2"
@@ -996,9 +997,9 @@ function consulPlaca(query = "1") {
           anioRep != "" &&
           diaRep != "" &&
           mesRep != "" &&
-          //dianacimiento != "" &&
-          //mesnacimiento != "" &&
-          //anionacimiento != "" &&
+          (dianacimientoRequired ? dianacimiento != "" : true) !== false &&
+          (mesnacimientoRequired ? mesnacimiento != "" : true) !== false &&
+          (anionacimientoRequired ? anionacimiento != "" : true) !== false &&
           numDocRep != "" &&
           nomRep != "" &&
           apellidoRep != "" &&
@@ -1010,6 +1011,16 @@ function consulPlaca(query = "1") {
     //! Agregar esto a MOTOS y Pesados END
 
     if (typeQuery) {
+
+      $("btnConsultarPlaca2").remove();
+
+      $("#dianacimiento, #mesnacimiento, #anionacimiento").each(function () {
+        // Restablecer el estilo para los campos que tienen valor
+        $(this)
+          .next(".select2-container")
+          .find(".select2-selection")
+          .css("border", "");
+      });
       // Oculta los campos de consultar Vehiculo paso a paso desde la Guia Fasecolda
       document.getElementById("formularioVehiculo").style.display = "none";
       $("#loaderPlaca").html(
@@ -1199,6 +1210,30 @@ function consulPlaca(query = "1") {
           }
         });
     } else {
+      $("#dianacimiento, #mesnacimiento, #anionacimiento").each(function () {
+        // Verificar si el campo tiene un valor
+        if ($(this).val() === "") {
+          // Cambiar el borde a rojo para los campos vacíos
+          $(this)
+            .next(".select2-container")
+            .find(".select2-selection")
+            .css("border", "1px solid red");
+        } else {
+          // Restablecer el estilo para los campos que tienen valor
+          $(this)
+            .next(".select2-container")
+            .find(".select2-selection")
+            .css("border", "");
+        }
+      });
+
+      Swal.fire({
+        icon: "error",
+        title: "Completa toda la información del formulario",
+        text: "Para avanzar debes completa la informacion del formulario",
+        showConfirmButton: true,
+        confirmButtonText: "Cerrar",
+      });
     }
   }
 }
@@ -2111,7 +2146,7 @@ const mostrarOferta = (
                                   <div>VER PDF &nbsp;&nbsp;<span class="fa fa-file-text"></span></div>
                               </button>
                           </div>`;
-  }else if (aseguradora == "Zurich" && permisosCredenciales == "1") {
+  } else if (aseguradora == "Zurich" && permisosCredenciales == "1") {
     cardCotizacion += `
                           <div class="col-xs-12 col-sm-6 col-md-2 verpdf-oferta">
                               <button id="solidaria-pdf${numCotizOferta}" type="button" class="btn btn-info" onclick='verPdfZurich(${numCotizOferta})'>
@@ -2481,7 +2516,7 @@ function cotizarOfertas() {
 
   var FechaNacimiento = "";
 
-  if(anio == "" &&  mes == "" && dia == ""){
+  if (anio == "" && mes == "" && dia == "") {
     FechaNacimiento = "";
   } else {
     FechaNacimiento = anio + "-" + mes + "-" + dia;

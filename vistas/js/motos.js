@@ -870,7 +870,32 @@ function consulPlacaMotos(query = "1") {
     let celularRep = $("#txtCelularRepresentante").val();
     //! Agregar esto a MOTOS y Pesados END
 
-    //! Agregar esto a MOTOS y Pesados START
+    let dianacimientoRequired = document
+      .getElementById("dianacimiento")
+      .hasAttribute("required");
+    let mesnacimientoRequired = document
+      .getElementById("mesnacimiento")
+      .hasAttribute("required");
+    let anionacimientoRequired = document
+      .getElementById("anionacimiento")
+      .hasAttribute("required");
+
+    // Variables para las validaciones
+    let mesV = true,
+      diaV = true,
+      anioV = true;
+
+    // Validar "required" y valores
+    if (
+      dianacimientoRequired &&
+      mesnacimientoRequired &&
+      anionacimientoRequired
+    ) {
+      mesV = mesnacimiento !== ""; // Verificar si tiene valor
+      diaV = dianacimiento !== "";
+      anioV = anionacimiento !== "";
+    }
+
     let typeQuery =
       query != "2"
         ? numplaca != "" &&
@@ -889,9 +914,9 @@ function consulPlacaMotos(query = "1") {
           anioRep != "" &&
           diaRep != "" &&
           mesRep != "" &&
-          //dianacimiento != "" &&
-          //mesnacimiento != "" &&
-          //anionacimiento != "" &&
+          (dianacimientoRequired ? dianacimiento != "" : true) !== false &&
+          (mesnacimientoRequired ? mesnacimiento != "" : true) !== false &&
+          (anionacimientoRequired ? anionacimiento != "" : true) !== false &&
           numDocRep != "" &&
           nomRep != "" &&
           apellidoRep != "" &&
@@ -901,7 +926,17 @@ function consulPlacaMotos(query = "1") {
     //celularRep != "";
 
     //! Agregar esto a MOTOS y Pesados END
+
     if (typeQuery) {
+      $("btnConsultarPlaca2").remove();
+
+      $("#dianacimiento, #mesnacimiento, #anionacimiento").each(function () {
+        // Restablecer el estilo para los campos que tienen valor
+        $(this)
+          .next(".select2-container")
+          .find(".select2-selection")
+          .css("border", "");
+      });
       // Oculta los campos de consultar Vehiculo paso a paso desde la Guia Fasecolda
       document.getElementById("formularioVehiculo").style.display = "none";
       $("#loaderPlaca").html(
@@ -1081,7 +1116,30 @@ function consulPlacaMotos(query = "1") {
       }
       return;
     } else {
-      console.log("me fui por aqui");
+      $("#dianacimiento, #mesnacimiento, #anionacimiento").each(function () {
+        // Verificar si el campo tiene un valor
+        if ($(this).val() === "") {
+          // Cambiar el borde a rojo para los campos vacíos
+          $(this)
+            .next(".select2-container")
+            .find(".select2-selection")
+            .css("border", "1px solid red");
+        } else {
+          // Restablecer el estilo para los campos que tienen valor
+          $(this)
+            .next(".select2-container")
+            .find(".select2-selection")
+            .css("border", "");
+        }
+      });
+
+      Swal.fire({
+        icon: "error",
+        title: "Completa toda la información del formulario",
+        text: "Para avanzar debes completa la informacion del formulario",
+        showConfirmButton: true,
+        confirmButtonText: "Cerrar",
+      });
     }
   }
 }
