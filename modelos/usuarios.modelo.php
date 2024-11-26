@@ -309,8 +309,12 @@ class ModeloUsuarios
 				$stmt->bindParam(":fechaLimEdi", $datos["fechaLimEdi"], PDO::PARAM_STR);
 				$stmt->bindParam(":rol", $datos["rol"], PDO::PARAM_STR);
 
+
+				// echo json_encode($datos);
+				// die();
+
 				if ($stmt->execute()) {
-					//var_dump("Entre aqui");
+					// var_dump("Entre aqui");
 					return "ok";
 				} else {
 					$errorInfo = $stmt->errorInfo();
@@ -323,7 +327,7 @@ class ModeloUsuarios
 				echo "No se encontraron resultados para el usuario con ID $idUsuario.";
 			}
 
-			$stmt->close();
+			//$stmt->close();
 			$stmt = null;
 		} catch (PDOException $e) {
 			echo "Error: " . $e->getMessage();
