@@ -11,6 +11,9 @@ if ($_SESSION["permisos"]["PerfilAgencia"] != "x") {
   return;
 }
 
+// var_dump($_SESSION);
+
+
 ?>
 
 <style>
@@ -224,13 +227,13 @@ if ($_SESSION["permisos"]["PerfilAgencia"] != "x") {
               </div>
               <div class="containerImg" style="display: flex; flex-direction: row; align-items: flex-end; gap: 20px;">
                 <?php
-                echo '<img class="profile-pic previsualizarEditar" src="' . $_SESSION['foto'] . '" width="' . (strpos($_SESSION['foto'], "user.png") !== false ? '100' : '100') . '" style="border-radius: 50%; min-width: 100px; width: 100px; height: 100px">';
+                echo '<img class="profile-pic previsualizarEditar" id="previewImg" src="' . $_SESSION['foto'] . '" width="100" style="border-radius: 50%; min-width: 100px; width: 100px; height: 100px">';
                 ?>
                 <div style="display: flex; flex-direction: column">
                   <p id="fileNameUser" style="color: gray; margin: 0; padding: 0; font-size: 14px;">No se ha seleccionado ningún archivo</p>
                   <label class="btn btn-primary">
-                    <input type="file" name="imgUser" id="imgUser" style="display:none;" />
-                    Subir archivo
+                    <input type="file" name="imgUser" id="imgUser" style="display:none;" accept="image/*" />
+                    Seleccionar archivo
                   </label>
                 </div>
                 <p style="color: gray; margin-bottom: 0px; padding-bottom: 0px; font-size: 17px;">Max. 2MB</p>
@@ -241,14 +244,14 @@ if ($_SESSION["permisos"]["PerfilAgencia"] != "x") {
                 <p>Logo asesor o agencia (Si eres un asesor productivo y tienes autorización, sube tu logo para el PDF comparativo)</p>
               </div>
               <div class="containerImg" style="display: flex; flex-direction: row; align-items: flex-end; gap: 20px;">
-                <?php
-                echo '<img class="profile-pic previsualizarEditarPDF" src="' . $_SESSION['imgPDF'] . '" width="' . (strpos($_SESSION['imgPDF'], "user.png") !== false ? '100' : '100') . '" style="border-radius: 50%; min-width: 100px; width: 100px; height: 100px">';
+              <?php
+                echo '<img class="profile-pic previsualizarEditar2" id="previewImgPDF" src="' . $_SESSION['imgPDF'] . '" width="100" style="border-radius: 50%; min-width: 100px; width: 100px; height: 100px">';
                 ?>
                 <div style="display: flex; flex-direction: column">
                   <p id="fileNamePDF" style="color: gray; margin: 0; padding: 0; font-size: 14px;">No se ha seleccionado ningún archivo</p>
                   <label class="btn btn-primary">
-                    <input type="file" name="imgLogo" id="imgLogo" style="display:none;" />
-                    Subir archivo
+                    <input type="file" name="imgLogo" id="imgLogo" style="display:none;" accept="image/*" />
+                    Seleccionar archivo
                   </label>
                 </div>
                 <p style="color: gray; margin-bottom: 0px; padding-bottom: 0px; font-size: 17px;">Max. 2MB</p>

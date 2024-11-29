@@ -10,19 +10,58 @@ let idUsuario = permisos.id_usuario;
 /* End Variables Globales */
 
 let btnGuardar = document.getElementById("btnGuardar");
-const inputs = document.querySelector("#imgsContainer");
-const images = document.querySelectorAll("div.containerImg > div> label > input");
+const imgUserInput = document.getElementById("imgUser");
+const imgLogoInput = document.getElementById("imgLogo");
 
 btnGuardar.addEventListener("click", function () {
-  images.forEach((element) => {
-    if (element.files.length == 0) {
-      return;
-    } else {
-      uploadImageToServer(element.files[0], element.id);
-    }
-  });
+  // Subir imagen de perfil del usuario
+  if (imgUserInput.files.length > 0) {
+    uploadImageToServer(imgUserInput.files[0], "imgUser");
+  } else {
+    console.log("No se seleccionó una imagen de perfil.");
+  }
+
+  // Subir logo del PDF
+  if (imgLogoInput.files.length > 0) {
+    uploadImageToServer(imgLogoInput.files[0], "imgLogo");
+  } else {
+    console.log("No se seleccionó un logo para el PDF.");
+  }
 });
 
+$("#imgUser").on("change", function () {
+  const file = this.files[0]; // Obtiene el archivo seleccionado
+  if (file) {
+    $("#fileNameUser").text(file.name); // Muestra el nombre del archivo
+
+    // Usamos FileReader para leer la imagen seleccionada
+    const reader = new FileReader();
+    reader.onload = function (e) {
+      $("#previewImg").attr("src", e.target.result); // Asigna la imagen cargada como `src` al elemento img
+    };
+    reader.readAsDataURL(file); // Convierte el archivo en una URL en base64
+  } else {
+    $("#fileNameUser").text("No se ha seleccionado ningún archivo");
+    $("#previewImg").attr("src", "<?php echo $_SESSION['foto']; ?>"); // Restaura la imagen original
+  }
+});
+
+$("#imgLogo").on("change", function () {
+  const file = this.files[0]; // Obtiene el archivo seleccionado
+  if (file) {
+    $("#fileNamePDF").text(file.name); // Muestra el nombre del archivo
+
+    // Usamos FileReader para leer la imagen seleccionada
+    const reader = new FileReader();
+    reader.onload = function (e) {
+      $("#previewImgPDF").attr("src", e.target.result); // Asigna la imagen cargada como `src` al elemento img
+    };
+    reader.readAsDataURL(file); // Convierte el archivo en una URL en base64
+  } else {
+    $("#fileNamePDF").text("No se ha seleccionado ningún archivo");
+    $("#previewImgPDF").attr("src", "<?php echo $_SESSION['imgPDF']; ?>"); // Restaura la imagen original
+  }
+});
 
 function uploadImageToServer(file, inputId) {
   const formData = new FormData();
