@@ -284,11 +284,13 @@ async function cargarPerfil() {
 
           $("#departamento_perfil").val(departamento[1]);
           $("#ciudad_perfil").val(departamento[0]);
+
+          $("#loader-skeleton").fadeOut();
         },
       });
     }, complete: function (){
       // $("#loading").remove();
-     $("#loader-skeleton").fadeOut();
+     
     },
   });
 }
