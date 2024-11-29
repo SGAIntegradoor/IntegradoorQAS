@@ -110,6 +110,48 @@ if ($_SESSION["permisos"]["PerfilAgencia"] != "x") {
   .separador {
     margin-left: 15px;
   }
+
+  #loader-skeleton .skeleton {
+    background: linear-gradient(90deg, #e0e0e0 25%, #f8f8f8 50%, #e0e0e0 75%);
+    background-size: 200% 100%;
+    opacity: 0.4;
+    /* La opacidad no afecta a #message */
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    /* Fondo en un nivel más bajo */
+    border-radius: 10px;
+    /* Bordes redondeados si quieres */
+    box-shadow: inset 0 0 15px 0 rgba(0, 0, 0, 0.1);
+    /* Sombra difusa en los bordes */
+  }
+
+  #loader-skeleton #message {
+    display: flex;
+    height: 100%;
+    text-align: center;
+    color: #000000;
+    position: relative;
+    z-index: 2;
+    font-size: 1.5em;
+    margin: 0;
+    justify-content: center;
+    align-items: center;
+  }
+
+
+  @keyframes shimmer {
+    0% {
+      background-position: -200% 0;
+    }
+
+    100% {
+      background-position: 200% 0;
+    }
+  }
 </style>
 
 <div class="content-wrapper" style="margin-left: 50px;">
@@ -244,7 +286,7 @@ if ($_SESSION["permisos"]["PerfilAgencia"] != "x") {
                 <p>Logo asesor o agencia (Si eres un asesor productivo y tienes autorización, sube tu logo para el PDF comparativo)</p>
               </div>
               <div class="containerImg" style="display: flex; flex-direction: row; align-items: flex-end; gap: 20px;">
-              <?php
+                <?php
                 echo '<img class="profile-pic previsualizarEditar2" id="previewImgPDF" src="' . $_SESSION['imgPDF'] . '" width="100" style="border-radius: 50%; min-width: 100px; width: 100px; height: 100px">';
                 ?>
                 <div style="display: flex; flex-direction: column">
@@ -264,58 +306,67 @@ if ($_SESSION["permisos"]["PerfilAgencia"] != "x") {
             <u><b style="font-size: 16px;">Información del usuario</b></u>
           </div>
           <div id="boxes-wrapper" style="display:flex; margin-left: 10px; flex-direction: column; flex-wrap: wrap">
-            <div class="" style="margin-bottom: 15px; display:flex; flex-direction: row; gap: 40px; align-content:flex-start">
-              <div class="col-md-3" style="display:flex; flex-direction:column; padding-left: 0px !important;">
-                <label for="tipoDocumento"><b>Tipo de documento</b></label>
-                <select disabled type="text" name="tipodocumento_perfil" id="tipodocumento_perfil"> </select>
+            <!-- Loader Overlay -->
+            <div id="loader-skeleton" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255, 255, 255, 0.8); display: none; z-index: 2; flex-direction: column; justify-content: center; align-items: center;">
+              <div class="skeleton" style="width: 100%; height: 100%; animation: shimmer 1.5s infinite;">
+                <!-- Aquí podrías incluir una animación o mensaje "Cargando..." -->
               </div>
-              <div class="col-md-3" style="display:flex; flex-direction:column; padding-left: 0px !important;">
-                <label for="documento"><b>Documento</b></label>
-                <input disabled type="text" name="documento" id="documento_perfil">
-              </div>
-              <div class="col-md-3" style="display:flex; flex-direction:column; padding-left: 0px !important;">
-                <label for="nombres"><b>Nombres</b></label>
-                <input disabled type="text" name="nombres" id="nombres_perfil">
-              </div>
-              <div class="col-md-3" style="display:flex; flex-direction:column; padding-left: 0px !important;">
-                <label for="apellidos"><b>Apellidos</b></label>
-                <input disabled type="text" name="apellidos" id="apellidos_perfil">
-              </div>
+              <p id="message">Cargando Información de usuario...</p>
             </div>
-            <div class="" style="margin-bottom: 15px; display:flex; flex-direction: row; gap: 40px; align-content:flex-start;">
-              <div class="col-md-3" style="display:flex; flex-direction:column; padding-left: 0px !important;">
-                <label for="fechaNacimiento"><b>Fecha de nacimiento</b></label>
-                <input disabled type="text" name="fechaNacimiento_perfil" id="fechaNacimiento_perfil">
+            <div id="boxesInfoPerfil">
+              <div class="" style="margin-bottom: 15px; display:flex; flex-direction: row; gap: 40px; align-content:flex-start">
+                <div class="col-md-3" style="display:flex; flex-direction:column; padding-left: 0px !important;">
+                  <label for="tipoDocumento"><b>Tipo de documento</b></label>
+                  <select disabled type="text" name="tipodocumento_perfil" id="tipodocumento_perfil"> </select>
+                </div>
+                <div class="col-md-3" style="display:flex; flex-direction:column; padding-left: 0px !important;">
+                  <label for="documento"><b>Documento</b></label>
+                  <input disabled type="text" name="documento" id="documento_perfil">
+                </div>
+                <div class="col-md-3" style="display:flex; flex-direction:column; padding-left: 0px !important;">
+                  <label for="nombres"><b>Nombres</b></label>
+                  <input disabled type="text" name="nombres" id="nombres_perfil">
+                </div>
+                <div class="col-md-3" style="display:flex; flex-direction:column; padding-left: 0px !important;">
+                  <label for="apellidos"><b>Apellidos</b></label>
+                  <input disabled type="text" name="apellidos" id="apellidos_perfil">
+                </div>
               </div>
-              <div class="col-md-3" style="display:flex; flex-direction:column; padding-left: 0px !important;">
-                <label for="genero"><b>Genero</b></label>
-                <input disabled type="text" name="genero" id="genero_perfil">
+              <div class="" style="margin-bottom: 15px; display:flex; flex-direction: row; gap: 40px; align-content:flex-start;">
+                <div class="col-md-3" style="display:flex; flex-direction:column; padding-left: 0px !important;">
+                  <label for="fechaNacimiento"><b>Fecha de nacimiento</b></label>
+                  <input disabled type="text" name="fechaNacimiento_perfil" id="fechaNacimiento_perfil">
+                </div>
+                <div class="col-md-3" style="display:flex; flex-direction:column; padding-left: 0px !important;">
+                  <label for="genero"><b>Genero</b></label>
+                  <input disabled type="text" name="genero" id="genero_perfil">
+                </div>
+                <div class="col-md-3" style="display:flex; flex-direction:column; padding-left: 0px !important;">
+                  <label for="celular"><b>Celular</b></label>
+                  <input disabled type="text" name="telefono_perfil" id="telefono_perfil">
+                </div>
+                <div class="col-md-3" style="display:flex; flex-direction:column; padding-left: 0px !important;">
+                  <label for="correoElectronico"><b>Correo Electronico</b></label>
+                  <input disabled type="text" name="email_perfil" id="email_perfil">
+                </div>
               </div>
-              <div class="col-md-3" style="display:flex; flex-direction:column; padding-left: 0px !important;">
-                <label for="celular"><b>Celular</b></label>
-                <input disabled type="text" name="telefono_perfil" id="telefono_perfil">
-              </div>
-              <div class="col-md-3" style="display:flex; flex-direction:column; padding-left: 0px !important;">
-                <label for="correoElectronico"><b>Correo Electronico</b></label>
-                <input disabled type="text" name="email_perfil" id="email_perfil">
-              </div>
-            </div>
-            <div class="" style="display:flex; flex-direction: row; gap: 40px; align-content:flex-start">
-              <div class="col-md-3" style="display:flex; flex-direction:column; padding-left: 0px !important;">
-                <label for="direccion"><b>Dirección</b></label>
-                <input disabled type="text" name="direccion_perfil" id="direccion_perfil">
-              </div>
-              <div class="col-md-3" style="display:flex; flex-direction:column; padding-left: 0px !important;">
-                <label for="departamento"><b>Departamento</b></label>
-                <input disabled type="text" name="departamento" id="departamento_perfil">
-              </div>
-              <div class="col-md-3" style="display:flex; flex-direction:column; padding-left: 0px !important;">
-                <label for="ciudad"><b>Ciudad</b></label>
-                <input disabled type="text" name="ciudad" id="ciudad_perfil">
-              </div>
-              <div class="col-md-3" style="display:flex; flex-direction:column; padding-left: 0px !important;">
-                <div style="margin-top: 25px"></div>
-                <button id="btnGuardar">Guardar</button>
+              <div class="" style="display:flex; flex-direction: row; gap: 40px; align-content:flex-start">
+                <div class="col-md-3" style="display:flex; flex-direction:column; padding-left: 0px !important;">
+                  <label for="direccion"><b>Dirección</b></label>
+                  <input disabled type="text" name="direccion_perfil" id="direccion_perfil">
+                </div>
+                <div class="col-md-3" style="display:flex; flex-direction:column; padding-left: 0px !important;">
+                  <label for="departamento"><b>Departamento</b></label>
+                  <input disabled type="text" name="departamento" id="departamento_perfil">
+                </div>
+                <div class="col-md-3" style="display:flex; flex-direction:column; padding-left: 0px !important;">
+                  <label for="ciudad"><b>Ciudad</b></label>
+                  <input disabled type="text" name="ciudad" id="ciudad_perfil">
+                </div>
+                <div class="col-md-3" style="display:flex; flex-direction:column; padding-left: 0px !important;">
+                  <div style="margin-top: 25px"></div>
+                  <button id="btnGuardar">Guardar</button>
+                </div>
               </div>
             </div>
           </div>

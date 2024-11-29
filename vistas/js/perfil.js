@@ -185,7 +185,8 @@ async function cargarPerfil() {
   var idUsuario = permisos.id_usuario;
   var datos = new FormData();
   datos.append("idUsuario", idUsuario);
-  $("#boxes-wrapper").append('<div id="loading" style="text-align:center; margin-top: 20px;"><span>Cargando...</span></div>');
+  // $("#boxesInfoPerfil").hide();
+  $("#loader-skeleton").fadeIn();
   $.ajax({
     url: "ajax/usuarios.ajax.php",
     method: "POST",
@@ -286,7 +287,8 @@ async function cargarPerfil() {
         },
       });
     }, complete: function (){
-      $("#loading").remove();
+      // $("#loading").remove();
+      // $("#loader-skeleton").fadeOut();
     },
   });
 }
