@@ -16,7 +16,7 @@ $identificador = $_GET['cotizacion'];
 $server = "localhost";
 $user = "grupoasi_cotizautos";
 $password = "M1graci0n123"; //poner tu propia contraseña, si tienes una.
-$bd = "grupoasi_cotizautos_qas";
+$bd = "grupoasi_cotizautos";
 
 $conexion = mysqli_connect($server, $user, $password, $bd);
 if (!$conexion) {
@@ -191,7 +191,34 @@ if ($fila['id_tipo_documento'] == 2) {
 	$pdf->Image('../../../vistas/img/logos/imagencotizador2.jpg', -5, 0, 0, 92, 'JPG', '', '', true, 200, '', false, false, 0, false, false, false);
 }
 
+$id_usuario = $_SESSION['idUsuario'];
+
+$queryLogo2 = "SELECT usu_logo_pdf FROM usuarios WHERE id_usuario = $id_usuario";
+
+$valorLogo2 = $conexion->query($queryLogo2);
+$valorLogo2 = mysqli_fetch_array($valorLogo2);
+$valorLogo2 = $valorLogo2['usu_logo_pdf'];
+
 if ($valorLogo == "undefined") {
+
+	$pieces = explode(".", $valorLogo2);
+
+	$urlSGA = "../../../vistas/img/intermediario/SEGUROS GRUPO ASISTENCIA SAS/LogoGA.png";
+
+	list($imgWidth, $imgHeight) = getimagesize('../../../' . $valorLogo2);
+	list($imgWidth2, $imgHeight2) = getimagesize($urlSGA);
+
+	$width = 70;  // El ancho que deseas en el PDF
+	$height = ($imgHeight / $imgWidth) * $width;  // Mantener la relación de aspecto
+
+	if ($pieces[0] == "") {
+		$pdf->Image('../../../vistas/img/intermediario/SEGUROS GRUPO ASISTENCIA SAS/LogoGA.png', 8, 13, 0, 20, 'PNG', '', '', true, 160, '', false, false, 0, false, false, false);
+	} else if ($pieces[1] == 'png') {
+		$pdf->Image('../../../' . $valorLogo2, 10, 13, $width, 20, 'PNG', '', '', true, 160, '', false, false, 0, false, false, false);
+	} else {
+		$pdf->Image('../../../' . $valorLogo2, 8, 13, $width, 20, 'JPG', '', '', true, 160, '', false, false, 0, false, false, false);
+	}
+} else if ($valorLogo !== "undefined" && !empty($valorLogo2)) {
 	$id_usuario = $_SESSION['idUsuario'];
 
 	$queryLogo2 = "SELECT usu_logo_pdf FROM usuarios WHERE id_usuario = $id_usuario";
@@ -203,16 +230,14 @@ if ($valorLogo == "undefined") {
 	$pieces = explode(".", $valorLogo2);
 
 	$urlSGA = "../../../vistas/img/intermediario/SEGUROS GRUPO ASISTENCIA SAS/LogoGA.png";
-	
-	list($imgWidth, $imgHeight) = getimagesize('../../../'.$valorLogo2);
+
+	list($imgWidth, $imgHeight) = getimagesize('../../../' . $valorLogo2);
 	list($imgWidth2, $imgHeight2) = getimagesize($urlSGA);
 
 	$width = 70;  // El ancho que deseas en el PDF
 	$height = ($imgHeight / $imgWidth) * $width;  // Mantener la relación de aspecto
 
-	if ($pieces[0] == "") {
-		$pdf->Image('../../../vistas/img/intermediario/SEGUROS GRUPO ASISTENCIA SAS/LogoGA.png', 8, 13, 0, 20, 'PNG', '', '', true, 160, '', false, false, 0, false, false, false);
-	} else if ($pieces[1] == 'png') {
+	if ($pieces[1] == 'png') {
 		$pdf->Image('../../../' . $valorLogo2, 10, 13, $width, 20, 'PNG', '', '', true, 160, '', false, false, 0, false, false, false);
 	} else {
 		$pdf->Image('../../../' . $valorLogo2, 8, 13, $width, 20, 'JPG', '', '', true, 160, '', false, false, 0, false, false, false);
