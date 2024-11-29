@@ -1,6 +1,6 @@
 $(document).ready(function () {
   //cargartipDoc();
-  cargarPerfil();
+  cargarPerfil().then(() => console.log("finalizando")).finally(() => console.log("finalizo"))
 });
 
 /* Start Variables Globales */
@@ -181,7 +181,7 @@ function cargartipDoc() {
   });
 }
 
-function cargarPerfil() {
+async function cargarPerfil() {
   var idUsuario = permisos.id_usuario;
   var datos = new FormData();
   datos.append("idUsuario", idUsuario);
@@ -194,7 +194,6 @@ function cargarPerfil() {
     processData: false,
     dataType: "json",
     success: function (respuesta) {
-      //console.log(respuesta);
       $("#nombres_perfil").val(respuesta["usu_nombre"]);
       $("#apellidos_perfil").val(respuesta["usu_apellido"]);
       cargartipDoc();
@@ -215,8 +214,6 @@ function cargarPerfil() {
       $("#direccion_perfil").prop("disabled", true);
       $("#email_perfil").prop("disabled", true);
       $("#ciudad_perfil").prop("disabled", true);
-
-      //$("#fotoActual").val(respuesta["usu_foto"]);
       $("#editarRol").val(respuesta["id_rol"]);
 
       // Convertir la fecha ISO 8601 a un objeto Date
@@ -287,33 +284,6 @@ function cargarPerfil() {
           $("#ciudad_perfil").val(departamento[0]);
         },
       });
-
-      // $("#ciudad2").select2({
-      //   theme: "bootstrap dpto1",
-      //   language: "es",
-      //   width: "100%",
-      //   // data: '<?php echo json_encode($ciudadesSelect2); ?>',
-      //   ajax: {
-      //     url: "ajax/ciudades.ajax.php", // URL del script PHP que devolverá las ciudades
-      //     dataType: "json",
-      //     delay: 250, // Retardo antes de realizar la búsqueda (milisegundos)
-      //     data: function (params) {
-      //       return {
-      //         q: params.term, // Término de búsqueda ingresado por el usuario
-      //       };
-      //     },
-      //     processResults: function (data) {
-      //       return {
-      //         results: data, // Resultados obtenidos del servidor
-      //       };
-      //     },
-      //     cache: true, // Habilitar el almacenamiento en caché para reducir las solicitudes al servidor
-      //   },
-      //   minimumInputLength: 3, // Número mínimo de caracteres para comenzar la búsqueda
-      //   allowClear: true, // Mostrar botón para borrar la selección
-      //   dropdownAutoWidth: true, // Ancho automático del desplegable
-      //   placeholder: "Editar ciudad", // Texto del placeholder del buscador
-      // });
     },
   });
 }
