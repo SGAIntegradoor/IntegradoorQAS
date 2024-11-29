@@ -13,7 +13,7 @@ if ($_SESSION["permisos"]["PerfilAgencia"] != "x") {
 
 
 
-// var_dump($_SESSION);
+var_dump($_SESSION);
 
 
 ?>
