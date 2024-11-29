@@ -288,7 +288,7 @@ async function cargarPerfil() {
       });
     }, complete: function (){
       // $("#loading").remove();
-      // $("#loader-skeleton").fadeOut();
+     $("#loader-skeleton").fadeOut();
     },
   });
 }
