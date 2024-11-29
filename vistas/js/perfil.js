@@ -250,16 +250,17 @@ async function cargarPerfil() {
       $("#fechaUserExist").val(fechaFormateada);
 
       // Logica foto de usuario
-      if (respuesta["usu_foto"] != "") {
+      if (respuesta["usu_foto"] != "" && respuesta["usu_foto"] != null) {
         $(".previsualizarEditar").attr("src", respuesta["usu_foto"]);
         $(".previsualizarEditarPDF").attr("src", respuesta["usu_logo_pdf"]);
         $(".user-image").attr("src", respuesta["usu_foto"]);
       } else {
         $(".previsualizarEditar").attr(
           "src",
-          "vistas/img/usuarios/default/anonymous.png"
+          "vistas/img/views/user.png"
         );
       }
+
 
       // Crear una instancia de FormData
       var formData = new FormData();
