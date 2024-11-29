@@ -287,7 +287,7 @@ if ($_SESSION["permisos"]["PerfilAgencia"] != "x") {
               </div>
               <div class="containerImg" style="display: flex; flex-direction: row; align-items: flex-end; gap: 20px;">
                 <?php
-                echo '<img class="profile-pic previsualizarEditar2" id="previewImgPDF" src="' . $_SESSION['imgPDF'] . '" width="100" style="border-radius: 50%; min-width: 100px; width: 100px; height: 100px">';
+                echo '<img class="profile-pic previsualizarEditar2" id="previewImgPDF" src="' . ($_SESSION['imgPDF'] == "" || empty($_SESSION['imgPDF']) ? 'vistas\img\usuarios\Tu Logo Aquí.png' : $_SESSION['imgPDF']) . '" width="100" style="border-radius: 50%; min-width: 100px; width: 100px; height: 100px">';
                 ?>
                 <div style="display: flex; flex-direction: column">
                   <p id="fileNamePDF" style="color: gray; margin: 0; padding: 0; font-size: 14px;">No se ha seleccionado ningún archivo</p>
