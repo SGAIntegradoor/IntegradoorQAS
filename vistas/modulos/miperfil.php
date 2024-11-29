@@ -11,10 +11,16 @@ if ($_SESSION["permisos"]["PerfilAgencia"] != "x") {
   return;
 }
 
+
+
 // var_dump($_SESSION);
 
 
 ?>
+<script>
+  const defaultPhoto = "<?php echo $_SESSION['imgPDF']; ?>"; // La ruta de la imagen desde PHP
+</script>
+
 
 <style>
   input[type="checkbox"] {
@@ -236,7 +242,6 @@ if ($_SESSION["permisos"]["PerfilAgencia"] != "x") {
       transition: background-color 0.3s ease;
       display: inline-block;
     }
-
 
     #selFotoAgencia {
       background-color: #88d600;

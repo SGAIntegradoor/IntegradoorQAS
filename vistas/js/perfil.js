@@ -49,19 +49,61 @@ $("#imgUser").on("change", function () {
 $("#imgLogo").on("change", function () {
   const file = this.files[0]; // Obtiene el archivo seleccionado
   if (file) {
-    $("#fileNamePDF").text(file.name); // Muestra el nombre del archivo
-
-    // Usamos FileReader para leer la imagen seleccionada
     const reader = new FileReader();
     reader.onload = function (e) {
-      $("#previewImgPDF").attr("src", e.target.result); // Asigna la imagen cargada como `src` al elemento img
+      const img = new Image();
+      img.onload = function () {
+        const width = img.width;
+        const height = img.height;
+
+        // Validar las dimensiones de la imagen
+        if (width > 1080 || height > 428) {
+          Swal.fire({
+            icon: "warning",
+            title: "Advertencia",
+            text: "La imagen esperada tiene que ser de máximo 1080 pixeles de ancho por 428 pixeles de alto",
+            showConfirmButton: true,
+            confirmButtonText: "Aceptar",
+          }).then((result) => {
+            if (result.isConfirmed) {
+              console.log("Imagen rechazada por dimensiones");
+              // Reiniciar el input para que no se envíe
+              $("#imgLogo").val(""); // Limpia el input
+              $("#fileNamePDF").text("No se ha seleccionado ningún archivo");
+              $("#previewImgPDF").attr("src", defaultPhoto); // Restaura la imagen original
+            }
+          });
+        } else {
+          // Si las dimensiones son válidas, mostramos el nombre y la imagen
+          $("#fileNamePDF").text(file.name);
+          $("#previewImgPDF").attr("src", e.target.result);
+        }
+      };
+      img.src = e.target.result; // Asigna la imagen cargada como `src`
     };
     reader.readAsDataURL(file); // Convierte el archivo en una URL en base64
   } else {
     $("#fileNamePDF").text("No se ha seleccionado ningún archivo");
-    $("#previewImgPDF").attr("src", "<?php echo $_SESSION['imgPDF']; ?>"); // Restaura la imagen original
+    $("#previewImgPDF").attr("src", defaultPhoto); // Restaura la imagen original
   }
 });
+
+// $("#imgLogo").on("change", function () {
+//   const file = this.files[0]; // Obtiene el archivo seleccionado
+//   if (file) {
+//     $("#fileNamePDF").text(file.name); // Muestra el nombre del archivo
+
+//     // Usamos FileReader para leer la imagen seleccionada
+//     const reader = new FileReader();
+//     reader.onload = function (e) {
+//       $("#previewImgPDF").attr("src", e.target.result); // Asigna la imagen cargada como `src` al elemento img
+//     };
+//     reader.readAsDataURL(file); // Convierte el archivo en una URL en base64
+//   } else {
+//     $("#fileNamePDF").text("No se ha seleccionado ningún archivo");
+//     $("#previewImgPDF").attr("src", "<?php echo $_SESSION['imgPDF']; ?>"); // Restaura la imagen original
+//   }
+// });
 
 function uploadImageToServer(file, inputId) {
   const formData = new FormData();
@@ -80,7 +122,7 @@ function uploadImageToServer(file, inputId) {
     processData: false,
     dataType: "json",
     success: function (respuesta) {
-      console.log(respuesta);
+      // console.log(respuesta);
       if (respuesta.hasOwnProperty("success")) {
         Swal.fire({
           icon: "success",
