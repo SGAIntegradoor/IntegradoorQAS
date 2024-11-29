@@ -70,7 +70,7 @@ $(document).ready(function () {
             info.usu_nombre + " " + info.usu_apellido
           );
           data.append("id_user_freelance", info.id_usuario);
-          data.append("ramo", "Automoviles");
+          data.append("ramo", oferta.Manual == 9 ? "Automoviles" : oferta.Manual == 8 ? "Motos" : "Pesados");
           data.append("placa", oferta.Placa);
           data.append("oneroso", oneroso);
           data.append("aseguradora", oferta.Aseguradora);

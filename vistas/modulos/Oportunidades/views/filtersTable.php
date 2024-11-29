@@ -101,7 +101,7 @@
                                 <option value="6">HDI (Antes Liberty)</option>
                                 <option value="6">Mapfre</option>
                                 <option value="7">Previsora</option>
-                                <option value="8">SBS</option>
+                                <option value="8">SBS Seguros</option>
                                 <option value="9">Solidaria</option>
                                 <option value="10">Zurich</option>
                                 <option value="11">Mundial</option>
