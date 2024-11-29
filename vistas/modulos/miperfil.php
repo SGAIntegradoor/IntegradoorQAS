@@ -13,12 +13,13 @@ if ($_SESSION["permisos"]["PerfilAgencia"] != "x") {
 
 
 
-var_dump($_SESSION);
+// var_dump($_SESSION);
 
 
 ?>
 <script>
   const defaultPhoto = "<?php echo $_SESSION['imgPDF']; ?>"; // La ruta de la imagen desde PHP
+  console.log("<?php echo $_SESSION ?>")
 </script>
 
 
