@@ -145,22 +145,7 @@ if ($ocultarAsesor) {
 	$emailAsesor = '   NO APLICA';
 }
 
-
-//$fecha = $fila["f_registro"];
-//$newDate = date("d/m/Y", strtotime($fecha));
 $real = "";
-
-// if ($consecutivo >= 0 && $consecutivo <= 9) {
-// 	$real = "MJN715" . $consecutivo;
-// } else if ($consecutivo >= 10 && $consecutivo <= 99) {
-// 	$real = "0000" . $consecutivo;
-// } else if ($consecutivo >= 100 && $consecutivo <= 999) {
-// 	$real = "000" . $consecutivo;
-// } else if ($consecutivo >= 1000 && $consecutivo <= 9999) {
-// 	$real = "00" . $consecutivo;
-// }
-
-
 
 // set document information
 $pdf->SetCreator(PDF_CREATOR);
@@ -184,10 +169,6 @@ $pdf->SetFooterMargin(12);
 // set auto page breaks
 $pdf->SetAutoPageBreak(TRUE, 12);
 
-
-// ---------------------------------------------------------
-
-// set default font subsetting mode
 $pdf->setFontSubsetting(true);
 
 // Set font
@@ -204,18 +185,47 @@ $pdf->AddPage();
 //$pdf->Image('../../../vistas/img/logos/imagencotizador.jpg', -5, 0, 0, 92, 'JPG', '', '', true, 160, '', false, false, 0, false, false, false);
 //$pdf->Image('../../../vistas/img/logos/cheque.png', 99.5, 159.5, 0, 0, 'PNG', '', '', true, 160, '', false, false, 0, false, false, false);
 
-if($fila['id_tipo_documento'] == 2){
+if ($fila['id_tipo_documento'] == 2) {
 	$pdf->Image('../../../vistas/img/logos/imagencotizador3.jpg', -5, 0, 0, 92, 'JPG', '', '', true, 200, '', false, false, 0, false, false, false);
 } else {
 	$pdf->Image('../../../vistas/img/logos/imagencotizador2.jpg', -5, 0, 0, 92, 'JPG', '', '', true, 200, '', false, false, 0, false, false, false);
 }
 
-if ($porciones[1] == 'png') {
+if ($valorLogo == "undefined") {
+	$id_usuario = $_SESSION['idUsuario'];
 
-	$pdf->Image('../../../vistas/img/logosIntermediario/' . $valorLogo, 8, 13, 0, 20, 'PNG', '', '', true, 160, '', false, false, 0, false, false, false);
+	$queryLogo2 = "SELECT usu_logo_pdf FROM usuarios WHERE id_usuario = $id_usuario";
+
+	$valorLogo2 = $conexion->query($queryLogo2);
+	$valorLogo2 = mysqli_fetch_array($valorLogo2);
+	$valorLogo2 = $valorLogo2['usu_logo_pdf'];
+
+	$pieces = explode(".", $valorLogo2);
+
+	$urlSGA = "../../../vistas/img/intermediario/SEGUROS GRUPO ASISTENCIA SAS/LogoGA.png";
+	
+	list($imgWidth, $imgHeight) = getimagesize('../../../'.$valorLogo2);
+	list($imgWidth2, $imgHeight2) = getimagesize($urlSGA);
+
+	$width = 70;  // El ancho que deseas en el PDF
+	$height = ($imgHeight / $imgWidth) * $width;  // Mantener la relación de aspecto
+
+	if ($pieces[0] == "") {
+		$pdf->Image('../../../vistas/img/intermediario/SEGUROS GRUPO ASISTENCIA SAS/LogoGA.png', 8, 13, 0, 20, 'PNG', '', '', true, 160, '', false, false, 0, false, false, false);
+	} else if ($pieces[1] == 'png') {
+		$pdf->Image('../../../' . $valorLogo2, 10, 13, $width, 20, 'PNG', '', '', true, 160, '', false, false, 0, false, false, false);
+	} else {
+		$pdf->Image('../../../' . $valorLogo2, 8, 13, $width, 20, 'JPG', '', '', true, 160, '', false, false, 0, false, false, false);
+	}
 } else {
-	$pdf->Image('../../../vistas/img/logosIntermediario/' . $valorLogo, 8, 13, 0, 20, 'JPG', '', '', true, 160, '', false, false, 0, false, false, false);
+	if ($porciones[1] == 'png') {
+
+		$pdf->Image('../../../vistas/img/logosIntermediario/' . $valorLogo, 8, 13, 0, 20, 'PNG', '', '', true, 160, '', false, false, 0, false, false, false);
+	} else {
+		$pdf->Image('../../../vistas/img/logosIntermediario/' . $valorLogo, 8, 13, 0, 20, 'JPG', '', '', true, 160, '', false, false, 0, false, false, false);
+	}
 }
+
 // $pdf->Image('../../../vistas/img/logosIntermediario/LogoGA.png', 8, 13, 0, 20, 'PNG', '', '', true, 160, '', false, false, 0, false, false, false);
 
 $pdf->Image('../../../vistas/img/logos/cheque.png', 100.5, 166.5, 0, -12, 'PNG', '', '', true, 160, '', false, false, 0, false, false, false);
@@ -226,12 +236,23 @@ $pdf->SetTextColor(104, 104, 104);
 $pdf->Cell(25, 6, "No. cotización: " . $identificador);
 
 $pdf->Image(
-    '../../../vistas/img/logos/moto.jpg', // Ruta de la imagen
-    21.5, // Posición X (izquierda)
-    121, // Posición Y (ajustar según sea necesario)
-    47, // Ancho (ajustar según sea necesario)
-    0, // Altura (0 indica autoajuste proporcional)
-    'JPG', '', '', true, 160, '', false, false, 0, false, false, false
+	'../../../vistas/img/logos/moto.jpg', // Ruta de la imagen
+	21.5, // Posición X (izquierda)
+	121, // Posición Y (ajustar según sea necesario)
+	47, // Ancho (ajustar según sea necesario)
+	0, // Altura (0 indica autoajuste proporcional)
+	'JPG',
+	'',
+	'',
+	true,
+	160,
+	'',
+	false,
+	false,
+	0,
+	false,
+	false,
+	false
 );
 
 //$pdf->Image('images/img/QUIMERA_BONO_FINAL3.jpg', 0, 130, 0, 117, 'JPG', '', '', false, 140, '', false, false, 0, false, false, false);
@@ -249,7 +270,7 @@ $pdf->SetTextColor(104, 104, 104);
 $pdf->SetXY(18, 53);
 $pdf->Cell(35, 6, $modelo, 0, 1, '');
 
-if($fila['id_tipo_documento'] == 2) {
+if ($fila['id_tipo_documento'] == 2) {
 
 	$digitoVerif = $fila["digitoVerificacion"];
 
@@ -259,8 +280,7 @@ if($fila['id_tipo_documento'] == 2) {
 
 	$pdf->SetFont('dejavusanscondensed', '', 7);
 	$pdf->SetXY(166, 31.5);
-	$pdf->Cell(25, 6, $identificacion."-".$digitoVerif, 0, 1, '');
-	
+	$pdf->Cell(25, 6, $identificacion . "-" . $digitoVerif, 0, 1, '');
 } else {
 
 	$pdf->SetFont('dejavusanscondensed', '', 7);
@@ -319,7 +339,7 @@ $pdf->SetFont('dejavusanscondensed', 'BI', 15);
 
 
 
-$htmlpesado1 ='
+$htmlpesado1 = '
 <style>
 .second{
 
@@ -333,7 +353,7 @@ $htmlpesado1 ='
 </style>
 ';
 
-$htmlpesado1 .='
+$htmlpesado1 .= '
 <table style="width:600px;" class="second" cellpadding="2"  border="0">
 <tr>
 <td class="fondo">
@@ -348,7 +368,7 @@ $htmlpesado1 .='
 ';
 
 $pdf->SetFont('dejavusanscondensed', 'I', 15);
-$pdf->SetXY(0,88);
+$pdf->SetXY(0, 88);
 $pdf->writeHTML($htmlpesado1, true, false, true, false, '');
 
 $pdf->SetFont('dejavusanscondensed', 'I', 15);
@@ -357,9 +377,9 @@ $pdf->SetXY(46.5, 109.5);
 $pdf->Cell(10, 0, 'Hemos   ', 0, $ln = 0, 'C', 0, '', 0, false, 'C', 'C');
 
 $pdf->SetFont('dejavusanscondensed', 'BI', 15);
-$pdf->SetTextColor(103,181,252);
+$pdf->SetTextColor(103, 181, 252);
 $pdf->SetXY(90.5, 109.5);
-$pdf->Cell(10, 0, ' cotizado ' . $asegSelecionada .' aseguradora(s), ', 0, $ln = 0, 'C', 0, '', 0, false, 'C', 'C');
+$pdf->Cell(10, 0, ' cotizado ' . $asegSelecionada . ' aseguradora(s), ', 0, $ln = 0, 'C', 0, '', 0, false, 'C', 'C');
 
 $pdf->SetFont('dejavusanscondensed', 'I', 15);
 $pdf->SetTextColor(104, 104, 104);
@@ -426,8 +446,8 @@ $html2 = '
 <div style="margin-left:40px;" class="second2">
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<table style="width:350px !important;" class="second" cellpadding="2"  border="0">';
 $founded = false;
-foreach($resultados as $resultado){
-	if($resultado['Aseguradora'] == "HDI (Antes Liberty)"){
+foreach ($resultados as $resultado) {
+	if ($resultado['Aseguradora'] == "HDI (Antes Liberty)") {
 		$founded = true;
 	}
 }
@@ -440,18 +460,18 @@ while ($i < count($resultados)) {
 
 	switch ($resultados[$i]['Aseguradora']) {
 		case 'Axa Colpatria':
-			
-			if(count($resultados))
-			$productosMap = [
-				"Plus con asistencia esencial" => "Plus Asis. Esenc",
-				"Plus con asistencia plus" => "Plus Asis. Plus",
-				"VIP con asistencia plus" => "VIP Asis. Plus",
-				"VIP con asistencia esencial" => "VIP Asis. Esenc",
-				"Esencial con asistencia plus" => "Esenc Asis. Plus",
-				"Esencial con asistencia esencial" => "Esenc Asis. Esen",
-				"Tradicional con asistencia plus" => "Trad. Asis. Plus",
-				"Tradicional con asistencia vip" => "Trad. Asis. Plus",
-			];
+
+			if (count($resultados))
+				$productosMap = [
+					"Plus con asistencia esencial" => "Plus Asis. Esenc",
+					"Plus con asistencia plus" => "Plus Asis. Plus",
+					"VIP con asistencia plus" => "VIP Asis. Plus",
+					"VIP con asistencia esencial" => "VIP Asis. Esenc",
+					"Esencial con asistencia plus" => "Esenc Asis. Plus",
+					"Esencial con asistencia esencial" => "Esenc Asis. Esen",
+					"Tradicional con asistencia plus" => "Trad. Asis. Plus",
+					"Tradicional con asistencia vip" => "Trad. Asis. Plus",
+				];
 			$productoOriginal = $resultados[$i]['Producto'];
 			$AxaProducto = isset($productosMap[$productoOriginal]) ? $productosMap[$productoOriginal] : $productoOriginal;
 			$html2 .= '<td class="puntos td2 ' . $fondo_class . '" style=" font-size: 6.5px; font-family:dejavusanscondensedb;"><center>
@@ -679,7 +699,7 @@ $cont3 = 1;
 if ($rowValidateF >= 1) {
 	$html2 .= '<tr>';
 	foreach ($resultados as $resultado) {
-		
+
 		// var_dump($resultado);
 		// var_dump($resultado["Prima"] >= "1000000" ? true: false);
 		// var_dump($resultado["cuota_1"] != null ? true: false);
@@ -710,7 +730,7 @@ if ($rowValidateF >= 1) {
 				financiación
 				</td>';
 				$cont3++;
-			}else {
+			} else {
 				$html2 .= '<td style="font-size:' . ($font_size - 2) . 'px; color:#666666; font-family:dejavusanscondensedb; text-align: center;" class="puntos td2 ' . $fondo_class . '">
 					Pdte. cotizar 
 					<br>
@@ -1016,7 +1036,7 @@ $html3 .= '<td class="puntos fondo" style="width:25%; text-align: center; font-f
 $cont4 = 1;
 
 if ($rowValidate == 10) {
-	foreach ($resultados as $resultado)  {
+	foreach ($resultados as $resultado) {
 		if (is_numeric($resultado['ValorRC'])) {
 			$pdfValorRCM = $resultado['ValorRC'] / 1000000;
 			$pdfValorRC = '$' . number_format($pdfValorRCM, 0, ',', '.'); // Agregar el símbolo de peso aquí
@@ -1035,7 +1055,7 @@ if ($rowValidate == 10) {
 		$cont4 += 1;
 	}
 } else if ($rowValidate > 10) {
-	foreach ($resultados as $resultado)  {
+	foreach ($resultados as $resultado) {
 		if (is_numeric($resultado['ValorRC'])) {
 			$pdfValorRCM = $resultado['ValorRC'] / 1000000;
 			$pdfValorRC = '$' . number_format($pdfValorRCM, 0, ',', '.'); // Agregar el símbolo de peso aquí
@@ -1054,7 +1074,7 @@ if ($rowValidate == 10) {
 		$cont4 += 1;
 	}
 } else {
-	foreach ($resultados as $resultado)  {
+	foreach ($resultados as $resultado) {
 
 		if (is_numeric($resultado['ValorRC'])) {
 			$pdfValorRCM = $resultado['ValorRC'] / 1000000;
@@ -1103,7 +1123,6 @@ foreach ($resultados as $resultado) {
 		} else {
 			$html3 .= '<td class="puntos fondo" style="width:' . $valorTabla . '%;"><div style="font-size:4pt">&nbsp;</div><center><font size="7"style="text-align: center;  font-family:dejavusanscondensed;">' . $rowRespuestaAsistencia1['deducible'] . '</font></center></td>';
 		}
-
 	} else {
 		if ($cont5 % 2 == 0) {
 			$html3 .= '<td class="puntos fondo2" style="width:' . $valorTabla . '%;"><div style="font-size:4pt">&nbsp;</div><center><font size="7"style="text-align: center;  font-family:dejavusanscondensed;">Sin Deducible</font></center></td>';
@@ -1112,8 +1131,6 @@ foreach ($resultados as $resultado) {
 		}
 	}
 	$cont5++;
-
-	
 }
 $html3 .= '</tr>';
 
@@ -1311,7 +1328,7 @@ $valorTabla = (75 / $rowValidate);
 $html4 .= '<td class="puntos fondo" style="width:25%;"></td>';
 $cont3f = 1;
 
-foreach ($resultados as $resultado)  {
+foreach ($resultados as $resultado) {
 	$pdf->SetFont('dejavusanscondensed', '', 8);
 	if ($cont3f % 2 == 0) {
 		if ($resultado['Aseguradora'] == 'Axa Colpatria') {
@@ -1527,7 +1544,7 @@ $html4 .= '<tr>';
 $html4 .= '<td class="puntos fondo" style="width:25%; text-align: center; font-family:dejavusanscondensedb;"><div style="font-size:2pt">&nbsp;</div><font size="8">Amparo patrimonial</font></td>';
 
 $cont10 = 1;
-foreach ($resultados as $resultado)  {
+foreach ($resultados as $resultado) {
 	$nombreAseguradora = nombreAseguradora($resultado['Aseguradora']);
 	$nombreProducto = productoAseguradora($resultado['Aseguradora'], $resultado['Producto']);
 
@@ -1598,7 +1615,7 @@ $html4 .= '<td class="fondo puntos" style="width:25%; text-align: center; font-f
 
 $cont12 = 1;
 
-foreach ($resultados as $resultado)  {
+foreach ($resultados as $resultado) {
 
 	$nombreAseguradora = nombreAseguradora($resultado['Aseguradora']);
 	$nombreProducto = productoAseguradora($resultado['Aseguradora'], $resultado['Producto']);
@@ -1635,7 +1652,7 @@ $html4 .= '<td class="fondo puntos" style="width:25%;"><div style="font-size:5pt
 
 $cont13 = 1;
 
-foreach ($resultados as $resultado)  {
+foreach ($resultados as $resultado) {
 
 	$nombreAseguradora = nombreAseguradora($resultado['Aseguradora']);
 	$nombreProducto = productoAseguradora($resultado['Aseguradora'], $resultado['Producto']);
@@ -1665,13 +1682,13 @@ $html4 .= '</tr>';
 
 $html4 .= '<tr>';
 
-if($rowValidate > 3){
+if ($rowValidate > 3) {
 	$html4 .= '<td class="fondo puntos" style="width:25%;"><div style="font-size:3pt">&nbsp;</div><font size="8" style="font-family:dejavusanscondensedb; text-align: center;">Asistencia en viajes</font></td>';
-} else if($rowValidate > 1){
+} else if ($rowValidate > 1) {
 	$html4 .= '<td class="fondo puntos" style="width:25%;"><div style="font-size:3pt">&nbsp;</div><font size="8" style="font-family:dejavusanscondensedb; text-align: center;">Asistencia en viajes</font></td>';
 } else {
 	$html4 .= '<td class="fondo puntos" style="width:25%;"><div style="font-size:3pt">&nbsp;</div><font size="8" style="font-family:dejavusanscondensedb; text-align: center;">Asistencia en viajes</font></td>';
-} 
+}
 
 $cont19 = 1;
 foreach ($resultados as $resultado) {
@@ -1712,7 +1729,7 @@ $html4 .= '<td class="fondo puntos" style="width:25%; text-align: center; font-f
 
 $cont14 = 1;
 
-foreach ($resultados as $resultado)  {
+foreach ($resultados as $resultado) {
 
 	$nombreAseguradora = nombreAseguradora($resultado['Aseguradora']);
 	$nombreProducto = productoAseguradora($resultado['Aseguradora'], $resultado['Producto']);
@@ -1766,7 +1783,7 @@ $html4 .= '<td class="puntos fondo" style="width:25%; text-align: center; font-f
 // 	$rowValidate = mysqli_num_rows($respuestaquery28);
 // }
 $cont16 = 1;
-foreach ($resultados as $resultado)  {
+foreach ($resultados as $resultado) {
 	$nombreAseguradora = nombreAseguradora($resultado['Aseguradora']);
 	$nombreProducto = productoAseguradora($resultado['Aseguradora'], $resultado['Producto']);
 
@@ -1803,7 +1820,7 @@ $html4 .= '<td class="fondo puntos" style="width:25%; text-align: center; font-f
 
 $cont18 = 1;
 
-foreach ($resultados as $resultado)  {
+foreach ($resultados as $resultado) {
 
 	$nombreAseguradora = nombreAseguradora($resultado['Aseguradora']);
 	$nombreProducto = productoAseguradora($resultado['Aseguradora'], $resultado['Producto']);
@@ -1843,7 +1860,7 @@ $html4 .= '<tr>';
 $html4 .= '<td class="fondo puntos" style="width:25%; text-align: center; font-family:dejavusanscondensedb;"><div style="font-size:4pt">&nbsp;</div><font size="8">Cobertura de vidrios</font></td>';
 
 $cont19 = 1;
-foreach ($resultados as $resultado)  {
+foreach ($resultados as $resultado) {
 
 	$nombreAseguradora = nombreAseguradora($resultado['Aseguradora']);
 	$nombreProducto = productoAseguradora($resultado['Aseguradora'], $resultado['Producto']);
@@ -1893,7 +1910,7 @@ foreach ($resultados as $resultado) {
 		if ($rowRespuestaAsistencia16['AsistenciaOdontologica'] == "Si ampara") {
 			$html4 .= '<td class="puntos fondo" style="width:' . $valorTabla . '%;text-align: center;"><div style="font-size:5pt">&nbsp;</div><img style="width:16px;" src="../../../vistas/img/logos/cheque.png" alt=""></td>';
 		} else {
-			$html4 .= '<td class="puntos fondo" style="width:' . $valorTabla . '%;"><center><div style="font-size:7pt">&nbsp;</div><font size="7"style="text-align: center; font-family:dejavusanscondensed;">' .($rowRespuestaAsistencia16['AsistenciaOdontologica'] == '' ? 'No cubre' : $rowRespuestaAsistencia16['AsistenciaOdontologica']) . '</font></center></td>';
+			$html4 .= '<td class="puntos fondo" style="width:' . $valorTabla . '%;"><center><div style="font-size:7pt">&nbsp;</div><font size="7"style="text-align: center; font-family:dejavusanscondensed;">' . ($rowRespuestaAsistencia16['AsistenciaOdontologica'] == '' ? 'No cubre' : $rowRespuestaAsistencia16['AsistenciaOdontologica']) . '</font></center></td>';
 		}
 	} else {
 		if ($rowRespuestaAsistencia16['AsistenciaOdontologica'] == "Si ampara") {
@@ -1918,7 +1935,7 @@ $html4 .= '<tr>';
 $html4 .= '<td class="fondo puntos" style="width:25%;"><font size="8" style="font-family:dejavusanscondensedb; text-align: center;">Auxilio de paralización del vehículo / Lucro cesante </font></td>';
 
 $cont22 = 1;
-foreach ($resultados as $resultado)  {
+foreach ($resultados as $resultado) {
 
 	$nombreAseguradora = nombreAseguradora($resultado['Aseguradora']);
 	$nombreProducto = productoAseguradora($resultado['Aseguradora'], $resultado['Producto']);
@@ -1992,9 +2009,9 @@ $html4 .= '</tr>';
 
 $html4 .= '<tr>';
 
-if($rowValidate > 3){
+if ($rowValidate > 3) {
 	$html4 .= '<td class="fondo puntos" style="width:25%;"><div style="font-size:3pt">&nbsp;</div><font size="8" style="font-family:dejavusanscondensedb; text-align: center;">Asesoria y gestión de trámites de Tránsito</font></td>';
-} else if($rowValidate > 1){
+} else if ($rowValidate > 1) {
 	$html4 .= '<td class="fondo puntos" style="width:25%;"><div style="font-size:4pt">&nbsp;</div><font size="8" style="font-family:dejavusanscondensedb; text-align: center;">Asesoria y gestión de trámites de Tránsito</font></td>';
 } else {
 	$html4 .= '<td class="fondo puntos" style="width:25%;"><div style="font-size:4pt">&nbsp;</div><font size="8" style="font-family:dejavusanscondensedb; text-align: center;">Asesoria y gestión de trámites de Tránsito</font></td>';
@@ -2031,16 +2048,17 @@ foreach ($resultados as $resultado) {
 $html4 .= '</tr>';
 
 $html4 .= '<tr>';
-if($rowValidate > 3){
+if ($rowValidate > 3) {
 	$html4 .= '<td class="fondo puntos" style="width:25%;"><div style="font-size:3pt">&nbsp;</div><font size="8" style="font-family:dejavusanscondensedb; text-align: center;">Gastos médicos</font></td>';
-} else if($rowValidate > 1){
+} else if ($rowValidate > 1) {
 	$html4 .= '<td class="fondo puntos" style="width:25%;"><div style="font-size:4pt">&nbsp;</div><font size="8" style="font-family:dejavusanscondensedb; text-align: center;">Gastos médicos</font></td>';
 } else {
 	$html4 .= '<td class="fondo puntos" style="width:25%;"><div style="font-size:4pt">&nbsp;</div><font size="8" style="font-family:dejavusanscondensedb; text-align: center;">Gastos médicos</font></td>';
-
 }
 // var_dump($resultados);
+
 $cont25 = 1;
+
 foreach ($resultados as $resultado) {
 
 	$nombreAseguradora = nombreAseguradora($resultado['Aseguradora']);
@@ -2394,12 +2412,11 @@ $pdf->Ln();
 //$pdf->lastPage();
 
 
-if($asegRecomendada > 0){
+if ($asegRecomendada > 0) {
 
-$pdf->AddPage();
-$pdf->writeHTML($html7, true, false, true, false, '');
-$pdf->writeHTML($html6, true, false, true, false, '');
-
+	$pdf->AddPage();
+	$pdf->writeHTML($html7, true, false, true, false, '');
+	$pdf->writeHTML($html6, true, false, true, false, '');
 }
 
 $pdf->SetFont('dejavusanscondensed', 'B', 9);
@@ -2418,7 +2435,8 @@ $pdf->writeHTML($htmlFooter, true, false, true, false, '');
 $pdf->Ln();
 
 // Consulta el servicio del vehiculo segun su codigo
-function servise($dato) {
+function servise($dato)
+{
 	$service = "";
 
 	if ($dato == 14) {
@@ -2433,7 +2451,8 @@ function servise($dato) {
 
 
 // Consulta la Clase correspondiente al Vehiculo
-function claseV($dato) {
+function claseV($dato)
+{
 	$service = "";
 
 	if ($dato == "UTILITARIOS DEPORTIVOS") {
@@ -2446,7 +2465,8 @@ function claseV($dato) {
 
 
 // Calcula la Edad a partir de la Fecha de Nacimiento
-function calculaedad($fechaNacimiento) {
+function calculaedad($fechaNacimiento)
+{
 
 	list($ano, $mes, $dia) = explode("-", $fechaNacimiento);
 	$ano_diferencia = date("Y") - $ano;
@@ -2459,97 +2479,92 @@ function calculaedad($fechaNacimiento) {
 
 
 // Consulta el nombre del Departamento segun el Codigo
-function DptoVehiculo($codigoDpto){
+function DptoVehiculo($codigoDpto)
+{
 
-	if ($codigoDpto == 1){
-		$nomDpto = "Amazonas"; }
-	else if ($codigoDpto == 2){
-		$nomDpto = "Antioquia"; }
-	else if ($codigoDpto == 3){
-		$nomDpto = "Arauca"; }
-	else if ($codigoDpto == 4){
-		$nomDpto = "Atlántico"; }
-	else if ($codigoDpto == 5){
-		$nomDpto = "Barranquilla"; }
-
-	else if ($codigoDpto == 6){
-		$nomDpto = "Bogotá"; }
-	else if ($codigoDpto == 7){
-		$nomDpto = "Bolívar"; }
-	else if ($codigoDpto == 8){
-		$nomDpto = "Boyacá"; }
-	else if ($codigoDpto == 9){
-		$nomDpto = "Caldas"; }
-	else if ($codigoDpto == 10){
-		$nomDpto = "Caquetá"; }
-
-	else if ($codigoDpto == 11){
-		$nomDpto = "Casanare"; }
-	else if ($codigoDpto == 12){
-		$nomDpto = "Cauca"; }
-	else if ($codigoDpto == 13){
-		$nomDpto = "Cesar"; }
-	else if ($codigoDpto == 14){
-		$nomDpto = "Chocó"; }
-	else if ($codigoDpto == 15){
-		$nomDpto = "Córdoba"; }
-
-	else if ($codigoDpto == 16){
-		$nomDpto = "Cundinamarca"; }
-	else if ($codigoDpto == 17){
-		$nomDpto = "Guainía"; }
-	else if ($codigoDpto == 18){
-		$nomDpto = "La Guajira"; }
-	else if ($codigoDpto == 19){
-		$nomDpto = "Guaviare"; }
-	else if ($codigoDpto == 20){
-		$nomDpto = "Huila"; }
-
-	else if ($codigoDpto == 21){
-		$nomDpto = "Magdalena"; }
-	else if ($codigoDpto == 22){
-		$nomDpto = "Meta"; }
-	else if ($codigoDpto == 23){
-		$nomDpto = "Nariño"; }
-	else if ($codigoDpto == 24){
-		$nomDpto = "Norte de Santander"; }
-	else if ($codigoDpto == 25){
-		$nomDpto = "Putumayo"; }
-
-	else if ($codigoDpto == 26){
-		$nomDpto = "Quindío"; }
-	else if ($codigoDpto == 27){
-		$nomDpto = "Risaralda"; }
-	else if ($codigoDpto == 28){
-		$nomDpto = "San Andrés"; }
-	else if ($codigoDpto == 29){
-		$nomDpto = "Santander"; }
-	else if ($codigoDpto == 30){
-		$nomDpto = "Sucre"; }
-
-	else if ($codigoDpto == 31){
-		$nomDpto = "Tolima"; }
-	else if ($codigoDpto == 32){
-		$nomDpto = "Valle del Cauca"; }
-	else if ($codigoDpto == 33){
-		$nomDpto = "Vaupés"; }
-	else if ($codigoDpto == 34){
-		$nomDpto = "Vichada"; } 
-	else {
+	if ($codigoDpto == 1) {
+		$nomDpto = "Amazonas";
+	} else if ($codigoDpto == 2) {
+		$nomDpto = "Antioquia";
+	} else if ($codigoDpto == 3) {
+		$nomDpto = "Arauca";
+	} else if ($codigoDpto == 4) {
+		$nomDpto = "Atlántico";
+	} else if ($codigoDpto == 5) {
+		$nomDpto = "Barranquilla";
+	} else if ($codigoDpto == 6) {
+		$nomDpto = "Bogotá";
+	} else if ($codigoDpto == 7) {
+		$nomDpto = "Bolívar";
+	} else if ($codigoDpto == 8) {
+		$nomDpto = "Boyacá";
+	} else if ($codigoDpto == 9) {
+		$nomDpto = "Caldas";
+	} else if ($codigoDpto == 10) {
+		$nomDpto = "Caquetá";
+	} else if ($codigoDpto == 11) {
+		$nomDpto = "Casanare";
+	} else if ($codigoDpto == 12) {
+		$nomDpto = "Cauca";
+	} else if ($codigoDpto == 13) {
+		$nomDpto = "Cesar";
+	} else if ($codigoDpto == 14) {
+		$nomDpto = "Chocó";
+	} else if ($codigoDpto == 15) {
+		$nomDpto = "Córdoba";
+	} else if ($codigoDpto == 16) {
+		$nomDpto = "Cundinamarca";
+	} else if ($codigoDpto == 17) {
+		$nomDpto = "Guainía";
+	} else if ($codigoDpto == 18) {
+		$nomDpto = "La Guajira";
+	} else if ($codigoDpto == 19) {
+		$nomDpto = "Guaviare";
+	} else if ($codigoDpto == 20) {
+		$nomDpto = "Huila";
+	} else if ($codigoDpto == 21) {
+		$nomDpto = "Magdalena";
+	} else if ($codigoDpto == 22) {
+		$nomDpto = "Meta";
+	} else if ($codigoDpto == 23) {
+		$nomDpto = "Nariño";
+	} else if ($codigoDpto == 24) {
+		$nomDpto = "Norte de Santander";
+	} else if ($codigoDpto == 25) {
+		$nomDpto = "Putumayo";
+	} else if ($codigoDpto == 26) {
+		$nomDpto = "Quindío";
+	} else if ($codigoDpto == 27) {
+		$nomDpto = "Risaralda";
+	} else if ($codigoDpto == 28) {
+		$nomDpto = "San Andrés";
+	} else if ($codigoDpto == 29) {
+		$nomDpto = "Santander";
+	} else if ($codigoDpto == 30) {
+		$nomDpto = "Sucre";
+	} else if ($codigoDpto == 31) {
+		$nomDpto = "Tolima";
+	} else if ($codigoDpto == 32) {
+		$nomDpto = "Valle del Cauca";
+	} else if ($codigoDpto == 33) {
+		$nomDpto = "Vaupés";
+	} else if ($codigoDpto == 34) {
+		$nomDpto = "Vichada";
+	} else {
 		$nomDpto = "No Disponible";
 	}
 	return $nomDpto;
-
 }
 
 
-function nombreAseguradora($data) {
+function nombreAseguradora($data)
+{
 	$resultado = "";
 	if ($data == 'Seguros del Estado') {
 		$resultado = "Estado";
-	} else if($data == 'Seguros Estado'){
+	} else if ($data == 'Seguros Estado') {
 		$resultado = "Estado";
-	}else if ($data == 'Seguros Bolivar') {
+	} else if ($data == 'Seguros Bolivar') {
 		$resultado = "Bolivar";
 	} else if ($data == 'Axa Colpatria') {
 		$resultado = "Axa Colpatria";
@@ -2582,7 +2597,8 @@ function nombreAseguradora($data) {
 }
 
 
-function productoAseguradora($aseguradora, $producto) {
+function productoAseguradora($aseguradora, $producto)
+{
 
 	$resultado = "";
 	if ($aseguradora == 'Seguros del Estado' && $producto == 'Familiar 1000') {
