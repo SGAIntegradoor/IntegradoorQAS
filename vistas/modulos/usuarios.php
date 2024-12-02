@@ -2,9 +2,9 @@
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-if ($_SESSION["rol"] != 1) {
+if (isset($_SESSION["rol"])) {
 
-  // echo '<script>console.log(' . json_encode($_SESSION) . ')</script>';
+   echo '<script>console.log(' . json_encode($_SESSION) . ')</script>';
 }
 
 ?>

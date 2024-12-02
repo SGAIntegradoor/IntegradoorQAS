@@ -1,15 +1,15 @@
 <?php
 
-if ($_SESSION["permisos"]["PerfilAgencia"] != "x") {
+// if ($_SESSION["permisos"]["PerfilAgencia"] != "x") {
 
-  echo '<script>
+//   echo '<script>
 
-    window.location = "inicio";
+//     window.location = "inicio";
 
-  </script>';
+//   </script>';
 
-  return;
-}
+//   return;
+// }
 
 
 
@@ -297,7 +297,7 @@ if ($_SESSION["permisos"]["PerfilAgencia"] != "x") {
                 ?>
                 <div style="display: flex; flex-direction: column">
                   <p id="fileNamePDF" style="color: gray; margin: 0; padding: 0; font-size: 14px;">No se ha seleccionado ningún archivo</p>
-                  <label class="btn btn-primary">
+                  <label class="btn btn-primary" id="labelPDF" disabled>
                     <input type="file" name="imgLogo" id="imgLogo" style="display:none;" accept="image/*" />
                     Seleccionar archivo
                   </label>

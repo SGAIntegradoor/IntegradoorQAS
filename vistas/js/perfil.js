@@ -1,6 +1,16 @@
 $(document).ready(function () {
   //cargartipDoc();
   cargarPerfil().then(() => console.log("finalizando")).finally(() => console.log("finalizo"))
+
+
+
+  const labelSelectLogoPDF = $("#labelPDF");
+  var hasProperty = $('#labelPDF').prop('disabled') ? true : false;
+
+  if(!hasProperty){
+    $("#imgLogo").prop("disabled", true);
+  }
+  
 });
 
 /* Start Variables Globales */
@@ -21,8 +31,10 @@ btnGuardar.addEventListener("click", function () {
     console.log("No se seleccionó una imagen de perfil.");
   }
 
+
+
   // Subir logo del PDF
-  if (imgLogoInput.files.length > 0) {
+  if (imgLogoInput.files.length > 0 && !hasProperty) {
     uploadImageToServer(imgLogoInput.files[0], "imgLogo");
   } else {
     console.log("No se seleccionó un logo para el PDF.");
