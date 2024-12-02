@@ -543,6 +543,8 @@ class ControladorUsuarios
 						$nuevoAncho = 500;
 						$nuevoAlto = 500;
 
+
+
 						/*=============================================
 																												  CREAMOS EL DIRECTORIO DONDE VAMOS A GUARDAR LA FOTO DEL USUARIO
 																												  =============================================*/
@@ -579,7 +581,7 @@ class ControladorUsuarios
 
 							$aleatorio = mt_rand(100, 999);
 
-							$ruta = "vistas/img/usuarios/" . $editarUsuario . "/" . $aleatorio . ".jpg";
+							$ruta = "vistas/img/usuarios/" . $editarUsuario . "/imgUser"."/". basename($_FILES['file']['name']) . ".jpg";
 
 							$origen = imagecreatefromjpeg($_FILES["editarFoto"]["tmp_name"]);
 
@@ -598,7 +600,7 @@ class ControladorUsuarios
 
 							$aleatorio = mt_rand(100, 999);
 
-							$ruta = "vistas/img/usuarios/" . $editarUsuario . "/" . $aleatorio . ".png";
+							$ruta = "vistas/img/usuarios/" . $editarUsuario . "/imgUser"."/". basename($_FILES['file']['name']) . ".png";
 
 							$origen = imagecreatefrompng($_FILES["editarFoto"]["tmp_name"]);
 
