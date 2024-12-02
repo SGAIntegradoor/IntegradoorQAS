@@ -549,20 +549,14 @@ class ControladorUsuarios
 																												  CREAMOS EL DIRECTORIO DONDE VAMOS A GUARDAR LA FOTO DEL USUARIO
 																												  =============================================*/
 
-						$directorio = "vistas/img/usuarios/" . $editarUsuario;
+						$directorio = "vistas/img/usuarios/" . $editarUsuario . "/imgUser";
 
 						/*=============================================
 																												  PRIMERO PREGUNTAMOS SI EXISTE OTRA IMAGEN EN LA BD
 																												  =============================================*/
 
-						if (!empty($_POST["fotoActual"])) {
-							// Verificar si el archivo existe antes de intentar eliminarlo
-							if (file_exists($_POST["fotoActual"])) {
-								unlink($_POST["fotoActual"]);
-							} else {
-								// Manejar el caso en que el archivo no exista
-								echo "El archivo no existe: " . $_POST["fotoActual"];
-							}
+						if (!empty($_POST["fotoActual"]) && file_exists($_POST["fotoActual"])) {
+							unlink($_POST["fotoActual"]);
 						} else {
 							if (!is_dir($directorio)) {
 								mkdir($directorio, 0755, true); // El tercer parámetro true permite la creación de directorios anidados
@@ -581,7 +575,7 @@ class ControladorUsuarios
 
 							$aleatorio = mt_rand(100, 999);
 
-							$ruta = "vistas/img/usuarios/" . $editarUsuario . "/imgUser"."/". basename($_FILES['editarFoto']['name']);
+							$ruta = "vistas/img/usuarios/" . $editarUsuario . "/imgUser" . "/" . basename($_FILES['editarFoto']['name']);
 
 							$origen = imagecreatefromjpeg($_FILES["editarFoto"]["tmp_name"]);
 
@@ -600,7 +594,7 @@ class ControladorUsuarios
 
 							$aleatorio = mt_rand(100, 999);
 
-							$ruta = "vistas/img/usuarios/" . $editarUsuario . "/imgUser"."/". basename($_FILES['editarFoto']['name']);
+							$ruta = "vistas/img/usuarios/" . $editarUsuario . "/imgUser" . "/" . basename($_FILES['editarFoto']['name']);
 
 							$origen = imagecreatefrompng($_FILES["editarFoto"]["tmp_name"]);
 
@@ -704,7 +698,7 @@ class ControladorUsuarios
 							);
 						}
 
-						
+
 
 						$respuesta = ModeloUsuarios::mdlEditarUsuario($tabla, $datos);
 						// var_dump($respuesta);
