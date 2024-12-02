@@ -581,7 +581,7 @@ class ControladorUsuarios
 
 							$aleatorio = mt_rand(100, 999);
 
-							$ruta = "vistas/img/usuarios/" . $editarUsuario . "/imgUser"."/". basename($_FILES['editarFoto']['name']) . ".jpg";
+							$ruta = "vistas/img/usuarios/" . $editarUsuario . "/imgUser"."/". basename($_FILES['editarFoto']['name']);
 
 							$origen = imagecreatefromjpeg($_FILES["editarFoto"]["tmp_name"]);
 
@@ -600,7 +600,7 @@ class ControladorUsuarios
 
 							$aleatorio = mt_rand(100, 999);
 
-							$ruta = "vistas/img/usuarios/" . $editarUsuario . "/imgUser"."/". basename($_FILES['editarFoto']['name']) . ".png";
+							$ruta = "vistas/img/usuarios/" . $editarUsuario . "/imgUser"."/". basename($_FILES['editarFoto']['name']);
 
 							$origen = imagecreatefrompng($_FILES["editarFoto"]["tmp_name"]);
 
