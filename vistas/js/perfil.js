@@ -4,12 +4,12 @@ $(document).ready(function () {
 
 
 
-  const labelSelectLogoPDF = $("#labelPDF");
-  var hasProperty = $('#labelPDF').prop('disabled') ? true : false;
+  // const labelSelectLogoPDF = $("#labelPDF");
+  // var hasProperty = $('#labelPDF').prop('disabled') ? true : false;
 
-  if(!hasProperty){
-    $("#imgLogo").prop("disabled", true);
-  }
+  // if(!hasProperty){
+  //   $("#imgLogo").prop("disabled", true);
+  // }
   
 });
 
@@ -34,7 +34,7 @@ btnGuardar.addEventListener("click", function () {
 
 
   // Subir logo del PDF
-  if (imgLogoInput.files.length > 0 && !hasProperty) {
+  if (imgLogoInput.files.length > 0) {
     uploadImageToServer(imgLogoInput.files[0], "imgLogo");
   } else {
     console.log("No se seleccionó un logo para el PDF.");

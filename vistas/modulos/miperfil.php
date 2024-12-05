@@ -56,6 +56,8 @@
   }
 
 
+
+
   .nav-tabs>.classli.active>.classa,
   .nav-tabs>.classli.active>.classa:focus,
   .nav-tabs>.classli.active>.classa:hover {
@@ -149,6 +151,14 @@
     align-items: center;
   }
 
+  #labelImgUser {
+    background-color: #989797;
+  }
+
+  #labelPDF {
+    background-color: #989797;
+  }
+
 
   @keyframes shimmer {
     0% {
@@ -197,6 +207,7 @@
       background-color: #88d600;
       /* Color de fondo normal */
       border: 0;
+      margin-top: 113px;
       margin-right: 80px;
       border-radius: 5px;
       width: 140px;
@@ -279,7 +290,7 @@
                 ?>
                 <div style="display: flex; flex-direction: column">
                   <p id="fileNameUser" style="color: gray; margin: 0; padding: 0; font-size: 14px;">No se ha seleccionado ningún archivo</p>
-                  <label class="btn btn-primary">
+                  <label class="btn btn-primary" id="labelImgUser">
                     <input type="file" name="imgUser" id="imgUser" style="display:none;" accept="image/*" />
                     Seleccionar archivo
                   </label>
@@ -297,7 +308,7 @@
                 ?>
                 <div style="display: flex; flex-direction: column">
                   <p id="fileNamePDF" style="color: gray; margin: 0; padding: 0; font-size: 14px;">No se ha seleccionado ningún archivo</p>
-                  <label class="btn btn-primary" id="labelPDF" disabled>
+                  <label class="btn btn-primary" id="labelPDF">
                     <input type="file" name="imgLogo" id="imgLogo" style="display:none;" accept="image/*" />
                     Seleccionar archivo
                   </label>
@@ -305,6 +316,7 @@
                 <p style="color: gray; margin-bottom: 0px; padding-bottom: 0px; font-size: 17px;">Max. 2MB</p>
               </div>
             </div>
+            <button id="btnGuardar">Guardar</button>
           </div>
         </div>
         <div class="col-md-12" style="margin-top: 50px; padding-right: 60px; padding-left: 50px;">
@@ -370,9 +382,9 @@
                   <input disabled type="text" name="ciudad" id="ciudad_perfil">
                 </div>
                 <div class="col-md-3" style="display:flex; flex-direction:column; padding-left: 0px !important;">
-                  <div style="margin-top: 25px"></div>
-                  <button id="btnGuardar">Guardar</button>
+
                 </div>
+
               </div>
             </div>
           </div>
