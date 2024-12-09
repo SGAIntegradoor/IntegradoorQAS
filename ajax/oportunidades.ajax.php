@@ -34,12 +34,6 @@
         $mesExpedicion = trim($_POST["mesExpedicion"]) == "" ? null : trim($_POST["mesExpedicion"]);
         $formaDePago = trim($_POST["formaDePago"]) == "" ? null : trim($_POST["formaDePago"]);
         $financiera = trim($_POST["financiera"]) == "" ? null : trim($_POST["financiera"]);
-        // $mesExpedicion = empty(trim($_POST["mesExpedicion"]));
-        // $formaDePago = empty(trim($_POST["formaDePago"]));
-        // $financiera = empty(trim($_POST["financiera"]));
-        // $mesExpedicion = trim($_POST["mesExpedicion"]);
-        // $formaDePago = trim($_POST["formaDePago"]);
-        // $financiera = trim($_POST["financiera"]);
 
         $carpeta = $_POST["carpeta"];
         $observaciones = $_POST["observaciones"];
@@ -60,23 +54,15 @@
 
         // Prepara la consulta
         $result = $enlace->prepare("SELECT COALESCE(MAX(id_oportunidad), 0) + 1 AS next_id FROM oportunidades");
-
-        // Ejecuta la consulta
-        if ($result === false) {
-            die("Error en la preparación de la consulta: " . $enlace->error);
-        }
-        if (!$result->execute()) {
+        
+        if ($result->execute()) {
+            $result->bind_result($next_id);
+            $result->fetch();
+            $next_id = $next_id ?? 0; // Asegúrate de que no sea null
+        } else {
             die("Error en la ejecución de la consulta: " . $result->error);
         }
-
-        // Asigna el resultado a una variable
-        $resultado = $result->get_result();
-        global $next_id;
-        $next_id = $resultado->fetch_assoc()['next_id'];
-
-        // Libera los recursos
         $result->close();
-
         // Imprime el próximo ID para verificar
 
         $query = "INSERT INTO oportunidades (
