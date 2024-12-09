@@ -8,8 +8,8 @@
     error_reporting(E_ALL);
 
     if (isset($_POST["manual"])) {
-        $idCotizacion = $_POST["idCotizacion"];
-        $valor_cotizacion = $_POST["valor_cotizacion"];
+        $idCotizacion = $_POST["idCotizacion"] == "" ? 0 : $_POST["idCotizacion"] ;
+        $valor_cotizacion = $_POST["valor_cotizacion"] == "" ? 0 : $_POST["valor_cotizacion"];
         $idOferta = $_POST["idOferta"];
         $mesOportunidad = $_POST["mesOportunidad"];
         $asesor_freelance = $_POST["asesor_freelance"];
@@ -42,8 +42,9 @@
         $fechaActualizacion = null;
 
         // preparar valores numericos para ser insertados sin puntos ni comas. START
-
-        $valor_cotizacion = str_replace(',', '', $valor_cotizacion);
+        if($valor_cotizacion !== 0 && $valor_cotizacion != "null" && $valor_cotizacion != "0"){
+            $valor_cotizacion = str_replace(',', '', $valor_cotizacion);
+        }
         $prima_sin_iva = str_replace(',', '', $prima_sin_iva);
         $gastos = str_replace(',', '', $gastos);
         $asistencias = str_replace(',', '', $asistencias);
@@ -54,7 +55,7 @@
 
         // Prepara la consulta
         $result = $enlace->prepare("SELECT COALESCE(MAX(id_oportunidad), 0) + 1 AS next_id FROM oportunidades");
-        
+
         if ($result->execute()) {
             $result->bind_result($next_id);
             $result->fetch();
