@@ -70,7 +70,6 @@ function cleanFields() {
   $("#txtAseguradoModal").val("");
   $("#txtAnalistaGAModal").val("");
   $("#txtObservacionesOportunidadModal").val("");
-  
 
   // Restablecer selects al valor por defecto
   $("#txtMesOportunidadModal").val(null).trigger("change"); // Restablece al valor por defecto
@@ -128,28 +127,26 @@ function selectByText(selector, text) {
   }
 }
 
-
-$("#txtRamoModal").on("change", function (){
+$("#txtRamoModal").on("change", function () {
   let selectedValue = $(this).val();
-  if(selectedValue != "1" && selectedValue != "2" && selectedValue != "3"){
+  if (selectedValue != "1" && selectedValue != "2" && selectedValue != "3") {
     $("#txtPlacaOportunidadModal").prop("disabled", true);
     $("#txtPlacaOportunidadModal").val("NA");
   } else {
     $("#txtPlacaOportunidadModal").val("");
     $("#txtPlacaOportunidadModal").prop("disabled", false);
   }
-})
+});
 
-$("#txtFechaExpedicionOportunidadModal").on("change", function (){
+$("#txtFechaExpedicionOportunidadModal").on("change", function () {
   let selectedValue = $(this).val();
   let mes = selectedValue.split("-");
 
-  if(mes[1].charAt(0) == 0){
+  if (mes[1].charAt(0) == 0) {
     mes[1] = mes[1].charAt(1);
   }
   $("#txtMesExpedicionOportunidadModal").val(mes[1]).trigger("change");
-})
-
+});
 
 $(".sorting_1").css("text-align", "center");
 
@@ -322,15 +319,15 @@ function abrirDialogoCrear(id = null) {
         }
 
         // Se ejecuta la peticion por AJAX para llamar a un controlador que se encargara de guardar la data en la base de datos en la tabla "Oportunidades"
-        if(errors.length){
+        if (errors.length) {
           Swal.fire({
             icon: "error",
             showConfirmButton: true,
             text: `Tienes errores en el formulario, valida nuevamente, error en el campo: ${errors[0]}`,
             confirmButtonText: "Cerrar",
             customClass: {
-              container: 'swal2-custom-zindex', // Clase personalizada
-            }
+              container: "swal2-custom-zindex", // Clase personalizada
+            },
           }).then((result) => {
             if (result.isConfirmed) {
               return;
@@ -338,8 +335,8 @@ function abrirDialogoCrear(id = null) {
               return;
             }
           });
-        } 
-        
+        }
+
         $.ajax({
           url: url,
           method: "POST",
@@ -353,7 +350,9 @@ function abrirDialogoCrear(id = null) {
               $("#myModal2").dialog("close");
               Swal.fire({
                 icon: "success",
-                text: `Oportunidad # ${ id != "" && id != null ? id : respuesta.inserted_id} ${
+                text: `Oportunidad # ${
+                  id != "" && id != null ? id : respuesta.inserted_id
+                } ${
                   id != "" && id != null ? "actualizada" : "creada"
                 } con éxito`,
                 showConfirmButton: true,
@@ -527,7 +526,7 @@ $(document).ready(function () {
     "#txtAsistOtrosOportunidadModal",
     "#txtIvaOportunidadModal",
     "#txtValorTotalModal",
-    "#txtNoPolizaOportunidadModal"
+    "#txtNoPolizaOportunidadModal",
   ];
 
   $("#txtValorCotizacionModal").numeric();
@@ -535,7 +534,6 @@ $(document).ready(function () {
   $("#txtGastosOportunidadModal").numeric();
   $("#txtAsistOtrosOportunidadModal").numeric();
   $("#txtIvaOportunidadModal").numeric();
-
 
   const parseNumbersToString = (selector) => {
     $(selector).on("input", function () {
@@ -556,13 +554,6 @@ $(document).ready(function () {
   inputIDCotizacion.map((element) => {
     parseNumbersToString(element);
   });
-
-  // $("#noPoliza").on("input", function () {
-  //   this.value = this.value.replace(
-  //     /[.,;!?@#$%^&¿¡*¨()_+\-=\[\]{}|\\:"'<>,.?/`~]/g,
-  //     ""
-  //   );
-  // })
 
   loadAllFreelance();
   Promise.all([loadAnalistas(), loadFreelance()])
@@ -590,6 +581,7 @@ function aplicarCriterios() {
     "aseguradoraOpo",
     "ramo",
     "onerosoOp",
+    "carpeta"
   ];
 
   let params = getParams();
@@ -641,6 +633,8 @@ function searchInfo() {
     $("#financiera").val() !== ""
       ? $("#financiera option:selected").text()
       : "";
+  let carpeta =
+    $("#carpeta").val() !== "" ? $("#carpeta option:selected").text() : "";
 
   if (mesExpedicion !== "") {
     url += `&mesExpedicion=${mesExpedicion}`;
@@ -675,6 +669,9 @@ function searchInfo() {
   }
   if (financiera !== "") {
     url += `&financiera=${financiera.trim()}`;
+  }
+  if (carpeta !== "") {
+    url += `&carpeta=${carpeta.trim()}`;
   }
 
   window.location.href = url;
@@ -711,7 +708,7 @@ $(".tablas-oportunidades").on("click", ".btnEditarOportunidad", function () {
 });
 
 $(
-  "#nombreAsesor, #estado, #mesExpedicion, #nombreAsesor, #analistaGA, #aseguradoraOpo, #ramo, #onerosoOp, #formaDePago, #financiera"
+  "#nombreAsesor, #estado, #mesExpedicion, #nombreAsesor, #analistaGA, #aseguradoraOpo, #ramo, #onerosoOp, #formaDePago, #financiera, #carpeta"
 ).select2({
   theme: "bootstrap selecting",
   language: {
@@ -817,6 +814,7 @@ $("#txtMesOportunidadModal").select2({
   dropdownParent: $("#txtMesOportunidadModal").parent(), // Ubica el dropdown dentro del modal
 });
 
+
 $("#txtFormaDePagoOportunidadModal").on("change", function () {
   if ($(this).val() == 1) {
     $("#financieraDiv").css("display", "block");
@@ -869,7 +867,7 @@ $("#txtEstadoOportunidadModal").on("change", function () {
     $("#txtIvaOportunidadModal").val("");
     $("#txtValorTotalModal").val("");
     $("#txtFechaExpedicionOportunidadModal").val("");
-    $("#txtObservacionesOportunidadModal").val("");
+    // $("#txtObservacionesOportunidadModal").val("");
 
     $("#txtFormaDePagoOportunidadModal").val(null).trigger("change");
     $("#txtFinancieraOportunidadModal").val(null).trigger("change");
@@ -877,7 +875,7 @@ $("#txtEstadoOportunidadModal").on("change", function () {
 
     $("#checkCarpetaModal").prop("checked", false);
   }
-}); // Aplica el z-index al contenedor
+});
 
 function formatNumber(value) {
   // Remueve cualquier carácter que no sea número
@@ -885,24 +883,24 @@ function formatNumber(value) {
   // Añade los puntos como separadores de miles
   return value.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 }
-$("#txtPrimaSinIvaModal").on("change", function(){
+$("#txtPrimaSinIvaModal").on("change", function () {
   formatNumber(this.value);
-})
+});
 
-  $(
-    "#txtPrimaSinIvaModal, #txtGastosOportunidadModal, #txtAsistOtrosOportunidadModal, #txtIvaOportunidadModal"
-  ).on("change", function () {
-    let valor = 0;
-    let primaSinIva = $("#txtPrimaSinIvaModal").val();
-    let gastos = $("#txtGastosOportunidadModal").val();
-    let asistencias = $("#txtAsistOtrosOportunidadModal").val();
-    let iva = $("#txtIvaOportunidadModal").val();
-  
-    valor =
-      Number(primaSinIva) + Number(gastos) + Number(asistencias) + Number(iva);
-  
-    $("#txtValorTotalModal").val("$ " + formatNumber(valor));
-  });
+$(
+  "#txtPrimaSinIvaModal, #txtGastosOportunidadModal, #txtAsistOtrosOportunidadModal, #txtIvaOportunidadModal"
+).on("change", function () {
+  let valor = 0;
+  let primaSinIva = $("#txtPrimaSinIvaModal").val();
+  let gastos = $("#txtGastosOportunidadModal").val();
+  let asistencias = $("#txtAsistOtrosOportunidadModal").val();
+  let iva = $("#txtIvaOportunidadModal").val();
+
+  valor =
+    Number(primaSinIva) + Number(gastos) + Number(asistencias) + Number(iva);
+
+  $("#txtValorTotalModal").val("$ " + formatNumber(valor));
+});
 
 $(
   "#txtPrimaSinIvaModal, #txtGastosOportunidadModal, #txtAsistOtrosOportunidadModal, #txtIvaOportunidadModal"
@@ -913,44 +911,29 @@ $(
   let asistencias = $("#txtAsistOtrosOportunidadModal").val();
   let iva = $("#txtIvaOportunidadModal").val();
 
-  valor = (Number(primaSinIva) || 0) + (Number(gastos) || 0) + (Number(asistencias) || 0) + (Number(iva) || 0);
+  valor =
+    (Number(primaSinIva) || 0) +
+    (Number(gastos) || 0) +
+    (Number(asistencias) || 0) +
+    (Number(iva) || 0);
 
   $("#txtValorTotalModal").val("$ " + formatNumber(valor));
 });
-
-
 
 $(
   "#txtPrimaSinIvaModal, #txtGastosOportunidadModal, #txtAsistOtrosOportunidadModal, #txtIvaOportunidadModal"
 ).on("paste", function (e) {
   // Detecta el evento de pegar texto
-  var pastedData = e.originalEvent.clipboardData.getData('text');
-  
+  var pastedData = e.originalEvent.clipboardData.getData("text");
+
   // Reemplaza los caracteres no numéricos del texto pegado
   var cleanData = pastedData.replace(/[^0-9.]/g, "");
 
   // Evita que el valor no numérico se pegue
   e.preventDefault();
   // Inserta solo los números o puntos decimales válidos
-  document.execCommand('insertText', false, cleanData);
+  document.execCommand("insertText", false, cleanData);
 });
-
-
-// $(document).on("input", "#txtPlacaOportunidadModal", function() {
-//   var pattern = /^[A-Z]{1,3}[0-9]{3,5}[A-Z]?$/;;
-//   var inputValue = $(this).val();
-
-//   $(this).val(inputValue.toUpperCase());
-
-//   // Validar el valor usando la expresión regular
-//   if (pattern.test(inputValue)) {
-//       // Si el valor es válido, puedes continuar con la lógica
-//       console.log("Valor válido");
-//   } else {
-//       // Si el valor no es válido, puedes mostrar un mensaje de error o eliminar el valor
-//       console.log("Valor no válido");
-//   }
-// });
 
 let errors = [];
 
@@ -964,28 +947,27 @@ $(document).on("input", "#txtPlacaOportunidadModal", function () {
   var pattern3 = /^[A-Z]{1}[0-9]{5}$/; // LXXXXX
 
   // Validar si el valor cumple con alguno de los patrones
-  if(inputValue.length === 6){
+  if (inputValue.length === 6) {
     if (
-        pattern1.test(inputValue) ||
-        pattern2.test(inputValue) ||
-        pattern3.test(inputValue)
+      pattern1.test(inputValue) ||
+      pattern2.test(inputValue) ||
+      pattern3.test(inputValue)
     ) {
-        $("#errorMensaje").css("display", "none"); // Limpiar el mensaje de error si es válido
-        errors = [];
+      $("#errorMensaje").css("display", "none"); // Limpiar el mensaje de error si es válido
+      errors = [];
     } else {
       $("#errorMensaje").css("display", "block");
-      errors.push("placa")
+      errors.push("placa");
     }
   } else if (inputValue.length > 6) {
     // Mostrar el mensaje de error solo cuando el input tenga 6 caracteres
     errors.push("placa");
     $("#errorMensaje").css("display", "block");
-}
+  }
 });
 
-
 /**
- * Formato de inputs del modal END
+ * Formato de inputs del modal ENDsa
  */
 
 $("#daterange-btnOportunidades").daterangepicker(

@@ -12,14 +12,9 @@
 // }
 
 
-
-// var_dump($_SESSION);
-
-
 ?>
 <script>
-  const defaultPhoto = "<?php echo $_SESSION['imgPDF']; ?>"; // La ruta de la imagen desde PHP
-  console.log("<?php echo $_SESSION ?>")
+  console.log(permisos)
 </script>
 
 
@@ -207,7 +202,7 @@
       background-color: #88d600;
       /* Color de fondo normal */
       border: 0;
-      margin-top: 113px;
+      margin-top: 94px;
       margin-right: 80px;
       border-radius: 5px;
       width: 140px;
@@ -300,7 +295,13 @@
             </div>
             <div style="display: flex; flex-direction: column;">
               <div>
-                <p>Logo asesor o agencia (Si eres un asesor productivo y tienes autorización, sube tu logo para el PDF comparativo)</p>
+                <div>
+                  <div style="display: flex; gap: 10px">
+                    <p>Logo asesor o agencia </p>
+                    <?php echo $_SESSION["permisos"]["permisos_pdf"] === "x" ? '<p id="validate" style="font-weight: bold; color: Green"> [ Opción Habilitada ]</p>' :  '<p id="validate" style="font-weight: bold; color: red"> [ Opción No Habilitada ]</p>' ?>
+                    <p></p>
+                  </div>
+                </div>
               </div>
               <div class="containerImg" style="display: flex; flex-direction: row; align-items: flex-end; gap: 20px;">
                 <?php
@@ -316,7 +317,7 @@
                 <p style="color: gray; margin-bottom: 0px; padding-bottom: 0px; font-size: 17px;">Max. 2MB</p>
               </div>
             </div>
-            <button id="btnGuardar">Guardar</button>
+            <button id="btnGuardar">Guardar cambios</button>
           </div>
         </div>
         <div class="col-md-12" style="margin-top: 50px; padding-right: 60px; padding-left: 50px;">

@@ -16,7 +16,7 @@ $identificador = $_GET['cotizacion'];
 $server = "localhost";
 $user = "grupoasi_cotizautos";
 $password = "M1graci0n123"; //poner tu propia contraseña, si tienes una.
-$bd = "grupoasi_cotizautos_qas";
+$bd = "grupoasi_cotizautos";
 
 $conexion = mysqli_connect($server, $user, $password, $bd);
 if (!$conexion) {
@@ -208,15 +208,15 @@ if ($valorLogo == "undefined") {
 	list($imgWidth, $imgHeight) = getimagesize('../../../' . $valorLogo2);
 	list($imgWidth2, $imgHeight2) = getimagesize($urlSGA);
 
-	$width = 70;  // El ancho que deseas en el PDF
+	$width = 40;  // El ancho que deseas en el PDF
 	$height = ($imgHeight / $imgWidth) * $width;  // Mantener la relación de aspecto
 
 	if ($pieces[0] == "") {
 		$pdf->Image('../../../vistas/img/intermediario/SEGUROS GRUPO ASISTENCIA SAS/LogoGA.png', 8, 13, 0, 20, 'PNG', '', '', true, 160, '', false, false, 0, false, false, false);
 	} else if ($pieces[1] == 'png') {
-		$pdf->Image('../../../' . $valorLogo2, 10, 13, $width, 20, 'PNG', '', '', true, 160, '', false, false, 0, false, false, false);
+		$pdf->Image('../../../' . $valorLogo2, 10, 13, 0, 20, 'PNG', '', '', false, 160, '', false, false, 0, false, false, false);
 	} else {
-		$pdf->Image('../../../' . $valorLogo2, 8, 13, $width, 20, 'JPG', '', '', true, 160, '', false, false, 0, false, false, false);
+		$pdf->Image('../../../' . $valorLogo2, 8, 13, 0, 10, 'JPG', '', '', false, 160, '', false, false, 0, false, false, false);
 	}
 } else if ($valorLogo !== "undefined" && !empty($valorLogo2)) {
 	$id_usuario = $_SESSION['idUsuario'];
@@ -238,16 +238,27 @@ if ($valorLogo == "undefined") {
 	$height = ($imgHeight / $imgWidth) * $width;  // Mantener la relación de aspecto
 
 	if ($pieces[1] == 'png') {
-		$pdf->Image('../../../' . $valorLogo2, 10, 13, $width, 20, 'PNG', '', '', true, 160, '', false, false, 0, false, false, false);
+		// Posición inicial y ancho del contenedor
+		$startX = -10; // Cambia según la posición inicial del contenedor
+		$containerWidth = 90; // Cambia según el ancho del contenedor
+
+		// Ancho de la imagen (puedes dejarlo como 0 para que TCPDF lo ajuste automáticamente)
+		$imageWidth = 60; // Cambia si conoces el tamaño exacto
+
+		// Calcular la posición X centrada dentro del contenedor
+		$centerX = $startX + ($containerWidth - $imageWidth) / 2;
+
+		// Dibujar la imagen
+		$pdf->Image('../../../' . $valorLogo2, $centerX, 10, $imageWidth, 0, 'PNG', '', '', true, 300, '', false, false, 0, false, false, false);
 	} else {
-		$pdf->Image('../../../' . $valorLogo2, 8, 13, $width, 20, 'JPG', '', '', true, 160, '', false, false, 0, false, false, false);
+		$pdf->Image('../../../' . $valorLogo2, 8, 13, 0, 20, 'JPG', '', 'center', false, 300, '', false, false, 0, false, false, false);
 	}
 } else {
 	if ($porciones[1] == 'png') {
-
-		$pdf->Image('../../../vistas/img/logosIntermediario/' . $valorLogo, 8, 13, 0, 20, 'PNG', '', '', true, 160, '', false, false, 0, false, false, false);
+		var_dump("Entre aca");
+		$pdf->Image('../../../vistas/img/logosIntermediario/' . $valorLogo, 8, 13, 0, 20, 'PNG', '', '', true, 300, '', false, false, 0, false, false, false);
 	} else {
-		$pdf->Image('../../../vistas/img/logosIntermediario/' . $valorLogo, 8, 13, 0, 20, 'JPG', '', '', true, 160, '', false, false, 0, false, false, false);
+		$pdf->Image('../../../vistas/img/logosIntermediario/' . $valorLogo, 8, 13, 0, 20, 'JPG', '', '', true, 300, '', false, false, 0, false, false, false);
 	}
 }
 

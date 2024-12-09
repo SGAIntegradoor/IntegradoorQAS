@@ -77,6 +77,10 @@ class ModeloOportunidades
                     # code...
                     $sql .= " AND ramo = '$valor'";
                     break;
+                case 'carpeta':
+                    $carpeta = $valor == "Si" ? "Carpeta creada" : "Sin carpeta";
+                    $sql .= " AND carpeta = '$carpeta'";
+                    break;
                 default:
                     # code...
                     break;

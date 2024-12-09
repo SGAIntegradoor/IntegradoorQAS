@@ -88,6 +88,7 @@ class ModeloUsuarios
 		$tabla5 = "credenciales";
 		$tabla6 = "credenciales_motos";
 		$tabla7 = "credenciales_pesados";
+		$tabla8 = "permisos_modulos";
 
 		$stmt = Conexion::conectar()->prepare("
 			SELECT *
@@ -98,6 +99,7 @@ class ModeloUsuarios
 			JOIN $tabla5 ON $tabla3.id_Intermediario = $tabla5.id_Intermediario
 			JOIN $tabla6 ON $tabla3.id_Intermediario = $tabla6.id_Intermediario
 			JOIN $tabla7 ON $tabla3.id_Intermediario = $tabla7.id_Intermediario
+			LEFT JOIN $tabla8 ON $tabla8.cedula = $tabla.usu_documento
 			WHERE $item = :$item
 		");
 		$stmt->bindParam(":" . $item, $valor, PDO::PARAM_STR);
@@ -108,7 +110,7 @@ class ModeloUsuarios
 		if ($resultado === false) {
 			// Imprimir mensaje de error
 			$errorInfo = $stmt->errorInfo();
-			echo "Error: " . $errorInfo[2]; // El índice 2 contiene el mensaje de error
+			echo "Error: " . $errorInfo[1]; // El índice 2 contiene el mensaje de error
 		} else {
 			// Procesar el resultado
 			// print_r($resultado);

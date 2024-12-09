@@ -62,7 +62,12 @@
         $result = $enlace->prepare("SELECT COALESCE(MAX(id_oportunidad), 0) + 1 AS next_id FROM oportunidades");
 
         // Ejecuta la consulta
-        $result->execute();
+        if ($result === false) {
+            die("Error en la preparación de la consulta: " . $enlace->error);
+        }
+        if (!$result->execute()) {
+            die("Error en la ejecución de la consulta: " . $result->error);
+        }
 
         // Asigna el resultado a una variable
         $resultado = $result->get_result();

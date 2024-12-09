@@ -69,27 +69,27 @@ $("#imgLogo").on("change", function () {
         const height = img.height;
 
         // Validar las dimensiones de la imagen
-        if (width > 1080 || height > 428) {
-          Swal.fire({
-            icon: "warning",
-            title: "Advertencia",
-            text: "La imagen esperada tiene que ser de máximo 1080 pixeles de ancho por 428 pixeles de alto",
-            showConfirmButton: true,
-            confirmButtonText: "Aceptar",
-          }).then((result) => {
-            if (result.isConfirmed) {
-              console.log("Imagen rechazada por dimensiones");
-              // Reiniciar el input para que no se envíe
-              $("#imgLogo").val(""); // Limpia el input
-              $("#fileNamePDF").text("No se ha seleccionado ningún archivo");
-              $("#previewImgPDF").attr("src", defaultPhoto); // Restaura la imagen original
-            }
-          });
-        } else {
+        // if (width > 1080 || !height > 428) {
+        //   Swal.fire({
+        //     icon: "warning",
+        //     title: "Advertencia",
+        //     text: "La imagen esperada tiene que ser de máximo 1080 pixeles de ancho por 428 pixeles de alto",
+        //     showConfirmButton: true,
+        //     confirmButtonText: "Aceptar",
+        //   }).then((result) => {
+        //     if (result.isConfirmed) {
+        //       console.log("Imagen rechazada por dimensiones");
+        //       // Reiniciar el input para que no se envíe
+        //       $("#imgLogo").val(""); // Limpia el input
+        //       $("#fileNamePDF").text("No se ha seleccionado ningún archivo");
+        //       $("#previewImgPDF").attr("src", defaultPhoto); // Restaura la imagen original
+        //     }
+        //   });
+        // } else {
           // Si las dimensiones son válidas, mostramos el nombre y la imagen
           $("#fileNamePDF").text(file.name);
           $("#previewImgPDF").attr("src", e.target.result);
-        }
+        // }
       };
       img.src = e.target.result; // Asigna la imagen cargada como `src`
     };

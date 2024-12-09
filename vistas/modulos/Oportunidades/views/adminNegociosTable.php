@@ -386,7 +386,6 @@
           <th style="font-weight: bold; text-align: center;">Forma de pago</th>
           <th style="font-weight: bold; text-align: center;">Financiera</th>
           <th style="font-weight: bold; text-align: center;">Carpeta</th>
-          <th style="font-weight: bold; text-align: center;">Observaciones</th>
           <th style="font-weight: bold; text-align: center;">Id_Oferta</th>
           <th style="font-weight: bold; text-align: center;">Fecha Creacion</th>
           <th style="font-weight: bold; text-align: center;">Fecha Actualizacion</th>
@@ -400,7 +399,7 @@
           $fechaFinalOportunidades = $_GET["fechaFinalOportunidades"];
           // $respuesta = ControladorOportunidades::ctrMostrarOportunidades($fechaFinalOportunidades, $fechaInicialOportunidades);
           $respuesta = ControladorOportunidades::ctrMostrarOportunidades($fechaFinalOportunidades, $fechaInicialOportunidades);
-        } else if (isset($_GET["mesExpedicion"]) || isset($_GET["estado"]) || isset($_GET["nombreAsesor"]) || isset($_GET["analistaGA"]) || isset($_GET["aseguradoraOpo"]) || isset($_GET["ramo"]) || isset($_GET["onerosoOp"]) || isset($_GET["formaDePago"]) || isset($_GET["financiera"])) {
+        } else if (isset($_GET["mesExpedicion"]) || isset($_GET["estado"]) || isset($_GET["nombreAsesor"]) || isset($_GET["analistaGA"]) || isset($_GET["aseguradoraOpo"]) || isset($_GET["ramo"]) || isset($_GET["onerosoOp"]) || isset($_GET["formaDePago"]) || isset($_GET["financiera"]) || isset($_GET["carpeta"])) {
           $respuesta = ControladorOportunidades::ctrMostrarOportunidadesFilters($_GET);
         } else {
           $fechaActual = new DateTime();
@@ -445,7 +444,6 @@
             <td class="text-center" style="font-size: 14px;">' . (!empty($value['forma_pago']) ? $value['forma_pago'] : '') . '</td>
             <td class="text-center" style="font-size: 14px;">' . (!empty($value['financiera']) ? $value['financiera'] : '') . '</td>
             <td class="text-center" style="font-size: 14px;">' . (!empty($value['carpeta']) ? $value['carpeta'] : '') . '</td>
-            <td class="text-center" style="font-size: 14px;">' . (!empty($value['observaciones']) ? $value['observaciones'] : '') . '</td>
             <td class="text-center" style="font-size: 14px;">' . (!empty($value['id_oferta']) ? $value['id_oferta'] : '') . '</td>
             <td class="text-center" style="font-size: 14px;">' . (!empty($value['fecha_creacion']) ? $value['fecha_creacion'] : '') . '</td>
             <td class="text-center" style="font-size: 14px;">' . (!empty($value['fecha_actualizacion']) ? $value['fecha_actualizacion'] : '') . '</td>
@@ -486,11 +484,11 @@
       <div class="row" style="margin-bottom: 10px; margin-top: 30px;">
         <div class="col-xs-12 col-sm-6 col-md-4 form-group">
           <label for="txtnoCotizacionModal">No. cotización</label>
-          <input type="text" class="form-control" name="txtnoCotizacionModal" id="txtnoCotizacionModal" placeholder="" required>
+          <input type="text" class="form-control" name="txtnoCotizacionModal" id="txtnoCotizacionModal" placeholder="" >
         </div>
         <div class="col-xs-12 col-sm-6 col-md-4 form-group">
           <label for="txtValorCotizacionModal">Valor cotización</label>
-          <input type="text" class="form-control" name="txtValorCotizacionModal" id="txtValorCotizacionModal" placeholder="" required>
+          <input type="text" class="form-control" name="txtValorCotizacionModal" id="txtValorCotizacionModal" placeholder="">
         </div>
         <div class="col-xs-12 col-sm-6 col-md-4 form-group">
           <label for="txtMesOportunidadModal">Mes oportunidad</label>

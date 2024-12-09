@@ -63,7 +63,7 @@
                             <option value="" selected></option>
                             <option value="1">Pdte orden inspección</option>
                             <option value="2">Pdte inspección</option>
-                            <option value="3">Pdte emisión</option>
+                            <option value="3">Pdt emisión</option>
                             <option value="4">Emitida</option>
                             <option value="5">Perdido</option>
                         </select>
@@ -156,7 +156,7 @@
                                 <option value="2">
                                     Contado
                                 </option>
-                                <option value="2">
+                                <option value="3">
                                     Pdte.
                                 </option>
                             </select>
@@ -171,8 +171,19 @@
                                 <option value="" selected>
                                 </option>
                                 <option value="1">Finesa</option>
-                                <option value="1">Liberty</option>
-                                <option value="1">Bolivar</option>
+                                <option value="2">Liberty</option>
+                                <option value="3">Bolivar</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-3" style="padding-left: 25px; padding-right: 25px">
+                        <div class="form-group">
+                            <label for="carpeta">Carpeta:</label>
+                            <select type="text" class="form-control carpeta" name="carpeta" id="carpeta" placeholder="Carpeta">
+                                <option value="" selected>
+                                </option>
+                                <option value="1">Si</option>
+                                <option value="2">No</option>
                             </select>
                         </div>
                     </div>
@@ -185,7 +196,7 @@
                     </div>
                     <div class="col-xs-12 col-sm-6 col-md-3" style="padding-left: 25px; padding-right: 25px">
                         <div class="form-group">
-                            <button class="btn btn-primary btn-block btnCancelar" onclick="reset()">Reiniciar</button>
+                            <button class="btn btn-primary btn-block btnCancelar" onclick="reset()">Limpiar</button>
                         </div>
                     </div>
                 </div>
