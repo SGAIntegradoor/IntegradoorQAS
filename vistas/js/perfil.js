@@ -1,6 +1,6 @@
 $(document).ready(function () {
   //cargartipDoc();
-  cargarPerfil().then(() => console.log("finalizando")).finally(() => console.log("finalizo"))
+  cargarPerfil();
 
 
 
@@ -65,27 +65,6 @@ $("#imgLogo").on("change", function () {
     reader.onload = function (e) {
       const img = new Image();
       img.onload = function () {
-        const width = img.width;
-        const height = img.height;
-
-        // Validar las dimensiones de la imagen
-        // if (width > 1080 || !height > 428) {
-        //   Swal.fire({
-        //     icon: "warning",
-        //     title: "Advertencia",
-        //     text: "La imagen esperada tiene que ser de máximo 1080 pixeles de ancho por 428 pixeles de alto",
-        //     showConfirmButton: true,
-        //     confirmButtonText: "Aceptar",
-        //   }).then((result) => {
-        //     if (result.isConfirmed) {
-        //       console.log("Imagen rechazada por dimensiones");
-        //       // Reiniciar el input para que no se envíe
-        //       $("#imgLogo").val(""); // Limpia el input
-        //       $("#fileNamePDF").text("No se ha seleccionado ningún archivo");
-        //       $("#previewImgPDF").attr("src", defaultPhoto); // Restaura la imagen original
-        //     }
-        //   });
-        // } else {
           // Si las dimensiones son válidas, mostramos el nombre y la imagen
           $("#fileNamePDF").text(file.name);
           $("#previewImgPDF").attr("src", e.target.result);
@@ -99,23 +78,6 @@ $("#imgLogo").on("change", function () {
     $("#previewImgPDF").attr("src", defaultPhoto); // Restaura la imagen original
   }
 });
-
-// $("#imgLogo").on("change", function () {
-//   const file = this.files[0]; // Obtiene el archivo seleccionado
-//   if (file) {
-//     $("#fileNamePDF").text(file.name); // Muestra el nombre del archivo
-
-//     // Usamos FileReader para leer la imagen seleccionada
-//     const reader = new FileReader();
-//     reader.onload = function (e) {
-//       $("#previewImgPDF").attr("src", e.target.result); // Asigna la imagen cargada como `src` al elemento img
-//     };
-//     reader.readAsDataURL(file); // Convierte el archivo en una URL en base64
-//   } else {
-//     $("#fileNamePDF").text("No se ha seleccionado ningún archivo");
-//     $("#previewImgPDF").attr("src", "<?php echo $_SESSION['imgPDF']; ?>"); // Restaura la imagen original
-//   }
-// });
 
 function uploadImageToServer(file, inputId) {
   const formData = new FormData();
@@ -182,23 +144,23 @@ function uploadImageToServer(file, inputId) {
   });
 }
 
-const editarPerfil = () => {
-  if (permisos.Modificarlogodepdfdecotizaciondelaagencia !== "x") {
-    $("#nombre_perfil").prop("disabled", false);
-    $("#tipoDocumento").prop("disabled", false);
-    $("#apellido_perfil").prop("disabled", false);
-    $("#documento_perfil").prop("disabled", false);
-    $("#telefono_perfil").prop("disabled", false);
-    $("#direccion_perfil").prop("disabled", false);
-    $("#email_perfil").prop("disabled", false);
-    $("#ciudad_perfil").prop("disabled", false);
-  } else {
-    Swal.fire({
-      icon: "error",
-      title: "No tienes el permiso para editar tu perfil.",
-    });
-  }
-};
+// const editarPerfil = () => {
+//   if (permisos.Modificarlogodepdfdecotizaciondelaagencia !== "x") {
+//     $("#nombre_perfil").prop("disabled", false);
+//     $("#tipoDocumento").prop("disabled", false);
+//     $("#apellido_perfil").prop("disabled", false);
+//     $("#documento_perfil").prop("disabled", false);
+//     $("#telefono_perfil").prop("disabled", false);
+//     $("#direccion_perfil").prop("disabled", false);
+//     $("#email_perfil").prop("disabled", false);
+//     $("#ciudad_perfil").prop("disabled", false);
+//   } else {
+//     Swal.fire({
+//       icon: "error",
+//       title: "No tienes el permiso para editar tu perfil.",
+//     });
+//   }
+// };
 
 const tipos_doc = [
   { id: "1", tipo: "Cedula de ciudadania" },
@@ -250,6 +212,7 @@ async function cargarPerfil() {
     processData: false,
     dataType: "json",
     success: function (respuesta) {
+      console.log(respuesta)
       $("#nombres_perfil").val(respuesta["usu_nombre"]);
       $("#apellidos_perfil").val(respuesta["usu_apellido"]);
       cargartipDoc();
@@ -261,6 +224,7 @@ async function cargarPerfil() {
       $("#genero_perfil").val(
         respuesta["usu_genero"] == "F" ? "Femenino" : "Masculino"
       );
+      $("#intermediario").val(respuesta["nombre"]);
 
       $("#nombre_perfil").prop("disabled", true);
       $("#tipoDocumento").prop("disabled", true);

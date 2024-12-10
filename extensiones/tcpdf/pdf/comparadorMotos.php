@@ -229,36 +229,37 @@ if ($valorLogo == "undefined") {
 
 	$pieces = explode(".", $valorLogo2);
 
-	$urlSGA = "../../../vistas/img/intermediario/SEGUROS GRUPO ASISTENCIA SAS/LogoGA.png";
+	// Ruta completa de la imagen
+	$imagePath = '../../../' . $valorLogo2;
 
-	list($imgWidth, $imgHeight) = getimagesize('../../../' . $valorLogo2);
-	list($imgWidth2, $imgHeight2) = getimagesize($urlSGA);
+	// Obtener dimensiones de la imagen original
+	list($imgWidth, $imgHeight) = getimagesize($imagePath);
 
-	$width = 70;  // El ancho que deseas en el PDF
-	$height = ($imgHeight / $imgWidth) * $width;  // Mantener la relación de aspecto
+	// Dimensiones máximas permitidas para la imagen en el PDF
+	$maxWidth = 100; // Ajusta según el espacio disponible
+	$maxHeight = 20;
 
-	if ($pieces[1] == 'png') {
-		// Posición inicial y ancho del contenedor
-		$startX = -10; // Cambia según la posición inicial del contenedor
-		$containerWidth = 90; // Cambia según el ancho del contenedor
-
-		// Ancho de la imagen (puedes dejarlo como 0 para que TCPDF lo ajuste automáticamente)
-		$imageWidth = 60; // Cambia si conoces el tamaño exacto
-
-		// Calcular la posición X centrada dentro del contenedor
-		$centerX = $startX + ($containerWidth - $imageWidth) / 2;
-
-		// Dibujar la imagen
-		$pdf->Image('../../../' . $valorLogo2, $centerX, 10, $imageWidth, 0, 'PNG', '', '', true, 300, '', false, false, 0, false, false, false);
-	} else {
-		$pdf->Image('../../../' . $valorLogo2, 8, 13, 0, 20, 'JPG', '', 'center', false, 300, '', false, false, 0, false, false, false);
+	if ($imgWidth > 1080 && $imgHeight < 428) {
+		$maxHeight = 15;
 	}
-} else {
-	if ($porciones[1] == 'png') {
-		var_dump("Entre aca");
-		$pdf->Image('../../../vistas/img/logosIntermediario/' . $valorLogo, 8, 13, 0, 20, 'PNG', '', '', true, 300, '', false, false, 0, false, false, false);
+	// Escalar la imagen manteniendo la proporción
+	if ($imgWidth > $maxWidth || $imgHeight > $maxHeight) {
+
+		$scaleFactor = min($maxWidth / $imgWidth, $maxHeight / $imgHeight);
+
+		$imgWidth = $imgWidth * $scaleFactor;
+		$imgHeight = $imgHeight * $scaleFactor;
+	}
+
+	// Coordenadas de posición inicial
+	$xPosition = 8; // Ajusta según la posición horizontal deseada
+	$yPosition = 13; // Ajusta según la posición vertical deseada
+
+	// Verificar el formato de la imagen y agregarla al PDF
+	if ($pieces[1] == 'png') {
+		$pdf->Image($imagePath, $xPosition, $yPosition, $imgWidth, $imgHeight, 'PNG',  '', '', true, 300, '', false, false, 0, false, false, false);
 	} else {
-		$pdf->Image('../../../vistas/img/logosIntermediario/' . $valorLogo, 8, 13, 0, 20, 'JPG', '', '', true, 300, '', false, false, 0, false, false, false);
+		$pdf->Image($imagePath, $xPosition, $yPosition, $imgWidth, $imgHeight, 'JPG',  '', '', true, 300, '', false, false, 0, false, false, false);
 	}
 }
 

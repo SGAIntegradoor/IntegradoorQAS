@@ -274,7 +274,7 @@
       <div class="box-header with-border ">
         <div style="display: flex; flex-direction: column">
 
-          <div id="imgsContainer" style="padding-left: 60px; margin-top: 40px; display: flex; flex-direction: row; gap: 50px;">
+          <div id="imgsContainer" style="padding-left: 40px; margin-top: 40px; display: flex; flex-direction: row; gap: 50px;">
             <div style="display: flex; flex-direction: column;">
               <div>
                 <p>Imagen de perfil de usuario</p>
@@ -320,7 +320,7 @@
             <button id="btnGuardar">Guardar cambios</button>
           </div>
         </div>
-        <div class="col-md-12" style="margin-top: 50px; padding-right: 60px; padding-left: 50px;">
+        <div class="col-md-12" style="margin-top: 50px; padding-right: 60px; padding-left: 40px;">
           <div clas="row" style="margin-bottom: 30px;">
             <u><b style="font-size: 16px;">Información del usuario</b></u>
           </div>
@@ -383,9 +383,18 @@
                   <input disabled type="text" name="ciudad" id="ciudad_perfil">
                 </div>
                 <div class="col-md-3" style="display:flex; flex-direction:column; padding-left: 0px !important;">
-
+                  <label for="intermediario"><b>Intermediario</b></label>
+                  <input disabled type="text" name="intermediario" id="intermediario">
                 </div>
-
+              </div>
+              <div class="" style="display:flex; flex-direction: row; gap: 40px; align-content:flex-start; margin-top: 15px">
+                <div class="col-md-3" style="display:flex; flex-direction:column; padding-left: 0px !important;">
+                  <label for="direccion"><b>Analista</b></label>
+                  <input disabled type="text" name="direccion_perfil" id="direccion_perfil">
+                </div>
+                <div class="col-md-3" style="display:flex; flex-direction:column; padding-left: 0px !important;"></div>
+                <div class="col-md-3" style="display:flex; flex-direction:column; padding-left: 0px !important;"></div>
+                <div class="col-md-3" style="display:flex; flex-direction:column; padding-left: 0px !important;"></div>
               </div>
             </div>
           </div>

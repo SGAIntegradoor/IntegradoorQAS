@@ -15,12 +15,11 @@ class ModeloUsuarios
 
 	static public function mdlMostrarUsuarios($tabla, $tabla2, $tabla3, $item, $valor)
 	{
-
 		if ($item != null) {
 
 			if ($item == 'id_usuario' || $item == 'usu_usuario' || $item == 'usu_documento') {
 
-				$stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla, $tabla2 WHERE $tabla.id_rol = $tabla2.id_rol AND $item = :$item");
+				$stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla, $tabla2, $tabla3 WHERE $tabla.id_rol = $tabla2.id_rol AND $item = :$item AND $tabla.id_Intermediario = $tabla3.id_Intermediario");
 
 				$stmt->bindParam(":" . $item, $valor, PDO::PARAM_STR);
 				$stmt->execute();

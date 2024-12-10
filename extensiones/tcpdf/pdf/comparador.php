@@ -29,7 +29,7 @@ $identificador = $_GET['cotizacion'];
 $server = "localhost";
 $user = "grupoasi_cotizautos";
 $password = "M1graci0n123"; //poner tu propia contraseña, si tienes una.
-$bd = "grupoasi_cotizautos_qas";
+$bd = "grupoasi_cotizautos";
 
 
 $conexion = mysqli_connect($server, $user, $password, $bd);
@@ -62,12 +62,6 @@ while ($rowRespuesta5f = $respuestaquery5f->fetch_assoc()) {
 	$finesa_cot[] = $rowRespuesta5f;
 }
 
-// var_dump($finesa_cot);
-// var_dump($ofertas_cot);
-
-//var_dump($finesa_cot);
-//var_dump($ofertas_cot);
-//die();
 $resultados = [];
 foreach ($ofertas_cot as $oferta) {
 	$encontrado = false;
@@ -83,30 +77,10 @@ foreach ($ofertas_cot as $oferta) {
 	}
 }
 
-// $diferencia1 = [];
-// foreach ($ofertas_cot as $oferta) {
-//     $encontrado = false;
-//     foreach ($finesa_cot as $finesa) {
-//         // Debugging: Verificar valores comparados
-//         //echo "Comparando oferta_finesa: '" . trim($oferta['oferta_finesa']) . "' con identityElement: '" . trim($finesa['identityElement']) . "'\n";
-//         if (trim($oferta['oferta_finesa']) == trim($finesa['identityElement'])) {
-//             $encontrado = true;
-//             break;
-//         }
-//     }
-//     if (!$encontrado) {
-//         $diferencia1[] = $oferta;
-//     }
-// }
-
 
 $query2 = "SELECT *	FROM cotizaciones, clientes WHERE cotizaciones.id_cliente = clientes.id_cliente AND `id_cotizacion` = $identificador";
 $valor2 = $conexion->query($query2);
 $fila = mysqli_fetch_array($valor2);
-
-// var_dump($fila);
-// die();
-
 
 $query3 = "SELECT o.Aseguradora
 FROM cotizaciones_finesa cf 
@@ -139,7 +113,6 @@ $queryAsegSelec = "SELECT DISTINCT Aseguradora FROM ofertas WHERE `id_cotizacion
 
 $valorAsegSelec = $conexion->query($queryAsegSelec);
 $asegSelecionada = mysqli_num_rows($valorAsegSelec);
-
 
 $fechaCotiz = substr($fila['cot_fch_cotizacion'], 0, -9);
 $fechaVigencia = date("d-m-Y", strtotime($fechaCotiz));
@@ -243,14 +216,77 @@ if($fila['id_tipo_documento'] == 2){
 } else {
 	$pdf->Image('../../../vistas/img/logos/imagencotizador2.jpg', -5, 0, 0, 92, 'JPG', '', '', true, 200, '', false, false, 0, false, false, false);
 }
+$id_usuario = $_SESSION['idUsuario'];
 
-if ($porciones[1] == 'png') {
+$queryLogo2 = "SELECT usu_logo_pdf FROM usuarios WHERE id_usuario = $id_usuario";
 
-	$pdf->Image('../../../vistas/img/logosIntermediario/' . $valorLogo, 8, 13, 0, 20, 'PNG', '', '', true, 160, '', false, false, 0, false, false, false);
-} else {
-	$pdf->Image('../../../vistas/img/logosIntermediario/' . $valorLogo, 8, 13, 0, 20, 'JPG', '', '', true, 160, '', false, false, 0, false, false, false);
+$valorLogo2 = $conexion->query($queryLogo2);
+$valorLogo2 = mysqli_fetch_array($valorLogo2);
+$valorLogo2 = $valorLogo2['usu_logo_pdf'];
+
+if ($valorLogo == "undefined") {
+
+	$pieces = explode(".", $valorLogo2);
+
+	$urlSGA = "../../../vistas/img/intermediario/SEGUROS GRUPO ASISTENCIA SAS/LogoGA.png";
+
+	list($imgWidth, $imgHeight) = getimagesize('../../../' . $valorLogo2);
+	list($imgWidth2, $imgHeight2) = getimagesize($urlSGA);
+
+	$width = 40;  // El ancho que deseas en el PDF
+	$height = ($imgHeight / $imgWidth) * $width;  // Mantener la relación de aspecto
+
+	if ($pieces[0] == "") {
+		$pdf->Image('../../../vistas/img/intermediario/SEGUROS GRUPO ASISTENCIA SAS/LogoGA.png', 8, 13, 0, 20, 'PNG', '', '', true, 160, '', false, false, 0, false, false, false);
+	} else if ($pieces[1] == 'png') {
+		$pdf->Image('../../../' . $valorLogo2, 10, 13, 0, 20, 'PNG', '', '', false, 160, '', false, false, 0, false, false, false);
+	} else {
+		$pdf->Image('../../../' . $valorLogo2, 8, 13, 0, 10, 'JPG', '', '', false, 160, '', false, false, 0, false, false, false);
+	}
+} else if ($valorLogo !== "undefined" && !empty($valorLogo2)) {
+	$id_usuario = $_SESSION['idUsuario'];
+
+	$queryLogo2 = "SELECT usu_logo_pdf FROM usuarios WHERE id_usuario = $id_usuario";
+
+	$valorLogo2 = $conexion->query($queryLogo2);
+	$valorLogo2 = mysqli_fetch_array($valorLogo2);
+	$valorLogo2 = $valorLogo2['usu_logo_pdf'];
+
+	$pieces = explode(".", $valorLogo2);
+
+	// Ruta completa de la imagen
+	$imagePath = '../../../' . $valorLogo2;
+
+	// Obtener dimensiones de la imagen original
+	list($imgWidth, $imgHeight) = getimagesize($imagePath);
+
+	// Dimensiones máximas permitidas para la imagen en el PDF
+	$maxWidth = 100; // Ajusta según el espacio disponible
+	$maxHeight = 20;
+
+	if ($imgWidth > 1080 && $imgHeight < 428) {
+		$maxHeight = 15;
+	}
+	// Escalar la imagen manteniendo la proporción
+	if ($imgWidth > $maxWidth || $imgHeight > $maxHeight) {
+
+		$scaleFactor = min($maxWidth / $imgWidth, $maxHeight / $imgHeight);
+
+		$imgWidth = $imgWidth * $scaleFactor;
+		$imgHeight = $imgHeight * $scaleFactor;
+	}
+
+	// Coordenadas de posición inicial
+	$xPosition = 8; // Ajusta según la posición horizontal deseada
+	$yPosition = 13; // Ajusta según la posición vertical deseada
+
+	// Verificar el formato de la imagen y agregarla al PDF
+	if ($pieces[1] == 'png') {
+		$pdf->Image($imagePath, $xPosition, $yPosition, $imgWidth, $imgHeight, 'PNG',  '', '', true, 300, '', false, false, 0, false, false, false);
+	} else {
+		$pdf->Image($imagePath, $xPosition, $yPosition, $imgWidth, $imgHeight, 'JPG',  '', '', true, 300, '', false, false, 0, false, false, false);
+	}
 }
-
 $pdf->Image('../../../vistas/img/logos/cheque.png', 100.5, 150.5, 0, -12, 'PNG', '', '', true, 160, '', false, false, 0, false, false, false);
 
 $pdf->SetFont('dejavusanscondensed', 'B', 10);

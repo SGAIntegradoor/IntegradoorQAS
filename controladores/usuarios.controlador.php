@@ -155,14 +155,9 @@ class ControladorUsuarios
 
 						$ultimoLogin = ModeloUsuarios::mdlActualizarUsuario($tabla, $item1, $valor1, $item2, $valor2, null);
 
-
-
 						if ($ultimoLogin == "ok") {
-
 							echo '<script>
-
 									window.location = "inicio";
-
 								</script>';
 						}
 					} elseif ($respuesta["id_rol"] == 19) {
@@ -190,27 +185,6 @@ class ControladorUsuarios
 
 							return false; // El usuario no está en un dispositivo móvil
 						}
-
-
-						// 	echo '<script>
-						// 	Swal.fire({
-						// 		title: "Usuario Inhabilitado",
-						// 		html: "Hola 😔, lamentamos comunicarte que tu usuario como aliado de Grupo Asistencia ha sido inhabilitado. 
-
-						// 		Si deseas reactivarlo, debes realizar compromiso de producción y comunicarte con el área de vinculaciones de Grupo Asistencia al 📲 +573185127910 o vía 📧 analistadeseguros@grupoasistencia.com. 
-
-						// 		Si no estás interesado en vender seguros por medio de Grupo Asistencia como aliado pero te interesa tener tu propia versión personalizada del software, comunícate con nosotros, Strategico Technologies, desarrolladores de esta plataforma, para conocer acerca de los planes de pago, que inician desde los $1.950 pesos por placa cotizada. 
-
-						// 		Contacto: Strategico Technologies 
-						// 		+573187664954 
-						// 		proyectos@strategico.tech",
-						// 		icon: "error",
-						// 		width: "30%", // Personaliza el ancho aquí (puedes usar porcentaje o píxeles)
-						// 	}).then(function () {
-						// 		window.location.href = "login.php"; // Redirigir después de cerrar SweetAlert
-						// 	});
-						//   </script>';
-
 						if (esMovil()) {
 							echo '<script>
 								Swal.fire({
