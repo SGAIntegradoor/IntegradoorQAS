@@ -29,7 +29,7 @@ $identificador = $_GET['cotizacion'];
 $server = "localhost";
 $user = "grupoasi_cotizautos";
 $password = "M1graci0n123"; //poner tu propia contraseña, si tienes una.
-$bd = "grupoasi_cotizautos";
+$bd = "grupoasi_cotizautos_qas";
 
 
 $conexion = mysqli_connect($server, $user, $password, $bd);
@@ -113,6 +113,7 @@ $queryAsegSelec = "SELECT DISTINCT Aseguradora FROM ofertas WHERE `id_cotizacion
 
 $valorAsegSelec = $conexion->query($queryAsegSelec);
 $asegSelecionada = mysqli_num_rows($valorAsegSelec);
+
 
 $fechaCotiz = substr($fila['cot_fch_cotizacion'], 0, -9);
 $fechaVigencia = date("d-m-Y", strtotime($fechaCotiz));
