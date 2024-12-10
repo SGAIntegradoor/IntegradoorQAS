@@ -2858,13 +2858,12 @@ function servise($dato)
 	if ($dato == 14) {
 		$service = "PARTICULAR";
 	} else if ($dato == 11) {
-		$service = "PUBLICO URBANO";
+		$service = "PUBLICO";
 	} else if ($dato == 12) {
-		$service = "PUBLICO MUNICIPAL";
+		$service = "PUBLICO";
 	}
 	return $service;
 }
-
 
 // Consulta la Clase correspondiente al Vehiculo
 function claseV($dato)

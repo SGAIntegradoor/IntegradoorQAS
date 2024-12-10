@@ -305,15 +305,31 @@
               </div>
               <div class="containerImg" style="display: flex; flex-direction: row; align-items: flex-end; gap: 20px;">
                 <?php
-                echo '<img class="profile-pic previsualizarEditar2" id="previewImgPDF" src="' . ($_SESSION['imgPDF'] == "" || empty($_SESSION['imgPDF']) ? 'vistas\img\usuarios\Tu Logo Aquí.png' : $_SESSION['imgPDF']) . '" width="100" style="border-radius: 50%; min-width: 100px; width: 100px; height: 100px">';
-                ?>
-                <div style="display: flex; flex-direction: column">
+                echo '<img class="profile-pic previsualizarEditar2" id="previewImgPDF" src="' .
+                  (empty($_SESSION['imgPDF']) ? 'vistas/img/usuarios/Tu Logo Aquí.png' : $_SESSION['imgPDF']) .
+                  '" width="100" style="border-radius: 50%; min-width: 100px; width: 100px; height: 100px ' .
+                  ($_SESSION['permisos']['permisos_pdf'] == "x" ? "" : "opacity: 0.8") . '" >';?>
+                <?php
+
+                if ($_SESSION["permisos"]["permisos_pdf"] == "x") {
+                  echo '<div style="display: flex; flex-direction: column">
                   <p id="fileNamePDF" style="color: gray; margin: 0; padding: 0; font-size: 14px;">No se ha seleccionado ningún archivo</p>
                   <label class="btn btn-primary" id="labelPDF">
                     <input type="file" name="imgLogo" id="imgLogo" style="display:none;" accept="image/*" />
                     Seleccionar archivo
                   </label>
-                </div>
+                </div>';
+                } else {
+                  echo '<div style="display: flex; flex-direction: column">
+                  <p id="fileNamePDF" style="color: gray; margin: 0; padding: 0; font-size: 14px;">No se ha seleccionado ningún archivo</p>
+                  <label class="btn btn-primary" id="labelPDF" disabled>
+                    <input type="file" name="imgLogo" id="imgLogo" style="display:none;" accept="image/*" disabled/>
+                    Seleccionar archivo
+                  </label>
+                </div>';
+                }
+                ?>
+
                 <p style="color: gray; margin-bottom: 0px; padding-bottom: 0px; font-size: 17px;">Max. 2MB</p>
               </div>
             </div>

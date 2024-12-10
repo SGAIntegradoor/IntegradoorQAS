@@ -18,10 +18,31 @@ let documento = permisos.usu_documento;
 let idUsuario = permisos.id_usuario;
 //let conUploads = 0;
 /* End Variables Globales */
-
 let btnGuardar = document.getElementById("btnGuardar");
 const imgUserInput = document.getElementById("imgUser");
 const imgLogoInput = document.getElementById("imgLogo");
+
+document.addEventListener('DOMContentLoaded', () => {
+  // Verificar si el botón está deshabilitado
+  if (imgLogoInput.hasAttribute('disabled')) {
+    imgLogoInput.addEventListener('click', (event) => {
+          event.preventDefault();
+          Swal.fire({
+            icon: "warning",
+            title: "Función Inhabilitada",
+            text: "No tiene permiso para usar esta función, comunicate con el administrador para ver como obtenerla",
+            showConfirmButton: true,
+            confirmButtonText: "Aceptar",
+          }).then((result) => {
+            if (result.isConfirmed) {
+              window.location.reload();
+            } else if (result.isDismissed) {
+            }
+          });
+      });
+  }
+});
+
 
 btnGuardar.addEventListener("click", function () {
   // Subir imagen de perfil del usuario
@@ -143,24 +164,6 @@ function uploadImageToServer(file, inputId) {
     },
   });
 }
-
-// const editarPerfil = () => {
-//   if (permisos.Modificarlogodepdfdecotizaciondelaagencia !== "x") {
-//     $("#nombre_perfil").prop("disabled", false);
-//     $("#tipoDocumento").prop("disabled", false);
-//     $("#apellido_perfil").prop("disabled", false);
-//     $("#documento_perfil").prop("disabled", false);
-//     $("#telefono_perfil").prop("disabled", false);
-//     $("#direccion_perfil").prop("disabled", false);
-//     $("#email_perfil").prop("disabled", false);
-//     $("#ciudad_perfil").prop("disabled", false);
-//   } else {
-//     Swal.fire({
-//       icon: "error",
-//       title: "No tienes el permiso para editar tu perfil.",
-//     });
-//   }
-// };
 
 const tipos_doc = [
   { id: "1", tipo: "Cedula de ciudadania" },
