@@ -4,7 +4,7 @@ ini_set('display_errors', 1);
 
 if (isset($_SESSION["rol"])) {
 
-   echo '<script>console.log(' . json_encode($_SESSION) . ')</script>';
+  echo '<script>console.log(' . json_encode($_SESSION) . ')</script>';
 }
 
 ?>
@@ -179,15 +179,15 @@ if (isset($_SESSION["rol"])) {
             }
           }
 
-          table td{
+          table td {
             font-size: 14px;
           }
 
           /* .tablas th {
             font-weight: bold;
             /* Poner el texto en negrita */
-            /* text-align: center; */
-            /* Centrar el texto */
+          /* text-align: center; */
+          /* Centrar el texto */
           /* }  */
         </style>
 
@@ -228,16 +228,16 @@ if (isset($_SESSION["rol"])) {
               <th style="font-weight: bold;">Últ_login</th>
               <th style="font-weight: bold;">Fecha_Creacion</th>
               <th style="font-weight: bold;">Foto</th>
-              <th style="font-weight: bold;">Estado</th>             
-              <?php 
-              if($_SESSION['intermediario'] == "3"){
+              <th style="font-weight: bold;">Estado</th>
+              <?php
+              if ($_SESSION['intermediario'] == "3") {
 
                 echo '<th style="font-weight: bold;">Cotizaciones_totales</th>';
               }
               ?>
               <th style="font-weight: bold;">Fecha_Limite</th>
-              <?php 
-              if($_SESSION['intermediario'] == "3"){
+              <?php
+              if ($_SESSION['intermediario'] == "3") {
 
                 echo '<th style="width: 110px;">Acciones</th>';
               }
@@ -293,14 +293,14 @@ if (isset($_SESSION["rol"])) {
                 } else {
                   echo '<td><button class="btn btn-danger btn-xs btnActivar" idUsuario="' . $value["id_usuario"] . '" estadoUsuario="1">Bloqueado</button></td>';
                 }
-                if($_SESSION['intermediario'] == "3"){
-                echo '<td>' . $value['cotizacionesTotales'] . '</td>';
+                if ($_SESSION['intermediario'] == "3") {
+                  echo '<td>' . $value['cotizacionesTotales'] . '</td>';
                 }
                 echo '<td>' . $value['fechaFin'] . '</td>';
 
-                if($_SESSION['intermediario'] == "3"){
+                if ($_SESSION['intermediario'] == "3") {
 
-                echo '<td>
+                  echo '<td>
 
                     <div class="btn-group">
                         
@@ -313,8 +313,8 @@ if (isset($_SESSION["rol"])) {
                   </td>
                   
                 </tr>';
+                }
               }
-            }
             }
 
             ?>
@@ -714,6 +714,8 @@ MODAL AGREGAR USUARIO
 
           </div>
 
+          
+
 
         </div>
 
@@ -1049,8 +1051,8 @@ MODAL EDITAR USUARIO
 
                 <div class="input-group">
 
-                  <span class="input-group-addon"><i class="fa fa-sort-numeric-asc"></i></span>
-                  <input type="text" min="0" class="form-control input-lg" name="cotizacionesTotales" placeholder="Cotizaciones Totales" id="cotizacionesTotales">
+                  <span class="input-group-addon"><i class="fa fa-user-o"></i></span>
+                  <select class="form-control input-lg" name="analista" id="analista" disabled></select>
 
                 </div>
 
@@ -1112,7 +1114,21 @@ MODAL EDITAR USUARIO
                 </div>
 
               </div>
+              <div class="col-xs-12 col-sm-6 col-md-6 form-group">
+
+                <div class="input-group">
+
+                  <span class="input-group-addon"><i class="fa fa-sort-numeric-asc"></i></span>
+                  <input type="text" min="0" class="form-control input-lg" name="cotizacionesTotales" placeholder="Cotizaciones Totales" id="cotizacionesTotales">
+
+                </div>
+
+              </div>
+             
+
             </div>
+            </div>
+
 
             <!-- ENTRADA PARA SUBIR FOTO -->
 

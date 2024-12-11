@@ -192,7 +192,6 @@ if ($fila['id_tipo_documento'] == 2) {
 }
 
 $id_usuario = $_SESSION['idUsuario'];
-
 $queryLogo2 = "SELECT usu_logo_pdf FROM usuarios WHERE id_usuario = $id_usuario";
 
 $valorLogo2 = $conexion->query($queryLogo2);
@@ -200,32 +199,30 @@ $valorLogo2 = mysqli_fetch_array($valorLogo2);
 $valorLogo2 = $valorLogo2['usu_logo_pdf'];
 
 if ($valorLogo == "undefined") {
-
+	$height = 20;
 	$pieces = explode(".", $valorLogo2);
-
-	$urlSGA = "../../../vistas/img/intermediario/SEGUROS GRUPO ASISTENCIA SAS/LogoGA.png";
-
-	list($imgWidth, $imgHeight) = getimagesize('../../../' . $valorLogo2);
-	list($imgWidth2, $imgHeight2) = getimagesize($urlSGA);
+	if ($intermediario == "89" || $intermediario == 89) {
+		$urlSGA = "../../../vistas/img/intermediario/SEGUROS GRUPO ASISTENCIA SAS/LogoIntegradoor.jpg";
+		$height = 20;
+	} else {
+		$urlSGA = "../../../vistas/img/intermediario/SEGUROS GRUPO ASISTENCIA SAS/LogoGA.png";
+	}
 
 	$width = 40;  // El ancho que deseas en el PDF
-	$height = ($imgHeight / $imgWidth) * $width;  // Mantener la relación de aspecto
-
 	if ($pieces[0] == "") {
-		$pdf->Image('../../../vistas/img/intermediario/SEGUROS GRUPO ASISTENCIA SAS/LogoGA.png', 8, 13, 0, 20, 'PNG', '', '', true, 160, '', false, false, 0, false, false, false);
+		list($imgWidth2, $imgHeight2) = getimagesize($urlSGA);
+		$pdf->Image($urlSGA, 10, 13, 0, $height, 'JPG', '', '', false, 160, '', false, false, 0, false, false, false);
 	} else if ($pieces[1] == 'png') {
-		$pdf->Image('../../../' . $valorLogo2, 10, 13, 0, 20, 'PNG', '', '', false, 160, '', false, false, 0, false, false, false);
+		list($imgWidth, $imgHeight) = getimagesize('../../../' . $valorLogo2);
+		$height = ($imgHeight / $imgWidth) * $width;  // Mantener la relación de aspecto
+		$pdf->Image('../../../' . $valorLogo2, 10, 13, 0, $height, 'PNG', '', '', false, 160, '', false, false, 0, false, false, false);
 	} else {
-		$pdf->Image('../../../' . $valorLogo2, 8, 13, 0, 10, 'JPG', '', '', false, 160, '', false, false, 0, false, false, false);
+		//var_dump("entre aqui");
+		list($imgWidth, $imgHeight) = getimagesize('../../../' . $valorLogo2);
+		$height = ($imgHeight / $imgWidth) * $width;  // Mantener la relación de aspecto
+		$pdf->Image('../../../' . $valorLogo2, 10, 13, 0, $height, 'JPG', '', '', false, 160, '', false, false, 0, false, false, false);
 	}
 } else if ($valorLogo !== "undefined" && !empty($valorLogo2)) {
-	$id_usuario = $_SESSION['idUsuario'];
-
-	$queryLogo2 = "SELECT usu_logo_pdf FROM usuarios WHERE id_usuario = $id_usuario";
-
-	$valorLogo2 = $conexion->query($queryLogo2);
-	$valorLogo2 = mysqli_fetch_array($valorLogo2);
-	$valorLogo2 = $valorLogo2['usu_logo_pdf'];
 
 	$pieces = explode(".", $valorLogo2);
 
@@ -252,17 +249,25 @@ if ($valorLogo == "undefined") {
 	}
 
 	// Coordenadas de posición inicial
-	$xPosition = 8; // Ajusta según la posición horizontal deseada
+	$xPosition = 10; // Ajusta según la posición horizontal deseada
 	$yPosition = 13; // Ajusta según la posición vertical deseada
 
 	// Verificar el formato de la imagen y agregarla al PDF
 	if ($pieces[1] == 'png') {
-		$pdf->Image($imagePath, $xPosition, $yPosition, $imgWidth, $imgHeight, 'PNG',  '', '', true, 300, '', false, false, 0, false, false, false);
+		$pdf->Image($imagePath, $xPosition, $yPosition, $imgWidth, $imgHeight, 'PNG',  '', '', false, 300, '', false, false, 0, false, false, false);
 	} else {
-		$pdf->Image($imagePath, $xPosition, $yPosition, $imgWidth, $imgHeight, 'JPG',  '', '', true, 300, '', false, false, 0, false, false, false);
+		$pdf->Image($imagePath, $xPosition, $yPosition, $imgWidth, $imgHeight, 'JPG',  '', '', false, 300, '', false, false, 0, false, false, false);
+	}
+} else {
+	if ($intermediario == "89" || $intermediario == 89) {
+		$urlSGA = "../../../vistas/img/intermediario/SEGUROS GRUPO ASISTENCIA SAS/LogoIntegradoor.jpg";
+		$height = 15;
+		$pdf->Image($urlSGA, 8, 13, 0, $height, 'JPG', '', '', true, 160, '', false, false, 0, false, false, false);
+	} else {
+		$urlSGA = "../../../vistas/img/intermediario/SEGUROS GRUPO ASISTENCIA SAS/LogoGA.png";
+		$pdf->Image($urlSGA, 8, 13, 0, 20, 'PNG', '', '', true, 160, '', false, false, 0, false, false, false);
 	}
 }
-
 // $pdf->Image('../../../vistas/img/logosIntermediario/LogoGA.png', 8, 13, 0, 20, 'PNG', '', '', true, 160, '', false, false, 0, false, false, false);
 
 $pdf->Image('../../../vistas/img/logos/cheque.png', 100.5, 166.5, 0, -12, 'PNG', '', '', true, 160, '', false, false, 0, false, false, false);

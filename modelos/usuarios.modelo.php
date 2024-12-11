@@ -13,37 +13,111 @@ class ModeloUsuarios
 								  MOSTRAR USUARIOS
 								  =============================================*/
 
+	// static public function mdlMostrarUsuarios($tabla, $tabla2, $tabla3, $item, $valor)
+	// {
+	// 	global $stmt;
+	// 	if ($item != null) {
+
+	// 		if ($item == 'id_usuario' || $item == 'usu_usuario' || $item == 'usu_documento') {
+
+	// 			$stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla, $tabla2, $tabla3 WHERE $tabla.id_rol = $tabla2.id_rol AND $item = :$item AND $tabla.id_Intermediario = $tabla3.id_Intermediario");
+
+	// 			$stmt->bindParam(":" . $item, $valor, PDO::PARAM_STR);
+
+	// 			$stmt->execute();
+	// 			$user = $stmt->fetch(PDO::FETCH_ASSOC);
+	// 			if ($user) {
+	// 				if($user['id_rol'] == "19" || $user['id_rol'] == 19){
+	// 					$value = $user['usu_documento'];
+	// 					$stmt2 = Conexion::conectar()->prepare("SELECT * FROM analistas_freelances WHERE id_usuario = :id_user");
+	// 					$stmt2->bindParam(":id_user", $value, PDO::PARAM_STR);
+	// 					$stmt2->execute();
+	// 					$analista_comercial = $stmt2->fetch(PDO::FETCH_ASSOC);
+	// 					if($analista_comercial){
+	// 						$user["analista_comercial"] = $analista_comercial["nombre_analista"];
+	// 						$user["id_analista_comercial"] = $analista_comercial["id_analista"];
+	// 					}
+	// 					return $user;
+	// 				}
+	// 			} else {
+	// 				return $user;
+	// 			}
+	// 		}
+	// 	} else {
+
+	// 		if ($_SESSION["rol"] == 18 || $_SESSION["rol"] == 10 || $_SESSION["rol"] == 1) {
+	// 			$stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla, $tabla2 WHERE $tabla.id_rol = $tabla2.id_rol ORDER BY $tabla.id_usuario ASC");
+
+	// 			$stmt->execute();
+	// 			return $stmt->fetchAll(PDO::FETCH_ASSOC);
+	// 		} else {
+	// 			$stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla, $tabla2 WHERE $tabla.id_rol = $tabla2.id_rol AND id_intermediario =" . $_SESSION["intermediario"]);
+	// 			$stmt->execute();
+	// 			return $stmt->fetchAll(PDO::FETCH_ASSOC);
+	// 		}
+	// 	}
+
+	// 	$stmt->close();
+
+	// 	$stmt = null;
+	// }
+	
 	static public function mdlMostrarUsuarios($tabla, $tabla2, $tabla3, $item, $valor)
-	{
-		if ($item != null) {
+{
+    if ($item != null) {
+        if ($item == 'id_usuario' || $item == 'usu_usuario' || $item == 'usu_documento') {
+            $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla, $tabla2, $tabla3 WHERE $tabla.id_rol = $tabla2.id_rol AND $item = :$item AND $tabla.id_Intermediario = $tabla3.id_Intermediario");
 
-			if ($item == 'id_usuario' || $item == 'usu_usuario' || $item == 'usu_documento') {
+            $stmt->bindParam(":" . $item, $valor, PDO::PARAM_STR);
+            $stmt->execute();
+            $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-				$stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla, $tabla2, $tabla3 WHERE $tabla.id_rol = $tabla2.id_rol AND $item = :$item AND $tabla.id_Intermediario = $tabla3.id_Intermediario");
+            if ($user) {
+                if ($user['id_rol'] == "19" || $user['id_rol'] == 19) {
+                    $value = $user['usu_documento'];
+                    $stmt2 = Conexion::conectar()->prepare("SELECT * FROM analistas_freelances WHERE id_usuario = :id_user");
+                    $stmt2->bindParam(":id_user", $value, PDO::PARAM_STR);
+                    $stmt2->execute();
+                    $analista_comercial = $stmt2->fetch(PDO::FETCH_ASSOC);
 
-				$stmt->bindParam(":" . $item, $valor, PDO::PARAM_STR);
-				$stmt->execute();
+                    if ($analista_comercial) {
+                        $user["analista_comercial"] = $analista_comercial["nombre_analista"];
+                        $user["id_analista_comercial"] = $analista_comercial["id_analista"];
+                    }
 
-				return $stmt->fetch(PDO::FETCH_ASSOC);
-			}
-		} else {
+                    // Liberar recursos
+                    $stmt2 = null;
+                }
 
-			if ($_SESSION["rol"] == 18 || $_SESSION["rol"] == 10 || $_SESSION["rol"] == 1) {
-				$stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla, $tabla2 WHERE $tabla.id_rol = $tabla2.id_rol ORDER BY $tabla.id_usuario ASC");
+                $stmt = null; // Liberar recursos del statement principal
+                return $user;
+            } else {
+                $stmt = null;
+                return false; // No se encontró usuario
+            }
+        }
+    } else {
+        if ($_SESSION["rol"] == 18 || $_SESSION["rol"] == 10 || $_SESSION["rol"] == 1) {
+            $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla, $tabla2 WHERE $tabla.id_rol = $tabla2.id_rol ORDER BY $tabla.id_usuario ASC");
+            $stmt->execute();
+            $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-				$stmt->execute();
-				return $stmt->fetchAll(PDO::FETCH_ASSOC);
-			} else {
-				$stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla, $tabla2 WHERE $tabla.id_rol = $tabla2.id_rol AND id_intermediario =" . $_SESSION["intermediario"]);
-				$stmt->execute();
-				return $stmt->fetchAll(PDO::FETCH_ASSOC);
-			}
-		}
+            $stmt = null; // Liberar recursos
+            return $result;
+        } else {
+            $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla, $tabla2 WHERE $tabla.id_rol = $tabla2.id_rol AND id_intermediario =" . $_SESSION["intermediario"]);
+            $stmt->execute();
+            $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-		$stmt->close();
+            $stmt = null; // Liberar recursos
+            return $result;
+        }
+    }
 
-		$stmt = null;
-	}
+    // Asegurarse de que el statement se libera en cualquier caso
+    $stmt = null;
+}
+
 
 	static public function mdlCheckPassword($actualPass, $idUser)
 	{

@@ -106,6 +106,8 @@ $valorLogo = $conexion->query($queryLogo);
 $valorLogo = mysqli_fetch_array($valorLogo);
 $valorLogo = $valorLogo['urlLogo'];
 
+// var_dump($valorLogo);
+
 $porciones = explode(".", $valorLogo);
 
 // Consulta las aseguradoras que fueron selecionadas para visualizar en el PDF
@@ -212,13 +214,13 @@ $pdf->SetFont('dejavusanscondensed', '', 11);
 // This method has several options, check the source code documentation for more information.
 $pdf->AddPage();
 
-if($fila['id_tipo_documento'] == 2){
+if ($fila['id_tipo_documento'] == 2) {
 	$pdf->Image('../../../vistas/img/logos/imagencotizador3.jpg', -5, 0, 0, 92, 'JPG', '', '', true, 200, '', false, false, 0, false, false, false);
 } else {
 	$pdf->Image('../../../vistas/img/logos/imagencotizador2.jpg', -5, 0, 0, 92, 'JPG', '', '', true, 200, '', false, false, 0, false, false, false);
 }
-$id_usuario = $_SESSION['idUsuario'];
 
+$id_usuario = $_SESSION['idUsuario'];
 $queryLogo2 = "SELECT usu_logo_pdf FROM usuarios WHERE id_usuario = $id_usuario";
 
 $valorLogo2 = $conexion->query($queryLogo2);
@@ -226,32 +228,30 @@ $valorLogo2 = mysqli_fetch_array($valorLogo2);
 $valorLogo2 = $valorLogo2['usu_logo_pdf'];
 
 if ($valorLogo == "undefined") {
-
+	$height = 20;
 	$pieces = explode(".", $valorLogo2);
-
-	$urlSGA = "../../../vistas/img/intermediario/SEGUROS GRUPO ASISTENCIA SAS/LogoGA.png";
-
-	list($imgWidth, $imgHeight) = getimagesize('../../../' . $valorLogo2);
-	list($imgWidth2, $imgHeight2) = getimagesize($urlSGA);
+	if ($intermediario == "89" || $intermediario == 89) {
+		$urlSGA = "../../../vistas/img/intermediario/SEGUROS GRUPO ASISTENCIA SAS/LogoIntegradoor.jpg";
+		$height = 20;
+	} else {
+		$urlSGA = "../../../vistas/img/intermediario/SEGUROS GRUPO ASISTENCIA SAS/LogoGA.png";
+	}
 
 	$width = 40;  // El ancho que deseas en el PDF
-	$height = ($imgHeight / $imgWidth) * $width;  // Mantener la relación de aspecto
-
 	if ($pieces[0] == "") {
-		$pdf->Image('../../../vistas/img/intermediario/SEGUROS GRUPO ASISTENCIA SAS/LogoGA.png', 8, 13, 0, 20, 'PNG', '', '', true, 160, '', false, false, 0, false, false, false);
+		list($imgWidth2, $imgHeight2) = getimagesize($urlSGA);
+		$pdf->Image($urlSGA, 10, 13, 0, $height, 'JPG', '', '', false, 160, '', false, false, 0, false, false, false);
 	} else if ($pieces[1] == 'png') {
-		$pdf->Image('../../../' . $valorLogo2, 10, 13, 0, 20, 'PNG', '', '', false, 160, '', false, false, 0, false, false, false);
+		list($imgWidth, $imgHeight) = getimagesize('../../../' . $valorLogo2);
+		$height = ($imgHeight / $imgWidth) * $width;  // Mantener la relación de aspecto
+		$pdf->Image('../../../' . $valorLogo2, 10, 13, 0, $height, 'PNG', '', '', false, 160, '', false, false, 0, false, false, false);
 	} else {
-		$pdf->Image('../../../' . $valorLogo2, 8, 13, 0, 10, 'JPG', '', '', false, 160, '', false, false, 0, false, false, false);
+		//var_dump("entre aqui");
+		list($imgWidth, $imgHeight) = getimagesize('../../../' . $valorLogo2);
+		$height = ($imgHeight / $imgWidth) * $width;  // Mantener la relación de aspecto
+		$pdf->Image('../../../' . $valorLogo2, 10, 13, 0, $height, 'JPG', '', '', false, 160, '', false, false, 0, false, false, false);
 	}
 } else if ($valorLogo !== "undefined" && !empty($valorLogo2)) {
-	$id_usuario = $_SESSION['idUsuario'];
-
-	$queryLogo2 = "SELECT usu_logo_pdf FROM usuarios WHERE id_usuario = $id_usuario";
-
-	$valorLogo2 = $conexion->query($queryLogo2);
-	$valorLogo2 = mysqli_fetch_array($valorLogo2);
-	$valorLogo2 = $valorLogo2['usu_logo_pdf'];
 
 	$pieces = explode(".", $valorLogo2);
 
@@ -278,14 +278,23 @@ if ($valorLogo == "undefined") {
 	}
 
 	// Coordenadas de posición inicial
-	$xPosition = 8; // Ajusta según la posición horizontal deseada
+	$xPosition = 10; // Ajusta según la posición horizontal deseada
 	$yPosition = 13; // Ajusta según la posición vertical deseada
 
 	// Verificar el formato de la imagen y agregarla al PDF
 	if ($pieces[1] == 'png') {
-		$pdf->Image($imagePath, $xPosition, $yPosition, $imgWidth, $imgHeight, 'PNG',  '', '', true, 300, '', false, false, 0, false, false, false);
+		$pdf->Image($imagePath, $xPosition, $yPosition, $imgWidth, $imgHeight, 'PNG',  '', '', false, 300, '', false, false, 0, false, false, false);
 	} else {
-		$pdf->Image($imagePath, $xPosition, $yPosition, $imgWidth, $imgHeight, 'JPG',  '', '', true, 300, '', false, false, 0, false, false, false);
+		$pdf->Image($imagePath, $xPosition, $yPosition, $imgWidth, $imgHeight, 'JPG',  '', '', false, 300, '', false, false, 0, false, false, false);
+	}
+} else {
+	if ($intermediario == "89" || $intermediario == 89) {
+		$urlSGA = "../../../vistas/img/intermediario/SEGUROS GRUPO ASISTENCIA SAS/LogoIntegradoor.jpg";
+		$height = 15;
+		$pdf->Image($urlSGA, 8, 13, 0, $height, 'JPG', '', '', true, 160, '', false, false, 0, false, false, false);
+	} else {
+		$urlSGA = "../../../vistas/img/intermediario/SEGUROS GRUPO ASISTENCIA SAS/LogoGA.png";
+		$pdf->Image($urlSGA, 8, 13, 0, 20, 'PNG', '', '', true, 160, '', false, false, 0, false, false, false);
 	}
 }
 $pdf->Image('../../../vistas/img/logos/cheque.png', 100.5, 150.5, 0, -12, 'PNG', '', '', true, 160, '', false, false, 0, false, false, false);
@@ -311,7 +320,7 @@ $pdf->Cell(35, 6, $modelo, 0, 1, '');
 // $pdf->SetXY(155, 24);
 // $pdf->Cell(25, 6, strtoupper($nombre) . " " . strtoupper($apellido), 0, 1, '');
 
-if($fila['id_tipo_documento'] == 2) {
+if ($fila['id_tipo_documento'] == 2) {
 
 	$digitoVerif = $fila["digitoVerificacion"];
 
@@ -321,8 +330,7 @@ if($fila['id_tipo_documento'] == 2) {
 
 	$pdf->SetFont('dejavusanscondensed', '', 7);
 	$pdf->SetXY(166, 31.5);
-	$pdf->Cell(25, 6, $identificacion."-".$digitoVerif, 0, 1, '');
-	
+	$pdf->Cell(25, 6, $identificacion . "-" . $digitoVerif, 0, 1, '');
 } else {
 
 	$pdf->SetFont('dejavusanscondensed', '', 7);
@@ -700,7 +708,7 @@ if ($rowValidateF >= 1) {
 					financiación
 					</td>';
 				} else {
-				$html2 .= '<td style="font-size:' . ($font_size - 2) . 'px; color:#666666; font-family:dejavusanscondensedb; text-align: center;" class="puntos td2 ' . $fondo_class . '">
+					$html2 .= '<td style="font-size:' . ($font_size - 2) . 'px; color:#666666; font-family:dejavusanscondensedb; text-align: center;" class="puntos td2 ' . $fondo_class . '">
 				 $' . number_format($resultado['cuota_1'], 0, ',', '.') . '
                 <br>
                 (' . $resultado['cuotas'] . ' Cuotas)
@@ -715,7 +723,7 @@ if ($rowValidateF >= 1) {
 					</td>';
 
 				$cont3++;
-			}else {
+			} else {
 				$html2 .= '<td style="font-size:' . ($font_size - 2) . 'px; color:#666666; font-family:dejavusanscondensedb; text-align: center;" class="puntos td2 ' . $fondo_class . '">
 					Pdte. cotizar 
 					<br>
@@ -1187,28 +1195,28 @@ $ptotales = "Deducible: 30% min 3 SMMLV";
 
 $cont6 = 1;
 foreach ($resultados as $resultado) {
-    
-    $existLinea = false;
-    
-    if (strpos($linea, "SPARK") !== false || strpos($linea, "spark") !== false || strpos($linea, "Spark") !== false) {
-        $existLinea = true;
-    }
+
+	$existLinea = false;
+
+	if (strpos($linea, "SPARK") !== false || strpos($linea, "spark") !== false || strpos($linea, "Spark") !== false) {
+		$existLinea = true;
+	}
 
 	$nombreAseguradora = nombreAseguradora($resultado['Aseguradora']);
 	$nombreProducto = productoAseguradora($resultado['Aseguradora'], $resultado['Producto']);
 
 	if ($cont6 % 2 == 0) {
-	    if($existLinea && $nombreAseguradora == "Zurich"){
-	        $html3 .= '<td class="puntos fondo" style="width:' . $valorTabla . '%;"><div style="font-size:8pt">&nbsp;</div><center><font size="7"style="text-align: center;  font-family:dejavusanscondensed;">' . $ptotales . '</font></center></td>';
-	    }else {
-		    $html3 .= '<td class="puntos fondo" style="width:' . $valorTabla . '%;"><div style="font-size:8pt">&nbsp;</div><center><font size="7"style="text-align: center;  font-family:dejavusanscondensed;">' . $resultado['PerdidaTotal'] . '</font></center></td>';
-	    }
+		if ($existLinea && $nombreAseguradora == "Zurich") {
+			$html3 .= '<td class="puntos fondo" style="width:' . $valorTabla . '%;"><div style="font-size:8pt">&nbsp;</div><center><font size="7"style="text-align: center;  font-family:dejavusanscondensed;">' . $ptotales . '</font></center></td>';
+		} else {
+			$html3 .= '<td class="puntos fondo" style="width:' . $valorTabla . '%;"><div style="font-size:8pt">&nbsp;</div><center><font size="7"style="text-align: center;  font-family:dejavusanscondensed;">' . $resultado['PerdidaTotal'] . '</font></center></td>';
+		}
 	} else {
-		if($existLinea && $nombreAseguradora == "Zurich"){
-	        $html3 .= '<td class="puntos fondo2" style="width:' . $valorTabla . '%;"><div style="font-size:8pt">&nbsp;</div><center><font size="7"style="text-align: center;  font-family:dejavusanscondensed;">' . $ptotales . '</font></center></td>';
-	    }else {
-		    $html3 .= '<td class="puntos fondo2" style="width:' . $valorTabla . '%;"><div style="font-size:8pt">&nbsp;</div><center><font size="7"style="text-align: center;  font-family:dejavusanscondensed;">' . $resultado['PerdidaTotal'] . '</font></center></td>';
-	    }
+		if ($existLinea && $nombreAseguradora == "Zurich") {
+			$html3 .= '<td class="puntos fondo2" style="width:' . $valorTabla . '%;"><div style="font-size:8pt">&nbsp;</div><center><font size="7"style="text-align: center;  font-family:dejavusanscondensed;">' . $ptotales . '</font></center></td>';
+		} else {
+			$html3 .= '<td class="puntos fondo2" style="width:' . $valorTabla . '%;"><div style="font-size:8pt">&nbsp;</div><center><font size="7"style="text-align: center;  font-family:dejavusanscondensed;">' . $resultado['PerdidaTotal'] . '</font></center></td>';
+		}
 	}
 
 	$cont6 += 1;
@@ -2799,7 +2807,7 @@ function calculaedad($fechaNacimiento)
 	$dia_diferencia = date("d") - $dia;
 	// if ($dia_diferencia < 0 || $mes_diferencia < 0)
 	// 	$ano_diferencia--;
-	
+
 	// var_dump($ano_diferencia);
 	// var_dump($mes_diferencia);
 	// var_dump($dia_diferencia);

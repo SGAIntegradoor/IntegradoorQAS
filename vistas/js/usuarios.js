@@ -333,6 +333,26 @@ function consultarCiudad() {
   //}
 }
 
+function cargarAnalistas () {
+  let analistas = $("analista");
+
+  $.ajax({
+    type: "POST",
+    url: "src/consultarAnalistas.php",
+    cache: false,
+    success: function (data) {
+      console.log(JSON.parse(data))
+      let analistasList = `<option value="" selected>No Aplica</option>`;
+
+      data.forEach(function (element) {
+        analistasList += `<option vale="${element.id_analista}">${element.nombre_completo}</option>`
+      })
+      analistas.html(analistasList);
+    }
+  })
+
+}
+
 // FUNCION PARA CARGAR LA CIUDAD DE CIRCULACIÓN
 function consultarCiudadAgregar() {
   var codigoDpto = document.getElementById("ingDptoCirculacion").value;
@@ -392,6 +412,7 @@ $(".tablas").on("click", ".btnEditarUsuario", function (e) {
       $("#fotoActual").val(respuesta["usu_foto"]);
       $("#editarRol").val(respuesta["id_rol"]);
       $("#idIntermediario2").val(respuesta["id_Intermediario"]);
+      $("#analista").val(respuesta['analista_comercial']);
       //$("#maxiCot").val(respuesta["numCotizaciones"]);
       $("#cotizacionesTotales").val(respuesta["cotizacionesTotales"]);
       $("#fechaLimEdi").val(respuesta["fechaFin"]);
@@ -402,6 +423,7 @@ $(".tablas").on("click", ".btnEditarUsuario", function (e) {
       $("#editarGenero").trigger("change");
       $("#idIntermediario2").trigger("change");
       $("#editarRol").trigger("change");
+      cargarAnalistas();
 
       // Convertir la fecha ISO 8601 a un objeto Date
 
