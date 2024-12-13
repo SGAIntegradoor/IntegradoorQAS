@@ -2033,9 +2033,8 @@ const mostrarOferta = (
                                       <div class="col-xs-12 col-sm-6 col-md-2 oferta-logo">
                                       <center>
   
-                                          <img src='vistas/img/logos/${logo}' style="${
-    aseguradora == "HDI (Antes Liberty)" ? "margin-top: 3px;" : null
-  }">
+                                          <img src='vistas/img/logos/${logo}' 
+                                         >
   
                     </center>  
   

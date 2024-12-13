@@ -1637,8 +1637,8 @@ function editarCotizacion(id) {
 												<img src='${oferta.logo}' style="${
                 oferta.Aseguradora == "Mundial"
                   ? "margin-top: 65px;"
-                  : oferta.Aseguradora == "HDI (Antes Liberty)"
-                  ? "margin-top: 3px;"
+                  // : oferta.Aseguradora == "HDI (Antes Liberty)"
+                  // ? "margin-top: 3px;"
                   : null
               }">
                       </center>
@@ -3446,7 +3446,7 @@ function logoOfertaManual(aseguradora) {
   } else if (aseguradora == "Seguros Mapfre") {
     logo = "mapfre.png";
   } else if (aseguradora == "HDI (Antes Liberty)") {
-    logo = "liberty.png";
+    logo = "hdi.png";
   } else if (aseguradora == "Aseguradora Solidaria") {
     logo = "solidaria.png";
   } else if (aseguradora == "Seguros Sura") {
