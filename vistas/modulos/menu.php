@@ -39,47 +39,48 @@ checkUserStatus();
 ?>
 <script>
 	$(document).ready(async function() {
-		// Obtener el valor de la variable de sesión PHP en JavaScript
-		let permisosCotizacionesTotales = <?php echo isset($cotizTotales) ? json_encode($cotizTotales) : 'null'; ?>;
-		let cotHechas = await mostrarCotRestantes();
-		var arrayCot = ["menuCotLiv", "menuCotMot", "menuCotPes", "menuCotMas"];
-		// Verificar si el valor obtenido es válido y está definido
-		if (permisosCotizacionesTotales !== null && permisosCotizacionesTotales !== undefined) {
-			/* Iteramos sobre el array de vistas el cual sera unico y generamos un 
-			JQuery con cada uno de los items dentro del array los cuales son ide que luego se les 
-			asocia el evento click al elemento del menú */
-			arrayCot.forEach(view => {
-				return $(`#${view}`).on("click", function(e) {
-					// Verificar los permisos
-					// if (cotHechas >= permisosCotizacionesTotales ) {
-					// 	e.preventDefault();
-					// 	swal
-					// 		.fire({
-					// 			icon: "error",
-					// 			title: "Sin Cotizaciones Disponibles",
-					// 			html: `<div style="text-align: justify; font-family: Helvetica, Arial, sans-serif; font-size: 15px; border-radius: 4px; padding: 8px;">El usuario no cuenta con cotizaciones disponibles. En este momento solo podrás visualizar las cotizaciones realizadas hasta que se agoten los días habilitados. Si quieres seguir haciendo cotizaciones solicita vincularte al Programa. Comunícate con el área encargada de vinculaciones de Grupo Asistencia al:
-					// 			<br><br>
-					// 			<div style="text-align: center;">📱<strong>+573185127910</strong> o vía 📧 <strong>mercadeo@grupoasistencia.com</strong> </div></div>`,
-					// 			width: "60%",
-					// 			showConfirmButton: true,
-					// 			confirmButtonText: "Cerrar",
-					// 			customClass: {
-					// 				popup: "custom-swal-popup",
-					// 				title: "custom-swal-title",
-					// 				content: "custom-swal-content",
-					// 				confirmButton: "custom-swal-confirm-button",
-					// 			},
-					// 		})
-					// 		.then(function(result) {
-					// 			if (result.value) {
-					// 				window.location = "inicio";
-					// 			}
-					// 		});
-					// }
-				});
-			})
-		}
-	});
+					// Obtener el valor de la variable de sesión PHP en JavaScript
+					let permisosCotizacionesTotales = <?php echo isset($cotizTotales) ? json_encode($cotizTotales) : 'null'; ?>;
+					let cotHechas = await mostrarCotRestantes();
+					var arrayCot = ["menuCotLiv", "menuCotMot", "menuCotPes", "menuCotMas"];
+					// Verificar si el valor obtenido es válido y está definido
+					if (permisosCotizacionesTotales !== null && permisosCotizacionesTotales !== undefined) {
+						/* Iteramos sobre el array de vistas el cual sera unico y generamos un 
+						JQuery con cada uno de los items dentro del array los cuales son ide que luego se les 
+						asocia el evento click al elemento del menú */
+						// 		arrayCot.forEach(view => {
+						// 			return $(`#${view}`).on("click", function(e) {
+						// 				// Verificar los permisos
+						// 				// if (cotHechas >= permisosCotizacionesTotales ) {
+						// 				// 	e.preventDefault();
+						// 				// 	swal
+						// 				// 		.fire({
+						// 				// 			icon: "error",
+						// 				// 			title: "Sin Cotizaciones Disponibles",
+						// 				// 			html: `<div style="text-align: justify; font-family: Helvetica, Arial, sans-serif; font-size: 15px; border-radius: 4px; padding: 8px;">El usuario no cuenta con cotizaciones disponibles. En este momento solo podrás visualizar las cotizaciones realizadas hasta que se agoten los días habilitados. Si quieres seguir haciendo cotizaciones solicita vincularte al Programa. Comunícate con el área encargada de vinculaciones de Grupo Asistencia al:
+						// 				// 			<br><br>
+						// 				// 			<div style="text-align: center;">📱<strong>+573185127910</strong> o vía 📧 <strong>mercadeo@grupoasistencia.com</strong> </div></div>`,
+						// 				// 			width: "60%",
+						// 				// 			showConfirmButton: true,
+						// 				// 			confirmButtonText: "Cerrar",
+						// 				// 			customClass: {
+						// 				// 				popup: "custom-swal-popup",
+						// 				// 				title: "custom-swal-title",
+						// 				// 				content: "custom-swal-content",
+						// 				// 				confirmButton: "custom-swal-confirm-button",
+						// 				// 			},
+						// 				// 		})
+						// 				// 		.then(function(result) {
+						// 				// 			if (result.value) {
+						// 				// 				window.location = "inicio";
+						// 				// 			}
+						// 				// 		});
+						// 				// }
+						// 			});
+						// 		})
+						 	}
+						 });
+				
 </script>
 <style>
 	.btnConfirm {
@@ -226,45 +227,46 @@ checkUserStatus();
 				<span>Cotizar Motos</span>
 				</a>
 			</li>';
-		}
-		
-		/*=============================================
+			}
+
+			/*=============================================
 		NEGOCIOS
 		=============================================*/
-		if ($_SESSION["intermediario"] == "3" || $_SESSION["intermediario"] == "149" || $_SESSION["idUsuario"] == 34) {
-			echo '<li id="menuCotNeg" class="' . ($currentPage == 'negocios' ? 'active' : '') . '">
+			if ($_SESSION["intermediario"] == "3" || $_SESSION["intermediario"] == "149" || $_SESSION["idUsuario"] == 34) {
+				echo '<li id="menuCotNeg" class="' . ($currentPage == 'negocios' ? 'active' : '') . '">
 			<a href="negocios">
 			<i class="fa-sharp fa-solid fa-briefcase"></i>
 			<span>Negocios</span>
 			</a>
 			</li>';
-		}
-		/*=============================================
+			}
+			/*=============================================
 		HOGAR
 		=============================================*/
-		if ($_SESSION["intermediario"] == "3" || $_SESSION["intermediario"] == "149" || $_SESSION["idUsuario"] == 34) {
-			echo '<li id="menuCotHog" class="' . ($currentPage == 'hogar' ? 'active' : '') . '">
+			if ($_SESSION["intermediario"] == "3" || $_SESSION["intermediario"] == "149" || $_SESSION["idUsuario"] == 34) {
+				echo '<li id="menuCotHog" class="' . ($currentPage == 'hogar' ? 'active' : '') . '">
 			<a href="hogar">
 			<i class="fa-solid fa-house-circle-check"></i>
 			<span>Cotizar Hogar</span>
 			</a>
 			</li>';
-		}
+			}
 			/*=============================================
 		SALUD
 		=============================================*/
-
-			echo '<li id="menuCoAssist" class="' . ($currentPage == 'salud' ? 'active' : '') . '">
+			if ($_SESSION["intermediario"] == "3" || $_SESSION["intermediario"] == "149" || $_SESSION["idUsuario"] == 34) {
+				echo '<li id="menuCoAssist" class="' . ($currentPage == 'salud' ? 'active' : '') . '">
 		<a href="salud">
 			<i class="fa fa-heartbeat" aria-hidden="true" style="font-size: 1.2em;"></i>
 			<span>Cotizador Seguro de Salud</span>
 		</a>
 	</li>';
-			
+			}
+
 			/*=============================================
 			MÓDULO SOAT
 			=============================================*/
-			
+
 			if ($_SESSION["permisos"]["SeguroExequial"] == "x") {
 				echo '<li id="menuCotSoat" role="presentation" style="width: 50px; height: 44px;" class="' . ($currentPage == 'soat' ? 'active' : '') . '">
 				<a href="soat">
@@ -278,19 +280,19 @@ checkUserStatus();
 		EXEQUIAS
 		=============================================*/
 
-		if ($_SESSION["permisos"]["SeguroExequial"] == "x") {
-			echo '<li id="menuCotExe" class="' . ($currentPage == 'exequias' ? 'active' : '') . '">
+			if ($_SESSION["permisos"]["SeguroExequial"] == "x") {
+				echo '<li id="menuCotExe" class="' . ($currentPage == 'exequias' ? 'active' : '') . '">
 			<a href="exequias">
 				<i class="fa fa-umbrella" aria-hidden="true"></i>
 				<span>Exequias</span>
 				</a>
 				</li>';
 			}
-			
+
 			/*=============================================
 			ASSITCARD
 			=============================================*/
-			
+
 			if (($_SESSION["permisos"]["AsistenciaEnViajes"] == "x") || $_SESSION["idUsuario"] == 34) {
 				echo '<li id="menuCoAssist" class="' . ($currentPage == 'assistcard' ? 'active' : '') . '">
 				<a href="assistcard">

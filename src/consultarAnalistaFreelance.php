@@ -4,7 +4,9 @@
 require_once("../config/db.php"); //Contiene las variables de configuracion para conectar a la base de datos
 require_once("../config/conexion.php"); //Contiene funcion que conecta a la base de datos
 
-$sql = "SELECT DISTINCT `nombre_analista`,`id_analista` FROM `analistas_freelances` WHERE `nombre_analista` != ''";
+$idUser = $_POST['idUsuario'];
+
+$sql = "SELECT `nombre_analista`,`id_analista` FROM `analistas_freelances` WHERE `id_usuario` = $idUser";
 
 $res = mysqli_query($con, $sql);
 $num_rows = mysqli_num_rows($res);

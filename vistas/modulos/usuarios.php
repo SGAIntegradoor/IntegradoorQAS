@@ -714,7 +714,7 @@ MODAL AGREGAR USUARIO
 
           </div>
 
-          
+
 
 
         </div>
@@ -1052,7 +1052,7 @@ MODAL EDITAR USUARIO
                 <div class="input-group">
 
                   <span class="input-group-addon"><i class="fa fa-user-o"></i></span>
-                  <select class="form-control input-lg" name="analista" id="analista" disabled></select>
+                  <select class="form-control input-lg" name="analista" id="analista"></select>
 
                 </div>
 
@@ -1124,35 +1124,35 @@ MODAL EDITAR USUARIO
                 </div>
 
               </div>
-             
+
 
             </div>
-            </div>
+          </div>
 
 
-            <!-- ENTRADA PARA SUBIR FOTO -->
+          <!-- ENTRADA PARA SUBIR FOTO -->
 
-            <div class="row">
+          <div class="row">
 
-              <div class="col-xs-12 col-sm-6 col-md-6 form-group">
+            <div class="col-xs-12 col-sm-6 col-md-6 form-group">
 
-                <div class="panel">SUBIR FOTO</div>
+              <div class="panel">SUBIR FOTO</div>
 
-                <img src="vistas/img/usuarios/default/anonymous.png" class="img-thumbnail previsualizarEditar" width="90px">
+              <img src="vistas/img/usuarios/default/anonymous.png" class="img-thumbnail previsualizarEditar" width="90px">
 
-                <input type="file" class="nuevaFoto" name="editarFoto">
+              <input type="file" class="nuevaFoto" name="editarFoto">
 
-                <input type="hidden" name="fotoActual" id="fotoActual">
+              <input type="hidden" name="fotoActual" id="fotoActual">
 
-                <p class="help-block">Peso máximo de la foto 2MB</p>
-
-              </div>
+              <p class="help-block">Peso máximo de la foto 2MB</p>
 
             </div>
 
           </div>
 
         </div>
+
+
 
         <!--=====================================
       PIE DEL MODAL
@@ -1165,19 +1165,20 @@ MODAL EDITAR USUARIO
           <button type="submit" class="btn btn-primary">Modificar usuario</button>
 
         </div>
-
-        <?php
-
-        $editarUsuario = new ControladorUsuarios();
-        $editarUsuario->ctrEditarUsuario();
-
-        ?>
-
-      </form>
-
     </div>
+    <?php
+
+    $editarUsuario = new ControladorUsuarios();
+    $editarUsuario->ctrEditarUsuario();
+
+    ?>
+
+    </form>
 
   </div>
+</div>
+
+</div>
 
 </div>
 

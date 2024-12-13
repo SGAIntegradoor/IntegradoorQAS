@@ -76,7 +76,8 @@ $("#creaTemporal").on("click", function () {
         swal
           .fire({
             icon: "error",
-            title: "El usuario temporal no ha sido creado, valida porfavor con el administrador del sistema",
+            title:
+              "El usuario temporal no ha sido creado, valida porfavor con el administrador del sistema",
             showConfirmButton: true,
             confirmButtonText: "Cerrar",
           })
@@ -333,24 +334,60 @@ function consultarCiudad() {
   //}
 }
 
-function cargarAnalistas () {
-  let analistas = $("analista");
+function cargarAnalistas(rol) {
+  let analistas = $("#analista");
+  analistas.prop("disabled", false);
 
-  $.ajax({
-    type: "POST",
-    url: "src/consultarAnalistas.php",
-    cache: false,
-    success: function (data) {
-      console.log(JSON.parse(data))
+  return new Promise((resolve, reject) => {
+    if (rol == 19 || rol == "19") {
+      $.ajax({
+        type: "POST",
+        url: "src/consultarAnalistas.php",
+        cache: false,
+        success: function (data) {
+          let response = JSON.parse(data);
+          let analistasList = `<option value="" selected>No Aplica</option>`;
+
+          response.map((element) => {
+            analistasList += `<option value="${element.id_analista}">${element.nombre_analista}</option>`; // Corregido el atributo 'value'
+          });
+          analistas.html(analistasList);
+          resolve(); // Notifica que terminó de cargar
+        },
+        error: function (error) {
+          reject(error); // Notifica si hubo un error
+        },
+      });
+    } else {
       let analistasList = `<option value="" selected>No Aplica</option>`;
-
-      data.forEach(function (element) {
-        analistasList += `<option vale="${element.id_analista}">${element.nombre_completo}</option>`
-      })
       analistas.html(analistasList);
+      analistas.prop("disabled", true);
+      resolve(); // No hay nada que cargar, pero se resuelve la promesa
     }
-  })
+  });
+}
 
+function cargarAnalistaFreelance(id, rol) {
+  let analistas = $("#analista");
+  var datos = new FormData();
+  datos.append("idUsuario", id);
+  if (rol == 19 || rol == "19") {
+    $.ajax({
+      type: "POST",
+      url: "src/consultarAnalistaFreelance.php",
+      data: datos,
+      processData: false, // Desactiva el procesamiento automático de datos
+      contentType: false, // Desactiva el tipo de contenido predeterminado
+      cache: false,
+      success: function (data) {
+        let response = JSON.parse(data);
+        analistas.val(response[0].id_analista);
+        analistas.prop("disabled", true);
+      },
+    });
+  } else {
+    return;
+  }
 }
 
 // FUNCION PARA CARGAR LA CIUDAD DE CIRCULACIÓN
@@ -412,7 +449,7 @@ $(".tablas").on("click", ".btnEditarUsuario", function (e) {
       $("#fotoActual").val(respuesta["usu_foto"]);
       $("#editarRol").val(respuesta["id_rol"]);
       $("#idIntermediario2").val(respuesta["id_Intermediario"]);
-      $("#analista").val(respuesta['analista_comercial']);
+      $("#analista").val(respuesta["analista_comercial"]);
       //$("#maxiCot").val(respuesta["numCotizaciones"]);
       $("#cotizacionesTotales").val(respuesta["cotizacionesTotales"]);
       $("#fechaLimEdi").val(respuesta["fechaFin"]);
@@ -423,7 +460,14 @@ $(".tablas").on("click", ".btnEditarUsuario", function (e) {
       $("#editarGenero").trigger("change");
       $("#idIntermediario2").trigger("change");
       $("#editarRol").trigger("change");
-      cargarAnalistas();
+
+      cargarAnalistas(respuesta["id_rol"])
+        .then(() => {
+          cargarAnalistaFreelance(respuesta["usu_documento"], respuesta["id_rol"]);
+        })
+        .catch((error) => {
+          console.error("Error al cargar analistas:", error);
+        });
 
       // Convertir la fecha ISO 8601 a un objeto Date
 
