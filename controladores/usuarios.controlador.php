@@ -493,6 +493,7 @@ class ControladorUsuarios
 
 
 		if (isset($_POST["editarUsuario"])) {
+
 			if ($_SESSION["permisos"]["EditarUsuarioInvitado"] == "x") {
 				if (
 					preg_match('/^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ ]+$/', $_POST["editarNombre"]) &&
@@ -647,6 +648,7 @@ class ControladorUsuarios
 								"cotizacionesTotales" => $_POST["cotizacionesTotales"],
 								"fechaLimEdi" => $_POST["fechaLimEdi"],
 								"ciudad" => $_POST["codigoCiudadActual"],
+								"analista" => $_POST['analista'],
 								"foto" => $ruta
 							);
 						} else {
@@ -670,6 +672,7 @@ class ControladorUsuarios
 								"cotizacionesTotales" => $_POST["cotizacionesTotales"],
 								"fechaLimEdi" => $_POST["fechaLimEdi"],
 								"ciudad" => $_POST["codigoCiudadActual"],
+								"analista" => $_POST['analista'],
 								"foto" => $ruta
 							);
 						}
@@ -690,7 +693,7 @@ class ControladorUsuarios
 								  confirmButtonText: "Cerrar"
 								  }).then(function(result) {
 											if (result.value) {
-												window.location = "usuarios"
+												//window.location = "usuarios"
 											}
 										})
 		
@@ -706,7 +709,7 @@ class ControladorUsuarios
 								  confirmButtonText: "Cerrar"
 								  }).then(function(result) {
 									if (result.value) {	
-										window.location = "usuarios";	
+										//window.location = "usuarios";	
 									}
 								})
 		
@@ -734,6 +737,7 @@ class ControladorUsuarios
 								"cotizacionesTotales" => $_POST["cotizacionesTotales"],
 								"fechaLimEdi" => $_POST["fechaLimEdi"],
 								"ciudad" => $_POST["ciudad2"],
+								"analista" => $_POST['analista'],
 								"foto" => $ruta
 							);
 							// $datos["If1"] = "Es if 1";
@@ -763,6 +767,7 @@ class ControladorUsuarios
 								"cotizacionesTotales" => $_POST["cotizacionesTotales"],
 								"fechaLimEdi" => $_POST["fechaLimEdi"],
 								"ciudad" => $_POST["codigoCiudadActual"],
+								"analista" => $_POST['analista'],
 								"foto" => $ruta
 							);
 							// $datos["If2"] = "Es if 2";
@@ -780,36 +785,58 @@ class ControladorUsuarios
 
 
 						$respuesta = ModeloUsuarios::mdlEditarUsuario($tabla, $datos);
-						// echo $respuesta;
-						// die();
+						// var_dump($respuesta);
+						//  die;
 						if ($respuesta == "ok") {
 
 							echo '<script>
 		
 							swal.fire({
-								type: "success",
+								icon: "success",
 								title: "El usuario ha sido editado correctamente",
 								showConfirmButton: true,
 								confirmButtonText: "Cerrar"
 								}).then(function(result) {
-										  if (result.value) { 
-											window.location = "usuarios"
-										  }
+										  if (result.value) {	
+										window.location = "usuarios";	
+									} else if (result.isDismissed) {
+										window.location = "usuarios"
+									}
 									  })
 		
 							</script>';
+						} else if($respuesta = "authError"){
+
+							echo '<script>
+		
+							swal.fire({
+								  icon: "error",
+								  title: "No tiene permisos para ejecutar esta función, comunícate con el administrador del sistema",
+								  showConfirmButton: true,
+								  confirmButtonText: "Cerrar"
+								  }).then(function(result) {
+									if (result.value) {	
+										window.location = "usuarios";	
+									} else if (result.isDismissed) {
+										window.location = "usuarios"
+									}
+								})
+		
+						  </script>';
 						} else {
 
 							echo '<script>
 		
 							swal.fire({
-								  type: "error",
+								  icon: "warning",
 								  title: "¡El nombre no puede ir vacío o llevar caracteres especiales!",
 								  showConfirmButton: true,
 								  confirmButtonText: "Cerrar"
 								  }).then(function(result) {
 									if (result.value) {	
 										window.location = "usuarios";	
+									} else if (result.isDismissed) {
+										window.location = "usuarios"
 									}
 								})
 		
@@ -827,7 +854,7 @@ class ControladorUsuarios
 								  confirmButtonText: "Cerrar"
 								  }).then(function(result) {
 									if (result.value) {	
-										window.location = "usuarios";	
+										//window.location = "usuarios";	
 									}
 								})
 		

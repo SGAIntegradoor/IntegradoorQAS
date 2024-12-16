@@ -16,5 +16,6 @@ if ($num_rows > 0) {
 	echo json_encode($data, JSON_UNESCAPED_UNICODE);
 } else {
 	$data['mensaje'] = "No hay Registros";
+	$data['codeStatus'] = 0;
 	echo json_encode($data, JSON_UNESCAPED_UNICODE);
 }

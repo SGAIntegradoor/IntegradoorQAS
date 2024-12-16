@@ -4613,9 +4613,9 @@ $("#btnConsultarVehmanualbuscador").click(function () {
           alert("Vehículo no encontrado");
         } else {
           var claseVeh = data.clase;
-          let control = false;
+          let control = true;
           if (!data.estado) {
-            control = true;
+            control = false;
             return Swal.fire({
               icon: "warning",
               title:
@@ -4631,7 +4631,6 @@ $("#btnConsultarVehmanualbuscador").click(function () {
             });
           }
           let found = tipoVehiculo.find((element) => element == claseVeh);
-
           if (!found && control) {
             Swal.fire({
               icon: "error",

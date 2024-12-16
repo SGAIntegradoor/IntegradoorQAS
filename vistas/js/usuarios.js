@@ -334,9 +334,17 @@ function consultarCiudad() {
   //}
 }
 
+// Control Variables
+let changeAnalist = false;
+let notAssigned = false;
+let initialValueAnalista = "";
+
 function cargarAnalistas(rol) {
   let analistas = $("#analista");
-  analistas.prop("disabled", false);
+
+  if(permisos.Editarusuario != "null"){
+    analistas.prop("disabled", false);
+  }
 
   return new Promise((resolve, reject) => {
     if (rol == 19 || rol == "19") {
@@ -346,7 +354,7 @@ function cargarAnalistas(rol) {
         cache: false,
         success: function (data) {
           let response = JSON.parse(data);
-          let analistasList = `<option value="" selected>No Aplica</option>`;
+          let analistasList = `<option value="1">No Aplica</option>`;
 
           response.map((element) => {
             analistasList += `<option value="${element.id_analista}">${element.nombre_analista}</option>`; // Corregido el atributo 'value'
@@ -359,7 +367,7 @@ function cargarAnalistas(rol) {
         },
       });
     } else {
-      let analistasList = `<option value="" selected>No Aplica</option>`;
+      let analistasList = `<option value="1" selected>No Aplica</option>`;
       analistas.html(analistasList);
       analistas.prop("disabled", true);
       resolve(); // No hay nada que cargar, pero se resuelve la promesa
@@ -381,8 +389,15 @@ function cargarAnalistaFreelance(id, rol) {
       cache: false,
       success: function (data) {
         let response = JSON.parse(data);
-        analistas.val(response[0].id_analista);
-        analistas.prop("disabled", true);
+        if(response.codeStatus == 0){
+          notAssigned = true;
+          cargarAnalistas(19);
+          analistas.val(1);
+        } else {
+          console.log(response);
+          analistas.val(response[0].id_analista);
+          //analistas.prop("disabled", true);
+        }
       },
     });
   } else {
@@ -393,7 +408,7 @@ function cargarAnalistaFreelance(id, rol) {
 // FUNCION PARA CARGAR LA CIUDAD DE CIRCULACIÓN
 function consultarCiudadAgregar() {
   var codigoDpto = document.getElementById("ingDptoCirculacion").value;
-
+  
   $.ajax({
     type: "POST",
     url: "src/consultarCiudad.php",
@@ -417,12 +432,37 @@ function consultarCiudadAgregar() {
       document.getElementById("ingciudadCirculacion").innerHTML = ciudadesVeh;
     },
   });
-
+  
   //}
 }
 
+const btnSubmit = $("#btnSubmitUser");
+
+document.addEventListener('DOMContentLoaded', () => {
+  // Verificar si el botón está deshabilitado
+  if (btnSubmit.prop('disabled')) {
+    btnSubmit.on('click', (event) => {
+          event.preventDefault();
+          Swal.fire({
+            icon: "warning",
+            title: "Función Inhabilitada",
+            text: "No tiene permiso para usar esta función, comunicate con el administrador para ver como obtenerla",
+            showConfirmButton: true,
+            confirmButtonText: "Aceptar",
+          }).then((result) => {
+            if (result.isConfirmed) {
+              window.location.reload();
+            } else if (result.isDismissed) {
+              window.location.reload();
+            }
+          });
+      });
+  }
+});
+
 $(".tablas").on("click", ".btnEditarUsuario", function (e) {
   var idUsuario = $(this).attr("idUsuario");
+
   e.preventDefault();
   var datos = new FormData();
   datos.append("idUsuario", idUsuario);
@@ -463,7 +503,11 @@ $(".tablas").on("click", ".btnEditarUsuario", function (e) {
 
       cargarAnalistas(respuesta["id_rol"])
         .then(() => {
-          cargarAnalistaFreelance(respuesta["usu_documento"], respuesta["id_rol"]);
+          cargarAnalistaFreelance(
+            respuesta["usu_documento"],
+            respuesta["id_rol"]
+          );
+          initialValueAnalista = $("#analista").val();
         })
         .catch((error) => {
           console.error("Error al cargar analistas:", error);
@@ -518,18 +562,6 @@ $(".tablas").on("click", ".btnEditarUsuario", function (e) {
       var codigoCiudad = respuesta["ciudades_id"];
       formData.append("ciudad", codigoCiudad);
 
-      // var codigoCiudad = respuesta["ciudades_id"].toString();
-
-      // console.log(codigoCiudad.length)
-      // if (codigoCiudad.length < 5) {
-
-      // 	var nuevoCodigoCiudad = "0" + codigoCiudad;
-      // 	formData.append("ciudad", nuevoCodigoCiudad);
-
-      //   }else{
-      // 	formData.append("ciudad", codigoCiudad);
-      //   }
-
       // FUNCION BUSCAR CIUDAD #1
 
       $.ajax({
@@ -541,16 +573,6 @@ $(".tablas").on("click", ".btnEditarUsuario", function (e) {
         processData: false,
         dataType: "json",
         success: function (respuesta) {
-          // function obtenerValorDepartamento(nombreDepartamento) {
-          // var options = $("#DptoCirculacion option"); // Obtener todas las opciones del select
-          // for (var i = 0; i < options.length; i++) {
-          // 	if (options[i].text.toUpperCase() === nombreDepartamento.toUpperCase()) {
-          // 	return options[i].value; // Retornar el valor de la opción que coincide con el nombre
-          // 	}
-          // }
-          // return ""; // Valor por defecto si el nombre del departamento no coincide con ninguno
-          // }
-
           // Supongamos que tienes el nombre del departamento en una variable llamada 'departamento'
           var municipio = respuesta.Nombre; // Nombre del departamento obtenido desde la respuesta
           var codigo = respuesta.Codigo;
@@ -562,31 +584,6 @@ $(".tablas").on("click", ".btnEditarUsuario", function (e) {
           $("#codigoCiudadActual").val(codigo);
         },
       });
-
-      // FUNCION BUSCAR CIUDAD #2
-
-      // $.ajax({
-      // 	url: "ajax/ciudades.ajax.php",
-      // 	method: "POST",
-      // 	dataType: "json",
-      // 	success: function (respuesta) {
-
-      // 	  console.log(respuesta);
-      // 	  const selectCiudadCirculacion2 = $("#ciudad2");
-
-      // 	  respuesta.forEach(function (ciudad) {
-      // 		const option = $("<option>", {
-      // 		  value: ciudad.Codigo, // Suponiendo que el código es el valor que deseas enviar al servidor
-      // 		  text: ciudad.Nombre // Utiliza la propiedad "nombre" para mostrar el nombre de la ciudad en la opción
-      // 		});
-
-      // 		selectCiudadCirculacion2.append(option);
-      // 	  });
-      // 	},
-      // 	error: function (xhr, status, error) {
-      // 	  console.error(error);
-      // 	}
-      //   });
 
       $("#ciudad2").select2({
         theme: "bootstrap dpto1",
@@ -616,6 +613,20 @@ $(".tablas").on("click", ".btnEditarUsuario", function (e) {
       });
     },
   });
+});
+
+
+// Revisa y esta atento al cambio de analista para validar si es el mismo o es otro y asi mismo tomar la decision al guardar.
+
+$("#analista").on("change", function () {
+  if($(this).val() === initialValueAnalista){
+    changeAnalist = false;
+    notAssigned = false;
+    console.log(notAssigned)
+  } else {
+    changeAnalist = true;
+    console.log(notAssigned)
+  }
 });
 
 /*===============================================

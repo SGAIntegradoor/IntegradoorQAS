@@ -1050,9 +1050,14 @@ MODAL EDITAR USUARIO
               <div class="col-xs-12 col-sm-6 col-md-6 form-group">
 
                 <div class="input-group">
-
                   <span class="input-group-addon"><i class="fa fa-user-o"></i></span>
-                  <select class="form-control input-lg" name="analista" id="analista"></select>
+                  <?php 
+                    if($_SESSION["permisos"]["Editarusuario"] == "x"){
+                      echo '<select class="form-control input-lg" name="analista" id="analista"></select>';
+                    } else {
+                      echo '<select class="form-control input-lg" name="analista" id="analista" disabled></select>';
+                    }
+                  ?>
 
                 </div>
 
@@ -1160,23 +1165,28 @@ MODAL EDITAR USUARIO
 
         <div class="modal-footer">
 
-          <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Salir</button>
-
-          <button type="submit" class="btn btn-primary">Modificar usuario</button>
-
+          <div style="display: flex; flex-direction: row; justify-content: space-between">
+            <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Salir</button>
+            <?php
+            if ($_SESSION["permisos"]["Editarusuario"] == "x") {
+              echo '<button type="submit" id="btnSubmitUser" class="btn btn-primary">Modificar usuario</button>';
+            } else {
+              echo '<button type="submit" id="btnSubmitUser" class="btn btn-primary" disabled>Modificar usuario</button>';
+            }
+            ?>
+          </div>
         </div>
+        <?php
+
+        $editarUsuario = new ControladorUsuarios();
+        $editarUsuario->ctrEditarUsuario();
+
+        ?>
+
+      </form>
+
     </div>
-    <?php
-
-    $editarUsuario = new ControladorUsuarios();
-    $editarUsuario->ctrEditarUsuario();
-
-    ?>
-
-    </form>
-
   </div>
-</div>
 
 </div>
 
