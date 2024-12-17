@@ -4585,6 +4585,7 @@ const tipoVehiculo = [
   "AUTOMOVILES",
   "CAMPEROS",
   "CAMPERO",
+  "CAMIONETA PASAJ."
 ];
 
 $("#btnConsultarVehmanualbuscador").click(function () {

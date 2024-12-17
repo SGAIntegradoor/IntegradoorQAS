@@ -980,6 +980,24 @@ function consulPlacaPesados(query = "1") {
                   // Recargar la página después de cerrar el SweetAlert
                   location.reload();
                 });
+              } else if (codigoClase == 6) {
+                claseVehiculo = "AUTOMOVIL";
+                limiteRCESTADO = 6;
+                if (rolAsesor == 19) {
+                  restriccion =
+                    "Lo sentimos, no puedes cotizar vehÍculos livianos por este módulo. Para hacerlo debes ingresar al modulo Cotizar Livianos.";
+                } else {
+                  restriccion =
+                    "Lo sentimos, no puedes cotizar vehÍculos livianos por este módulo.";
+                }
+                Swal.fire({
+                  icon: "error",
+                  text: restriccion,
+                  confirmButtonText: "Cerrar",
+                }).then(() => {
+                  // Recargar la página después de cerrar el SweetAlert
+                  location.reload();
+                });
               } else if (codigoClase == 2) {
                 claseVehiculo = "CAMPEROS";
                 limiteRCESTADO = 18;
@@ -1036,7 +1054,7 @@ function consulPlacaPesados(query = "1") {
               } else if (codigoClase == 25) {
                 claseVehiculo = "TRAILER";
                 limiteRCESTADO = 6;
-              }
+              } 
 
               //console.log(codigoClase);
               $("#CodigoClase").val(codigoClase);
@@ -3787,9 +3805,9 @@ $("#btnConsultarVehmanualbuscador").click(function () {
         } else {
           // console.log(data);
           var claseVeh = data.clase;
-          let control = false;
+          let control = true;
           if (!data.estado) {
-            control = true;
+            control = false;
             return Swal.fire({
               icon: "warning",
               title:
