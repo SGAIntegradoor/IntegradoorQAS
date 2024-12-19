@@ -239,6 +239,12 @@ async function cargarPerfil() {
       $("#ciudad_perfil").prop("disabled", true);
       $("#editarRol").val(respuesta["id_rol"]);
 
+
+      if(respuesta['analista_comercial'] != null){
+        $("#analista_perfil").val(respuesta['analista_comercial']);
+      }
+
+
       // Convertir la fecha ISO 8601 a un objeto Date
 
       function formatearFechaISO8601(fechaISO8601) {

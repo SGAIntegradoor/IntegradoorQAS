@@ -403,8 +403,8 @@
               </div>
               <div class="" style="display:flex; flex-direction: row; gap: 40px; align-content:flex-start; margin-top: 15px">
                 <div class="col-md-3" style="display:flex; flex-direction:column; padding-left: 0px !important;">
-                  <label for="direccion"><b>Analista</b></label>
-                  <input disabled type="text" name="direccion_perfil" id="direccion_perfil">
+                  <label for="analista"><b>Analista</b></label>
+                  <input disabled type="text" name="analista_perfil" id="analista_perfil">
                 </div>
                 <div class="col-md-3" style="display:flex; flex-direction:column; padding-left: 0px !important;"></div>
                 <div class="col-md-3" style="display:flex; flex-direction:column; padding-left: 0px !important;"></div>
