@@ -301,7 +301,7 @@ ini_set('display_errors', 0);
                 <div>
                   <div style="display: flex; gap: 10px">
                     <p>Logo asesor o agencia </p>
-                    <?php echo $_SESSION["permisos"]["permisos_pdf"] === "x" ? '<p id="validate" style="font-weight: bold; color: Green"> [ Opción Habilitada ]</p>' :  '<p id="validate" style="font-weight: bold; color: red"> [ Opción No Habilitada ]</p>' ?>
+                    <?php echo isset($_SESSION["permisos"]["permisos_pdf"]) && $_SESSION["permisos"]["permisos_pdf"] === "x" ? '<p id="validate" style="font-weight: bold; color: Green"> [ Opción Habilitada ]</p>' :  '<p id="validate" style="font-weight: bold; color: red"> [ Opción No Habilitada ]</p>' ?>
                     <p></p>
                   </div>
                 </div>
@@ -312,7 +312,7 @@ ini_set('display_errors', 0);
                 ?>
                 <?php 
                 
-                if($_SESSION["permisos"]["permisos_pdf"] == "x"){
+                if(isset($_SESSION["permisos"]["permisos_pdf"]) && $_SESSION["permisos"]["permisos_pdf"] === "x"){
                   echo '<div style="display: flex; flex-direction: column">
                   <p id="fileNamePDF" style="color: gray; margin: 0; padding: 0; font-size: 14px;">No se ha seleccionado ningún archivo</p>
                   <label class="btn btn-primary" id="labelPDF">
