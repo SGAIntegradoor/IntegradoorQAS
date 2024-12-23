@@ -365,6 +365,7 @@
           <th style="font-weight: bold; text-align: center;">Accion</th>
           <th style="font-weight: bold; text-align: center;">No. oport</th>
           <th style="font-weight: bold; text-align: center;">N° cotizacion</th>
+          <th style="font-weight: bold; text-align: center;">N° cot aseguradora</th>
           <th style="font-weight: bold; text-align: center;">Valor cotizacion</th>
           <th style="font-weight: bold; text-align: center;">Mes oportunidad</th>
           <th style="font-weight: bold;">Asesor freelance</th>
@@ -423,6 +424,7 @@
             <td class="text-center" style="text-align: center !important;"><div class="btn-group"><button class="btn btn-primary btnEditarOportunidad" onclick="editarOportunidad(' . $value['id_oportunidad'] . ')"><i class="fa-sharp fa-solid fa-pen"></i></button></div></td>
             <td class="" style="font-size: 14px;">' . (!empty($value['id_oportunidad']) ? $value['id_oportunidad'] : '') . '</td>
             <td class="text-center" style="font-size: 14px;">' . (!empty($value['id_cotizacion']) ? $value['id_cotizacion'] : '') . '</td>
+            <td class="text-center" style="font-size: 14px;">' . (!empty($value['id_cot_aseguradora']) ? $value['id_cot_aseguradora'] : '') . '</td>
             <td class="text-center" style="font-size: 14px;">' . (!empty($value['valor_cotizacion']) ? '$ ' . number_format($value['valor_cotizacion'], 0, ',', '.') : '') . '</td>
             <td class="text-center" style="font-size: 14px;">' . (!empty($value['mes_oportunidad']) ? $value['mes_oportunidad'] : '') . '</td>
             <td class="" style="font-size: 14px; width: 200px">' . (!empty($value['asesor_freelance']) ? $value['asesor_freelance'] : '') . '</td>
@@ -488,7 +490,7 @@
         </div>
         <div class="col-xs-12 col-sm-6 col-md-4 form-group">
           <label for="txtValorCotizacionModal">Valor cotización</label>
-          <input type="text" class="form-control" name="txtValorCotizacionModal" id="txtValorCotizacionModal" placeholder="">
+          <input type="text" class="form-control" name="txtValorCotizacionModal" id="txtValorCotizacionModal" placeholder="" required>
         </div>
         <div class="col-xs-12 col-sm-6 col-md-4 form-group">
           <label for="txtMesOportunidadModal">Mes oportunidad</label>
@@ -579,7 +581,9 @@
         </div>
         <div class="col-xs-12 col-sm-6 col-md-4 form-group">
           <label for="txtAnalistaGAModal">Analista/asesor GA</label>
-          <input type="text" class="form-control" name="txtAnalistaGAModal" id="txtAnalistaGAModal" placeholder="" required disabled>
+          <select type="text" class="form-control" name="txtAnalistaGAModal" id="txtAnalistaGAModal" placeholder="" required>
+            <!-- <option value=""></option> -->
+          </select>
         </div>
       </div>
       <div class="row" style="margin-bottom: 10px;margin-top: 18px;">

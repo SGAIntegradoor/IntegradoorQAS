@@ -1306,7 +1306,9 @@ $response = retrieveQuotation($idCotizacion);
                 </div>
                 <div class="col-xs-12 col-sm-6 col-md-4 form-group">
                   <label for="txtAnalistaOportunidad">Analista/Asesor GA</label>
-                  <input type="text" class="form-control" id="txtAnalistaOportunidad" disabled>
+                  <select type="text" class="form-control" id="txtAnalistaOportunidad" required>
+                    <option value=""></option>
+                  </select>
                 </div>
                 <div class="col-xs-12 col-sm-6 col-md-4 form-group">
                   <label for="txtEstadoOportunidad">Estado</label>

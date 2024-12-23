@@ -4,8 +4,10 @@ function loadAnalistas() {
       url: "ajax/analistas.ajax.php",
       type: "POST",
       success: function (data) {
-        $("#analistaGA").append(data);
-        // $("#txtAnalistaGAModal").append(data);
+        let dat = JSON.parse(data); 
+
+        $("#analistaGA").append(dat.options);
+        $("#txtAnalistaGAModal").append(dat.options);
         resolve(); // Resolviendo la promesa una vez que los datos se han añadido
       },
       error: function (error) {
@@ -152,11 +154,6 @@ $(".sorting_1").css("text-align", "center");
 
 function abrirDialogoCrear(id = null) {
   // Configurar el diálogo
-
-  $("#txtAnalistaGAModal").val(
-    permisos.usu_nombre + " " + permisos.usu_apellido
-  );
-
   $("#myModal2").dialog({
     title: "Agregar/editar oportunidad",
     autoOpen: false,
@@ -199,7 +196,7 @@ function abrirDialogoCrear(id = null) {
         let aseguradora = $(
           "#txtAseguradoraOportunidadModal option:selected"
         ).text();
-        let asesorGa = $("#txtAnalistaGAModal").val();
+        let asesorGa = $("#txtAnalistaGAModal option:selected").text();
         let estado = $("#txtEstadoOportunidadModal option:selected").text();
         let noPoliza = $("#txtNoPolizaOportunidadModal").val();
         let asegurado = $("#txtAseguradoModal").val();
@@ -389,8 +386,6 @@ function abrirDialogoCrear(id = null) {
       },
     },
     open: function () {
-      let asesorGa = $("#txtAnalistaGAModal").val();
-
       $("body").addClass("modal-open"); // Añade la clase para bloquear el scroll de la página
       $("body").css("overflow", "hidden");
       $(".ui-dialog-buttonpane button:contains('Cerrar')").attr(
@@ -440,7 +435,7 @@ function abrirDialogoCrear(id = null) {
                 "#txtAseguradoraOportunidadModal",
                 respuesta[0].aseguradora
               );
-              $("#txtAnalistaGAModal").val(respuesta[0].analista_comercial);
+              selectByText("#txtAnalistaGAModal", respuesta[0].analista_comercial);
               selectByText("#txtEstadoOportunidadModal", respuesta[0].estado);
               $("#txtNoPolizaOportunidadModal").val(respuesta[0].no_poliza);
               $("#txtAseguradoModal").val(respuesta[0].asegurado);
@@ -581,7 +576,7 @@ function aplicarCriterios() {
     "aseguradoraOpo",
     "ramo",
     "onerosoOp",
-    "carpeta"
+    "carpeta",
   ];
 
   let params = getParams();
@@ -813,7 +808,6 @@ $("#txtMesOportunidadModal").select2({
   placeholder: "Mes Oportunidad",
   dropdownParent: $("#txtMesOportunidadModal").parent(), // Ubica el dropdown dentro del modal
 });
-
 
 $("#txtFormaDePagoOportunidadModal").on("change", function () {
   if ($(this).val() == 1) {

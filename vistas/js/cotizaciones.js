@@ -30,11 +30,44 @@ $(document).ready(function () {
     return meses[mesActual]; // Devuelve el nombre del mes
   }
 
+  function loadAnalistas() {
+    return new Promise((resolve, reject) => {
+      $.ajax({
+        url: "ajax/analistas.ajax.php",
+        type: "POST",
+        success: function (data) {
+          let dat = JSON.parse(data);
+          $("#txtAnalistaOportunidad").append(dat.options);
+          console.log(dat);
+          
+          dat?.analistas.map((analista) => {
+            let miusuario = "";
+
+            if(analista.usu_documento == permisos.usu_documento){
+              miusuario = analista;
+            }
+            console.log(miusuario);
+
+
+            // console.log(analista)
+            if (analista.usu_documento == permisos.usu_documento) {
+              $("#txtAnalistaOportunidad").val(analista.usu_documento);
+            }
+          });
+
+          resolve(); // Resolviendo la promesa una vez que los datos se han añadido
+        },
+        error: function (error) {
+          reject(error); // En caso de error, rechazar la promesa
+        },
+      });
+    });
+  }
+  
+  loadAnalistas();
   function abrirDialogo(idCotizacion, oferta) {
     // Configurar el diálogo
-
     let info = "";
-
     $("#myModal").dialog({
       autoOpen: false,
       modal: true,
@@ -42,8 +75,6 @@ $(document).ready(function () {
       dialogClass: "custom-dialog",
       buttons: {
         Cerrar: function () {
-          console.log(oferta);
-          console.log(info);
           $(this).dialog("close");
         },
         Guardar: function () {
@@ -55,6 +86,13 @@ $(document).ready(function () {
           let estado = $("#txtEstadoOportunidad option:selected").text();
           let observaciones = $("#txtObservacionesOportunidades").val();
           let fechaCreacion = obtenerFechaActual();
+
+          let analista_comercial = $("#txtAnalistaOportunidad option:selected").text();
+          let id_analista_comercial = $("#txtAnalistaOportunidad").val();
+
+          if(analista_comercial == ""){
+            return Swal.fire({ icon: "error", title: "Error", text: "Debe seleccionar un analista comercial" });
+          }
 
           // Se valida previamente que los campos este completos
           // En caso de no estarlos debe dar un error marcando que campo debe ser llenado en el formulario o modal
@@ -76,9 +114,10 @@ $(document).ready(function () {
           data.append("aseguradora", oferta.Aseguradora);
           data.append(
             "analista_comercial",
-            permisos.usu_nombre + " " + permisos.usu_apellido
+            analista_comercial
           );
-          data.append("id_analista_comercial", permisos.id_usuario);
+          data.append("numcotaseg", oferta.NumCotizOferta)
+          data.append("id_analista_comercial", id_analista_comercial);
           //numero de poliza
           data.append("estado", estado);
           data.append("asegurado", info.cli_nombre + " " + info.cli_apellidos);
@@ -166,9 +205,6 @@ $(document).ready(function () {
               respuesta.usu_nombre + " " + respuesta.usu_apellido
             );
             $("#txtPlacaOportunidad").val(respuesta.cot_placa);
-            $("#txtAnalistaOportunidad").val(
-              permisos.usu_nombre + " " + permisos.usu_apellido
-            );
             $("#txtAseguradoraOportunidad").val(oferta.Aseguradora);
             info = respuesta;
           },
