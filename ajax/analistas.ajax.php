@@ -19,7 +19,7 @@ $respon['options'] = $opcion;
 $respon['analistas'] = $arrayp;
 
 
-echo  json_encode($respon);
+return  json_encode($respon);
     
 
 ?>

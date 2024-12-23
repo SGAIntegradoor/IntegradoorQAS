@@ -37,6 +37,7 @@ $(document).ready(function () {
         type: "POST",
         success: function (data) {
           let dat = JSON.parse(data);
+          console.log(dat)
           $("#txtAnalistaOportunidad").append(dat.options);
           console.log(dat);
           
