@@ -36,10 +36,11 @@ $(document).ready(function () {
         url: "ajax/analistas.ajax.php",
         type: "POST",
         success: function (data) {
-          $("#txtAnalistaOportunidad").append(data.options);
-          console.log(data);
+          let info = JSON.parse(data)
+          $("#txtAnalistaOportunidad").append(info.options);
+          console.log(info);
           
-          data?.analistas.map((analista) => {
+          info?.analistas.map((analista) => {
             let miusuario = "";
 
             if(analista.usu_documento == permisos.usu_documento){
@@ -62,9 +63,10 @@ $(document).ready(function () {
       });
     });
   }
+
+  loadAnalistas();
   
   function abrirDialogo(idCotizacion, oferta) {
-    loadAnalistas();
     // Configurar el diálogo
     let info = "";
     $("#myModal").dialog({

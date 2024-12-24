@@ -11,8 +11,10 @@ require_once "config/retrieveQuotation.php";
 
 //   return;
 //}
-
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
+
 ini_set('display_errors', 1);
 
 $idIntermediario = $_SESSION['permisos']['id_Intermediario'];
