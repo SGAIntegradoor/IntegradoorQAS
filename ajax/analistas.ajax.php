@@ -1,14 +1,8 @@
 <?php
 
 require_once "../config/dbconfig.php";
-
-// Mostrar errores para depuración (desactivar en producción)
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-
-// Configuración del encabezado de la respuesta
-header('Content-Type: application/json');
+header('Content-Type: text/html; charset=utf-8');
+mysqli_set_charset($enlace, "utf8mb4");
 
 $response = [
     'status' => 'error',
