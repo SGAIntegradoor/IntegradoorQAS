@@ -2,8 +2,9 @@
 
 
 require_once "../config/dbconfig.php";
-error_reporting(E_ALL);
 ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 
 $query = "SELECT * FROM analistas_comerciales a INNER JOIN usuarios u ON a.id_usuario = u.id_usuario";
 $respon = [];
@@ -19,5 +20,5 @@ $respon['options'] = $opcion;
 $respon['analistas'] = $arrayp;
 
 http_response_code(200);
-echo json_encode($respon);
+return $respon;
 ?>
