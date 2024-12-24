@@ -63,8 +63,8 @@ $(document).ready(function () {
     });
   }
   
-  loadAnalistas();
   function abrirDialogo(idCotizacion, oferta) {
+    loadAnalistas();
     // Configurar el diálogo
     let info = "";
     $("#myModal").dialog({
