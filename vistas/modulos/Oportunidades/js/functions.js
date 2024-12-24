@@ -4,10 +4,10 @@ function loadAnalistas() {
       url: "ajax/analistas.ajax.php",
       type: "POST",
       success: function (data) {
-        // let dat = JSON.parse(); 
+         let dat = JSON.parse(data); 
 
-        $("#analistaGA").append(data.options);
-        $("#txtAnalistaGAModal").append(data.options);
+        $("#analistaGA").append(dat.options);
+        $("#txtAnalistaGAModal").append(dat.options);
         resolve(); // Resolviendo la promesa una vez que los datos se han añadido
       },
       error: function (error) {
