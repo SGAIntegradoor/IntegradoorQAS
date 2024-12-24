@@ -18,8 +18,6 @@ while($fila = $ejecucion->fetch_assoc()){
 $respon['options'] = $opcion;
 $respon['analistas'] = $arrayp;
 
-
-return  json_encode($respon);
-    
-
+http_response_code(200);
+echo json_encode($respon);
 ?>
