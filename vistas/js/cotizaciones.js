@@ -36,12 +36,10 @@ $(document).ready(function () {
         url: "ajax/analistas.ajax.php",
         type: "POST",
         success: function (data) {
-          let dat = JSON.parse(data);
-          console.log(dat)
-          $("#txtAnalistaOportunidad").append(dat.options);
-          console.log(dat);
+          $("#txtAnalistaOportunidad").append(data.options);
+          console.log(data);
           
-          dat?.analistas.map((analista) => {
+          data?.analistas.map((analista) => {
             let miusuario = "";
 
             if(analista.usu_documento == permisos.usu_documento){
