@@ -183,6 +183,12 @@ function abrirDialogoCrear(id = null) {
 
         let noCotizacion = $("#txtnoCotizacionModal").val();
         let valorCotizacion = $("#txtValorCotizacionModal").val();
+
+        valorCotizacion = trim(valorCotizacion.replace(/\.|\$/g, ""));
+
+        console.log(valorCotizacion)
+        return;
+
         let mesOportunidad = $(
           "#txtMesOportunidadModal option:selected"
         ).text();
@@ -425,7 +431,7 @@ function abrirDialogoCrear(id = null) {
               respuesta[0].id_oportunidad != ""
             ) {
               $("#txtnoCotizacionModal").val(respuesta[0].id_cotizacion);
-              $("#txtValorCotizacionModal").val(respuesta[0].valor_cotizacion);
+              $("#txtValorCotizacionModal").val(`$ ${new Intl.NumberFormat("co-CO").format(respuesta[0].valor_cotizacion)}`);
               selectByText(
                 "#txtMesOportunidadModal",
                 respuesta[0].mes_oportunidad
@@ -558,6 +564,12 @@ $(document).ready(function () {
   inputIDCotizacion.map((element) => {
     parseNumbersToString(element);
   });
+
+  $("#txtValorCotizacionModal").on("input", function () {
+    let valor = $(this).val();
+    let valorFormateado = new Intl.NumberFormat("co-CO").format(valor);
+    $(this).val(`$ ${valorFormateado}`);
+  })
 
   loadAllFreelance();
   Promise.all([loadAnalistas(), loadFreelance()])
