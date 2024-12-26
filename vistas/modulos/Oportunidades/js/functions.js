@@ -184,10 +184,7 @@ function abrirDialogoCrear(id = null) {
         let noCotizacion = $("#txtnoCotizacionModal").val();
         let valorCotizacion = $("#txtValorCotizacionModal").val();
 
-        valorCotizacion = trim(valorCotizacion.replace(/\.|\$/g, ""));
-
-        console.log(valorCotizacion)
-        return;
+        valorCotizacion = valorCotizacion.replace(/\.|\$/g, "").trim();
 
         let mesOportunidad = $(
           "#txtMesOportunidadModal option:selected"
