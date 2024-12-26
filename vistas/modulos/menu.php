@@ -97,6 +97,11 @@ checkUserStatus();
 		/* Ajusta el alto según sea necesario */
 	}
 
+	#negociosOp{
+		margin-left: 2px;
+		font-size: 18px;
+	}
+
 	.mi-clase-success {
 		width: 600px;
 		/* Ajusta el ancho según sea necesario */
@@ -235,8 +240,8 @@ checkUserStatus();
 			if ($_SESSION["intermediario"] == "3" || $_SESSION["intermediario"] == "149" || $_SESSION["idUsuario"] == 34) {
 				echo '<li id="menuCotNeg" class="' . ($currentPage == 'negocios' ? 'active' : '') . '">
 			<a href="negocios">
-			<i class="fa-sharp fa-solid fa-briefcase"></i>
-			<span>Negocios</span>
+			<i id="negociosOp" class="fa-solid fa-building"></i>
+			<span>Admin. Oportunidades</span>
 			</a>
 			</li>';
 			}

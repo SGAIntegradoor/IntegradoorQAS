@@ -322,7 +322,7 @@
 
     <h1 style="margin-bottom: 0%;">
 
-      Consulta de oportunidades y negocios
+      Administrador de Oportunidades
 
     </h1>
 
@@ -330,7 +330,7 @@
 
       <li><a href="inicio"><i class="fa fa-dashboard"></i> Inicio</a></li>
 
-      <li class="active">Negocios</li>
+      <li class="active">Admin. Oportunidades</li>
 
     </ol>
 
