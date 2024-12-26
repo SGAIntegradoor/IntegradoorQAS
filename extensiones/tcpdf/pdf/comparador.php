@@ -220,12 +220,18 @@ if ($fila['id_tipo_documento'] == 2) {
 	$pdf->Image('../../../vistas/img/logos/imagencotizador2.jpg', -5, 0, 0, 92, 'JPG', '', '', true, 200, '', false, false, 0, false, false, false);
 }
 
+$id_usuario_cot = $fila['id_usuario'];
 $id_usuario = $_SESSION['idUsuario'];
-$queryLogo2 = "SELECT usu_logo_pdf FROM usuarios WHERE id_usuario = $id_usuario";
+$queryLogo2 = "SELECT usu_logo_pdf FROM usuarios WHERE id_usuario = $id_usuario_cot";
 
 $valorLogo2 = $conexion->query($queryLogo2);
 $valorLogo2 = mysqli_fetch_array($valorLogo2);
 $valorLogo2 = $valorLogo2['usu_logo_pdf'];
+
+// var_dump($valorLogo);
+// var_dump($valorLogo2);
+
+$id_usuario_log = $_SESSION['idUsuario'];
 
 if ($valorLogo == "undefined") {
 	$height = 20;
@@ -252,7 +258,7 @@ if ($valorLogo == "undefined") {
 		$pdf->Image('../../../' . $valorLogo2, 10, 13, 0, $height, 'JPG', '', '', false, 160, '', false, false, 0, false, false, false);
 	}
 } else if ($valorLogo !== "undefined" && !empty($valorLogo2)) {
-
+	// var_dump("entre aqui");
 	$pieces = explode(".", $valorLogo2);
 
 	// Ruta completa de la imagen
