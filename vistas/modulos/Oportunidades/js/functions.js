@@ -389,7 +389,7 @@ function abrirDialogoCrear(id = null) {
     },
     create: function () {
       $(".ui-dialog-titlebar-close").html(
-        '<span id="closeButtonModal">x</span>'
+        '<p id="closeButtonModal">x</p>'
       );
     },
     open: function () {

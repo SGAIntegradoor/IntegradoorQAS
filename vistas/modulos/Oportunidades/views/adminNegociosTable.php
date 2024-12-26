@@ -26,9 +26,9 @@
 
   .ui-dialog .ui-dialog-titlebar-close {
     position: absolute;
-    right: .3em;
-    top: 50%;
-    width: 37px;
+    right: 1.2em;
+    top: 46%;
+    width: 30px;
     margin: -13px 0 0 0;
     padding: 1px;
     height: 20px;
@@ -182,7 +182,7 @@
   }
 
   .custom-dialog2 .ui-dialog-titlebar-close {
-    font-size: 20px;
+    font-size: 18px;
     color: white;
     border: none;
     background: #88d600;
@@ -195,6 +195,12 @@
     border: 1px solid white;
     padding: 0 5px 0 5px !important;
     border-radius: 4px;
+  }
+
+  #closeButtonModal:hover {
+    /* padding: 0 !important; */
+    scale: 1.1;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
   }
   .custom-dialog2 .ui-widget-header {
     border: 0;
