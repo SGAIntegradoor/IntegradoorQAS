@@ -589,10 +589,9 @@ while ($i < count($resultados)) {
 		case 'HDI (Antes Liberty)':
 			$html2 .= '<td class="puntos td2 ' . $fondo_class . '" style="  font-size: 6.5px; font-family:dejavusanscondensedb;">
 			<div style="font-size:1pt">&nbsp;</div>
-			<img style="width:35px;" src="../../../vistas/img/logos/liberty.png" alt="">
-			<div style="font-size:0pt">&nbsp;</div>
+			<img style="width:35px;" src="../../../vistas/img/logos/hdi.png" alt="">
+			<div style="font-size:10pt">&nbsp;</div>
 			<span style="color:#666666;">' . $resultados[$i]['Producto']  . '</span>
-			
 			</td>';
 			break;
 		case 'Seguros Mapfre':
@@ -940,11 +939,11 @@ foreach ($resultados as $resultado) {
 			</td>';
 		} else if ($resultado['Aseguradora'] == 'HDI (Antes Liberty)') {
 			$html3 .= '<td class="puntos fondo" style="width:' . $valorTabla . '%;text-align: center;">
-			<center><img style="width:30px;" src="../../../vistas/img/logos/liberty.png" alt=""></center>
+			<center><img style="width:30px;" src="../../../vistas/img/logos/hdi.png" alt=""></center>
 			</td>';
 		} else if ($resultado['Aseguradora'] == 'HDI (Antes Liberty)') {
 			$html3 .= '<td class="puntos fondo" style="width:' . $valorTabla . '%;text-align: center;">
-			<center><img style="width:30px;" src="../../../vistas/img/logos/liberty.png" alt=""></center>
+			<center><img style="width:30px;" src="../../../vistas/img/logos/hdi.png" alt=""></center>
 			</td>';
 		} else if ($resultado['Aseguradora'] == 'Seguros Mapfre') {
 			$html3 .= '<td class="puntos fondo" style="width:' . $valorTabla . '%;text-align: center;">
@@ -1029,10 +1028,10 @@ foreach ($resultados as $resultado) {
 			<center><img style="width:35px;" src="../../../vistas/img/logos/allianz.png" alt=""></center></td>';
 		} else if ($resultado['Aseguradora'] == 'HDI (Antes Liberty)') {
 			$html3 .= '<td class="puntos fondo2" style="width:' . $valorTabla . '%;text-align: center;">
-			<center><img style="width:25px;" src="../../../vistas/img/logos/liberty.png" alt=""></center></td>';
+			<center><img style="width:25px;" src="../../../vistas/img/logos/hdi.png" alt=""></center></td>';
 		} else if ($resultado['Aseguradora'] == 'HDI (Antes Liberty)') {
 			$html3 .= '<td class="puntos fondo2" style="width:' . $valorTabla . '%;text-align: center;">
-			<center><img style="width:25px;" src="../../../vistas/img/logos/liberty.png" alt=""></center></td>';
+			<center><img style="width:25px;" src="../../../vistas/img/logos/hdi.png" alt=""></center></td>';
 		} else if ($resultado['Aseguradora'] == 'Seguros Mapfre') {
 			$html3 .= '<td class="puntos fondo2" style="width:' . $valorTabla . '%;text-align: center;">
 			<div style="font-size:1pt">&nbsp;</div>
@@ -1437,13 +1436,13 @@ foreach ($resultados as $resultado) {
 		} else if ($resultado['Aseguradora'] == 'HDI (Antes Liberty)') {
 			$html4 .= '<td class="puntos fondo" style="width:' . $valorTabla . '%;text-align: center;">
 			<div style="font-size:5pt">&nbsp;</div>
-			<img style="width:30px;" src="../../../vistas/img/logos/liberty.png" alt="">
+			<img style="width:30px;" src="../../../vistas/img/logos/hdi.png" alt="">
 			<div style="font-size:5pt">&nbsp;</div>
 			</td>';
 		} else if ($resultado['Aseguradora'] == 'HDI (Antes Liberty)') {
 			$html4 .= '<td class="puntos fondo" style="width:' . $valorTabla . '%;text-align: center;">
 			<div style="font-size:5pt">&nbsp;</div>
-			<img style="width:30px;" src="../../../vistas/img/logos/liberty.png" alt="">
+			<img style="width:30px;" src="../../../vistas/img/logos/hdi.png" alt="">
 			<div style="font-size:5pt">&nbsp;</div>
 			</td>';
 		} else if ($resultado['Aseguradora'] == 'Seguros Mapfre') {
@@ -1539,11 +1538,11 @@ foreach ($resultados as $resultado) {
 		} else if ($resultado['Aseguradora'] == 'HDI (Antes Liberty)') {
 			$html4 .= '<td class="puntos fondo2" style="width:' . $valorTabla . '%;text-align: center;">
 			<div style="font-size:5pt">&nbsp;</div>
-			<img style="width:35px;" src="../../../vistas/img/logos/liberty.png" alt=""></td>';
+			<img style="width:35px;" src="../../../vistas/img/logos/hdi.png" alt=""></td>';
 		} else if ($resultado['Aseguradora'] == 'HDI (Antes Liberty)') {
 			$html4 .= '<td class="puntos fondo2" style="width:' . $valorTabla . '%;text-align: center;">
 			<div style="font-size:5pt">&nbsp;</div>
-			<img style="width:35px;" src="../../../vistas/img/logos/liberty.png" alt=""></td>';
+			<img style="width:35px;" src="../../../vistas/img/logos/hdi.png" alt=""></td>';
 		} else if ($resultado['Aseguradora'] == 'Seguros Mapfre') {
 			$html4 .= '<td class="puntos fondo2" style="width:' . $valorTabla . '%;text-align: center;">
 			<div style="font-size:5pt">&nbsp;</div>
@@ -2252,11 +2251,11 @@ while ($rowRespuesta29 = mysqli_fetch_assoc($respuestaquery29)) {
 	} else if ($rowRespuesta29['Aseguradora'] == 'HDI (Antes Liberty)') {
 		$html6 .= '<td style="width:40%;text-align: center;">
 		<div style="font-size:6pt">&nbsp;</div>
-		<img style="width:75px;" src="../../../vistas/img/logos/liberty.png" alt=""></td>';
+		<img style="width:75px;" src="../../../vistas/img/logos/hdi.png" alt=""></td>';
 	} else if ($rowRespuesta29['Aseguradora'] == 'HDI (Antes Liberty)') {
 		$html6 .= '<td style="width:40%;text-align: center;">
 		<div style="font-size:6pt">&nbsp;</div>
-		<img style="width:75px;" src="../../../vistas/img/logos/liberty.png" alt=""></td>';
+		<img style="width:75px;" src="../../../vistas/img/logos/hdi.png" alt=""></td>';
 	} else if ($rowRespuesta29['Aseguradora'] == 'Seguros Mapfre') {
 		$html6 .= '<td style="width:40%;text-align: center;">
 		<div style="font-size:6pt">&nbsp;</div>

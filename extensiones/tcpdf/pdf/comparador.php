@@ -480,16 +480,16 @@ while ($i < count($resultados)) {
 			$AxaProducto = isset($productosMap[$productoOriginal]) ? $productosMap[$productoOriginal] : $productoOriginal;
 			$html2 .= '<td class="puntos td2 ' . $fondo_class . '" style=" font-size: 6.5px; font-family:dejavusanscondensedb;"><center>
 			<img style="width:40px;" src="../../../vistas/img/logos/axa.png" alt=""></center>
-			<div style="font-size:10pt">&nbsp;</div>
+			<div style="font-size:9.8pt">&nbsp;</div>
 			<span style="color:#666666;">' . $AxaProducto  . '</span>
 			</td>';
 			break;
 		case 'Seguros del Estado':
 		case 'Seguros Estado':
 			$html2 .= '<td class="puntos td2 ' . $fondo_class . '" style="  font-size: 6.5px; font-family:dejavusanscondensedb;">
-			<div style="font-size:7.5pt">&nbsp;</div>
+			<div style="font-size:5.5pt">&nbsp;</div>
 			<img style="width:40px; marging-top: 20px;" src="../../../vistas/img/logos/estado.png" alt="">
-			<div style="font-size:6	pt">&nbsp;</div>
+			<div style="font-size:11.2pt">&nbsp;</div>
 			<span style="color:#666666;">' . $resultados[$i]['Producto']  . '</span>
 			</td>';
 			break;
@@ -549,9 +549,8 @@ while ($i < count($resultados)) {
 		case 'Liberty':
 		case 'HDI (Antes Liberty)':
 			$html2 .= '<td class="puntos td2 ' . $fondo_class . '" style="  font-size: 6.5px; font-family:dejavusanscondensedb;">
-			<div style="font-size:1pt">&nbsp;</div>
-			<img style="width:30px;" src="../../../vistas/img/logos/liberty.png" alt="">
-			<div style="font-size:3pt">&nbsp;</div>
+			<img style="width:30px;" src="../../../vistas/img/logos/hdi.png" alt="">
+			<div style="font-size:11.2pt">&nbsp;</div>
 			<span style="color:#666666;">' . $resultados[$i]['Producto']  . '</span>
 			
 			</td>';
@@ -592,7 +591,6 @@ while ($i < count($resultados)) {
 			$productoOriginal = $resultados[$i]['Producto'];
 			$previsoraProducto = isset($productosMap[$productoOriginal]) ? $productosMap[$productoOriginal] : $productoOriginal;
 			$html2 .= '<td class="puntos td2 ' . $fondo_class . '" style="font-size: 6.5px; font-family:dejavusanscondensedb;">
-			<div style="font-size: 1.2pt">&nbsp;</div>
 			<img style="width:40px;" src="../../../vistas/img/logos/previsora.png" alt="">
 			<div style="font-size: 9.5pt">&nbsp;</div>
 			<span style="color:#666666;">' . $previsoraProducto . '</span>
@@ -609,9 +607,9 @@ while ($i < count($resultados)) {
 			$productoOriginal = $resultados[$i]['Producto'];
 			$solidariaProducto = isset($productosMap[$productoOriginal]) ? $productosMap[$productoOriginal] : $productoOriginal;
 			$html2 .= '<td class="puntos td2 ' . $fondo_class . '" style="font-size: 6.5px; font-family:dejavusanscondensedb;">
-			<div style="font-size:8pt">&nbsp;</div>
+			<div style="font-size:5.5pt">&nbsp;</div>
 			<img style="width:40px;" src="../../../vistas/img/logos/solidaria.png" alt="">
-			<div style="font-size:6.5pt">&nbsp;</div>
+			<div style="font-size:11.5pt">&nbsp;</div>
 			<span style="color:#666666;">' . $solidariaProducto . '</span>
 			</td>';
 			break;
@@ -895,11 +893,11 @@ foreach ($resultados as $resultado) {
 			</td>';
 		} else if ($resultado['Aseguradora'] == 'HDI (Antes Liberty)') {
 			$html3 .= '<td class="puntos fondo" style="width:' . $valorTabla . '%;text-align: center;">
-			<center><img style="width:35px;" src="../../../vistas/img/logos/liberty.png" alt=""></center>
+			<center><img style="width:35px;" src="../../../vistas/img/logos/hdi.png" alt=""></center>
 			</td>';
 		} else if ($resultado['Aseguradora'] == 'HDI (Antes Liberty)') {
 			$html3 .= '<td class="puntos fondo" style="width:' . $valorTabla . '%;text-align: center;">
-			<center><img style="width:35px;" src="../../../vistas/img/logos/liberty.png" alt=""></center>
+			<center><img style="width:35px;" src="../../../vistas/img/logos/hdi.png" alt=""></center>
 			</td>';
 		} else if ($resultado['Aseguradora'] == 'Seguros Mapfre') {
 			$html3 .= '<td class="puntos fondo" style="width:' . $valorTabla . '%;text-align: center;">
@@ -984,10 +982,10 @@ foreach ($resultados as $resultado) {
 			<center><img style="width:35px;" src="../../../vistas/img/logos/allianz.png" alt=""></center></td>';
 		} else if ($resultado['Aseguradora'] == 'HDI (Antes Liberty)') {
 			$html3 .= '<td class="puntos fondo2" style="width:' . $valorTabla . '%;text-align: center;">
-			<center><img style="width:35px;" src="../../../vistas/img/logos/liberty.png" alt=""></center></td>';
+			<center><img style="width:35px;" src="../../../vistas/img/logos/hdi.png" alt=""></center></td>';
 		} else if ($resultado['Aseguradora'] == 'HDI (Antes Liberty)') {
 			$html3 .= '<td class="puntos fondo2" style="width:' . $valorTabla . '%;text-align: center;">
-			<center><img style="width:35px;" src="../../../vistas/img/logos/liberty.png" alt=""></center></td>';
+			<center><img style="width:35px;" src="../../../vistas/img/logos/hdi.png" alt=""></center></td>';
 		} else if ($resultado['Aseguradora'] == 'Seguros Mapfre') {
 			$html3 .= '<td class="puntos fondo2" style="width:' . $valorTabla . '%;text-align: center;">
 			<div style="font-size:1pt">&nbsp;</div>
@@ -1546,13 +1544,13 @@ foreach ($resultados as $resultado) {
 		} else if ($resultado['Aseguradora'] == 'HDI (Antes Liberty)') {
 			$html4 .= '<td class="puntos fondo" style="width:' . $valorTabla . '%;text-align: center;">
 			<div style="font-size:5pt">&nbsp;</div>
-			<img style="width:35px;" src="../../../vistas/img/logos/liberty.png" alt="">
+			<img style="width:35px;" src="../../../vistas/img/logos/hdi.png" alt="">
 			<div style="font-size:5pt">&nbsp;</div>
 			</td>';
 		} else if ($resultado['Aseguradora'] == 'HDI (Antes Liberty)') {
 			$html4 .= '<td class="puntos fondo" style="width:' . $valorTabla . '%;text-align: center;">
 			<div style="font-size:5pt">&nbsp;</div>
-			<img style="width:35px;" src="../../../vistas/img/logos/liberty.png" alt="">
+			<img style="width:35px;" src="../../../vistas/img/logos/hdi.png" alt="">
 			<div style="font-size:5pt">&nbsp;</div>
 			</td>';
 		} else if ($resultado['Aseguradora'] == 'Seguros Mapfre') {
@@ -1648,11 +1646,11 @@ foreach ($resultados as $resultado) {
 		} else if ($resultado['Aseguradora'] == 'HDI (Antes Liberty)') {
 			$html4 .= '<td class="puntos fondo2" style="width:' . $valorTabla . '%;text-align: center;">
 			<div style="font-size:5pt">&nbsp;</div>
-			<img style="width:35px;" src="../../../vistas/img/logos/liberty.png" alt=""></td>';
+			<img style="width:35px;" src="../../../vistas/img/logos/hdi.png" alt=""></td>';
 		} else if ($resultado['Aseguradora'] == 'HDI (Antes Liberty)') {
 			$html4 .= '<td class="puntos fondo2" style="width:' . $valorTabla . '%;text-align: center;">
 			<div style="font-size:5pt">&nbsp;</div>
-			<img style="width:35px;" src="../../../vistas/img/logos/liberty.png" alt=""></td>';
+			<img style="width:35px;" src="../../../vistas/img/logos/hdi.png" alt=""></td>';
 		} else if ($resultado['Aseguradora'] == 'Seguros Mapfre') {
 			$html4 .= '<td class="puntos fondo2" style="width:' . $valorTabla . '%;text-align: center;">
 			<div style="font-size:5pt">&nbsp;</div>
@@ -2557,11 +2555,11 @@ while ($rowRespuesta29 = mysqli_fetch_assoc($respuestaquery29)) {
 	} else if ($rowRespuesta29['Aseguradora'] == 'HDI (Antes Liberty)') {
 		$html6 .= '<td style="width:40%;text-align: center;">
 		<div style="font-size:6pt">&nbsp;</div>
-		<img style="width:75px;" src="../../../vistas/img/logos/liberty.png" alt=""></td>';
+		<img style="width:75px;" src="../../../vistas/img/logos/hdi.png" alt=""></td>';
 	} else if ($rowRespuesta29['Aseguradora'] == 'HDI (Antes Liberty)') {
 		$html6 .= '<td style="width:40%;text-align: center;">
 		<div style="font-size:6pt">&nbsp;</div>
-		<img style="width:75px;" src="../../../vistas/img/logos/liberty.png" alt=""></td>';
+		<img style="width:75px;" src="../../../vistas/img/logos/hdi.png" alt=""></td>';
 	} else if ($rowRespuesta29['Aseguradora'] == 'Seguros Mapfre') {
 		$html6 .= '<td style="width:40%;text-align: center;">
 		<div style="font-size:6pt">&nbsp;</div>
