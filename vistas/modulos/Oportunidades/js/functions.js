@@ -4,7 +4,7 @@ function loadAnalistas() {
       url: "ajax/analistas.ajax.php",
       type: "POST",
       success: function (data) {
-         let dat = JSON.parse(data); 
+        let dat = JSON.parse(data);
 
         $("#analistaGA").append(dat.options);
         $("#txtAnalistaGAModal").append(dat.options);
@@ -156,12 +156,14 @@ function abrirDialogoCrear(id = null) {
   // Configurar el diálogo
   $("#myModal2").dialog({
     title: "Agregar/editar oportunidad",
+
     autoOpen: false,
     resizable: false, // Desactiva el redimensionamiento
     draggable: false, // Opcional, si deseas permitir que se pueda mover
     modal: true,
     width: 850,
     dialogClass: "custom-dialog2",
+
     buttons: {
       Cerrar: function () {
         $(this).dialog("close");
@@ -385,6 +387,11 @@ function abrirDialogoCrear(id = null) {
         });
       },
     },
+    create: function () {
+      $(".ui-dialog-titlebar-close").html(
+        '<span id="closeButtonModal">x</span>'
+      );
+    },
     open: function () {
       $("body").addClass("modal-open"); // Añade la clase para bloquear el scroll de la página
       $("body").css("overflow", "hidden");
@@ -413,7 +420,6 @@ function abrirDialogoCrear(id = null) {
           processData: false,
           dataType: "json",
           success: function (respuesta) {
-            console.log(respuesta);
             if (
               respuesta[0].id_oportunidad != null ||
               respuesta[0].id_oportunidad != ""
@@ -435,7 +441,10 @@ function abrirDialogoCrear(id = null) {
                 "#txtAseguradoraOportunidadModal",
                 respuesta[0].aseguradora
               );
-              selectByText("#txtAnalistaGAModal", respuesta[0].analista_comercial);
+              selectByText(
+                "#txtAnalistaGAModal",
+                respuesta[0].analista_comercial
+              );
               selectByText("#txtEstadoOportunidadModal", respuesta[0].estado);
               $("#txtNoPolizaOportunidadModal").val(respuesta[0].no_poliza);
               $("#txtAseguradoModal").val(respuesta[0].asegurado);

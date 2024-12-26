@@ -24,6 +24,15 @@
     /* Línea divisoria */
   }
 
+  .ui-dialog .ui-dialog-titlebar-close {
+    position: absolute;
+    right: .3em;
+    top: 50%;
+    width: 37px;
+    margin: -13px 0 0 0;
+    padding: 1px;
+    height: 20px;
+}
 
   /* Contenedor principal del modal */
   .ui-dialog {
@@ -169,14 +178,24 @@
     /* Azul para botón aceptar */
     color: white;
     border: none;
-    border-radius: 4px;
     cursor: pointer;
   }
 
   .custom-dialog2 .ui-dialog-titlebar-close {
-    display: none;
+    font-size: 20px;
+    color: white;
+    border: none;
+    background: #88d600;
   }
 
+  #closeButtonModal {
+    /* padding: 0 !important; */
+    margin: 0 !important;
+    font-weight: 100;
+    border: 1px solid white;
+    padding: 0 5px 0 5px !important;
+    border-radius: 4px;
+  }
   .custom-dialog2 .ui-widget-header {
     border: 0;
   }
@@ -224,11 +243,6 @@
   .ui-dialog-titlebar {
     padding: 0;
     /* Elimina el padding del encabezado */
-  }
-
-  .ui-dialog-titlebar-close {
-    margin: 0;
-    /* Ajusta el botón de cierre */
   }
 
   .custom-dialog2 .ui-dialog .col-lg-12 {
@@ -486,7 +500,7 @@
       <div class="row" style="margin-bottom: 10px; margin-top: 30px;">
         <div class="col-xs-12 col-sm-6 col-md-4 form-group">
           <label for="txtnoCotizacionModal">No. cotización</label>
-          <input type="text" class="form-control" name="txtnoCotizacionModal" id="txtnoCotizacionModal" placeholder="" >
+          <input type="text" class="form-control" name="txtnoCotizacionModal" id="txtnoCotizacionModal" placeholder="">
         </div>
         <div class="col-xs-12 col-sm-6 col-md-4 form-group">
           <label for="txtValorCotizacionModal">Valor cotización</label>
