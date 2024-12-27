@@ -1,3 +1,14 @@
+<?php
+
+if ($_SESSION['rol'] != 11 && $_SESSION['rol'] != 12 && $_SESSION["rol"] != 10 && $_SESSION['rol'] != 1) {
+  echo '<script>
+  window.location = "inicio";
+  </script>';
+  return;
+}
+
+?>
+
 <head>
   <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v6.0.0-beta2/css/all.css" integrity="sha384-OA4SkQ1hW5kfQF3/OBdzK99bg7sQKT6+yXxq5Iu7QvGrrkrBsX3p5SRy9CrJ0+Gx" crossorigin="anonymous">
 
@@ -312,9 +323,6 @@
       text-align: left;
     }
   }
-
-
-  
 </style>
 
 <div class="content-wrapper">
