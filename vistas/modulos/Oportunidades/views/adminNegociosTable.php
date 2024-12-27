@@ -26,7 +26,7 @@
 
   .ui-dialog .ui-dialog-titlebar-close {
     position: absolute;
-    right: 0.3em;
+    right: 0.6em;
     top: 46%;
     width: 30px;
     margin: -13px 0 0 0;
