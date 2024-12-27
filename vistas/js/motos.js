@@ -2123,10 +2123,10 @@ function validarOfertasMotos(ofertas, aseguradora, exito) {
 //VERSION DEFINITIVA "validarProblema()"" COTIZAR.JS
 function validarProblemaMotos(aseguradora, ofertas) {
   var idCotizOferta = idCotizacion;
-  console.log(ofertas);
-  if (aseguradora == "Allianz") {
-    debugger;
-  } // Verificar si ofertas es un array
+  // console.log(ofertas);
+  // if (aseguradora == "Allianz") {
+  //   debugger;
+  // } // Verificar si ofertas es un array
   if (Array.isArray(ofertas)) {
     ofertas.forEach((oferta) => {
       // Obtener mensajes de la oferta

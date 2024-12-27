@@ -22,7 +22,7 @@ if ($rol == 10) {
     $sql = "SELECT clientes.*
     FROM clientes
     INNER JOIN cotizaciones ON clientes.id_cliente = cotizaciones.id_cliente
-    WHERE cotizaciones.id_usuario = $idUsuario AND id_Intermediario = $intermediario AND cli_estado = 1";
+    WHERE cotizaciones.id_usuario = $idUsuario AND id_Intermediario = $intermediario AND cli_estado = 1 GROUP BY clientes.id_cliente";
 }
 
 

@@ -36,18 +36,17 @@ $(document).ready(function () {
         url: "ajax/analistas.ajax.php",
         type: "POST",
         success: function (data) {
-          let info = JSON.parse(data)
+          let info = JSON.parse(data);
           $("#txtAnalistaOportunidad").append(info.options);
           // console.log(info);
-          
+
           info?.analistas.map((analista) => {
             let miusuario = "";
 
-            if(analista.usu_documento == permisos.usu_documento){
+            if (analista.usu_documento == permisos.usu_documento) {
               miusuario = analista;
             }
             // console.log(miusuario);
-
 
             // console.log(analista)
             if (analista.usu_documento == permisos.usu_documento) {
@@ -65,7 +64,7 @@ $(document).ready(function () {
   }
 
   loadAnalistas();
-  
+
   function abrirDialogo(idCotizacion, oferta) {
     // Configurar el diálogo
     let info = "";
@@ -88,11 +87,17 @@ $(document).ready(function () {
           let observaciones = $("#txtObservacionesOportunidades").val();
           let fechaCreacion = obtenerFechaActual();
 
-          let analista_comercial = $("#txtAnalistaOportunidad option:selected").text();
+          let analista_comercial = $(
+            "#txtAnalistaOportunidad option:selected"
+          ).text();
           let id_analista_comercial = $("#txtAnalistaOportunidad").val();
 
-          if(analista_comercial == ""){
-            return Swal.fire({ icon: "error", title: "Error", text: "Debe seleccionar un analista comercial" });
+          if (analista_comercial == "") {
+            return Swal.fire({
+              icon: "error",
+              title: "Error",
+              text: "Debe seleccionar un analista comercial",
+            });
           }
 
           // Se valida previamente que los campos este completos
@@ -109,15 +114,19 @@ $(document).ready(function () {
             info.usu_nombre + " " + info.usu_apellido
           );
           data.append("id_user_freelance", info.id_usuario);
-          data.append("ramo", oferta.Manual == 9 ? "Automoviles" : oferta.Manual == 8 ? "Motos" : "Pesados");
+          data.append(
+            "ramo",
+            oferta.Manual == 9
+              ? "Automoviles"
+              : oferta.Manual == 8
+              ? "Motos"
+              : "Pesados"
+          );
           data.append("placa", oferta.Placa);
           data.append("oneroso", oneroso);
           data.append("aseguradora", oferta.Aseguradora);
-          data.append(
-            "analista_comercial",
-            analista_comercial
-          );
-          data.append("numcotaseg", oferta.NumCotizOferta)
+          data.append("analista_comercial", analista_comercial);
+          data.append("numcotaseg", oferta.NumCotizOferta);
           data.append("id_analista_comercial", id_analista_comercial);
           //numero de poliza
           data.append("estado", estado);
@@ -1660,6 +1669,8 @@ function editarCotizacion(id) {
                 var recomChecked = "checked";
               }
 
+              console.log(permisos.permisos_oportunidades);
+
               cardCotizacion += `
 
 								<div class='col-lg-12'>
@@ -1674,9 +1685,9 @@ function editarCotizacion(id) {
 												<img src='${oferta.logo}' style="${
                 oferta.Aseguradora == "Mundial"
                   ? "margin-top: 65px;"
-                  // : oferta.Aseguradora == "HDI (Antes Liberty)"
-                  // ? "margin-top: 3px;"
-                  : null
+                  : // : oferta.Aseguradora == "HDI (Antes Liberty)"
+                    // ? "margin-top: 3px;"
+                    null
               }">
                       </center>
                       <div class='col-12' style='margin-top:2%;'>
@@ -1703,17 +1714,21 @@ function editarCotizacion(id) {
                           
                             <div style="display: flex; justify-content: center; margin-top: 10px">
                             ${
-                              oferta.id_oportunidad == null
-                                ? `<p class="openModal" onclick='abrirDialogo(${idCotizacion}, ${JSON.stringify(
-                                    oferta
-                                  ).replace(
-                                    /'/g,
-                                    "\\'"
-                                  )})' style="text-decoration: underline; text-underline-offset: 3px; cursor: pointer">Crear oportunidad</p>`
-                                : `<p style="text-decoration: underline; text-underline-offset: 3px; color: blue;">Oportunidad Creada ID # ${oferta.id_oportunidad}</p>`
-                            }
-                            </div>
-                          
+                              permisos.permisos_oportunidades == "x"
+                                ? oferta.id_oportunidad == null
+                                  ? `<p class="openModal" onclick='abrirDialogo(${idCotizacion}, ${JSON.stringify(
+                                      oferta
+                                    ).replace(
+                                      /'/g,
+                                      "\\'"
+                                    )})' style="text-decoration: underline; text-underline-offset: 3px; cursor: pointer">Crear oportunidad</p>`
+                                  : `<p style="text-decoration: underline; text-underline-offset: 3px; color: blue;">Oportunidad Creada ID # ${
+                                      oferta.id_oportunidad ??
+                                      "ID No Encontrado"
+                                    }</p>`
+                                : ""
+                            }                      
+                          </div>                 
                         </div>
 											</div>
 											<div class="col-xs-12 col-sm-6 col-md-2 oferta-headerEdit" style='${
