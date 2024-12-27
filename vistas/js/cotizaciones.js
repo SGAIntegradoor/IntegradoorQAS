@@ -38,7 +38,7 @@ $(document).ready(function () {
         success: function (data) {
           let info = JSON.parse(data)
           $("#txtAnalistaOportunidad").append(info.options);
-          console.log(info);
+          // console.log(info);
           
           info?.analistas.map((analista) => {
             let miusuario = "";
@@ -46,7 +46,7 @@ $(document).ready(function () {
             if(analista.usu_documento == permisos.usu_documento){
               miusuario = analista;
             }
-            console.log(miusuario);
+            // console.log(miusuario);
 
 
             // console.log(analista)
@@ -473,7 +473,7 @@ $(document).ready(function () {
               productosCell.textContent = usuario.ofertas_cotizadas;
             }
             productosCell.classList.add("text-center");
-            console.log(productosCell);
+            // console.log(productosCell);
             var observacionesCell = newRow.insertCell();
             observacionesCell.textContent = usuario.mensaje;
           });

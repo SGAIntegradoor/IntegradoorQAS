@@ -22,6 +22,9 @@ $idCotizacion = $_GET['idCotizacion'];
 
 $response = retrieveQuotation($idCotizacion);
 
+// echo '<script>
+//   console.log(' . json_encode($response) . '); </script>';
+
 ?>
 
 <head>
@@ -1175,7 +1178,7 @@ $response = retrieveQuotation($idCotizacion);
                 }
                 ?>
               </div>
-              <?php if ($response['cot_clase'] == "AUTOMOVIL" || $response['cot_clase'] == "AUTOMOVILES" || $response['cot_clase'] == "UTILITARIOS DEPORTIVOS" || $response['cot_clase'] == "CAMPEROS") {
+              <?php if ($response['cot_clase'] == "AUTOMOVIL" || $response['cot_clase'] == "AUTOMOVILES" || $response['cot_clase'] == "UTILITARIOS DEPORTIVOS" || $response['cot_clase'] == "CAMPEROS" || $response['cot_clase'] == "PICK UPS") {
                 if ($idIntermediario != 78 && $idIntermediario != 4) {
                   echo '<div class="aviso-container col-lg-12">
                         <ul>
