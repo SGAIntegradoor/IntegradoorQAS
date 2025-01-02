@@ -627,7 +627,7 @@ MODAL AGREGAR USUARIO
 
             <!-- ENTRADA PARA EL NUMERO MAXIMO DE COTIZACIONES DIARIAS-->
 
-            <div class="col-xs-12 col-sm-6 col-md-6 form-group">
+            <!-- <div class="col-xs-12 col-sm-6 col-md-6 form-group">
 
               <div class="input-group">
 
@@ -636,7 +636,23 @@ MODAL AGREGAR USUARIO
 
               </div>
 
-            </div>
+            </div> -->
+
+            <div class="col-xs-12 col-sm-6 col-md-6 form-group">
+
+                <div class="input-group">
+                  <span class="input-group-addon"><i class="fa fa-user-o"></i></span>
+                  <?php 
+                    if($_SESSION["permisos"]["Editarusuario"] == "x"){
+                      echo '<select class="form-control input-lg" name="nuevoAnalista" id="nuevoAnalista"></select>';
+                    } else {
+                      echo '<select class="form-control input-lg" name="nuevoAnalista" id="nuevoAnalista" disabled></select>';
+                    }
+                  ?>
+
+                </div>
+
+              </div>
 
             <!-- ENTRADA INGRESAR LA FECHA LIMITE DE USO -->
 
@@ -669,12 +685,20 @@ MODAL AGREGAR USUARIO
 
             </div>
 
+            <div class="col-xs-12 col-sm-6 col-md-6 form-group">
+
+                <div class="input-group">
+
+                  <span class="input-group-addon"><i class="fa fa-sort-numeric-asc"></i></span>
+                  <input type="text" class="form-control input-lg" name="cotizacionesTotalesEditar" placeholder="Cotizaciones Totales" id="cotizacionesTotalesEditar">
+
+                </div>
+
+              </div>
+
           </div>
 
           <div class="row">
-
-
-
 
 
             <!-- ENTRADA PARA LA CONTRASEÑA -->
@@ -686,6 +710,7 @@ MODAL AGREGAR USUARIO
                   <span class="input-group-addon"><i class="fa fa-lock"></i></span>  -->
 
             <input type="hidden" class="form-control input-lg" name="nuevoPassword" placeholder="Contraseña Usuario" id="nuevoPassword" readonly required>
+
 
             <!-- </div>
 

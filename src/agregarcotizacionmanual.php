@@ -115,7 +115,7 @@ if ($aseguradora == "Seguros Bolivar") {
 } else if ($aseguradora == "Equidad Seguros") {
 	$logo = "vistas/img/logos/equidad.png";
 } else if ($aseguradora == "HDI (Antes Liberty)") {
-	$logo = "vistas/img/logos/liberty.png";
+	$logo = "vistas/img/logos/hdi.png";
 } else if ($aseguradora == "Previsora Seguros") {
 	$logo = "vistas/img/logos/previsora.png";
 }

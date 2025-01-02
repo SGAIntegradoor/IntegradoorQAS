@@ -224,7 +224,7 @@ class ModeloUsuarios
 		} else {
 			$stmt = Conexion::conectar()->prepare("INSERT INTO $tabla(usu_documento, usu_nombre, usu_apellido, usu_usuario, usu_password, usu_genero, usu_fch_nac, direccion, ciudades_id, tipos_documentos_id, usu_telefono, usu_email,
 																	usu_cargo, usu_foto, usu_estado, id_rol, id_Intermediario, numCotizaciones, cotizacionesTotales, fechaFin)
-																	VALUES (:documento, :nombre, :apellido, :usuario, :password, :genero, :fechaNacimiento, :direccion, :ciudad, :tipoDocumento, :telefono, :email, :cargo, :foto, 1, :rol, :intermediario, :maxCot, NULL, :fechaLimite )");
+																	VALUES (:documento, :nombre, :apellido, :usuario, :password, :genero, :fechaNacimiento, :direccion, :ciudad, :tipoDocumento, :telefono, :email, :cargo, :foto, 1, :rol, :intermediario, :maxCot, :cotTotales, :fechaLimite )");
 		}
 
 
@@ -258,7 +258,7 @@ class ModeloUsuarios
 		$stmt->bindParam(":rol", $datos["rol"], PDO::PARAM_INT);
 		$stmt->bindParam(":intermediario", $datos["intermediario"], PDO::PARAM_INT);
 		$stmt->bindParam(":maxCot", $datos["maxCotizaciones"], PDO::PARAM_INT);
-		//$stmt -> bindParam(":totalCot", $datos["cotizacionesTotales"], PDO::PARAM_INT);
+		$stmt->bindParam(":cotTotales", $datos["cotizacionesTotales"], PDO::PARAM_INT);
 		$stmt->bindParam(":fechaLimite", $datos["fechaLimite"], PDO::PARAM_STR);
 
 		// if (!$stmt->execute()) {
@@ -292,6 +292,25 @@ class ModeloUsuarios
 		// </script>';
 
 		if ($stmt->execute()) {
+			if ($datos['rol'] == 19 && $datos['analista'] != "") {
+				// echo json_encode($datos);
+				// die();
+				$stmtAnalistAsUser = Conexion::conectar()->prepare("SELECT * FROM usuarios WHERE usu_documento = :documento");
+				$stmtAnalistAsUser->bindParam(":documento", $datos["analista"], PDO::PARAM_STR);
+				$stmtAnalistAsUser->execute();
+				$datosAnalista = $stmtAnalistAsUser->fetch(PDO::FETCH_ASSOC);
+
+				$nombreCompleto = $datos["nombre"] . ' ' . $datos["apellido"];
+				$nombreCompletoAnalista = $datosAnalista["usu_nombre"] . ' ' . $datosAnalista["usu_apellido"];
+
+				$stmtAnalist = Conexion::conectar()->prepare("INSERT INTO analistas_freelances (id, id_usuario, nombre_completo_freelance, correo, nombre_analista, id_analista ) VALUES (null, :documento, :nombreCompleto, :correo, :nombreAnalista, :idAnalista)");
+				$stmtAnalist->bindParam(":documento", $datos["documento"], PDO::PARAM_INT);
+				$stmtAnalist->bindParam(":nombreCompleto", $nombreCompleto, PDO::PARAM_STR);
+				$stmtAnalist->bindParam(":correo", $datos["email"], PDO::PARAM_STR);
+				$stmtAnalist->bindParam(":nombreAnalista", $nombreCompletoAnalista, PDO::PARAM_STR);
+				$stmtAnalist->bindParam(":idAnalista", $datos["analista"], PDO::PARAM_INT);
+				$stmtAnalist->execute();
+			}
 			return array("result" => "ok", "detailedResponse" => "Se creo el usuario");
 		} else {
 			$errorInfo = $stmt->errorInfo();

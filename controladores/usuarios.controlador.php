@@ -362,11 +362,12 @@ class ControladorUsuarios
 					"password" => $encriptar,
 					"genero" => $_POST["nuevoGenero"],
 					"rol" => $_POST["nuevoRol"],
+					"analista" => $_POST["nuevoAnalista"],
 					"telefono" => $_POST["nuevoTelefono"],
 					"email" => $_POST["nuevoEmail"],
 					"cargo" => $_POST["nuevoCargo"],
-					"maxCotizaciones" => $_POST["maxCot"],
-					//"CotizacionesTotales" => $_POST["CotizacionesTotales"] == "" || $_POST["CotizacionesTotales"] == null ? NULL : $_POST["CotizacionesTotales"],
+					"maxCotizaciones" => 0,
+					"CotizacionesTotales" => $_POST["cotizacionesTotales"],
 					"intermediario" => $_POST["idIntermediario"],
 					"fechaLimite" => $_POST["fecLim"],
 					"fechaNacimiento" => $_POST["AgregfechNacimiento"],
@@ -377,7 +378,8 @@ class ControladorUsuarios
 				);
 
 				$respuesta = ModeloUsuarios::mdlIngresarUsuario($tabla, $datos);
-
+				// var_dump(json_encode($respuesta));
+				// die();
 				if ($respuesta['result'] == "ok") {
 
 					echo '<script>
@@ -645,7 +647,7 @@ class ControladorUsuarios
 								"cargo" => $_POST["editarCargo"],
 								"intermediario" => $_POST["idIntermediario2"],
 								//"maxCotEdi" => $_POST["maxiCot"],
-								"cotizacionesTotales" => $_POST["cotizacionesTotales"],
+								"cotizacionesTotales" => $_POST["cotizacionesTotalesEditar"],
 								"fechaLimEdi" => $_POST["fechaLimEdi"],
 								"ciudad" => $_POST["codigoCiudadActual"],
 								"analista" => $_POST['analista'],

@@ -341,6 +341,7 @@ let initialValueAnalista = "";
 
 function cargarAnalistas(rol) {
   let analistas = $("#analista");
+  let analistasCrear = $("#nuevoAnalista");
 
   if(permisos.Editarusuario != "null"){
     analistas.prop("disabled", false);
@@ -360,6 +361,7 @@ function cargarAnalistas(rol) {
             analistasList += `<option value="${element.id_analista}">${element.nombre_analista}</option>`; // Corregido el atributo 'value'
           });
           analistas.html(analistasList);
+          analistasCrear.html(analistasList);
           resolve(); // Notifica que terminó de cargar
         },
         error: function (error) {
@@ -369,7 +371,9 @@ function cargarAnalistas(rol) {
     } else {
       let analistasList = `<option value="1" selected>No Aplica</option>`;
       analistas.html(analistasList);
+      analistasCrear.html(analistasList);
       analistas.prop("disabled", true);
+      analistasCrear.prop("disabled", true);
       resolve(); // No hay nada que cargar, pero se resuelve la promesa
     }
   });
@@ -435,6 +439,10 @@ function consultarCiudadAgregar() {
   
   //}
 }
+
+$(".btnAgregarUsuario").on("click", function () {
+  cargarAnalistas(19);
+})
 
 const btnSubmit = $("#btnSubmitUser");
 
