@@ -737,7 +737,7 @@
           </div>
       </div>
   </div>
-  <div class="row" style="">
+  <div class="row">
     <label for="txtObservacionesOportunidadModal">Observaciones</label>
     <textarea class="form-control form-group no-resize full-width-textarea" rows="3" id="txtObservacionesOportunidadModal"></textarea>
 
