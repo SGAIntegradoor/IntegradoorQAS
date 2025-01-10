@@ -429,10 +429,7 @@ function abrirDialogoCrear(id = null) {
                 "#txtMesOportunidadModal",
                 respuesta[0].mes_oportunidad
               );
-              selectByText(
-                "#txtAsesorOportunidadModal",
-                respuesta[0].asesor_freelance
-              );
+              $("#txtAsesorOportunidadModal").val(respuesta[0].id_user_freelance).trigger("change");
               selectByText("#txtRamoModal", respuesta[0].ramo);
               $("#txtPlacaOportunidadModal").val(respuesta[0].placa);
               selectByText("#txtOnerosoOportunidadModal", respuesta[0].oneroso);
