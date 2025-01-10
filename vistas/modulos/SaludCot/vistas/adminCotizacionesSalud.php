@@ -74,20 +74,25 @@
           $fechaActual = $fechaActual->format('Y-m-d');
 
           $respuesta = ControladorCotizaciones::ctrRangoFechasCotizacionesSalud($fechaActual, $inicioMes);
-
         }
+
+        $tipoDocumento = [1 => "Cédula de ciudadanía", 4 => "Cédula de extranjería", 2 => "Tarjeta de identidad", 3 => "Registro civil", 5 => "DNI"];
+
+        $genero = [1 => "Masculino", 2 => "Femenino"];
+
+        $tipoCotizacion = [1 => "Individual", 2 => "Familiar"];
 
         foreach ($respuesta as $key => $value) {
           //   <td class="text-center" style="font-size: 14px">' . date('Y/m/d', strtotime($value['fch_nacimiento'])) . '</td>
           echo '<tr>
                     <td class="text-center" style="font-size: 14px; text-align: center;">' . $value['id_cotizacion'] . '</td>
                     <td class="text-center" style="font-size: 14px; text-align: center;">' . $value['fecha_cotizacion'] . '</td>
-                    <td class="text-center" style="font-size: 14px; text-align: center;">' . $value['tipo_documento'] . '</td>
+                    <td class="text-center" style="font-size: 14px; text-align: center;">' . $tipoDocumento[$value['tipo_documento']] . '</td>
                     <td class="text-center" style="font-size: 14px; text-align: center;">' . $value['id_tomador'] . '</td>
                     <td class="text-center" style="font-size: 14px; text-align: center;">' . $value['nombre_tomador'] . '</td>
                     <td class="text-center" style="font-size: 14px; text-align: center;">' . $value['fch_nac_asegurado'] . '</td>
-                    <td class="text-center" style="font-size: 14px; text-align: center;">' . $value['genero_asegurado'] . '</td>
-                    <td class="text-center" style="font-size: 14px; text-align: center;">' . $value['tipo_cotizacion'] . '</td>
+                    <td class="text-center" style="font-size: 14px; text-align: center;">' . $genero[$value['genero_asegurado']] . '</td>
+                    <td class="text-center" style="font-size: 14px; text-align: center;">' . $tipoCotizacion[$value['num_asegurados'] == 1 ? 1 : 2] . '</td>
                     <td class="text-center" style="font-size: 14px; text-align: center;">' . $value['num_asegurados'] . '</td>
                     <td class="text-center" style="font-size: 14px; text-align: center;">' . $value['usu_nombre'] . ' ' . $value['usu_apellido'] . '</td>
                     <td class="text-center">
