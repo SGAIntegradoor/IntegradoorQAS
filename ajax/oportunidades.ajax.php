@@ -8,8 +8,9 @@
     error_reporting(E_ALL);
 
     if (isset($_POST["manual"])) {
-        $idCotizacion = $_POST["idCotizacion"] == "" ? 0 : $_POST["idCotizacion"];
-        $valor_cotizacion = $_POST["valor_cotizacion"] == "" ? 0 : $_POST["valor_cotizacion"];
+        $idCotizacion = $_POST["idCotizacion"] == "" ? "" : $_POST["idCotizacion"];
+        $idCotAseguradora = $_POST["idCotAseguradora"] == "" ? "" : $_POST["idCotAseguradora"];
+        $valor_cotizacion = $_POST["valor_cotizacion"] == "" ? "" : $_POST["valor_cotizacion"];
         $idOferta = $_POST["idOferta"];
         $mesOportunidad = $_POST["mesOportunidad"];
         $asesor_freelance = $_POST["asesor_freelance"];
@@ -35,10 +36,10 @@
         $formaDePago = trim($_POST["formaDePago"]) == "" ? null : trim($_POST["formaDePago"]);
         $financiera = trim($_POST["financiera"]) == "" ? null : trim($_POST["financiera"]);
 
-        $numCotAseg = null; 
-        if(isset($_POST["numcotaseg"])){
-            $numCotAseg = $_POST["numcotaseg"] == "" || $_POST["numcotaseg"] == null ? "" : $_POST["numcotaseg"];
-        }
+        // $numCotAseg = null; 
+        // if(isset($_POST["numcotaseg"])){
+        //     $numCotAseg = $_POST["numcotaseg"] == "" || $_POST["numcotaseg"] == null ? "" : $_POST["numcotaseg"];
+        // }
         
 
         $carpeta = $_POST["carpeta"];
@@ -107,14 +108,14 @@
             '$carpeta', 
             '$observaciones', 
             $next_id,
-            '$numCotAseg',
+            '$idCotAseguradora',
             '$fechaCreacion', 
             null
         )";
     } else {
         $noCotizacion = $_POST['idCotizacion'];
         $idOferta = $_POST['idOferta'];
-        $numCotAseg = $_POST["numcotaseg"] == "" || $_POST["numcotaseg"] == null ? "" : $_POST["numcotaseg"];
+        $idCotAseguradora = $_POST["idCotAseguradora"] == "" ? "" : $_POST["idCotAseguradora"];
         $fechaCreacion = mysqli_real_escape_string($enlace, $_POST['fechaCreacion']);
         $valor_cotizacion = $_POST['valor_cotizacion'];
         $mesOportunidad = mysqli_real_escape_string($enlace, $_POST['mesOportunidad']);
@@ -134,7 +135,7 @@
         $id_user_freelance = $_POST['id_user_freelance'];
         $fechaActualizacion = "NULL";
 
-        $query = "INSERT INTO oportunidades (id_oportunidad, id_cotizacion, valor_cotizacion, mes_oportunidad, asesor_freelance, id_user_freelance, ramo, placa, oneroso, aseguradora, analista_comercial, id_analista_comercial, estado, no_poliza, asegurado, id_asegurado, prima_sin_iva, asist_otros, gastos, iva, valor_total, fecha_expedicion, mes_expedicion, forma_pago, financiera, carpeta, observaciones, id_oferta, id_cot_aseguradora, fecha_creacion, fecha_actualizacion) VALUES (null, $noCotizacion, $valor_cotizacion, '$mesOportunidad', '$asesor_freelance', $id_user_freelance, '$ramo', '$placa', '$oneroso', '$aseguradora', '$analista_comercial', $id_analista_comercial, '$estado', null, '$asegurado', $id_asegurado ,null, null, null, null, null, null, null, null, null, null, '$observaciones', $idOferta, '$numCotAseg', '$fechaCreacion', $fechaActualizacion)";
+        $query = "INSERT INTO oportunidades (id_oportunidad, id_cotizacion, valor_cotizacion, mes_oportunidad, asesor_freelance, id_user_freelance, ramo, placa, oneroso, aseguradora, analista_comercial, id_analista_comercial, estado, no_poliza, asegurado, id_asegurado, prima_sin_iva, asist_otros, gastos, iva, valor_total, fecha_expedicion, mes_expedicion, forma_pago, financiera, carpeta, observaciones, id_oferta, id_cot_aseguradora, fecha_creacion, fecha_actualizacion) VALUES (null, $noCotizacion, $valor_cotizacion, '$mesOportunidad', '$asesor_freelance', $id_user_freelance, '$ramo', '$placa', '$oneroso', '$aseguradora', '$analista_comercial', $id_analista_comercial, '$estado', null, '$asegurado', $id_asegurado ,null, null, null, null, null, null, null, null, null, null, '$observaciones', $idOferta, '$idCotAseguradora', '$fechaCreacion', $fechaActualizacion)";
     }
 
     $stmt = $enlace->prepare($query);

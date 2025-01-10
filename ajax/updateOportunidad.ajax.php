@@ -9,6 +9,7 @@ error_reporting(E_ALL);
 
 $id_oportunidad_update = $_POST["id"];
 $idCotizacion = $_POST["idCotizacion"];
+$idCotAseguradora = $_POST["idCotAseguradora"] == "" ? "" : $_POST["idCotAseguradora"];
 $valor_cotizacion = $_POST["valor_cotizacion"];
 $mesOportunidad = $_POST["mesOportunidad"];
 $asesor_freelance = $_POST["asesor_freelance"];
@@ -69,12 +70,14 @@ try {
             financiera = :financiera, 
             carpeta = :carpeta, 
             observaciones = :observaciones,
+            id_cot_aseguradora = :idCotAseguradora,
             fecha_actualizacion = :fechaActualizacion
         WHERE id_oportunidad = :idOportunidad
     ");
 
     // Bind de parámetros
     $stmt->bindParam(':idCotizacion', $idCotizacion, PDO::PARAM_INT);
+    $stmt->bindParam(':idCotAseguradora', $idCotAseguradora, PDO::PARAM_STR);
     $stmt->bindParam(':valorCotizacion', $valor_cotizacion, PDO::PARAM_INT);
     $stmt->bindParam(':mesOportunidad', $mesOportunidad, PDO::PARAM_STR);
     $stmt->bindParam(':asesorFreelance', $asesor_freelance, PDO::PARAM_STR);

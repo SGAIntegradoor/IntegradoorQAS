@@ -178,6 +178,7 @@ function abrirDialogoCrear(id = null) {
         // En caso de no estarlos debe dar un error marcando que campo debe ser llenado en el formulario o modal
 
         let noCotizacion = $("#txtnoCotizacionModal").val();
+        let noCotAseguradora = $("#txtnoCotAseguradoraModal").val();
         let valorCotizacion = $("#txtValorCotizacionModal").val();
 
         valorCotizacion = valorCotizacion.replace(/\.|\$/g, "").trim();
@@ -232,6 +233,7 @@ function abrirDialogoCrear(id = null) {
           //id_oportunidad
           data.append("id", id);
           data.append("idCotizacion", noCotizacion);
+          data.append("idCotAseguradora", noCotAseguradora);
           data.append("valor_cotizacion", valorCotizacion);
           data.append("idOferta", 0);
           data.append("mesOportunidad", mesOportunidad);
@@ -276,6 +278,7 @@ function abrirDialogoCrear(id = null) {
           url = "ajax/oportunidades.ajax.php";
           //id_oportunidad
           data.append("idCotizacion", noCotizacion);
+          data.append("idCotAseguradora", noCotAseguradora);
           data.append("valor_cotizacion", valorCotizacion);
           data.append("idOferta", 0);
           data.append("mesOportunidad", mesOportunidad);
