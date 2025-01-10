@@ -427,6 +427,7 @@ function abrirDialogoCrear(id = null) {
               respuesta[0].id_oportunidad != ""
             ) {
               $("#txtnoCotizacionModal").val(respuesta[0].id_cotizacion);
+              $("#txtnoCotAseguradoraModal").val(respuesta[0].id_cot_aseguradora);
               $("#txtValorCotizacionModal").val(`$ ${new Intl.NumberFormat("co-CO").format(respuesta[0].valor_cotizacion)}`);
               selectByText(
                 "#txtMesOportunidadModal",
@@ -505,7 +506,7 @@ function abrirDialogoCrear(id = null) {
           },
         });
       }
-      $("#txtAnalistaGAModal").val(asesorGa);
+      // $("#txtAnalistaGAModal").val(asesorGa);
     },
     close: function () {
       cleanFields();
