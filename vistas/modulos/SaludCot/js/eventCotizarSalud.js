@@ -1268,6 +1268,7 @@ function cotizar() {
             tomador: tomador,
             asegurados: asegurados,
             id_usuario: permisos.id_usuario,
+            env: "QAS"
           };
 
           // Puedes ver el JSON en la consola para verificar
