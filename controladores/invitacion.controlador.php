@@ -2,32 +2,35 @@
 
 require "../modelos/registro.modelo.php";
 
-    // echo "user: ". $userPrev ."
-    // pass: ". $passPrev ."
-    // agentCode: ". $agentCodePrev ."
-    // sourceCode: ". $sourceCodePrev ."
-    // bussinessCodePrev: ". $bussinessCodePrev. "
-    // branchCodePrev: ". $branchCodePrev." 
-    // url: ". $url;
-    // die();
-class invitationController{
+// echo "user: ". $userPrev ."
+// pass: ". $passPrev ."
+// agentCode: ". $agentCodePrev ."
+// sourceCode: ". $sourceCodePrev ."
+// bussinessCodePrev: ". $bussinessCodePrev. "
+// branchCodePrev: ". $branchCodePrev." 
+// url: ". $url;
+// die();
+class invitationController
+{
 
-    public static function authValidate(){
+    public static function authValidate()
+    {
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             $requestData = json_decode(file_get_contents('php://input'), true);
-
             $accion = $requestData['accion'];
 
-            if($accion === 'verificarCodigo'){
+            
+
+            if ($accion === 'verificarCodigo') {
 
                 $tabla = "usuarios";
                 $item = "tokenGuest";
                 $clave = $requestData['clave'];
                 $nombre = $requestData['nombre'];
                 $apellido = $requestData['apellido'];
-                $tipo_documento = '0';
+                $tipo_documento = $requestData['tipo'];
                 $identificacion = $requestData['identificacion'];
                 $dia_nacimiento = $requestData['dia_nacimiento'];
                 $mes_nacimiento = $requestData['mes_nacimiento'];
@@ -41,33 +44,35 @@ class invitationController{
                 $contrasena = $requestData['contrasena'];
                 $confirmar_contrasena = $requestData['confirmar_contrasena'];
                 $accion = $requestData['accion'];
-                
-                if($contrasena === $confirmar_contrasena){
 
-                $response = ModeloRegistroFreeLancer::mdlBuscarCodigo($clave, $nombre, $apellido, $tipo_documento, $identificacion, $dia_nacimiento, $mes_nacimiento, $anio_nacimiento, $genero, $direccion, $ciudad, $telefono, $celular, $correo_electronico, $contrasena, $confirmar_contrasena, $accion, $tabla, $item) ;
 
-                if($response == true){
 
-                    $usuario = $identificacion;
-                    $response = ModeloRegistroFreeLancer::mdlRegistrarFreeLancer($nombre, $apellido, $direccion, $ciudad, $usuario, $confirmar_contrasena, $genero, $telefono, $correo_electronico, $dia_nacimiento, $mes_nacimiento, $anio_nacimiento, $tabla, $clave);
+                if ($contrasena === $confirmar_contrasena) {
 
-                    if($response == true){
-                        $item = ModeloRegistroFreeLancer::mdlEliminarToken($usuario, $tabla);
-                    } else {
-                        echo $response;
-                        // echo json_encode(['error' => 'Error de registro']);
-                    }
-                }
-                
-            }else{$response = array('error' => 'Fallo contrasenas');
-                        $jsonResponse = json_encode($response);
-                        echo $jsonResponse;
+                    $response = ModeloRegistroFreeLancer::mdlBuscarCodigo($clave, $nombre, $apellido, $tipo_documento, $identificacion, $dia_nacimiento, $mes_nacimiento, $anio_nacimiento, $genero, $direccion, $ciudad, $telefono, $celular, $correo_electronico, $contrasena, $confirmar_contrasena, $accion, $tabla, $item);
+                    // var_dump($response);
+                    // die();
+                    if ($response == true) {
+
+                        $usuario = $identificacion;
+                        $response = ModeloRegistroFreeLancer::mdlRegistrarFreeLancer($nombre, $apellido, $direccion, $ciudad, $usuario, $confirmar_contrasena, $tipo_documento ,$genero, $telefono, $correo_electronico, $dia_nacimiento, $mes_nacimiento, $anio_nacimiento, $tabla, $clave);
+
+                        if ($response == true) {
+                            $item = ModeloRegistroFreeLancer::mdlEliminarToken($usuario, $tabla);
+                        } else {
+                            echo $response;
+                            // echo json_encode(['error' => 'Error de registro']);
                         }
+                    }
+                } else {
+                    $response = array('error' => 'Fallo contrasenas');
+                    $jsonResponse = json_encode($response);
+                    echo $jsonResponse;
+                }
+            }
         }
     }
-
-
-}}
+}
 
 $validate = new invitationController();
 $validate->authValidate();  

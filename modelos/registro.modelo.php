@@ -14,12 +14,14 @@ class ModeloRegistroFreeLancer{
         $stmt->bindParam(":identificacion", $identificacion);
         $stmt->execute();
         $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
-       
+        //echo "Nombre: ".$nombre, " Apellido: ".$apellido, " Direccion: ".$direccion, " Ciudad: ".$ciudad, " Usuario: ".$identificacion, "Tipo de documento: ".$tipo_documento, " Password: ".$confirmar_contrasena, " Genero: ".$genero, " Telefono: ".$telefono, " Email: ".$correo_electronico, " Fecha de nacimiento: ".$dia_nacimiento, " Tabla: ".$tabla, " Clave: ".$clave;
+        //die();
         if ($resultado && is_array($resultado)) {
             // Comparar la clave con la registrada en la base de datos
             if ($resultado['tokenGuest'] === $clave) {
                 $registro = new ModeloRegistroFreeLancer();
-                $response = $registro->mdlRegistrarFreeLancer($nombre, $apellido, $direccion, $ciudad, $identificacion, $confirmar_contrasena, $genero, $celular, $correo_electronico, $dia_nacimiento, $mes_nacimiento, $anio_nacimiento, $tabla, $clave);
+                $response = $registro->mdlRegistrarFreeLancer($nombre, $apellido, $direccion, $ciudad, $identificacion, $confirmar_contrasena, $tipo_documento, $genero, $celular, $correo_electronico, $dia_nacimiento, $mes_nacimiento, $anio_nacimiento, $tabla, $clave);
+
             } else {
                 $response = array('error' => 'Clave incorrecta');
                 $jsonResponse = json_encode($response);
@@ -36,7 +38,7 @@ class ModeloRegistroFreeLancer{
         return DateTime::createFromFormat("d/m/Y", implode(" ", $array));
     }
 
-    static public function mdlRegistrarFreeLancer($nombre, $apellido, $direccion, $ciudad, $usuario, $password, $genero, $telefono, $email, $dia_nacimiento, $mes_nacimiento, $anio_nacimiento, $tabla, $clave) {
+    static public function mdlRegistrarFreeLancer($nombre, $apellido, $direccion, $ciudad, $usuario, $password, $tipodocumento, $genero, $telefono, $email, $dia_nacimiento, $mes_nacimiento, $anio_nacimiento, $tabla, $clave) {
             
         $id_rol = '19';
         $id_intermediario = '3';
@@ -48,14 +50,17 @@ class ModeloRegistroFreeLancer{
         $timestamp = date("U");
         $fecha = date("Y-m-d H:i:s", $timestamp);
         $encriptar_password = crypt($password, '$2a$07$asxx54ahjppf45sd87a5a4dDDGsystemdev$');
+
+        //echo "Nombre: ".$nombre, "Apellido: ".$apellido, "Direccion: ".$direccion, "Ciudad: ".$ciudad, "Usuario: ".$usuario, "Password: ".$encriptar_password, "Genero: ".$genero, "Telefono: ".$telefono, "Email: ".$email, "Fecha de nacimiento: ".$fecha_nacimiento, "Tabla: ".$tabla, "Clave: ".$clave;   
     
-        $stmt = Conexion::conectar()->prepare("UPDATE $tabla SET usu_nombre = :nombre, usu_apellido = :apellido, direccion = :direccion, ciudades_id = :ciudad, usu_usuario = :usuario, usu_password = :password, usu_genero = :genero, usu_telefono = :telefono, usu_email = :email, usu_fch_creacion = :fch_creacion, usu_estado = :usu_estado, usu_cargo = :usu_cargo, id_rol = :id_rol, id_Intermediario = :id_intermediario, usu_fch_nac = DATE(:fecha_nacimiento) WHERE tokenGuest = :clave");
+        $stmt = Conexion::conectar()->prepare("UPDATE $tabla SET usu_nombre = :nombre, usu_apellido = :apellido, direccion = :direccion, tipos_documentos_id	 = :tipodocumento, ciudades_id = :ciudad, usu_usuario = :usuario, usu_password = :password, usu_genero = :genero, usu_telefono = :telefono, usu_email = :email, usu_fch_creacion = :fch_creacion, usu_estado = :usu_estado, usu_cargo = :usu_cargo, id_rol = :id_rol, id_Intermediario = :id_intermediario, usu_fch_nac = DATE(:fecha_nacimiento) WHERE tokenGuest = :clave");
     
         $stmt->bindParam(':nombre', $nombre);
         $stmt->bindParam(':apellido', $apellido);
         $stmt->bindParam(':direccion', $direccion);
         $stmt->bindParam(':ciudad', $ciudad);
         $stmt->bindParam(':usuario', $usuario);
+        $stmt->bindParam(':tipodocumento', $tipodocumento);
         $stmt->bindParam(':password', $encriptar_password);
         $stmt->bindParam(':genero', $genero);
         $stmt->bindParam(':telefono', $telefono);

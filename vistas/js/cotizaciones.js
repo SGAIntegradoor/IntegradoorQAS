@@ -1669,8 +1669,6 @@ function editarCotizacion(id) {
                 var recomChecked = "checked";
               }
 
-              console.log(permisos.permisos_oportunidades);
-
               cardCotizacion += `
 
 								<div class='col-lg-12'>

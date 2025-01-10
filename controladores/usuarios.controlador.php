@@ -291,6 +291,7 @@ class ControladorUsuarios
 
 	public static function ctrCrearUsuario()
 	{
+		
 		if (isset($_POST['newUserTemp'])) {
 			$tabla = "usuarios";
 			$ruta = "";
@@ -320,6 +321,9 @@ class ControladorUsuarios
 
 			$respuesta = ModeloUsuarios::mdlIngresarUsuario($tabla, $datos);
 
+
+			var_dump("usuario temporal", json_encode($_POST), json_encode($respuesta));
+			die();
 			if ($respuesta['result'] == "ok") {
 				return array("result" => "Success");
 			} else {
@@ -328,11 +332,12 @@ class ControladorUsuarios
 			}
 		}
 
+		
 		if (isset($_POST["nuevoUsuario"])) {
 
 			if (
-				preg_match('/^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ ]+$/', $_POST["nuevoNombre"]) &&
-				preg_match('/^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ ]+$/', $_POST["nuevoApellido"]) &&
+				preg_match('/^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ &]+$/', $_POST["nuevoNombre"]) &&
+				preg_match('/^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ &]+$/', $_POST["nuevoApellido"]) &&
 				preg_match('/^[0-9]+$/', $_POST["nuevoDocIdUser"]) &&
 				preg_match('/^[a-zA-Z0-9]+$/', $_POST["nuevoUsuario"]) &&
 				preg_match('/^[a-zA-Z0-9]+$/', $_POST["nuevoPassword"]) &&
@@ -367,7 +372,7 @@ class ControladorUsuarios
 					"email" => $_POST["nuevoEmail"],
 					"cargo" => $_POST["nuevoCargo"],
 					"maxCotizaciones" => 0,
-					"CotizacionesTotales" => $_POST["cotizacionesTotales"],
+					"CotizacionesTotales" => $_POST["cotizacionesTotalesEditar"],
 					"intermediario" => $_POST["idIntermediario"],
 					"fechaLimite" => $_POST["fecLim"],
 					"fechaNacimiento" => $_POST["AgregfechNacimiento"],
@@ -376,10 +381,7 @@ class ControladorUsuarios
 					"tipoDocumento" => $_POST["agregarTipoDocumento"],
 					"foto" => $ruta
 				);
-
 				$respuesta = ModeloUsuarios::mdlIngresarUsuario($tabla, $datos);
-				// var_dump(json_encode($respuesta));
-				// die();
 				if ($respuesta['result'] == "ok") {
 
 					echo '<script>
@@ -787,8 +789,7 @@ class ControladorUsuarios
 
 
 						$respuesta = ModeloUsuarios::mdlEditarUsuario($tabla, $datos);
-						// var_dump($respuesta);
-						//  die;
+
 						if ($respuesta == "ok") {
 
 							echo '<script>
@@ -807,7 +808,7 @@ class ControladorUsuarios
 									  })
 		
 							</script>';
-						} else if($respuesta = "authError"){
+						} else if($respuesta == "authError"){
 
 							echo '<script>
 		

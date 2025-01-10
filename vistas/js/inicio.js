@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', function() {
     let modalShown = localStorage.getItem('initModal');
 
-    let enabled = true;
+    let enabled = false;
 
     if(enabled){
         if ((!modalShown || modalShown === 'false') && permisos.id_Intermediario === "3" ) {

@@ -1,4 +1,4 @@
-    <?php
+<?php
     
 
 
@@ -65,7 +65,8 @@
                             <option value="2">Pdte inspección</option>
                             <option value="3">Pdt emisión</option>
                             <option value="4">Emitida</option>
-                            <option value="5">Perdido</option>
+                            <option value="5">Cambio de Intermediario</option>
+                            <option value="6">Perdido</option>
                         </select>
                     </div>
                     <div class="col-xs-12 col-sm-6 col-md-3" style="padding-left: 25px; padding-right: 25px">
@@ -95,12 +96,12 @@
                                 </option>
                                 <option value="1">Allianz</option>
                                 <option value="2">AXA Colpatria</option>
-                                <option value="3">Bolivar</option>
+                                <option value="3">Seguros Bolivar</option>
                                 <option value="4">Equidad</option>
-                                <option value="5">Estado</option>
+                                <option value="5">Seguros del Estado</option>
                                 <option value="6">HDI (Antes Liberty)</option>
                                 <option value="6">Mapfre</option>
-                                <option value="7">Previsora</option>
+                                <option value="7">Previsora Seguros</option>
                                 <option value="8">SBS Seguros</option>
                                 <option value="9">Solidaria</option>
                                 <option value="10">Zurich</option>
@@ -110,6 +111,7 @@
                                 <option value="12">Universal</option>
                                 <option value="12">Continental</option>
                                 <option value="12">Olivos</option>
+                                <option value="13">Sura</option>
                             </select>
                         </div>
                     </div>

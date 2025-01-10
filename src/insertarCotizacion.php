@@ -5,8 +5,9 @@ session_start();
 require_once("../config/db.php"); //Contiene las variables de configuracion para conectar a la base de datos
 require_once("../config/conexion.php"); //Contiene funcion que conecta a la base de datos
 
-error_reporting(E_ALL);
 ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 
 $placa = $_POST['placa'];
 $esCeroKm = $_POST['esCeroKm'];
@@ -55,7 +56,7 @@ $Departamento = $_POST["Departamento"];
 $Ciudad = $_POST["Ciudad"];
 $benefOneroso = $_POST["benefOneroso"];
 $idCotizacion = $_POST["idCotizacion"];
-$idUsuario = $_SESSION["idUsuario"];
+$idUsuario = isset($_SESSION["idUsuario"]) ? $_SESSION["idUsuario"] : 1190;
 if (!isset($_POST["mundial"]) || isset($_POST['mundial']) == "") {
 	$mundial = NULL;
 } else {
@@ -128,7 +129,7 @@ if ($idCliente == "" && $tipoDocumento != 2) {
 		$cli_codigo = "CLI-1";
 	}
 
-	$intermediario = $_SESSION["intermediario"];
+	$intermediario = isset($_SESSION["intermediario"]) ? $_SESSION["intermediario"] : 3;
 
 	// INSERCIÓN DATOS DEL CLIENTE
 
@@ -145,11 +146,15 @@ if ($idCliente == "" && $tipoDocumento != 2) {
 
 	$sqlCliente = "INSERT INTO `clientes` (`id_cliente`, `cli_codigo`, `cli_num_documento`, `digitoVerificacion` ,`cli_nombre`, `cli_apellidos`, `cli_fch_nacimiento`, 
 											`cli_genero`, `cli_telefono`, `cli_email`, `cli_estado`, `id_tipo_documento`, `id_estado_civil` , `id_Intermediario`) 
-					VALUES (NULL, '$cli_codigo', '$numIdentificacion', '$digitoVerif', '$Nombre', '$Apellido', " . ($FechaNacimiento ? "'$FechaNacimiento'" : "NULL") . ", '3', '$celRep', 
+					VALUES (NULL, '$cli_codigo', '$numIdentificacion', '$digitoVerif', '$Nombre', '$Apellido', " . ($FechaNacimiento ? "'$FechaNacimiento'" : "0000-00-00") . ", '3', '$celRep', 
 									'$correoRep', 1,  '$tipoDocumento', '1', '$intermediario');";
 
-
 	$resCliente = mysqli_query($con, $sqlCliente);
+	
+	if (!$resCliente) {
+        echo "Error en la consulta: " . mysqli_error($con);
+        die(); // Detiene la ejecución para que puedas analizar el problema
+    }
 	$num_rows = mysqli_affected_rows($con);
 	$ultimoId = mysqli_insert_id($con);
 
@@ -202,6 +207,7 @@ if ($idCliente == "" && $tipoDocumento != 2) {
 		$data['Message 1'] = 'Error cliente: ' . mysqli_error($con);
 	}
 }
+
 
 
 // VALIDA SI VIENE EL ID DE LA COTIZACION PARA CREAR O ACTUALIZAR EL REGISTRO

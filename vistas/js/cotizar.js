@@ -262,7 +262,7 @@ $(document).ready(function () {
   $(
     "#dianacimientoRepresentante, #mesnacimientoRepresentante, #anionacimientoRepresentante"
   ).select2({
-    theme: "bootstrap fecnacimientoRep",
+    theme: "bootstrap fecnacimiento",
     language: "es",
     width: "100%",
   });

@@ -92,7 +92,7 @@
             '$analista_comercial', 
             $id_analista_comercial, 
             '$estado', 
-            " . ($noPoliza === "" ? "NULL" : $noPoliza) . ", 
+            '" . ($noPoliza === "" ? "NULL" : $noPoliza) . "', 
             '$asegurado', 
             $id_asegurado, 
             $prima_sin_iva, 
@@ -150,6 +150,10 @@
         $query2 = "UPDATE ofertas SET id_oportunidad = $stmt->insert_id WHERE id_oferta = $idOferta";
         $stmt2 = $enlace->prepare($query2);
 
+        if ($stmt2 === false) {
+            die("Error en la preparación de la consulta: " . $enlace->error);
+        }
+        
         if (!$stmt2->execute()) {
             die("Error en la ejecución de la consulta: " . $stmt2->error);
         }

@@ -262,7 +262,7 @@ function generateAseguradosFields() {
   for (var i = 2; i <= numAsegurados; i++) {
     // Crear el HTML para los nuevos campos
     var newFields = `
-            <div class="row ">
+            <div class="row">
                 <div class="col-xs-12 col-sm-6 col-md-6 rowAseg">
                     <label>Datos Asegurado ${i}.</label>
                 </div>
@@ -278,7 +278,7 @@ function generateAseguradosFields() {
                 <div class="col-xs-12 col-sm-6 col-md-2">
                     <div class="form-group">
                         <label for="numeroDocumento_${i}">No. Documento</label>
-                        <input id="numeroDocumento_${i}" class="form-control" type="number" />
+                        <input id="numeroDocumento_${i}" class="form-control numeroDocumento" type="number" />
                     </div>
                 </div>
 
@@ -311,7 +311,7 @@ function generateAseguradosFields() {
                             <div class="col-xs-4 col-sm-4 col-md-4 conten-anio">
                                 <select class="form-control fecha-nacimiento" name="anionacimiento_${i}" id="anionacimiento_${i}" required>
                                     <option value="">Año</option>
-                                    ${generateOptions(1920, 2024)}
+                                    ${generateOptions(1920, 2024, false, true)}
                                 </select>
                             </div>
                         </div>
@@ -337,10 +337,14 @@ function generateAseguradosFields() {
   CargarSelectTipoDocumento();
   CargarSelectGenero();
 }
-function generateOptions(start, end, isMonth = false) {
+function generateOptions(start, end, isMonth = false, isYear = false) {
   var options = "";
   for (var i = start; i <= end; i++) {
-    var value = isMonth ? ("0" + i).slice(-2) : i;
+    var value = isMonth
+      ? ("0" + i).slice(-2)
+      : isYear
+      ? i
+      : ("0" + i).slice(-2);
     var display = isMonth ? getMonthName(i) : value;
     options += `<option value="${value}">${display}</option>`;
   }
@@ -738,7 +742,8 @@ function makeIndividualCard(
                         <a href="vistas/pdfs/PDF SALUD IDEAL.pdf" target="_blank"> <img src="vistas/img/iconosResources/icons8-pdf-office-m/icons8-pdf-30.png" width="25px"/>Ver más</a>
                       </div>
                     </div>`
-                    : capitalizeFirstLetter(nombrePlan) === "Salud ideal + emermedica"
+                    : capitalizeFirstLetter(nombrePlan) ===
+                      "Salud ideal + emermedica"
                     ? `<div class="col-xs-12 col-sm-6 col-md-5 textCards">
                     <div style="width: 100%; text-align: justify; padding-right: 25px">
                       <b>Incluye coberturas del Plan Salud Ideal como: </b>emergencias odontológicas + consultas, exámenes complementarios y terapias relacionados con hospitalización + medicamentos ambulatorios de hospitalización + atención médica de urgencias en el exterior.
@@ -756,7 +761,8 @@ function makeIndividualCard(
                       <a href="vistas/pdfs/PDF SALUD IDEAL + EMERMEDICA.pdf" target="_blank"><img src="vistas/img/iconosResources/icons8-pdf-office-m/icons8-pdf-30.png" width="25px"/> Ver más</a> 
                     </div>
                   </div>`
-                    : capitalizeFirstLetter(nombrePlan) === "Plan ambulatorio" ? `<div class="col-xs-12 col-sm-6 col-md-5 textCards">     
+                    : capitalizeFirstLetter(nombrePlan) === "Plan ambulatorio"
+                    ? `<div class="col-xs-12 col-sm-6 col-md-5 textCards">     
                     <div style="width: 100%; text-align: justify; padding-right: 25px">
                       <b>Coberturas:</b>
                       <br>
@@ -782,7 +788,8 @@ function makeIndividualCard(
                       </ul>
                       <a href="vistas/pdfs/PDF PLAN AMBULTARIO.pdf" target="_blank"><img src="vistas/img/iconosResources/icons8-pdf-office-m/icons8-pdf-30.png" width="25px"/> Ver más</a> 
                     </div>
-                  </div>` : ""
+                  </div>`
+                    : ""
                 }
                 
               </div>
@@ -923,13 +930,16 @@ function makeTable(asegurados, plan_id) {
   return tableHTML;
 }
 
+let showPopup = true;
+
 /**
  * Manager para generar las cards en general.
  * @function
  */
 function makeCards(data, tipoCotizacion) {
-  let html_data = "";
+  console.log(data, tipoCotizacion);
 
+  let html_data = "";
   if (tipoCotizacion === 1) {
     // Generar tarjetas individuales para cada plan
     // Acumular los valores por plan_id
@@ -1093,12 +1103,22 @@ function makeCards(data, tipoCotizacion) {
     }
   }
 
-  document.getElementById("row_contenedor_general_salud").innerHTML = html_data;
+  if(getParams("idCotizacionSalud").length > 0){
+    document.getElementById("row_contenedor_general_salud2").innerHTML =
+    html_data;
+    showPopup = !showPopup;
+  } else {
+    document.getElementById("row_contenedor_general_salud").innerHTML =
+    html_data;
+  }
   cargarEstilos("vistas/modulos/SaludCot/css/cardsResult.css");
-  Swal.fire({
-    title: "¡Cotización Exitosa!",
-    icon: "success",
-  });
+
+  showPopup
+    ? Swal.fire({
+        title: "¡Cotización Exitosa!",
+        icon: "success",
+      })
+    : null;
 }
 
 /**
@@ -1125,129 +1145,173 @@ function activateFormate() {
     $(this).val(formatInput($(this).val()));
   });
 }
+
+// /**
+//  * Guardado de ofertas en tabla para mantener persistencia en la BD.
+//  * @param {Object} cotizacion - Objeto de la cotización.
+//  * @function
+//  */
+
+// const guardarOfertas = (cotizacion) => {
+//   try {
+//     fetch(
+//       "https://grupoasistencia.com/health_engine/WSAxa/pushOfferts.php",
+//       { method: "POST", body: JSON.stringify({ cotizacion: cotizacion }) }
+//     ).then((response) => {
+//       if (response.status == 200) {
+//         // console.log("se guardo correctamente las ofertasd de la cotizacion");
+//       }
+//     });
+//   } catch (error) {}
+// };
+
 /**
  * Cotizamos.
  * @function
  */
 function cotizar() {
-  
-  let param = false;
+  let param = true;
 
   let documentUser = permisos.usu_documento;
   const dataValidation = {
-    cedula: documentUser
+    cedula: documentUser,
   };
 
-  $.ajax({
-    url: "https://grupoasistencia.com/motor_webservice/validate_person",
-    type: "POST",
-    data: JSON.stringify(dataValidation),
-    success: function (data) {
-      console.log();
-      let convertedData = JSON.parse(data);
-      if(convertedData.cedula){
-        document.getElementById("spinener-cot-salud").style.display = "flex";
-        var tipoCotizacion = $("#individual").is(":checked") ? 1 : 2;
-        var esCotizacionIndividual = $("#individual").is(":checked");
-        var tomador = {
-          tipoDocumento: $("#tipoDocumento").val(),
-          numeroDocumento: $("#numeroDocumento").val(),
-          nombre: $("#nombre").val(),
-          apellido: $("#apellido").val(),
-        };
-    
-      // Obtener y convertir las variables para la fecha de nacimiento a números enteros
-      var diaNacimiento = parseInt($("#dianacimiento").val(), 10);
-      var mesNacimiento = parseInt($("#mesnacimiento").val(), 10);
-      var anioNacimiento = parseInt($("#anionacimiento").val(), 10);
-    
-      // Añadir el asegurado base
-      var aseguradoBase = {
-        id: 1, // Aquí debes poner un ID apropiado si es necesario
-        tipoDocumento: $("#tipoDocumento").val(),
-        numeroDocumento: $("#numeroDocumento").val(),
-        nombre: $("#nombre").val(),
-        apellido: $("#apellido").val(),
-        genero: $("#genero").val(),
-        edad: calcularEdadAsegurado(diaNacimiento, mesNacimiento, anioNacimiento),
-        fechaNacimiento: {
-          dia: diaNacimiento,
-          mes: mesNacimiento,
-          anio: anioNacimiento,
-        },
-      };
-    
-      var asegurados = [aseguradoBase];
-    
-      // Añadir los asegurados adicionales si es una cotización grupal
-      if (!esCotizacionIndividual) {
-        $(".row.asegurado").each(function () {
-          var aseguradoId = $(this).data("asegurado-id");
-          if (aseguradoId > 1) {
-            // Comienza desde el ID 2
-            var dia = parseInt($(this).find('[id^="dianacimiento_"]').val(), 10);
-            var mes = parseInt($(this).find('[id^="mesnacimiento_"]').val(), 10);
-            var anio = parseInt($(this).find('[id^="anionacimiento_"]').val(), 10);
-    
-            var asegurado = {
-              id: aseguradoId,
-              tipoDocumento: $(this).find('[id^="tipoDocumento_"]').val(),
-              numeroDocumento: $(this).find('[id^="numeroDocumento_"]').val(),
-              nombre: $(this).find('[id^="nombre_"]').val(),
-              apellido: $(this).find('[id^="apellido_"]').val(),
-              genero: $(this).find('[id^="genero_"]').val(),
-              edad: calcularEdadAsegurado(dia, mes, anio),
-              fechaNacimiento: {
-                dia: dia,
-                mes: mes,
-                anio: anio,
-              },
-            };
-            asegurados.push(asegurado);
-          }
-        });
-      }
-    
-      // Finalmente, construimos el objeto final que se enviará
-      var datosCotizacion = {
-        tipoCotizacion: tipoCotizacion,
-        tomador: tomador,
-        asegurados: asegurados,
-      };
-    
-      // Puedes ver el JSON en la consola para verificar
-      console.log(JSON.stringify(datosCotizacion, null, 2));
-    
-      $.ajax({
-        url: "https://grupoasistencia.com/health_engine/WSAxa/axa.php",
-        type: "POST",
-        data: JSON.stringify(datosCotizacion),
-        success: function (data) {
-          hideMainContainerCards();
-          showContainerCardsSalud();
-          toogleDataContainer();
-          makeCards(data, tipoCotizacion);
-          console.log(data);
-          document.getElementById("spinener-cot-salud").style.display = "none";
-        },
-        error: function (data) {
-          alert("Error");
-        },
-      });
-      window.scrollTo(0, 0);
-      }  else {
-        Swal.fire({
-          icon: "error",
-          title:
-            "No tienes permiso para cotizar salud, habla con tu Analista Comercial.",
-        });
-      }
+  if (param) {
+    $.ajax({
+      url: "https://grupoasistencia.com/motor_webservice/validate_person",
+      type: "POST",
+      data: JSON.stringify(dataValidation),
+      success: function (data) {
+        let convertedData = JSON.parse(data);
+        if (convertedData.cedula) {
+          document.getElementById("spinener-cot-salud").style.display = "flex";
+          var tipoCotizacion = $("#individual").is(":checked") ? 1 : 2;
+          var esCotizacionIndividual = $("#individual").is(":checked");
+          var tomador = {
+            tipoDocumento: $("#tipoDocumento").val(),
+            numeroDocumento: $("#numeroDocumento").val(),
+            nombre: $("#nombre").val(),
+            apellido: $("#apellido").val(),
+          };
 
-    },
-    error: function (data) {
-      alert("Error");
-    },
-  });
+          // Obtener y convertir las variables para la fecha de nacimiento a números enteros
+          var diaNacimiento = parseInt($("#dianacimiento").val(), 10);
+          var mesNacimiento = parseInt($("#mesnacimiento").val(), 10);
+          var anioNacimiento = parseInt($("#anionacimiento").val(), 10);
+
+          // Añadir el asegurado base
+          var aseguradoBase = {
+            id: 1, // Aquí debes poner un ID apropiado si es necesario
+            tipoDocumento: $("#tipoDocumento").val(),
+            numeroDocumento: $("#numeroDocumento").val(),
+            nombre: $("#nombre").val(),
+            apellido: $("#apellido").val(),
+            genero: $("#genero").val(),
+            edad: calcularEdadAsegurado(
+              diaNacimiento,
+              mesNacimiento,
+              anioNacimiento
+            ),
+            fechaNacimiento: {
+              dia: diaNacimiento,
+              mes: mesNacimiento,
+              anio: anioNacimiento,
+            },
+          };
+
+          var asegurados = [aseguradoBase];
+
+          // Añadir los asegurados adicionales si es una cotización grupal
+          if (!esCotizacionIndividual) {
+            $(".row.asegurado").each(function () {
+              var aseguradoId = $(this).data("asegurado-id");
+              // Comienza desde el ID 2
+              if (aseguradoId > 1) {
+                var dia = parseInt(
+                  $(this).find('[id^="dianacimiento_"]').val(),
+                  10
+                );
+                var mes = parseInt(
+                  $(this).find('[id^="mesnacimiento_"]').val(),
+                  10
+                );
+                var anio = parseInt(
+                  $(this).find('[id^="anionacimiento_"]').val(),
+                  10
+                );
+
+                var asegurado = {
+                  id: aseguradoId,
+                  tipoDocumento: $(this).find('[id^="tipoDocumento_"]').val(),
+                  numeroDocumento: $(this)
+                    .find('[id^="numeroDocumento_"]')
+                    .val(),
+                  nombre: $(this).find('[id^="nombre_"]').val(),
+                  apellido: $(this).find('[id^="apellido_"]').val(),
+                  genero: $(this).find('[id^="genero_"]').val(),
+                  edad: calcularEdadAsegurado(dia, mes, anio),
+                  fechaNacimiento: {
+                    dia: dia,
+                    mes: mes,
+                    anio: anio,
+                  },
+                };
+                asegurados.push(asegurado);
+              }
+            });
+          }
+
+          // Finalmente, construimos el objeto final que se enviará
+          var datosCotizacion = {
+            tipoCotizacion: tipoCotizacion,
+            tomador: tomador,
+            asegurados: asegurados,
+            id_usuario: permisos.id_usuario,
+          };
+
+          // Puedes ver el JSON en la consola para verificar
+          console.log(JSON.stringify(datosCotizacion, null, 2));
+
+          $.ajax({
+            url: "http://localhost/motorTest/health_engine/axa.php",
+            type: "POST",
+            data: JSON.stringify(datosCotizacion),
+            success: function (data) {
+              hideMainContainerCards();
+              showContainerCardsSalud();
+              toogleDataContainer();
+              document.getElementById("spinener-cot-salud").style.display =
+                "none";
+
+              makeCards(data, tipoCotizacion);
+            },
+            error: function (data) {
+              alert("Error");
+            },
+          });
+          window.scrollTo(0, 0);
+        } else {
+          showPopup
+            ? Swal.fire({
+                icon: "error",
+                title:
+                  "No tienes permiso para cotizar salud, habla con tu Analista Comercial.",
+              })
+            : "";
+        }
+      },
+      error: function (data) {
+        alert("Error");
+      },
+    });
+  } else {
+    Swal.fire({
+      icon: "info",
+      title: "Información Importante",
+      text: "Cotizador en mantenimiento por cambio de tarifas 2025. Estará habilitado en los próximos dias.",
+    });
+  }
 }
 
 /**

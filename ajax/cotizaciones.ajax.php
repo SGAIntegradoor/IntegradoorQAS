@@ -78,6 +78,17 @@ class AjaxCotizaciones {
 		echo json_encode($respuesta);
 
 	}
+	public $idCotizacionSalud;
+
+	public function ajaxRetriveOffertsQuotationSalud(){
+
+		$id = $this->idCotizacionSalud;
+
+		$respuesta = ControladorCotizaciones::ctrShowOffertsQuoteSaludID($id);
+
+		echo json_encode($respuesta);
+
+	}
 
 }
 
@@ -131,5 +142,15 @@ if(isset($_POST["ofertasCotizacion"])){
 	$retriveQuoteAssist= new AjaxCotizaciones();
 	$retriveQuoteAssist -> idCotizacionOfertas = $_POST["ofertasCotizacion"];
 	$retriveQuoteAssist -> ajaxRetriveOffertsQuotationAssistCard();
+}
+
+// /*=============================================
+// RETOMAR COTIZACIONES SALUD POR ID
+// =============================================*/
+if(isset($_POST["idCotizacionSalud"])){
+
+	$retriveQuoteSalud = new AjaxCotizaciones();
+	$retriveQuoteSalud -> idCotizacionSalud = $_POST["idCotizacionSalud"];
+	$retriveQuoteSalud -> ajaxRetriveOffertsQuotationSalud();
 }
 

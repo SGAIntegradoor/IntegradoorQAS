@@ -104,31 +104,31 @@
                                             <label for="" class="login-box-msg">Los campos con <strong class="text-danger">*</strong> son obligatorios</label><br><br>
                                             <div class="form-group col-md-12 col-sm-12 col-xs-12">
                                                 <label for="">Clave de registro <strong class="text-danger">*</strong> </label>
-                                                <input class="form-control" type="text" name="clave_registro" id="clave_registro" placeholder="Clave de registro" autofocus>
+                                                <input class="form-control" type="text" name="clave_registro" id="clave_registro" placeholder="Clave de registro" autofocus required>
                                             </div>
                                         </div>
 
                                         <div class="row">
                                             <div class="form-group col-md-6 col-sm-12 col-xs-12">
                                                 <label for="">Nombres <strong class="text-danger">*</strong> </label>
-                                                <input class="form-control" type="text" name="nombre" id="nombre" placeholder="Nombre">
+                                                <input class="form-control" type="text" name="nombre" id="nombre" placeholder="Nombre" onblur="this.value = this.value.trim();" required>
                                             </div>
                                             <div class="form-group col-md-6 col-sm-12 col-xs-12">
                                                 <label for="">Apellidos <strong class="text-danger">*</strong></label>
-                                                <input class="form-control" type="text" name="apellido" id="apellido" placeholder="Apellido">
+                                                <input class="form-control" type="text" name="apellido" id="apellido" placeholder="Apellido"  onblur="this.value = this.value.trim();" required>
                                             </div>
                                         </div>
 
                                         <div class="row">
                                             <div class="form-group col-md-6 col-sm-12 col-xs-12">
                                                 <label for="">Tipo de documento <strong class="text-danger">*</strong></label>
-                                                <select class="form-control" name="tipo_documento" id="tipo_documento">
+                                                <select class="form-control" name="tipo_documento" id="tipo_documento" required>
                                                     <?php
                                                     $opciones = array(
-                                                        'CC' => 'Cédula de ciudadanía',
-                                                        'CE' => 'Cédula de extranjería',
-                                                        'RC' => 'Registro civil',
-                                                        'TI' => 'Tarjeta de identidad'
+                                                        'Cedula de Ciudadania' => 'Cedula de Ciudadania',
+                                                        'Cedula de Extranjeria' => 'Cedula de extranjería',
+                                                        'Registro Civil' => 'Registro civil',
+                                                        'Tarjeta de identidad' => 'Tarjeta de identidad'
                                                     );
 
                                                     foreach ($opciones as $valor => $texto) {
@@ -140,7 +140,7 @@
 
                                             <div class="form-group col-md-6 col-sm-12 col-xs-12">
                                                 <label for="">Numero de documento <strong class="text-danger">*</strong></label>
-                                                <input class="form-control" onkeypress="return validar_numeros(event)" type="tel" name="identificacion" id="identificacion" placeholder="#Documento">
+                                                <input class="form-control" type="text" name="identificacion" id="identificacion" placeholder="#Documento" required>
                                             </div>
                                         </div>
 
@@ -247,7 +247,7 @@
 
                                                 <div class="form-group col-md-6 col-sm-12">
                                                     <label for="">Genero <strong class="text-danger">*</strong></label>
-                                                    <select class="form-control" name="genero" id="genero">
+                                                    <select class="form-control" name="genero" id="genero" required>
                                                         <option value="" disabled selected>Genero</option>
                                                         <option value="F">Femenino</option>
                                                         <option value="M">Masculino</option>
@@ -256,7 +256,7 @@
 
                                                 <div class="form-group col-md-6 col-sm-12">
                                                     <label for="">Celular <strong class="text-danger">*</strong></label>
-                                                    <input class="form-control" type="tel" onkeypress="return validar_numeros(event)" name="celular" id="celular" placeholder="Celular">
+                                                    <input class="form-control" type="tel"  name="celular" id="celular" placeholder="Celular">
                                                 </div>
 
                                             </div>
@@ -317,7 +317,7 @@
                                             </div>
                                             <div class="col-xs-12 col-md-6 form-group">
                                                 <label for="">Dirección <strong class="text-danger">*</strong></label>
-                                                <input class="form-control" type="text" name="direccion" id="direccion" >
+                                                <input class="form-control" type="text" name="direccion" id="direccion" required>
                                             </div>
                                         </div>
 
@@ -440,18 +440,18 @@
                                         <div class="row">
                                             <div class="form-group col-md-12 col-sm-12">
                                                 <label for="">Correo Electronico <strong class="text-danger">*</strong></label>
-                                                <input class="form-control" type="email" name="correo_electronico" id="correo_electronico" placeholder="Correo electronico">
+                                                <input class="form-control" type="email" name="correo_electronico" id="correo_electronico" placeholder="Correo electronico" required>
                                             </div>
                                         </div>
                     
                                         <div class="row">
                                             <div class="form-group col-md-6 col-sm-12">
                                                 <label for="">Contraseña <strong class="text-danger">*</strong></label>
-                                                <input class="form-control" type="password" name="contrasena" id="contrasena" placeholder="Contraseña">
+                                                <input class="form-control" type="password" name="contrasena" id="contrasena" placeholder="Contraseña" required>
                                             </div>
                                             <div class="form-group col-md-6 col-sm-12">
                                                 <label for="">Confirmar contraseña <strong class="text-danger">*</strong></label>
-                                                <input class="form-control" type="password" name="confirmar_contrasena" id="confirmar_contrasena" placeholder="Confirmar contraseña">
+                                                <input class="form-control" type="password" name="confirmar_contrasena" id="confirmar_contrasena" placeholder="Confirmar contraseña" required>
                                             </div>
                                         </div>
                                         

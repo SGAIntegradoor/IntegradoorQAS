@@ -51,7 +51,52 @@ class ControladorCotizaciones
 		return $respuesta;
 	}
 
+	/*=============================================
+	MOSTRAR COTIZACIONES "OFERTAS ASSISTCARD"
+	=============================================*/
 
+	static public function ctrShowOffertsQuoteAssistCard($id)
+	{
+		session_start();
+		$tabla = "ofertas_assistcard";
+		$field = "id_cotizacion";
+		$respuesta = ModeloCotizaciones::ctrMostrarCotizaOfertasAssistCard($tabla, $field, $id);
+
+		return $respuesta;
+	}
+
+	// /*=============================================
+	// MOSTRAR COTIZACION DE SALUD POR ID
+	// =============================================*/
+
+	// static public function ctrShowQuoteSaludID($id)
+	// {
+	// 	session_start();
+	// 	$tabla = "cotizaciones_salud";
+	// 	$field = "id_cotizacion";
+
+	// 	$respuesta = ModeloCotizaciones::mdlShowQuoteSalud($tabla, $field, $id);
+
+	// 	return $respuesta;
+	// }
+
+	/*=============================================
+	MOSTRAR COTIZACIONES "OFERTAS SALUD POR ID"
+	=============================================*/
+
+	static public function ctrShowOffertsQuoteSaludID($id)
+	{
+		session_start();
+		$tabla = "cotizaciones_salud";
+		$tabla2 = "tomadores_cotizaciones_salud";
+		$tabla3 = "asegurados_cotizaciones_salud";
+		$tabla4 = "planes_cotizaciones_salud";
+		$tabla5 = "usuarios";
+		$field = "id_cotizacion";
+		$respuesta = ModeloCotizaciones::mdlShowQuoteSalud($tabla, $tabla2, $tabla3, $tabla4, $tabla5, $field, $id);
+
+		return $respuesta;
+	}
 
 	/*=============================================
 	MOSTRAR COTIZACION "OFERTAS"
@@ -63,20 +108,6 @@ class ControladorCotizaciones
 		$tabla = "ofertas";
 
 		$respuesta = ModeloCotizaciones::ctrMostrarCotizaOfertas($tabla, $item, $valor);
-
-		return $respuesta;
-	}
-
-	/*=============================================
-	MOSTRAR COTIZACIONES "OFERTAS ASSISTCARD"
-	=============================================*/
-
-	static public function ctrShowOffertsQuoteAssistCard($id)
-	{
-		session_start();
-		$tabla = "ofertas_assistcard";
-		$field = "id_cotizacion";
-		$respuesta = ModeloCotizaciones::ctrMostrarCotizaOfertasAssistCard($tabla, $field, $id);
 
 		return $respuesta;
 	}
@@ -153,6 +184,21 @@ class ControladorCotizaciones
 		return $respuesta;
 	}
 
+	static public function ctrRangoFechasCotizacionesSalud($fechaFinalCotizaciones, $fechaInicialCotizaciones)
+	{
+
+		$tabla = "cotizaciones_salud";
+		$tabla2 = "tomadores_cotizaciones_salud";
+		$tabla3 = "asegurados_cotizaciones_salud";
+		$tabla4 = "planes_cotizaciones_salud";
+		$tabla5 = "usuarios";
+
+		$respuesta = ModeloCotizaciones::mdlRangoFechasCotizacionesSalud($tabla, $tabla2, $tabla3, $tabla4, $tabla5, $fechaInicialCotizaciones, $fechaFinalCotizaciones);
+
+
+
+		return $respuesta;
+	}
 
 	static public function ctrGetDataLastRegisters($fechaInicialCotizaciones, $fechaFinalCotizaciones, $condicion)
 	{

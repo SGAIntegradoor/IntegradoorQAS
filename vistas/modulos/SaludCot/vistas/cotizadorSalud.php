@@ -28,7 +28,7 @@
         <div class="col-xs-12 col-sm-6 col-md-2">
             <div class="form-group">
                 <label for="numeroDocumento">No. Documento</label>
-                <input id="numeroDocumento" class="form-control" type="number"></input>
+                <input id="numeroDocumento" class="form-control numeroDocumento" type="number"></input>
             </div>
         </div>
 
@@ -100,7 +100,7 @@
         <div class="col-xs-12 col-sm-6 col-md-2">
             <div class="form-group">
                 <label for="numeroDocumento">No. Documento</label>
-                <input id="numeroDocumento" class="form-control" type="number"></input>
+                <input id="numeroDocumento" class="form-control numeroDocumento" type="number"></input>
             </div>
         </div>
 
@@ -122,14 +122,14 @@
                         <select class="form-control fecha-nacimiento" name="dianacimiento" id="dianacimiento" required>
                             <option value="">Dia</option>
                             <?php
-                                for ($i = 1; $i <= 31; $i++) {
+                            for ($i = 1; $i <= 31; $i++) {
                                 if (strlen($i) == 1) { ?>
-                            <option value="<?php echo "0" . $i ?>"><?php echo "0" . $i ?></option><?php
+                                    <option value="<?php echo "0" . $i ?>"><?php echo "0" . $i ?></option><?php
                                                                                                         } else { ?>
-                            <option value="<?php echo $i ?>"><?php echo $i ?></option><?php
+                                    <option value="<?php echo $i ?>"><?php echo $i ?></option><?php
                                                                                                         }
                                                                                                     }
-                                                                                            ?>
+                                                                                                ?>
                         </select>
                     </div>
                     <div class="col-xs-4 col-sm-4 col-md-4 conten-mes">
@@ -154,9 +154,9 @@
                             required>
                             <option value="">Año</option>
                             <?php
-                                for ($j = 1920; $j <= 2024; $j++) {
-                                ?>
-                            <option value="<?php echo $j ?>"><?php echo $j ?></option><?php
+                            for ($j = 1920; $j <= 2024; $j++) {
+                            ?>
+                                <option value="<?php echo $j ?>"><?php echo $j ?></option><?php
                                                                                         }
                                                                                             ?>
                         </select>
@@ -170,10 +170,10 @@
         <div class="col-xs-12 col-sm-6 col-md-2">
             <div class="form-group">
                 <div class="form-group">
-                <label for="genero">Genero</label>
-                <select id="genero" class="form-control genero">
-                </select>
-            </div>
+                    <label for="genero">Genero</label>
+                    <select id="genero" class="form-control genero">
+                    </select>
+                </div>
             </div>
         </div>
 
@@ -181,13 +181,21 @@
 
     <div id="aseguradosContainer"></div>
 
-    <div class="row marginBot">
+    <?php
+
+    if (!isset($_GET["idCotizacionSalud"])) {
+
+        echo '<div class="row marginBot">
         <div class="col-xs-12 col-sm-6 col-md-2" id="colBtnCotizar">
             <div class="form-group">
                 <button class="btn btn-primary btn-block btn-cot" id="btnCotizarAsiss">Cotizar</button>
             </div>
         </div>
-    </div>
+    </div>';
+    }
+
+
+    ?>
 
     <div class="row">
         <div class="col-xs-12 text-center">
@@ -202,7 +210,7 @@
         <div class="row row-aseg">
             <div class="col-xs-12 col-sm-6 col-md-3">
                 <label for="">PARRILLA DE COTIZACIONES</label>
-            </div>           
+            </div>
         </div>
     </div>
     <div class="container-fluid" id="Cards">
@@ -217,3 +225,4 @@
 
 <link rel="stylesheet" href="vistas\modulos\SaludCot\css\cotizadorSalud.css">
 <script src="vistas\modulos\SaludCot\js\eventCotizarSalud.js?v=<?php echo (rand()); ?>"></script>
+<!-- <script src="vistas\modulos\SaludCot\js\adminCotizacionesSalud.js?v=<?php echo (rand()); ?>"></script> -->

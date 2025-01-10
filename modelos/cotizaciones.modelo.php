@@ -151,6 +151,136 @@ class ModeloCotizaciones
 		return null; // En caso de que no se cumplan las condiciones, devuelve null
 	}
 
+	static public function responseFormatted($responses)
+	{
+		// Inicializar arreglos para almacenar información procesada
+		$asegurados = []; // Asegurados únicos
+		$asegsRequestData = []; // Datos formateados de la cotización
+		$idsAsegurados = []; // IDs de asegurados únicos para evitar duplicados
+		$tomador = []; // Datos del tomador
+
+		// Contador para asignar IDs únicos a los asegurados
+		$cont = 1;
+
+		// Procesar cada respuesta
+		foreach ($responses as $row) {
+			$idAsegurado = $row["id_asegurado"];
+
+			// Verificar si el asegurado ya fue procesado
+			if (!in_array($idAsegurado, $idsAsegurados)) {
+				// Obtener y formatear todos los planes relacionados con este asegurado
+				$plans = [];
+				foreach ($responses as $plan) {
+					if ($plan["id_asegurado"] === $idAsegurado) {
+						$plans[] = [
+							"plan_id" => $plan["id_plan"],
+							"anual" => $plan["anual_plan"],
+							"mensual" => $plan["mensual_plan"],
+							"semestral" => $plan["semestral_plan"],
+							"trimestral" => $plan["trimestral_plan"],
+							"nombre" => $plan["nombre_plan"],
+							"tipo_cotizacion_id" => (int)$plan["tipo_cotizacion"],
+						];
+					}
+				}
+
+				// Dividir nombre y fecha de nacimiento
+				$arrayFecha = explode("-", $row["fch_nac_asegurado"]);
+				$arrayNombre = explode(" ", $row["nom_asegurado"], 2);
+
+				// Crear objeto asegurado
+				$asegurado = [
+					"id" => $cont,
+					"id_asegurado" => $idAsegurado,
+					"nombre" => $arrayNombre[0] ?? "",
+					"apellido" => $arrayNombre[1] ?? "",
+					"edad" => $row["edad_asegurado"],
+					"genero" => $row["genero_asegurado"],
+					"numeroDocumento" => $row["cedula_asegurado"],
+					"fechaNacimiento" => [
+						"dia" => (int)$arrayFecha[2] ?? "",
+						"mes" => (int)$arrayFecha[1] ?? "",
+						"anio" => (int)$arrayFecha[0] ?? "",
+					],
+					"planes" => array_values($plans), // Reinicia los índices del array de planes
+					"tipoDocumento" => $row["tipo_documento_asegurado"],
+				];
+
+				// Agregar asegurado al resultado
+				$asegurados[] = $asegurado;
+				$idsAsegurados[] = $idAsegurado; // Marcar ID como procesado
+				$cont++;
+			}
+		}
+
+		// Formatear datos del tomador
+		$nombreCompletoTomador = explode(" ", $responses[0]["nombre_tomador"], 2);
+		$tomador = [
+			"nombre" => $nombreCompletoTomador[0] ?? "",
+			"apellido" => $nombreCompletoTomador[1] ?? "",
+			"cedula" => $responses[0]["id_tomador"],
+			"tipoDocumento" => $responses[0]["tipo_documento"],
+		];
+
+		// Preparar datos de la cotización
+
+		$aseguradorRequest = $asegurados;
+
+		foreach ($aseguradorRequest as &$aseguradoReq) {
+			unset($aseguradoReq["planes"]);
+		}
+
+		unset($aseguradoReq); // Romper la referencia después del foreach, es una buena práctica
+
+		$asegsRequestData = [
+			"asegurados" => $aseguradorRequest,
+			"id_usuario" => $responses[0]["id_usuario"],
+			"tipo_cotizacion" => $responses[0]["num_asegurados"] == 1 ? 1 : 2,
+			"tomador" => $tomador,
+		];
+
+		// Retornar datos formateados
+		return [
+			"asegurados" => $asegurados,
+			"success" => true,
+			"requestData" => $asegsRequestData,
+		];
+	}
+
+	static public function mdlShowQuoteSalud($tabla, $tabla2, $tabla3, $tabla4, $tabla5, $field, $id)
+	{
+		// Inicializa la variable $stmt
+		$stmt = null;
+		if ($id != null) {
+			$stmt = Conexion::conectar()->prepare("SELECT 
+				*
+			FROM 
+				$tabla c
+			INNER JOIN 
+				$tabla2 t ON t.id_cotizacion = c.id_cotizacion
+			INNER JOIN 
+				$tabla3 a ON a.id_cotizacion = c.id_cotizacion
+			INNER JOIN 
+				$tabla4 p ON p.id_asegurado = a.id_asegurado
+			INNER JOIN 
+				$tabla5 us ON c.id_usuario = us.id_usuario
+			WHERE 
+				c.$field = :id");
+
+			$stmt->bindParam(":id", $id, PDO::PARAM_STR);
+
+			if ($stmt->execute()) {
+				$resultado = $stmt->fetchAll(PDO::FETCH_ASSOC);
+				$stmt->closeCursor(); // Correctamente cerrando el cursor
+				return self::responseFormatted( $resultado);
+			} else {
+				return null; // Si la consulta falla, devuelve null
+			}
+		}
+
+		return null; // En caso de que no se cumplan las condiciones, devuelve null
+	}
+
 	/*=============================================
 	ELIMINAR COTIZACIONES
 	=============================================*/
@@ -323,7 +453,7 @@ class ModeloCotizaciones
 			$stmt->execute();
 
 			return $stmt->fetchAll(PDO::FETCH_ASSOC);
-		}  else {
+		} else {
 			$inicioMes = new DateTime($fechaInicialCotizaciones);
 			$inicioMes = $inicioMes->format('Y-m-d');
 			$finMes = new DateTime($fechaFinalCotizaciones);
@@ -369,6 +499,115 @@ class ModeloCotizaciones
 		}
 	}
 
+	static public function mdlRangoFechasCotizacionesSalud($tabla, $tabla2, $tabla3, $tabla4, $tabla5,  $fechaInicialCotizaciones, $fechaFinalCotizaciones)
+	{
+		$condicion = "";
+		if ($_SESSION["permisos"]["Verlistadodecotizacionesdelaagencia"] != "x") {
+			$condicion = "AND $tabla.id_usuario = :idUsuario";
+		}
+		if ($fechaInicialCotizaciones == null) {
+			$fechaActual = new DateTime();
+			// Obtener la fecha de inicio de mes
+			$inicioMes = clone $fechaActual;
+			$inicioMes->modify('first day of this month');
+			$inicioMes = $inicioMes->format('Y-m-d');
+
+			// Obtener la fecha de fin de mes
+			$finMes = clone $fechaActual;
+			$finMes->modify('first day of next month')->modify(-1);
+			$finMes = $finMes->format('Y-m-d');
+
+			$stmt = Conexion::conectar()->prepare("
+				SELECT 
+				*
+				FROM 
+					$tabla c
+				INNER JOIN 
+					$tabla3 a ON a.id_cotizacion = c.id_cotizacion
+				INNER JOIN 
+					$tabla2 t ON t.id_cotizacion = c.id_cotizacion
+				INNER JOIN 
+					$tabla5 us ON us.id_usuario = c.id_usuario
+				WHERE 
+					c.fecha_cotizacion BETWEEN :fechaInicio AND :fechaFin 
+				$condicion
+				GROUP BY c.id_cotizacion;
+			");
+
+			$stmt->bindParam(":fechaInicio", $inicioMes, PDO::PARAM_STR);
+			$stmt->bindParam(":fechaFin", $finMes, PDO::PARAM_STR);
+			$stmt->bindParam(":idIntermediario", $_SESSION["intermediario"], PDO::PARAM_INT);
+
+			if ($_SESSION["permisos"]["Verlistadodecotizacionesdelaagencia"] != "x") {
+				$stmt->bindParam(":idUsuario", $_SESSION["idUsuario"], PDO::PARAM_INT);
+			}
+
+			$stmt->execute();
+
+			return $stmt->fetchAll(PDO::FETCH_ASSOC);
+		} else {
+			$inicioMes = new DateTime($fechaInicialCotizaciones);
+			$inicioMes = $inicioMes->format('Y-m-d');
+			$finMes = new DateTime($fechaFinalCotizaciones);
+			if ($finMes->format('t') == $finMes->format('d')) {
+				// Si es el último día del mes, ajustar al primer día del siguiente mes
+				$finMes->modify('first day of next month');
+			} else {
+				// Si no, simplemente agregar un día
+				$finMes->modify('+1 day');
+			}
+
+			$finMes = $finMes->format('Y-m-d');
+
+			if ($_SESSION['rol'] == 10) {
+				$stmt = Conexion::conectar()->prepare("
+				SELECT 
+				*
+				FROM 
+					$tabla c
+				INNER JOIN 
+					$tabla3 a ON a.id_cotizacion = c.id_cotizacion
+				INNER JOIN 
+					$tabla2 t ON t.id_cotizacion = c.id_cotizacion
+				INNER JOIN 
+					$tabla5 us ON us.id_usuario = c.id_usuario
+				WHERE 
+					c.fecha_cotizacion BETWEEN :fechaInicial AND :fechaFinal 
+				GROUP BY c.id_cotizacion;
+			");
+			} else {
+				$stmt = Conexion::conectar()->prepare("
+				SELECT 
+				*
+				FROM 
+					$tabla c
+				INNER JOIN 
+					$tabla3 a ON a.id_cotizacion = c.id_cotizacion
+				INNER JOIN 
+					$tabla2 t ON t.id_cotizacion = c.id_cotizacion
+				INNER JOIN 
+					$tabla5 us ON us.id_usuario = c.id_usuario
+				WHERE 
+					c.fecha_cotizacion BETWEEN :fechaInicial AND :fechaFinal 
+				$condicion
+				AND us.id_Intermediario = :idIntermediario
+				GROUP BY c.id_cotizacion;
+			");
+				$stmt->bindParam(":idIntermediario", $_SESSION["intermediario"], PDO::PARAM_INT);
+			}
+
+			$stmt->bindParam(":fechaInicial", $inicioMes, PDO::PARAM_STR);
+			$stmt->bindParam(":fechaFinal", $finMes, PDO::PARAM_STR);
+
+			if ($_SESSION["permisos"]["Verlistadodecotizacionesdelaagencia"] != "x") {
+				$stmt->bindParam(":idUsuario", $_SESSION["idUsuario"], PDO::PARAM_INT);
+			}
+
+			$stmt->execute();
+			//echo json_encode($stmt->fetchAll(PDO::FETCH_ASSOC));
+			return $stmt->fetchAll(PDO::FETCH_ASSOC);
+		}
+	}
 
 
 	static public function mdlGetDataLastRegisters($fechaInicialCotizaciones, $fechaFinalCotizaciones, $condicion = null)

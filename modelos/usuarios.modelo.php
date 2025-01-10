@@ -261,36 +261,6 @@ class ModeloUsuarios
 		$stmt->bindParam(":cotTotales", $datos["cotizacionesTotales"], PDO::PARAM_INT);
 		$stmt->bindParam(":fechaLimite", $datos["fechaLimite"], PDO::PARAM_STR);
 
-		// if (!$stmt->execute()) {
-		// 	$errorInfo = $stmt->errorInfo();
-		// 	echo "Error al ejecutar la consulta: " . $errorInfo[2];
-		// 	// Opcionalmente, puedes mostrar información adicional sobre el error
-
-		// 	echo "Código de error: " . $errorInfo[0];
-		// }
-
-		// echo '<script>
-
-		// swal({
-
-		// 	type: "success",
-		// 	title: "' . $datos["intermediario"] . '",
-		// 	showConfirmButton: true,
-		// 	confirmButtonText: "Cerrar"
-
-		// }).then(function(result){
-
-		// 	if(result.value){
-
-		// 		window.location = "usuarios";
-
-		// 	}
-
-		// });
-
-
-		// </script>';
-
 		if ($stmt->execute()) {
 			if ($datos['rol'] == 19 && $datos['analista'] != "") {
 				// echo json_encode($datos);
@@ -358,9 +328,9 @@ class ModeloUsuarios
 						$cont++;
 					} else {
 						$errorInfo = $stmtUser->errorInfo();
-						echo "SQLSTATE error code: " . $errorInfo[0] . "\n";
-						echo "Driver-specific error code: " . $errorInfo[1] . "\n";
-						echo "Driver-specific error message: " . $errorInfo[2] . "\n";
+						echo "SQLSTATE error code AQUI: " . $errorInfo[0] . "\n";
+						echo "Driver-specific error code AQUI: " . $errorInfo[1] . "\n";
+						echo "Driver-specific error message AQUI: " . $errorInfo[2] . "\n";
 					}
 					$resultadosUser = $stmtUser->fetch(PDO::FETCH_ASSOC);
 					$nombreFreelance = $resultados[0]["usu_nombre"] . ' ' . $resultados[0]["usu_apellido"];
@@ -378,8 +348,8 @@ class ModeloUsuarios
 							$cont++;
 						} else {
 							$errorInfo = $stmtAnalist->errorInfo();
-							echo "SQLSTATE error code: " . $errorInfo[0] . "\n";
-							echo "Driver-specific error code: " . $errorInfo[1] . "\n";
+							echo "SQLSTATE error code: AQUI NO" . $errorInfo[0] . "\n";
+							echo "Driver-specific error code: AQUI NO" . $errorInfo[1] . "\n";
 							echo "Driver-specific error message: " . $errorInfo[2] . "\n";
 						}
 					} else if ($analistPost != 1 && ($idAnalista != null && $idAnalista != "") && $analistPost != $idAnalista) {
@@ -432,7 +402,15 @@ class ModeloUsuarios
 					if (!empty($cotTot)) {
 						$updateQuery .= ", cotizacionesTotales = :cotTotales";
 					}
-
+					
+                    $ciudadID = 0;
+                    
+                    if($datos["ciudad"] == ""){
+                        $ciudadID = 0;
+                        $datos["ciudad"] = 0;
+                    } else {
+                        $ciudadID = $datos["ciudad"];
+                    }
 
 					$updateQuery .= " WHERE usu_usuario = :usuario";
 
@@ -451,7 +429,7 @@ class ModeloUsuarios
 						$stmt->bindParam(":fechNacimiento", $datos["fechNacimiento"], PDO::PARAM_STR);
 					}
 					$stmt->bindParam(":direccion", $datos["direccion"], PDO::PARAM_STR);
-					$stmt->bindParam(":ciudad", $datos["ciudad"], PDO::PARAM_STR);
+					$stmt->bindParam(":ciudad", $ciudadID, PDO::PARAM_INT);
 					$stmt->bindParam(":telefono", $datos["telefono"], PDO::PARAM_STR);
 					$stmt->bindParam(":email", $datos["email"], PDO::PARAM_STR);
 					$stmt->bindParam(":cargo", $datos["cargo"], PDO::PARAM_STR);

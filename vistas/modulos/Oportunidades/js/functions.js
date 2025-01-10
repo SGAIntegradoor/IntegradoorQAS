@@ -105,10 +105,6 @@ function obtenerMesActual() {
 function selectByText(selector, text) {
   // Encuentra el valor asociado al texto
 
-  if (text == "AXA Colpatria") {
-    debugger;
-  }
-
   let valueToSelect = $(selector + " option")
     .filter(function () {
       return $(this).text().trim() === text;
