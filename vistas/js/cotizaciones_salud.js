@@ -282,6 +282,8 @@ function editarCotizacionSalud(id) {
 
           console.log(dia, mes, anio);
 
+          let monthFormatted = mes.padStart(2, "0");
+
           $(this)
             .find(".conten-dia")
             .find(`#dianacimiento${index == 0 ? "" : "_" + (index + 1 )}`) // Selecciona el <select>
@@ -291,7 +293,7 @@ function editarCotizacionSalud(id) {
           $(this)
             .find(".conten-mes")
             .find(`#mesnacimiento${index == 0 ? "" : "_" + (index + 1)}`) // Selecciona el <select>
-            .val(mes.charAt(0) == 1 ? mes : "0"+mes) // Cambia el valor del select
+            .val(monthFormatted) // Cambia el valor del select
             .trigger("change"); // Actualiza el select2
 
           $(this)
