@@ -379,15 +379,15 @@ function handleMismoAsegurado() {
     // Copiar información de los campos principales a los campos clonados
     var tipoDocumento = $("#tipoDocumento").val();
     var numeroDocumento = $("#numeroDocumento").val();
-    var nombre = $("#nombre").val();
-    var apellido = $("#apellido").val();
-
-    $(".asegurado").each(function () {
-      $(this).find("#tipoDocumento").val(tipoDocumento).trigger("change");
-      $(this).find("#numeroDocumento").val(numeroDocumento);
-      $(this).find("#nombre").val(nombre);
-      $(this).find("#apellido").val(apellido);
-    });
+    var nombre = $(".nombre").val();
+    var apellido = $(".apellido").val();
+    $("#aseguradoTemplate")
+      .find("#tipoDocumento")
+      .val(tipoDocumento)
+      .trigger("change");
+    $("#aseguradoTemplate").find("#numeroDocumento").val(numeroDocumento);
+    $("#aseguradoTemplate").find(".nombre").val(nombre);
+    $("#aseguradoTemplate").find(".apellido").val(apellido);
   } else {
     // Vaciar los campos clonados
     $(".asegurado").each(function () {
@@ -1103,13 +1103,13 @@ function makeCards(data, tipoCotizacion) {
     }
   }
 
-  if(getParams("idCotizacionSalud").length > 0){
+  if (getParams("idCotizacionSalud").length > 0) {
     document.getElementById("row_contenedor_general_salud2").innerHTML =
-    html_data;
+      html_data;
     showPopup = !showPopup;
   } else {
     document.getElementById("row_contenedor_general_salud").innerHTML =
-    html_data;
+      html_data;
   }
   cargarEstilos("vistas/modulos/SaludCot/css/cardsResult.css");
 
@@ -1189,10 +1189,10 @@ function cotizar() {
           var tipoCotizacion = $("#individual").is(":checked") ? 1 : 2;
           var esCotizacionIndividual = $("#individual").is(":checked");
           var tomador = {
-            tipoDocumento: $("#tipoDocumento").val(),
-            numeroDocumento: $("#numeroDocumento").val(),
-            nombre: $("#nombre").val(),
-            apellido: $("#apellido").val(),
+            tipoDocumento: $("#tomadorContainerData").find(".tipoDocumento").val(),
+            numeroDocumento: $("#tomadorContainerData").find(".numeroDocumento").val(),
+            nombre: $("#tomadorContainerData").find(".nombre").val(),
+            apellido: $("#tomadorContainerData").find(".apellido").val(),
           };
 
           // Obtener y convertir las variables para la fecha de nacimiento a números enteros
@@ -1268,15 +1268,15 @@ function cotizar() {
             tomador: tomador,
             asegurados: asegurados,
             id_usuario: permisos.id_usuario,
-            env: "QAS"
+            env: "QAS",
           };
 
           // Puedes ver el JSON en la consola para verificar
           console.log(JSON.stringify(datosCotizacion, null, 2));
 
           $.ajax({
-            url: "https://grupoasistencia.com/health_engine/WSAxa/axa.php",
-            // url: "http://localhost/motorTest/health_engine/axa.php",
+            // url: "https://grupoasistencia.com/health_engine/WSAxa/axa.php",
+            url: "http://localhost/motorTest/health_engine/axa.php",
             type: "POST",
             data: JSON.stringify(datosCotizacion),
             success: function (data) {
@@ -1378,6 +1378,7 @@ $(document).ready(function () {
       });
     } else {
       cotizar();
+      $("#containerDataTable").hide();
     }
   });
 });

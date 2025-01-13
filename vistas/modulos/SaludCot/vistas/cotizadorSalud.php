@@ -17,18 +17,18 @@
     </div>
 </div>
 <div class="container-salud" id="containerDatosSalud">
-    <div class="row">
+    <div class="row" id="tomadorContainerData">
         <div class="col-xs-12 col-sm-6 col-md-2">
             <div class="form-group">
-                <label for="tipoDocumento">Tipo de Documento</label>
-                <select id="tipoDocumento" class="form-control tipoDocumento"></select>
+                <label for="">Tipo de Documento</label>
+                <select id="" class="form-control tipoDocumento"></select>
             </div>
         </div>
 
         <div class="col-xs-12 col-sm-6 col-md-2">
             <div class="form-group">
-                <label for="numeroDocumento">No. Documento</label>
-                <input id="numeroDocumento" class="form-control numeroDocumento" type="number"></input>
+                <label for="">No. Documento</label>
+                <input id="" class="form-control numeroDocumento" type="number"></input>
             </div>
         </div>
 
@@ -36,8 +36,8 @@
             <div class="form-group">
                 <label for="fechaSalida">Nombre Completo</label>
                 <div class="nombreCompleto">
-                    <input id="nombre" class="form-control nombre format-text " placeholder="Nombre"></input>
-                    <input id="apellido" class="form-control apellido format-text" placeholder="Apellido"></input>
+                    <input id="" class="form-control nombre format-text" placeholder="Nombre"></input>
+                    <input id="" class="form-control apellido format-text" placeholder="Apellido"></input>
                 </div>
             </div>
         </div>

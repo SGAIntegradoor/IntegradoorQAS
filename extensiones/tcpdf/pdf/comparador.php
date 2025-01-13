@@ -29,7 +29,7 @@ $identificador = $_GET['cotizacion'];
 $server = "localhost";
 $user = "grupoasi_cotizautos";
 $password = "M1graci0n123"; //poner tu propia contraseña, si tienes una.
-$bd = "grupoasi_cotizautos_qas";
+$bd = "grupoasi_cotizautos";
 
 
 $conexion = mysqli_connect($server, $user, $password, $bd);
@@ -105,6 +105,9 @@ $queryLogo = "SELECT urlLogo FROM intermediario  WHERE id_Intermediario = $inter
 $valorLogo = $conexion->query($queryLogo);
 $valorLogo = mysqli_fetch_array($valorLogo);
 $valorLogo = $valorLogo['urlLogo'];
+
+
+
 
 // var_dump($valorLogo);
 
@@ -252,6 +255,7 @@ if ($valorLogo == "undefined") {
 		$height = ($imgHeight / $imgWidth) * $width;  // Mantener la relación de aspecto
 		$pdf->Image('../../../' . $valorLogo2, 10, 13, 0, $height, 'PNG', '', '', false, 160, '', false, false, 0, false, false, false);
 	} else {
+
 		//var_dump("entre aqui");
 		list($imgWidth, $imgHeight) = getimagesize('../../../' . $valorLogo2);
 		$height = ($imgHeight / $imgWidth) * $width;  // Mantener la relación de aspecto
@@ -293,6 +297,9 @@ if ($valorLogo == "undefined") {
 	} else {
 		$pdf->Image($imagePath, $xPosition, $yPosition, $imgWidth, $imgHeight, 'JPG',  '', '', false, 300, '', false, false, 0, false, false, false);
 	}
+} else if ($valorLogo != "") {
+	$urlSGA = "../../../vistas/img/logosIntermediario/".$valorLogo;
+	$pdf->Image($urlSGA, 8, 13, 0, 20, 'PNG', '', '', true, 160, '', false, false, 0, false, false, false);
 } else {
 	if ($intermediario == "89" || $intermediario == 89) {
 		$urlSGA = "../../../vistas/img/intermediario/SEGUROS GRUPO ASISTENCIA SAS/LogoIntegradoor.jpg";

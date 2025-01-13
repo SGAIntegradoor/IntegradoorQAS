@@ -222,17 +222,24 @@ function editarCotizacionSalud(id) {
     processData: false,
     dataType: "json",
     success: function (respuesta) {
-      console.log(respuesta);
-
-      const { nombre, apellido, tipoDocumento, cedula } =
+      const { cedula, nombre, apellido, tipoDocumento } =
         respuesta.requestData.tomador;
 
       const { asegurados } = respuesta.requestData;
 
-      $("#tipoDocumento").val("0" + tipoDocumento);
-      $("#numeroDocumento").val(cedula);
-      $("#nombre").val(nombre);
-      $("#apellido").val(apellido);
+      const fields = ["nombre", "apellido", "tipoDocumento", "cedula"];
+
+      fields.forEach((field) => {
+        if (field === "cedula") {
+          field = "numeroDocumento";
+        }
+        $(`.${field}`).prop("disabled", true);
+      });
+
+      $("#tomadorContainerData").find(".tipoDocumento").val("0" + tipoDocumento),
+        $("#tomadorContainerData").find(".numeroDocumento").val(cedula);
+      $("#tomadorContainerData").find(".nombre").val(nombre);
+      $("#tomadorContainerData").find(".apellido").val(apellido);
 
       if (respuesta.asegurados.length > 1) {
         $("#grupoFamiliar").prop("checked", true).trigger("click");
@@ -266,46 +273,43 @@ function editarCotizacionSalud(id) {
       // let asegs = [];
 
       $(".asegurado").each(function (index) {
+        $(this).find(".nombre").val(asegurados[index].nombre);
+        $(this).find(".apellido").val(asegurados[index].apellido);
+        $(this).find(".tipoDocumento").val(asegurados[index].tipoDocumento);
+        $(this).find(".numeroDocumento").val(asegurados[index].numeroDocumento);
+        $(this).find(".genero").val(asegurados[index].genero);
+        // $(this).find(".fechaNacimiento").val(asegurados[index].fechaNacimiento);
 
-          $(this).find(".nombre").val(asegurados[index].nombre);
-          $(this).find(".apellido").val(asegurados[index].apellido);
-          $(this).find(".tipoDocumento").val(asegurados[index].tipoDocumento);
-          $(this).find(".numeroDocumento").val(asegurados[index].numeroDocumento);
-          $(this).find(".genero").val(asegurados[index].genero);
-          // $(this).find(".fechaNacimiento").val(asegurados[index].fechaNacimiento);
+        disableInputs(this, true);
 
-          disableInputs(this, true);
+        let dia = asegurados[index].fechaNacimiento.dia.toString();
+        let mes = asegurados[index].fechaNacimiento.mes.toString();
+        let anio = asegurados[index].fechaNacimiento.anio.toString();
 
-          let dia = asegurados[index].fechaNacimiento.dia.toString();
-          let mes = asegurados[index].fechaNacimiento.mes.toString();
-          let anio = asegurados[index].fechaNacimiento.anio.toString(); 
+        console.log(dia, mes, anio);
 
-          console.log(dia, mes, anio);
+        let monthFormatted = mes.padStart(2, "0");
 
-          let monthFormatted = mes.padStart(2, "0");
+        $(this)
+          .find(".conten-dia")
+          .find(`#dianacimiento${index == 0 ? "" : "_" + (index + 1)}`) // Selecciona el <select>
+          .val(dia.length < 2 ? "0" + dia : dia) // Cambia el valor del select
+          .trigger("change"); // Actualiza el select2
 
-          $(this)
-            .find(".conten-dia")
-            .find(`#dianacimiento${index == 0 ? "" : "_" + (index + 1 )}`) // Selecciona el <select>
-            .val(dia.length < 2 ? "0"+dia : dia) // Cambia el valor del select
-            .trigger("change"); // Actualiza el select2
+        $(this)
+          .find(".conten-mes")
+          .find(`#mesnacimiento${index == 0 ? "" : "_" + (index + 1)}`) // Selecciona el <select>
+          .val(monthFormatted) // Cambia el valor del select
+          .trigger("change"); // Actualiza el select2
 
-          $(this)
-            .find(".conten-mes")
-            .find(`#mesnacimiento${index == 0 ? "" : "_" + (index + 1)}`) // Selecciona el <select>
-            .val(monthFormatted) // Cambia el valor del select
-            .trigger("change"); // Actualiza el select2
-
-          $(this)
-            .find(".conten-anio")
-            .find(`#anionacimiento${index == 0 ? "" : "_" + (index + 1)}`) // Selecciona el <select>
-            .val(anio) // Cambia el valor del select
-            .trigger("change"); // Actualiza el select2
-        });
-
+        $(this)
+          .find(".conten-anio")
+          .find(`#anionacimiento${index == 0 ? "" : "_" + (index + 1)}`) // Selecciona el <select>
+          .val(anio) // Cambia el valor del select
+          .trigger("change"); // Actualiza el select2
+      });
 
       makeCards(respuesta, 2);
-
     },
 
     error: function (jqXHR, textStatus, errorThrown) {

@@ -688,7 +688,9 @@ class ModeloInternediario{
 
         $sqledit = Conexion::conectar()->prepare("UPDATE intermediario SET nombre = '$razonSO', tip_per_id = '$Tip_Per', tipo_documento   =  '$tipodocumento', num_documento = '$identiInt', nombre_representante ='$nomRepre', Identificacion = '$indentiRepre', correo = '$correo', direccion = '$direccion', ciudad = '$ciudad', contacto = '$comConta', celular = '$cel', codigo_alli = '$alli', codigo_boli = '$boli', codigo_equi = '$equi', codigo_map = '$mapfre', codigo_previ = '$previ', codigo_soli = '$soli', codigo_libe = '$libe', codigo_est = '$est', codigo_axa = '$axa', codigo_hdi = '$hdi', codigo_sbs = '$sbs ', codigo_zuri = '$zuri', codigo_Mundial = '$mundial', codigo_sura = '$sura', intermediario_Fech_Vigen = '$fech_vig', urlLogo = '$img' WHERE id_Intermediario = '$inter'");
 
-        $sqledit -> execute();
+        if(!$sqledit -> execute()){
+            die("error".print_r($sqledit->errorInfo()));
+        }
         return $resultedit =  $sqledit ->rowCount();
 
     }
