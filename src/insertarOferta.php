@@ -24,6 +24,8 @@ $CE = $_POST['CE'];
 $GR = $_POST['GR'];
 $logo = "vistas/img/logos/" . $_POST['logo'];
 $UrlPdf = isset($_POST['UrlPdf']) ? $_POST['UrlPdf'] : NULL;
+$eventos = isset($_POST['eventos']) ? $_POST['eventos'] : NULL;
+
 $manual = $_POST['manual'];
 
 $actIdentity = isset($_POST['identityElement']) && $_POST['identityElement'] != NULL ? $_POST['identityElement'] : NULL;
@@ -35,26 +37,26 @@ if (!$con) {
 
 if ($aseguradora == "Axa Colpatria") {
     $sql = "INSERT INTO `ofertas` (`id_oferta`, `Placa`, `Identificacion`, `NumCotizOferta`, `Aseguradora`, `Producto`, `Prima`, 
-                `ValorRC`, `PerdidaTotal`, `PerdidaParcial`, `ConductorElegido`, `Grua`, `logo`, `UrlPdf`, `id_cotizacion`, `Manual`, 
+                `ValorRC`, `PerdidaTotal`, `PerdidaParcial`, `ConductorElegido`, `Grua`, `Eventos`, `logo`, `UrlPdf`, `id_cotizacion`, `Manual`, 
                 `ResponsabilidadCivilGeneralFamiliar`, `PerdidaParcialHurto`, `oferta_finesa`) 
             VALUES (NULL, '$placa', '$numIdentificacion', '$numCotizOferta', '$aseguradora', '$producto', '$valorPrima', '$valorRC', 
-                    '$PT', '$PP', '$CE', '$GR', '$logo', '$UrlPdf', '$idCotizacion', '$manual', NULL, NULL, '$actIdentity')";
+                    '$PT', '$PP', '$CE', '$GR', '$eventos', '$logo', '$UrlPdf', '$idCotizacion', '$manual', NULL, NULL, '$actIdentity')";
 } else {
     $familiar = isset($_POST['responsabilidad_civil_familiar']) ? $_POST['responsabilidad_civil_familiar'] : NULL;
     $pph = isset($_POST['pph']) ? $_POST['pph'] : NULL;
 
     if ($pph) {
         $sql = "INSERT INTO `ofertas` (`id_oferta`, `Placa`, `Identificacion`, `NumCotizOferta`, `Aseguradora`, `Producto`, `Prima`, 
-                    `ValorRC`, `PerdidaTotal`, `PerdidaParcial`, `ConductorElegido`, `Grua`, `logo`, `UrlPdf`, `id_cotizacion`, `Manual`, 
+                    `ValorRC`, `PerdidaTotal`, `PerdidaParcial`, `ConductorElegido`, `Grua`, `Eventos`, `logo`, `UrlPdf`, `id_cotizacion`, `Manual`, 
                     `ResponsabilidadCivilGeneralFamiliar`, `PerdidaParcialHurto`, `oferta_finesa`) 
                 VALUES (NULL, '$placa', '$numIdentificacion', '$numCotizOferta', '$aseguradora', '$producto', '$valorPrima', '$valorRC', 
-                        '$PT', '$PP', '$CE', '$GR', '$logo', '$UrlPdf', '$idCotizacion', '$manual', '$familiar', '$pph', '$actIdentity')";
+                        '$PT', '$PP', '$CE', '$GR', '$eventos', '$logo', '$UrlPdf', '$idCotizacion', '$manual', '$familiar', '$pph', '$actIdentity')";
     } else {
         $sql = "INSERT INTO `ofertas` (`id_oferta`, `Placa`, `Identificacion`, `NumCotizOferta`, `Aseguradora`, `Producto`, `Prima`, 
-                    `ValorRC`, `PerdidaTotal`, `PerdidaParcial`, `ConductorElegido`, `Grua`, `logo`, `UrlPdf`, `id_cotizacion`, `Manual`, 
+                    `ValorRC`, `PerdidaTotal`, `PerdidaParcial`, `ConductorElegido`, `Grua`, `Eventos`, `logo`, `UrlPdf`, `id_cotizacion`, `Manual`, 
                     `ResponsabilidadCivilGeneralFamiliar`, `PerdidaParcialHurto`, `oferta_finesa`) 
                 VALUES (NULL, '$placa', '$numIdentificacion', '$numCotizOferta', '$aseguradora', '$producto', '$valorPrima', '$valorRC', 
-                        '$PT', '$PP', '$CE', '$GR', '$logo', '$UrlPdf', '$idCotizacion', '$manual', NULL, NULL, '$actIdentity')";
+                        '$PT', '$PP', '$CE', '$GR', '$eventos', '$logo', '$UrlPdf', '$idCotizacion', '$manual', NULL, NULL, '$actIdentity')";
     }
 }
 

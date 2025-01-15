@@ -1895,7 +1895,8 @@ function registrarOferta(
   logo,
   UrlPdf,
   manual,
-  pdf
+  pdf,
+  eventos = null
 ) {
   return new Promise((resolve, reject) => {
     var idCotizOferta = idCotizacion;
@@ -1925,6 +1926,7 @@ function registrarOferta(
         pdf: pdf,
         // Agregue esta variable en Ofertas para reconocer el nombre en Script PHP e insertarlo en la BD en el momento que se crea.
         identityElement: actIdentity != "" ? actIdentity : NULL,
+        eventos: eventos,
       },
       success: function (data) {
         //console.log(data);
@@ -2222,7 +2224,9 @@ function validarOfertas(ofertas, aseguradora, exito) {
       oferta.servicio_grua,
       oferta.imagen,
       oferta.pdf,
-      9
+      9,
+      null,
+      oferta.eventos ? oferta.eventos : null
     );
 
     // });

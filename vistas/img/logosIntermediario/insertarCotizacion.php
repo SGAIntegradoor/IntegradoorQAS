@@ -5,9 +5,8 @@ session_start();
 require_once("../config/db.php"); //Contiene las variables de configuracion para conectar a la base de datos
 require_once("../config/conexion.php"); //Contiene funcion que conecta a la base de datos
 
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
+ini_set('display_errors', 1);
 
 $placa = $_POST['placa'];
 $esCeroKm = $_POST['esCeroKm'];
@@ -56,7 +55,7 @@ $Departamento = $_POST["Departamento"];
 $Ciudad = $_POST["Ciudad"];
 $benefOneroso = $_POST["benefOneroso"];
 $idCotizacion = $_POST["idCotizacion"];
-$idUsuario = isset($_SESSION["idUsuario"]) ? $_SESSION["idUsuario"] : 1190;
+$idUsuario = $_SESSION["idUsuario"];
 if (!isset($_POST["mundial"]) || isset($_POST['mundial']) == "") {
 	$mundial = NULL;
 } else {
@@ -100,56 +99,24 @@ if ($idCliente == "" && $tipoDocumento != 2) {
 		$data['Message 1'] = 'Error cliente: ' . mysqli_error($con);
 	}
 } else if ($tipoDocumento != 2) {
+	// The client exists    
+	$sqlClient = "UPDATE clientes SET id_tipo_documento = '$tipoDocumento', cli_num_documento = '$numIdentificacion', cli_nombre = '$Nombre', 
+                    cli_apellidos = '$Apellido', cli_genero = '$Genero', id_estado_civil = '$EstCivil', cli_email = '$Correo', 
+                    cli_telefono = '$Celular' WHERE id_cliente = $idCliente";
+	$resClient = mysqli_query($con, $sqlClient);
+	$num_rows = mysqli_affected_rows($con);
 
-	// Verificar conexión antes de ejecutar la consulta
-	if ($con) {
-		// Preparar y ejecutar la consulta para actualizar el cliente
-		$sqlClient = "UPDATE clientes 
-                  SET id_tipo_documento = '$tipoDocumento', 
-                      cli_num_documento = '$numIdentificacion', 
-                      cli_nombre = '$Nombre', 
-                      cli_apellidos = '$Apellido', 
-                      cli_genero = '$Genero', 
-					  cli_fch_nacimiento = '$FechaNacimiento',
-                      id_estado_civil = '$EstCivil', 
-                      cli_email = '$Correo', 
-                      cli_telefono = '$Celular' 
-                  WHERE id_cliente = $idCliente";
+	if ($num_rows > 0) {
+		$data['Message 1'] = 'Cliente actualizado exitosamente';
 
-		$resClient = mysqli_query($con, $sqlClient);
-
-		// Verificar si la consulta fue ejecutada con éxito
-		if ($resClient) {
-			$num_rows = mysqli_affected_rows($con);
-
-			if ($num_rows > 0) {
-				$data['Message 1'] = 'Cliente actualizado exitosamente';
-
-				// Verificar si el cliente actualizado existe en la base de datos
-				$respIdCliente = mysqli_query($con, "SELECT `id_cliente` FROM clientes WHERE id_cliente = $idCliente");
-
-				if ($respIdCliente) {
-					$arrIdCliente = $respIdCliente->fetch_assoc();
-					if ($arrIdCliente) {
-						$idCliente = $arrIdCliente["id_cliente"];
-					} else {
-						$data['Message 2'] = 'Error: Cliente actualizado pero no encontrado en la base de datos.';
-					}
-				} else {
-					$data['Message 2'] = 'Error al consultar el cliente actualizado: ' . mysqli_error($con);
-				}
-			} else {
-				$data['Message 1'] = 'No se encontraron cambios en los datos del cliente.';
-			}
-		} else {
-			$data['Message 1'] = 'Error al actualizar el cliente: ' . mysqli_error($con);
-		}
+		$respIdCliente = mysqli_query($con, "SELECT `id_cliente` FROM clientes WHERE id_cliente = $idCliente");
+		$arrIdCliente = $respIdCliente->fetch_assoc();
+		$idCliente = $arrIdCliente["id_cliente"];
 	} else {
-		$data['Message'] = 'Error: No se pudo establecer conexión con la base de datos.';
+		$data['Message 1'] = 'Error cliente: ' . mysqli_error($con);
 	}
-
 } else if ($idCliente == "" && $tipoDocumento == 2) {
-	// CONSULTAMOS EL ULTIMO CODIGO INSERTADO Y LE SUMAMOS 1 PARA CREAR EL CODIGO DEL NUEVO CLIENTE
+// CONSULTAMOS EL ULTIMO CODIGO INSERTADO Y LE SUMAMOS 1 PARA CREAR EL CODIGO DEL NUEVO CLIENTE
 	$respCodCliente = mysqli_query($con, "SELECT `cli_codigo` FROM clientes ORDER BY `id_cliente` DESC LIMIT 1");
 	$rowsCodCliente = mysqli_num_rows($respCodCliente);
 
@@ -182,11 +149,11 @@ if ($idCliente == "" && $tipoDocumento != 2) {
 									'$correoRep', 1,  '$tipoDocumento', '1', '$intermediario');";
 
 	$resCliente = mysqli_query($con, $sqlCliente);
-
+	
 	if (!$resCliente) {
-		echo "Error en la consulta: " . mysqli_error($con);
-		die(); // Detiene la ejecución para que puedas analizar el problema
-	}
+        echo "Error en la consulta: " . mysqli_error($con);
+        die(); // Detiene la ejecución para que puedas analizar el problema
+    }
 	$num_rows = mysqli_affected_rows($con);
 	$ultimoId = mysqli_insert_id($con);
 
@@ -240,8 +207,10 @@ if ($idCliente == "" && $tipoDocumento != 2) {
 	}
 }
 
+
 // VALIDA SI VIENE EL ID DE LA COTIZACION PARA CREAR O ACTUALIZAR EL REGISTRO
 if ($idCotizacion == "" && $idCliente != "") {
+
 	// CONSULTAMOS EL ULTIMO CODIGO INSERTADO Y LE SUMAMOS 1 PARA CREAR EL CODIGO DE LA NUEVA COTIZACIÓN
 	$respCodCotizacion = mysqli_query($con, "SELECT `cot_codigo` FROM cotizaciones ORDER BY `id_cotizacion` DESC LIMIT 1");
 	$rowsCodCotizacion = mysqli_num_rows($respCodCotizacion);
@@ -279,6 +248,4 @@ if ($idCotizacion == "" && $idCliente != "") {
 		$data['Message 2'] = 'Error cotización: ' . mysqli_error($con);
 		echo json_encode($data, JSON_UNESCAPED_UNICODE);
 	}
-} else {
-	
-}
+} 

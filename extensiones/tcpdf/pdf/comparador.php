@@ -31,7 +31,6 @@ $user = "grupoasi_cotizautos";
 $password = "M1graci0n123"; //poner tu propia contraseña, si tienes una.
 $bd = "grupoasi_cotizautos_qas";
 
-
 $conexion = mysqli_connect($server, $user, $password, $bd);
 if (!$conexion) {
 	die('Error de Conexión: ' . mysqli_connect_errno());
@@ -100,18 +99,15 @@ if ($fila2 == 0 || $fila2 == false || $fila2 == null) {
 }
 
 // :::::::::::::::::::::::Query para imagen logo::::::::::::::::::::::::::.
-$queryLogo = "SELECT urlLogo FROM intermediario  WHERE id_Intermediario = $intermediario";
+$queryLogo = "SELECT urlLogo, intermediario_Fech_Vigen FROM intermediario  WHERE id_Intermediario = $intermediario";
 
 $valorLogo = $conexion->query($queryLogo);
 $valorLogo = mysqli_fetch_array($valorLogo);
-$valorLogo = $valorLogo['urlLogo'];
-
-
-
+$valorLog = $valorLogo['urlLogo'];
 
 // var_dump($valorLogo);
 
-$porciones = explode(".", $valorLogo);
+$porciones = explode(".", $valorLog);
 
 // Consulta las aseguradoras que fueron selecionadas para visualizar en el PDF
 $queryAsegSelec = "SELECT DISTINCT Aseguradora FROM ofertas WHERE `id_cotizacion` = $identificador AND `seleccionar` = 'Si'";
@@ -236,7 +232,7 @@ $valorLogo2 = $valorLogo2['usu_logo_pdf'];
 
 $id_usuario_log = $_SESSION['idUsuario'];
 
-if ($valorLogo == "undefined") {
+if ($valorLog == "undefined") {
 	$height = 20;
 	$pieces = explode(".", $valorLogo2);
 	if ($intermediario == "89" || $intermediario == 89) {
@@ -297,8 +293,8 @@ if ($valorLogo == "undefined") {
 	} else {
 		$pdf->Image($imagePath, $xPosition, $yPosition, $imgWidth, $imgHeight, 'JPG',  '', '', false, 300, '', false, false, 0, false, false, false);
 	}
-} else if ($valorLogo != "") {
-	$urlSGA = "../../../vistas/img/logosIntermediario/".$valorLogo;
+} else if ($valorLog != "") {
+	$urlSGA = "../../../vistas/img/logosIntermediario/" . $valorLog;
 	$pdf->Image($urlSGA, 8, 13, 0, 20, 'PNG', '', '', true, 160, '', false, false, 0, false, false, false);
 } else {
 	if ($intermediario == "89" || $intermediario == 89) {
@@ -383,7 +379,7 @@ $pdf->SetXY(39, 73);
 $pdf->Cell(25, 6, $ciudad, 0, 1, '');
 
 $pdf->SetXY(35, 79);
-$pdf->Cell(25, 6, "8 DIAS A PARTIR DEL " . $fechaVigencia, 0, 1, '');
+$pdf->Cell(25, 6, $valorLogo["intermediario_Fech_Vigen"] . " DIAS A PARTIR DEL " . $fechaVigencia, 0, 1, '');
 
 $pdf->SetXY(130, 59.5);
 $pdf->Cell(25, 6, strtoupper($nomAsesor), 0, 1, '');
@@ -1333,12 +1329,33 @@ foreach ($resultados as $resultado) {
 	$respuestaqueryAsistencia5 =  $conexion->query($queryConsultaAsistencia5);
 	$rowRespuestaAsistencia5 = mysqli_fetch_assoc($respuestaqueryAsistencia5);
 
-
-	if ($cont9 % 2 == 0) {
-		$html3 .= '<td class="puntos fondo" style="width:' . $valorTabla . '%;"><center><div style="font-size:12pt">&nbsp;</div><font size="7"style="text-align: center;  font-family:dejavusanscondensed;">' . $rowRespuestaAsistencia5['eventos'] . '</font></center></td>';
+	if ($nombreAseguradora != "Previsora") {
+		if ($cont9 % 2 == 0) {
+			$html3 .= '<td class="puntos fondo" style="width:' . $valorTabla . '%;"><center><div style="font-size:12pt">&nbsp;</div><font size="7"style="text-align: center;  font-family:dejavusanscondensed;">' . $rowRespuestaAsistencia5['eventos'] . '</font></center></td>';
+		} else {
+			$html3 .= '<td class="puntos fondo2" style="width:' . $valorTabla . '%;"><center><div style="font-size:12pt">&nbsp;</div><font size="7"style="text-align: center;  font-family:dejavusanscondensed;">' . $rowRespuestaAsistencia5['eventos'] . '</font></center></td>';
+		}
 	} else {
-		$html3 .= '<td class="puntos fondo2" style="width:' . $valorTabla . '%;"><center><div style="font-size:12pt">&nbsp;</div><font size="7"style="text-align: center;  font-family:dejavusanscondensed;">' . $rowRespuestaAsistencia5['eventos'] . '</font></center></td>';
+		$queryConsultaAsistencia5Eve = "SELECT Eventos, Placa FROM ofertas WHERE `id_cotizacion` = $identificador AND `aseguradora` LIKE 'Previsora Seguros' AND `producto` LIKE '$nombreProducto'";
+		$respuestaqueryAsistencia5Eve =  $conexion->query($queryConsultaAsistencia5Eve);
+		$rowRespuestaAsistencia5Eve = mysqli_fetch_assoc($respuestaqueryAsistencia5Eve);
+        
+		if(isset($rowRespuestaAsistencia5Eve['Eventos']) && $rowRespuestaAsistencia5Eve['Eventos'] != null){
+			if ($cont9 % 2 == 0) {
+				$html3 .= '<td class="puntos fondo" style="width:' . $valorTabla . '%;"><center><div style="font-size:12pt">&nbsp;</div><font size="7"style="text-align: center;  font-family:dejavusanscondensed;">' . $rowRespuestaAsistencia5Eve['Eventos'] . '</font></center></td>';
+			} else {
+				$html3 .= '<td class="puntos fondo2" style="width:' . $valorTabla . '%;"><center><div style="font-size:12pt">&nbsp;</div><font size="7"style="text-align: center;  font-family:dejavusanscondensed;">' . $rowRespuestaAsistencia5Eve['Eventos'] . '</font></center></td>';
+			}
+		} else {
+			if ($cont9 % 2 == 0) {
+				$html3 .= '<td class="puntos fondo" style="width:' . $valorTabla . '%;"><center><div style="font-size:12pt">&nbsp;</div><font size="7"style="text-align: center;  font-family:dejavusanscondensed;">' . $rowRespuestaAsistencia5['eventos'] . '</font></center></td>';
+			} else {
+				$html3 .= '<td class="puntos fondo2" style="width:' . $valorTabla . '%;"><center><div style="font-size:12pt">&nbsp;</div><font size="7"style="text-align: center;  font-family:dejavusanscondensed;">' . $rowRespuestaAsistencia5['eventos'] . '</font></center></td>';
+			}
+		}
+		
 	}
+
 
 	$cont9 += 1;
 }
