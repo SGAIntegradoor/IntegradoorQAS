@@ -1184,7 +1184,7 @@ $response = retrieveQuotation($idCotizacion);
                         <ul>
                             <li>
                                 <p>
-                                    Si a tu cliente le interesa Previsora, ten en cuenta que ciertas líneas de vehículos requieren la instalación del dispositivo Cazador al tomar su seguro y este tiene un costo adicional a la póliza. Por favor confirma con tu área comercial.
+                                    Si a tu cliente le interesa Previsora, Allianz o HDI, ten en cuenta que ciertas líneas de vehículos requieren la instalación del dispositivo Cazador al tomar su seguro. Para Previsora tiene un costo adicional a la póliza y para Allianz y HDI es totalmente gratis. Por favor confirma con tu área comercial.
                                 </p>
                             </li>
                             <li>
