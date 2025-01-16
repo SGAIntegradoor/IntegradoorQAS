@@ -59,7 +59,8 @@
                                     <td>Presentación general pólizas livianas ingresa<b><a href="vistas\pdfs\Pólizas Livianas Salud AXA COLPATRIA.pdf" target="_blank"> AQUÍ</a></b></td>
                                 </tr>
                                 <tr style="height: 30px; text-align: center;">
-                                    <td colspan="2">Directorio médico ingresa<b><a href="https://www.axacolpatria.co/portalpublico-lf/directorio-medico" target="_blank"> AQUÍ</a></b></td>
+                                    <td>Directorio médico<b><a href="https://www.axacolpatria.co/portalpublico-lf/directorio-medico" target="_blank"> AQUÍ</a></b></td>
+                                    <td>Copagos<b><a href="vistas\modulos\SaludCot\resources\BONOS 2025 SALUD.pdf" target="_blank"> AQUÍ</a></b></td>
                                 </tr>
                             </tbody>
                         </table>
