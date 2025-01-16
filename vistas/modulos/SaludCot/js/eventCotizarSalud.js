@@ -376,25 +376,26 @@ function handleMismoAsegurado() {
   var isSameInsured = $("#si").is(":checked"); // Verificar si el radio button 'Sí' está seleccionado
 
   if (isSameInsured) {
+    console.log("entre aca")
     // Copiar información de los campos principales a los campos clonados
-    var tipoDocumento = $("#tipoDocumento").val();
-    var numeroDocumento = $("#numeroDocumento").val();
+    var tipoDocumento = $(".tipoDocumento").val();
+    var numeroDocumento = $(".numeroDocumento").val();
     var nombre = $(".nombre").val();
     var apellido = $(".apellido").val();
     $("#aseguradoTemplate")
-      .find("#tipoDocumento")
+      .find(".tipoDocumento")
       .val(tipoDocumento)
       .trigger("change");
-    $("#aseguradoTemplate").find("#numeroDocumento").val(numeroDocumento);
+    $("#aseguradoTemplate").find(".numeroDocumento").val(numeroDocumento);
     $("#aseguradoTemplate").find(".nombre").val(nombre);
     $("#aseguradoTemplate").find(".apellido").val(apellido);
   } else {
     // Vaciar los campos clonados
-    $(".asegurado").each(function () {
-      $(this).find("#tipoDocumento").val("").trigger("change");
-      $(this).find("#numeroDocumento").val("");
-      $(this).find("#nombre").val("");
-      $(this).find("#apellido").val("");
+    $("#aseguradoTemplate").find(".tipoDocumento").val("").trigger("change");
+    $("#aseguradoTemplate").find(".numeroDocumento").val("");
+    $("#aseguradoTemplate").find(".nombre").val("");
+    $("#aseguradoTemplate").find(".apellido").val("");
+    $("#aseguradoTemplate").each(function () {
     });
   }
 }
@@ -407,34 +408,34 @@ function syncFieldsOnChange() {
   var isSameInsured = $("#si").is(":checked");
   if (isSameInsured) {
     // Agregar eventos onchange a los campos principales
-    $("#tipoDocumento").on("change", function () {
+    $("#tomadorContainerData .tipoDocumento").on("change", function () {
       var tipoDocumento = $(this).val();
-      $(".asegurado")
-        .find("#tipoDocumento")
+      console.log(tipoDocumento);
+      $("#aseguradoTemplate .tipoDocumento")
         .val(tipoDocumento)
         .trigger("change");
     });
 
-    $("#numeroDocumento").on("input", function () {
+    $("#tomadorContainerData .numeroDocumento").on("input", function () {
       var numeroDocumento = $(this).val();
-      $(".asegurado").find("#numeroDocumento").val(numeroDocumento);
+      $("#aseguradoTemplate").find(".numeroDocumento").val(numeroDocumento);
     });
 
-    $("#nombre").on("input", function () {
+    $("#tomadorContainerData .nombre").on("input", function () {
       var nombre = $(this).val();
-      $(".asegurado").find("#nombre").val(nombre);
+      $("#aseguradoTemplate").find(".nombre").val(nombre);
     });
 
-    $("#apellido").on("input", function () {
+    $("#tomadorContainerData .apellido").on("input", function () {
       var apellido = $(this).val();
-      $(".asegurado").find("#apellido").val(apellido);
+      $("#aseguradoTemplate").find(".apellido").val(apellido);
     });
   } else {
     // Remover los eventos onchange si "No" está seleccionado
-    $("#tipoDocumento").off("change");
-    $("#numeroDocumento").off("input");
-    $("#nombre").off("input");
-    $("#apellido").off("input");
+    $("#tomadorContainerData .tipoDocumento").off("change");
+    $("#tomadorContainerData .numeroDocumento").off("input");
+    $("#tomadorContainerData .nombre").off("input");
+    $("#tomadorContainerData .apellido").off("input");
   }
 }
 

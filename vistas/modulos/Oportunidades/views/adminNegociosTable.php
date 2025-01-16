@@ -507,11 +507,11 @@
       <div class="row" style="margin-bottom: 0px; margin-top: 20px; gap: 5px;">
         <div class="row" style="margin-bottom: 10px;margin-top: 18px;">
           <div class="col-xs-12 col-sm-6 col-md-4 form-group">
-            <label for="txtnoCotizacionModal">No. cotización</label>
+            <label for="txtnoCotizacionModal">No. Cot. Integradoor</label>
             <input type="text" class="form-control" name="txtnoCotizacionModal" id="txtnoCotizacionModal" placeholder="" required>
           </div>
           <div class="col-xs-12 col-sm-6 col-md-4 form-group">
-            <label for="txtnoCotAseguradoraModal">No. Cotización Aseguradora</label>
+            <label for="txtnoCotAseguradoraModal">No. Cot. Aseguradora</label>
             <input type="text" class="form-control" name="txtnoCotAseguradoraModal" id="txtnoCotAseguradoraModal" placeholder="">
           </div>
           <div class="col-xs-12 col-sm-6 col-md-4 form-group">
