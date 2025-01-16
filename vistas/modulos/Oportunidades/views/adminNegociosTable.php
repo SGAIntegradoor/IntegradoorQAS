@@ -385,8 +385,8 @@
         <tr>
           <th style="font-weight: bold; text-align: center;">Accion</th>
           <th style="font-weight: bold; text-align: center;">No. oport</th>
-          <th style="font-weight: bold; text-align: center;">N° cotizacion</th>
-          <th style="font-weight: bold; text-align: center;">N° cot aseguradora</th>
+          <th style="font-weight: bold; text-align: center;">N° Cotizacion</th>
+          <th style="font-weight: bold; text-align: center;">N° Cot aseguradora</th>
           <th style="font-weight: bold; text-align: center;">Valor cotizacion</th>
           <th style="font-weight: bold; text-align: center;">Mes oportunidad</th>
           <th style="font-weight: bold;">Asesor freelance</th>

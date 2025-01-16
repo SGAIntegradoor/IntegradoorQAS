@@ -85,6 +85,7 @@ $(document).ready(function () {
           ).text();
           let estado = $("#txtEstadoOportunidad option:selected").text();
           let observaciones = $("#txtObservacionesOportunidades").val();
+          let idCotAseguradora = oferta.NumCotizOferta;
           let fechaCreacion = obtenerFechaActual();
 
           let analista_comercial = $(
@@ -106,6 +107,7 @@ $(document).ready(function () {
 
           //id_oportunidad
           data.append("idCotizacion", idCotizacion);
+          data.append("idCotAseguradora", idCotAseguradora);
           data.append("valor_cotizacion", oferta.Prima);
           data.append("idOferta", oferta.id_oferta);
           data.append("mesOportunidad", mes);
@@ -137,9 +139,6 @@ $(document).ready(function () {
             observaciones == null || observaciones == false ? "" : observaciones
           );
           data.append("fechaCreacion", fechaCreacion);
-
-          console.log(estado);
-
           // Se ejecuta la peticion por AJAX para llamar a un controlador que se encargara de guardar la data en la base de datos en la tabla "Oportunidades".
           $.ajax({
             url: "ajax/oportunidades.ajax.php",
