@@ -1276,8 +1276,8 @@ function cotizar() {
           console.log(JSON.stringify(datosCotizacion, null, 2));
 
           $.ajax({
-            url: "https://grupoasistencia.com/health_engine/WSAxa/axa.php",
-            // url: "http://localhost/motorTest/health_engine/axa.php",
+             url: "https://grupoasistencia.com/health_engine/WSAxa/axa.php",
+             //url: "http://localhost/motorTest/health_engine/axa.php",
             type: "POST",
             data: JSON.stringify(datosCotizacion),
             success: function (data) {
@@ -1380,7 +1380,7 @@ $(document).ready(function () {
     } else {
       cotizar();
       $("#containerDataTable").hide();
-      $("#DataTables_Table_0_wrapper").hide();
+      $("#containerTable").hide();
     }
   });
 });
