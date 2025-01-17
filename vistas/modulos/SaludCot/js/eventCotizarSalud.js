@@ -1277,7 +1277,7 @@ function cotizar() {
 
           $.ajax({
             url: "https://grupoasistencia.com/health_engine/WSAxa/axa.php",
-            // url: "http://localhost/motorTest/health_engine/axa.php",
+            //url: "http://localhost/motorTest/health_engine/axa.php",
             type: "POST",
             data: JSON.stringify(datosCotizacion),
             success: function (data) {

@@ -272,7 +272,7 @@ class ModeloCotizaciones
 			if ($stmt->execute()) {
 				$resultado = $stmt->fetchAll(PDO::FETCH_ASSOC);
 				$stmt->closeCursor(); // Correctamente cerrando el cursor
-				return self::responseFormatted( $resultado);
+				return self::responseFormatted($resultado);
 			} else {
 				return null; // Si la consulta falla, devuelve null
 			}
@@ -549,6 +549,7 @@ class ModeloCotizaciones
 			$inicioMes = new DateTime($fechaInicialCotizaciones);
 			$inicioMes = $inicioMes->format('Y-m-d');
 			$finMes = new DateTime($fechaFinalCotizaciones);
+		
 			if ($finMes->format('t') == $finMes->format('d')) {
 				// Si es el último día del mes, ajustar al primer día del siguiente mes
 				$finMes->modify('first day of next month');
@@ -556,55 +557,59 @@ class ModeloCotizaciones
 				// Si no, simplemente agregar un día
 				$finMes->modify('+1 day');
 			}
-
+		
 			$finMes = $finMes->format('Y-m-d');
-
-			if ($_SESSION['rol'] == 10) {
+		
+			if ($_SESSION['rol'] == 10 || $_SESSION['rol'] == 1) {
 				$stmt = Conexion::conectar()->prepare("
-				SELECT 
-				*
-				FROM 
-					$tabla c
-				INNER JOIN 
-					$tabla3 a ON a.id_cotizacion = c.id_cotizacion
-				INNER JOIN 
-					$tabla2 t ON t.id_cotizacion = c.id_cotizacion
-				INNER JOIN 
-					$tabla5 us ON us.id_usuario = c.id_usuario
-				WHERE 
-					c.fecha_cotizacion BETWEEN :fechaInicial AND :fechaFinal 
-				GROUP BY c.id_cotizacion;
-			");
+					SELECT 
+						*
+					FROM 
+						$tabla c
+					INNER JOIN 
+						$tabla3 a ON a.id_cotizacion = c.id_cotizacion
+					INNER JOIN 
+						$tabla2 t ON t.id_cotizacion = c.id_cotizacion
+					INNER JOIN 
+						$tabla5 us ON us.id_usuario = c.id_usuario
+					WHERE 
+						c.fecha_cotizacion BETWEEN :fechaInicial AND :fechaFinal 
+					GROUP BY c.id_cotizacion;
+				");
 			} else {
 				$stmt = Conexion::conectar()->prepare("
-				SELECT 
-				*
-				FROM 
-					$tabla c
-				INNER JOIN 
-					$tabla3 a ON a.id_cotizacion = c.id_cotizacion
-				INNER JOIN 
-					$tabla2 t ON t.id_cotizacion = c.id_cotizacion
-				INNER JOIN 
-					$tabla5 us ON us.id_usuario = c.id_usuario
-				WHERE 
-					c.fecha_cotizacion BETWEEN :fechaInicial AND :fechaFinal 
-				$condicion
-				AND us.id_Intermediario = :idIntermediario
-				GROUP BY c.id_cotizacion;
-			");
-				$stmt->bindParam(":idIntermediario", $_SESSION["intermediario"], PDO::PARAM_INT);
+					SELECT 
+						*
+					FROM 
+						cotizaciones_salud c
+					INNER JOIN 
+						asegurados_cotizaciones_salud a ON a.id_cotizacion = c.id_cotizacion
+					INNER JOIN 
+						tomadores_cotizaciones_salud t ON t.id_cotizacion = c.id_cotizacion
+					INNER JOIN
+						usuarios us ON us.id_usuario = c.id_usuario
+					WHERE 
+						c.fecha_cotizacion BETWEEN :fechaInicial AND :fechaFinal
+						AND us.id_Intermediario = :idIntermediario
+						AND c.id_usuario = :idUsuario;
+				");
 			}
-
+		
+			// Enlazar parámetros comunes
 			$stmt->bindParam(":fechaInicial", $inicioMes, PDO::PARAM_STR);
 			$stmt->bindParam(":fechaFinal", $finMes, PDO::PARAM_STR);
-
-			if ($_SESSION["permisos"]["Verlistadodecotizacionesdelaagencia"] != "x") {
+					// Enlazar solo si aplica
+			if ($_SESSION['rol'] != 10 && $_SESSION['rol'] != 1 && $_SESSION['rol'] != 12) {
+				$stmt->bindParam(":idIntermediario", $_SESSION["intermediario"], PDO::PARAM_INT);
 				$stmt->bindParam(":idUsuario", $_SESSION["idUsuario"], PDO::PARAM_INT);
 			}
+		
+			// if ($_SESSION["permisos"]["Verlistadodecotizacionesdelaagencia"] != "x") {
+			// }
 
+		
 			$stmt->execute();
-			//echo json_encode($stmt->fetchAll(PDO::FETCH_ASSOC));
+		
 			return $stmt->fetchAll(PDO::FETCH_ASSOC);
 		}
 	}
