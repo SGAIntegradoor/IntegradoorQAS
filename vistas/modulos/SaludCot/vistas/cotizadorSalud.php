@@ -185,7 +185,7 @@
 
     if (!isset($_GET["idCotizacionSalud"])) {
 
-        echo '<div class="row marginBot">
+        echo '<div class="row">
         <div class="col-xs-12 col-sm-6 col-md-2" id="colBtnCotizar">
             <div class="form-group">
                 <button class="btn btn-primary btn-block btn-cot" id="btnCotizarAsiss">Cotizar</button>
