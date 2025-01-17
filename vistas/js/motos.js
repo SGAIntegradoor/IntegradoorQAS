@@ -1231,7 +1231,7 @@ function consulPlacaMapfre(valnumplaca) {
         $("#CodigoLinea").val(linea);
         $("#txtFasecolda").val(codFasecolda);
 
-        consulDatosFasecolda(codFasecolda, modelo).then(function (resp) {
+        consulDatosFasecoldaMotos(codFasecolda, modelo).then(function (resp) {
           $("#txtMarcaVeh").val(resp.marcaVeh);
           $("#txtReferenciaVeh").val(resp.lineaVeh);
           $("#txtValorFasecolda").val(resp.valorVeh);
@@ -1380,7 +1380,7 @@ function consulValorfasecoldaMotos(codFasecolda, edadVeh) {
         $("#txtFasecolda").val(codigoFasecolda);
         $("#txtValorFasecolda").val(valorAsegurado);
 
-        consulDatosFasecolda(codigoFasecolda, modeloVehiculo).then(function (
+        consulDatosFasecoldaMotos(codigoFasecolda, modeloVehiculo).then(function (
           resp
         ) {
           $("#txtMarcaVeh").val(resp.marcaVeh);
@@ -1392,7 +1392,7 @@ function consulValorfasecoldaMotos(codFasecolda, edadVeh) {
           $("#txtModeloVeh").val(edadVeh);
           $("#txtFasecolda").val(codFasecolda);
 
-          consulDatosFasecolda(codFasecolda, edadVeh).then(function (resp) {
+          consulDatosFasecoldaMotos(codFasecolda, edadVeh).then(function (resp) {
             var codigoClaseEstado = "";
             if (resp.claseVeh == "MOTOS") {
               codigoClaseEstado = 12;
@@ -1405,7 +1405,7 @@ function consulValorfasecoldaMotos(codFasecolda, edadVeh) {
           });
           contErrMetEstadoFasec = 0;
         } else {
-          setTimeout(consulCodFasecolda, 2000);
+          setTimeout(consulCodFasecoldaMotos, 2000);
         }
       }
     })
