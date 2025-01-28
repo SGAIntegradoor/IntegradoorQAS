@@ -36,7 +36,7 @@ $(document).ready(function () {
               console.error("Error en la verificación de sesión:", error);
           }
       });
-  }, 10000); // 10 segundos
+  }, 5*60*1000); // cada 5 minutos
 });
 
 /*=============================================
