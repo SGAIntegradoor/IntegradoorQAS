@@ -14,8 +14,7 @@ if (isset($_SESSION['showPopup']) && $_SESSION['showPopup'] === true) {
   $showPopup = true;
   $_SESSION['showPopup'] = false;
 }
-echo json_encode($_SESSION);
-die();
+
 ?> 
 
 
