@@ -39,6 +39,22 @@ class AjaxCotizaciones {
 
 	}
 
+	public $idOfertaCotizacion;
+	public $idOfertaFilter;
+
+	public function ajaxFiltrosOfertas(){
+
+		$item = "id_cotizacion";
+		$item2 = "Categoria";
+		$valor = $this->idOfertaCotizacion;
+		$valor2 = $this->idOfertaFilter;
+
+		$respuesta = ControladorCotizaciones::ctrMostrarOfertasCategoria($item, $valor, $item2, $valor2);
+
+		echo json_encode($respuesta);
+
+	}
+
 	public $assistCardControl;
 
 	public function ajaxRetriveQuotationsAssistCard(){
@@ -67,6 +83,7 @@ class AjaxCotizaciones {
 	}
 
 	public $idCotizacionOfertas;
+
 
 	public function ajaxRetriveOffertsQuotationAssistCard(){
 
@@ -112,6 +129,16 @@ if(isset($_POST["idCotizaOferta"])){
 	$editarCotizaOfertas = new AjaxCotizaciones();
 	$editarCotizaOfertas -> idCotizaOferta = $_POST["idCotizaOferta"];
 	$editarCotizaOfertas -> ajaxEditarCotizaOfertas();
+}
+
+/*=============================================
+FILTRO CATEGORIA "OFERTAS"
+=============================================*/
+if(isset($_POST["idOfertaCotizacion"]) && isset($_POST["idOfertaFilter"])){
+	$editarCotizaOfertas = new AjaxCotizaciones();
+	$editarCotizaOfertas -> idOfertaCotizacion = $_POST["idOfertaCotizacion"];
+	$editarCotizaOfertas -> idOfertaFilter = $_POST["idOfertaFilter"];
+	$editarCotizaOfertas -> ajaxFiltrosOfertas();
 }
 
 /*=============================================

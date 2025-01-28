@@ -1076,7 +1076,697 @@ EDITAR COTIZACION
 
 =============================================*/
 
+var cards = "";
+
 var numId = 1;
+
+let obj = {
+  Full: 0,
+  Premium: 0,
+  Basicas: 0,
+  Clasicas: 0,
+  RCE: 0,
+};
+
+async function renderCards(response) {
+  $("#cardCotizacion").find("#divCards").html(
+    '<img src="vistas/img/plantilla/loader-loading.gif" width="34" height="34"><strong> Cargando...</strong>'
+  );
+  let offerts = await offertsFinesaRender();
+  // console.log(offerts)
+  cardCotizacion = "";
+  cards = response;
+  response.forEach(function (oferta, i) {
+    function nombreAseguradora(data) {
+      let resultado = "";
+      switch (data) {
+        case "Seguros del Estado":
+          resultado = "Estado";
+          break;
+        case "Seguros Bolivar":
+          resultado = "Bolivar";
+          break;
+        case "Axa Colpatria":
+          resultado = "AXA";
+          break;
+        case "HDI Seguros":
+          resultado = "HDI Seguros";
+          break;
+        case "SBS Seguros":
+          resultado = "SBS";
+          break;
+        case "Allianz Seguros":
+          resultado = "Allianz";
+          break;
+        case "Equidad Seguros":
+        case "Equidad":
+          resultado = "Equidad";
+          break;
+        case "Seguros Mapfre":
+        case "Mapfre":
+          resultado = "Mapfre";
+          break;
+        case "HDI (Antes Liberty)":
+          resultado = "HDI (Antes Liberty)";
+          break;
+        case "Aseguradora Solidaria":
+        case "Solidaria":
+          resultado = "Solidaria";
+          break;
+        case "Seguros Sura":
+          resultado = "SURA";
+          break;
+        case "Zurich Seguros":
+        case "Zurich":
+          resultado = "Zurich";
+          break;
+        case "Previsora Seguros":
+          resultado = "Previsora";
+          break;
+        default:
+          resultado = data;
+          break;
+      }
+      return resultado;
+    }
+
+    // Permisos Credenciales aseguradoras
+    function obtenerValorC(aseguradora) {
+      const aseguradorasPermisos = JSON.parse(permisosCotizacion1);
+
+      if (aseguradorasPermisos[aseguradora]) {
+        return aseguradorasPermisos[aseguradora]["C"];
+      } else {
+        return "Aseguradora no encontrada";
+      }
+    }
+
+    let viable = true;
+
+    let count = 0;
+
+    offerts.forEach((element) => {
+      if (element.cuota_1 == null) {
+        count++;
+      }
+    });
+
+    viable = count == offerts.length ? false : true;
+
+    let aseguradora = oferta.Aseguradora;
+    let aseguradoraName = nombreAseguradora(aseguradora);
+    let aseguradoraPermisos = obtenerValorC(aseguradoraName);
+
+    var primaFormat = formatNumber(oferta.Prima);
+    var id_intermediario = document.getElementById("idIntermediario").value;
+
+    function isNumeric(value) {
+      // Comprueba si es un número válido o una cadena numérica válida
+      return !isNaN(parseFloat(value)) && isFinite(value);
+    }
+    const aseguradorasViajes = [
+      "Mundial",
+      "HDI Seguros",
+      "HDI (Antes Liberty)",
+      "Axa Colpatria",
+      "Previsora",
+    ];
+
+    const planesViajes = [
+      "Convenio Pesados",
+      "Convenio Remolques",
+      "Convenio Linea F Chevrolet",
+      "Pesados Full",
+      "Pesados Full1",
+      "Pesados Integral1",
+      "Pesados Integral",
+      "Remolques",
+      "Remolques1",
+      "Tanques",
+      "Ded. Unico Remolques",
+      "Ded. Unico Tanques",
+      "Carga (deducible tradicional)",
+      "Ded. Unico Pesados",
+      "Ded. Unico Volquetas",
+      "Volquetas",
+      "Pesados - lucro",
+      "Pesados + lucro",
+      "Liv Pub+Lucro",
+      "Microbuses",
+      "Camionetas Repa",
+      "Pesados con RCE en exceso",
+      "Pesados",
+      "Todo riesgo Trailer",
+    ];
+
+    var valorRC = isNumeric(oferta.ValorRC);
+
+    if (valorRC) {
+      var valorRCFormat = formatNumber(oferta.ValorRC);
+    } else {
+      var valorRCFormat = oferta.ValorRC;
+    }
+    // Desactive
+    //FUNCION QUE ACOMODA RCE EN PARRILLA CUANDO LLEGA MUNDIAL
+    if (
+      oferta.Aseguradora == "Mundial" &&
+      oferta.Producto == "Pesados con RCE en exceso"
+    ) {
+      // Eliminar los puntos y convertir a número
+      var RC = oferta.ValorRC;
+      RC = parseFloat(RC.replace(/\./g, ""));
+
+      // Sumar 1.500.000.000
+      RC += 1500000000;
+
+      // Volver a formatear con puntos
+      var valorRCFormat = RC.toLocaleString();
+    }
+    if (
+      (oferta.Aseguradora == "HDI Seguros" &&
+        oferta.Producto == "Convenio Pesados") ||
+      (oferta.Aseguradora == "HDI Seguros" &&
+        oferta.Producto == "Linea F Chevrolet")
+    ) {
+      // Eliminar los puntos y convertir a número
+      var RC = oferta.ValorRC;
+      RC = parseFloat(RC.replace(/\./g, ""));
+
+      // Sumar 1.000.000.000
+      RC += 1000000000;
+
+      // Volver a formatear con puntos
+      var valorRCFormat = RC.toLocaleString();
+    }
+    if (oferta.Aseguradora == "SBS Seguros" && oferta.Producto == "RCE Daños") {
+      oferta.PerdidaTotal = "Cubrimiento al 100% (Daños)";
+
+      oferta.PerdidaParcial = "Deducible 10% - 1 SMMLV (Daños)";
+    } else if (
+      oferta.Aseguradora == "SBS Seguros" &&
+      oferta.Producto == "RCE Hurto"
+    ) {
+      oferta.PerdidaTotal = "Cubrimiento al 100% (Hurto)";
+
+      oferta.PerdidaParcial = "Deducible 10% - 1 SMMLV (Hurto)";
+    }
+
+    if (oferta.seleccionar == "Si") {
+      var selecChecked = "checked";
+    }
+
+    if (oferta.recomendar == "Si") {
+      var recomChecked = "checked";
+    }
+
+    cardCotizacion += `
+
+								<div class='col-lg-12'>
+
+									<div class='card-ofertas'>
+
+										<div class='row card-body'>
+
+											<div class="col-xs-12 col-sm-6 col-md-2 oferta-logo">
+
+                      <center> 
+												<img src='${oferta.logo}' style="${
+      oferta.Aseguradora == "Mundial"
+        ? "margin-top: 65px;"
+        : // : oferta.Aseguradora == "HDI (Antes Liberty)"
+          // ? "margin-top: 3px;"
+          null
+    }">
+                      </center>
+                      <div class='col-12' style='margin-top:2%;'>
+                          ${
+                            (oferta.Aseguradora === "Axa Colpatria" ||
+                              oferta.Aseguradora === "HDI (Antes Liberty)" ||
+                              oferta.Aseguradora === "Equidad" ||
+                              oferta.Aseguradora === "Mapfre") &&
+                            id_intermediario == "79"
+                              ? `<center>
+                              <!-- Código para el caso específico de Axa Colpatria, Liberty, Equidad o Mapfre -->
+                              <!-- Agrega aquí el contenido específico para estas aseguradoras -->
+                            </center>`
+                              : oferta.Aseguradora !== "Mundial" &&
+                                oferta.Aseguradora !== "HDI Seguros" &&
+                                permisos.Vernumerodecotizacionencadaaseguradora ==
+                                  "x" &&
+                                aseguradoraPermisos == "1"
+                              ? `<center>
+                              <label class='entidad'>N° Cot: <span style='color:black'> ${oferta.NumCotizOferta}</span></label>
+                            </center>`
+                              : ""
+                          }
+                          
+                            <div style="display: flex; justify-content: center; margin-top: 10px">
+                            ${
+                              permisos.permisos_oportunidades == "x"
+                                ? oferta.id_oportunidad == null
+                                  ? `<p class="openModal" onclick='abrirDialogo(${idCotizacion}, ${JSON.stringify(
+                                      oferta
+                                    ).replace(
+                                      /'/g,
+                                      "\\'"
+                                    )})' style="text-decoration: underline; text-underline-offset: 3px; cursor: pointer">Crear oportunidad</p>`
+                                  : `<p style="text-decoration: underline; text-underline-offset: 3px; color: blue;">Oportunidad Creada ID # ${
+                                      oferta.id_oportunidad ??
+                                      "ID No Encontrado"
+                                    }</p>`
+                                : ""
+                            }                      
+                          </div>                 
+                        </div>
+											</div>
+											<div class="col-xs-12 col-sm-6 col-md-2 oferta-headerEdit" style='${
+                        oferta.Aseguradora == "HDI (Antes Liberty)" &&
+                        (oferta.oferta_finesa == "" ||
+                          oferta.oferta_finesa == null)
+                          ? "padding-top: 10px;"
+                          : oferta.Aseguradora == "Mundial" &&
+                            oferta.oferta_finesa &&
+                            oferta.oferta_finesa != null
+                          ? "padding-top: 14px;"
+                          : oferta.Aseguradora == "HDI (Antes Liberty)" &&
+                            oferta.oferta_finesa != null
+                          ? "padding-top: 14px"
+                          : "padding-top: 14px"
+                      }'>
+                      <h5 class='entidad' style='font-size: 15px'><b>${
+                        oferta.Aseguradora
+                      } - ${
+      oferta.Producto == "Pesados con RCE en exceso"
+        ? "Pesados RCE + Exceso"
+        : oferta.Producto == "PREVILIVIANOS INDIVIDUAL - "
+        ? "PREVILIVIANOS INDIVIDUAL"
+        : oferta.Producto == "AU DEDUCIBLE UNICO LIVIANOS - "
+        ? "AU DEDUCIBLE UNICO LIVIANOS"
+        : oferta.Producto == "LIVIANOS MIA - "
+        ? "LIVIANOS MIA"
+        : oferta.Producto == "Pesados Full1"
+        ? "Pesados Full"
+        : oferta.Producto == "Pesados Integral1"
+        ? "Pesados Integral"
+        : oferta.Producto == "134"
+        ? "Integral Motos 0 a 6 MM"
+        : oferta.Producto == "135"
+        ? "Integral Motos 6 a 10 MM"
+        : oferta.Producto == "136"
+        ? "Integral Motos 10 a 20 MM"
+        : oferta.Producto == "137"
+        ? "Integral Motos 20 a 30 MM"
+        : oferta.Producto == "138"
+        ? "Integral Motos 30 a 90 MM"
+        : oferta.Producto == "139"
+        ? "Basico + PT Motos 0 a 6 MM"
+        : oferta.Producto == "140"
+        ? "Basico + PT Motos 10 a 20 MM"
+        : oferta.Producto == "141"
+        ? "Basico + PT Motos 20 a 30 MM"
+        : oferta.Producto == "142"
+        ? "Basico + PT Motos 30 a 90 MM"
+        : oferta.Producto == "31"
+        ? "Premium Motos"
+        : oferta.Producto == "30"
+        ? "Total CAR"
+        : oferta.Producto == "99"
+        ? "Pesados Full"
+        : oferta.Producto == "100"
+        ? "Pesados Integral"
+        : oferta.Producto == "103"
+        ? "Pesados Full"
+        : oferta.Producto == "104"
+        ? "Pesados Integral"
+        : oferta.Producto == "111"
+        ? "Remolques"
+        : oferta.Producto == "112"
+        ? "Remolques"
+        : oferta.Producto == "145"
+        ? "Premium Motos 0 a 6 MM"
+        : oferta.Producto == "112"
+        ? "Premium Motos 6 a 10 MM"
+        : oferta.Producto == "112"
+        ? "Premium Motos 10 a 20 MM"
+        : oferta.Producto == "112"
+        ? "Premium Motos 20 a 30 MM"
+        : oferta.Producto == "112"
+        ? "Premium Motos 30 a 90 MM"
+        : oferta.Producto
+    }</b></h5>
+                      <h5 class='precio' style='${
+                        oferta.Aseguradora == "HDI (Antes Liberty)"
+                          ? "padding-bottom: 0px; !important"
+                          : ""
+                      }'>Precio $ ${primaFormat}</h5>
+                      <p class='title-precio'>(IVA incluido)</p>
+                      
+                      ${
+                        oferta.oferta_finesa && oferta.oferta_finesa != null
+                          ? `
+                          <div id=${
+                            oferta.oferta_finesa
+                          } style="display: block; color: #88d600;">
+                            ${offerts
+                              .map((element) => {
+                                if (
+                                  element.identityElement ==
+                                  oferta.oferta_finesa
+                                ) {
+                                  if (
+                                    ($("#CodigoClase").val() == 17 ||
+                                      $("#CodigoClase").val() == 18 ||
+                                      $("#CodigoClase").val() == 19) &&
+                                    oferta.Prima < 1000000 &&
+                                    !(
+                                      oferta.Aseguradora ==
+                                        "HDI (Antes Liberty)" ||
+                                      oferta.Aseguradora == "Bolivar" ||
+                                      oferta.Aseguradora == "Seguros Bolivar"
+                                    )
+                                  ) {
+                                    return `Financiación Finesa:<br />No aplica para financiación`;
+                                  } else if (!viable) {
+                                    if (
+                                      element.identityElement.includes(
+                                        "HDI (Antes Liberty)"
+                                      ) ||
+                                      element.identityElement.includes(
+                                        "Bolivar"
+                                      ) ||
+                                      element.identityElement.includes(
+                                        "Seguros Bolivar"
+                                      )
+                                    ) {
+                                      return `Financiación Aseguradora:<br /> Consulte analista`;
+                                    } else {
+                                      return `Financiación Finesa:<br />Asegurado no viable para financiación`;
+                                    }
+                                  } else if (
+                                    element.identityElement.includes(
+                                      "HDI (Antes Liberty)"
+                                    ) ||
+                                    element.identityElement.includes(
+                                      "Bolivar"
+                                    ) ||
+                                    element.identityElement.includes(
+                                      "Seguros Bolivar"
+                                    )
+                                  ) {
+                                    return `Financiación Aseguradora:<br /> Consulte analista`;
+                                  } else if (element.cuota_1 == null) {
+                                    return `Financiación Finesa:<br />No aplica para financiación`;
+                                  } else {
+                                    return `Financiación Finesa:<br />$${Number(
+                                      element.cuota_1
+                                    ).toLocaleString("de-DE")}
+                                  (${element.cuotas} Cuotas)`;
+                                  }
+                                }
+                                return "";
+                              })
+                              .join("")}
+                          </div>
+                        `
+                          : ""
+                      }
+                    </div>
+										<div class="col-xs-12 col-sm-6 col-md-4">
+
+												<ul class="list-group">
+
+													<li class="list-group-item">
+
+														<span class="badge">* ${
+                              valorRCFormat !== "No cubre" ? "$" : ""
+                            }${valorRCFormat}</span>
+
+														Responsabilidad Civil (RCE)
+
+													</li>
+
+													<li class="list-group-item">
+
+														<span class="badge">* ${oferta.PerdidaTotal}</span>
+
+														Pérdida Total Daños y Hurto
+
+													</li>
+
+													<li class="list-group-item">
+
+														<span class="badge">* ${oferta.PerdidaParcial}</span>
+
+														Pérdida Parcial Daños y Hurto
+
+													</li>
+
+													<li class="list-group-item">
+
+														<span class="badge">* ${oferta.ConductorElegido}</span>
+
+														Conductor elegido
+
+													</li>
+
+													<li class="list-group-item">
+
+														<span class="badge">* ${oferta.Grua}</span>
+														${
+                              aseguradorasViajes.includes(aseguradora) &&
+                              planesViajes.includes(oferta.Producto)
+                                ? "Asistencia en Viajes"
+                                : "Servicio de Grúa"
+                            } 
+
+													</li>
+
+												</ul>
+
+											</div>
+
+											<div class="col-xs-12 col-sm-6 col-md-2">
+
+											<div class="selec-oferta">
+
+												<label for="seleccionar">SELECCIONAR</label>&nbsp;&nbsp;
+
+												<input type="checkbox" class="classSelecOferta" name="selecOferta" id="selec${
+                          oferta.NumCotizOferta
+                        }${numId}\" onclick='seleccionarOferta(\"${
+      oferta.Aseguradora
+    }\", \"${oferta.Prima}\", \"${oferta.Producto}\", \"${
+      oferta.NumCotizOferta
+    }\", this);' ${selecChecked}/>
+
+											</div>
+
+											<div class="recom-oferta">
+
+												<label for="recomendar">RECOMENDAR</label>&nbsp;&nbsp;
+
+												<input type="checkbox" class="classRecomOferta" name="recomOferta" id="recom${
+                          oferta.NumCotizOferta
+                        }${numId}\" onclick='recomendarOferta(\"${
+      oferta.Aseguradora
+    }\", \"${oferta.Prima}\", \"${oferta.Producto}\", \"${
+      oferta.NumCotizOferta
+    }\", this);' ${recomChecked}/>
+
+											</div>
+
+											</div>`;
+
+    if (oferta.Manual == "1") {
+      cardCotizacion += `
+
+							<div class="col-xs-12 col-sm-6 col-md-2 verpdf-oferta">
+
+								<button type="button" class="btn btn-danger eliminar-manual" id="eliminar-${oferta.id_oferta}">
+
+									<div>ELIMINAR &nbsp;&nbsp;<span class="fa fa-trash"></span></div>
+
+								</button>
+
+							</div>`;
+    }
+
+    if (oferta.Manual == "1" && oferta.UrlPdf != "") {
+      cardCotizacion += `
+
+							<div class="col-xs-12 col-sm-6 col-md-2 verpdf-oferta">
+
+								<a type="button" class="btn btn-info" href="${oferta.UrlPdf}">
+
+									<div>VER PDF &nbsp;&nbsp;<span class="fa fa-file-text"></span></div>
+
+								</a>
+
+							</div>`;
+    }
+
+    if (
+      (oferta.Manual == "0" || oferta.Manual == "8" || oferta.Manual == "9") &&
+      (oferta.Aseguradora == "Seguros Bolivar" ||
+        oferta.Aseguradora == "Axa Colpatria") &&
+      aseguradoraPermisos == "1"
+    ) {
+      cardCotizacion += `
+
+											<div class="col-xs-12 col-sm-6 col-md-2 verpdf-oferta">
+
+											<button type="button" class="btn btn-info" id="btnAsegPDF${oferta.NumCotizOferta}${numId}\" onclick='verPdfOferta(\"${oferta.Aseguradora}\", \"${oferta.NumCotizOferta}\", \"${numId}\", \"${id_intermediario}\");'>
+
+												<div id="verPdf${oferta.NumCotizOferta}${numId}\">VER PDF &nbsp;&nbsp;<span class="fa fa-file-text"></span></div>
+
+											</button>
+
+											</div>`;
+    } else if (
+      (oferta.Manual == "0" || oferta.Manual == "8" || oferta.Manual == "9") &&
+      (oferta.Aseguradora == "Previsora Seguros" ||
+        oferta.Aseguradora == "Previsora") &&
+      oferta.UrlPdf !== null &&
+      aseguradoraPermisos == "1"
+    ) {
+      cardCotizacion += `
+
+											<div class="col-xs-12 col-sm-6 col-md-2 verpdf-oferta">
+
+											<button type="button" class="btn btn-info" id="previsora-pdf${oferta.NumCotizOferta}" onclick='verPdfPrevisora(\"${oferta.NumCotizOferta}\");'>
+
+												<div id="verPdf${oferta.NumCotizOferta}${numId}\">VER PDF &nbsp;&nbsp;<span class="fa fa-file-text"></span></div>
+
+											</button>
+
+											</div>`;
+    } else if (
+      (oferta.Manual == "0" || oferta.Manual == "8" || oferta.Manual == "9") &&
+      oferta.Aseguradora == "Seguros del Estado" &&
+      oferta.UrlPdf !== null &&
+      aseguradoraPermisos == "1"
+    ) {
+      cardCotizacion += `
+
+											<div class="col-xs-12 col-sm-6 col-md-2 verpdf-oferta">
+
+											<button type="button" class="btn btn-info" id="btnAsegPDF${oferta.NumCotizOferta}${numId}\" onclick='verPdfEstado(\"${oferta.Aseguradora}\", \"${oferta.NumCotizOferta}\", \"${numId}\", \"${oferta.UrlPdf}\");'>
+
+												<div id="verPdf${oferta.NumCotizOferta}${numId}\">VER PDF &nbsp;&nbsp;<span class="fa fa-file-text"></span></div>
+
+											</button>
+
+											</div>`;
+    } else if (
+      (oferta.Manual == "0" || oferta.Manual == "8" || oferta.Manual == "9") &&
+      oferta.Aseguradora == "Solidaria" &&
+      aseguradoraPermisos == "1"
+    ) {
+      cardCotizacion += `
+
+											<div class="col-xs-12 col-sm-6 col-md-2 verpdf-oferta">
+
+    											<button id="solidaria-pdf" type="button" class="btn btn-info" onclick='verPdfSolidaria(${oferta.NumCotizOferta})'>
+
+    												<div>VER PDF &nbsp;&nbsp;<span class="fa fa-file-text"></span></div>
+
+    											</button>
+
+											</div>`;
+    } else if (
+      (oferta.Manual == "0" || oferta.Manual == "8" || oferta.Manual == "9") &&
+      oferta.Aseguradora == "Mapfre" &&
+      aseguradoraPermisos == "1"
+    ) {
+      cardCotizacion += `
+
+											<div class="col-xs-12 col-sm-6 col-md-2 verpdf-oferta">
+
+    											<button id="mapfre-pdf" type="button" class="btn btn-info" onclick='verPdfMapfre(${oferta.NumCotizOferta})'>
+
+    												<div>VER PDF &nbsp;&nbsp;<span class="fa fa-file-text"></span></div>
+
+    											</button>
+
+											</div>`;
+    } else if (
+      (oferta.Manual == "0" || oferta.Manual == "8" || oferta.Manual == "9") &&
+      oferta.Aseguradora == "Zurich" &&
+      aseguradoraPermisos == "1"
+    ) {
+      cardCotizacion += `
+
+											<div class="col-xs-12 col-sm-6 col-md-2 verpdf-oferta">
+
+    											<button id="Zurich-pdf${oferta.NumCotizOferta}" type="button" class="btn btn-info" onclick='verPdfZurich(${oferta.NumCotizOferta})'>
+
+    												<div>VER PDF &nbsp;&nbsp;<span class="fa fa-file-text"></span></div>
+
+    											</button>
+
+											</div>`;
+    } else if (
+      (oferta.Manual == "0" || oferta.Manual == "8" || oferta.Manual == "9") &&
+      oferta.Aseguradora == "HDI Seguros" &&
+      aseguradoraPermisos == "1"
+    ) {
+      cardCotizacion += `
+
+											<div class="col-xs-12 col-sm-6 col-md-2 verpdf-oferta">
+
+    											<button id="Hdi-pdf${oferta.NumCotizOferta}" type="button" class="btn btn-info" onclick='verPdfHdi("${oferta.NumCotizOferta}")'>
+
+    												<div>VER PDF &nbsp;&nbsp;<span class="fa fa-file-text"></span></div>
+
+    											</button>
+
+											</div>`;
+    }
+
+    cardCotizacion += `
+
+										</div>
+
+									</div>
+
+								</div>
+
+							`;
+
+    numId++;
+  });
+  $("#cardCotizacion").html("");
+  $("#cardCotizacion").html(cardCotizacion);
+}
+
+async function offertsFinesaRender() {
+  let ofrts = [];
+
+  const headers = new Headers();
+  headers.append("Content-Type", "application/json");
+
+  const body = {
+    idCotizacion: idCotizacion,
+    env: "QAS",
+  };
+
+  try {
+    const dbResponse = await fetch(
+      "https://www.grupoasistencia.com/motor_webservice/getOffertsFinesa",
+      // "http://localhost/motorTest/getOffertsFinesa",
+      {
+        method: "POST",
+        headers: headers,
+        body: JSON.stringify(body),
+      }
+    );
+
+    ofrts = await dbResponse.json();
+    return ofrts;
+  } catch (error) {
+    console.error("Error fetching data:", error);
+  }
+}
 
 function editarCotizacion(id) {
   idCotizacion = id; // Almacena el Id en la variable global de idCotización
@@ -1421,6 +2111,8 @@ function editarCotizacion(id) {
           '{"Allianz":{"A":"1","C":"1"},"AXA":{"A":"1","C":"1"},"Bolivar":{"A":"1","C":"1"},"Equidad":{"A":"1","C":"1"},"Estado":{"A":"1","C":"1"},"HDI":{"A":"1","C":"1"},"Liberty":{"A":"1","C":"1"},"Mapfre":{"A":"1","C":"1"},"Previsora":{"A":"1","C":"1"},"SBS":{"A":"1","C":"1"},"Solidaria":{"A":"1","C":"1"},"Zurich":{"A":"1","C":"1"}}';
       }
 
+      window.permisosCotizacion1 = permisosCotizacion;
+
       //Desactive
       //console.log(permisosCotizacion)
       /*=============================================			
@@ -1449,698 +2141,9 @@ function editarCotizacion(id) {
         dataType: "json",
 
         success: async function (respuesta) {
-          let offerts = [];
-
-          const headers = new Headers();
-          headers.append("Content-Type", "application/json");
-
-          const body = {
-            idCotizacion: idCotizacion,
-            env: "QAS",
-          };
-
-          try {
-            const dbResponse = await fetch(
-              "https://www.grupoasistencia.com/motor_webservice/getOffertsFinesa",
-              // "http://localhost/motorTest/getOffertsFinesa",
-              {
-                method: "POST",
-                headers: headers,
-                body: JSON.stringify(body),
-              }
-            );
-
-            offerts = await dbResponse.json();
-            // console.log(offerts);
-          } catch (error) {
-            console.error("Error fetching data:", error);
-          }
-
           menosRE();
           if (respuesta.length > 0) {
-            var cardCotizacion = "";
-            // console.log(offerts);
-            respuesta.forEach(function (oferta, i) {
-              // Nombre aseguradoras
-              function nombreAseguradora(data) {
-                let resultado = "";
-                switch (data) {
-                  case "Seguros del Estado":
-                    resultado = "Estado";
-                    break;
-                  case "Seguros Bolivar":
-                    resultado = "Bolivar";
-                    break;
-                  case "Axa Colpatria":
-                    resultado = "AXA";
-                    break;
-                  case "HDI Seguros":
-                    resultado = "HDI Seguros";
-                    break;
-                  case "SBS Seguros":
-                    resultado = "SBS";
-                    break;
-                  case "Allianz Seguros":
-                    resultado = "Allianz";
-                    break;
-                  case "Equidad Seguros":
-                  case "Equidad":
-                    resultado = "Equidad";
-                    break;
-                  case "Seguros Mapfre":
-                  case "Mapfre":
-                    resultado = "Mapfre";
-                    break;
-                  case "HDI (Antes Liberty)":
-                    resultado = "HDI (Antes Liberty)";
-                    break;
-                  case "Aseguradora Solidaria":
-                  case "Solidaria":
-                    resultado = "Solidaria";
-                    break;
-                  case "Seguros Sura":
-                    resultado = "SURA";
-                    break;
-                  case "Zurich Seguros":
-                  case "Zurich":
-                    resultado = "Zurich";
-                    break;
-                  case "Previsora Seguros":
-                    resultado = "Previsora";
-                    break;
-                  default:
-                    resultado = data;
-                    break;
-                }
-                return resultado;
-              }
-
-              // Permisos Credenciales aseguradoras
-              function obtenerValorC(aseguradora) {
-                const aseguradorasPermisos = JSON.parse(permisosCotizacion);
-
-                if (aseguradorasPermisos[aseguradora]) {
-                  return aseguradorasPermisos[aseguradora]["C"];
-                } else {
-                  return "Aseguradora no encontrada";
-                }
-              }
-
-              let viable = true;
-
-              let count = 0;
-
-              offerts.forEach((element) => {
-                if (element.cuota_1 == null) {
-                  count++;
-                }
-              });
-
-              viable = count == offerts.length ? false : true;
-
-              let aseguradora = oferta.Aseguradora;
-              let aseguradoraName = nombreAseguradora(aseguradora);
-              let aseguradoraPermisos = obtenerValorC(aseguradoraName);
-
-              var primaFormat = formatNumber(oferta.Prima);
-              var id_intermediario =
-                document.getElementById("idIntermediario").value;
-
-              function isNumeric(value) {
-                // Comprueba si es un número válido o una cadena numérica válida
-                return !isNaN(parseFloat(value)) && isFinite(value);
-              }
-              const aseguradorasViajes = [
-                "Mundial",
-                "HDI Seguros",
-                "HDI (Antes Liberty)",
-                "Axa Colpatria",
-                "Previsora",
-              ];
-
-              const planesViajes = [
-                "Convenio Pesados",
-                "Convenio Remolques",
-                "Convenio Linea F Chevrolet",
-                "Pesados Full",
-                "Pesados Full1",
-                "Pesados Integral1",
-                "Pesados Integral",
-                "Remolques",
-                "Remolques1",
-                "Tanques",
-                "Ded. Unico Remolques",
-                "Ded. Unico Tanques",
-                "Carga (deducible tradicional)",
-                "Ded. Unico Pesados",
-                "Ded. Unico Volquetas",
-                "Volquetas",
-                "Pesados - lucro",
-                "Pesados + lucro",
-                "Liv Pub+Lucro",
-                "Microbuses",
-                "Camionetas Repa",
-                "Pesados con RCE en exceso",
-                "Pesados",
-                "Todo riesgo Trailer",
-              ];
-
-              var valorRC = isNumeric(oferta.ValorRC);
-
-              if (valorRC) {
-                var valorRCFormat = formatNumber(oferta.ValorRC);
-              } else {
-                var valorRCFormat = oferta.ValorRC;
-              }
-              // Desactive
-              //FUNCION QUE ACOMODA RCE EN PARRILLA CUANDO LLEGA MUNDIAL
-              if (
-                oferta.Aseguradora == "Mundial" &&
-                oferta.Producto == "Pesados con RCE en exceso"
-              ) {
-                // Eliminar los puntos y convertir a número
-                var RC = oferta.ValorRC;
-                RC = parseFloat(RC.replace(/\./g, ""));
-
-                // Sumar 1.500.000.000
-                RC += 1500000000;
-
-                // Volver a formatear con puntos
-                var valorRCFormat = RC.toLocaleString();
-              }
-              if (
-                (oferta.Aseguradora == "HDI Seguros" &&
-                  oferta.Producto == "Convenio Pesados") ||
-                (oferta.Aseguradora == "HDI Seguros" &&
-                  oferta.Producto == "Linea F Chevrolet")
-              ) {
-                // Eliminar los puntos y convertir a número
-                var RC = oferta.ValorRC;
-                RC = parseFloat(RC.replace(/\./g, ""));
-
-                // Sumar 1.000.000.000
-                RC += 1000000000;
-
-                // Volver a formatear con puntos
-                var valorRCFormat = RC.toLocaleString();
-              }
-              if (
-                oferta.Aseguradora == "SBS Seguros" &&
-                oferta.Producto == "RCE Daños"
-              ) {
-                oferta.PerdidaTotal = "Cubrimiento al 100% (Daños)";
-
-                oferta.PerdidaParcial = "Deducible 10% - 1 SMMLV (Daños)";
-              } else if (
-                oferta.Aseguradora == "SBS Seguros" &&
-                oferta.Producto == "RCE Hurto"
-              ) {
-                oferta.PerdidaTotal = "Cubrimiento al 100% (Hurto)";
-
-                oferta.PerdidaParcial = "Deducible 10% - 1 SMMLV (Hurto)";
-              }
-
-              if (oferta.seleccionar == "Si") {
-                var selecChecked = "checked";
-              }
-
-              if (oferta.recomendar == "Si") {
-                var recomChecked = "checked";
-              }
-
-              cardCotizacion += `
-
-								<div class='col-lg-12'>
-
-									<div class='card-ofertas'>
-
-										<div class='row card-body'>
-
-											<div class="col-xs-12 col-sm-6 col-md-2 oferta-logo">
-
-                      <center> 
-												<img src='${oferta.logo}' style="${
-                oferta.Aseguradora == "Mundial"
-                  ? "margin-top: 65px;"
-                  : // : oferta.Aseguradora == "HDI (Antes Liberty)"
-                    // ? "margin-top: 3px;"
-                    null
-              }">
-                      </center>
-                      <div class='col-12' style='margin-top:2%;'>
-                          ${
-                            (oferta.Aseguradora === "Axa Colpatria" ||
-                              oferta.Aseguradora === "HDI (Antes Liberty)" ||
-                              oferta.Aseguradora === "Equidad" ||
-                              oferta.Aseguradora === "Mapfre") &&
-                            id_intermediario == "79"
-                              ? `<center>
-                              <!-- Código para el caso específico de Axa Colpatria, Liberty, Equidad o Mapfre -->
-                              <!-- Agrega aquí el contenido específico para estas aseguradoras -->
-                            </center>`
-                              : oferta.Aseguradora !== "Mundial" &&
-                                oferta.Aseguradora !== "HDI Seguros" &&
-                                permisos.Vernumerodecotizacionencadaaseguradora ==
-                                  "x" &&
-                                aseguradoraPermisos == "1"
-                              ? `<center>
-                              <label class='entidad'>N° Cot: <span style='color:black'> ${oferta.NumCotizOferta}</span></label>
-                            </center>`
-                              : ""
-                          }
-                          
-                            <div style="display: flex; justify-content: center; margin-top: 10px">
-                            ${
-                              permisos.permisos_oportunidades == "x"
-                                ? oferta.id_oportunidad == null
-                                  ? `<p class="openModal" onclick='abrirDialogo(${idCotizacion}, ${JSON.stringify(
-                                      oferta
-                                    ).replace(
-                                      /'/g,
-                                      "\\'"
-                                    )})' style="text-decoration: underline; text-underline-offset: 3px; cursor: pointer">Crear oportunidad</p>`
-                                  : `<p style="text-decoration: underline; text-underline-offset: 3px; color: blue;">Oportunidad Creada ID # ${
-                                      oferta.id_oportunidad ??
-                                      "ID No Encontrado"
-                                    }</p>`
-                                : ""
-                            }                      
-                          </div>                 
-                        </div>
-											</div>
-											<div class="col-xs-12 col-sm-6 col-md-2 oferta-headerEdit" style='${
-                        oferta.Aseguradora == "HDI (Antes Liberty)" &&
-                        (oferta.oferta_finesa == "" ||
-                          oferta.oferta_finesa == null)
-                          ? "padding-top: 10px;"
-                          : oferta.Aseguradora == "Mundial" &&
-                            oferta.oferta_finesa &&
-                            oferta.oferta_finesa != null
-                          ? "padding-top: 14px;"
-                          : oferta.Aseguradora == "HDI (Antes Liberty)" &&
-                            oferta.oferta_finesa != null
-                          ? "padding-top: 14px"
-                          : "padding-top: 14px"
-                      }'>
-                      <h5 class='entidad' style='font-size: 15px'><b>${
-                        oferta.Aseguradora
-                      } - ${
-                oferta.Producto == "Pesados con RCE en exceso"
-                  ? "Pesados RCE + Exceso"
-                  : oferta.Producto == "PREVILIVIANOS INDIVIDUAL - "
-                  ? "PREVILIVIANOS INDIVIDUAL"
-                  : oferta.Producto == "AU DEDUCIBLE UNICO LIVIANOS - "
-                  ? "AU DEDUCIBLE UNICO LIVIANOS"
-                  : oferta.Producto == "LIVIANOS MIA - "
-                  ? "LIVIANOS MIA"
-                  : oferta.Producto == "Pesados Full1"
-                  ? "Pesados Full"
-                  : oferta.Producto == "Pesados Integral1"
-                  ? "Pesados Integral"
-                  : oferta.Producto == "134"
-                  ? "Integral Motos 0 a 6 MM"
-                  : oferta.Producto == "135"
-                  ? "Integral Motos 6 a 10 MM"
-                  : oferta.Producto == "136"
-                  ? "Integral Motos 10 a 20 MM"
-                  : oferta.Producto == "137"
-                  ? "Integral Motos 20 a 30 MM"
-                  : oferta.Producto == "138"
-                  ? "Integral Motos 30 a 90 MM"
-                  : oferta.Producto == "139"
-                  ? "Basico + PT Motos 0 a 6 MM"
-                  : oferta.Producto == "140"
-                  ? "Basico + PT Motos 10 a 20 MM"
-                  : oferta.Producto == "141"
-                  ? "Basico + PT Motos 20 a 30 MM"
-                  : oferta.Producto == "142"
-                  ? "Basico + PT Motos 30 a 90 MM"
-                  : oferta.Producto == "31"
-                  ? "Premium Motos"
-                  : oferta.Producto == "30"
-                  ? "Total CAR"
-                  : oferta.Producto == "99"
-                  ? "Pesados Full"
-                  : oferta.Producto == "100"
-                  ? "Pesados Integral"
-                  : oferta.Producto == "103"
-                  ? "Pesados Full"
-                  : oferta.Producto == "104"
-                  ? "Pesados Integral"
-                  : oferta.Producto == "111"
-                  ? "Remolques"
-                  : oferta.Producto == "112"
-                  ? "Remolques"
-                  : oferta.Producto == "145"
-                  ? "Premium Motos 0 a 6 MM"
-                  : oferta.Producto == "112"
-                  ? "Premium Motos 6 a 10 MM"
-                  : oferta.Producto == "112"
-                  ? "Premium Motos 10 a 20 MM"
-                  : oferta.Producto == "112"
-                  ? "Premium Motos 20 a 30 MM"
-                  : oferta.Producto == "112"
-                  ? "Premium Motos 30 a 90 MM"
-                  : oferta.Producto
-              }</b></h5>
-                      <h5 class='precio' style='${
-                        oferta.Aseguradora == "HDI (Antes Liberty)"
-                          ? "padding-bottom: 0px; !important"
-                          : ""
-                      }'>Precio $ ${primaFormat}</h5>
-                      <p class='title-precio'>(IVA incluido)</p>
-                      
-                      ${
-                        oferta.oferta_finesa && oferta.oferta_finesa != null
-                          ? `
-                          <div id=${
-                            oferta.oferta_finesa
-                          } style="display: block; color: #88d600;">
-                            ${offerts
-                              .map((element) => {
-                                if (
-                                  element.identityElement ==
-                                  oferta.oferta_finesa
-                                ) {
-                                  if (
-                                    ($("#CodigoClase").val() == 17 ||
-                                      $("#CodigoClase").val() == 18 ||
-                                      $("#CodigoClase").val() == 19) &&
-                                    oferta.Prima < 1000000 &&
-                                    !(
-                                      oferta.Aseguradora ==
-                                        "HDI (Antes Liberty)" ||
-                                      oferta.Aseguradora == "Bolivar" ||
-                                      oferta.Aseguradora == "Seguros Bolivar"
-                                    )
-                                  ) {
-                                    return `Financiación Finesa:<br />No aplica para financiación`;
-                                  } else if (!viable) {
-                                    if (
-                                      element.identityElement.includes(
-                                        "HDI (Antes Liberty)"
-                                      ) ||
-                                      element.identityElement.includes(
-                                        "Bolivar"
-                                      ) ||
-                                      element.identityElement.includes(
-                                        "Seguros Bolivar"
-                                      )
-                                    ) {
-                                      return `Financiación Aseguradora:<br /> Consulte analista`;
-                                    } else {
-                                      return `Financiación Finesa:<br />Asegurado no viable para financiación`;
-                                    }
-                                  } else if (
-                                    element.identityElement.includes(
-                                      "HDI (Antes Liberty)"
-                                    ) ||
-                                    element.identityElement.includes(
-                                      "Bolivar"
-                                    ) ||
-                                    element.identityElement.includes(
-                                      "Seguros Bolivar"
-                                    )
-                                  ) {
-                                    return `Financiación Aseguradora:<br /> Consulte analista`;
-                                  } else if (element.cuota_1 == null) {
-                                    return `Financiación Finesa:<br />No aplica para financiación`;
-                                  } else {
-                                    return `Financiación Finesa:<br />$${Number(
-                                      element.cuota_1
-                                    ).toLocaleString("de-DE")}
-                                  (${element.cuotas} Cuotas)`;
-                                  }
-                                }
-                                return "";
-                              })
-                              .join("")}
-                          </div>
-                        `
-                          : ""
-                      }
-                    </div>
-										<div class="col-xs-12 col-sm-6 col-md-4">
-
-												<ul class="list-group">
-
-													<li class="list-group-item">
-
-														<span class="badge">* ${
-                              valorRCFormat !== "No cubre" ? "$" : ""
-                            }${valorRCFormat}</span>
-
-														Responsabilidad Civil (RCE)
-
-													</li>
-
-													<li class="list-group-item">
-
-														<span class="badge">* ${oferta.PerdidaTotal}</span>
-
-														Pérdida Total Daños y Hurto
-
-													</li>
-
-													<li class="list-group-item">
-
-														<span class="badge">* ${oferta.PerdidaParcial}</span>
-
-														Pérdida Parcial Daños y Hurto
-
-													</li>
-
-													<li class="list-group-item">
-
-														<span class="badge">* ${oferta.ConductorElegido}</span>
-
-														Conductor elegido
-
-													</li>
-
-													<li class="list-group-item">
-
-														<span class="badge">* ${oferta.Grua}</span>
-														${
-                              aseguradorasViajes.includes(aseguradora) &&
-                              planesViajes.includes(oferta.Producto)
-                                ? "Asistencia en Viajes"
-                                : "Servicio de Grúa"
-                            } 
-
-													</li>
-
-												</ul>
-
-											</div>
-
-											<div class="col-xs-12 col-sm-6 col-md-2">
-
-											<div class="selec-oferta">
-
-												<label for="seleccionar">SELECCIONAR</label>&nbsp;&nbsp;
-
-												<input type="checkbox" class="classSelecOferta" name="selecOferta" id="selec${
-                          oferta.NumCotizOferta
-                        }${numId}\" onclick='seleccionarOferta(\"${
-                oferta.Aseguradora
-              }\", \"${oferta.Prima}\", \"${oferta.Producto}\", \"${
-                oferta.NumCotizOferta
-              }\", this);' ${selecChecked}/>
-
-											</div>
-
-											<div class="recom-oferta">
-
-												<label for="recomendar">RECOMENDAR</label>&nbsp;&nbsp;
-
-												<input type="checkbox" class="classRecomOferta" name="recomOferta" id="recom${
-                          oferta.NumCotizOferta
-                        }${numId}\" onclick='recomendarOferta(\"${
-                oferta.Aseguradora
-              }\", \"${oferta.Prima}\", \"${oferta.Producto}\", \"${
-                oferta.NumCotizOferta
-              }\", this);' ${recomChecked}/>
-
-											</div>
-
-											</div>`;
-
-              if (oferta.Manual == "1") {
-                cardCotizacion += `
-
-							<div class="col-xs-12 col-sm-6 col-md-2 verpdf-oferta">
-
-								<button type="button" class="btn btn-danger eliminar-manual" id="eliminar-${oferta.id_oferta}">
-
-									<div>ELIMINAR &nbsp;&nbsp;<span class="fa fa-trash"></span></div>
-
-								</button>
-
-							</div>`;
-              }
-
-              if (oferta.Manual == "1" && oferta.UrlPdf != "") {
-                cardCotizacion += `
-
-							<div class="col-xs-12 col-sm-6 col-md-2 verpdf-oferta">
-
-								<a type="button" class="btn btn-info" href="${oferta.UrlPdf}">
-
-									<div>VER PDF &nbsp;&nbsp;<span class="fa fa-file-text"></span></div>
-
-								</a>
-
-							</div>`;
-              }
-
-              if (
-                (oferta.Manual == "0" ||
-                  oferta.Manual == "8" ||
-                  oferta.Manual == "9") &&
-                (oferta.Aseguradora == "Seguros Bolivar" ||
-                  oferta.Aseguradora == "Axa Colpatria") &&
-                aseguradoraPermisos == "1"
-              ) {
-                cardCotizacion += `
-
-											<div class="col-xs-12 col-sm-6 col-md-2 verpdf-oferta">
-
-											<button type="button" class="btn btn-info" id="btnAsegPDF${oferta.NumCotizOferta}${numId}\" onclick='verPdfOferta(\"${oferta.Aseguradora}\", \"${oferta.NumCotizOferta}\", \"${numId}\", \"${id_intermediario}\");'>
-
-												<div id="verPdf${oferta.NumCotizOferta}${numId}\">VER PDF &nbsp;&nbsp;<span class="fa fa-file-text"></span></div>
-
-											</button>
-
-											</div>`;
-              } else if (
-                (oferta.Manual == "0" ||
-                  oferta.Manual == "8" ||
-                  oferta.Manual == "9") &&
-                (oferta.Aseguradora == "Previsora Seguros" ||
-                  oferta.Aseguradora == "Previsora") &&
-                oferta.UrlPdf !== null &&
-                aseguradoraPermisos == "1"
-              ) {
-                cardCotizacion += `
-
-											<div class="col-xs-12 col-sm-6 col-md-2 verpdf-oferta">
-
-											<button type="button" class="btn btn-info" id="previsora-pdf${oferta.NumCotizOferta}" onclick='verPdfPrevisora(\"${oferta.NumCotizOferta}\");'>
-
-												<div id="verPdf${oferta.NumCotizOferta}${numId}\">VER PDF &nbsp;&nbsp;<span class="fa fa-file-text"></span></div>
-
-											</button>
-
-											</div>`;
-              } else if (
-                (oferta.Manual == "0" ||
-                  oferta.Manual == "8" ||
-                  oferta.Manual == "9") &&
-                oferta.Aseguradora == "Seguros del Estado" &&
-                oferta.UrlPdf !== null &&
-                aseguradoraPermisos == "1"
-              ) {
-                cardCotizacion += `
-
-											<div class="col-xs-12 col-sm-6 col-md-2 verpdf-oferta">
-
-											<button type="button" class="btn btn-info" id="btnAsegPDF${oferta.NumCotizOferta}${numId}\" onclick='verPdfEstado(\"${oferta.Aseguradora}\", \"${oferta.NumCotizOferta}\", \"${numId}\", \"${oferta.UrlPdf}\");'>
-
-												<div id="verPdf${oferta.NumCotizOferta}${numId}\">VER PDF &nbsp;&nbsp;<span class="fa fa-file-text"></span></div>
-
-											</button>
-
-											</div>`;
-              } else if (
-                (oferta.Manual == "0" ||
-                  oferta.Manual == "8" ||
-                  oferta.Manual == "9") &&
-                oferta.Aseguradora == "Solidaria" &&
-                aseguradoraPermisos == "1"
-              ) {
-                cardCotizacion += `
-
-											<div class="col-xs-12 col-sm-6 col-md-2 verpdf-oferta">
-
-    											<button id="solidaria-pdf" type="button" class="btn btn-info" onclick='verPdfSolidaria(${oferta.NumCotizOferta})'>
-
-    												<div>VER PDF &nbsp;&nbsp;<span class="fa fa-file-text"></span></div>
-
-    											</button>
-
-											</div>`;
-              } else if (
-                (oferta.Manual == "0" ||
-                  oferta.Manual == "8" ||
-                  oferta.Manual == "9") &&
-                oferta.Aseguradora == "Mapfre" &&
-                aseguradoraPermisos == "1"
-              ) {
-                cardCotizacion += `
-
-											<div class="col-xs-12 col-sm-6 col-md-2 verpdf-oferta">
-
-    											<button id="mapfre-pdf" type="button" class="btn btn-info" onclick='verPdfMapfre(${oferta.NumCotizOferta})'>
-
-    												<div>VER PDF &nbsp;&nbsp;<span class="fa fa-file-text"></span></div>
-
-    											</button>
-
-											</div>`;
-              } else if (
-                (oferta.Manual == "0" ||
-                  oferta.Manual == "8" ||
-                  oferta.Manual == "9") &&
-                oferta.Aseguradora == "Zurich" &&
-                aseguradoraPermisos == "1"
-              ) {
-                cardCotizacion += `
-
-											<div class="col-xs-12 col-sm-6 col-md-2 verpdf-oferta">
-
-    											<button id="Zurich-pdf${oferta.NumCotizOferta}" type="button" class="btn btn-info" onclick='verPdfZurich(${oferta.NumCotizOferta})'>
-
-    												<div>VER PDF &nbsp;&nbsp;<span class="fa fa-file-text"></span></div>
-
-    											</button>
-
-											</div>`;
-              } else if (
-                (oferta.Manual == "0" ||
-                  oferta.Manual == "8" ||
-                  oferta.Manual == "9") &&
-                oferta.Aseguradora == "HDI Seguros" &&
-                aseguradoraPermisos == "1"
-              ) {
-                cardCotizacion += `
-
-											<div class="col-xs-12 col-sm-6 col-md-2 verpdf-oferta">
-
-    											<button id="Hdi-pdf${oferta.NumCotizOferta}" type="button" class="btn btn-info" onclick='verPdfHdi("${oferta.NumCotizOferta}")'>
-
-    												<div>VER PDF &nbsp;&nbsp;<span class="fa fa-file-text"></span></div>
-
-    											</button>
-
-											</div>`;
-              }
-
-              cardCotizacion += `
-
-										</div>
-
-									</div>
-
-								</div>
-
-							`;
-
-              numId++;
-            });
-
-            $("#cardCotizacion").html(cardCotizacion);
-
+            renderCards(respuesta);
             let updatevideos = document.querySelectorAll(".editar-manual");
             for (updatevideo of updatevideos) {
               updatevideo.addEventListener("click", function (e) {

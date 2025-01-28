@@ -99,7 +99,7 @@ class ControladorCotizaciones
 	}
 
 	/*=============================================
-	MOSTRAR COTIZACION "OFERTAS"
+		MOSTRAR COTIZACION "OFERTAS"
 	=============================================*/
 
 	static public function ctrMostrarCotizaOfertas($item, $valor)
@@ -107,7 +107,21 @@ class ControladorCotizaciones
 		session_start();
 		$tabla = "ofertas";
 
-		$respuesta = ModeloCotizaciones::ctrMostrarCotizaOfertas($tabla, $item, $valor);
+		$respuesta = ModeloCotizaciones::mdlMostrarCotizaOfertas($tabla, $item, $valor);
+
+		return $respuesta;
+	}
+
+	/*=============================================
+		MOSTRAR "OFERTAS" CATEGORIA
+	=============================================*/
+
+	static public function ctrMostrarOfertasCategoria($item, $valor, $item2, $valor2)
+	{
+		session_start();
+		$tabla = "ofertas";
+
+		$respuesta = ModeloCotizaciones::mdlCategoriaOfertas($tabla, $item, $valor, $item2, $valor2);
 
 		return $respuesta;
 	}

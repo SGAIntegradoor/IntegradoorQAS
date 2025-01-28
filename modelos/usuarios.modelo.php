@@ -2,16 +2,15 @@
 
 require_once "conexion.php";
 
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+// ini_set('display_errors', 1);
+// ini_set('display_startup_errors', 1);
+// error_reporting(E_ALL);
 
 class ModeloUsuarios
 {
-
 	/*=============================================
-								  MOSTRAR USUARIOS
-								  =============================================*/
+		MOSTRAR USUARIOS
+	=============================================*/
 
 	// static public function mdlMostrarUsuarios($tabla, $tabla2, $tabla3, $item, $valor)
 	// {
@@ -116,7 +115,6 @@ class ModeloUsuarios
 		$stmt = null;
 	}
 
-
 	static public function mdlCheckPassword($actualPass, $idUser)
 	{
 		// Obtén el enlace de la base de datos desde la clase Conexion
@@ -147,8 +145,8 @@ class ModeloUsuarios
 		return $response;
 	}
 	/*=============================================
-								  PERMISOS USUARIOS
-								  =============================================*/
+	  PERMISOS USUARIOS
+	 =============================================*/
 
 	static public function mdlUsuariosLogin($tabla, $tabla2, $tabla3, $tabla4, $item, $valor)
 	{
@@ -193,8 +191,8 @@ class ModeloUsuarios
 	}
 
 	/*=============================================
-								  REGISTRO DE USUARIO
-								  =============================================*/
+		REGISTRO DE USUARIO
+	=============================================*/
 
 	static public function mdlIngresarUsuario($tabla, $datos)
 	{
@@ -216,11 +214,11 @@ class ModeloUsuarios
 		$newUsername = 'Invitado' . $nextUserNumber;
 
 		if ($datos['apellido'] == "SGA") {
-			$stmt = Conexion::conectar()->prepare("INSERT INTO $tabla(usu_documento, usu_nombre, usu_apellido, usu_usuario, usu_password, usu_genero, usu_fch_nac, direccion, ciudades_id, tipos_documentos_id, usu_telefono, usu_email,
+			$stmt = Conexion::conectar()->prepare("INSERT INTO $tabla(usu_documento, usu_nombre, usu_apellido, usu_usuario, usu_password, usu_genero, usu_fch_nac, usu_direccion, ciudades_id, tipos_documentos_id, usu_telefono, usu_email,
 																	usu_cargo, usu_foto, usu_estado, id_rol, id_Intermediario, numCotizaciones, cotizacionesTotales, fechaFin)
 																	VALUES (:documento, :nombre, :apellido, :usuario, :password, :genero, :fechaNacimiento, :direccion, :ciudad, :tipoDocumento, :telefono, :email, :cargo, :foto, 1, :rol, :intermediario, :maxCot, 20, :fechaLimite )");
 		} else {
-			$stmt = Conexion::conectar()->prepare("INSERT INTO $tabla(usu_documento, usu_nombre, usu_apellido, usu_usuario, usu_password, usu_genero, usu_fch_nac, direccion, ciudades_id, tipos_documentos_id, usu_telefono, usu_email,
+			$stmt = Conexion::conectar()->prepare("INSERT INTO $tabla(usu_documento, usu_nombre, usu_apellido, usu_usuario, usu_password, usu_genero, usu_fch_nac, usu_direccion, ciudades_id, tipos_documentos_id, usu_telefono, usu_email,
 																	usu_cargo, usu_foto, usu_estado, id_rol, id_Intermediario, numCotizaciones, cotizacionesTotales, fechaFin)
 																	VALUES (:documento, :nombre, :apellido, :usuario, :password, :genero, :fechaNacimiento, :direccion, :ciudad, :tipoDocumento, :telefono, :email, :cargo, :foto, 1, :rol, :intermediario, :maxCot, :cotTotales, :fechaLimite )");
 		}
@@ -290,9 +288,24 @@ class ModeloUsuarios
 		$stmt = null;
 	}
 
+	// static public function mdlPopUpLogIn($tabla, $usuDoc, $inSession){
+	// 	$stmt = Conexion::conectar()->prepare("UPDATE $tabla SET in_session = $inSession WHERE usu_documento = :usuDoc");
+	// 	$stmt->bindParam(":usuDoc", $usuDoc, PDO::PARAM_INT);
+	// 	$stmt->execute();
+	// 	$result = $stmt->rowCount();
+	// 	if ($result > 0) {
+	// 		$stmt = null;
+	// 		return ["result" => 1, "detailedResponse" => "Se actualizo el usuario"];
+	// 	} else {
+	// 		$stmt = null;
+	// 		return ["result" => 0, "detailedResponse" => "El usuario ya estaba en sesion"];;
+
+	// 	} 
+	// }
+
 	/*=============================================
-								  EDITAR USUARIO
-								  =============================================*/
+		EDITAR USUARIO
+	=============================================*/
 
 	static public function mdlEditarUsuario($tabla, $datos)
 	{
@@ -375,7 +388,7 @@ class ModeloUsuarios
 												  usu_nombre = :nombre,
 												  usu_apellido = :apellido,
 												  usu_genero = :genero,
-												  direccion = :direccion,
+												  usu_direccion = :direccion,
 												  ciudades_id = :ciudad,
 												  usu_telefono = :telefono,
 												  usu_email = :email,

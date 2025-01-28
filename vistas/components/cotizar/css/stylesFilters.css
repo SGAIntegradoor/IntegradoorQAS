@@ -1,0 +1,59 @@
+.container-filters {
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    margin-bottom: 40px;
+}
+
+.blankspace{
+    height: 40px;
+}
+
+
+.filters-row{
+    display: flex;
+    gap: 10px;
+    overflow-y: auto;
+    /* justify-content: space-between; */
+}
+
+.filter:hover {
+    background-color: #88D600;
+    cursor: pointer;
+    color: black;
+}
+
+.activeTab {
+    background-color: #B3B3B3 !important;
+}
+
+.filter {
+    display: flex;
+    flex-direction: column;
+    background-color:  #F5F5F5;
+    justify-content: space-between;
+    border-radius: 10px;
+    align-items: center;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    /* padding-right: 20px;
+    padding-left: 20px; */
+    min-width: 160px;
+    width: 100%;
+}
+
+.filter p {
+    margin-bottom: 5px;
+    margin-top: 5px;
+}
+
+.product-filter{
+    font-size: 12px;
+}
+
+#divNumOfer {
+    display: flex;
+    flex-direction: row;
+    gap: 4px;
+}
+

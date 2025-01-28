@@ -483,7 +483,6 @@ $(".tablas").on("click", ".btnEditarUsuario", function (e) {
     processData: false,
     dataType: "json",
     success: function (respuesta) {
-      //console.log(fechaFinFormateada)
       $("#idUsuEdit").val(respuesta["id_usuario"]);
       $("#editarNombre").val(respuesta["usu_nombre"]);
       $("#editarApellido").val(respuesta["usu_apellido"]);
@@ -502,7 +501,7 @@ $(".tablas").on("click", ".btnEditarUsuario", function (e) {
       $("#cotizacionesTotales").val(respuesta["cotizacionesTotales"]);
       $("#fechaLimEdi").val(respuesta["fechaFin"]);
       $("#fechNacimiento").val(respuesta["usu_fch_nac"]);
-      $("#editarDireccion").val(respuesta["direccion"]);
+      $("#editarDireccion").val(respuesta["usu_direccion"]);
       $("#editarTipoDocumento").val(respuesta["tipos_documentos_id"]);
       $("#editarTipoDocumento").trigger("change");
       $("#editarGenero").trigger("change");

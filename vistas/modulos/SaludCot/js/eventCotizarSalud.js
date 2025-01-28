@@ -1269,7 +1269,7 @@ function cotizar() {
             tomador: tomador,
             asegurados: asegurados,
             id_usuario: permisos.id_usuario,
-            env: "QAS",
+            //env: "QAS",
           };
 
           // Puedes ver el JSON en la consola para verificar
@@ -1323,6 +1323,7 @@ function cotizar() {
  * @function
  */
 $(document).ready(function () {
+  let controlBtn = false;
   initializeSelect2(".fecha-nacimiento");
   activateFormate();
   CargarSelectTipoDocumento();
@@ -1371,17 +1372,20 @@ $(document).ready(function () {
   });
 
   $("#btnCotizarAsiss").click(function (event) {
-    if (!validateFormFields()) {
-      event.preventDefault();
-      Swal.fire({
-        icon: "error",
-        title:
-          "Faltan datos en los campos marcados en rojo. Por favor, complételos.",
-      });
-    } else {
-      cotizar();
-      $("#containerDataTable").hide();
-      $("#containerTable").hide();
+    if(!controlBtn){
+      if (!validateFormFields()) {
+        event.preventDefault();
+        Swal.fire({
+          icon: "error",
+          title:
+            "Faltan datos en los campos marcados en rojo. Por favor, complételos.",
+        });
+      } else {
+        cotizar();
+        controlBtn = true;
+        $("#containerDataTable").hide();
+        $("#containerTable").hide();
+      }
     }
   });
 });

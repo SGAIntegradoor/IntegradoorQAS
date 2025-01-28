@@ -1,3 +1,7 @@
+var lastUserOnSession = 0;
+
+lastUserOnSession = localStorage.getItem('lastUserLogged');
+
 async function authEmail() {
 
     const email = document.getElementById("email").value;

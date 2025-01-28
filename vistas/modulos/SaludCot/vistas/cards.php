@@ -187,9 +187,8 @@
                     </div>
 
                     <ul class="card-text ul-card" style="padding-left: 15px;">
-                        <li>Nivel 1: 67,5%</li>
-                        <li>Nivel 2: 70%</li>
-                        <li>Nivel 3: 75%</li>
+                        <li>Primas mensuales inferiores a 8 SMMLV: 70%</li>
+                        <li>Primas mensuales superiores a 8 SMMLV: 75%</li>
                     </ul>
                     <!-- <p class="card-text">Para conocer más sobre <b>AXA COLPATRIA</b> y su portafolio de Salud ingresa <a
                             href="#" data-toggle="modal" data-target="#exclusionesModal">

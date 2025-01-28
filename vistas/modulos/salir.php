@@ -1,9 +1,8 @@
 <?php
-
+session_start();
 session_destroy();
 
 echo '<script>
-	localStorage.removeItem("initModal");
 	window.location = "login";
 
 </script>';

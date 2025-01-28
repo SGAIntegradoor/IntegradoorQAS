@@ -1011,7 +1011,6 @@ function consulPlaca(query = "1") {
     //! Agregar esto a MOTOS y Pesados END
 
     if (typeQuery) {
-
       $("btnConsultarPlaca2").remove();
 
       $("#dianacimiento, #mesnacimiento, #anionacimiento").each(function () {
@@ -1894,6 +1893,7 @@ function registrarOferta(
   GR,
   logo,
   UrlPdf,
+  categorias,
   manual,
   pdf,
   eventos = null
@@ -1902,7 +1902,28 @@ function registrarOferta(
     var idCotizOferta = idCotizacion;
     var numDocumentoID = document.getElementById("numDocumentoID").value;
     var placa = document.getElementById("placaVeh").value;
-
+    console.log({
+      placa: placa,
+      idCotizOferta: idCotizOferta,
+      numIdentificacion: numDocumentoID,
+      aseguradora: aseguradora,
+      numCotizOferta: numCotizOferta,
+      producto: producto,
+      valorPrima: prima,
+      valorRC: valorRC,
+      PT: PT,
+      PP: PP,
+      CE: CE,
+      GR: GR,
+      categorias: categorias,
+      logo: logo,
+      UrlPdf: UrlPdf,
+      manual: manual,
+      pdf: pdf,
+      // Agregue esta variable en Ofertas para reconocer el nombre en Script PHP e insertarlo en la BD en el momento que se crea.
+      identityElement: actIdentity != "" ? actIdentity : NULL,
+      eventos: eventos,
+    })
     $.ajax({
       type: "POST",
       url: "src/insertarOferta.php",
@@ -1920,6 +1941,7 @@ function registrarOferta(
         PP: PP,
         CE: CE,
         GR: GR,
+        categorias: categorias,
         logo: logo,
         UrlPdf: UrlPdf,
         manual: manual,
@@ -1929,10 +1951,6 @@ function registrarOferta(
         eventos: eventos,
       },
       success: function (data) {
-        //console.log(data);
-        // var datos = data.Data;
-        // var message = data.Message;
-        // var success = data.Success;
         resolve();
       },
       error: function (error) {
@@ -1946,6 +1964,7 @@ function registrarOferta(
 
 let contCotizacion = 0;
 let cotizacionesFinesa = [];
+let cardCotizacion = "";
 
 const mostrarOferta = (
   aseguradora,
@@ -2028,7 +2047,7 @@ const mostrarOferta = (
     cotizacionesFinesa.push(cotOferta);
   }
 
-  let cardCotizacion = `
+  cardCotizacion = `
                           <div class='col-lg-12'>
                               <div class='card-ofertas'>
                                   <div class='row card-body'>
@@ -2105,11 +2124,11 @@ const mostrarOferta = (
                                       <div class="col-xs-12 col-sm-6 col-md-2">
                                         <div class="selec-oferta">
                                           <label for="seleccionar">SELECCIONAR</label>&nbsp;&nbsp;
-                                          <input type="checkbox" class="classSelecOferta" name="selecOferta" id="selec${numCotizOferta}${numId}${producto}\" onclick='seleccionarOferta(\"${aseguradora}\", \"${prima}\", \"${producto}\", \"${numCotizOferta}\", this);' />
+                                          <input type="checkbox" class="classSelecOferta" name="selecOferta" id="selec${numCotizOferta}${numId}${producto}\" onclick='seleccionarOferta(\"${aseguradora}\", \"${prima}\", \"${producto}\", \"${numCotizOferta}\", this);' disabled/>
                                         </div>
                                         <div class="recom-oferta">
                                           <label for="recomendar">RECOMENDAR</label>&nbsp;&nbsp;
-                                          <input type="checkbox" class="classRecomOferta" name="recomOferta" id="recom${numCotizOferta}${numId}${producto}\" onclick='recomendarOferta(\"${aseguradora}\", \"${prima}\", \"${producto}\", \"${numCotizOferta}\", this);' />
+                                          <input type="checkbox" class="classRecomOferta" name="recomOferta" id="recom${numCotizOferta}${numId}${producto}\" onclick='recomendarOferta(\"${aseguradora}\", \"${prima}\", \"${producto}\", \"${numCotizOferta}\", this);' disabled/>
                                         </div>
                                       </div>`;
   if (
@@ -2224,6 +2243,7 @@ function validarOfertas(ofertas, aseguradora, exito) {
       oferta.servicio_grua,
       oferta.imagen,
       oferta.pdf,
+      oferta.categoria,
       9,
       null,
       oferta.eventos ? oferta.eventos : null
@@ -2410,7 +2430,19 @@ document
   .querySelector("#btnReCotizarFallidas")
   .addEventListener("click", () => {
     cotizarOfertas();
+    enableInputs(false);
   });
+
+// Una vez finalizo el proceso de cotizacion o recotizacion este habilitara inputs para que puedan ser seleccionados.
+function enableInputs(opt) {
+  opt
+    ? $("#parrillaCotizaciones")
+        .find("[id^='selec'], [id^='recom']")
+        .removeAttr("disabled")
+    : $("#parrillaCotizaciones")
+        .find("[id^='selec'], [id^='recom']")
+        .attr("disabled", "disabled");
+}
 
 // desactive
 //console.log(permisosPlantilla)
@@ -3380,6 +3412,8 @@ function cotizarOfertas() {
                   showConfirmButton: true,
                   confirmButtonText: "Cerrar",
                 });
+                enableInputs(true);
+                console.log(cardCotizacion)
               } else {
                 swal
                   .fire({
@@ -3406,15 +3440,18 @@ function cotizarOfertas() {
                       $("#loaderOferta").html(
                         '<img src="vistas/img/plantilla/loader-update.gif" width="34" height="34"><strong> Cotizando en Finesa...</strong>'
                       );
+                      enableInputs(true);
                       cotizarFinesa(cotizacionesFinesa);
                     } else if (result.isDismissed) {
                       if (result.dismiss === "cancel") {
                         // console.log("El usuario seleccionó 'No'");
                         $("#loaderOferta").html("");
                         $("#loaderOfertaBox").css("display", "none");
+                        enableInputs(true);
                       } else if (result.dismiss === "backdrop") {
                         $("#loaderOferta").html("");
                         $("#loaderOfertaBox").css("display", "none");
+                        enableInputs(true);
                       }
                     }
                   });
@@ -4381,6 +4418,7 @@ function cotizarOfertas() {
                 showConfirmButton: true,
                 confirmButtonText: "Cerrar",
               });
+              enableInputs(true);
             } else {
               swal
                 .fire({
@@ -4409,14 +4447,17 @@ function cotizarOfertas() {
                       "btnReCotizarFallidas"
                     );
                     btnRecot.disabled = true;
+                    enableInputs(true);
                     cotizarFinesa(cotizacionesFinesa);
                   } else if (result.isDismissed && cotizacionesFinesa) {
                     if (result.dismiss === "cancel") {
                       $("#loaderRecotOfertaBox").css("display", "none");
                       $("#loaderRecotOferta").html("");
+                      enableInputs(true);
                     } else if (result.dismiss === "backdrop") {
                       $("#loaderRecotOfertaBox").css("display", "none");
                       $("#loaderRecotOferta").html("");
+                      enableInputs(true);
                     }
                   }
                 });
@@ -4427,6 +4468,7 @@ function cotizarOfertas() {
               showConfirmButton: true,
               confirmButtonText: "Cerrar",
             });
+            enableInputs(true);
           }
         });
       }
@@ -4589,7 +4631,11 @@ const tipoVehiculo = [
   "AUTOMOVILES",
   "CAMPEROS",
   "CAMPERO",
-  "CAMIONETA PASAJ."
+  "CAMIONETA PASAJ.",
+  "PICKUP DOBLE CAB",
+  "CAMIONETA REPAR",
+  "CAMIONETA REPAR.",
+  "CAMIONETA REPARTIDORA",
 ];
 
 $("#btnConsultarVehmanualbuscador").click(function () {

@@ -31,6 +31,15 @@ $response = retrieveQuotation($idCotizacion);
   <!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
 </head>
 <style>
+
+  .divCards{
+    display: flex;
+    align-content: center;
+    align-items: center;
+    justify-content: center;
+    padding: 0px 50px 50px 50px;
+  }
+
   .botones-agregar-manual {
     margin-top: 20px;
   }
@@ -1257,7 +1266,12 @@ $response = retrieveQuotation($idCotizacion);
           </div>
         </div>
 
-        <div id="cardCotizacion">
+        <div class="col-lg-12" style="">
+          <?php require "vistas/components/cotizar/catfilters.php" ?>
+        </div>
+
+        <div id="cardCotizacion" >
+          <div class="divCards" id="divCards"></div>
         </div>
 
         <div id="cardAgregarCotizacion">

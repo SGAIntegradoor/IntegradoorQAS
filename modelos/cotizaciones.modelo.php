@@ -61,7 +61,7 @@ class ModeloCotizaciones
 	MOSTRAR COTIZACIONES "OFERTAS"
 	=============================================*/
 
-	static public function ctrMostrarCotizaOfertas($tabla, $item, $valor)
+	static public function mdlMostrarCotizaOfertas($tabla, $item, $valor)
 	{
 
 		if ($item != null) {
@@ -80,6 +80,56 @@ class ModeloCotizaciones
 		$stmt->close();
 
 		$stmt = null;
+	}
+
+	/*=============================================
+	MOSTRAR "OFERTAS" CATEGORIA
+	=============================================*/
+
+	static public function mdlCategoriaOfertas($tabla, $item, $valor, $item2, $valor2)
+	{
+		// Validar los parámetros de entrada
+		if ($item != null && $item2 != null) {
+
+			if ($item == 'id_cotizacion' && $item2 == 'Categoria' && $valor2 == 'Todas') {
+				// Consulta SQL corregida
+				$stmt = Conexion::conectar()->prepare(
+					"SELECT * FROM $tabla 
+					 WHERE $tabla.$item = :id_cotizacion 
+					 ORDER BY Aseguradora"
+				);
+
+				// Asignar parámetros
+				$stmt->bindParam(":id_cotizacion", $valor, PDO::PARAM_STR);
+
+				// Ejecutar y devolver resultados
+				$stmt->execute();
+				return $stmt->fetchAll(PDO::FETCH_ASSOC);
+			} else if ($item == 'id_cotizacion' && $item2 == 'Categoria') {
+
+				// Consulta SQL corregida
+				$stmt = Conexion::conectar()->prepare(
+					"SELECT * FROM $tabla 
+					 WHERE $tabla.$item = :id_cotizacion 
+					 AND JSON_CONTAINS($tabla.$item2, :categoria) 
+					 ORDER BY Aseguradora"
+				);
+
+				// Codificar el valor como JSON si es necesario
+				$categoriaJson = json_encode([$valor2]);
+
+				// Asignar parámetros
+				$stmt->bindParam(":id_cotizacion", $valor, PDO::PARAM_STR);
+				$stmt->bindParam(":categoria", $categoriaJson, PDO::PARAM_STR);
+
+				// Ejecutar y devolver resultados
+				$stmt->execute();
+				return $stmt->fetchAll(PDO::FETCH_ASSOC);
+			}
+		}
+
+		// Retornar vacío si no se cumplen las condiciones
+		return null;
 	}
 
 	/*=============================================
@@ -549,7 +599,7 @@ class ModeloCotizaciones
 			$inicioMes = new DateTime($fechaInicialCotizaciones);
 			$inicioMes = $inicioMes->format('Y-m-d');
 			$finMes = new DateTime($fechaFinalCotizaciones);
-		
+
 			if ($finMes->format('t') == $finMes->format('d')) {
 				// Si es el último día del mes, ajustar al primer día del siguiente mes
 				$finMes->modify('first day of next month');
@@ -557,9 +607,9 @@ class ModeloCotizaciones
 				// Si no, simplemente agregar un día
 				$finMes->modify('+1 day');
 			}
-		
+
 			$finMes = $finMes->format('Y-m-d');
-		
+
 			if ($_SESSION['rol'] == 10 || $_SESSION['rol'] == 1) {
 				$stmt = Conexion::conectar()->prepare("
 					SELECT 
@@ -594,22 +644,22 @@ class ModeloCotizaciones
 						AND c.id_usuario = :idUsuario;
 				");
 			}
-		
+
 			// Enlazar parámetros comunes
 			$stmt->bindParam(":fechaInicial", $inicioMes, PDO::PARAM_STR);
 			$stmt->bindParam(":fechaFinal", $finMes, PDO::PARAM_STR);
-					// Enlazar solo si aplica
+			// Enlazar solo si aplica
 			if ($_SESSION['rol'] != 10 && $_SESSION['rol'] != 1 && $_SESSION['rol'] != 12) {
 				$stmt->bindParam(":idIntermediario", $_SESSION["intermediario"], PDO::PARAM_INT);
 				$stmt->bindParam(":idUsuario", $_SESSION["idUsuario"], PDO::PARAM_INT);
 			}
-		
+
 			// if ($_SESSION["permisos"]["Verlistadodecotizacionesdelaagencia"] != "x") {
 			// }
 
-		
+
 			$stmt->execute();
-		
+
 			return $stmt->fetchAll(PDO::FETCH_ASSOC);
 		}
 	}

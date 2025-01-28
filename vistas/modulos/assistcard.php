@@ -359,10 +359,10 @@
         <div class="container-fluid" style="width: 100%; margin-left: 15px; margin-right: 15px; margin-top: 10px">
           <div class="col-lg-12">
             <div class="row row-aseg">
-              
-                <label style="margin-left: 15px">   Información del producto</label>
-            
-              
+
+              <label style="margin-left: 15px"> Información del producto</label>
+
+
             </div>
           </div>
         </div>
@@ -456,9 +456,8 @@
                 <h4 class="card-title" style="font-weight: bold;">Comisión</h4>
                 <p class="card-text">La <b>comisión que Assist Card ofrece para nuestra alianza de asesores es del 23%</b>. De este porcentaje, tu participación será de acuerdo al nivel de ventas de todos los negocios (sin IVA), sumando todos los ramos, que realices en el mes.</p>
                 <ul class="card-text" style="padding-left: 0px; list-style-position: inside;">
-                  <li><b>Nivel 1: 67,5%</b></li>
-                  <li><b>Nivel 2: 70%</b></li>
-                  <li><b>Nivel 3: 75%</b></li>
+                  <li><b>Primas mensuales inferiores a 8 SMMLV: 70%</b></li>
+                  <li><b>Primas mensuales superiores a 8 SMMLV: 75%</b></li>
                   <br />
                   <b>*Nota:</b> algunos productos tienen una comisión diferente: corporativo 20%, página web 15%, add on 15%, entre otros.
                 </ul>

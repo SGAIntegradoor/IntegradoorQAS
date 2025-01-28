@@ -1,15 +1,15 @@
 <?php
 
 require_once __DIR__ . '../../modelos/usuarios.modelo.php';
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
+// error_reporting(E_ALL);
+// ini_set('display_errors', 1);
 
 class ControladorUsuarios
 {
 
 	/*=============================================
-					  INGRESO DE USUARIO
-					  =============================================*/
+				 INGRESO DE USUARIO
+	=============================================*/
 
 	static public function ctrIngresoUsuario()
 	{
@@ -33,11 +33,9 @@ class ControladorUsuarios
 				$valor = $_POST["ingUsuario"];
 
 				$respuesta = ModeloUsuarios::mdlUsuariosLogin($tabla, $tabla2, $tabla3, $tabla4, $item, $valor);
-				// echo $respuesta;
-				// die();
 				if ($respuesta["usu_usuario"] == $_POST["ingUsuario"] && $respuesta["usu_password"] === $encriptar) {
 					if ($respuesta["usu_estado"] == 1) {
-						if ($respuesta["fechaFin"] != null && ($fechaAct >= $respuesta["fechaFin"]) && $respuesta['rol'] == 20) {
+						if ($respuesta["fechaFin"] != null && ($fechaAct >= $respuesta["fechaFin"]) && (isset($respuesta['id_rol']) && $respuesta['id_rol'] == 20)) {
 							echo '<script>
 								Swal.fire({
 									html:  `
@@ -78,7 +76,7 @@ class ControladorUsuarios
 								}
 							</style>';
 							die();
-						} else if ($respuesta["fechaFin"] != null && ($fechaAct >= $respuesta["fechaFin"])) {
+						} else if ($respuesta["fechaFin"] != null && ($fechaAct >= $respuesta["fechaFin"]) && (isset($respuesta['id_rol']) && $respuesta['id_rol'] == 19)) {
 							echo '<script>
 								Swal.fire({
 									html:  `
@@ -118,9 +116,51 @@ class ControladorUsuarios
 								}
 							</style>';
 							die();
+						} else if ($respuesta["fechaFin"] != null && ($fechaAct >= $respuesta["fechaFin"])  && (isset($respuesta['id_rol']) && $respuesta['id_rol'] == 2)) {
+							echo '<script>
+								Swal.fire({
+									html:  `
+									<div style="text-align: justify; font-family: Helvetica, Arial, sans-serif; font-size: 15px; border-radius: 4px; padding: 8px;">
+									Hola, lamentamos comunicarte que este usuario ha sido inhabilitado.
+										<br>
+										<br>
+										<strong>Si deseas volver a ingresar a la plataforma comunícate con Strategico Tech al: 📱+573187664954 o vía 📧 proyectostrategico@gmail.com</strong>
+									</div>
+									`,
+									confirmButtonColor: "#88d600",
+									width: "40%", 
+									customClass: {
+										container: "swal-container",
+										title: "swal-title",
+										confirmButton: "swal-confirm-button", 
+									},
+									confirmButtonText: "Cerrar",
+								}).then(function () {
+									window.location.href = "login"; 
+								});
+
+								const swalContainer = document.querySelector(".swal-container");
+								swalContainer.style.marginTop = "20px"; // Ajusta este valor según tu necesidad
+
+								// Agrega estilos adicionales para pantallas móviles aquí
+								if (window.innerWidth <= 768) {
+									// Estilos para pantallas con un ancho máximo de 768px (ajusta según sea necesario)
+									swalContainer.style.padding = "5px";
+								}
+							</script>
+							
+							<style>
+								.swal-confirm-button {
+									font-size: 15px !important; /* Aumenta el tamaño del botón */
+									padding: 6px 15px; /* Ajusta el padding para hacer que el botón sea más grande */
+								}
+							</style>';
+							die();
 						}
 
 						$_SESSION["iniciarSesion"] = "ok";
+						$_SESSION['loggedIn'] = true;
+						$_SESSION['showPopup'] = true;
 						$_SESSION["idUsuario"] = $respuesta["id_usuario"];
 						$_SESSION["nombre"] = $respuesta["usu_nombre"];
 						$_SESSION["apellido"] = $respuesta["usu_apellido"];
@@ -133,12 +173,9 @@ class ControladorUsuarios
 						$_SESSION["fechaLimi"] = $respuesta["fechaFin"];
 						$_SESSION["permisos"] = $respuesta;
 
-
-
-
 						/*=============================================
-																																	REGISTRAR FECHA PARA SABER EL ÚLTIMO LOGIN
-																																	=============================================*/
+						REGISTRAR FECHA PARA SABER EL ÚLTIMO LOGIN
+						=============================================*/
 
 						date_default_timezone_set('America/Bogota');
 
@@ -154,6 +191,14 @@ class ControladorUsuarios
 						$valor2 = $respuesta["id_usuario"];
 
 						$ultimoLogin = ModeloUsuarios::mdlActualizarUsuario($tabla, $item1, $valor1, $item2, $valor2, null);
+						
+						$tablaPU = "usuarios";
+
+						// $popUpLogIn = ModeloUsuarios::mdlPopUpLogIn($tablaPU, $respuesta["usu_documento"], 1);
+		
+						// if ($popUpLogIn["result"] == "1") {
+						// 	$_SESSION["popUpLogIn"] = "logIn";
+						// }
 
 						if ($ultimoLogin == "ok") {
 							echo '<script>
@@ -161,7 +206,6 @@ class ControladorUsuarios
 								</script>';
 						}
 					} elseif ($respuesta["id_rol"] == 19) {
-
 						function esMovil()
 						{
 							// Obtener el agente de usuario del navegador
@@ -182,7 +226,6 @@ class ControladorUsuarios
 									return true; // El usuario está en un dispositivo móvil
 								}
 							}
-
 							return false; // El usuario no está en un dispositivo móvil
 						}
 						if (esMovil()) {
@@ -286,12 +329,12 @@ class ControladorUsuarios
 	}
 
 	/*=============================================
-					  REGISTRO DE USUARIO
-					  =============================================*/
+				REGISTRO DE USUARIO
+	=============================================*/
 
 	public static function ctrCrearUsuario()
 	{
-		
+
 		if (isset($_POST['newUserTemp'])) {
 			$tabla = "usuarios";
 			$ruta = "";
@@ -332,7 +375,7 @@ class ControladorUsuarios
 			}
 		}
 
-		
+
 		if (isset($_POST["nuevoUsuario"])) {
 
 			if (
@@ -808,7 +851,7 @@ class ControladorUsuarios
 									  })
 		
 							</script>';
-						} else if($respuesta == "authError"){
+						} else if ($respuesta == "authError") {
 
 							echo '<script>
 		

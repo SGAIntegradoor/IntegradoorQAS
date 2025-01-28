@@ -64,7 +64,8 @@ $pdf->SetTextColor(0, 0, 255);
 
 $pdf->SetFont('helvetica', '', 10);
 $pdf->SetXY(141, $pdf->GetY());
-$pdf->Write(0, 'https://cali.losolivos.co/pagos-pse/');
+// $pdf->Write(0, 'https://cali.losolivos.co/pagos-pse/');
+$pdf->Write(0, 'https://cali.losolivos.co/pagos-pse/', 'https://cali.losolivos.co/pagos-pse/');
 
 
 $pdf->Output('Plan_Exequial_Personal_'.$identificador.'.pdf', 'I');
@@ -130,7 +131,7 @@ $pdf->SetTextColor(0, 0, 255);
 
 $pdf->SetFont('helvetica', '', 10);
 $pdf->SetXY(141, $pdf->GetY());
-$pdf->Write(0, 'https://cali.losolivos.co/pagos-pse/');
+$pdf->Write(0, 'https://cali.losolivos.co/pagos-pse/', 'https://cali.losolivos.co/pagos-pse/');
 
 
 $pdf->Output('Plan_Exequial_Familia_'.$identificador.'.pdf', 'I');

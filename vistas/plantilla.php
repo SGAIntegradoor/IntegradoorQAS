@@ -1,7 +1,16 @@
+<?php
+// session_set_cookie_params(60); // 30 minutos
+// echo "session.gc_maxlifetime: " . ini_get('session.gc_maxlifetime') . "<br>";
+// echo "session.cookie_lifetime: " . ini_get('session.cookie_lifetime');
+// echo json_encode($_SESSION);
+?>
+
 <!DOCTYPE html>
+
 <html>
 
 <head>
+
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
@@ -105,6 +114,7 @@
   <!-- Bootstrap Datepicker -->
   <link rel="stylesheet" href="vistas/bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.css">
   <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/2.2.2/css/buttons.dataTables.min.css">
+  <link rel="stylesheet" href="vistas/components/cotizar/css/stylesFilters.css?v=<?php echo (rand()); ?>">
 
   <!-- SweetAlerts -->
   <!-- <link rel="stylesheet" href="sweetalert2.min.css"> -->
@@ -115,7 +125,8 @@
 
   <!-- Font - Awesome -->
   <!-- <script src="https://kit.fontawesome.com/6fed49f72f.js" crossorigin="anonymous"></script> -->
-  <script src="https://kit.fontawesome.com/3a9385df11.js" crossorigin="anonymous"></script>
+  <!-- <script src="https://kit.fontawesome.com/3a9385df11.js" crossorigin="anonymous"></script> -->
+  <script src="https://kit.fontawesome.com/327ffeb36b.js" crossorigin="anonymous"></script>
   <!-- jQuery 3 -->
   <!-- <script type="text/javascript" src="libraries\JQueryUI\external\jquery\jquery.js"></script> -->
 
@@ -163,10 +174,12 @@
       /* Ajusta el tamaño de la fuente del botón */
     }
 
-   .swal2-timer-progress-bar {
-     background: #88d600; /* Cambia a cualquier color que prefieras */
-     border-radius: 25px;
+    .swal2-timer-progress-bar {
+      background: #88d600;
+      /* Cambia a cualquier color que prefieras */
+      border-radius: 25px;
     }
+
     .custom-swal-popupCotExce {
       width: 40%;
     }
@@ -377,7 +390,7 @@ CUERPO DOCUMENTO
         $_GET["ruta"] == "hogar" ||
         $_GET["ruta"] == "retomar-cotizacion-assistcard" ||
         $_GET["ruta"] == "retomar-cotizacion-salud" ||
-        $_GET["ruta"] == "negocios" 
+        $_GET["ruta"] == "negocios"
       ) {
         if ($_GET['ruta'] == 'modificacion-productos') {
           $_GET['ruta'] = 'ModificacionProductos/ModificacionProductosView';
@@ -429,15 +442,18 @@ CUERPO DOCUMENTO
   <script src="vistas/js/clientes.js?v=<?php echo (rand()); ?>"></script>
   <script src="vistas/js/fasecolda.js?v=<?php echo (rand()); ?>"></script>
 
-  <?php 
 
-    if(isset($_GET['idCotizacionAssistCard'])){
-      echo '<script src="vistas/js/cotizaciones_assistcard.js?v=<?php echo (rand()); ?>" defer></script>';
-    }
-  
+
+  <?php
+
+  if (isset($_GET['idCotizacionAssistCard'])) {
+    echo '<script src="vistas/js/cotizaciones_assistcard.js?v=<?php echo (rand()); ?>" defer></script>';
+  }
+
   ?>
   <script src="vistas/js/cotizaciones.js?v=<?php echo (rand()); ?>"></script>
   <script src="vistas/js/validacionPermisos.js?v=<?php echo (rand()); ?>"></script>
+
 
 </body>
 
