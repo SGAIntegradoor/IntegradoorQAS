@@ -2,7 +2,7 @@
 // session_set_cookie_params(60); // 30 minutos
 echo "session.gc_maxlifetime: " . ini_get('session.gc_maxlifetime') . "<br>";
 echo "session.cookie_lifetime: " . ini_get('session.cookie_lifetime');
-echo json_encode($_SESSION);
+
 ?>
 
 <!DOCTYPE html>
