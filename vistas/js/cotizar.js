@@ -3414,6 +3414,9 @@ function cotizarOfertas() {
                 });
                 enableInputs(true);
                 console.log(cardCotizacion)
+                countOfferts();
+                $("#filtersSection").css("display", "block");
+
               } else {
                 swal
                   .fire({
@@ -3448,10 +3451,16 @@ function cotizarOfertas() {
                         $("#loaderOferta").html("");
                         $("#loaderOfertaBox").css("display", "none");
                         enableInputs(true);
+                        console.log(cardCotizacion)
+                        countOfferts();
+                        $("#filtersSection").css("display", "block");
                       } else if (result.dismiss === "backdrop") {
                         $("#loaderOferta").html("");
                         $("#loaderOfertaBox").css("display", "none");
                         enableInputs(true);
+                        console.log(cardCotizacion)
+                        countOfferts();
+                        $("#filtersSection").css("display", "block");
                       }
                     }
                   });

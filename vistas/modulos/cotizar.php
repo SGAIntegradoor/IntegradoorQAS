@@ -1640,7 +1640,7 @@ echo '<script>console.log(' . $idIntermediario . ", " . $rolAsesor . ')</script>
                 </div>
               </div>
 
-              <div class="col-lg-12" style="display: none;">
+              <div id="filtersSection" class="col-lg-12" style="display: none;">
                 <?php require "vistas/components/cotizar/catfilters.php" ?>
               </div>
 

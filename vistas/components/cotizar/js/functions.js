@@ -84,6 +84,8 @@ filters.forEach((filter) => {
   });
 });
 
+let typeCotizacion = false;
+
 // Obtener y validar el parámetro 'idCotizacion' de la URL
 let queryParams = new URLSearchParams(window.location.search);
 
@@ -91,46 +93,51 @@ if (queryParams.has("idCotizacion")) {
   let paramValue = queryParams.get("idCotizacion");
 
   if (paramValue !== "" && !isNaN(Number(paramValue))) {
+    typeCotizacion = true;
     // Manejar la carga inicial de las ofertas al cargar el documento
     document.addEventListener("DOMContentLoaded", function () {
-      getOffertsByFilter("Todas", function (response) {
-        // Asegúrate de que la respuesta es válida
-        try {
-          let offers = response;
-
-          offers.forEach((offer) => {
-            // Verifica que la categoría también sea un JSON válido
-            let categoria = JSON.parse(offer.Categoria);
-
-            // Incrementa los contadores según la categoría
-            categoria.forEach((cat) => {
-              if (cat === "RCE") {
-                counters.RCE++;
-              } else if (cat === "Full") {
-                counters.Full++;
-              } else if (cat === "Premium") {
-                counters.Premium++;
-              } else if (cat === "Basicas") {
-                counters.Basicas++;
-              } else if (cat === "Clasicas") {
-                counters.Clasicas++;
-              }
-              counters.Todas++;
-            });
-          });
-          Object.entries(counters).forEach(([key, value]) => {
-            if (key === "Todas") {
-              $("#" + key).html(value - 2);
-            } else {
-              $("#" + key).html(value);
-            }
-          });
-        } catch (e) {
-          console.error("Error al procesar la respuesta:", e);
-        }
-      });
+      countOfferts();
     });
   }
 } else {
-  console.log('No se encontró el parámetro "idCotizacion" en la URL.');
+
+}
+
+function countOfferts() {
+  getOffertsByFilter("Todas", function (response) {
+    // Asegúrate de que la respuesta es válida
+    try {
+      let offers = response;
+
+      offers.forEach((offer) => {
+        // Verifica que la categoría también sea un JSON válido
+        let categoria = JSON.parse(offer.Categoria);
+
+        // Incrementa los contadores según la categoría
+        categoria.forEach((cat) => {
+          if (cat === "RCE") {
+            counters.RCE++;
+          } else if (cat === "Full") {
+            counters.Full++;
+          } else if (cat === "Premium") {
+            counters.Premium++;
+          } else if (cat === "Basicas") {
+            counters.Basicas++;
+          } else if (cat === "Clasicas") {
+            counters.Clasicas++;
+          }
+          counters.Todas++;
+        });
+      });
+      Object.entries(counters).forEach(([key, value]) => {
+        if (key === "Todas") {
+          $("#" + key).html(value - 2);
+        } else {
+          $("#" + key).html(value);
+        }
+      });
+    } catch (e) {
+      console.error("Error al procesar la respuesta:", e);
+    }
+  });
 }

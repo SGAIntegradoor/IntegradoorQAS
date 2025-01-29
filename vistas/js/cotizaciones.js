@@ -1080,21 +1080,33 @@ var cards = "";
 
 var numId = 1;
 
-let obj = {
-  Full: 0,
-  Premium: 0,
-  Basicas: 0,
-  Clasicas: 0,
-  RCE: 0,
-};
+let excepControl = false;
 
 async function renderCards(response) {
   $("#cardCotizacion").find("#divCards").html(
     '<img src="vistas/img/plantilla/loader-loading.gif" width="34" height="34"><strong> Cargando...</strong>'
   );
   let offerts = await offertsFinesaRender();
-  // console.log(offerts)
-  cardCotizacion = "";
+  
+  let globalResponse = ""
+
+  // Obtener los permisos de cotización START
+  
+  $.ajax({ 
+    url: "ajax/cotizaciones.ajax.php",
+      type: "POST",
+      data: { idCotizacion: idCotizacion },
+      success: function (response) {
+        globalResponse = response;
+      }, 
+      error: function (error) {
+        console.error("Error al obtener los permisos de cotización:", error);
+      }
+    });
+
+  // Obtener los permisos de cotización END
+
+    cardCotizacion = "";
   cards = response;
   response.forEach(function (oferta, i) {
     function nombreAseguradora(data) {
@@ -1151,8 +1163,18 @@ async function renderCards(response) {
     }
 
     // Permisos Credenciales aseguradoras
+
+    var permisosCotizacion = globalResponse["permisosCotizacion"];
+
+    if (permisosCotizacion === null || permisosCotizacion === undefined) {
+      var permisosCotizacion =
+        '{"Allianz":{"A":"1","C":"1"},"AXA":{"A":"1","C":"1"},"Bolivar":{"A":"1","C":"1"},"Equidad":{"A":"1","C":"1"},"Estado":{"A":"1","C":"1"},"HDI":{"A":"1","C":"1"},"Liberty":{"A":"1","C":"1"},"Mapfre":{"A":"1","C":"1"},"Previsora":{"A":"1","C":"1"},"SBS":{"A":"1","C":"1"},"Solidaria":{"A":"1","C":"1"},"Zurich":{"A":"1","C":"1"}}';
+    }
+
+    // Permisos Credenciales aseguradoras
+
     function obtenerValorC(aseguradora) {
-      const aseguradorasPermisos = JSON.parse(permisosCotizacion1);
+      const aseguradorasPermisos = JSON.parse(permisosCotizacion);
 
       if (aseguradorasPermisos[aseguradora]) {
         return aseguradorasPermisos[aseguradora]["C"];
@@ -1782,19 +1804,12 @@ function editarCotizacion(id) {
 
   $.ajax({
     url: "ajax/cotizaciones.ajax.php",
-
     method: "POST",
-
     data: datos,
-
     cache: false,
-
     contentType: false,
-
     processData: false,
-
     dataType: "json",
-
     success: function (respuesta) {
       /* FORMULARIO INFORMACIÓN DEL ASEGURADO */
       $("#placaVeh").val(respuesta["cot_placa"]);
@@ -1804,7 +1819,6 @@ function editarCotizacion(id) {
       $("#mundial").val(respuesta["cot_mundial"]);
 
       if (respuesta["id_tipo_documento"] == 2) {
-        console.log(respuesta);
         $("#numDocumentoID").val(respuesta["cli_num_documento"]);
         $("#txtDigitoVerif").val(respuesta["digitoVerificacion"]);
         $('label[for="txtNombres"]').text("Dígito de Verificación");
@@ -1818,23 +1832,16 @@ function editarCotizacion(id) {
         // <span style="font-weight: normal;">(Opcional. Se requiere para Allianz)</span>
         $('label[name="lblFechaNacimiento"]').css("max-width", "447px");
         $('label[name="lblFechaNacimiento"]').css("width", "447px");
-
         $("#divRazonSocial").css("display", "block");
-
         $('label[for="genero"]').css("display", "none");
         $("#genero").css("display", "none");
-
         $('label[for="estadoCivil"]').css("display", "none");
         $("#estadoCivil").css("display", "none");
-
         $('label[for="txtCorreo"]').css("display", "none");
         $("#txtCorreo").css("display", "none");
-
         $('label[for="celular"]').css("display", "none");
         $("#txtCelular").css("display", "none");
-
         $("#rowBoton").css("display", "none");
-
         // CAMPOS REPRESENTANTE LEGAL
         $("#datosAseguradoNIT").css("display", "block");
 
