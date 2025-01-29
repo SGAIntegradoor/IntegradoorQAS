@@ -67,6 +67,7 @@ function getOffertsByFilter(filter, callback) {
 // });
 
 // Manejar los filtros cuando se haga clic en ellos
+
 let filters = document.querySelectorAll(".filter");
 
 filters.forEach((filter) => {

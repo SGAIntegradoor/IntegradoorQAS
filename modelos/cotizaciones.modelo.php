@@ -108,20 +108,20 @@ class ModeloCotizaciones
 			} else if ($item == 'id_cotizacion' && $item2 == 'Categoria') {
 
 				// Consulta SQL corregida
+				// Consulta SQL corregida
 				$stmt = Conexion::conectar()->prepare(
 					"SELECT * FROM $tabla 
 					 WHERE $tabla.$item = :id_cotizacion 
-					 AND JSON_CONTAINS($tabla.$item2, :categoria) 
-					 ORDER BY Aseguradora"
+					 AND (
+						 JSON_VALUE(Categoria, '$[0]') = :categoria 
+						 OR JSON_VALUE(Categoria, '$[1]') = :categoria
+					 )"
 				);
-
-				// Codificar el valor como JSON si es necesario
-				$categoriaJson = json_encode([$valor2]);
-
+			
 				// Asignar parámetros
 				$stmt->bindParam(":id_cotizacion", $valor, PDO::PARAM_STR);
-				$stmt->bindParam(":categoria", $categoriaJson, PDO::PARAM_STR);
-
+				$stmt->bindParam(":categoria", $valor2, PDO::PARAM_STR);
+			
 				// Ejecutar y devolver resultados
 				$stmt->execute();
 				return $stmt->fetchAll(PDO::FETCH_ASSOC);
