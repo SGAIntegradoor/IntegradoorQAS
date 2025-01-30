@@ -1645,8 +1645,8 @@ echo '<script>console.log(' . $idIntermediario . ", " . $rolAsesor . ')</script>
               </div>
 
               <div id="cardCotizacion">
-                <div class="divCards" id="divCards"></div>
               </div>
+              <div class="divCards" id="divCards"></div>
               <div id="cardAgregarCotizacion">
               </div>
 

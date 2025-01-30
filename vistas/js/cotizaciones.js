@@ -1083,11 +1083,7 @@ var numId = 1;
 let excepControl = false;
 
 async function renderCards(response) {
-  $("#cardCotizacion").find("#divCards").html(
-    '<img src="vistas/img/plantilla/loader-loading.gif" width="34" height="34"><strong> Cargando...</strong>'
-  );
   let offerts = await offertsFinesaRender();
-  
   let globalResponse = ""
 
   // Obtener los permisos de cotización START
@@ -1105,8 +1101,7 @@ async function renderCards(response) {
     });
 
   // Obtener los permisos de cotización END
-
-    cardCotizacion = "";
+  cardCotizacion = "";
   cards = response;
   response.forEach(function (oferta, i) {
     function nombreAseguradora(data) {

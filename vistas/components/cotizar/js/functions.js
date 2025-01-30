@@ -8,6 +8,11 @@ let counters = {
 };
 
 function getOffertsByFilter(filter, callback) {
+  $("#cardCotizacion")
+    .find("#divCards")
+    .html(
+      '<img src="vistas/img/plantilla/loader-loading.gif" width="34" height="34"><strong> Cargando...</strong>'
+    );
   let data = {
     idOfertaFilter: filter,
     idOfertaCotizacion: idCotizacion,
@@ -19,6 +24,7 @@ function getOffertsByFilter(filter, callback) {
     success: function (response) {
       // Llama al callback con la respuesta
       callback(JSON.parse(response));
+      $("#cardCotizacion").find("#divCards").html("");
     },
     error: function (xhr, status, error) {
       console.error("Error en la solicitud AJAX:", error);
@@ -76,7 +82,8 @@ filters.forEach((filter) => {
     this.classList.add("activeTab");
     getOffertsByFilter(filter.getAttribute("name"), function (response) {
       // Actualiza la vista con las ofertas filtradas, si es necesario.
-      $("#cardCotizacion").html("");
+      // return;
+      // $("#cardCotizacion").html("");
       renderCards(response);
     });
   });
@@ -98,7 +105,6 @@ if (queryParams.has("idCotizacion")) {
     });
   }
 } else {
-
 }
 
 function countOfferts() {
