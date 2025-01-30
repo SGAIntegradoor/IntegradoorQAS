@@ -3412,8 +3412,7 @@ function cotizarOfertas() {
                   showConfirmButton: true,
                   confirmButtonText: "Cerrar",
                 });
-                enableInputs(true);
-                console.log(cardCotizacion)
+                enableInputs(true);                
                 countOfferts();
                 $("#filtersSection").css("display", "block");
 
@@ -3450,15 +3449,13 @@ function cotizarOfertas() {
                         // console.log("El usuario seleccionó 'No'");
                         $("#loaderOferta").html("");
                         $("#loaderOfertaBox").css("display", "none");
-                        enableInputs(true);
-                        console.log(cardCotizacion)
+                        enableInputs(true);                       
                         countOfferts();
                         $("#filtersSection").css("display", "block");
                       } else if (result.dismiss === "backdrop") {
                         $("#loaderOferta").html("");
                         $("#loaderOfertaBox").css("display", "none");
-                        enableInputs(true);
-                        console.log(cardCotizacion)
+                        enableInputs(true);                      
                         countOfferts();
                         $("#filtersSection").css("display", "block");
                       }
@@ -4427,6 +4424,7 @@ function cotizarOfertas() {
                 showConfirmButton: true,
                 confirmButtonText: "Cerrar",
               });
+              countOfferts();
               enableInputs(true);
             } else {
               swal
@@ -4458,15 +4456,18 @@ function cotizarOfertas() {
                     btnRecot.disabled = true;
                     enableInputs(true);
                     cotizarFinesa(cotizacionesFinesa);
+                    countOfferts();
                   } else if (result.isDismissed && cotizacionesFinesa) {
                     if (result.dismiss === "cancel") {
                       $("#loaderRecotOfertaBox").css("display", "none");
                       $("#loaderRecotOferta").html("");
                       enableInputs(true);
+                      countOfferts();
                     } else if (result.dismiss === "backdrop") {
                       $("#loaderRecotOfertaBox").css("display", "none");
                       $("#loaderRecotOferta").html("");
                       enableInputs(true);
+                      countOfferts();
                     }
                   }
                 });
@@ -4478,6 +4479,7 @@ function cotizarOfertas() {
               confirmButtonText: "Cerrar",
             });
             enableInputs(true);
+            countOfferts();
           }
         });
       }

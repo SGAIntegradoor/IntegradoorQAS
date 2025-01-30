@@ -74,9 +74,7 @@ filters.forEach((filter) => {
   filter.addEventListener("click", function () {
     filters.forEach((filter) => filter.classList.remove("activeTab"));
     this.classList.add("activeTab");
-
     getOffertsByFilter(filter.getAttribute("name"), function (response) {
-      console.log("Ofertas filtradas:", response);
       // Actualiza la vista con las ofertas filtradas, si es necesario.
       $("#cardCotizacion").html("");
       renderCards(response);
