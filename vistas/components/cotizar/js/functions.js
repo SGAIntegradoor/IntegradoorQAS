@@ -111,28 +111,35 @@ function countOfferts() {
   getOffertsByFilter("Todas", function (response) {
     // Asegúrate de que la respuesta es válida
     try {
+      console.log("Respuesta completa:", JSON.stringify(response, null, 2));
+      
       let offers = response;
-      console.log(response);
       offers.forEach((offer) => {
-        // Verifica que la categoría también sea un JSON válido
-        let categoria = JSON.parse(offer.Categoria);
+        try {
+          // Verifica que la categoría también sea un JSON válido
+          let categoria = JSON.parse(offer.Categoria);
 
-        // Incrementa los contadores según la categoría
-        categoria.forEach((cat) => {
-          if (cat === "RCE") {
-            counters.RCE++;
-          } else if (cat === "Full") {
-            counters.Full++;
-          } else if (cat === "Premium") {
-            counters.Premium++;
-          } else if (cat === "Basicas") {
-            counters.Basicas++;
-          } else if (cat === "Clasicas") {
-            counters.Clasicas++;
-          }
-          counters.Todas++;
-        });
+          // Incrementa los contadores según la categoría
+          categoria.forEach((cat) => {
+            if (cat === "RCE") {
+              counters.RCE++;
+            } else if (cat === "Full") {
+              counters.Full++;
+            } else if (cat === "Premium") {
+              counters.Premium++;
+            } else if (cat === "Basicas") {
+              counters.Basicas++;
+            } else if (cat === "Clasicas") {
+              counters.Clasicas++;
+            }
+            counters.Todas++;
+          });
+        } catch (e) {
+          console.error("Error al procesar la categoría:", e, e.stack);
+          alert("Error en JSON.parse de Categoria: " + e.message);
+        }
       });
+
       Object.entries(counters).forEach(([key, value]) => {
         if (key === "Todas") {
           $("#" + key).html(value - 2);
@@ -141,7 +148,9 @@ function countOfferts() {
         }
       });
     } catch (e) {
-      console.error("Error al procesar la respuesta:", e);
+      console.error("Error al procesar la respuesta:", e, e.stack);
+      console.trace();
+      alert("Error general: " + e.message + "\nStack: " + e.stack);
     }
   });
 }
