@@ -112,7 +112,7 @@ function countOfferts() {
     // Asegúrate de que la respuesta es válida
     try {
       let offers = response;
-
+      console.log(response);
       offers.forEach((offer) => {
         // Verifica que la categoría también sea un JSON válido
         let categoria = JSON.parse(offer.Categoria);
