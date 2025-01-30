@@ -119,6 +119,8 @@ function countOfferts() {
           // Verifica que la categoría también sea un JSON válido
           let categoria = JSON.parse(offer.Categoria);
 
+          console.log(categoria)
+
           // Incrementa los contadores según la categoría
           categoria.forEach((cat) => {
             if (cat === "RCE") {
