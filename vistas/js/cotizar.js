@@ -3444,6 +3444,7 @@ function cotizarOfertas() {
                       );
                       enableInputs(true);
                       cotizarFinesa(cotizacionesFinesa);
+                      countOfferts();
                     } else if (result.isDismissed) {
                       if (result.dismiss === "cancel") {
                         // console.log("El usuario seleccionó 'No'");
@@ -3522,6 +3523,7 @@ function cotizarOfertas() {
             });
           },
         });
+        countOfferts();
       } else {
         //ZONA RECOTIZACIÓN//
         $("#loaderRecotOferta").html(
