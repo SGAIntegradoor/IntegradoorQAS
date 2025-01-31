@@ -78,6 +78,8 @@ let filters = document.querySelectorAll(".filter");
 
 filters.forEach((filter) => {
   filter.addEventListener("click", function () {
+
+    
     filters.forEach((filter) => filter.classList.remove("activeTab"));
     this.classList.add("activeTab");
     getOffertsByFilter(filter.getAttribute("name"), function (response) {

@@ -1,5 +1,6 @@
 <div class="container-filters">
     <h4 style="color: #514D4D; margin-bottom: 33px; margin-top: 40px;"><b>Filtro por categoria de producto</b></h4>
+    
     <div class="filters-row">
         <div class="filter activeTab" name="Todas">
             <p><b>Ver todas las ofertas</b></p>
@@ -49,6 +50,6 @@
             </div>
         </div>
     </div>
-
+    <div id="loaderFilters"></div>
 </div>
 <script src="vistas/components/cotizar/js/functions.js?v=<?php echo (rand()); ?>"></script>
