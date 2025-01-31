@@ -138,7 +138,7 @@ function countOfferts() {
           });
         } catch (e) {
           console.error("Error al procesar la categoría:", e, e.stack);
-          alert("Error en JSON.parse de Categoria: " + e.message);
+          //alert("Error en JSON.parse de Categoria: " + e.message);
         }
       });
 
