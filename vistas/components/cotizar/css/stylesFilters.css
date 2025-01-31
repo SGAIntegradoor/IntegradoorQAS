@@ -18,13 +18,15 @@
 }
 
 .filter:hover {
-    background-color: #88D600;
+    background-color: #d8d8d8;
+    /* background-color: #88D600; */
     cursor: pointer;
     color: black;
 }
 
 .activeTab {
-    background-color: #B3B3B3 !important;
+    background-color: #88D600 !important;
+    /* background-color: #B3B3B3 !important; */
 }
 
 .filter {
