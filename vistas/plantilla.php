@@ -142,7 +142,7 @@ echo "session.cookie_lifetime: " . ini_get('session.cookie_lifetime');
 
   <style>
     div:where(.swal2-container) button:where(.swal2-styled).swal2-confirm {
-      background-color: #88d600 !important;
+      background-color: #88d600;
     }
 
     div:where(.swal2-container) button:where(.swal2-styled) {

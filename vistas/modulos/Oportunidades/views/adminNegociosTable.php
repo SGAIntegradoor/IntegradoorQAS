@@ -339,6 +339,27 @@
     overflow-y: auto;
   }
 
+  .btnEliminarOportunidad{
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    cursor: pointer;
+  }
+
+  .btnEliminarOportunidad:hover{
+    background-color: #a71d2a;
+  }
+
+  .btnEliminarOportunidad:focus{
+    background-color: #dc3545 !important;
+  }
+
+  .boton-eliminar {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    cursor: pointer;
+  }
 
   /* Ajusta estos estilos según tus necesidades */
 </style>
@@ -441,8 +462,12 @@
 
         if (!empty($respuesta)) {
           foreach ($respuesta as $key => $value) {
-            echo '<tr>
-            <td class="text-center" style="text-align: center !important;"><div class="btn-group"><button class="btn btn-primary btnEditarOportunidad" onclick="editarOportunidad(' . $value['id_oportunidad'] . ')"><i class="fa-sharp fa-solid fa-pen"></i></button></div></td>
+            echo '<tr id="' . $value['id_oportunidad'] . '">
+            <td class="text-center" style="text-align: center !important;">
+              <div style="display: flex; flex-direction: row; gap: 10px" class="btn-group">
+              <button class="btn btn-primary btnEditarOportunidad" onclick="editarOportunidad(' . $value['id_oportunidad'] . ')"><i class="fa-sharp fa-solid fa-pen"></i></button>
+              <button class="btn btn-primary btnEliminarOportunidad" onclick="eliminarOportunidad(' . $value['id_oportunidad'] . ', ' . $value['id_oferta'] . ')"><i class="fa-solid fa-trash-can"></i></button>
+            </td>
             <td class="" style="font-size: 14px;">' . (!empty($value['id_oportunidad']) ? $value['id_oportunidad'] : '') . '</td>
             <td class="text-center" style="font-size: 14px;">' . (!empty($value['id_cotizacion']) ? $value['id_cotizacion'] : '') . '</td>
             <td class="text-center" style="font-size: 14px;">' . (!empty($value['id_cot_aseguradora']) ? $value['id_cot_aseguradora'] : '') . '</td>
@@ -735,15 +760,15 @@
               <input type="checkbox" name="checkCarpetaModal" id="checkCarpetaModal" style="width: 20px; height:20px">
             </div>
           </div>
+        </div>
       </div>
-  </div>
-  <div class="row">
-    <label for="txtObservacionesOportunidadModal">Observaciones</label>
-    <textarea class="form-control form-group no-resize full-width-textarea" rows="3" id="txtObservacionesOportunidadModal"></textarea>
+      <div class="row">
+        <label for="txtObservacionesOportunidadModal">Observaciones</label>
+        <textarea class="form-control form-group no-resize full-width-textarea" rows="3" id="txtObservacionesOportunidadModal"></textarea>
 
+      </div>
+    </form>
   </div>
-  </form>
-</div>
 </div>
 
 

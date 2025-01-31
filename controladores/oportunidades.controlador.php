@@ -1,6 +1,6 @@
 <?php
 
-require_once "modelos/oportunidades.modelo.php";
+require_once __DIR__ . "/../modelos/oportunidades.modelo.php";
 
 class ControladorOportunidades
 {
@@ -21,6 +21,15 @@ class ControladorOportunidades
 	{
 
 		$respuesta = ModeloOportunidades::mdlMostrarOportunidadesFilters($params);
+
+		return $respuesta;
+	}
+
+	static public function ctrEliminarOportunidad($id_oportunidad, $id_oferta)
+	{
+		$tabla = "oportunidades";
+
+		$respuesta = ModeloOportunidades::mdlEliminarOportunidad($tabla, $id_oportunidad, $id_oferta);
 
 		return $respuesta;
 	}

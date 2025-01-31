@@ -390,9 +390,7 @@ function abrirDialogoCrear(id = null) {
       },
     },
     create: function () {
-      $(".ui-dialog-titlebar-close").html(
-        '<p id="closeButtonModal">x</p>'
-      );
+      $(".ui-dialog-titlebar-close").html('<p id="closeButtonModal">x</p>');
     },
     open: function () {
       $("body").addClass("modal-open"); // Añade la clase para bloquear el scroll de la página
@@ -427,13 +425,21 @@ function abrirDialogoCrear(id = null) {
               respuesta[0].id_oportunidad != ""
             ) {
               $("#txtnoCotizacionModal").val(respuesta[0].id_cotizacion);
-              $("#txtnoCotAseguradoraModal").val(respuesta[0].id_cot_aseguradora);
-              $("#txtValorCotizacionModal").val(`$ ${new Intl.NumberFormat("co-CO").format(respuesta[0].valor_cotizacion)}`);
+              $("#txtnoCotAseguradoraModal").val(
+                respuesta[0].id_cot_aseguradora
+              );
+              $("#txtValorCotizacionModal").val(
+                `$ ${new Intl.NumberFormat("co-CO").format(
+                  respuesta[0].valor_cotizacion
+                )}`
+              );
               selectByText(
                 "#txtMesOportunidadModal",
                 respuesta[0].mes_oportunidad
               );
-              $("#txtAsesorOportunidadModal").val(respuesta[0].id_user_freelance).trigger("change");
+              $("#txtAsesorOportunidadModal")
+                .val(respuesta[0].id_user_freelance)
+                .trigger("change");
               selectByText("#txtRamoModal", respuesta[0].ramo);
               $("#txtPlacaOportunidadModal").val(respuesta[0].placa);
               selectByText("#txtOnerosoOportunidadModal", respuesta[0].oneroso);
@@ -563,7 +569,7 @@ $(document).ready(function () {
     let valor = $(this).val();
     let valorFormateado = new Intl.NumberFormat("co-CO").format(valor);
     $(this).val(`$ ${valorFormateado}`);
-  })
+  });
 
   loadAllFreelance();
   Promise.all([loadAnalistas(), loadFreelance()])
@@ -611,6 +617,47 @@ let url = `index.php?ruta=negocios`;
 
 function editarOportunidad(id) {
   abrirDialogoCrear(id);
+}
+
+function eliminarOportunidad(id_oportunidad, id_oferta) {
+  Swal.fire({
+    title: `¿Estás seguro de eliminar la oportunidad # ${id_oportunidad}?`,
+    text: "Esta acción no se puede deshacer",
+    icon: "warning",
+    showCancelButton: true,
+    cancelButtonColor: "#000000",
+    confirmButtonText: "Sí, eliminar",
+    cancelButtonText: "Cancelar",
+    customClass: {
+      confirmButton: "boton-eliminar", 
+    }
+  }).then((result) => {
+    if (result.isConfirmed) {
+      let data = new FormData();
+      data.append("id_oportunidad", id_oportunidad);
+      data.append("id_oferta", id_oferta);
+      $.ajax({
+        url: "ajax/eliminarOportunidad.ajax.php",
+        method: "POST",
+        data: data,
+        cache: false,
+        contentType: false,
+        processData: false,
+        dataType: "json",
+        success: function (respuesta) {
+          if (respuesta.statusCode === 1) {
+            Swal.fire("Eliminado!", "La oportunidad ha sido eliminada.").then((result) => {
+              window.location.reload();
+            })
+          }else{
+            Swal.fire("error","Error!", "La oportunidad no pudo ser eliminada.").then((result) => {
+              window.location.reload();
+            })
+          }
+        },
+      });
+    }
+  });
 }
 
 function searchInfo() {
