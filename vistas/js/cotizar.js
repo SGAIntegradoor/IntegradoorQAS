@@ -3413,7 +3413,7 @@ function cotizarOfertas() {
                   confirmButtonText: "Cerrar",
                 });
                 enableInputs(true);                
-                countOfferts();
+                //countOfferts();
                 $("#filtersSection").css("display", "block");
 
               } else {
