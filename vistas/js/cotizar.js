@@ -3444,20 +3444,20 @@ function cotizarOfertas() {
                       );
                       enableInputs(true);
                       cotizarFinesa(cotizacionesFinesa);
-                      countOfferts();
+                      //countOfferts();
                     } else if (result.isDismissed) {
                       if (result.dismiss === "cancel") {
                         // console.log("El usuario seleccionó 'No'");
                         $("#loaderOferta").html("");
                         $("#loaderOfertaBox").css("display", "none");
                         enableInputs(true);                       
-                        countOfferts();
+                        //countOfferts();
                         $("#filtersSection").css("display", "block");
                       } else if (result.dismiss === "backdrop") {
                         $("#loaderOferta").html("");
                         $("#loaderOfertaBox").css("display", "none");
                         enableInputs(true);                      
-                        countOfferts();
+                       // countOfferts();
                         $("#filtersSection").css("display", "block");
                       }
                     }
