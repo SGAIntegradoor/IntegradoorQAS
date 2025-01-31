@@ -114,6 +114,9 @@ function countOfferts() {
       console.log("Respuesta completa:", JSON.stringify(response, null, 2));
       
       let offers = response;
+
+      let todas = offers.length;
+
       offers.forEach((offer) => {
         try {
           // Verifica que la categoría también sea un JSON válido
@@ -134,7 +137,6 @@ function countOfferts() {
             } else if (cat === "Clasicas") {
               counters.Clasicas++;
             }
-            counters.Todas++;
           });
         } catch (e) {
           console.error("Error al procesar la categoría:", e, e.stack);
@@ -144,7 +146,7 @@ function countOfferts() {
 
       Object.entries(counters).forEach(([key, value]) => {
         if (key === "Todas") {
-          $("#" + key).html(value - 2);
+          $("#" + key).html(todas);
         } else {
           $("#" + key).html(value);
         }
