@@ -114,10 +114,18 @@ function countOfferts() {
     // Asegúrate de que la respuesta es válida
     try {
       console.log("Respuesta completa:", JSON.stringify(response, null, 2));
-      
+      debugger;
       let offers = response;
-
       let todas = offers.length;
+
+      counters = {
+        RCE: 0,
+        Full: 0,
+        Premium: 0,
+        Basicas: 0,
+        Clasicas: 0,
+        Todas: todas,
+      }
 
       offers.forEach((offer) => {
         try {
@@ -147,7 +155,9 @@ function countOfferts() {
       });
 
       Object.entries(counters).forEach(([key, value]) => {
-        if (key === "Todas") {
+        console.log(key, value);
+        if (key == "Todas") {
+          console.log("entre aqui, existo!!!!");
           $("#" + key).html(todas);
         } else {
           $("#" + key).html(value);
