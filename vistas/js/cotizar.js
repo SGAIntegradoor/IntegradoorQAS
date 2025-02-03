@@ -3414,7 +3414,6 @@ function cotizarOfertas() {
                 });
                 enableInputs(true);                
                 //countOfferts();
-                $("#filtersSection").css("display", "block");
 
               } else {
                 swal
@@ -3445,6 +3444,7 @@ function cotizarOfertas() {
                       enableInputs(true);
                       cotizarFinesa(cotizacionesFinesa);
                       countOfferts();
+                      $("#filtersSection").css("display", "block");
                     } else if (result.isDismissed) {
                       if (result.dismiss === "cancel") {
                         // console.log("El usuario seleccionó 'No'");
@@ -4427,7 +4427,7 @@ function cotizarOfertas() {
                 showConfirmButton: true,
                 confirmButtonText: "Cerrar",
               });
-              countOfferts();
+              //countOfferts();
               enableInputs(true);
             } else {
               swal
@@ -4460,17 +4460,20 @@ function cotizarOfertas() {
                     enableInputs(true);
                     cotizarFinesa(cotizacionesFinesa);
                     countOfferts();
+                    $("#filtersSection").css("display", "block");
                   } else if (result.isDismissed && cotizacionesFinesa) {
                     if (result.dismiss === "cancel") {
                       $("#loaderRecotOfertaBox").css("display", "none");
                       $("#loaderRecotOferta").html("");
                       enableInputs(true);
                       countOfferts();
+                      $("#filtersSection").css("display", "block");
                     } else if (result.dismiss === "backdrop") {
                       $("#loaderRecotOfertaBox").css("display", "none");
                       $("#loaderRecotOferta").html("");
                       enableInputs(true);
                       countOfferts();
+                      $("#filtersSection").css("display", "block");
                     }
                   }
                 });
@@ -4483,6 +4486,7 @@ function cotizarOfertas() {
             });
             enableInputs(true);
             countOfferts();
+            $("#filtersSection").css("display", "block");
           }
         });
       }
