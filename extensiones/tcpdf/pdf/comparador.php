@@ -37,21 +37,6 @@ if (!$conexion) {
 }
 $conexion->set_charset("utf8");
 
-// BEGIN Solo para calidad, DESHABILITAR EN PRODUCCION
-
-$serverPRD = "localhost";
-$userPRD = "grupoasi_cotizautos";
-$passwordPRD = "M1graci0n123"; //poner tu propia contraseña, si tienes una.
-$bdPRD = "grupoasi_cotizautos";
-
-$conexionPRD = mysqli_connect($serverPRD, $userPRD, $passwordPRD, $bdPRD);
-if (!$conexionPRD) {
-	die('Error de Conexión: ' . mysqli_connect_errno());
-}
-$conexionPRD->set_charset("utf8");
-
-// END Solo para calidad, DESHABILITAR EN PRODUCCION
-
 $query5x = "SELECT * FROM ofertas WHERE `id_cotizacion` = $identificador AND `seleccionar` = 'Si' ORDER BY Aseguradora ASC";
 $respuestaquery5x = $conexion->query($query5x);
 $rowValidate = mysqli_num_rows($respuestaquery5x);
@@ -62,23 +47,9 @@ INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion
 WHERE o.seleccionar = 'Si' 
 AND cf.identityElement = o.oferta_finesa
 AND cf.id_cotizacion = $identificador";
-// $respuestaquery5f = $conexion->query($query5f);
-$respuestaquery5f = $conexionPRD->query($query5f);
+$respuestaquery5f = $conexion->query($query5f);
 $rowValidateF = mysqli_num_rows($respuestaquery5f);
 
-var_dump("ID COTIZACION");
-
-var_dump($identificador);
-
-var_dump("ROW VALIDATE FINESA");
-
-var_dump($rowRespuesta5f = $respuestaquery5f->fetch_assoc());
-
-var_dump("ROW VALIDATE");
-
-var_dump($rowRespuesta5x = $respuestaquery5x->fetch_assoc());
-
-die();
 $finesa_cot = [];
 $ofertas_cot = [];
 
