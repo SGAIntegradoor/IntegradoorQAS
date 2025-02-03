@@ -114,7 +114,6 @@ function countOfferts() {
     // Asegúrate de que la respuesta es válida
     try {
       console.log("Respuesta completa:", JSON.stringify(response, null, 2));
-      debugger;
       let offers = response;
       let todas = offers.length;
 
