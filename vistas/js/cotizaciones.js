@@ -1804,7 +1804,7 @@ async function offertsFinesaRender() {
 
   try {
     const dbResponse = await fetch(
-      "https://www.grupoasistencia.com/motor_webservice/getOffertsFinesa",
+      "https://www.grupoasistencia.com/motor_webservice/getOffertsFinesa_qas",
       // "http://localhost/motorTest/getOffertsFinesa",
       {
         method: "POST",
