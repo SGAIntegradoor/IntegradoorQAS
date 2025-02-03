@@ -155,7 +155,6 @@ function countOfferts() {
       });
 
       Object.entries(counters).forEach(([key, value]) => {
-        console.log(key, value);
         if (key == "Todas") {
           console.log("entre aqui, existo!!!!");
           $("#" + key).html(todas);
