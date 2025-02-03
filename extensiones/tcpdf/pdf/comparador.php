@@ -66,6 +66,19 @@ AND cf.id_cotizacion = $identificador";
 $respuestaquery5f = $conexionPRD->query($query5f);
 $rowValidateF = mysqli_num_rows($respuestaquery5f);
 
+var_dump("ID COTIZACION");
+
+var_dump($identificador);
+
+var_dump("ROW VALIDATE FINESA");
+
+var_dump($rowValidateF);
+
+var_dump("ROW VALIDATE");
+
+var_dump($rowValidate);
+
+die();
 $finesa_cot = [];
 $ofertas_cot = [];
 
