@@ -1746,6 +1746,7 @@ function saveQuotations(responses) {
 let cotizoFinesa = false;
 
 function cotizarFinesa(ofertasCotizaciones) {
+  $("#filtersSection").prop("disabled", "disabled");
   let cotEnFinesaResponse = [];
   let promisesFinesa = [];
   const headers = new Headers();
@@ -1840,6 +1841,7 @@ function cotizarFinesa(ofertasCotizaciones) {
               });
           })
       );
+      $("#filtersSection").prop("disabled", false);
     } else {
       $("#loaderRecotOferta").html("");
       $("#loaderRecotOfertaBox").css("display", "none");

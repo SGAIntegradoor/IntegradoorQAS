@@ -3,7 +3,7 @@
     
     <div class="filters-row">
         <div class="filter activeTab" name="Todas">
-            <p><b>Ver todas las ofertas</b></p>
+            <p><b>VER TODAS LAS OFERTAS</b></p>
             <div id="divNumOfer">
                 <p id="Todas"></p>
                 <p>ofertas</p>
@@ -19,7 +19,7 @@
         </div>
         <div class="filter" name="Full">
             <p><b>FULL</b></p>
-            <p class="product-filter">PT 100% / PP ded. variable</p>
+            <p class="product-filter">RCE / PT 100% / PP D. Variable</p>
             <div id="divNumOfer">
                 <p id="Full"></p>
                 <p>ofertas</p>
@@ -27,7 +27,7 @@
         </div>
         <div class="filter" name="Clasicas">
             <p><b>CLÁSICAS</b></p>
-            <p class="product-filter">PT 90% / PP ded. variable</p>
+            <p class="product-filter">RCE / PT 90% / PP D. Variable</p>
             <div id="divNumOfer">
                 <p id="Clasicas"></p>
                 <p>ofertas</p>
