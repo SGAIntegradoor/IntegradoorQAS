@@ -72,11 +72,11 @@ var_dump($identificador);
 
 var_dump("ROW VALIDATE FINESA");
 
-var_dump($rowValidateF);
+var_dump($rowRespuesta5f = $respuestaquery5f->fetch_assoc());
 
 var_dump("ROW VALIDATE");
 
-var_dump($rowValidate);
+var_dump($rowRespuesta5x = $respuestaquery5x->fetch_assoc());
 
 die();
 $finesa_cot = [];
