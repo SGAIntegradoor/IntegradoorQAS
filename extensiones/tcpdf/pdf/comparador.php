@@ -708,7 +708,7 @@ if ($rowValidateF >= 1) {
 
 		if ($viable) {
 			if ($resultado['cuota_1'] != null) {
-				if ($resultado['Aseguradora'] == "HDI (Antes Liberty)" || $resultado['Aseguradora'] == "Seguros Bolivar") {
+				if ($resultado['Aseguradora'] == "HDI (Antes Liberty)" || $resultado['Aseguradora'] == "Seguros Bolivar" || $resultado['Aseguradora'] == "Mapfre" || $resultado['Aseguradora'] == "Seguros Mapfre") {
 					$html2 .= '<td style="font-size:' . ($font_size - 2) . 'px; color:#666666; font-family:dejavusanscondensedb; text-align: center;" class="puntos td2 ' . $fondo_class . '">
 					Pdte. cotizar 
 					<br>
@@ -740,7 +740,7 @@ if ($rowValidateF >= 1) {
 				$cont3++;
 			}
 		} else {
-			if ($resultado['Aseguradora'] == "HDI (Antes Liberty)" || $resultado['Aseguradora'] == "Seguros Bolivar") {
+			if ($resultado['Aseguradora'] == "HDI (Antes Liberty)" || $resultado['Aseguradora'] == "Seguros Bolivar" || $resultado['Aseguradora'] == "Mapfre" || $resultado['Aseguradora'] == "Seguros Mapfre") {
 				$html2 .= '<td style="font-size:' . ($font_size - 2) . 'px; color:#666666; font-family:dejavusanscondensedb; text-align: center;" class="puntos td2 ' . $fondo_class . '">
                 Pdte. cotizar 
                 <br>
