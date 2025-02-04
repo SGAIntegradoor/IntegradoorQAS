@@ -7,6 +7,20 @@ let counters = {
   Todas: 0,
 };
 
+function disableFilters() {
+  $(".container-filters").css({
+      "pointer-events": "none",  // Evita la interacción
+      "opacity": "0.5"           // Reduce la visibilidad para indicar que está deshabilitado
+  });
+}
+
+function enableFilters() {
+  $(".container-filters").css({
+      "pointer-events": "auto",
+      "opacity": "1"
+  });
+}
+
 function getOffertsByFilter(filter, callback) {
   $("#cardCotizacion")
     .find("#divCards")
@@ -78,8 +92,6 @@ let filters = document.querySelectorAll(".filter");
 
 filters.forEach((filter) => {
   filter.addEventListener("click", function () {
-
-    
     filters.forEach((filter) => filter.classList.remove("activeTab"));
     this.classList.add("activeTab");
     getOffertsByFilter(filter.getAttribute("name"), function (response) {
@@ -124,14 +136,14 @@ function countOfferts() {
         Basicas: 0,
         Clasicas: 0,
         Todas: todas,
-      }
+      };
 
       offers.forEach((offer) => {
         try {
           // Verifica que la categoría también sea un JSON válido
           let categoria = JSON.parse(offer.Categoria);
 
-          console.log(categoria)
+          console.log(categoria);
 
           // Incrementa los contadores según la categoría
           categoria.forEach((cat) => {
@@ -161,6 +173,9 @@ function countOfferts() {
           $("#" + key).html(value);
         }
       });
+      if ($("#filtersSection").css("display") == "none") {
+        $("#filtersSection").css("display", "block");
+      } 
     } catch (e) {
       console.error("Error al procesar la respuesta:", e, e.stack);
       console.trace();

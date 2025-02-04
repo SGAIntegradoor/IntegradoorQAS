@@ -1621,6 +1621,7 @@ function saveQuotations(responses) {
 let cotizoFinesaMotos = false;
 
 function cotizarFinesaMotos(ofertasCotizaciones) {
+  showCircularProgress("Cotización Finesa en Proceso...", 200);
   let cotEnFinesaResponse = [];
   let promisesFinesa = [];
 
@@ -1760,6 +1761,7 @@ function cotizarFinesaMotos(ofertasCotizaciones) {
     })
     .finally(() => {
       //console.log(cotEnFinesaResponse);
+      Swal.close();
     });
 }
 
@@ -2279,6 +2281,7 @@ var recotizacionIntentoRealizado = false;
 
 function cotizarOfertasMotos() {
   // debugger;
+  showCircularProgress("Cotización Motos en Proceso...", 500);
   var codigoFasecolda1 = document.getElementById("txtFasecolda");
   var contenido = codigoFasecolda1.value;
 
@@ -3556,6 +3559,7 @@ function cotizarOfertasMotos() {
           if (nuevas.length > 0) {
             let intermediario = document.getElementById("intermediario").value;
             if (intermediario != 3 && intermediario != 149) {
+              Swal.close();
               swal.fire({
                 title: "¡Proceso de Cotización Finalizada!",
                 showConfirmButton: true,
@@ -3564,6 +3568,7 @@ function cotizarOfertasMotos() {
               $("#loaderOferta").html("");
               $("#loaderOfertaBox").css("display", "none");
             } else {
+              Swal.close();
               swal
                 .fire({
                   title: "¡Proceso de Re-Cotización Finalizada!",

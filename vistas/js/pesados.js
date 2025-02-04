@@ -2104,6 +2104,7 @@ function saveQuotations(responses) {
 let cotizoFinesaPesados = false;
 
 function cotizarFinesa(ofertasCotizaciones) {
+  showCircularProgress("Cotización Finesa en Proceso...", 300);
   let cotEnFinesaResponse = [];
   let promisesFinesa = [];
 
@@ -2202,6 +2203,7 @@ function cotizarFinesa(ofertasCotizaciones) {
 
   Promise.all(promisesFinesa)
     .then((results) => {
+      Swal.close();
       cotEnFinesaResponse = saveQuotations(results);
       swal
         .fire({
@@ -2312,6 +2314,7 @@ function addPrevisora() {
 
 // Abrir modal
 function cotizarOfertasPesados() {
+  showCircularProgress("Cotización Pesados en Proceso...", 500);
   var codigoFasecolda1 = document.getElementById("txtFasecolda");
   var contenido = codigoFasecolda1.value;
   var rolAsesor = document.getElementById("rolAsesorPesados").value;
@@ -3686,12 +3689,14 @@ function cotizarOfertasPesados() {
           );
           if (nuevasPesadas.length > 0) {
             if (intermediario != 3 && intermediario != 149) {
+              Swal.close();
               swal.fire({
                 title: "¡Proceso de  Re-Cotización Finalizada!",
                 showConfirmButton: true,
                 confirmButtonText: "Cerrar",
               });
             } else {
+              Swal.close();
               swal
                 .fire({
                   title: "¡Proceso de Re-Cotización Finalizada!",

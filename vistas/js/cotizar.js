@@ -1,4 +1,5 @@
 $(document).ready(function () {
+
   var permisos = JSON.parse(permisosPlantilla);
   const parrillaCotizaciones = document.getElementById("parrillaCotizaciones");
   parrillaCotizaciones.style.display = "none";
@@ -1746,7 +1747,8 @@ function saveQuotations(responses) {
 let cotizoFinesa = false;
 
 function cotizarFinesa(ofertasCotizaciones) {
-  $("#filtersSection").prop("disabled", "disabled");
+  disableFilters();
+  showCircularProgress("Cotización Finesa en Proceso...", 2200);
   let cotEnFinesaResponse = [];
   let promisesFinesa = [];
   const headers = new Headers();
@@ -1862,6 +1864,16 @@ function cotizarFinesa(ofertasCotizaciones) {
           title: "¡Cotización a Finesa Finalizada!",
           showConfirmButton: true,
           confirmButtonText: "Cerrar",
+          backdrop: true, // Bloquea la interacción con el fondo
+          allowOutsideClick: false, // Evita cerrar la alerta haciendo clic afuera
+          allowEscapeKey: false, // Evita cerrar con la tecla "Escape"
+          allowEnterKey: false, // Evita cerrar con "Enter"
+          didOpen: () => {
+            document.body.style.overflow = "auto"; // Habilita el scroll en el fondo
+          },
+          willClose: () => {
+            document.body.style.overflow = ""; // Restaura el comportamiento normal
+          },
         })
         .then(() => {
           $("#loaderOferta").html("");
@@ -1876,7 +1888,8 @@ function cotizarFinesa(ofertasCotizaciones) {
       console.error("Error en las promesas: ", error);
     })
     .finally(() => {
-      //console.log(cotEnFinesaResponse);
+      enableFilters();
+      Swal.close();
     });
 }
 
@@ -1925,7 +1938,7 @@ function registrarOferta(
       // Agregue esta variable en Ofertas para reconocer el nombre en Script PHP e insertarlo en la BD en el momento que se crea.
       identityElement: actIdentity != "" ? actIdentity : NULL,
       eventos: eventos,
-    })
+    });
     $.ajax({
       type: "POST",
       url: "src/insertarOferta.php",
@@ -2450,6 +2463,7 @@ function enableInputs(opt) {
 //console.log(permisosPlantilla)
 // Captura los datos suministrados por el cliente y los envia al API para recibir la cotizacion.
 function cotizarOfertas() {
+  showCircularProgress("Cotización Autos en Proceso", 2200);
   var codigoFasecolda1 = document.getElementById("txtFasecolda");
   var contenido = codigoFasecolda1.value;
 
@@ -3409,15 +3423,16 @@ function cotizarOfertas() {
               $("#loaderOferta").html("");
               //$("#loaderOfertaBox").css("display", "none");
               if (intermediario != 3 && intermediario != 149) {
+                Swal.close();
                 swal.fire({
                   title: "¡Proceso de Cotización Finalizada!",
                   showConfirmButton: true,
                   confirmButtonText: "Cerrar",
                 });
-                enableInputs(true);                
+                enableInputs(true);
                 //countOfferts();
-
               } else {
+                Swal.close();
                 swal
                   .fire({
                     title: "¡Proceso de Cotización Finalizada!",
@@ -3443,24 +3458,24 @@ function cotizarOfertas() {
                       $("#loaderOferta").html(
                         '<img src="vistas/img/plantilla/loader-update.gif" width="34" height="34"><strong> Cotizando en Finesa...</strong>'
                       );
-                      enableInputs(true);
+                      enableInputs(true);                                          
                       cotizarFinesa(cotizacionesFinesa);
                       countOfferts();
-                      $("#filtersSection").css("display", "block");
+                      // $("#filtersSection").css("display", "block");
                     } else if (result.isDismissed) {
                       if (result.dismiss === "cancel") {
                         // console.log("El usuario seleccionó 'No'");
                         $("#loaderOferta").html("");
                         $("#loaderOfertaBox").css("display", "none");
-                        enableInputs(true);                       
+                        enableInputs(true);
                         countOfferts();
-                        $("#filtersSection").css("display", "block");
+                        // $("#filtersSection").css("display", "block");
                       } else if (result.dismiss === "backdrop") {
                         $("#loaderOferta").html("");
                         $("#loaderOfertaBox").css("display", "none");
-                        enableInputs(true);                      
+                        enableInputs(true);
                         countOfferts();
-                        $("#filtersSection").css("display", "block");
+                        // $("#filtersSection").css("display", "block");
                       }
                     }
                   });
@@ -3526,7 +3541,6 @@ function cotizarOfertas() {
             });
           },
         });
-        
       } else {
         //ZONA RECOTIZACIÓN//
         $("#loaderRecotOferta").html(
@@ -4462,20 +4476,20 @@ function cotizarOfertas() {
                     enableInputs(true);
                     cotizarFinesa(cotizacionesFinesa);
                     countOfferts();
-                    $("#filtersSection").css("display", "block");
+                    // $("#filtersSection").css("display", "block");
                   } else if (result.isDismissed && cotizacionesFinesa) {
                     if (result.dismiss === "cancel") {
                       $("#loaderRecotOfertaBox").css("display", "none");
                       $("#loaderRecotOferta").html("");
                       enableInputs(true);
                       countOfferts();
-                      $("#filtersSection").css("display", "block");
+                      // $("#filtersSection").css("display", "block");
                     } else if (result.dismiss === "backdrop") {
                       $("#loaderRecotOfertaBox").css("display", "none");
                       $("#loaderRecotOferta").html("");
                       enableInputs(true);
                       countOfferts();
-                      $("#filtersSection").css("display", "block");
+                      // $("#filtersSection").css("display", "block");
                     }
                   }
                 });
@@ -4488,7 +4502,7 @@ function cotizarOfertas() {
             });
             enableInputs(true);
             countOfferts();
-            $("#filtersSection").css("display", "block");
+            // $("#filtersSection").css("display", "block");
           }
         });
       }

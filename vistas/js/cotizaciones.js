@@ -3995,3 +3995,93 @@ function menosRECot() {
 
   document.getElementById("masResOferta").style.display = "none";
 }
+
+
+// Funcion loader screen
+
+// function showLoadingPopup(cotType) {
+//   let progress = 0;
+
+//   Swal.fire({
+//       title: `${cotType}`,
+//       html: `<br>Cargando...<br><b id="progressText">0%</b> completado`,
+//       backdrop: true, 
+//       allowOutsideClick: false,
+//       allowEscapeKey: false,
+//       allowEnterKey: false,
+//       didOpen: () => {
+//           document.body.style.overflow = "auto"; // Permitir scroll
+//       },
+//       willClose: () => {
+//           document.body.style.overflow = ""; // Restaurar scroll normal
+//       },
+//       showConfirmButton: false // Ocultar botón mientras carga
+//   });
+
+//   // Simulación de progreso dinámico
+//   let interval = setInterval(() => {
+//       if (progress >= 100) {
+//           clearInterval(interval);
+//       } else {
+//           progress += Math.ceil(Math.random() * 10);
+//           document.getElementById("progressText").innerHTML = `${progress}%`;
+//       }
+//   }, 500);
+// }
+
+function showCircularProgress(cotType, time) {
+  let progress = 0;
+
+  Swal.fire({
+      title: `${cotType}`,
+      html: `
+          <div style="position: relative; width: 100px; height: 100px; margin: 0 auto;">
+              <svg width="100" height="100" viewBox="0 0 100 100">
+                  <circle cx="50" cy="50" r="40" stroke="#eee" stroke-width="10" fill="none"></circle>
+                  <circle id="progressCircle" cx="50" cy="50" r="40" 
+                      stroke="#88D600" stroke-width="10" fill="none" 
+                      stroke-dasharray="251.2" stroke-dashoffset="251.2" 
+                      stroke-linecap="round"
+                      transform="rotate(-90 50 50)"></circle>
+              </svg>
+              <div id="progressText" style="
+                  position: absolute; 
+                  top: 50%; left: 50%;
+                  transform: translate(-50%, -50%);
+                  font-size: 18px; font-weight: bold;
+              ">0%</div>
+          </div>
+      `,
+      backdrop: true,
+      allowOutsideClick: false,
+      allowEscapeKey: false,
+      showConfirmButton: false,
+      didOpen: () => {
+          document.body.style.overflow = "auto"; // Permitir scroll
+      },
+      willClose: () => {
+          document.body.style.overflow = ""; // Restaurar scroll normal
+      },
+      showConfirmButton: false // Ocultar botón mientras carga
+  });
+
+  let interval = setInterval(() => {
+      if (progress >= 99) {
+          clearInterval(interval);
+          return; // Se detiene en 99% sin cerrarse automáticamente
+      }
+
+      let increment = Math.ceil(Math.random() * 9); // Valores aleatorios entre 1 y 9
+      if (progress + increment > 99) increment = 99 - progress; // Evita que pase de 99%
+      progress += increment;
+
+      let circle = document.getElementById("progressCircle");
+      let text = document.getElementById("progressText");
+
+      let dashoffset = 251.2 * (1 - progress / 100); // Ajuste de la barra
+      circle.style.strokeDashoffset = dashoffset;
+      text.innerHTML = `${progress}%`;
+  }, time);
+}
+
+// Simula una actualización del % (ajústalo según tu petición real)
