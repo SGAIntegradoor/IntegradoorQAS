@@ -16,13 +16,11 @@ const getTime = dateTo => {
 };
 let cont = 0
 const countdown = (dateTo, element, rol) => {
-    
     if(rol == "20" || rol == "19" || rol == "2"){
-        console.log(rol)
         const item = document.getElementById(element);
         const timerUpdate = setInterval( () => {
             let currenTime = getTime(dateTo);          
-            if(currenTime.hours != 'aN'){
+            if(currenTime.hours != 'NaN'){
                 if (currenTime.hours <= 1) {
                     clearInterval(timerUpdate);
                     Swal.fire({
