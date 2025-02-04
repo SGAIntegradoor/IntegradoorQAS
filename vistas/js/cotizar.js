@@ -1,5 +1,4 @@
 $(document).ready(function () {
-
   var permisos = JSON.parse(permisosPlantilla);
   const parrillaCotizaciones = document.getElementById("parrillaCotizaciones");
   parrillaCotizaciones.style.display = "none";
@@ -1859,6 +1858,7 @@ function cotizarFinesa(ofertasCotizaciones) {
       $("#loaderOfertaBox").css("display", "none");
       $("#loaderRecotOferta").html("");
       $("#loaderRecotOfertaBox").css("display", "none");
+      Swal.close();
       swal
         .fire({
           title: "¡Cotización a Finesa Finalizada!",
@@ -1889,7 +1889,7 @@ function cotizarFinesa(ofertasCotizaciones) {
     })
     .finally(() => {
       enableFilters();
-      Swal.close();
+      
     });
 }
 
@@ -2053,6 +2053,8 @@ const mostrarOferta = (
     cotizada: null,
   };
 
+  console.log("Oferta, ", cotOferta )
+
   actIdentity = aseguradora + "_" + contCotizacion;
 
   if (
@@ -2061,6 +2063,8 @@ const mostrarOferta = (
   ) {
     cotizacionesFinesa.push(cotOferta);
   }
+
+  console.log("cotFinesaOferta, ", cotizacionesFinesa );
 
   cardCotizacion = `
                           <div class='col-lg-12'>
@@ -2488,6 +2492,7 @@ function cotizarOfertas() {
       restriccion =
         "Lo sentimos, no puedes realizar cotizaciones para vehículo de trabajo por este cotizador.";
     }
+    Swal.close();
     Swal.fire({
       icon: "error",
       confirmButtonText: "Cerrar",
@@ -2512,6 +2517,7 @@ function cotizarOfertas() {
       restriccion =
         "Lo sentimos, no puedes realizar cotizaciones para el tipo de servicio público o intermunicipal por este cotizador.";
     }
+    Swal.close();
     Swal.fire({
       icon: "error",
       confirmButtonText: "Cerrar",
@@ -3458,7 +3464,7 @@ function cotizarOfertas() {
                       $("#loaderOferta").html(
                         '<img src="vistas/img/plantilla/loader-update.gif" width="34" height="34"><strong> Cotizando en Finesa...</strong>'
                       );
-                      enableInputs(true);                                          
+                      enableInputs(true);
                       cotizarFinesa(cotizacionesFinesa);
                       countOfferts();
                       // $("#filtersSection").css("display", "block");
@@ -4429,15 +4435,17 @@ function cotizarOfertas() {
           : Promise.resolve();
 
         cont.push(sbsPromise);
-
+      //  console.log(cont)
         Promise.all(cont).then(() => {
           $("#loaderOferta").html("");
           $("#loaderRecotOferta").html("");
           let nuevas = cotizacionesFinesa.filter(
             (cotizaciones) => cotizaciones.cotizada === null
           );
+          // console.log(nuevas)
           if (nuevas.length > 0) {
             if (intermediario != 3 && intermediario != 149) {
+              Swal.close();
               swal.fire({
                 title: "¡Proceso de  Re-Cotización Finalizada!",
                 showConfirmButton: true,
@@ -4446,6 +4454,7 @@ function cotizarOfertas() {
               //countOfferts();
               enableInputs(true);
             } else {
+              Swal.close();
               swal
                 .fire({
                   title: "¡Proceso de Re-Cotización Finalizada!",
@@ -4495,6 +4504,7 @@ function cotizarOfertas() {
                 });
             }
           } else {
+            Swal.close();
             swal.fire({
               title: "¡Proceso de Re-Cotización Finalizada!",
               showConfirmButton: true,
