@@ -43,7 +43,7 @@
         </div>
         <div class="filter" name="RCE">
             <p><b>RCE</b></p>
-            <p class="product-filter">Sólo RCE + Asistenciase</p>
+            <p class="product-filter">Sólo RCE + Asistencias</p>
             <div id="divNumOfer">
                 <p id="RCE"></p>
                 <p>ofertas</p>
