@@ -125,7 +125,7 @@ function countOfferts() {
   getOffertsByFilter("Todas", function (response) {
     // Asegúrate de que la respuesta es válida
     try {
-      console.log("Respuesta completa:", JSON.stringify(response, null, 2));
+      //console.log("Respuesta completa:", JSON.stringify(response, null, 2));
       let offers = response;
       let todas = offers.length;
 
@@ -143,7 +143,7 @@ function countOfferts() {
           // Verifica que la categoría también sea un JSON válido
           let categoria = JSON.parse(offer.Categoria);
 
-          console.log(categoria);
+          // console.log(categoria);
 
           // Incrementa los contadores según la categoría
           categoria.forEach((cat) => {
@@ -167,7 +167,7 @@ function countOfferts() {
 
       Object.entries(counters).forEach(([key, value]) => {
         if (key == "Todas") {
-          console.log("entre aqui, existo!!!!");
+          //console.log("entre aqui, existo!!!!");
           $("#" + key).html(todas);
         } else {
           $("#" + key).html(value);

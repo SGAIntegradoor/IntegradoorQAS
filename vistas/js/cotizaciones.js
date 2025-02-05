@@ -1790,8 +1790,38 @@ async function renderCards(response) {
   }, 1000);
 }
 
+// async function offertsFinesaRender() {
+//   let ofrts = [];
+
+//   const headers = new Headers();
+//   headers.append("Content-Type", "application/json");
+
+//   const body = {
+//     idCotizacion: idCotizacion,
+//     env: "QAS",
+//   };
+
+//   try {
+//     const dbResponse = await fetch(
+//       "https://www.grupoasistencia.com/motor_webservice/getOffertsFinesa_qas",
+//       // "http://localhost/motorTest/getOffertsFinesa",
+//       {
+//         method: "POST",
+//         headers: headers,
+//         body: JSON.stringify(body),
+//       }
+//     );
+
+//     ofrts = await dbResponse.json();
+//     return ofrts;
+//   } catch (error) {
+//     console.error("Error fetching data:", error);
+//   }
+// }
 async function offertsFinesaRender() {
   let ofrts = [];
+  const MAX_RETRIES = 3; // Número máximo de intentos
+  const RETRY_DELAY = 2000; // Tiempo de espera entre intentos (en milisegundos)
 
   const headers = new Headers();
   headers.append("Content-Type", "application/json");
@@ -1801,23 +1831,42 @@ async function offertsFinesaRender() {
     env: "QAS",
   };
 
-  try {
-    const dbResponse = await fetch(
-      "https://www.grupoasistencia.com/motor_webservice/getOffertsFinesa_qas",
-      // "http://localhost/motorTest/getOffertsFinesa",
-      {
-        method: "POST",
-        headers: headers,
-        body: JSON.stringify(body),
-      }
-    );
+  // Función recursiva para manejar reintentos
+  async function fetchWithRetry(retries = MAX_RETRIES) {
+    try {
+      const dbResponse = await fetch(
+        "https://www.grupoasistencia.com/motor_webservice/getOffertsFinesa_qas",
+        {
+          method: "POST",
+          headers: headers,
+          body: JSON.stringify(body),
+        }
+      );
 
-    ofrts = await dbResponse.json();
-    return ofrts;
-  } catch (error) {
-    console.error("Error fetching data:", error);
+      if (!dbResponse.ok) {
+        throw new Error(`HTTP error! Status: ${dbResponse.status}`);
+      }
+
+      ofrts = await dbResponse.json();
+      return ofrts;
+
+    } catch (error) {
+      console.error("Error fetching data:", error);
+
+      if (retries > 0) {
+        console.log(`Retrying... ${MAX_RETRIES - retries + 1} of ${MAX_RETRIES}`);
+        await new Promise(resolve => setTimeout(resolve, RETRY_DELAY)); // Espera antes de reintentar
+        return fetchWithRetry(retries - 1); // Reintenta la solicitud
+      } else {
+        console.error("Max retries reached. Could not fetch data.");
+        throw error; // Lanza el error si se agotaron los intentos
+      }
+    }
   }
+
+  return fetchWithRetry(); // Llamada inicial a la función con reintentos
 }
+
 
 function editarCotizacion(id) {
   idCotizacion = id; // Almacena el Id en la variable global de idCotización
