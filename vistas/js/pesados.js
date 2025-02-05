@@ -2104,7 +2104,7 @@ function saveQuotations(responses) {
 let cotizoFinesaPesados = false;
 
 function cotizarFinesa(ofertasCotizaciones) {
-  showCircularProgress("Cotización Finesa en Proceso...", 300);
+  showCircularProgress("Cotización Finesa en Proceso...", 500, 40000);
   let cotEnFinesaResponse = [];
   let promisesFinesa = [];
 
@@ -2314,7 +2314,7 @@ function addPrevisora() {
 
 // Abrir modal
 function cotizarOfertasPesados() {
-  showCircularProgress("Cotización Pesados en Proceso...", 500);
+  showCircularProgress("Cotización Pesados en Proceso...", 500, 40000);
   var codigoFasecolda1 = document.getElementById("txtFasecolda");
   var contenido = codigoFasecolda1.value;
   var rolAsesor = document.getElementById("rolAsesorPesados").value;

@@ -1621,7 +1621,7 @@ function saveQuotations(responses) {
 let cotizoFinesaMotos = false;
 
 function cotizarFinesaMotos(ofertasCotizaciones) {
-  showCircularProgress("Cotización Finesa en Proceso...", 200);
+  showCircularProgress("Cotización Finesa en Proceso...", 500, 50000);
   let cotEnFinesaResponse = [];
   let promisesFinesa = [];
 
@@ -2281,7 +2281,7 @@ var recotizacionIntentoRealizado = false;
 
 function cotizarOfertasMotos() {
   // debugger;
-  showCircularProgress("Cotización Motos en Proceso...", 500);
+  showCircularProgress("Cotización Motos en Proceso...", 500, 50000);
   var codigoFasecolda1 = document.getElementById("txtFasecolda");
   var contenido = codigoFasecolda1.value;
 

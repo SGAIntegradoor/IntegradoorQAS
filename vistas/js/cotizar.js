@@ -1747,7 +1747,7 @@ let cotizoFinesa = false;
 
 function cotizarFinesa(ofertasCotizaciones) {
   disableFilters();
-  showCircularProgress("Cotización Finesa en Proceso...", 2200);
+  showCircularProgress("Cotización Finesa en Proceso...", 2200, 90000);
   let cotEnFinesaResponse = [];
   let promisesFinesa = [];
   const headers = new Headers();
@@ -2467,7 +2467,7 @@ function enableInputs(opt) {
 //console.log(permisosPlantilla)
 // Captura los datos suministrados por el cliente y los envia al API para recibir la cotizacion.
 function cotizarOfertas() {
-  showCircularProgress("Cotización Autos en Proceso", 2200);
+  showCircularProgress("Cotización Autos en Proceso", 2200, 90000);
   var codigoFasecolda1 = document.getElementById("txtFasecolda");
   var contenido = codigoFasecolda1.value;
 

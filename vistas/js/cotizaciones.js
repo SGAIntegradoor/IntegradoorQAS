@@ -4027,9 +4027,9 @@ function menosRECot() {
 //   }, 500);
 // }
 
-function showCircularProgress(cotType, time) {
+function showCircularProgress(cotType, time, totalTransition) {
   let progress = 0;
-  let totalDuration = 90000; // Duración total en milisegundos (90 segundos)
+  let totalDuration = totalTransition; // Duración total en milisegundos (90 segundos)
   let steps = totalDuration / time; // Número de iteraciones en 90 segundos
   let incrementPerStep = Math.floor(99 / steps); // Incremento por paso
 
