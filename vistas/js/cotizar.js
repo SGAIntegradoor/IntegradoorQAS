@@ -1772,7 +1772,6 @@ function cotizarFinesa(ofertasCotizaciones) {
     };
 
     if (element.cotizada == null || element.cotizada == false) {
-      //console.log(element);
       promisesFinesa.push(
         fetch(
           "https://www.grupoasistencia.com/motor_webservice/paymentInstallmentsFinesa_qas",
@@ -1785,8 +1784,7 @@ function cotizarFinesa(ofertasCotizaciones) {
         )
           .then((response) => response.json())
           .then((finesaData) => {
-            // Sub Promesa para guardar la data en la BD con relacion a la cotizacion actual.
-
+            // Sub Promesa para guardar la data en la BD con relacion a la cotizacion actual.u
             finesaData.producto = element.producto;
             finesaData.aseguradora = element.aseguradora;
             finesaData.id_cotizacion = idCotizacion;
@@ -1806,7 +1804,9 @@ function cotizarFinesa(ofertasCotizaciones) {
                 const elementDiv = document.getElementById(element.objFinesa);
                 if (
                   element.aseguradora == "Seguros Bolivar" ||
-                  element.aseguradora == "HDI (Antes Liberty)"
+                  element.aseguradora == "HDI (Antes Liberty)" ||
+                  element.aseguradora == "Mapfre" ||
+                  element.aseguradora == "Seguros Mapfre" 
                 ) {
                   cotizacionesFinesa[index].cotizada = true;
                   elementDiv.innerHTML = `Financiación Aseguradora:<br /> Consulte analista`;
@@ -2994,6 +2994,7 @@ function cotizarOfertas() {
             estCivRep: estCivRep,
             correoRep: correoRep,
             celRep: celRep,
+            env: "QAS"
           },
           cache: false,
           success: function (data) {
@@ -3556,6 +3557,7 @@ function cotizarOfertas() {
         btnRecotizar.disabled = true;
         const contenParrilla = document.querySelector("#contenParrilla");
         raw.cotizacion = idCotizacion;
+        raw.env = "QAS";
 
         var requestOptions = {
           method: "POST",
