@@ -1,7 +1,6 @@
 // let permisos = "";
 
 $(document).ready(function () {
-  showCircularProgress("Prueba Loader", 2200);
   function obtenerFechaActual() {
     const hoy = new Date();
     const año = hoy.getFullYear();
