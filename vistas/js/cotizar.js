@@ -3544,10 +3544,10 @@ function cotizarOfertas() {
                   }
                 }
               });
-              countOfferts();
             });
           },
         });
+        countOfferts();
       } else {
         //ZONA RECOTIZACIÓN//
         $("#loaderRecotOferta").html(
