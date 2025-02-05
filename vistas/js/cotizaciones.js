@@ -4065,7 +4065,7 @@ function showCircularProgress(cotType, time, totalTransition) {
     allowEscapeKey: false,
     showConfirmButton: false,
     customClass: {
-      popup: "popupLoader", // Agregamos la clase personalizada
+      popup: "popupLoader",
       container: "backdropLoader",
     },
     didOpen: () => {

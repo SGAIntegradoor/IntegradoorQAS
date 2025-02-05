@@ -2858,6 +2858,7 @@ function cotizarOfertas() {
           cre_sol_token: cre_sol_token,
           cre_sol_fecha_token: cre_sol_fecha_token,
         },
+        env: "QAS"
       };
 
       //! Agregar a Motos y Pesados START
@@ -2994,7 +2995,6 @@ function cotizarOfertas() {
             estCivRep: estCivRep,
             correoRep: correoRep,
             celRep: celRep,
-            env: "QAS"
           },
           cache: false,
           success: function (data) {
@@ -3557,7 +3557,7 @@ function cotizarOfertas() {
         btnRecotizar.disabled = true;
         const contenParrilla = document.querySelector("#contenParrilla");
         raw.cotizacion = idCotizacion;
-        raw.env = "QAS";
+        raw.env = "";
 
         var requestOptions = {
           method: "POST",

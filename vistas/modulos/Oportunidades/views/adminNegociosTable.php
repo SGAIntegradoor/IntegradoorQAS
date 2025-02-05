@@ -735,7 +735,7 @@
                 <option value="2">
                   Contado
                 </option>
-                <option value="2">
+                <option value="3">
                   Pdte.
                 </option>
 
@@ -748,7 +748,8 @@
               <select type="text" class="form-control financiera" name="txtFinancieraOportunidadModal" id="txtFinancieraOportunidadModal" placeholder="">
                 <option value="" selected>
                 </option>
-                <option value="2">Finesa</option>
+                <option value="1">Finesa</option>
+                <option value="2">CrediMapfre</option>
                 <option value="3">Liberty</option>
                 <option value="4">Bolivar</option>
               </select>
