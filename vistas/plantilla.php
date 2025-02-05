@@ -187,6 +187,10 @@
     .popupLoader {
       width: 390px;
     }
+
+    .backdropLoader{
+      background: rgba(0, 0, 0, 0.1) !important;
+    }
   </style>
 
 

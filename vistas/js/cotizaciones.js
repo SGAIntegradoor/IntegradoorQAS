@@ -4066,6 +4066,7 @@ function showCircularProgress(cotType, time, totalTransition) {
     showConfirmButton: false,
     customClass: {
       popup: "popupLoader", // Agregamos la clase personalizada
+      container: "backdropLoader",
     },
     didOpen: () => {
       document.body.style.overflow = "auto"; // Permitir scroll
