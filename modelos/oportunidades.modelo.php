@@ -43,7 +43,7 @@ class ModeloOportunidades
             switch ($campo) {
                 case 'mesExpedicion':
                     # code...
-                    $sql .= " AND mes_oportunidad = '$valor'";
+                    $sql .= " AND mes_expedicion = '$valor'";
                     break;
                 case 'aseguradoraOpo':
                     # code...
