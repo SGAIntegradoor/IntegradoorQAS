@@ -3544,7 +3544,7 @@ function cotizarOfertas() {
                   }
                 }
               });
-              //countOfferts();
+              countOfferts();
             });
           },
         });
