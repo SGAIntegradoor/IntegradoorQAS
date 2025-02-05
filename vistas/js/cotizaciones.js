@@ -1,6 +1,7 @@
 // let permisos = "";
 
 $(document).ready(function () {
+  showCircularProgress("Prueba Loader", 2200);
   function obtenerFechaActual() {
     const hoy = new Date();
     const año = hoy.getFullYear();
@@ -1086,7 +1087,7 @@ async function renderCards(response) {
   let offerts = await offertsFinesaRender();
   let filter = JSON.parse(response[0].Categoria)[0];
 
-  if(response.length > 11){
+  if (response.length > 11) {
     filter = "Todas";
   }
 
@@ -1788,7 +1789,6 @@ async function renderCards(response) {
     $("#loaderFilters").html("");
     $("#cardCotizacion").html(cardCotizacion);
   }, 1000);
-
 }
 
 async function offertsFinesaRender() {
@@ -3996,7 +3996,6 @@ function menosRECot() {
   document.getElementById("masResOferta").style.display = "none";
 }
 
-
 // Funcion loader screen
 
 // function showLoadingPopup(cotType) {
@@ -4005,7 +4004,7 @@ function menosRECot() {
 //   Swal.fire({
 //       title: `${cotType}`,
 //       html: `<br>Cargando...<br><b id="progressText">0%</b> completado`,
-//       backdrop: true, 
+//       backdrop: true,
 //       allowOutsideClick: false,
 //       allowEscapeKey: false,
 //       allowEnterKey: false,
@@ -4031,57 +4030,67 @@ function menosRECot() {
 
 function showCircularProgress(cotType, time) {
   let progress = 0;
+  let totalDuration = 90000; // Duración total en milisegundos (90 segundos)
+  let steps = totalDuration / time; // Número de iteraciones en 90 segundos
+  let incrementPerStep = Math.floor(99 / steps); // Incremento por paso
 
   Swal.fire({
-      title: `${cotType}`,
-      html: `
-          <div style="position: relative; width: 100px; height: 100px; margin: 0 auto;">
-              <svg width="100" height="100" viewBox="0 0 100 100">
-                  <circle cx="50" cy="50" r="40" stroke="#eee" stroke-width="10" fill="none"></circle>
-                  <circle id="progressCircle" cx="50" cy="50" r="40" 
-                      stroke="#88D600" stroke-width="10" fill="none" 
-                      stroke-dasharray="251.2" stroke-dashoffset="251.2" 
-                      stroke-linecap="round"
-                      transform="rotate(-90 50 50)"></circle>
-              </svg>
-              <div id="progressText" style="
-                  position: absolute; 
-                  top: 50%; left: 50%;
-                  transform: translate(-50%, -50%);
-                  font-size: 18px; font-weight: bold;
-              ">0%</div>
+    title: `${cotType}`,
+    html: `
+          <div style="position: relative; margin: 0 auto;">
+              <div style="position: relative; width: 100px; height: 100px; margin: 0 auto;">
+                  <svg width="100" height="100" viewBox="0 0 100 100">
+                      <circle cx="50" cy="50" r="40" stroke="#eee" stroke-width="10" fill="none"></circle>
+                      <circle id="progressCircle" cx="50" cy="50" r="40" 
+                          stroke="#88D600" stroke-width="10" fill="none" 
+                          stroke-dasharray="251.2" stroke-dashoffset="251.2" 
+                          stroke-linecap="round"
+                          transform="rotate(-90 50 50)"></circle>
+                  </svg>
+                  <div id="progressText" style="
+                      position: absolute; 
+                      top: 50%; left: 50%;
+                      transform: translate(-50%, -50%);
+                      font-size: 18px; font-weight: bold;
+                      width: 100px; text-align: center;
+                  ">0%</div>
+              </div>
+              <div style="text-align: center; margin-top: 10px;">
+                  <i class="fa fa-circle-exclamation" style="transform: rotate(180deg); font-size: 17px; color: #88D600;"></i>
+                  Puedes ir revisando el avance mientras termina el proceso.
+              </div>
           </div>
       `,
-      backdrop: true,
-      allowOutsideClick: false,
-      allowEscapeKey: false,
-      showConfirmButton: false,
-      didOpen: () => {
-          document.body.style.overflow = "auto"; // Permitir scroll
-      },
-      willClose: () => {
-          document.body.style.overflow = ""; // Restaurar scroll normal
-      },
-      showConfirmButton: false // Ocultar botón mientras carga
-  });
-
-  let interval = setInterval(() => {
-      if (progress >= 99) {
-          clearInterval(interval);
-          return; // Se detiene en 99% sin cerrarse automáticamente
-      }
-
-      let increment = Math.ceil(Math.random() * 9); // Valores aleatorios entre 1 y 9
-      if (progress + increment > 99) increment = 99 - progress; // Evita que pase de 99%
-      progress += increment;
-
+    backdrop: true,
+    allowOutsideClick: false,
+    allowEscapeKey: false,
+    showConfirmButton: false,
+    customClass: {
+      popup: "popupLoader", // Agregamos la clase personalizada
+    },
+    didOpen: () => {
+      document.body.style.overflow = "auto"; // Permitir scroll
       let circle = document.getElementById("progressCircle");
       let text = document.getElementById("progressText");
 
-      let dashoffset = 251.2 * (1 - progress / 100); // Ajuste de la barra
-      circle.style.strokeDashoffset = dashoffset;
-      text.innerHTML = `${progress}%`;
-  }, time);
+      let interval = setInterval(() => {
+        if (progress >= 99) {
+          clearInterval(interval);
+          return;
+        }
+
+        progress += incrementPerStep;
+        if (progress > 99) progress = 99; // Evitar que pase de 99%
+
+        let dashoffset = 251.2 * (1 - progress / 100);
+        circle.style.strokeDashoffset = dashoffset;
+        text.innerHTML = `${progress}%`;
+      }, time);
+    },
+    willClose: () => {
+      document.body.style.overflow = ""; // Restaurar scroll normal
+    },
+  });
 }
 
 // Simula una actualización del % (ajústalo según tu petición real)

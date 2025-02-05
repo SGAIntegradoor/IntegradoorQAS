@@ -183,6 +183,10 @@
     .custom-swal-popupCotExce {
       width: 40%;
     }
+
+    .popupLoader {
+      width: 390px;
+    }
   </style>
 
 
