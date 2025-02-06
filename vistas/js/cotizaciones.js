@@ -1084,12 +1084,17 @@ let excepControl = false;
 
 async function renderCards(response) {
   let offerts = await offertsFinesaRender();
-  let filter = JSON.parse(response[0].Categoria)[0];
+  let filter = "Todas"; // Valor por defecto
+  if (response.length > 0 && response[0].Categoria) {
+      if(JSON.parse(response[0].Categoria).length > 0){
+        $(".container-filters").css("display", "block");
+        filter = JSON.parse(response[0].Categoria).length == 0 ? "Todas" : JSON.parse(response[0].Categoria);
+      }
+  }
 
   if (response.length > 11) {
     filter = "Todas";
   }
-
   let globalResponse = "";
   $("#loaderFilters").html(
     `<div style="display:flex; align-items: center; justify-content: center; margin-bottom: 90px; margin-top: 90px; gap: 10px"><img src="vistas/img/plantilla/loader-update.gif" width="34" height="34"><strong style="font-size: 19px"> Cargando filtro ${filter}...</strong></div>`
@@ -1109,11 +1114,27 @@ async function renderCards(response) {
     },
   });
 
+  // $.ajax({
+  //   url: "ajax/cotizaciones.ajax.php",
+  //   type: "POST",
+  //   data: { idCotizaOferta: idCotizacion },
+  //   success: function (response) {
+  //     console.log(JSON.parse(response));
+     
+  //     $(".container-filters").css("display", "none");
+  //   },
+  //   error: function (error) {
+  //     console.error("Error al obtener los permisos de cotización:", error);
+  //   },
+  // });
+
+  if(!response[0].Categoria) {
+    $(".container-filters").css("display", "none");
+  }
+
   // Obtener los permisos de cotización END
   cardCotizacion = "";
   cards = response;
-  console.log(response);
-  console.log(permisos.Vernumerodecotizacionencadaaseguradora)
   
   setTimeout(() => {
     response.forEach(function (oferta, i) {
@@ -1834,7 +1855,7 @@ async function offertsFinesaRender() {
 
   const body = {
     idCotizacion: idCotizacion,
-    env: "QAS",
+    //env: "QAS",
   };
 
   // Función recursiva para manejar reintentos
@@ -1876,7 +1897,7 @@ async function offertsFinesaRender() {
 
 function editarCotizacion(id) {
   idCotizacion = id; // Almacena el Id en la variable global de idCotización
-
+  $(".container-filters").css("display", "none");
   var datos = new FormData();
 
   datos.append("idCotizacion", idCotizacion);
@@ -2211,7 +2232,7 @@ function editarCotizacion(id) {
        // CONSULTA LAS OFERTAS DE LA COTIZACION
  
        =============================================*/
-
+      
       var datos2 = new FormData();
 
       datos2.append("idCotizaOferta", idCotizacion);
@@ -3584,7 +3605,7 @@ function logoOfertaManual(aseguradora) {
     logo = "sbs.png";
   } else if (aseguradora == "Allianz Seguros") {
     logo = "allianz.png";
-  } else if (aseguradora == "Equidad Seguros") {
+  } else if (aseguradora == "Equidad Seguros") {r
     logo = "equidad.png";
   } else if (aseguradora == "Seguros Mapfre") {
     logo = "mapfre.png";

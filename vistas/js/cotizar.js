@@ -1774,7 +1774,7 @@ function cotizarFinesa(ofertasCotizaciones) {
     if (element.cotizada == null || element.cotizada == false) {
       promisesFinesa.push(
         fetch(
-          "https://www.grupoasistencia.com/motor_webservice/paymentInstallmentsFinesa_qas",
+          "https://www.grupoasistencia.com/motor_webservice/paymentInstallmentsFinesa",
           // "http://localhost/motorTest/paymentInstallmentsFinesa",
           {
             method: "POST",
@@ -1792,7 +1792,7 @@ function cotizarFinesa(ofertasCotizaciones) {
             finesaData.cuotas = element.cuotas;
             return fetch(
               // "http://localhost/motorTest/saveDataQuotationsFinesa",
-              "https://www.grupoasistencia.com/motor_webservice/saveDataQuotationsFinesa_qas",
+              "https://www.grupoasistencia.com/motor_webservice/saveDataQuotationsFinesa",
               {
                 method: "POST",
                 headers: headers,
@@ -2858,7 +2858,7 @@ function cotizarOfertas() {
           cre_sol_token: cre_sol_token,
           cre_sol_fecha_token: cre_sol_fecha_token,
         },
-        env: "QAS",
+        //env: "QAS",
       };
 
       //! Agregar a Motos y Pesados START
