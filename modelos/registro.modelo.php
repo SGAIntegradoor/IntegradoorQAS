@@ -15,13 +15,11 @@ class ModeloRegistroFreeLancer{
         $stmt->execute();
         $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
         //echo "Nombre: ".$nombre, " Apellido: ".$apellido, " Direccion: ".$direccion, " Ciudad: ".$ciudad, " Usuario: ".$identificacion, "Tipo de documento: ".$tipo_documento, " Password: ".$confirmar_contrasena, " Genero: ".$genero, " Telefono: ".$telefono, " Email: ".$correo_electronico, " Fecha de nacimiento: ".$dia_nacimiento, " Tabla: ".$tabla, " Clave: ".$clave;
-        //die();
         if ($resultado && is_array($resultado)) {
             // Comparar la clave con la registrada en la base de datos
             if ($resultado['tokenGuest'] === $clave) {
                 $registro = new ModeloRegistroFreeLancer();
                 $response = $registro->mdlRegistrarFreeLancer($nombre, $apellido, $direccion, $ciudad, $identificacion, $confirmar_contrasena, $tipo_documento, $genero, $celular, $correo_electronico, $dia_nacimiento, $mes_nacimiento, $anio_nacimiento, $tabla, $clave);
-
             } else {
                 $response = array('error' => 'Clave incorrecta');
                 $jsonResponse = json_encode($response);
@@ -53,11 +51,11 @@ class ModeloRegistroFreeLancer{
 
         //echo "Nombre: ".$nombre, "Apellido: ".$apellido, "Direccion: ".$direccion, "Ciudad: ".$ciudad, "Usuario: ".$usuario, "Password: ".$encriptar_password, "Genero: ".$genero, "Telefono: ".$telefono, "Email: ".$email, "Fecha de nacimiento: ".$fecha_nacimiento, "Tabla: ".$tabla, "Clave: ".$clave;   
     
-        $stmt = Conexion::conectar()->prepare("UPDATE $tabla SET usu_nombre = :nombre, usu_apellido = :apellido, direccion = :direccion, tipos_documentos_id	 = :tipodocumento, ciudades_id = :ciudad, usu_usuario = :usuario, usu_password = :password, usu_genero = :genero, usu_telefono = :telefono, usu_email = :email, usu_fch_creacion = :fch_creacion, usu_estado = :usu_estado, usu_cargo = :usu_cargo, id_rol = :id_rol, id_Intermediario = :id_intermediario, usu_fch_nac = DATE(:fecha_nacimiento) WHERE tokenGuest = :clave");
+        $stmt = Conexion::conectar()->prepare("UPDATE $tabla SET usu_nombre = :nombre, usu_apellido = :apellido, usu_direccion = :usu_direccion, tipos_documentos_id	 = :tipodocumento, ciudades_id = :ciudad, usu_usuario = :usuario, usu_password = :password, usu_genero = :genero, usu_telefono = :telefono, usu_email = :email, usu_fch_creacion = :fch_creacion, usu_estado = :usu_estado, usu_cargo = :usu_cargo, id_rol = :id_rol, id_Intermediario = :id_intermediario, usu_fch_nac = DATE(:fecha_nacimiento) WHERE tokenGuest = :clave");
     
         $stmt->bindParam(':nombre', $nombre);
         $stmt->bindParam(':apellido', $apellido);
-        $stmt->bindParam(':direccion', $direccion);
+        $stmt->bindParam(':usu_direccion', $direccion);
         $stmt->bindParam(':ciudad', $ciudad);
         $stmt->bindParam(':usuario', $usuario);
         $stmt->bindParam(':tipodocumento', $tipodocumento);

@@ -114,7 +114,7 @@ async function registerGuest() {
   const genero = document.getElementById("genero").value;
   const direccion = document.getElementById("direccion").value;
   const ciudad = document.getElementById("ciudadCirculacion").value;
-  // const telefono = document.getElementById('telefono').value;
+  // const telefono = document.getElementById('celular').value;
   const celular = document.getElementById("celular").value;
   const correo_electronico =
     document.getElementById("correo_electronico").value;
@@ -136,7 +136,7 @@ async function registerGuest() {
     genero !== "" &&
     direccion !== "" &&
     ciudad !== "" &&
-    // telefono !== '' &&
+    //telefono !== '' &&
     celular !== "" &&
     correo_electronico !== "" &&
     contrasena !== "" &&
@@ -155,7 +155,7 @@ async function registerGuest() {
       genero: genero,
       direccion: direccion,
       ciudad: ciudad,
-      // telefono: telefono,
+      //telefono: telefono,
       celular: celular,
       correo_electronico: correo_electronico,
       contrasena: contrasena,
@@ -182,9 +182,7 @@ async function registerGuest() {
         }
       })
       .then(function (data) {
-        // console.log(data);
         data = JSON.parse(data);
-        console.log(data);
         if (data.success === "Registro exitoso") {
           Swal.fire({
             icon: '<img src="vistas/img/plantilla/ofertas.png" width="84" height="84">',
@@ -195,7 +193,7 @@ async function registerGuest() {
           setTimeout(function () {
             Swal.close();
             window.location.href = "https://integradoor.com/app";
-          }, 9000);
+          }, 4500);
           //   .then(function() {
           // location.reload(); // Refrescar la página
           // });

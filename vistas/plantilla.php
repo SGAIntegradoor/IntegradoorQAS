@@ -350,8 +350,8 @@ CUERPO DOCUMENTO
 
     if ($_SESSION["permisos"]["Whatsapp"] == "x") {
 
-      echo '<a href="https://web.whatsapp.com/send?phone=+573187664954" target="_blank" class="btn-wasap" style="float: unset; position: fixed; z-index: 999; bottom: 4%; left: 2%;">
-<img src="vistas/img/logos/wasap.png" width="50" height="50" alt="" >
+      echo '<a href="https://web.whatsapp.com/send?phone=+573187664954" target="_blank" class="btn-wasap" style="float: unset;position: fixed;z-index: 999;bottom: 6%;left: 95%;">
+<img src="vistas/img/logos/wasap.png" width="50" height="50" alt="">
 </a>';
     }
     ?>
