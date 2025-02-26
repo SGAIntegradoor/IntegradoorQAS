@@ -45,11 +45,14 @@
 session_start();
 
 // Configura un límite de inactividad (por ejemplo, 60 segundos)
-$inactivityLimit = 1800;
+$inactivityLimit = 3600;
 
 // Si la sesión está inactiva por más del límite, destruye la sesión
 if (isset($_SESSION['lastActivity'])) {
+    var_dump($_SESSION['lastActivity']);
+    var_dump(time());
     $timeInactive = time() - $_SESSION['lastActivity'];
+    var_dump($timeInactive);
     if ($timeInactive > $inactivityLimit) {
         session_unset();
         session_destroy();

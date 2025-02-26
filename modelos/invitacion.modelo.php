@@ -53,8 +53,7 @@ class ModeloInvitacion{
                 $mail->Subject = 'Registrate como Asesor Freelance con Grupo Asistencia';
                 $message = '
                 <!DOCTYPE html>
-                <html lang="es">
-                
+                <html lang="es">      
                 <head>
                     <meta charset="UTF-8">
                     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -131,8 +130,7 @@ class ModeloInvitacion{
                         
                     }
                     </style>
-                </head>
-                
+                </head>                
                 <body>
                     <!--[if gte mso 9]>
                         <v:background xmlns:v="urn:schemas-microsoft-com:vml" fill="t">
@@ -144,21 +142,19 @@ class ModeloInvitacion{
                             <tr>
                                 <td>
                                     <h1 class="h1-name">Hola ' . $nombre . ',</h1>
-                                    <p style="color:#2e2e2e !important;">Estas a punto de ser parte de nuestro equipo y dar un paso importante como empresario. En el presente correo se adjunta una clave de registro junto con el enlace para completar el formulario y registrarte.</p>
-                                    <h4 class="h4-name">Clave de registro: ' . $token . '</h4>
-                                    <h4 class="h4-name">Haz click en el siguiente enlace para registrarte: https://integradoor.com/app/invitacion</h4>
-                                </td>
-                            </tr>
-                         
+                                    <p style="color:#2e2e2e !important;">Estas a punto de ser parte de nuestro equipo y dar un paso importante como empresario. En el presente correo se adjunta el enlace para completar el formulario y registrarte.</p>
+                                    <h4 class="h4-name">Haz click en el siguiente enlace para registrarte: https://integradoor.com/app/invitacion?token='.$token.'</h4>
+                                    </td>
+                                    </tr>
+                                    
                         </table>
                     </div>
-                </body>
-                
-                </html>';
-                
-                $mail->CharSet = 'UTF-8';
-                $mail->Body = $message;
-                $mail->IsHTML(true);
+                    </body>
+                    </html>';    
+                    $mail->CharSet = 'UTF-8';
+                    $mail->Body = $message;
+                    $mail->IsHTML(true);
+                    // <h4 class="h4-name">Clave de registro: ' . $token . '</h4>
 
                     // //Manjeo de respuestas
                     if ($mail->send()) {

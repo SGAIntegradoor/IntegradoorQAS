@@ -157,9 +157,9 @@ class ModeloPassword{
                         <tr>
                             <td>
                                 <h1 class="h1-name">Hola ' . $nombre . ',</h1>
-                                <p style="color:#2e2e2e !important;">Se registra una solicitud de cambio de contraseña. En el presente correo se adjunta un token de seguridad junto con el enlace para llenar el formulario de cambio de contraseña.</p>
+                                <p style="color:#2e2e2e !important;">Se registra una solicitud de cambio de contraseña. En el presente correo se adjunta el enlace para llenar el formulario de cambio de contraseña.</p>
                                 <h4 class="h4-name">Token: ' . $token . '</h4>
-                                <h4 class="h4-name">Haga click en el siguiente enlace para cambiar contraseña: http://integradoor.com/app/change</h4>
+                                <h4 class="h4-name">Haga click en el siguiente enlace para cambiar contraseña: http://integradoor.com/app/change?token='.$token.'</h4>
                             </td>
                         </tr>
                      

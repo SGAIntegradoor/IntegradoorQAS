@@ -594,6 +594,8 @@ class ModeloCotizaciones
 
 			$stmt->execute();
 
+			var_dump($stmt->fetchAll(PDO::FETCH_ASSOC));
+			die();
 			return $stmt->fetchAll(PDO::FETCH_ASSOC);
 		} else {
 			$inicioMes = new DateTime($fechaInicialCotizaciones);
@@ -610,7 +612,7 @@ class ModeloCotizaciones
 
 			$finMes = $finMes->format('Y-m-d');
 
-			if ($_SESSION['rol'] == 10 || $_SESSION['rol'] == 1) {
+			if ($_SESSION['rol'] == 10 || $_SESSION['rol'] == 1 || $_SESSION['rol'] == 12) {
 				$stmt = Conexion::conectar()->prepare("
 					SELECT 
 						*

@@ -10,25 +10,55 @@ $_SESSION['lastActivity'] = time();
 
 $showPopup = false;
 if (isset($_SESSION['showPopup']) && $_SESSION['showPopup'] === true) {
+  session_start();
   $showPopup = true;
-  $_SESSION['showPopup'] = false;
+  unset($_SESSION['showPopup']); // Evita que el popup aparezca nuevamente después de refrescar
 }
 
 ?>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    let linkControl = false
+    let showPopUp = <?= json_encode($showPopup) ?>; // Asegura que el valor se pase correctamente como booleano
+    let linkURL = `<div id="linkReg">
+                            <a href="https://forms.gle/L5wYZNTaavYu9Chn7" target="_blank">REGÍSTRATE DANDO CLIC AQUÍ</a>
+                        </div>`
+    if (showPopUp) {
+      Swal.fire({
+        html: `
+                    <div style='display: flex; align-items: center; justify-content: center; flex-direction: column;'>
+                        <img id="modalHome" src='vistas/img/modals/img/home/homeModal13.png'/>
+                        ${linkControl ? linkURL: ""}
+                    </div>
+                `,
+        showConfirmButton: true,
+        confirmButtonText: 'Continuar',
+        customClass: {
+          popup: "popup_control",
+          confirmButton: 'popup-confirm-button24',
+        },
+        timer: 50000,
+        timerProgressBar: true,
+      });
+    }
+  });
+</script>
+
 
 
 <style>
   #linkReg a {
     text-decoration: underline;
     /* Subrayado */
-    color: #67b5fb;
+    color: #ea0b2a;
     font-weight: bold;
     font-size: 24px;
     /* Mantiene el color original del texto */
   }
 
   #linkReg a:visited {
-    color: #67b5fb;
+    color: #ea0b2a;
     /* Mantiene el color después de hacer clic */
   }
 
@@ -38,7 +68,7 @@ if (isset($_SESSION['showPopup']) && $_SESSION['showPopup'] === true) {
   }
 
   #linkReg a:active {
-    color: #67b5fb;
+    color: #ea0b2a;
     /* Mantiene el color al hacer clic */
   }
 </style>
@@ -65,49 +95,10 @@ if (isset($_SESSION['showPopup']) && $_SESSION['showPopup'] === true) {
 
   <?php
   echo '<script>
-console.log(' . json_encode($_SESSION) . ');
-</script>';
-  // if ($_SESSION['permisos']['id_rol'] == '19') {
-  //   echo '<script>
-  //       Swal.fire({
-  //           title: "Módulo Habilitado",
-  //           text: "Ya está habilitado el módulo para cotizar pesados.",
-  //           icon: "success",
-  //       }).then(function() {
-  //           // Redirige si es necesario
-  //       });
-  //   </script>';
-
-  //   return;
-  //   // Detén la ejecución del script actual
-  // }
-
+            console.log(' . json_encode($_SESSION) . ');
+        </script>';
 
   ?>
-  <script>
-    $(document).ready(function() {
-      // Mostrar el popup si está habilitado
-      <?php if ($showPopup): ?>
-        swal.fire({
-          html: `
-                           <div style='display: flex; align-items: center; justify-content: center; flex-direction: column;'>
-                            <img id="modalHome" src='vistas/img/modals/img/home/homeModal.png'/>
-                            <div id="linkReg">
-                                <a href="https://forms.gle/yroTrZqHvQpnYSX87" target="_blank">REGISTRATE DANDO CLIC AQUÍ</a>
-                            </div>
-                           </div>
-                       `,
-          showConfirmButton: true,
-          confirmButtonText: 'Continuar',
-          customClass: {
-            popup: "popup_control",
-            confirmButton: 'popup-confirm-button24',
-          },
-          timer: 50000,
-          timerProgressBar: true,
-        })
-      <?php endif; ?>
-    });
-  </script>
+
 
   <script src="vistas\js\inicio.js" defer></script>

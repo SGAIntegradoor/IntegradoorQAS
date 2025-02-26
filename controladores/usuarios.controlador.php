@@ -172,7 +172,7 @@ class ControladorUsuarios
 						$_SESSION["cotRestantes"] = $respuesta["numCotizaciones"];
 						$_SESSION["fechaLimi"] = $respuesta["fechaFin"];
 						$_SESSION["permisos"] = $respuesta;
-
+                        session_write_close();
 						/*=============================================
 						REGISTRAR FECHA PARA SABER EL ÚLTIMO LOGIN
 						=============================================*/
@@ -201,10 +201,13 @@ class ControladorUsuarios
 						// }
 
 						if ($ultimoLogin == "ok") {
-							echo '<script>
-									window.location = "inicio";
-								</script>';
+						/* ✅ Forzamos el guardado de la sesión antes de redirigir */
+                            echo '<script>
+                                window.location.href = "inicio"; // ✅ Redirigimos solo después de guardar la sesión
+                            </script>';
 						}
+						exit();
+						
 					} elseif ($respuesta["id_rol"] == 19) {
 						function esMovil()
 						{

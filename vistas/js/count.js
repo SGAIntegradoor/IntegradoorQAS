@@ -1,19 +1,35 @@
-const getTime = dateTo => {
-    let now = new Date(),
-        time = (new Date(dateTo) - now + 1000) / 1000,
-        seconds = ('0' + Math.floor(time % 60)).slice(-2),
-        minutes = ('0' + Math.floor(time / 60 % 60)).slice(-2),
-        hours = ('0' + Math.floor(time / 3600 % 24)).slice(-2),
-        days = Math.floor(time / (3600 * 24));
+// const getTime = dateTo => {
+//     let now = new Date(),
+//         time = (new Date(dateTo) - now + 1000) / 1000,
+//         seconds = ('0' + Math.floor(time % 60)).slice(-2),
+//         minutes = ('0' + Math.floor(time / 60 % 60)).slice(-2),
+//         hours = ('0' + Math.floor(time / 3600 % 24)).slice(-2),
+//         days = Math.floor(time / (3600 * 24));
 
-    return {
-        seconds,
-        minutes,
-        hours,
-        days,
-        time
+//     return {
+//         seconds,
+//         minutes,
+//         hours,
+//         days,
+//         time
+//     }
+// };
+
+const getTime = dateTo => {
+    const target = new Date(dateTo);
+    if (isNaN(target.getTime())) {
+        return { time: 0, seconds: '00', minutes: '00', hours: '00', days: 0 };
     }
+    let now = new Date(),
+        timeDiff = (target - now + 1000) / 1000,
+        seconds = ('0' + Math.floor(timeDiff % 60)).slice(-2),
+        minutes = ('0' + Math.floor(timeDiff / 60 % 60)).slice(-2),
+        hours = ('0' + Math.floor(timeDiff / 3600 % 24)).slice(-2),
+        days = Math.floor(timeDiff / (3600 * 24));
+
+    return { seconds, minutes, hours, days, time: timeDiff };
 };
+
 let cont = 0
 const countdown = (dateTo, element, rol) => {
     if(rol == "20" || rol == "19" || rol == "2"){
@@ -21,7 +37,7 @@ const countdown = (dateTo, element, rol) => {
         const timerUpdate = setInterval( () => {
             let currenTime = getTime(dateTo);          
             if(currenTime.hours != 'NaN'){
-                if (currenTime.hours <= 1) {
+                if (currenTime.time <= 0) {
                     clearInterval(timerUpdate);
                     Swal.fire({
                         icon: 'error',

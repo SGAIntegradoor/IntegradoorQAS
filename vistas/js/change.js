@@ -77,7 +77,7 @@ async function authInfo() {
           )
           setTimeout(function() {
             Swal.close();
-            window.location.href = 'https://integradoor.com/appPruebasDemo3/';
+            window.location.href = 'https://integradoor.com/app/login';
           }, 4000);
         }   
       })

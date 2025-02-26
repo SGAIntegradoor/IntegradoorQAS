@@ -1,3 +1,9 @@
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        let token = "<?php echo $_GET['token']; ?>";
+        document.getElementById('token').value = token;
+    });
+</script>
 <body> 
 
 

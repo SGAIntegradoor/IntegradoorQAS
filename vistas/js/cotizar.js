@@ -1916,28 +1916,28 @@ function registrarOferta(
     var idCotizOferta = idCotizacion;
     var numDocumentoID = document.getElementById("numDocumentoID").value;
     var placa = document.getElementById("placaVeh").value;
-    console.log({
-      placa: placa,
-      idCotizOferta: idCotizOferta,
-      numIdentificacion: numDocumentoID,
-      aseguradora: aseguradora,
-      numCotizOferta: numCotizOferta,
-      producto: producto,
-      valorPrima: prima,
-      valorRC: valorRC,
-      PT: PT,
-      PP: PP,
-      CE: CE,
-      GR: GR,
-      categorias: categorias,
-      logo: logo,
-      UrlPdf: UrlPdf,
-      manual: manual,
-      pdf: pdf,
-      // Agregue esta variable en Ofertas para reconocer el nombre en Script PHP e insertarlo en la BD en el momento que se crea.
-      identityElement: actIdentity != "" ? actIdentity : NULL,
-      eventos: eventos,
-    });
+    // console.log({
+    //   placa: placa,
+    //   idCotizOferta: idCotizOferta,
+    //   numIdentificacion: numDocumentoID,
+    //   aseguradora: aseguradora,
+    //   numCotizOferta: numCotizOferta,
+    //   producto: producto,
+    //   valorPrima: prima,
+    //   valorRC: valorRC,
+    //   PT: PT,
+    //   PP: PP,
+    //   CE: CE,
+    //   GR: GR,
+    //   categorias: categorias,
+    //   logo: logo,
+    //   UrlPdf: UrlPdf,
+    //   manual: manual,
+    //   pdf: pdf,
+    //   // Agregue esta variable en Ofertas para reconocer el nombre en Script PHP e insertarlo en la BD en el momento que se crea.
+    //   identityElement: actIdentity != "" ? actIdentity : NULL,
+    //   eventos: eventos,
+    // });
     $.ajax({
       type: "POST",
       url: "src/insertarOferta.php",
@@ -1996,7 +1996,6 @@ const mostrarOferta = (
   var id_intermediario = document.getElementById("idIntermediario").value;
   let datosPermisos = permisosPlantilla;
   var permisos = JSON.parse(datosPermisos);
-
   function nombreAseguradora($data) {
     $resultado = "";
     if ($data == "Seguros del Estado") {
@@ -2020,7 +2019,7 @@ const mostrarOferta = (
     } else if ($data == "Mapfre") {
       $resultado = "Mapfre";
     } else if ($data == "HDI (Antes Liberty)") {
-      $resultado = "HDI (Antes Liberty)";
+      $resultado = "Liberty";
     } else if ($data == "Aseguradora Solidaria") {
       $resultado = "Solidaria";
     } else if ($data == "Seguros Sura") {
@@ -2043,6 +2042,17 @@ const mostrarOferta = (
   var aseguradoraCredenciales = nombreAseguradora + "_C";
   var permisosCredenciales = permisos[aseguradoraCredenciales];
 
+  // if (nombreAseguradora == "Liberty") {
+  //   debugger;
+  //   console.log(nombreAseguradora);
+  //   console.log("HDI (Antes Liberty)", permisosCredenciales);
+  //   console.log(permisos.Vernumerodecotizacionencadaaseguradora);
+  // }
+  // if (nombreAseguradora == "HDI Seguros") {
+  //   console.log("HDI SEGUROS", permisosCredenciales);
+  //   console.log(permisos.Vernumerodecotizacionencadaaseguradora);
+  // }
+
   let cotOferta = {
     aseguradora: aseguradora,
     objFinesa: aseguradora + "_" + contCotizacion,
@@ -2052,7 +2062,6 @@ const mostrarOferta = (
     cotizada: null,
   };
 
-  console.log("Oferta, ", cotOferta);
 
   actIdentity = aseguradora + "_" + contCotizacion;
 
@@ -2062,8 +2071,6 @@ const mostrarOferta = (
   ) {
     cotizacionesFinesa.push(cotOferta);
   }
-
-  console.log("cotFinesaOferta, ", cotizacionesFinesa);
 
   cardCotizacion = `
                           <div class='col-lg-12'>
@@ -2440,7 +2447,7 @@ const comprobarFallida = (_aseguradora) => {
   const result = aseguradorasFallidas.find(
     (aseguradoras) => aseguradoras == _aseguradora
   );
-  console.log(result)
+  // console.log(result);
   if (result !== undefined) return true;
   return false;
 };

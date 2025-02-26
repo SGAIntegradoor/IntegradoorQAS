@@ -893,12 +893,6 @@ $("#txtEstadoOportunidadModal").on("change", function () {
     $("#txtFechaExpedicionOportunidadModal")[0].required = true;
     $("#txtMesExpedicionOportunidadModal")[0].required = true;
     $("#txtFormaDePagoOportunidadModal")[0].required = true;
-
-    // $("#txtPrimaSinIvaModal").val(0);
-    // $("#txtGastosOportunidadModal").val(0);
-    // $("#txtAsistOtrosOportunidadModal").val(0);
-    // $("#txtIvaOportunidadModal").val(0);
-    // $("#txtValorTotalModal").val(0);
   } else {
     $("#firstHide").css("display", "none");
     $("#secondHide").css("display", "none");
@@ -1190,6 +1184,9 @@ $(".tablas-oportunidades").DataTable({
   order: [
     [0, "desc"],
     [1, "desc"],
+  ],
+  columnDefs: [
+    { targets: [25], visible: false, searchable: false } // Oculta las columnas 10 y 11 (ajusta según el índice de tus columnas ocultas)
   ],
 
   language: {

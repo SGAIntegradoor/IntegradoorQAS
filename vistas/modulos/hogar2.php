@@ -286,28 +286,6 @@
     height: 900px;
     transition: width 0.5s;
   }
-
-  .general-container-aseg {
-    padding-right: 25px;
-    padding-left: 25px;
-    margin-right: auto;
-    margin-left: auto;
-  }
-
-  .general-container-datos {
-    padding-right: 25px;
-    padding-left: 25px;
-    margin-right: auto;
-    margin-left: auto;
-  }
-
-  .box {
-    border: 0 !important;
-  }
-
-  .wrapper {
-    overflow: hidden;
-  }
 </style>
 
 <div class="content-wrapper">
@@ -315,7 +293,8 @@
 
     <h1 style="margin-bottom: 0%;">
 
-      Cotizador Seguro de Hogar
+      Solicitud de Cotización de Hogar
+
     </h1>
 
     <ol class="breadcrumb">
@@ -377,18 +356,17 @@
                 <p class="card-text">Este seguro puede ofrecerse en 3 modalidades: sólo contenidos, sólo estructuras (también llamado edificio) y contenidos + estructuras.
                   <br>
                   <br>
-                  <b>Principales coberturas y asistencias:</b>
-                </p>
-
+                  <b>Principales coberturas y asistencias:</b></p>
+                
                 <ul class="card-text" style="padding-left: 16px; text-align: justify;">
                   <li>
-                    Incendio, rayo, terremoto, daños por agua, anegación, huracán, granizo, vientos fuertes y otros eventos de la naturaleza
+                  Incendio, rayo, terremoto, daños por agua, anegación, huracán, granizo, vientos fuertes y otros eventos de la naturaleza
                   </li>
                   <li>
                     Hurto con violencia
                   </li>
                   <li>
-                    Rotura accidental de vidrios planos y permanentes
+                    Rotura accidental de vidrios planos y permanentes 
                   </li>
                   <li>
                     Asonada, motín, conmoción civil o popular, huelgas, conflictos colectivos de trabajo, actos mal intencionados de terceros y terrorismo
@@ -399,15 +377,15 @@
                   <li>
                     Asistencia domiciliaria: cerrajería, electricidad, plomería, entre otros.
                   </li>
-                </ul>
+                </ul>  
               </div>
             </div>
           </div>
           <div class="col-md-4 col-sm-12 mb-3">
             <div class="card-exequias">
               <div class="card-body">
-                <h4 class="card-title" style="font-weight: bold; padding-top: 20px">¿Qué datos se requieren para cotizar?</h4>
-                <p class="card-text" style="text-align: justify;">Ten a la mano los siguientes datos para solicitar una cotización de <b>Seguro de Hogar:</b></p>
+              <h4 class="card-title" style="font-weight: bold; padding-top: 20px">¿Qué datos se requieren para cotizar?</h4>
+              <p class="card-text" style="text-align: justify;">Ten a la mano los siguientes datos para solicitar una cotización de <b>Seguro de Hogar:</b></p>
                 <ul class="card-text" style="padding-left: 18px; text-align: justify;">
                   <li><b>Datos del asegurado</b> (Ej: No. de Identificación, nombre completo, etc.)</li>
                   <li><b>Datos generales del inmueble</b> (Ej: Dirección completa, ciudad, departamento, estrato, características de la vivienda, área, tipo de construcción, etc.)</li>
@@ -439,15 +417,14 @@
           </div>
 
           <!-- sexta tarjeta con título y párrafo -->
-          
           <div class="col-md-4 col-sm-12 mb-3">
             <div class="card-exequias">
               <div class="card-body text-center">
                 <h4 class="card-title" style="font-weight: bold; padding-top: 20px">Comisión</h4>
                 <p class="card-text">La comisión base que nos ofrece Seguros Bolívar y Allianz Seguros para nuestra alianza de asesores es del 15% y 20% respectivamente. De este porcentaje, tu participación será de acuerdo al nivel de ventas de todos los negocios (sin IVA), sumando todos los ramos, que realices en el mes.</p>
                 <ul class="card-text" style="padding-left: 0px; list-style-position: inside;">
-                  <li>Primas mensuales inferiores a 8 SMMLV: 70%</li>
-                  <li>Primas mensuales superiores a 8 SMMLV: 75%</li> 
+                  <li>- Primas mensuales inferiores a 8 SMMLV: 70%</li>
+                  <li>- Primas mensuales superiores a 8 SMMLV: 75%</li> 
                 </ul>
                 <h4 class="card-title" style="font-weight: bold;">Clausulados</h4>
                 <p class="card-text" style="text-align:justify">
@@ -458,27 +435,20 @@
               </div>
             </div>
           </div>
+        </div>
+      </div>
 
+
+      <!-- //FORMULARIO VIAJES -->
+      <div class="content" style="margin-top: -5px; margin-bottom: 5px" data-evaluar="si">
+        <!-- TITULO FORMULARIO VIAJES -->
+        <h4 style="font-family: 'Arial Arabic', Arial; font-weight: bold; margin-bottom: 5px; margin-top: 3px;">Solicita una cotización en el siguiente formulario:</h4>
+        <div style="width: 100%; max-width: 640px; margin: 0 auto; margin-top: 30px; margin-bottom: -2px">
+          <img src="vistas/img/bannerHogar.png" alt="Banner de hogar" style="width: 100%; height: auto; display: block; margin: 0 auto;">
+          <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSfpwY-AgJ7VWmmUh7dVcjKoLisjqpN1QFfFVe22Xuv3jmpHxw/viewform?embedded=true" width="640" height="2875" frameborder="0" marginheight="0" marginwidth="0">Cargando…</iframe>
         </div>
       </div>
-      <div class="content">
-        <div class="box">
-          <?php
-          require_once "vistas/components/formCotizacion/view.php";
-          ?>
-        </div>
-        <div class="box">
-          <?php
-          require_once "vistas/components/formCotizacion/formDataHogar.php";
-          ?>
-          <?php
-          require_once "vistas/components/formCotizacion/formValoresHogarAllianz.php";
-          ?>
-          <?php
-          require_once "vistas/components/formCotizacion/formValoresHogar.php";
-          ?>
-        </div>
-      </div>
+
     </div>
   </section>
 </div>
@@ -522,5 +492,3 @@
     window.addEventListener('resize', ajustarAlturaTarjetas);
   });
 </script>
-
-<script src="vistas\components\formCotizacion\js\functions.js"></script>

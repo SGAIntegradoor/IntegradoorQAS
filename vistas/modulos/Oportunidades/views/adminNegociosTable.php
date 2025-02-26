@@ -429,6 +429,7 @@
           <th style="font-weight: bold; text-align: center;">Forma de pago</th>
           <th style="font-weight: bold; text-align: center;">Financiera</th>
           <th style="font-weight: bold; text-align: center;">Carpeta</th>
+          <th style="font-weight: bold; text-align: center; display:none;">Observaciones</th>
           <th style="font-weight: bold; text-align: center;">Id_Oferta</th>
           <th style="font-weight: bold; text-align: center;">Fecha Creacion</th>
           <th style="font-weight: bold; text-align: center;">Fecha Actualizacion</th>
@@ -479,7 +480,7 @@
             <td class="text-center" style="font-size: 14px;">' . (!empty($value['oneroso']) ? $value['oneroso'] : '') . '</td>
             <td class="text-center" style="font-size: 14px;">' . (!empty($value['aseguradora']) ? $value['aseguradora'] : '') . '</td>
             <td class="text-center" style="font-size: 14px;">' . (!empty($value['analista_comercial']) ? $value['analista_comercial'] : '') . '</td>
-            <td class="text-center" style="font-size: 14px;">' . (!empty($value['estado']) ? $value['estado'] : '') . '</td>
+            <td class="text-left" style="font-size: 14px;">' . (!empty($value['estado']) ? $value['estado'] : '') . '</td>
             <td class="text-center" style="font-size: 14px;">' . (!empty($value['no_poliza']) ? $value['no_poliza'] : '') . '</td>
             <td class="text-center" style="font-size: 14px;">' . (!empty($value['asegurado']) ? $value['asegurado'] : '') . '</td>
             <td class="text-center" style="font-size: 14px;">' . (!empty($value['prima_sin_iva']) ? '$ ' . number_format($value['prima_sin_iva'], 0, ',', '.') : '') . '</td>
@@ -492,6 +493,7 @@
             <td class="text-center" style="font-size: 14px;">' . (!empty($value['forma_pago']) ? $value['forma_pago'] : '') . '</td>
             <td class="text-center" style="font-size: 14px;">' . (!empty($value['financiera']) ? $value['financiera'] : '') . '</td>
             <td class="text-center" style="font-size: 14px;">' . (!empty($value['carpeta']) ? $value['carpeta'] : '') . '</td>
+            <td class="text-center" style="font-size: 14px; display:none;">' . (!empty($value['observaciones']) ? $value['observaciones'] : '') . '</td>
             <td class="text-center" style="font-size: 14px;">' . (!empty($value['id_oferta']) ? $value['id_oferta'] : '') . '</td>
             <td class="text-center" style="font-size: 14px;">' . (!empty($value['fecha_creacion']) ? $value['fecha_creacion'] : '') . '</td>
             <td class="text-center" style="font-size: 14px;">' . (!empty($value['fecha_actualizacion']) ? $value['fecha_actualizacion'] : '') . '</td>
@@ -621,19 +623,18 @@
               <option value="4">Equidad</option>
               <option value="5">Seguros del Estado</option>
               <option value="6">HDI (Antes Liberty)</option>
-              <option value="6">Mapfre</option>
-              <option value="7">Previsora Seguros</option>
-              <option value="8">SBS Seguros</option>
-              <option value="9">Solidaria</option>
-              <option value="10">Zurich</option>
-              <option value="11">Mundial</option>
-              <option value="12">AssistCard</option>
-              <option value="12">AssistOne</option>
-              <option value="12">Universal</option>
-              <option value="12">Continental</option>
-              <option value="12">Olivos</option>
-              <option value="13">Sura</option>
-
+              <option value="7">Mapfre</option>
+              <option value="8">Previsora Seguros</option>
+              <option value="9">SBS Seguros</option>
+              <option value="10">Solidaria</option>
+              <option value="11">Zurich</option>
+              <option value="12">Mundial</option>
+              <option value="13">AssistCard</option>
+              <option value="14">AssistOne</option>
+              <option value="15">Universal</option>
+              <option value="16">Continental</option>
+              <option value="17">Olivos</option>
+              <option value="18">Sura</option>
             </select>
           </div>
         </div>

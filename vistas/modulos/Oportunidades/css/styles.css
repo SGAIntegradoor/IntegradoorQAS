@@ -40,6 +40,7 @@
 .tablas-oportunidades {
     width: 100%; /* Asegura que la tabla ocupe todo el ancho */
     white-space: nowrap; /* Evita el ajuste de texto dentro de celdas */
+    table-layout: fixed;
 }
 
 .tablas-oportunidades td {
@@ -98,4 +99,3 @@
 .btnCancelar:hover{
     background-color: rgb(55, 55, 55);
 }
-

@@ -1,10 +1,3 @@
-<?php
-// session_set_cookie_params(60); // 30 minutos
-// echo "session.gc_maxlifetime: " . ini_get('session.gc_maxlifetime') . "<br>";
-// echo "session.cookie_lifetime: " . ini_get('session.cookie_lifetime');
-
-?>
-
 <!DOCTYPE html>
 
 <html>
@@ -126,7 +119,8 @@
   <!-- Font - Awesome -->
   <!-- <script src="https://kit.fontawesome.com/6fed49f72f.js" crossorigin="anonymous"></script> -->
   <!-- <script src="https://kit.fontawesome.com/3a9385df11.js" crossorigin="anonymous"></script> -->
-  <script src="https://kit.fontawesome.com/327ffeb36b.js" crossorigin="anonymous"></script>
+  <!-- <script src="https://kit.fontawesome.com/327ffeb36b.js" crossorigin="anonymous"></script> -->
+  <script src="https://kit.fontawesome.com/b9b0b9afa1.js" crossorigin="anonymous"></script>
   <!-- jQuery 3 -->
   <!-- <script type="text/javascript" src="libraries\JQueryUI\external\jquery\jquery.js"></script> -->
 
@@ -331,7 +325,7 @@ CUERPO DOCUMENTO
     <?php
 
 
-    echo '<div class="wrapper">';
+    echo '<div class="wrapper" style="height: auto;overflow: hidden;min-height: 100%;">';
 
     /*=============================================
     CABEZOTE

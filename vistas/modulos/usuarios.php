@@ -1139,7 +1139,7 @@ MODAL EDITAR USUARIO
 
                 <div class="input-group">
                   <span class="input-group-addon"><i class="fa fa-unlock-alt"></i></span>
-                  <input type="password" class="form-control input-lg" name="passwordActual" id="passwordActual" <?php echo ($_SESSION['rol'] == "10") ? '' : 'readonly'; ?>>
+                  <input type="password" class="form-control input-lg" name="passwordActual" id="passwordActual" <?php echo in_array($_SESSION['rol'], ["10", "11", "12", "1"]) ? '' : 'readonly'; ?>>
 
                 </div>
 
