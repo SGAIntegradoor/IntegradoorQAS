@@ -1,3 +1,8 @@
+let aseguradorasHogar = [
+  { aseguradora: "Allianz", enabled: true },
+  { aseguradora: "SBS", enabled: false },
+];
+
 $(document).ready(function () {
   $('[data-toggle="tooltip"]').tooltip();
 
@@ -642,6 +647,65 @@ $('input[name="mascotasRadio"]').on("change", function () {
   }
 });
 
+function appendSectionAlerts(){
+  $("#resumenCotizaciones").toggle();
+}
+
+function guardarCotizacion() {}
+
+function cotizar(body) {
+  appendSectionAlerts();
+  let promisesHogar = [];
+  let requestOptions = {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(body),
+  };
+
+  aseguradorasHogar.forEach((element) => {
+    if (element.aseguradora == "Allianz" && element.enabled) {
+      promisesHogar.push(
+        fetch(
+          `https://grupoasistencia.com/backend_node/WSAllianz/QuotationAllianzHogar`,
+          requestOptions
+        )
+          .then((response) => {
+            if (!response?.ok) throw Error("Error en la petición");
+            return response.json();
+          })
+          .then((offerts) => {
+            $(`#${element.aseguradora}-check`).html(
+              `'<i class="fa fa-check" aria-hidden="true" style="color: green; margin-right: 5px;"></i>';`
+            );
+            $(`#${element.aseguradora}-offerts`).html(
+              `${offerts?.data?.data?.paquetes.length}`
+            );
+            $(`#${element.aseguradora}-observations`).html(
+              `Cotización exitosa`
+            );
+          })
+      );
+    } else if (element.aseguradora == "SBS" && element.enabled) {
+      promisesHogar.push(
+        fetch(
+          `https://grupoasistencia.com/backend_node/WSSBS/QuotationSBSHogar`,
+          requestOptions
+        )
+      );
+    }
+  });
+
+  Promise.all(promisesHogar)
+    .then(() => {
+      Swal.fire({
+        icon: "success",
+        title: "¡Cotización exitosa!",
+        text: "Proceso de cotización finalizado",
+      });
+    })
+    .catch((error) => console.log(error));
+}
+
 function validateErrors(form) {
   let errorFields = [];
   let camposAsegCC = ["#nombre", "#apellidos"];
@@ -951,6 +1015,7 @@ $("#btnDataHogarSiguiente").click(function (event) {
   let { errors, data } = validateErrors("datosInmueble");
   if (errors) {
     $("#btnDataHogarSiguiente").prop("disabled", true);
+    toggleContainerDataHogar();
     openValAllianz();
   } else {
     event.preventDefault();
@@ -965,59 +1030,78 @@ $("#btnDataHogarSiguiente").click(function (event) {
 $("#btnCotizarSBS").click(function () {
   let { errors, data } = validateErrors("cotizar");
   if (errors) {
+    toggleContainerValoresAllianz();
     // Obtener valores de los inputs una sola vez
     let tipoDocumento = $("#tipoDocumento").val();
     let tipoVivienda = $("#tipoVivienda").val();
-    let tipoAsegValue = $("#tipoAseg").val();
-    let valorVivienda =
-      parseInt(($("#valorVivienda").val() || "0").replace(/\./g, ""), 10) || 0;
+    let tipoAsegValue =
+      parseInt(($("#tipoAseg").val() || 0).replace(/\./g, ""), 10) || 0;
     let valorContenido =
       parseInt(
-        ($("#valorContenidosAllianz").val() || "0").replace(/\./g, ""),
+        ($("#valorContenidosAllianz").val() || "0")
+          .toString()
+          .replace(/\./g, ""),
         10
       ) || 0;
     let valorHurto =
-      parseInt(($("#valorHurtoAllianz").val() || "0").replace(/\./g, ""), 10) ||
-      0;
-    let valorTodoRiesgo =
       parseInt(
-        ($("#valorTodoRiesgoAllianz").val() || "0").replace(/\./g, ""),
+        ($("#valorHurtoAllianz").val() || "0").toString().replace(/\./g, ""),
         10
       ) || 0;
+    let valorTodoRiesgo =
+      parseInt(
+        ($("#valorTodoRiesgoAllianz").val() || "0")
+          .toString()
+          .replace(/\./g, ""),
+        10
+      ) || 0;
+    let valorVivienda =
+      parseInt(
+        ($("#valorViviendaAllianz").val() || "0").toString().replace(/\./g, ""),
+        10
+      ) || 0;
+    let areaTotal =
+      parseInt(($("#areaTotal").val() || 0).replace(/\./g, ""), 10) || 0;
+    let anoConstruccion = parseInt($("#anioConstruccion").val(), 10) || 0;
     let direccionCompleta = $("#dirInmueble").val().split(",");
     let direccion = direccionCompleta[0].trim() || "";
     let restoDireccion = direccionCompleta[1].trim() || "";
-
+    let asegurarMascota = "";
+    if (
+      (tipoAsegValue == "3" || tipoAsegValue == "2") &&
+      valorHurto != 0 &&
+      valorHurto != "0"
+    ) {
+      asegurarMascota = mascotaSeleccionada;
+    }
+    let codLocalidad = parseInt($("#ciudadInmueble").val(), 10) || 0;
     // Construir objeto con los valores obtenidos
     let raw = {
-      // Datos personales
       tipoDocumento: tipoDocumento,
       documento: $("#noDocumento").val(),
-      correo: $("#correo").val(),
-      celular: $("#celular").val(),
-
-      // Datos del hogar
+      categoriaDeRiesgo: tipoAsegValue,
+      codLocalidad: codLocalidad,
       direccion: direccion,
       resto: restoDireccion,
-      departamento: $("#deptoInmueble option:selected").text(),
-      codLocalidad: $("#ciudadInmueble").val(),
-      tipoDeVivienda: tipoVivienda,
-      pisoUbicacionApto:
-        tipoVivienda == "2" || tipoVivienda == "3" ? "1" : $("#noPiso").val(),
-      numeroTotalDePisos:
-        tipoVivienda == "2" || tipoVivienda == "3"
-          ? "1"
-          : $("#noPisosEdi").val(),
       valorEdificio: valorVivienda,
       valorContenido: valorContenido,
       valorHurto: valorHurto,
       valorTodoRiesgo: valorTodoRiesgo,
-      tipoConstruccion: $("#tipoConstruccion").val(),
-      anoConstruccion: $("#anioConstruccion").val(),
-      areaConstruida: $("#areaTotal").val(),
+      asegurarMascota: asegurarMascota == "" ? "NO" : asegurarMascota,
+      anoConstruccion: anoConstruccion,
+      numeroTotalDePisos:
+        tipoVivienda == "2" || tipoVivienda == "3" ? 1 : $("#noPisosEdi").val(),
+      pisoUbicacionApto:
+        tipoVivienda == "2" || tipoVivienda == "3" ? 1 : $("#noPiso").val(),
+      numeroSotanos: 0,
+      areaTotal: areaTotal,
+      tipoDeConstruccion: $("#tipoConstruccion").val(),
+      tipoDeVivienda: tipoVivienda,
+      correo: $("#correo").val(),
+      celular: $("#celular").val(),
+      departamento: $("#deptoInmueble option:selected").text(),
       zonaConstruccion: $("#zonaConstruccion").val(),
       tieneCredito: $('input[name="creditoHipotecarioRadio"]:checked').val(),
-      categoriaRiesgo: tipoAsegValue,
       tipoCobertura: $('input[name="tipoCoberturaRadio"]:checked').val(),
     };
 
@@ -1034,15 +1118,10 @@ $("#btnCotizarSBS").click(function () {
     }
 
     // Validar si se debe incluir asegurarMascota
-    if (
-      (tipoAsegValue === "3" || tipoAsegValue === "2") &&
-      valorHurto != 0 &&
-      valorHurto != "0"
-    ) {
-      raw.asegurarMascota = mascotaSeleccionada;
-    }
 
     console.log(raw);
+    makeATable();
+    cotizar(raw);
   } else {
     Swal.fire({
       icon: "error",
@@ -1051,6 +1130,25 @@ $("#btnCotizarSBS").click(function () {
     });
   }
 });
+
+function makeATable() {
+  aseguradorasHogar.forEach((element) => {
+    if (element.enabled) {
+      $("#tablaResCot").append(
+        `<tr style="vertical-align: center; text-align: center; font-size: 13px;" id="${element.aseguradora}-row">
+            <td id="${element.aseguradora}-name" style="font-weight: bold; font-size: 15px;">${element.aseguradora}</td>
+            <td id="${element.aseguradora}-check">
+               <img src="vistas/img/plantilla/loader-update.gif" alt="Allianz" style="width: 22px; height: 22px;">
+            </td>
+            <td style="font-size: 15px;" id="${element.aseguradora}-offerts">         
+            </td>
+            <td style="font-size: 15px;" id="${element.aseguradora}-observations">   
+            </td>
+        </tr>`
+      );
+    }
+  });
+}
 
 /***********************************************************************
  **********************  FORM HOGAR FUNCTIONS  *************************
@@ -1156,7 +1254,7 @@ $("#myModalHogar")
     saveAddress($(this));
   });
 
-let address = ["", "", "", "", "", "#", "", "", "-", "", "", "", "", ""];
+let address = ["", "", "", " ", "", "#", "", "", "-", "", "", "", "", ""];
 
 function saveAddress(input) {
   let id = input[0].id;
@@ -1195,7 +1293,7 @@ function saveAddress(input) {
     if (element == "") {
       return "";
     } else if (
-      index == 1 ||
+      index == 0 ||
       index == 2 ||
       index == 4 ||
       index == 5 ||
