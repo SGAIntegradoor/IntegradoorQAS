@@ -1377,42 +1377,51 @@ function cotizar(body) {
 
         let promise = fetch(url, requestOptions)
           .then(async (response) => {
-            if (!response?.ok) {
-              await saveRequest(body, "Error en la respuesta del Web Service, por favor intente nuevamente");
+            if (!response.ok) {
+              saveRequest(
+                requestBody,
+                "Error en la petición al WebService, por favor intente de nuevo"
+              );
               $(`#${element.aseguradora}-check`).html(
                 `<i class="fa fa-times" aria-hidden="true" style="color: red; margin-right: 5px;"></i>`
               );
               $(`#${element.aseguradora}-offerts`).html("0");
-              $(`#${element.aseguradora}-observations`).html(res.message);
-              return;
-            }
-            let resp = await response.json();
-            if (resp.status == "400") {
-              let res = await response.json();
-              await saveRequest(body, res);
-              $(`#${element.aseguradora}-check`).html(
-                `<i class="fa fa-times" aria-hidden="true" style="color: red; margin-right: 5px;"></i>`
+              $(`#${element.aseguradora}-observations`).html(
+                "Error en la petición al WebService, por favor intente de nuevo"
               );
-              $(`#${element.aseguradora}-offerts`).html("0");
-              $(`#${element.aseguradora}-observations`).html(res.message);
-              return;
-            } else {
-              let res = await response.json();
-              await saveRequest(body, res);
-              return res;
+              throw new Error("Error en la petición al WebService");
             }
+            return response.json(); // Convierte la respuesta a JSON igualmentep
           })
-          .then((offerts) => {
-            $(`#${element.aseguradora}-check`).html(
-              `<i class="fa fa-check" aria-hidden="true" style="color: green; margin-right: 5px;"></i>`
-            );
-            $(`#${element.aseguradora}-offerts`).html(
-              `${element.aseguradora == "SBS" ? 1 : offerts?.data?.length}`
-            );
-            $(`#${element.aseguradora}-observations`).html(
-              `Cotización exitosa`
-            );
-            makeCards(offerts);
+          .then((result) => {
+            if (result.status == "400") {
+              saveRequest(
+                requestBody,
+                result
+              );
+              $(`#${element.aseguradora}-check`).html(
+                `<i class="fa fa-times" aria-hidden="true" style="color: red; margin-right: 5px;"></i>`
+              );
+              $(`#${element.aseguradora}-offerts`).html("0");
+              $(`#${element.aseguradora}-observations`).html(
+                result.message
+              );
+            } else {
+              saveRequest(
+                requestBody,
+                result
+              );
+              $(`#${element.aseguradora}-check`).html(
+                `<i class="fa fa-check" aria-hidden="true" style="color: green; margin-right: 5px;"></i>`
+              );
+              $(`#${element.aseguradora}-offerts`).html(
+                `${element.aseguradora == "SBS" ? 1 : result?.data?.length}`
+              );
+              $(`#${element.aseguradora}-observations`).html(
+                `Cotización exitosa`
+              );
+              makeCards(result);
+            }
           });
         promisesHogar.push(promise);
       }
@@ -1510,8 +1519,8 @@ function makeCards(data) {
                       <img src="vistas/img/logos/allianz.png" />
                   </center>
                   <div class='col-12' style='margin-top:2%;'>
-                     ${ permisos.Vernumerodecotizacionencadaaseguradora ==
-                             "x"
+                     ${
+                       permisos.Vernumerodecotizacionencadaaseguradora == "x"
                          ? `<center>
                          <label class='entidad'>N° Cot: <span style='color:black'>${data.numeroCotizacion}</span></label>
                        </center>`
@@ -1603,8 +1612,9 @@ function makeCards(data) {
                                     <img src="vistas/img/logos/sbs.png" />
                                 </center>
                                 <div class='col-12' style='margin-top:2%;'>
-                                  ${ permisos.Vernumerodecotizacionencadaaseguradora ==
-                                          "x"
+                                  ${
+                                    permisos.Vernumerodecotizacionencadaaseguradora ==
+                                    "x"
                                       ? `<center>
                                       <label class='entidad'>N° Cot: <span style='color:black'>${data.numeroCotizacion}</span></label>
                                     </center>`
