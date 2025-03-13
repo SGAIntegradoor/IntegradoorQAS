@@ -1150,6 +1150,36 @@ function saveQuotation() {
   });
 }
 
+// Guarda la alerta en la BD para mostrar la tabla una vez se realice la pagina de retoma
+
+function saveAlert(data){
+
+  let dataCotizacion = {
+    cotizacion: idCotizacionHogar,
+    aseguradora: data.aseguradora,
+    mensajes: data.message,
+    ofertas: data.data.length,
+    cotizo: data.success ? 1 : 0,
+  }
+
+  $.ajax({
+    type: "POST",
+    url: "src/guardarAlerta.php",
+    dataType: "json",
+    data: dataCotizacion,
+    cache: false,
+    success: function (data) {
+      console.log(data);
+      console.log("Guardado");
+      ;
+    },
+    catch: function (error) {
+      console.log(error);
+      console.log("Error");
+    },
+  })
+}
+
 function disableInputsData(container) {
   $(container)
     .find("input, select")
@@ -1204,6 +1234,7 @@ function cotizar(body) {
 
         let promise = fetch(url, requestOptions)
           .then(async (response) => {
+            let result = await response.json();
             if (!response.ok) {
               saveRequest(
                 requestBody,
@@ -1216,9 +1247,17 @@ function cotizar(body) {
               $(`#${element.aseguradora}-observations`).html(
                 "Error en la petición al WebService, por favor intente de nuevo"
               );
+              
+              let resp = {
+                aseguradora: element.aseguradora,
+                message: "Error en la petición al WebService, por favor intente de nuevo",
+                data: [],
+                success: false
+              };
+              saveAlert(resp);
               throw new Error("Error en la petición al WebService");
             }
-            return response.json(); // Convierte la respuesta a JSON igualmentep
+            return result; // Convierte la respuesta a JSON igualmentep
           })
           .then((result) => {
             if (result.status == "400") {
@@ -1233,6 +1272,7 @@ function cotizar(body) {
               $(`#${element.aseguradora}-observations`).html(
                 result.message
               );
+              saveAlert(result);
             } else {
               saveRequest(
                 requestBody,
@@ -1246,7 +1286,8 @@ function cotizar(body) {
               );
               $(`#${element.aseguradora}-observations`).html(
                 `Cotización exitosa`
-              );
+              );            
+              saveAlert(result);
               makeCards(result);
             }
           });
