@@ -1377,12 +1377,30 @@ function cotizar(body) {
 
         let promise = fetch(url, requestOptions)
           .then(async (response) => {
-            if (!response?.ok) throw new Error("Error en la petición");
-
-            let res = await response.json();
-            console.log(res);
-            await saveRequest(body, res);
-            return res;
+            if (!response?.ok) {
+              await saveRequest(body, "Error en la respuesta del Web Service, por favor intente nuevamente");
+              $(`#${element.aseguradora}-check`).html(
+                `<i class="fa fa-times" aria-hidden="true" style="color: red; margin-right: 5px;"></i>`
+              );
+              $(`#${element.aseguradora}-offerts`).html("0");
+              $(`#${element.aseguradora}-observations`).html(res.message);
+              return;
+            }
+            let resp = await response.json();
+            if (resp.status == "400") {
+              let res = await response.json();
+              await saveRequest(body, res);
+              $(`#${element.aseguradora}-check`).html(
+                `<i class="fa fa-times" aria-hidden="true" style="color: red; margin-right: 5px;"></i>`
+              );
+              $(`#${element.aseguradora}-offerts`).html("0");
+              $(`#${element.aseguradora}-observations`).html(res.message);
+              return;
+            } else {
+              let res = await response.json();
+              await saveRequest(body, res);
+              return res;
+            }
           })
           .then((offerts) => {
             $(`#${element.aseguradora}-check`).html(
