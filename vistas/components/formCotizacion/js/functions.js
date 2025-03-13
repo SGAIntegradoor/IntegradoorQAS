@@ -1488,7 +1488,7 @@ function makeCards(data) {
           <div class="row card-body">
               <div class="col-xs-12 col-sm-6 col-md-2 oferta-logo" style="padding-top: 50px;">
                   <center>
-                      <img src="vistas/img/logos/Allianz.png" />
+                      <img src="vistas/img/logos/alianz.png" />
                   </center>
                   <div class='col-12' style='margin-top:2%;'>
                      ${ permisos.Vernumerodecotizacionencadaaseguradora ==
@@ -1581,9 +1581,7 @@ function makeCards(data) {
                         <div class="row card-body">
                             <div class="col-xs-12 col-sm-6 col-md-2 oferta-logo" style="padding-top: 50px;">
                                 <center>
-                                    <img src="vistas/img/logos/${
-                                      element.logo
-                                    }" />
+                                    <img src="vistas/img/logos/sbs.png" />
                                 </center>
                                 <div class='col-12' style='margin-top:2%;'>
                                   ${ permisos.Vernumerodecotizacionencadaaseguradora ==
