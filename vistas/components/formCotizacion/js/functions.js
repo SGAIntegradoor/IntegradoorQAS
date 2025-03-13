@@ -1291,14 +1291,11 @@ function disableButton(button) {
 //         requestBody = body.sbs;
 //         url = `https://www.grupoasistencia.com/motor_webservice/Hogarena`;
 //       }
-
 //       if (url && requestBody) {
 //         requestOptions.body = JSON.stringify(requestBody);
-
 //         let promise = fetch(url, requestOptions)
 //           .then(async (response) => {
 //             if (!response?.ok) throw new Error("Error en la petición");
-
 //             let res = await response.json();
 //             console.log(res);
 //             await saveRequest(body, res);
@@ -1318,7 +1315,6 @@ function disableButton(button) {
 //             toggleContainerCards();
 //             makeCards(offerts);
 //           });
-
 //         promisesHogar.push(promise);
 //       }
 //     });
