@@ -32,6 +32,8 @@
 
 .row-aseg {
   margin-bottom: 20px;
+  margin-left: 0px;
+  margin-right: 0px;
 }
 
 #menosCotizacion {
@@ -222,8 +224,8 @@
 }
 
 .general-container-cards{
-  padding-left: 30px;
-  padding-right: 30px;
+  padding-left: 16px;
+  padding-right: 16px;
 }
 
 .col-cards-12 {
@@ -233,11 +235,16 @@
     padding-left: 15px;
 }
 
+.table-alerts {
+  margin-left: 58px;
+  margin-right: 58px;
+}
+
 @media (max-width: 768px) {
 
-  .col-cards-12 {
-    padding-right: 0px;
-    padding-left: 0px;
+  .table-alerts{
+    margin-left: 0px;
+    margin-right: 0px;
   }
 
   .verpdf-oferta {

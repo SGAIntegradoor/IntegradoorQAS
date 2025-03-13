@@ -14,7 +14,7 @@
 <div id="formValoresAllianz" style="display: none;">
     <div class="container-fluid">
         <div class="col-lg-12">
-            <div class="row row-aseg">
+            <div class="row row-aseg" style="margin-bottom: 0px;">
                 <div class="col-xs-12 col-sm-6 col-md-6">
                     <!-- titulo del form para tipo de persona -->
                     <label id="lblValoresCotAllianz">DATOS ASEGURADORA ALLIANZ</label>

@@ -1162,176 +1162,6 @@ function disableButton(button) {
   $(button).prop("disabled", true);
 }
 
-// function cotizar(body) {
-//   setBlankInputs();
-//   if (!validarMascotasSeleccionado()) {
-//     return;
-//   } else {
-//     disableButton("#btnCotizarSBS");
-//     disableButton("#btnCotizar");
-//     appendSectionAlerts();
-//     toggleContainerValoresAllianz();
-//     makeATable();
-//     let promisesHogar = [];
-//     let requestOptions = {
-//       method: "POST",
-//       headers: { "Content-Type": "application/json" },
-//       body: "",
-//     };
-
-//       if (aseguradorasHogar.aseguradora == "Allianz" && element.enabled) {
-//         disableInputsData("#containerValoresAllianz");
-//         requestOptions.body = JSON.stringify(body.allianz);
-//         promisesHogar.push(
-//           fetch(
-//             `https://grupoasistencia.com/backend_node/WSAllianz/QuotationAllianzHogar`,
-//             requestOptions
-//           )
-//             .then(async (response) => {
-//               if (!response?.ok) throw new Error("Error en la petición");
-
-//               let res = await response.json(); // Esperar a que se resuelva
-//               console.log(res);
-//               await saveRequest(body, res); // Asegurar que se guarde después de obtener la respuesta
-//               return res;
-//             })
-//             .then((offerts) => {
-//               $(`#${element.aseguradora}-check`).html(
-//                 `<i class="fa fa-check" aria-hidden="true" style="color: green; margin-right: 5px;"></i>`
-//               );
-//               $(`#${element.aseguradora}-offerts`).html(
-//                 `${offerts?.data?.length}`
-//               );
-//               $(`#${element.aseguradora}-observations`).html(
-//                 `Cotización exitosa`
-//               );
-//               saveQuotation();
-//               toggleContainerCards();
-//               makeCards(offerts);
-//             })
-//         );
-//       }
-
-//       if (element.aseguradora == "SBS" && element.enabled) {
-//         disableInputsData("#containerValores");
-//         requestOptions.body = JSON.stringify(body.sbs);
-//         promisesHogar.push(
-//           fetch(
-//             `https://www.grupoasistencia.com/motor_webservice/Hogarena`,
-//             requestOptions
-//           )
-//             .then(async (response) => {
-//               if (!response?.ok) throw new Error("Error en la petición");
-
-//               let res = await response.json(); // Esperar a que se resuelva
-//               console.log(res);
-//               await saveRequest(body, res); // Asegurar que se guarde después de obtener la respuesta
-//               return res;
-//             })
-//             .then((offerts) => {
-//               $(`#${element.aseguradora}-check`).html(
-//                 `<i class="fa fa-check" aria-hidden="true" style="color: green; margin-right: 5px;"></i>`
-//               );
-//               $(`#${element.aseguradora}-offerts`).html(
-//                 `${offerts?.data?.length}`
-//               );
-//               $(`#${element.aseguradora}-observations`).html(
-//                 `Cotización exitosa`
-//               );
-//               saveQuotation();
-//               toggleContainerCards();
-//               makeCards(offerts);
-//             })
-//         );
-//       }
-
-//     Promise.all(promisesHogar)
-//       .then(() => {
-//         Swal.fire({
-//           icon: "success",
-//           title: "¡Cotización exitosa!",
-//           text: "Proceso de cotización finalizado",
-//         });
-//       })
-//       .catch((error) => console.log(error));
-//   }
-// }
-// function cotizar(body) {
-
-//   setBlankInputs();
-//   if (!validarMascotasSeleccionado()) {
-//     return;
-//   } else {
-//     disableButton("#btnCotizarSBS");
-//     disableButton("#btnCotizar");
-//     appendSectionAlerts();
-//     toggleContainerValoresAllianz()
-//     makeATable();
-//     let promisesHogar = [];
-//     let requestOptions = {
-//       method: "POST",
-//       headers: { "Content-Type": "application/json" },
-//       body: "",
-//     };
-
-//     let tipoVivienda = $("#tipoVivienda").val();
-
-//     aseguradorasHogar.forEach((element) => {
-//       if (!element.enabled) return; // Si la aseguradora está deshabilitada, saltarla
-
-//       let url = "";
-//       let requestBody = null;
-
-//       if (element.aseguradora === "Allianz") {
-//         disableInputsData("#containerValoresAllianz");
-//         requestBody = body.allianz;
-//         url = `https://grupoasistencia.com/backend_node/WSAllianz/QuotationAllianzHogar`;
-//       } else if (element.aseguradora === "SBS" && tipoVivienda != "1") {
-//         disableInputsData("#containerValores");
-//         requestBody = body.sbs;
-//         url = `https://www.grupoasistencia.com/motor_webservice/Hogarena`;
-//       }
-//       if (url && requestBody) {
-//         requestOptions.body = JSON.stringify(requestBody);
-//         let promise = fetch(url, requestOptions)
-//           .then(async (response) => {
-//             if (!response?.ok) throw new Error("Error en la petición");
-//             let res = await response.json();
-//             console.log(res);
-//             await saveRequest(body, res);
-//             return res;
-//           })
-//           .then((offerts) => {
-//             $(`#${element.aseguradora}-check`).html(
-//               `<i class="fa fa-check" aria-hidden="true" style="color: green; margin-right: 5px;"></i>`
-//             );
-//             $(`#${element.aseguradora}-offerts`).html(
-//               `${offerts?.data?.length}`
-//             );
-//             $(`#${element.aseguradora}-observations`).html(
-//               `Cotización exitosa`
-//             );
-//             saveQuotation();
-//             toggleContainerCards();
-//             makeCards(offerts);
-//           });
-//         promisesHogar.push(promise);
-//       }
-//     });
-
-//     // Esperar que todas las promesas terminen
-//     Promise.all(promisesHogar)
-//       .then(() => {
-//         Swal.fire({
-//           icon: "success",
-//           title: "¡Cotización exitosa!",
-//           text: "Proceso de cotización finalizado",
-//         });
-//       })
-//       .catch((error) => console.log(error));
-//   }
-// }
-
 function cotizar(body) {
   setBlankInputs();
   if (!validarMascotasSeleccionado()) {
@@ -1341,6 +1171,7 @@ function cotizar(body) {
     disableButton("#btnCotizar");
     appendSectionAlerts();
     toggleContainerValoresAllianz();
+    toggleContainerValoresSBS();
     makeATable();
     saveQuotation();
     let promisesHogar = [];
@@ -1934,6 +1765,12 @@ function toggleContainerValoresAllianz() {
   $("#masValoresHogarAllianz").toggle();
   $("#menosValoresHogarAllianz").toggle();
   $("#containerValoresAllianz").toggle();
+}
+
+function toggleContainerValoresSBS() {
+  $("#masValoresHogar").toggle();
+  $("#menosValoresHogar").toggle();
+  $("#containerValores").toggle();
 }
 
 function toggleContainerCards() {

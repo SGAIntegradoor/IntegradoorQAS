@@ -24,7 +24,7 @@
     </div>
 
     <div class="" id="containerResumenCotizaciones">
-        <div class="card-ofertas" style="padding: 15px">
+        <div class="card-ofertas table-alerts" style="padding: 15px">
             <div class="table-responsive" style="margin-top: 15px;">
                 <table class="table table-bordered table-padding" id="tablaResCot">
                     <tr style="color: #88d600; font-size: 15px;">
