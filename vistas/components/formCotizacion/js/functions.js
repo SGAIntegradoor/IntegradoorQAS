@@ -1257,7 +1257,6 @@ function disableButton(button) {
 //   }
 // }
 // function cotizar(body) {
-//   debugger
 
 //   setBlankInputs();
 //   if (!validarMascotasSeleccionado()) {
@@ -1490,7 +1489,7 @@ function makeCards(data) {
           <div class="row card-body">
               <div class="col-xs-12 col-sm-6 col-md-2 oferta-logo" style="padding-top: 50px;">
                   <center>
-                      <img src="vistas/img/logos/alianz.png" />
+                      <img src="vistas/img/logos/allianz.png" />
                   </center>
                   <div class='col-12' style='margin-top:2%;'>
                      ${ permisos.Vernumerodecotizacionencadaaseguradora ==
@@ -2043,7 +2042,6 @@ let rawSBS = {};
 let dataCotizacion = {};
 
 $("#btnCotizarSBS, #btnCotizar").click(function () {
-  debugger;
   let { errors, data } = validateErrors("cotizar");
   if (errors) {
     // Obtener valores de los inputs una sola vez
