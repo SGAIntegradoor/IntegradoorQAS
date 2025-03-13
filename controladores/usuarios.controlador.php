@@ -505,6 +505,18 @@ class ControladorUsuarios
 	}
 
 	/*=============================================
+				FILTROS USUARIO
+	=============================================*/
+
+	static public function ctrMostrarUsuariosFilters($params)
+	{
+
+		$respuesta = ModeloUsuarios::mdlMostrarUsuariosFilters($params);
+
+		return $respuesta;
+	}
+
+	/*=============================================
 					  MOSTRAR USUARIO
 					  =============================================*/
 

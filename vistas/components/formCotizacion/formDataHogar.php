@@ -1,3 +1,5 @@
+
+
 <div id="formHogar" style="display: none;">
     <div class="container-fluid">
         <div class="col-lg-12">
@@ -87,11 +89,22 @@
             </div>
 
             <div class="col-xs-12 col-sm-6 col-md-3">
-                <div class="form-group">
+                <div class="form-group" style="position: relative;">
                     <label for="zonaRiesgo">Zona de riesgo</label>
-                    <select id="zonaRiesgo" class="form-control zonaRiesgo">
-                        <option value="0">Seleccione una opción</option>
-                    </select>
+                    <select id="zonaRiesgo" class="form-control zonaRiesgo"></select>
+                    <span id="loaderZonaRiesgo" class="loader-spinner">
+                    Cargando... <i class="fas fa-spinner fa-spin" style="color: #88D600;"></i>
+                    </span>
+                </div>
+            </div>
+
+            <div class="col-xs-12 col-sm-6 col-md-3" style="display: none;" id="subZoneBog" >
+                <div class="form-group">
+                    <label for="subZona">Barrio Localidad (Sub Zona)</label>
+                    <select id="subZona" class="form-control subZona"></select>
+                    <span id="loaderSubZona" class="loader-spinner-subZona">
+                    Cargando... <i class="fas fa-spinner fa-spin" style="color: #88D600;"></i>
+                    </span>
                 </div>
             </div>
 
@@ -112,7 +125,7 @@
             <div class="col-xs-12 col-sm-6 col-md-3">
                 <div class="form-group">
                     <label for="noPiso">No. de piso del apartamento</label>
-                    <select id="noPiso" class="form-control noPiso" >
+                    <select id="noPiso" class="form-control noPiso">
                         <option value="0">Seleccione una opción</option>
                         <?php
                         for ($i = 1; $i <= 50; $i++) {
@@ -203,7 +216,7 @@
                     </div>
                     <div style="display: flex; flex-direction: row; gap: 40px;">
                         <div style="display: flex; flex-direction: row; gap: 5px; align-items: flex-start;">
-                            <input type="radio" id="siCredito" name="creditoHipotecarioRadio" value="si" >
+                            <input type="radio" id="siCredito" name="creditoHipotecarioRadio" value="si">
                             <p style="margin:0; font-weight: bold ">Si</p>
                         </div>
                         <div style="display: flex; flex-direction: row; gap: 5px; align-items: flex-start;">

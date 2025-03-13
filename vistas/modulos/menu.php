@@ -126,29 +126,29 @@ checkUserStatus();
 			/*=============================================
 		CONFIGURAR POLÍTICIAS
 		=============================================*/
-		// 	if ($_SESSION["permisos"]["veradministracionintegradoor"] == "x") {
-		// 		echo '<li class="' . ($currentPage == 'politicas' || $currentPage == 'planes' || $currentPage == 'contratos' || $currentPage == 'pagos' ? 'active' : '') . '">
-		// 	<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-		// 	<i class="fa fa-wrench" aria-hidden="true"></i>
-		// 		<span >Administrador Integradoor</span>
-		// 	</a>			
-		// 		<ul class="dropdown-menu right">
-		// 			<li class="user-body">			
-		// 				<a href="politicas" class="btn btn-default btn-flat"><i class="" style="color: red;"></i>Políticas</a>
-		// 			</li>
-		// 			<li class="user-body">	
-		// 				<a href="planes" class="btn btn-default btn-flat"><i class="" style="color: red;"></i>Planes</a>
-		// 			</li>
-		// 			<li class="user-body">	
-		// 				<a href="inicio" class="btn btn-default btn-flat"><i class="" style="color: red;"></i>Contratos</a>
-		// 			</li>
-		// 			<li class="user-body">	
-		// 				<a href="inicio" class="btn btn-default btn-flat"><i class="" style="color: red;"></i>Pagos</a>
-		// 			</li>
+			// 	if ($_SESSION["permisos"]["veradministracionintegradoor"] == "x") {
+			// 		echo '<li class="' . ($currentPage == 'politicas' || $currentPage == 'planes' || $currentPage == 'contratos' || $currentPage == 'pagos' ? 'active' : '') . '">
+			// 	<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+			// 	<i class="fa fa-wrench" aria-hidden="true"></i>
+			// 		<span >Administrador Integradoor</span>
+			// 	</a>			
+			// 		<ul class="dropdown-menu right">
+			// 			<li class="user-body">			
+			// 				<a href="politicas" class="btn btn-default btn-flat"><i class="" style="color: red;"></i>Políticas</a>
+			// 			</li>
+			// 			<li class="user-body">	
+			// 				<a href="planes" class="btn btn-default btn-flat"><i class="" style="color: red;"></i>Planes</a>
+			// 			</li>
+			// 			<li class="user-body">	
+			// 				<a href="inicio" class="btn btn-default btn-flat"><i class="" style="color: red;"></i>Contratos</a>
+			// 			</li>
+			// 			<li class="user-body">	
+			// 				<a href="inicio" class="btn btn-default btn-flat"><i class="" style="color: red;"></i>Pagos</a>
+			// 			</li>
 
-		// 		</ul>
-		// </li>';
-		//	}
+			// 		</ul>
+			// </li>';
+			//	}
 
 			/*=============================================
 		ADMINISTRAR COTIZACIONES
@@ -161,19 +161,19 @@ checkUserStatus();
             </a>
           </li>';
 			}
-		// 	/*=============================================
-		// AUTOGESTION
-		// =============================================*/
-		// 	if ($_SESSION["permisos"]["administracionCotizaciones"] == "x") {
-		// 		echo '<!--<li>
-		// 		<a href="autogestion">
-		// 			<i class="fa fa-user"></i>
-		// 			<span>Autogestión</span>
-		// 		</a>
-		// 	</li>-->';
-		// 	}
+			// 	/*=============================================
+			// AUTOGESTION
+			// =============================================*/
+			// 	if ($_SESSION["permisos"]["administracionCotizaciones"] == "x") {
+			// 		echo '<!--<li>
+			// 		<a href="autogestion">
+			// 			<i class="fa fa-user"></i>
+			// 			<span>Autogestión</span>
+			// 		</a>
+			// 	</li>-->';
+			// 	}
 
-			/*=============================================
+		/*=============================================
 		CLIENTES
 		=============================================*/
 			if ($_SESSION["permisos"]["Clientes"] == "x") {
@@ -183,6 +183,18 @@ checkUserStatus();
 					<span>Clientes</span>
 				</a>
 			</li>';
+			}
+		/*=============================================
+		ASSITCARD
+		=============================================*/
+
+			if (($_SESSION["permisos"]["AsistenciaEnViajes"] == "x") || $_SESSION["idUsuario"] == 34) {
+				echo '<li id="menuCoAssist" class="' . ($currentPage == 'assistcard' ? 'active' : '') . '">
+				<a href="assistcard">
+				<i class="fa fa-plane" aria-hidden="true" style="font-size: 1.2em;"></i>
+				<span>Asistencia en viajes</span>
+				</a>
+				</li>';
 			}
 			/*=============================================
 		COTIZAR LIVIANO
@@ -194,9 +206,6 @@ checkUserStatus();
 				</a>
 			</li>';
 			?>
-
-
-
 			<?php
 			/*=============================================
 		COTIZACIONES MASIVAS
@@ -236,7 +245,7 @@ checkUserStatus();
 			/*=============================================
 		NEGOCIOS
 		=============================================*/
-			if ($_SESSION['rol'] == 11 || $_SESSION['rol'] == 12 || $_SESSION["rol"] == 10 || $_SESSION['rol'] == 1   ) {
+			if ($_SESSION['rol'] == 11 || $_SESSION['rol'] == 12 || $_SESSION["rol"] == 10 || $_SESSION['rol'] == 1) {
 				echo '<li id="menuCotNeg" class="' . ($currentPage == 'negocios' ? 'active' : '') . '">
 			<a href="negocios">
 			<i class="fa fa-briefcase"></i>
@@ -292,20 +301,6 @@ checkUserStatus();
 				</a>
 				</li>';
 			}
-
-			/*=============================================
-			ASSITCARD
-			=============================================*/
-
-			if (($_SESSION["permisos"]["AsistenciaEnViajes"] == "x") || $_SESSION["idUsuario"] == 34) {
-				echo '<li id="menuCoAssist" class="' . ($currentPage == 'assistcard' ? 'active' : '') . '">
-				<a href="assistcard">
-				<i class="fa fa-plane" aria-hidden="true" style="font-size: 1.2em;"></i>
-				<span>Asistencia en viajes</span>
-				</a>
-				</li>';
-			}
-
 
 			/*=============================================
 		USUARIOS

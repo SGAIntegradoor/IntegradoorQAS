@@ -2834,7 +2834,10 @@ function cotizarOfertasPesados() {
             aseguradorasCoti.forEach((aseguradora) => {
               if (aseguradora === "Mundial") {
                 /*MUNDIAL*/
+                console.log(mundial)
                 if (mundial == 5) {
+                  console.log("entre")
+                  debugger;
                   let body = JSON.parse(requestOptions.body);
                   plan = "Trailer";
                   body.plan = plan;
@@ -2851,7 +2854,7 @@ function cotizarOfertasPesados() {
                       if (typeof ofertas[0].Resultado !== "undefined") {
                         validarProblema(aseguradora, ofertas);
                         agregarAseguradoraFallidaPesados(aseguradora);
-                        ofertas.Mensajes.forEach((mensaje) => {
+                        ofertas[0].Mensajes.forEach((mensaje) => {
                           mostrarAlertarCotizacionFallida(aseguradora, mensaje);
                         });
                       } else {
@@ -2900,7 +2903,7 @@ function cotizarOfertasPesados() {
                         return res.json();
                       })
                       .then((ofertas) => {
-                        if (typeof ofertas[0].Resultado !== "undefined") {
+                        if (typeof ofertas.Resultado !== "undefined") {
                           validarProblema(aseguradora, ofertas);
                           agregarAseguradoraFallidaPesados(aseguradora);
                           if (ofertas[0].length > 1) {
@@ -2911,7 +2914,7 @@ function cotizarOfertasPesados() {
                               );
                             });
                           } else {
-                            ofertas[0].Mensajes.forEach((mensaje) => {
+                            ofertas.Mensajes.forEach((mensaje) => {
                               mostrarAlertarCotizacionFallida(
                                 aseguradora,
                                 mensaje
@@ -3587,6 +3590,51 @@ function cotizarOfertasPesados() {
 
         cont2.push(axaPromise);
 
+        const mundialPromise = comprobarFallidaPesados("Mundial")
+        ? fetch(
+            "https://grupoasistencia.com/motor_webservice/Mundial_pesados",
+            requestOptions
+          )
+            .then((res) => {
+              if (!res.ok) throw Error(res.statusText);
+              return res.json();
+            })
+            .then((ofertas) => {
+              if (typeof ofertas[0].Resultado !== "undefined") {
+                agregarAseguradoraFallidaPesados("Mundial");
+                validarProblema("AXA", ofertas);
+                ofertas[0].Mensajes.forEach((mensaje) => {
+                  mostrarAlertarCotizacionFallida("Mundial", mensaje);
+                });
+              } else {
+                // eliminarAseguradoraFallida('AXA');
+                const contadorPorEntidad = validarOfertasPesados(
+                  ofertas,
+                  "AXA",
+                  1
+                );
+                mostrarAlertaCotizacionExitosa("Mundial", contadorPorEntidad);
+              }
+            })
+            .catch((err) => {
+              agregarAseguradoraFallidaPesados("Mundial");
+              mostrarAlertarCotizacionFallida(
+                "AXA",
+                "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
+              );
+              validarProblema("Mundial", [
+                {
+                  Mensajes: [
+                    "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
+                  ],
+                },
+              ]);
+              console.error(err);
+            })
+        : Promise.resolve();
+
+      cont2.push(mundialPromise);
+
         const previsoraPromise = comprobarFallidaPesados("Previsora")
           ? fetch(
               "https://grupoasistencia.com/motor_webservice/Previsora_pesados",
@@ -3918,6 +3966,8 @@ const vehiculoPermitidoPesados = [
   "PICK UPS",
   "PICK UP",
   "PICKUP",
+  "PICKUP SENCILLA",
+  "PICKUP DOBLE CABINA",
 ];
 
 $("#btnConsultarVehmanualbuscador").click(function () {

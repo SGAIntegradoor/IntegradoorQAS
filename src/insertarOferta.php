@@ -24,7 +24,7 @@ $CE = $_POST['CE'];
 $GR = $_POST['GR'];
 $logo = "vistas/img/logos/" . $_POST['logo'];
 $UrlPdf = isset($_POST['UrlPdf']) ? $_POST['UrlPdf'] : NULL;
-$categorias = isset($_POST['categorias']) ? json_encode($_POST['categorias']) : NULL;
+$categorias = isset($_POST['categorias']) ? json_encode($_POST['categorias']) : "[]";
 $eventos = isset($_POST['eventos']) ? $_POST['eventos'] : NULL;
 $manual = $_POST['manual'];
 $actIdentity = isset($_POST['identityElement']) && $_POST['identityElement'] != NULL ? $_POST['identityElement'] : NULL;

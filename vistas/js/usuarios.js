@@ -6,6 +6,98 @@ CARGANDO DATOS DE INICIO
   cargarRoll();
 })();
 
+let getParams = () => {
+  let url = new URL(window.location.href);
+  return Object.fromEntries(url.searchParams.entries());
+};
+
+let url = `index.php?ruta=usuarios`;
+
+function searchInfo() {
+  let fechaVinculacionFiltro =
+    $("#fechaVinculacionFiltro").val() !== ""
+      ? $("#fechaVinculacionFiltro").val()
+      : "";
+  let fechaDesvinculacionFiltro =
+    $("#fechaDesvinculacionFiltro").val() !== "" ? $("#fechaDesvinculacionFiltro").val() : "";
+  let identificacionFiltro =
+    $("#identificacionFiltro").val() !== ""
+      ? $("#identificacionFiltro").val()
+      : "";
+  let nombreFiltro =
+    $("#nombreFiltro").val() !== ""
+      ? $("#nombreFiltro").val()
+      : "";
+  let celularFiltro =
+    $("#celularFiltro").val() !== ""
+      ? $("#celularFiltro").val()
+      : "";
+  let emailFiltro = $("#emailFiltro").val() !== "" ? $("#emailFiltro").val() : "";
+  let ciudadFiltro =
+    $("#ciudadFiltro").val() !== ""
+      ? $("#ciudadFiltro option:selected").text()
+      : "";
+  if (fechaVinculacionFiltro !== "") {
+    url += `&fechaVinculacionFiltro=${fechaVinculacionFiltro}`;
+  }
+
+  if (fechaDesvinculacionFiltro !== "") {
+    url += `&fechaDesvinculacionFiltro=${fechaDesvinculacionFiltro}`;
+  }
+
+  if (identificacionFiltro !== "") {
+    url += `&identificacionFiltro=${identificacionFiltro}`;
+  }
+
+  if (nombreFiltro !== "") {
+    url += `&nombreFiltro=${nombreFiltro}`;
+  }
+
+  if (celularFiltro !== "") {
+    url += `&celularFiltro=${celularFiltro}`;
+  }
+
+  if (emailFiltro !== "") {
+    url += `&emailFiltro=${emailFiltro}`;
+  }
+
+  if (ciudadFiltro !== "") {
+    url += `&ciudadFiltro=${ciudadFiltro.trim()}`;
+  }
+
+  window.location.href = url;
+}
+
+let params = getParams();
+
+if(Object.keys(params).length > 0){
+  
+  aplicarCriterios();
+}
+
+function aplicarCriterios() {
+  const criterios = [
+    "fechaVinculacionFiltro",
+    "fechaDesvinculacionFiltro",
+    "identificacionFiltro",
+    "nombreFiltro",
+    "celularFiltro",
+    "emailFiltro",
+    "ciudadFiltro",
+  ];
+
+  for (let [key, value] of Object.entries(params)) {
+    if (criterios.includes(key)) {
+      if($(`#${key}`).is("select")){
+        $(`#${key}`).val(value).trigger("change");
+      }else {
+        console.log(key)
+        $(`#${key}`).val(value);
+      }
+    }
+  }
+}
+
 $("#creaTemporal").on("click", function () {
   let ISO = new Date().toISOString();
   // Eliminar los caracteres que no deseas

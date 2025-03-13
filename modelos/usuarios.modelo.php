@@ -144,6 +144,67 @@ class ModeloUsuarios
 		// Retorna el resultado de la comparación
 		return $response;
 	}
+
+
+	static public function mdlMostrarUsuariosFilters($params)
+    {
+        global $stmt;
+
+        // Validar los parámetros
+        $valores = [];
+        foreach ($params as $clave => $valor) {
+
+            // Sanitizar valores para evitar SQL Injection
+            $valores[$clave] = htmlspecialchars($valor, ENT_QUOTES, 'UTF-8');
+        }
+
+        // Crear consulta dinámica
+        $sql = "SELECT u.*, r.rol_descripcion FROM usuarios u INNER JOIN roles r on r.id_rol = u.id_rol WHERE 1=1"; // Query base
+        foreach ($valores as $campo => $valor) {
+			var_dump($campo);
+			var_dump($valor);
+            switch ($campo) {
+                case 'nombreFiltro':
+                    # code...
+                    $sql .= " AND usu_nombre like '%$valor%'";
+                    break;
+                case 'fechaVinculacionFiltro':
+                    # code...
+                    $sql .= " AND usu_fch_creacion = '$valor'";
+                    break;
+                case 'fechaDesvinculacionFiltro':
+                    # code...
+                    $sql .= " AND fechaFin = '$valor'";
+                    break;
+                case 'ciudadFiltro':
+                    # code...
+                    $sql .= " AND ciudades_id = '$valor'";
+                    break;
+                case 'celularFiltro':
+                    # code...
+                    $sql .= " AND usu_telefono = '$valor'";
+                    break;
+                case 'emailFiltro':
+                    # code...
+                    $sql .= " AND usu_email = '$valor'";
+                    break;
+                default:
+                    # code...
+                    break;
+            }
+        }
+        $stmt = Conexion::conectar()->prepare($sql);
+        $stmt->execute();
+
+        $numRows = $stmt->rowCount();
+
+        if ($numRows > 0) {
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }
+        $stmt->closeCursor();
+        $stmt = null;
+    }
+
 	/*=============================================
 	  PERMISOS USUARIOS
 	 =============================================*/

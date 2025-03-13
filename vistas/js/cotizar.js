@@ -4610,6 +4610,8 @@ function validarNumCotizaciones() {
 
 const tipoVehiculo = [
   "PICK UPS",
+  "PICKUP SENCILLA",
+  "PICKUP DOBLE CABINA",
   "AUTOMOVIL",
   "AUTOMOVILES",
   "CAMPEROS",

@@ -21,9 +21,9 @@ if (!empty($fechaInicio) && !empty($fechaFin)) {
     if ($intermediario != 3) {
         // Utilizar una consulta preparada para evitar inyección SQL
         if ($intermediario == 89) {
-            $query = "SELECT * FROM `cotizaciones` WHERE `cot_fch_cotizacion` BETWEEN '$fechaInicio' AND '$fechaFin' AND `id_usuario` = $id";
+            $query = "SELECT * FROM `cotizaciones` WHERE `cot_fch_cotizacion` BETWEEN '$fechaInicio' AND '$fechaFin:23:59:59' AND `id_usuario` = $id";
         } else {
-            $query = "SELECT * FROM cotizaciones c INNER JOIN usuarios us ON us.id_usuario = c.id_usuario WHERE cot_fch_cotizacion BETWEEN '$fechaInicio' AND '$fechaFin' AND us.id_Intermediario = $intermediario";
+            $query = "SELECT * FROM cotizaciones c INNER JOIN usuarios us ON us.id_usuario = c.id_usuario WHERE cot_fch_cotizacion BETWEEN '$fechaInicio' AND '$fechaFin:23:59:59' AND us.id_Intermediario = $intermediario";
         }
 
         //$stmt->bind_param("ssi", $fechaInicio, $fechaFin, $id);

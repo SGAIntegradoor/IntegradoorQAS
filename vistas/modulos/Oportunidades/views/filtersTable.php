@@ -1,12 +1,4 @@
-<?php
-    
-
-
-    ?>
-    
-
     <link rel="stylesheet" href="vistas/modulos/Oportunidades/css/styles.css">
-
     <div class="container-fluid mainDataContainer">
         <div class="col-lg-12">
             <div class="row row-filters">

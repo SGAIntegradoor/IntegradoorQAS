@@ -196,8 +196,112 @@
   }
 }
 
+.card-body{
+  padding: 10px;
+}
+
 .btn-modal {
   border-radius: 5px;
   font-weight: 700;
   font-size: 12px;
 }
+
+.informativeTable {
+  display: flex; 
+  flex-direction: row; 
+  flex-wrap: wrap;
+}
+
+.tab1Table {
+  width: 274px;
+}
+
+.tab2Table {
+  vertical-align: top; 
+  width: 345px;
+}
+
+.general-container-cards{
+  padding-left: 30px;
+  padding-right: 30px;
+}
+
+.col-cards-12 {
+    position: relative;
+    min-height: 1px;
+    padding-right: 15px;
+    padding-left: 15px;
+}
+
+@media (max-width: 768px) {
+
+  .col-cards-12 {
+    padding-right: 0px;
+    padding-left: 0px;
+  }
+
+  .verpdf-oferta {
+    padding-top: 30px !important;
+    padding-bottom: 0px;
+    text-align: center;
+}
+  
+  .tab2Table {
+    vertical-align: auto; 
+  }
+
+  .card-body{
+    padding: 5px;
+  }
+  
+  .tab1Table {
+    width: 345px !important;
+  }
+
+  .informativeTable{
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .oferta-headerEdit{
+    text-align: center;
+    padding-top: 0px !important;
+  }
+
+  .oferta-logo{
+    padding-top: 0px !important;
+  }
+
+  .general-container-cards {
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+  }
+
+  .container-fluid{
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+  }
+}
+
+.loader-spinner {
+  position: absolute;
+  right: 100px;
+  top: 69%;
+  transform: translateY(-50%);
+  font-size: 16px;
+  color: black;
+  display: none;
+  pointer-events: none;
+}
+.loader-spinner-subZona {
+  position: absolute;
+  right: 111px;
+  top: 57%;
+  transform: translateY(-50%);
+  font-size: 16px;
+  color: black;
+  display: none;
+  pointer-events: none;
+}
+
+      

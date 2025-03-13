@@ -23,7 +23,7 @@
         </div>
     </div>
 
-    <div class="general-container-aseg" id="containerResumenCotizaciones">
+    <div class="" id="containerResumenCotizaciones">
         <div class="card-ofertas" style="padding: 15px">
             <div class="table-responsive" style="margin-top: 15px;">
                 <table class="table table-bordered table-padding" id="tablaResCot">
@@ -51,3 +51,6 @@
         </div>
     </div>
 </div>
+<?php
+    require_once "vistas/components/formCotizacion/parrillaHogar.php";
+?>

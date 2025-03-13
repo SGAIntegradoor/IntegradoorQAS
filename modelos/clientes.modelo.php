@@ -2,26 +2,28 @@
 
 require_once "conexion.php";
 
-class ModeloClientes{
+class ModeloClientes
+{
 
 	/*=============================================
 	CREAR CLIENTE
 	=============================================*/
 
-	static public function mdlIngresarCliente($tabla, $datos){
-		
+	static public function mdlIngresarCliente($tabla, $datos)
+	{
+
 		// echo'<script>console.log("Ingreso al Metodo mdlIngresarCliente");</script>';
 
 		//Genera un consecutivo unico en cada cotizacion que aumenta de a 1 si hay registros existentes.
 		$stmt = Conexion::conectar()->prepare("SELECT cli_codigo FROM clientes ORDER BY id_cliente DESC LIMIT 1");
 		$stmt->execute();
 
-		if($stmt -> rowCount() <= 1) {
+		if ($stmt->rowCount() <= 1) {
 			$row = $stmt->fetch();
 			$cod = substr($row[0], 4);
-			$cli_codigo = "CLI-".($cod + 1);			
-		}else{
-			$cli_codigo = "CLI-1";				
+			$cli_codigo = "CLI-" . ($cod + 1);
+		} else {
+			$cli_codigo = "CLI-1";
 		}
 
 		$intermediario = $_SESSION["intermediario"];
@@ -42,64 +44,60 @@ class ModeloClientes{
 		$stmt->bindParam(":estado", $datos["estado"], PDO::PARAM_INT);
 		$stmt->bindParam(":id_Intermediario", $intermediario, PDO::PARAM_INT);
 
-		if($stmt->execute()){
-
+		if ($stmt->execute()) {
 			return "ok";
-
-		}else{
+		} else {
 
 			return "error";
-		
 		}
 
 		$stmt->close();
 		$stmt = null;
-
 	}
 
 	/*=============================================
 	MOSTRAR CLIENTES
 	=============================================*/
 
-	static public function mdlMostrarClientes($tabla, $tabla2, $tabla3, $tabla4, $tabla5, $item, $valor, $inter, $condition, $limit = null){
-		
+	static public function mdlMostrarClientes($tabla, $tabla2, $tabla3, $tabla4, $tabla5, $item, $valor, $inter, $condition, $limit = null)
+	{
+
 		$condicion = "";
 		$stmt = "";
-		
-		if($_SESSION["rol"] != 1){ $condicion = "AND $tabla5.id_usuario = :idUsuario"; }
 
+		$roles_permitidos = [1, 10, 11, 12];
 
+		if (!in_array($_SESSION["rol"], $roles_permitidos)) {
+			$condicion = "AND $tabla5.id_usuario = :idUsuario AND $tabla4.id_usuario = :idUsuario";
+		}
 
-		if($item != null){
+		if ($item != null) {
 
-			if( $item == 'cli_num_documento'){
+			if ($item == 'cli_num_documento') {
 				var_dump("entre aca");
 				$stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla, $tabla2, $tabla3 WHERE $tabla.id_tipo_documento = $tabla2.id_tipo_documento 
 														AND $tabla.id_estado_civil = $tabla3.id_estado_civil AND $tabla.id_Intermediario = :intermediario AND $item = :$item LIMIT $condition");
 
-                $stmt->bindParam(":intermediario", $inter, PDO::PARAM_INT);
-				$stmt -> bindParam(":".$item, $valor, PDO::PARAM_STR);
-				$stmt -> execute();
+				$stmt->bindParam(":intermediario", $inter, PDO::PARAM_INT);
+				$stmt->bindParam(":" . $item, $valor, PDO::PARAM_STR);
+				$stmt->execute();
 
-				return $stmt -> fetch(PDO::FETCH_ASSOC);
+				return $stmt->fetch(PDO::FETCH_ASSOC);
 				setcookie('if', 'if if');
-
-			}
-			else if($item == 'id_cliente'){
-			    $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla, $tabla2, $tabla3 WHERE $tabla.id_tipo_documento = $tabla2.id_tipo_documento 
+			} else if ($item == 'id_cliente') {
+				$stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla, $tabla2, $tabla3 WHERE $tabla.id_tipo_documento = $tabla2.id_tipo_documento 
 														AND $tabla.id_estado_civil = $tabla3.id_estado_civil AND $item = $valor LIMIT 1");
-				$stmt -> bindParam(":".$item, $valor, PDO::PARAM_STR);
-				$stmt -> execute();
+				$stmt->bindParam(":" . $item, $valor, PDO::PARAM_STR);
+				$stmt->execute();
 				if (!$stmt->execute()) {
 					// Obtener información del error si la ejecución falla
 					$errorInfo = $stmt->errorInfo();
 					var_dump($errorInfo);
 					die("Error en la ejecución de la consulta");
 				}
-				return $stmt -> fetch(PDO::FETCH_ASSOC);
+				return $stmt->fetch(PDO::FETCH_ASSOC);
 				setcookie('if', 'if if');
-			}
-			else if($item == 'buscarCliente'){
+			} else if ($item == 'buscarCliente') {
 				setcookie('if', 'if else if');
 				$stmt = Conexion::conectar()->prepare("SELECT cli_codigo, cli_num_documento, cli_nombre, cli_apellidos, $tabla.cli_estado, $tabla2.id_tipo_documento, 
 														$tabla3.id_estado_civil, concat_ws(' ', cli_num_documento, cli_nombre, cli_apellidos) as nomcompleto 
@@ -107,64 +105,62 @@ class ModeloClientes{
 														AND $tabla.id_estado_civil = $tabla3.id_estado_civil AND $tabla.cli_estado = 1 
 														AND concat_ws(' ', cli_num_documento, cli_nombre, cli_apellidos) LIKE :$item LIMIT $condition");
 
-				$stmt -> bindParam(":".$item, $valor, PDO::PARAM_STR);
-				$stmt -> execute();
+				$stmt->bindParam(":" . $item, $valor, PDO::PARAM_STR);
+				$stmt->execute();
 
-				return $stmt -> fetchAll(PDO::FETCH_ASSOC);
-			}			
-
-		}else{
+				return $stmt->fetchAll(PDO::FETCH_ASSOC);
+			}
+		} else {
 
 			$stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla, $tabla2, $tabla3, $tabla5 WHERE $tabla.id_tipo_documento = $tabla2.id_tipo_documento 
 			AND $tabla.id_estado_civil = $tabla3.id_estado_civil AND $tabla.id_Intermediario = :intermediario $condicion GROUP BY $tabla.id_cliente LIMIT $condicion");
-					
-					$stmt->bindParam(":intermediario", $intermediario, PDO::PARAM_INT);
-					
-			if($_SESSION["rol"] != 1){ $stmt->bindParam(":idUsuario", $_SESSION["idUsuario"], PDO::PARAM_INT); }
-			$stmt -> execute();
 
-			return $stmt -> fetchAll(PDO::FETCH_ASSOC);
+			$stmt->bindParam(":intermediario", $intermediario, PDO::PARAM_INT);
 
+			if ($_SESSION["rol"] != 1) {
+				$stmt->bindParam(":idUsuario", $_SESSION["idUsuario"], PDO::PARAM_INT);
+			}
+			$stmt->execute();
+
+			return $stmt->fetchAll(PDO::FETCH_ASSOC);
 		}
 
-		$stmt -> close();
+		$stmt->close();
 
 		$stmt = null;
-
 	}
 
 	/*=============================================
 	ACTIVAR CLIENTE
 	=============================================*/
 
-	static public function mdlActivarCliente($tabla, $item1, $valor1, $item2, $valor2){
+	static public function mdlActivarCliente($tabla, $item1, $valor1, $item2, $valor2)
+	{
 
 		$stmt = Conexion::conectar()->prepare("UPDATE $tabla SET $item1 = :$item1 WHERE $item2 = :$item2");
 
-		$stmt -> bindParam(":".$item1, $valor1, PDO::PARAM_STR);
-		$stmt -> bindParam(":".$item2, $valor2, PDO::PARAM_STR);
+		$stmt->bindParam(":" . $item1, $valor1, PDO::PARAM_STR);
+		$stmt->bindParam(":" . $item2, $valor2, PDO::PARAM_STR);
 
-		if($stmt -> execute()){
+		if ($stmt->execute()) {
 
 			return "ok";
-		
-		}else{
+		} else {
 
-			return "error";	
-
+			return "error";
 		}
 
-		$stmt -> close();
+		$stmt->close();
 
 		$stmt = null;
-
 	}
 
 	/*=============================================
 	EDITAR CLIENTE
 	=============================================*/
 
-	static public function mdlEditarCliente($tabla, $datos){
+	static public function mdlEditarCliente($tabla, $datos)
+	{
 
 		$stmt = Conexion::conectar()->prepare("UPDATE $tabla SET cli_codigo = :codigo, cli_num_documento = :documento, cli_nombre = :nombre, cli_apellidos = :apellido, 
 												cli_fch_nacimiento = :nacimiento, cli_genero = :genero, cli_telefono = :telefono, cli_email = :email, cli_estado = :estado, 
@@ -183,135 +179,122 @@ class ModeloClientes{
 		$stmt->bindParam(":email", $datos["email"], PDO::PARAM_STR);
 		$stmt->bindParam(":estado", $datos["estado"], PDO::PARAM_INT);
 
-		if($stmt->execute()){
+		if ($stmt->execute()) {
 
 			return "ok";
-
-		}else{
+		} else {
 
 			return "error";
-		
 		}
 
 		$stmt->close();
 		$stmt = null;
-
 	}
 
 	/*=============================================
 	ELIMINAR CLIENTE
 	=============================================*/
 
-	static public function mdlEliminarCliente($tabla, $datos){
+	static public function mdlEliminarCliente($tabla, $datos)
+	{
 
 		$stmt = Conexion::conectar()->prepare("DELETE FROM $tabla WHERE id_cliente = :id");
 
-		$stmt -> bindParam(":id", $datos, PDO::PARAM_INT);
+		$stmt->bindParam(":id", $datos, PDO::PARAM_INT);
 
-		if($stmt -> execute()){
+		if ($stmt->execute()) {
 
 			return "ok";
-		
-		}else{
+		} else {
 
-			return "error";	
-
+			return "error";
 		}
 
-		$stmt -> close();
+		$stmt->close();
 
 		$stmt = null;
-
 	}
 
 	/*=============================================
 	ACTUALIZAR CLIENTE
 	=============================================*/
 
-	static public function mdlActualizarCliente($tabla, $item1, $valor1, $valor){
+	static public function mdlActualizarCliente($tabla, $item1, $valor1, $valor)
+	{
 
 		$stmt = Conexion::conectar()->prepare("UPDATE $tabla SET $item1 = :$item1 WHERE id = :id");
 
-		$stmt -> bindParam(":".$item1, $valor1, PDO::PARAM_STR);
-		$stmt -> bindParam(":id", $valor, PDO::PARAM_STR);
+		$stmt->bindParam(":" . $item1, $valor1, PDO::PARAM_STR);
+		$stmt->bindParam(":id", $valor, PDO::PARAM_STR);
 
-		if($stmt -> execute()){
+		if ($stmt->execute()) {
 
 			return "ok";
-		
-		}else{
+		} else {
 
-			return "error";	
-
+			return "error";
 		}
 
-		$stmt -> close();
+		$stmt->close();
 
 		$stmt = null;
-
 	}
 
 	/*=============================================
         MOSTRAR TIPO DE DOCUMENTO
 	=============================================*/
 
-	static public function mdlMostrarTipoDocumento($tabla, $item, $valor){
+	static public function mdlMostrarTipoDocumento($tabla, $item, $valor)
+	{
 
-		if($item != null){
+		if ($item != null) {
 
 			$stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE $item = :$item");
 
-			$stmt -> bindParam(":".$item, $valor, PDO::PARAM_STR);
-			$stmt -> execute();
+			$stmt->bindParam(":" . $item, $valor, PDO::PARAM_STR);
+			$stmt->execute();
 
-			return $stmt -> fetch(PDO::FETCH_ASSOC);
-
-		}else{
+			return $stmt->fetch(PDO::FETCH_ASSOC);
+		} else {
 
 			$stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla");
 
-			$stmt -> execute();
+			$stmt->execute();
 
-			return $stmt -> fetchAll(PDO::FETCH_ASSOC);
-
+			return $stmt->fetchAll(PDO::FETCH_ASSOC);
 		}
 
-		$stmt -> close();
+		$stmt->close();
 
 		$stmt = null;
-
 	}
 
 	/*=============================================
 	MOSTRAR EL ESTADO CIVIL
 	=============================================*/
 
-	static public function mdlMostrarEstadoCivil($tabla, $item, $valor){
+	static public function mdlMostrarEstadoCivil($tabla, $item, $valor)
+	{
 
-		if($item != null){
+		if ($item != null) {
 
 			$stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE $item = :$item");
 
-			$stmt -> bindParam(":".$item, $valor, PDO::PARAM_STR);
-			$stmt -> execute();
+			$stmt->bindParam(":" . $item, $valor, PDO::PARAM_STR);
+			$stmt->execute();
 
-			return $stmt -> fetch(PDO::FETCH_ASSOC);
-
-		}else{
+			return $stmt->fetch(PDO::FETCH_ASSOC);
+		} else {
 
 			$stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla");
 
-			$stmt -> execute();
+			$stmt->execute();
 
-			return $stmt -> fetchAll(PDO::FETCH_ASSOC);
-
+			return $stmt->fetchAll(PDO::FETCH_ASSOC);
 		}
 
-		$stmt -> close();
+		$stmt->close();
 
 		$stmt = null;
-
 	}
-
 }
-

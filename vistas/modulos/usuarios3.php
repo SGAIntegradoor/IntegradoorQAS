@@ -105,8 +105,119 @@ if (isset($_SESSION["rol"])) {
 
   </section>
 
+
+
   <section class="content">
-  <div class="box">
+
+
+
+    <div class="box">
+
+    <?php
+        if ($_SESSION["permisos"]["Agregarunusuarionuevo"] == "x" && $_SESSION['intermediario'] == "3") {
+          echo '<button class="btnAgregarUsuario" data-toggle="modal" data-target="#modalAgregarUsuario">
+
+          Agregar usuario
+
+        </button>';
+        }
+
+        // if ($_SESSION["permisos"]["Agregarunusuarionuevo"] == "x" && $_SESSION['intermediario'] == "3") {
+        //   echo '<button class="btnAgregarUsuario" id="creaTemporal">
+
+        //   Crear Usuario Temporal
+
+        // </button>';
+        // }
+        ?>
+
+    
+      <link rel="stylesheet" href="vistas/modulos/Oportunidades/css/styles.css">
+      <div class="container-fluid mainDataContainer">
+        
+        <div class="col-lg-12">
+          <div class="row row-filters">
+            <div class="col-xs-12 col-sm-6 col-md-6">
+              <label id="lblDataTrip">Consulta Avanzada</label>
+            </div>
+            <div class="col-xs-12 col-sm-6 col-md-6">
+              <div id="masCotizacion">
+                <p id="masCots">Ver más <i class="fa fa-plus-square-o"></i></p>
+              </div>
+              <div id="menosCotizacion">
+                <p id="menosCots">Ver menos <i class="fa fa-minus-square-o"></i></p>
+              </div>
+            </div>
+          </div>
+          <div id="filtersSearch">
+            <div class="row">
+              <div class="col-xs-12 col-sm-6 col-md-3" style="padding-left: 25px; padding-right: 25px">
+                <div class="form-group">
+                  <label for="fechaVinculacionFiltro">Fecha de vinculación:</label>
+                  <input type="date" class="form-control" name="fechaVinculacionFiltro" id="fechaVinculacionFiltro" placeholder="" />
+                </div>
+              </div>
+              <!-- 
+
+                    Estados:
+
+                    1. Pdte orden inspección
+                    2. Pdte inspección
+                    3. Pdte emisión
+                    4. emitida
+                    5. perdido 
+
+              -->
+              <div class="col-xs-12 col-sm-6 col-md-3" style="padding-left: 25px; padding-right: 25px">
+                <label for="fechaDesvinculacionFiltro">Fecha de vinculación hasta:</label>
+                <input type="date" class="form-control" name="fechaDesvinculacionFiltro" id="fechaDesvinculacionFiltro" placeholder="" />
+              </div>
+              <div class="col-xs-12 col-sm-6 col-md-3" style="padding-left: 25px; padding-right: 25px">
+                <div class="form-group">
+                  <label for="identificacionFiltro">Identificación:</label>
+                  <input type="number" class="form-control" name="identificacionFiltro" id="identificacionFiltro" placeholder="" />
+                </div>
+              </div>
+              <div class="col-xs-12 col-sm-6 col-md-3" style="padding-left: 25px; padding-right: 25px">
+                <div class="form-group">
+                  <label for="nombreFiltro">Nombre:</label>
+                  <input type="text" id="nombreFiltro" class="form-control nombreFiltro" />
+
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-xs-12 col-sm-6 col-md-3" style="padding-left: 25px; padding-right: 25px">
+                <div class="form-group">
+                  <label for="celularFiltro">Celular:</label>
+                  <input type="number" class="form-control" name="celularFiltro" id="celularFiltro" placeholder="" />
+                </div>
+              </div>
+              <div class="col-xs-12 col-sm-6 col-md-3" style="padding-left: 25px; padding-right: 25px">
+                <div class="form-group">
+                  <label for="emailFiltro">Email:</label>
+                  <input type="text" class="form-control" name="emailFiltro" id="emailFiltro" placeholder="" />
+                </div>
+              </div>
+              <div class="col-xs-12 col-sm-6 col-md-3" style="padding-left: 25px; padding-right: 25px">
+                <div class="form-group">
+                  <label for="ciudadFiltro">Ciudad:</label>
+                  <select id="ciudadFiltro" class="form-control ciudadFiltro">
+                    <option value="">
+                    </option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-xs-12 col-sm-6 col-md-3" style="padding-left: 25px; padding-right: 25px; margin-top: 27px;">
+                <button class="btn btn-primary btn-block btnConsultar" onclick="searchInfo()">Consultar</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <link rel="stylesheet" href="vistas\modulos\AssistCardCot\css\cotizador.css">
+      <link rel="stylesheet" href="vistas\modulos\Oportunidades\css\styles.css">
 
       <div class="box-header with-border">
         <style>
@@ -121,7 +232,7 @@ if (isset($_SESSION["rol"])) {
             width: 200px;
             transition: all 0.5s;
             cursor: pointer;
-            margin: 5px;
+            margin: 16px;
             /* box-shadow: 0 10px 20px -8px rgba(0, 0, 0,.7); */
           }
 
@@ -139,6 +250,15 @@ if (isset($_SESSION["rol"])) {
             top: 4px;
             right: -30px;
             transition: 0.5s;
+          }
+
+          .btnAgregarUsuario:hover {
+            background-color: #88D600;
+            border: 1px solid #ccc;
+            color: #fff;
+            transition: all 0.5s;
+            cursor: pointer;
+            margin: 16px;
           }
 
           .btn-excel {
@@ -189,24 +309,6 @@ if (isset($_SESSION["rol"])) {
           /* Centrar el texto */
           /* }  */
         </style>
-
-        <?php
-        if ($_SESSION["permisos"]["Agregarunusuarionuevo"] == "x" && $_SESSION['intermediario'] == "3") {
-          echo '<button class="btnAgregarUsuario" data-toggle="modal" data-target="#modalAgregarUsuario">
-
-          Agregar usuario
-
-        </button>';
-        }
-
-        if ($_SESSION["permisos"]["Agregarunusuarionuevo"] == "x" && $_SESSION['intermediario'] == "3") {
-          echo '<button class="btnAgregarUsuario" id="creaTemporal">
-
-          Crear Usuario Temporal
-
-        </button>';
-        }
-        ?>
       </div>
 
       <div class="box-body">
@@ -258,10 +360,26 @@ if (isset($_SESSION["rol"])) {
 
             if ($_SESSION["permisos"]["Verlistadodeusuarioscreados"] == "x") {
 
-              $usuarios = ControladorUsuarios::ctrMostrarUsuarios($item1, $valor1, $item2, $valor2);
+              // $usuarios = ControladorUsuarios::ctrMostrarUsuarios($item1, $valor1, $item2, $valor2);
+
+              if (isset($_GET["fechaVinculacionFiltro"]) || isset($_GET["fechaDesvinculacionFiltro"]) ||  isset($_GET["nombreFiltro"]) || isset($_GET["ciudadFiltro"]) || isset($_GET["celularFiltro"]) || isset($_GET["emailFiltro"]) || isset($_GET["identificacionFiltro"])) {
+                $usuarios = ControladorUsuarios::ctrMostrarUsuariosFilters($_GET);
+              } else {
+                $fechaActual = new DateTime();
+
+                // Obtener la fecha de inicio de los últimos 30 días
+                $inicioMes = clone $fechaActual;
+                $inicioMes->modify('-30 days');
+                $inicioMes = $inicioMes->format('Y-m-d');
+
+                // Obtener la fecha de fin (la fecha actual)
+                $fechaActual->modify('+1 day');
+                $fechaActual = $fechaActual->format('Y-m-d');
+                $usuarios = ControladorUsuarios::ctrMostrarUsuarios($item1, $valor1, $item2, $valor2);
+                // $respuesta = ControladorUsuarios::ctrMostrarUsuarios($fechaActual, $inicioMes);
+              }
 
               foreach ($usuarios as $key => $value) {
-
                 echo ' <tr>
 
                   <td>' . ($key + 1) . '</td>
@@ -315,6 +433,10 @@ if (isset($_SESSION["rol"])) {
                 }
               }
             }
+
+
+
+
 
             ?>
 

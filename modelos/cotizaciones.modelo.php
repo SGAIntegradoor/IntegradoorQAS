@@ -435,15 +435,6 @@ class ModeloCotizaciones
 				ORDER BY cot_fch_cotizacion DESC
 			");
 
-			var_dump("SELECT * FROM $tabla
-				INNER JOIN $tabla2 ON $tabla.id_cliente = $tabla2.id_cliente
-				INNER JOIN $tabla3 ON $tabla2.id_tipo_documento = $tabla3.id_tipo_documento
-				INNER JOIN $tabla4 ON $tabla2.id_estado_civil = $tabla4.id_estado_civil
-				INNER JOIN $tabla5 ON $tabla.id_usuario = $tabla5.id_usuario
-				WHERE cot_fch_cotizacion >= :fechaInicial AND cot_fch_cotizacion <= :fechaFinal
-				$condicion
-				ORDER BY cot_fch_cotizacion DESC");
-
 			} else {
 				$stmt = Conexion::conectar()->prepare("
 					SELECT * FROM $tabla

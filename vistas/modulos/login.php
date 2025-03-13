@@ -93,10 +93,8 @@
         width: 50px; /* Ancho del cargador */
         height: 50px; /* Alto del cargador */
         animation: spin 1s linear infinite; /* Animación de rotación */
-        margin: 0 auto; /* Centrar horizontalmente */
-        
+        margin: 0 auto; /* Centrar horizontalmente */ 
       }
-
      @keyframes spin {
       0% { transform: rotate(0deg); }
      100% { transform: rotate(360deg); }
@@ -119,8 +117,9 @@
 
   $login = new ControladorUsuarios();
   $login->ctrIngresoUsuario();
-
+  
   ?>
+  
 </div>
   
 
