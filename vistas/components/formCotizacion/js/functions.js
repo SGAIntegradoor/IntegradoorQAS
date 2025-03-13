@@ -1419,7 +1419,7 @@ function validarMascotasSeleccionado() {
   let tipoAsegurado = $("#tipoAsegurado").val();
   let seleccionado = radios.is(":checked");
 
-  if (!seleccionado && (tipoAsegurado == "1" || tipoAsegurado == "4")) {
+  if (!seleccionado && (tipoAsegurado == "2" || tipoAsegurado == "3")) {
     // Aplicar borde rojo a cada radio input
     radios.css({
       outline: "2px solid red",
@@ -1433,6 +1433,7 @@ function validarMascotasSeleccionado() {
     window.location.href = "#preguntaMascotas";
   } else {
     // Restaurar estilos si ya se seleccionó una opción
+    seleccionado = true;
     radios.css("outline", "none");
   }
 
