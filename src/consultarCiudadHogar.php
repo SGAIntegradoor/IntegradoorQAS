@@ -18,7 +18,11 @@ $num_rows = mysqli_num_rows($res);
 
 
 if ($num_rows > 0) {
-	echo json_encode($res->fetch_all(MYSQLI_ASSOC), JSON_UNESCAPED_UNICODE);
+	$data = [];
+	while ($row = mysqli_fetch_assoc($res)) {
+		$data[] = $row;
+	}
+	echo json_encode($data, JSON_UNESCAPED_UNICODE);
 } else {
 	$data['mensaje'] = "No hay Registros";
 	echo json_encode($data, JSON_UNESCAPED_UNICODE);
