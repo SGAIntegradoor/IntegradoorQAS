@@ -1416,9 +1416,10 @@ function cotizar(body) {
 
 function validarMascotasSeleccionado() {
   let radios = $("input[name='mascotasRadio']");
+  let tipoAsegurado = $("#tipoAsegurado").val();
   let seleccionado = radios.is(":checked");
 
-  if (!seleccionado) {
+  if (!seleccionado && (tipoAsegurado == "1" || tipoAsegurado == "4")) {
     // Aplicar borde rojo a cada radio input
     radios.css({
       outline: "2px solid red",
