@@ -50,7 +50,12 @@
             </div>
         </div>
     </div>
+    <div class="notas-resumen-cot">
+        <p>
+            <b>Nota:</b> Las siguientes son propuestas de tarifas las cuales estarán sujetas a revisión por parte de las líneas de Hogar de las aseguradoras. En algunos casos se solicitará información, documentos y fotos adicionales, se podrán realizar inspecciones y análisis para suscribir el riesgo.
+        </p>
+    </div>
 </div>
 <?php
-    require_once "vistas/components/formCotizacion/parrillaHogar.php";
+require_once "vistas/components/formCotizacion/parrillaHogar.php";
 ?>

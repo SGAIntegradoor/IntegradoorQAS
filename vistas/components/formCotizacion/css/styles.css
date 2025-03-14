@@ -236,11 +236,24 @@
 }
 
 .table-alerts {
-  margin-left: 58px;
-  margin-right: 58px;
+  margin-left: 30px;
+  margin-right: 30px;
+}
+
+.notas-resumen-cot {
+  padding-left: 30px; 
+  padding-right:30px; 
+  margin-bottom: 30px
 }
 
 @media (max-width: 768px) {
+
+  .notas-resumen-cot {
+    padding-left: 0px; 
+    padding-right:0px; 
+    margin-bottom: 30px;
+    text-align: justify;
+  }
 
   .table-alerts{
     margin-left: 0px;

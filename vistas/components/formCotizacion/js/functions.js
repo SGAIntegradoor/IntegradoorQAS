@@ -963,11 +963,6 @@ $("#valorCEspeciales").on("change", function () {
       actualizarTotalContenidos(); // Restablece el total si se vacía el campo
     });
   } else {
-    // let totalContent =
-    //   parseInt($("#totalContenidos").val().replace(/\./g, ""), 10) || 0;
-    // totalContent = totalContent - prevValue + newValue;
-
-    // $("#totalContenidos").val(totalContent.toLocaleString("es-ES"));
     $(this).data("prevValue", newValue);
     $(this).css("border", "1px solid #ccc");
   }
@@ -1152,15 +1147,14 @@ function saveQuotation() {
 
 // Guarda la alerta en la BD para mostrar la tabla una vez se realice la pagina de retoma
 
-function saveAlert(data){
-
+function saveAlert(data) {
   let dataCotizacion = {
     cotizacion: idCotizacionHogar,
     aseguradora: data.aseguradora,
     mensajes: data.message,
     ofertas: data.data.length,
     cotizo: data.success ? 1 : 0,
-  }
+  };
 
   $.ajax({
     type: "POST",
@@ -1171,13 +1165,139 @@ function saveAlert(data){
     success: function (data) {
       console.log(data);
       console.log("Guardado");
-      ;
     },
     catch: function (error) {
       console.log(error);
       console.log("Error");
     },
-  })
+  });
+}
+
+function saveOffert(data) {
+  let ofertas = [];
+
+  data.data.map((element, i) => {
+    if (data.aseguradora == "Allianz") {
+      let cob_rce_prop_alz = element.coberturas.find(
+        (coverage) => coverage.id_amparo == 2
+      )
+        ? "800.000.000"
+        : "No ampara";
+      let cob_inc_alz = element.coberturas.find(
+        (coverage) => coverage.id_amparo == 1
+      )
+        ? "Deducible: 2% min 2 SMMLV"
+        : "No ampara";
+      let cob_terr_alz = element.coberturas.find(
+        (coverage) => coverage.id_amparo == 5
+      )
+        ? "Deducible: 2% min 2 SMMLV"
+        : "No ampara";
+      let cob_asist_jur_alz = "Si ampara";
+      let cob_asist_dom_alz = element.coberturas.find(
+        (coverage) => coverage.id_amparo == 3
+      )
+        ? "Si ampara"
+        : "No ampara";
+      let cob_hamccp_alz = element.coberturas.find(
+        (coverage) => coverage.id_amparo == 8
+      )
+        ? "Si ampara"
+        : "No ampara";
+      let cob_danos_agua_alz = element.coberturas.find(
+        (coverage) => coverage.id_amparo == 7
+      )
+        ? "Si ampara"
+        : "No ampara";
+      let cob_eve_nat_alz = element.coberturas.find(
+        (coverage) => coverage.id_amparo == 4
+      )
+        ? "Si ampara"
+        : "No ampara";
+      let cob_rce_fam_alz = element.coberturas.find(
+        (coverage) => coverage.id_amparo == 9
+      )
+        ? "Si ampara"
+        : "No ampara";
+      let cob_eve_elec_alz = element.coberturas.find(
+        (coverage) => coverage.id_amparo == 10
+      )
+        ? "Si ampara"
+        : "No ampara";
+      let cob_hur_alz = element.coberturas.find(
+        (coverage) => coverage.id_amparo == 11
+      )
+        ? "Mínimo 80% del valor de contenidos. Deducible 1 SMMLV"
+        : "No ampara";
+      let cob_tr_alz = element.coberturas.find(
+        (coverage) => coverage.id_amparo == 12
+      )
+        ? "Máximo 25% del valor de contenidos. Deducible 1 SMMLV"
+        : "No ampara";
+      let cob_asis_mas_alz = element.coberturas.find(
+        (coverage) => coverage.id_amparo == 13
+      )
+        ? "Si ampara"
+        : "No ampara";
+
+      let oferta = {
+        id_cotizacion: idCotizacionHogar,
+        aseguradora: data.aseguradora,
+        valor_prima: element.valorPrima.replace(/[^0-9]/g, ""),
+        producto: element.producto,
+        id_cot_aseguradora: data.numeroCotizacion,
+        cob_inc_alz: cob_inc_alz,
+        cob_terr_alz: cob_terr_alz,
+        cob_rce_prop_alz: cob_rce_prop_alz,
+        cob_asist_jur_alz: cob_asist_jur_alz,
+        cob_asist_dom_alz: cob_asist_dom_alz,
+        cob_hamccp_alz: cob_hamccp_alz,
+        cob_danos_agua_alz: cob_danos_agua_alz,
+        cob_eve_nat_alz: cob_eve_nat_alz,
+        cob_rce_fam_alz: cob_rce_fam_alz,
+        cob_eve_elec_alz: cob_eve_elec_alz,
+        cob_hur_alz: cob_hur_alz,
+        cob_tr_alz: cob_tr_alz,
+        cob_asis_mas_alz: cob_asis_mas_alz,
+      };
+      ofertas.push(oferta);
+    } else if (data.aseguradora == "SBS") {
+      let oferta = {
+        id_cotizacion: idCotizacionHogar,
+        aseguradora: data.aseguradora,
+        producto: element.producto,
+        valor_prima: element.valorPrima.split(".")[0],
+        id_cot_aseguradora: data.numeroCotizacion,
+        cob_terr_ev_nat_sbs: "Deducible: 2 % de la pérdida mínimo 60 SMDLV",
+        cob_hur_con_no_ele_sbs: "Deducible: 10 % de la pérdida mínimo 30 SMDLV",
+        cob_hur_con_ele_sbs: "Deducible: 10 % de la pérdida mínimo 20 SMDLV",
+        cob_tr_sbs: "Deducible: 5% de la pérdida mínimo 20 SMDLV",
+        cob_acci_pers_sbs: "No ampara",
+        cob_resp_civil_sbs: "Hasta $195.000.000. Deducible 5 SMDLV",
+        cob_asist_dom_sbs: "Si ampara",
+        cob_prod_plus_sbs: "No ampara",
+      };
+      ofertas.push(oferta);
+    }
+  });
+
+  for (let i = 0; i < ofertas.length; i++) {
+    $.ajax({
+      type: "POST",
+      url: "src/saveOffert.php",
+      dataType: "json",
+      data: ofertas[i],
+      cache: false,
+      success: function (data) {
+        console.log(data);
+        console.log("Guardado");
+      },
+      catch: function (error) {
+        console.log(error);
+        console.log("Error");
+      },
+    });
+  }
 }
 
 function disableInputsData(container) {
@@ -1204,14 +1324,19 @@ function cotizar(body) {
     toggleContainerValoresSBS();
     makeATable();
     saveQuotation();
+    toggleContainerCards();
+
+    if ($("input[name='sbsRadio']:checked").length === 0) {
+      $("#noSBS").prop("checked", true);
+    }
+
     let promisesHogar = [];
+
     let requestOptions = {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: "",
     };
-
-    toggleContainerCards();
 
     aseguradorasHogar.forEach((element) => {
       if (!element.enabled) return; // Si la aseguradora está deshabilitada, saltarla
@@ -1247,12 +1372,13 @@ function cotizar(body) {
               $(`#${element.aseguradora}-observations`).html(
                 "Error en la petición al WebService, por favor intente de nuevo"
               );
-              
+
               let resp = {
                 aseguradora: element.aseguradora,
-                message: "Error en la petición al WebService, por favor intente de nuevo",
+                message:
+                  "Error en la petición al WebService, por favor intente de nuevo",
                 data: [],
-                success: false
+                success: false,
               };
               saveAlert(resp);
               throw new Error("Error en la petición al WebService");
@@ -1261,23 +1387,15 @@ function cotizar(body) {
           })
           .then((result) => {
             if (result.status == "400") {
-              saveRequest(
-                requestBody,
-                result
-              );
+              saveRequest(requestBody, result);
               $(`#${element.aseguradora}-check`).html(
                 `<i class="fa fa-times" aria-hidden="true" style="color: red; margin-right: 5px;"></i>`
               );
               $(`#${element.aseguradora}-offerts`).html("0");
-              $(`#${element.aseguradora}-observations`).html(
-                result.message
-              );
+              $(`#${element.aseguradora}-observations`).html(result.message);
               saveAlert(result);
             } else {
-              saveRequest(
-                requestBody,
-                result
-              );
+              saveRequest(requestBody, result);
               $(`#${element.aseguradora}-check`).html(
                 `<i class="fa fa-check" aria-hidden="true" style="color: green; margin-right: 5px;"></i>`
               );
@@ -1286,7 +1404,8 @@ function cotizar(body) {
               );
               $(`#${element.aseguradora}-observations`).html(
                 `Cotización exitosa`
-              );            
+              );
+              saveOffert(result);
               saveAlert(result);
               makeCards(result);
             }
@@ -2035,6 +2154,11 @@ $("#btnCotizarSBS, #btnCotizar").click(function () {
 
     dataCotizacion = rawAllianz;
 
+    dataCotizacion.val_viv = valorVivienda;
+    dataCotizacion.val_cn = valorContenido;
+    dataCotizacion.val_hur = valorHurto;
+    dataCotizacion.val_tr = valorTodoRiesgo;
+
     rawCompiled.allianz = rawAllianz;
 
     if (aseguradorasHogar[1].enabled) {
@@ -2150,6 +2274,71 @@ $("#btnCotizarSBS, #btnCotizar").click(function () {
           deducibleResponsabilidadCivil: 2,
           asistenciaDomiciliaria: true,
         };
+
+        //         val_viv_sbs
+        // val_cnen_sbs
+        // val_cnelec_sbs
+        // val_cnens_sbs
+        // tot_cnn_sbs
+        // tot_cobertura_basica_sbs
+        // val_cnesp_sus_sbs
+        // val_cnnor_sus_sbs
+        // tot_cn_sus_sbs
+        // val_asegee_danos_sbs
+        // val_asegee_sus_sbs
+        // val_tr_sbs
+
+        let valorContNormEnseres =
+          parseInt(
+            ($("#valorEnseres").val() || "0").toString().replace(/\./g, ""),
+            10
+          ) || 0;
+
+        let valorContentTotalNorm =
+          parseInt(
+            ($("#totalContenidos").val() || "0").toString().replace(/\./g, ""),
+            10
+          ) || 0;
+
+        let valorTotalCoberturaBasica =
+          parseInt(
+            ($("#totalCoberturaBasica").val() || "0")
+              .toString()
+              .replace(/\./g, ""),
+            10
+          ) || 0;
+        let valorTotalContenidosSUS =
+          parseInt(
+            ($("#totalContHurtoSus").val() || "0")
+              .toString()
+              .replace(/\./g, ""),
+            10
+          ) || 0;
+
+        let valorAsegSUSEE =
+          parseInt(
+            ($("#valorAsegSUSEE").val() || "0").toString().replace(/\./g, ""),
+            10
+          ) || 0;
+        let valorAseguradoD =
+          parseInt(
+            ($("#valorAseguradoD").val() || "0").toString().replace(/\./g, ""),
+            10
+          ) || 0;
+
+        dataCotizacion.val_viv_sbs = valorVivienda;
+        dataCotizacion.val_cnen_sbs = valorContNormEnseres;
+        dataCotizacion.val_cnelec_sbs = ValorEquipoEE;
+        dataCotizacion.val_cnens_sbs = valorContenidoEspecial;
+        dataCotizacion.tot_cnn_sbs = valorContentTotalNorm;
+        dataCotizacion.tot_cobertura_basica_sbs = valorTotalCoberturaBasica;
+        dataCotizacion.val_cnesp_sus_sbs = valorContenidoEspecialSUS;
+        dataCotizacion.val_cnnor_sus_sbs = valorContenidoNormalSUS;
+        dataCotizacion.tot_cn_sus_sbs = valorTotalContenidosSUS;
+        dataCotizacion.val_asegee_danos_sbs = valorAseguradoD;
+        dataCotizacion.val_asegee_sus_sbs = valorEquipoEESUS;
+        dataCotizacion.val_tr_sbs = valorTodoRiesgo;
+
         rawCompiled.sbs = rawSBS;
       } else {
         rawCompiled.sbs = {};
@@ -2163,7 +2352,6 @@ $("#btnCotizarSBS, #btnCotizar").click(function () {
       }
     }
 
-    // Validar si se debe incluir asegurarMascota
     cotizar(rawCompiled);
   } else {
     Swal.fire({
@@ -2187,6 +2375,17 @@ function makeATable() {
             </td>
             <td style="font-size: 15px;" id="${element.aseguradora}-observations">   
             </td>
+        </tr>`
+      );
+    } else {
+      $("#tablaResCot").append(
+        `<tr style="vertical-align: center; text-align: center; font-size: 13px;" id="${element.aseguradora}-row">
+            <td id="${element.aseguradora}-name" style="font-weight: bold; font-size: 15px;">${element.aseguradora}</td>
+            <td id="${element.aseguradora}-check">
+               <i class="fa fa-times" aria-hidden="true" style="color: red; margin-right: 10px;"></i>
+            </td>
+            <td style="font-size: 15px;" id="${element.aseguradora}-offerts">0</td>
+            <td style="font-size: 15px;" id="${element.aseguradora}-observations">No cotizada por asesor</td>
         </tr>`
       );
     }

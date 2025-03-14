@@ -24,7 +24,7 @@
     </div>
     <div class="general-container-cards" id="containerParrillaCotizaciones">
         <div id="cardsContainer">
-        <!-- <div class="col-cards-12">
+            <!-- <div class="col-cards-12">
                     <div class="card-ofertas">
                         <div class="row card-body">
                             <div class="col-xs-12 col-sm-6 col-md-2 oferta-logo" style="padding-top: 50px;">
@@ -72,5 +72,6 @@
                 </div> -->
         </div>
     </div>
+
 
 </div>
