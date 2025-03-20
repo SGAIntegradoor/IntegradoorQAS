@@ -338,7 +338,7 @@ function editarCotizacionHogar(id) {
 
       if(aseg_mascota == "GA"){
         $("#siGato").prop("checked", true);
-      } else if(aseg_mascotas == "PE"){
+      } else if(aseg_mascota == "PE"){
         $("#siPerro").prop("checked", true);
       } else {
         $("#no").prop("checked", true);
