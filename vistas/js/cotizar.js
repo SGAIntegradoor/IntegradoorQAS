@@ -3113,7 +3113,7 @@ function cotizarOfertas() {
                       celdaContador.textContent = 0;
                       celdaCotizo.innerHTML =
                         '<i class="fa fa-times" aria-hidden="true" style="color: red; margin-right: 10px;"></i>';
-                      celdaResponse.textContent = mensaje;
+                      celdaResponse.innerHTML = mensaje;
                     }
                   } else {
                     celdaCotizo.innerHTML =
@@ -3165,7 +3165,7 @@ function cotizarOfertas() {
                     celdaContador.textContent = 0;
                     celdaCotizo.innerHTML =
                       '<i class="fa fa-times" aria-hidden="true" style="color: red; margin-right: 10px;"></i>';
-                    celdaResponse.textContent = mensaje;
+                    celdaResponse.innerHTML = mensaje;
                   }
                   // Verifica si el mensaje es diferente antes de actualizar
                   // if (observacionesActuales !== mensaje) {
