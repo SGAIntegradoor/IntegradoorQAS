@@ -492,7 +492,7 @@ $(document).ready(function () {
               productosCell.classList.add("text-center");
               // console.log(productosCell);
               var observacionesCell = newRow.insertCell();
-              observacionesCell.textContent = usuario.mensaje;
+              observacionesCell.innerHTML = usuario.mensaje;
             });
           })
           .catch((error) => {
