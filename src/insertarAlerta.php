@@ -2,6 +2,7 @@
 
 require_once("../config/db.php");
 require_once("../config/conexion.php");
+$con->set_charset("utf8mb4");
 
 $aseguradora = $_POST['aseguradora'];
 $cantidadOfertas = $_POST['cantidadOfertas'];

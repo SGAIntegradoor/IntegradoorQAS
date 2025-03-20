@@ -2062,7 +2062,6 @@ const mostrarOferta = (
     cotizada: null,
   };
 
-
   actIdentity = aseguradora + "_" + contCotizacion;
 
   if (
@@ -3388,48 +3387,67 @@ function cotizarOfertas() {
               } else {
                 url = `https://grupoasistencia.com/motor_webservice/${aseguradora}_autos`;
               }
-              // Realizar la solicitud fetch y agregar la promesa al array
-              cont.push(
-                fetch(url, requestOptions)
-                  .then((res) => {
-                    if (!res.ok) throw Error(res.statusText);
-                    return res.json();
-                  })
-                  .then((ofertas) => {
-                    if (typeof ofertas[0].Resultado !== "undefined") {
+              // // Realizar la solicitud fetch y agregar la promesa al array
+              if (aseguradora == "Qualitas" || aseguradora == "Mundial") {
+                let message =
+                  aseguradora == "Qualitas"
+                    ? "💡 Nueva aseguradora especializada en seguros de autos. La principal aseguradora mexicana de seguros de autos llega a Colombia y nosotros ya tenemos convenio. Solicita cotización manual a tu Analista Comercial."
+                    : "🔥 Nuevo seguro de autos livianos con modalidad de indemnización arreglo directo para pérdidas parciales. Solicita cotización manual a tu Analista Comercial.";
+                let ofertas = [
+                  {
+                    Resultado: false,
+                    Mensajes: [message],
+                  },
+                ];
+                //agregarAseguradoraFallida(aseguradora);
+                validarProblema(aseguradora, ofertas);
+                ofertas[0].Mensajes.forEach((mensaje) => {
+                  mostrarAlertarCotizacionFallida(aseguradora, mensaje);
+                });
+              } else {
+                // Realizar la solicitud fetch y agregar la promesa al array
+                cont.push(
+                  fetch(url, requestOptions)
+                    .then((res) => {
+                      if (!res.ok) throw Error(res.statusText);
+                      return res.json();
+                    })
+                    .then((ofertas) => {
+                      if (typeof ofertas[0].Resultado !== "undefined") {
+                        agregarAseguradoraFallida(aseguradora);
+                        validarProblema(aseguradora, ofertas);
+                        ofertas[0].Mensajes.forEach((mensaje) => {
+                          mostrarAlertarCotizacionFallida(aseguradora, mensaje);
+                        });
+                      } else {
+                        const contadorPorEntidad = validarOfertas(
+                          ofertas,
+                          aseguradora,
+                          1
+                        );
+                        mostrarAlertaCotizacionExitosa(
+                          aseguradora,
+                          contadorPorEntidad
+                        );
+                      }
+                    })
+                    .catch((err) => {
                       agregarAseguradoraFallida(aseguradora);
-                      validarProblema(aseguradora, ofertas);
-                      ofertas[0].Mensajes.forEach((mensaje) => {
-                        mostrarAlertarCotizacionFallida(aseguradora, mensaje);
-                      });
-                    } else {
-                      const contadorPorEntidad = validarOfertas(
-                        ofertas,
+                      mostrarAlertarCotizacionFallida(
                         aseguradora,
-                        1
+                        "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
                       );
-                      mostrarAlertaCotizacionExitosa(
-                        aseguradora,
-                        contadorPorEntidad
-                      );
-                    }
-                  })
-                  .catch((err) => {
-                    agregarAseguradoraFallida(aseguradora);
-                    mostrarAlertarCotizacionFallida(
-                      aseguradora,
-                      "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
-                    );
-                    validarProblema(aseguradora, [
-                      {
-                        Mensajes: [
-                          "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
-                        ],
-                      },
-                    ]);
-                    console.error(err);
-                  })
-              );
+                      validarProblema(aseguradora, [
+                        {
+                          Mensajes: [
+                            "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
+                          ],
+                        },
+                      ]);
+                      console.error(err);
+                    })
+                );
+              }
             });
             //console.log(cont)
             Promise.all(cont).then(() => {

@@ -275,10 +275,12 @@ CUERPO DOCUMENTO
       //"HDI" => array("A" => $permisos["HDI_A"], "C" => $permisos["HDI_C"]),
       "HDI (Antes Liberty)" => array("A" => $permisos["Liberty_A"], "C" => $permisos["Liberty_C"]),
       "Mapfre" => array("A" => $permisos["Mapfre_A"], "C" => $permisos["Mapfre_C"]),
+      "Mundial" => array("A" => $permisos["Mundial_A"], "C" => $permisos["Mundial_C"]),
       "Previsora" => array("A" => $permisos["Previsora_A"], "C" => $permisos["Previsora_C"]),
+      "Qualitas" => array("A" => $permisos["Qualitas_A"], "C" => $permisos["Qualitas_C"]),
       "SBS" => array("A" => $permisos["SBS_A"], "C" => $permisos["SBS_C"]),
       "Solidaria" => array("A" => $permisos["Solidaria_A"], "C" => $permisos["Solidaria_C"]),
-      "Zurich" => array("A" => $permisos["Zurich_A"], "C" => $permisos["Zurich_C"])
+      "Zurich" => array("A" => $permisos["Zurich_A"], "C" => $permisos["Zurich_C"]),
     );
 
     $aseguradoras_motos = array(
