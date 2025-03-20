@@ -3391,14 +3391,16 @@ function cotizarOfertas() {
               if (aseguradora == "Qualitas" || aseguradora == "Mundial") {
                 let message =
                   aseguradora == "Qualitas"
-                    ? "💡 Nueva aseguradora especializada en seguros de autos. La principal aseguradora mexicana de seguros de autos llega a Colombia y nosotros ya tenemos convenio. Solicita cotización manual a tu Analista Comercial."
-                    : "🔥 Nuevo seguro de autos livianos con modalidad de indemnización arreglo directo para pérdidas parciales. Solicita cotización manual a tu Analista Comercial.";
+                    ? `💡 <b>Nueva aseguradora</b> especializada en <b>seguros de autos.</b> La principal aseguradora mexicana de seguros de autos llega a Colombia y <b>nosotros ya tenemos convenio.</b> Solicita cotización manual a tu Analista Comercial.`
+                    : `🔥 <b>Nuevo seguro de autos livianos</b> con modalidad de indemnización arreglo directo para <b>pérdidas parciales</b>.Solicita cotización manual a tu Analista Comercial.`;
+
                 let ofertas = [
                   {
                     Resultado: false,
                     Mensajes: [message],
                   },
                 ];
+
                 //agregarAseguradoraFallida(aseguradora);
                 validarProblema(aseguradora, ofertas);
                 ofertas[0].Mensajes.forEach((mensaje) => {
