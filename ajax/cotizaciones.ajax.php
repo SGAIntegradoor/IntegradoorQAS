@@ -3,6 +3,10 @@
 require_once "../controladores/cotizaciones.controlador.php";
 require_once "../modelos/cotizaciones.modelo.php";
 
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 class AjaxCotizaciones {
 
 	/*=============================================
@@ -82,6 +86,18 @@ class AjaxCotizaciones {
 
 	}
 
+	public $idCotizacionHogar;
+
+	public function ajaxRetriveQuotationHogar(){
+
+		$id = $this->idCotizacionHogar;
+
+		$respuesta = ControladorCotizaciones::ctrShowQuoteHogar($id);
+
+		echo json_encode($respuesta);
+
+	}
+
 	public $idCotizacionOfertas;
 
 
@@ -91,6 +107,20 @@ class AjaxCotizaciones {
 		$id = $this->idCotizacionOfertas;
 
 		$respuesta = ControladorCotizaciones::ctrShowOffertsQuoteAssistCard($id);
+
+		echo json_encode($respuesta);
+
+	}
+
+	public $idCotizacionOfertasHogar;
+
+
+	public function ajaxRetriveOffertsQuotationHogar(){
+
+
+		$id = $this->idCotizacionOfertasHogar;
+
+		$respuesta = ControladorCotizaciones::ctrShowOffertsQuoteHogar($id);
 
 		echo json_encode($respuesta);
 
@@ -152,13 +182,24 @@ if(isset($_POST["cotAssistCard"])){
 }
 
 // /*=============================================
-// RETOMAR COTIZACIONE ASSISTCARD POR ID
+// RETOMAR COTIZACIONES ASSISTCARD POR ID
 // =============================================*/
 if(isset($_POST["idCotizacionAssistCard"])){
 
 	$retriveQuoteAssistCard = new AjaxCotizaciones();
 	$retriveQuoteAssistCard -> idCotizacionAssistCard = $_POST["idCotizacionAssistCard"];
 	$retriveQuoteAssistCard -> ajaxRetriveQuotationAssistCard();
+}
+
+// /*=============================================
+// RETOMAR COTIZACIONES HOGAR POR ID
+// =============================================*/
+
+if(isset($_POST["idCotizacionHogar"])){
+
+	$retriveQuoteHogar = new AjaxCotizaciones();
+	$retriveQuoteHogar -> idCotizacionHogar = $_POST["idCotizacionHogar"];
+	$retriveQuoteHogar -> ajaxRetriveQuotationHogar();
 }
 
 // /*=============================================
@@ -169,6 +210,25 @@ if(isset($_POST["ofertasCotizacion"])){
 	$retriveQuoteAssist= new AjaxCotizaciones();
 	$retriveQuoteAssist -> idCotizacionOfertas = $_POST["ofertasCotizacion"];
 	$retriveQuoteAssist -> ajaxRetriveOffertsQuotationAssistCard();
+}
+
+// // /*=============================================
+// // RETOMAR COTIZACIONE ASSISTCARD POR ID
+// // =============================================*/
+// if(isset($_POST["idCotizacionHogar"])){
+
+// 	$retriveQuoteAssistCard = new AjaxCotizaciones();
+// 	$retriveQuoteAssistCard -> idCotizacionAssistCard = $_POST["idCotizacionHogar"];
+// 	$retriveQuoteAssistCard -> ajaxRetriveQuotationAssistCard();
+// }
+
+// /*=============================================
+// RETOMAR COTIZACION OFERTAS HOGAR POR ID
+// =============================================*/
+if(isset($_POST["idCotizacionHogarOfferts"])){
+	$retriveQuoteHogar= new AjaxCotizaciones();
+	$retriveQuoteHogar -> idCotizacionOfertasHogar = $_POST["idCotizacionHogarOfferts"];
+	$retriveQuoteHogar -> ajaxRetriveOffertsQuotationHogar();
 }
 
 // /*=============================================

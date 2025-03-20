@@ -808,10 +808,8 @@ $(document).ready(function () {
         let documentCli = data.cli_num_documento;
         if (estado && data.id_tipo_documento == 2) {
           $("#idCliente").val(data.id_cliente);
-          $("#tipoDocumento").val(data.id_tipo_documento).trigger("change");
-          $(".razon")
-            .find()
-            .val(data.cli_nombre + " " + data.cli_apellidos);
+          $("#tipoDocumento").val(" ").trigger("change");
+          $(".razon").val(data.cli_nombre + " " + data.cli_apellidos);
           $(".digito").val(data.digitoVerificacion); // Último dígito
           numDocumentoID.value = documentCli;
         } else if (estado) {
@@ -1126,6 +1124,12 @@ function appendSectionAlerts() {
 
 function saveQuotation() {
   dataCotizacion.idCliente = $("#idCliente").val();
+  dataCotizacion.zona_riesgo =
+    $("#zonaRiesgo option:selected").text() !== ""
+      ? "Sin zonas de riesgo"
+      : $("#zonaRiesgo option:selected").text();
+  dataCotizacion.departamento = $("#deptoInmueble option:selected").text();
+  dataCotizacion.ciudad = $(".ciudadInmueble option:selected").text();
   dataCotizacion.idUsuario = permisos.id_usuario;
   $.ajax({
     type: "POST",
@@ -1453,9 +1457,95 @@ function validarMascotasSeleccionado() {
   return seleccionado;
 }
 
-function makeCards(data) {
+function makeCards(data, type = null) {
   let cardCotizacion = "";
-  if (data.aseguradora == "Allianz") {
+  if(type == 2){
+    if(data.aseguradora == "Allianz"){
+      cardCotizacion = `
+      <div class="col-cards-12">
+      <div class="card-ofertas">
+          <div class="row card-body">
+              <div class="col-xs-12 col-sm-6 col-md-2 oferta-logo" style="padding-top: 50px;">
+                  <center>
+                      <img src="vistas/img/logos/allianz.png" />
+                  </center>
+                  <div class='col-12' style='margin-top:2%;'>
+                     ${
+                       permisos.Vernumerodecotizacionencadaaseguradora == "x"
+                         ? `<center>
+                         <label class='entidad'>N° Cot: <span style='color:black'>${data.id_cot_aseguradora}</span></label>
+                       </center>`
+                         : ""
+                     }
+                  </div>
+              </div>
+              <div class="col-xs-12 col-sm-6 col-md-2 oferta-headerEdit" style="padding-top: 50px;">
+                  <h5 class="entidad" style="font-size: 15px"><b>${
+                    data.aseguradora
+                  } - ${data.producto}</b></h5>
+                  <h5 class="precio" style="">Desde ${data.valor_prima}</h5>
+                  <p class="title-precio" style="font-weight: bold;">IVA incluido</p>
+              </div>
+              <div class="col-xs-12 col-sm-6 col-md-8" style="padding-top: 30px; padding-bottom: 30px;">
+                  <div class="informativeTable">
+                      <div style="width: 274px;" class="tab1Table">
+                          <ul style="padding-left: 25px; ">
+                            <li>Incendio - ${
+                              data.cob_inc_alz
+                            }.</li>
+                            <li>Terremoto - ${
+                              data.cob_terr_alz
+                            }.</li>
+                            <li>RCE Propiedad - ${
+                              data.cob_rce_prop_alz
+                            }</li>
+                            <li>Asistencia Jurídica - Si ampara.</li>
+                            <li>Asist. Domiliciaria - ${
+                              data.cob_asist_jur_alz
+                            }</li>
+                            <li>HAMCCP - AMIT - ${
+                              data.cob_hamccp_alz
+                            }.</li>
+                            <li>Daños por agua - ${
+                              data.cob_danos_agua_alz
+                            }.</li>
+                        </ul>
+                      </div>
+                      <div style="vertical-align: top; width: 345px;" class="tab2Table">
+                          <ul style="padding-left: 25px;">
+                            <li>Eventos de la naturaleza - ${
+                              data.cob_eve_nat_alz
+                            }.</li>
+                            <li>RCE Familiar - ${
+                              data.cob_rce_fam_alz
+                            }.</li>
+                            <li>Eventos Eléctrico - ${
+                              data.cob_eve_elec_alz
+                            }.</li>
+                            <li>Hurto - ${
+                              data.cob_hur_alz
+                            }.</li>
+                            <li>Todo Riesgo - ${
+                              data.cob_tr_alz
+                            }.</li>
+                            <li>Asistencia Mascotas - ${
+                              data.cob_asis_mas_alz
+                            }</li>
+                          </ul>
+                        </div>
+                      </div>
+                  </div>
+                  <div class="col-xs-12 col-sm-6 col-md-2">
+                  </div>
+                  <div class="col-xs-12 col-sm-6 col-md-2">
+                  </div>
+              </div>
+          </div>
+      </div>`;
+      $("#cardsContainer").append(cardCotizacion);
+    }
+  }
+  else if (data.aseguradora == "Allianz") {
     data.data.forEach((element) => {
       let incendios = element.coberturas.find(
         (coverage) => coverage.id_amparo === 1
@@ -2158,6 +2248,7 @@ $("#btnCotizarSBS, #btnCotizar").click(function () {
     dataCotizacion.val_cn = valorContenido;
     dataCotizacion.val_hur = valorHurto;
     dataCotizacion.val_tr = valorTodoRiesgo;
+    dataCotizacion.aseg_masc = asegurarMascota;
 
     rawCompiled.allianz = rawAllianz;
 
@@ -2275,19 +2366,6 @@ $("#btnCotizarSBS, #btnCotizar").click(function () {
           asistenciaDomiciliaria: true,
         };
 
-        //         val_viv_sbs
-        // val_cnen_sbs
-        // val_cnelec_sbs
-        // val_cnens_sbs
-        // tot_cnn_sbs
-        // tot_cobertura_basica_sbs
-        // val_cnesp_sus_sbs
-        // val_cnnor_sus_sbs
-        // tot_cn_sus_sbs
-        // val_asegee_danos_sbs
-        // val_asegee_sus_sbs
-        // val_tr_sbs
-
         let valorContNormEnseres =
           parseInt(
             ($("#valorEnseres").val() || "0").toString().replace(/\./g, ""),
@@ -2315,17 +2393,13 @@ $("#btnCotizarSBS, #btnCotizar").click(function () {
             10
           ) || 0;
 
-        let valorAsegSUSEE =
-          parseInt(
-            ($("#valorAsegSUSEE").val() || "0").toString().replace(/\./g, ""),
-            10
-          ) || 0;
         let valorAseguradoD =
           parseInt(
             ($("#valorAseguradoD").val() || "0").toString().replace(/\./g, ""),
             10
           ) || 0;
 
+        dataCotizacion.sub_zona = $("#subZona option:selected").text();
         dataCotizacion.val_viv_sbs = valorVivienda;
         dataCotizacion.val_cnen_sbs = valorContNormEnseres;
         dataCotizacion.val_cnelec_sbs = ValorEquipoEE;

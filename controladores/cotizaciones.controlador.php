@@ -45,8 +45,23 @@ class ControladorCotizaciones
 		session_start();
 		$tabla = "cotizaciones_assistcard";
 		$field = "id_cotizacion";
-
 		$respuesta = ModeloCotizaciones::mdlShowQuoteAssistCard($tabla, $field, $id);
+
+		return $respuesta;
+	}
+
+	/*=============================================
+	MOSTRAR COTIZACIONES "OFERTAS HOGAR"
+	=============================================*/
+
+	static public function ctrShowQuoteHogar($id)
+	{
+		session_start();
+		$tabla = "cotizaciones_hogar";
+		$tabla2 = "clientes";
+		$field = "id";
+
+		$respuesta = ModeloCotizaciones::mdlShowQuoteHogar($tabla, $tabla2, $field, $id);
 
 		return $respuesta;
 	}
@@ -57,10 +72,26 @@ class ControladorCotizaciones
 
 	static public function ctrShowOffertsQuoteAssistCard($id)
 	{
+		
 		session_start();
 		$tabla = "ofertas_assistcard";
 		$field = "id_cotizacion";
 		$respuesta = ModeloCotizaciones::ctrMostrarCotizaOfertasAssistCard($tabla, $field, $id);
+
+		return $respuesta;
+	}
+
+	/*=============================================
+	MOSTRAR COTIZACIONES "OFERTAS HOGAR"
+	=============================================*/
+
+
+	static public function ctrShowOffertsQuoteHogar($id)
+	{
+		session_start();
+		$tabla = "ofertas_hogar";
+		$field = "id_cotizacion";
+		$respuesta = ModeloCotizaciones::ctrMostrarCotizaOfertasHogar($tabla, $field, $id);
 
 		return $respuesta;
 	}

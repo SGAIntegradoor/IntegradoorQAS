@@ -117,11 +117,11 @@ class ModeloCotizaciones
 						 OR JSON_VALUE(Categoria, '$[1]') = :categoria
 					 )"
 				);
-			
+
 				// Asignar parámetros
 				$stmt->bindParam(":id_cotizacion", $valor, PDO::PARAM_STR);
 				$stmt->bindParam(":categoria", $valor2, PDO::PARAM_STR);
-			
+
 				// Ejecutar y devolver resultados
 				$stmt->execute();
 				return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -144,6 +144,30 @@ class ModeloCotizaciones
 			if ($item == 'id_cotizacion') {
 
 				$stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE $item = $valor");
+				$stmt->execute();
+
+				return $stmt->fetchAll(PDO::FETCH_ASSOC);
+			}
+		}
+
+		$stmt->close();
+
+		$stmt = null;
+	}
+
+	/*=============================================
+	MOSTRAR COTIZACIONES "OFERTAS HOGAR"
+	=============================================*/
+
+	static public function ctrMostrarCotizaOfertasHogar($tabla, $item, $valor)
+	{
+
+		if ($item != null) {
+
+			if ($item == 'id_cotizacion') {
+				var_dump($valor);
+				$stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE $item = '$valor'");
+				var_dump("SELECT * FROM $tabla WHERE $item = $valor");
 				$stmt->execute();
 
 				return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -185,8 +209,28 @@ class ModeloCotizaciones
 		// Inicializa la variable $stmt
 		$stmt = null;
 		if ($id != null) {
-
 			$stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE $field = :id");
+			$stmt->bindParam(":id", $id, PDO::PARAM_STR);
+
+			if ($stmt->execute()) {
+				$resultado = $stmt->fetch(PDO::FETCH_ASSOC);
+				$stmt->closeCursor(); // Correctamente cerrando el cursor
+				return $resultado;
+			} else {
+				return null; // Si la consulta falla, devuelve null
+			}
+		}
+
+		return null; // En caso de que no se cumplan las condiciones, devuelve null
+	}
+
+	static public function mdlShowQuoteHogar($tabla, $tabla2, $field, $id)
+	{
+		// Inicializa la variable $stmt
+		$stmt = null;
+		if ($id != null) {
+
+			$stmt = Conexion::conectar()->prepare("SELECT c.*, cl.id_tipo_documento, cl.cli_nombre, cl.cli_apellidos, cl.cli_num_documento, cl.cli_email, cl.cli_telefono FROM $tabla c JOIN $tabla2 cl ON cl.id_cliente = c.id_cliente WHERE $field = :id");
 			$stmt->bindParam(":id", $id, PDO::PARAM_STR);
 
 			if ($stmt->execute()) {
@@ -434,7 +478,6 @@ class ModeloCotizaciones
 				$condicion
 				ORDER BY cot_fch_cotizacion DESC
 			");
-
 			} else {
 				$stmt = Conexion::conectar()->prepare("
 					SELECT * FROM $tabla
@@ -470,7 +513,7 @@ class ModeloCotizaciones
 			$condicion = "AND $tabla.id_usuario = :idUsuario";
 		}
 		if ($fechaInicialCotizaciones == null) {
-			var_dump("entre aca");
+
 			$fechaActual = new DateTime();
 			// Obtener la fecha de inicio de mes
 			$inicioMes = clone $fechaActual;
@@ -505,6 +548,7 @@ class ModeloCotizaciones
 
 			return $stmt->fetchAll(PDO::FETCH_ASSOC);
 		} else {
+
 			$inicioMes = new DateTime($fechaInicialCotizaciones);
 			$inicioMes = $inicioMes->format('Y-m-d');
 			$finMes = new DateTime($fechaFinalCotizaciones);
@@ -524,7 +568,14 @@ class ModeloCotizaciones
 				INNER JOIN $tabla5 us ON c.id_usuario = us.id_usuario
 				WHERE c.fecha_cot >= :fechaInicial AND c.fecha_cot <= :fechaFinal
 				ORDER BY c.fecha_cot DESC
-			");
+
+				");
+				// var_dump("
+				// SELECT c.id_cotizacion, c.fecha_cot, c.fch_nacimiento, c.lugar_origen, c.lugar_destino, c.nom_prospecto, c.fch_salida, c.fch_regreso, c.modalidad_cot, us.usu_nombre, us.usu_apellido, c.numero_pasajeros FROM $tabla c
+				// INNER JOIN $tabla5 us ON c.id_usuario = us.id_usuario
+				// WHERE c.fecha_cot >= :fechaInicial AND c.fecha_cot <= :fechaFinal
+				// ORDER BY c.fecha_cot DESC");
+				// die();
 			} else {
 				$stmt = Conexion::conectar()->prepare("
 					SELECT * FROM $tabla

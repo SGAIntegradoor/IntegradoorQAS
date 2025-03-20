@@ -1,4 +1,4 @@
-<?php
+<<?php
 
 session_start();
 
@@ -16,8 +16,11 @@ try {
 
     $fecha_cotizacion = date("Y-m-d H:i:s");
     $direccion = $data['direccion'] . ', ' . $data["resto"] ?? null;
-    $ciudad = $data['codLocalidad'] ?? null;
+    $ciudad = $data['ciudad'] ?? null;
+    $codCiudad = $data['codLocalidad'] ?? null;
+    $departamento = $data['departamento'] ?? null;
     $zona_riesgo = $data['zona_riesgo'] ?? null;
+    $sub_zona = $data['sub_zona'] ?? null;
     $tipo_vivienda = $data['tipoDeVivienda'] ?? null;
     $no_piso = $data['pisoUbicacionApto'] ?? null;
     $no_total_pisos = $data['numeroTotalDePisos'] ?? null;
@@ -34,6 +37,7 @@ try {
     $val_cn = $data['val_cn'] ?? null;
     $val_hur = $data['val_hur'] ?? null;
     $val_tr = $data['val_tr'] ?? null;
+    $aseg_mascotas = $data['aseg_masc'] ?? null;
     $val_viv_sbs = $data['val_viv_sbs'] ?? null;
     $val_cnen_sbs = $data['val_cnen_sbs'] ?? null;
     $val_cnelec_sbs = $data['val_cnelec_sbs'] ?? null;
@@ -48,13 +52,16 @@ try {
     $val_tr_sbs = $data['val_tr_sbs'] ?? null;
 
 
-    $stmt = $pdo->prepare("INSERT INTO cotizaciones_hogar (id, fecha_cotizacion, direccion, ciudad, zona_riesgo, tipo_vivienda, no_piso, no_total_pisos, tipo_construccion, anio_construccion, area_total, zona_construccion, credito, tipo_asegurado, tipo_cobertura, val_viv, val_cn, val_hur, val_tr, val_viv_sbs, val_cnen_sbs, val_cnelec_sbs, val_cnens_sbs, tot_cnn_sbs, tot_cobertura_basica_sbs, val_cnesp_sus_sbs, val_cnnor_sus_sbs, tot_cn_sus_sbs, val_asegee_danos_sbs, val_asegee_sus_sbs, val_tr_sbs, id_cliente, id_usuario) 
-                          VALUES (null, :fecha_cotizacion, :direccion, :ciudad, :zona_riesgo, :tipo_vivienda, :no_piso, :no_total_pisos, :tipo_construccion, :anio_construccion, :area_total, :zona_construccion, :credito, :tipo_asegurado, :tipo_cobertura, :val_viv, :val_cn, :val_hur, :val_tr, :val_viv_sbs, :val_cnen_sbs, :val_cnelec_sbs, :val_cnens_sbs, :tot_cnn_sbs, :tot_cobertura_basica_sbs, :val_cnesp_sus_sbs, :val_cnnor_sus_sbs, :tot_cn_sus_sbs, :val_asegee_danos_sbs, :val_asegee_sus_sbs, :val_tr_sbs, :id_cliente, :id_usuario)");
+    $stmt = $pdo->prepare("INSERT INTO cotizaciones_hogar (id, fecha_cotizacion, direccion, codCiudad, ciudad, departamento, zona_riesgo, sub_zona, tipo_vivienda, no_piso, no_total_pisos, tipo_construccion, anio_construccion, area_total, zona_construccion, credito, tipo_asegurado, tipo_cobertura, val_viv, val_cn, val_hur, val_tr, aseg_mascota,val_viv_sbs, val_cnen_sbs, val_cnelec_sbs, val_cnens_sbs, tot_cnn_sbs, tot_cobertura_basica_sbs, val_cnesp_sus_sbs, val_cnnor_sus_sbs, tot_cn_sus_sbs, val_asegee_danos_sbs, val_asegee_sus_sbs, val_tr_sbs, id_cliente, id_usuario) 
+                          VALUES (null, :fecha_cotizacion, :direccion, :codCiudad, :ciudad, :departamento , :zona_riesgo, :sub_zona, :tipo_vivienda, :no_piso, :no_total_pisos, :tipo_construccion, :anio_construccion, :area_total, :zona_construccion, :credito, :tipo_asegurado, :tipo_cobertura, :val_viv, :val_cn, :val_hur, :val_tr, :aseg_masc ,:val_viv_sbs, :val_cnen_sbs, :val_cnelec_sbs, :val_cnens_sbs, :tot_cnn_sbs, :tot_cobertura_basica_sbs, :val_cnesp_sus_sbs, :val_cnnor_sus_sbs, :tot_cn_sus_sbs, :val_asegee_danos_sbs, :val_asegee_sus_sbs, :val_tr_sbs, :id_cliente, :id_usuario)");
 
     $stmt->bindParam(':fecha_cotizacion', $fecha_cotizacion);
     $stmt->bindParam(':direccion', $direccion);
     $stmt->bindParam(':ciudad', $ciudad);
+    $stmt->bindParam(':codCiudad', $codCiudad);
+    $stmt->bindParam(':departamento', $departamento);
     $stmt->bindParam(':zona_riesgo', $zona_riesgo);
+    $stmt->bindParam(':sub_zona', $sub_zona);
     $stmt->bindParam(':tipo_vivienda', $tipo_vivienda);
     $stmt->bindParam(':no_piso', $no_piso);
     $stmt->bindParam(':no_total_pisos', $no_total_pisos);
@@ -69,6 +76,7 @@ try {
     $stmt->bindParam(':val_cn', $val_cn);
     $stmt->bindParam(':val_hur', $val_hur);
     $stmt->bindParam(':val_tr', $val_tr);
+    $stmt->bindParam(':aseg_masc', $aseg_mascotas);
     $stmt->bindParam(':val_viv_sbs', $val_viv_sbs);
     $stmt->bindParam(':val_cnen_sbs', $val_cnen_sbs);
     $stmt->bindParam(':val_cnelec_sbs', $val_cnelec_sbs);

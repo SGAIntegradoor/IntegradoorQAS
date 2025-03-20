@@ -254,15 +254,15 @@
                     <label for=" inputEYC">Tipo de cobertura</label>
                     <div style="display: flex; flex-direction: row; gap: 15px; padding-left: 5px; padding-top: 10px; align-items: flex-start;">
                         <div style="display: flex; flex-direction: row; gap: 5px; align-items: flex-start;">
-                            <input type="radio" id="inputEYC" name="tipoCoberturaRadio" value="estYCont">
+                            <input type="radio" id="inputEYC" name="tipoCoberturaRadio" value="estYCont" class="inputsAllianz">
                             <p style="margin:0; font-weight: bold ">Estructura y Contenidos</p>
                         </div>
                         <div style="display: flex; flex-direction: row; gap: 5px; align-items: flex-start;">
-                            <input type="radio" id="estructura" name="tipoCoberturaRadio" value="est">
+                            <input type="radio" id="estructura" name="tipoCoberturaRadio" value="est" class="inputsAllianz">
                             <p style="margin:0; font-weight: bold">Estructura</p>
                         </div>
                         <div style="display: flex; flex-direction: row; gap: 5px; align-items: flex-start;">
-                            <input type="radio" id="contenidos" name="tipoCoberturaRadio" value="cont">
+                            <input type="radio" id="contenidos" name="tipoCoberturaRadio" value="cont" class="inputsAllianz">
                             <p style="margin:0; font-weight: bold">Contenidos</p>
                         </div>
                     </div>

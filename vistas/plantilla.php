@@ -393,6 +393,7 @@ CUERPO DOCUMENTO
         $_GET["ruta"] == "hogar" ||
         $_GET["ruta"] == "retomar-cotizacion-assistcard" ||
         $_GET["ruta"] == "retomar-cotizacion-salud" ||
+        $_GET["ruta"] == "retomar-cotizacion-hogar" ||
         $_GET["ruta"] == "negocios"
       ) {
         if ($_GET['ruta'] == 'modificacion-productos') {

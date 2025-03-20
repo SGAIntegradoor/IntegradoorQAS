@@ -35,7 +35,7 @@
         <input type="text" name="idCliente" id="idCliente">
     </div>
     <div class="general-container-aseg" id="containerValoresAllianz">
-        <div class="row" style="margin-top: 15px;">
+        <div class="row" style="margin-top: 15px;" id="valoresAllianz">
             <div class="col-xs-12 col-sm-6 col-md-3">
                 <div class="form-group">
                     <div style="display: flex; flex-direction: row; gap: 5px; align-items: flex-start;">
@@ -83,15 +83,15 @@
             </div>
             <div class="col-xs-12 col-sm-6 col-md-3" id="mascotaAllianz" style="display: flex; flex-direction: row; gap: 15px; padding-left: 5px; align-items: center;">
                 <div style="display: flex; flex-direction: row; gap: 5px; align-items: flex-start;">
-                    <input type="radio" id="siGato" name="mascotasRadio">
+                    <input type="radio" id="siGato" name="mascotasRadio" class="inputsAllianz">
                     <p style="margin:0; font-weight: bold;">Si, gato</p>
                 </div>
                 <div style="display: flex; flex-direction: row; gap: 5px; align-items: flex-start;">
-                    <input type="radio" id="siPerro" name="mascotasRadio">
+                    <input type="radio" id="siPerro" name="mascotasRadio" class="inputsAllianz">
                     <p style="margin:0; font-weight: bold;">Si, perro</p>
                 </div>
                 <div style="display: flex; flex-direction: row; gap: 5px; align-items: flex-start;">
-                    <input type="radio" id="no" name="mascotasRadio">
+                    <input type="radio" id="no" name="mascotasRadio" class="inputsAllianz">
                     <p style="margin:0; font-weight: bold;">No</p>
                 </div>
             </div>
@@ -104,15 +104,15 @@
             </div>
             <div class="col-xs-12 col-sm-6 col-md-3" id="preguntaSBSCotizar" style="display: flex; flex-direction: row; gap: 15px; padding-left: 5px; align-items: center;">
                 <div style="display: flex; flex-direction: row; gap: 5px; align-items: flex-start;">
-                    <input type="radio" id="siSBS" name="sbsRadio">
+                    <input type="radio" id="siSBS" name="sbsRadio" class="inputsAllianz">
                     <p style="margin:0;">Si</p>
                 </div>
                 <div style="display: flex; flex-direction: row; gap: 5px; align-items: flex-start;">
-                    <input type="radio" id="noSBS" name="sbsRadio">
+                    <input type="radio" id="noSBS" name="sbsRadio" class="inputsAllianz">
                     <p style="margin:0;">No</p>
                 </div>
             </div>
-            <div class="col-xs-12 col-sm-6 col-md-3">
+            <div class="col-xs-12 col-sm-6 col-md-3" id="btnAllianzCot">
                 <button type="button" class="btn btn-primary" style="width: 70%;" id="btnCotizarSBS">Cotizar</button>
             </div>
         </div>
