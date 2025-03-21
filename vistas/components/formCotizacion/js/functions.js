@@ -1829,7 +1829,7 @@ function makeCards(data, type = null) {
 }
 
 function verPdfOfertaHogar(b64) {
-  if (!permisos.Verpdfindividuales == "x") {
+  if (permisos.Verpdfindividuales == "x") {
     let pdfWindow = window.open("");
     pdfWindow.document.write(
       `<iframe width='100%' height='100%' src='data:application/pdf;base64,${b64}'></iframe>`
