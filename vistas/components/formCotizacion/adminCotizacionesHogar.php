@@ -41,11 +41,12 @@
           <th style="font-weight: bold; text-align: center;">FechaCot</th>
           <th style="font-weight: bold; text-align: center;">Tipo Documento</th>
           <th style="font-weight: bold; text-align: center;">No. Documento</th>
-          <th style="font-weight: bold; text-align: center;">Tomador / Asegurado 1</th>
-          <th style="font-weight: bold; text-align: center;">Fecha de nacimiento</th>
+          <th style="font-weight: bold; text-align: center;">Nombre Tomador</th>
+          <th style="font-weight: bold; text-align: center;">Dirección</th>
           <th style="font-weight: bold; text-align: center;">Genero</th>
-          <th style="font-weight: bold; text-align: center;">Tipo de cotización</th>
-          <th style="font-weight: bold; text-align: center;">Cant. asegurados</th>
+          <th style="font-weight: bold; text-align: center;">Tipo de Vivienda</th>
+          <th style="font-weight: bold; text-align: center;">Año de Construcción</th>
+          <th style="font-weight: bold; text-align: center;">Credito Hip.</th>
           <th style="font-weight: bold; text-align: center;">Asesor</th>
           <th style="font-weight: bold; text-align: center;">Acciones</th>
 

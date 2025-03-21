@@ -26,7 +26,7 @@ $(document).ready(function () {
 
 })
 
-$(".tablas-salud").DataTable({
+$(".tablas-hogar").DataTable({
     layout: {
       topStart: "buttons",
       topCenter: {

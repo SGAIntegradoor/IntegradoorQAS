@@ -244,6 +244,18 @@ class ControladorCotizaciones
 
 		return $respuesta;
 	}
+	static public function ctrRangoFechasCotizacionesHogar($fechaFinalCotizaciones, $fechaInicialCotizaciones)
+	{
+
+		$tabla = "cotizaciones_Hogar";
+		$tabla2 = "ofertas_hogar"; 
+		$tabla3 = "clientes";
+		$tabla4 = "usuarios";
+
+		$respuesta = ModeloCotizaciones::mdlRangoFechasCotizacionesHogar($tabla, $tabla2, $tabla3, $tabla4, $fechaInicialCotizaciones, $fechaFinalCotizaciones);
+
+		return $respuesta;
+	}
 
 	static public function ctrGetDataLastRegisters($fechaInicialCotizaciones, $fechaFinalCotizaciones, $condicion)
 	{

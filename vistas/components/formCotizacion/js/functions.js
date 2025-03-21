@@ -2676,9 +2676,6 @@ function openModalVidaDeudor(){
   $("#myModalHogarVidaDeudor").dialog("open");
 }
 
-openModalVidaDeudor()
-
-
 function clearInfoModalAddress(erase) {
   let inputAddress = $("#15m").val();
   if (inputAddress != "") {

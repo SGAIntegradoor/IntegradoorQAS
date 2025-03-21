@@ -399,7 +399,20 @@ $(document).ready(function () {
 
   let intermediario = document.getElementById("idIntermediario").value;
 
+  let conPressed = 0;
+
   $("#btnCotizar").click(function (e) {
+    if(conPressed > 0) {
+      Swal.fire({
+        icon: "error",
+        title: "Ya se ha presionado el botón de cotizar",
+        text: "Por favor espere a que se procese la cotización",
+        showConfirmButton: true,
+      });
+      throw new Error("Ya se ha presionado el botón de cotizar");
+    } else if(conPressed == 0) {
+      conPressed++;
+    }
     let deptoCirc = $("#DptoCirculacion").val();
     let ciudadCirc = $("#ciudadCirculacion").val();
 
