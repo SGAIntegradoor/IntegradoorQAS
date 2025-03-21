@@ -1280,6 +1280,7 @@ function saveOffert(data) {
         cob_resp_civil_sbs: "Hasta $195.000.000. Deducible 5 SMDLV",
         cob_asist_dom_sbs: "Si ampara",
         cob_prod_plus_sbs: "No ampara",
+        pdf_sbs: element.PDF,
       };
       ofertas.push(oferta);
     }
