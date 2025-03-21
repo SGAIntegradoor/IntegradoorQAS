@@ -308,6 +308,19 @@
   .wrapper {
     overflow: hidden;
   }
+
+  .header-modal-vida-deudor {
+    font-size: 16px;
+    text-align: center;
+  }
+
+  .modalVidaDeudor {
+    padding: 20px;
+    padding-bottom: 50px;
+    padding-top: 40px;
+    border-radius: 20px;
+  }
+
 </style>
 
 <div class="content-wrapper">
@@ -439,7 +452,7 @@
           </div>
 
           <!-- sexta tarjeta con título y párrafo -->
-          
+
           <div class="col-md-4 col-sm-12 mb-3">
             <div class="card-exequias">
               <div class="card-body text-center">
@@ -447,7 +460,7 @@
                 <p class="card-text">De este porcentaje, tu participación será de acuerdo al nivel de ventas de todos los negocios (sin IVA), sumando todos los ramos, que realices en el mes.</p>
                 <ul class="card-text" style="padding-left: 0px; list-style-position: inside;">
                   <li>Primas mensuales inferiores a 8 SMMLV: 70%</li>
-                  <li>Primas mensuales superiores a 8 SMMLV: 75%</li> 
+                  <li>Primas mensuales superiores a 8 SMMLV: 75%</li>
                 </ul>
                 <h4 class="card-title" style="font-weight: bold;">Clausulados</h4>
                 <p class="card-text" style="text-align:justify">
@@ -485,6 +498,96 @@
     </div>
   </section>
 </div>
+
+<!-- Modal Vida Deudor Inicio -->
+
+<div id="myModalHogarVidaDeudor" style="display: none;">
+  <div class="header-modal-vida-deudor">
+    Estamos cotizando el seguro de hogar para tu cliente. <b>¿ Deseas solicitar una cotización manual del seguro de vida deudor ?</b>
+  </div>
+  <div class="col-lg-12" id="modalVidaDeudor">
+    <div style="display: flex; flex-direction: row; gap: 30px; justify-content: center; align-items: center; margin-top: 30px;">
+      <button class="btn btn-primary btn-modal" onclick="closeModal('#myModalHogarVidaDeudor')" id="btnNoVidaDeudor" style="width: 80px; background: black">No</button>
+      <button class="btn btn-primary btn-modal" onclick="openFormQuestions()" id="btnSiVidaDeudor" style="width: 80px">Si</button>
+    </div>
+    <section style="display: none;">
+      <div class="col-xs-12 col-sm-6 col-md-12" style="display: flex; flex-direction: column; gap: 20px;">
+        <div class="row" style="margin-bottom: 20px; margin-top: 18px; ">
+          <input type="text" class="form-control" name="" id="2m" placeholder="" required>
+          <div class="col-xs-12 col-sm-6 col-md-3 form-group" id="fechaNacimiento">
+            <label name="lblFechaNacimiento">Fecha de Nacimiento</label>
+            <div id="fechaCompleta" class="row">
+              <div class="col-xs-4 col-sm-4 col-md-4 conten-dia">
+                <select class="form-control fecha-nacimiento" name="dianacimientoVidaDeudor" id="dianacimientoVidaDeudor">
+                  <option value="">Dia</option>
+                  <?php
+                  for ($i = 1; $i <= 31; $i++) {
+                    if (strlen($i) == 1) { ?>
+                      <option value="<?php echo "0" . $i ?>"><?php echo "0" . $i ?></option><?php
+                                                                                          } else { ?>
+                      <option value="<?php echo $i ?>"><?php echo $i ?></option><?php
+                                                                                          }
+                                                                                        }
+                                                                                ?>
+                </select>
+              </div>
+              <div class="col-xs-4 col-sm-4 col-md-4 conten-mes">
+                <select class="form-control fecha-nacimiento" name="mesnacimientoVidaDeudor" id="mesnacimientoVidaDeudor">
+                  <option value="" selected>Mes</option>
+                  <option value="01">Enero</option>
+                  <option value="02">Febrero</option>
+                  <option value="03">Marzo</option>
+                  <option value="04">Abril</option>
+                  <option value="05">Mayo</option>
+                  <option value="06">Junio</option>
+                  <option value="07">Julio</option>
+                  <option value="08">Agosto</option>
+                  <option value="09">Septiembre</option>
+                  <option value="10">Octubre</option>
+                  <option value="11">Noviembre</option>
+                  <option value="12">Diciembre</option>
+                </select>
+              </div>
+              <div class="col-xs-4 col-sm-4 col-md-4 conten-anio">
+                <select class="form-control fecha-nacimiento" name="anionacimientoVidaDeudor" id="anionacimientoVidaDeudor">
+                  <option value="">Año</option>
+                  <?php
+                  for ($j = 1920; $j <= 2025; $j++) {
+                  ?>
+                    <option value="<?php echo $j ?>"><?php echo $j ?></option><?php
+                                                                            }
+                                                                              ?>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-12 form-group" style="display: flex; flex-direction: row; gap: 20px;">
+          <select type="text" class="form-control" name="" id="1m" placeholder="" required>
+          </select>
+          <select type="text" class="form-control" name="" id="3m" placeholder="">
+
+          </select>
+          <input type="text" class="form-control" name="" id="4m" placeholder="">
+          <select type="text" class="form-control" name="" id="5m" placeholder="">
+
+          </select>
+          <input type="text" class="form-control" name="" id="6m" placeholder="" value="#" disabled style="padding: 0;">
+          <input type="text" class="form-control inputNumber" name="" id="7m" placeholder="" required>
+          <select type="text" class="form-control" name="" id="8m" placeholder=""></select>
+
+          <input type="text" class="form-control" name="" id="9m" placeholder="" style="width: 33px;" value="-" disabled style="padding: 0;">
+          <input type="text" class="form-control inputNumber" name="" id="10m" placeholder="" required style="width: 90px;">
+          <select type="text" class="form-control" name="" id="11m" placeholder="" style="width: 120px;">
+
+          </select>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
+
+<!-- Modal Vida Deudor Fin -->
 
 <script>
   document.addEventListener("DOMContentLoaded", function() {

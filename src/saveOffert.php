@@ -65,9 +65,10 @@ try {
     $cob_hur_alz = $data['cob_hur_alz'] ?? null;
     $cob_tr_alz = $data['cob_tr_alz'] ?? null;
     $cob_asis_mas_alz = $data['cob_asis_mas_alz'] ?? null;
+    $pdf_sbs = $data['pdf_sbs'] ?? null;
 
-    $stmt = $pdo->prepare("INSERT INTO ofertas_hogar (id, id_cotizacion, aseguradora, producto, valor_prima, id_cot_aseguradora, cob_terr_ev_nat_sbs, cob_hur_con_no_ele_sbs, cob_hur_con_ele_sbs, cob_tr_sbs, cob_acci_pers_sbs, cob_resp_civil_sbs, cob_asist_dom_sbs, cob_prod_plus_sbs, cob_inc_alz, cob_terr_alz, cob_rce_prop_alz, cob_asist_jur_alz, cob_asist_dom_alz, cob_hamccp_alz, cob_danos_agua_alz, cob_eve_nat_alz, cob_rce_fam_alz, cob_eve_elec_alz, cob_hur_alz, cob_tr_alz, cob_asis_mas_alz ) 
-                          VALUES (null, :id_cotizacion, :aseguradora, :producto, :valor_prima, :id_cot_aseguradora, :cob_terr_ev_nat_sbs, :cob_hur_con_no_ele_sbs, :cob_hur_con_ele_sbs, :cob_tr_sbs, :cob_acci_pers_sbs, :cob_resp_civil_sbs, :cob_asist_dom_sbs, :cob_prod_plus_sbs, :cob_inc_alz, :cob_terr_alz, :cob_rce_prop_alz, :cob_asist_jur_alz, :cob_asist_dom_alz, :cob_hamccp_alz, :cob_danos_agua_alz, :cob_eve_nat_alz, :cob_rce_fam_alz, :cob_eve_elec_alz, :cob_hur_alz, :cob_tr_alz, :cob_asis_mas_alz)");
+    $stmt = $pdo->prepare("INSERT INTO ofertas_hogar (id, id_cotizacion, aseguradora, producto, valor_prima, id_cot_aseguradora, cob_terr_ev_nat_sbs, cob_hur_con_no_ele_sbs, cob_hur_con_ele_sbs, cob_tr_sbs, cob_acci_pers_sbs, cob_resp_civil_sbs, cob_asist_dom_sbs, cob_prod_plus_sbs, pdf_sbs ,cob_inc_alz, cob_terr_alz, cob_rce_prop_alz, cob_asist_jur_alz, cob_asist_dom_alz, cob_hamccp_alz, cob_danos_agua_alz, cob_eve_nat_alz, cob_rce_fam_alz, cob_eve_elec_alz, cob_hur_alz, cob_tr_alz, cob_asis_mas_alz ) 
+                          VALUES (null, :id_cotizacion, :aseguradora, :producto, :valor_prima, :id_cot_aseguradora, :cob_terr_ev_nat_sbs, :cob_hur_con_no_ele_sbs, :cob_hur_con_ele_sbs, :cob_tr_sbs, :cob_acci_pers_sbs, :cob_resp_civil_sbs, :cob_asist_dom_sbs, :cob_prod_plus_sbs, :pdf_sbs ,:cob_inc_alz, :cob_terr_alz, :cob_rce_prop_alz, :cob_asist_jur_alz, :cob_asist_dom_alz, :cob_hamccp_alz, :cob_danos_agua_alz, :cob_eve_nat_alz, :cob_rce_fam_alz, :cob_eve_elec_alz, :cob_hur_alz, :cob_tr_alz, :cob_asis_mas_alz)");
 
     $stmt->bindParam(':id_cotizacion', $id_cotizacion);
     $stmt->bindParam(':aseguradora', $aseguradora);
@@ -82,6 +83,7 @@ try {
     $stmt->bindParam(':cob_resp_civil_sbs', $cob_resp_civil_sbs);
     $stmt->bindParam(':cob_asist_dom_sbs', $cob_asist_dom_sbs);
     $stmt->bindParam(':cob_prod_plus_sbs', $cob_prod_plus_sbs);
+    $stmt->bindParam(':pdf_sbs', $pdf_sbs);
     $stmt->bindParam(':cob_inc_alz', $cob_inc_alz);
     $stmt->bindParam(':cob_terr_alz', $cob_terr_alz);
     $stmt->bindParam(':cob_rce_prop_alz', $cob_rce_prop_alz);

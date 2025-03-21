@@ -382,10 +382,11 @@ function editarCotizacionHogar(id) {
         dataType: "json",
         success: function (response) {
           console.log(response);
+          $("#parrillaCards").show();
+          makeCards(response, 2);
         }
       });
 
-      //   makeCards(respuesta, 2);
     },
 
     error: function (jqXHR, textStatus, errorThrown) {

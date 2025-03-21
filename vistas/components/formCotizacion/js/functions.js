@@ -1459,93 +1459,162 @@ function validarMascotasSeleccionado() {
 
 function makeCards(data, type = null) {
   let cardCotizacion = "";
-  if(type == 2){
-    if(data.aseguradora == "Allianz"){
-      cardCotizacion = `
-      <div class="col-cards-12">
-      <div class="card-ofertas">
-          <div class="row card-body">
-              <div class="col-xs-12 col-sm-6 col-md-2 oferta-logo" style="padding-top: 50px;">
-                  <center>
-                      <img src="vistas/img/logos/allianz.png" />
-                  </center>
-                  <div class='col-12' style='margin-top:2%;'>
-                     ${
-                       permisos.Vernumerodecotizacionencadaaseguradora == "x"
-                         ? `<center>
-                         <label class='entidad'>N° Cot: <span style='color:black'>${data.id_cot_aseguradora}</span></label>
-                       </center>`
-                         : ""
-                     }
-                  </div>
-              </div>
-              <div class="col-xs-12 col-sm-6 col-md-2 oferta-headerEdit" style="padding-top: 50px;">
-                  <h5 class="entidad" style="font-size: 15px"><b>${
-                    data.aseguradora
-                  } - ${data.producto}</b></h5>
-                  <h5 class="precio" style="">Desde ${data.valor_prima}</h5>
-                  <p class="title-precio" style="font-weight: bold;">IVA incluido</p>
-              </div>
-              <div class="col-xs-12 col-sm-6 col-md-8" style="padding-top: 30px; padding-bottom: 30px;">
-                  <div class="informativeTable">
-                      <div style="width: 274px;" class="tab1Table">
-                          <ul style="padding-left: 25px; ">
-                            <li>Incendio - ${
-                              data.cob_inc_alz
-                            }.</li>
-                            <li>Terremoto - ${
-                              data.cob_terr_alz
-                            }.</li>
-                            <li>RCE Propiedad - ${
-                              data.cob_rce_prop_alz
-                            }</li>
-                            <li>Asistencia Jurídica - Si ampara.</li>
-                            <li>Asist. Domiliciaria - ${
-                              data.cob_asist_jur_alz
-                            }</li>
-                            <li>HAMCCP - AMIT - ${
-                              data.cob_hamccp_alz
-                            }.</li>
-                            <li>Daños por agua - ${
-                              data.cob_danos_agua_alz
-                            }.</li>
-                        </ul>
-                      </div>
-                      <div style="vertical-align: top; width: 345px;" class="tab2Table">
-                          <ul style="padding-left: 25px;">
-                            <li>Eventos de la naturaleza - ${
-                              data.cob_eve_nat_alz
-                            }.</li>
-                            <li>RCE Familiar - ${
-                              data.cob_rce_fam_alz
-                            }.</li>
-                            <li>Eventos Eléctrico - ${
-                              data.cob_eve_elec_alz
-                            }.</li>
-                            <li>Hurto - ${
-                              data.cob_hur_alz
-                            }.</li>
-                            <li>Todo Riesgo - ${
-                              data.cob_tr_alz
-                            }.</li>
-                            <li>Asistencia Mascotas - ${
-                              data.cob_asis_mas_alz
-                            }</li>
+  if (type == 2) {
+    data.forEach((element) => {
+      if (element.aseguradora == "Allianz") {
+        cardCotizacion = `
+        <div class="col-cards-12">
+        <div class="card-ofertas">
+            <div class="row card-body">
+                <div class="col-xs-12 col-sm-6 col-md-2 oferta-logo" style="padding-top: 50px;">
+                    <center>
+                        <img src="vistas/img/logos/allianz.png" />
+                    </center>
+                    <div class='col-12' style='margin-top:2%;'>
+                       ${
+                         permisos.Vernumerodecotizacionencadaaseguradora == "x"
+                           ? `<center>
+                           <label class='entidad'>N° Cot: <span style='color:black'>${element.id_cot_aseguradora}</span></label>
+                         </center>`
+                           : ""
+                       }
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-6 col-md-2 oferta-headerEdit" style="padding-top: 50px;">
+                    <h5 class="entidad" style="font-size: 15px"><b>${
+                      element.aseguradora
+                    } - ${element.producto}</b></h5>
+                    <h5 class="precio" style="">Desde ${parseInt(
+                      element.valor_prima
+                    ).toLocaleString("es-ES")} COP</h5>
+                    <p class="title-precio" style="font-weight: bold;">IVA incluido</p>
+                </div>
+                <div class="col-xs-12 col-sm-6 col-md-8" style="padding-top: 30px; padding-bottom: 30px;">
+                    <div class="informativeTable">
+                        <div style="width: 274px;" class="tab1Table">
+                            <ul style="padding-left: 25px; ">
+                              <li>Incendio - ${element.cob_inc_alz}.</li>
+                              <li>Terremoto - ${element.cob_terr_alz}.</li>
+                              <li>RCE Propiedad - ${
+                                element.cob_rce_prop_alz
+                              }</li>
+                              <li>Asistencia Jurídica - Si ampara.</li>
+                              <li>Asist. Domiliciaria - ${
+                                element.cob_asist_jur_alz
+                              }</li>
+                              <li>HAMCCP - AMIT - ${
+                                element.cob_hamccp_alz
+                              }.</li>
+                              <li>Daños por agua - ${
+                                element.cob_danos_agua_alz
+                              }.</li>
                           </ul>
                         </div>
-                      </div>
-                  </div>
-                  <div class="col-xs-12 col-sm-6 col-md-2">
-                  </div>
-                  <div class="col-xs-12 col-sm-6 col-md-2">
-                  </div>
-              </div>
-          </div>
-      </div>`;
-      $("#cardsContainer").append(cardCotizacion);
-    }
-  }
-  else if (data.aseguradora == "Allianz") {
+                        <div style="vertical-align: top; width: 345px;" class="tab2Table">
+                            <ul style="padding-left: 25px;">
+                              <li>Eventos de la naturaleza - ${
+                                element.cob_eve_nat_alz
+                              }.</li>
+                              <li>RCE Familiar - ${
+                                element.cob_rce_fam_alz
+                              }.</li>
+                              <li>Eventos Eléctrico - ${
+                                element.cob_eve_elec_alz
+                              }.</li>
+                              <li>Hurto - ${element.cob_hur_alz}.</li>
+                              <li>Todo Riesgo - ${element.cob_tr_alz}.</li>
+                              <li>Asistencia Mascotas - ${
+                                element.cob_asis_mas_alz
+                              }</li>
+                            </ul>
+                          </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-2">
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-2">
+                    </div>
+                </div>
+            </div>
+        </div>`;
+        $("#cardsContainer").append(cardCotizacion);
+      } else if (element.aseguradora == "SBS") {
+        cardCotizacion = `
+        <div class="col-cards-12">
+        <div class="card-ofertas">
+            <div class="row card-body">
+                <div class="col-xs-12 col-sm-6 col-md-2 oferta-logo" style="padding-top: 50px;">
+                    <center>
+                        <img src="vistas/img/logos/SBS.png" />
+                    </center>
+                    <div class='col-12' style='margin-top:2%;'>
+                       ${
+                         permisos.Vernumerodecotizacionencadaaseguradora == "x"
+                           ? `<center>
+                           <label class='entidad'>N° Cot: <span style='color:black'>${element.id_cot_aseguradora}</span></label>
+                         </center>`
+                           : ""
+                       }
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-6 col-md-2 oferta-headerEdit" style="padding-top: 50px;">
+                    <h5 class="entidad" style="font-size: 15px"><b>${
+                      element.aseguradora
+                    } - ${element.producto}</b></h5>
+                    <h5 class="precio" style="">Desde ${parseInt(
+                      element.valor_prima
+                    ).toLocaleString("es-ES")} COP</h5>
+                    <p class="title-precio" style="font-weight: bold;">IVA incluido</p>
+                </div>
+                <div class="col-xs-12 col-sm-6 col-md-8" style="padding-top: 30px; padding-bottom: 30px;">
+                    <div class="informativeTable">
+                        <div>
+                            <ul style="padding-left: 25px; ">
+                              <li>Terremoto y otros eventos de la naturaleza - ${
+                                element.cob_terr_ev_nat_sbs
+                              }.</li>
+                              <li>Hurto contenido no electrico - ${
+                                element.cob_hur_con_no_ele_sbs
+                              }.</li>
+                              <li>Hurto contenido electrico - ${
+                                element.cob_hur_con_ele_sbs
+                              }.</li>
+                              <li>Todo riesgo - ${element.cob_tr_sbs}</li>
+                              <li>Accidentes personales - ${
+                                element.cob_acci_pers_sbs
+                              }.</li>
+                              <li>Responsabilidad Civil - ${
+                                element.cob_resp_civil_sbs
+                              }.</li>
+                              <li>Asist. domiciliaria - ${
+                                element.cob_asist_dom_sbs
+                              }.</li>
+                              <li>Productos plus - ${
+                                element.cob_prod_plus_sbs
+                              }.</li>
+                            </ul>
+                          </div>
+                          <div class="col-xs-12 col-sm-6 col-md-2 verpdf-oferta">
+                          ${permisos.Verpdfindividuales == "x" ? `
+                            <button type="button" class="btn btn-info" onclick='verPdfOfertaHogar("${element.pdf_sbs}")'>
+                                            <div id="">VER PDF &nbsp;&nbsp;<span class="fa fa-file-text"></span></div>
+                                        </button>
+                            `: ""}
+                                        
+                                    </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-2">
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-2">
+                    </div>
+                </div>
+            </div>
+        </div>`;
+        $("#cardsContainer").append(cardCotizacion);
+      }
+    });
+  } else if (data.aseguradora == "Allianz") {
     data.data.forEach((element) => {
       let incendios = element.coberturas.find(
         (coverage) => coverage.id_amparo === 1
@@ -1637,9 +1706,9 @@ function makeCards(data, type = null) {
                             <li>Daños por agua - ${
                               daniosPorAgua ? "Si ampara." : "No ampara"
                             }.</li>
-                        </ul>
-                      </div>
-                      <div style="vertical-align: top; width: 345px;" class="tab2Table">
+                          </ul>
+                          </div>
+                          <div style="vertical-align: top; width: 345px;" class="tab2Table">
                           <ul style="padding-left: 25px;">
                             <li>Eventos de la naturaleza - ${
                               otrosEventosNaturales ? "Si ampara" : "No ampara"
@@ -1712,14 +1781,30 @@ function makeCards(data, type = null) {
                                 <div class="informativeTable">
                                     <div>
                                         <ul style="padding-left: 25px; ">
-                                            <li>Terremoto y otros eventos de la naturaleza - Deducible: 2 % de la pérdida mínimo 60 SMDLV.</li>
-                                            <li>Hurto contenido no electrico - Deducible: 10 % de la pérdida mínimo 30 SMDLV</li>
-                                            <li>Hurto contenido electrico - Deducible: 10 % de la pérdida mínimo 20 SMDLV.</li>
-                                            <li>Todo riesgo - Deducible: 5% de la pérdida mínimo 20 SMDLV</li>
-                                            <li>Accidentes personales - No ampara.</li>
-                                            <li>Responsabilidad Civil - Hasta $195.000.000. Deducible 5 SMDLV.</li>
-                                            <li>Asist. domiciliaria - Si ampara</li>
-                                            <li>Productos plus - No ampara</li>
+                                            <li>Terremoto y otros eventos de la naturaleza - ${
+                                              element.cob_terr_ev_nat_sbs
+                                            }</li>
+                                            <li>Hurto contenido no electrico - ${
+                                              element.cob_hur_con_no_ele_sbs
+                                            }</li>
+                                            <li>Hurto contenido electrico - ${
+                                              element.cob_hur_con_ele_sbs
+                                            }</li>
+                                            <li>Todo riesgo - ${
+                                              element.cob_tr_sbs
+                                            }</li>
+                                            <li>Accidentes personales - ${
+                                              element.cob_acci_pers_sbs
+                                            }</li>
+                                            <li>Responsabilidad Civil - ${
+                                              element.cob_resp_civil_sbs
+                                            }</li>
+                                            <li>Asist. domiciliaria - ${
+                                              element.cob_asist_dom_sbs
+                                            }</li>
+                                            <li>Productos plus - ${
+                                              element.cob_pro
+                                            }</li>
                                         </ul>
                                     </div>
                                     <div class="col-xs-12 col-sm-6 col-md-2 verpdf-oferta">
@@ -1744,10 +1829,18 @@ function makeCards(data, type = null) {
 }
 
 function verPdfOfertaHogar(b64) {
-  let pdfWindow = window.open("");
-  pdfWindow.document.write(
-    `<iframe width='100%' height='100%' src='data:application/pdf;base64,${b64}'></iframe>`
-  );
+  if (!permisos.Verpdfindividuales == "x") {
+    let pdfWindow = window.open("");
+    pdfWindow.document.write(
+      `<iframe width='100%' height='100%' src='data:application/pdf;base64,${b64}'></iframe>`
+    );
+  } else {
+    Swal.fire({
+      icon: "warning",
+      title: "¡Atención!",
+      text: "No tiene permisos para ver los PDF individuales",
+    });
+  }
 }
 
 function validateErrors(form) {
@@ -2540,6 +2633,51 @@ function abrirDialogoCrear() {
   $("#myModalHogar").dialog("open");
 }
 
+function openModalVidaDeudor(){
+  $("#myModalHogarVidaDeudor").dialog({
+
+    closeOnEscape: false,
+    autoOpen: false,
+    resizable: false, // Desactiva el redimensionamiento
+    draggable: false, // Opcional, si deseas permitir que se pueda mover
+    modal: true,
+    width: "60%",
+    // position: { my: "center center", at: "center top+100", of: window },
+    // position: { my: "left top", at: "left+65 top+50", of: window } ,
+    dialogClass: "modalVidaDeudor",
+
+    open: function () {
+      $("body").addClass("modal-open"); // Añade la clase para bloquear el scroll de la página
+      $("body").css("overflow", "hidden");
+
+      $("body").addClass("modal-open").css("overflow", "hidden");
+
+      // Obtener dimensiones de la ventana
+      let windowWidth = $(window).width();
+      let windowHeight = $(window).height();
+
+      // Calcular posiciones dinámicas
+      let posX = windowWidth >= 1280 ? "center+25" : "center+19"; // Centrado en pantallas grandes, desplazado en chicas
+      let posY = windowHeight > 800 ? "center" : "top+300"; // Ajuste según altura de la pantalla
+
+      // Ajustar la posición
+      $(this).dialog("option", "position", {
+        my: "center center",
+        at: `${posX} ${posY}`,
+        of: window,
+      });
+    },
+    close: function () {
+      $("body").removeClass("modal-open").css("overflow", "auto");
+    },
+  });
+  // Abrir el diálogo
+  $("#myModalHogarVidaDeudor").dialog("open");
+}
+
+openModalVidaDeudor()
+
+
 function clearInfoModalAddress(erase) {
   let inputAddress = $("#15m").val();
   if (inputAddress != "") {
@@ -2562,6 +2700,10 @@ function clearInfoModalAddress(erase) {
 function closeModalAddress(erase = false) {
   $("#myModalHogar").dialog("close");
   clearInfoModalAddress(erase);
+}
+
+function closeModal(selector){
+  $(`${selector}`).dialog("close");
 }
 
 $("#myModalHogar")
@@ -2704,5 +2846,8 @@ $(
 });
 
 $("#deptoInmueble").on("change", function () {
-  consultarCiudadHogar();
+  const params = new URLSearchParams(window.location.search);
+  if(!params.has('idCotizacionHogar')){
+    consultarCiudadHogar();
+  }
 });

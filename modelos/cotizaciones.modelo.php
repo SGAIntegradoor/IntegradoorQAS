@@ -165,9 +165,7 @@ class ModeloCotizaciones
 		if ($item != null) {
 
 			if ($item == 'id_cotizacion') {
-				var_dump($valor);
 				$stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE $item = '$valor'");
-				var_dump("SELECT * FROM $tabla WHERE $item = $valor");
 				$stmt->execute();
 
 				return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -645,9 +643,6 @@ class ModeloCotizaciones
 			}
 
 			$stmt->execute();
-
-			var_dump($stmt->fetchAll(PDO::FETCH_ASSOC));
-			die();
 			return $stmt->fetchAll(PDO::FETCH_ASSOC);
 		} else {
 			$inicioMes = new DateTime($fechaInicialCotizaciones);

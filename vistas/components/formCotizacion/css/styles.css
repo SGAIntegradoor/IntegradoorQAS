@@ -163,10 +163,16 @@
     font-weight: bold;
 }
 
-.ui-corner-all {
+/* .ui-corner-all {
   border-radius: 0px !important;
   border: none !important;
+} */
+
+#myModalHogarVidaDeudor .ui-corner-all {
+  border-radius: 15px !important;
+  border: none !important;
 }
+
 
 .ui-dialog-titlebar-close {
   display: none !important;

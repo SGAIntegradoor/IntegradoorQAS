@@ -1,4 +1,4 @@
-<p?php
+<?php
 
   // if ($_SESSION["permisos"]["PerfilAgencia"] !="x" ) {
 
@@ -345,10 +345,9 @@
                 <style>
                   .form-container {
                     display: grid;
-                    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-                    /* 4 columnas responsivas */
-                    gap: 40px;
-                    /* Espacio entre los elementos */
+                    grid-template-columns: repeat(4, 1fr);
+                    /* 4 columnas */
+                    gap: 20px;
                   }
 
                   .form-group {
@@ -356,38 +355,118 @@
                     flex-direction: column;
                   }
 
-                  .radio-group {
-                    display: flex;
-                    justify-content: space-between;
-                    gap: 20px;
+                  /* Asegura que el facturador electrónico se alinee correctamente */
+                  .facturador-electronico {
+                    grid-column: 1 / 2;
+                    /* Ocupará la primera columna */
                   }
 
-                  .radio-group div {
+                  .radio-group {
                     display: flex;
-                    align-items: center;
-                    gap: 5px;
+                    gap: 10px;
                   }
+
+                  textarea {
+                    resize: none;
+                    padding: 20px 15px 15px 15px;
+                  }
+
+                  .comentarioTA {
+                    width: 100%;
+                    /* Ocupará todo el ancho disponible */
+                    height: 120px;
+                    /* Altura fija */
+                    resize: none;
+                    /* Deshabilita la redimensión y elimina el icono */
+                    border: 1px solid #ccc;
+                    padding: 8px;
+                    font-size: 14px;
+                  }
+
+                  .btnComentario {
+                    background-color: #88d600;
+                    border: 0;
+                    margin-top: 15px;
+                    margin-right: 80px;
+                    border-radius: 5px;
+                    width: 140px;
+                    color: white;
+                    height: 40px;
+                    transition: background-color 0.3s ease;
+                  }
+
+                  .btnGuardar {
+                    background-color: #88d600;
+                    border: 0;
+                    margin-top: 15px;
+                    margin-right: 15px;
+                    border-radius: 5px;
+                    width: 90px;
+                    color: white;
+                    height: 40px;
+                    transition: background-color 0.3s ease;
+                  }
+
+                  .btnSalir {
+                    background-color: #c9c9c9;
+                    border: 0;
+                    margin-top: 15px;
+                    margin-right: 80px;
+                    border-radius: 5px;
+                    width: 80px;
+                    color: white;
+                    height: 40px;
+                    transition: background-color 0.3s ease;
+                  }
+
+                  .btnGuardar:hover {
+                    background-color:rgb(118, 187, 0);
+                  }
+
+                  .btnSalir:hover {
+                    background-color:rgba(199, 199, 199, 0.7);
+                  }
+
+
                 </style>
 
                 <div class="form-container">
-                  <div class="form-group">
+                  <div class="form-group" style="display: block;" id="divUnidadNegocio">
                     <label for="unidadDeNegocio"><b>Unidad de negocio</b></label>
-                    <select name="unidadDeNegocio" id="unidadDeNegocio"></select>
+                    <select name="unidadDeNegocio" id="unidadDeNegocio">
+                      <option value="asesorFreelance">Asesor Freelance</option>
+                      <option value="asesor10">Asesor 10</option>
+                      <option value="negocioDirecto">Negocio Directo</option>
+                      <option value="asesorGanador">Asesor Ganador</option>
+                    </select>
+                  </div>
+
+                  <div class="form-group" style="display: none;" id="divCanal">
+                    <label for="canal"><b>Canal</b></label>
+                    <select name="canal" id="canal">
+                      <option value="freelance">Freelance</option>
+                    </select>
                   </div>
 
                   <div class="form-group">
                     <label for="tipoDePersona"><b>Tipo de persona</b></label>
-                    <select name="tipoDePersona" id="tipoDePersona"></select>
+                    <select name="tipoDePersona" id="tipoDePersona">
+                      <option value="1">Natural</option>
+                      <option value="2">Jurídica</option>
+                    </select>
                   </div>
 
                   <div class="form-group">
                     <label for="tipoDocumento"><b>Tipo de documento</b></label>
-                    <select name="tipoDocumento" id="tipoDocumento"></select>
+                    <select name="tipoDocumento" id="tipoDocumento">
+                      <option value="CC">CC</option>
+                      <option value="NIT">NIT</option>
+                    </select>
                   </div>
 
                   <div class="form-group">
                     <label for="documento"><b>Documento</b></label>
-                    <input type="text" name="documento" id="documento">
+                    <input type="number" name="documento" id="documento">
                   </div>
 
                   <div style="display: none;">
@@ -497,7 +576,7 @@
                 </div>
                 <div class="form-container">
                   <div class="form-group">
-                    <label for="unidadDeNegocio"><b>Unidad de negocio</b></label>
+                    <label for="rol"><b>Rol</b></label>
                     <select name="unidadDeNegocio" id="unidadDeNegocio"></select>
                   </div>
 
@@ -641,37 +720,131 @@
               <div clas="row" style="margin-bottom: 30px; margin-top: 30px;">
                 <u><b style="font-size: 16px;">Información del financiera</b></u>
               </div>
-  
+
               <div class="form-container">
                 <div class="form-group">
                   <label for="unidadDeNegocio"><b>Entidad Bancaria</b></label>
                   <select name="unidadDeNegocio" id="unidadDeNegocio"></select>
                 </div>
-  
+
                 <div class="form-group">
                   <label for="tipoDePersona"><b>Tipo de cuenta</b></label>
                   <select name="tipoDePersona" id="tipoDePersona"></select>
                 </div>
-  
+
                 <div class="form-group">
                   <label for="tipoDocumento"><b>Número de cuenta</b></label>
                   <select name="tipoDocumento" id="tipoDocumento"></select>
                 </div>
-  
+
                 <div class="form-group">
-                  <label for="documento"><b>Régimen en renga</b></label>
+                  <label for="documento"><b>Régimen en renta</b></label>
                   <input type="text" name="documento" id="documento">
                 </div>
-  
-  
-  
+                <div class="form-group">
+                  <label for="representanteLegal"><b>Facturador electronico</b></label>
+                  <div class="" style="display: flex; flex-direction: row; gap: 30px;">
+                    <div style="display: flex; flex-direction: row; gap: 30px; justify-content: center; align-items: center;">
+                      <input type="radio" name="radioFacturador" id="siFacturado" style="margin: 0px">
+                      <label for="siFacturado" style="margin-bottom: 0px">Sí</label>
+                    </div>
+                    <div style="display: flex; flex-direction: row; gap: 30px; justify-content: center; align-items: center;">
+                      <input type="radio" name="radioFacturador" id="noFacturado" style="margin: 0px">
+                      <label for="noFacturado" style="margin-bottom: 0px">No</label>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="representanteLegal"><b>Responsable de IVA</b></label>
+                  <div class="" style="display: flex; flex-direction: row; gap: 30px;">
+                    <div style="display: flex; flex-direction: row; gap: 30px; justify-content: center; align-items: center;">
+                      <input type="radio" name="radioIVA" id="siIVA" style="margin: 0px">
+                      <label for="siIVA" style="margin-bottom: 0px">Sí</label>
+                    </div>
+                    <div style="display: flex; flex-direction: row; gap: 30px; justify-content: center; align-items: center;">
+                      <input type="radio" name="radioIVA" id="noIVA" style="margin: 0px">
+                      <label for="noIVA" style="margin-bottom: 0px">No</label>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="documento"><b>Participación Especial</b></label>
+                  <input type="text" name="documento" id="documento">
+                </div>
               </div>
-            </div>
-          </div>
+              <div clas="row" style="margin-bottom: 30px; margin-top: 30px;">
+                <u><b style="font-size: 16px;">Información del adicional</b></u>
+              </div>
+              <div style="display: flex; flex-direction: row; gap: 40px;">
+                <div class="form-group" style="width: 50%;">
+                  <label for="agregarComentario"><b>Agregar comentarios:</b></label>
+                  <input type="text" name="agregarComentario" id="agregarComentario">
+                  <button class="btnComentario">Agregar</button>
+                </div>
+                <div class="form-group" style="width: 50%; margin-top: 25px; resize: none;">
+                  <textarea name="comentario" id="comentarioTA" rows="15" cols="50" disabled></textarea>
+                </div>
+              </div>
+              <div class="form-container" style="margin-top: 50px;">
+                <div class="form-group">
+                  <label for="usuarioVin"><b>Usuario:</b></label>
+                  <input type="text" name="usuarioVin" id="usuarioVin" disabled>
+                </div>
 
+                <div class="form-group">
+                  <label for="fechaCreaVin"><b>Fecha de creación/vinculación:</b></label>
+                  <input type="date" name="fechaCreaVin" id="fechaCreaVin" disabled>
+                </div>
+
+                <div class="form-group">
+                  <label for="fechaVinculacion"><b>Fecha activación:</b></label>
+                  <input type="date" name="fechaVinculacion" id="fechaVinculacion" disabled>
+                </div>
+
+                <div class="form-group">
+                  <label for="diasActivacion"><b>Dias de activación</b></label>
+                  <input type="text" name="diasActivacion" id="diasActivacion" disabled>
+                </div>
+              </div>
+              <div class="form-container" style="margin-top: 20px;">
+                <div class="form-group">
+                  <label for="usuarioVin"><b>Limite cotizaciones:</b></label>
+                  <input type="text" name="usuarioVin" id="usuarioVin">
+                </div>
+
+                <div class="form-group">
+                  <label for="limiteUso"><b>Limite de uso:</b></label>
+                  <input type="date" name="limiteUso" id="limiteUso">
+                </div>
+
+                <div class="form-group">
+                  <label for="estadoUs"><b>Estado:</b></label>
+                  <select type="text" name="estadoUs" id="estadoUs">
+                    <option value="vinculado">vinculado</option>
+                    <option value="Activado">Activado</option>
+                    <option value="Inactivo">Inactivo</option>
+                    <option value="Bloqueado">Bloqueado</option>
+                    <option value="Reactivado">Reactivado</option>
+                  </select>
+                </div>
+              </div>
+            
+              <div style="display: flex; justify-content: space-between; margin-bottom: 60px; margin-top: 60px;">
+                <button class="btnSalir">Salir</button>
+                <button class="btnGuardar">Guardar</button>
+              </div>
+
+
+            </div>
+
+
+
+          </div>
         </div>
 
       </div>
+
+  </div>
   </div>
 
   </section>
