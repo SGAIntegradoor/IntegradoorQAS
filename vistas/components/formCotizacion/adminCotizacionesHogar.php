@@ -1,4 +1,4 @@
-<div class="container-fluid mainDataContainer" id="containerDataTable">
+<div class="container-fluid mainDataContainer" id="containerDataTable" style="padding-top: 30px; margin-top: 0px;">
   <div class="col-lg-12">
     <div class="row row-aseg">
       <div class="col-xs-12 col-sm-6 col-md-6">
@@ -16,7 +16,7 @@
   </div>
 </div>
 <div class="container-fluid" id="containerTable">
-  <button type="button" class="btn btn-default pull-right" id="daterange-btnCotizacionesSalud">
+  <button type="button" class="btn btn-default pull-right" id="daterange-btnCotizacionesHogar">
     <span>
       <i class="fa fa-calendar"></i>
       <?php
@@ -43,7 +43,6 @@
           <th style="font-weight: bold; text-align: center;">No. Documento</th>
           <th style="font-weight: bold; text-align: center;">Nombre Tomador</th>
           <th style="font-weight: bold; text-align: center;">Dirección</th>
-          <th style="font-weight: bold; text-align: center;">Genero</th>
           <th style="font-weight: bold; text-align: center;">Tipo de Vivienda</th>
           <th style="font-weight: bold; text-align: center;">Año de Construcción</th>
           <th style="font-weight: bold; text-align: center;">Credito Hip.</th>
@@ -61,7 +60,7 @@
 
           $fechaInicialCotizaciones = $_GET["fechaInicialCotizaciones"];
           $fechaFinalCotizaciones = $_GET["fechaFinalCotizaciones"];
-          $respuesta = ControladorCotizaciones::ctrRangoFechasCotizacionesSalud($fechaFinalCotizaciones, $fechaInicialCotizaciones);
+          $respuesta = ControladorCotizaciones::ctrRangoFechasCotizacionesHogar($fechaFinalCotizaciones, $fechaInicialCotizaciones);
         } else {
           $fechaActual = new DateTime();
 
@@ -74,28 +73,25 @@
           $fechaActual->modify('+1 day');
           $fechaActual = $fechaActual->format('Y-m-d');
 
-          $respuesta = ControladorCotizaciones::ctrRangoFechasCotizacionesSalud($fechaActual, $inicioMes);
-          // var_dump($respuesta);
+          $respuesta = ControladorCotizaciones::ctrRangoFechasCotizacionesHogar($fechaActual, $inicioMes);
+
         }
 
         $tipoDocumento = [1 => "Cédula de ciudadanía", 4 => "Cédula de extranjería", 2 => "Tarjeta de identidad", 3 => "Registro civil", 5 => "DNI"];
-
-        $genero = [1 => "Masculino", 2 => "Femenino"];
-
-        $tipoCotizacion = [1 => "Individual", 2 => "Familiar"];
+        $tipoVivienda = [1 => "Apartamento", 2 => "Casa", 3 => "Casa en condominio" ];
 
         foreach ($respuesta as $key => $value) {
           //   <td class="text-center" style="font-size: 14px">' . date('Y/m/d', strtotime($value['fch_nacimiento'])) . '</td>
           echo '<tr>
-                    <td class="text-center" style="font-size: 14px; text-align: center;">' . $value['id_cotizacion'] . '</td>
+                    <td class="text-center" style="font-size: 14px; text-align: center;">' . $value['id'] . '</td>
                     <td class="text-center" style="font-size: 14px; text-align: center;">' . $value['fecha_cotizacion'] . '</td>
-                    <td class="text-center" style="font-size: 14px; text-align: center;">' . $tipoDocumento[(int)$value['tipo_documento_asegurado']] . '</td>
-                    <td class="text-center" style="font-size: 14px; text-align: center;">' . $value['cedula_asegurado'] . '</td>
-                    <td class="text-center" style="font-size: 14px; text-align: center;">' . $value['nom_asegurado'] . '</td>
-                    <td class="text-center" style="font-size: 14px; text-align: center;">' . $value['fch_nac_asegurado'] . '</td>
-                    <td class="text-center" style="font-size: 14px; text-align: center;">' . $genero[$value['genero_asegurado']] . '</td>
-                    <td class="text-center" style="font-size: 14px; text-align: center;">' . $tipoCotizacion[$value['num_asegurados'] == 1 ? 1 : 2] . '</td>
-                    <td class="text-center" style="font-size: 14px; text-align: center;">' . $value['num_asegurados'] . '</td>
+                    <td class="text-center" style="font-size: 14px; text-align: center;">' . $tipoDocumento[(int)$value['id_tipo_documento']] . '</td>
+                    <td class="text-center" style="font-size: 14px; text-align: center;">' . $value['cli_num_documento'] . '</td>
+                    <td class="text-center" style="font-size: 14px; text-align: center;">' . $value['cli_nombre'].' '.$value['cli_apellidos']. '</td>
+                    <td class="text-center" style="font-size: 14px; text-align: center;">' . $value['direccion'] . '</td>
+                    <td class="text-center" style="font-size: 14px; text-align: center;">' . $tipoVivienda[(int)$value['tipo_vivienda']]. '</td>
+                    <td class="text-center" style="font-size: 14px; text-align: center;">' . $value['anio_construccion']. '</td>
+                    <td class="text-center" style="font-size: 14px; text-align: center;">' . $value['credito'] . '</td>
                     <td class="text-center" style="font-size: 14px; text-align: center;">' . $value['usu_nombre'] . ' ' . $value['usu_apellido'] . '</td>
                     <td class="text-center">
                         <div class="btn-group">
@@ -121,7 +117,7 @@
 </div>
 
 <link rel="stylesheet" href="vistas\modulos\AssistCardCot\css\admincotizaciones.css">
-<script src="vistas\components\formCotizacion\js\adminCotizacionesHogar.js?v=<?php echo (rand()); ?>" defer></script>
 <script src="vistas\js\cotizaciones_hogar.js?v=<?php echo (rand()); ?>" defer></script>
+<script src="vistas\components\formCotizacion\js\adminCotizacionesHogar.js?v=<?php echo (rand()); ?>" defer></script>
 <!-- use version 0.20.3 -->
 <script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js" defer></script>

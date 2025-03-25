@@ -1,18 +1,3 @@
-$(document).ready(function () {
-  //   toggleContainerData();
-  //   toggleContainerDataHogar();
-  //   toggleContainerValores();
-  //   toggleContainerCards();
-  //   toggleContainerValoresAllianz();
-  //   toggleContainerValoresSBS();
-  $("#formValores").show();
-  $("#lblCotAseg").html("DATOS DEL ASEGURADO");
-  openDataFormHogar();
-  openValAllianz();
-
-  $("#btnCotizarSBS, #btnDataHogarSiguiente, #btnCotizar").hide();
-});
-
 $(".tablas-hogar").on("click", ".btnEditarCotizacionHogar", function () {
   var idCotizacionHogar = $(this).attr("idCotizacionHogar");
   window.location =
@@ -26,15 +11,18 @@ let getParams = (param) => {
   return options;
 };
 
-// editarCotizacionHogar(getParams("idCotizacionHogar")[0]);
-
 function changeTitlePage() {
   var newTittle = "DATOS DEL ASEGURADO";
   $("#lblCotAseg").text(newTittle);
 }
 if (getParams("idCotizacionHogar").length > 0) {
   editarCotizacionHogar(getParams("idCotizacionHogar")[0]);
+  $("#btnCotizarSBS, #btnDataHogarSiguiente, #btnCotizar").hide();
   changeTitlePage();
+  $("#formValores").show();
+  $("#lblCotAseg").html("DATOS DEL ASEGURADO");
+  openDataFormHogar();
+  openValAllianz();
 } else if (getParams("fechaInicialCotizaciones").length > 0) {
   menosCotizaciones();
 }
@@ -95,7 +83,8 @@ switch (selected) {
       .data("daterangepicker")
       .setEndDate(moment().subtract(1, "days"));
     break;
-  case "Últimos 7 días":Ay 
+  case "Últimos 7 días":
+    Ay;
     $("#daterange-btnCotizacionesHogar")
       .data("daterangepicker")
       .setStartDate(moment().subtract(7, "days"));
@@ -235,12 +224,15 @@ function editarCotizacionHogar(id) {
     processData: false,
     dataType: "json",
     success: function (response) {
-      
+      console.log(response);
+
       // $(".contentsAllianz").find("input, select, radio").each(function () {
       //   console.log(this); // 'this' es el elemento actual
       // });
-      $(".general-container-aseg").find("input, select, radio").prop("disabled", true);  
-      
+      $(".general-container-aseg")
+        .find("input, select, radio")
+        .prop("disabled", true);
+
       let {
         anio_construccion,
         area_total,
@@ -279,7 +271,6 @@ function editarCotizacionHogar(id) {
         val_viv,
         val_viv_sbs,
       } = response;
-
 
       const fields = [
         "nombre",
@@ -336,19 +327,19 @@ function editarCotizacionHogar(id) {
 
       $("#btnAllianzCot").css("display", "none");
 
-      if(aseg_mascota == "GA"){
+      if (aseg_mascota == "GA") {
         $("#siGato").prop("checked", true);
-      } else if(aseg_mascota == "PE"){
+      } else if (aseg_mascota == "PE") {
         $("#siPerro").prop("checked", true);
       } else {
         $("#no").prop("checked", true);
       }
 
-      $(".inputsAllianz").prop("disabled", true);  
-      
+      $(".inputsAllianz").prop("disabled", true);
+
       // campos SBS
 
-      if(val_viv_sbs != null){
+      if (val_viv_sbs != null) {
         $("#valorVivienda").val(val_viv_sbs || 0);
         $("#siSBS").prop("checked", true).trigger("change");
       } else {
@@ -356,19 +347,65 @@ function editarCotizacionHogar(id) {
       }
 
       $("#valorEnseres").val(val_cnen_sbs == null ? 0 : val_cnen_sbs);
-      $("#valorEquipoElectrico").val(val_cnelec_sbs == null ? 0: val_cnelec_sbs);
-      $("#valorCEspeciales").val(val_cnesp_sus_sbs == null ? 0: val_cnesp_sus_sbs);
-      $("#totalContenidos").val(tot_cnn_sbs == null ? 0: tot_cnn_sbs);
-      $("#totalCoberturaBasica").val(tot_cobertura_basica_sbs == null ? 0: tot_cobertura_basica_sbs);
-      $("#contentNormalesSUS").val(val_cnnor_sus_sbs == null ? 0: val_cnnor_sus_sbs);
-      $("#contEspecialesSUS").val(val_cnesp_sus_sbs == null ? 0: val_cnesp_sus_sbs);
-      $("#totalContHurtoSus").val(tot_cn_sus_sbs == null ? 0: tot_cn_sus_sbs);
-      $("#valorAseguradoD").val(val_asegee_danos_sbs == null ? 0: val_asegee_danos_sbs);
-      $("#valorAsegSUSEE").val(val_asegee_sus_sbs == null ? 0: val_asegee_sus_sbs);
-      $("#valorTodoRiesgo").val(val_tr_sbs == null ? 0: val_tr_sbs);
+      $("#valorEquipoElectrico").val(
+        val_cnelec_sbs == null ? 0 : val_cnelec_sbs
+      );
+      $("#valorCEspeciales").val(
+        val_cnesp_sus_sbs == null ? 0 : val_cnesp_sus_sbs
+      );
+      $("#totalContenidos").val(tot_cnn_sbs == null ? 0 : tot_cnn_sbs);
+      $("#totalCoberturaBasica").val(
+        tot_cobertura_basica_sbs == null ? 0 : tot_cobertura_basica_sbs
+      );
+      $("#contentNormalesSUS").val(
+        val_cnnor_sus_sbs == null ? 0 : val_cnnor_sus_sbs
+      );
+      $("#contEspecialesSUS").val(
+        val_cnesp_sus_sbs == null ? 0 : val_cnesp_sus_sbs
+      );
+      $("#totalContHurtoSus").val(tot_cn_sus_sbs == null ? 0 : tot_cn_sus_sbs);
+      $("#valorAseguradoD").val(
+        val_asegee_danos_sbs == null ? 0 : val_asegee_danos_sbs
+      );
+      $("#valorAsegSUSEE").val(
+        val_asegee_sus_sbs == null ? 0 : val_asegee_sus_sbs
+      );
+      $("#valorTodoRiesgo").val(val_tr_sbs == null ? 0 : val_tr_sbs);
 
-      $(".inputNumber").prop("disabled", true); 
-      
+      $(".inputNumber").prop("disabled", true);
+
+      // Construye la tabla de ofertas (Resumen de cotizaciones)
+
+      let alerts = {
+        alertasHogar: true,
+        cotizacion: idCotizacionHogar,
+      };
+
+      $.ajax({
+        url: "ajax/alerta_aseguradora.ajax.php",
+        method: "POST",
+        data: JSON.stringify(alerts),
+        cache: false,
+        contentType: false,
+        processData: false,
+        dataType: "json",
+        success: function (response) {
+          makeATable()
+          response.forEach((alert) => {
+            alert.cotizo == 1
+              ? $(`#${alert.aseguradora}-check`).html(
+                  `<i class="fa fa-check" aria-hidden="true" style="color: green; margin-right: 5px;"></i>`
+                )
+              : $(`#${alert.aseguradora}-check`).html(
+                  `<i class="fa fa-times" aria-hidden="true" style="color: red; margin-right: 5px;"></i>`
+                );
+            $(`#${alert.aseguradora}-offerts`).html(alert.num_ofertas);
+            $(`#${alert.aseguradora}-observations`).html(alert.mensajes);
+          });
+        },
+      });
+
+      // Construye las cards de cotizaciónes
       let form = new FormData();
       form.append("idCotizacionHogarOfferts", idCotizacionHogar);
 
@@ -383,10 +420,11 @@ function editarCotizacionHogar(id) {
         success: function (response) {
           console.log(response);
           $("#parrillaCards").show();
-          makeCards(response, 2);
-        }
-      });
+          $("#resumenCotizaciones").show();
 
+          makeCards(response, 2);
+        },
+      });
     },
 
     error: function (jqXHR, textStatus, errorThrown) {

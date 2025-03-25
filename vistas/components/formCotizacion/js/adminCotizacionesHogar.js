@@ -1,22 +1,24 @@
+
 function menosCotizaciones () {
-  
+  console.log("clicked")
     $("#masAdminCoti").toggle();
     $("#menosAdminCoti").toggle();
     $("#containerTable").toggle();
 }
 
 function masViewCot () {
+  console.log("clicked")
     $("#masAdminCoti").toggle();
     $("#menosAdminCoti").toggle();
     $("#containerTable").toggle();
 }
 
 $(document).ready(function () { 
-    $("#masAdminCoti, #menosAdminCoti").click(function () {
+    $("#menosAdminCoti").click(function () {
         menosCotizaciones();
     });
 
-    $("#masAdminCoti, #menosAdminCoti").click(function () {
+    $("#masAdminCoti").click(function () {
         masViewCot();
     })
 

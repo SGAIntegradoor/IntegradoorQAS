@@ -2,11 +2,18 @@
 
     require_once "../modelos/alerta_aseguradora.modelo.php";
     header('Content-Type: text/html; charset=utf-8');
+    
 ;
    class AlertaAseguradora {
         
         public function obtenerAlertas($cotizacion) {
             $resultado = ModeloAlertaAseguradora::mdlObtenerAlertas($cotizacion);  
+            if (!$resultado) { return false; }
+
+            echo json_encode($resultado);
+        }
+        public function obtenerAlertasHogar($cotizacion) {
+            $resultado = ModeloAlertaAseguradora::mdlObtenerAlertasHogar($cotizacion);  
             if (!$resultado) { return false; }
 
             echo json_encode($resultado);
@@ -18,3 +25,9 @@
         $alertaAseguradora = new AlertaAseguradora();
         $alertaAseguradora->obtenerAlertas($data['cotizacion']);
     }
+
+    if (isset($data['alertasHogar'])) {
+        $alertaAseguradora = new AlertaAseguradora();
+        $alertaAseguradora->obtenerAlertasHogar($data['cotizacion']);
+    }
+

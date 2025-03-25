@@ -736,9 +736,9 @@ class ModeloCotizaciones
 				FROM 
 					$tabla c
 				INNER JOIN 
-					$tabla3 a ON a.id_cotizacion = c.id_cotizacion
+					$tabla2 o ON o.id_cotizacion = c.id
 				INNER JOIN 
-					$tabla2 o ON o.ofertas_hogar = c.id_cotizacion
+					$tabla3 cli ON cli.id_cliente = c.id_cliente
 				INNER JOIN 
 					$tabla4 us ON us.id_usuario = c.id_usuario
 				WHERE 
@@ -773,20 +773,21 @@ class ModeloCotizaciones
 			$finMes = $finMes->format('Y-m-d');
 
 			if ($_SESSION['rol'] == 10 || $_SESSION['rol'] == 1 || $_SESSION['rol'] == 12) {
+
 				$stmt = Conexion::conectar()->prepare("
 					SELECT 
-						*
-					FROM 
-						$tabla c
-					INNER JOIN 
-						$tabla3 a ON a.id_cotizacion = c.id_cotizacion
-					INNER JOIN 
-						$tabla2 t ON t.id_cotizacion = c.id_cotizacion
-					INNER JOIN 
-						$tabla5 us ON us.id_usuario = c.id_usuario
-					WHERE 
-						c.fecha_cotizacion BETWEEN :fechaInicial AND :fechaFinal 
-					GROUP BY c.id_cotizacion;
+				*
+				FROM 
+					$tabla c
+				INNER JOIN 
+					$tabla2 o ON o.id_cotizacion = c.id
+				INNER JOIN 
+					$tabla3 cli ON cli.id_cliente = c.id_cliente
+				INNER JOIN 
+					$tabla4 us ON us.id_usuario = c.id_usuario
+				WHERE 
+					c.fecha_cotizacion BETWEEN :fechaInicial AND :fechaFinal 
+				GROUP BY c.id;
 				");
 			} else {
 				$stmt = Conexion::conectar()->prepare("
