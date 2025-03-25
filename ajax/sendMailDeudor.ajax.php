@@ -19,7 +19,7 @@ function sendEmail()
 {
     global $data;
     // Recibir y decodificar JSON desde el frontend
-    $receiptMail = "tecnologia@grupoasistencia.com";
+    $receiptMail = "jperea@grupoasistencia.com";
 
     // Configuración SMTP
     $mail = new PHPMailer(true); // Habilitar excepciones para mejor manejo de errores
@@ -45,7 +45,7 @@ function sendEmail()
         $mail->Body = '
         <html>
         <head>
-            <title>Cotización de Seguro</title>
+            <title>Cotización de Seguro Vida Deudor</title>
         </head>
         <body>
             <h2>Hola, el Asesor ' . htmlspecialchars($data["asesor"]) . ',</h2>
