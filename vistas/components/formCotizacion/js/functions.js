@@ -1426,6 +1426,9 @@ function cotizar(body) {
           icon: "success",
           title: "¡Cotización exitosa!",
           text: "Proceso de cotización finalizado",
+          didOpen: () => {
+            document.querySelector(".swal2-container").style.zIndex = "1059";
+          },
         });
       })
       .catch((error) => console.log(error));
@@ -1596,11 +1599,15 @@ function makeCards(data, type = null) {
                             </ul>
                           </div>
                           <div class="col-xs-12 col-sm-6 col-md-2 verpdf-oferta">
-                          ${permisos.Verpdfindividuales == "x" ? `
+                          ${
+                            permisos.Verpdfindividuales == "x"
+                              ? `
                             <button type="button" class="btn btn-info" onclick='verPdfOfertaHogar("${element.pdf_sbs}")'>
                                             <div id="">VER PDF &nbsp;&nbsp;<span class="fa fa-file-text"></span></div>
                                         </button>
-                            `: ""}
+                            `
+                              : ""
+                          }
                                         
                                     </div>
                         </div>
@@ -2249,6 +2256,11 @@ let dataCotizacion = {};
 $("#btnCotizarSBS, #btnCotizar").click(function () {
   let { errors, data } = validateErrors("cotizar");
   if (errors) {
+    $("html, body").animate({ scrollTop: 0 }, "slow", function () {
+      setTimeout(() => {
+        openModalVidaDeudor();
+      }, 1000);
+    });
     // Obtener valores de los inputs una sola vez
     let tipoDocumento = $("#tipoDocumento").val();
     let tipoVivienda = $("#tipoVivienda").val();
@@ -2634,24 +2646,22 @@ function abrirDialogoCrear() {
   $("#myModalHogar").dialog("open");
 }
 
-function openModalVidaDeudor(){
-  $("#myModalHogarVidaDeudor").dialog({
+// openModalVidaDeudor()
 
+function openModalVidaDeudor() {
+  $("#myModalHogarVidaDeudor").dialog({
     closeOnEscape: false,
     autoOpen: false,
     resizable: false, // Desactiva el redimensionamiento
     draggable: false, // Opcional, si deseas permitir que se pueda mover
     modal: true,
-    width: "60%",
+    width: "63%",
     // position: { my: "center center", at: "center top+100", of: window },
     // position: { my: "left top", at: "left+65 top+50", of: window } ,
     dialogClass: "modalVidaDeudor",
 
     open: function () {
       $("body").addClass("modal-open"); // Añade la clase para bloquear el scroll de la página
-      $("body").css("overflow", "hidden");
-
-      $("body").addClass("modal-open").css("overflow", "hidden");
 
       // Obtener dimensiones de la ventana
       let windowWidth = $(window).width();
@@ -2659,7 +2669,7 @@ function openModalVidaDeudor(){
 
       // Calcular posiciones dinámicas
       let posX = windowWidth >= 1280 ? "center+25" : "center+19"; // Centrado en pantallas grandes, desplazado en chicas
-      let posY = windowHeight > 800 ? "center" : "top+300"; // Ajuste según altura de la pantalla
+      let posY = windowHeight > 800 ? "center" : "top+350"; // Ajuste según altura de la pantalla
 
       // Ajustar la posición
       $(this).dialog("option", "position", {
@@ -2675,6 +2685,154 @@ function openModalVidaDeudor(){
   // Abrir el diálogo
   $("#myModalHogarVidaDeudor").dialog("open");
 }
+
+function openFormQuestions() {
+  $("#btnSiVidaDeudor").prop("disabled", "true");
+  $("#myModalHogarVidaDeudor").dialog({
+    height: $(window).height() * 0.8,
+  });
+  $("#formQuestionVidaDeudor").css("display", "block");
+}
+function showCircularProg(cotType) {
+  Swal.fire({
+    title: `${cotType}`,
+    html: `
+        <div style="display: flex; justify-content: center; align-items: center; overflow: hidden;">
+          <div class="loader"></div>
+        </div>
+      `,
+    didOpen: () => {
+      document.querySelector(".swal2-container").style.zIndex = "1200";
+    },
+    backdrop: true,
+    allowOutsideClick: false,
+    allowEscapeKey: false,
+    showConfirmButton: false,
+    customClass: {
+      popup: "popupLoader",
+      container: "backdropLoader",
+    },
+  });
+}
+
+async function enviarCorreoVidaDeudor() {
+  // Capturar los valores manualmente desde los inputs
+  const valorDeuda = document.getElementById("valorDeuda").value.trim();
+  const diaNacimiento = document.getElementById(
+    "dianacimientoVidaDeudor"
+  ).value;
+  const mesNacimiento = document.getElementById(
+    "mesnacimientoVidaDeudor"
+  ).value;
+  const anioNacimiento = document.getElementById(
+    "anionacimientoVidaDeudor"
+  ).value;
+  const peso = document.getElementById("pesoDeudor").value.trim();
+  const altura = document.getElementById("alturaDeudor").value.trim();
+  const condicionSalud = document.getElementById("condicionSal").value.trim();
+  const tieneCondicion = document.querySelector(
+    "input[name='infoCheck']:checked"
+  )?.value;
+
+  // Validar que los campos obligatorios no estén vacíos
+  if (!valorDeuda)
+    return mostrarError("valorDeuda", "Este campo es obligatorio");
+  if (!diaNacimiento || !mesNacimiento || !anioNacimiento)
+    return mostrarError(
+      "dianacimientoVidaDeudor",
+      "Selecciona una fecha válida"
+    );
+  if (!peso || isNaN(peso) || peso <= 0)
+    return mostrarError("pesoDeudor", "Ingresa un peso válido");
+  if (!altura || isNaN(altura) || altura <= 0)
+    return mostrarError("alturaDeudor", "Ingresa una altura válida");
+  if (!condicionSalud)
+    return mostrarError("condicionSal", "Este campo es obligatorio");
+  if (!tieneCondicion)
+    return mostrarError("creditoHipotecarioRadio", "Selecciona una opción");
+
+  // Si todo está bien, remover errores previos
+  limpiarErrores();
+
+  let nombreCli = $("#nombre").val() ?? null;
+  let apellidoCli = $("#apellidos").val() ?? null;
+  let noDocumentoCli = $("#noDocumento").val() ?? null;
+  let razonSocialCli = $(".razon").val() ?? null;
+  let correoCli = $(".correo").val() ?? null;
+  let celularCli = $(".celular").val() ?? null;
+
+  // Construir objeto con los datos
+  const data = {
+    asesor: permisos.usu_nombre + " " + permisos.usu_apellido,
+    documentoAsesor: permisos.usu_documento,
+    correoAsesor: permisos.usu_email,
+    telefono: permisos.usu_telefono,
+    clienteNombre: nombreCli || razonSocialCli,
+    clienteApellido: apellidoCli || null,
+    clienteDocumento: noDocumentoCli,
+    clienteCorreo: correoCli,
+    clienteCelular: celularCli,
+    valorDeuda,
+    fechaNacimiento: `${anioNacimiento}-${mesNacimiento}-${diaNacimiento}`,
+    peso,
+    altura,
+    condicionSalud,
+    tieneCondicion,
+  };
+
+  try {
+    showCircularProg("Enviando Email...");
+    const response = await fetch("ajax/sendMailDeudor.ajax.php", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+
+    if (response.ok) {
+      Swal.close();
+      closeModal("#myModalHogarVidaDeudor"); // Cierra el modal si el envío fue exitoso
+    } else {
+      alert("Error al enviar el correo");
+    }
+  } catch (error) {
+    console.error("Error en la solicitud:", error);
+    alert("Hubo un problema al enviar el correo");
+  }
+}
+
+// Función para mostrar errores en los inputs
+function mostrarError(idCampo, mensaje) {
+  const campo = document.getElementById(idCampo);
+  let error = document.createElement("p");
+  error.classList.add("error-msg");
+  error.style.color = "red";
+  error.textContent = mensaje;
+
+  // Eliminar error previo si existe
+  let errorPrevio = campo.parentNode.querySelector(".error-msg");
+  if (errorPrevio) {
+    errorPrevio.remove();
+  }
+
+  campo.parentNode.appendChild(error);
+  campo.focus(); // Hacer que el campo tome el foco
+}
+
+// Función para limpiar errores previos
+function limpiarErrores() {
+  document.querySelectorAll(".error-msg").forEach((el) => el.remove());
+}
+
+$(
+  "#dianacimientoVidaDeudor, #mesnacimientoVidaDeudor, #anionacimientoVidaDeudor"
+).select2({
+  theme: "bootstrap",
+  language: "es",
+  width: "100%",
+  dropdownParent: $("#myModalHogarVidaDeudor"),
+});
 
 function clearInfoModalAddress(erase) {
   let inputAddress = $("#15m").val();
@@ -2700,7 +2858,7 @@ function closeModalAddress(erase = false) {
   clearInfoModalAddress(erase);
 }
 
-function closeModal(selector){
+function closeModal(selector) {
   $(`${selector}`).dialog("close");
 }
 
@@ -2845,7 +3003,7 @@ $(
 
 $("#deptoInmueble").on("change", function () {
   const params = new URLSearchParams(window.location.search);
-  if(!params.has('idCotizacionHogar')){
+  if (!params.has("idCotizacionHogar")) {
     consultarCiudadHogar();
   }
 });

@@ -321,7 +321,7 @@
     border-radius: 20px;
   }
 
-  
+
   .btn-excel {
     display: flex !important;
     border: 0px !important;
@@ -362,7 +362,6 @@
       text-align: left;
     }
   }
-
 </style>
 
 <div class="content-wrapper">
@@ -384,7 +383,7 @@
   </section>
   <section class="content">
     <div class="box">
-    <?php include_once './vistas/components/formCotizacion/adminCotizacionesHogar.php'; ?>
+      <?php include_once './vistas/components/formCotizacion/adminCotizacionesHogar.php'; ?>
       <div class="row card-container">
         <!-- TITULO PLANES -->
         <div class="content">
@@ -415,7 +414,7 @@
                   <b>Cotizamos con 2 aseguradoras:</b>
                 </p>
                 <div style="display: flex; flex-direction: row; gap: 30px; justify-content: center; padding-top: 30px;">
-                  <img src="vistas/img/logos/LOGO BOLIVAR.png" class="img-fluid mx-auto" style="max-width: 35%;">
+                  <img src="vistas/img/logos/SBS.png" class="img-fluid mx-auto" style="height: 26px; margin-top: 14px;">
                   <img src="vistas/img/logos/LOGO ALLIANZ.png" class="img-fluid mx-auto" style="max-width: 35%; margin-top: 3px;">
                 </div>
                 <br>
@@ -553,15 +552,18 @@
       <button class="btn btn-primary btn-modal" onclick="closeModal('#myModalHogarVidaDeudor')" id="btnNoVidaDeudor" style="width: 80px; background: black">No</button>
       <button class="btn btn-primary btn-modal" onclick="openFormQuestions()" id="btnSiVidaDeudor" style="width: 80px">Si</button>
     </div>
-    <section style="display: none;">
-      <div class="col-xs-12 col-sm-6 col-md-12" style="display: flex; flex-direction: column; gap: 20px;">
-        <div class="row" style="margin-bottom: 20px; margin-top: 18px; ">
-          <input type="text" class="form-control" name="" id="2m" placeholder="" required>
-          <div class="col-xs-12 col-sm-6 col-md-3 form-group" id="fechaNacimiento">
-            <label name="lblFechaNacimiento">Fecha de Nacimiento</label>
-            <div id="fechaCompleta" class="row">
-              <div class="col-xs-4 col-sm-4 col-md-4 conten-dia">
-                <select class="form-control fecha-nacimiento" name="dianacimientoVidaDeudor" id="dianacimientoVidaDeudor">
+    <section style="display: none; margin-top: 30px;" id="formQuestionVidaDeudor">
+      <div class="" style="display: flex; flex-direction: column; gap: 10px;">
+        <div class="row" style="display: flex; flex-direction: row; margin-bottom: 20px; margin-top: 18px; gap:50px">
+          <div style="display: flex; flex-direction: column; width: 40%">
+            <label for="valorDeuda">Valor de la deuda según el extracto financiero</label>
+            <input type="text" class="form-control" name="valorDeuda" id="valorDeuda" placeholder="" required>
+          </div>
+          <div class="" id="fechaNacimiento" style="width: 40%;">
+            <label name="lblFechaNacimiento">Fecha de nacimiento del deudor</label>
+            <div id="fechaCompleta" class="row" style="display:flex; margin-top: 19px; gap:10px">
+              <div class="col-xs-4 col-sm-4 col-md-4 conten-dia" style="padding-left: 4px;">
+                <select class="form-control fecha-nacimiento" name="dianacimientoVidaDeudor" id="dianacimientoVidaDeudor" required>
                   <option value="">Dia</option>
                   <?php
                   for ($i = 1; $i <= 31; $i++) {
@@ -575,7 +577,7 @@
                 </select>
               </div>
               <div class="col-xs-4 col-sm-4 col-md-4 conten-mes">
-                <select class="form-control fecha-nacimiento" name="mesnacimientoVidaDeudor" id="mesnacimientoVidaDeudor">
+                <select class="form-control fecha-nacimiento" name="mesnacimientoVidaDeudor" id="mesnacimientoVidaDeudor" required>
                   <option value="" selected>Mes</option>
                   <option value="01">Enero</option>
                   <option value="02">Febrero</option>
@@ -592,7 +594,7 @@
                 </select>
               </div>
               <div class="col-xs-4 col-sm-4 col-md-4 conten-anio">
-                <select class="form-control fecha-nacimiento" name="anionacimientoVidaDeudor" id="anionacimientoVidaDeudor">
+                <select class="form-control fecha-nacimiento" name="anionacimientoVidaDeudor" id="anionacimientoVidaDeudor" required>
                   <option value="">Año</option>
                   <?php
                   for ($j = 1920; $j <= 2025; $j++) {
@@ -605,27 +607,41 @@
             </div>
           </div>
         </div>
-        <div class="col-xs-12 col-sm-6 col-md-12 form-group" style="display: flex; flex-direction: row; gap: 20px;">
-          <select type="text" class="form-control" name="" id="1m" placeholder="" required>
-          </select>
-          <select type="text" class="form-control" name="" id="3m" placeholder="">
-
-          </select>
-          <input type="text" class="form-control" name="" id="4m" placeholder="">
-          <select type="text" class="form-control" name="" id="5m" placeholder="">
-
-          </select>
-          <input type="text" class="form-control" name="" id="6m" placeholder="" value="#" disabled style="padding: 0;">
-          <input type="text" class="form-control inputNumber" name="" id="7m" placeholder="" required>
-          <select type="text" class="form-control" name="" id="8m" placeholder=""></select>
-
-          <input type="text" class="form-control" name="" id="9m" placeholder="" style="width: 33px;" value="-" disabled style="padding: 0;">
-          <input type="text" class="form-control inputNumber" name="" id="10m" placeholder="" required style="width: 90px;">
-          <select type="text" class="form-control" name="" id="11m" placeholder="" style="width: 120px;">
-
-          </select>
+        <div class="row" style="display: flex; flex-direction: row; margin-bottom: 20px; margin-top: 10px; gap:50px">
+          <div style="display: flex; flex-direction: column; width: 40%">
+            <label for="pesoDeudor">Peso del deudor (en Kg)</label>
+            <input type="text" class="form-control" name="pesoDeudor" id="pesoDeudor" placeholder="" required>
+          </div>
+          <div class="" id="fechaNacimiento" style="width: 40%;">
+            <label for="alturaDeudor">Altura del deudor</label>
+            <input type="text" class="form-control" name="alturaDeudor" id="alturaDeudor" placeholder="" required>
+          </div>
         </div>
-      </div>
+        <div class="row" style="display: flex; flex-direction: column; margin-bottom: 20px; margin-top: 10px; margin-left: 34px;">
+          <label for="valorDeuda">¿ El deudor tiene alguna enfermedad o condición de salud especial que reportar ?</label>
+          <div style="display: flex; flex-direction: row; gap: 40px;">
+            <div style="display: flex; flex-direction: row; gap: 15px; align-items: flex-start;">
+              <p style="margin:0; font-weight: bold ">Si</p>
+              <input type="radio" id="siCondicion" name="infoCheck" value="si">
+            </div>
+            <div style="display: flex; flex-direction: row; gap: 15px; align-items: flex-start;">
+              <p style="margin:0; font-weight: bold">No</p>
+              <input type="radio" id="noCondicion" name="infoCheck" value="no" checked>
+            </div>
+          </div>
+        </div>
+        <div class="row" style="display: flex; flex-direction: column; margin-bottom: 20px; margin-top: 10px; margin-left: 34px; margin-right: 34px;">
+          <label for="condicionSal">Describa la condición de salud</label>
+          <input type="text" class="form-control" name="condicionSal" id="condicionSal" required>
+        </div>
+        <div class="row" style="display: flex; flex-direction: column; margin-bottom: 20px; margin-top: 10px; margin-left: 34px; margin-right: 34px;  align-items: center; justify-content: center;">
+          <button class="btn btn-primary btn-modal" id="btnSiVidaDeudor" onclick="enviarCorreoVidaDeudor()">Solicitar Cotización</button>
+        </div>
+
+        <div class="row" style="display: flex; flex-direction: column; margin-bottom: 20px; margin-top: 25px; margin-left: 34px; margin-right: 34px; align-items: center; justify-content: center;">
+          <p>Nota: Esta cotización de seguro de vida deudor sera realizada por tu analista de manera manual.</p>
+        </div>
+
     </section>
   </div>
 </div>
