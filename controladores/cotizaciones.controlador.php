@@ -247,7 +247,7 @@ class ControladorCotizaciones
 	static public function ctrRangoFechasCotizacionesHogar($fechaFinalCotizaciones, $fechaInicialCotizaciones)
 	{
 
-		$tabla = "cotizaciones_Hogar";
+		$tabla = "cotizaciones_hogar";
 		$tabla2 = "ofertas_hogar"; 
 		$tabla3 = "clientes";
 		$tabla4 = "usuarios";

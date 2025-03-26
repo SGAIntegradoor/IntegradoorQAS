@@ -20,21 +20,6 @@
     <span>
       <i class="fa fa-calendar"></i>
       <?php
-      $fechaActual = new DateTime();
-
-      // Obtener la fecha de inicio de los últimos 30 días
-      $inicioMes = clone $fechaActual;
-      $inicioMes->modify('-30 days');
-      $inicioMes = $inicioMes->format('Y-m-d');
-
-      // Obtener la fecha de fin (la fecha actual)
-      $fechaActual->modify('+1 day');
-      $fechaActual = $fechaActual->format('Y-m-d');
-
-    $res = ControladorCotizaciones::ctrRangoFechasCotizacionesHogar($fechaActual, $inicioMes);
-
-    echo '<script>console.log("Controlador:", ' . json_encode($res) . ')</script>';
-
 
       if (isset($_GET["fechaInicialCotizaciones"])) {
         echo $_GET["fechaInicialCotizaciones"] . " - " . $_GET["fechaFinalCotizaciones"];
@@ -91,7 +76,6 @@
           $fechaActual = $fechaActual->format('Y-m-d');
 
           $respuesta = ControladorCotizaciones::ctrRangoFechasCotizacionesHogar($fechaActual, $inicioMes);
-
         }
 
         
