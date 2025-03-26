@@ -20,6 +20,22 @@
     <span>
       <i class="fa fa-calendar"></i>
       <?php
+      $fechaActual = new DateTime();
+
+      // Obtener la fecha de inicio de los últimos 30 días
+      $inicioMes = clone $fechaActual;
+      $inicioMes->modify('-30 days');
+      $inicioMes = $inicioMes->format('Y-m-d');
+
+      // Obtener la fecha de fin (la fecha actual)
+      $fechaActual->modify('+1 day');
+      $fechaActual = $fechaActual->format('Y-m-d');
+
+    $res = ControladorCotizaciones::ctrRangoFechasCotizacionesHogar($fechaActual, $inicioMes);
+
+    echo '<script>console.log("Controlador:", ' . json_encode($res) . ')</script>';
+
+
       if (isset($_GET["fechaInicialCotizaciones"])) {
         echo $_GET["fechaInicialCotizaciones"] . " - " . $_GET["fechaFinalCotizaciones"];
       } else {
@@ -30,6 +46,7 @@
     <i class="fa fa-caret-down"></i>
   </button>
   <div class="box-body">
+    
 
     <table class="table table-bordered table-striped dt-responsive tablas-hogar" width="100%">
 
@@ -77,6 +94,7 @@
 
         }
 
+        
         $tipoDocumento = [1 => "Cédula de ciudadanía", 4 => "Cédula de extranjería", 2 => "Tarjeta de identidad", 3 => "Registro civil", 5 => "DNI"];
         $tipoVivienda = [1 => "Apartamento", 2 => "Casa", 3 => "Casa en condominio" ];
 
