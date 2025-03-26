@@ -789,6 +789,21 @@ class ModeloCotizaciones
 					c.fecha_cotizacion BETWEEN :fechaInicial AND :fechaFinal 
 				GROUP BY c.id;
 				");
+				var_dump("SELECT 
+				*
+				FROM 
+					$tabla c
+				INNER JOIN 
+					$tabla2 o ON o.id_cotizacion = c.id
+				INNER JOIN 
+					$tabla3 cli ON cli.id_cliente = c.id_cliente
+				INNER JOIN 
+					$tabla4 us ON us.id_usuario = c.id_usuario
+				WHERE 
+					c.fecha_cotizacion BETWEEN :fechaInicial AND :fechaFinal 
+				GROUP BY c.id;
+				");
+				die();
 			} else {
 				$stmt = Conexion::conectar()->prepare("
 					SELECT 
@@ -807,7 +822,22 @@ class ModeloCotizaciones
 						AND c.id_usuario = :idUsuario;
 				");
 			}
-
+			var_dump("SELECT 
+						*
+					FROM 
+						cotizaciones_salud c
+					INNER JOIN 
+						asegurados_cotizaciones_salud a ON a.id_cotizacion = c.id_cotizacion
+					INNER JOIN 
+						tomadores_cotizaciones_salud t ON t.id_cotizacion = c.id_cotizacion
+					INNER JOIN
+						usuarios us ON us.id_usuario = c.id_usuario
+					WHERE 
+						c.fecha_cotizacion BETWEEN :fechaInicial AND :fechaFinal
+						AND us.id_Intermediario = :idIntermediario
+						AND c.id_usuario = :idUsuario;
+				");
+			die();
 			// Enlazar parámetros comunes
 			$stmt->bindParam(":fechaInicial", $inicioMes, PDO::PARAM_STR);
 			$stmt->bindParam(":fechaFinal", $finMes, PDO::PARAM_STR);
