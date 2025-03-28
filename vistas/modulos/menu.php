@@ -241,6 +241,17 @@ checkUserStatus();
 				</a>
 			</li>';
 			}
+			/*=============================================
+		TRANSPORTE PASAJEROS
+		=============================================*/
+			if ($_SESSION["permisos"]["cotizarpasajeros"] == "x") {
+				echo '<li id="menuCotPas" class="' . ($currentPage == 'motos' ? 'active' : '') . '">
+				<a href="transporte-pasajeros">
+				<i class="fa-solid fa-bus" style="font-size: 16px"></i>
+				<span>Cotizar Transporte Pasajeros</span>
+				</a>
+			</li>';
+			}
 
 			/*=============================================
 		NEGOCIOS

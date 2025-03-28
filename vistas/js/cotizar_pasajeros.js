@@ -402,7 +402,7 @@ $(document).ready(function () {
   let conPressed = 0;
 
   $("#btnCotizar").click(function (e) {
-    if(conPressed > 0) {
+    if (conPressed > 0) {
       Swal.fire({
         icon: "error",
         title: "Ya se ha presionado el botón de cotizar",
@@ -410,7 +410,7 @@ $(document).ready(function () {
         showConfirmButton: true,
       });
       throw new Error("Ya se ha presionado el botón de cotizar");
-    } else if(conPressed == 0) {
+    } else if (conPressed == 0) {
       conPressed++;
     }
     let deptoCirc = $("#DptoCirculacion").val();
@@ -429,7 +429,7 @@ $(document).ready(function () {
           switch (response.result) {
             case 1:
             case 2:
-              cotizarOfertas();
+              cotizarOfertasPasajeros();
               break;
             case -1:
               if (intermediario == 89) {
@@ -454,7 +454,7 @@ $(document).ready(function () {
             case 1:
             case 2:
               mostrarPoliticaValorAsegurado();
-              cotizarOfertas();
+              cotizarOfertasPasajeros();
               break;
             case -1:
               e.preventDefault();
@@ -477,7 +477,7 @@ $(document).ready(function () {
         icon: "error",
         title: "Error de conexion",
         html: `<div style="text-align: center; font-family: Helvetica, Arial, sans-serif; font-size: 15px; border-radius: 4px; padding: 8px;"><p>Ocurrio un error de conexion porfavor vuelve a intentarlo.</p>
-      </div>`,
+        </div>`,
         width: "50%",
         showConfirmButton: true,
         confirmButtonText: "Cerrar",
@@ -505,8 +505,8 @@ $(document).ready(function () {
         title:
           "Llegaste al tope máximo de Multicotizaciones de Seguros de Autos",
         html: `<div style="text-align: center; font-family: Helvetica, Arial, sans-serif; font-size: 15px; border-radius: 4px; padding: 8px;"><p>Ponte en contacto con tu Analista Comercial si deseas recargar tus multicotizaciones del mes.</p>
-          <p>Nota: Ten en cuenta que el cupo mensual depende de tu productividad.</p>
-      </div>`,
+            <p>Nota: Ten en cuenta que el cupo mensual depende de tu productividad.</p>
+        </div>`,
         width: "50%",
         showConfirmButton: true,
         confirmButtonText: "Cerrar",
@@ -534,8 +534,8 @@ $(document).ready(function () {
         title:
           "Llegaste al tope máximo de Multicotizaciones de Seguros de Autos",
         html: `<div style="text-align: center; font-family: Helvetica, Arial, sans-serif; font-size: 15px; border-radius: 4px; padding: 8px;">
-              <p>Si te interesa tener tu propia versión personalizada del software para generar cotizaciones y cuadros comparativos, comunícate con nosotros, Strategico Technologies, desarrolladores de esta plataforma, para conocer acerca de los planes de pago.</p>
-            </div>`,
+                <p>Si te interesa tener tu propia versión personalizada del software para generar cotizaciones y cuadros comparativos, comunícate con nosotros, Strategico Technologies, desarrolladores de esta plataforma, para conocer acerca de los planes de pago.</p>
+              </div>`,
         width: "50%",
         showConfirmButton: true,
         confirmButtonText: "Cerrar",
@@ -561,34 +561,34 @@ $(document).ready(function () {
       icon: "warning",
       title: "POLÍTICA DE VALOR ASEGURADO<br>LIVIANOS",
       html: `
-          <div style="overflow-x: auto;">
-            <table style="border: 2px solid gray; border-collapse: collapse;" id="tableModal">
-              <thead style="padding: 5px;">
-                <tr style="border: 2px solid gray; text-align: center">
-                  <th style="border: 2px solid gray; padding: 10px; height: 50px; text-align: center" id="tdAsegurado">Valor Asegurado</th>
-                  <th style="border: 2px solid gray; padding: 10px; height: 50px; text-align: center" id="tdCondiciones">Condiciones</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr style="border: 2px solid gray;">
-                  <td style="border: 2px solid gray; padding: 10px;">Menos de 200 millones</td>
-                  <td style="border: 2px solid gray; padding: 10px;">De acuerdo a políticas de cada aseguradora</td>
-                </tr>
-                <tr style="border: 2px solid gray;">
-                  <td style="border: 2px solid gray; padding: 10px;">200 a 250 millones</td>
-                  <td style="border: 2px solid gray; padding: 10px;">Requieren autorización del Director Comercial de Grupo Asistencia</td>
-                </tr>
-                <tr style="border: 2px solid gray;">
-                  <td style="border: 2px solid gray; padding: 10px;">250 a 300 millones</td>
-                  <td style="border: 2px solid gray; padding: 10px;">Requieren autorización de Gerencia de Grupo Asistencia de acuerdo al nivel de productividad del Asesor</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-          <p style="text-align: justify; font-family: Helvetica, Arial, sans-serif;" id="pTableModal">
-            <strong>Nota:</strong> Tener en cuenta que aunque el cotizador genere ofertas, no todos los vehículos son asegurables. Se podrán hacer excepciones de valor asegurado superior cuando el asesor sea productivo, tenga más de 6 meses de antigüedad con Grupo Asistencia, no tenga altos indices de siniestralidad en su cartera, y si el cliente tiene vinculación con otros productos de la aseguradora. El valor de las primas de las cotizaciones puede variar al momento de emitir en los casos autorizados de manera excepcional.
-          </p>
-        `,
+            <div style="overflow-x: auto;">
+              <table style="border: 2px solid gray; border-collapse: collapse;" id="tableModal">
+                <thead style="padding: 5px;">
+                  <tr style="border: 2px solid gray; text-align: center">
+                    <th style="border: 2px solid gray; padding: 10px; height: 50px; text-align: center" id="tdAsegurado">Valor Asegurado</th>
+                    <th style="border: 2px solid gray; padding: 10px; height: 50px; text-align: center" id="tdCondiciones">Condiciones</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr style="border: 2px solid gray;">
+                    <td style="border: 2px solid gray; padding: 10px;">Menos de 200 millones</td>
+                    <td style="border: 2px solid gray; padding: 10px;">De acuerdo a políticas de cada aseguradora</td>
+                  </tr>
+                  <tr style="border: 2px solid gray;">
+                    <td style="border: 2px solid gray; padding: 10px;">200 a 250 millones</td>
+                    <td style="border: 2px solid gray; padding: 10px;">Requieren autorización del Director Comercial de Grupo Asistencia</td>
+                  </tr>
+                  <tr style="border: 2px solid gray;">
+                    <td style="border: 2px solid gray; padding: 10px;">250 a 300 millones</td>
+                    <td style="border: 2px solid gray; padding: 10px;">Requieren autorización de Gerencia de Grupo Asistencia de acuerdo al nivel de productividad del Asesor</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <p style="text-align: justify; font-family: Helvetica, Arial, sans-serif;" id="pTableModal">
+              <strong>Nota:</strong> Tener en cuenta que aunque el cotizador genere ofertas, no todos los vehículos son asegurables. Se podrán hacer excepciones de valor asegurado superior cuando el asesor sea productivo, tenga más de 6 meses de antigüedad con Grupo Asistencia, no tenga altos indices de siniestralidad en su cartera, y si el cliente tiene vinculación con otros productos de la aseguradora. El valor de las primas de las cotizaciones puede variar al momento de emitir en los casos autorizados de manera excepcional.
+            </p>
+          `,
       width: "30%",
       showConfirmButton: true,
       confirmButtonText: "Continuar",
@@ -1091,7 +1091,11 @@ function consulPlaca(query = "1") {
 
             if (codigoFasecolda != null) {
               if (valorAsegurado == "null" || valorAsegurado == null) {
-                consulPlacaMapfre(valnumplaca);
+                if(consulPlacaMapfre(valnumplaca)){
+
+                } else {
+                  consulDatosFasecolda
+                }
                 // document.getElementById("formularioVehiculo").style.display =
                 //   "block";
                 //! Agregar esto a MOTOS y Pesados START
@@ -1174,10 +1178,12 @@ function consulPlaca(query = "1") {
                     // Recargar la página después de cerrar el SweetAlert
                     location.reload();
                   });
+                } else {
+                  claseVehiculo = "BUS / BUSETA / MICROBUS";
+                  limiteRCESTADO = 18;
                 }
 
                 $("#CodigoClase").val(codigoClase);
-                $("#txtClaseVeh").val(claseVehiculo);
                 $("#LimiteRC").val(limiteRCESTADO);
                 $("#CodigoMarca").val(codigoMarca);
                 $("#txtModeloVeh").val(modeloVehiculo);
@@ -1189,6 +1195,22 @@ function consulPlaca(query = "1") {
                   function (resp) {
                     $("#txtMarcaVeh").val(resp.marcaVeh);
                     $("#txtReferenciaVeh").val(resp.lineaVeh);
+                    if (
+                      ["TAXI", "taxi", "Taxi", ""].some((tipo) =>
+                        resp.lineaVeh.split(" ").includes(tipo)
+                      )
+                    ) {
+                      $("#txtClaseVeh").val("TAXI");
+                    } else {
+                      Swal.fire({
+                        icon: "warning",
+                        title: "Tipo de Vehiculo",
+                        text: "El tipo de vehículo no es un taxi",
+                        confirmButtonText: "Cerrar",
+                      }).then(() => {
+                        window.location.reload();
+                      });
+                    }
                   }
                 );
               }
@@ -1344,6 +1366,7 @@ function consulPlacaMapfre(valnumplaca) {
           $("#txtReferenciaVeh").val(resp.lineaVeh);
           $("#txtValorFasecolda").val(resp.valorVeh);
         });
+        console.log("entre aqui 0")
         // const valor = resp[llave];
         // $("#txtValorFasecolda").val(valorAsegurado);
       } else {
@@ -1355,6 +1378,8 @@ function consulPlacaMapfre(valnumplaca) {
         //! Agregar esto a MOTOS y Pesados START
         document.getElementById("loaderPlaca2").style.display = "none";
         //! Agregar esto a MOTOS y Pesados END
+        console.log("entre aqui")
+        return true;
       }
     })
     .catch(function (error) {
@@ -1368,6 +1393,7 @@ function consulPlacaMapfre(valnumplaca) {
       //! Agregar esto a MOTOS y Pesados START
       document.getElementById("loaderPlaca2").style.display = "none";
       //! Agregar esto a MOTOS y Pesados END
+      return false
     });
 }
 
@@ -2085,40 +2111,40 @@ const mostrarOferta = (
   }
 
   cardCotizacion = `
-                          <div class='col-lg-12'>
-                              <div class='card-ofertas'>
-                                  <div class='row card-body'>
-                                      <div class="col-xs-12 col-sm-6 col-md-2 oferta-logo">
-                                      <center>
-  
-                                          <img src='vistas/img/logos/${logo}' 
-                                         >
-  
-                    </center>  
-  
-                    <div class='col-12' style='margin-top:2%;'>
-                      ${
-                        (aseguradora == "Axa Colpatria" ||
-                          aseguradora == "HDI (Antes Liberty)" ||
-                          aseguradora == "Equidad" ||
-                          aseguradora == "Mapfre" ||
-                          aseguradora == "Seguros Bolivar") &&
-                        id_intermediario == "79"
-                          ? `<center>
-                          <!-- Código para el caso específico de Axa Colpatria, Liberty, Equidad o Mapfre y id_intermediario no es 78 -->
-                          <!-- Agrega aquí el contenido específico para estas aseguradoras y el id_intermediario no es 78 -->
-                        </center>`
-                          : permisos.Vernumerodecotizacionencadaaseguradora ==
-                              "x" && permisosCredenciales == "1"
-                          ? `<center>
-                          <label class='entidad'>N° Cot: <span style='color:black'>${numCotizOferta}</span></label>
-                        </center>`
-                          : ""
-                      }
-                    </div>
-                       </div>
-                       <div class="col-xs-12 col-sm-6 col-md-2 oferta-headerEdit">
-                       <h5 class='entidad' style='font-size: 15px'><b>${aseguradora} - ${
+                            <div class='col-lg-12'>
+                                <div class='card-ofertas'>
+                                    <div class='row card-body'>
+                                        <div class="col-xs-12 col-sm-6 col-md-2 oferta-logo">
+                                        <center>
+    
+                                            <img src='vistas/img/logos/${logo}' 
+                                           >
+    
+                      </center>  
+    
+                      <div class='col-12' style='margin-top:2%;'>
+                        ${
+                          (aseguradora == "Axa Colpatria" ||
+                            aseguradora == "HDI (Antes Liberty)" ||
+                            aseguradora == "Equidad" ||
+                            aseguradora == "Mapfre" ||
+                            aseguradora == "Seguros Bolivar") &&
+                          id_intermediario == "79"
+                            ? `<center>
+                            <!-- Código para el caso específico de Axa Colpatria, Liberty, Equidad o Mapfre y id_intermediario no es 78 -->
+                            <!-- Agrega aquí el contenido específico para estas aseguradoras y el id_intermediario no es 78 -->
+                          </center>`
+                            : permisos.Vernumerodecotizacionencadaaseguradora ==
+                                "x" && permisosCredenciales == "1"
+                            ? `<center>
+                            <label class='entidad'>N° Cot: <span style='color:black'>${numCotizOferta}</span></label>
+                          </center>`
+                            : ""
+                        }
+                      </div>
+                         </div>
+                         <div class="col-xs-12 col-sm-6 col-md-2 oferta-headerEdit">
+                         <h5 class='entidad' style='font-size: 15px'><b>${aseguradora} - ${
     producto == "Pesados con RCE en exceso"
       ? "Pesados RCE + Exceso"
       : producto == "PREVILIVIANOS INDIVIDUAL - "
@@ -2129,111 +2155,111 @@ const mostrarOferta = (
       ? "LIVIANOS MIA"
       : producto
   }</b></h5>
-                       <h5 class='precio' style='margin-top: 0px !important;'>Desde $ ${prima}</h5>
-                       <p class='title-precio' style='margin: 0 0 3px !important'>Precio (IVA incluido)</p>
-                       <div id='${actIdentity}' style='display: none; color: #88d600;'>
+                         <h5 class='precio' style='margin-top: 0px !important;'>Desde $ ${prima}</h5>
+                         <p class='title-precio' style='margin: 0 0 3px !important'>Precio (IVA incluido)</p>
+                         <div id='${actIdentity}' style='display: none; color: #88d600;'>
+                        </div>
                       </div>
-                    </div>
-                                      <div class="col-xs-12 col-sm-6 col-md-4">
-                                          <ul class="list-group">
-                                              <li class="list-group-item">
-                                                  <span class="badge">* $${valorRC}</span>
-                                                  Responsabilidad Civil (RCE)
-                                              </li>
-                                              <li class="list-group-item">
-                                                  <span class="badge">* ${PT}</span>
-                                                  Pérdida Total Daños y Hurto
-                                              </li>
-                                              <li class="list-group-item">
-                                                  <span class="badge">* ${PP}</span>
-                                                  Pérdida Parcial Daños y Hurto
-                                              </li>
-                                              <li class="list-group-item">
-                                                  <span class="badge">* ${CE}</span>
-                                                  Conductor elegido
-                                              </li>
-                                              <li class="list-group-item">
-                                                  <span class="badge">* ${GR}</span>
-                                                  Servicio de Grúa
-                                              </li>
-                                          </ul>
-                                      </div>
-                                      <div class="col-xs-12 col-sm-6 col-md-2">
-                                        <div class="selec-oferta">
-                                          <label for="seleccionar">SELECCIONAR</label>&nbsp;&nbsp;
-                                          <input type="checkbox" class="classSelecOferta" name="selecOferta" id="selec${numCotizOferta}${numId}${producto}\" onclick='seleccionarOferta(\"${aseguradora}\", \"${prima}\", \"${producto}\", \"${numCotizOferta}\", this);' disabled/>
+                                        <div class="col-xs-12 col-sm-6 col-md-4">
+                                            <ul class="list-group">
+                                                <li class="list-group-item">
+                                                    <span class="badge">* $${valorRC}</span>
+                                                    Responsabilidad Civil (RCE)
+                                                </li>
+                                                <li class="list-group-item">
+                                                    <span class="badge">* ${PT}</span>
+                                                    Pérdida Total Daños y Hurto
+                                                </li>
+                                                <li class="list-group-item">
+                                                    <span class="badge">* ${PP}</span>
+                                                    Pérdida Parcial Daños y Hurto
+                                                </li>
+                                                <li class="list-group-item">
+                                                    <span class="badge">* ${CE}</span>
+                                                    Conductor elegido
+                                                </li>
+                                                <li class="list-group-item">
+                                                    <span class="badge">* ${GR}</span>
+                                                    Servicio de Grúa
+                                                </li>
+                                            </ul>
                                         </div>
-                                        <div class="recom-oferta">
-                                          <label for="recomendar">RECOMENDAR</label>&nbsp;&nbsp;
-                                          <input type="checkbox" class="classRecomOferta" name="recomOferta" id="recom${numCotizOferta}${numId}${producto}\" onclick='recomendarOferta(\"${aseguradora}\", \"${prima}\", \"${producto}\", \"${numCotizOferta}\", this);' disabled/>
-                                        </div>
-                                      </div>`;
+                                        <div class="col-xs-12 col-sm-6 col-md-2">
+                                          <div class="selec-oferta">
+                                            <label for="seleccionar">SELECCIONAR</label>&nbsp;&nbsp;
+                                            <input type="checkbox" class="classSelecOferta" name="selecOferta" id="selec${numCotizOferta}${numId}${producto}\" onclick='seleccionarOferta(\"${aseguradora}\", \"${prima}\", \"${producto}\", \"${numCotizOferta}\", this);' disabled/>
+                                          </div>
+                                          <div class="recom-oferta">
+                                            <label for="recomendar">RECOMENDAR</label>&nbsp;&nbsp;
+                                            <input type="checkbox" class="classRecomOferta" name="recomOferta" id="recom${numCotizOferta}${numId}${producto}\" onclick='recomendarOferta(\"${aseguradora}\", \"${prima}\", \"${producto}\", \"${numCotizOferta}\", this);' disabled/>
+                                          </div>
+                                        </div>`;
   if (
     (aseguradora == "Seguros Bolivar" || aseguradora == "Axa Colpatria") &&
     permisosCredenciales == "1"
   ) {
     cardCotizacion += `
-                                          <div class="col-xs-12 col-sm-6 col-md-2 verpdf-oferta">
-                                              <button type="button" class="btn btn-info" id="btnAsegPDF${numCotizOferta}${numId}\" onclick='verPdfOferta(\"${aseguradora}\", \"${numCotizOferta}\", \"${numId}\", \"${id_intermediario}\");'>
-												<div id="verPdf${numCotizOferta}${numId}\">VER PDF &nbsp;&nbsp;<span class="fa fa-file-text"></span></div>
-											</button>
-                                          </div>`;
+                                            <div class="col-xs-12 col-sm-6 col-md-2 verpdf-oferta">
+                                                <button type="button" class="btn btn-info" id="btnAsegPDF${numCotizOferta}${numId}\" onclick='verPdfOferta(\"${aseguradora}\", \"${numCotizOferta}\", \"${numId}\", \"${id_intermediario}\");'>
+                                                  <div id="verPdf${numCotizOferta}${numId}\">VER PDF &nbsp;&nbsp;<span class="fa fa-file-text"></span></div>
+                                              </button>
+                                            </div>`;
   } else if (
     aseguradora == "Seguros del Estado" &&
     UrlPdf !== null &&
     permisosCredenciales == "1"
   ) {
     cardCotizacion += `
-                          <div class="col-xs-12 col-sm-6 col-md-2 verpdf-oferta">
-                          <button type="button" class="btn btn-info" id="btnAsegPDF${numCotizOferta}${numId}\" onclick='verPdfEstado(\"${aseguradora}\", \"${numCotizOferta}\", \"${numId}\", \"${UrlPdf}\");'>
-                              <div id="verPdf${numCotizOferta}${numId}\">VER PDF &nbsp;&nbsp;<span class="fa fa-file-text"></span></div>
-                          </button>
-                          </div>`;
+                            <div class="col-xs-12 col-sm-6 col-md-2 verpdf-oferta">
+                            <button type="button" class="btn btn-info" id="btnAsegPDF${numCotizOferta}${numId}\" onclick='verPdfEstado(\"${aseguradora}\", \"${numCotizOferta}\", \"${numId}\", \"${UrlPdf}\");'>
+                                <div id="verPdf${numCotizOferta}${numId}\">VER PDF &nbsp;&nbsp;<span class="fa fa-file-text"></span></div>
+                            </button>
+                            </div>`;
   } else if (aseguradora == "Solidaria" && permisosCredenciales == "1") {
     cardCotizacion += `
-                          <div class="col-xs-12 col-sm-6 col-md-2 verpdf-oferta">
-                              <button id="solidaria-pdf" type="button" class="btn btn-info" onclick='verPdfSolidaria(${numCotizOferta})'>
-                                  <div>VER PDF &nbsp;&nbsp;<span class="fa fa-file-text"></span></div>
-                              </button>
-                          </div>`;
+                            <div class="col-xs-12 col-sm-6 col-md-2 verpdf-oferta">
+                                <button id="solidaria-pdf" type="button" class="btn btn-info" onclick='verPdfSolidaria(${numCotizOferta})'>
+                                    <div>VER PDF &nbsp;&nbsp;<span class="fa fa-file-text"></span></div>
+                                </button>
+                            </div>`;
   } else if (aseguradora == "Mapfre" && permisosCredenciales == "1") {
     cardCotizacion += `
-                          <div class="col-xs-12 col-sm-6 col-md-2 verpdf-oferta">
-                              <button id="mapfre-pdf" type="button" class="btn btn-info" onclick='verPdfMapfre(${numCotizOferta})'>
-                                  <div>VER PDF &nbsp;&nbsp;<span class="fa fa-file-text"></span></div>
-                              </button>
-                          </div>`;
+                            <div class="col-xs-12 col-sm-6 col-md-2 verpdf-oferta">
+                                <button id="mapfre-pdf" type="button" class="btn btn-info" onclick='verPdfMapfre(${numCotizOferta})'>
+                                    <div>VER PDF &nbsp;&nbsp;<span class="fa fa-file-text"></span></div>
+                                </button>
+                            </div>`;
   } else if (aseguradora == "Zurich" && permisosCredenciales == "1") {
     cardCotizacion += `
-                          <div class="col-xs-12 col-sm-6 col-md-2 verpdf-oferta">
-                              <button id="solidaria-pdf${numCotizOferta}" type="button" class="btn btn-info" onclick='verPdfZurich(${numCotizOferta})'>
-                                  <div>VER PDF &nbsp;&nbsp;<span class="fa fa-file-text"></span></div>
-                              </button>
-                          </div>`;
+                            <div class="col-xs-12 col-sm-6 col-md-2 verpdf-oferta">
+                                <button id="solidaria-pdf${numCotizOferta}" type="button" class="btn btn-info" onclick='verPdfZurich(${numCotizOferta})'>
+                                    <div>VER PDF &nbsp;&nbsp;<span class="fa fa-file-text"></span></div>
+                                </button>
+                            </div>`;
   } else if (
     aseguradora == "Previsora Seguros" &&
     permisosCredenciales == "1"
   ) {
     cardCotizacion += `
-                          <div class="col-xs-12 col-sm-6 col-md-2 verpdf-oferta">
-                              <button id="previsora-pdf${numCotizOferta}" type="button" class="btn btn-info" onclick='verPdfPrevisora(${numCotizOferta})'>
-                                  <div>VER PDF &nbsp;&nbsp;<span class="fa fa-file-text"></span></div>
-                              </button>
-                          </div>`;
+                            <div class="col-xs-12 col-sm-6 col-md-2 verpdf-oferta">
+                                <button id="previsora-pdf${numCotizOferta}" type="button" class="btn btn-info" onclick='verPdfPrevisora(${numCotizOferta})'>
+                                    <div>VER PDF &nbsp;&nbsp;<span class="fa fa-file-text"></span></div>
+                                </button>
+                            </div>`;
   } else if (aseguradora == "HDI Seguros" && permisosCredenciales == "1") {
     cardCotizacion += `
-                          <div class="col-xs-12 col-sm-6 col-md-2 verpdf-oferta">
-                              <button id="Hdi-pdf${numCotizOferta}" type="button" class="btn btn-info" onclick='verPdfHdi("${numCotizOferta}")'>
-                                  <div>VER PDF &nbsp;&nbsp;<span class="fa fa-file-text"></span></div>
-                              </button>
-                          </div>`;
+                            <div class="col-xs-12 col-sm-6 col-md-2 verpdf-oferta">
+                                <button id="Hdi-pdf${numCotizOferta}" type="button" class="btn btn-info" onclick='verPdfHdi("${numCotizOferta}")'>
+                                    <div>VER PDF &nbsp;&nbsp;<span class="fa fa-file-text"></span></div>
+                                </button>
+                            </div>`;
   }
   cardCotizacion += `
-                                          </div>
-                                      </div>
-                                  </div>
-                              </div>
-                      `;
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                        `;
   $("#cardCotizacion").append(cardCotizacion);
 };
 
@@ -2467,7 +2493,7 @@ const comprobarFallida = (_aseguradora) => {
 document
   .querySelector("#btnReCotizarFallidas")
   .addEventListener("click", () => {
-    cotizarOfertas();
+    cotizarOfertasPasajeros();
     enableInputs(false);
   });
 
@@ -2485,8 +2511,9 @@ function enableInputs(opt) {
 // desactive
 //console.log(permisosPlantilla)
 // Captura los datos suministrados por el cliente y los envia al API para recibir la cotizacion.
-function cotizarOfertas() {
-  showCircularProgress("Cotización Autos en Proceso", 2200, 90000);
+function cotizarOfertasPasajeros() {
+  debugger;
+  // showCircularProgress("Cotización Autos en Proceso", 2200, 90000);
   var codigoFasecolda1 = document.getElementById("txtFasecolda");
   var contenido = codigoFasecolda1.value;
 
@@ -2501,56 +2528,7 @@ function cotizarOfertas() {
     // Concatenar los dígitos en un solo número
     condicional = cuartoDigito + quintoDigito;
   }
-  var tipoUsoVehiculo = document.getElementById("txtTipoUsoVehiculo").value;
-  if (tipoUsoVehiculo == "Trabajo") {
-    var restriccion = "";
-    if (rolAsesor == 19) {
-      restriccion =
-        "Lo sentimos, no puedes realizar cotizaciones para vehículo de trabajo por este cotizador. Para hacerlo debes comunicarte con el Equipo de Asesores Freelance de Grupo Asistencia, quienes podrán ayudarte a cotizar de manera manual con diferentes aseguradoras.";
-    } else {
-      restriccion =
-        "Lo sentimos, no puedes realizar cotizaciones para vehículo de trabajo por este cotizador.";
-    }
-    Swal.close();
-    Swal.fire({
-      icon: "error",
-      confirmButtonText: "Cerrar",
-      text: restriccion,
-    }).then(() => {
-      // Agregar un retraso antes de recargar la página (por ejemplo, 2 segundos)
-      setTimeout(() => {
-        // Recargar la página después del retraso
-        location.reload();
-      }, 2000); // 2000 milisegundos = 2 segundos
-    });
-    // Salir del código aquí para evitar la ejecución del resto del código
-    return;
-  }
-  var tipoServicio = document.getElementById("txtTipoServicio").value;
-  if (tipoServicio == "11" || tipoServicio == "12") {
-    var restriccion = "";
-    if (rolAsesor == 19) {
-      restriccion =
-        "Lo sentimos, no puedes realizar cotizaciones para el tipo de servicio público o intermunicipal por este cotizador. Para hacerlo debes comunicarte con el Equipo de Asesores Freelance de Grupo Asistencia, quienes podrán ayudarte a cotizar de manera manual con diferentes aseguradoras.";
-    } else {
-      restriccion =
-        "Lo sentimos, no puedes realizar cotizaciones para el tipo de servicio público o intermunicipal por este cotizador.";
-    }
-    Swal.close();
-    Swal.fire({
-      icon: "error",
-      confirmButtonText: "Cerrar",
-      text: restriccion,
-    }).then(() => {
-      // Agregar un retraso antes de recargar la página (por ejemplo, 2 segundos)
-      setTimeout(() => {
-        // Recargar la página después del retraso
-        location.reload();
-      }, 2000); // 2000 milisegundos = 2 segundos
-    });
-    // Salir del código aquí para evitar la ejecución del resto del código
-    return;
-  }
+  
 
   var placa = document.getElementById("placaVeh").value;
   var esCeroKmSi = document.getElementById("txtEsCeroKmSi").checked;
@@ -2778,8 +2756,6 @@ function cotizarOfertas() {
   if (
     fasecoldaVeh != "" &&
     valorFasecolda != "" &&
-    tipoUsoVehiculo != "" &&
-    tipoServicio != "" &&
     DptoCirculacion != "" &&
     ciudadCirculacion != "" &&
     isBenefOneroso != undefined
@@ -2815,7 +2791,6 @@ function cotizarOfertas() {
         Cobertura: CoberturaEstado,
         ValorAccesorios: ValorAccesorios,
         CiudadBolivar: ciudadCirculacion,
-        tipoServicio: tipoServicio,
         CodigoVerificacion: CodigoVerificacion,
         Apellido2: Apellido2,
         AniosSiniestro: AniosSiniestro,
@@ -2910,10 +2885,10 @@ function cotizarOfertas() {
         const aseguradorasCoti = Object.keys(aseguradoras_autorizar).filter(
           (aseguradora) => aseguradoras_autorizar[aseguradora]["A"] === "1"
         );
-        if (aseguradoras_autorizar.Previsora.A !== "1") {
-          var mensajePrevisora = document.getElementById("mensajePrevisora");
-          mensajePrevisora.style.display = "none"; // o cualquier otro valor como 'inline', 'flex', etc.
-        }
+        // if (aseguradoras_autorizar.Previsora.A !== "1") {
+        //   var mensajePrevisora = document.getElementById("mensajePrevisora");
+        //   mensajePrevisora.style.display = "none"; // o cualquier otro valor como 'inline', 'flex', etc.
+        // }
         // const aseguradoras = ['Allianz', 'AXA', 'Bolivar', 'Equidad', 'Estado', 'HDI', 'Liberty', 'Mapfre', 'Previsora', 'SBS', 'Solidaria', 'Zurich'];
         const tbody = document.querySelector("#tablaResumenCot tbody");
 
@@ -2970,6 +2945,7 @@ function cotizarOfertas() {
         // desactive
         //console.log(aseguradorasCredenciales)
         primerIntentoRealizado = true;
+
         $.ajax({
           type: "POST",
           url: "src/insertarCotizacion.php",
@@ -2995,8 +2971,6 @@ function cotizarOfertas() {
             Linea: lineaVeh,
             Fasecolda: fasecoldaVeh,
             ValorAsegurado: valorFasecolda,
-            tipoUsoVehiculo: tipoUsoVehiculo,
-            tipoServicio: tipoServicio,
             Departamento: DptoCirculacion,
             Ciudad: ciudadCirculacion,
             benefOneroso: benefOneroso,
@@ -3082,13 +3056,13 @@ function cotizarOfertas() {
                 const nuevaFila = document.createElement("tr");
                 nuevaFila.id = aseguradora;
                 nuevaFila.innerHTML = `
-                    <td>${aseguradora}</td>
-                    <td style="text-align: center;"><i class="fa fa-check" aria-hidden="true" style="color: green; margin-right: 5px;"></i></td>
-                    <td style="text-align: center;">${contadorOfertas}</td>
-                    <td>Nuevo Valor para Response</td>
-                    <td>Nuevo Valor para Products</td>
-                    <td>Nuevo Valor para Observation</td>
-                  `;
+                      <td>${aseguradora}</td>
+                      <td style="text-align: center;"><i class="fa fa-check" aria-hidden="true" style="color: green; margin-right: 5px;"></i></td>
+                      <td style="text-align: center;">${contadorOfertas}</td>
+                      <td>Nuevo Valor para Response</td>
+                      <td>Nuevo Valor para Products</td>
+                      <td>Nuevo Valor para Observation</td>
+                    `;
                 tablaResumenCotBody.appendChild(nuevaFila);
               }
             };
@@ -3144,11 +3118,11 @@ function cotizarOfertas() {
                   const nuevaFila = document.createElement("tr");
                   nuevaFila.setAttribute("data-aseguradora", aseguradora);
                   nuevaFila.innerHTML = `
-                        <td>${aseguradora}</td>
-                        <td style="text-align: center;"><i class="fa fa-times" aria-hidden="true" style="color: red; margin-right: 10px;"></i></td>
-                        <td style="text-align: center;">0</td> <!-- Valor predeterminado para 'Productos cotizados' -->
-                        <td>${mensaje}</td> <!-- Valor predeterminado para 'Observaciones' -->
-                    `;
+                          <td>${aseguradora}</td>
+                          <td style="text-align: center;"><i class="fa fa-times" aria-hidden="true" style="color: red; margin-right: 10px;"></i></td>
+                          <td style="text-align: center;">0</td> <!-- Valor predeterminado para 'Productos cotizados' -->
+                          <td>${mensaje}</td> <!-- Valor predeterminado para 'Observaciones' -->
+                      `;
 
                   // Agregar la fila a la tabla
                   tablaResumenCotBody.appendChild(nuevaFila);
@@ -3192,11 +3166,11 @@ function cotizarOfertas() {
                   const nuevaFila = document.createElement("tr");
                   nuevaFila.setAttribute("data-aseguradora", aseguradora);
                   nuevaFila.innerHTML = `
-                          <td>${aseguradora}</td>
-                          <td style="text-align: center;"><i class="fa fa-times" aria-hidden="true" style="color: red; margin-right: 10px;"></i></td>
-                          <td style="text-align: center;">0</td> <!-- Valor predeterminado para 'Productos cotizados' -->
-                          <td>${mensaje}</td> <!-- Valor predeterminado para 'Observaciones' -->
-                      `;
+                            <td>${aseguradora}</td>
+                            <td style="text-align: center;"><i class="fa fa-times" aria-hidden="true" style="color: red; margin-right: 10px;"></i></td>
+                            <td style="text-align: center;">0</td> <!-- Valor predeterminado para 'Productos cotizados' -->
+                            <td>${mensaje}</td> <!-- Valor predeterminado para 'Observaciones' -->
+                        `;
 
                   // Agregar la fila a la tabla
                   tablaResumenCotBody.appendChild(nuevaFila);
@@ -3405,7 +3379,7 @@ function cotizarOfertas() {
                 let message =
                   aseguradora == "Qualitas"
                     ? `💡 <b>Nueva aseguradora</b> especializada en <b>seguros de autos.</b> La principal aseguradora mexicana de seguros de autos llega a Colombia y <b>nosotros ya tenemos convenio.</b> Solicita cotización manual a tu Analista Comercial.`
-                    : `🔥 <b>Nuevo seguro de autos livianos</b> con modalidad de indemnización arreglo directo para <b>pérdidas parciales</b>. Solicita cotización manual a tu Analista Comercial. Revisa informacion adicional en la seccion de <b>Notas importantes.</b>`;
+                    : `🔥 <b>Nuevo seguro de autos livianos</b> con modalidad de indemnización arreglo directo para <b>pérdidas parciales</b>. Solicita cotización manual a tu Analista Comercial.`;
 
                 let ofertas = [
                   {
@@ -3508,21 +3482,17 @@ function cotizarOfertas() {
                       enableInputs(true);
                       cotizarFinesa(cotizacionesFinesa);
                       countOfferts();
-                      // $("#filtersSection").css("display", "block");
                     } else if (result.isDismissed) {
                       if (result.dismiss === "cancel") {
-                        // console.log("El usuario seleccionó 'No'");
                         $("#loaderOferta").html("");
                         $("#loaderOfertaBox").css("display", "none");
                         enableInputs(true);
                         countOfferts();
-                        // $("#filtersSection").css("display", "block");
                       } else if (result.dismiss === "backdrop") {
                         $("#loaderOferta").html("");
                         $("#loaderOfertaBox").css("display", "none");
                         enableInputs(true);
                         countOfferts();
-                        // $("#filtersSection").css("display", "block");
                       }
                     }
                   });
@@ -3530,25 +3500,25 @@ function cotizarOfertas() {
               document.querySelector(".button-recotizar").style.display =
                 "block";
               /* Se monta el botón para generar el pdf con 
-                    el valor de la variable idCotizacion */
+                      el valor de la variable idCotizacion */
               const contentCotizacionPDF = document.querySelector(
                 "#contenCotizacionPDFLivianos"
               );
               contentCotizacionPDF.innerHTML = `  
-                                                      <div class="col-xs-12" style="width: 100%;">
-                                                        <div class="row align-items-center">
-                                                            <div class="col-xs-4">
-                                                                <label for="checkboxAsesor">¿Deseas agregar tus datos como asesor en la cotización?</label>
-                                                                <input class="form-check-input" type="checkbox" id="checkboxAsesor" style="margin-left: 10px;" checked>
-                                                            </div>
-                                                            <div class="col-xs-4">
-                                                                <button type="button" class="btn btn-danger" id="btnParrillaPDF">
-                                                                    <span class="fa fa-file-text"></span> Generar PDF de Cotización
-                                                                </button>
-                                                            </div>
+                                                        <div class="col-xs-12" style="width: 100%;">
+                                                          <div class="row align-items-center">
+                                                              <div class="col-xs-4">
+                                                                  <label for="checkboxAsesor">¿Deseas agregar tus datos como asesor en la cotización?</label>
+                                                                  <input class="form-check-input" type="checkbox" id="checkboxAsesor" style="margin-left: 10px;" checked>
+                                                              </div>
+                                                              <div class="col-xs-4">
+                                                                  <button type="button" class="btn btn-danger" id="btnParrillaPDF">
+                                                                      <span class="fa fa-file-text"></span> Generar PDF de Cotización
+                                                                  </button>
+                                                              </div>
+                                                          </div>
                                                         </div>
-                                                      </div>
-                                                          `;
+                                                            `;
               $("#btnParrillaPDF").click(function () {
                 const todosOn = $(".classSelecOferta:checked").length;
                 const idCotizacionPDF = idCotizacion;
@@ -3579,8 +3549,6 @@ function cotizarOfertas() {
                       url += "&generar_pdf=1";
                     }
                     window.open(url, "_blank");
-
-                    //   window.open("extensiones/tcpdf/pdf/comparador.php?cotizacion=" + idCotizacionPDF,"_blank");
                   }
                 }
               });
@@ -3593,7 +3561,6 @@ function cotizarOfertas() {
         $("#loaderRecotOferta").html(
           '<img src="vistas/img/plantilla/loader-update.gif" width="34" height="34"><strong> Recotizando Ofertas...</strong>'
         );
-        // debugger;
         const btnRecotizar = document.getElementById("btnReCotizarFallidas");
         btnRecotizar.disabled = true;
         const contenParrilla = document.querySelector("#contenParrilla");
@@ -3658,13 +3625,13 @@ function cotizarOfertas() {
             const nuevaFila = document.createElement("tr");
             nuevaFila.id = aseguradora;
             nuevaFila.innerHTML = `
-                <td>${aseguradora}</td>
-                <td style="text-align: center;"><i class="fa fa-check" aria-hidden="true" style="color: green; margin-right: 5px;"></i></td>
-                <td style="text-align: center;">${contadorOfertas}</td>
-                <td>Nuevo Valor para Response</td>
-                <td>Nuevo Valor para Products</td>
-                <td>Nuevo Valor para Observation</td>
-              `;
+                  <td>${aseguradora}</td>
+                  <td style="text-align: center;"><i class="fa fa-check" aria-hidden="true" style="color: green; margin-right: 5px;"></i></td>
+                  <td style="text-align: center;">${contadorOfertas}</td>
+                  <td>Nuevo Valor para Response</td>
+                  <td>Nuevo Valor para Products</td>
+                  <td>Nuevo Valor para Observation</td>
+                `;
             tablaResumenCotBody.appendChild(nuevaFila);
           }
         };
@@ -3674,16 +3641,12 @@ function cotizarOfertas() {
             if (aseguradora == "Estado2") {
               aseguradora = "Estado";
             }
-            // console.log(aseguradora);
-            // console.log(mensaje);
             // Referecnia de la tabla
             const tablaResumenCotBody = document.querySelector(
               "#tablaResumenCot tbody"
             );
             // Verificar si ya existe una fila para la aseguradora
             const filaExistente = document.getElementById(aseguradora);
-            // desactive
-            // console.log(filaExistente)
             if (filaExistente) {
               // Si la fila existe, actualiza el mensaje de observaciones
 
@@ -3707,38 +3670,27 @@ function cotizarOfertas() {
                 celdaCotizo.innerHTML =
                   '<i class="fa fa-check" aria-hidden="true" style="color: green; margin-right: 5px;"></i>';
               }
-              // Verifica si el mensaje es diferente antes de actualizar
-              // if (observacionesActuales !== mensaje) {
-              //   celdaObservaciones.textContent = mensaje;
-              // } else {
-              //   console.log(`${aseguradora} tiene alertas iguales: "${observacionesActuales}" === "${mensaje}"`);
-              // }
             } else {
-              //console.log(mensaje);
               // Si no existe, crea una nueva fila
               const nuevaFila = document.createElement("tr");
               nuevaFila.setAttribute("data-aseguradora", aseguradora);
               nuevaFila.innerHTML = `
-                    <td>${aseguradora}</td>
-                    <td style="text-align: center;"><i class="fa fa-times" aria-hidden="true" style="color: red; margin-right: 10px;"></i></td>
-                    <td style="text-align: center;">0</td> <!-- Valor predeterminado para 'Productos cotizados' -->
-                    <td>${mensaje}</td> <!-- Valor predeterminado para 'Observaciones' -->
-                `;
+                      <td>${aseguradora}</td>
+                      <td style="text-align: center;"><i class="fa fa-times" aria-hidden="true" style="color: red; margin-right: 10px;"></i></td>
+                      <td style="text-align: center;">0</td> <!-- Valor predeterminado para 'Productos cotizados' -->
+                      <td>${mensaje}</td> <!-- Valor predeterminado para 'Observaciones' -->
+                  `;
 
               // Agregar la fila a la tabla
               tablaResumenCotBody.appendChild(nuevaFila);
             }
           } else {
-            // console.log(aseguradora);
-            // console.log(mensaje);
             // Referecnia de la tabla
             const tablaResumenCotBody = document.querySelector(
               "#tablaResumenCot tbody"
             );
-            // V  erificar si ya existe una fila para la aseguradora
+            // V erificar si ya existe una fila para la aseguradora
             const filaExistente = document.getElementById(aseguradora);
-            // desactive
-            // console.log(filaExistente)
             if (filaExistente) {
               // Si la fila existe, actualiza el mensaje de observaciones
 
@@ -3753,23 +3705,16 @@ function cotizarOfertas() {
                   '<i class="fa fa-times" aria-hidden="true" style="color: red; margin-right: 10px;"></i>';
                 celdaResponse.textContent = mensaje;
               }
-              // Verifica si el mensaje es diferente antes de actualizar
-              // if (observacionesActuales !== mensaje) {
-              //   celdaObservaciones.textContent = mensaje;
-              // } else {
-              //   console.log(`${aseguradora} tiene alertas iguales: "${observacionesActuales}" === "${mensaje}"`);
-              // }
             } else {
-              //console.log(mensaje);
               // Si no existe, crea una nueva fila
               const nuevaFila = document.createElement("tr");
               nuevaFila.setAttribute("data-aseguradora", aseguradora);
               nuevaFila.innerHTML = `
-                      <td>${aseguradora}</td>
-                      <td style="text-align: center;"><i class="fa fa-times" aria-hidden="true" style="color: red; margin-right: 10px;"></i></td>
-                      <td style="text-align: center;">0</td> <!-- Valor predeterminado para 'Productos cotizados' -->
-                      <td>${mensaje}</td> <!-- Valor predeterminado para 'Observaciones' -->
-                  `;
+                        <td>${aseguradora}</td>
+                        <td style="text-align: center;"><i class="fa fa-times" aria-hidden="true" style="color: red; margin-right: 10px;"></i></td>
+                        <td style="text-align: center;">0</td> <!-- Valor predeterminado para 'Productos cotizados' -->
+                        <td>${mensaje}</td> <!-- Valor predeterminado para 'Observaciones' -->
+                    `;
 
               // Agregar la fila a la tabla
               tablaResumenCotBody.appendChild(nuevaFila);
@@ -3777,7 +3722,6 @@ function cotizarOfertas() {
           }
         };
 
-        //console.log(aseguradorasFallidas)
         aseguradorasFallidas.forEach((aseguradora) => {
           if (
             aseguradora == "BASIC" ||
@@ -3826,7 +3770,6 @@ function cotizarOfertas() {
                     mostrarAlertarCotizacionFallida("Solidaria", mensaje);
                   });
                 } else {
-                  // eliminarAseguradoraFallida('Solidaria');
                   const contadorPorEntidad = validarOfertas(
                     ofertas,
                     "Solidaria",
@@ -3858,373 +3801,101 @@ function cotizarOfertas() {
         cont.push(solidariaPromise);
 
         /* Previsora */
-        const previsoraPromise = comprobarFallida("Previsora")
-          ? fetch(
-              "https://grupoasistencia.com/motor_webservice/Previsora_autos?callback=myCallback",
-              requestOptions
-            )
-              .then((res) => {
-                if (!res.ok) throw Error(res.statusText);
-                return res.json();
-              })
-              .then((ofertas) => {
-                if (typeof ofertas[0].Resultado !== "undefined") {
-                  agregarAseguradoraFallida("Previsora");
-                  validarProblema("Previsora", ofertas);
-                  ofertas[0].Mensajes.forEach((mensaje) => {
-                    mostrarAlertarCotizacionFallida("Previsora", mensaje);
-                  });
-                } else {
-                  // eliminarAseguradoraFallida('Previsora');
-                  const contadorPorEntidad = validarOfertas(
-                    ofertas,
-                    "Previsora",
-                    1
-                  );
-                  mostrarAlertaCotizacionExitosa(
-                    "Previsora",
-                    contadorPorEntidad
-                  );
-                }
-              })
-              .catch((err) => {
-                agregarAseguradoraFallida("Previsora");
-                mostrarAlertarCotizacionFallida(
-                  "Previsora",
-                  "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
-                );
-                validarProblema("Previsora", [
-                  {
-                    Mensajes: [
-                      "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
-                    ],
-                  },
-                ]);
-                console.error(err);
-              })
-          : Promise.resolve();
+        //   const previsoraPromise = comprobarFallida("Previsora")
+        //     ? fetch(
+        //         "https://grupoasistencia.com/motor_webservice/Previsora_autos?callback=myCallback",
+        //         requestOptions
+        //       )
+        //         .then((res) => {
+        //           if (!res.ok) throw Error(res.statusText);
+        //           return res.json();
+        //         })
+        //         .then((ofertas) => {
+        //           if (typeof ofertas[0].Resultado !== "undefined") {
+        //             agregarAseguradoraFallida("Previsora");
+        //             validarProblema("Previsora", ofertas);
+        //             ofertas[0].Mensajes.forEach((mensaje) => {
+        //               mostrarAlertarCotizacionFallida("Previsora", mensaje);
+        //             });
+        //           } else {
+        //             // eliminarAseguradoraFallida('Previsora');
+        //             const contadorPorEntidad = validarOfertas(
+        //               ofertas,
+        //               "Previsora",
+        //               1
+        //             );
+        //             mostrarAlertaCotizacionExitosa(
+        //               "Previsora",
+        //               contadorPorEntidad
+        //             );
+        //           }
+        //         })
+        //         .catch((err) => {
+        //           agregarAseguradoraFallida("Previsora");
+        //           mostrarAlertarCotizacionFallida(
+        //             "Previsora",
+        //             "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
+        //           );
+        //           validarProblema("Previsora", [
+        //             {
+        //               Mensajes: [
+        //                 "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
+        //               ],
+        //             },
+        //           ]);
+        //           console.error(err);
+        //         })
+        //     : Promise.resolve();
 
-        cont.push(previsoraPromise);
+        //   cont.push(previsoraPromise);
 
         /* Equidad */
-        const equidadPromise = comprobarFallida("Equidad")
-          ? fetch(
-              "https://grupoasistencia.com/motor_webservice/Equidad_autos?callback=myCallback",
-              requestOptions
-            )
-              .then((res) => {
-                if (!res.ok) throw Error(res.statusText);
-                return res.json();
-              })
-              .then((ofertas) => {
-                if (typeof ofertas[0].Resultado !== "undefined") {
-                  agregarAseguradoraFallida("Equidad");
-                  validarProblema("Equidad", ofertas);
-                  ofertas[0].Mensajes.forEach((mensaje) => {
-                    mostrarAlertarCotizacionFallida("Equidad", mensaje);
-                  });
-                } else {
-                  // eliminarAseguradoraFallida('Equidad');
-                  const contadorPorEntidad = validarOfertas(
-                    ofertas,
-                    "Equidad",
-                    1
-                  );
-                  mostrarAlertaCotizacionExitosa("Equidad", contadorPorEntidad);
-                }
-              })
-              .catch((err) => {
-                agregarAseguradoraFallida("Equidad");
-                mostrarAlertarCotizacionFallida(
-                  "Equidad",
-                  "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
-                );
-                validarProblema("Equidad", [
-                  {
-                    Mensajes: [
-                      "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
-                    ],
-                  },
-                ]);
-                console.error(err);
-              })
-          : Promise.resolve();
+        //   const equidadPromise = comprobarFallida("Equidad")
+        //     ? fetch(
+        //         "https://grupoasistencia.com/motor_webservice/Equidad_autos?callback=myCallback",
+        //         requestOptions
+        //       )
+        //         .then((res) => {
+        //           if (!res.ok) throw Error(res.statusText);
+        //           return res.json();
+        //         })
+        //         .then((ofertas) => {
+        //           if (typeof ofertas[0].Resultado !== "undefined") {
+        //             agregarAseguradoraFallida("Equidad");
+        //             validarProblema("Equidad", ofertas);
+        //             ofertas[0].Mensajes.forEach((mensaje) => {
+        //               mostrarAlertarCotizacionFallida("Equidad", mensaje);
+        //             });
+        //           } else {
+        //             // eliminarAseguradoraFallida('Equidad');
+        //             const contadorPorEntidad = validarOfertas(
+        //               ofertas,
+        //               "Equidad",
+        //               1
+        //             );
+        //             mostrarAlertaCotizacionExitosa("Equidad", contadorPorEntidad);
+        //           }
+        //         })
+        //         .catch((err) => {
+        //           agregarAseguradoraFallida("Equidad");
+        //           mostrarAlertarCotizacionFallida(
+        //             "Equidad",
+        //             "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
+        //           );
+        //           validarProblema("Equidad", [
+        //             {
+        //               Mensajes: [
+        //                 "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
+        //               ],
+        //             },
+        //           ]);
+        //           console.error(err);
+        //         })
+        //     : Promise.resolve();
 
-        cont.push(equidadPromise);
-
-        /* Mapfre */
-        const mapfrePromise = comprobarFallida("Mapfre")
-          ? fetch(
-              "https://grupoasistencia.com/motor_webservice/Mapfre_autos?callback=myCallback",
-              requestOptions
-            )
-              .then((res) => {
-                if (!res.ok) throw Error(res.statusText);
-                return res.json();
-              })
-              .then((ofertas) => {
-                if (typeof ofertas[0].Resultado !== "undefined") {
-                  agregarAseguradoraFallida("Mapfre");
-                  validarProblema("Mapfre", ofertas);
-                  ofertas[0].Mensajes.forEach((mensaje) => {
-                    mostrarAlertarCotizacionFallida("Mapfre", mensaje);
-                  });
-                } else {
-                  // eliminarAseguradoraFallida('Mapfre');
-                  const contadorPorEntidad = validarOfertas(
-                    ofertas,
-                    "Mapfre",
-                    1
-                  );
-                  mostrarAlertaCotizacionExitosa("Mapfre", contadorPorEntidad);
-                }
-              })
-              .catch((err) => {
-                agregarAseguradoraFallida("Mapfre");
-                mostrarAlertarCotizacionFallida(
-                  "Mapfre",
-                  "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
-                );
-                validarProblema("Mapfre", [
-                  {
-                    Mensajes: [
-                      "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
-                    ],
-                  },
-                ]);
-                console.error(err);
-              })
-          : Promise.resolve();
-
-        cont.push(mapfrePromise);
-
-        /* Bolivar */
-        const bolivarPromise = comprobarFallida("Bolivar")
-          ? fetch(
-              "https://grupoasistencia.com/motor_webservice/Bolivar_autos?callback=myCallback",
-              requestOptions
-            )
-              .then((res) => {
-                if (!res.ok) throw Error(res.statusText);
-                return res.json();
-              })
-              .then((ofertas) => {
-                if (typeof ofertas[0].Resultado !== "undefined") {
-                  agregarAseguradoraFallida("Bolivar");
-                  validarProblema("Bolivar", ofertas);
-                  ofertas[0].Mensajes.forEach((mensaje) => {
-                    mostrarAlertarCotizacionFallida("Bolivar", mensaje);
-                  });
-                } else {
-                  // eliminarAseguradoraFallida('Bolivar');
-                  const contadorPorEntidad = validarOfertas(
-                    ofertas,
-                    "Bolivar",
-                    1
-                  );
-                  mostrarAlertaCotizacionExitosa("Bolivar", contadorPorEntidad);
-                }
-              })
-              .catch((err) => {
-                agregarAseguradoraFallida("Bolivar");
-                mostrarAlertarCotizacionFallida(
-                  "Bolivar",
-                  "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
-                );
-                validarProblema("Bolivar", [
-                  {
-                    Mensajes: [
-                      "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
-                    ],
-                  },
-                ]);
-                console.error(err);
-              })
-          : Promise.resolve();
-
-        cont.push(bolivarPromise);
-
-        /* HDI */
-        const HDIPromise = comprobarFallida("HDI")
-          ? fetch(
-              "https://grupoasistencia.com/motor_webservice/HdiPlus?callback=myCallback",
-              requestOptions
-            )
-              .then((res) => {
-                if (!res.ok) throw Error(res.statusText);
-                return res.json();
-              })
-              .then((ofertas) => {
-                if (typeof ofertas[0].Resultado !== "undefined") {
-                  agregarAseguradoraFallida("HDI");
-                  validarProblema("HDI", ofertas);
-                  ofertas[0].Mensajes.forEach((mensaje) => {
-                    mostrarAlertarCotizacionFallida("HDI", mensaje);
-                  });
-                } else {
-                  // eliminarAseguradoraFallida('HDI');
-                  const contadorPorEntidad = validarOfertas(ofertas, "HDI", 1);
-                  mostrarAlertaCotizacionExitosa("HDI", contadorPorEntidad);
-                }
-              })
-              .catch((err) => {
-                agregarAseguradoraFallida("HDI");
-                mostrarAlertarCotizacionFallida(
-                  "HDI",
-                  "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
-                );
-                validarProblema("HDI", [
-                  {
-                    Mensajes: [
-                      "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
-                    ],
-                  },
-                ]);
-                console.error(err);
-              })
-          : Promise.resolve();
-
-        cont.push(HDIPromise);
+        //   cont.push(equidadPromise);
 
         const lineaVeh = document.getElementById("txtReferenciaVeh").value;
-        // const planes = ["FULL"];
-        // Para 'FULL'
-        const plan = "FULL";
-        let body = JSON.parse(requestOptions.body);
-        body.plan = plan;
-        body.Email = "@gmail.com";
-        body.Email2 = Math.round(Math.random() * 999999) + body.Email;
-        body.linea = lineaVeh;
-        requestOptions.body = JSON.stringify(body);
-        let url = `https://grupoasistencia.com/motor_webservice/Zurich_autos`;
-        let ZFullPromise = comprobarFallida("FULL")
-          ? fetch(url, {
-              ...requestOptions,
-              method: "POST",
-              headers: {
-                ...requestOptions.headers,
-                "Content-Type": "application/json",
-              },
-            })
-              .then((res) => {
-                if (!res.ok) throw Error(res.statusText);
-                return res.json();
-              })
-              .then((ofertas) => {
-                if (typeof ofertas.Resultado !== "undefined") {
-                  agregarAseguradoraFallida(plan);
-                  validarProblema("Zurich", ofertas);
-                  let mensaje = "";
-                  if (ofertas.Mensajes.length == 1) {
-                    mensaje = ofertas.Mensajes[0];
-                  } else {
-                    ofertas.Mensajes.map((element, index) => {
-                      if (element.includes("Lo sentimos")) {
-                        mensaje += " - " + element;
-                      } else if (element.includes("Referred")) {
-                        if (index == 2) {
-                          mensaje += " - " + element;
-                        } else {
-                          mensaje += element;
-                        }
-                      } else {
-                        if (index >= 1) {
-                          mensaje += " - " + element;
-                        } else {
-                          mensaje += element;
-                        }
-                      }
-                    });
-                  }
-                  mostrarAlertarCotizacionFallida(`Zurich`, mensaje);
-                } else {
-                  const contadorPorEntidad = validarOfertas(
-                    ofertas,
-                    "Zurich",
-                    1
-                  );
-                  mostrarAlertaCotizacionExitosa(`Zurich`, contadorPorEntidad);
-                }
-              })
-              .catch((err) => {
-                agregarAseguradoraFallida(plan);
-                mostrarAlertarCotizacionFallida(
-                  "Zurich",
-                  "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
-                );
-                validarProblema("Zurich", [
-                  {
-                    Mensajes: [
-                      "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
-                    ],
-                  },
-                ]);
-                console.error(err);
-              })
-          : Promise.resolve();
-        cont.push(ZFullPromise);
-        /* Estado */
-        const aseguradorasEstado = ["Estado", "Estado2"]; // Agrega más aseguradoras según sea necesario
-        aseguradorasEstado.forEach((aseguradora) => {
-          let successAseguradora = true;
-          const aseguradoraPromise = comprobarFallida(aseguradora)
-            ? fetch(
-                `https://grupoasistencia.com/motor_webservice/${aseguradora}`,
-                requestOptions
-              )
-                .then((res) => {
-                  if (!res.ok) throw Error(res.statusText);
-                  return res.json();
-                })
-                .then((ofertas) => {
-                  let result2 = "";
-                  let result = [];
-                  result.push(ofertas);
-                  if (!Array.isArray(ofertas)) {
-                    result2 = ofertas.Resultado;
-                  } else {
-                    result2 = ofertas[0].Resultado;
-                  }
-                  if (result2 !== undefined) {
-                    agregarAseguradoraFallida("Estado");
-                    validarProblema(aseguradora, result);
-                    ofertas[0].Mensajes.forEach((mensaje) => {
-                      mostrarAlertarCotizacionFallida(aseguradora, mensaje);
-                    });
-                  } else {
-                    const contadorPorEntidad = validarOfertas(
-                      result,
-                      aseguradora,
-                      1
-                    );
-                    if (successAseguradora) {
-                      mostrarAlertaCotizacionExitosa(
-                        aseguradora,
-                        contadorPorEntidad
-                      );
-                      successAseguradora = false;
-                    }
-                  }
-                })
-                .catch((err) => {
-                  agregarAseguradoraFallida("Estado");
-                  mostrarAlertarCotizacionFallida(
-                    aseguradora,
-                    "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
-                  );
-                  validarProblema(aseguradora, [
-                    {
-                      Mensajes: [
-                        "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
-                      ],
-                    },
-                  ]);
-                  console.error(err);
-                })
-            : Promise.resolve();
-
-          cont.push(aseguradoraPromise);
-        });
 
         /* Liberty */
         const libertyPromise = comprobarFallida("HDI (Antes Liberty)")
@@ -4278,52 +3949,6 @@ function cotizarOfertas() {
 
         cont.push(libertyPromise);
 
-        /* Allianz */
-        const allianzPromise = comprobarFallida("Allianz")
-          ? fetch(
-              "https://grupoasistencia.com/motor_webservice/Allianz_autos?callback=myCallback",
-              requestOptions
-            )
-              .then((res) => {
-                if (!res.ok) throw Error(res.statusText);
-                return res.json();
-              })
-              .then((ofertas) => {
-                if (typeof ofertas[0].Resultado !== "undefined") {
-                  agregarAseguradoraFallida("Allianz");
-                  validarProblema("Allianz", ofertas);
-                  ofertas[0].Mensajes.forEach((mensaje) => {
-                    mostrarAlertarCotizacionFallida("Allianz", mensaje);
-                  });
-                } else {
-                  // eliminarAseguradoraFallida('Allianz');
-                  const contadorPorEntidad = validarOfertas(
-                    ofertas,
-                    "Allianz",
-                    1
-                  );
-                  mostrarAlertaCotizacionExitosa("Allianz", contadorPorEntidad);
-                }
-              })
-              .catch((err) => {
-                agregarAseguradoraFallida("Allianz");
-                mostrarAlertarCotizacionFallida(
-                  "Allianz",
-                  "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
-                );
-                validarProblema("Allianz", [
-                  {
-                    Mensajes: [
-                      "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
-                    ],
-                  },
-                ]);
-                console.error(err);
-              })
-          : Promise.resolve();
-
-        cont.push(allianzPromise);
-
         const axaPromise = comprobarFallida("AXA")
           ? fetch(
               "https://grupoasistencia.com/motor_webservice/AXA_autos?callback=myCallback",
@@ -4365,64 +3990,19 @@ function cotizarOfertas() {
 
         cont.push(axaPromise);
 
-        const sbsPromise = comprobarFallida("SBS")
-          ? fetch(
-              "https://grupoasistencia.com/motor_webservice/SBS_autos?callback=myCallback",
-              requestOptions
-            )
-              .then((res) => {
-                if (!res.ok) throw Error(res.statusText);
-                return res.json();
-              })
-              .then((ofertas) => {
-                if (typeof ofertas[0].Resultado !== "undefined") {
-                  agregarAseguradoraFallida("SBS");
-                  validarProblema("SBS", ofertas);
-                  ofertas[0].Mensajes.forEach((mensaje) => {
-                    mostrarAlertarCotizacionFallida("SBS", mensaje);
-                  });
-                } else {
-                  // eliminarAseguradoraFallida('SBS');
-                  const contadorPorEntidad = validarOfertas(ofertas, "SBS", 1);
-                  mostrarAlertaCotizacionExitosa("SBS", contadorPorEntidad);
-                }
-              })
-              .catch((err) => {
-                agregarAseguradoraFallida("SBS");
-                mostrarAlertarCotizacionFallida(
-                  "SBS",
-                  "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
-                );
-                validarProblema("SBS", [
-                  {
-                    Mensajes: [
-                      "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
-                    ],
-                  },
-                ]);
-                console.error(err);
-              })
-          : Promise.resolve();
-
-        cont.push(sbsPromise);
-        //  console.log(cont)
         Promise.all(cont).then(() => {
           $("#loaderOferta").html("");
           $("#loaderRecotOferta").html("");
           let nuevas = cotizacionesFinesa.filter(
             (cotizaciones) => cotizaciones.cotizada === null
           );
-          // console.log(nuevas)
-          // debugger;
           if (nuevas.length > 0) {
-            // debugger;
             if (intermediario != 3 && intermediario != 149) {
               swal.fire({
                 title: "¡Proceso de  Re-Cotización Finalizada!",
                 showConfirmButton: true,
                 confirmButtonText: "Cerrar",
               });
-              //countOfferts();
               enableInputs(true);
             } else {
               Swal.close();
@@ -4469,13 +4049,11 @@ function cotizarOfertas() {
                       $("#loaderRecotOferta").html("");
                       enableInputs(true);
                       countOfferts();
-                      // $("#filtersSection").css("display", "block");
                     }
                   }
                 });
             }
           } else {
-            // debugger;
             Swal.close();
             swal.fire({
               title: "¡Proceso de Re-Cotización Finalizada!",
@@ -4484,7 +4062,6 @@ function cotizarOfertas() {
             });
             enableInputs(true);
             countOfferts();
-            // $("#filtersSection").css("display", "block");
           }
         });
       }

@@ -1126,6 +1126,22 @@ function consulPlacaPesados(query = "1") {
               } else if (codigoClase == 3) {
                 claseVehiculo = "PICK UPS";
                 limiteRCESTADO = 18;
+                var restriccion = "";
+                if (rolAsesor == 19) {
+                  restriccion =
+                    "Lo sentimos, no puedes cotizar vehículos livianos o livianos herramienta de trabajo por este módulo.";
+                } else {
+                  restriccion =
+                    "Lo sentimos, no puedes cotizar vehículos livianos o livianos herramienta de trabajo por este módulo.";
+                }
+                Swal.fire({
+                  icon: "error",
+                  text: restriccion,
+                  confirmButtonText: "Cerrar",
+                }).then(() => {
+                  // Recargar la página después de cerrar el SweetAlert
+                  location.reload();
+                });
               } else if (codigoClase == 4) {
                 claseVehiculo = "UTILITARIOS DEPORTIVOS";
                 limiteRCESTADO = 6;
@@ -1148,11 +1164,14 @@ function consulPlacaPesados(query = "1") {
                   // Recargar la página después de cerrar el SweetAlert
                   location.reload();
                 });
-              } else if (codigoClase == 14 || codigoClase == 21) {
+              } else if (codigoClase == 14) {
                 claseVehiculo = "PESADO";
                 limiteRCESTADO = 18;
               } else if (codigoClase == 19) {
                 claseVehiculo = "VAN";
+                limiteRCESTADO = 18;
+              } else if (codigoClase == 21) {
+                claseVehiculo = "CAMION";
                 limiteRCESTADO = 18;
               } else if (codigoClase == 16) {
                 claseVehiculo = "MOTOCICLETA";
@@ -2131,7 +2150,7 @@ function cotizarFinesa(ofertasCotizaciones) {
     if (element.cotizada == null || element.cotizada == false) {
       promisesFinesa.push(
         fetch(
-           "https://www.grupoasistencia.com/motor_webservice/paymentInstallmentsFinesa_qas",
+           "https://www.grupoasistencia.com/motor_webservice/paymentInstallmentsFinesa",
           //"http://localhost/motorTest/paymentInstallmentsFinesa",
           {
             method: "POST",
@@ -2149,7 +2168,7 @@ function cotizarFinesa(ofertasCotizaciones) {
             finesaData.identity = element.objFinesa;
             finesaData.cuotas = element.cuotas;
             return fetch(
-              "https://www.grupoasistencia.com/motor_webservice/saveDataQuotationsFinesa_qas",
+              "https://www.grupoasistencia.com/motor_webservice/saveDataQuotationsFinesa",
               //"http://localhost/motorTest//saveDataQuotationsFinesa",
               {
                 method: "POST",
@@ -2834,10 +2853,7 @@ function cotizarOfertasPesados() {
             aseguradorasCoti.forEach((aseguradora) => {
               if (aseguradora === "Mundial") {
                 /*MUNDIAL*/
-                console.log(mundial)
                 if (mundial == 5) {
-                  console.log("entre")
-                  debugger;
                   let body = JSON.parse(requestOptions.body);
                   plan = "Trailer";
                   body.plan = plan;
@@ -2903,7 +2919,7 @@ function cotizarOfertasPesados() {
                         return res.json();
                       })
                       .then((ofertas) => {
-                        if (typeof ofertas.Resultado !== "undefined") {
+                        if (typeof ofertas[0].Resultado !== "undefined") {
                           validarProblema(aseguradora, ofertas);
                           agregarAseguradoraFallidaPesados(aseguradora);
                           if (ofertas[0].length > 1) {
@@ -2914,7 +2930,7 @@ function cotizarOfertasPesados() {
                               );
                             });
                           } else {
-                            ofertas.Mensajes.forEach((mensaje) => {
+                            ofertas[0].Mensajes.forEach((mensaje) => {
                               mostrarAlertarCotizacionFallida(
                                 aseguradora,
                                 mensaje
@@ -3589,50 +3605,50 @@ function cotizarOfertasPesados() {
           : Promise.resolve();
 
         cont2.push(axaPromise);
-
+        
         const mundialPromise = comprobarFallidaPesados("Mundial")
-        ? fetch(
-            "https://grupoasistencia.com/motor_webservice/Mundial_pesados",
-            requestOptions
-          )
-            .then((res) => {
-              if (!res.ok) throw Error(res.statusText);
-              return res.json();
-            })
-            .then((ofertas) => {
-              if (typeof ofertas[0].Resultado !== "undefined") {
-                agregarAseguradoraFallidaPesados("Mundial");
-                validarProblema("AXA", ofertas);
-                ofertas[0].Mensajes.forEach((mensaje) => {
-                  mostrarAlertarCotizacionFallida("Mundial", mensaje);
-                });
-              } else {
-                // eliminarAseguradoraFallida('AXA');
-                const contadorPorEntidad = validarOfertasPesados(
-                  ofertas,
-                  "AXA",
-                  1
-                );
-                mostrarAlertaCotizacionExitosa("Mundial", contadorPorEntidad);
-              }
-            })
-            .catch((err) => {
-              agregarAseguradoraFallidaPesados("Mundial");
-              mostrarAlertarCotizacionFallida(
-                "AXA",
-                "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
-              );
-              validarProblema("Mundial", [
-                {
-                  Mensajes: [
-                    "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
-                  ],
-                },
-              ]);
-              console.error(err);
-            })
-        : Promise.resolve();
-
+            ? fetch(
+                "https://grupoasistencia.com/motor_webservice/Mundial_pesados",
+                requestOptions
+              )
+                .then((res) => {
+                  if (!res.ok) throw Error(res.statusText);
+                  return res.json();
+                })
+                .then((ofertas) => {
+                  if (typeof ofertas[0].Resultado !== "undefined") {
+                    agregarAseguradoraFallidaPesados("Mundial");
+                    validarProblema("Mundial", ofertas);
+                    ofertas[0].Mensajes.forEach((mensaje) => {
+                      mostrarAlertarCotizacionFallida("Mundial", mensaje);
+                    });
+                  } else {
+                    // eliminarAseguradoraFallida('AXA');
+                    const contadorPorEntidad = validarOfertasPesados(
+                      ofertas,
+                      "Mundial",
+                      1
+                    );
+                    mostrarAlertaCotizacionExitosa("Mundial", contadorPorEntidad);
+                  }
+                })
+                .catch((err) => {
+                  agregarAseguradoraFallidaPesados("Mundial");
+                  mostrarAlertarCotizacionFallida(
+                    "Mundial",
+                    "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
+                  );
+                  validarProblema("Mundial", [
+                    {
+                      Mensajes: [
+                        "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
+                      ],
+                    },
+                  ]);
+                  console.error(err);
+                })
+            : Promise.resolve();
+            
       cont2.push(mundialPromise);
 
         const previsoraPromise = comprobarFallidaPesados("Previsora")
@@ -3958,16 +3974,9 @@ const vehiculoPermitidoPesados = [
   "FURGONETA",
   "FURGON",
   "CHASIS",
-  "CAMIONETA REPARTIDORA",
   "BUS",
   "CARROTANQUE",
-  "GRUA",
-  "PICKUP DOBLE CAB",
-  "PICK UPS",
-  "PICK UP",
-  "PICKUP",
-  "PICKUP SENCILLA",
-  "PICKUP DOBLE CABINA",
+  "GRUA"
 ];
 
 $("#btnConsultarVehmanualbuscador").click(function () {

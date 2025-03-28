@@ -272,12 +272,11 @@ CUERPO DOCUMENTO
       "Bolivar" => array("A" => $permisos["Bolivar_A"], "C" => $permisos["Bolivar_C"]),
       "Equidad" => array("A" => $permisos["Equidad_A"], "C" => $permisos["Equidad_C"]),
       "Estado" => array("A" => $permisos["Estado_A"], "C" => $permisos["Estado_C"]),
-      //"HDI" => array("A" => $permisos["HDI_A"], "C" => $permisos["HDI_C"]),
       "HDI (Antes Liberty)" => array("A" => $permisos["Liberty_A"], "C" => $permisos["Liberty_C"]),
       "Mapfre" => array("A" => $permisos["Mapfre_A"], "C" => $permisos["Mapfre_C"]),
       "Mundial" => array("A" => $permisos["Mundial_A"], "C" => $permisos["Mundial_C"]),
       "Previsora" => array("A" => $permisos["Previsora_A"], "C" => $permisos["Previsora_C"]),
-      "Qualitas" => array("A" => $permisos["Qualitas_A"], "C" => $permisos["Qualitas_C"]),
+      // "Qualitas" => array("A" => $permisos["Qualitas_A"], "C" => $permisos["Qualitas_C"]),
       "SBS" => array("A" => $permisos["SBS_A"], "C" => $permisos["SBS_C"]),
       "Solidaria" => array("A" => $permisos["Solidaria_A"], "C" => $permisos["Solidaria_C"]),
       "Zurich" => array("A" => $permisos["Zurich_A"], "C" => $permisos["Zurich_C"]),
@@ -288,30 +287,20 @@ CUERPO DOCUMENTO
       "AXA" => array("A" => $permisos["AXA_A_motos"], "C" => $permisos["AXA_C_motos"]),
       "SBS" => array("A" => $permisos["SBS_A_motos"], "C" => $permisos["SBS_C_motos"]),
       "HDI (Antes Liberty)" => array("A" => $permisos["Liberty_A_motos"], "C" => $permisos["Liberty_C_motos"]),
-      // "Bolivar" => array("A" => $permisos["Bolivar_A_motos"], "C" => $permisos["Bolivar_C_motos"]),
-      // "Equidad" => array("A" => $permisos["Equidad_A_motos"], "C" => $permisos["Equidad_C_motos"]),
-      // "Estado" => array("A" => $permisos["Estado_A_motos"], "C" => $permisos["Estado_C_motos"]),
-      // "HDI" => array("A" => $permisos["HDI_A_motos"], "C" => $permisos["HDI_C_motos"]),
-      // "Mapfre" => array("A" => $permisos["Mapfre_A_motos"], "C" => $permisos["Mapfre_C_motos"]),
-      // "Previsora" => array("A" => $permisos["Previsora_A_motos"], "C" => $permisos["Previsora_C_motos"]),
-      // "Solidaria" => array("A" => $permisos["Solidaria_A_motos"], "C" => $permisos["Solidaria_C_motos"]),
-      // "Zurich" => array("A" => $permisos["Zurich_A_motos"], "C" => $permisos["Zurich_C_motos"])
     );
 
     $aseguradoras_pesados = array(
-      //"Allianz" => array("A" => $permisos["Allianz_A_pesados"], "C" => $permisos["Allianz_C_pesados"]),
       "Mundial" => array("A" => $permisos["Mundial_A_pesados"], "C" => $permisos["Mundial_C_pesados"]),
       "AXA" => array("A" => $permisos["AXA_A_pesados"], "C" => $permisos["AXA_C_pesados"]),
       "HDI (Antes Liberty)" => array("A" => $permisos["Liberty_A_pesados"], "C" => $permisos["Liberty_C_pesados"]),
       "Previsora" => array("A" => $permisos["Previsora_A_pesados"], "C" => $permisos["Previsora_C_pesados"]),
-      // "Bolivar" => array("A" => $permisos["Bolivar_A_pesados"], "C" => $permisos["Bolivar_C_pesados"]),
-      //"Equidad" => array("A" => $permisos["Equidad_A_pesados"], "C" => $permisos["Equidad_C_pesados"]),
-      // "Estado" => array("A" => $permisos["Estado_A_pesados"], "C" => $permisos["Estado_C_pesados"]),
       "HDI" => array("A" => $permisos["HDI_A_pesados"], "C" => $permisos["HDI_C_pesados"]),
-      //"Mapfre" => array("A" => $permisos["Mapfre_A_pesados"], "C" => $permisos["Mapfre_C_pesados"]),
-      //"SBS" => array("A" => $permisos["SBS_A_pesados"], "C" => $permisos["SBS_C_pesados"]),
-      //"Solidaria" => array("A" => $permisos["Solidaria_A_pesados"], "C" => $permisos["Solidaria_C_pesados"]),
-      //"Zurich" => array("A" => $permisos["Zurich_A_pesados"], "C" => $permisos["Zurich_C_pesados"]),
+    );
+
+    $aseguradoras_publicos = array(
+      "AXA" => array("A" => $permisos["AXA_A_pesados"], "C" => $permisos["AXA_C_pesados"]),
+      "HDI (Antes Liberty)" => array("A" => $permisos["Liberty_A_pesados"], "C" => $permisos["Liberty_C_pesados"]),
+      "Solidaria" => array("A" => $permisos["Solidaria_A_pesados"], "C" => $permisos["Solidaria_C_pesados"]),
     );
 
 
@@ -322,6 +311,7 @@ CUERPO DOCUMENTO
       var aseguradorasCredenciales = '<?php echo json_encode($aseguradoras); ?>';
       var aseguradorasCredencialesMotos = '<?php echo json_encode($aseguradoras_motos); ?>';
       var aseguradorasCredencialesPesados = '<?php echo json_encode($aseguradoras_pesados); ?>';
+      var aseguradorasCredencialesPasajeros = '<?php echo json_encode($aseguradoras_publicos); ?>';
       // console.log(aseguradorasCredencialesPesados)
     </script>
     <?php
@@ -396,7 +386,8 @@ CUERPO DOCUMENTO
         $_GET["ruta"] == "retomar-cotizacion-assistcard" ||
         $_GET["ruta"] == "retomar-cotizacion-salud" ||
         $_GET["ruta"] == "retomar-cotizacion-hogar" ||
-        $_GET["ruta"] == "negocios"
+        $_GET["ruta"] == "negocios" ||
+        $_GET["ruta"] == "transporte-pasajeros" 
       ) {
         if ($_GET['ruta'] == 'modificacion-productos') {
           $_GET['ruta'] = 'ModificacionProductos/ModificacionProductosView';

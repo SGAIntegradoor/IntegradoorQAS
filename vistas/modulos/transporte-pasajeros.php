@@ -868,7 +868,7 @@ echo '<script>console.log(' . $idIntermediario . ", " . $rolAsesor . ')</script>
 
     <h1>
 
-      Cotizar Seguro Autos Livianos
+    Cotizar vehículos de transporte de pasajeros
 
     </h1>
 
@@ -876,7 +876,7 @@ echo '<script>console.log(' . $idIntermediario . ", " . $rolAsesor . ')</script>
 
       <li><a href="inicio"><i class="fa fa-dashboard"></i>Inicio</a></li>
 
-      <li class="active">Cotizar Vehiculo liviano</li>
+      <li class="active">Cotizar Transporte Pajareros</li>
 
     </ol>
 
@@ -1416,14 +1416,16 @@ echo '<script>console.log(' . $idIntermediario . ", " . $rolAsesor . ')</script>
                       <label for="txtTipoUsoVehiculo">Tipo de Uso</label>
                       <select class="form-control" id="txtTipoUsoVehiculo" required>
                         <option value=""></option>
-                        <option value="Particular" selected>Particular</option>
-                        <option value="Trabajo">Trabajo</option>
+                        <option value="ServicioEsp">Servicio Especial</option>
+                        <option value="PasajeroUrb">Pasajero Urbano</option>
+                        <option value="PasajeroInter">Pasajero Intermunicipal</option>
+                        <option value="Taxi" selected>Taxi</option>
                       </select>
                     </div>
                   </div>
 
                   <div class="row">
-                    <div class="col-xs-12 col-sm-6 col-md-3 form-group">
+                    <!-- <div class="col-xs-12 col-sm-6 col-md-3 form-group">
                       <label for="txtTipoServicio">Tipo de Servicio</label>
                       <select class="form-control" id="txtTipoServicio" required>
                         <option value=""></option>
@@ -1431,7 +1433,7 @@ echo '<script>console.log(' . $idIntermediario . ", " . $rolAsesor . ')</script>
                         <option value="11">Publico Municipal</option>
                         <option value="12">Publico Intermunicipal</option>
                       </select>
-                    </div>
+                    </div> -->
 
                     <div class="col-xs-12 col-sm-6 col-md-3 form-group">
                       <label for="DptoCirculacion">Departamento de Circulación</label>
@@ -1605,21 +1607,7 @@ echo '<script>console.log(' . $idIntermediario . ", " . $rolAsesor . ')</script>
 
                 <div id="mensajePrevisora">
                   <p class="aviso-container col-lg-12">
-                  <p><b>Notas Importantes: </b></p>
-
                   <ul style="padding-right: 25px !important; text-align: justify;">
-                    <li>
-                      <b>Seguros Mundial:</b> En pérdidas totales por daños y hurto puedes escoger 3 opciones: cobertura al 100% sin deducible, y deducible del 20% o del 40% de la perdida.
-                      <br />
-                      <br />
-                      Para daños parciales aplica un deducible del 10% (mínimo 1 SMMLV), y se maneja la modalidad de ARREGLO DIRECTO, la cual consiste en que el asegurado es quien se encarga de tramitar y hacer seguimiento a la reparación del vehículo en su taller de confianza y la compañía se encarga de autorizar el pago del reclamo. Inicialmente se anticipa el 70% del valor de la reparación y el 30% restante cuando el vehículo quede reparado y se presenten las respectivas facturas.
-                      <br />
-                      <br />
-                      Incluye servicios de conductor elegido, grúa por avería y accidente y no cubre vehículo de reemplazo.
-                      <br />
-                      <br />
-                      Vehículos de hasta 5 años pueden usar repuestos originales; si son mayores, se usan repuestos homologados.
-                    </li>
                     <li>
                       <p>
                         Si a tu cliente le interesa Previsora, Allianz o HDI, ten en cuenta que ciertas líneas de vehículos requieren la instalación del dispositivo Cazador al tomar su seguro. Para Previsora tiene un costo adicional a la póliza y para Allianz y HDI es totalmente gratis. Por favor confirma con tu área comercial.
@@ -1677,7 +1665,7 @@ echo '<script>console.log(' . $idIntermediario . ", " . $rolAsesor . ')</script>
           <!-- CAMPOS OCULTOS PARA OPTENER LA INFORMACION-->
           <div style="display: none;">
             <label>Aseguradoras</label>
-            <input type="hidden" name="aseguradoras" id="aseguradoras" value='<?php echo json_encode($aseguradoras); ?>'>
+            <input type="hidden" name="aseguradoras" id="aseguradoras" value='<?php echo json_encode($aseguradoras_publicos); ?>'>
             <label>Intermediario</label>
             <input type="hidden" name="idIntermediario" id="idIntermediario" value="<?php echo $idIntermediario; ?>">
             <label>Rol Asesor</label>
@@ -1820,58 +1808,12 @@ echo '<script>console.log(' . $idIntermediario . ", " . $rolAsesor . ')</script>
           </div>
         </div>
       </div>
-      <!-- <div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-        <div class="modal-dialog2">
-          <div class="modal-content2">
-            <div class="modal-header2">
-              <h5 class="modal-title2" id="staticBackdropLabel2">POLÍTICA DE VALOR ASEGURADO LIVIANOS</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body2">
-              <form>
-                <table>
-                  <thead>
-                    <tr>
-                      <th>Valor Asegurado</th>
-                      <th>Condiciones</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>Menos de 200 millones</td>
-                      <td>De acuerdo a políticas de cada aseguradora</td>
-                    </tr>
-                    <tr>
-                      <td>200 a 250 millones</td>
-                      <td>Requieren autorización del Director Comercial de Grupo Asistencia</td>
-                    </tr>
-                    <tr>
-                      <td>250 a 300 millones</td>
-                      <td>Requieren autorización de Gerencia de Grupo Asistencia de acuerdo al nivel de productividad del Asesor</td>
-                    </tr>
-                  </tbody>
-                </table>
-
-                
-
-                <div class="divsButtonsModals">
-                  <button type="button" class="btn btn-primary buttonsModal" id="btn-cerrar-fasecolda">Cerrar</button>
-                  <button type="button" class="btn btn-primary buttonsModal" id="btn-consultar-fasecolda">Consultar</button>
-                </div>
-              </form>
-            </div>
-          </div>
-        </div>
-      </div> -->
-      <!-- END MODAL FASECOLDA -->
 
   </section>
 
 </div>
 
-<script src="vistas/js/cotizar.js?v=<?php echo (rand()); ?>"></script>
+<script src="vistas/js/cotizar_pasajeros.js?v=<?php echo (rand()); ?>"></script>
 <script src="vistas/js/functionsViews.js?v=<?php echo (rand()); ?>"></script>
 
 

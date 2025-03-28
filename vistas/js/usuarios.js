@@ -362,6 +362,7 @@ $("#DptoCirculacion").select2({
   theme: "bootstrap dpto1",
   language: "es",
   width: "100%",
+  dropdownParent: $("#modalAgregarUsuario")
 });
 
 $("#DptoCirculacion").change(function () {
@@ -373,6 +374,7 @@ $("#ciudadCirculacion").select2({
   theme: "bootstrap ciudad1",
   language: "es",
   width: "100%",
+  dropdownParent: $("#modalAgregarUsuario")
 });
 
 // Carga los Departamentos disponibles para agregar
@@ -381,6 +383,7 @@ $("#ingDptoCirculacion").select2({
   language: "es",
   width: "100%",
   placeholder: "Departamento*",
+  dropdownParent: $("#modalAgregarUsuario")
 });
 
 $("#ingDptoCirculacion").change(function () {
@@ -393,6 +396,7 @@ $("#ingciudadCirculacion").select2({
   language: "es",
   width: "100%",
   placeholder: "Ciudad*", // Texto del placeholder del buscador
+  dropdownParent: $("#modalAgregarUsuario")
 });
 
 // FUNCION PARA CARGAR LA CIUDAD DE CIRCULACIÓN
