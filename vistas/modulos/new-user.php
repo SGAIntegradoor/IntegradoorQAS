@@ -20,6 +20,7 @@ ini_set('display_errors', 0);
   console.log(permisos)
 </script>
 
+<link rel="stylesheet" href="./vistas/modulos/Styles/New-User/styles.css">
 
 <style>
   input[type="checkbox"] {
@@ -423,6 +424,34 @@ ini_set('display_errors', 0);
                   background-color: rgb(118, 187, 0);
                 }
 
+                .btnComisiones {
+                  background-color: #88d600;
+                  border: 0;
+                  margin-top: 25px;
+                  border-radius: 5px;
+                  width: 90%;
+                  color: white;
+                  height: 40px;
+                  transition: background-color 0.3s ease;
+                  align-items: flex-end;
+                }
+
+                .btnComisiones:hover {
+                  background-color: rgb(118, 187, 0);
+                }
+
+                .btnSalir {
+                  background-color: #c9c9c9;
+                  border: 0;
+                  margin-top: 15px;
+                  margin-right: 80px;
+                  border-radius: 5px;
+                  width: 80px;
+                  color: white;
+                  height: 40px;
+                  transition: background-color 0.3s ease;
+                }
+
                 .btnSalir:hover {
                   background-color: rgba(199, 199, 199, 0.7);
                 }
@@ -611,8 +640,8 @@ ini_set('display_errors', 0);
 
 
 
-                <div class="form-group">
-                  <label for="representanteLegal"><b>¿Tiene asistente?</b></label>
+                <div class="form-group divAsistente">
+                  <label for="tieneAsistente"><b>¿Tiene asistente?</b></label>
                   <div class="" style="display: flex; flex-direction: row; gap: 30px;">
                     <div style="display: flex; flex-direction: row; gap: 30px; justify-content: center; align-items: center;">
                       <input type="radio" name="radioAsistente" id="siAsistente" style="margin: 0px">
@@ -665,6 +694,16 @@ ini_set('display_errors', 0);
                   </select>
                 </div>
 
+                <div class="form-group" id="divCargos">
+                  <label for="cargos"><b>Cargo</b></label>
+                  <select name="cargos" id="cargos">
+                  </select>
+                </div>
+
+                <div class="form-group" id="divComisiones" style="display: none; align-items: flex-end;">
+                  <button class="btnComisiones" onclick="openModalComisiones()">Configurar Comisiones</button>
+                </div>
+
                 <!-- <div class="form-group">
                   <label for="categoriaAsesor"><b>Categoria de asesor</b></label>
                   <select name="categoriaAsesor" id="categoriaAsesor">
@@ -687,7 +726,7 @@ ini_set('display_errors', 0);
 
                 <div class="form-group freelance" id="divOrigen">
                   <label for="origen"><b>Origen</b></label>
-                  <input type="text" name="origen" id="origen"/>
+                  <input type="text" name="origen" id="origen" />
                 </div>
 
                 <!-- <div class="form-group">
@@ -798,11 +837,11 @@ ini_set('display_errors', 0);
                 </div>
               </div>
             </div>
-            <div clas="row" style="margin-bottom: 30px; margin-top: 30px;">
+            <div class="freelance" style="margin-bottom: 30px; margin-top: 30px;">
               <u><b style="font-size: 16px;">Información del financiera</b></u>
             </div>
 
-            <div class="form-container">
+            <div class="form-container freelance">
               <div class="form-group">
                 <label for="entidadBancaria"><b>Entidad Bancaria</b></label>
                 <select name="entidadBancaria" id="entidadBancaria"></select>
@@ -928,11 +967,99 @@ ini_set('display_errors', 0);
 
     </div>
 
+    <div id="myModal2" style="display: block;">
+      <div class="col-lg-12" id="realModal">
+        <div style="margin-bottom: 0px; margin-top: 20px; gap: 5px;">
+          <div style="display:flex; flex-direction: row; margin-bottom: 10px;margin-top: 18px; gap:40px">
+            <div class="form-group">
+              <label for="ramoSelect">Ramo:</label>
+              <select class="" name="ramoSelect" id="ramoSelect" placeholder="" style="width: 150px;" required>
+                <option value="">Seleccione...</option>
+                <option value="1">Todos</option>
+                <option value="2">Automoviles</option>
+                <option value="3">Motos</option>
+                <option value="4">Pesados</option>
+                <option value="5">Hogar</option>
+                <option value="6">Vida</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="unidadNegocioSelect">Unidad de negocio:</label>
+              <select name="unidadNegocioSelect" id="unidadNegocioSelect" placeholder="" style="width: 150px;" required>
+                <option value="">Seleccione...</option>
+                <option value="1">Negocio Directo</option>
+                <option value="2">Asesor 10</option>
+                <option value="3">Asesor Ganador</option>
+                <option value="4">Asesor Freelance</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="tipoNegocioSelect">Tipo de negocio:</label>
+              <select name="tipoNegocioSelect" id="tipoNegocioSelect" placeholder="" style="width: 150px;" required>
+                <option value="">Seleccione...</option>
+                <option value="1">Individual</option>
+                <option value="2">Colectivo</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="tipoExpedicionSelect">Tipo expedición</label>
+              <select name="tipoExpedicionSelect" id="tipoExpedicionSelect" placeholder="" style="width: 150px;" required>
+                <option value="">Seleccione...</option>
+                <option value="1">Todos</option>
+                <option value="2">Nueva</option>
+                <option value="3">Renovación</option>
+                <option value="4">Inclusión</option>
+              </select>
+            </div>
+            <div style="display: flex; align-items: center;">
+              <input type="text" name="valorComision" id="valorComision" style="border: 0; border-bottom: 1px solid  #c9c9c9;" placeholder="Valor comisión %" required>
+            </div>
+
+          </div>
+          <div style="display:flex; flex-direction: row; margin-bottom: 10px;margin-top: 100px; gap:85px; width: 100%;">
+            <input type="text" name="observaciones" id="observaciones" placeholder="Observaciones" style="border: 0; border-bottom: 1px solid  #c9c9c9; width:50%" ;>
+            <div class="form-group">
+
+            </div>
+            <div class="form-group">
+
+            </div>
+            <button class="guardarComision" onclick="addComision()" style="flex: 1/2;">Adicionar</button>
+          </div>
+          <div class="row" style="margin-bottom: 10px;margin-top: 18px;">
+          </div>
+          <div style="margin-bottom: 10px;margin-top: 50px; text-align: start;">
+            <table border="1" style="width: 100%; margin-right: 10px;" id="comisionesTable">
+              <thead>
+                <tr>
+                  <th>Ramo</th>
+                  <th>Unidad de negocio</th>
+                  <th>Tipo de negocio</th>
+                  <th>Tipo expedición</th>
+                  <th>Valor comisión %</th>
+                  <th>Observaciones</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody id="comisionesTableBody">
+                <!-- Aquí se agregarán las filas dinámicamente -->
+                 <tr style="text-align: center;">
+                  <td colspan="7">No hay comisiones configuradas</td>
+                 </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
 </div>
 </div>
 
 </section>
 </div>
+
+
+
 
 
 

@@ -1,0 +1,225 @@
+/* Elimina completamente la barra de título del modal */
+.custom-dialog2 .ui-dialog-titlebar {
+  display: block;
+}
+
+/* Personaliza el cuadro del modal */
+.custom-dialog2 {
+  background-color: white;
+  /* Fondo blanco */
+  /* Borde gris claro */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  /* Sombra suave */
+  /* padding: 20px; */
+  /* Espaciado interno */
+  /* border-radius: 8px; */
+  /* Bordes redondeados opcionales */
+  left: 665px !important;
+}
+
+/* Botones del modal en la parte inferior */
+.custom-dialog2 .ui-dialog-buttonpane {
+  /* Centra los botones */
+  background: none;
+  /* Sin color de fondo en el contenedor de botones */
+  border-top: none;
+  /* Sin borde superior */
+  padding: 0em 2em 2em 2em;
+}
+
+.custom-dialog2 .ui-dialog-buttonpane .ui-dialog-buttonset {
+  float: none !important;
+  text-align: center !important;
+}
+
+.custom-dialog2 .ui-dialog-buttonset button {
+  margin: 5px;
+  padding: 10px 20px;
+  background-color: #007bff;
+  /* Azul para botón aceptar */
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.custom-dialog2 .ui-dialog-titlebar-close {
+  font-size: 18px;
+  color: white;
+  border: none;
+  background: #88d600;
+}
+
+#closeButtonModal {
+  /* padding: 0 !important; */
+  margin: 0 !important;
+  font-weight: 100;
+  border: 1px solid white;
+  padding: 0 5px 0 5px !important;
+  border-radius: 4px;
+}
+
+#closeButtonModal:hover {
+  /* padding: 0 !important; */
+  scale: 1.1;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.custom-dialog2 .ui-widget-header {
+  border: 0;
+}
+
+.custom-dialog2 .ui-resizable-handle {
+  /* position: absolute; */
+  /* font-size: 0.1px; */
+  /* display: block; */
+  -ms-touch-action: none;
+  touch-action: none;
+}
+
+.ui-dialog {
+  width: 100% !important;
+  /* Ocupar todo el ancho disponible */
+  max-width: 1100px;
+  /* Ancho máximo del modal */
+  position: fixed !important;
+  /* Fijar el modal en relación al viewport */
+  top: 50%;
+  /* Centrar verticalmente */
+  left: 55%;
+  /* Centrar horizontalmente */
+  transform: translate(-50%, -50%);
+  /* Ajustar la posición para centrar exactamente */
+  margin: 0;
+  /* Elimina márgenes adicionales */
+  z-index: 9999;
+  /* Asegura que el modal esté por encima de otros elementos */
+  max-height: 90vh;
+  /* Limita la altura al 90% del viewport */
+  overflow-y: auto;
+  /* Habilita el scroll vertical si el contenido es extenso */
+}
+
+.custom-dialog2 .ui-dialog-content {
+  max-height: calc(80vh - 150px);
+  /* Ajusta el contenido según el viewport */
+  overflow-y: auto;
+  /* Habilita el scroll dentro del contenido */
+  padding: 0 !important;
+  /* Elimina el padding del contenido */
+}
+
+.ui-dialog-titlebar {
+  padding: 0;
+  /* Elimina el padding del encabezado */
+}
+
+.custom-dialog2 .ui-dialog .col-lg-12 {
+  padding: 0;
+  /* Elimina márgenes adicionales del contenido */
+}
+
+.custom-dialog2 {
+  width: 100%;
+  /* Se adapta al contenedor */
+  box-sizing: border-box;
+  /* Incluye padding y borde en el ancho total */
+}
+
+#btnGuardarComision {
+  background-color: #88d600;
+  min-width: 100px;
+}
+
+#btnCerrar {
+  background-color: black;
+  min-width: 100px;
+  margin-right: 36px;
+}
+
+.custom-dialog2 .ui-dialog-title {
+  color: white;
+  font-weight: 600;
+  font-size: 13px;
+  padding-left: 15px;
+}
+
+.custom-dialog2 .ui-dialog-titlebar {
+  padding: 1em 1em;
+  position: relative;
+}
+
+.custom-dialog2 .ui-corner-all,
+.ui-corner-bottom,
+.ui-corner-right,
+.ui-corner-br {
+  border-bottom-right-radius: 0px;
+}
+
+.custom-dialog2 .ui-corner-all,
+.ui-corner-bottom,
+.ui-corner-left,
+.ui-corner-bl {
+  border-bottom-left-radius: 0px;
+}
+
+.ui-widget-content {
+  border: 0;
+}
+
+#myModal2 {
+  padding: 11px 30px 0px 30px !important;
+}
+
+.ui-widget.ui-widget-content {
+  border: 0;
+}
+
+.ui-dialog {
+  padding: 0;
+  z-index: 1059;
+}
+
+#myModal2 label {
+  color: darkgray;
+  font-weight: 400;
+}
+
+#myModal2 select {
+  border: 1px solid #ccc !important;
+}
+
+.guardarComision {
+  background-color: #88d600 !important;
+  color: white !important;
+  border: none !important;
+  padding: 10px 20px !important;
+  cursor: pointer !important;
+  font-size: 14px !important;
+  border-radius: 4px !important;
+}
+
+.guardarComision:hover {
+  background-color: #76c700 !important;
+  /* Cambia el color al pasar el mouse */
+}
+
+#myModal2 input:focus,
+#myModal2 select:focus,
+#myModal2 textarea:focus {
+  outline: none; /* Elimina el borde azul de enfoque */
+  box-shadow: none; /* Elimina la sombra de Bootstrap u otros estilos */
+  border-color: transparent; /* Hace el borde invisible */
+}
+
+/* #comisionesTable {
+  width: 100%;
+} */
+
+#comisionesTable th,
+#comisionesTable td {
+  padding: 12px;
+  border: 1px solid #ddd;
+  text-align: center;
+  color: #767575;
+  font-weight: 400;
+}
