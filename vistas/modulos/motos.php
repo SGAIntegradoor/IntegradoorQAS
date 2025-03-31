@@ -1521,7 +1521,8 @@ $rolAsesor = $_SESSION['permisos']['idRol'];
                     </div>
                   </div>
                   <div>
-                    <div id="mensajeSga" class="col-lg-12">
+                    <div id="mensajeSga" class="col-lg-12" style="font-size: 13px;">
+                    <p><b>Notas Importantes: </b></p>
                       <p>
                         <strong>Condiciones Generales:</strong><br>
                         • Para motos con valores asegurados menores a $7 millones de pesos solo se presentan las condiciones que genere el cotizador web.<br>
