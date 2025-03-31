@@ -933,7 +933,24 @@ var contErrProtocolo = 0;
 
 // Permite consultar la informacion del vehiculo por medio de la Placa (Seguros del Estado)
 function consulPlaca(query = "1") {
+
   var numplaca = document.getElementById("placaVeh").value;
+
+  let lastChar = numplaca.slice(-1);
+  if(!isNaN(lastChar)) {
+    
+  } else {
+    Swal.fire({
+      icon: "error",
+      title: "Error",
+      text: "La placa no coincide con el formato de vehiculos livianos",
+      showConfirmButton: true,
+    }).then(() => {
+      window.location.reload();
+    })
+    return false;
+  }
+
   if (numplaca == "WWW404") {
     document.getElementById("formularioVehiculo").style.display = "block";
     $("#loaderPlaca").html("");

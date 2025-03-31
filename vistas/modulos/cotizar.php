@@ -1603,22 +1603,17 @@ echo '<script>console.log(' . $idIntermediario . ", " . $rolAsesor . ')</script>
                 </div>
 
 
-                <div id="mensajePrevisora">
+                <div id="mensajePrevisora" style="font-size: 13px;">
                   <p class="aviso-container col-lg-12">
                   <p><b>Notas Importantes: </b></p>
 
                   <ul style="padding-right: 25px !important; text-align: justify;">
                     <li>
-                      <b>Seguros Mundial:</b> En pérdidas totales por daños y hurto puedes escoger 3 opciones: cobertura al 100% sin deducible, y deducible del 20% o del 40% de la perdida.
-                      <br />
-                      <br />
-                      Para daños parciales aplica un deducible del 10% (mínimo 1 SMMLV), y se maneja la modalidad de ARREGLO DIRECTO, la cual consiste en que el asegurado es quien se encarga de tramitar y hacer seguimiento a la reparación del vehículo en su taller de confianza y la compañía se encarga de autorizar el pago del reclamo. Inicialmente se anticipa el 70% del valor de la reparación y el 30% restante cuando el vehículo quede reparado y se presenten las respectivas facturas.
-                      <br />
-                      <br />
-                      Incluye servicios de conductor elegido, grúa por avería y accidente y no cubre vehículo de reemplazo.
-                      <br />
-                      <br />
-                      Vehículos de hasta 5 años pueden usar repuestos originales; si son mayores, se usan repuestos homologados.
+                      <p><b>Seguros Mundial:</b> En pérdidas totales por daños y hurto puedes escoger 3 opciones: cobertura al 100% sin deducible, y deducible del 20% o del 40% de la perdida.
+                      Para daños parciales aplica un deducible del 10% (mínimo 1 SMMLV), y se maneja la modalidad de ARREGLO DIRECTO, la cual consiste en que el asegurado es quien se encarga de tramitar y hacer seguimiento a la reparación del vehículo en su taller de confianza y la compañía se encarga de autorizar el pago del reclamo.
+                      Inicialmente se anticipa el 70% del valor de la reparación y el 30% restante cuando el vehículo quede reparado y se presenten las respectivas facturas.</p>
+                      <p>Incluye servicios de conductor elegido, grúa por avería y accidente y no cubre vehículo de reemplazo.</p>
+                      <p>Vehículos de hasta 5 años pueden usar repuestos originales; si son mayores, se usan repuestos homologados.</p>
                     </li>
                     <li>
                       <p>
