@@ -971,9 +971,9 @@ ini_set('display_errors', 0);
       <div class="col-lg-12" id="realModal">
         <div style="margin-bottom: 0px; margin-top: 20px; gap: 5px;">
           <div style="display:flex; flex-direction: row; margin-bottom: 10px;margin-top: 18px; gap:40px">
-            <div class="form-group">
+            <!-- <div class="form-group">
               <label for="ramoSelect">Ramo:</label>
-              <select class="" name="ramoSelect" id="ramoSelect" placeholder="" style="width: 150px;" required>
+              <select class="" name="ramoSelect" id="ramoSelect" multiple="multiple" placeholder="" style="width: 150px;" required>
                 <option value="">Seleccione...</option>
                 <option value="1">Todos</option>
                 <option value="2">Automoviles</option>
@@ -982,7 +982,36 @@ ini_set('display_errors', 0);
                 <option value="5">Hogar</option>
                 <option value="6">Vida</option>
               </select>
+            </div> -->
+            <div class="custom-select form-group">
+              <label for="ramoSelector">Ramo:</label>
+              <div>
+                <div class="select-box" onclick="toggleOptions()">
+                  Selecciona opciones...
+                </div>
+                <div class="options-container">
+                  <div class="option">
+                    <input id="todosCheck" type="checkbox" value="Todos" onchange="updateSelectText(event)"> Todos
+                  </div>
+                  <div class="option">
+                    <input type="checkbox" value="Automoviles" onchange="updateSelectText()"> Automoviles
+                  </div>
+                  <div class="option">
+                    <input type="checkbox" value="Motos" onchange="updateSelectText()"> Motos
+                  </div>
+                  <div class="option">
+                    <input type="checkbox" value="Pesados" onchange="updateSelectText()"> Pesados
+                  </div>
+                  <div class="option">
+                    <input type="checkbox" value="Hogar" onchange="updateSelectText()"> Hogar
+                  </div>
+                  <div class="option">
+                    <input type="checkbox" value="Vida" onchange="updateSelectText()"> Vida
+                  </div>
+                </div>
+              </div>
             </div>
+
             <div class="form-group">
               <label for="unidadNegocioSelect">Unidad de negocio:</label>
               <select name="unidadNegocioSelect" id="unidadNegocioSelect" placeholder="" style="width: 150px;" required>
@@ -1043,9 +1072,9 @@ ini_set('display_errors', 0);
               </thead>
               <tbody id="comisionesTableBody">
                 <!-- Aquí se agregarán las filas dinámicamente -->
-                 <tr style="text-align: center;">
+                <tr style="text-align: center;">
                   <td colspan="7">No hay comisiones configuradas</td>
-                 </tr>
+                </tr>
               </tbody>
             </table>
           </div>

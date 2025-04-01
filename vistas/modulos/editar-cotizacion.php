@@ -1196,17 +1196,13 @@ $response = retrieveQuotation($idCotizacion);
                               Para daños parciales aplica un deducible del 10% (mínimo 1 SMMLV), y se maneja la modalidad de ARREGLO DIRECTO, la cual consiste en que el asegurado es quien se encarga de tramitar y hacer seguimiento a la reparación del vehículo en su taller de confianza y la compañía se encarga de autorizar el pago del reclamo. Inicialmente se anticipa el 70% del valor de la reparación y el 30% restante cuando el vehículo quede reparado y se presenten las respectivas facturas. Vehículos de hasta 5 años pueden usar repuestos originales; si son mayores, se usan repuestos homologados.</p>
 
                               <p>Incluye servicios de conductor elegido, grúa por avería y accidente y no cubre vehículo de reemplazo.</p>
-                                                                                   
-                              <p</p>
-                            </li>
+                              </li>
+                              <li>
+                                <p><b>Seguros del Estado:</b> Los vehículos KIA de la línea PICANTO se encuentran fuera de políticas. Si se genera cotización con esta Aseguradora, omitir dicha oferta. Con respecto a la línea SPORTAGE está sólo está excluida en el Valle del Cauca. Igualmente con esta compañía, la clase de vehículo PICK UP solo se asegura como vehículo público.</p>        
+                              </li>
                             <li>
                                 <p>
                                     Si a tu cliente le interesa Previsora, Allianz o HDI, ten en cuenta que ciertas líneas de vehículos requieren la instalación del dispositivo Cazador al tomar su seguro. Para Previsora tiene un costo adicional a la póliza y para Allianz y HDI es totalmente gratis. Por favor confirma con tu área comercial.
-                                </p>
-                            </li>
-                            <li>
-                                <p>
-                                    Los vehículos KIA de las líneas PICANTO y SPORTAGE se encuentran fuera de políticas en Seguros del Estado. Si se genera cotización con esta Aseguradora, omitir dicha oferta. Igualmente con esta compañía, la clase de vehículo PICK UP solo se asegura como vehículo publico.
                                 </p>
                             </li>
                             <li>

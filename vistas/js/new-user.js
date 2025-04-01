@@ -10,7 +10,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
   $("#tipoDePersona").val(1).trigger("change");
   $("#noAsistente").prop("checked", true).trigger("change");
-  //   $("#siClaves").prop("checked", true).trigger("change");
   $("#usuarioVin").prop("disabled", false);
   $("#fechaCreaVin").prop("disabled", false);
   $("#fechaVinculacion").prop("disabled", false);
@@ -267,7 +266,6 @@ function openModalComisiones() {
         "class",
         "btnGuardarComision"
       );
-      // $("#txtAnalistaGAModal").val(asesorGa);
     },
     close: function () {
       $("body").css("overflow", "auto");
@@ -334,7 +332,7 @@ function addComision() {
     if (tbody.rows.length === 1 && tbody.rows[0].cells.length === 1) {
       tbody.deleteRow(0); // Borra la fila vacía
     }
-    
+
     // Agregar la nueva fila a la tabla y guardar la comisión
     $("#comisionesTable tbody").append(newRow);
     saveComission(
@@ -353,9 +351,6 @@ function addComision() {
     $("#tipoExpedicionSelect").val("");
     $("#valorComision").val("");
     $("#observaciones").val("");
-
-    // Cerrar el modal
-    // $("#myModal2").dialog("close");
   }
 }
 
@@ -366,10 +361,6 @@ function checkFieldsComision(
   tipoNegocioSelect,
   tipoExpedicionSelect
 ) {
-  // Obtener los valores de los campos
-
-  //   const observaciones = $("#observaciones").val() == "" ? "" : $("#observaciones").val();
-
   // Verificar si los campos están vacíos o no seleccionados
   if (
     !ramoSelect ||
@@ -388,8 +379,6 @@ function checkFieldsComision(
     });
     return false; // Algún campo está vacío o no seleccionado
   }
-
-  console.log("ok comision");
   return true; // Todos los campos están completos
 }
 
@@ -401,7 +390,6 @@ function saveComission(
   valorComision,
   observaciones
 ) {
-
   $.ajax({
     url: "src/addComission.php",
     method: "POST",
@@ -421,3 +409,65 @@ function saveComission(
     },
   });
 }
+
+/*=============================================
+Select2 del modal de comisiones
+=============================================*/
+
+function toggleOptions() {
+  const optionsContainer = document.querySelector(".options-container");
+  optionsContainer.style.display =
+    optionsContainer.style.display === "block" ? "none" : "block";
+}
+
+function updateSelectText(e = null) {
+  const allCheckboxes = document.querySelectorAll(".options-container input");
+//   const checkedCheckboxes = document.querySelectorAll(
+//     ".options-container input:checked"
+//   );
+  const todosCheckbox = document.querySelector(
+    ".options-container input[value='Todos']"
+  );
+  const selectedOptions = [];
+
+  if (e?.target.value == "Todos" && !e?.target.checked) {
+    console.log("checkeo todos desde select");
+    // Marcar todas las opciones si "Todos" está seleccionado
+    allCheckboxes.forEach((input) => (input.checked = false));
+  } 
+  if (e?.target.value == "Todos" && e?.target.checked) {
+    allCheckboxes.forEach((input) => (input.checked = true));
+  }
+  
+  // Revisar qué opciones están seleccionadas (sin incluir "Todos")
+  allCheckboxes.forEach((input) => {
+    if (input.checked && input.value !== "Todos") {
+      console.log("disparo evento de otro cualquiera menos todos");
+      selectedOptions.push(input.value);
+    }
+  });
+
+  // Si todas las opciones individuales están seleccionadas, marcar "Todos"
+  if (selectedOptions.length === allCheckboxes.length - 1) {
+    console.log("la longitud del selected es igual a la de los checkboxes -1");
+    selectedOptions.length = 0; // Limpiar y solo mostrar "Todos"
+    selectedOptions.push("Todos");
+    todosCheckbox.checked = true; // Asegurarse de que "Todos" esté marcado
+  } else {
+    todosCheckbox.checked = false;
+  }
+
+  // Actualizar el texto en el select
+  document.querySelector(".select-box").innerText =
+    selectedOptions.length > 0
+      ? selectedOptions.join(", ")
+      : "Selecciona opciones...";
+}
+
+// Cerrar el menú si se hace clic fuera de él
+document.addEventListener("click", function (event) {
+  const select = document.querySelector(".custom-select");
+  if (!select.contains(event.target)) {
+    document.querySelector(".options-container").style.display = "none";
+  }
+});

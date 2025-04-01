@@ -223,3 +223,44 @@
   color: #767575;
   font-weight: 400;
 }
+
+.custom-select {
+    position: relative;
+    width: 200px;
+}
+
+.select-box {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px;
+    border: 1px solid #ccc;
+    cursor: pointer;
+    background: white;
+}
+
+.options-container {
+    display: none;
+    position: absolute;
+    width: 100%;
+    background: white;
+    border: 1px solid #ccc;
+    max-height: 150px;
+    overflow-y: auto;
+    z-index: 10;
+}
+
+.option {
+    display: flex;
+    align-items: center;
+    padding: 8px;
+    cursor: pointer;
+}
+
+.option:hover {
+    background: #f0f0f0;
+}
+
+.option input {
+    margin-right: 8px;
+}
