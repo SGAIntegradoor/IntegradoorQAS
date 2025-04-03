@@ -264,3 +264,8 @@
 .option input {
     margin-right: 8px;
 }
+
+.select-box::after {
+  font-size: 16px;
+  margin-left: 10px;
+}

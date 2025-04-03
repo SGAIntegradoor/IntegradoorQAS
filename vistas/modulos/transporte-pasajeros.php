@@ -69,7 +69,7 @@ $cre_axa_codigoDivipola = $creAXA['cre_axa_codigoDivipola'];
 $cre_axa_canal = $creAXA['cre_axa_canal'];
 $cre_axa_validacionEventos = $creAXA['cre_axa_validacionEventos'];
 $url_axa = $creAXA['url_axa'];
-$cre_axa_livianos_productos = $creAXA['livianos_productos'];
+$cre_axa_pasajeros = $creAXA['productos_pesados'];
 
 // Lógica para SOLIDARIA
 if ($aseguradoras['Solidaria']['C'] == "1") {
@@ -1642,10 +1642,6 @@ echo '<script>console.log(' . $idIntermediario . ", " . $rolAsesor . ')</script>
                 </div>
               </div>
 
-              <div id="filtersSection" class="col-lg-12" style="display: none;">
-                <?php require "vistas/components/cotizar/catfilters.php" ?>
-              </div>
-
               <div id="cardCotizacion">
               </div>
               <div class="divCards" id="divCards"></div>
@@ -1767,7 +1763,7 @@ echo '<script>console.log(' . $idIntermediario . ", " . $rolAsesor . ')</script>
             <input type="text" class="form-control" id="cre_axa_canal" value="<?php echo $cre_axa_canal; ?>">
             <input type="text" class="form-control" id="cre_axa_validacionEventos" value="<?php echo $cre_axa_validacionEventos; ?>">
             <input type="text" class="form-control" id="url_axa" value="<?php echo $url_axa; ?>">
-            <input type="text" class="form-control" id="cre_axa_livianos_productos" value="<?php echo $cre_axa_livianos_productos; ?>">
+            <input type="text" class="form-control" id="cre_axa_pasajeros" value="<?php echo $cre_axa_pasajeros; ?>">
 
             <!--Bolivar-->
             <input type="text" class="form-control" id="cre_bol_api_key" value="<?php echo $cre_bol_api_key; ?>">

@@ -988,6 +988,9 @@ ini_set('display_errors', 0);
               <div>
                 <div class="select-box" onclick="toggleOptions()">
                   Selecciona opciones...
+                  <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 16 16" fill="none">
+                    <path d="M3 5l5 5 5-5" stroke="black" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+                  </svg>
                 </div>
                 <div class="options-container">
                   <div class="option">
