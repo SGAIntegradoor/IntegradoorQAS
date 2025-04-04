@@ -282,10 +282,7 @@ Añadir Comision a tabla de comisiones
 =============================================*/
 
 function addComision() {
-  const ramoSelect =
-    $("#ramoSelect").val() == ""
-      ? null
-      : $("#ramoSelect option:selected").text();
+  const ramoSelect = selectedOptions;
   const unidadNegocioSelect =
     $("#unidadNegocioSelect").val() == ""
       ? null
@@ -336,7 +333,7 @@ function addComision() {
     // Agregar la nueva fila a la tabla y guardar la comisión
     $("#comisionesTable tbody").append(newRow);
     saveComission(
-      [ramoSelect],
+      ramoSelect,
       [unidadNegocioSelect],
       [tipoNegocioSelect],
       [tipoExpedicionSelect],
@@ -345,7 +342,9 @@ function addComision() {
     );
 
     // Limpiar los campos del modal
-    $("#ramoSelect").val("");
+    selectedOptions.length = 0; // Limpiar el array de opciones seleccionadas
+    document.querySelector(".select-box").innerText = "Selecciona opciones...";
+    $(".custom-select").find("input[type='checkbox']").prop("checked", false);
     $("#unidadNegocioSelect").val("");
     $("#tipoNegocioSelect").val("");
     $("#tipoExpedicionSelect").val("");
@@ -420,15 +419,14 @@ function toggleOptions() {
     optionsContainer.style.display === "block" ? "none" : "block";
 }
 
+let selectedOptions = [];
+
 function updateSelectText(e = null) {
   const allCheckboxes = document.querySelectorAll(".options-container input");
-//   const checkedCheckboxes = document.querySelectorAll(
-//     ".options-container input:checked"
-//   );
+  
   const todosCheckbox = document.querySelector(
     ".options-container input[value='Todos']"
   );
-  const selectedOptions = [];
 
   if (e?.target.value == "Todos" && !e?.target.checked) {
     console.log("checkeo todos desde select");
@@ -437,17 +435,46 @@ function updateSelectText(e = null) {
   } 
   if (e?.target.value == "Todos" && e?.target.checked) {
     allCheckboxes.forEach((input) => (input.checked = true));
+    const checkedCheckboxes = document.querySelectorAll(
+      ".options-container input:checked"
+    );
+    console.log(checkedCheckboxes)
+    checkedCheckboxes.forEach((inpt) => {
+      if (inpt.value !== "Todos" && !selectedOptions.includes(inpt.value)) {
+        selectedOptions.push(inpt.value);
+      }
+    });
+    
   }
   
   // Revisar qué opciones están seleccionadas (sin incluir "Todos")
-  allCheckboxes.forEach((input) => {
+  // allCheckboxes.forEach((input) => {
+    let input = e?.target;
     if (input.checked && input.value !== "Todos") {
       console.log("disparo evento de otro cualquiera menos todos");
-      selectedOptions.push(input.value);
+      // Agregar solo si no existe
+      if (!selectedOptions.includes(input.value)) {
+        selectedOptions.push(input.value);
+      } 
+    } else if (!input.checked && input.value !== "Todos") {
+      // Eliminar si existe
+      const index = selectedOptions.indexOf(input.value);
+      if (index > -1) {
+        selectedOptions.splice(index, 1);
+      }
+    } else if (input.value == "Todos" && !input.checked) {
+      console.log("desmarcando todos");
+      // Si "Todos" está desmarcado, eliminar "Todos" del array
+      allCheckboxes.forEach((input) => (input.checked = false));
+      const index = selectedOptions.indexOf("Todos");
+      if (index > -1) {
+        selectedOptions.splice(index, 1);
+      }
     }
-  });
+  // });
 
   // Si todas las opciones individuales están seleccionadas, marcar "Todos"
+  console.log(selectedOptions.length, allCheckboxes.length);
   if (selectedOptions.length === allCheckboxes.length - 1) {
     console.log("la longitud del selected es igual a la de los checkboxes -1");
     selectedOptions.length = 0; // Limpiar y solo mostrar "Todos"

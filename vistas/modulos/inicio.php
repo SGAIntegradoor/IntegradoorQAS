@@ -74,7 +74,7 @@ if (isset($_SESSION['showPopup']) && $_SESSION['showPopup'] === true) {
 </style>
 
 
-<div class="content-wrapper">
+<div class="content-wrapper" style="height: 100vh;">
 
   <section class="content-header">
 

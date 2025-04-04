@@ -997,19 +997,19 @@ ini_set('display_errors', 0);
                     <input id="todosCheck" type="checkbox" value="Todos" onchange="updateSelectText(event)"> Todos
                   </div>
                   <div class="option">
-                    <input type="checkbox" value="Automoviles" onchange="updateSelectText()"> Automoviles
+                    <input type="checkbox" value="Automoviles" onchange="updateSelectText(event)"> Automoviles
                   </div>
                   <div class="option">
-                    <input type="checkbox" value="Motos" onchange="updateSelectText()"> Motos
+                    <input type="checkbox" value="Motos" onchange="updateSelectText(event)"> Motos
                   </div>
                   <div class="option">
-                    <input type="checkbox" value="Pesados" onchange="updateSelectText()"> Pesados
+                    <input type="checkbox" value="Pesados" onchange="updateSelectText(event)"> Pesados
                   </div>
                   <div class="option">
-                    <input type="checkbox" value="Hogar" onchange="updateSelectText()"> Hogar
+                    <input type="checkbox" value="Hogar" onchange="updateSelectText(event)"> Hogar
                   </div>
                   <div class="option">
-                    <input type="checkbox" value="Vida" onchange="updateSelectText()"> Vida
+                    <input type="checkbox" value="Vida" onchange="updateSelectText(event)"> Vida
                   </div>
                 </div>
               </div>
