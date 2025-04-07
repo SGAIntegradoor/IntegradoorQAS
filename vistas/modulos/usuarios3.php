@@ -313,7 +313,7 @@ if (isset($_SESSION["rol"])) {
 
       <div class="box-body">
 
-        <table class="table table-bordered table-striped dt-responsive tablas-cotizaciones tablas" width="100%">
+        <table class="table table-bordered table-striped dt-responsive tablas-cotizaciones tablas-user-admin" width="100%">
 
           <thead>
 
@@ -421,9 +421,7 @@ if (isset($_SESSION["rol"])) {
 
                     <div class="btn-group">
                         
-                      <button id="btnCargarRoll" class="btn btn-primary btnEditarUsuario" idUsuario="' . $value["id_usuario"] . '" data-toggle="modal" data-target="#modalEditarUsuario"><i class="fa fa-pencil"></i></button>
-
-                      <button class="btn btn-danger btnEliminarUsuario" idUsuario="' . $value["id_usuario"] . '" fotoUsuario="' . $value["usu_foto"] . '" usuario="' . $value["usu_usuario"] . '"><i class="fa fa-times"></i></button>
+                      <button id="btnCargarRoll" class="btn btn-primary btnEditarUsuarioAdmin" idUsuario="' . $value["id_usuario"] . '" ><i class="fa fa-pencil"></i></button>
 
                     </div>  
 

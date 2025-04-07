@@ -65,7 +65,7 @@ class ModeloUsuarios
 	{
 		if ($item != null) {
 			if ($item == 'id_usuario' || $item == 'usu_usuario' || $item == 'usu_documento') {
-				$stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla, $tabla2, $tabla3 WHERE $tabla.id_rol = $tabla2.id_rol AND $item = $valor AND $tabla.id_Intermediario = $tabla3.id_Intermediario");
+				$stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla, $tabla2, $tabla3 WHERE $tabla.id_rol = $tabla2.id_rol AND $item = :$item AND $tabla.id_Intermediario = $tabla3.id_Intermediario");
 				$stmt->bindParam(":" . $item, $valor, PDO::PARAM_STR);
 				$stmt->execute();
 				$user = $stmt->fetch(PDO::FETCH_ASSOC);		
@@ -94,7 +94,7 @@ class ModeloUsuarios
 				}
 			}
 		} else {
-			if ($_SESSION["rol"] == 18 || $_SESSION["rol"] == 10 || $_SESSION["rol"] == 1) {
+			if ($_SESSION["rol"] == 18 || $_SESSION["rol"] == 10 || $_SESSION["rol"] == 1 || $_SESSION["rol"] == 22 || $_SESSION["rol"] == 23) {
 				$stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla, $tabla2 WHERE $tabla.id_rol = $tabla2.id_rol ORDER BY $tabla.id_usuario ASC");
 				$stmt->execute();
 				$result = $stmt->fetchAll(PDO::FETCH_ASSOC);

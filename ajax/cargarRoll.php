@@ -13,7 +13,7 @@ if(isset($_POST['idRol'])){
     $idRol = $_POST['idRol'];
 }
 
-if(isset($idRol) && ($idRol == 1 || $idRol == 10)){
+if(isset($idRol) && ($idRol == 1 || $idRol == 10 || $idRol == 22)){
     $query = "SELECT * FROM roles";
 }else if(isset($idRol) && $idRol == 12){
     $query = "SELECT * FROM roles WHERE id_rol IN (19, 11, 12)";

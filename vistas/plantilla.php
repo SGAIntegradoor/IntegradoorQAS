@@ -373,7 +373,7 @@ CUERPO DOCUMENTO
         $_GET["ruta"] == "ayuda-ventas" ||
         $_GET["ruta"] == "perfilintermediario" ||
         $_GET["ruta"] == "miperfil" ||
-        $_GET["ruta"] == "new-user" ||
+        $_GET["ruta"] == "user" ||
         $_GET["ruta"] == "intermediario" ||
         $_GET["ruta"] == "Productos" ||
         $_GET["ruta"] == "invitar" ||
@@ -395,6 +395,15 @@ CUERPO DOCUMENTO
         if ($_GET['ruta'] == 'ayuda-ventas') {
           $_GET['ruta'] = 'AyudaVentas/AyudaVentasView';
         }
+        if($_GET['ruta'] == 'usuarios'){
+          if($_SESSION['rol'] == 1 || $_SESSION['rol'] == 10 || $_SESSION['rol'] == 11 || $_SESSION["rol"] == 12 || $_SESSION['rol'] == 22 || $_SESSION['rol'] == 23){
+            $_GET['ruta'] = 'usuarios3';
+          } else {
+            $_GET['ruta'] = 'usuarios';
+          }
+
+        }
+
         include "modulos/" . $_GET["ruta"] . ".php";
       } else {
 

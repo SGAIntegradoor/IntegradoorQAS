@@ -1,3 +1,6 @@
+// Variables globales
+let id_usuario_edit = "";
+
 document.addEventListener("DOMContentLoaded", function () {
   cargarRoll();
   cargarIntermediario();
@@ -14,7 +17,16 @@ document.addEventListener("DOMContentLoaded", function () {
   $("#fechaCreaVin").prop("disabled", false);
   $("#fechaVinculacion").prop("disabled", false);
 
-  openModalComisiones();
+  const params = new URLSearchParams(window.location.search);
+
+  if (params.has("id")) {
+    const id = params.get("id");
+    if (id) {
+      // Cargar datos del usuario
+      id_usuario_edit = id;
+      loadUser(id);
+    }
+  }
 });
 
 /*=============================================
@@ -93,7 +105,6 @@ function cargarCargos() {
     url: "src/getChairs.php",
     method: "POST",
     success: function (respuesta) {
-      console.log(respuesta);
       respuesta =
         "<option value='' selected>Seleccione una opción</option>" + respuesta;
       $("#cargos").html(respuesta);
@@ -130,6 +141,147 @@ function consultarCiudad() {
   });
 }
 
+function formatoFecha(fecha) {
+  let fechaFormateada = new Date(fecha.replace(" ", "T"));
+  let year = fechaFormateada.getFullYear();
+  let month = String(fechaFormateada.getMonth() + 1).padStart(2, "0");
+  let day = String(fechaFormateada.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+}
+
+/*=============================================
+Cargar Usuario
+=============================================*/
+
+function loadUser(id) {
+  $.ajax({
+    url: "src/loadUser.php",
+    method: "POST",
+    data: { id: id },
+    success: function (respuesta) {
+      const data = JSON.parse(respuesta);
+      console.log(data);
+      getComments(id);
+      if (
+        data.id_rol == 1 ||
+        data.id_rol == 10 ||
+        data.id_rol == 11 ||
+        data.id_rol == 22 ||
+        data.id_rol == 23
+      ) {
+        $("#divUnidadNegocio").hide();
+        $("#divCanal").hide();
+        $("#divUsuarioSGA").show();
+        $("#usuarioSGA").val(data.id_rol);
+        $(".divAsistente").hide();
+        $("#rolUsers").val(data.id_rol).trigger("change");
+        setTimeout(() => {
+          $("#intermediarioPerfil")
+            .val(data.id_Intermediario)
+            .trigger("change");
+          $("#cargos").val(data.usu_cargo).trigger("change");
+        }, 500);
+        $("#usuarioVin").prop("disabled", true);
+        $("#usuarioVin").val(data.usu_usuario);
+
+        //Insertar fecha de creación
+        let fechaForCrea = formatoFecha(data.usu_fch_creacion);
+
+        $("#fechaCreaVin").val(fechaForCrea);
+        $("#fechaCreaVin").prop("disabled", true);
+
+        if($("#fechaVinculacion").val() == ""){
+          $("#diasActivacion").val(0);
+        }
+
+        let fechaFormLim = formatoFecha(data.fechaFin);
+
+        $("#limiteCots").val(data.cotizacionesTotales);
+        $("#limiteUso").val(fechaFormLim);
+
+      } else if (data.id_rol == 12) {
+        $("#divUnidadNegocio").hide();
+        $("#divUsuarioSGA").hide();
+        $("#divCanal").show();
+        $("#canal").val(1);
+      } else {
+        $("#divUnidadNegocio").show();
+        $("#divCanal").hide();
+        $("#divUsuarioSGA").hide();
+        $("#unidadNegocio").val(data.id_rol);
+      }
+
+      let tipoDoc = data.tipos_documentos_id;
+
+      $("#tipoDocumento").val(tipoDoc == "Cedula de Ciudadania" ? "CC" : "NIT");
+      $("#documento").val(data.usu_documento);
+      $("#nombre_perfil").val(data.usu_nombre);
+      $("#apellidos_perfil").val(data.usu_apellido);
+      $("#genero_perfil").val(data.usu_genero == "M" ? "1" : "2");
+      $("#fechaNacimiento_perfil").val(data.usu_fch_nac);
+      let depto = data.ciudades_id.split("")[0] + data.ciudades_id.split("")[1];
+      $("#departamento").val(depto).trigger("change");
+      console.log(data.ciudades_id);
+      setTimeout(() => {
+        $("#ciudad").val(data.ciudades_id).trigger("change");
+      }, 200);
+      $("#direccion_perfil").val(data.usu_direccion);
+      $("#telefono_perfil").val(data.usu_telefono);
+      $("#email_perfil").val(data.usu_email);
+    },
+  });
+}
+
+/*=============================================
+Cargas Comentarios Usuario
+=============================================*/
+
+function getComissions(id = null) {
+  $.ajax({
+    url: "src/getComissions.php",
+    method: "POST",
+    data: { id_usuario: id },
+    success: function (respuesta) {
+      const data = JSON.parse(respuesta);
+      console.log(data);
+      if (data.length == 0) {
+        $("#comisionesTable tbody").html(
+          '<tr><td colspan="7" class="text-center">No hay comisiones configuradas para este usuario</td></tr>'
+        );
+        return;
+      }
+      data.forEach((element) => {
+        const {
+          id_comision,
+          observaciones,
+          ramo,
+          tipo_expedicion,
+          tipo_negocio,
+          unidad_negocio,
+          valor_comision,
+        } = element;
+
+        const newRow = $("<tr>");
+        newRow.append($("<td>").text(JSON.parse(ramo).join(", ")));
+        newRow.append($("<td>").text(JSON.parse(unidad_negocio).join(", ")));
+        newRow.append($("<td>").text(JSON.parse(tipo_negocio).join(", ")));
+        newRow.append($("<td>").text(JSON.parse(tipo_expedicion).join(", ")));
+        newRow.append($("<td>").text(valor_comision));
+        newRow.append($("<td>").text(observaciones));
+        newRow.append(
+          $("<td>").html(
+            `<button class="btn btn-danger btn-sm" onclick="eliminarComision(${id_comision})">Eliminar</button>`
+          )
+        );
+
+        $("#comisionesTableBody").append(newRow);
+      });
+
+      // $("#comisionesTableBody").html(respuesta);
+    },
+  });
+}
+
 /*=============================================
 Añadir Comentarios
 =============================================*/
@@ -140,19 +292,38 @@ function addComment() {
     year: "numeric",
     month: "2-digit",
     day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+    hour12: false,
   });
 
   if (!value) return;
 
-  let comentarioNuevo = `---------------------------------------------------------------------------------------------------\n${value}\n${fechaHoy}\n${permisos.usu_nombre} ${permisos.usu_apellido}\n---------------------------------------------------------------------------------------------------`;
+  let comentarioNuevo = `---------------------------------------------------------------------------------------------------\n${value}\n${fechaHoy}\n${permisos.usu_nombre} ${permisos.usu_apellido}\n---------------------------------------------------------------------------------------------------\n`;
 
   // Agregar al textarea sin perder comentarios previos
   let comentariosPrevios = $("#comentarioTA").val();
   $("#comentarioTA").val(
     comentariosPrevios
-      ? comentariosPrevios + "\n\n" + comentarioNuevo
+      ? comentarioNuevo + "\n" + comentariosPrevios
       : comentarioNuevo
   );
+
+  // Guardar el comentario en la base de datos
+  $.ajax({
+    url: "src/addComment.php",
+    method: "POST",
+    data: {
+      comentario: value,
+      id_user: id_usuario_edit,
+      nombre_usuario_comentario:
+        permisos.usu_nombre + " " + permisos.usu_apellido,
+    },
+    success: function (respuesta) {
+      console.log(respuesta);
+    },
+  });
 
   // Limpiar el input de agregar comentarios
   $("#agregarComentario").val("");
@@ -161,6 +332,34 @@ function addComment() {
 $(".btnComentario").on("click", function () {
   addComment();
 });
+
+/*=============================================
+Traer comentarios
+=============================================*/
+
+function getComments(id) {
+  // Guardar el comentario en la base de datos
+  $.ajax({
+    url: "src/getComments.php",
+    method: "POST",
+    data: {
+      id_usuario: id,
+    },
+    success: function (respuesta) {
+      const data = JSON.parse(respuesta);
+      let comentarios = "";
+
+      data.forEach((element) => {
+        const { comentario, fecha_comentario, nombre_usuario_comentario } =
+          element;
+        comentarios += `---------------------------------------------------------------------------------------------------\n${comentario}\n${fecha_comentario}\n${nombre_usuario_comentario}\n---------------------------------------------------------------------------------------------------\n\n`;
+      });
+
+      $("#comentarioTA").val(comentarios);
+      $("#comentarioTA").prop("disabled", true); // Deshabilitar textarea
+    },
+  });
+}
 
 /*=============================================
 Eventos y reacciones de cambios en Inputs
@@ -223,9 +422,9 @@ $("input[name='tieneClave']").on("change", function () {
 Configuración del modal
 =============================================*/
 
-function openModalComisiones() {
+function openModalComisiones(id = null) {
   $("#myModal2").dialog({
-    title: "Agregar/editar oportunidad",
+    title: "Parametrización de Comisiones",
 
     autoOpen: false,
     resizable: false, // Desactiva el redimensionamiento
@@ -266,8 +465,11 @@ function openModalComisiones() {
         "class",
         "btnGuardarComision"
       );
+
+      getComissions(id);
     },
     close: function () {
+      $("#comisionesTableBody").empty();
       $("body").css("overflow", "auto");
       $("body").removeClass("modal-open"); // Quita la clase para restaurar el scroll
     },
@@ -422,8 +624,11 @@ function toggleOptions() {
 let selectedOptions = [];
 
 function updateSelectText(e = null) {
+  debugger;
   const allCheckboxes = document.querySelectorAll(".options-container input");
-  
+  const checkedCheckboxesGlobal = document.querySelectorAll(
+    ".options-container input:checked"
+  );
   const todosCheckbox = document.querySelector(
     ".options-container input[value='Todos']"
   );
@@ -432,45 +637,63 @@ function updateSelectText(e = null) {
     console.log("checkeo todos desde select");
     // Marcar todas las opciones si "Todos" está seleccionado
     allCheckboxes.forEach((input) => (input.checked = false));
-  } 
+  }
   if (e?.target.value == "Todos" && e?.target.checked) {
     allCheckboxes.forEach((input) => (input.checked = true));
     const checkedCheckboxes = document.querySelectorAll(
       ".options-container input:checked"
     );
-    console.log(checkedCheckboxes)
+    console.log(checkedCheckboxes);
     checkedCheckboxes.forEach((inpt) => {
       if (inpt.value !== "Todos" && !selectedOptions.includes(inpt.value)) {
         selectedOptions.push(inpt.value);
       }
     });
-    
   }
-  
+
   // Revisar qué opciones están seleccionadas (sin incluir "Todos")
   // allCheckboxes.forEach((input) => {
-    let input = e?.target;
-    if (input.checked && input.value !== "Todos") {
-      console.log("disparo evento de otro cualquiera menos todos");
-      // Agregar solo si no existe
-      if (!selectedOptions.includes(input.value)) {
-        selectedOptions.push(input.value);
-      } 
-    } else if (!input.checked && input.value !== "Todos") {
-      // Eliminar si existe
-      const index = selectedOptions.indexOf(input.value);
-      if (index > -1) {
-        selectedOptions.splice(index, 1);
-      }
-    } else if (input.value == "Todos" && !input.checked) {
-      console.log("desmarcando todos");
-      // Si "Todos" está desmarcado, eliminar "Todos" del array
-      allCheckboxes.forEach((input) => (input.checked = false));
-      const index = selectedOptions.indexOf("Todos");
-      if (index > -1) {
-        selectedOptions.splice(index, 1);
+  let input = e?.target;
+  if (input.checked && input.value !== "Todos") {
+    console.log("disparo evento de otro cualquiera menos todos");
+    // Agregar solo si no existe
+    if (!selectedOptions.includes(input.value)) {
+      selectedOptions.push(input.value);
+    }
+  } else if (!input.checked && input.value !== "Todos") {
+    // Eliminar si existe
+    const index = selectedOptions.indexOf("Todos");
+    if (index > -1) {
+      selectedOptions.splice(index, 1);
+      checkedCheckboxesGlobal.forEach((inpt) => {
+        console.log(inpt.value, selectedOptions);
+        if (inpt.value !== "Todos" && !selectedOptions.includes(inpt.value)) {
+          console.log(inpt.value);
+          selectedOptions.push(inpt.value);
+        }
+      });
+    } else {
+      const index2 = selectedOptions.indexOf(input.value);
+      if (index2 > -1) {
+        selectedOptions.splice(index2, 1);
+        checkedCheckboxesGlobal.forEach((inpt) => {
+          console.log(inpt.value, selectedOptions);
+          if (!selectedOptions.includes(inpt.value)) {
+            console.log(inpt.value);
+            selectedOptions.push(inpt.value);
+          }
+        });
       }
     }
+  } else if (input.value == "Todos" && !input.checked) {
+    console.log("desmarcando todos");
+    // Si "Todos" está desmarcado, eliminar "Todos" del array
+    allCheckboxes.forEach((input) => (input.checked = false));
+    const index = selectedOptions.indexOf("Todos");
+    if (index > -1) {
+      selectedOptions.splice(index, 1);
+    }
+  }
   // });
 
   // Si todas las opciones individuales están seleccionadas, marcar "Todos"

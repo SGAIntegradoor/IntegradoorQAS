@@ -506,9 +506,10 @@
                 </ul>
                 <h4 class="card-title" style="font-weight: bold;">Clausulados</h4>
                 <p class="card-text" style="text-align:justify">
-                  Para conocer más del <b>Seguro de Hogar</b> de <b>Allianz</b> ingresa <b><a href="https://integradoor.com/app/vistas/pdfs/Clausulado%20Hogar%20Allianz.pdf" target="_blank">AQUÍ</a></b>
+                  Para conocer más del <b>Seguro de Hogar</b> de <b>Allianz</b> ingresa <b><a href="./vistas/pdfs/Clausulado%20Hogar%20Allianz.pdf" target="_blank">AQUÍ</a></b>
                   <br>
-                  Para conocer más del <b>Seguro de Hogar</b> de <b>Bolívar</b> ingresa <b><a href="https://integradoor.com/app/vistas/pdfs/Clausulado%20Hogar%20Bolivar.pdf" target="_blank">AQUÍ</a></b>
+                  Para conocer más del <b>Seguro de Hogar</b> de <b>SBS</b> ingresa <b><a href="./vistas/pdfs/Clausulado%20Hogar%20SBS.pdf" target="_blank">AQUÍ</a></b>
+                  <!-- Para conocer más del <b>Seguro de Hogar</b> de <b>Bolívar</b> ingresa <b><a href="https://integradoor.com/app/vistas/pdfs/Clausulado%20Hogar%20Bolivar.pdf" target="_blank">AQUÍ</a></b> -->
                 </p>
               </div>
             </div>
@@ -516,7 +517,7 @@
 
         </div>
       </div>
-      <div class="content">
+      <div class="content" style="padding-top: 0px;">
         <div class="box">
           <?php
           require_once "vistas/components/formCotizacion/view.php";

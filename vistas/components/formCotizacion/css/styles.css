@@ -8,6 +8,10 @@
     margin-top: 25px;
 }
 
+.paddingTop {
+    padding-top: 20px;
+}
+
 .spinner-container {
     justify-content: center;
     align-items: center;

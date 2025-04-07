@@ -13,11 +13,11 @@
 
 <div id="resumenCotizaciones" style="display: none;">
     <div class="container-fluid">
-        <div class="col-lg-12">
+        <div class="">
             <div class="row row-aseg">
-                <div class="col-xs-12 col-sm-6 col-md-6">
+                <div class="col-xs-12 col-sm-6 col-md-6" style="padding-left: 10px;">
                     <!-- titulo del form para tipo de persona -->
-                    <label id="lblResumenCotizaciones">RESUMEN DE COTIZACIONES</label>
+                    <label id="lblResumenCotizaciones">Resumen de Cotizaciones</label>
                 </div>
             </div>
         </div>

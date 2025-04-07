@@ -2519,8 +2519,8 @@ function enableInputs(opt) {
 //console.log(permisosPlantilla)
 // Captura los datos suministrados por el cliente y los envia al API para recibir la cotizacion.
 function cotizarOfertasPasajeros() {
-  // debugger;
-  // showCircularProgress("Cotización Autos en Proceso", 2200, 90000);
+  debugger;
+  showCircularProgress("Cotización Autos en Proceso", 2200, 90000);
   var codigoFasecolda1 = document.getElementById("txtFasecolda");
   var contenido = codigoFasecolda1.value;
 
@@ -2669,6 +2669,8 @@ function cotizarOfertasPasajeros() {
     document.getElementById("aseguradoras").value
   );
 
+  console.log(aseguradoras_autorizar)
+
   // console.log(aseguradoras_autorizar);
   // desactive
   //console.log(aseguradoras_autorizar)
@@ -2807,7 +2809,7 @@ function cotizarOfertasPasajeros() {
       if (!primerIntentoRealizado) {
         //menosVeh();
         const aseguradorasCoti = Object.keys(aseguradoras_autorizar).filter(
-          (aseguradora) => aseguradoras_autorizar[aseguradora]["A"] === "1"
+          (aseguradora) => aseguradoras_autorizar[aseguradora]["A"] == "1"
         );
         // if (aseguradoras_autorizar.Previsora.A !== "1") {
         //   var mensajePrevisora = document.getElementById("mensajePrevisora");
@@ -3614,7 +3616,7 @@ function cotizarOfertasPasajeros() {
         /* Solidaria */
         const solidariaPromise = comprobarFallida("Solidaria")
           ? fetch(
-              "https://grupoasistencia.com/motor_webservice/Solidaria_autos?callback=myCallback",
+              "https://grupoasistencia.com/motor_webservice_publics/Solidaria_Pasajeros",
               requestOptions
             )
               .then((res) => {
@@ -3759,7 +3761,7 @@ function cotizarOfertasPasajeros() {
         /* Liberty */
         const libertyPromise = comprobarFallida("HDI (Antes Liberty)")
           ? fetch(
-              "https://grupoasistencia.com/motor_webservice/Liberty_autos",
+              "https://grupoasistencia.com/motor_webservice_publics/HDI_Pasajeros",
               requestOptions
             )
               .then((res) => {
@@ -3810,7 +3812,7 @@ function cotizarOfertasPasajeros() {
 
         const axaPromise = comprobarFallida("AXA")
           ? fetch(
-              "https://grupoasistencia.com/motor_webservice/AXA_autos?callback=myCallback",
+              "https://grupoasistencia.com/motor_webservice_publics/AXA_Pasajeros",
               requestOptions
             )
               .then((res) => {

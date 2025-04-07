@@ -1,20 +1,11 @@
 <?php
 
-// if ($_SESSION["permisos"]["PerfilAgencia"] !="x" ) {
+if (isset($_GET["id"])) {
 
-// echo '<script>
-
-//     window.location = "inicio";
-
-//   </script>' ;
-
-// return;
-// }
-
-error_reporting(E_ALL);
-ini_set('display_errors', 0);
-
-
+  echo '<script>
+    var idUserURL = ' . $_GET['id'] . ';
+  </script>';
+}
 ?>
 <script>
   console.log(permisos)
@@ -458,20 +449,29 @@ ini_set('display_errors', 0);
               </style>
 
               <div class="form-container">
+                <div class="form-group" style="display: none;" id="divUsuarioSGA">
+                  <label for="usuarioSGA"><b>Tipo Usuario SGA</b></label>
+                  <select name="usuarioSGA" id="usuarioSGA" disabled>
+                    <option value="22">Super Administrador</option>
+                    <option value="12">Administrador SGA</option>
+                    <option value="11">Asesor SGA</option>
+                    <option value="23">Contabilidad SGA</option>
+                  </select>
+                </div>
                 <div class="form-group" style="display: none;" id="divUnidadNegocio">
                   <label for="unidadDeNegocio"><b>Unidad de negocio</b></label>
                   <select name="unidadDeNegocio" id="unidadDeNegocio">
-                    <option value="asesorFreelance">Asesor Freelance</option>
+                    <option value="19">Asesor Freelance</option>
                     <option value="asesor10">Asesor 10</option>
                     <option value="negocioDirecto">Negocio Directo</option>
                     <option value="asesorGanador">Asesor Ganador</option>
                   </select>
                 </div>
 
-                <div class="form-group" style="display: flex;" id="divCanal">
+                <div class="form-group" style="display: none;" id="divCanal">
                   <label for="canal"><b>Canal</b></label>
                   <select name="canal" id="canal">
-                    <option value="freelance">Freelance</option>
+                    <option value="1">Freelance</option>
                   </select>
                 </div>
 
@@ -701,7 +701,11 @@ ini_set('display_errors', 0);
                 </div>
 
                 <div class="form-group" id="divComisiones" style="display: none; align-items: flex-end;">
-                  <button class="btnComisiones" onclick="openModalComisiones()">Configurar Comisiones</button>
+                  <?php
+                  $id = isset($_GET['id']) ? $_GET['id'] : 'null'; // O '0' o comillas según tu función JS
+                  echo "<button class='btnComisiones' onclick='openModalComisiones(\"$id\")'>Configurar Comisiones</button>";
+                  ?>
+
                 </div>
 
                 <!-- <div class="form-group">
@@ -916,7 +920,7 @@ ini_set('display_errors', 0);
 
               <div class="form-group">
                 <label for="fechaCreaVin"><b>Fecha de creación/vinculación:</b></label>
-                <input type="date" name="fechaCreaVin" id="fechaCreaVin" disabled>
+                <input type="date" name="fechaCreaVin" id="fechaCreaVin">
               </div>
 
               <div class="form-group">
@@ -967,7 +971,7 @@ ini_set('display_errors', 0);
 
     </div>
 
-    <div id="myModal2" style="display: block;">
+    <div id="myModal2" style="display: none;">
       <div class="col-lg-12" id="realModal">
         <div style="margin-bottom: 0px; margin-top: 20px; gap: 5px;">
           <div style="display:flex; flex-direction: row; margin-bottom: 10px;margin-top: 18px; gap:40px">
@@ -1075,9 +1079,6 @@ ini_set('display_errors', 0);
               </thead>
               <tbody id="comisionesTableBody">
                 <!-- Aquí se agregarán las filas dinámicamente -->
-                <tr style="text-align: center;">
-                  <td colspan="7">No hay comisiones configuradas</td>
-                </tr>
               </tbody>
             </table>
           </div>

@@ -233,7 +233,7 @@ function cargarRoll() {
     data: { idRol: idRol }, // Enviar idRol en el cuerpo de la solicitud AJAX
     success: function (respuesta) {
       respuesta = "<option disabled selected></option>" + respuesta;
-
+console.log(respuesta)
       $idRoll.innerHTML = respuesta;
       $idRoll1.innerHTML = respuesta;
 
@@ -564,6 +564,12 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 });
 
+$(".tablas-user-admin").on("click", ".btnEditarUsuarioAdmin", function () {
+  let idUsuario = $(this).attr("idUsuario");
+  window.location = `user?id=${idUsuario}`;
+}
+);
+
 $(".tablas").on("click", ".btnEditarUsuario", function (e) {
   var idUsuario = $(this).attr("idUsuario");
 
@@ -709,6 +715,7 @@ $(".tablas").on("click", ".btnEditarUsuario", function (e) {
           },
           cache: true, // Habilitar el almacenamiento en caché para reducir las solicitudes al servidor
         },
+        dropdownParent: $("#modalEditarUsuario"), // Establecer el contenedor del desplegable
         minimumInputLength: 3, // Número mínimo de caracteres para comenzar la búsqueda
         allowClear: true, // Mostrar botón para borrar la selección
         dropdownAutoWidth: true, // Ancho automático del desplegable

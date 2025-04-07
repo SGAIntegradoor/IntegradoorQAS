@@ -1,7 +1,7 @@
 <div class="container-fluid mainDataContainer" id="containerDataTable" style="padding-top: 30px; margin-top: 0px;">
   <div class="col-lg-12">
-    <div class="row row-aseg">
-      <div class="col-xs-12 col-sm-6 col-md-6">
+    <div class="row row-aseg" style="margin-bottom: 0px;">
+      <div class="col-xs-12 col-sm-6 col-md-6" style="padding-left: 10px;">
         <label id="lblDataTrip2">Administración de cotizaciones Seguro de Hogar</label>
       </div>
       <div class="col-xs-12 col-sm-6 col-md-6">
@@ -15,23 +15,23 @@
     </div>
   </div>
 </div>
-<div class="container-fluid" id="containerTable">
-  <button type="button" class="btn btn-default pull-right" id="daterange-btnCotizacionesHogar">
-    <span>
-      <i class="fa fa-calendar"></i>
-      <?php
-
-      if (isset($_GET["fechaInicialCotizaciones"])) {
-        echo $_GET["fechaInicialCotizaciones"] . " - " . $_GET["fechaFinalCotizaciones"];
-      } else {
-        echo 'Rango de fecha';
-      }
-      ?>
-    </span>
-    <i class="fa fa-caret-down"></i>
-  </button>
+<div class="container-fluid" id="containerTable" style="margin-top: 20px;">
   <div class="box-body">
-    
+    <button type="button" class="btn btn-default pull-right" id="daterange-btnCotizacionesHogar">
+      <span>
+        <i class="fa fa-calendar"></i>
+        <?php
+
+        if (isset($_GET["fechaInicialCotizaciones"])) {
+          echo $_GET["fechaInicialCotizaciones"] . " - " . $_GET["fechaFinalCotizaciones"];
+        } else {
+          echo 'Rango de fecha';
+        }
+        ?>
+      </span>
+      <i class="fa fa-caret-down"></i>
+    </button>
+
 
     <table class="table table-bordered table-striped dt-responsive tablas-hogar" width="100%">
 
@@ -78,9 +78,9 @@
           $respuesta = ControladorCotizaciones::ctrRangoFechasCotizacionesHogar($fechaActual, $inicioMes);
         }
 
-        
+
         $tipoDocumento = [1 => "Cédula de ciudadanía", 4 => "Cédula de extranjería", 2 => "Tarjeta de identidad", 3 => "Registro civil", 5 => "DNI"];
-        $tipoVivienda = [1 => "Apartamento", 2 => "Casa", 3 => "Casa en condominio" ];
+        $tipoVivienda = [1 => "Apartamento", 2 => "Casa", 3 => "Casa en condominio"];
 
         foreach ($respuesta as $key => $value) {
           //   <td class="text-center" style="font-size: 14px">' . date('Y/m/d', strtotime($value['fch_nacimiento'])) . '</td>
@@ -89,10 +89,10 @@
                     <td class="text-center" style="font-size: 14px; text-align: center;">' . $value['fecha_cotizacion'] . '</td>
                     <td class="text-center" style="font-size: 14px; text-align: center;">' . $tipoDocumento[(int)$value['id_tipo_documento']] . '</td>
                     <td class="text-center" style="font-size: 14px; text-align: center;">' . $value['cli_num_documento'] . '</td>
-                    <td class="text-center" style="font-size: 14px; text-align: center;">' . $value['cli_nombre'].' '.$value['cli_apellidos']. '</td>
+                    <td class="text-center" style="font-size: 14px; text-align: center;">' . $value['cli_nombre'] . ' ' . $value['cli_apellidos'] . '</td>
                     <td class="text-center" style="font-size: 14px; text-align: center;">' . $value['direccion'] . '</td>
-                    <td class="text-center" style="font-size: 14px; text-align: center;">' . $tipoVivienda[(int)$value['tipo_vivienda']]. '</td>
-                    <td class="text-center" style="font-size: 14px; text-align: center;">' . $value['anio_construccion']. '</td>
+                    <td class="text-center" style="font-size: 14px; text-align: center;">' . $tipoVivienda[(int)$value['tipo_vivienda']] . '</td>
+                    <td class="text-center" style="font-size: 14px; text-align: center;">' . $value['anio_construccion'] . '</td>
                     <td class="text-center" style="font-size: 14px; text-align: center;">' . $value['credito'] . '</td>
                     <td class="text-center" style="font-size: 14px; text-align: center;">' . $value['usu_nombre'] . ' ' . $value['usu_apellido'] . '</td>
                     <td class="text-center">

@@ -11,13 +11,13 @@
     }
 </style>
 
-<div id="formValoresAllianz" style="display: none;">
+<div id="formValoresAllianz" style="display: none; margin-top:20px">
     <div class="container-fluid">
-        <div class="col-lg-12">
+        <div class="">
             <div class="row row-aseg" style="margin-bottom: 0px;">
-                <div class="col-xs-12 col-sm-6 col-md-6">
+                <div class="col-xs-12 col-sm-6 col-md-6" style="padding-left: 10px;">
                     <!-- titulo del form para tipo de persona -->
-                    <label id="lblValoresCotAllianz">DATOS ASEGURADORA ALLIANZ</label>
+                    <label id="lblValoresCotAllianz">Datos Aseguradora Allianz</label>
                 </div>
 
                 <div class="col-xs-12 col-sm-6 col-md-6">
@@ -34,9 +34,16 @@
     <div style="display: none;">
         <input type="text" name="idCliente" id="idCliente">
     </div>
-    <div class="general-container-aseg" id="containerValoresAllianz">
+    <div class="general-container-aseg" id="containerValoresAllianz" style="padding-bottom: 20px;">
         <div class="row" style="margin-top: 15px;" id="valoresAllianz">
             <div class="col-xs-12 col-sm-6 col-md-3">
+                <div class="form-group">
+                    <label for="dirInmuebleAllianz">Dirección del inmueble</label>
+                    <input id="dirInmuebleAllianz" class="form-control dirInmueble" type="text">
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-6 col-md-3">
+
                 <div class="form-group">
                     <div style="display: flex; flex-direction: row; gap: 5px; align-items: flex-start;">
                         <label for="valorViviendaAllianz">Valor de la vivienda</label>
@@ -76,7 +83,7 @@
             </div>
         </div>
 
-        <div id="preguntaMascotas" style="display: flex; margin-top: 30px; margin-bottom: 30px;">
+        <div id="preguntaMascotas" style="display: none; margin-top: 30px; margin-bottom: 30px;">
             <div class="col-xs-12 col-sm-6 col-md-3" style="display: flex; flex-direction: row; gap: 5px; align-items: center; padding-left: 0px; ">
                 <label for="mascotaAllianz" style="margin-bottom: 0px">¿Desea incluir Asistencia Mascotas?</label>
                 <i class="fa fa-solid fa-circle-info tooltip-asist-mascotas" style="margin-top: 2px; font-size: 18px;" data-toggle="tooltip-asist-mascotas" data-placement="top"></i>
