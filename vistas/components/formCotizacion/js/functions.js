@@ -1415,13 +1415,21 @@ function cotizar(body) {
             return result; // Convierte la respuesta a JSON igualmentep
           })
           .then((result) => {
-            if (result.status == "400") {
+            if (result.status != "200") {
+              let errorsConcat = result.error.errors.map(
+                (error) => error.message
+              );
+              let errorMessage =
+                errorsConcat.length > 1
+                  ? errorsConcat.join(",")
+                  : errorsConcat[0];
+
               saveRequest(requestBody, result);
               $(`#${element.aseguradora}-check`).html(
                 `<i class="fa fa-times" aria-hidden="true" style="color: red; margin-right: 5px;"></i>`
               );
               $(`#${element.aseguradora}-offerts`).html("0");
-              $(`#${element.aseguradora}-observations`).html(result.message);
+              $(`#${element.aseguradora}-observations`).html(errorMessage);
               saveAlert(result);
             } else {
               saveRequest(requestBody, result);
@@ -1486,7 +1494,7 @@ function validarMascotasSeleccionado() {
 }
 
 function makeCards(data, type = null) {
-  debugger
+  debugger;
   let cardCotizacion = "";
   if (type == 2) {
     data.forEach((element) => {
@@ -1531,9 +1539,7 @@ function makeCards(data, type = null) {
                               <li>Asist. Domiliciaria - ${
                                 element.cob_asist_jur_alz
                               }</li>
-                              <li>HAMCCP - AMIT - ${
-                                element.cob_hamccp_alz
-                              }</li>
+                              <li>HAMCCP - AMIT - ${element.cob_hamccp_alz}</li>
                               <li>Daños por agua - ${
                                 element.cob_danos_agua_alz
                               }</li>
@@ -1544,9 +1550,7 @@ function makeCards(data, type = null) {
                               <li>Eventos de la naturaleza - ${
                                 element.cob_eve_nat_alz
                               }</li>
-                              <li>RCE Familiar - ${
-                                element.cob_rce_fam_alz
-                              }</li>
+                              <li>RCE Familiar - ${element.cob_rce_fam_alz}</li>
                               <li>Eventos Eléctrico - ${
                                 element.cob_eve_elec_alz
                               }</li>
@@ -1569,7 +1573,7 @@ function makeCards(data, type = null) {
         $("#cardsContainer").append(cardCotizacion);
       } else if (element.aseguradora == "SBS") {
         // Verifica si el checkbox de "Estructura" está marcado
-        if(!$("#estructura").is(":checked")){
+        if (!$("#estructura").is(":checked")) {
           cardCotizacion = `
           <div class="col-cards-12">
           <div class="card-ofertas">
@@ -1580,7 +1584,8 @@ function makeCards(data, type = null) {
                       </center>
                       <div class='col-12' style='margin-top:2%;'>
                          ${
-                           permisos.Vernumerodecotizacionencadaaseguradora == "x"
+                           permisos.Vernumerodecotizacionencadaaseguradora ==
+                           "x"
                              ? `<center>
                              <label class='entidad'>N° Cot: <span style='color:black'>${element.id_cot_aseguradora}</span></label>
                            </center>`
@@ -1657,7 +1662,8 @@ function makeCards(data, type = null) {
                       </center>
                       <div class='col-12' style='margin-top:2%;'>
                          ${
-                           permisos.Vernumerodecotizacionencadaaseguradora == "x"
+                           permisos.Vernumerodecotizacionencadaaseguradora ==
+                           "x"
                              ? `<center>
                              <label class='entidad'>N° Cot: <span style='color:black'>${element.id_cot_aseguradora}</span></label>
                            </center>`
@@ -1847,7 +1853,7 @@ function makeCards(data, type = null) {
     });
   } else if (data.aseguradora == "SBS") {
     data.data.forEach((element) => {
-      if(!$("#estructura").is(":checked")){
+      if (!$("#estructura").is(":checked")) {
         cardCotizacion = `
             <div class="col-cards-12">
                       <div class="card-ofertas">
@@ -1922,7 +1928,7 @@ function makeCards(data, type = null) {
                           </div>
                       </div>
                   </div>`;
-      } else{
+      } else {
         cardCotizacion = `
             <div class="col-cards-12">
                       <div class="card-ofertas">
@@ -1980,7 +1986,7 @@ function makeCards(data, type = null) {
                           </div>
                       </div>
                   </div>`;
-      $("#cardsContainer").append(cardCotizacion);
+        $("#cardsContainer").append(cardCotizacion);
       }
     });
   }
@@ -2988,8 +2994,8 @@ let address = ["", "", "", " ", "", "#", "", "", "-", "", "", "", "", ""];
 function clearInfoModalAddress(erase) {
   // debugger;
   let inputAddress = $("#dirInmueble").val();
-  if(inputAddress != ""){
-    return
+  if (inputAddress != "") {
+    return;
   }
   if (erase) {
     for (let i = 0; i < 15; i++) {
