@@ -25,6 +25,10 @@ if (getParams("idCotizacionHogar").length > 0) {
   openValAllianz();
 } 
 
+// else if (getParams("fechaInicialCotizaciones").length > 0) {
+//   menosCotizaciones();
+// }
+
 $("#daterange-btnCotizacionesHogar").daterangepicker(
   {
     ranges: {
@@ -82,7 +86,6 @@ switch (selected) {
       .setEndDate(moment().subtract(1, "days"));
     break;
   case "Últimos 7 días":
-    Ay;
     $("#daterange-btnCotizacionesHogar")
       .data("daterangepicker")
       .setStartDate(moment().subtract(7, "days"));
