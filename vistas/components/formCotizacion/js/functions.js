@@ -798,6 +798,7 @@ $(document).ready(function () {
         loaderSubZona.show();
       } else {
         $("#subZoneBog").hide();
+        $("#subZona").removeClass("validateDataHogar");
       }
 
       zonaRiesgo.empty(); // Limpiar opciones anteriores
