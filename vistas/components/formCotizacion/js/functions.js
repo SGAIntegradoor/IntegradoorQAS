@@ -1426,7 +1426,7 @@ function cotizar(body) {
                 `<i class="fa fa-times" aria-hidden="true" style="color: red; margin-right: 5px;"></i>`
               );
               $(`#${element.aseguradora}-offerts`).html("0");
-              $(`#${element.aseguradora}-observations`).html(errorMessage);
+              $(`#${element.aseguradora}-observations`).html("Cotización Fallida: "+errorMessage);
               saveAlert(result);
             } else {
               saveRequest(requestBody, result);
