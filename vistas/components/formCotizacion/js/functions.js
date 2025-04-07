@@ -1385,7 +1385,6 @@ function cotizar(body) {
 
       if (url && requestBody) {
         requestOptions.body = JSON.stringify(requestBody);
-
         let promise = fetch(url, requestOptions)
           .then(async (response) => {
             let result = await response.json();
@@ -1401,7 +1400,6 @@ function cotizar(body) {
               $(`#${element.aseguradora}-observations`).html(
                 "Error en la petición al WebService, por favor intente de nuevo"
               );
-
               let resp = {
                 aseguradora: element.aseguradora,
                 message:
@@ -1423,7 +1421,6 @@ function cotizar(body) {
                 errorsConcat.length > 1
                   ? errorsConcat.join(",")
                   : errorsConcat[0];
-
               saveRequest(requestBody, result);
               $(`#${element.aseguradora}-check`).html(
                 `<i class="fa fa-times" aria-hidden="true" style="color: red; margin-right: 5px;"></i>`
