@@ -1180,7 +1180,7 @@ function saveAlert(data) {
     cotizacion: idCotizacionHogar,
     aseguradora: data.aseguradora,
     mensajes: data.message,
-    ofertas: data.data.length,
+    ofertas: data.data.length ?? 0,
     cotizo: data.success ? 1 : 0,
   };
 
