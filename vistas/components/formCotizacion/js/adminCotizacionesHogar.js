@@ -1,5 +1,5 @@
 
-function menosCotizaciones () {
+function menosViewCot () {
   console.log("clicked")
     $("#masAdminCoti").toggle();
     $("#menosAdminCoti").toggle();
@@ -15,7 +15,7 @@ function masViewCot () {
 
 $(document).ready(function () { 
     $("#menosAdminCoti").click(function () {
-        menosCotizaciones();
+      menosViewCot();
     });
 
     $("#masAdminCoti").click(function () {

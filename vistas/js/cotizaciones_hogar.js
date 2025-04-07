@@ -24,7 +24,7 @@ if (getParams("idCotizacionHogar").length > 0) {
   openDataFormHogar();
   openValAllianz();
 } else if (getParams("fechaInicialCotizaciones").length > 0) {
-  menosCotizaciones();
+  menosViewCot();
 }
 
 $("#daterange-btnCotizacionesHogar").daterangepicker(
