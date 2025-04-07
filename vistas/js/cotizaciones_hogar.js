@@ -23,9 +23,7 @@ if (getParams("idCotizacionHogar").length > 0) {
   $("#lblCotAseg").html("DATOS DEL ASEGURADO");
   openDataFormHogar();
   openValAllianz();
-} else if (getParams("fechaInicialCotizaciones").length > 0) {
-  menosViewCot();
-}
+} 
 
 $("#daterange-btnCotizacionesHogar").daterangepicker(
   {
