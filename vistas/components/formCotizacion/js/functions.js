@@ -3039,7 +3039,7 @@ function saveAddress(input) {
     } else {
       // Agregar coma solo si ya hay contenido en la dirección
       if (index == 12) {
-        address[index - 1] = `, ${$(`#${index}m`).val()}`;
+        address[index - 1] = ` ${$(`#${index}m`).val()}`;
       } else {
         address[index - 1] = $(`#${index}m`).val();
       }
