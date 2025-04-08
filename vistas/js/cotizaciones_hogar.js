@@ -244,7 +244,7 @@ function editarCotizacionHogar(id) {
         cli_num_documento,
         id_tipo_documento,
         cli_telefono,
-        direccion,
+        direccion_hogar,
         departamento,
         zona_riesgo,
         tipo_vivienda,
@@ -300,7 +300,8 @@ function editarCotizacionHogar(id) {
 
       // DATOS DEL BIEN ASEGURADO
 
-      $(".dirInmueble").val(direccion);
+      $(".dirInmueble").val(direccion_hogar);
+      // $("#dirInmuebleAllianz").val(direccion);
       $("#deptoInmueble").append(new Option(departamento, "1000"));
       $("#deptoInmueble").val("1000").trigger("change");
       $(".ciudadInmueble").append(new Option(ciudad, "1000"));
