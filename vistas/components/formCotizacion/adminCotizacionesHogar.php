@@ -92,7 +92,7 @@
                     <td class="text-center" style="font-size: 14px; text-align: center;">' . $tipoDocumento[(int)$value['id_tipo_documento']] . '</td>
                     <td class="text-center" style="font-size: 14px; text-align: center;">' . $value['cli_num_documento'] . '</td>
                     <td class="text-center" style="font-size: 14px; text-align: center;">' . $value['cli_nombre'] . ' ' . $value['cli_apellidos'] . '</td>
-                    <td class="text-center" style="font-size: 14px; text-align: center;">' . $value['direccion'] . '</td>
+                    <td class="text-center" style="font-size: 14px; text-align: center;">' . $value['direccion_hogar'] . '</td>
                     <td class="text-center" style="font-size: 14px; text-align: center;">' . $tipoVivienda[(int)$value['tipo_vivienda']] . '</td>
                     <td class="text-center" style="font-size: 14px; text-align: center;">' . $value['anio_construccion'] . '</td>
                     <td class="text-center" style="font-size: 14px; text-align: center;">' . $value['credito'] . '</td>
