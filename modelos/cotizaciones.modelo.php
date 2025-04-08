@@ -792,17 +792,17 @@ class ModeloCotizaciones
 				
 			} else {
 				$stmt = Conexion::conectar()->prepare("
-					SELECT 
-						*
-					FROM 
-						cotizaciones_salud c
-					INNER JOIN 
-						asegurados_cotizaciones_salud a ON a.id_cotizacion = c.id_cotizacion
-					INNER JOIN 
-						tomadores_cotizaciones_salud t ON t.id_cotizacion = c.id_cotizacion
-					INNER JOIN
-						usuarios us ON us.id_usuario = c.id_usuario
-					WHERE 
+						SELECT 
+				*
+				FROM 
+					$tabla c
+				INNER JOIN 
+					$tabla2 o ON o.id_cotizacion = c.id
+				INNER JOIN 
+					$tabla3 cli ON cli.id_cliente = c.id_cliente
+				INNER JOIN 
+					$tabla4 us ON us.id_usuario = c.id_usuario
+				WHERE 
 						c.fecha_cotizacion BETWEEN :fechaInicial AND :fechaFinal
 						AND us.id_Intermediario = :idIntermediario
 						AND c.id_usuario = :idUsuario;
