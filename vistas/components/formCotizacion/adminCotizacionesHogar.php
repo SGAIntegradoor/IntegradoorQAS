@@ -76,6 +76,8 @@
           $fechaActual = $fechaActual->format('Y-m-d');
 
           $respuesta = ControladorCotizaciones::ctrRangoFechasCotizacionesHogar($fechaActual, $inicioMes);
+          var_dump($respuesta);
+          die();
         }
 
 

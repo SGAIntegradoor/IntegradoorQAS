@@ -15,7 +15,7 @@ try {
     $data = $_POST ?? null;
 
     $fecha_cotizacion = date("Y-m-d H:i:s");
-    $direccion = $data['direccion'] . ', ' . $data["resto"] ?? null;
+    $direccion = $data['direccion'] ?? null;
     $ciudad = $data['ciudad'] ?? null;
     $codCiudad = $data['codLocalidad'] ?? null;
     $departamento = $data['departamento'] ?? null;

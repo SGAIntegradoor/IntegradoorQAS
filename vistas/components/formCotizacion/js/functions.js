@@ -1491,7 +1491,6 @@ function validarMascotasSeleccionado() {
 }
 
 function makeCards(data, type = null) {
-  debugger;
   let cardCotizacion = "";
   if (type == 2) {
     data.forEach((element) => {
