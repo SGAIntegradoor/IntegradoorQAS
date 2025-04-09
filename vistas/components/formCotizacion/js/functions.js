@@ -267,7 +267,9 @@ $(document).ready(function () {
 
   let valorVivInputs = [
     "#valorVivienda",
-    "#valorViviendaAllianz, #dirInmueble",
+    "#valorViviendaAllianz",
+    "#dirInmueble",
+    "#dirInmuebleAllianz",
   ];
 
   $('input[name="tipoCoberturaRadio"]').on("change", function () {
@@ -285,7 +287,11 @@ $(document).ready(function () {
       $(".valores").prop("disabled", true);
     } else {
       valorVivInputs.forEach((element) => {
-        $(element).prop("disabled", true);
+        if (element == "#dirInmueble" || element == "#dirInmuebleAllianz") {
+          return;
+        } else {
+          $(element).prop("disabled", true);
+        }
       });
       $(".valores").prop("disabled", false);
     }
@@ -837,7 +843,6 @@ $(document).ready(function () {
           $(".digito").val(data.digitoVerificacion); // Último dígito
           numDocumentoID.value = documentCli;
         } else if (estado) {
-          console.log(data);
           $("#idCliente").val(data.id_cliente);
           $("#tipoDocumento")
             .val(
@@ -886,8 +891,9 @@ $('input[name="mascotasRadio"]').on("change", function () {
 });
 
 $("#valorVivienda").on("change", function () {
-  let valorVivienda = parseInt($(this).val().replace(/\./g, ""), 10);
-  $("#totalCoberturaBasicas").val(valorVivienda);
+  // let valorVivienda = parseInt($(this).val().replace(/\./g, ""), 10);
+  // $("#totalCoberturaBasicas").val(valorVivienda);
+  actualizarTotalCoberturaBasica();
 });
 
 // Validaciones de campos SBS BEGIN
@@ -903,11 +909,17 @@ $("#valorEnseres, #valorEquipoElectrico, #valorCEspeciales").on(
   }
 );
 
+$("#valorEquipoElectrico").on("change", function () {
+  let valorEE = parseInt($(this).val().replace(/\-/g, ""), 10) || 0;
+  $("#valorAsegSUSEE").val(valorEE.toLocaleString("es-ES"));
+});
+
 $("#contEspecialesSUS, #contentNormalesSUS").on("change", function () {
   actualizarTotalContSUS();
 });
 
 function actualizarTotalContenidos() {
+  // // debugger
   let valorEnseres =
     parseInt($("#valorEnseres").val().replace(/\./g, ""), 10) || 0;
   let valorEquipoElectrico =
@@ -918,6 +930,16 @@ function actualizarTotalContenidos() {
   let totalContent = valorEnseres + valorEquipoElectrico + valorContenidosEsp;
 
   $("#totalContenidos").val(totalContent.toLocaleString("es-ES"));
+
+  let espeContents = parseInt($("#valorCEspeciales").val(), 10) || 0;
+  let _op = valorEnseres.toLocaleString("es-ES");
+  if (_op == "NaN" || _op == "undefined" || _op == "") {
+    _op = 0;
+  }
+  let _op2 = espeContents.toLocaleString("es-ES");
+
+  $("#contentNormalesSUS").val(_op).trigger("change");
+  $("#contEspecialesSUS").val(_op2).trigger("change");
   actualizarTotalCoberturaBasica();
 }
 
@@ -944,7 +966,7 @@ $("#valorEquipoElectrico").on("change", function () {
     Swal.fire({
       icon: "error",
       title: "¡Atención!",
-      text: "El valor de Equipo Eléctrico no puede ser mayor al valor de los contenidos o al 80% de los contenidos",
+      text: "El valor de Equipo Eléctrico debe estar entre el 80% y el 100% del valor de los contenidos",
     }).then(() => {
       $(this).css("border", "1px solid red");
       $(this).focus();
@@ -964,7 +986,6 @@ $("#valorEquipoElectrico").on("change", function () {
 });
 
 $("#valorCEspeciales").on("change", function () {
-  let prevValue = $(this).data("prevValue") || 0;
   let newValue = parseInt($(this).val().replace(/\./g, ""), 10) || 0;
   let valorEnseres =
     parseInt($("#valorEnseres").val().replace(/\./g, ""), 10) || 0;
@@ -991,6 +1012,7 @@ $("#valorCEspeciales").on("change", function () {
 });
 
 function actualizarTotalCoberturaBasica() {
+  // // debugger
   let totalContenidos =
     parseInt($("#totalContenidos").val().replace(/\./g, ""), 10) || 0;
   let valorVivienda =
@@ -1004,65 +1026,64 @@ $("#contentNormalesSUS").on("change", function () {
   let valorContNormSUS = parseInt($(this).val().replace(/\./g, ""), 10) || 0;
   let valorContNormEnseres =
     parseInt($("#valorEnseres").val().replace(/\./g, ""), 10) || 0;
-  if (valorContNormEnseres == 0) {
+  // if (valorContNormEnseres == 0) {
+  //   Swal.fire({
+  //     icon: "error",
+  //     title: "¡Atención!",
+  //     text: "Debe ingresar el valor de Contenidos (muebles y enseres)",
+  //   }).then(() => {
+  //     $("#valorEnseres").focus();
+  //     $("#valorEnseres").css("border", "1px solid red");
+  //     $(this).val("");
+  //     actualizarTotalContSUS(); // Restablece el total si se vacía el campo
+  //   });
+  // } else {
+  if (valorContNormSUS > valorContNormEnseres) {
     Swal.fire({
       icon: "error",
       title: "¡Atención!",
-      text: "Debe ingresar el valor de Contenidos (muebles y enseres)",
+      text: "El valor de Contenidos Normales por sustracción no puede ser mayor al valor Contenidos de Enseres",
     }).then(() => {
-      $("#valorEnseres").focus();
-      $("#valorEnseres").css("border", "1px solid red");
+      $(this).css("border", "1px solid red");
+      $(this).focus();
       $(this).val("");
-      actualizarTotalContSUS(); // Restablece el total si se vacía el campo
+      actualizarTotalContSUS();
     });
   } else {
-    if (valorContNormSUS > valorContNormEnseres) {
-      Swal.fire({
-        icon: "error",
-        title: "¡Atención!",
-        text: "El valor de Contenidos Normales por sustracción no puede ser mayor al valor Contenidos de Enseres",
-      }).then(() => {
-        $(this).css("border", "1px solid red");
-        $(this).focus();
-        $(this).val("");
-        actualizarTotalContSUS();
-      });
-    } else {
-      $(this).css("border", "1px solid #ccc");
-    }
+    $(this).css("border", "1px solid #ccc");
   }
+  // }
 });
 
 $("#contEspecialesSUS").on("change", function () {
   let contEspecialesSUS = parseInt($(this).val().replace(/\./g, ""), 10) || 0;
   let valorCEspeciales =
     parseInt($("#valorCEspeciales").val().replace(/\./g, ""), 10) || 0;
-  if (valorCEspeciales == 0) {
+  // if (valorCEspeciales == 0) {
+  //   Swal.fire({
+  //     icon: "error",
+  //     title: "¡Atención!",
+  //     text: "Debe ingresar el valor de Contenidos (Especiales)",
+  //   }).then(() => {
+  //     $("#valorCEspeciales").css("border", "1px solid red");
+  //     $("#valorCEspeciales").focus();
+  //     $(this).val("");
+  //     actualizarTotalContSUS(); // Restablece el total si se vacía el campo
+  //   });
+  // } else {
+  if (contEspecialesSUS > valorCEspeciales) {
     Swal.fire({
       icon: "error",
       title: "¡Atención!",
-      text: "Debe ingresar el valor de Contenidos (Especiales)",
+      text: "El valor de Contenidos Especiales por sustracción no puede ser mayor al valor Contenidos de Especiales",
     }).then(() => {
-      $("#valorCEspeciales").css("border", "1px solid red");
-      $("#valorCEspeciales").focus();
+      $(this).css("border", "1px solid red");
+      $(this).focus();
       $(this).val("");
-      actualizarTotalContSUS(); // Restablece el total si se vacía el campo
+      actualizarTotalContSUS();
     });
   } else {
-    if (contEspecialesSUS > valorCEspeciales) {
-      Swal.fire({
-        icon: "error",
-        title: "¡Atención!",
-        text: "El valor de Contenidos Especiales por sustracción no puede ser mayor al valor Contenidos de Especiales",
-      }).then(() => {
-        $(this).css("border", "1px solid red");
-        $(this).focus();
-        $(this).val("");
-        actualizarTotalContSUS();
-      });
-    } else {
-      $(this).css("border", "1px solid #ccc");
-    }
+    $(this).css("border", "1px solid #ccc");
   }
 });
 
@@ -1162,7 +1183,6 @@ function saveQuotation() {
     data: dataCotizacion,
     cache: false,
     success: function (data) {
-      console.log(data);
       console.log("Guardado");
       idCotizacionHogar = data.last_id;
     },
@@ -1176,6 +1196,7 @@ function saveQuotation() {
 // Guarda la alerta en la BD para mostrar la tabla una vez se realice la pagina de retoma
 
 function saveAlert(data) {
+  // debugger;
   let dataCotizacion = {
     cotizacion: idCotizacionHogar,
     aseguradora: data.aseguradora,
@@ -1191,7 +1212,6 @@ function saveAlert(data) {
     data: dataCotizacion,
     cache: false,
     success: function (data) {
-      console.log(data);
       console.log("Guardado");
     },
     catch: function (error) {
@@ -1202,6 +1222,7 @@ function saveAlert(data) {
 }
 
 function saveOffert(data) {
+  // debugger;
   let ofertas = [];
 
   data.data.map((element, i) => {
@@ -1318,7 +1339,6 @@ function saveOffert(data) {
       data: ofertas[i],
       cache: false,
       success: function (data) {
-        console.log(data);
         console.log("Guardado");
       },
       catch: function (error) {
@@ -1366,7 +1386,7 @@ function cotizar(body) {
       headers: { "Content-Type": "application/json" },
       body: "",
     };
-
+    // debugger;
     aseguradorasHogar.forEach((element) => {
       if (!element.enabled) return; // Si la aseguradora está deshabilitada, saltarla
 
@@ -1414,9 +1434,12 @@ function cotizar(body) {
           })
           .then((result) => {
             if (result.status != "200") {
-              let errorsConcat = result.error.errors.map(
-                (error) => error.message
+              // debugger;
+              console.log(element.aseguradora);
+              let errorsConcat = result?.error?.errors?.map(
+                (error) => error?.message
               );
+
               let errorMessage =
                 errorsConcat.length > 1
                   ? errorsConcat.join(",")
@@ -1426,7 +1449,9 @@ function cotizar(body) {
                 `<i class="fa fa-times" aria-hidden="true" style="color: red; margin-right: 5px;"></i>`
               );
               $(`#${element.aseguradora}-offerts`).html("0");
-              $(`#${element.aseguradora}-observations`).html("Cotización Fallida: "+errorMessage);
+              $(`#${element.aseguradora}-observations`).html(
+                "Cotización Fallida: " + errorMessage
+              );
               saveAlert(result);
             } else {
               saveRequest(requestBody, result);
@@ -1647,6 +1672,7 @@ function makeCards(data, type = null) {
                   </div>
               </div>
           </div>`;
+          $("#cardsContainer").append(cardCotizacion);
         } else {
           cardCotizacion = `
           <div class="col-cards-12">
@@ -1924,6 +1950,7 @@ function makeCards(data, type = null) {
                           </div>
                       </div>
                   </div>`;
+        $("#cardsContainer").append(cardCotizacion);
       } else {
         cardCotizacion = `
             <div class="col-cards-12">
@@ -2077,7 +2104,6 @@ function validateErrors(form) {
 
         if (!selector.prop("disabled")) {
           if (tagName === "select") {
-            console.log(selector);
             if (selector.val() === "" || selector.val() === "0") {
               // Validación única
               errorFields.push({
@@ -2244,8 +2270,6 @@ function validateErrors(form) {
       break;
   }
 
-  console.log(errorFields);
-
   return { errors: errorFields.length <= 0, data: errorFields };
 }
 
@@ -2316,7 +2340,6 @@ function saveRequest(body, response) {
     },
     cache: false,
     success: function (data) {
-      console.log(data);
       console.log("Guardado");
     },
     catch: function (error) {
@@ -2355,7 +2378,6 @@ function saveClient() {
     },
     cache: false,
     success: function (data) {
-      console.log(data);
       console.log("Guardado");
     },
     catch: function (error) {
@@ -2414,11 +2436,11 @@ let dataCotizacion = {};
 $("#btnCotizarSBS, #btnCotizar").click(function () {
   let { errors, data } = validateErrors("cotizar");
   if (errors) {
-    $("html, body").animate({ scrollTop: 0 }, "slow", function () {
-      setTimeout(() => {
-        openModalVidaDeudor();
-      }, 1000);
-    });
+    // $("html, body").animate({ scrollTop: 0 }, "slow", function () {
+    //   setTimeout(() => {
+    //     openModalVidaDeudor();
+    //   }, 1000);
+    // });
     // Obtener valores de los inputs una sola vez
     let tipoDocumento = $("#tipoDocumento").val();
     let tipoVivienda = $("#tipoVivienda").val();
@@ -2988,7 +3010,7 @@ $(
 let address = ["", "", "", " ", "", "#", "", "", "-", "", "", "", "", ""];
 
 function clearInfoModalAddress(erase) {
-  // debugger;
+  // // // debugger;
   let inputAddress = $("#dirInmueble").val();
   if (inputAddress != "") {
     return;
@@ -3116,7 +3138,7 @@ function consultarCiudadHogar() {
     data: { codigoDpto: codigoDpto },
     cache: false,
     success: function (data) {
-      // console.log(data);
+      //
       let ciudadesVeh = `<option value="">Seleccionar Ciudad</option>`;
       try {
         let json = JSON.parse(data);

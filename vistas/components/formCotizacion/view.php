@@ -65,7 +65,7 @@
             </div>
         </div>
     </div>
-    <div class="col-xs-12 col-sm-12 col-md-12" style="padding-top: 20px; padding-bottom: 20px;"></div>
+    
     <div class="row">
         <div class="col-xs-12 col-sm-6 col-md-3" id="nacionalidad" style="display: none;">
             <div class="form-group">

@@ -107,7 +107,7 @@
                         <label for="contentNormalesSUS">Contenidos normales</label>
                         <i class="fa fa-solid fa-circle-info tooltip-contnorsus" style="margin-top: 4px; margin-top: 2px; font-size: 18px;" data-toggle="tooltip-contnorsus" data-placement="bottom"></i>
                     </div>
-                    <input id="contentNormalesSUS" class="form-control contentNormalesSUS inputNumber valores" type="text">
+                    <input id="contentNormalesSUS" class="form-control contentNormalesSUS inputNumber" type="text" disabled>
                 </div>
             </div>
             <div class="col-xs-12 col-sm-6 col-md-3">
@@ -116,7 +116,7 @@
                         <label for="contEspecialesSUS">Contenidos especiales</label>
                         <i class="fa fa-solid fa-circle-info tooltip-contespesus" style="margin-top: 4px; margin-top: 2px; font-size: 18px;" data-toggle="tooltip-contespesus" data-placement="bottom"></i>
                     </div>
-                    <input id="contEspecialesSUS" class="form-control contEspeciales inputNumber valores" type="text">
+                    <input id="contEspecialesSUS" class="form-control contEspeciales inputNumber" type="text" disabled>
                 </div>
             </div>
             <div class="col-xs-12 col-sm-6 col-md-3">
@@ -153,7 +153,7 @@
                     <p id="valorAseguSus" style="margin: 0px; margin-bottom: 5px; font-weight: bold; width: 390px;">Valor asegurado sustracción equipo eléctrico y/o electrónico
                         <i class="fa fa-solid fa-circle-info tooltip-totalcontsushur" style="margin-top: 4px; margin-top: 2px; font-size: 18px;" data-toggle="tooltip-totalcontsushur" data-placement="bottom"></i>
                     </p>
-                    <input id="valorAsegSUSEE" class="form-control valorAsegSUSEE inputNumber valores" type="text">
+                    <input id="valorAsegSUSEE" class="form-control valorAsegSUSEE inputNumber" type="text" disabled>
                 </div>
             </div>
         </div>
