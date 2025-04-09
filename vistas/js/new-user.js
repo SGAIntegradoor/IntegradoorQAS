@@ -181,6 +181,24 @@ function loadUser(id) {
             .trigger("change");
           $("#cargos").val(data.usu_cargo).trigger("change");
         }, 500);
+      } else if (data.id_rol == 12) {
+        $("#divUnidadNegocio").hide();
+        $("#divUsuarioSGA").hide();
+        $("#divCanal").show();
+        $("#canal").val(1);
+      } else {
+        $("#divUnidadNegocio").show();
+        $("#divCanal").hide();
+        $("#divUsuarioSGA").hide();
+        $("#unidadNegocio").val(data.id_rol);
+        $("#rolUsers").val(data.id_rol).trigger("change");
+        setTimeout(() => {
+          $("#intermediarioPerfil")
+            .val(data.id_Intermediario)
+            .trigger("change");
+          $("#cargos").val(data.usu_cargo).trigger("change");
+        }, 500);
+
         $("#usuarioVin").prop("disabled", true);
         $("#usuarioVin").val(data.usu_usuario);
 
@@ -199,16 +217,6 @@ function loadUser(id) {
         $("#limiteCots").val(data.cotizacionesTotales);
         $("#limiteUso").val(fechaFormLim);
 
-      } else if (data.id_rol == 12) {
-        $("#divUnidadNegocio").hide();
-        $("#divUsuarioSGA").hide();
-        $("#divCanal").show();
-        $("#canal").val(1);
-      } else {
-        $("#divUnidadNegocio").show();
-        $("#divCanal").hide();
-        $("#divUsuarioSGA").hide();
-        $("#unidadNegocio").val(data.id_rol);
       }
 
       let tipoDoc = data.tipos_documentos_id;
@@ -393,7 +401,7 @@ $("#rolUsers").change(function () {
     $(".divClavAseg").css("display", "block");
     $(".divAsistente").css("display", "block");
     $("#siClaves").prop("checked", true).trigger("change");
-    $(".freelance").css("display", "flex");
+    $(".freelance").css("display", "grid");
     $("#divComisiones").css("display", "none");
   }
 });
