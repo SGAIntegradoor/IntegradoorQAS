@@ -555,6 +555,23 @@ function notificacionModalZurich(){
   });
 }
 
+let sarlaftDigitalBolivar = document.getElementById("sarlaftBolivar");
+let sarlaftDigitalEstado = document.getElementById("sarlaftEstado");
+let sarlaftDigitalZurich = document.getElementById("sarlaftZurich");
+
+sarlaftDigitalBolivar.addEventListener("click", function () {
+  notificacionModalBolivar()
+})
+
+sarlaftDigitalEstado.addEventListener("click", function () {
+  notificacionModalEstado()
+})
+
+sarlaftDigitalZurich.addEventListener("click", function () {
+  notificacionModalZurich()
+})
+
+
 const editarCentroInspeccion = (_index, _centro_value_index) => {
   const d = document;
   centros[_index] = d.querySelector("#" + _centro_value_index).value;

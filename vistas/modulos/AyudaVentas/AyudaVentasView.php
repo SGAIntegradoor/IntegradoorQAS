@@ -111,6 +111,10 @@ $nombreArchivo = "COTIZADOR VIGENTE FINESA $nombreMes $anio.xlsx";
         /* border: 1px solid #d2d2d2; */
         border-top: 1px solid #f4f4f4;
     }
+
+    #bodyAyudaVentas {
+        font-size: 13px;
+    }
 </style>
 <div class="content-wrapper">
     <section class="content-header">
@@ -222,7 +226,7 @@ $nombreArchivo = "COTIZADOR VIGENTE FINESA $nombreMes $anio.xlsx";
                                 <th style="width: 4000px; text-align: center">Proceso de emisión autos (AC Analista Comercial / AF Asesor Freelance)</th>
                                 <!-- <th style="width: 7%; text-align: center">Sarlaft PJ</th> -->
                                 <th style="width: 500px; text-align: center">Politicas de Asegurabilidad: Antiguedad, Continuidad y Centros de Inspección</th>
-                                <th style="width: 1000px; text-align: center">Políticas cambio de intermediario</th>
+                                <th style="text-align: center">Políticas cambio de intermediario</th>
                                 <th style="text-align: center">Formas de pago</th>
                                 <?php
                                 // if($_SESSION["permisos"]["ayudaventas_freelance"] == "x"){
@@ -235,7 +239,7 @@ $nombreArchivo = "COTIZADOR VIGENTE FINESA $nombreMes $anio.xlsx";
                                 ?>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody id="bodyAyudaVentas">
                             <tr style="height: 100%;">
                                 <td style="padding-top: 0px; text-align: center; vertical-align: top;">
                                     <div style="display: flex; flex-direction: column; align-items: center; height: 350px; justify-content: center;">
@@ -248,7 +252,7 @@ $nombreArchivo = "COTIZADOR VIGENTE FINESA $nombreMes $anio.xlsx";
                                         </div>
                                         <br>
                                         <br>
-                                        <a href="#">Sarlaft Digital</a>
+                                        <a href="https://allianzfcc.co/#/login" target="_blank">Sarlaft Digital</a>
                                         <br>
                                         <br>
                                         <div style="text-align: center; display: flex; flex-direction: column;">
@@ -299,7 +303,7 @@ $nombreArchivo = "COTIZADOR VIGENTE FINESA $nombreMes $anio.xlsx";
                                     </ul>
                                 </td>
                                 <td style="padding: 30px;">
-                                    <ul style="list-style: none; width: 500px !important;">
+                                    <ul style="list-style: none; width: 350px !important;">
                                         <li>✅ Doc.: Carta, Sarlaft, Cédula, Tarjeta de Propiedad y Condiciones de Renovación (de ser posible)</li>
                                         <li>✅ Tiempo límite de recepción: 3 días hábiles antes del vencimiento</li>
                                         <li>✅ Tiempo de autorización: 3 días hábiles</li>
@@ -308,12 +312,12 @@ $nombreArchivo = "COTIZADOR VIGENTE FINESA $nombreMes $anio.xlsx";
                                         </li>
                                     </ul>
                                 </td>
-                                <td style="padding: 30px;">
-                                    <ul style="list-style:none;">
+                                <td style="padding: 30px; width: 300px !important;">
+                                    <ul style="list-style:none; width: 300px !important;">
                                         <li>✅ Bancos o corresponsales bancarios</li>
                                         <li>✅ Pago en linea (PSE o Tarjeta de crédito)</li>
                                         <li>✅ Financiación con Finesa</li>
-                                        <li style="width: 550px">✅ Más informacion aquí: <a href="https://www.allianz.co/clientes/todos-los-clientes/pagos.html">https://www.allianz.co/clientes/todos-los-clientes/pagos.html</a></li>
+                                        <li>✅ Más informacion <a href="https://www.allianz.co/clientes/todos-los-clientes/pagos.html" target="_blank">AQUÍ</a></li>
                                     </ul>
 
                                 </td>
@@ -337,7 +341,7 @@ $nombreArchivo = "COTIZADOR VIGENTE FINESA $nombreMes $anio.xlsx";
                                                 <a style="text-decoration: none; color: white;" href="https://integradoor.com/app/vistas/modulos/AyudaVentas/pdf/sarlaft/3_AXA_Sarlaft.pdf" target="_blank">Sarlaft PN</a></button>
                                             <button
                                                 class="btn btn-alert"
-                                                style="background: red; color: #fff; font-weight: 500; margin-bottom: 5px; width: 90px;"><a style="text-decoration: none; color: white;" href="https://integradoor.com/app/vistas/modulos/AyudaVentas/pdf/sarlaft/3_AXA_Sarlaft2.pdf" target="_blank">Sarlaft PJ</a></button>
+                                                style="background: red; color: #fff; font-weight: 500; margin-bottom: 5px; width: 90px;"><a style="text-decoration: none; color: white;" href="https://integradoor.com/app/vistas/modulos/AyudaVentas/pdf/sarlaft2/3_AXA_Sarlaft2.pdf " target="_blank">Sarlaft PJ</a></button>
                                         </div>
                                         <br>
                                         <br>
@@ -353,11 +357,11 @@ $nombreArchivo = "COTIZADOR VIGENTE FINESA $nombreMes $anio.xlsx";
                                     <ol class="olEmision" style="padding-left: 10px; list-style-position: inside;">
                                         <li style="margin-bottom: 5px;"><b>Documentos:</b> TP, Cédula, Declaración de Renta (si aplica), Contrato de Compraventa (si aplica), Factura (0 km), Póliza anterior (si hay continuidad).</li>
                                         <li style="margin-bottom: 5px;"><b>SARLAFT:</b> Solo se realiza físicamente por computador o a mano y se pone firma manuscrita. Siempre se debe enviar el PDF al AC.</li>
-                                        <li style="margin-bottom: 5px;"><b>Enviar docs y confirmar forma de pago:</b>Si están completos pasan; si no, se devuelven. 0 km o en continuidad pasan a emisión; los demás, a inspección.</li>
+                                        <li style="margin-bottom: 5px;"><b>Enviar docs y confirmar forma de pago:</b> Si están completos pasan; si no, se devuelven. 0 km o en continuidad pasan a emisión; los demás, a inspección.</li>
                                         <li style="margin-bottom: 5px;"><b>Orden de inspección:</b> Se carga orden de inspección física o virtual según políticas. La física se hace en Automas y la virtual se envía por link al cliente. Se informa al AF cuando quede cargada la orden.</li>
                                         <li style="margin-bottom: 5px;"><b>Inspección:</b> Se completa y el AF confirma a su AC, de lo contrario, no se puede emitir.</li>
                                         <li style="margin-bottom: 5px;"><b>Validar inspección:</b> Según el resultado de la inspección, se informa al AF. Si hay cambios en valor asegurado o Código Fasecolda se actualiza cotización y se envía al AF para confirmar emisión. </li>
-                                        <li style="margin-bottom: 5px;"><b>Emisión y Financiación:</b>Solicitar confirmación de forma de pago para emitir. Si es financiada se debe realizar proceso de financiación con Finesa. Si el cliente cambia la forma de pago, la póliza debe cancelarse y emitirse de nuevo.</li>
+                                        <li style="margin-bottom: 5px;"><b>Emisión y Financiación:</b> Solicitar confirmación de forma de pago para emitir. Si es financiada se debe realizar proceso de financiación con Finesa. Si el cliente cambia la forma de pago, la póliza debe cancelarse y emitirse de nuevo.</li>
                                         <li style="margin-bottom: 5px;"><b>Revisión y envío:</b> AC verifica y envía la póliza al AF.</li>
                                         <li style="margin-bottom: 5px;"><b>Entrega:</b> AF entrega póliza al cliente y, si aplica, el cupón de pago de la financiación.</li>
                                         <li style="margin-bottom: 5px;"><b>Seguimiento:</b> AC hace seguimiento al pago, si aplica, la legalización del crédito.</li>
@@ -389,7 +393,7 @@ $nombreArchivo = "COTIZADOR VIGENTE FINESA $nombreMes $anio.xlsx";
                                     </ul>
                                 </td>
                                 <td style="padding: 30px;">
-                                    <ul>
+                                    <ul style="list-style: none;">
                                         <li>✅ Doc.: Carta, Sarlaft, Cédula, Tarjeta de Propiedad y Condiciones de Renovación (de ser posible)</li>
                                         <li>✅ Tiempo límite de recepción: 3 días hábiles antes del vencimiento</li>
                                         <li>✅ Tiempo de autorización: 3 días hábiles</li>
@@ -398,12 +402,12 @@ $nombreArchivo = "COTIZADOR VIGENTE FINESA $nombreMes $anio.xlsx";
                                     </ul>
                                 </td>
                                 <td style="padding: 30px;">
-                                    <ul style="list-style: none">
+                                    <ul style="list-style: none;">
                                         <li>✅ Bancos o corresponsales bancarios</li>
                                         <li>✅ Pago en linea (PSE o Tarjeta de crédito)</li>
                                         <li>✅ Financiación directa con Colpatria (Finanseguro)</li>
                                         <li>✅ Financiacion con Finesa como tomador</li>
-                                        <li style="width: 600px">✅ Más informacion aquí: <a href="https://www.axacolpatria.co/documents/42201273/77996558/medios-pago-axa-colpatria.pdf">https://www.axacolpatria.co/documents/42201273/77996558/medios-pago-axa-colpatria.pdf</a></li>
+                                        <li>✅ Más informacion <a href="https://www.axacolpatria.co/documents/42201273/77996558/medios-pago-axa-colpatria.pdf" target="_blank">AQUÍ</a></li>
                                     </ul>
 
                                 </td>
@@ -421,12 +425,7 @@ $nombreArchivo = "COTIZADOR VIGENTE FINESA $nombreMes $anio.xlsx";
                                         <br>
                                         <br>
                                         <div style="display: flex; flex-direction: column; align-items: center;">
-                                            <button
-                                                class="btn btn-alert"
-                                                style="background: red; color: #fff; font-weight: 500; margin-bottom: 5px; width: 90px; color: white;" onclick="notificacionModalBolivar()">Sarlaft PN</button>
-                                            <button
-                                                class="btn btn-alert"
-                                                style="background: red; color: #fff; font-weight: 500; margin-bottom: 5px; width: 90px; color: white;" onclick="notificacionModalBolivar()">Sarlaft PJ</button>
+                                            <p style="color: #337ab7; cursor: pointer;" id="sarlaftBolivar">Sarlaft</p>
                                         </div>
                                         <br>
                                         <br>
@@ -443,11 +442,11 @@ $nombreArchivo = "COTIZADOR VIGENTE FINESA $nombreMes $anio.xlsx";
                                     <ol class="olEmision" style="padding-left: 10px; list-style-position: inside;">
                                         <li style="margin-bottom: 5px;"><b>Documentos:</b> TP, Cédula, Declaración de Renta (si aplica), Contrato de Compraventa (si aplica), Factura (0 km), Póliza anterior (si hay continuidad).</li>
                                         <li style="margin-bottom: 5px;"><b>SARLAFT:</b> Se crea y envía link digital al cliente por SMS (datos requeridos: # cédula y celular). Si el proceso digital falla, se diligencia por computador o a mano y se pone firma manuscrita (Bolívar se toma 1 día hábil para autorizar el físico). Personas PEP solo pueden hacerlo físico. Siempre se debe enviar el PDF al AC.</li>
-                                        <li style="margin-bottom: 5px;"><b>Enviar docs y confirmar forma de pago:</b>Si están completos pasan; si no, se devuelven. 0 km o en continuidad pasan a emisión; los demás, a inspección.</li>
+                                        <li style="margin-bottom: 5px;"><b>Enviar docs y confirmar forma de pago:</b> Si están completos pasan; si no, se devuelven. 0 km o en continuidad pasan a emisión; los demás, a inspección.</li>
                                         <li style="margin-bottom: 5px;"><b>Orden de inspección:</b> Se carga orden de inspección física o virtual según políticas. La física se hace en Automas y la virtual se envía por link al cliente. Se informa al AF cuando quede cargada la orden.</li>
                                         <li style="margin-bottom: 5px;"><b>Inspección:</b> Se completa y el AF confirma a su AC, de lo contrario, no se puede emitir.</li>
                                         <li style="margin-bottom: 5px;"><b>Validar inspección:</b> Según el resultado de la inspección, se informa al AF. Si hay cambios en valor asegurado o Código Fasecolda se actualiza cotización y se envía al AF para confirmar emisión. </li>
-                                        <li style="margin-bottom: 5px;"><b>Emisión y Financiación:</b>Solicitar confirmación de forma de pago para emitir. Si es financiada se debe realizar proceso de financiación directamente por Bolívar.</li>
+                                        <li style="margin-bottom: 5px;"><b>Emisión y Financiación:</b> Solicitar confirmación de forma de pago para emitir. Si es financiada se debe realizar proceso de financiación directamente por Bolívar.</li>
                                         <li style="margin-bottom: 5px;"><b>Revisión y envío:</b> AC verifica y envía la póliza al AF.</li>
                                         <li style="margin-bottom: 5px;"><b>Entrega:</b> AF entrega póliza al cliente y, si aplica, el cupón de pago de la financiación.</li>
                                         <li style="margin-bottom: 5px;"><b>Seguimiento:</b> AC hace seguimiento al pago, si aplica, la legalización del crédito (primera cuota).</li>
@@ -486,12 +485,12 @@ $nombreArchivo = "COTIZADOR VIGENTE FINESA $nombreMes $anio.xlsx";
                                     </ul>
                                 </td>
                                 <td style="padding: 30px;">
-                                    <ul style="list-style: none; width: 500px !important;">
+                                    <ul style="list-style: none;">
                                         <li>✅ Bancos o corresponsales bancarios</li>
                                         <li>✅ Pago en linea (PSE o Tarjeta de crédito)</li>
                                         <li>✅ Financiación directa con Bolívar</li>
                                         <li>✅ Financiacion con Finesa como tomador</li>
-                                        <li style="width: 600px">✅ Más informacion aquí: <a href="https://transac.segurosbolivar.com/RecaudosElectronicos/faces/muestrapagos.jspx/pages/layout/consultUser.action" style="word-break: break-all;">https://transac.segurosbolivar.com/RecaudosElectronicos/faces/muestrapagos.jspx/pages/layout/consultUser.action</a></li>
+                                        <li>✅ Más informacion <a href="https://transac.segurosbolivar.com/RecaudosElectronicos/faces/muestrapagos.jspx/pages/layout/consultUser.action" target="_blank">AQUÍ</a></li>
                                     </ul>
 
                                 </td>
@@ -509,13 +508,7 @@ $nombreArchivo = "COTIZADOR VIGENTE FINESA $nombreMes $anio.xlsx";
                                         <br>
                                         <br>
                                         <div style="display: flex; flex-direction: column; align-items: center;">
-                                            <button
-                                                class="btn btn-alert"
-                                                style="background: red; color: #fff; font-weight: 500; margin-bottom: 5px; width: 90px;">
-                                                <a style="text-decoration: none; color: white;" href="https://servicios.laequidadseguros.coop/FormSarlaft/" target="_blank">Sarlaft PN</a></button>
-                                            <button
-                                                class="btn btn-alert"
-                                                style="background: red; color: #fff; font-weight: 500; margin-bottom: 5px; width: 90px;"><a style="text-decoration: none; color: white;" href="https://servicios.laequidadseguros.coop/FormSarlaft/" target="_blank">Sarlaft PJ</a></button>
+                                            <a href="https://servicios.laequidadseguros.coop/FormSarlaft/" target="_blank">Sarlaft Digital</a>
                                         </div>
                                         <br>
                                         <br>
@@ -581,7 +574,7 @@ $nombreArchivo = "COTIZADOR VIGENTE FINESA $nombreMes $anio.xlsx";
                                         <li>✅ Bancos o corresponsales bancarios</li>
                                         <li>✅ Pago en linea (PSE o Tarjeta de crédito)</li>
                                         <li>✅ Financiacion con Finesa</li>
-                                        <li style="width: 650px">✅ Más informacion aquí: <a href="https://servicios.laequidadseguros.coop/clientes/pagoExterno/consultaPoliza">https://servicios.laequidadseguros.coop/clientes/pagoExterno/consultaPoliza</a></li>
+                                        <li>✅ Más informacion <a href="https://servicios.laequidadseguros.coop/clientes/pagoExterno/consultaPoliza" target="_blank">AQUÍ</a></li>
                                     </ul>
 
                                 </td>
@@ -672,7 +665,7 @@ $nombreArchivo = "COTIZADOR VIGENTE FINESA $nombreMes $anio.xlsx";
                                         <li>✅ Bancos o corresponsales bancarios</li>
                                         <li>✅ Pago en linea (PSE o Tarjeta de crédito)</li>
                                         <li>✅ Financiacion con Finesa</li>
-                                        <li>✅ Más informacion aquí: <a href="https://www.hdiseguros.com.co/pagos">https://www.hdiseguros.com.co/pagos</a></li>
+                                        <li>✅ Más informacion <a href="https://www.hdiseguros.com.co/pagos" target="_blank">AQUÍ</a></li>
                                     </ul>
 
                                 </td>
@@ -764,7 +757,7 @@ $nombreArchivo = "COTIZADOR VIGENTE FINESA $nombreMes $anio.xlsx";
                                         <li>✅ Pago en linea (PSE o Tarjeta de crédito)</li>
                                         <li>✅ Financiación directa con Mapfre (Credimapfre)</li>
                                         <li>✅ Financiacion con Finesa</li>
-                                        <li style="width: 600px !important;">✅ Más informacion aquí: <a style="word-break: break-all;" href="https://cotiza.mapfre.com.co/pagosWeb/vista/paginas/noFilterIniPagosPublico.jsf" style="width: 300px !important; ">https://cotiza.mapfre.com.co/pagosWeb/vista/paginas/noFilterIniPagosPublico.jsf</a></li>
+                                        <li>✅ Más informacion <a href="https://cotiza.mapfre.com.co/pagosWeb/vista/paginas/noFilterIniPagosPublico.jsf" target="_blank">AQUÍ</a></li>
                                     </ul>
 
                                 </td>
@@ -805,12 +798,12 @@ $nombreArchivo = "COTIZADOR VIGENTE FINESA $nombreMes $anio.xlsx";
                                 <td style="padding: 30px; text-align: justify;">
                                     <ol class="olEmision" style="padding-left: 10px; list-style-position: inside;">
                                         <li style="margin-bottom: 5px;"><b>Documentos:</b> TP, Cédula, Declaración de Renta (si aplica), Contrato de Compraventa (si aplica), Factura (0 km), Póliza anterior (si hay continuidad).</li>
-                                        <li style="margin-bottom: 5px;"><b>SARLAFT:</b> Solo se realiza físicamente por computador o a mano y se pone firma manuscrita. Siempre se debe enviar el PDF al AC.</li>
+                                        <li style="margin-bottom: 5px;"><b>SARLAFT:</b> Cliente persona natural lo diligencia en <a href="https://app.legops.com/forms/f/92c704c9-1967-4c90-b460-212af6bfa7fd">este link</a> y Jurídico en <a href="https://sarlaft.segurosmundial.com.co/forms/f/9211808c-f920-4af2-8eaf-d50ee3c3140d">este link</a>. Si el proceso digital falla, se diligencia por computador o a mano y se pone firma manuscrita. Siempre se debe enviar el PDF al AC.</li>
                                         <li style="margin-bottom: 5px;"><b>Enviar docs y confirmar forma de pago:</b> Si están completos pasan; si no, se devuelven. 0 km o en continuidad pasan a emisión; los demás, a inspección.</li>
-                                        <li style="margin-bottom: 5px;"><b>Orden de inspección:</b> Solo se carga orden de inspección virtual por medio de plataforma de Mapfre. Se envía link de inspección al AF.</li>
+                                        <li style="margin-bottom: 5px;"><b>Orden de inspección:</b> Se realiza pre-emisión de la póliza y se carga orden de inspección física o virtual según políticas. La física se hace en Automas y la virtual se envía por link al cliente. Se informa al AF cuando quede cargada la orden.</li>
                                         <li style="margin-bottom: 5px;"><b>Inspección:</b> Se completa y el AF confirma a su AC, de lo contrario, no se puede emitir.</li>
                                         <li style="margin-bottom: 5px;"><b>Validar inspección:</b> Según el resultado de la inspección, se informa al AF. Si hay cambios en valor asegurado o Código Fasecolda se actualiza cotización y se envía al AF para confirmar emisión.</li>
-                                        <li style="margin-bottom: 5px;"><b>Emisión y Financiación:</b> Solicitar confirmación de forma de pago para emitir. Si es financiada se debe realizar proceso de financiación directamente por Credimapfre.
+                                        <li style="margin-bottom: 5px;"><b>Emisión y Financiación:</b> Se autoriza la emisión y, se descarga el PDF. Si es financiada se debe realizar proceso de financiación con Finesa.
                                         </li>
                                         <li style="margin-bottom: 5px;"><b>Revisión y envío:</b> AC verifica y envía la póliza al AF.</li>
                                         <li style="margin-bottom: 5px;"><b>Entrega:</b> AF entrega póliza al cliente y, si aplica, el cupón de pago de la financiación.</li>
@@ -859,7 +852,7 @@ $nombreArchivo = "COTIZADOR VIGENTE FINESA $nombreMes $anio.xlsx";
                                         <li>✅ Bancos o corresponsales bancarios</li>
                                         <li>✅ Pago en linea (PSE o Tarjeta de crédito)</li>
                                         <li>✅ Financiación directa con Mundial (Mundial Financia)</li>
-                                        <li style="width: 600px !important;">✅ Más informacion aquí: <a style="word-break: break-all;" href="https://www.segurosmundial.com.co/pagos/" style="width: 300px !important; ">https://www.segurosmundial.com.co/pagos/</a></li>
+                                        <li>✅ Más informacion <a href="https://www.segurosmundial.com.co/pagos/" target="_blank">AQUÍ</a></li>
                                     </ul>
 
                                 </td>
@@ -877,13 +870,7 @@ $nombreArchivo = "COTIZADOR VIGENTE FINESA $nombreMes $anio.xlsx";
                                         <br>
                                         <br>
                                         <div style="display: flex; flex-direction: column; align-items: center;">
-                                            <button
-                                                class="btn btn-alert"
-                                                style="background: red; color: #fff; font-weight: 500; margin-bottom: 5px; width: 90px;">
-                                                <a style="text-decoration: none; color: white;" href="https://idocumentos-webclient-previsora.azurewebsites.net/?a=autogestion&em=860002400" target="_blank">Sarlaft PN</a></button>
-                                            <button
-                                                class="btn btn-alert"
-                                                style="background: red; color: #fff; font-weight: 500; margin-bottom: 5px; width: 90px;"><a style="text-decoration: none; color: white;" href="https://idocumentos-webclient-previsora.azurewebsites.net/?a=autogestion&em=860002400" target="_blank">Sarlaft PJ</a></button>
+                                            <a href="https://idocumentos-webclient-previsora.azurewebsites.net/?a=autogestion&em=860002400" target="_blank">Sarlaft Digital</a>
                                         </div>
                                         <br>
                                         <br>
@@ -950,7 +937,7 @@ $nombreArchivo = "COTIZADOR VIGENTE FINESA $nombreMes $anio.xlsx";
                                         <li>✅ Bancos o corresponsales bancarios</li>
                                         <li>✅ Pago en linea (PSE o Tarjeta de crédito)</li>
                                         <li>✅ Financiacion con Finesa</li>
-                                        <li style="width: 600px !important;">✅ Más informacion aquí: <a style="word-break: break-all;" href="https://www.previsora.gov.co/web/guest/previpagos" style="width: 300px !important; ">https://www.previsora.gov.co/web/guest/previpagos</a></li>
+                                        <li>✅ Más informacion <a href="https://www.previsora.gov.co/web/guest/previpagos" target="_blank">AQUÍ</a></li>
                                     </ul>
 
                                 </td>
@@ -1038,7 +1025,7 @@ $nombreArchivo = "COTIZADOR VIGENTE FINESA $nombreMes $anio.xlsx";
                                         <li>✅ Bancos o corresponsales bancarios</li>
                                         <li>✅ Pago en linea (PSE o Tarjeta de crédito)</li>
                                         <li>✅ Financiacion con Finesa</li>
-                                        <li style="width: 600px !important;">✅ Más informacion aquí: <a style="word-break: break-all;" href="https://www.sbseguros.co/servicio-al-cliente/alternativas-pagos" style="width: 300px !important; ">https://www.sbseguros.co/servicio-al-cliente/alternativas-pagos</a></li>
+                                        <li>✅ Más informacion <a href="https://www.sbseguros.co/servicio-al-cliente/alternativas-pagos" target="_blank">AQUÍ</a></li>
                                     </ul>
 
                                 </td>
@@ -1056,14 +1043,7 @@ $nombreArchivo = "COTIZADOR VIGENTE FINESA $nombreMes $anio.xlsx";
                                         <br>
                                         <br>
                                         <div style="display: flex; flex-direction: column; align-items: center;">
-                                            <button
-                                                class="btn btn-alert"
-                                                style="background: red; color: #fff; font-weight: 500; margin-bottom: 5px; width: 90px;">
-                                                <a style="text-decoration: none; color: white;" href="https://www.solidaria.com.co/WA_DigitalClient/#/login" target="_blank">Sarlaft PN</a></button>
-                                            <button
-                                                class="btn btn-alert"
-                                                style="background: red; color: #fff; font-weight: 500; margin-bottom: 5px; width: 90px;">
-                                                <a style="text-decoration: none; color: white;" href="https://www.solidaria.com.co/WA_DigitalClient/#/login" target="_blank">Sarlaft PJ</a></button>
+                                            <a href="https://www.solidaria.com.co/WA_DigitalClient/#/login" target="_blank">Sarlaft Digital</a>
                                         </div>
                                         <br>
                                         <br>
@@ -1129,7 +1109,7 @@ $nombreArchivo = "COTIZADOR VIGENTE FINESA $nombreMes $anio.xlsx";
                                         <li>✅ Bancos o corresponsales bancarios</li>
                                         <li>✅ Pago en linea (PSE o Tarjeta de crédito)</li>
                                         <li>✅ Financiacion con Finesa</li>
-                                        <li style="width: 600px !important;">✅ Más informacion aquí: <a style="word-break: break-all;" href="https://aseguradorasolidaria.com.co/pagos/multipago.aspx" style="width: 300px !important; ">https://aseguradorasolidaria.com.co/pagos/multipago.aspx</a></li>
+                                        <li>✅ Más informacion <a href="https://aseguradorasolidaria.com.co/pagos/multipago.aspx" target="_blank">AQUÍ</a></li>
                                     </ul>
 
                                 </td>
@@ -1147,12 +1127,7 @@ $nombreArchivo = "COTIZADOR VIGENTE FINESA $nombreMes $anio.xlsx";
                                         <br>
                                         <br>
                                         <div style="display: flex; flex-direction: column; align-items: center;">
-                                            <button
-                                                class="btn btn-alert"
-                                                style="background: red; color: #fff; font-weight: 500; margin-bottom: 5px; width: 90px;" onclick="notificacionModalEstado()">Sarlaft PN</a></button>
-                                            <button
-                                                class="btn btn-alert"
-                                                style="background: red; color: #fff; font-weight: 500; margin-bottom: 5px; width: 90px;" onclick="notificacionModalEstado()">Sarlaft PJ</a></button>
+                                            <p style="color: #337ab7; cursor: pointer;" id="sarlaftEstado">Sarlaft</p>
                                         </div>
                                         <br>
                                         <br>
@@ -1215,7 +1190,7 @@ $nombreArchivo = "COTIZADOR VIGENTE FINESA $nombreMes $anio.xlsx";
                                         <li>✅ Bancos o corresponsales bancarios</li>
                                         <li>✅ Pago en linea (PSE o Tarjeta de crédito)</li>
                                         <li>✅ Financiacion con Finesa</li>
-                                        <li style="width: 600px !important;">✅ Más informacion aquí: <a style="word-break: break-all;" href="https://www.segurosdelestado.com/pages/Tips" style="width: 300px !important; ">https://www.segurosdelestado.com/pages/Tips</a></li>
+                                        <li>✅ Más informacion <a href="https://www.segurosdelestado.com/pages/Tips" target="_blank">AQUÍ</a></li>
                                     </ul>
 
                                 </td>
@@ -1233,12 +1208,7 @@ $nombreArchivo = "COTIZADOR VIGENTE FINESA $nombreMes $anio.xlsx";
                                         <br>
                                         <br>
                                         <div style="display: flex; flex-direction: column; align-items: center;">
-                                            <button
-                                                class="btn btn-alert"
-                                                style="background: red; color: #fff; font-weight: 500; margin-bottom: 5px; width: 90px;" onclick="notificacionModalZurich()">Sarlaft PN</a></button>
-                                            <button
-                                                class="btn btn-alert"
-                                                style="background: red; color: #fff; font-weight: 500; margin-bottom: 5px; width: 90px;" onclick="notificacionModalZurich()">Sarlaft PJ</a></button>
+                                            <p style="color: #337ab7; cursor: pointer;" id="sarlaftZurich">Sarlaft</p>
                                         </div>
                                         <br>
                                         <br>
@@ -1301,10 +1271,8 @@ $nombreArchivo = "COTIZADOR VIGENTE FINESA $nombreMes $anio.xlsx";
                                         <li>✅ Bancos o corresponsales bancarios</li>
                                         <li>✅ Pago en linea (PSE o Tarjeta de crédito)</li>
                                         <li>✅ Financiacion con Finesa</li>
-                                        <li style="width: 600px !important;">✅ Más informacion aquí:<br> <a style="word-break: break-all;" href="https://www.zurichseguros.com.co/es-co/formas-de-pago" style="width: 300px !important; ">https://www.zurichseguros.com.co/es-co/formas-de-pago</a>
-                                            <br>
-                                            <a style="word-break: break-all;" href="https://web.zurichseguros.com.co/zcc-pp-web-app/login" style="width: 300px !important; ">https://web.zurichseguros.com.co/zcc-pp-web-app/login</a>
-                                        </li>
+                                        <li>✅ Más informacion <a href="https://www.zurichseguros.com.co/es-co/formas-de-pago" target="_blank">AQUÍ</a></li>
+                                        <li>✅ Portal de pagos <a href="https://web.zurichseguros.com.co/zcc-pp-web-app/login" target="_blank">AQUÍ</a></li>
                                     </ul>
 
                                 </td>
