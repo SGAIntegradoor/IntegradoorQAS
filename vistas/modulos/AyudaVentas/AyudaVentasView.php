@@ -423,10 +423,10 @@ $nombreArchivo = "COTIZADOR VIGENTE FINESA $nombreMes $anio.xlsx";
                                         <div style="display: flex; flex-direction: column; align-items: center;">
                                             <button
                                                 class="btn btn-alert"
-                                                style="background: red; color: #fff; font-weight: 500; margin-bottom: 5px; width: 90px; color: white;" onclick="notificacionModal()">Sarlaft PN</button>
+                                                style="background: red; color: #fff; font-weight: 500; margin-bottom: 5px; width: 90px; color: white;" onclick="notificacionModalBolivar()">Sarlaft PN</button>
                                             <button
                                                 class="btn btn-alert"
-                                                style="background: red; color: #fff; font-weight: 500; margin-bottom: 5px; width: 90px; color: white;" onclick="notificacionModal()">Sarlaft PJ</button>
+                                                style="background: red; color: #fff; font-weight: 500; margin-bottom: 5px; width: 90px; color: white;" onclick="notificacionModalBolivar()">Sarlaft PJ</button>
                                         </div>
                                         <br>
                                         <br>

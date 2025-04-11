@@ -513,6 +513,32 @@ const llenarCentrosDeInspeccion = (_centros) => {
   d.querySelector("#centros_de_inspeccion").innerHTML = template;
 };
 
+function notificacionModalBolivar(){
+  Swal.fire({
+    title: "Información",
+    text: "Virtual - durante proceso de emisión de póliza",
+    icon: "info",
+    confirmButtonText: "Aceptar",
+  });
+}
+
+function notificacionModalEstado(){
+  Swal.fire({
+    title: "Información",
+    text: "Sarlaft Virtual - Comunicate con el area comercial o tecnica",
+    icon: "info",
+    confirmButtonText: "Aceptar",
+  });
+}
+function notificacionModalZurich(){
+  Swal.fire({
+    title: "Información",
+    text: "Virtual - durante proceso de emisión de póliza",
+    icon: "info",
+    confirmButtonText: "Aceptar",
+  });
+}
+
 const editarCentroInspeccion = (_index, _centro_value_index) => {
   const d = document;
   centros[_index] = d.querySelector("#" + _centro_value_index).value;
