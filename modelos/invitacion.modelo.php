@@ -2,36 +2,41 @@
 
 $rutaAbsoluta = dirname(__DIR__) . '/libraries/src';
 require_once "conexion.php";
-require_once $rutaAbsoluta.'/PHPMailer.php';
-require_once $rutaAbsoluta.'/SMTP.php';
-require_once $rutaAbsoluta.'/Exception.php';
+require_once $rutaAbsoluta . '/PHPMailer.php';
+require_once $rutaAbsoluta . '/SMTP.php';
+require_once $rutaAbsoluta . '/Exception.php';
+
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
 
 
-class ModeloInvitacion{
+class ModeloInvitacion
+{
 
-    static public function mdlBuscarIdentificacion($email, $cedula, $nombre, $tabla, $item){
+    static public function mdlBuscarIdentificacion($email, $cedula, $nombre, $tabla, $item)
+    {
 
-		$stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE $item = :$item");
-		$stmt -> bindParam(":".$item, $cedula, PDO::PARAM_STR);
-		$stmt -> execute();
-		$resultado = $stmt -> fetch(PDO::FETCH_ASSOC);
-
-        //die();
-
-		if($resultado === false){
-
-        function generarToken() {
-            $token = openssl_random_pseudo_bytes(16); 
-            $token = bin2hex($token); 
-            return $token;
-        }
+        $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE $item = :$item");
+        $stmt->bindParam(":" . $item, $cedula, PDO::PARAM_STR);
+        $stmt->execute();
+        $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
+        
+        if ($resultado === false) {
+            
+            function generarToken()
+            {
+                $token = openssl_random_pseudo_bytes(16);
+                $token = bin2hex($token);
+                return $token;
+            }
             $token = generarToken();
             $preRegistro = new ModeloInvitacion();
-            $response = $preRegistro-> mdlPreRegistro($email, $cedula, $tabla, $token, $nombre);
-            if($response === true){
+            $response = $preRegistro->mdlPreRegistro($email, $cedula, $tabla, $token, $nombre);
+
+            var_dump("entre aqui", $response);
+            die();
+            if ($response === true) {
                 // Configuracion SMTP
                 $mail = new PHPMailer();
                 $mail->isSMTP();
@@ -143,47 +148,48 @@ class ModeloInvitacion{
                                 <td>
                                     <h1 class="h1-name">Hola ' . $nombre . ',</h1>
                                     <p style="color:#2e2e2e !important;">Estas a punto de ser parte de nuestro equipo y dar un paso importante como empresario. En el presente correo se adjunta el enlace para completar el formulario y registrarte.</p>
-                                    <h4 class="h4-name">Haz click en el siguiente enlace para registrarte: https://integradoor.com/app/invitacion?token='.$token.'</h4>
+                                    <h4 class="h4-name">Haz click en el siguiente enlace para registrarte: https://integradoor.com/app/invitacion?token=' . $token . '</h4>
                                     </td>
                                     </tr>
                                     
                         </table>
                     </div>
                     </body>
-                    </html>';    
-                    $mail->CharSet = 'UTF-8';
-                    $mail->Body = $message;
-                    $mail->IsHTML(true);
-                    // <h4 class="h4-name">Clave de registro: ' . $token . '</h4>
+                    </html>';
+                $mail->CharSet = 'UTF-8';
+                $mail->Body = $message;
+                $mail->IsHTML(true);
+                // <h4 class="h4-name">Clave de registro: ' . $token . '</h4>
 
-                    // //Manjeo de respuestas
-                    if ($mail->send()) {
-                        $response = array('success' => 'Registro exitoso');
-                        $jsonResponse = json_encode($response);
-                        echo $jsonResponse;
-                    } else {
-                        $preRegistro = new ModeloInvitacion();
-                        $request = $preRegistro-> mdlEliminarPreRegistro($cedula, $tabla);
-                    }
+                // //Manjeo de respuestas
+                if ($mail->send()) {
+                    $response = array('success' => 'Registro exitoso');
+                    $jsonResponse = json_encode($response);
+                    echo $jsonResponse;
+                } else {
+                    $preRegistro = new ModeloInvitacion();
+                    $request = $preRegistro->mdlEliminarPreRegistro($cedula, $tabla);
+                }
 
-                    // if (!$mail->send()) {
-                    //     echo "Error al enviar el correo: " . $mail->ErrorInfo;
-                    // } else {
-                    //     echo "Correo enviado con éxito.";
-                    // }
-            }else{
+                // if (!$mail->send()) {
+                //     echo "Error al enviar el correo: " . $mail->ErrorInfo;
+                // } else {
+                //     echo "Correo enviado con éxito.";
+                // }
+            } else {
                 $response = array('error' => 'Error de conexion');
                 $jsonResponse = json_encode($response);
                 echo $jsonResponse;
             }
-        }else{
+        } else {
             $response = array('error' => 'Documento existente en la BDD');
-			$jsonResponse = json_encode($response);
-        	echo $jsonResponse;
+            $jsonResponse = json_encode($response);
+            echo $jsonResponse;
         }
     }
 
-    static public function mdlPreRegistro($email, $cedula, $tabla, $token, $nombre){
+    static public function mdlPreRegistro($email, $cedula, $tabla, $token, $nombre)
+    {
         $id_rol = '19';
         $id_intermediario = '3';
         $telefono = '0';
@@ -194,18 +200,19 @@ class ModeloInvitacion{
         $fechFin = '2040-12-31';
         $stmt = Conexion::conectar()->prepare("INSERT INTO $tabla (usu_documento, usu_usuario, usu_password, id_rol, id_intermediario, tokenGuest, usu_nombre, usu_apellido, usu_telefono, usu_email, usu_estado, numCotizaciones, cotizacionesTotales, fechaFin) 
         VALUES ('$cedula','$cedula','$cedula','$id_rol','$id_intermediario','$token','$nombre','$nombre','$telefono','$email','$estado','$numCotizaciones', '$cotizacionesTotales','$fechFin')");
-        if($stmt-> execute()){
+        if ($stmt->execute()) {
             return true;
-        }else{
+        } else {
             return "Error de conexión: " . $stmt->errorInfo()[2];
         }
     }
 
-    public static function mdlEliminarPreRegistro($cedula, $tabla){
+    public static function mdlEliminarPreRegistro($cedula, $tabla)
+    {
 
         $stmt = Conexion::conectar()->prepare("DELETE FROM $tabla WHERE usu_documento = :id");
         $stmt->bindParam(':id', $cedula);
-        $stmt -> execute();
+        $stmt->execute();
         $rowCount = $stmt->rowCount(); // Número de filas afectadas por la eliminación
 
         if ($rowCount > 0) {
@@ -213,12 +220,11 @@ class ModeloInvitacion{
             $response = array('error' => 'Error al enviar el correo');
             $jsonResponse = json_encode($response);
             echo $jsonResponse;
-            
         } else {
-        
+
             $response = array('error' => 'Error al borrar pre-registro');
             $jsonResponse = json_encode($response);
             return $jsonResponse;
-        }        
+        }
     }
 }

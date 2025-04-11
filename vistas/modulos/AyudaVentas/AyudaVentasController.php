@@ -9,7 +9,7 @@ mb_internal_encoding("UTF-8");
 class AyudaVentasController 
 {
        public static function ejecutarConsulta($sql){
-		$mysqli = new mysqli("localhost", "grupoasi_cotizautos", "M1graci0n123", "grupoasi_cotizautos");
+		$mysqli = new mysqli("localhost:3307", "grupoasi_cotizautos", "M1graci0n123", "grupoasi_cotizautos_qas");
 		$mysqli->set_charset("utf8");
         return $mysqli->query($sql);
 	}

@@ -1651,6 +1651,7 @@ echo '<script>console.log(' . $idIntermediario . ", " . $rolAsesor . ')</script>
               <div id="contenCotizacionPDFLivianos">
 
               </div>
+              
 
             </div>
 

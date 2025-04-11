@@ -1,7 +1,7 @@
 <head>
 <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"> -->
 <!-- <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v6.0.0-beta2/css/all.css" integrity="sha384-OA4SkQ1hW5kfQF3/OBdzK99bg7sQKT6+yXxq5Iu7QvGrrkrBsX3p5SRy9CrJ0+Gx" crossorigin="anonymous"> -->
-<script src="https://kit.fontawesome.com/3a9385df11.js" crossorigin="anonymous"></script>
+<!-- <script src="https://kit.fontawesome.com/3a9385df11.js" crossorigin="anonymous"></script> -->
 </head>
 <style>
   input[type="checkbox"] {
@@ -285,6 +285,6 @@
 
 
 <script src="vistas/js/invitar.js?v=<?php echo (rand()); ?>"></script>
-<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="vistas/js/usuarios.js?v=<?php echo (rand()); ?>"></script>
 <!-- <script src="vistas/js/invalidarPesadoDemo.js?v=<?php echo (rand()); ?>"></script> -->

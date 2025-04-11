@@ -2170,7 +2170,12 @@ const mostrarOferta = (
                                         <div class="col-xs-12 col-sm-6 col-md-4">
                                             <ul class="list-group">
                                                 <li class="list-group-item">
-                                                    <span class="badge">* $${valorRC}</span>
+                                                    <span class="badge">${
+                                                      valorRC != 0 &&
+                                                      valorRC != "No cubre"
+                                                        ? "* $ "
+                                                        : "* "
+                                                    }${valorRC}</span>
                                                     Responsabilidad Civil (RCE)
                                                 </li>
                                                 <li class="list-group-item">
@@ -2519,8 +2524,11 @@ function enableInputs(opt) {
 //console.log(permisosPlantilla)
 // Captura los datos suministrados por el cliente y los envia al API para recibir la cotizacion.
 function cotizarOfertasPasajeros() {
-  debugger;
-  showCircularProgress("Cotización Autos en Proceso", 2200, 90000);
+  showCircularProgress(
+    "Cotización Transporte Pasajeros en Proceso",
+    2200,
+    90000
+  );
   var codigoFasecolda1 = document.getElementById("txtFasecolda");
   var contenido = codigoFasecolda1.value;
 
@@ -2669,7 +2677,7 @@ function cotizarOfertasPasajeros() {
     document.getElementById("aseguradoras").value
   );
 
-  console.log(aseguradoras_autorizar)
+  console.log(aseguradoras_autorizar);
 
   // console.log(aseguradoras_autorizar);
   // desactive
@@ -3370,28 +3378,34 @@ function cotizarOfertasPasajeros() {
                                                           <div class="row align-items-center">
                                                               <div class="col-xs-4">
                                                                   <label for="checkboxAsesor">¿Deseas agregar tus datos como asesor en la cotización?</label>
-                                                                  <input class="form-check-input" type="checkbox" id="checkboxAsesor" style="margin-left: 10px;" checked>
+                                                                  <input class="form-check-input" type="checkbox" id="checkboxAsesorEditar" style="margin-left: 10px;" checked>
                                                               </div>
                                                               <div class="col-xs-4">
-                                                                  <button type="button" class="btn btn-danger" id="btnParrillaPDF">
+                                                                  <button type="button" class="btn btn-danger" id="btnPDFPasajeros">
                                                                       <span class="fa fa-file-text"></span> Generar PDF de Cotización
                                                                   </button>
                                                               </div>
                                                           </div>
                                                         </div>
                                                             `;
-              $("#btnParrillaPDF").click(function () {
-                const todosOn = $(".classSelecOferta:checked").length;
-                const idCotizacionPDF = idCotizacion;
-                const checkboxAsesor = $("#checkboxAsesor");
+              $("#btnPDFPasajeros").click(function () {
+                var todosOn = $(".classSelecOferta:checked").length;
+
+                var idCotizacionPDF = idCotizacion;
+
+                var checkboxAsesorEditar = $("#checkboxAsesorEditar");
 
                 if (permisos.Generarpdfdecotizacion != "x") {
                   Swal.fire({
                     icon: "error",
+
                     title:
                       "¡Esta versión no tiene ésta funcionalidad disponible!",
+
                     showCancelButton: true,
+
                     confirmButtonText: "Cerrar",
+
                     cancelButtonText: "Conoce más",
                   }).then((result) => {
                     if (result.isConfirmed) {
@@ -3402,17 +3416,54 @@ function cotizarOfertasPasajeros() {
                 } else {
                   if (!todosOn) {
                     swal.fire({
-                      title: "¡Debes seleccionar mínimo una oferta!",
+                      icon: "error",
+
+                      title: "¡Debes seleccionar minimo una oferta!",
                     });
                   } else {
-                    let url = `extensiones/tcpdf/pdf/comparador.php?cotizacion=${idCotizacionPDF}`;
-                    if (checkboxAsesor.is(":checked")) {
+                    let url = `extensiones/tcpdf/pdf/comparadorPasajeros.php?cotizacion=${idCotizacionPDF}`;
+
+                    if (checkboxAsesorEditar.is(":checked")) {
                       url += "&generar_pdf=1";
                     }
+
                     window.open(url, "_blank");
                   }
                 }
               });
+              // $("#btnParrillaPDF").click(function () {
+              //   const todosOn = $(".classSelecOferta:checked").length;
+              //   const idCotizacionPDF = idCotizacion;
+              //   const checkboxAsesor = $("#checkboxAsesor");
+
+              //   if (permisos.Generarpdfdecotizacion != "x") {
+              //     Swal.fire({
+              //       icon: "error",
+              //       title:
+              //         "¡Esta versión no tiene ésta funcionalidad disponible!",
+              //       showCancelButton: true,
+              //       confirmButtonText: "Cerrar",
+              //       cancelButtonText: "Conoce más",
+              //     }).then((result) => {
+              //       if (result.isConfirmed) {
+              //       } else if (result.isDismissed) {
+              //         window.open("https://www.integradoor.com", "_blank");
+              //       }
+              //     });
+              //   } else {
+              //     if (!todosOn) {
+              //       swal.fire({
+              //         title: "¡Debes seleccionar mínimo una oferta!",
+              //       });
+              //     } else {
+              //       let url = `extensiones/tcpdf/pdf/comparador.php?cotizacion=${idCotizacionPDF}`;
+              //       if (checkboxAsesor.is(":checked")) {
+              //         url += "&generar_pdf=1";
+              //       }
+              //       window.open(url, "_blank");
+              //     }
+              //   }
+              // });
             });
           },
         });

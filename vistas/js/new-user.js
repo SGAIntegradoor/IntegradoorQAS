@@ -4,8 +4,6 @@ let id_usuario_edit = "";
 document.addEventListener("DOMContentLoaded", function () {
   cargarRoll();
   cargarIntermediario();
-  cargarAnalistas();
-  cargarBancos();
 
   // Cargar parametros iniciales que disparan eventos
   // al iniciar cabe resaltar que solo se disparan si
@@ -187,6 +185,9 @@ function loadUser(id) {
         $("#divCanal").show();
         $("#canal").val(1);
       } else {
+        cargarAnalistas();
+        cargarBancos();
+        cargarCargos();
         $("#divUnidadNegocio").show();
         $("#divCanal").hide();
         $("#divUsuarioSGA").hide();
@@ -196,7 +197,7 @@ function loadUser(id) {
           $("#intermediarioPerfil")
             .val(data.id_Intermediario)
             .trigger("change");
-          $("#cargos").val(data.usu_cargo).trigger("change");
+          // $("#cargos").val(data.usu_cargo).trigger("change");
         }, 500);
 
         $("#usuarioVin").prop("disabled", true);
@@ -208,7 +209,7 @@ function loadUser(id) {
         $("#fechaCreaVin").val(fechaForCrea);
         $("#fechaCreaVin").prop("disabled", true);
 
-        if($("#fechaVinculacion").val() == ""){
+        if ($("#fechaVinculacion").val() == "") {
           $("#diasActivacion").val(0);
         }
 
@@ -217,6 +218,7 @@ function loadUser(id) {
         $("#limiteCots").val(data.cotizacionesTotales);
         $("#limiteUso").val(fechaFormLim);
 
+       
       }
 
       let tipoDoc = data.tipos_documentos_id;
@@ -391,7 +393,6 @@ const roles = ["1", "10", "11", "12", "22", "23"];
 
 $("#rolUsers").change(function () {
   if (roles.includes($(this).val())) {
-    cargarCargos();
     $(".divClavAseg").css("display", "none");
     $("#noClaves").prop("checked", true).trigger("change");
     $(".freelance").css("display", "none");

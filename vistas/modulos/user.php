@@ -719,7 +719,9 @@ if (isset($_GET["id"])) {
 
                 <div class="form-group freelance" id="divDirectorComercial">
                   <label for="directorComercial"><b>Director Comercial</b></label>
-                  <input type="text" name="directorComercial" id="directorComercial" />
+                  <select name="directorComercial" id="directorComercial">
+                    <option value="1007028818">Keila Figueira López</option>
+                  </select>
                 </div>
 
                 <div class="form-group freelance" id="divAnalistaAsesor">
