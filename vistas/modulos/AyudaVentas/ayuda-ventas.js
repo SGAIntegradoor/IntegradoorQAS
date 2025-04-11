@@ -86,6 +86,22 @@ btnDd1.addEventListener("click", function () {
   }
 });
 
+const btnDd2 = document.getElementById("dropdownbtn2");
+const boxDd2 = document.getElementById("boxDropdown2");
+const svgDd2 = document.getElementById("svgDropdown2");
+
+btnDd2.addEventListener("click", function () {
+  if (boxDd2.classList.contains("hide")) {
+    boxDd2.classList.remove("hide");
+    boxDd2.classList.add("visible");
+    svgDd2.innerHTML = `<img src="vistas/img/arrowdown.png" alt="" width="14" height="14">`;
+  } else {
+    boxDd2.classList.add("hide");
+    boxDd2.classList.remove("visible");
+    svgDd2.innerHTML = `<img src="vistas/img/arrowright.png" alt="" width="14" height="14">`;
+  }
+});
+
 //:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::://
 
 const construirHtmlCentrosDeInspeccion = (centrosDeInspeccion) => {

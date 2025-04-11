@@ -1045,6 +1045,97 @@ $nombreArchivo = "COTIZADOR VIGENTE FINESA $nombreMes $anio.xlsx";
                             </tr>
                             <tr style="height: 100%;">
                                 <td style="padding-top: 30px; text-align: center; vertical-align: top;">
+                                    <div style="display: flex; flex-direction: column; align-items: center; height: 325px;">
+                                        <img src="vistas/img/logos/solidaria.png" alt="" width="105">
+                                        <br>
+                                        <br>
+                                        <div style="width: 100%; text-align: center;">
+                                            <span style="font-size: 16px;">Línea de atención:</span>
+                                            <p>#789</p>
+                                        </div>
+                                        <br>
+                                        <br>
+                                        <div style="display: flex; flex-direction: column; align-items: center;">
+                                            <button
+                                                class="btn btn-alert"
+                                                style="background: red; color: #fff; font-weight: 500; margin-bottom: 5px; width: 90px;">
+                                                <a style="text-decoration: none; color: white;" href="https://www.solidaria.com.co/WA_DigitalClient/#/login" target="_blank">Sarlaft PN</a></button>
+                                            <button
+                                                class="btn btn-alert"
+                                                style="background: red; color: #fff; font-weight: 500; margin-bottom: 5px; width: 90px;">
+                                                <a style="text-decoration: none; color: white;" href="https://www.solidaria.com.co/WA_DigitalClient/#/login" target="_blank">Sarlaft PJ</a></button>
+                                        </div>
+                                        <br>
+                                        <br>
+                                        <div style="text-align: center; display: flex; flex-direction: column;">
+                                            <span>Clausulado</span>
+                                            <button class="btn btn-alert" style="border-color: #88d600; width: 160px; color: #88d600; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                                                <a style="text-decoration: none; color: #88d600;" href="https://aseguradorasolidaria.com.co/PN-tu-patrimonio/seguros-para-vehiculos/seguro-de-automoviles-particular-hide.aspx" target="_blank">
+                                                    https://aseguradorasolidaria.com.co/PN-tu-patrimonio/seguros-para-vehiculos/seguro-de-automoviles-particular-hide.aspx
+                                                </a>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td style="padding: 30px; text-align: justify;">
+                                    <ol class="olEmision" style="padding-left: 10px; list-style-position: inside;">
+                                        <li style="margin-bottom: 5px;"><b>Documentos:</b> TP, Cédula, Declaración de Renta (si aplica), Contrato de Compraventa (si aplica), Factura (0 km), Póliza anterior (si hay continuidad).</li>
+                                        <li style="margin-bottom: 5px;"><b>SARLAFT:</b> Cliente lo diligencia en <a href="https://www.solidaria.com.co/WA_DigitalClient/#/login">este link</a>. Si el proceso digital falla, se diligencia por computador o a mano y se pone firma manuscrita (Solidaria se toma 1 día hábil para autorizar el físico). Siempre se debe enviar el PDF al AC.</li>
+                                        <li style="margin-bottom: 5px;"><b>Enviar docs y confirmar forma de pago:</b> Si están completos pasan; si no, se devuelven. 0 km o en continuidad pasan a emisión; los demás, a inspección.</li>
+                                        <li style="margin-bottom: 5px;"><b>Orden de inspección:</b> Se realiza pre-emisión de la póliza y se carga orden de inspección física o virtual según políticas. La física se hace en Automas y la virtual se envía por link al cliente. Se informa al AF cuando quede cargada la orden.</li>
+                                        <li style="margin-bottom: 5px;"><b>Inspección:</b> Se completa y el AF confirma a su AC, de lo contrario, no se puede emitir.</li>
+                                        <li style="margin-bottom: 5px;"><b>Validar inspección:</b> Según el resultado de la inspección, se informa al AF. Si hay cambios en valor asegurado o Código Fasecolda se actualiza cotización y se envía al AF para confirmar emisión. </li>
+                                        <li style="margin-bottom: 5px;"><b>Emisión y Financiación:</b> Se autoriza la emisión y, se descarga el PDF. Si es financiada se debe realizar proceso de financiación con Finesa.
+                                        </li>
+                                        <li style="margin-bottom: 5px;"><b>Revisión y envío:</b> AC verifica y envía la póliza al AF.</li>
+                                        <li style="margin-bottom: 5px;"><b>Entrega:</b> AF entrega póliza al cliente y, si aplica, el cupón de pago de la financiación.</li>
+                                        <li style="margin-bottom: 5px;"><b>Seguimiento:</b> AC hace seguimiento al pago, si aplica, la legalización del crédito.</li>
+                                    </ol>
+                                </td>
+                                <td style="padding: 30px; vertical-align: top;">
+                                    <b>Antigüedad Máxima:</b>
+                                    <ul>
+                                        <li>Vehiculos livianos 30 años</li>
+                                        <li>Vehiculos pesados 15 años</li>
+                                    </ul>
+                                    <!-- - Modelos hasta 10 años para particulares
+                                    - Documentos: póliza vigente, Sarlfat, cedula y Tarjeta de propiedad
+                                    - No haber presentado siniestros en el ultimo año -->
+                                    <b>Continuidad Livianos:</b>
+                                    <ul>
+                                        <li>Modelos hasta 7 años para particulares.</li>
+                                        <li>Documentos: póliza vigente, Sarlfat, cedula y Tarjeta de propiedad.</li>
+                                        <li>No haber presentado siniestros en el ultimo año.</li>
+                                    </ul>
+
+                                    <b>Centros de Inspección:</b>
+                                    <br>
+                                    <ul>
+                                        <li>
+                                            Automas - <a href="https://automas.com.co/cobertura/" target="_blank">https://automas.com.co/cobertura/</a>
+                                        </li>
+                                    </ul>
+                                </td>
+                                <td style="padding: 30px;">
+                                    <ul style="list-style: none;">
+                                        <li>✅ Doc.: Carta, Sarlaft, Cédula, Tarjeta de Propiedad y Condiciones de Renovación (de ser posible)</li>
+                                        <li>✅ Tiempo límite de recepción: 5 días hábiles antes del vencimiento</li>
+                                        <li>✅ Tiempo de autorización: 6 días hábiles</li>
+                                        <li>✅ Nota: No puede estar recaudada la renovación para autorizar cambio</li>
+                                    </ul>
+                                </td>
+                                <td style="padding: 30px;">
+                                    <ul style="list-style: none;">
+                                        <li>✅ Bancos o corresponsales bancarios</li>
+                                        <li>✅ Pago en linea (PSE o Tarjeta de crédito)</li>
+                                        <li>✅ Financiacion con Finesa</li>
+                                        <li style="width: 600px !important;">✅ Más informacion aquí: <a style="word-break: break-all;" href="https://aseguradorasolidaria.com.co/pagos/multipago.aspx" style="width: 300px !important; ">https://aseguradorasolidaria.com.co/pagos/multipago.aspx</a></li>
+                                    </ul>
+
+                                </td>
+                            </tr>
+                            <tr style="height: 100%;">
+                                <td style="padding-top: 30px; text-align: center; vertical-align: top;">
                                     <div style="display: flex; flex-direction: column; align-items: center; height: 350px;">
                                         <img src="vistas/img/logos/estado.png" alt="" width="105">
                                         <br>
@@ -1164,9 +1255,9 @@ $nombreArchivo = "COTIZADOR VIGENTE FINESA $nombreMes $anio.xlsx";
                                 <td style="padding: 30px; text-align: justify;">
                                     <ol class="olEmision" style="padding-left: 10px; list-style-position: inside;">
                                         <li style="margin-bottom: 5px;"><b>Documentos:</b> TP, Cédula, Declaración de Renta (si aplica), Contrato de Compraventa (si aplica), Factura (0 km), Póliza anterior (si hay continuidad).</li>
-                                        <li style="margin-bottom: 5px;"><b>SARLAFT:</b> Se crea y envía link digital al cliente por correo (datos requeridos: nombre completo, # cédula, celular y correo). Si el proceso digital falla, se diligencia por computador o a mano y se pone firma manuscrita (Estado se toma 1 día hábil para autorizar el físico). Siempre se debe enviar el PDF al AC.</li>
+                                        <li style="margin-bottom: 5px;"><b>SARLAFT:</b> Si prima mayor a 6 millones o valor asegurado mayor a 120 millones, se realiza físicamente por computador o a mano y se pone firma manuscrita (Zurich se toma 1 día hábil para autorizar el físico). Si prima y valor asegurado son menores, no requiere SARLAFT, solo dirección de residencia y ocupación del cliente.</li>
                                         <li style="margin-bottom: 5px;"><b>Enviar docs y confirmar forma de pago:</b> Si están completos pasan; si no, se devuelven. 0 km o en continuidad pasan a emisión; los demás, a inspección.</li>
-                                        <li style="margin-bottom: 5px;"><b>Orden de inspección:</b> Se carga orden de inspección virtual por medio de plataforma Valora de Seguros del Estado. Se envía link de inspección al cliente. Según siniestralidad e historial en seguros de autos, se requiere inspección física.</li>
+                                        <li style="margin-bottom: 5px;"><b>Orden de inspección:</b> Se carga orden de inspección física o virtual según políticas. La física se hace en Automas y la virtual se envía por link al cliente. Se informa al AF cuando quede cargada la orden.</li>
                                         <li style="margin-bottom: 5px;"><b>Inspección:</b> Se completa y el AF confirma a su AC, de lo contrario, no se puede emitir.</li>
                                         <li style="margin-bottom: 5px;"><b>Validar inspección:</b> Según el resultado de la inspección, se informa al AF. Si hay cambios en valor asegurado o Código Fasecolda se actualiza cotización y se envía al AF para confirmar emisión.</li>
                                         <li style="margin-bottom: 5px;"><b>Emisión y Financiación:</b> Se solicita la emisión directamente a la aseguradora (un día hábil). Se descarga el PDF y si es financiada se debe realizar proceso de financiación con Finesa.
@@ -1222,6 +1313,7 @@ $nombreArchivo = "COTIZADOR VIGENTE FINESA $nombreMes $anio.xlsx";
                         </tbody>
                     </table>
                 </div>
+                <br>
                 <p>* PN: Persona Natural. PJ: Persona Jurídica</p>
                 <div style="margin-left: 1em; padding-bottom: 1em;">
                     <div class="sectionDropdown" id="dropdownbtn">
@@ -1289,6 +1381,21 @@ $nombreArchivo = "COTIZADOR VIGENTE FINESA $nombreMes $anio.xlsx";
                         <div style="display: flex; flex-direction: row; align-items: center; gap: 5px;">
                             <p style="font-weight: bold;">Financiación Finesa: </p>
                             <a href="vistas/modulos/AyudaVentas/pdf/pdf-finesa/<?php echo $nombreArchivo; ?>" download="<?php echo $nombreArchivo; ?>">
+                                <img src="vistas/img/excelIco.png" style="margin-bottom: 6px;" />
+                            </a>
+                            </img>
+                        </div>
+                    </div>
+                    <div id="dropdownbtn2" class="sectionDropdown" style="sectionDropdown:hover: cursor: pointer;">
+                        <div id="svgDropdown2" style="margin-right: 5px; margin-left: 0">
+                            <img class="textDropdown" src="vistas/img/arrowright.png" alt="" width="14" height="14">
+                        </div>
+                        <p class="textDropdown">Guias Fasecolda</p>
+                    </div>
+                    <div id="boxDropdown2" class="sectionDropdown hide">
+                        <div style="display: flex; flex-direction: row; align-items: center; gap: 5px;">
+                            <p style="font-weight: bold;">Ultima Guia: </p>
+                            <a href="vistas/modulos/AyudaVentas/pdf/fasecolda/Guia_Excel_343 - Formato Unico.xlsx" download="Guia_Excel_343 - Formato Unico.xlsx">
                                 <img src="vistas/img/excelIco.png" style="margin-bottom: 6px;" />
                             </a>
                             </img>
