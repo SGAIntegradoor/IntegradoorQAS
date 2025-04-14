@@ -115,6 +115,11 @@ $nombreArchivo = "COTIZADOR VIGENTE FINESA $nombreMes $anio.xlsx";
     #bodyAyudaVentas {
         font-size: 13px;
     }
+
+    #bodyAyudaVentas span {
+        font-size: 13px !important;
+    }
+
 </style>
 <div class="content-wrapper">
     <section class="content-header">
@@ -133,7 +138,7 @@ $nombreArchivo = "COTIZADOR VIGENTE FINESA $nombreMes $anio.xlsx";
 
                 <div style="text-align: right !important; margin-right: 2%">
                     <p id="fech_ult">
-                        <b>Fecha ultima actualización: 10/04/2025</b>
+                        <b>Fecha ultima actualización: 14/04/2025</b>
                     </p>
                 </div>
 
@@ -240,7 +245,7 @@ $nombreArchivo = "COTIZADOR VIGENTE FINESA $nombreMes $anio.xlsx";
                             </tr>
                         </thead>
                         <tbody id="bodyAyudaVentas">
-                            <tr style="height: 100%;">
+                            <tr style="height: 100%;" >
                                 <td style="padding-top: 0px; text-align: center; vertical-align: top;">
                                     <div style="display: flex; flex-direction: column; align-items: center; height: 350px; justify-content: center;">
                                         <img src="vistas/img/logos/allianz.png" alt="" width="105">
@@ -266,7 +271,7 @@ $nombreArchivo = "COTIZADOR VIGENTE FINESA $nombreMes $anio.xlsx";
                                 <td style="padding: 30px; text-align: justify;">
                                     <ol class="olEmision" style="padding-left: 10px; list-style-position: inside; width: 716px !important;">
                                         <li style="margin-bottom: 5px;"><b>Documentos:</b> TP, Cédula, Declaración de Renta (si aplica), Contrato de Compraventa (si aplica), Factura (0 km), Póliza anterior (si hay continuidad).</li>
-                                        <li style="margin-bottom: 5px;"><b>SARLAFT:</b> AF debe diligenciar datos en este <a style="font-weight: bold;" href="https://allianzfcc.co/#/login">LINK</a>. El cliente realiza el proceso de validación de identidad y recibe al correo confirmación en PDF. Siempre se debe enviar el PDF al AC.</li>
+                                        <li style="margin-bottom: 5px;"><b>SARLAFT:</b> AF debe diligenciar datos en este <a style="font-weight: bold;" href="https://allianzfcc.co/#/login">link</a>. El cliente realiza el proceso de validación de identidad y recibe al correo confirmación en PDF. Siempre se debe enviar el PDF al AC.</li>
                                         <li style="margin-bottom: 5px;"><b>Enviar docs y confirmar forma de pago:</b> Si están completos pasan; si no, se devuelven. 0 km o en continuidad pasan a emisión; los demás, a inspección.</li>
                                         <li style="margin-bottom: 5px;"><b>Orden de inspección:</b> Se realiza pre-emisión de la póliza y se carga orden de inspección física o virtual según políticas. La física se hace en Colserautos y la virtual se envia por link al cliente. Se informa al AF cuando quede cargada la orden.</li>
                                         <li style="margin-bottom: 5px;"><b>Inspección:</b> Se completa y el AF confirma a su AC, de lo contrario, no se puede emitir.</li>
@@ -395,9 +400,9 @@ $nombreArchivo = "COTIZADOR VIGENTE FINESA $nombreMes $anio.xlsx";
                                 <td style="padding: 30px;">
                                     <ul style="list-style: none;">
                                         <li>✅ Doc.: Carta, Sarlaft, Cédula, Tarjeta de Propiedad y Condiciones de Renovación (de ser posible)</li>
-                                        <li>✅ Tiempo límite de recepción: 3 días hábiles antes del vencimiento</li>
-                                        <li>✅ Tiempo de autorización: 3 días hábiles</li>
-                                        <li>✅ Nota: No puede estar recaudada la renovación para autorizar cambio. Es posible realizar cambio máximo hasta 10 días después de renovarse y siempre y cuando no este paga la póliza.
+                                        <li>✅ Tiempo límite de recepción: 3 días hábiles antes del vencimiento.</li>
+                                        <li>✅ Tiempo de autorización: 3 días hábiles.</li>
+                                        <li>✅ Nota: No puede estar recaudada la renovación para autorizar cambio.
                                         </li>
                                     </ul>
                                 </td>
@@ -525,7 +530,7 @@ $nombreArchivo = "COTIZADOR VIGENTE FINESA $nombreMes $anio.xlsx";
                                 <td style="padding: 30px; text-align: justify;">
                                     <ol class="olEmision" style="padding-left: 10px; list-style-position: inside;">
                                         <li style="margin-bottom: 5px;"><b>Documentos:</b> TP, Cédula, Declaración de Renta (si aplica), Contrato de Compraventa (si aplica), Factura (0 km), Póliza anterior (si hay continuidad).</li>
-                                        <li style="margin-bottom: 5px;"><b>SARLAFT:</b> Cliente lo diligencia en <a href="https://servicios.laequidadseguros.coop/FormSarlaft/">este link</a>. Si el proceso digital falla, se diligencia por computador o a mano y se pone firma manuscrita. Siempre se debe enviar el PDF al AC.</li>
+                                        <li style="margin-bottom: 5px;"><b>SARLAFT:</b> Cliente lo diligencia en <a href="https://servicios.laequidadseguros.coop/FormSarlaft/" target="_blank">este link</a>. Si el proceso digital falla, se diligencia por computador o a mano y se pone firma manuscrita. Siempre se debe enviar el PDF al AC.</li>
                                         <li style="margin-bottom: 5px;"><b>Enviar docs y confirmar forma de pago:</b> Si están completos pasan; si no, se devuelven. 0 km o en continuidad pasan a emisión; los demás, a inspección.</li>
                                         <li style="margin-bottom: 5px;"><b>Orden de inspección:</b> Se realiza pre-emisión de la póliza y se carga orden de inspección física o virtual según políticas. La física se hace en Automas y la virtual se envía por link al cliente. Se informa al AF cuando quede cargada la orden.</li>
                                         <li style="margin-bottom: 5px;"><b>Inspección:</b> Se completa y el AF confirma a su AC, de lo contrario, no se puede emitir.</li>
@@ -798,7 +803,7 @@ $nombreArchivo = "COTIZADOR VIGENTE FINESA $nombreMes $anio.xlsx";
                                 <td style="padding: 30px; text-align: justify;">
                                     <ol class="olEmision" style="padding-left: 10px; list-style-position: inside;">
                                         <li style="margin-bottom: 5px;"><b>Documentos:</b> TP, Cédula, Declaración de Renta (si aplica), Contrato de Compraventa (si aplica), Factura (0 km), Póliza anterior (si hay continuidad).</li>
-                                        <li style="margin-bottom: 5px;"><b>SARLAFT:</b> Cliente persona natural lo diligencia en <a href="https://app.legops.com/forms/f/92c704c9-1967-4c90-b460-212af6bfa7fd">este link</a> y Jurídico en <a href="https://sarlaft.segurosmundial.com.co/forms/f/9211808c-f920-4af2-8eaf-d50ee3c3140d">este link</a>. Si el proceso digital falla, se diligencia por computador o a mano y se pone firma manuscrita. Siempre se debe enviar el PDF al AC.</li>
+                                        <li style="margin-bottom: 5px;"><b>SARLAFT:</b> Cliente persona natural lo diligencia en <a href="https://app.legops.com/forms/f/92c704c9-1967-4c90-b460-212af6bfa7fd" target="_blank">este link</a> y Jurídico en <a href="https://sarlaft.segurosmundial.com.co/forms/f/9211808c-f920-4af2-8eaf-d50ee3c3140d" target="_blank">este link</a>. Si el proceso digital falla, se diligencia por computador o a mano y se pone firma manuscrita. Siempre se debe enviar el PDF al AC.</li>
                                         <li style="margin-bottom: 5px;"><b>Enviar docs y confirmar forma de pago:</b> Si están completos pasan; si no, se devuelven. 0 km o en continuidad pasan a emisión; los demás, a inspección.</li>
                                         <li style="margin-bottom: 5px;"><b>Orden de inspección:</b> Se realiza pre-emisión de la póliza y se carga orden de inspección física o virtual según políticas. La física se hace en Automas y la virtual se envía por link al cliente. Se informa al AF cuando quede cargada la orden.</li>
                                         <li style="margin-bottom: 5px;"><b>Inspección:</b> Se completa y el AF confirma a su AC, de lo contrario, no se puede emitir.</li>
@@ -887,7 +892,7 @@ $nombreArchivo = "COTIZADOR VIGENTE FINESA $nombreMes $anio.xlsx";
                                 <td style="padding: 30px; text-align: justify;">
                                     <ol class="olEmision" style="padding-left: 10px; list-style-position: inside;">
                                         <li style="margin-bottom: 5px;"><b>Documentos:</b> TP, Cédula, Declaración de Renta (si aplica), Contrato de Compraventa (si aplica), Factura (0 km), Póliza anterior (si hay continuidad).</li>
-                                        <li style="margin-bottom: 5px;"><b>SARLAFT:</b> Cliente lo diligencia en <a href="https://idocumentos-webclient-previsora.azurewebsites.net/?a=autogestion&em=860002400">este link</a> (solo persona natural). Si el proceso digital falla, se diligencia por computador o a mano y se pone firma manuscrita (Previsora se toma 1 día hábil para autorizar el físico). Siempre se debe enviar el PDF al AC.</li>
+                                        <li style="margin-bottom: 5px;"><b>SARLAFT:</b> Cliente lo diligencia en <a href="https://idocumentos-webclient-previsora.azurewebsites.net/?a=autogestion&em=860002400" target="_blank">este link</a> (solo persona natural). Si el proceso digital falla, se diligencia por computador o a mano y se pone firma manuscrita (Previsora se toma 1 día hábil para autorizar el físico). Siempre se debe enviar el PDF al AC.</li>
                                         <li style="margin-bottom: 5px;"><b>Enviar docs y confirmar forma de pago:</b> Si están completos pasan; si no, se devuelven. 0 km o en continuidad pasan a emisión; los demás, a inspección.</li>
                                         <li style="margin-bottom: 5px;"><b>Orden de inspección:</b> Se carga orden de inspección física o virtual según políticas. La física se hace en Automas y la virtual se envía por link al cliente. Se informa al AF cuando quede cargada la orden.</li>
                                         <li style="margin-bottom: 5px;"><b>Inspección:</b> Se completa y el AF confirma a su AC, de lo contrario, no se puede emitir.</li>
@@ -1060,7 +1065,7 @@ $nombreArchivo = "COTIZADOR VIGENTE FINESA $nombreMes $anio.xlsx";
                                 <td style="padding: 30px; text-align: justify;">
                                     <ol class="olEmision" style="padding-left: 10px; list-style-position: inside;">
                                         <li style="margin-bottom: 5px;"><b>Documentos:</b> TP, Cédula, Declaración de Renta (si aplica), Contrato de Compraventa (si aplica), Factura (0 km), Póliza anterior (si hay continuidad).</li>
-                                        <li style="margin-bottom: 5px;"><b>SARLAFT:</b> Cliente lo diligencia en <a href="https://www.solidaria.com.co/WA_DigitalClient/#/login">este link</a>. Si el proceso digital falla, se diligencia por computador o a mano y se pone firma manuscrita (Solidaria se toma 1 día hábil para autorizar el físico). Siempre se debe enviar el PDF al AC.</li>
+                                        <li style="margin-bottom: 5px;"><b>SARLAFT:</b> Cliente lo diligencia en <a href="https://www.solidaria.com.co/WA_DigitalClient/#/login" target="_blank">este link</a>. Si el proceso digital falla, se diligencia por computador o a mano y se pone firma manuscrita (Solidaria se toma 1 día hábil para autorizar el físico). Siempre se debe enviar el PDF al AC.</li>
                                         <li style="margin-bottom: 5px;"><b>Enviar docs y confirmar forma de pago:</b> Si están completos pasan; si no, se devuelven. 0 km o en continuidad pasan a emisión; los demás, a inspección.</li>
                                         <li style="margin-bottom: 5px;"><b>Orden de inspección:</b> Se realiza pre-emisión de la póliza y se carga orden de inspección física o virtual según políticas. La física se hace en Automas y la virtual se envía por link al cliente. Se informa al AF cuando quede cargada la orden.</li>
                                         <li style="margin-bottom: 5px;"><b>Inspección:</b> Se completa y el AF confirma a su AC, de lo contrario, no se puede emitir.</li>

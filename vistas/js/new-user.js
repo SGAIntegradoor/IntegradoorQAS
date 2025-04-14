@@ -140,6 +140,7 @@ function consultarCiudad() {
 }
 
 function formatoFecha(fecha) {
+  console.log(fecha);
   let fechaFormateada = new Date(fecha.replace(" ", "T"));
   let year = fechaFormateada.getFullYear();
   let month = String(fechaFormateada.getMonth() + 1).padStart(2, "0");
@@ -159,85 +160,128 @@ function loadUser(id) {
     success: function (respuesta) {
       const data = JSON.parse(respuesta);
       console.log(data);
+      const { info_usuario, info_usuario_canal, info_aseguradoras_user } = data;
+
+      console.log(info_aseguradoras_user);
+
+      cargarCargos();
+      cargarAnalistas();
+      cargarBancos();
+
       getComments(id);
+
       if (
-        data.id_rol == 1 ||
-        data.id_rol == 10 ||
-        data.id_rol == 11 ||
-        data.id_rol == 22 ||
-        data.id_rol == 23
+        info_usuario.id_rol == 1 ||
+        info_usuario.id_rol == 10 ||
+        info_usuario.id_rol == 11 ||
+        info_usuario.id_rol == 22 ||
+        info_usuario.id_rol == 23
       ) {
         $("#divUnidadNegocio").hide();
         $("#divCanal").hide();
         $("#divUsuarioSGA").show();
-        $("#usuarioSGA").val(data.id_rol);
+        $("#usuarioSGA").val(info_usuario.id_rol);
         $(".divAsistente").hide();
-        $("#rolUsers").val(data.id_rol).trigger("change");
+        $("#rolUsers").val(info_usuario.id_rol).trigger("change");
         setTimeout(() => {
           $("#intermediarioPerfil")
-            .val(data.id_Intermediario)
+            .val(info_usuario.id_Intermediario)
             .trigger("change");
-          $("#cargos").val(data.usu_cargo).trigger("change");
+          $("#cargos").val(info_usuario.usu_cargo).trigger("change");
         }, 500);
-      } else if (data.id_rol == 12) {
+      } else if (info_usuario.id_rol == 12) {
         $("#divUnidadNegocio").hide();
         $("#divUsuarioSGA").hide();
         $("#divCanal").show();
         $("#canal").val(1);
       } else {
-        cargarAnalistas();
-        cargarBancos();
-        cargarCargos();
         $("#divUnidadNegocio").show();
         $("#divCanal").hide();
         $("#divUsuarioSGA").hide();
-        $("#unidadNegocio").val(data.id_rol);
-        $("#rolUsers").val(data.id_rol).trigger("change");
+        $("#unidadNegocio").val(info_usuario.id_rol);
+        $("#rolUsers").val(info_usuario.id_rol).trigger("change");
+        
         setTimeout(() => {
           $("#intermediarioPerfil")
-            .val(data.id_Intermediario)
-            .trigger("change");
-          // $("#cargos").val(data.usu_cargo).trigger("change");
-        }, 500);
+          .val(info_usuario.id_Intermediario)
+          .trigger("change");
+          $("#analistaAsesor")
+          .val(info_usuario_canal.analista_comercial)
+          .trigger("change");
+          $("#entidadBancaria").val(info_usuario.id_banco).trigger("change");
+          $("#cargos").val(info_usuario_canal.cargo).trigger("change");
+        }, 100);
+        $("#origen").val(info_usuario_canal.origen);
+        $("#nombreRecomendador").val(info_usuario_canal.nombre_recomendador);
 
-        $("#usuarioVin").prop("disabled", true);
-        $("#usuarioVin").val(data.usu_usuario);
+        // .forEach((element) => {
+        //   console.log(element);
+        //   // $(`#${element}`).val(element).trigger("change");
+        // });
+        // Object(info_aseguradoras_user).forEach((element) => {
+        //   console.log(element);
+        //   $(`#${element}`).prop("checked", true).trigger("change");
+        // })
 
-        //Insertar fecha de creación
-        let fechaForCrea = formatoFecha(data.usu_fch_creacion);
+        Object.entries(info_aseguradoras_user).forEach(([key, value]) => {
+          const element = document.getElementById(key);
 
-        $("#fechaCreaVin").val(fechaForCrea);
-        $("#fechaCreaVin").prop("disabled", true);
+          // Si existe el elemento y es un checkbox
+          if (element && element.type === "checkbox") {
+            element.checked = value === "1";
+          }
 
-        if ($("#fechaVinculacion").val() == "") {
-          $("#diasActivacion").val(0);
-        }
+          // Si es el campo "otras_aseg" que es un input text
+          if (key === "otras_aseg") {
+            const otrasInput = document.getElementById("otras_aseg");
+            if (otrasInput) {
+              otrasInput.value = value;
+            }
+          }
+        });
 
-        let fechaFormLim = formatoFecha(data.fechaFin);
-
-        $("#limiteCots").val(data.cotizacionesTotales);
-        $("#limiteUso").val(fechaFormLim);
-
-       
+        console.log(info_usuario.id_banco)
+        
       }
 
-      let tipoDoc = data.tipos_documentos_id;
+      $("#usuarioVin").prop("disabled", true);
+      $("#usuarioVin").val(info_usuario.usu_usuario);
+
+      //Insertar fecha de creación
+      let fechaForCrea = formatoFecha(info_usuario.usu_fch_creacion);
+
+      $("#fechaCreaVin").val(fechaForCrea);
+      $("#fechaCreaVin").prop("disabled", true);
+
+      if ($("#fechaVinculacion").val() == "") {
+        $("#diasActivacion").val(0);
+      }
+
+      let fechaFormLim = formatoFecha(info_usuario.fechaFin);
+
+      $("#limiteCots").val(info_usuario.cotizacionesTotales);
+      $("#limiteUso").val(fechaFormLim);
+
+      let tipoDoc = info_usuario.tipos_documentos_id;
 
       $("#tipoDocumento").val(tipoDoc == "Cedula de Ciudadania" ? "CC" : "NIT");
-      $("#documento").val(data.usu_documento);
-      $("#nombre_perfil").val(data.usu_nombre);
-      $("#apellidos_perfil").val(data.usu_apellido);
-      $("#genero_perfil").val(data.usu_genero == "M" ? "1" : "2");
-      $("#fechaNacimiento_perfil").val(data.usu_fch_nac);
-      let depto = data.ciudades_id.split("")[0] + data.ciudades_id.split("")[1];
+      $("#documento").val(info_usuario.usu_documento);
+      $("#nombre_perfil").val(info_usuario.usu_nombre);
+      $("#apellidos_perfil").val(info_usuario.usu_apellido);
+      $("#genero_perfil").val(info_usuario.usu_genero == "M" ? "1" : "2");
+      $("#fechaNacimiento_perfil").val(info_usuario.usu_fch_nac);
+
+      let depto =
+        info_usuario.ciudades_id.split("")[0] +
+        info_usuario.ciudades_id.split("")[1];
       $("#departamento").val(depto).trigger("change");
-      console.log(data.ciudades_id);
+
       setTimeout(() => {
-        $("#ciudad").val(data.ciudades_id).trigger("change");
+        $("#ciudad").val(info_usuario.ciudades_id).trigger("change");
       }, 200);
-      $("#direccion_perfil").val(data.usu_direccion);
-      $("#telefono_perfil").val(data.usu_telefono);
-      $("#email_perfil").val(data.usu_email);
+      $("#direccion_perfil").val(info_usuario.usu_direccion);
+      $("#telefono_perfil").val(info_usuario.usu_telefono);
+      $("#email_perfil").val(info_usuario.usu_email);
     },
   });
 }
