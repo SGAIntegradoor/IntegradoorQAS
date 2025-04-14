@@ -900,8 +900,8 @@ $nombreArchivo = "COTIZADOR VIGENTE FINESA $nombreMes $anio.xlsx";
                                         <li style="margin-bottom: 5px;"><b>Emisión y Financiación:</b> Solicitar confirmación de forma de pago para emitir. Si es financiada se debe realizar proceso de financiación con Finesa. Si el cliente cambia la forma de pago, la póliza debe cancelarse y emitirse de nuevo.
                                         </li>
                                         <li style="margin-bottom: 5px;"><b>Revisión y envío:</b> AC verifica y envía la póliza al AF.</li>
-                                        <li style="margin-bottom: 5px;"><b>Entrega:</b> AF entrega póliza al cliente y, si aplica, el cupón de pago de la financiación.</li>
-                                        <li style="margin-bottom: 5px;"><b>Seguimiento:</b> AC hace seguimiento al pago, si aplica, la legalización del crédito.</li>
+                                        <li style="margin-bottom: 5px;"><b>Entrega:</b> AF entrega póliza al cliente y, si aplica, el cupón de pago de la financiación. Si requiere cazador, AF le informa al cliente.</li>
+                                        <li style="margin-bottom: 5px;"><b>Seguimiento:</b> AC hace seguimiento al pago y, si aplica, la legalización del crédito y la instalación del cazador.</li>
                                     </ol>
                                 </td>
                                 <td style="padding: 30px; vertical-align: top;">
