@@ -235,6 +235,14 @@ if ($idCliente == "" && $tipoDocumento != 2) {
 		$respIdCliente = mysqli_query($con, "SELECT `id_cliente` FROM clientes WHERE id_cliente = $idCliente");
 		$arrIdCliente = $respIdCliente->fetch_assoc();
 		$idCliente = $arrIdCliente["id_cliente"];
+	} else if ($num_rows == 0){
+		$representanteCliente = mysqli_query($con, "SELECT * FROM clientes_nit_repleg WHERE rep_num_documento = $numDocRep AND id_cliente_asociado = $idCliente");
+		$rowsRepresentante = mysqli_num_rows($representanteCliente);
+		if ($rowsRepresentante > 0) {
+			$sqlClient = "UPDATE clientes_nit_repleg SET rep_nombre = '$tipoDocumento', cli_num_documento = '$numIdentificacion', digitoVerificacion = '$digitoVerif' ,cli_nombre = '$Nombre', 
+                    cli_apellidos = '$Apellido', cli_genero = '3', cli_fch_nacimiento = '$FechaNacimiento', id_estado_civil = '1', cli_email = '$correoRep', 
+                    cli_telefono = '$celRep' WHERE id_cliente = $idCliente";
+		}
 	} else {
 		$data['Message 1'] = 'Error cliente: ' . mysqli_error($con);
 	}

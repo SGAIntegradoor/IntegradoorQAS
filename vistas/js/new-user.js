@@ -1,5 +1,6 @@
 // Variables globales
 let id_usuario_edit = "";
+let data_user = [];
 
 document.addEventListener("DOMContentLoaded", function () {
   cargarRoll();
@@ -149,6 +150,137 @@ function formatoFecha(fecha) {
 }
 
 /*=============================================
+Cargar Objeto para Guardar Información nueva
+==============================================*/
+
+// {
+//   "info_usuario": {
+//       "id_usuario": "1488",
+//       "usu_documento": "16757577",
+//       "usu_nombre": "Julio César",
+//       "usu_apellido": "Payán Sánchez",
+//       "usu_fch_nac": "1968-11-17",
+//       "usu_direccion": "AVENIDA 9 NORTE 54 N - 04 APTO 309 CONJUNTO RESIDENCIAL PROVENZA",
+//       "ciudades_id": "76001",
+//       "tipos_documentos_id": "Cedula de Ciudadania",
+//       "usu_usuario": "16757577",
+//       "usu_password": "$2a$07$asxx54ahjppf45sd87a5audFPAiX1L0Z2UTt3bQUFH3KQddQzuxwi",
+//       "usu_genero": "M",
+//       "usu_telefono": "(311) 757-5767",
+//       "usu_email": "GLOBALINSURANCECOLOMBIA@YAHOO.ES",
+//       "usu_cargo": "Freelance",
+//       "usu_foto": "",
+//       "usu_logo_pdf": null,
+//       "usu_ultimo_login": "2025-02-28 10:40:31",
+//       "usu_fch_creacion": "2025-02-28 10:39:44",
+//       "usu_estado": "1",
+//       "id_rol": "19",
+//       "id_Intermediario": "3",
+//       "numCotizaciones": "0",
+//       "cotizacionesTotales": "50",
+//       "fechaFin": "2040-12-31 00:00:00",
+//       "in_session": null,
+//       "tokenPassword": null,
+//       "tokenGuest": null,
+//       "id_info_entidad_fin": "1",
+//       "id_banco": "2d2698df-2870-4004-a536-408edd78611d",
+//       "tipo_cuenta": "1",
+//       "numero_cuenta": "077998856743",
+//       "regimen_renta": "No declarante",
+//       "facturador_electronico": "0",
+//       "responsable_iva": "0",
+//       "participacion_esp": "18"
+//   },
+//   "info_usuario_canal": {
+//       "id_info_canal": "1",
+//       "proactividad": "1",
+//       "cargo": "19",
+//       "director_comercial": "1",
+//       "analista_comercial": "1151946527",
+//       "origen": "N/A",
+//       "nombre_recomendador": "Test Testing",
+//       "id_usuario": "1488",
+//       "id_director": "1",
+//       "nom_completo_director": "Keila Figueira Lopez",
+//       "id_documento_director": "1007028818"
+//   },
+//   "info_aseguradoras_user": {
+//       "id_aseguradoras_user": "1",
+//       "allianz_aseg": "1",
+//       "axa_aseg": "1",
+//       "bolivar_aseg": "1",
+//       "equidad_aseg": "0",
+//       "estado_aseg": "0",
+//       "hdi_aseg": "0",
+//       "mapfre_aseg": "1",
+//       "mundial_aseg": "0",
+//       "previsora_aseg": "0",
+//       "sbs_aseg": "0",
+//       "sura_aseg": "0",
+//       "zurich_aseg": "0",
+//       "otras_aseg": "",
+//       "id_usuario": "1488"
+//   }
+// }
+
+function sendDataToDB(data) {
+
+  // Info Usuario
+
+  let ciudades_id = $("#departamento").val() + $("#ciudad").val();
+  let unidad_negocio = $("#unidadNegocio").val();
+  let tipoDePersona = $("#tipoDePersona").val();
+  let tipoDeDocumento = $("#tipoDocumento").val();
+  let documento = $("#documento").val();
+  let nombre = $("#nombre_perfil").val();
+  let apellidos = $("#apellidos_perfil").val();
+  let genero = $("#genero_perfil").val();
+  let fechaNacimiento = $("#fechaNacimiento_perfil").val();
+  let direccion = $("#direccion_perfil").val();
+  let telefono = $("#telefono_perfil").val();
+  let email = $("#email_perfil").val();
+  
+  let tieneAsistente = $("#siAsistente").is(":checked") ? 1 : 0;
+
+  if(tieneAsistente){
+    var nombreAsistente = $("#nombreAsistente").val();
+    var telefonoAsistente = $("#telefonoAsistente").val();
+    var emailAsistente = $("#emailAsistente").val();
+  }
+
+  // Info del Canal (Freelance) // ROL para usuarios no Freelance o SGA
+
+  let rol_user = $("#rolUsers").val();
+  let Intermediario_user = $("intermediarioPerfil").val();
+  let categoria_user = $("#categoriaAsesor").val();
+  let cargos_user = $("#cargos").val();
+  let directorComerial_user = $("#directorComercial").val();
+
+  let analista_user = $("#analistaAsesor").val();
+  let origen_user = $("#origen").val();
+
+  let nombreRecomendador_user = $("#nombreRecomendador").val();
+
+  let clavesAseguradoras = $("#siClaves").is(":checked") ? 1 : 0;
+
+  if(clavesAseguradoras){
+    
+  }
+
+
+
+
+
+  // let obj = {
+  //   info_usuario: {
+  //     ciudades_id: data.info_usuario.ciudades_id == ,
+  //   },
+  //   info_aseguradoras_user: {},
+  //   info_usuario_canal: {},
+  // };
+}
+
+/*=============================================
 Cargar Usuario
 =============================================*/
 
@@ -200,37 +332,44 @@ function loadUser(id) {
         $("#divUsuarioSGA").hide();
         $("#unidadNegocio").val(info_usuario.id_rol);
         $("#rolUsers").val(info_usuario.id_rol).trigger("change");
-        
+
         setTimeout(() => {
           $("#intermediarioPerfil")
-          .val(info_usuario.id_Intermediario)
-          .trigger("change");
+            .val(info_usuario.id_Intermediario)
+            .trigger("change");
           $("#analistaAsesor")
-          .val(info_usuario_canal.analista_comercial)
-          .trigger("change");
+            .val(info_usuario_canal.analista_comercial)
+            .trigger("change");
           $("#entidadBancaria").val(info_usuario.id_banco).trigger("change");
+          $("#tipoCuenta").val(info_usuario.tipo_cuenta).trigger("change");
+          $("#noCuenta").val(info_usuario.numero_cuenta);
+          $("#regimenRenta").val(info_usuario.regimen_renta);
           $("#cargos").val(info_usuario_canal.cargo).trigger("change");
+
+          info_usuario.facturador_electronico == 1
+            ? $("#siFacturado").prop("checked", true).trigger("change")
+            : $("#noFacturado").prop("checked", true).trigger("change");
+
+          info_usuario.responsable_iva == 1
+            ? $("#siIVA").prop("checked", true).trigger("change")
+            : $("#noIVA").prop("checked", true).trigger("change");
+
+          $("#participacionEsp").val(info_usuario.participacion_esp + " %");
         }, 100);
+
         $("#origen").val(info_usuario_canal.origen);
         $("#nombreRecomendador").val(info_usuario_canal.nombre_recomendador);
 
-        // .forEach((element) => {
-        //   console.log(element);
-        //   // $(`#${element}`).val(element).trigger("change");
-        // });
-        // Object(info_aseguradoras_user).forEach((element) => {
-        //   console.log(element);
-        //   $(`#${element}`).prop("checked", true).trigger("change");
-        // })
+        Object.entries(info_aseguradoras_user).length > 0
+          ? $("#siClaves").prop("checked", true).trigger("change")
+          : $("#noClaves").prop("checked", true).trigger("change");
 
         Object.entries(info_aseguradoras_user).forEach(([key, value]) => {
           const element = document.getElementById(key);
-
           // Si existe el elemento y es un checkbox
           if (element && element.type === "checkbox") {
             element.checked = value === "1";
           }
-
           // Si es el campo "otras_aseg" que es un input text
           if (key === "otras_aseg") {
             const otrasInput = document.getElementById("otras_aseg");
@@ -239,9 +378,6 @@ function loadUser(id) {
             }
           }
         });
-
-        console.log(info_usuario.id_banco)
-        
       }
 
       $("#usuarioVin").prop("disabled", true);
@@ -445,7 +581,7 @@ $("#rolUsers").change(function () {
   } else {
     $(".divClavAseg").css("display", "block");
     $(".divAsistente").css("display", "block");
-    $("#siClaves").prop("checked", true).trigger("change");
+    // $("#siClaves").prop("checked", true).trigger("change");
     $(".freelance").css("display", "grid");
     $("#divComisiones").css("display", "none");
   }

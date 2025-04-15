@@ -778,12 +778,12 @@ if (isset($_GET["id"])) {
                       <label for="siFacturador" style="margin-bottom: 0px">Sí</label>
                     </div>
                     <div style="display: flex; flex-direction: row; gap: 15px; justify-content: center; align-items: center;">
-                      <input type="radio" name="tieneClave" id="noClaves" style="margin: 0px">
+                      <input type="radio" name="tieneClave" id="noClaves" style="margin: 0px" checked>
                       <label for="noFacturador" style="margin-bottom: 0px">No</label>
                     </div>
                   </div>
                 </div>
-                <div style="display: flex; flex-direction: column;" class="clavesAseguradoras">
+                <div style="display: none; flex-direction: column;" class="clavesAseguradoras">
                   <div style="display: flex; flex-direction: row; gap: 10px; justify-content: center;">
                     <div class="form-group" style="width:120px;  display: flex; flex-direction: row; gap: 35px; margin: 0; align-items: center; justify-content: flex-start;">
                       <label for="allianz_aseg" style="margin: 0;"><b style="font-size: 15px">Allianz</b></label>
@@ -857,7 +857,7 @@ if (isset($_GET["id"])) {
                 <label for="tipoCuenta"><b>Tipo de cuenta</b></label>
                 <select name="tipoCuenta" id="tipoCuenta">
                   <option value="1">Ahorros</option>
-                  <option value="2">Corriente</option>
+                  <option value="2" selected>Corriente</option>
                 </select>
               </div>
 
@@ -868,7 +868,7 @@ if (isset($_GET["id"])) {
 
               <div class="form-group">
                 <label for="documento"><b>Régimen en renta</b></label>
-                <input type="text" name="documento" id="documento">
+                <input type="text" name="regimenRenta" id="regimenRenta">
               </div>
               <div class="form-group">
                 <label for="representanteLegal"><b>Facturador electronico</b></label>
