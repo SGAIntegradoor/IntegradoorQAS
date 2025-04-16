@@ -1,6 +1,7 @@
 // Variables globales
 let id_usuario_edit = "";
-let data_user = [];
+let data_user = {};
+let initialSta = {};
 
 document.addEventListener("DOMContentLoaded", function () {
   cargarRoll();
@@ -23,10 +24,29 @@ document.addEventListener("DOMContentLoaded", function () {
     if (id) {
       // Cargar datos del usuario
       id_usuario_edit = id;
-      loadUser(id);
+      // loadUser(id);
+
+      loadUser(id)
+        .then(() => {})
+        .catch((err) => {
+          console.error("Error al cargar el usuario:", err);
+        });
     }
   }
 });
+
+/*=============================================
+Eventos OnChange en inputs
+=============================================*/
+
+$('input[name="radioMismoRep"]').on('change', function () {
+  if ($(this).attr('id') === 'siRepresentante') {
+    $("#representanteLegal").val($("#personaDeContacto").val());
+  } else if ($(this).attr('id') === 'noRepresentante') {
+    $("#representanteLegal").val("");
+  }
+});
+
 
 /*=============================================
 Cargar Rol
@@ -224,13 +244,12 @@ Cargar Objeto para Guardar Información nueva
 // }
 
 function sendDataToDB(data) {
-
   // Info Usuario
 
-  let ciudades_id = $("#departamento").val() + $("#ciudad").val();
-  let unidad_negocio = $("#unidadNegocio").val();
-  let tipoDePersona = $("#tipoDePersona").val();
-  let tipoDeDocumento = $("#tipoDocumento").val();
+  let ciudades_id = data.info_usuario.ciudades_id;
+  let unidad_negocio = data.info_usuario.id_rol;
+  let tipoDePersona = data.info_usuario.tipos_documentos_id == "NIT" ? 2 : 1;
+  let tipoDeDocumento = data.info_usuario.tipos_documentos_id;
   let documento = $("#documento").val();
   let nombre = $("#nombre_perfil").val();
   let apellidos = $("#apellidos_perfil").val();
@@ -239,10 +258,10 @@ function sendDataToDB(data) {
   let direccion = $("#direccion_perfil").val();
   let telefono = $("#telefono_perfil").val();
   let email = $("#email_perfil").val();
-  
+
   let tieneAsistente = $("#siAsistente").is(":checked") ? 1 : 0;
 
-  if(tieneAsistente){
+  if (tieneAsistente) {
     var nombreAsistente = $("#nombreAsistente").val();
     var telefonoAsistente = $("#telefonoAsistente").val();
     var emailAsistente = $("#emailAsistente").val();
@@ -261,164 +280,303 @@ function sendDataToDB(data) {
 
   let nombreRecomendador_user = $("#nombreRecomendador").val();
 
+  // Info de las aseguradoras que tiene abscritas el usuario justo a la hora de cargar el usuario
+
   let clavesAseguradoras = $("#siClaves").is(":checked") ? 1 : 0;
 
-  if(clavesAseguradoras){
-    
+  if (clavesAseguradoras) {
+    $(".clavesAseguradoras")
+      .find("input")
+      .each(function () {
+        let id = $(this).attr("id");
+        let value = $(this).is(":checked") ? 1 : 0;
+        if (this.tagName.toLowerCase() === "input" && id !== "otras_aseg") {
+          asegs = { ...asegs, [id]: value };
+        } else {
+          let otras_aseg = $("#otras_aseg").val();
+          asegs = { ...asegs, otras_aseg: otras_aseg };
+        }
+      });
+
+    console.log(asegs);
   }
 
+  // Info financiera del usuario
 
+  let entidad_bancaria = $("#entidadBancaria").val();
+  let tipo_cuenta = $("#tipoCuenta").val();
+  let numero_cuenta = $("#noCuenta").val();
+  let regimen_renta = $("#regimenRenta").val();
+  let responsable_iva = $("#siIVA").is(":checked") ? 1 : 0;
+  let facturador_electronico = $("#siFacturado").is(":checked") ? 1 : 0;
+  let participacion_esp = $("#participacionEsp").val().replace("%", "");
 
+  // Info perfil
 
+  let limite_cotizaciones = $("#limiteCots").val();
+  let fecha_vinculacion = $("#fechaVinculacion").val();
+  let fecha_limite = $("#limiteUso").val();
+  let estasoUs = $("#estadoUs").val();
 
-  // let obj = {
-  //   info_usuario: {
-  //     ciudades_id: data.info_usuario.ciudades_id == ,
-  //   },
-  //   info_aseguradoras_user: {},
-  //   info_usuario_canal: {},
-  // };
+  data_user = {};
 }
+
+function initialState() {
+  let asegs = {};
+
+  /*** Info Usuario ***/
+  const infoUsuario = {
+    ciudades_id: $("#ciudad").val(),
+    unidad_negocio: $("#unidadDeNegocio").val(),
+    tipo_persona: $("#tipoDePersona").val(),
+    tipo_documento: $("#tipoDocumento").val(),
+    documento: $("#documento").val(),
+    nombre: $("#nombre_perfil").val(),
+    apellidos: $("#apellidos_perfil").val(),
+    genero: $("#genero_perfil").val(),
+    fecha_nacimiento: $("#fechaNacimiento_perfil").val(),
+    direccion: $("#direccion_perfil").val(),
+    telefono: $("#telefono_perfil").val(),
+    email: $("#email_perfil").val(),
+    tiene_asistente: $("#siAsistente").is(":checked") ? 1 : 0,
+    nombre_asistente: $("#nombreAsistente").val() || null,
+    telefono_asistente: $("#telefonoAsistente").val() || null,
+    email_asistente: $("#emailAsistente").val() || null,
+  };
+
+  /*** Info del Canal ***/
+  const infoCanal = {
+    rol: $("#rolUsers").val(),
+    intermediario: $("#intermediarioPerfil").val(),
+    categoria: $("#categoriaAsesor").val(),
+    cargo: $("#cargos").val(),
+    director_comercial: $("#directorComercial").val(),
+    analista: $("#analistaAsesor").val(),
+    origen: $("#origen").val(),
+    nombre_recomendador: $("#nombreRecomendador").val(),
+  };
+
+  /*** Info Aseguradoras ***/
+  const clavesAseguradoras = $("#siClaves").is(":checked") ? 1 : 0;
+
+  if (clavesAseguradoras) {
+    $(".clavesAseguradoras")
+      .find("input")
+      .each(function () {
+        const id = $(this).attr("id");
+        const value = $(this).is(":checked") ? 1 : 0;
+        if (this.tagName.toLowerCase() === "input" && id !== "otras_aseg") {
+          asegs[id] = value;
+        } else if (id === "otras_aseg") {
+          asegs["otras_aseg"] = $("#otras_aseg").val();
+        }
+      });
+  }
+
+  /*** Info Financiera ***/
+  const infoFinanciera = {
+    entidad_bancaria: $("#entidadBancaria").val(),
+    tipo_cuenta: $("#tipoCuenta").val(),
+    numero_cuenta: $("#noCuenta").val(),
+    regimen_renta: $("#regimenRenta").val(),
+    responsable_iva: $("#siIVA").is(":checked") ? 1 : 0,
+    facturador_electronico: $("#siFacturado").is(":checked") ? 1 : 0,
+    participacion_esp: $("#participacionEsp").val().replace("%", "").trim(),
+  };
+
+  /*** Info Perfil ***/
+  const infoPerfil = {
+    limite_cotizaciones: $("#limiteCots").val(),
+    fecha_vinculacion: $("#fechaVinculacion").val(),
+    fecha_limite: $("#limiteUso").val(),
+    estado_usuario: $("#estadoUs").val(),
+  };
+
+  /*** Objeto final agrupado por secciones ***/
+  const data_user = {
+    infoUsuario,
+    infoCanal,
+    infoAseguradoras: asegs,
+    infoFinanciera,
+    infoPerfil,
+  };
+
+  return data_user;
+}
+
 
 /*=============================================
 Cargar Usuario
 =============================================*/
 
-function loadUser(id) {
-  $.ajax({
-    url: "src/loadUser.php",
-    method: "POST",
-    data: { id: id },
-    success: function (respuesta) {
-      const data = JSON.parse(respuesta);
-      console.log(data);
-      const { info_usuario, info_usuario_canal, info_aseguradoras_user } = data;
+async function loadUser(id) {
+  return new Promise((resolve, reject) => {
+    $.ajax({
+      url: "src/loadUser.php",
+      method: "POST",
+      data: { id: id },
+      success: function (respuesta) {
+        resolve();
+        const data = JSON.parse(respuesta);
+        console.log(data);
+        const { info_usuario, info_usuario_canal, info_aseguradoras_user } =
+          data;
 
-      console.log(info_aseguradoras_user);
+        console.log(info_aseguradoras_user);
 
-      cargarCargos();
-      cargarAnalistas();
-      cargarBancos();
+        cargarCargos();
+        cargarAnalistas();
+        cargarBancos();
 
-      getComments(id);
+        getComments(id);
 
-      if (
-        info_usuario.id_rol == 1 ||
-        info_usuario.id_rol == 10 ||
-        info_usuario.id_rol == 11 ||
-        info_usuario.id_rol == 22 ||
-        info_usuario.id_rol == 23
-      ) {
-        $("#divUnidadNegocio").hide();
-        $("#divCanal").hide();
-        $("#divUsuarioSGA").show();
-        $("#usuarioSGA").val(info_usuario.id_rol);
-        $(".divAsistente").hide();
-        $("#rolUsers").val(info_usuario.id_rol).trigger("change");
-        setTimeout(() => {
-          $("#intermediarioPerfil")
-            .val(info_usuario.id_Intermediario)
-            .trigger("change");
-          $("#cargos").val(info_usuario.usu_cargo).trigger("change");
-        }, 500);
-      } else if (info_usuario.id_rol == 12) {
-        $("#divUnidadNegocio").hide();
-        $("#divUsuarioSGA").hide();
-        $("#divCanal").show();
-        $("#canal").val(1);
-      } else {
-        $("#divUnidadNegocio").show();
-        $("#divCanal").hide();
-        $("#divUsuarioSGA").hide();
-        $("#unidadNegocio").val(info_usuario.id_rol);
-        $("#rolUsers").val(info_usuario.id_rol).trigger("change");
+        if (
+          info_usuario.id_rol == 1 ||
+          info_usuario.id_rol == 10 ||
+          info_usuario.id_rol == 11 ||
+          info_usuario.id_rol == 22 ||
+          info_usuario.id_rol == 23
+        ) {
+          $("#divUnidadNegocio").hide();
+          $("#divCanal").hide();
+          $("#divUsuarioSGA").show();
+          $("#usuarioSGA").val(info_usuario.id_rol);
+          $(".divAsistente").hide();
+          $("#rolUsers").val(info_usuario.id_rol).trigger("change");
+          setTimeout(() => {
+            $("#intermediarioPerfil")
+              .val(info_usuario.id_Intermediario)
+              .trigger("change");
+            $("#cargos").val(info_usuario.usu_cargo).trigger("change");
+          }, 500);
+        } else if (info_usuario.id_rol == 12) {
+          $("#divUnidadNegocio").hide();
+          $("#divUsuarioSGA").hide();
+          $("#divCanal").show();
+          $("#canal").val(1);
+        } else {
+          $("#divUnidadNegocio").show();
+          $("#divCanal").hide();
+          $("#divUsuarioSGA").hide();
+          $("#unidadDeNegocio").val(info_usuario.id_rol);
+          $("#rolUsers").val(info_usuario.id_rol).trigger("change");
 
-        setTimeout(() => {
-          $("#intermediarioPerfil")
-            .val(info_usuario.id_Intermediario)
-            .trigger("change");
-          $("#analistaAsesor")
-            .val(info_usuario_canal.analista_comercial)
-            .trigger("change");
-          $("#entidadBancaria").val(info_usuario.id_banco).trigger("change");
-          $("#tipoCuenta").val(info_usuario.tipo_cuenta).trigger("change");
-          $("#noCuenta").val(info_usuario.numero_cuenta);
-          $("#regimenRenta").val(info_usuario.regimen_renta);
-          $("#cargos").val(info_usuario_canal.cargo).trigger("change");
+          setTimeout(() => {
+            $("#intermediarioPerfil")
+              .val(info_usuario.id_Intermediario)
+              .trigger("change");
+            $("#analistaAsesor")
+              .val(info_usuario_canal.analista_comercial)
+              .trigger("change");
+            $("#entidadBancaria").val(info_usuario.id_banco).trigger("change");
+            $("#tipoCuenta").val(info_usuario.tipo_cuenta).trigger("change");
+            $("#noCuenta").val(info_usuario.numero_cuenta);
+            $("#regimenRenta").val(info_usuario.regimen_renta);
+            $("#cargos").val(info_usuario_canal.cargo).trigger("change");
 
-          info_usuario.facturador_electronico == 1
-            ? $("#siFacturado").prop("checked", true).trigger("change")
-            : $("#noFacturado").prop("checked", true).trigger("change");
+            info_usuario.facturador_electronico == 1
+              ? $("#siFacturado").prop("checked", true).trigger("change")
+              : $("#noFacturado").prop("checked", true).trigger("change");
 
-          info_usuario.responsable_iva == 1
-            ? $("#siIVA").prop("checked", true).trigger("change")
-            : $("#noIVA").prop("checked", true).trigger("change");
+            info_usuario.responsable_iva == 1
+              ? $("#siIVA").prop("checked", true).trigger("change")
+              : $("#noIVA").prop("checked", true).trigger("change");
 
-          $("#participacionEsp").val(info_usuario.participacion_esp + " %");
-        }, 100);
+            $("#participacionEsp").val(info_usuario.participacion_esp + " %");
+          }, 400);
 
-        $("#origen").val(info_usuario_canal.origen);
-        $("#nombreRecomendador").val(info_usuario_canal.nombre_recomendador);
+          $("#origen").val(info_usuario_canal.origen);
+          $("#nombreRecomendador").val(info_usuario_canal.nombre_recomendador);
 
-        Object.entries(info_aseguradoras_user).length > 0
-          ? $("#siClaves").prop("checked", true).trigger("change")
-          : $("#noClaves").prop("checked", true).trigger("change");
+          Object.entries(info_aseguradoras_user).length > 0
+            ? $("#siClaves").prop("checked", true).trigger("change")
+            : $("#noClaves").prop("checked", true).trigger("change");
 
-        Object.entries(info_aseguradoras_user).forEach(([key, value]) => {
-          const element = document.getElementById(key);
-          // Si existe el elemento y es un checkbox
-          if (element && element.type === "checkbox") {
-            element.checked = value === "1";
-          }
-          // Si es el campo "otras_aseg" que es un input text
-          if (key === "otras_aseg") {
-            const otrasInput = document.getElementById("otras_aseg");
-            if (otrasInput) {
-              otrasInput.value = value;
+          Object.entries(info_aseguradoras_user).forEach(([key, value]) => {
+            const element = document.getElementById(key);
+            // Si existe el elemento y es un checkbox
+            if (element && element.type === "checkbox") {
+              element.checked = value === "1";
             }
+            // Si es el campo "otras_aseg" que es un input text
+            if (key === "otras_aseg") {
+              const otrasInput = document.getElementById("otras_aseg");
+              if (otrasInput) {
+                otrasInput.value = value;
+              }
+            }
+          });
+
+        }
+
+        $("#usuarioVin").prop("disabled", true);
+        $("#usuarioVin").val(info_usuario.usu_usuario);
+
+        //Insertar fecha de creación
+        let fechaForCrea = formatoFecha(info_usuario.usu_fch_creacion);
+
+        $("#fechaCreaVin").val(fechaForCrea);
+        $("#fechaCreaVin").prop("disabled", true);
+
+        if ($("#fechaVinculacion").val() == "") {
+          $("#diasActivacion").val(0);
+        }
+
+        let fechaFormLim = formatoFecha(info_usuario.fechaFin);
+
+        $("#limiteCots").val(info_usuario.cotizacionesTotales);
+        $("#limiteUso").val(fechaFormLim);
+
+        let tipoDoc = info_usuario.tipos_documentos_id;
+
+        let tipoPersona = tipoDoc == "NIT" ? "Juridica" : "Natural";
+
+        $("#tipoDocumento").val(
+          tipoDoc == "Cedula de Ciudadania" ? "CC" : "NIT"
+        );
+        
+
+        if(tipoPersona == "Natural"){
+          $("#tipoDePersona").val(1).trigger("change");
+          $("#documento").val(info_usuario.usu_documento);
+          $("#nombre_perfil").val(info_usuario.usu_nombre);
+          $("#apellidos_perfil").val(info_usuario.usu_apellido);
+          $("#fechaNacimiento_perfil").val(info_usuario.usu_fch_nac);
+          $("#genero_perfil").val(info_usuario.usu_genero == "M" ? "1" : "2");
+        } else if (tipoPersona == "Juridica"){
+          $("#tipoDePersona").val(2).trigger("change");
+          $("#documento").val(info_usuario.usu_documento);
+          $("#razonSocial").val(info_usuario.usu_nombre+ " " + info_usuario.usu_apellido);
+          $("#personaDeContacto").val(info_usuario.usu_nombre + " " + info_usuario.usu_apellido);
+
+          if((info_usuario.usu_nombre + " " + info_usuario.usu_apellido) == $("#personaDeContacto").val()){
+            $("#siRepresentante").prop("checked", true).trigger("change");
+            $()
           }
-        });
-      }
 
-      $("#usuarioVin").prop("disabled", true);
-      $("#usuarioVin").val(info_usuario.usu_usuario);
+        }
 
-      //Insertar fecha de creación
-      let fechaForCrea = formatoFecha(info_usuario.usu_fch_creacion);
+        let depto =
+          info_usuario.ciudades_id.split("")[0] +
+          info_usuario.ciudades_id.split("")[1];
+        $("#departamento").val(depto).trigger("change");
 
-      $("#fechaCreaVin").val(fechaForCrea);
-      $("#fechaCreaVin").prop("disabled", true);
+        setTimeout(() => {
+          $("#ciudad").val(info_usuario.ciudades_id).trigger("change");
+          initialSta = initialState();
+          console.log(initialSta)
+        }, 500);
+        $("#direccion_perfil").val(info_usuario.usu_direccion);
+        $("#telefono_perfil").val(info_usuario.usu_telefono);
+        $("#email_perfil").val(info_usuario.usu_email);
 
-      if ($("#fechaVinculacion").val() == "") {
-        $("#diasActivacion").val(0);
-      }
-
-      let fechaFormLim = formatoFecha(info_usuario.fechaFin);
-
-      $("#limiteCots").val(info_usuario.cotizacionesTotales);
-      $("#limiteUso").val(fechaFormLim);
-
-      let tipoDoc = info_usuario.tipos_documentos_id;
-
-      $("#tipoDocumento").val(tipoDoc == "Cedula de Ciudadania" ? "CC" : "NIT");
-      $("#documento").val(info_usuario.usu_documento);
-      $("#nombre_perfil").val(info_usuario.usu_nombre);
-      $("#apellidos_perfil").val(info_usuario.usu_apellido);
-      $("#genero_perfil").val(info_usuario.usu_genero == "M" ? "1" : "2");
-      $("#fechaNacimiento_perfil").val(info_usuario.usu_fch_nac);
-
-      let depto =
-        info_usuario.ciudades_id.split("")[0] +
-        info_usuario.ciudades_id.split("")[1];
-      $("#departamento").val(depto).trigger("change");
-
-      setTimeout(() => {
-        $("#ciudad").val(info_usuario.ciudades_id).trigger("change");
-      }, 200);
-      $("#direccion_perfil").val(info_usuario.usu_direccion);
-      $("#telefono_perfil").val(info_usuario.usu_telefono);
-      $("#email_perfil").val(info_usuario.usu_email);
-    },
+        
+      },
+      error: function (xhr, status, error) {
+        console.error("Error al cargar el usuario:", error);
+        reject(error); // Rechazar la promesa en caso de error
+      },
+    });
   });
 }
 

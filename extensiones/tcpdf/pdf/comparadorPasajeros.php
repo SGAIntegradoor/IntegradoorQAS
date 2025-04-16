@@ -314,6 +314,8 @@ $pdf->SetXY(158, 3);
 $pdf->SetTextColor(104, 104, 104);
 $pdf->Cell(25, 6, "No. cotización: " . $identificador);
 
+$pdf->Image('../../../vistas/img/logos/transporte_pasajero.png', 15.5, 99.5, 0, 29, 'PNG', '', '', true, 160, '', false, false, 0, false, false, false);
+
 $pdf->SetFont('dejavusanscondensed', '', 2);
 
 $pdf->SetFont('dejavusanscondensed', 'B', 12);
@@ -454,12 +456,14 @@ $html2 = '
 
 .second2 {
 	padding-left: 105px;
+	text-align: center;
 }
 
 </style>
 
-<div class="second2">
-<table class="second" cellpadding="2"  border="0">';
+<div>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<table align="right" style="width: 370px;" cellpadding="2"  border="0">';
 
 $html2 .= '<tr>';
 $cont = 1;
@@ -2445,8 +2449,8 @@ $html7 .= '</tr>';
 
 $html7 .= '</table>';
 
-$pdf->SetXY(80, 98);
-$pdf->writeHTML($html2, true, false, true, false, '');
+$pdf->SetXY(100, 100);
+$pdf->writeHTML($html2, true, false, true, false, 'C');
 $pdf->Ln();
 
 $pdf->SetFont('dejavusanscondensed', 'I', 15);

@@ -504,7 +504,7 @@ if (isset($_GET["id"])) {
 
                 <div class="form-group legal" id="divPersonaContacto">
                   <label for="personaDeContacto"><b>Persona de Contacto</b></label>
-                  <input type="text" name="documento" id="documento_perfil">
+                  <input type="text" name="personaDeContacto" id="personaDeContacto">
                 </div>
 
                 <!-- <div class="form-group legal" id="divMismoRepLegal">
@@ -535,8 +535,8 @@ if (isset($_GET["id"])) {
                 </div>
 
                 <div class="form-group legal" id="divRepresentanteLegal">
-                  <label for="nombre"><b>Representante Legal</b></label>
-                  <input type="text" name="nombre" id="nombre">
+                  <label for="representanteLegal"><b>Representante Legal</b></label>
+                  <input type="text" name="representanteLegal" id="representanteLegal">
                 </div>
 
                 <div class="form-group legal" id="divFechaNacimientoRep">
@@ -815,7 +815,7 @@ if (isset($_GET["id"])) {
                     </div>
                     <div class="form-group" style="width:100px;  display: flex; flex-direction: row; gap: 25px; margin: 0; align-items: center; justify-content: flex-start;">
                       <label for="mundial_aseg" style="margin: 0;"><b style="font-size: 15px">Mundial</b></label>
-                      <input type="checkbox" name="mundial_aseg" id="mapfre_aseg" style="margin: 0;">
+                      <input type="checkbox" name="mundial_aseg" id="mundial_aseg" style="margin: 0;">
                     </div>
                   </div>
                   <div style="display: flex; flex-direction: row; gap: 0; margin-top: 15px; justify-content: center;">

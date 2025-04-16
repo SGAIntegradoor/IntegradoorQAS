@@ -76,7 +76,7 @@ if (isset($_SESSION['showPopup']) && $_SESSION['showPopup'] === true) {
 
 <div class="content-wrapper" style="height: 100vh;">
 
-  <section class="content-header">
+  <section class="content-header" style="padding-left: 36px">
 
     <h1>
 
@@ -92,6 +92,8 @@ if (isset($_SESSION['showPopup']) && $_SESSION['showPopup'] === true) {
 
 
   </section>
+
+  <?php require_once "./vistas/components/ai-chat/view/index.php"?>
 
   <?php
   echo '<script>
