@@ -11,85 +11,99 @@ sendButton.addEventListener("click", async () => {
 
   if (!message) return;
 
-  // let lenguage = document.querySelector("#targetLang").value;
-
-  // add message from user on the chat box
-
-  // document.querySelector('.chat__messages').innerHTML += `<p class="chat_message--user">${message}</p>`;
-
   const userMessage = document.createElement("div");
   userMessage.className = "chat__message chat__message--user";
   userMessage.innerHTML = message;
 
   const messagesContainer = document.querySelector(".chat__messages");
   messagesContainer.appendChild(userMessage);
-  messagesContainer.scrollTop = messagesContainer.scrollHeight;
+  userMessage.scrollIntoView({ behavior: "smooth", block: "start" });
+
+  doLoad();
 
   try {
-    // request to back
-    // const response = await fetch("/api/chat", {
-    //   method: "POST",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    //   body: JSON.stringify({ message, targetLang: lenguage }),
-    // });
 
-    // const data = await response.json();
+    const response = fetch(
+      "https://10djhr3as6.execute-api.us-east-1.amazonaws.com/Stage/agent",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization:
+            "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjg1NjAsImlkIjo4NTYwLCJ1c2VyX2lkIjoiODU2MCIsImlhdCI6MTczMzc1ODQ4MywiZXhwIjoxNzMzODQ0ODgzfQ.dDpt_HrdHYY9VXPUsx2wP6odLSpqF2YJ-fZIMjBo8HI",
+        },
+        body: JSON.stringify({ session_id: 12345678, input_text: message }),
+      }
+    );
 
-    const response = await fetch("https://10djhr3as6.execute-api.us-east-1.amazonaws.com/Stage/agent", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjg1NjAsImlkIjo4NTYwLCJ1c2VyX2lkIjoiODU2MCIsImlhdCI6MTczMzc1ODQ4MywiZXhwIjoxNzMzODQ0ODgzfQ.dDpt_HrdHYY9VXPUsx2wP6odLSpqF2YJ-fZIMjBo8HI"
-      },
-      body: JSON.stringify({ session_id: 12345678 , input_text: message }),
-    });
-
-    const data = await response.json();
-
-    console.log(data)
-
-    // add response mesg to chat box
-    const botMessage = document.createElement("p");
-    botMessage.className = "chat__message chat__message--bot";
-    botMessage.innerHTML = data.response.replace(/\n/g, "<br>");
-
-    messagesContainer.appendChild(botMessage);
-    messagesContainer.scrollTop = messagesContainer.scrollHeight
-
-
+    // const data = response.json();
+    response
+      .then((res) => {
+        if (!res.status === 200) {
+          doResponse(res.statusText, 2);
+          throw new Error("Error en la respuesta del servidor");
+        }
+        return res.json();
+      })
+      .then((data) => {
+        doResponse(data.response, 1);
+      })
+      .catch((error) => {
+        doResponse(error, 3);
+      });
   } catch (error) {
-    // console.error("Error en la solicitud a OpenAI:", error);
-    messagesContainer.appendChild("No puedo responderte eso.");
-    messagesContainer.scrollTop = messagesContainer.scrollHeight
+    doResponse(error, 3);
   }
 
-//   clear input message
-text.value = "";
+  //   clear input message
+  text.value = "";
 });
 
+function doResponse(response, type) {
+  const botMessage = document.createElement("p");
+  botMessage.className = "chat__message chat__message--bot";
+  switch (type) {
+    case 1:
+      botMessage.innerHTML = response.replace(/\n/g, "<br>");
+      $("#loader").remove();
+      break;
+    case 2:
+    case 3:
+      botMessage.innerHTML = response;
+      $("#loader").remove();
+      break;
+    default:
+      break;
+  }
+  messagesContainer.appendChild(botMessage);
+  botMessage.scrollIntoView({ behavior: "smooth", block: "start" });
+}
 
+function doLoad() {
+  const loaderMessage = document.createElement("div");
+  loaderMessage.id = "loader";
 
-// sendButton.addEventListener("click", () => {
-//     let text = document.querySelector("#messageInput");
-//     let message = text.value.trim();
+  Object.assign(loaderMessage.style, {
+    display: "flex",
+    width: "70px",
+    margin: "0",
+    marginTop: "44px",
+    backgroundColor: "#e0e0e0",
+    borderTopRightRadius: "10px",
+    borderTopLeftRadius: "10px",
+    borderBottomRightRadius: "10px",
+  });
 
-//     if (!message) return;
+  loaderMessage.className = "chat__message chat__message--bot";
+  loaderMessage.innerHTML = `
+    <div class="typing-loader">
+      <svg width="50" height="20" viewBox="0 0 50 20" xmlns="http://www.w3.org/2000/svg">
+        <circle class="dot dot1" cx="10" cy="10" r="5" />
+        <circle class="dot dot2" cx="25" cy="10" r="5" />
+        <circle class="dot dot3" cx="40" cy="10" r="5" />
+      </svg>
+    </div>`;
+  messagesContainer.appendChild(loaderMessage);
+  loaderMessage.scrollIntoView({ behavior: "smooth", block: "start" });
+}
 
-//     let userMessage = document.createElement("div");
-//     userMessage.className = "chat__message chat__message--user";
-//     userMessage.innerHTML = message;
-
-//     messagesContainer.appendChild(userMessage);
-
-//     // Mostrar el scroll cuando llegue un nuevo mensaje
-//     messagesContainer.style.overflowY = "auto";
-
-//     // Hacer scroll al final
-//     messagesContainer.scrollTop = messagesContainer.scrollHeight;
-
-//     /
-
-//     text.value = "";
-// });

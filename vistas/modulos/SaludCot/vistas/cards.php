@@ -111,7 +111,7 @@
                     <ul class="card-text ul-card">
                         <li>Documento de identificación contratante</li>
                         <li>Documento de identificación beneficiarios</li>
-                        <li>Formato de declaraciones y autorizaciones con firma del cliente. Descarga Sarlaft <b><a href="vistas\modulos\SaludCot\resources\Norma SARLAFT info cliente SALUD persona NATURAL.pdf" target="_blank">AQUI</a></b></li>
+                        <li>Formato de declaraciones y autorizaciones con firma del cliente. Descarga Sarlaft <b><a href="vistas\modulos\SaludCot\resources\Norma SARLAFT - Info cliente Salud PNatural.pdf" target="_blank">AQUI</a></b></li>
                         <li>Soporte de pago inicial</li>
                         <li>Declaración de salud contratante y beneficiarios. Descarga formato <b><a href="vistas\modulos\SaludCot\resources\Declaración de salud-medicina prepagada y HyC salud - 2024.pdf" target="_blank">AQUI</a></b></li>
                     </ul>

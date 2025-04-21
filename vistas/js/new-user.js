@@ -14,8 +14,7 @@ document.addEventListener("DOMContentLoaded", function () {
   $("#tipoDePersona").val(1).trigger("change");
   $("#noAsistente").prop("checked", true).trigger("change");
   $("#usuarioVin").prop("disabled", false);
-  $("#fechaCreaVin").prop("disabled", false);
-  $("#fechaVinculacion").prop("disabled", false);
+  $("#fechaActivacion").prop("disabled", false);
 
   const params = new URLSearchParams(window.location.search);
 
@@ -36,17 +35,107 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 /*=============================================
-Eventos OnChange en inputs
+Eventos OnChange, OnClick en inputs
 =============================================*/
 
-$('input[name="radioMismoRep"]').on('change', function () {
-  if ($(this).attr('id') === 'siRepresentante') {
+// Evento OnChange Mismo Representante
+
+$('input[name="radioMismoRep"]').on("change", function () {
+  if ($(this).attr("id") === "siRepresentante") {
     $("#representanteLegal").val($("#personaDeContacto").val());
-  } else if ($(this).attr('id') === 'noRepresentante') {
+  } else if ($(this).attr("id") === "noRepresentante") {
     $("#representanteLegal").val("");
   }
 });
 
+function detectarCambios(dataOriginal, dataActual) {
+  const cambios = {};
+
+  Object.keys(dataOriginal).forEach((seccion) => {
+    cambios[seccion] = {};
+
+    Object.keys(dataOriginal[seccion]).forEach((campo) => {
+      const valorOriginal = dataOriginal[seccion][campo];
+      const valorActual = dataActual[seccion][campo];
+
+      if (typeof valorOriginal === "object" && valorOriginal !== null) {
+        // Comparar objetos internos (como infoAseguradoras.detalle)
+        cambios[seccion][campo] = {};
+        let huboCambioInterno = false;
+
+        Object.keys(valorOriginal).forEach((subCampo) => {
+          if (valorOriginal[subCampo] != valorActual[subCampo]) {
+            cambios[seccion][campo][subCampo] = valorActual[subCampo];
+            huboCambioInterno = true;
+          }
+        });
+
+        if (!huboCambioInterno) {
+          delete cambios[seccion][campo]; // No hubo cambios reales
+        }
+      } else if (valorOriginal != valorActual) {
+        cambios[seccion][campo] = valorActual;
+      }
+    });
+
+    // Si la sección no tiene cambios, eliminarla
+    if (Object.keys(cambios[seccion]).length === 0) {
+      delete cambios[seccion];
+    }
+  });
+
+  return cambios;
+}
+
+// Evento OnClick btnGuardar Usuario
+
+$(".btnGuardar").on("click", function () {
+  let data = setState();
+
+  console.log("State set up OnClick " + data);
+  console.log("State from the begining of loaded content" + initialSta);
+
+  const cambios = detectarCambios(initialSta, data);
+
+  if (Object.keys(cambios).length === 0) {
+    Swal.fire({
+      icon: "info",
+      title: "Sin cambios",
+      text: "No se detectaron cambios en el formulario.",
+    });
+    return;
+  }
+
+  // Aquí puedes enviar el objeto data a tu servidor o procesarlo como necesites
+  // Por ejemplo, usando AJAX para enviarlo a un archivo PHP
+
+  $.ajax({
+    url: "src/saveUser.php",
+    method: "POST",
+    dataType: "json", // cómo esperas la respuesta
+    contentType: "application/json", // ¡Muy importante! Indicamos que mandamos JSON
+    data: JSON.stringify({
+      id: id_usuario_edit,
+      cambios: cambios, // se serializa todo correctamente
+    }),
+    success: function (respuesta) {
+
+      if (respuesta.success) {
+        Swal.fire({
+          icon: "success",
+          title: "Éxito",
+          text: "Usuario guardado correctamente.",
+        });
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: "Hubo un error al guardar el usuario.",
+        });
+      }
+    },
+  });
+});
 
 /*=============================================
 Cargar Rol
@@ -137,12 +226,14 @@ Metodo de consultar ciudad por departamento
 
 function consultarCiudad() {
   var codigoDpto = $("#departamento").val();
+
   $.ajax({
     type: "POST",
     url: "src/consultarCiudadHogar.php",
     data: { codigoDpto: codigoDpto },
     cache: false,
     success: function (data) {
+      $("#ciudad").empty(); // Limpiar el select de ciudades antes de agregar nuevas opciones
       let ciudadesVeh = `<option value="">Seleccionar Ciudad</option>`;
       try {
         let json = JSON.parse(data);
@@ -243,115 +334,127 @@ Cargar Objeto para Guardar Información nueva
 //   }
 // }
 
-function sendDataToDB(data) {
-  // Info Usuario
+// function sendDataToDB(data) {
+//   // Info Usuario
 
-  let ciudades_id = data.info_usuario.ciudades_id;
-  let unidad_negocio = data.info_usuario.id_rol;
-  let tipoDePersona = data.info_usuario.tipos_documentos_id == "NIT" ? 2 : 1;
-  let tipoDeDocumento = data.info_usuario.tipos_documentos_id;
-  let documento = $("#documento").val();
-  let nombre = $("#nombre_perfil").val();
-  let apellidos = $("#apellidos_perfil").val();
-  let genero = $("#genero_perfil").val();
-  let fechaNacimiento = $("#fechaNacimiento_perfil").val();
-  let direccion = $("#direccion_perfil").val();
-  let telefono = $("#telefono_perfil").val();
-  let email = $("#email_perfil").val();
+//   let ciudades_id = data.info_usuario.ciudades_id;
+//   let unidad_negocio = data.info_usuario.id_rol;
+//   let tipoDePersona = data.info_usuario.tipos_documentos_id == "NIT" ? 2 : 1;
+//   let tipoDeDocumento = data.info_usuario.tipos_documentos_id;
+//   let documento = $("#documento").val();
+//   let nombre = $("#nombre_perfil").val();
+//   let apellidos = $("#apellidos_perfil").val();
+//   let genero = $("#genero_perfil").val();
+//   let fechaNacimiento = $("#fechaNacimiento_perfil").val();
+//   let direccion = $("#direccion_perfil").val();
+//   let telefono = $("#telefono_perfil").val();
+//   let email = $("#email_perfil").val();
 
-  let tieneAsistente = $("#siAsistente").is(":checked") ? 1 : 0;
+//   let tieneAsistente = $("#siAsistente").is(":checked") ? 1 : 0;
 
-  if (tieneAsistente) {
-    var nombreAsistente = $("#nombreAsistente").val();
-    var telefonoAsistente = $("#telefonoAsistente").val();
-    var emailAsistente = $("#emailAsistente").val();
-  }
+//   if (tieneAsistente) {
+//     var nombreAsistente = $("#nombreAsistente").val();
+//     var telefonoAsistente = $("#telefonoAsistente").val();
+//     var emailAsistente = $("#emailAsistente").val();
+//   }
 
-  // Info del Canal (Freelance) // ROL para usuarios no Freelance o SGA
+//   // Info del Canal (Freelance) // ROL para usuarios no Freelance o SGA
 
-  let rol_user = $("#rolUsers").val();
-  let Intermediario_user = $("intermediarioPerfil").val();
-  let categoria_user = $("#categoriaAsesor").val();
-  let cargos_user = $("#cargos").val();
-  let directorComerial_user = $("#directorComercial").val();
+//   let rol_user = $("#rolUsers").val();
+//   let Intermediario_user = $("intermediarioPerfil").val();
+//   let categoria_user = $("#categoriaAsesor").val();
+//   let cargos_user = $("#cargos").val();
+//   let directorComerial_user = $("#directorComercial").val();
 
-  let analista_user = $("#analistaAsesor").val();
-  let origen_user = $("#origen").val();
+//   let analista_user = $("#analistaAsesor").val();
+//   let origen_user = $("#origen").val();
 
-  let nombreRecomendador_user = $("#nombreRecomendador").val();
+//   let nombreRecomendador_user = $("#nombreRecomendador").val();
 
-  // Info de las aseguradoras que tiene abscritas el usuario justo a la hora de cargar el usuario
+//   // Info de las aseguradoras que tiene abscritas el usuario justo a la hora de cargar el usuario
 
-  let clavesAseguradoras = $("#siClaves").is(":checked") ? 1 : 0;
+//   let clavesAseguradoras = $("#siClaves").is(":checked") ? 1 : 0;
 
-  if (clavesAseguradoras) {
-    $(".clavesAseguradoras")
-      .find("input")
-      .each(function () {
-        let id = $(this).attr("id");
-        let value = $(this).is(":checked") ? 1 : 0;
-        if (this.tagName.toLowerCase() === "input" && id !== "otras_aseg") {
-          asegs = { ...asegs, [id]: value };
-        } else {
-          let otras_aseg = $("#otras_aseg").val();
-          asegs = { ...asegs, otras_aseg: otras_aseg };
-        }
-      });
+//   if (clavesAseguradoras) {
+//     $(".clavesAseguradoras")
+//       .find("input")
+//       .each(function () {
+//         let id = $(this).attr("id");
+//         let value = $(this).is(":checked") ? 1 : 0;
+//         if (this.tagName.toLowerCase() === "input" && id !== "otras_aseg") {
+//           asegs = { ...asegs, [id]: value };
+//         } else {
+//           let otras_aseg = $("#otras_aseg").val();
+//           asegs = { ...asegs, otras_aseg: otras_aseg };
+//         }
+//       });
 
-    console.log(asegs);
-  }
+//     console.log(asegs);
+//   }
 
-  // Info financiera del usuario
+//   // Info financiera del usuario
 
-  let entidad_bancaria = $("#entidadBancaria").val();
-  let tipo_cuenta = $("#tipoCuenta").val();
-  let numero_cuenta = $("#noCuenta").val();
-  let regimen_renta = $("#regimenRenta").val();
-  let responsable_iva = $("#siIVA").is(":checked") ? 1 : 0;
-  let facturador_electronico = $("#siFacturado").is(":checked") ? 1 : 0;
-  let participacion_esp = $("#participacionEsp").val().replace("%", "");
+//   let entidad_bancaria = $("#entidadBancaria").val();
+//   let tipo_cuenta = $("#tipoCuenta").val();
+//   let numero_cuenta = $("#noCuenta").val();
+//   let regimen_renta = $("#regimenRenta").val();
+//   let responsable_iva = $("#siIVA").is(":checked") ? 1 : 0;
+//   let facturador_electronico = $("#siFacturado").is(":checked") ? 1 : 0;
+//   let participacion_esp = $("#participacionEsp").val().replace("%", "");
 
-  // Info perfil
+//   // Info perfil
 
-  let limite_cotizaciones = $("#limiteCots").val();
-  let fecha_vinculacion = $("#fechaVinculacion").val();
-  let fecha_limite = $("#limiteUso").val();
-  let estasoUs = $("#estadoUs").val();
+//   let limite_cotizaciones = $("#limiteCots").val();
+//   let fecha_vinculacion = $("#fechaActivacion").val();
+//   let fecha_limite = $("#limiteUso").val();
+//   let estasoUs = $("#estadoUs").val();
 
-  data_user = {};
-}
+//   data_user = {};
+// }
 
-function initialState() {
+function setState() {
   let asegs = {};
 
   /*** Info Usuario ***/
   const infoUsuario = {
     ciudades_id: $("#ciudad").val(),
-    unidad_negocio: $("#unidadDeNegocio").val(),
-    tipo_persona: $("#tipoDePersona").val(),
-    tipo_documento: $("#tipoDocumento").val(),
-    documento: $("#documento").val(),
-    nombre: $("#nombre_perfil").val(),
-    apellidos: $("#apellidos_perfil").val(),
-    genero: $("#genero_perfil").val(),
-    fecha_nacimiento: $("#fechaNacimiento_perfil").val(),
-    direccion: $("#direccion_perfil").val(),
-    telefono: $("#telefono_perfil").val(),
-    email: $("#email_perfil").val(),
+    // Rol Usuario
+    unidad_negocio_rol: $("#unidadDeNegocio").val(),
+    // Por tipo de documento - Si cambia esto tiene que cambiar el tipo de documento dependiendo lo que venga
+    tipo_persona_rol: $("#tipoDePersona").val(),
+    // Tambien si cambia, deberia cambiar el tipo de documento solo que en este caso es directo en el otro caso es indirecto va por condicional
+    tipos_documentos_id: $("#tipoDocumento").val(),
+    usu_documento: $("#documento").val(),
+    usu_nombre: $("#nombre_perfil").val(),
+    usu_apellido: $("#apellidos_perfil").val(),
+    usu_genero: $("#genero_perfil").val(),
+    usu_fch_nac: $("#fechaNacimiento_perfil").val(),
+    usu_direccion: $("#direccion_perfil").val(),
+    usu_telefono: $("#telefono_perfil").val(),
+    usu_email: $("#email_perfil").val(),
+    // funciona de manera condicional y depende si esta check el input "siAsistente" en caso de ser asi debe validarse que vengan los 3 inputs llenos con informacion
     tiene_asistente: $("#siAsistente").is(":checked") ? 1 : 0,
     nombre_asistente: $("#nombreAsistente").val() || null,
     telefono_asistente: $("#telefonoAsistente").val() || null,
     email_asistente: $("#emailAsistente").val() || null,
+
+    // parte del usuario para validar fechas
+    cotizacionesTotales: $("#limiteCots").val(),
+    usu_fecha_activacion: $("#fechaActivacion").val() || null,
+    fechaFin: $("#limiteUso").val(),
+    usu_estado: $("#estadoUs").val(),
+
+    intermediario: $("#intermediarioPerfil").val(),
   };
 
   /*** Info del Canal ***/
   const infoCanal = {
-    rol: $("#rolUsers").val(),
-    intermediario: $("#intermediarioPerfil").val(),
-    categoria: $("#categoriaAsesor").val(),
+    //campo dependiente del rol del usuario asi no que no es necesario enviarlo por aca 
+    // rol: $("#rolUsers").val(),
+    proactividad: $("#categoriaAsesor").val(),
     cargo: $("#cargos").val(),
     director_comercial: $("#directorComercial").val(),
-    analista: $("#analistaAsesor").val(),
+    analista_comercial: $("#analistaAsesor").val(),
     origen: $("#origen").val(),
     nombre_recomendador: $("#nombreRecomendador").val(),
   };
@@ -375,7 +478,7 @@ function initialState() {
 
   /*** Info Financiera ***/
   const infoFinanciera = {
-    entidad_bancaria: $("#entidadBancaria").val(),
+    id_banco: $("#entidadBancaria").val(),
     tipo_cuenta: $("#tipoCuenta").val(),
     numero_cuenta: $("#noCuenta").val(),
     regimen_renta: $("#regimenRenta").val(),
@@ -384,13 +487,7 @@ function initialState() {
     participacion_esp: $("#participacionEsp").val().replace("%", "").trim(),
   };
 
-  /*** Info Perfil ***/
-  const infoPerfil = {
-    limite_cotizaciones: $("#limiteCots").val(),
-    fecha_vinculacion: $("#fechaVinculacion").val(),
-    fecha_limite: $("#limiteUso").val(),
-    estado_usuario: $("#estadoUs").val(),
-  };
+
 
   /*** Objeto final agrupado por secciones ***/
   const data_user = {
@@ -398,12 +495,10 @@ function initialState() {
     infoCanal,
     infoAseguradoras: asegs,
     infoFinanciera,
-    infoPerfil,
   };
 
   return data_user;
 }
-
 
 /*=============================================
 Cargar Usuario
@@ -418,11 +513,8 @@ async function loadUser(id) {
       success: function (respuesta) {
         resolve();
         const data = JSON.parse(respuesta);
-        console.log(data);
         const { info_usuario, info_usuario_canal, info_aseguradoras_user } =
           data;
-
-        console.log(info_aseguradoras_user);
 
         cargarCargos();
         cargarAnalistas();
@@ -485,6 +577,8 @@ async function loadUser(id) {
             $("#participacionEsp").val(info_usuario.participacion_esp + " %");
           }, 400);
 
+          $("#categoriaAsesor").val(info_usuario_canal.proactividad);
+
           $("#origen").val(info_usuario_canal.origen);
           $("#nombreRecomendador").val(info_usuario_canal.nombre_recomendador);
 
@@ -506,7 +600,6 @@ async function loadUser(id) {
               }
             }
           });
-
         }
 
         $("#usuarioVin").prop("disabled", true);
@@ -518,7 +611,7 @@ async function loadUser(id) {
         $("#fechaCreaVin").val(fechaForCrea);
         $("#fechaCreaVin").prop("disabled", true);
 
-        if ($("#fechaVinculacion").val() == "") {
+        if ($("#fechaActivacion").val() == "") {
           $("#diasActivacion").val(0);
         }
 
@@ -534,43 +627,50 @@ async function loadUser(id) {
         $("#tipoDocumento").val(
           tipoDoc == "Cedula de Ciudadania" ? "CC" : "NIT"
         );
-        
 
-        if(tipoPersona == "Natural"){
+        if (tipoPersona == "Natural") {
           $("#tipoDePersona").val(1).trigger("change");
           $("#documento").val(info_usuario.usu_documento);
           $("#nombre_perfil").val(info_usuario.usu_nombre);
           $("#apellidos_perfil").val(info_usuario.usu_apellido);
           $("#fechaNacimiento_perfil").val(info_usuario.usu_fch_nac);
           $("#genero_perfil").val(info_usuario.usu_genero == "M" ? "1" : "2");
-        } else if (tipoPersona == "Juridica"){
+        } else if (tipoPersona == "Juridica") {
           $("#tipoDePersona").val(2).trigger("change");
+          $("#tipoDocumento").val("NIT").trigger("change");
           $("#documento").val(info_usuario.usu_documento);
-          $("#razonSocial").val(info_usuario.usu_nombre+ " " + info_usuario.usu_apellido);
-          $("#personaDeContacto").val(info_usuario.usu_nombre + " " + info_usuario.usu_apellido);
+          $("#razonSocial").val(
+            info_usuario.usu_nombre + " " + info_usuario.usu_apellido
+          );
+          $("#personaDeContacto").val(
+            info_usuario.usu_nombre + " " + info_usuario.usu_apellido
+          );
 
-          if((info_usuario.usu_nombre + " " + info_usuario.usu_apellido) == $("#personaDeContacto").val()){
+          if (
+            info_usuario.usu_nombre + " " + info_usuario.usu_apellido ==
+            $("#personaDeContacto").val()
+          ) {
             $("#siRepresentante").prop("checked", true).trigger("change");
-            $()
+            $();
           }
-
         }
 
         let depto =
           info_usuario.ciudades_id.split("")[0] +
           info_usuario.ciudades_id.split("")[1];
+
+          if(depto == 11){
+            depto = 25;
+          }
         $("#departamento").val(depto).trigger("change");
 
         setTimeout(() => {
           $("#ciudad").val(info_usuario.ciudades_id).trigger("change");
-          initialSta = initialState();
-          console.log(initialSta)
+          initialSta = setState();
         }, 500);
         $("#direccion_perfil").val(info_usuario.usu_direccion);
         $("#telefono_perfil").val(info_usuario.usu_telefono);
         $("#email_perfil").val(info_usuario.usu_email);
-
-        
       },
       error: function (xhr, status, error) {
         console.error("Error al cargar el usuario:", error);

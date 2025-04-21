@@ -1,4 +1,8 @@
-<footer class="main-footer" style="margin-left: 36px !important; margin-right: 36px !important;">
+<footer class="main-footer" style="margin-left: 66px !important;
+    margin-right: 36px !important;
+    margin-bottom: 0px !important;
+    padding-bottom: 0px !important;
+    margin-top: 20px;">
 
 	<div class="row">
 		<div class="col-md-8">

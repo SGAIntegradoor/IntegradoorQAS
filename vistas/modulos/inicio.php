@@ -19,16 +19,16 @@ if (isset($_SESSION['showPopup']) && $_SESSION['showPopup'] === true) {
 
 <script>
   document.addEventListener("DOMContentLoaded", function() {
-    let linkControl = false
+    let linkControl = true
     let showPopUp = <?= json_encode($showPopup) ?>; // Asegura que el valor se pase correctamente como booleano
     let linkURL = `<div id="linkReg">
-                            <a href="https://forms.gle/xfcevm3ew4DkmxEp7" target="_blank">REGÍSTRATE DANDO CLIC AQUÍ</a>
+                            <a href="https://forms.gle/pAGxjtjKrkCv49PL6" target="_blank">REGÍSTRATE DANDO CLIC AQUÍ</a>
                         </div>`
     if (showPopUp) {
       Swal.fire({
         html: `
                     <div style='display: flex; align-items: center; justify-content: center; flex-direction: column;'>
-                        <img id="modalHome" src='vistas/img/modals/img/home/homeModal21.webp'/>
+                        <img id="modalHome" src='vistas/img/modals/img/home/homeModal22.webp'/>
                         ${linkControl ? linkURL: ""}
                     </div>
                 `,

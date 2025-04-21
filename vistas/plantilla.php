@@ -182,9 +182,19 @@
       width: 390px;
     }
 
-    .backdropLoader{
+    .backdropLoader {
       background: rgba(0, 0, 0, 0.1) !important;
     }
+
+    .wrapper2 {
+      height: 100% !important ;
+    }
+
+    .sidebar {
+      padding-bottom: 0px !important;
+    }
+
+
   </style>
 
 
@@ -317,7 +327,7 @@ CUERPO DOCUMENTO
     <?php
 
 
-    echo '<div class="wrapper" style="height: auto;overflow: hidden;min-height: 100%;">';
+    echo '<div class="wrapper2" style="height: 100vh; !important" >';
 
     /*=============================================
     CABEZOTE
@@ -382,7 +392,7 @@ CUERPO DOCUMENTO
         $_GET["ruta"] == "retomar-cotizacion-salud" ||
         $_GET["ruta"] == "retomar-cotizacion-hogar" ||
         $_GET["ruta"] == "negocios" ||
-        $_GET["ruta"] == "transporte-pasajeros" 
+        $_GET["ruta"] == "transporte-pasajeros"
       ) {
         if ($_GET['ruta'] == 'modificacion-productos') {
           $_GET['ruta'] = 'ModificacionProductos/ModificacionProductosView';
@@ -390,13 +400,12 @@ CUERPO DOCUMENTO
         if ($_GET['ruta'] == 'ayuda-ventas') {
           $_GET['ruta'] = 'AyudaVentas/AyudaVentasView';
         }
-        if($_GET['ruta'] == 'usuarios'){
-          if($_SESSION['rol'] == 1 || $_SESSION['rol'] == 10 || $_SESSION['rol'] == 11 || $_SESSION["rol"] == 12 || $_SESSION['rol'] == 22 || $_SESSION['rol'] == 23){
+        if ($_GET['ruta'] == 'usuarios') {
+          if ($_SESSION['rol'] == 1 || $_SESSION['rol'] == 10 || $_SESSION['rol'] == 11 || $_SESSION["rol"] == 12 || $_SESSION['rol'] == 22 || $_SESSION['rol'] == 23) {
             $_GET['ruta'] = 'usuarios3';
           } else {
             $_GET['ruta'] = 'usuarios';
           }
-
         }
 
         include "modulos/" . $_GET["ruta"] . ".php";

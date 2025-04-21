@@ -40,7 +40,7 @@ if (isset($_POST['id']) && ($_SESSION["rol"] == 12 || $_SESSION["rol"] == 11 || 
         $fila = $ejecucion->fetch_assoc();
 
         // Query Usuario Informacion Canal
-        $queryInfoCanal = "SELECT icu.*, u.id_usuario, d.* FROM informacion_canal_usuarios icu
+        $queryInfoCanal = "SELECT icu.*, u.id_usuario, d.* FROM informacion_canal_user icu
         INNER JOIN usuarios u ON icu.id_usuario = u.id_usuario
         INNER JOIN directores_comerciales d ON d.id_usuario = u.id_usuario
         WHERE icu.id_usuario = $id";

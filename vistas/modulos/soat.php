@@ -374,7 +374,7 @@
                                     <ul class="card-text" style="padding-left: 0px; list-style-position: inside;">
                                         <li>De <b>30</b> a <b>45</b> minutos hábiles una vez registrado correctamente el formulario</li>
                                     </ul>
-                                    <h6 style="margin-left: 0; text-align: left;">Expendiciones:</h6>
+                                    <h6 style="margin-left: 0; text-align: left;">Expediciones:</h6>
                                     <ul class="card-text" style="padding-left: 0px; list-style-position: inside;">
                                         <li>Vehículos sin problemas en el RUNT: de <b>2</b> hasta <b>5</b> horas hábiles.</li>
                                         <li>Vehículos con problemas en el RUNT: de <b>5</b> horas hasta <b>1</b> día hábil.</li>
@@ -383,7 +383,6 @@
                                     <h4 class="card-title" style="font-weight: bold;">HORARIO DE SERVICIO</h4>
                                     <ul class="card-text" style="padding-left: 0px; list-style-position: inside;">
                                         <li>Lunes a Viernes de 8:00 am 12:30 pm y de 1:30 pm a 4:00 pm</li>
-                                        <li>Sábados de 8:00 am a 11:00 pm</li>
                                     </ul>
                                 </div>
                             </div>

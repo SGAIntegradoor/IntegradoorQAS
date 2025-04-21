@@ -926,8 +926,8 @@ if (isset($_GET["id"])) {
               </div>
 
               <div class="form-group">
-                <label for="fechaVinculacion"><b>Fecha activación:</b></label>
-                <input type="date" name="fechaVinculacion" id="fechaVinculacion" disabled>
+                <label for="fechaActivacion"><b>Fecha activación:</b></label>
+                <input type="date" name="fechaActivacion" id="fechaActivacion" disabled>
               </div>
 
               <div class="form-group">
@@ -949,11 +949,11 @@ if (isset($_GET["id"])) {
               <div class="form-group">
                 <label for="estadoUs"><b>Estado:</b></label>
                 <select type="text" name="estadoUs" id="estadoUs">
-                  <option value="vinculado">vinculado</option>
-                  <option value="Activado">Activado</option>
-                  <option value="Inactivo">Inactivo</option>
-                  <option value="Bloqueado">Bloqueado</option>
-                  <option value="Reactivado">Reactivado</option>
+                  <option value="1">Vinculado</option>
+                  <option value="2">Activado</option>
+                  <option value="3">Inactivo</option>
+                  <option value="4">Bloqueado</option>
+                  <option value="5">Reactivado</option>
                 </select>
               </div>
             </div>
