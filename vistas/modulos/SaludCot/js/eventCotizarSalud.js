@@ -1179,13 +1179,6 @@ function cotizar() {
   };
 
   if (param) {
-    $.ajax({
-      url: "https://grupoasistencia.com/motor_webservice/validate_person",
-      type: "POST",
-      data: JSON.stringify(dataValidation),
-      success: function (data) {
-        let convertedData = JSON.parse(data);
-        if (convertedData.cedula) {
           document.getElementById("spinener-cot-salud").style.display = "flex";
           var tipoCotizacion = $("#individual").is(":checked") ? 1 : 2;
           var esCotizacionIndividual = $("#individual").is(":checked");
@@ -1276,7 +1269,6 @@ function cotizar() {
           console.log(JSON.stringify(datosCotizacion, null, 2));
 
           $.ajax({
-
             url: "https://grupoasistencia.com/health_engine/WSAxa/axa.php",
             //url: "http://localhost/motorTest/health_engine/axa.php",
             type: "POST",
@@ -1287,37 +1279,19 @@ function cotizar() {
               toogleDataContainer();
               document.getElementById("spinener-cot-salud").style.display =
                 "none";
-
               makeCards(data, tipoCotizacion);
             },
             error: function (data) {
-              alert("Error");
+              Swal.fire({
+                icon: "error",
+                title: "Error al cotizar",
+                text: "Por favor, verifica los datos ingresados.",
+              });
             },
           });
           window.scrollTo(0, 0);
-        } else {
-          showPopup
-            ? Swal.fire({
-                icon: "error",
-                title:
-                  "No tienes permiso para cotizar salud, habla con tu Analista Comercial.",
-              })
-            : "";
-        }
-      },
-      error: function (data) {
-        alert("Error");
-      },
-    });
-  } else {
-    Swal.fire({
-      icon: "info",
-      title: "Información Importante",
-      text: "Cotizador en mantenimiento por cambio de tarifas 2025. Estará habilitado en los próximos dias.",
-    });
-  }
+  } 
 }
-
 /**
  * Inicializar todo.
  * @function

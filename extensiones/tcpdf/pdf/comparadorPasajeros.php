@@ -314,7 +314,7 @@ $pdf->SetXY(158, 3);
 $pdf->SetTextColor(104, 104, 104);
 $pdf->Cell(25, 6, "No. cotización: " . $identificador);
 
-$pdf->Image('../../../vistas/img/logos/transporte_pasajero.png', 15.5, 99.5, 0, 29, 'PNG', '', '', true, 160, '', false, false, 0, false, false, false);
+$pdf->Image('../../../vistas/img/logos/transporte_pasajero.png', 15.5, 99.5, 0, 25, 'PNG', '', '', true, 160, '', false, false, 0, false, false, false);
 
 $pdf->SetFont('dejavusanscondensed', '', 2);
 

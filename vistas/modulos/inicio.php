@@ -28,7 +28,7 @@ if (isset($_SESSION['showPopup']) && $_SESSION['showPopup'] === true) {
       Swal.fire({
         html: `
                     <div style='display: flex; align-items: center; justify-content: center; flex-direction: column;'>
-                        <img id="modalHome" src='vistas/img/modals/img/home/homeModal22.webp'/>
+                        <img id="modalHome" src='vistas/img/modals/img/home/homeModal23.png'/>
                         ${linkControl ? linkURL: ""}
                     </div>
                 `,

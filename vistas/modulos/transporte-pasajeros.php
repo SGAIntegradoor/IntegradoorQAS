@@ -1419,7 +1419,7 @@ echo '<script>console.log(' . $idIntermediario . ", " . $rolAsesor . ')</script>
                         <option value="ServicioEsp">Servicio Especial</option>
                         <option value="PasajeroUrb">Pasajero Urbano</option>
                         <option value="PasajeroInter">Pasajero Intermunicipal</option>
-                        <option value="Taxi" selected>Taxi</option>
+                        <option value="Taxi">Taxi</option>
                       </select>
                     </div>
                   </div>
