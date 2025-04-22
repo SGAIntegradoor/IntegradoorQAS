@@ -220,7 +220,7 @@ async function cargarPerfil() {
       $("#apellidos_perfil").val(respuesta["usu_apellido"]);
       cargartipDoc();
       $("#documento_perfil").val(respuesta["usu_documento"]);
-      $("#direccion_perfil").val(respuesta["direccion"]);
+      $("#direccion_perfil").val(respuesta["usu_direccion"]);
       $("#telefono_perfil").val(respuesta["usu_telefono"]);
       $("#fechaNacimiento_perfil").val(respuesta["usu_fch_nac"]);
       $("#email_perfil").val(respuesta["usu_email"]);

@@ -1,6 +1,6 @@
 <?php
 
-if ($_SESSION["permisos"]["Ayudaventas"] != "x") {
+if ($_SESSION["permisos"]["Ayudaventas"] != "x" && $_SESSION['rol'] == 2) {
 
     echo '<script>
   

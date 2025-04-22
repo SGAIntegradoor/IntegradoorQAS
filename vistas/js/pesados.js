@@ -3976,7 +3976,11 @@ const vehiculoPermitidoPesados = [
   "CHASIS",
   "BUS",
   "CARROTANQUE",
-  "GRUA"
+  "GRUA",
+  "BUS / BUSETA / MICROBUS",
+  "MICROBUS",
+  "BUSETA",
+  "BUS"
 ];
 
 $("#btnConsultarVehmanualbuscador").click(function () {
@@ -4001,10 +4005,11 @@ $("#btnConsultarVehmanualbuscador").click(function () {
         modelo: modelo,
       },
       success: function (data) {
+        // console.log(data);
         if (data.estado == undefined) {
           alert("Vehículo no encontrado");
         } else {
-          // console.log(data);
+          console.log(data);
           var claseVeh = data.clase;
           let control = true;
           if (!data.estado) {
@@ -4017,9 +4022,9 @@ $("#btnConsultarVehmanualbuscador").click(function () {
               allowOutsideClick: false,
             }).then((result) => {
               if (result.isConfirmed) {
-                window.location = "cotizar";
+                window.location = "pesados";
               } else if (result.isDenied) {
-                window.location = "cotizar";
+                window.location = "pesados";
               }
             });
           }

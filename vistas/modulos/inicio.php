@@ -5,15 +5,21 @@ if (!isset($_SESSION['loggedIn']) || !$_SESSION['loggedIn']) {
   exit();
 }
 
+
 // Actualiza el tiempo de la última actividad
 $_SESSION['lastActivity'] = time();
 
 $showPopup = false;
-if (isset($_SESSION['showPopup']) && $_SESSION['showPopup'] === true) {
+if (isset($_SESSION['showPopup']) && $_SESSION['rol'] != 2) {
   session_start();
   $showPopup = true;
   unset($_SESSION['showPopup']); // Evita que el popup aparezca nuevamente después de refrescar
 }
+
+echo '<script>
+            console.log(' . json_encode($_SESSION) . ');
+        </script>';
+
 
 ?>
 

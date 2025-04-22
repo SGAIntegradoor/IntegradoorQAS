@@ -4131,18 +4131,10 @@ function validarNumCotizaciones() {
 }
 
 const tipoVehiculo = [
-  "PICK UPS",
-  "PICKUP SENCILLA",
-  "PICKUP DOBLE CABINA",
-  "AUTOMOVIL",
-  "AUTOMOVILES",
-  "CAMPEROS",
-  "CAMPERO",
-  "CAMIONETA PASAJ.",
-  "PICKUP DOBLE CAB",
-  "CAMIONETA REPAR",
-  "CAMIONETA REPAR.",
-  "CAMIONETA REPARTIDORA",
+  "BUS / BUSETA / MICROBUS",
+  "MICROBUS",
+  "BUSETA",
+  "BUS"
 ];
 
 $("#btnConsultarVehmanualbuscador").click(function () {

@@ -338,6 +338,7 @@ checkUserStatus();
 			/*=============================================
 		AYUDA VENTAS
 		=============================================*/
+		if ($_SESSION['rol'] != 2) {
 			?>
 			<li id="menuCotAyud" class="<?php echo $currentPage == 'ayuda-ventas' ? 'active' : ''; ?>">
 				<a id="ayuda-ventas">
@@ -346,6 +347,7 @@ checkUserStatus();
 				</a>
 			</li>
 			<?php
+		}
 			/*=============================================
 		INTERMEDIARIO
 		=============================================*/
