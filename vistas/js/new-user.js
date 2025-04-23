@@ -92,8 +92,8 @@ function detectarCambios(dataOriginal, dataActual) {
 $(".btnGuardar").on("click", function () {
   let data = setState();
 
-  console.log("State set up OnClick " + data);
-  console.log("State from the begining of loaded content" + initialSta);
+  console.log("State set up OnClick", data);
+  console.log("State from the beginning of loaded content", initialSta);
 
   const cambios = detectarCambios(initialSta, data);
 
@@ -104,7 +104,8 @@ $(".btnGuardar").on("click", function () {
       text: "No se detectaron cambios en el formulario.",
     });
     return;
-  }
+  } 
+
 
   // Aquí puedes enviar el objeto data a tu servidor o procesarlo como necesites
   // Por ejemplo, usando AJAX para enviarlo a un archivo PHP
@@ -119,7 +120,6 @@ $(".btnGuardar").on("click", function () {
       cambios: cambios, // se serializa todo correctamente
     }),
     success: function (respuesta) {
-
       if (respuesta.success) {
         Swal.fire({
           icon: "success",
@@ -235,7 +235,8 @@ function consultarCiudad() {
     success: function (data) {
       $("#ciudad").empty(); // Limpiar el select de ciudades antes de agregar nuevas opciones
       let ciudadesVeh = `<option value="">Seleccionar Ciudad</option>`;
-      try {
+      // try {
+      if(data.success){
         let json = JSON.parse(data);
         json.sort((a, b) => a.codigo - b.codigo);
 
@@ -244,15 +245,16 @@ function consultarCiudad() {
         });
 
         $("#ciudad").append(ciudadesVeh);
-      } catch (error) {
-        console.error("Error al procesar JSON:", error);
       }
+      // } catch (error) {
+      //   console.error("Error al procesar JSON:", error);
+      // }
     },
   });
 }
 
 function formatoFecha(fecha) {
-  console.log(fecha);
+  // console.log(fecha);
   let fechaFormateada = new Date(fecha.replace(" ", "T"));
   let year = fechaFormateada.getFullYear();
   let month = String(fechaFormateada.getMonth() + 1).padStart(2, "0");
@@ -449,7 +451,7 @@ function setState() {
 
   /*** Info del Canal ***/
   const infoCanal = {
-    //campo dependiente del rol del usuario asi no que no es necesario enviarlo por aca 
+    //campo dependiente del rol del usuario asi no que no es necesario enviarlo por aca
     // rol: $("#rolUsers").val(),
     proactividad: $("#categoriaAsesor").val(),
     cargo: $("#cargos").val(),
@@ -486,8 +488,6 @@ function setState() {
     facturador_electronico: $("#siFacturado").is(":checked") ? 1 : 0,
     participacion_esp: $("#participacionEsp").val().replace("%", "").trim(),
   };
-
-
 
   /*** Objeto final agrupado por secciones ***/
   const data_user = {
@@ -553,53 +553,108 @@ async function loadUser(id) {
           $("#unidadDeNegocio").val(info_usuario.id_rol);
           $("#rolUsers").val(info_usuario.id_rol).trigger("change");
 
+          // setTimeout(() => {
+          //   $("#intermediarioPerfil")
+          //     .val(info_usuario.id_Intermediario)
+          //     .trigger("change");
+          //   $("#analistaAsesor")
+          //     .val(info_usuario_canal.analista_comercial ?? "")
+          //     .trigger("change");
+          //   $("#entidadBancaria")
+          //     .val(info_usuario.id_banco ?? "")
+          //     .trigger("change");
+          //   $("#tipoCuenta")
+          //     .val(info_usuario.tipo_cuenta ?? "")
+          //     .trigger("change");
+          //   $("#noCuenta").val(info_usuario.numero_cuenta ?? "");
+          //   $("#regimenRenta").val(info_usuario.regimen_renta ?? "");
+          //   $("#cargos")
+          //     .val(info_usuario_canal.cargo ?? "")
+          //     .trigger("change");
+
+          //   info_usuario.facturador_electronico == 1
+          //     ? $("#siFacturado").prop("checked", true).trigger("change")
+          //     : $("#noFacturado").prop("checked", true).trigger("change");
+
+          //   info_usuario.responsable_iva == 1
+          //     ? $("#siIVA").prop("checked", true).trigger("change")
+          //     : $("#noIVA").prop("checked", true).trigger("change");
+
+          //   $("#participacionEsp").val(
+          //     info_usuario.participacion_esp ?? "0 " + " %"
+          //   );
+          // }, 400);
+
+          // $("#categoriaAsesor")
+          //   .val(
+          //     info_usuario_canal.proactividad == null
+          //       ? ""
+          //       : info_usuario_canal.proactividad
+          //   )
+          //   .trigger("change");
+
+          // $("#origen").val(info_usuario_canal.origen);
+          // $("#nombreRecomendador").val(info_usuario_canal.nombre_recomendador);
+
           setTimeout(() => {
             $("#intermediarioPerfil")
-              .val(info_usuario.id_Intermediario)
+              .val(info_usuario?.id_Intermediario ?? "")
               .trigger("change");
+          
             $("#analistaAsesor")
-              .val(info_usuario_canal.analista_comercial)
+              .val(info_usuario_canal?.analista_comercial ?? "")
               .trigger("change");
-            $("#entidadBancaria").val(info_usuario.id_banco).trigger("change");
-            $("#tipoCuenta").val(info_usuario.tipo_cuenta).trigger("change");
-            $("#noCuenta").val(info_usuario.numero_cuenta);
-            $("#regimenRenta").val(info_usuario.regimen_renta);
-            $("#cargos").val(info_usuario_canal.cargo).trigger("change");
-
-            info_usuario.facturador_electronico == 1
+          
+            $("#entidadBancaria")
+              .val(info_usuario?.id_banco ?? "")
+              .trigger("change");
+          
+            $("#tipoCuenta").val(info_usuario?.tipo_cuenta ?? "").trigger("change");
+            $("#noCuenta").val(info_usuario?.numero_cuenta ?? "");
+            $("#regimenRenta").val(info_usuario?.regimen_renta ?? "");
+            $("#cargos").val(info_usuario_canal?.cargo ?? "").trigger("change");
+          
+            info_usuario?.facturador_electronico == 1
               ? $("#siFacturado").prop("checked", true).trigger("change")
               : $("#noFacturado").prop("checked", true).trigger("change");
-
-            info_usuario.responsable_iva == 1
+          
+            info_usuario?.responsable_iva == 1
               ? $("#siIVA").prop("checked", true).trigger("change")
               : $("#noIVA").prop("checked", true).trigger("change");
-
-            $("#participacionEsp").val(info_usuario.participacion_esp + " %");
+          
+            $("#participacionEsp").val((info_usuario?.participacion_esp ?? "0") + " %");
           }, 400);
+          
+          // Fuera del setTimeout también validás:
+          $("#categoriaAsesor")
+            .val(info_usuario_canal?.proactividad ?? "")
+            .trigger("change");
+          
+          $("#origen").val(info_usuario_canal?.origen ?? "");
+          $("#nombreRecomendador").val(info_usuario_canal?.nombre_recomendador ?? "");
 
-          $("#categoriaAsesor").val(info_usuario_canal.proactividad);
-
-          $("#origen").val(info_usuario_canal.origen);
-          $("#nombreRecomendador").val(info_usuario_canal.nombre_recomendador);
-
-          Object.entries(info_aseguradoras_user).length > 0
-            ? $("#siClaves").prop("checked", true).trigger("change")
-            : $("#noClaves").prop("checked", true).trigger("change");
-
-          Object.entries(info_aseguradoras_user).forEach(([key, value]) => {
-            const element = document.getElementById(key);
-            // Si existe el elemento y es un checkbox
-            if (element && element.type === "checkbox") {
-              element.checked = value === "1";
-            }
-            // Si es el campo "otras_aseg" que es un input text
-            if (key === "otras_aseg") {
-              const otrasInput = document.getElementById("otras_aseg");
-              if (otrasInput) {
-                otrasInput.value = value;
+          if(info_aseguradoras_user){
+            Object.entries(info_aseguradoras_user).length > 0
+              ? $("#siClaves").prop("checked", true).trigger("change")
+              : $("#noClaves").prop("checked", true).trigger("change");
+  
+            Object.entries(info_aseguradoras_user).forEach(([key, value]) => {
+              const element = document.getElementById(key);
+              // Si existe el elemento y es un checkbox
+              if (element && element.type === "checkbox") {
+                element.checked = value === "1";
               }
-            }
-          });
+              // Si es el campo "otras_aseg" que es un input text
+              if (key === "otras_aseg") {
+                const otrasInput = document.getElementById("otras_aseg");
+                if (otrasInput) {
+                  otrasInput.value = value;
+                }
+              }
+            });
+          } else {
+            
+          }
         }
 
         $("#usuarioVin").prop("disabled", true);
@@ -659,9 +714,9 @@ async function loadUser(id) {
           info_usuario.ciudades_id.split("")[0] +
           info_usuario.ciudades_id.split("")[1];
 
-          if(depto == 11){
-            depto = 25;
-          }
+        if (depto == 11) {
+          depto = 25;
+        }
         $("#departamento").val(depto).trigger("change");
 
         setTimeout(() => {
@@ -691,7 +746,7 @@ function getComissions(id = null) {
     data: { id_usuario: id },
     success: function (respuesta) {
       const data = JSON.parse(respuesta);
-      console.log(data);
+      // console.log(data);
       if (data.length == 0) {
         $("#comisionesTable tbody").html(
           '<tr><td colspan="7" class="text-center">No hay comisiones configuradas para este usuario</td></tr>'
@@ -769,7 +824,7 @@ function addComment() {
         permisos.usu_nombre + " " + permisos.usu_apellido,
     },
     success: function (respuesta) {
-      console.log(respuesta);
+      // console.log(respuesta);
     },
   });
 
@@ -797,13 +852,17 @@ function getComments(id) {
       const data = JSON.parse(respuesta);
       let comentarios = "";
 
-      data.forEach((element) => {
-        const { comentario, fecha_comentario, nombre_usuario_comentario } =
-          element;
-        comentarios += `---------------------------------------------------------------------------------------------------\n${comentario}\n${fecha_comentario}\n${nombre_usuario_comentario}\n---------------------------------------------------------------------------------------------------\n\n`;
-      });
+      if (data.status == "error") {
+        return;
+      } else {
+        data.forEach((element) => {
+          const { comentario, fecha_comentario, nombre_usuario_comentario } =
+            element;
+          comentarios += `---------------------------------------------------------------------------------------------------\n${comentario}\n${fecha_comentario}\n${nombre_usuario_comentario}\n---------------------------------------------------------------------------------------------------\n\n`;
+        });
 
-      $("#comentarioTA").val(comentarios);
+        $("#comentarioTA").val(comentarios);
+      }
       $("#comentarioTA").prop("disabled", true); // Deshabilitar textarea
     },
   });
@@ -1053,7 +1112,7 @@ function saveComission(
       observaciones: observaciones,
     },
     success: function () {
-      console.log("Se aguardo la comision para el usuario");
+      console.log("Se guardo la comision para el usuario");
     },
   });
 }
@@ -1081,7 +1140,7 @@ function updateSelectText(e = null) {
   );
 
   if (e?.target.value == "Todos" && !e?.target.checked) {
-    console.log("checkeo todos desde select");
+    // console.log("checkeo todos desde select");
     // Marcar todas las opciones si "Todos" está seleccionado
     allCheckboxes.forEach((input) => (input.checked = false));
   }
@@ -1090,7 +1149,7 @@ function updateSelectText(e = null) {
     const checkedCheckboxes = document.querySelectorAll(
       ".options-container input:checked"
     );
-    console.log(checkedCheckboxes);
+    // console.log(checkedCheckboxes);
     checkedCheckboxes.forEach((inpt) => {
       if (inpt.value !== "Todos" && !selectedOptions.includes(inpt.value)) {
         selectedOptions.push(inpt.value);
@@ -1102,7 +1161,7 @@ function updateSelectText(e = null) {
   // allCheckboxes.forEach((input) => {
   let input = e?.target;
   if (input.checked && input.value !== "Todos") {
-    console.log("disparo evento de otro cualquiera menos todos");
+    // console.log("disparo evento de otro cualquiera menos todos");
     // Agregar solo si no existe
     if (!selectedOptions.includes(input.value)) {
       selectedOptions.push(input.value);
@@ -1113,9 +1172,9 @@ function updateSelectText(e = null) {
     if (index > -1) {
       selectedOptions.splice(index, 1);
       checkedCheckboxesGlobal.forEach((inpt) => {
-        console.log(inpt.value, selectedOptions);
+        // console.log(inpt.value, selectedOptions);
         if (inpt.value !== "Todos" && !selectedOptions.includes(inpt.value)) {
-          console.log(inpt.value);
+          // console.log(inpt.value);
           selectedOptions.push(inpt.value);
         }
       });
@@ -1124,16 +1183,16 @@ function updateSelectText(e = null) {
       if (index2 > -1) {
         selectedOptions.splice(index2, 1);
         checkedCheckboxesGlobal.forEach((inpt) => {
-          console.log(inpt.value, selectedOptions);
+          // console.log(inpt.value, selectedOptions);
           if (!selectedOptions.includes(inpt.value)) {
-            console.log(inpt.value);
+            // console.log(inpt.value);
             selectedOptions.push(inpt.value);
           }
         });
       }
     }
   } else if (input.value == "Todos" && !input.checked) {
-    console.log("desmarcando todos");
+    // console.log("desmarcando todos");
     // Si "Todos" está desmarcado, eliminar "Todos" del array
     allCheckboxes.forEach((input) => (input.checked = false));
     const index = selectedOptions.indexOf("Todos");
@@ -1144,9 +1203,9 @@ function updateSelectText(e = null) {
   // });
 
   // Si todas las opciones individuales están seleccionadas, marcar "Todos"
-  console.log(selectedOptions.length, allCheckboxes.length);
+  // console.log(selectedOptions.length, allCheckboxes.length);
   if (selectedOptions.length === allCheckboxes.length - 1) {
-    console.log("la longitud del selected es igual a la de los checkboxes -1");
+    // console.log("la longitud del selected es igual a la de los checkboxes -1");
     selectedOptions.length = 0; // Limpiar y solo mostrar "Todos"
     selectedOptions.push("Todos");
     todosCheckbox.checked = true; // Asegurarse de que "Todos" esté marcado

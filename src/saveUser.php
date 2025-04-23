@@ -28,6 +28,7 @@ if ($id && in_array($_SESSION["rol"], [1, 10, 11, 12, 22, 23])) {
         foreach ($datos as $campo => $valor) {
             $valor = mysqli_real_escape_string($enlace, $valor);
             $set[] = "$campo = '$valor'";
+            $datos[$campo] = $valor; // limpio los valores también para el insert
         }
 
         if (empty($set)) continue;
@@ -35,18 +36,25 @@ if ($id && in_array($_SESSION["rol"], [1, 10, 11, 12, 22, 23])) {
         switch ($seccion) {
             case "infoUsuario":
                 $query = "UPDATE usuarios SET " . implode(", ", $set) . " WHERE id_usuario = $id";
+                $table = null; // No insert aquí
                 break;
 
             case "infoFinanciera":
                 $query = "UPDATE informacion_financiera_user SET " . implode(", ", $set) . " WHERE id_usuario = $id";
+                $table = "informacion_financiera_user";
+                $idField = "id_info_entidad_fin";
                 break;
 
             case "infoCanal":
                 $query = "UPDATE informacion_canal_user SET " . implode(", ", $set) . " WHERE id_usuario = $id";
+                $table = "informacion_canal_user";
+                $idField = "id_info_canal";
                 break;
 
             case "infoAseguradoras":
                 $query = "UPDATE claves_aseguradoras_user SET " . implode(", ", $set) . " WHERE id_usuario = $id";
+                $table = "claves_aseguradoras_user";
+                $idField = "id_aseguradoras_user";
                 break;
 
             default:
@@ -55,13 +63,41 @@ if ($id && in_array($_SESSION["rol"], [1, 10, 11, 12, 22, 23])) {
                     "ok" => false,
                     "error" => "Sección no reconocida"
                 ];
-                continue 2; // salta al siguiente foreach
+                continue 2;
         }
 
         $res = mysqli_query($enlace, $query);
+        $afectadas = mysqli_affected_rows($enlace);
 
-        if ($res) {
+        if ($res && $afectadas > 0) {
             $respuestas[] = ["seccion" => $seccion, "ok" => true];
+        } elseif ($res && $afectadas === 0 && $table) {
+            // Hacer INSERT si no existe
+            $campos = array_keys($datos);
+            $valores = array_values($datos);
+
+            // Agregar id_usuario
+            $campos[] = "id_usuario";
+            $valores[] = $id;
+
+            // Escapar comillas en los valores
+            $valoresEscapados = array_map(function($v) use ($enlace) {
+                return "'" . mysqli_real_escape_string($enlace, $v) . "'";
+            }, $valores);
+
+            $insertQuery = "INSERT INTO $table ($idField, " . implode(", ", $campos) . ") VALUES (NULL, " . implode(", ", $valoresEscapados) . ")";
+            $insertRes = mysqli_query($enlace, $insertQuery);
+
+            if ($insertRes) {
+                $respuestas[] = ["seccion" => $seccion, "ok" => true, "accion" => "insert"];
+            } else {
+                $respuestas[] = [
+                    "seccion" => $seccion,
+                    "ok" => false,
+                    "error" => mysqli_error($enlace),
+                    "accion" => "insert"
+                ];
+            }
         } else {
             $respuestas[] = [
                 "seccion" => $seccion,

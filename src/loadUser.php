@@ -30,7 +30,7 @@ if (isset($_POST['id']) && ($_SESSION["rol"] == 12 || $_SESSION["rol"] == 11 || 
 
     if ($preFetch["id_rol"] == 19) {
 
-        $condicion = "JOIN informacion_financiera_user ifu ON ifu.id_usuario = u.id_usuario";
+        $condicion = "LEFT JOIN informacion_financiera_user ifu ON ifu.id_usuario = u.id_usuario";
 
         $queryUser = "SELECT * FROM usuarios u 
         $condicion
@@ -40,20 +40,21 @@ if (isset($_POST['id']) && ($_SESSION["rol"] == 12 || $_SESSION["rol"] == 11 || 
         $fila = $ejecucion->fetch_assoc();
 
         // Query Usuario Informacion Canal
-        $queryInfoCanal = "SELECT icu.*, u.id_usuario, d.* FROM informacion_canal_user icu
-        INNER JOIN usuarios u ON icu.id_usuario = u.id_usuario
-        INNER JOIN directores_comerciales d ON d.id_usuario = u.id_usuario
+        $queryInfoCanal = "SELECT icu.*, u.id_usuario, d.* FROM informacion_canal_users icu
+        LEFT JOIN usuarios u ON icu.id_usuario = u.id_usuario
+        LEFT JOIN directores_comerciales d ON d.id_usuario = u.id_usuario
         WHERE icu.id_usuario = $id";
 
         // Query Usuario Informacion Aseguradoras
         $queryInfoAseguradoras = "SELECT cau.*, u.id_usuario FROM claves_aseguradoras_user cau
-        INNER JOIN usuarios u ON cau.id_usuario = u.id_usuario
+        LEFT JOIN usuarios u ON cau.id_usuario = u.id_usuario
         WHERE cau.id_usuario = $id";
 
         $ejecucion2 = mysqli_query($enlace, $queryInfoCanal);
-        $fila2 = $ejecucion2->fetch_assoc();
+        $fila2 = ($ejecucion2) ? $ejecucion2->fetch_assoc() : null;
+
         $ejecucion3 = mysqli_query($enlace, $queryInfoAseguradoras);
-        $fila3 = $ejecucion3->fetch_assoc();
+        $fila3 = ($ejecucion3) ? $ejecucion3->fetch_assoc() : null;
 
         echo json_encode(array(
             "info_usuario" => $fila,

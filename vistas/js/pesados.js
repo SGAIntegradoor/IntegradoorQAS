@@ -14,7 +14,7 @@ $(document).ready(function () {
     "txtNombresRepresentante",
     "txtApellidos",
     "txtApellidosRepresentante",
-    "txtRazonSocial"
+    "txtRazonSocial",
   ];
 
   // Función para filtrar caracteres especiales
@@ -780,9 +780,15 @@ function consultarAsegurado() {
 
         $("#tipoDocumentoIDRepresentante").val("");
 
-        $("#dianacimientoRepresentante").append("<option value='' selected></option>");
-        $("#mesnacimientoRepresentante").append("<option value=''selected ></option>");
-        $("#anionacimientoRepresentante").append("<option value='' selected></option>");
+        $("#dianacimientoRepresentante").append(
+          "<option value='' selected></option>"
+        );
+        $("#mesnacimientoRepresentante").append(
+          "<option value=''selected ></option>"
+        );
+        $("#anionacimientoRepresentante").append(
+          "<option value='' selected></option>"
+        );
       }
     },
   });
@@ -950,73 +956,72 @@ function consulPlacaPesados(query = "1") {
   let mesRep = $("#mesnacimientoRepresentante").val();
   let celularRep = $("#txtCelularRepresentante").val();
   let dianacimientoRequired = document
-      .getElementById("dianacimiento")
-      .hasAttribute("required");
-    let mesnacimientoRequired = document
-      .getElementById("mesnacimiento")
-      .hasAttribute("required");
-    let anionacimientoRequired = document
-      .getElementById("anionacimiento")
-      .hasAttribute("required");
+    .getElementById("dianacimiento")
+    .hasAttribute("required");
+  let mesnacimientoRequired = document
+    .getElementById("mesnacimiento")
+    .hasAttribute("required");
+  let anionacimientoRequired = document
+    .getElementById("anionacimiento")
+    .hasAttribute("required");
 
-    // Variables para las validaciones
-    let mesV = true,
-      diaV = true,
-      anioV = true;
+  // Variables para las validaciones
+  let mesV = true,
+    diaV = true,
+    anioV = true;
 
-    // Validar "required" y valores
-    if (
-      dianacimientoRequired &&
-      mesnacimientoRequired &&
-      anionacimientoRequired
-    ) {
-      mesV = mesnacimiento !== ""; // Verificar si tiene valor
-      diaV = dianacimiento !== "";
-      anioV = anionacimiento !== "";
-    }
+  // Validar "required" y valores
+  if (
+    dianacimientoRequired &&
+    mesnacimientoRequired &&
+    anionacimientoRequired
+  ) {
+    mesV = mesnacimiento !== ""; // Verificar si tiene valor
+    diaV = dianacimiento !== "";
+    anioV = anionacimiento !== "";
+  }
 
-    let typeQuery =
-      query != "2"
-        ? numplaca != "" &&
-          tipoDocumentoID != "" &&
-          numDocumentoID != "" &&
-          dianacimiento != "" &&
-          mesnacimiento != "" &&
-          anionacimiento != "" &&
-          nombresAseg != "" &&
-          apellidosAseg != "" &&
-          generoAseg != "" &&
-          estadoCivil != ""
-        : numplaca != "" &&
-          digitoVerif != "" &&
-          razonSocial != "" &&
-          anioRep != "" &&
-          diaRep != "" &&
-          mesRep != "" &&
-          (dianacimientoRequired ? dianacimiento != "" : true) !== false &&
-          (mesnacimientoRequired ? mesnacimiento != "" : true) !== false &&
-          (anionacimientoRequired ? anionacimiento != "" : true) !== false &&
-          numDocRep != "" &&
-          nomRep != "" &&
-          apellidoRep != "" &&
-          generoRep != "" &&
-          estadoCivilRep != "";
-    //correoRep != "" &&
-    //celularRep != "";
+  let typeQuery =
+    query != "2"
+      ? numplaca != "" &&
+        tipoDocumentoID != "" &&
+        numDocumentoID != "" &&
+        dianacimiento != "" &&
+        mesnacimiento != "" &&
+        anionacimiento != "" &&
+        nombresAseg != "" &&
+        apellidosAseg != "" &&
+        generoAseg != "" &&
+        estadoCivil != ""
+      : numplaca != "" &&
+        digitoVerif != "" &&
+        razonSocial != "" &&
+        anioRep != "" &&
+        diaRep != "" &&
+        mesRep != "" &&
+        (dianacimientoRequired ? dianacimiento != "" : true) !== false &&
+        (mesnacimientoRequired ? mesnacimiento != "" : true) !== false &&
+        (anionacimientoRequired ? anionacimiento != "" : true) !== false &&
+        numDocRep != "" &&
+        nomRep != "" &&
+        apellidoRep != "" &&
+        generoRep != "" &&
+        estadoCivilRep != "";
+  //correoRep != "" &&
+  //celularRep != "";
 
-    //! Agregar esto a MOTOS y Pesados END
+  //! Agregar esto a MOTOS y Pesados END
 
-    if (typeQuery) {
+  if (typeQuery) {
+    $("btnConsultarPlacaPesados2").remove();
 
-      $("btnConsultarPlacaPesados2").remove();
-
-      $("#dianacimiento, #mesnacimiento, #anionacimiento").each(function () {
-        // Restablecer el estilo para los campos que tienen valor
-        $(this)
-          .next(".select2-container")
-          .find(".select2-selection")
-          .css("border", "");
-      });
+    $("#dianacimiento, #mesnacimiento, #anionacimiento").each(function () {
+      // Restablecer el estilo para los campos que tienen valor
+      $(this)
+        .next(".select2-container")
+        .find(".select2-selection")
+        .css("border", "");
+    });
     // Oculta los campos de consultar Vehiculo paso a paso desde la Guia Fasecolda
     document.getElementById("formularioVehiculo").style.display = "none";
     $("#loaderPlaca").html(
@@ -1195,7 +1200,7 @@ function consulPlacaPesados(query = "1") {
               } else if (codigoClase == 25) {
                 claseVehiculo = "TRAILER";
                 limiteRCESTADO = 6;
-              } 
+              }
 
               //console.log(codigoClase);
               $("#CodigoClase").val(codigoClase);
@@ -1218,7 +1223,7 @@ function consulPlacaPesados(query = "1") {
         } else {
           if (
             mensajeConsulta == "Parámetros Inválidos. Placa es requerido." ||
-            mensajeConsulta == "Favor diligenciar correctamente la placa" 
+            mensajeConsulta == "Favor diligenciar correctamente la placa"
           ) {
             swal.fire({
               text: "! Favor diligenciar correctamente la placa. ¡",
@@ -1248,12 +1253,11 @@ function consulPlacaPesados(query = "1") {
               // setTimeout(consulPlaca, 2000);
             }
           }
-          if(query == "2"){
+          if (query == "2") {
             setTimeout(() => {
               $("#loaderPlaca2").html("");
-            }, 3000)
-            
-          }else{
+            }, 3000);
+          } else {
             $("#loaderPlaca").html("");
           }
         }
@@ -1277,7 +1281,7 @@ function consulPlacaPesados(query = "1") {
           // setTimeout(consulPlacaPesados, 4000);
         }
       });
-  }else{
+  } else {
     $("#dianacimiento, #mesnacimiento, #anionacimiento").each(function () {
       // Verificar si el campo tiene un valor
       if ($(this).val() === "") {
@@ -1302,7 +1306,6 @@ function consulPlacaPesados(query = "1") {
       showConfirmButton: true,
       confirmButtonText: "Cerrar",
     });
-  
   }
 }
 
@@ -1524,11 +1527,10 @@ function consulDatosFasecolda(codFasecolda, edadVeh) {
           //! Agregar esto a MOTOS y Pesados START
           $("#loaderPlaca2").html("");
           //! Agregar esto a MOTOS y Pesados END
-          document.getElementById("formularioVehiculo").style.display =
-              "block";
-            document.getElementById("headerAsegurado").style.display = "block";
-            document.getElementById("masA").style.display = "block";
-            document.getElementById("DatosAsegurado").style.display = "none";
+          document.getElementById("formularioVehiculo").style.display = "block";
+          document.getElementById("headerAsegurado").style.display = "block";
+          document.getElementById("masA").style.display = "block";
+          document.getElementById("DatosAsegurado").style.display = "none";
         } else {
           var claseVeh = data.clase;
           var marcaVeh = data.marca;
@@ -1551,8 +1553,9 @@ function consulDatosFasecolda(codFasecolda, edadVeh) {
           document.getElementById("formularioVehiculo").style.display = "none";
           document.getElementById("headerAsegurado").style.display = "block";
           document.getElementById("contenSuperiorPlaca").style.display = "none";
-          document.getElementById("contenBtnConsultarPlacaPesados").style.display =
-            "none";
+          document.getElementById(
+            "contenBtnConsultarPlacaPesados"
+          ).style.display = "none";
           document.getElementById("resumenVehiculo").style.display = "block";
           document.getElementById("contenBtnCotizar").style.display = "block";
           $("#loaderPlaca").html("");
@@ -2150,7 +2153,7 @@ function cotizarFinesa(ofertasCotizaciones) {
     if (element.cotizada == null || element.cotizada == false) {
       promisesFinesa.push(
         fetch(
-           "https://www.grupoasistencia.com/motor_webservice/paymentInstallmentsFinesa",
+          "https://www.grupoasistencia.com/motor_webservice/paymentInstallmentsFinesa",
           //"http://localhost/motorTest/paymentInstallmentsFinesa",
           {
             method: "POST",
@@ -2312,9 +2315,9 @@ $("#btnReCotizarFallidas").click(function () {
 
 //* CONSULTA MANUAL, LA MISMA PARA TODOS, EN PROCESO DE NO REPETIR EN TRES ARCHIVOS JS DIFERENTES *//
 //CAMBIOS JHON CONSULTA FASECOLDA
-function addPrevisora() {
+function addAseguradora(aseguradora) {
   // Verificar si ya existe una fila para la aseguradora
-  const filaExistente = document.getElementById("Previsora");
+  const filaExistente = document.getElementById(aseguradora);
 
   if (filaExistente) {
     // Si la fila existe, actualiza el mensaje de observaciones
@@ -2413,10 +2416,10 @@ function cotizarOfertasPesados() {
   var dia = document.getElementById("dianacimiento").value;
   var mes = document.getElementById("mesnacimiento").value;
   var anio = document.getElementById("anionacimiento").value;
-  
+
   var FechaNacimiento = "";
 
-  if(anio == "" &&  mes == "" && dia == ""){
+  if (anio == "" && mes == "" && dia == "") {
     FechaNacimiento = "";
   } else {
     FechaNacimiento = anio + "-" + mes + "-" + dia;
@@ -2520,8 +2523,8 @@ function cotizarOfertasPesados() {
         apellidosRep != "" &&
         generoRep != "" &&
         estCivRep != "";
-        //correoRep != "" &&
-        //celRep != "";
+  //correoRep != "" &&
+  //celRep != "";
 
   //! Agregar a Motos y Pesados END
 
@@ -2597,9 +2600,9 @@ function cotizarOfertasPesados() {
         },
       };
 
-       //! Agregar a Motos y Pesados START
+      //! Agregar a Motos y Pesados START
 
-       if (tipoDocumentoID == 2) {
+      if (tipoDocumentoID == 2) {
         raw.razonSocial = razonSocial;
         raw.digitoVerif = digitoVerif;
         raw.tipoDocRep = tipoDocRep;
@@ -3170,30 +3173,28 @@ function cotizarOfertasPesados() {
                   });
 
                 cont.push(hdiPromise);
-              }
-              // else if (aseguradora === "Previsora") {
-              //   let previsoraPromise = new Promise((resolve, reject) => {
-              //     try {
-              //       let arrAseguradora = [
-              //         {
-              //           Mensajes: [
-              //             "Solicita cotización manual con tu Analista Comercial asignado",
-              //           ],
-              //         },
-              //       ];
-              //       setTimeout(function () {
-              //         validarProblema("Previsora", arrAseguradora);
-              //         addPrevisora();
-              //         resolve();
-              //       }, 3000);
-              //     } catch (error) {
-              //       resolve();
-              //     }
-              //   });
+              } else if (aseguradora === "Estado") {
+                let estadoPromise = new Promise((resolve, reject) => {
+                  try {
+                    let arrAseguradora = [
+                      {
+                        Mensajes: [
+                           "Solicita cotización manual con tu Analista Comercial asignado",
+                        ],
+                      },
+                    ];
+                    setTimeout(function () {
+                      validarProblema("Estado", arrAseguradora);
+                      addAseguradora("Estado");
+                      resolve();
+                    }, 1000);
+                  } catch (error) {
+                    resolve();
+                  }
+                });
 
-              //   cont.push(previsoraPromise);
-              // }
-              else {
+                cont.push(estadoPromise);
+              } else {
                 let promise = fetch(
                   `https://grupoasistencia.com/motor_webservice/${aseguradora}_pesados`,
                   requestOptions
@@ -3605,51 +3606,51 @@ function cotizarOfertasPesados() {
           : Promise.resolve();
 
         cont2.push(axaPromise);
-        
+
         const mundialPromise = comprobarFallidaPesados("Mundial")
-            ? fetch(
-                "https://grupoasistencia.com/motor_webservice/Mundial_pesados",
-                requestOptions
-              )
-                .then((res) => {
-                  if (!res.ok) throw Error(res.statusText);
-                  return res.json();
-                })
-                .then((ofertas) => {
-                  if (typeof ofertas[0].Resultado !== "undefined") {
-                    agregarAseguradoraFallidaPesados("Mundial");
-                    validarProblema("Mundial", ofertas);
-                    ofertas[0].Mensajes.forEach((mensaje) => {
-                      mostrarAlertarCotizacionFallida("Mundial", mensaje);
-                    });
-                  } else {
-                    // eliminarAseguradoraFallida('AXA');
-                    const contadorPorEntidad = validarOfertasPesados(
-                      ofertas,
-                      "Mundial",
-                      1
-                    );
-                    mostrarAlertaCotizacionExitosa("Mundial", contadorPorEntidad);
-                  }
-                })
-                .catch((err) => {
+          ? fetch(
+              "https://grupoasistencia.com/motor_webservice/Mundial_pesados",
+              requestOptions
+            )
+              .then((res) => {
+                if (!res.ok) throw Error(res.statusText);
+                return res.json();
+              })
+              .then((ofertas) => {
+                if (typeof ofertas[0].Resultado !== "undefined") {
                   agregarAseguradoraFallidaPesados("Mundial");
-                  mostrarAlertarCotizacionFallida(
+                  validarProblema("Mundial", ofertas);
+                  ofertas[0].Mensajes.forEach((mensaje) => {
+                    mostrarAlertarCotizacionFallida("Mundial", mensaje);
+                  });
+                } else {
+                  // eliminarAseguradoraFallida('AXA');
+                  const contadorPorEntidad = validarOfertasPesados(
+                    ofertas,
                     "Mundial",
-                    "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
+                    1
                   );
-                  validarProblema("Mundial", [
-                    {
-                      Mensajes: [
-                        "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
-                      ],
-                    },
-                  ]);
-                  console.error(err);
-                })
-            : Promise.resolve();
-            
-      cont2.push(mundialPromise);
+                  mostrarAlertaCotizacionExitosa("Mundial", contadorPorEntidad);
+                }
+              })
+              .catch((err) => {
+                agregarAseguradoraFallidaPesados("Mundial");
+                mostrarAlertarCotizacionFallida(
+                  "Mundial",
+                  "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
+                );
+                validarProblema("Mundial", [
+                  {
+                    Mensajes: [
+                      "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
+                    ],
+                  },
+                ]);
+                console.error(err);
+              })
+          : Promise.resolve();
+
+        cont2.push(mundialPromise);
 
         const previsoraPromise = comprobarFallidaPesados("Previsora")
           ? fetch(
@@ -3699,47 +3700,83 @@ function cotizarOfertasPesados() {
 
         cont2.push(previsoraPromise);
 
-         /* HDI */
-         const HDIPromise = comprobarFallidaPesados("HDI")
-         ? fetch(
-             "https://grupoasistencia.com/motor_webservice/HDI_pesados",
-             requestOptions
-           )
-             .then((res) => {
-               if (!res.ok) throw Error(res.statusText);
-               return res.json();
-             })
-             .then((ofertas) => {
-               if (typeof ofertas[0].Resultado !== "undefined") {
-                 agregarAseguradoraFallidaPesados("HDI");
-                 validarProblema("HDI", ofertas);
-                 ofertas[0].Mensajes.forEach((mensaje) => {
-                   mostrarAlertarCotizacionFallida("HDI", mensaje);
-                 });
-               } else {
-                 // eliminarAseguradoraFallida('HDI');
-                 const contadorPorEntidad = validarOfertasPesados(ofertas, "HDI", 1);
-                 mostrarAlertaCotizacionExitosa("HDI", contadorPorEntidad);
-               }
-             })
-             .catch((err) => {
-               agregarAseguradoraFallidaPesados("HDI");
-               mostrarAlertarCotizacionFallida(
-                 "HDI",
-                 "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
-               );
-               validarProblema("HDI", [
-                 {
-                   Mensajes: [
-                     "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
-                   ],
-                 },
-               ]);
-               console.error(err);
-             })
-         : Promise.resolve();
+        /* HDI */
+        const HDIPromise = comprobarFallidaPesados("HDI")
+          ? fetch(
+              "https://grupoasistencia.com/motor_webservice/HDI_pesados",
+              requestOptions
+            )
+              .then((res) => {
+                if (!res.ok) throw Error(res.statusText);
+                return res.json();
+              })
+              .then((ofertas) => {
+                if (typeof ofertas[0].Resultado !== "undefined") {
+                  agregarAseguradoraFallidaPesados("HDI");
+                  validarProblema("HDI", ofertas);
+                  ofertas[0].Mensajes.forEach((mensaje) => {
+                    mostrarAlertarCotizacionFallida("HDI", mensaje);
+                  });
+                } else {
+                  // eliminarAseguradoraFallida('HDI');
+                  const contadorPorEntidad = validarOfertasPesados(
+                    ofertas,
+                    "HDI",
+                    1
+                  );
+                  mostrarAlertaCotizacionExitosa("HDI", contadorPorEntidad);
+                }
+              })
+              .catch((err) => {
+                agregarAseguradoraFallidaPesados("HDI");
+                mostrarAlertarCotizacionFallida(
+                  "HDI",
+                  "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
+                );
+                validarProblema("HDI", [
+                  {
+                    Mensajes: [
+                      "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
+                    ],
+                  },
+                ]);
+                console.error(err);
+              })
+          : Promise.resolve();
 
-       cont2.push(HDIPromise);
+        cont2.push(HDIPromise);
+
+        // const estadoPromise = comprobarFallidaPesados("Estado")
+        //   ? fetch(
+        //       "#",
+        //       requestOptions
+        //     )
+        //       .then((res) => {
+        //         if (!res.ok) throw Error(res.statusText);
+        //         return res.json();
+        //       })
+        //       .then((ofertas) => {
+        //         if (typeof ofertas[0].Resultado !== "undefined") {
+        //           validarProblema("Estado", ofertas);
+        //           mostrarAlertarCotizacionFallida("Estado", mensaje);
+        //         }})
+        //       .catch((err) => {
+        //         mostrarAlertarCotizacionFallida(
+        //           "Estado",
+        //           "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
+        //         );
+        //         validarProblema("Estado", [
+        //           {
+        //             Mensajes: [
+        //               "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
+        //             ],
+        //           },
+        //         ]);
+        //         console.error(err);
+        //       })
+        //   : Promise.resolve();
+
+        // cont2.push(estadoPromise);
 
         if (cont2 == 0) {
           console.log("Es Cero");
@@ -3980,7 +4017,7 @@ const vehiculoPermitidoPesados = [
   "BUS / BUSETA / MICROBUS",
   "MICROBUS",
   "BUSETA",
-  "BUS"
+  "BUS",
 ];
 
 $("#btnConsultarVehmanualbuscador").click(function () {

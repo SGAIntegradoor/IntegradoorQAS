@@ -452,6 +452,7 @@ if (isset($_GET["id"])) {
                 <div class="form-group" style="display: none;" id="divUsuarioSGA">
                   <label for="usuarioSGA"><b>Tipo Usuario SGA</b></label>
                   <select name="usuarioSGA" id="usuarioSGA" disabled>
+                    <option value="">Seleccione una opción...</option>
                     <option value="22">Super Administrador</option>
                     <option value="12">Administrador SGA</option>
                     <option value="11">Asesor SGA</option>
@@ -461,6 +462,7 @@ if (isset($_GET["id"])) {
                 <div class="form-group" style="display: none;" id="divUnidadNegocio">
                   <label for="unidadDeNegocio"><b>Unidad de negocio</b></label>
                   <select name="unidadDeNegocio" id="unidadDeNegocio">
+                    <option value="">Seleccione una opción...</option>
                     <option value="19">Asesor Freelance</option>
                     <option value="asesor10">Asesor 10</option>
                     <option value="negocioDirecto">Negocio Directo</option>
@@ -479,6 +481,7 @@ if (isset($_GET["id"])) {
                   <label for="tipoDePersona"><b>Tipo de persona</b></label>
                   <select name="tipoDePersona" id="tipoDePersona">
                     <!-- <option value="">Seleccione una opción</option> -->
+                    <option value="">Seleccione una opción...</option>
                     <option value="1">Natural</option>
                     <option value="2">Jurídica</option>
                   </select>
@@ -487,6 +490,7 @@ if (isset($_GET["id"])) {
                 <div class="form-group" id="divTipoDocumento">
                   <label for="tipoDocumento"><b>Tipo de documento</b></label>
                   <select name="tipoDocumento" id="tipoDocumento">
+                    <option value="">Seleccione una opción...</option>
                     <option value="CC">CC</option>
                     <option value="NIT">NIT</option>
                   </select>
@@ -688,6 +692,7 @@ if (isset($_GET["id"])) {
                 <div class="form-group freelance" id="divAsesorCat">
                   <label for="categoriaAsesor"><b>Categoria de asesor</b></label>
                   <select name="categoriaAsesor" id="categoriaAsesor">
+                    <option value="">Seleccione una opción...</option>
                     <option value="1">Productividad Baja</option>
                     <option value="2">Productividad Media</option>
                     <option value="3">Productividad Alta</option>
@@ -720,6 +725,7 @@ if (isset($_GET["id"])) {
                 <div class="form-group freelance" id="divDirectorComercial">
                   <label for="directorComercial"><b>Director Comercial</b></label>
                   <select name="directorComercial" id="directorComercial">
+                    <option value="">Seleccione una opción...</option>
                     <option value="1007028818">Keila Figueira López</option>
                   </select>
                 </div>
@@ -856,6 +862,7 @@ if (isset($_GET["id"])) {
               <div class="form-group">
                 <label for="tipoCuenta"><b>Tipo de cuenta</b></label>
                 <select name="tipoCuenta" id="tipoCuenta">
+                  <option value="">Seleccione una opción...</option>
                   <option value="1">Ahorros</option>
                   <option value="2" selected>Corriente</option>
                 </select>
@@ -949,6 +956,7 @@ if (isset($_GET["id"])) {
               <div class="form-group">
                 <label for="estadoUs"><b>Estado:</b></label>
                 <select type="text" name="estadoUs" id="estadoUs">
+                  <option value="">Seleccione una opción...</option>
                   <option value="1">Vinculado</option>
                   <option value="2">Activado</option>
                   <option value="3">Inactivo</option>
