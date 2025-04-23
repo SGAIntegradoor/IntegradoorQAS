@@ -277,7 +277,7 @@ $nombreArchivo = "COTIZADOR VIGENTE FINESA $nombreMes $anio.xlsx";
                                         <li style="margin-bottom: 5px;"><b>Validar inspección:</b> Según el resultado de la inspección, se informa al AF.</li>
                                         <li style="margin-bottom: 5px;"><b>Emisión y Financiación:</b> Se desbloquea la póliza y se descarga el PDF. Si es financiada se debe realizar proceso de financiación con Finesa.</li>
                                         <li style="margin-bottom: 5px;"><b>Revisión y envío:</b> AC verifica y envía la póliza al AF.</li>
-                                        <li style="margin-bottom: 5px;"><b>Entrega:</b> Entrega: AF entrega póliza al cliente y, si aplica, el cupón de pago de la financiación. Si requiere cazador, AF le informa al cliente.</li>
+                                        <li style="margin-bottom: 5px;"><b>Entrega:</b> AF entrega póliza al cliente y, si aplica, el cupón de pago de la financiación. Si requiere cazador, AF le informa al cliente.</li>
                                         <li style="margin-bottom: 5px;"><b>Seguimiento:</b> AC hace seguimiento al pago y, si aplica, la legalización del crédito y la instalación del cazador.</li>
                                     </ol>
                                 </td>
