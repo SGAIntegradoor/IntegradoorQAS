@@ -147,7 +147,6 @@ if ($idCliente == "" && $tipoDocumento != 2) {
 	} else {
 		$data['Message'] = 'Error: No se pudo establecer conexión con la base de datos.';
 	}
-
 } else if ($idCliente == "" && $tipoDocumento == 2) {
 	// CONSULTAMOS EL ULTIMO CODIGO INSERTADO Y LE SUMAMOS 1 PARA CREAR EL CODIGO DEL NUEVO CLIENTE
 	$respCodCliente = mysqli_query($con, "SELECT `cli_codigo` FROM clientes ORDER BY `id_cliente` DESC LIMIT 1");
@@ -214,39 +213,73 @@ if ($idCliente == "" && $tipoDocumento != 2) {
 	} else {
 		$data['Message 1'] = 'Error cliente NIT: ' . mysqli_error($con);
 	}
-} else if ($tipoDocumento == 2 && $idCliente != "") {
-	// The client exists    
-
+}  else if ($tipoDocumento == 2 && $idCliente != "") {
+	// Separar nombre y apellido de la razón social
 	$nameParts = explode(' ', $razonSocial, 2);
-
 	$Nombre = $nameParts[0];
-	$Apellido = $nameParts[1];
+	$Apellido = isset($nameParts[1]) ? $nameParts[1] : '';
 
-	// $numID = $numIdentificacion . '' . $digitoVerif;
-
-	$sqlClient = "UPDATE clientes SET id_tipo_documento = '$tipoDocumento', cli_num_documento = '$numIdentificacion', digitoVerificacion = '$digitoVerif' ,cli_nombre = '$Nombre', 
-                    cli_apellidos = '$Apellido', cli_genero = '3', cli_fch_nacimiento = '$FechaNacimiento', id_estado_civil = '1', cli_email = '$correoRep', 
-                    cli_telefono = '$celRep' WHERE id_cliente = $idCliente";
-	$resClient = mysqli_query($con, $sqlClient);
+	// Actualizar cliente
+	$sqlCliente = "UPDATE clientes SET 
+		id_tipo_documento = '$tipoDocumento', 
+		cli_num_documento = '$numIdentificacion', 
+		digitoVerificacion = '$digitoVerif', 
+		cli_nombre = '$Nombre', 
+		cli_apellidos = '$Apellido', 
+		cli_genero = '3', 
+		cli_fch_nacimiento = '$FechaNacimiento', 
+		id_estado_civil = '1', 
+		cli_email = '$correoRep', 
+		cli_telefono = '$celRep' 
+		WHERE id_cliente = $idCliente";
+	
+	$resCliente = mysqli_query($con, $sqlCliente);
 	$num_rows = mysqli_affected_rows($con);
 
-	if ($num_rows > 0) {
-		$data['Message 1'] = 'Cliente actualizado exitosamente';
-		$respIdCliente = mysqli_query($con, "SELECT `id_cliente` FROM clientes WHERE id_cliente = $idCliente");
-		$arrIdCliente = $respIdCliente->fetch_assoc();
-		$idCliente = $arrIdCliente["id_cliente"];
-	} else if ($num_rows == 0){
-		$representanteCliente = mysqli_query($con, "SELECT * FROM clientes_nit_repleg WHERE rep_num_documento = $numDocRep AND id_cliente_asociado = $idCliente");
+	if ($num_rows >= 0) {
+		$data['Message 1'] = $num_rows > 0 ? 'Cliente actualizado exitosamente' : 'Cliente sin modificaciones';
+
+		// Validar si el representante ya existe
+		$sqlBuscarRep = "SELECT * FROM clientes_nit_repleg WHERE rep_num_documento = $numDocRep AND id_cliente_asociado = $idCliente";
+		$representanteCliente = mysqli_query($con, $sqlBuscarRep);
 		$rowsRepresentante = mysqli_num_rows($representanteCliente);
+
 		if ($rowsRepresentante > 0) {
-			$sqlClient = "UPDATE clientes_nit_repleg SET rep_nombre = '$tipoDocumento', cli_num_documento = '$numIdentificacion', digitoVerificacion = '$digitoVerif' ,cli_nombre = '$Nombre', 
-                    cli_apellidos = '$Apellido', cli_genero = '3', cli_fch_nacimiento = '$FechaNacimiento', id_estado_civil = '1', cli_email = '$correoRep', 
-                    cli_telefono = '$celRep' WHERE id_cliente = $idCliente";
+			// Actualizar representante
+			$sqlRep = "UPDATE clientes_nit_repleg SET 
+				rep_nombre = '$nombresRep', 
+				rep_apellidos = '$apellidosRep', 
+				rep_tipo_documento = '$tipoDocRep', 
+				rep_fch_nacimiento = '$fechaNacimientoRep', 
+				rep_genero = '$generoRep', 
+				rep_est_civil = '$estCivRep', 
+				rep_email = '$correoRep', 
+				rep_telefono = '$celRep' 
+				WHERE rep_num_documento = $numDocRep AND id_cliente_asociado = $idCliente";
+			
+			$resRepresentante = mysqli_query($con, $sqlRep);
+			$num_rows_rep = mysqli_affected_rows($con);
+			$data['Message 3'] = $num_rows_rep > 0 
+				? "Representante Legal actualizado correctamente para el cliente $idCliente"
+				: "Sin modificaciones en el representante legal cliente: $idCliente";
+		} else {
+			// Insertar nuevo representante
+			$sqlRep = "INSERT INTO clientes_nit_repleg 
+				(rep_nombre, rep_apellidos, rep_tipo_documento, rep_num_documento, rep_fch_nacimiento, rep_genero, rep_est_civil, id_cliente_asociado, rep_email, rep_telefono) 
+				VALUES 
+				('$nombresRep', '$apellidosRep', '$tipoDocRep', '$numDocRep', '$fechaNacimientoRep', '$generoRep', '$estCivRep', '$idCliente', '$correoRep', '$celRep')";
+			
+			$resRepresentante = mysqli_query($con, $sqlRep);
+			$num_rows_rep = mysqli_affected_rows($con);
+			$data['Message 3'] = $num_rows_rep > 0 
+				? "Representante Legal creado correctamente para el cliente $idCliente"
+				: "Error al crear el Representante Legal para el cliente: $idCliente";
 		}
 	} else {
-		$data['Message 1'] = 'Error cliente: ' . mysqli_error($con);
+		$data['Message 1'] = 'Error al actualizar cliente: ' . mysqli_error($con);
 	}
 }
+
 
 // VALIDA SI VIENE EL ID DE LA COTIZACION PARA CREAR O ACTUALIZAR EL REGISTRO
 if ($idCotizacion == "" && $idCliente != "") {
@@ -288,5 +321,4 @@ if ($idCotizacion == "" && $idCliente != "") {
 		echo json_encode($data, JSON_UNESCAPED_UNICODE);
 	}
 } else {
-	
 }

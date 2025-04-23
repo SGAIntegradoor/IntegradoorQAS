@@ -119,7 +119,6 @@ $nombreArchivo = "COTIZADOR VIGENTE FINESA $nombreMes $anio.xlsx";
     #bodyAyudaVentas span {
         font-size: 13px !important;
     }
-
 </style>
 <div class="content-wrapper">
     <section class="content-header">
@@ -245,7 +244,7 @@ $nombreArchivo = "COTIZADOR VIGENTE FINESA $nombreMes $anio.xlsx";
                             </tr>
                         </thead>
                         <tbody id="bodyAyudaVentas">
-                            <tr style="height: 100%;" >
+                            <tr style="height: 100%;">
                                 <td style="padding-top: 0px; text-align: center; vertical-align: top;">
                                     <div style="display: flex; flex-direction: column; align-items: center; height: 350px; justify-content: center;">
                                         <img src="vistas/img/logos/allianz.png" alt="" width="105">
@@ -1367,9 +1366,12 @@ $nombreArchivo = "COTIZADOR VIGENTE FINESA $nombreMes $anio.xlsx";
                     </div>
                     <div id="boxDropdown2" class="sectionDropdown hide">
                         <div style="display: flex; flex-direction: row; align-items: center; gap: 5px;">
-                            <p style="font-weight: bold;">Ultima Guia: </p>
+                            <p style="font-weight: bold; margin-bottom: 0px !important;">Ultima Guia: </p>
                             <a href="vistas/modulos/AyudaVentas/pdf/fasecolda/Guia_Excel_343 - Formato Unico.xlsx" download="Guia_Excel_343 - Formato Unico.xlsx">
-                                <img src="vistas/img/excelIco.png" style="margin-bottom: 6px;" />
+                                <div style="display: flex; flex-direction: row; align-items: center; gap: 7px;">
+                                    <img src="vistas/img/excelIco.png" />
+                                    <p style="margin-bottom: 0px !important;">Fecha de Cargue: 22/04/2025</p>
+                                </div>
                             </a>
                             </img>
                         </div>

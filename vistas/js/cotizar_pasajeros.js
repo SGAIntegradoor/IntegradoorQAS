@@ -788,7 +788,7 @@ function consultarAsegurado() {
       var fechaNac = data.cli_fch_nacimiento;
       let documentCli = data.cli_num_documento;
       if (estado && data.id_tipo_documento == 2) {
-        let fechaNacRep = data.rep_legal.rep_fch_nacimiento;
+        let fechaNacRep = data?.rep_legal?.rep_fch_nacimiento;
         $("#idCliente").val(data.id_cliente);
         $("#tipoDocumentoID").val(data.id_tipo_documento);
         $("#txtRazonSocial").val(data.cli_nombre + " " + data.cli_apellidos);
@@ -824,15 +824,15 @@ function consultarAsegurado() {
 
         // Asignar datos del representante legal
         $("#tipoDocumentoIDRepresentante").val(
-          data.rep_legal.rep_tipo_documento
+          data?.rep_legal?.rep_tipo_documento
         );
-        $("#numDocumentoIDRepresentante").val(data.rep_legal.rep_num_documento);
-        $("#txtNombresRepresentante").val(data.rep_legal.rep_nombre);
-        $("#txtApellidosRepresentante").val(data.rep_legal.rep_apellidos);
-        $("#generoRepresentante").val(data.rep_legal.rep_genero);
-        $("#estadoCivilRepresentante").val(data.rep_legal.rep_est_civil);
-        $("#txtCorreoRepresentante").val(data.rep_legal.rep_email);
-        $("#txtCelularRepresentante").val(data.rep_legal.rep_telefono);
+        $("#numDocumentoIDRepresentante").val(data?.rep_legal?.rep_num_documento);
+        $("#txtNombresRepresentante").val(data?.rep_legal?.rep_nombre);
+        $("#txtApellidosRepresentante").val(data?.rep_legal?.rep_apellidos);
+        $("#generoRepresentante").val(data?.rep_legal?.rep_genero);
+        $("#estadoCivilRepresentante").val(data?.rep_legal?.rep_est_civil);
+        $("#txtCorreoRepresentante").val(data?.rep_legal?.rep_email);
+        $("#txtCelularRepresentante").val(data?.rep_legal?.rep_telefono);
         controlFields(true);
 
         var fecha = fechaNacRep.split("-");
