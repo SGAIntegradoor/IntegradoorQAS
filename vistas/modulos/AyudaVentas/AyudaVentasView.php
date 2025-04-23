@@ -288,9 +288,7 @@ $nombreArchivo = "COTIZADOR VIGENTE FINESA $nombreMes $anio.xlsx";
                                         <li>Vehículos pesados 25 años</li>
                                         <li>Motos 10 años</li>
                                     </ul>
-                                    <!-- - Modelos hasta 10 años para particulares
-                                    - Documentos: póliza vigente, Sarlfat, cedula y Tarjeta de propiedad
-                                    - No haber presentado siniestros en el ultimo año -->
+
                                     <b>Continuidad Livianos:</b>
                                     <ul>
                                         <li>Modelos hasta 10 años para particulares</li>
@@ -378,9 +376,7 @@ $nombreArchivo = "COTIZADOR VIGENTE FINESA $nombreMes $anio.xlsx";
                                         <li>Vehiculos pesados 25 años (renovación hasta 30 años)</li>
                                         <li>Motos 5 años</li>
                                     </ul>
-                                    <!-- - Modelos hasta 10 años para particulares
-                                    - Documentos: póliza vigente, Sarlfat, cedula y Tarjeta de propiedad
-                                    - No haber presentado siniestros en el ultimo año -->
+
                                     <b>Continuidad Livianos:</b>
                                     <ul>
                                         <li>Modelos hasta 15 años para particulares</li>
@@ -413,7 +409,6 @@ $nombreArchivo = "COTIZADOR VIGENTE FINESA $nombreMes $anio.xlsx";
                                         <li>✅ Financiacion con Finesa como tomador</li>
                                         <li>✅ Más informacion <a href="https://www.axacolpatria.co/documents/42201273/77996558/medios-pago-axa-colpatria.pdf" target="_blank">AQUÍ</a></li>
                                     </ul>
-
                                 </td>
                             </tr>
                             <tr style="height: 100%;">
@@ -461,9 +456,7 @@ $nombreArchivo = "COTIZADOR VIGENTE FINESA $nombreMes $anio.xlsx";
                                     <ul>
                                         <li>Vehiculos livianos 20 años, pero 15 años si valor asegurado es mayor a $200 millones</li>
                                     </ul>
-                                    <!-- - Modelos hasta 10 años para particulares
-                                    - Documentos: póliza vigente, Sarlfat, cedula y Tarjeta de propiedad
-                                    - No haber presentado siniestros en el ultimo año -->
+
                                     <b>Continuidad Livianos:</b>
                                     <ul>
                                         <li>Modelos hasta 8 años para particulares</li>
@@ -496,7 +489,6 @@ $nombreArchivo = "COTIZADOR VIGENTE FINESA $nombreMes $anio.xlsx";
                                         <li>✅ Financiacion con Finesa como tomador</li>
                                         <li>✅ Más informacion <a href="https://transac.segurosbolivar.com/RecaudosElectronicos/faces/muestrapagos.jspx/pages/layout/consultUser.action" target="_blank">AQUÍ</a></li>
                                     </ul>
-
                                 </td>
                             </tr>
                             <tr style="height: 100%;">
@@ -546,9 +538,7 @@ $nombreArchivo = "COTIZADOR VIGENTE FINESA $nombreMes $anio.xlsx";
                                         <li>Vehiculos livianos 30 años</li>
                                         <li>Vehiculos pesados 10 años</li>
                                     </ul>
-                                    <!-- - Modelos hasta 10 años para particulares
-                                    - Documentos: póliza vigente, Sarlfat, cedula y Tarjeta de propiedad
-                                    - No haber presentado siniestros en el ultimo año -->
+
                                     <b>Continuidad Livianos:</b>
                                     <ul>
                                         <li>Modelos hasta 5 años para particulares</li>
@@ -580,7 +570,6 @@ $nombreArchivo = "COTIZADOR VIGENTE FINESA $nombreMes $anio.xlsx";
                                         <li>✅ Financiacion con Finesa</li>
                                         <li>✅ Más informacion <a href="https://servicios.laequidadseguros.coop/clientes/pagoExterno/consultaPoliza" target="_blank">AQUÍ</a></li>
                                     </ul>
-
                                 </td>
                             </tr>
                             <tr style="height: 100%;">
@@ -637,9 +626,7 @@ $nombreArchivo = "COTIZADOR VIGENTE FINESA $nombreMes $anio.xlsx";
                                         <li>Vehiculos pesados 10 años</li>
                                         <li>Motos 10 años</li>
                                     </ul>
-                                    <!-- - Modelos hasta 10 años para particulares
-                                    - Documentos: póliza vigente, Sarlfat, cedula y Tarjeta de propiedad
-                                    - No haber presentado siniestros en el ultimo año -->
+
                                     <b>Continuidad Livianos:</b>
                                     <ul>
                                         <li>Modelos hasta 8 años para particulares</li>
@@ -671,7 +658,6 @@ $nombreArchivo = "COTIZADOR VIGENTE FINESA $nombreMes $anio.xlsx";
                                         <li>✅ Financiacion con Finesa</li>
                                         <li>✅ Más informacion <a href="https://www.hdiseguros.com.co/pagos" target="_blank">AQUÍ</a></li>
                                     </ul>
-
                                 </td>
                             </tr>
                             <tr style="height: 100%;">
@@ -728,9 +714,7 @@ $nombreArchivo = "COTIZADOR VIGENTE FINESA $nombreMes $anio.xlsx";
                                         <li>Vehiculos livianos 20 años</li>
                                         <li>Motos 10 años o 150 mil Km.</li>
                                     </ul>
-                                    <!-- - Modelos hasta 10 años para particulares
-                                    - Documentos: póliza vigente, Sarlfat, cedula y Tarjeta de propiedad
-                                    - No haber presentado siniestros en el ultimo año -->
+
                                     <b>Continuidad Livianos:</b>
                                     <ul>
                                         <li>Modelos hasta 10 años para particulares.</li>
@@ -763,7 +747,6 @@ $nombreArchivo = "COTIZADOR VIGENTE FINESA $nombreMes $anio.xlsx";
                                         <li>✅ Financiacion con Finesa</li>
                                         <li>✅ Más informacion <a href="https://cotiza.mapfre.com.co/pagosWeb/vista/paginas/noFilterIniPagosPublico.jsf" target="_blank">AQUÍ</a></li>
                                     </ul>
-
                                 </td>
                             </tr>
                             <tr style="height: 100%;">
@@ -811,7 +794,7 @@ $nombreArchivo = "COTIZADOR VIGENTE FINESA $nombreMes $anio.xlsx";
                                         </li>
                                         <li style="margin-bottom: 5px;"><b>Revisión y envío:</b> AC verifica y envía la póliza al AF.</li>
                                         <li style="margin-bottom: 5px;"><b>Entrega:</b> AF entrega póliza al cliente y, si aplica, el cupón de pago de la financiación. Si requiere cazador, AF le informa al cliente.</li>
-                                        <li style="margin-bottom: 5px;"><b>Seguimiento:</b>AC hace seguimiento al pago y, si aplica, la legalización del crédito y la instalación del cazador.</li>
+                                        <li style="margin-bottom: 5px;"><b>Seguimiento:</b> AC hace seguimiento al pago y, si aplica, la legalización del crédito y la instalación del cazador.</li>
                                     </ol>
                                 </td>
                                 <td style="padding: 30px; vertical-align: top;">
@@ -820,9 +803,7 @@ $nombreArchivo = "COTIZADOR VIGENTE FINESA $nombreMes $anio.xlsx";
                                         <li>Vehiculos livianos 15 años</li>
                                         <li>Vehiculos pesados 35 años</li>
                                     </ul>
-                                    <!-- - Modelos hasta 10 años para particulares
-                                    - Documentos: póliza vigente, Sarlfat, cedula y Tarjeta de propiedad
-                                    - No haber presentado siniestros en el ultimo año -->
+
                                     <b>Continuidad Livianos:</b>
                                     <ul>
                                         <li>No aplica para continuidad, todos los vehículos realizan inspección</li>
@@ -858,7 +839,6 @@ $nombreArchivo = "COTIZADOR VIGENTE FINESA $nombreMes $anio.xlsx";
                                         <li>✅ Financiación directa con Mundial (Mundial Financia)</li>
                                         <li>✅ Más informacion <a href="https://www.segurosmundial.com.co/pagos/" target="_blank">AQUÍ</a></li>
                                     </ul>
-
                                 </td>
                             </tr>
                             <tr style="height: 100%;">
@@ -909,9 +889,7 @@ $nombreArchivo = "COTIZADOR VIGENTE FINESA $nombreMes $anio.xlsx";
                                         <li>Vehiculos livianos 16 años</li>
                                         <li>Vehiculos pesados 25 años</li>
                                     </ul>
-                                    <!-- - Modelos hasta 10 años para particulares
-                                    - Documentos: póliza vigente, Sarlfat, cedula y Tarjeta de propiedad
-                                    - No haber presentado siniestros en el ultimo año -->
+
                                     <b>Continuidad Livianos:</b>
                                     <ul>
                                         <li>Modelos hasta 12 años para particulares según fecha de matricula</li>
@@ -943,7 +921,6 @@ $nombreArchivo = "COTIZADOR VIGENTE FINESA $nombreMes $anio.xlsx";
                                         <li>✅ Financiacion con Finesa</li>
                                         <li>✅ Más informacion <a href="https://www.previsora.gov.co/web/guest/previpagos" target="_blank">AQUÍ</a></li>
                                     </ul>
-
                                 </td>
                             </tr>
                             <tr style="height: 100%;">
@@ -1000,9 +977,7 @@ $nombreArchivo = "COTIZADOR VIGENTE FINESA $nombreMes $anio.xlsx";
                                         <li>Vehiculos livianos 20 años</li>
                                         <li>Vehiculos pesados 10 años</li>
                                     </ul>
-                                    <!-- - Modelos hasta 10 años para particulares
-                                    - Documentos: póliza vigente, Sarlfat, cedula y Tarjeta de propiedad
-                                    - No haber presentado siniestros en el ultimo año -->
+
                                     <b>Continuidad Livianos:</b>
                                     <ul>
                                         <li>No aplica para continuidad, todos los vehículos realizan inspección.</li>
@@ -1031,7 +1006,6 @@ $nombreArchivo = "COTIZADOR VIGENTE FINESA $nombreMes $anio.xlsx";
                                         <li>✅ Financiacion con Finesa</li>
                                         <li>✅ Más informacion <a href="https://www.sbseguros.co/servicio-al-cliente/alternativas-pagos" target="_blank">AQUÍ</a></li>
                                     </ul>
-
                                 </td>
                             </tr>
                             <tr style="height: 100%;">
@@ -1082,9 +1056,7 @@ $nombreArchivo = "COTIZADOR VIGENTE FINESA $nombreMes $anio.xlsx";
                                         <li>Vehiculos livianos 30 años</li>
                                         <li>Vehiculos pesados 15 años</li>
                                     </ul>
-                                    <!-- - Modelos hasta 10 años para particulares
-                                    - Documentos: póliza vigente, Sarlfat, cedula y Tarjeta de propiedad
-                                    - No haber presentado siniestros en el ultimo año -->
+
                                     <b>Continuidad Livianos:</b>
                                     <ul>
                                         <li>Modelos hasta 7 años para particulares.</li>
@@ -1165,9 +1137,7 @@ $nombreArchivo = "COTIZADOR VIGENTE FINESA $nombreMes $anio.xlsx";
                                     <ul>
                                         <li>Vehiculos livianos 20 años</li>
                                     </ul>
-                                    <!-- - Modelos hasta 10 años para particulares
-                                    - Documentos: póliza vigente, Sarlfat, cedula y Tarjeta de propiedad
-                                    - No haber presentado siniestros en el ultimo año -->
+
                                     <b>Continuidad Livianos:</b>
                                     <ul>
                                         <li>No aplica para continuidad, todos los vehículos realizan inspección.</li>
@@ -1246,9 +1216,7 @@ $nombreArchivo = "COTIZADOR VIGENTE FINESA $nombreMes $anio.xlsx";
                                     <ul>
                                         <li>Vehiculos livianos 15 años</li>
                                     </ul>
-                                    <!-- - Modelos hasta 10 años para particulares
-                                    - Documentos: póliza vigente, Sarlfat, cedula y Tarjeta de propiedad
-                                    - No haber presentado siniestros en el ultimo año -->
+
                                     <b>Continuidad Livianos:</b>
                                     <ul>
                                         <li>Para ciertos casos de acuerdo a parametros automaticos del sistema donde se revisa comportamiento del cliente y siniestralidad.</li>
@@ -1278,10 +1246,8 @@ $nombreArchivo = "COTIZADOR VIGENTE FINESA $nombreMes $anio.xlsx";
                                         <li>✅ Más informacion <a href="https://www.zurichseguros.com.co/es-co/formas-de-pago" target="_blank">AQUÍ</a></li>
                                         <li>✅ Portal de pagos <a href="https://web.zurichseguros.com.co/zcc-pp-web-app/login" target="_blank">AQUÍ</a></li>
                                     </ul>
-
                                 </td>
                             </tr>
-
                         </tbody>
                     </table>
                 </div>
@@ -1339,7 +1305,6 @@ $nombreArchivo = "COTIZADOR VIGENTE FINESA $nombreMes $anio.xlsx";
                                     <button id="editargeneric2" class="btn btn-primary">Editar</button>
                                 </div>
                             </div>
-
                         </form>
                         </p>
                     </div>
