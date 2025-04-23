@@ -1687,8 +1687,6 @@ const mostrarOfertaPesados = (
 ) => {
   var id_intermediario = document.getElementById("idIntermediario").value;
 
-  console.log(aseguradora, " ", producto);
-
   //FUNCION QUE ACOMODA RCE EN PARRILLA CUANDO LLEGA MUNDIAL
   if (aseguradora == "Mundial" && producto == "Pesados con RCE en exceso") {
     // Eliminar los puntos y convertir a número
