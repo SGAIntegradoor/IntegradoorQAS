@@ -26,7 +26,7 @@ $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, 'A4', true, 'UTF-8', false);
 
 $identificador = $_GET['cotizacion'];
 
-$server = "localhost";
+$server = "localhost:3307";
 $user = "grupoasi_cotizautos";
 $password = "M1graci0n123"; //poner tu propia contraseña, si tienes una.
 $bd = "grupoasi_cotizautos_qas";
@@ -1691,16 +1691,16 @@ foreach ($resultados as $resultado) {
 	$rowRespuestaAsistencia7 = mysqli_fetch_assoc($respuestaqueryAsistencia7);
 
 	if ($cont11 % 2 == 0) {
-		if ($rowRespuestaAsistencia7['amit'] == "Si ampara") {
+		if ($rowRespuestaAsistencia7['AMIT'] == "Si ampara") {
 			$html4 .= '<td class="puntos fondo" style="width:' . $valorTabla . '%;text-align: center;"><div style="font-size:3pt">&nbsp;</div><img style="width:16px;" src="../../../vistas/img/logos/cheque.png" alt=""></td>';
 		} else {
-			$html4 .= '<td class="puntos fondo" style="width:' . $valorTabla . '%;"><center><div style="font-size:3pt">&nbsp;</div><font size="7"style="text-align: center; font-family:dejavusanscondensed;">' . $rowRespuestaAsistencia7['amit'] . '</font></center></td>';
+			$html4 .= '<td class="puntos fondo" style="width:' . $valorTabla . '%;"><center><div style="font-size:3pt">&nbsp;</div><font size="7"style="text-align: center; font-family:dejavusanscondensed;">' . $rowRespuestaAsistencia7['AMIT'] . '</font></center></td>';
 		}
 	} else {
-		if ($rowRespuestaAsistencia7['amit'] == "Si ampara") {
+		if ($rowRespuestaAsistencia7['AMIT'] == "Si ampara") {
 			$html4 .= '<td class="puntos fondo2" style="width:' . $valorTabla . '%;text-align: center;"><div style="font-size:3pt">&nbsp;</div><img style="width:16px;" src="../../../vistas/img/logos/cheque.png" alt=""></td>';
 		} else {
-			$html4 .= '<td class="puntos fondo2" style="width:' . $valorTabla . '%;"><center><div style="font-size:3pt">&nbsp;</div><font size="7"style="text-align: center; font-family:dejavusanscondensed;">' . $rowRespuestaAsistencia7['amit'] . '</font></center></td>';
+			$html4 .= '<td class="puntos fondo2" style="width:' . $valorTabla . '%;"><center><div style="font-size:3pt">&nbsp;</div><font size="7"style="text-align: center; font-family:dejavusanscondensed;">' . $rowRespuestaAsistencia7['AMIT'] . '</font></center></td>';
 		}
 	}
 	$cont11 += 1;
