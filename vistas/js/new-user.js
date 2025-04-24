@@ -351,7 +351,6 @@ Cargar Objeto para Guardar Información nueva
 //   }
 // }
 
-
 function setState() {
   let asegs = {};
 
