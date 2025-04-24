@@ -7,24 +7,27 @@ ini_set('display_errors', 1);
 require_once("../config/db.php"); //Contiene las variables de configuracion para conectar a la base de datos
 require_once("../config/conexion.php"); //Contiene funcion que conecta a la base de datos
 
-
 $codigo = $_POST['codigoDpto'];
-
 
 $sql = "SELECT `codigo`,`ciudad`,`departamento`, `cod_departamento` FROM `ciudadeshogar` WHERE `cod_departamento` = '$codigo' ORDER BY `codigo` ASC";
 
 $res = mysqli_query($con, $sql);
 $num_rows = mysqli_num_rows($res);
 
-
 if ($num_rows > 0) {
 	$data = [];
 	while ($row = mysqli_fetch_assoc($res)) {
 		$data[] = $row;
 	}
-	echo json_encode($data, JSON_UNESCAPED_UNICODE);
+	$response = [
+		"data" => $data,
+		"success" => true
+	];
+	echo json_encode($response, JSON_UNESCAPED_UNICODE);
 } else {
-	$data['mensaje'] = "No hay Registros";
-	$data['success'] = false;
-	echo json_encode($data, JSON_UNESCAPED_UNICODE);
+	$response = [
+		"mensaje" => "No hay Registros",
+		"success" => false
+	];
+	echo json_encode($response, JSON_UNESCAPED_UNICODE);
 }

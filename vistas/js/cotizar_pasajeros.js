@@ -1792,7 +1792,6 @@ function saveQuotations(responses) {
 let cotizoFinesa = false;
 
 function cotizarFinesa(ofertasCotizaciones) {
-  disableFilters();
   showCircularProgress("Cotización Finesa en Proceso...", 2200, 90000);
   let cotEnFinesaResponse = [];
   let promisesFinesa = [];

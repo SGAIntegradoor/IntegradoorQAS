@@ -88,6 +88,8 @@ if ($id && in_array($_SESSION["rol"], [1, 10, 11, 12, 22, 23])) {
             $insertQuery = "INSERT INTO $table ($idField, " . implode(", ", $campos) . ") VALUES (NULL, " . implode(", ", $valoresEscapados) . ")";
             $insertRes = mysqli_query($enlace, $insertQuery);
 
+            // echo "INSERT INTO $table ($idField, " . implode(", ", $campos) . ") VALUES (NULL, " . implode(", ", $valoresEscapados) . ")";
+            // die();
             if ($insertRes) {
                 $respuestas[] = ["seccion" => $seccion, "ok" => true, "accion" => "insert"];
             } else {

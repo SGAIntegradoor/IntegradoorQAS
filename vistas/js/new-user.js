@@ -1,6 +1,5 @@
 // Variables globales
 let id_usuario_edit = "";
-let data_user = {};
 let initialSta = {};
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -23,8 +22,6 @@ document.addEventListener("DOMContentLoaded", function () {
     if (id) {
       // Cargar datos del usuario
       id_usuario_edit = id;
-      // loadUser(id);
-
       loadUser(id)
         .then(() => {})
         .catch((err) => {
@@ -51,15 +48,34 @@ $('input[name="radioMismoRep"]').on("change", function () {
 function detectarCambios(dataOriginal, dataActual) {
   const cambios = {};
 
+  console.log("Data Original", dataOriginal);
+  console.log("Data Actual", dataActual);
+
   Object.keys(dataOriginal).forEach((seccion) => {
+    // console.log(seccion);
     cambios[seccion] = {};
 
     Object.keys(dataOriginal[seccion]).forEach((campo) => {
+      // console.log(campo);
       const valorOriginal = dataOriginal[seccion][campo];
       const valorActual = dataActual[seccion][campo];
 
+      console.log(
+        "Seccion Valor Original",
+        seccion,
+        "Valor original",
+        valorOriginal,
+        "Seccion Valor Actual",
+        seccion,
+        "Valor Actual",
+        valorActual
+      );
+
       if (typeof valorOriginal === "object" && valorOriginal !== null) {
         // Comparar objetos internos (como infoAseguradoras.detalle)
+
+        console.log("Entre aqui");
+
         cambios[seccion][campo] = {};
         let huboCambioInterno = false;
 
@@ -104,8 +120,7 @@ $(".btnGuardar").on("click", function () {
       text: "No se detectaron cambios en el formulario.",
     });
     return;
-  } 
-
+  }
 
   // Aquí puedes enviar el objeto data a tu servidor o procesarlo como necesites
   // Por ejemplo, usando AJAX para enviarlo a un archivo PHP
@@ -235,20 +250,20 @@ function consultarCiudad() {
     success: function (data) {
       $("#ciudad").empty(); // Limpiar el select de ciudades antes de agregar nuevas opciones
       let ciudadesVeh = `<option value="">Seleccionar Ciudad</option>`;
-      // try {
-      if(data.success){
-        let json = JSON.parse(data);
-        json.sort((a, b) => a.codigo - b.codigo);
 
-        json.forEach(({ codigo, ciudad }) => {
-          ciudadesVeh += `<option value="${codigo}">${ciudad}</option>`;
-        });
-
-        $("#ciudad").append(ciudadesVeh);
+      let json = JSON.parse(data);
+      if (json.success) {
+        let arrCitys = json.data;
+        if (Array.isArray(arrCitys)) {
+          arrCitys.sort((a, b) => a.codigo - b.codigo);
+          arrCitys.forEach(({ codigo, ciudad }) => {
+            ciudadesVeh += `<option value="${codigo}">${ciudad}</option>`;
+          });
+          $("#ciudad").append(ciudadesVeh);
+        } else {
+          console.error("El campo data no es un array:", arrCitys);
+        }
       }
-      // } catch (error) {
-      //   console.error("Error al procesar JSON:", error);
-      // }
     },
   });
 }
@@ -336,83 +351,6 @@ Cargar Objeto para Guardar Información nueva
 //   }
 // }
 
-// function sendDataToDB(data) {
-//   // Info Usuario
-
-//   let ciudades_id = data.info_usuario.ciudades_id;
-//   let unidad_negocio = data.info_usuario.id_rol;
-//   let tipoDePersona = data.info_usuario.tipos_documentos_id == "NIT" ? 2 : 1;
-//   let tipoDeDocumento = data.info_usuario.tipos_documentos_id;
-//   let documento = $("#documento").val();
-//   let nombre = $("#nombre_perfil").val();
-//   let apellidos = $("#apellidos_perfil").val();
-//   let genero = $("#genero_perfil").val();
-//   let fechaNacimiento = $("#fechaNacimiento_perfil").val();
-//   let direccion = $("#direccion_perfil").val();
-//   let telefono = $("#telefono_perfil").val();
-//   let email = $("#email_perfil").val();
-
-//   let tieneAsistente = $("#siAsistente").is(":checked") ? 1 : 0;
-
-//   if (tieneAsistente) {
-//     var nombreAsistente = $("#nombreAsistente").val();
-//     var telefonoAsistente = $("#telefonoAsistente").val();
-//     var emailAsistente = $("#emailAsistente").val();
-//   }
-
-//   // Info del Canal (Freelance) // ROL para usuarios no Freelance o SGA
-
-//   let rol_user = $("#rolUsers").val();
-//   let Intermediario_user = $("intermediarioPerfil").val();
-//   let categoria_user = $("#categoriaAsesor").val();
-//   let cargos_user = $("#cargos").val();
-//   let directorComerial_user = $("#directorComercial").val();
-
-//   let analista_user = $("#analistaAsesor").val();
-//   let origen_user = $("#origen").val();
-
-//   let nombreRecomendador_user = $("#nombreRecomendador").val();
-
-//   // Info de las aseguradoras que tiene abscritas el usuario justo a la hora de cargar el usuario
-
-//   let clavesAseguradoras = $("#siClaves").is(":checked") ? 1 : 0;
-
-//   if (clavesAseguradoras) {
-//     $(".clavesAseguradoras")
-//       .find("input")
-//       .each(function () {
-//         let id = $(this).attr("id");
-//         let value = $(this).is(":checked") ? 1 : 0;
-//         if (this.tagName.toLowerCase() === "input" && id !== "otras_aseg") {
-//           asegs = { ...asegs, [id]: value };
-//         } else {
-//           let otras_aseg = $("#otras_aseg").val();
-//           asegs = { ...asegs, otras_aseg: otras_aseg };
-//         }
-//       });
-
-//     console.log(asegs);
-//   }
-
-//   // Info financiera del usuario
-
-//   let entidad_bancaria = $("#entidadBancaria").val();
-//   let tipo_cuenta = $("#tipoCuenta").val();
-//   let numero_cuenta = $("#noCuenta").val();
-//   let regimen_renta = $("#regimenRenta").val();
-//   let responsable_iva = $("#siIVA").is(":checked") ? 1 : 0;
-//   let facturador_electronico = $("#siFacturado").is(":checked") ? 1 : 0;
-//   let participacion_esp = $("#participacionEsp").val().replace("%", "");
-
-//   // Info perfil
-
-//   let limite_cotizaciones = $("#limiteCots").val();
-//   let fecha_vinculacion = $("#fechaActivacion").val();
-//   let fecha_limite = $("#limiteUso").val();
-//   let estasoUs = $("#estadoUs").val();
-
-//   data_user = {};
-// }
 
 function setState() {
   let asegs = {};
@@ -476,6 +414,22 @@ function setState() {
           asegs["otras_aseg"] = $("#otras_aseg").val();
         }
       });
+  } else {
+    asegs = {
+      allianz_aseg: 0,
+      axa_aseg: 0,
+      bolivar_aseg: 0,
+      equidad_aseg: 0,
+      estado_aseg: 0,
+      hdi_aseg: 0,
+      mapfre_aseg: 0,
+      mundial_aseg: 0,
+      previsora_aseg: 0,
+      sbs_aseg: 0,
+      sura_aseg: 0,
+      zurich_aseg: 0,
+      otras_aseg: "",
+    };
   }
 
   /*** Info Financiera ***/
@@ -553,91 +507,58 @@ async function loadUser(id) {
           $("#unidadDeNegocio").val(info_usuario.id_rol);
           $("#rolUsers").val(info_usuario.id_rol).trigger("change");
 
-          // setTimeout(() => {
-          //   $("#intermediarioPerfil")
-          //     .val(info_usuario.id_Intermediario)
-          //     .trigger("change");
-          //   $("#analistaAsesor")
-          //     .val(info_usuario_canal.analista_comercial ?? "")
-          //     .trigger("change");
-          //   $("#entidadBancaria")
-          //     .val(info_usuario.id_banco ?? "")
-          //     .trigger("change");
-          //   $("#tipoCuenta")
-          //     .val(info_usuario.tipo_cuenta ?? "")
-          //     .trigger("change");
-          //   $("#noCuenta").val(info_usuario.numero_cuenta ?? "");
-          //   $("#regimenRenta").val(info_usuario.regimen_renta ?? "");
-          //   $("#cargos")
-          //     .val(info_usuario_canal.cargo ?? "")
-          //     .trigger("change");
-
-          //   info_usuario.facturador_electronico == 1
-          //     ? $("#siFacturado").prop("checked", true).trigger("change")
-          //     : $("#noFacturado").prop("checked", true).trigger("change");
-
-          //   info_usuario.responsable_iva == 1
-          //     ? $("#siIVA").prop("checked", true).trigger("change")
-          //     : $("#noIVA").prop("checked", true).trigger("change");
-
-          //   $("#participacionEsp").val(
-          //     info_usuario.participacion_esp ?? "0 " + " %"
-          //   );
-          // }, 400);
-
-          // $("#categoriaAsesor")
-          //   .val(
-          //     info_usuario_canal.proactividad == null
-          //       ? ""
-          //       : info_usuario_canal.proactividad
-          //   )
-          //   .trigger("change");
-
-          // $("#origen").val(info_usuario_canal.origen);
-          // $("#nombreRecomendador").val(info_usuario_canal.nombre_recomendador);
-
           setTimeout(() => {
             $("#intermediarioPerfil")
               .val(info_usuario?.id_Intermediario ?? "")
               .trigger("change");
-          
+
             $("#analistaAsesor")
               .val(info_usuario_canal?.analista_comercial ?? "")
               .trigger("change");
-          
+
             $("#entidadBancaria")
               .val(info_usuario?.id_banco ?? "")
               .trigger("change");
-          
-            $("#tipoCuenta").val(info_usuario?.tipo_cuenta ?? "").trigger("change");
+
+            $("#tipoCuenta")
+              .val(info_usuario?.tipo_cuenta ?? "")
+              .trigger("change");
             $("#noCuenta").val(info_usuario?.numero_cuenta ?? "");
             $("#regimenRenta").val(info_usuario?.regimen_renta ?? "");
-            $("#cargos").val(info_usuario_canal?.cargo ?? "").trigger("change");
-          
+            $("#cargos")
+              .val(info_usuario_canal?.cargo ?? "")
+              .trigger("change");
+
             info_usuario?.facturador_electronico == 1
               ? $("#siFacturado").prop("checked", true).trigger("change")
               : $("#noFacturado").prop("checked", true).trigger("change");
-          
+
             info_usuario?.responsable_iva == 1
               ? $("#siIVA").prop("checked", true).trigger("change")
               : $("#noIVA").prop("checked", true).trigger("change");
-          
-            $("#participacionEsp").val((info_usuario?.participacion_esp ?? "0") + " %");
+
+            $("#participacionEsp").val(
+              (info_usuario?.participacion_esp ?? "0") + " %"
+            );
           }, 400);
-          
+
           // Fuera del setTimeout también validás:
           $("#categoriaAsesor")
             .val(info_usuario_canal?.proactividad ?? "")
             .trigger("change");
           
-          $("#origen").val(info_usuario_canal?.origen ?? "");
-          $("#nombreRecomendador").val(info_usuario_canal?.nombre_recomendador ?? "");
+          $("#directorComercial").val(info_usuario_canal?.director_comercial ?? "");
 
-          if(info_aseguradoras_user){
+          $("#origen").val(info_usuario_canal?.origen ?? "");
+          $("#nombreRecomendador").val(
+            info_usuario_canal?.nombre_recomendador ?? ""
+          );
+
+          if (info_aseguradoras_user) {
             Object.entries(info_aseguradoras_user).length > 0
               ? $("#siClaves").prop("checked", true).trigger("change")
               : $("#noClaves").prop("checked", true).trigger("change");
-  
+
             Object.entries(info_aseguradoras_user).forEach(([key, value]) => {
               const element = document.getElementById(key);
               // Si existe el elemento y es un checkbox
@@ -648,12 +569,12 @@ async function loadUser(id) {
               if (key === "otras_aseg") {
                 const otrasInput = document.getElementById("otras_aseg");
                 if (otrasInput) {
-                  otrasInput.value = value;
+                  otrasInput.value = value == "NULL" ? "" : value;
                 }
               }
             });
           } else {
-            
+            console.log("no hice asegs");
           }
         }
 
@@ -662,7 +583,6 @@ async function loadUser(id) {
 
         //Insertar fecha de creación
         let fechaForCrea = formatoFecha(info_usuario.usu_fch_creacion);
-
         $("#fechaCreaVin").val(fechaForCrea);
         $("#fechaCreaVin").prop("disabled", true);
 
@@ -671,14 +591,13 @@ async function loadUser(id) {
         }
 
         let fechaFormLim = formatoFecha(info_usuario.fechaFin);
-
         $("#limiteCots").val(info_usuario.cotizacionesTotales);
         $("#limiteUso").val(fechaFormLim);
 
+        $("#estadoUs").val(info_usuario.usu_estado);
+
         let tipoDoc = info_usuario.tipos_documentos_id;
-
         let tipoPersona = tipoDoc == "NIT" ? "Juridica" : "Natural";
-
         $("#tipoDocumento").val(
           tipoDoc == "Cedula de Ciudadania" ? "CC" : "NIT"
         );
@@ -700,7 +619,6 @@ async function loadUser(id) {
           $("#personaDeContacto").val(
             info_usuario.usu_nombre + " " + info_usuario.usu_apellido
           );
-
           if (
             info_usuario.usu_nombre + " " + info_usuario.usu_apellido ==
             $("#personaDeContacto").val()
@@ -1130,7 +1048,6 @@ function toggleOptions() {
 let selectedOptions = [];
 
 function updateSelectText(e = null) {
-  debugger;
   const allCheckboxes = document.querySelectorAll(".options-container input");
   const checkedCheckboxesGlobal = document.querySelectorAll(
     ".options-container input:checked"
