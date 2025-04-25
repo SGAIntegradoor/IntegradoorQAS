@@ -27,7 +27,7 @@ $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, 'A4', true, 'UTF-8', false);
 $identificador = $_GET['cotizacion'];
 
 
-$server = "localhost";
+$server = "localhost:3307";
 $user = "grupoasi_cotizautos";
 $password = "M1graci0n123"; //poner tu propia contraseña, si tienes una.
 $bd = "grupoasi_cotizautos_qas";
@@ -131,7 +131,7 @@ $linea = $fila["cot_linea"];
 $fasecolda = $fila["cot_fasecolda"];
 $valorA = number_format($fila["cot_valor_asegurado"], 0, '.', '.');
 $clase = claseV($fila["cot_clase"]);
-$servicio = servise($fila["cot_tip_servicio"]);
+$servicio = "Publico";
 $departamento = DptoVehiculo($fila["cot_departamento"]);
 $codCiudad = $fila["cot_ciudad"];
 
