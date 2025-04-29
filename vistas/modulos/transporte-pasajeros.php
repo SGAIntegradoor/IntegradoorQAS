@@ -1605,7 +1605,7 @@ echo '<script>console.log(' . $idIntermediario . ", " . $rolAsesor . ')</script>
                 </div>
 
 
-                <div id="mensajePrevisora">
+                <!-- <div id="mensajePrevisora">
                   <p class="aviso-container col-lg-12">
                   <ul style="padding-right: 25px !important; text-align: justify;">
                     <li>
@@ -1627,7 +1627,7 @@ echo '<script>console.log(' . $idIntermediario . ", " . $rolAsesor . ')</script>
                       </p>
                     </li>
                   </ul>
-                </div>
+                </div> -->
               </div>
             </div>
 

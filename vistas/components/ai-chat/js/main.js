@@ -1,28 +1,23 @@
 const sendButton = document.querySelector("#sendButton");
+const messageInput = document.querySelector("#messageInput");
 const messagesContainer = document.querySelector(".chat__messages");
 
-sendButton.addEventListener("click", async () => {
-  // sentences to translate
-  let text = document.querySelector("#messageInput");
-
+// Función que contiene la lógica de enviar mensaje
+async function sendMessage() {
+  let text = messageInput;
   let message = text.value.trim();
-
-  // selecting lenguage targe
-
   if (!message) return;
 
   const userMessage = document.createElement("div");
   userMessage.className = "chat__message chat__message--user";
   userMessage.innerHTML = message;
 
-  const messagesContainer = document.querySelector(".chat__messages");
   messagesContainer.appendChild(userMessage);
   userMessage.scrollIntoView({ behavior: "smooth", block: "start" });
 
   doLoad();
 
   try {
-
     const response = fetch(
       "https://10djhr3as6.execute-api.us-east-1.amazonaws.com/Stage/agent",
       {
@@ -36,7 +31,6 @@ sendButton.addEventListener("click", async () => {
       }
     );
 
-    // const data = response.json();
     response
       .then((res) => {
         if (!res.status === 200) {
@@ -55,9 +49,20 @@ sendButton.addEventListener("click", async () => {
     doResponse(error, 3);
   }
 
-  //   clear input message
   text.value = "";
+}
+
+// Cuando hacen click en el botón
+sendButton.addEventListener("click", sendMessage);
+
+// Cuando presionan Enter en el input
+messageInput.addEventListener("keydown", (event) => {
+  if (event.key === "Enter") {
+    event.preventDefault(); // Previene el salto de línea
+    sendMessage();
+  }
 });
+
 
 function doResponse(response, type) {
   const botMessage = document.createElement("p");

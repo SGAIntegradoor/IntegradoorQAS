@@ -1819,7 +1819,7 @@ function cotizarFinesa(ofertasCotizaciones) {
     if (element.cotizada == null || element.cotizada == false) {
       promisesFinesa.push(
         fetch(
-          "https://www.grupoasistencia.com/motor_webservice/paymentInstallmentsFinesa",
+          "https://www.grupoasistencia.com/motor_webservice/paymentInstallmentsFinesa_qas",
           // "http://localhost/motorTest/paymentInstallmentsFinesa",
           {
             method: "POST",
@@ -1837,7 +1837,7 @@ function cotizarFinesa(ofertasCotizaciones) {
             finesaData.cuotas = element.cuotas;
             return fetch(
               // "http://localhost/motorTest/saveDataQuotationsFinesa",
-              "https://www.grupoasistencia.com/motor_webservice/saveDataQuotationsFinesa",
+              "https://www.grupoasistencia.com/motor_webservice/saveDataQuotationsFinesa_qas",
               {
                 method: "POST",
                 headers: headers,
@@ -2318,7 +2318,7 @@ function validarOfertas(ofertas, aseguradora, exito) {
       oferta.imagen,
       oferta.pdf,
       oferta.categoria,
-      9,
+      4,
       null,
       oferta.eventos ? oferta.eventos : null
     );
@@ -2519,6 +2519,24 @@ function enableInputs(opt) {
         .attr("disabled", "disabled");
 }
 
+function addAseguradora(aseguradora) {
+  // Verificar si ya existe una fila para la aseguradora
+  const filaExistente = document.getElementById(aseguradora);
+
+  if (filaExistente) {
+    // Si la fila existe, actualiza el mensaje de observaciones
+    // Acceder directamente a las celdas de la fila existente
+    const celdaContador = filaExistente.cells[2]; // Tercera celda de la fila
+    const celdaCotizo = filaExistente.cells[1]; // Segunda celda de la fila
+    const celdaResponse = filaExistente.cells[3]; // Cuarta celda de la fila
+
+    celdaContador.textContent = 0;
+    celdaCotizo.innerHTML =
+      '<i class="fa fa-times" aria-hidden="true" style="color: red; margin-right: 10px;"></i>';
+    celdaResponse.textContent =
+      "Solicita cotización manual con tu Analista Comercial asignado";
+  }
+}
 // desactive
 //console.log(permisosPlantilla)
 // Captura los datos suministrados por el cliente y los envia al API para recibir la cotizacion.
@@ -3238,6 +3256,29 @@ function cotizarOfertasPasajeros() {
                       })
                   );
                 });
+                return;
+              } else if (aseguradora === "Estado") {
+                debugger
+                let estadoPromise = new Promise((resolve, reject) => {
+                  try {
+                    let arrAseguradora = [
+                      {
+                        Mensajes: [
+                           "Solicita cotización manual con tu Analista Comercial asignado",
+                        ],
+                      },
+                    ];
+                    setTimeout(function () {
+                      validarProblema("Estado", arrAseguradora);
+                      addAseguradora("Estado");
+                      resolve();
+                    }, 1000);
+                  } catch (error) {
+                    resolve();
+                  }
+                });
+
+                cont.push(estadoPromise);
                 return;
               } else {
                 url = `https://grupoasistencia.com/motor_webservice_publics/${aseguradora}_Pasajeros`;

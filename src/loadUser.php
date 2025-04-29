@@ -7,14 +7,13 @@ if (isset($_POST['id']) && ($_SESSION["rol"] == 12 || $_SESSION["rol"] == 11 || 
     $id = $_POST['id'];
     mysqli_set_charset($enlace, "utf8");
 
-    $condicion = "";
-
-    $preQuery = "SELECT * FROM usuarios u 
-    WHERE u.id_usuario = $id";
-
+    $preQuery = "SELECT * FROM usuarios u WHERE u.id_usuario = $id";
     $preEjecucion = mysqli_query($enlace, $preQuery);
     $preFetch = $preEjecucion->fetch_assoc();
 
+    if (!$preEjecucion) {
+        die("Error en consulta: " . mysqli_error($enlace));
+    }
 
 
     // Query Usuario con Informacion Financiera
@@ -42,7 +41,7 @@ if (isset($_POST['id']) && ($_SESSION["rol"] == 12 || $_SESSION["rol"] == 11 || 
         // Query Usuario Informacion Canal
         $queryInfoCanal = "SELECT icu.*, u.id_usuario, d.* FROM informacion_canal_user icu
         LEFT JOIN usuarios u ON icu.id_usuario = u.id_usuario
-        LEFT JOIN directores_comerciales d ON d.id_usuario = u.id_usuario
+        LEFT JOIN directores_comerciales d ON d.id_doc_director = icu.director_comercial
         WHERE icu.id_usuario = $id";
 
         // Query Usuario Informacion Aseguradoras
@@ -66,15 +65,22 @@ if (isset($_POST['id']) && ($_SESSION["rol"] == 12 || $_SESSION["rol"] == 11 || 
         mysqli_close($enlace);
     } else {
         $queryUser = "SELECT * FROM usuarios u 
-        $condicion
         WHERE u.id_usuario = $id";
 
         $ejecucion = mysqli_query($enlace, $queryUser);
         $fila = $ejecucion->fetch_assoc();
 
+        $queryInfoCanal = "SELECT icu.*, u.id_usuario, d.* FROM informacion_canal_user icu
+        LEFT JOIN usuarios u ON icu.id_usuario = u.id_usuario
+        LEFT JOIN directores_comerciales d ON d.id_doc_director = icu.director_comercial
+        WHERE icu.id_usuario = $id";
+
+        $ejecucion2 = mysqli_query($enlace, $queryInfoCanal);
+        $fila2 = ($ejecucion2) ? $ejecucion2->fetch_assoc() : null;
+
         echo json_encode(array(
             "info_usuario" => $fila,
-            "info_usuario_canal" => null,
+            "info_usuario_canal" => $fila2,
             "info_aseguradoras_user" => null
         ));
         // Cerrar la conexión

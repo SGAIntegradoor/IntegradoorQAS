@@ -5,6 +5,8 @@ let initialSta = {};
 document.addEventListener("DOMContentLoaded", function () {
   cargarRoll();
   cargarIntermediario();
+  cargarAnalistas()
+  cargarBancos()
 
   // Cargar parametros iniciales que disparan eventos
   // al iniciar cabe resaltar que solo se disparan si
@@ -28,6 +30,8 @@ document.addEventListener("DOMContentLoaded", function () {
           console.error("Error al cargar el usuario:", err);
         });
     }
+  } else {
+
   }
 });
 
@@ -469,9 +473,11 @@ async function loadUser(id) {
         const { info_usuario, info_usuario_canal, info_aseguradoras_user } =
           data;
 
-        cargarCargos();
-        cargarAnalistas();
-        cargarBancos();
+        // cargarCargos();
+        // cargarAnalistas();
+        // cargarBancos();
+
+        $("#divComentarios").show();
 
         getComments(id);
 
@@ -482,23 +488,33 @@ async function loadUser(id) {
           info_usuario.id_rol == 22 ||
           info_usuario.id_rol == 23
         ) {
+          // console.log(data);
           $("#divUnidadNegocio").hide();
           $("#divCanal").hide();
           $("#divUsuarioSGA").show();
-          $("#usuarioSGA").val(info_usuario.id_rol);
+          $("#usuarioSGA").val(info_usuario?.id_rol);
           $(".divAsistente").hide();
-          $("#rolUsers").val(info_usuario.id_rol).trigger("change");
+          $("#rolUsers").val(info_usuario?.id_rol).trigger("change");
           setTimeout(() => {
             $("#intermediarioPerfil")
               .val(info_usuario.id_Intermediario)
               .trigger("change");
-            $("#cargos").val(info_usuario.usu_cargo).trigger("change");
+            $("#cargos").val(info_usuario_canal?.cargo != null ? info_usuario_canal?.cargo : "").trigger("change");
           }, 500);
         } else if (info_usuario.id_rol == 12) {
           $("#divUnidadNegocio").hide();
-          $("#divUsuarioSGA").hide();
+          $("#divUsuarioSGA").show();
+          $("#usuarioSGA").val(info_usuario.id_rol);
+          $(".divAsistente").hide();
           $("#divCanal").show();
           $("#canal").val(1);
+          $("#rolUsers").val(info_usuario?.id_rol).trigger("change");
+          setTimeout(() => {
+            $("#intermediarioPerfil")
+              .val(info_usuario.id_Intermediario)
+              .trigger("change");
+            $("#cargos").val(info_usuario_canal.cargo).trigger("change");
+          }, 500);
         } else {
           $("#divUnidadNegocio").show();
           $("#divCanal").hide();
@@ -545,8 +561,10 @@ async function loadUser(id) {
           $("#categoriaAsesor")
             .val(info_usuario_canal?.proactividad ?? "")
             .trigger("change");
-          
-          $("#directorComercial").val(info_usuario_canal?.director_comercial ?? "");
+
+          $("#directorComercial").val(
+            info_usuario_canal?.director_comercial ?? ""
+          );
 
           $("#origen").val(info_usuario_canal?.origen ?? "");
           $("#nombreRecomendador").val(
@@ -627,18 +645,25 @@ async function loadUser(id) {
           }
         }
 
-        let depto =
-          info_usuario.ciudades_id.split("")[0] +
-          info_usuario.ciudades_id.split("")[1];
-
-        if (depto == 11) {
-          depto = 25;
+        if(info_usuario?.ciudades_id == null || info_usuario?.ciudades_id == ""){
+          $("#departamento").val("").trigger("change");
+          $("#ciudad").val("").trigger("change");
+        } else {
+          let depto =
+            info_usuario?.ciudades_id.split("")[0] +
+            info_usuario?.ciudades_id.split("")[1];
+  
+          if (depto == 11) {
+            depto = 25;
+          }
+          $("#departamento").val(depto).trigger("change");
         }
-        $("#departamento").val(depto).trigger("change");
+
 
         setTimeout(() => {
           $("#ciudad").val(info_usuario.ciudades_id).trigger("change");
           initialSta = setState();
+          console.log(initialSta);
         }, 500);
         $("#direccion_perfil").val(info_usuario.usu_direccion);
         $("#telefono_perfil").val(info_usuario.usu_telefono);
@@ -791,7 +816,9 @@ Eventos y reacciones de cambios en Inputs
 
 $("#tipoDePersona").change(function () {
   if ($(this).val() == 1) {
-    $("#divCanal").css("display", "flex");
+    if (permisos.id_rol == 12) {
+      $("#divCanal").css("display", "flex");
+    }
     $("#divUnidadNegocio").css("display", "none");
     $(".legal").css("display", "none");
     $(".natural").css("display", "flex");
@@ -812,12 +839,14 @@ $("#rolUsers").change(function () {
     $(".freelance").css("display", "none");
     $(".divAsistente").css("display", "none");
     $("#divComisiones").css("display", "flex");
+    $("#divCargos").css("display", "flex");
   } else {
     $(".divClavAseg").css("display", "block");
     $(".divAsistente").css("display", "block");
     // $("#siClaves").prop("checked", true).trigger("change");
     $(".freelance").css("display", "grid");
     $("#divComisiones").css("display", "none");
+    $("#divCargos").css("display", "none");
   }
 });
 

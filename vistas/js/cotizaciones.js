@@ -1,6 +1,9 @@
 // let permisos = "";
+let manualGeneral = 0;
 
 $(document).ready(function () {
+
+
   function obtenerFechaActual() {
     const hoy = new Date();
     const año = hoy.getFullYear();
@@ -724,13 +727,15 @@ $(document).ready(function () {
 
           window.open(url, "_blank");
         } else {
-          let url = `extensiones/tcpdf/pdf/comparador.php?cotizacion=${idCotizacionPDF}`;
 
-          if (checkboxAsesorEditar.is(":checked")) {
-            url += "&generar_pdf=1";
-          }
+            let url = `extensiones/tcpdf/pdf/comparador${manualGeneral == 4 ? "Pasajeros.php": ".php"}?cotizacion=${idCotizacionPDF}`;
 
-          window.open(url, "_blank");
+            if (checkboxAsesorEditar.is(":checked")) {
+              url += "&generar_pdf=1";
+            }
+  
+            window.open(url, "_blank");
+        
         }
       }
     }
@@ -1221,8 +1226,6 @@ async function renderCards(response) {
 
       function obtenerValorC(aseguradora) {
         const aseguradorasPermisos = JSON.parse(permisosCotizacion);
-        console.log(aseguradora);
-        console.log(aseguradorasPermisos[aseguradora]);
         if (aseguradorasPermisos[aseguradora]) {
           return aseguradorasPermisos[aseguradora]["C"];
         } else {
@@ -2137,10 +2140,6 @@ function editarCotizacion(id) {
 
       $("#txtValorFasecolda").val(respuesta["cot_valor_asegurado"]);
 
-      $("#txtTipoUsoVehiculo").val(respuesta["cot_tip_uso"]);
-
-      $("#txtTipoServicio").val(respuesta["cot_tip_servicio"]);
-
       $("#DptoCirculacion").append(
         "<option value='" +
           respuesta["cot_departamento"] +
@@ -2271,6 +2270,16 @@ function editarCotizacion(id) {
         success: async function (respuesta) {
           menosRE();
           if (respuesta.length > 0) {
+            manualGeneral = respuesta[0].Manual;
+
+            if (manualGeneral != "4") {
+              $("#txtTipoUsoVehiculo").val(respuesta["cot_tip_uso"]);
+              $("#txtTipoServicio").val(respuesta["cot_tip_servicio"]);
+            } else {
+              $("#divTipoUso").css("display", "none");
+              $("#divTipoServicio").css("display", "none");
+            }
+
             renderCards(respuesta);
             let updatevideos = document.querySelectorAll(".editar-manual");
             for (updatevideo of updatevideos) {

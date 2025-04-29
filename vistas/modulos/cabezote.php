@@ -94,7 +94,7 @@
 
  		</a>
 
- 		<div class="row">
+ 		<div class="row" style="margin-right: 0px !important;">
 
  			<div class="col-md-4">
  				<?php

@@ -107,7 +107,8 @@
                         <li>Fecha de nacimiento</li>
                         <li>Género</li>
                     </ul>
-                    <p class="card-text ">Para emitir es necesario ampliar la información y entregar la siguiente documentación: <br></p>
+                    <p class="card-text">Consulta tarifas pólizas de salud <a href="vistas\modulos\SaludCot\resources\Tablas Tarifarias 2025 - Centro - Familiar.pdf" style="font-weight: bold;" target="_blank">AQUI</a></p>
+                    <p class="card-text">Para emitir es necesario ampliar la información y entregar la siguiente documentación: <br></p>
                     <ul class="card-text ul-card">
                         <li>Documento de identificación contratante</li>
                         <li>Documento de identificación beneficiarios</li>
@@ -143,7 +144,7 @@
                         <li>Edad Máxima de Ingreso para continuidades externas: 60 años y 364 días (no aplica Plan Ambulatorio).</li>
                         <li>No se acepta ingreso en continuidad externa si el usuario tiene procedimientos quirúrgicos pendientes, post-operatorios recientes, patologías no asegurables, patologías en estudio y/o tratamientos en curso; hipertensión arterial o antecedente de cirugía bariátrica.</li>
                         <li>Planes sujetos a períodos de carencia.</li>
-                        <li>El usuario debe estar afiliado y cotizando en régimen contributivo o especial.</li>
+                        <li>El usuario debe estar afiliado y cotizando en régimen contributivo o especial. Consulta info <a href="https://servicios.adres.gov.co/BDUA/Consulta-Afiliados-BDUA" style="font-weight: bold;" target="_blank">AQUI</a></li>
                         <li>En cada solicitud se evalúa la info de los asegurados; según el listado de patologías no asegurables se define el ingreso o no de un usuario, y se establecen las condiciones de vinculación. Si se evidencia un riesgo médico importante no se suscribirá el contrato.</li>
                         <li>El Suscriptor podrá solicitar información adicional, conceptos médicos, exámenes complementarios o copia de historia clínica.</li>
                         <li>Estas son algunas exclusiones: Diabetes, cáncer, hipertensión, entre otras. Ver listado de exclusiones<a href="#"

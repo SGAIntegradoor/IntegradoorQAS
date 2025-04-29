@@ -454,7 +454,8 @@ if (isset($_GET["id"])) {
                   <select name="usuarioSGA" id="usuarioSGA" disabled>
                     <option value="">Seleccione una opción...</option>
                     <option value="22">Super Administrador</option>
-                    <option value="12">Administrador SGA</option>
+                    <option value="12">Analista SGA</option>
+                    <option value="1">Administrador SGA</option>
                     <option value="11">Asesor SGA</option>
                     <option value="23">Contabilidad SGA</option>
                   </select>
@@ -908,19 +909,22 @@ if (isset($_GET["id"])) {
                 <input type="text" name="participacionEsp" id="participacionEsp">
               </div>
             </div>
-            <div clas="row" style="margin-bottom: 30px; margin-top: 30px;">
-              <u><b style="font-size: 16px;">Información del adicional</b></u>
-            </div>
-            <div style="display: flex; flex-direction: row; gap: 40px;">
-              <div class="form-group" style="width: 50%;">
-                <label for="agregarComentario"><b>Agregar comentarios:</b></label>
-                <input type="text" name="agregarComentario" id="agregarComentario">
-                <button class="btnComentario">Agregar</button>
+            <section style="display: none;" id="divComentarios">
+              <div clas="row" style="margin-bottom: 30px; margin-top: 30px;">
+                <u><b style="font-size: 16px;">Información del adicional</b></u>
               </div>
-              <div class="form-group" style="width: 50%; margin-top: 25px; resize: none;">
-                <textarea name="comentarioTA" id="comentarioTA" rows="15" cols="50" disabled></textarea>
+              <div style="display: flex; flex-direction: row; gap: 40px;" id="divComentarios">
+                <div class="form-group" style="width: 50%;">
+                  <label for="agregarComentario"><b>Agregar comentarios:</b></label>
+                  <input type="text" name="agregarComentario" id="agregarComentario">
+                  <button class="btnComentario">Agregar</button>
+                </div>
+                <div class="form-group" style="width: 50%; margin-top: 25px; resize: none;">
+                  <textarea name="comentarioTA" id="comentarioTA" rows="15" cols="50" disabled></textarea>
+                </div>
               </div>
-            </div>
+            </section>
+
             <div class="form-container" style="margin-top: 50px;">
               <div class="form-group">
                 <label for="usuarioVin"><b>Usuario:</b></label>

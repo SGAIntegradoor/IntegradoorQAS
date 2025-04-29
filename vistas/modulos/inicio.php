@@ -11,7 +11,6 @@ $_SESSION['lastActivity'] = time();
 
 $showPopup = false;
 if (isset($_SESSION['showPopup']) && $_SESSION['rol'] != 2) {
-  session_start();
   $showPopup = true;
   unset($_SESSION['showPopup']); // Evita que el popup aparezca nuevamente después de refrescar
 }
