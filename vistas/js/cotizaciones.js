@@ -2278,8 +2278,11 @@ function editarCotizacion(id) {
               $("#divTipoServicio").css("display", "none");
               $("#divTipoTransporte").css("display", "block");
               // trigger chance
-              // $("#txtTipoTransporteVehiculo").val(respuesta["cot_tip_uso"])
-              console.log(respuesta)
+              if(respuesta["cot_tip_uso"] == "Bus"){
+                $("#divNumeroPasajeros").css("display", "block");
+                $("#txtNumeroPasajeros").val(respuesta["cot_num_pasajeros"]);
+              }
+
               $("#txtTipoTransporteVehiculo").val(respuesta["cot_tip_uso"]).trigger("change");
               
             }

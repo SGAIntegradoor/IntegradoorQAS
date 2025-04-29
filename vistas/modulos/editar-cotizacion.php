@@ -630,6 +630,11 @@ $response = retrieveQuotation($idCotizacion);
                         </select>
                       </div>
 
+                      <div class="col-xs-12 col-sm-6 col-md-3 form-group" id="divNumeroPasajeros" style="display: none;">
+                        <label for="txtNumeroPasajeros">Numero de Pasajeros</label>
+                        <input type="number" class="form-control" id="txtNumeroPasajeros" placeholder="" max="19" min="1" required>
+                      </div>
+
                       <div class="col-xs-12 col-sm-6 col-md-3 form-group">
                         <label for="DptoCirculacion">Departamento de Circulación</label>
                         <select class="form-control" id="DptoCirculacion" required>
