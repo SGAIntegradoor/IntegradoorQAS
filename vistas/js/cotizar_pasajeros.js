@@ -1,3 +1,7 @@
+// Variables de Control
+
+let conPressed = 0;
+
 $(document).ready(function () {
   var permisos = JSON.parse(permisosPlantilla);
   const parrillaCotizaciones = document.getElementById("parrillaCotizaciones");
@@ -322,6 +326,32 @@ $(document).ready(function () {
     document.getElementById("benefOneroso").value = "";
   });
 
+  $("#txtTipoTransporteVehiculo").on("change", function () {
+    var tipoTransporte = $(this).val();
+    console.log(tipoTransporte);
+    if (tipoTransporte == "Bus") {
+      $("#divNumeroPasajeros").show();
+    } else {
+      $("#divNumeroPasajeros").css("display", "none");
+    }
+  });
+
+  $("#txtNumeroPasajeros").on("input change", function () {
+    var numeroPasajeros = $(this).val();
+    // Verifica si el número de pasajeros es mayor a 20
+    if (numeroPasajeros > 19 || numeroPasajeros == 0) {
+      // Muestra una alerta de error
+      Swal.fire({
+        icon: "error",
+        title: "Número de Pasajeros Excedido",
+        text: "El número de pasajeros va de 1 a 19.",
+        showConfirmButton: true,
+      });
+      // Limpia el campo
+      $(this).val("");
+    }
+  });
+
   // Obtiene los datos de cada campo del formulario y Valida que no esten Vacios
   $("#formResumAseg, #formVehManual, #formResumVeh, #agregarOferta").on(
     "submit",
@@ -399,8 +429,6 @@ $(document).ready(function () {
 
   let intermediario = document.getElementById("idIntermediario").value;
 
-  let conPressed = 0;
-
   $("#btnCotizar").click(function (e) {
     if (conPressed > 0) {
       Swal.fire({
@@ -410,8 +438,6 @@ $(document).ready(function () {
         showConfirmButton: true,
       });
       throw new Error("Ya se ha presionado el botón de cotizar");
-    } else if (conPressed == 0) {
-      conPressed++;
     }
     let deptoCirc = $("#DptoCirculacion").val();
     let ciudadCirc = $("#ciudadCirculacion").val();
@@ -826,7 +852,9 @@ function consultarAsegurado() {
         $("#tipoDocumentoIDRepresentante").val(
           data?.rep_legal?.rep_tipo_documento
         );
-        $("#numDocumentoIDRepresentante").val(data?.rep_legal?.rep_num_documento);
+        $("#numDocumentoIDRepresentante").val(
+          data?.rep_legal?.rep_num_documento
+        );
         $("#txtNombresRepresentante").val(data?.rep_legal?.rep_nombre);
         $("#txtApellidosRepresentante").val(data?.rep_legal?.rep_apellidos);
         $("#generoRepresentante").val(data?.rep_legal?.rep_genero);
@@ -977,7 +1005,9 @@ function consulPlaca(query = "1") {
       .hasAttribute("required");
 
     // Variables para las validaciones
-    let mesV = true, diaV = true, anioV = true;
+    let mesV = true,
+      diaV = true,
+      anioV = true;
 
     // Validar "required" y valores
     if (
@@ -1112,7 +1142,7 @@ function consulPlaca(query = "1") {
                 } else if (codigoClase == 6) {
                   claseVehiculo = "AUTOMOVIL";
                   limiteRCESTADO = 18;
-                }else if (codigoClase == 3) {
+                } else if (codigoClase == 3) {
                   claseVehiculo = "PICK UPS";
                   limiteRCESTADO = 18;
                   var restriccion = "";
@@ -1211,7 +1241,7 @@ function consulPlaca(query = "1") {
                   function (resp) {
                     $("#txtMarcaVeh").val(resp.marcaVeh);
                     $("#txtReferenciaVeh").val(resp.lineaVeh);
-                    console.log(resp)
+                    console.log(resp);
                     // if (
                     //   ["TAXI", "taxi", "Taxi", ""].some((tipo) =>
                     //     resp.lineaVeh.split(" ").includes(tipo)
@@ -1225,7 +1255,7 @@ function consulPlaca(query = "1") {
                     //       resp.claseVeh.split(" / ").includes(tipo)
                     //     )
                     // ) {
-                      $("#txtClaseVeh").val(claseVehiculo);
+                    $("#txtClaseVeh").val(claseVehiculo);
                     // } else {
                     //   Swal.fire({
                     //     icon: "warning",
@@ -2658,6 +2688,12 @@ function cotizarOfertasPasajeros() {
   var TokenPrevisora = document.getElementById("previsoraToken").value;
   var intermediario = document.getElementById("intermediario").value;
 
+  var tipoUsoVehiculo = document.getElementById(
+    "txtTipoTransporteVehiculo"
+  ).value;
+
+  var numeroPasajeros = document.getElementById("txtNumeroPasajeros").value;
+
   /**
    * Variables de AXA
    */
@@ -2751,14 +2787,27 @@ function cotizarOfertasPasajeros() {
 
   //! Agregar a Motos y Pesados END
 
-  if (
-    fasecoldaVeh != "" &&
-    valorFasecolda != "" &&
-    DptoCirculacion != "" &&
-    ciudadCirculacion != "" &&
-    isBenefOneroso != undefined
-  ) {
+  const camposComunesValidos =
+    fasecoldaVeh !== "" &&
+    valorFasecolda !== "" &&
+    DptoCirculacion !== "" &&
+    ciudadCirculacion !== "" &&
+    tipoUsoVehiculo !== "" &&
+    isBenefOneroso !== undefined;
+
+  let conditions = false;
+
+  if (tipoUsoVehiculo === "Bus") {
+    const pasajerosValidos =
+      numeroPasajeros !== "" && Number(numeroPasajeros) > 0;
+    conditions = camposComunesValidos && pasajerosValidos;
+  } else {
+    conditions = camposComunesValidos;
+  }
+
+  if (conditions) {
     if (typeQuery) {
+      conPressed++;
       $("#loaderOferta").html(
         '<img src="vistas/img/plantilla/loader-update.gif" width="34" height="34"><strong> Consultando Ofertas...</strong>'
       );
@@ -2784,6 +2833,7 @@ function cotizarOfertasPasajeros() {
         CodigoClase: CodigoClase,
         CodigoFasecolda: fasecoldaVeh,
         Modelo: modeloVeh,
+        tipoUsoVehiculo: tipoUsoVehiculo,
         tipoServicio: "11",
         ValorAsegurado: valorFasecolda,
         LimiteRC: LimiteRC,
@@ -2938,6 +2988,8 @@ function cotizarOfertasPasajeros() {
             Marca: marcaVeh,
             Modelo: modeloVeh,
             Linea: lineaVeh,
+            tipoUsoVehiculo: tipoUsoVehiculo,
+            numeroPasajeros: numeroPasajeros == "" ? 0 : numeroPasajeros,
             Fasecolda: fasecoldaVeh,
             ValorAsegurado: valorFasecolda,
             Departamento: DptoCirculacion,
@@ -3276,13 +3328,12 @@ function cotizarOfertasPasajeros() {
                 });
                 return;
               } else if (aseguradora === "Estado") {
-                debugger
                 let estadoPromise = new Promise((resolve, reject) => {
                   try {
                     let arrAseguradora = [
                       {
                         Mensajes: [
-                           "Solicita cotización manual con tu Analista Comercial asignado",
+                          "Solicita cotización manual con tu Analista Comercial asignado",
                         ],
                       },
                     ];
@@ -4039,6 +4090,14 @@ function cotizarOfertasPasajeros() {
       let zurichSuccess = true;
       let successEstado = true;
     }
+  } else {
+    Swal.fire({
+      icon: "error",
+      title: "Validación del formulario",
+      text: "Verifica el formulario que los datos esten correctos.",
+      showConfirmButton: true,
+    });
+    conPressed = 0;
   }
 }
 
@@ -4194,7 +4253,7 @@ const tipoVehiculo = [
   "BUSETA",
   "BUS",
   "AUTOMOVIL",
-  "CAMPERO"
+  "CAMPERO",
 ];
 
 $("#btnConsultarVehmanualbuscador").click(function () {

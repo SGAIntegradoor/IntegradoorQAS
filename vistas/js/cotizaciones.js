@@ -2199,8 +2199,6 @@ function editarCotizacion(id) {
 
       $("#txtTipoServicioPesado").val(respuesta["cot_tip_servicio"]);
 
-      $("#txtTipoServicioPesado").val(respuesta["cot_tip_servicio"]);
-
       $("#DptoCirculacionPesado").append(
         "<option value='" +
           respuesta["cot_departamento"] +
@@ -2267,10 +2265,10 @@ function editarCotizacion(id) {
 
         dataType: "json",
 
-        success: async function (respuesta) {
+        success: async function (resp) {
           menosRE();
-          if (respuesta.length > 0) {
-            manualGeneral = respuesta[0].Manual;
+          if (resp.length > 0) {
+            manualGeneral = resp[0].Manual;
 
             if (manualGeneral != "4") {
               $("#txtTipoUsoVehiculo").val(respuesta["cot_tip_uso"]);
@@ -2278,9 +2276,15 @@ function editarCotizacion(id) {
             } else {
               $("#divTipoUso").css("display", "none");
               $("#divTipoServicio").css("display", "none");
+              $("#divTipoTransporte").css("display", "block");
+              // trigger chance
+              // $("#txtTipoTransporteVehiculo").val(respuesta["cot_tip_uso"])
+              console.log(respuesta)
+              $("#txtTipoTransporteVehiculo").val(respuesta["cot_tip_uso"]).trigger("change");
+              
             }
 
-            renderCards(respuesta);
+            renderCards(resp);
             let updatevideos = document.querySelectorAll(".editar-manual");
             for (updatevideo of updatevideos) {
               updatevideo.addEventListener("click", function (e) {

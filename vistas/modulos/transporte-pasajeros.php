@@ -1413,15 +1413,18 @@ echo '<script>console.log(' . $idIntermediario . ", " . $rolAsesor . ')</script>
                       <input type="text" class="form-control" id="txtValorFasecolda" placeholder="" required>
                     </div>
                     <div class="col-xs-12 col-sm-6 col-md-3 form-group">
-                      <label for="txtTipoUsoVehiculo">Tipo de Uso</label>
-                      <select class="form-control" id="txtTipoUsoVehiculo" required>
+                      <label for="txtTipoTransporteVehiculo">Tipo de transporte</label>
+                      <select class="form-control" id="txtTipoTransporteVehiculo" required>
                         <option value=""></option>
-                        <option value="ServicioEsp">Servicio Especial</option>
-                        <option value="PasajeroUrb">Pasajero Urbano</option>
-                        <option value="PasajeroInter">Pasajero Intermunicipal</option>
                         <option value="Taxi">Taxi</option>
+                        <option value="Bus">Bus</option>
+                        <option value="MicroBus">MicroBus</option>
+                        <option value="Buseta">Buseta</option>
+                        <option value="ServicioEsp">Servicio Especial</option>
+                        <option value="PlacaBlanca">Placa Blanca</option>
                       </select>
                     </div>
+                    
                   </div>
 
                   <div class="row">
@@ -1434,6 +1437,11 @@ echo '<script>console.log(' . $idIntermediario . ", " . $rolAsesor . ')</script>
                         <option value="12">Publico Intermunicipal</option>
                       </select>
                     </div> -->
+
+                    <div class="col-xs-12 col-sm-6 col-md-3 form-group" id="divNumeroPasajeros" style="display: none;">
+                      <label for="txtNumeroPasajeros">Numero de Pasajeros</label>
+                      <input type="number" class="form-control" id="txtNumeroPasajeros" placeholder="" max="19" min="1" required>
+                    </div>
 
                     <div class="col-xs-12 col-sm-6 col-md-3 form-group">
                       <label for="DptoCirculacion">Departamento de Circulación</label>
