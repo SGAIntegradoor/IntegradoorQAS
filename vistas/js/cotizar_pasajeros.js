@@ -977,9 +977,7 @@ function consulPlaca(query = "1") {
       .hasAttribute("required");
 
     // Variables para las validaciones
-    let mesV = true,
-      diaV = true,
-      anioV = true;
+    let mesV = true, diaV = true, anioV = true;
 
     // Validar "required" y valores
     if (
@@ -1111,9 +1109,28 @@ function consulPlaca(query = "1") {
                 } else if (codigoClase == 2) {
                   claseVehiculo = "CAMPEROS";
                   limiteRCESTADO = 18;
-                } else if (codigoClase == 3) {
+                } else if (codigoClase == 6) {
+                  claseVehiculo = "AUTOMOVIL";
+                  limiteRCESTADO = 18;
+                }else if (codigoClase == 3) {
                   claseVehiculo = "PICK UPS";
                   limiteRCESTADO = 18;
+                  var restriccion = "";
+                  if (rolAsesor == 19) {
+                    restriccion =
+                      "Lo sentimos, no puedes cotizar Pick Ups por este módulo. Para hacerlo debes ingresar al modulo Cotizar Livianos.";
+                  } else {
+                    restriccion =
+                      "Lo sentimos, no puedes cotizar Pick Ups por este módulo.";
+                  }
+                  Swal.fire({
+                    icon: "error",
+                    text: restriccion,
+                    confirmButtonText: "Cerrar",
+                  }).then(() => {
+                    // Recargar la página después de cerrar el SweetAlert
+                    location.reload();
+                  });
                 } else if (codigoClase == 4) {
                   claseVehiculo = "UTILITARIOS DEPORTIVOS";
                   limiteRCESTADO = 6;
@@ -1194,30 +1211,31 @@ function consulPlaca(query = "1") {
                   function (resp) {
                     $("#txtMarcaVeh").val(resp.marcaVeh);
                     $("#txtReferenciaVeh").val(resp.lineaVeh);
-                    if (
-                      ["TAXI", "taxi", "Taxi", ""].some((tipo) =>
-                        resp.lineaVeh.split(" ").includes(tipo)
-                      )
-                    ) {
-                      $("#txtClaseVeh").val("TAXI");
-                    } else if (
-                      claseVehiculo
-                        .split(" / ")
-                        .some((tipo) =>
-                          resp.claseVeh.split(" / ").includes(tipo)
-                        )
-                    ) {
+                    console.log(resp)
+                    // if (
+                    //   ["TAXI", "taxi", "Taxi", ""].some((tipo) =>
+                    //     resp.lineaVeh.split(" ").includes(tipo)
+                    //   )
+                    // ) {
+                    //   $("#txtClaseVeh").val("TAXI");
+                    // } else if (
+                    //   claseVehiculo
+                    //     .split(" / ")
+                    //     .some((tipo) =>
+                    //       resp.claseVeh.split(" / ").includes(tipo)
+                    //     )
+                    // ) {
                       $("#txtClaseVeh").val(claseVehiculo);
-                    } else {
-                      Swal.fire({
-                        icon: "warning",
-                        title: "Tipo de Vehiculo",
-                        text: "El tipo de vehículo no corrresponde a transporte de pasajeros",
-                        confirmButtonText: "Cerrar",
-                      }).then(() => {
-                        window.location.reload();
-                      });
-                    }
+                    // } else {
+                    //   Swal.fire({
+                    //     icon: "warning",
+                    //     title: "Tipo de Vehiculo",
+                    //     text: "El tipo de vehículo no corrresponde a transporte de pasajeros",
+                    //     confirmButtonText: "Cerrar",
+                    //   }).then(() => {
+                    //     window.location.reload();
+                    //   });
+                    // }
                   }
                 );
               }
@@ -1227,13 +1245,13 @@ function consulPlaca(query = "1") {
               mensajeConsulta == "Parámetros Inválidos. Placa es requerido." ||
               mensajeConsulta == "Favor diligenciar correctamente la placa"
             ) {
+              consulPlacaMapfre(valnumplaca);
               swal.fire({
                 text: "! Favor diligenciar correctamente la placa. ¡",
               });
             } else {
               consulPlacaMapfre(valnumplaca);
             }
-            consulPlacaMapfre(valnumplaca);
             // $("#loaderPlaca").html("");
           }
         })
@@ -4174,7 +4192,9 @@ const tipoVehiculo = [
   "BUS / BUSETA / MICROBUS",
   "MICROBUS",
   "BUSETA",
-  "BUS"
+  "BUS",
+  "AUTOMOVIL",
+  "CAMPERO"
 ];
 
 $("#btnConsultarVehmanualbuscador").click(function () {
@@ -4214,9 +4234,9 @@ $("#btnConsultarVehmanualbuscador").click(function () {
               allowOutsideClick: false,
             }).then((result) => {
               if (result.isConfirmed) {
-                window.location = "cotizar";
+                window.location = "transporte-pasajeros";
               } else if (result.isDenied) {
-                window.location = "cotizar";
+                window.location = "transporte-pasajeros";
               }
             });
           }
@@ -4230,9 +4250,9 @@ $("#btnConsultarVehmanualbuscador").click(function () {
               allowOutsideClick: false,
             }).then((result) => {
               if (result.isConfirmed) {
-                window.location = "cotizar";
+                window.location = "transporte-pasajeros";
               } else if (result.isDenied) {
-                window.location = "cotizar";
+                window.location = "transporte-pasajeros";
               }
             });
           } else {
