@@ -26,5 +26,9 @@ if ($_SESSION["permisos"]["ai-chat"] == "x") {
         </section>
     </div>
 <?php
+} else {
+?>
+    <div style="height: 100%; width: 100%; flex: 1; display: flex; visibility: hidden;"></div>
+<?php
 }
 ?>

@@ -187,14 +187,12 @@
     }
 
     .wrapper2 {
-      height: 100% !important ;
+      height: 100% !important;
     }
 
     .sidebar {
       padding-bottom: 0px !important;
     }
-
-
   </style>
 
 
@@ -266,9 +264,15 @@
 CUERPO DOCUMENTO
 ======================================-->
 
-<body class="hold-transition skin-blue sidebar-collapse sidebar-mini login-page">
+  <style>
+    .content-wrapper {
+      /* O la altura que necesites */
+      height: 100% !important;
+      min-height: 100vh !important;
+    }
+  </style>
 
-
+<body class="hold-transition skin-blue sidebar-mini <?php echo (isset($_SESSION["iniciarSesion"]) && $_SESSION["iniciarSesion"] == "ok") ? 'sidebar-collapse' : 'login-page'; ?>" class="hold-transition skin-blue sidebar-mini <?php echo (isset($_SESSION["iniciarSesion"]) && $_SESSION["iniciarSesion"] == "ok") ? 'sidebar-collapse' : 'login-page'; ?>">
 
   <?php
   if (isset($_SESSION["iniciarSesion"]) && $_SESSION["iniciarSesion"] == "ok") {
