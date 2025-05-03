@@ -146,6 +146,9 @@ if (in_array($_SESSION["rol"], [1, 10, 11, 12, 22, 23])) {
         if (isset($cambios["infoUsuario"]) && !empty($cambios["infoUsuario"])) {
             $datosUsuario = [];
             foreach ($cambios["infoUsuario"] as $campo => $valor) {
+                if($campo == "usu_password"){
+                    $valor = crypt($valor, '$2a$07$asxx54ahjppf45sd87a5a4dDDGsystemdev$');
+                }
                 $valor = mysqli_real_escape_string($enlace, $valor);
                 $datosUsuario[$campo] = $valor;
             }

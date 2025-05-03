@@ -321,7 +321,7 @@ if (isset($_GET["id"])) {
             <button id="btnGuardar">Guardar cambios</button>
           </div>
         </div>
-        <div class="col-md-12" style="margin-top: 50px; padding-right: 60px; padding-left: 40px;">
+        <div class="col-md-12" style="margin-top: 50px; padding-right: 60px; padding-left: 40px;" id="formUser">
           <div clas="row" style="margin-bottom: 30px; margin-left: 10px;">
             <u><b style="font-size: 16px;">Información del usuario</b></u>
           </div>
@@ -471,7 +471,7 @@ if (isset($_GET["id"])) {
                   </select>
                 </div>
 
-                <div class="form-group" style="display: none;" id="divCanal">
+                <div class="form-group" style="display: none;" id="divCanal" class="requiredfield">
                   <label for="canal"><b>Canal</b></label>
                   <select name="canal" id="canal">
                     <option value="1">Freelance</option>
@@ -480,7 +480,7 @@ if (isset($_GET["id"])) {
 
                 <div class="form-group" id="divTipoDePersona">
                   <label for="tipoDePersona"><b>Tipo de persona</b></label>
-                  <select name="tipoDePersona" id="tipoDePersona">
+                  <select name="tipoDePersona" id="tipoDePersona" class="requiredfield">
                     <!-- <option value="">Seleccione una opción</option> -->
                     <option value="">Seleccione una opción...</option>
                     <option value="1">Natural</option>
@@ -490,7 +490,7 @@ if (isset($_GET["id"])) {
 
                 <div class="form-group" id="divTipoDocumento">
                   <label for="tipoDocumento"><b>Tipo de documento</b></label>
-                  <select name="tipoDocumento" id="tipoDocumento">
+                  <select name="tipoDocumento" id="tipoDocumento" class="requiredfield">
                     <option value="">Seleccione una opción...</option>
                     <option value="CC">CC</option>
                     <option value="NIT">NIT</option>
@@ -499,7 +499,7 @@ if (isset($_GET["id"])) {
 
                 <div class="form-group" id="divDocumento">
                   <label for="documento"><b>Documento</b></label>
-                  <input type="number" name="documento" id="documento">
+                  <input type="number" name="documento" id="documento" class="requiredfield">
                 </div>
 
                 <div class="form-group legal" id="divRazonSocial">
@@ -554,17 +554,17 @@ if (isset($_GET["id"])) {
 
                 <div class="form-group natural" id="divNombre">
                   <label for="nombre"><b>Nombres</b></label>
-                  <input type="text" name="nombre" id="nombre_perfil">
+                  <input type="text" name="nombre" id="nombre_perfil" class="requiredfield">
                 </div>
 
                 <div class="form-group natural" id="divApellidos">
                   <label for="apellidos"><b>Apellidos</b></label>
-                  <input type="text" name="apellidos" id="apellidos_perfil">
+                  <input type="text" name="apellidos" id="apellidos_perfil" class="requiredfield">
                 </div>
 
                 <div class="form-group natural" id="divGenero">
                   <label for="genero"><b>Género</b></label>
-                  <select type="text" name="genero" id="genero_perfil">
+                  <select type="text" name="genero" id="genero_perfil" class="requiredfield">
                     <option value="">Seleccione una opción</option>
                     <option value="1">Masculino</option>
                     <option value="2">Femenino</option>
@@ -573,13 +573,13 @@ if (isset($_GET["id"])) {
 
                 <div class="form-group natural" id="divFechaNacimientoPN">
                   <label for="fechaNacimiento"><b>Fecha de nacimiento</b></label>
-                  <input type="date" name="fechaNacimiento_perfil" id="fechaNacimiento_perfil">
+                  <input type="date" name="fechaNacimiento_perfil" id="fechaNacimiento_perfil" class="requiredfield">
                 </div>
 
                 <div class="form-group" id="divDepto">
                   <label for="departamento"><b>Departamento</b></label>
-                  <select id="departamento">
-                    <option value=""></option>
+                  <select id="departamento" class="requiredfield">
+                    <option value="">Seleccione una opción...</option>
                     <option value="91">Amazonas</option>
                     <option value="05">Antioquia</option>
                     <option value="81">Arauca</option>
@@ -623,22 +623,24 @@ if (isset($_GET["id"])) {
 
                 <div class="form-group" id="divCiudad">
                   <label for="ciudad"><b>Ciudad</b></label>
-                  <select name="ciudad" id="ciudad"></select>
+                  <select name="ciudad" id="ciudad" class="requiredfield">
+                    <option value="">Seleccione una opción...</option>
+                  </select>
                 </div>
 
                 <div class="form-group" id="divDireccion">
                   <label for="direccion"><b>Dirección</b></label>
-                  <input type="text" name="direccion_perfil" id="direccion_perfil">
+                  <input type="text" name="direccion_perfil" id="direccion_perfil" class="requiredfield">
                 </div>
 
                 <div class="form-group" id="divTelefono">
                   <label for="celular"><b>Celular</b></label>
-                  <input type="text" name="telefono_perfil" id="telefono_perfil">
+                  <input type="text" name="telefono_perfil" id="telefono_perfil" class="requiredfield">
                 </div>
 
                 <div class="form-group" id="divEmailPN">
                   <label for="correoElectronico"><b>Correo Electrónico</b></label>
-                  <input type="text" name="email_perfil" id="email_perfil">
+                  <input type="text" name="email_perfil" id="email_perfil" class="requiredfield">
                 </div>
 
                 <!-- Campos Persona Natural Fin -->
@@ -682,12 +684,16 @@ if (isset($_GET["id"])) {
               <div class="form-container">
                 <div class="form-group" id="divRolUsers">
                   <label for="rolUsers"><b>Rol</b></label>
-                  <select name="rolUsers" id="rolUsers"></select>
+                  <select name="rolUsers" id="rolUsers" class="requiredfield">
+                    <option value="" selected>Seleccione una opción...</option>
+                  </select>
                 </div>
 
                 <div class="form-group" id="divIntermediarioPerfil">
                   <label for="intermediarioPerfil"><b>Intermediario</b></label>
-                  <select name="intermediarioPerfil" id="intermediarioPerfil"></select>
+                  <select name="intermediarioPerfil" id="intermediarioPerfil" class="requiredfield">
+                    <option value="" selected>Seleccione una opción...</option>
+                  </select>
                 </div>
 
                 <div class="form-group freelance" id="divAsesorCat">
@@ -703,13 +709,23 @@ if (isset($_GET["id"])) {
                 <div class="form-group" id="divCargos">
                   <label for="cargos"><b>Cargo</b></label>
                   <select name="cargos" id="cargos">
+                    <option value="">Seleccione una opción...</option>
                   </select>
                 </div>
 
                 <div class="form-group" id="divComisiones" style="display: none; align-items: flex-end;">
                   <?php
-                  $id = isset($_GET['id']) ? $_GET['id'] : 'null'; // O '0' o comillas según tu función JS
-                  echo "<button class='btnComisiones' onclick='openModalComisiones(\"$id\")'>Configurar Comisiones</button>";
+                  $id = isset($_GET['id']) ? $_GET['id'] : 'null'; 
+
+                  $puedeVer = ($_SESSION["permisos"]["id_rol"] == 22 ||
+                    $_SESSION["permisos"]["id_rol"] == 23 ||
+                    $_SESSION["permisos"]["id_usuario"] == $id);
+
+                  $disabled = $puedeVer ? "" : "disabled";
+                  $css = $puedeVer ? "" : "background-color: gray; opacity: 0.8; cursor: not-allowed;";
+
+                  // Botón
+                  echo "<button class='btnComisiones' onclick='openModalComisiones(\"$id\")' style=\"$css\" $disabled>Configurar Comisiones</button>";
                   ?>
 
                 </div>
@@ -734,6 +750,7 @@ if (isset($_GET["id"])) {
                 <div class="form-group freelance" id="divAnalistaAsesor">
                   <label for="analistaAsesor"><b>Analista/Asesor</b></label>
                   <select name="analistaAsesor" id="analistaAsesor">
+                    <option value="">Seleccione una opción...</option>
                   </select>
                 </div>
 
@@ -857,26 +874,28 @@ if (isset($_GET["id"])) {
             <div class="form-container freelance">
               <div class="form-group">
                 <label for="entidadBancaria"><b>Entidad Bancaria</b></label>
-                <select name="entidadBancaria" id="entidadBancaria"></select>
+                <select name="entidadBancaria" id="entidadBancaria">
+                  <option value="" selected>Seleccione una opción...</option>
+                </select>
               </div>
 
               <div class="form-group">
                 <label for="tipoCuenta"><b>Tipo de cuenta</b></label>
                 <select name="tipoCuenta" id="tipoCuenta">
-                  <option value="">Seleccione una opción...</option>
+                  <option value="" selected>Seleccione una opción...</option>
                   <option value="1">Ahorros</option>
-                  <option value="2" selected>Corriente</option>
+                  <option value="2">Corriente</option>
                 </select>
               </div>
 
               <div class="form-group">
                 <label for="noCuenta"><b>Número de cuenta</b></label>
-                <input type="text" name="noCuenta" id="noCuenta"></input>
+                <input type="text" name="noCuenta" id="noCuenta" />
               </div>
 
               <div class="form-group">
                 <label for="documento"><b>Régimen en renta</b></label>
-                <input type="text" name="regimenRenta" id="regimenRenta">
+                <input type="text" name="regimenRenta" id="regimenRenta" />
               </div>
               <div class="form-group">
                 <label for="representanteLegal"><b>Facturador electronico</b></label>
@@ -906,7 +925,7 @@ if (isset($_GET["id"])) {
               </div>
               <div class="form-group">
                 <label for="participacionEsp"><b>Participación Especial</b></label>
-                <input type="text" name="participacionEsp" id="participacionEsp">
+                <input type="text" name="participacionEsp" id="participacionEsp" />
               </div>
             </div>
             <section style="display: none;" id="divComentarios">
@@ -928,12 +947,12 @@ if (isset($_GET["id"])) {
             <div class="form-container" style="margin-top: 50px;">
               <div class="form-group">
                 <label for="usuarioVin"><b>Usuario:</b></label>
-                <input type="text" name="usuarioVin" id="usuarioVin" disabled>
+                <input type="text" name="usuarioVin" id="usuarioVin" disabled class="requiredfield">
               </div>
 
               <div class="form-group">
                 <label for="fechaCreaVin"><b>Fecha de creación/vinculación:</b></label>
-                <input type="date" name="fechaCreaVin" id="fechaCreaVin">
+                <input type="date" name="fechaCreaVin" id="fechaCreaVin" class="requiredfield">
               </div>
 
               <div class="form-group">
@@ -949,18 +968,18 @@ if (isset($_GET["id"])) {
             <div class="form-container" style="margin-top: 20px;">
               <div class="form-group">
                 <label for="limiteCots"><b>Limite cotizaciones:</b></label>
-                <input type="text" name="limiteCots" id="limiteCots">
+                <input type="text" name="limiteCots" id="limiteCots" class="requiredfield">
               </div>
 
               <div class="form-group">
                 <label for="limiteUso"><b>Limite de uso:</b></label>
-                <input type="date" name="limiteUso" id="limiteUso">
+                <input type="date" name="limiteUso" id="limiteUso" class="requiredfield">
               </div>
 
               <div class="form-group">
                 <label for="estadoUs"><b>Estado:</b></label>
-                <select type="text" name="estadoUs" id="estadoUs">
-                  <option value="">Seleccione una opción...</option>
+                <select type="text" name="estadoUs" id="estadoUs" class="requiredfield">
+                  <option value="" selected>Seleccione una opción...</option>
                   <option value="1">Vinculado</option>
                   <option value="2">Activado</option>
                   <option value="3">Inactivo</option>
