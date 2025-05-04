@@ -95,6 +95,26 @@ footer > p > strong > a {
   color: #88d600 !important;
 }
 
+
+.skin-blue .sidebar-menu>li>.treeview-menu {
+  margin: 0 1px;
+  background: #e7ebec;
+  color: black;
+}
+
+
+/* Color normal del enlace */
+.skin-blue .sidebar-menu .treeview-menu > li > a {
+  color: #000; /* Color negro para el texto en su estado normal */
+}
+
+.skin-blue .main-sidebar .sidebar .sidebar-menu .treeview-menu > li > a:hover {
+  color: #000 !important;
+}
+
+.skin-blue .sidebar-menu .treeview-menu>li.active>a, .skin-blue .sidebar-menu .treeview-menu>li>a:hover {
+  color: #88d600;
+}
 /*responsive de image*/
 @media (max-width: 575px) {
   .main-header .logo {

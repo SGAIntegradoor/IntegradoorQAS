@@ -382,6 +382,7 @@ CUERPO DOCUMENTO
         $_GET["ruta"] == "retomar-cotizacion-salud" ||
         $_GET["ruta"] == "retomar-cotizacion-hogar" ||
         $_GET["ruta"] == "negocios" ||
+        $_GET["ruta"] == "productividad" ||
         $_GET["ruta"] == "transporte-pasajeros" 
       ) {
         if ($_GET['ruta'] == 'modificacion-productos') {
