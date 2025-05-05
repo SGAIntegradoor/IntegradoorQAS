@@ -1263,6 +1263,7 @@ async function renderCards(response) {
         "HDI (Antes Liberty)",
         "Axa Colpatria",
         "Previsora",
+        "Solidaria"
       ];
 
       const planesViajes = [
@@ -1290,6 +1291,13 @@ async function renderCards(response) {
         "Pesados con RCE en exceso",
         "Pesados",
         "Todo riesgo Trailer",
+        "Taxis Full",
+        "Taxis Amarillos Elite",
+        "Taxis Amarillos Premium",
+        "Taxis Amarillos Plus",
+        "Buses Premium",
+        "Buses Plus",
+        "Buses Elite",
       ];
 
       var valorRC = isNumeric(oferta.ValorRC);
@@ -1690,7 +1698,8 @@ async function renderCards(response) {
       if (
         (oferta.Manual == "0" ||
           oferta.Manual == "8" ||
-          oferta.Manual == "9") &&
+          oferta.Manual == "9" ||
+          oferta.Manual == "4") &&
         (oferta.Aseguradora == "Seguros Bolivar" ||
           oferta.Aseguradora == "Axa Colpatria") &&
         aseguradoraPermisos == "1"
@@ -1709,7 +1718,8 @@ async function renderCards(response) {
       } else if (
         (oferta.Manual == "0" ||
           oferta.Manual == "8" ||
-          oferta.Manual == "9") &&
+          oferta.Manual == "9" ||
+          oferta.Manual == "4") &&
         (oferta.Aseguradora == "Previsora Seguros" ||
           oferta.Aseguradora == "Previsora") &&
         oferta.UrlPdf !== null &&
@@ -1729,7 +1739,8 @@ async function renderCards(response) {
       } else if (
         (oferta.Manual == "0" ||
           oferta.Manual == "8" ||
-          oferta.Manual == "9") &&
+          oferta.Manual == "9" ||
+          oferta.Manual == "4") &&
         oferta.Aseguradora == "Seguros del Estado" &&
         oferta.UrlPdf !== null &&
         aseguradoraPermisos == "1"
@@ -1748,7 +1759,8 @@ async function renderCards(response) {
       } else if (
         (oferta.Manual == "0" ||
           oferta.Manual == "8" ||
-          oferta.Manual == "9") &&
+          oferta.Manual == "9" ||
+          oferta.Manual == "4") &&
         oferta.Aseguradora == "Solidaria" &&
         aseguradoraPermisos == "1"
       ) {
@@ -1766,7 +1778,8 @@ async function renderCards(response) {
       } else if (
         (oferta.Manual == "0" ||
           oferta.Manual == "8" ||
-          oferta.Manual == "9") &&
+          oferta.Manual == "9" ||
+          oferta.Manual == "4") &&
         oferta.Aseguradora == "Mapfre" &&
         aseguradoraPermisos == "1"
       ) {
@@ -1784,7 +1797,8 @@ async function renderCards(response) {
       } else if (
         (oferta.Manual == "0" ||
           oferta.Manual == "8" ||
-          oferta.Manual == "9") &&
+          oferta.Manual == "9" ||
+          oferta.Manual == "4") &&
         oferta.Aseguradora == "Zurich" &&
         aseguradoraPermisos == "1"
       ) {
@@ -1802,7 +1816,8 @@ async function renderCards(response) {
       } else if (
         (oferta.Manual == "0" ||
           oferta.Manual == "8" ||
-          oferta.Manual == "9") &&
+          oferta.Manual == "9" ||
+          oferta.Manual == "4") &&
         oferta.Aseguradora == "HDI Seguros" &&
         aseguradoraPermisos == "1"
       ) {

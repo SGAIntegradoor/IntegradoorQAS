@@ -632,7 +632,11 @@ $response = retrieveQuotation($idCotizacion);
 
                       <div class="col-xs-12 col-sm-6 col-md-3 form-group" id="divNumeroPasajeros" style="display: none;">
                         <label for="txtNumeroPasajeros">Numero de Pasajeros</label>
-                        <input type="number" class="form-control" id="txtNumeroPasajeros" placeholder="" max="19" min="1" required>
+                        <select name="txtNumeroPasajeros" id="txtNumeroPasajeros" class="form-control">
+                          <option value="">Seleccione una opción...</option>
+                          <option value="hasta19">Hasta 19 Pasajeros</option>
+                          <option value="masDe19">Mas de 19 Pasajeros</option>
+                        </select>
                       </div>
 
                       <div class="col-xs-12 col-sm-6 col-md-3 form-group">
@@ -1205,7 +1209,10 @@ $response = retrieveQuotation($idCotizacion);
                 }
                 ?>
               </div>
-              <?php if ($response['cot_clase'] == "AUTOMOVIL" || $response['cot_clase'] == "AUTOMOVILES" || $response['cot_clase'] == "UTILITARIOS DEPORTIVOS" || $response['cot_clase'] == "CAMPEROS" || $response['cot_clase'] == "PICK UPS") {
+              <?php
+              // var_dump($response);
+              $tipoUsoVeh = ["Taxi", "Bus", "MicroBus", "Buseta", "ServicioEsp", "PlacaBlanca"];
+              if (($response['cot_clase'] == "AUTOMOVIL" || $response['cot_clase'] == "AUTOMOVILES" || $response['cot_clase'] == "UTILITARIOS DEPORTIVOS" || $response['cot_clase'] == "CAMPEROS" || $response['cot_clase'] == "PICK UPS") && !in_array($response['cot_tip_uso'], $tipoUsoVeh)) {
                 if ($idIntermediario != 78 && $idIntermediario != 4) {
                   echo '<div class="aviso-container col-lg-12" style="font-size: 13px">
                     <p><b>Notas Importantes: </b></p>
@@ -1234,7 +1241,7 @@ $response = retrieveQuotation($idCotizacion);
                 }
               }
               ?>
-              <?php if ($response['cot_clase'] == "MOTOCICLETA") {
+              <?php if ($response['cot_clase'] == "MOTOCICLETA" && !in_array($response['cot_tip_uso'], $tipoUsoVeh)) {
                 if ($idIntermediario != 78 && $idIntermediario != 4) {
                   echo '<div class="aviso-container col-lg-12" style="font-size: 13px">
                       <p>
@@ -1253,10 +1260,10 @@ $response = retrieveQuotation($idCotizacion);
               }
               ?>
               <?php if (
-                $response['cot_clase'] == "CARROTANQUE" || $response['cot_clase'] == "REMOLQUE" ||
-                $response['cot_clase'] == "VOLQUETA" || $response['cot_clase'] == "FURGONETA" || $response['cot_clase'] == "GRUA"
-                || $response['cot_clase'] == "REMOLCADOR" || $response['cot_clase'] == "FURGON" || $response['cot_clase'] == "CHASIS"
-                || $response['cot_clase'] == "BUS" || $response['cot_clase'] == "CAMION"
+                ($response['cot_clase'] == "CARROTANQUE" || $response['cot_clase'] == "REMOLQUE" ||
+                  $response['cot_clase'] == "VOLQUETA" || $response['cot_clase'] == "FURGONETA" || $response['cot_clase'] == "GRUA"
+                  || $response['cot_clase'] == "REMOLCADOR" || $response['cot_clase'] == "FURGON" || $response['cot_clase'] == "CHASIS"
+                  || $response['cot_clase'] == "BUS" || $response['cot_clase'] == "CAMION") && !in_array($response['cot_tip_uso'], $tipoUsoVeh)
               ) {
                 if ($idIntermediario != 78 && $idIntermediario != 4) {
                   echo '<div class="aviso-container col-lg-12" style="font-size: 13px">

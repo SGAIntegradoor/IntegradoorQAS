@@ -336,21 +336,21 @@ $(document).ready(function () {
     }
   });
 
-  $("#txtNumeroPasajeros").on("input change", function () {
-    var numeroPasajeros = $(this).val();
-    // Verifica si el número de pasajeros es mayor a 20
-    if (numeroPasajeros > 19 || numeroPasajeros == 0) {
-      // Muestra una alerta de error
-      Swal.fire({
-        icon: "error",
-        title: "Número de Pasajeros Excedido",
-        text: "El número de pasajeros va de 1 a 19.",
-        showConfirmButton: true,
-      });
-      // Limpia el campo
-      $(this).val("");
-    }
-  });
+  // $("#txtNumeroPasajeros").on("change", function () {
+  //   var numeroPasajeros = $(this).val();
+  //   // Verifica si el número de pasajeros es mayor a 20
+  //   if (numeroPasajeros > 19 || numeroPasajeros == 0) {
+  //     // Muestra una alerta de error
+  //     Swal.fire({
+  //       icon: "error",
+  //       title: "Número de Pasajeros Excedido",
+  //       text: "El número de pasajeros va de 1 a 19.",
+  //       showConfirmButton: true,
+  //     });
+  //     // Limpia el campo
+  //     $(this).val("");
+  //   }
+  // });
 
   // Obtiene los datos de cada campo del formulario y Valida que no esten Vacios
   $("#formResumAseg, #formVehManual, #formResumVeh, #agregarOferta").on(
@@ -2239,7 +2239,7 @@ const mostrarOferta = (
                                                 </li>
                                                 <li class="list-group-item">
                                                     <span class="badge">* ${GR}</span>
-                                                    Servicio de Grúa
+                                                    Asistencia en Viajes
                                                 </li>
                                             </ul>
                                         </div>
@@ -2799,7 +2799,7 @@ function cotizarOfertasPasajeros() {
 
   if (tipoUsoVehiculo === "Bus") {
     const pasajerosValidos =
-      numeroPasajeros !== "" && Number(numeroPasajeros) > 0;
+      numeroPasajeros !== "";
     conditions = camposComunesValidos && pasajerosValidos;
   } else {
     conditions = camposComunesValidos;

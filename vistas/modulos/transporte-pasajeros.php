@@ -1440,7 +1440,11 @@ echo '<script>console.log(' . $idIntermediario . ", " . $rolAsesor . ')</script>
 
                     <div class="col-xs-12 col-sm-6 col-md-3 form-group" id="divNumeroPasajeros" style="display: none;">
                       <label for="txtNumeroPasajeros">Numero de Pasajeros</label>
-                      <input type="number" class="form-control" id="txtNumeroPasajeros" placeholder="" max="19" min="1" required>
+                      <select class="form-control" name="txtNumeroPasajeros" id="txtNumeroPasajeros" required>
+                        <option value="">Seleccione una opción...</option>
+                        <option value="hasta19">Hasta 19 Pasajeros</option>
+                        <option value="masDe19">Mas de 19 Pasajeros</option>
+                      </select>
                     </div>
 
                     <div class="col-xs-12 col-sm-6 col-md-3 form-group">
