@@ -27,7 +27,7 @@ $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, 'A4', true, 'UTF-8', false);
 $identificador = $_GET['cotizacion'];
 
 
-$server = "localhost";
+$server = "localhost:3307";
 $user = "grupoasi_cotizautos";
 $password = "M1graci0n123"; //poner tu propia contraseña, si tienes una.
 $bd = "grupoasi_cotizautos_qas";
@@ -129,7 +129,7 @@ $linea = $fila["cot_linea"];
 $fasecolda = $fila["cot_fasecolda"];
 $valorA = number_format($fila["cot_valor_asegurado"], 0, '.', '.');
 $clase = claseV($fila["cot_clase"]);
-$servicio = "Publico";
+$servicio = "PUBLICO";
 $departamento = DptoVehiculo($fila["cot_departamento"]);
 $codCiudad = $fila["cot_ciudad"];
 
@@ -404,7 +404,7 @@ $pdf->Cell(10, 0, 'Hemos ', 0, $ln = 0, 'C', 0, '', 0, false, 'C', 'C');
 $pdf->SetFont('dejavusanscondensed', 'BI', 15);
 $pdf->SetTextColor(103, 181, 252);
 $pdf->SetXY(90.5, 89);
-$pdf->Cell(10, 0, 'cotizado ' . $asegSelecionada . ' aseguradoras,', 0, $ln = 0, 'C', 0, '', 0, false, 'C', 'C');
+$pdf->Cell(10, 0, 'cotizado ' . $asegSelecionada . ' aseguradora(s),', 0, $ln = 0, 'C', 0, '', 0, false, 'C', 'C');
 
 $pdf->SetFont('dejavusanscondensed', 'I', 15);
 $pdf->SetTextColor(104, 104, 104);
@@ -1749,7 +1749,7 @@ $html4 .= '</tr>';
 //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
 $html4 .= '<tr>';
-$html4 .= '<td class="fondo puntos" style="width:12%; text-align: center; font-family:dejavusanscondensedb;"><font size="8">Asistencia juridica</font></td>';
+$html4 .= '<td class="fondo puntos" style="width:12%; text-align: center; font-family:dejavusanscondensedb;"><font size="8">Asistencia juridica en proceso civil y penal</font></td>';
 
 $cont13 = 1;
 
@@ -1839,7 +1839,7 @@ $html4 .= '</tr>';
 //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
 $html4 .= '<tr>';
-$html4 .= '<td class="puntos fondo" style="width:12%; text-align: center; font-family:dejavusanscondensedb;"><font size="7.5">Auxilio de paralización Vehículo</font></td>';
+$html4 .= '<td class="puntos fondo" style="width:12%; text-align: center; font-family:dejavusanscondensedb;"><font size="7.5">Auxilio de paralización Vehícul/Lucro Cesante</font></td>';
 
 $cont16 = 1;
 foreach ($resultados as $resultado) {
