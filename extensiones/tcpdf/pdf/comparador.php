@@ -116,6 +116,7 @@ $valorAsegSelec = $conexion->query($queryAsegSelec);
 $asegSelecionada = mysqli_num_rows($valorAsegSelec);
 
 
+
 $fechaCotiz = substr($fila['cot_fch_cotizacion'], 0, -9);
 $fechaVigencia = date("d-m-Y", strtotime($fechaCotiz));
 
@@ -230,83 +231,83 @@ $valorLogo2 = $valorLogo2['usu_logo_pdf'];
 // var_dump($valorLogo);
 // var_dump($valorLogo2);
 
-$id_usuario_log = $_SESSION['idUsuario'];
+	$id_usuario_log = $_SESSION['idUsuario'];
 
-if ($valorLog == "undefined") {
-	$height = 20;
-	$pieces = explode(".", $valorLogo2);
-	if ($intermediario == "89" || $intermediario == 89) {
-		$urlSGA = "../../../vistas/img/intermediario/SEGUROS GRUPO ASISTENCIA SAS/LogoIntegradoor.jpg";
+	if ($valorLog == "undefined") {
 		$height = 20;
-	} else {
-		$urlSGA = "../../../vistas/img/intermediario/SEGUROS GRUPO ASISTENCIA SAS/LogoGA.png";
-	}
+		$pieces = explode(".", $valorLogo2);
+		if ($intermediario == "89" || $intermediario == 89) {
+			$urlSGA = "../../../vistas/img/intermediario/SEGUROS GRUPO ASISTENCIA SAS/LogoIntegradoor.jpg";
+			$height = 20;
+		} else {
+			$urlSGA = "../../../vistas/img/intermediario/SEGUROS GRUPO ASISTENCIA SAS/LogoGA.png";
+		}
 
-	$width = 40;  // El ancho que deseas en el PDF
-	if ($pieces[0] == "") {
-		list($imgWidth2, $imgHeight2) = getimagesize($urlSGA);
-		$pdf->Image($urlSGA, 10, 13, 0, $height, 'JPG', '', '', false, 160, '', false, false, 0, false, false, false);
-	} else if ($pieces[1] == 'png') {
-		list($imgWidth, $imgHeight) = getimagesize('../../../' . $valorLogo2);
-		$height = ($imgHeight / $imgWidth) * $width;  // Mantener la relación de aspecto
-		$pdf->Image('../../../' . $valorLogo2, 10, 13, 0, $height, 'PNG', '', '', false, 160, '', false, false, 0, false, false, false);
-	} else {
+		$width = 40;  // El ancho que deseas en el PDF
+		if ($pieces[0] == "") {
+			list($imgWidth2, $imgHeight2) = getimagesize($urlSGA);
+			$pdf->Image($urlSGA, 10, 13, 0, $height, 'JPG', '', '', false, 160, '', false, false, 0, false, false, false);
+		} else if ($pieces[1] == 'png') {
+			list($imgWidth, $imgHeight) = getimagesize('../../../' . $valorLogo2);
+			$height = ($imgHeight / $imgWidth) * $width;  // Mantener la relación de aspecto
+			$pdf->Image('../../../' . $valorLogo2, 10, 13, 0, $height, 'PNG', '', '', false, 160, '', false, false, 0, false, false, false);
+		} else {
 
-		//var_dump("entre aqui");
-		list($imgWidth, $imgHeight) = getimagesize('../../../' . $valorLogo2);
-		$height = ($imgHeight / $imgWidth) * $width;  // Mantener la relación de aspecto
-		$pdf->Image('../../../' . $valorLogo2, 10, 13, 0, $height, 'JPG', '', '', false, 160, '', false, false, 0, false, false, false);
-	}
-} else if ($valorLogo !== "undefined" && !empty($valorLogo2)) {
-	// var_dump("entre aqui");
-	$pieces = explode(".", $valorLogo2);
+			//var_dump("entre aqui");
+			list($imgWidth, $imgHeight) = getimagesize('../../../' . $valorLogo2);
+			$height = ($imgHeight / $imgWidth) * $width;  // Mantener la relación de aspecto
+			$pdf->Image('../../../' . $valorLogo2, 10, 13, 0, $height, 'JPG', '', '', false, 160, '', false, false, 0, false, false, false);
+		}
+	} else if ($valorLogo !== "undefined" && !empty($valorLogo2)) {
+		// var_dump("entre aqui");
+		$pieces = explode(".", $valorLogo2);
 
-	// Ruta completa de la imagen
-	$imagePath = '../../../' . $valorLogo2;
+		// Ruta completa de la imagen
+		$imagePath = '../../../' . $valorLogo2;
 
-	// Obtener dimensiones de la imagen original
-	list($imgWidth, $imgHeight) = getimagesize($imagePath);
+		// Obtener dimensiones de la imagen original
+		list($imgWidth, $imgHeight) = getimagesize($imagePath);
 
-	// Dimensiones máximas permitidas para la imagen en el PDF
-	$maxWidth = 100; // Ajusta según el espacio disponible
-	$maxHeight = 20;
+		// Dimensiones máximas permitidas para la imagen en el PDF
+		$maxWidth = 100; // Ajusta según el espacio disponible
+		$maxHeight = 20;
 
-	if ($imgWidth > 1080 && $imgHeight < 428) {
-		$maxHeight = 15;
-	}
-	// Escalar la imagen manteniendo la proporción
-	if ($imgWidth > $maxWidth || $imgHeight > $maxHeight) {
+		if ($imgWidth > 1080 && $imgHeight < 428) {
+			$maxHeight = 15;
+		}
+		// Escalar la imagen manteniendo la proporción
+		if ($imgWidth > $maxWidth || $imgHeight > $maxHeight) {
 
-		$scaleFactor = min($maxWidth / $imgWidth, $maxHeight / $imgHeight);
+			$scaleFactor = min($maxWidth / $imgWidth, $maxHeight / $imgHeight);
 
-		$imgWidth = $imgWidth * $scaleFactor;
-		$imgHeight = $imgHeight * $scaleFactor;
-	}
+			$imgWidth = $imgWidth * $scaleFactor;
+			$imgHeight = $imgHeight * $scaleFactor;
+		}
 
-	// Coordenadas de posición inicial
-	$xPosition = 10; // Ajusta según la posición horizontal deseada
-	$yPosition = 13; // Ajusta según la posición vertical deseada
+		// Coordenadas de posición inicial
+		$xPosition = 10; // Ajusta según la posición horizontal deseada
+		$yPosition = 13; // Ajusta según la posición vertical deseada
 
-	// Verificar el formato de la imagen y agregarla al PDF
-	if ($pieces[1] == 'png') {
-		$pdf->Image($imagePath, $xPosition, $yPosition, $imgWidth, $imgHeight, 'PNG',  '', '', false, 300, '', false, false, 0, false, false, false);
-	} else {
-		$pdf->Image($imagePath, $xPosition, $yPosition, $imgWidth, $imgHeight, 'JPG',  '', '', false, 300, '', false, false, 0, false, false, false);
-	}
-} else if ($valorLog != "") {
-	$urlSGA = "../../../vistas/img/logosIntermediario/" . $valorLog;
-	$pdf->Image($urlSGA, 8, 13, 0, 20, 'PNG', '', '', true, 160, '', false, false, 0, false, false, false);
-} else {
-	if ($intermediario == "89" || $intermediario == 89) {
-		$urlSGA = "../../../vistas/img/intermediario/SEGUROS GRUPO ASISTENCIA SAS/LogoIntegradoor.jpg";
-		$height = 15;
-		$pdf->Image($urlSGA, 8, 13, 0, $height, 'JPG', '', '', true, 160, '', false, false, 0, false, false, false);
-	} else {
-		$urlSGA = "../../../vistas/img/intermediario/SEGUROS GRUPO ASISTENCIA SAS/LogoGA.png";
+		// Verificar el formato de la imagen y agregarla al PDF
+		if ($pieces[1] == 'PNG' || $pieces[1] == 'png') {
+			$pdf->Image($imagePath, $xPosition, $yPosition, $imgWidth, $imgHeight, 'PNG',  '', '', false, 300, '', false, false, 0, false, false, false);
+		} else {
+			$pdf->Image($imagePath, $xPosition, $yPosition, $imgWidth, $imgHeight, 'JPG',  '', '', false, 300, '', false, false, 0, false, false, false);
+		}
+	} else if ($valorLog != "") {
+		$urlSGA = "../../../vistas/img/logosIntermediario/" . $valorLog;
 		$pdf->Image($urlSGA, 8, 13, 0, 20, 'PNG', '', '', true, 160, '', false, false, 0, false, false, false);
+	} else {
+		if ($intermediario == "89" || $intermediario == 89) {
+			$urlSGA = "../../../vistas/img/intermediario/SEGUROS GRUPO ASISTENCIA SAS/LogoIntegradoor.png";
+			$height = 15;
+			$pdf->Image($urlSGA, 8, 13, 0, $height, 'PNG', '', '', true, 160, '', false, false, 0, false, false, false);
+		} else {
+			$urlSGA = "../../../vistas/img/intermediario/SEGUROS GRUPO ASISTENCIA SAS/LogoGA.png";
+			$pdf->Image($urlSGA, 8, 13, 0, 20, 'PNG', '', '', true, 160, '', false, false, 0, false, false, false);
+		}
 	}
-}
-$pdf->Image('../../../vistas/img/logos/cheque.png', 100.5, 150.5, 0, -12, 'PNG', '', '', true, 160, '', false, false, 0, false, false, false);
+	$pdf->Image('../../../vistas/img/logos/cheque.png', 100.5, 150.5, 0, -12, 'PNG', '', '', true, 160, '', false, false, 0, false, false, false);
 
 $pdf->SetFont('dejavusanscondensed', 'B', 10);
 $pdf->SetXY(158, 3);
@@ -2790,9 +2791,14 @@ $pdf->SetTextColor(104, 104, 104);
 $pdf->Cell(25, 6, "Elaborado por Software Integradoor propiedad del proveedor tecnológico Strategico Technologies SAS BIC Nit: 901.542.216-8", 0, 1, '');
 $pdf->StopTransform();
 
-$pdf->SetXY(0, 274);
+$pdf->SetXY(0, 268);
 $htmlFooter = '<p style="font-size: 6.2px;">Nota: Esta cotización no constituye una oferta comercial. La misma se expide única y exclusivamente con un propósito informativo sobre los posibles costos del seguro y sus condiciones, los cuales serán susceptibles de modificación hasta tanto no se concreten y determinen las características de los respectivos riesgos.</p>';
-$pdf->writeHTML($htmlFooter, true, false, true, false, '');
+$pdf->writeHTML($htmlFooter, true, false, true, true, '');
+$pdf->Ln();
+
+$pdf->SetXY(0, 276);
+$htmlFooter = '<p style="font-size: 6.2px;">Importante: Algunas líneas de vehículos en las compañías Allianz, Previsora, Mundial y HDI requieren la instalación del dispositivo Cazador. El incumplimiento de esta obligación conlleva la aplicación de exclusiones a diferentes amparos y la aseguradora no será responsable de indemnizar al asegurado. Consulta con tu asesor si tu vehículo necesita este dispositivo antes de tomar tu póliza.</p>';
+$pdf->writeHTML($htmlFooter, true, false, true, true, '');
 $pdf->Ln();
 
 // Consulta el servicio del vehiculo segun su codigo
