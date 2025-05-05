@@ -241,7 +241,7 @@ if ($idCliente == "" && $tipoDocumento != 2) {
 		$data['Message 1'] = $num_rows > 0 ? 'Cliente actualizado exitosamente' : 'Cliente sin modificaciones';
 
 		// Validar si el representante ya existe
-		$sqlBuscarRep = "SELECT * FROM clientes_nit_repleg WHERE rep_num_documento = $numDocRep AND id_cliente_asociado = $idCliente";
+		$sqlBuscarRep = "SELECT * FROM clientes_nit_repleg WHERE id_cliente_asociado = $idCliente";
 		$representanteCliente = mysqli_query($con, $sqlBuscarRep);
 		$rowsRepresentante = mysqli_num_rows($representanteCliente);
 
@@ -251,12 +251,13 @@ if ($idCliente == "" && $tipoDocumento != 2) {
 				rep_nombre = '$nombresRep', 
 				rep_apellidos = '$apellidosRep', 
 				rep_tipo_documento = '$tipoDocRep', 
+				rep_num_documento = '$numDocRep',
 				rep_fch_nacimiento = '$fechaNacimientoRep', 
 				rep_genero = '$generoRep', 
 				rep_est_civil = '$estCivRep', 
 				rep_email = '$correoRep', 
 				rep_telefono = '$celRep' 
-				WHERE rep_num_documento = $numDocRep AND id_cliente_asociado = $idCliente";
+				WHERE id_cliente_asociado = $idCliente";
 			
 			$resRepresentante = mysqli_query($con, $sqlRep);
 			$num_rows_rep = mysqli_affected_rows($con);
