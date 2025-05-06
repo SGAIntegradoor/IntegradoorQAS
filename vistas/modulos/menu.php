@@ -256,14 +256,23 @@ checkUserStatus();
 			/*=============================================
 		NEGOCIOS
 		=============================================*/
-			if ($_SESSION['rol'] == 11 || $_SESSION['rol'] == 12 || $_SESSION["rol"] == 10 || $_SESSION['rol'] == 1) {
-				echo '<li id="menuCotNeg" class="' . ($currentPage == 'negocios' ? 'active' : '') . '">
-			<a href="negocios">
-			<i class="fa fa-briefcase"></i>
-			<span>Admin. Oportunidades</span>
+		if ($_SESSION['rol'] == 11 || $_SESSION['rol'] == 12 || $_SESSION["rol"] == 10 || $_SESSION['rol'] == 1) {
+			echo '<li class="treeview">
+			<a href="#">
+				<i class="fa fa-briefcase"></i>
+				<span>Admin. Negocios</span>
+				<i class="fa fa-angle-left pull-right"></i>
 			</a>
-			</li>';
-			}
+			<ul class="treeview-menu subitems-normal">
+				<li class="' . ($currentPage == "negocios" ? "active" : "") . '">
+					<a href="negocios">Admin. Oportunidades</a>
+				</li>
+				<li class="' . ($currentPage == "productividad" ? "active" : "") . '">
+					<a href="productividad">Productividad</a>
+				</li>
+			</ul>
+		</li>';
+		}
 			/*=============================================
 		HOGAR
 		=============================================*/
