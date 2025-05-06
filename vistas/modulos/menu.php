@@ -256,7 +256,7 @@ checkUserStatus();
 			/*=============================================
 		NEGOCIOS
 		=============================================*/
-		if ($_SESSION['rol'] == 11 || $_SESSION['rol'] == 12 || $_SESSION["rol"] == 10 || $_SESSION['rol'] == 1) {
+		if ($_SESSION['rol'] == 11 || $_SESSION['rol'] == 12 || $_SESSION["rol"] == 10 || $_SESSION['rol'] == 1 || $_SESSION['rol'] == 22 ) {
 			echo '<li class="treeview">
 			<a href="#">
 				<i class="fa fa-briefcase"></i>
