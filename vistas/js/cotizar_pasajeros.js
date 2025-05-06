@@ -49,33 +49,33 @@ $(document).ready(function () {
   //     event.preventDefault();
   // });
 
-  tokenPrevisora();
+  // tokenPrevisora();
 
-  //FUNCION PARA LEVANTAR EL TOKEN DE PREVISORA APENAS INICIE LA PAGINA
-  function tokenPrevisora() {
-    var myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/json");
+  // //FUNCION PARA LEVANTAR EL TOKEN DE PREVISORA APENAS INICIE LA PAGINA
+  // function tokenPrevisora() {
+  //   var myHeaders = new Headers();
+  //   myHeaders.append("Content-Type", "application/json");
 
-    var raw = JSON.stringify({});
+  //   var raw = JSON.stringify({});
 
-    var requestOptions = {
-      method: "POST",
-      headers: myHeaders,
-      body: raw,
-      redirect: "follow",
-    };
+  //   var requestOptions = {
+  //     method: "POST",
+  //     headers: myHeaders,
+  //     body: raw,
+  //     redirect: "follow",
+  //   };
 
-    fetch(
-      "https://grupoasistencia.com/motor_webservice/codigoTokenPrevisora",
-      requestOptions
-    )
-      .then(function (response) {
-        return response.json();
-      })
-      .then(function (myJson) {
-        $("#previsoraToken").val(myJson.TokenPrevisora);
-      });
-  }
+  //   fetch(
+  //     "https://grupoasistencia.com/motor_webservice/codigoTokenPrevisora",
+  //     requestOptions
+  //   )
+  //     .then(function (response) {
+  //       return response.json();
+  //     })
+  //     .then(function (myJson) {
+  //       $("#previsoraToken").val(myJson.TokenPrevisora);
+  //     });
+  // }
 
   // Elimina los espacios de la placa
   $("#placaVeh").keyup(function () {
