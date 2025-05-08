@@ -73,9 +73,7 @@ function getRangoFechas($anio = null, $mes = null) {
 function getAsesores($asesor = null, $analista = null) {
     global $enlace;
 
-    $sql = "SELECT 
-            u.id_usuario,
-            CONCAT(u.usu_nombre, ' ', u.usu_apellido) AS asesor,
+    $sql = "SELECT u.id_usuario, CONCAT(u.usu_nombre, ' ', u.usu_apellido) AS asesor,
             DATE_FORMAT(u.usu_fch_creacion, '%d/%m/%Y') AS fecha_ingreso,
             CASE WHEN u.usu_estado = 1 THEN 'Activo' ELSE 'Inactivo' END AS estado_usuario,
             af.nombre_analista AS analista
@@ -103,7 +101,17 @@ function getAsesores($asesor = null, $analista = null) {
         $stmt->bind_param($types, ...$params);
     }
 
-    $stmt->execute();
+    if($stmt->execute()){
+        // La consulta se ejecutó correctamente
+    } else {
+        // Manejo de errores en caso de fallo en la ejecución
+        echo "Error en la consulta: " . $stmt->error;
+        return null;
+    }
+
+
+
+
     $stmt->store_result();
 
     // Definir variables explícitamente para bind_result
