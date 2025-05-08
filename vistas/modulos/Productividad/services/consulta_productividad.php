@@ -103,6 +103,7 @@ function getAsesores($asesor = null, $analista = null) {
 
     if($stmt->execute()){
         // La consulta se ejecutó correctamente
+        echo "se ejecuto";
     } else {
         // Manejo de errores en caso de fallo en la ejecución
         echo "Error en la consulta: " . $stmt->error;
