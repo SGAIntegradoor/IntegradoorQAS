@@ -73,8 +73,7 @@ function getRangoFechas($anio = null, $mes = null) {
 function getAsesores($asesor = null, $analista = null) {
     global $enlace;
 
-    $sql = "
-        SELECT 
+    $sql = "SELECT 
             u.id_usuario,
             CONCAT(u.usu_nombre, ' ', u.usu_apellido) AS asesor,
             DATE_FORMAT(u.usu_fch_creacion, '%d/%m/%Y') AS fecha_ingreso,
