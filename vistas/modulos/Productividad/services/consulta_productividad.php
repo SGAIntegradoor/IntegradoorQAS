@@ -15,12 +15,12 @@ class Asesor {
     ];
 }
 
-// Obtener parámetros
-$anio     = $_POST["anio"] ?? null;
-$mes      = $_POST["mes"] ?? null;
-$asesor   = $_POST["asesor"] ?? null;
-$analista = $_POST["analista"] ?? null;
-$ramo     = $_POST["ramo"] ?? null;
+// Obtener parámetros (formato compatible con PHP 7.2)
+$anio     = isset($_POST["anio"]) ? $_POST["anio"] : null;
+$mes      = isset($_POST["mes"]) ? $_POST["mes"] : null;
+$asesor   = isset($_POST["asesor"]) ? $_POST["asesor"] : null;
+$analista = isset($_POST["analista"]) ? $_POST["analista"] : null;
+$ramo     = isset($_POST["ramo"]) ? $_POST["ramo"] : null;
 
 // =======================================
 // 1. Determinar rango de meses
@@ -29,11 +29,18 @@ function getRangoFechas($anio = null, $mes = null) {
     $fechas = [];
     $hoy = new DateTime();
 
-    // Normalizar año y mes si vienen vacíos
-    $anio = !empty($anio) ? $anio : null;
-    $mes  = !empty($mes)  ? $mes  : null;
+    if (!empty($anio)) {
+        $anio = (int)$anio;
+    } else {
+        $anio = null;
+    }
 
-    // Lógica de selección de fecha base
+    if (!empty($mes)) {
+        $mes = str_pad($mes, 2, '0', STR_PAD_LEFT); // Asegura formato "05"
+    } else {
+        $mes = null;
+    }
+
     if (!is_null($anio) && !is_null($mes)) {
         $fechaBase = DateTime::createFromFormat('Y-m', "$anio-$mes");
     } elseif (!is_null($mes)) {
@@ -48,7 +55,6 @@ function getRangoFechas($anio = null, $mes = null) {
         throw new Exception("Error al crear la fecha base con año: $anio y mes: $mes");
     }
 
-    // Armar rangos de 3 meses
     for ($i = 0; $i < 3; $i++) {
         $start = (clone $fechaBase)->modify("-$i month")->modify('first day of this month')->setTime(0, 0, 0);
         $end   = (clone $fechaBase)->modify("-$i month")->modify('last day of this month')->setTime(23, 59, 59);
@@ -60,8 +66,9 @@ function getRangoFechas($anio = null, $mes = null) {
 
     return $fechas;
 }
+
 // =======================================
-// 2. Obtener asesores
+// 2. Obtener asesores sin get_result()
 // =======================================
 function getAsesores($asesor = null, $analista = null) {
     global $enlace;
@@ -92,151 +99,31 @@ function getAsesores($asesor = null, $analista = null) {
         $types .= "i";
     }
 
-    $stmt = prepareQuery($sql, $types, $params);
-    $stmt->execute();
-    $result = $stmt->get_result();
-
-    $asesores = [];
-    while ($row = $result->fetch_assoc()) {
-        $asesorObj = new Asesor();
-        $asesorObj->asesor_id = $row['id_usuario'];
-        $asesorObj->asesor = $row['asesor'];
-        $asesorObj->fecha_ingreso = $row['fecha_ingreso'];
-        $asesorObj->estado_usuario = $row['estado_usuario'];
-        $asesorObj->analista = $row['analista'] ?? '';
-        $asesores[$row['id_usuario']] = $asesorObj;
-    }
-
-    return $asesores;
-}
-
-function prepareQuery($sql, $types = '', $params = []) {
-    global $enlace;
     $stmt = $enlace->prepare($sql);
-    if (!empty($types)) {
+    if (!empty($params)) {
         $stmt->bind_param($types, ...$params);
     }
-    return $stmt;
-}
 
-// =======================================
-// 3. Contar cotizaciones agrupadas
-// =======================================
-function contarCotizacionesAgrupadas($rangoFechas, $ramo = null) {
-    global $enlace;
+    $stmt->execute();
+    $stmt->store_result();
 
-    $data = [];
+    // Definir variables explícitamente para bind_result
+    $id_usuario = $asesorNombre = $fecha_ingreso = $estado_usuario = $analistaNombre = "";
 
-    foreach ($rangoFechas as $keyMes => $rango) {
-        $condiciones = "";
-        $fechaInicio = $rango['inicio'];
-        $fechaFin    = $rango['fin'];
+    $stmt->bind_result($id_usuario, $asesorNombre, $fecha_ingreso, $estado_usuario, $analistaNombre);
 
-        if ($ramo === '2') {
-            $sql = "SELECT id_usuario, COUNT(*) as total FROM cotizaciones_salud 
-                    WHERE fecha_cotizacion BETWEEN ? AND ?
-                    GROUP BY id_usuario";
-            $stmt = prepareQuery($sql, 'ss', [$fechaInicio, $fechaFin]);
-            $stmt->execute();
-            $res = $stmt->get_result();
-            while ($row = $res->fetch_assoc()) {
-                $data[$row['id_usuario']][$keyMes] = $row['total'];
-            }
+    $asesores = [];
 
-        } elseif ($ramo === '3') {
-            $sql = "SELECT id_usuario, COUNT(*) as total FROM cotizaciones_assistcard 
-                    WHERE fecha_cot BETWEEN ? AND ?
-                    GROUP BY id_usuario";
-            $stmt = prepareQuery($sql, 'ss', [$fechaInicio, $fechaFin]);
-            $stmt->execute();
-            $res = $stmt->get_result();
-            while ($row = $res->fetch_assoc()) {
-                $data[$row['id_usuario']][$keyMes] = $row['total'];
-            }
-
-        } else {
-            $tablas = [
-                ['tabla' => 'cotizaciones', 'campo_fecha' => 'cot_fch_cotizacion'],
-                ['tabla' => 'cotizaciones_salud', 'campo_fecha' => 'fecha_cotizacion'],
-                ['tabla' => 'cotizaciones_assistcard', 'campo_fecha' => 'fecha_cot'],
-            ];
-
-            foreach ($tablas as $t) {
-                $sql = "SELECT id_usuario, COUNT(*) as total FROM {$t['tabla']} 
-                        WHERE {$t['campo_fecha']} BETWEEN ? AND ?
-                        GROUP BY id_usuario";
-                $stmt = prepareQuery($sql, 'ss', [$fechaInicio, $fechaFin]);
-                $stmt->execute();
-                $res = $stmt->get_result();
-                while ($row = $res->fetch_assoc()) {
-                    if (!isset($data[$row['id_usuario']][$keyMes])) {
-                        $data[$row['id_usuario']][$keyMes] = 0;
-                    }
-                    $data[$row['id_usuario']][$keyMes] += $row['total'];
-                }
-            }
-        }
+    while ($stmt->fetch()) {
+        $asesorObj = new Asesor();
+        $asesorObj->asesor_id = $id_usuario;
+        $asesorObj->asesor = $asesorNombre;
+        $asesorObj->fecha_ingreso = $fecha_ingreso;
+        $asesorObj->estado_usuario = $estado_usuario;
+        $asesorObj->analista = $analistaNombre;
+        $asesores[] = $asesorObj;
     }
 
-    return $data;
+    $stmt->close();
+    return $asesores;
 }
-
-// =======================================
-// 4. Contar negocios agrupados
-// =======================================
-function contarNegociosAgrupados($rangoFechas, $ramo = null) {
-    global $enlace;
-    $data = [];
-
-    foreach ($rangoFechas as $keyMes => $rango) {
-        $fechaInicio = $rango['inicio'];
-        $fechaFin    = $rango['fin'];
-
-        $sql = "SELECT id_user_freelance, COUNT(*) as total FROM oportunidades 
-                WHERE fecha_expedicion BETWEEN ? AND ? AND estado = 'Emitida'";
-
-        if ($ramo == '1') {
-            $sql .= " AND ramo IN ('Automoviles', 'Motos', 'Pesados')";
-        } elseif ($ramo == '2') {
-            $sql .= " AND ramo IN ('Salud', 'vida deudor')";
-        } elseif ($ramo == '3') {
-            $sql .= " AND ramo IN ('Asistencia en viajes')";
-        }
-
-        $sql .= " GROUP BY id_user_freelance";
-
-        $stmt = prepareQuery($sql, 'ss', [$fechaInicio, $fechaFin]);
-        $stmt->execute();
-        $res = $stmt->get_result();
-        while ($row = $res->fetch_assoc()) {
-            $data[$row['id_user_freelance']][$keyMes] = $row['total'];
-        }
-    }
-
-    return $data;
-}
-
-// =======================================
-// 5. Ejecutar y armar respuesta
-// =======================================
-$fechasMeses = getRangoFechas($anio, $mes);
-$asesores    = getAsesores($asesor, $analista);
-
-$cotizacionesData = contarCotizacionesAgrupadas($fechasMeses, $ramo);
-$negociosData     = contarNegociosAgrupados($fechasMeses, $ramo);
-
-// Llenar datos en cada asesor
-foreach ($asesores as $asesorObj) {
-    $id = $asesorObj->asesor_id;
-    foreach ($fechasMeses as $keyMes => $rango) {
-        $asesorObj->meses[$keyMes]['cotizaciones'] = $cotizacionesData[$id][$keyMes] ?? 0;
-        $asesorObj->meses[$keyMes]['negocios'] = $negociosData[$id][$keyMes] ?? 0;
-        $asesorObj->meses[$keyMes]['fechas'] = $rango;
-    }
-}
-
-// Salida final
-echo json_encode([
-    'fechasBusqueda' => $fechasMeses,
-    'asesores' => array_values($asesores)
-], JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);

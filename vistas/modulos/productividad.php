@@ -1,5 +1,4 @@
 <?php
-
 if ($_SESSION['rol'] != 11 && $_SESSION['rol'] != 12 && $_SESSION["rol"] != 10 && $_SESSION['rol'] != 1 && $_SESSION['rol'] != 22) {
   echo '<script>
   window.location = "inicio";
