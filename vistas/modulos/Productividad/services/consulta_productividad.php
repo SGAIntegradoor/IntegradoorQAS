@@ -101,28 +101,20 @@ function getAsesores($asesor = null, $analista = null) {
     return $asesores;
 }
 
-// function prepareQuery($sql, $types = '', $params = []) {
-//     global $enlace;
-//     $stmt = $enlace->prepare($sql);
-//     if (!empty($types)) {
-//         $stmt->bind_param($types, ...$params);
-//     }
-//     return $stmt;
-// }
-
 function prepareQuery($sql, $types = '', $params = []) {
     global $enlace;
 
-    // 1) Intentamos preparar la consulta
+    // Se intanta preparar la consulta 
     $stmt = $enlace->prepare($sql);
     if ($stmt === false) {
-        // Si falla, lanzamos excepción con el error de MySQL
+        // Si falla se envia una exepcion para que pare la ejecucion pero nos diga donde fallo
         throw new Exception("MySQL prepare failed: " . $enlace->error);
     }
 
-    // 2) Si hay tipos y parámetros, los enlazamos
+    // Si hay tipos y parámetros, los enlazamos
     if (!empty($types) && !empty($params)) {
-        // bind_param devuelve false si algo sale mal (p.ej. número de params distinto al de tipos)
+        // bind_param devuelve false si algo sale mal entonces debemos validar cada iteracion del bind_param
+        // y si falla se lanza una exepcion para que pare la ejecucion pero nos diga donde fallo
         if (! $stmt->bind_param($types, ...$params)) {
             throw new Exception("MySQL bind_param failed: " . $stmt->error);
         }
