@@ -68,7 +68,13 @@ function getRangoFechas($anio = null, $mes = null) {
 function getAsesores($asesor = null, $analista = null) {
     global $enlace;
 
-    $sql = "SELECT u.id_usuario, CONCAT(u.usu_nombre, ' ', u.usu_apellido) AS asesor, DATE_FORMAT(u.usu_fch_creacion, '%d/%m/%Y') AS fecha_ingreso, CASE WHEN u.usu_estado = 1 THEN 'Activo' ELSE 'Inactivo' END AS estado_usuario, af.nombre_analista AS analista FROM usuarios u LEFT JOIN analistas_freelances af ON af.id_usuario = u.usu_documento WHERE u.id_rol IN (19, 12, 11, 10, 1)";
+    $sql = "SELECT u.id_usuario, CONCAT(u.usu_nombre, ' ', u.usu_apellido) AS asesor, 
+                   DATE_FORMAT(u.usu_fch_creacion, '%d/%m/%Y') AS fecha_ingreso, 
+                   CASE WHEN u.usu_estado = 1 THEN 'Activo' ELSE 'Inactivo' END AS estado_usuario, 
+                   af.nombre_analista AS analista 
+            FROM usuarios u 
+            LEFT JOIN analistas_freelances af ON af.id_usuario = u.usu_documento 
+            WHERE u.id_rol IN (19, 12, 11, 10, 1)";
     
     $params = [];
     $types  = "";
@@ -87,21 +93,27 @@ function getAsesores($asesor = null, $analista = null) {
 
     $stmt = prepareQuery($sql, $types, $params);
     $stmt->execute();
-    $result = $stmt->get_result();
+
+    $id_usuario = $asesorNombre = $fecha_ingreso = $estado_usuario = $analistaNombre = null;
+
+    // Aquí usamos bind_result en lugar de get_result
+    $stmt->bind_result($id_usuario, $asesorNombre, $fecha_ingreso, $estado_usuario, $analistaNombre);
 
     $asesores = [];
-    while ($row = $result->fetch_assoc()) {
+    while ($stmt->fetch()) {
         $asesorObj = new Asesor();
-        $asesorObj->asesor_id = $row['id_usuario'];
-        $asesorObj->asesor = $row['asesor'];
-        $asesorObj->fecha_ingreso = $row['fecha_ingreso'];
-        $asesorObj->estado_usuario = $row['estado_usuario'];
-        $asesorObj->analista = $row['analista'] ?? '';
-        $asesores[$row['id_usuario']] = $asesorObj;
+        $asesorObj->asesor_id = $id_usuario;
+        $asesorObj->asesor = $asesorNombre;
+        $asesorObj->fecha_ingreso = $fecha_ingreso;
+        $asesorObj->estado_usuario = $estado_usuario;
+        $asesorObj->analista = $analistaNombre ?? '';
+        $asesores[$id_usuario] = $asesorObj;
     }
 
+    $stmt->close();
     return $asesores;
 }
+
 
 function prepareQuery($sql, $types = '', $params = []) {
     global $enlace;
@@ -128,13 +140,106 @@ function prepareQuery($sql, $types = '', $params = []) {
 // =======================================
 // 3. Contar cotizaciones agrupadas
 // =======================================
+// function contarCotizacionesAgrupadas($rangoFechas, $ramo = null) {
+//     global $enlace;
+
+//     $data = [];
+
+//     foreach ($rangoFechas as $keyMes => $rango) {
+//         $condiciones = "";
+//         $fechaInicio = $rango['inicio'];
+//         $fechaFin    = $rango['fin'];
+
+//         if ($ramo === '2') {
+//             $sql = "SELECT id_usuario, COUNT(*) as total FROM cotizaciones_salud 
+//                     WHERE fecha_cotizacion BETWEEN ? AND ?
+//                     GROUP BY id_usuario";
+//             $stmt = prepareQuery($sql, 'ss', [$fechaInicio, $fechaFin]);
+//             $stmt->execute();
+//             $res = $stmt->get_result();
+//             while ($row = $res->fetch_assoc()) {
+//                 $data[$row['id_usuario']][$keyMes] = $row['total'];
+//             }
+
+//         } elseif ($ramo === '3') {
+//             $sql = "SELECT id_usuario, COUNT(*) as total FROM cotizaciones_assistcard 
+//                     WHERE fecha_cot BETWEEN ? AND ?
+//                     GROUP BY id_usuario";
+//             $stmt = prepareQuery($sql, 'ss', [$fechaInicio, $fechaFin]);
+//             $stmt->execute();
+//             $res = $stmt->get_result();
+//             while ($row = $res->fetch_assoc()) {
+//                 $data[$row['id_usuario']][$keyMes] = $row['total'];
+//             }
+
+//         } else {
+//             $tablas = [
+//                 ['tabla' => 'cotizaciones', 'campo_fecha' => 'cot_fch_cotizacion'],
+//                 ['tabla' => 'cotizaciones_salud', 'campo_fecha' => 'fecha_cotizacion'],
+//                 ['tabla' => 'cotizaciones_assistcard', 'campo_fecha' => 'fecha_cot'],
+//             ];
+
+//             foreach ($tablas as $t) {
+//                 $sql = "SELECT id_usuario, COUNT(*) as total FROM {$t['tabla']} 
+//                         WHERE {$t['campo_fecha']} BETWEEN ? AND ?
+//                         GROUP BY id_usuario";
+//                 $stmt = prepareQuery($sql, 'ss', [$fechaInicio, $fechaFin]);
+//                 $stmt->execute();
+//                 $res = $stmt->get_result();
+//                 while ($row = $res->fetch_assoc()) {
+//                     if (!isset($data[$row['id_usuario']][$keyMes])) {
+//                         $data[$row['id_usuario']][$keyMes] = 0;
+//                     }
+//                     $data[$row['id_usuario']][$keyMes] += $row['total'];
+//                 }
+//             }
+//         }
+//     }
+
+//     return $data;
+// }
+
+// =======================================
+// 4. Contar negocios agrupados
+// =======================================
+// function contarNegociosAgrupados($rangoFechas, $ramo = null) {
+//     global $enlace;
+//     $data = [];
+
+//     foreach ($rangoFechas as $keyMes => $rango) {
+//         $fechaInicio = $rango['inicio'];
+//         $fechaFin    = $rango['fin'];
+
+//         $sql = "SELECT id_user_freelance, COUNT(*) as total FROM oportunidades 
+//                 WHERE fecha_expedicion BETWEEN ? AND ? AND estado = 'Emitida'";
+
+//         if ($ramo == '1') {
+//             $sql .= " AND ramo IN ('Automoviles', 'Motos', 'Pesados')";
+//         } elseif ($ramo == '2') {
+//             $sql .= " AND ramo IN ('Salud', 'vida deudor')";
+//         } elseif ($ramo == '3') {
+//             $sql .= " AND ramo IN ('Asistencia en viajes')";
+//         }
+
+//         $sql .= " GROUP BY id_user_freelance";
+
+//         $stmt = prepareQuery($sql, 'ss', [$fechaInicio, $fechaFin]);
+//         $stmt->execute();
+//         $res = $stmt->get_result();
+//         while ($row = $res->fetch_assoc()) {
+//             $data[$row['id_user_freelance']][$keyMes] = $row['total'];
+//         }
+//     }
+
+//     return $data;
+// }
+
 function contarCotizacionesAgrupadas($rangoFechas, $ramo = null) {
     global $enlace;
 
     $data = [];
 
     foreach ($rangoFechas as $keyMes => $rango) {
-        $condiciones = "";
         $fechaInicio = $rango['inicio'];
         $fechaFin    = $rango['fin'];
 
@@ -144,10 +249,14 @@ function contarCotizacionesAgrupadas($rangoFechas, $ramo = null) {
                     GROUP BY id_usuario";
             $stmt = prepareQuery($sql, 'ss', [$fechaInicio, $fechaFin]);
             $stmt->execute();
-            $res = $stmt->get_result();
-            while ($row = $res->fetch_assoc()) {
-                $data[$row['id_usuario']][$keyMes] = $row['total'];
+
+            $id_usuario = $total = null;
+            $stmt->bind_result($id_usuario, $total);
+
+            while ($stmt->fetch()) {
+                $data[$id_usuario][$keyMes] = $total;
             }
+            $stmt->close();
 
         } elseif ($ramo === '3') {
             $sql = "SELECT id_usuario, COUNT(*) as total FROM cotizaciones_assistcard 
@@ -155,10 +264,14 @@ function contarCotizacionesAgrupadas($rangoFechas, $ramo = null) {
                     GROUP BY id_usuario";
             $stmt = prepareQuery($sql, 'ss', [$fechaInicio, $fechaFin]);
             $stmt->execute();
-            $res = $stmt->get_result();
-            while ($row = $res->fetch_assoc()) {
-                $data[$row['id_usuario']][$keyMes] = $row['total'];
+
+            $id_usuario = $total = null;
+            $stmt->bind_result($id_usuario, $total);
+
+            while ($stmt->fetch()) {
+                $data[$id_usuario][$keyMes] = $total;
             }
+            $stmt->close();
 
         } else {
             $tablas = [
@@ -173,13 +286,17 @@ function contarCotizacionesAgrupadas($rangoFechas, $ramo = null) {
                         GROUP BY id_usuario";
                 $stmt = prepareQuery($sql, 'ss', [$fechaInicio, $fechaFin]);
                 $stmt->execute();
-                $res = $stmt->get_result();
-                while ($row = $res->fetch_assoc()) {
-                    if (!isset($data[$row['id_usuario']][$keyMes])) {
-                        $data[$row['id_usuario']][$keyMes] = 0;
+
+                $id_usuario = $total = null;
+                $stmt->bind_result($id_usuario, $total);
+
+                while ($stmt->fetch()) {
+                    if (!isset($data[$id_usuario][$keyMes])) {
+                        $data[$id_usuario][$keyMes] = 0;
                     }
-                    $data[$row['id_usuario']][$keyMes] += $row['total'];
+                    $data[$id_usuario][$keyMes] += $total;
                 }
+                $stmt->close();
             }
         }
     }
@@ -187,9 +304,6 @@ function contarCotizacionesAgrupadas($rangoFechas, $ramo = null) {
     return $data;
 }
 
-// =======================================
-// 4. Contar negocios agrupados
-// =======================================
 function contarNegociosAgrupados($rangoFechas, $ramo = null) {
     global $enlace;
     $data = [];
@@ -213,14 +327,21 @@ function contarNegociosAgrupados($rangoFechas, $ramo = null) {
 
         $stmt = prepareQuery($sql, 'ss', [$fechaInicio, $fechaFin]);
         $stmt->execute();
-        $res = $stmt->get_result();
-        while ($row = $res->fetch_assoc()) {
-            $data[$row['id_user_freelance']][$keyMes] = $row['total'];
+
+        $id_user_freelance = $total = null;
+        $stmt->bind_result($id_user_freelance, $total);
+
+        while ($stmt->fetch()) {
+            $data[$id_user_freelance][$keyMes] = $total;
         }
+
+        $stmt->close();
     }
 
     return $data;
 }
+
+
 
 // =======================================
 // 5. Ejecutar y armar respuesta
