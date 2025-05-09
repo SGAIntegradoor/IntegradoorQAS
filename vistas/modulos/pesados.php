@@ -803,6 +803,14 @@ if ($_SESSION["permisos"]["Cotizarpesados"] != "x") {
     padding-top: 20px;
   }
 
+  #contenBtnConsultarPlacaPesados2 {
+    padding-top: 25px
+  }
+
+  #contenBtnConsultarPlacaPesados {
+    padding-top: 25px
+  }
+
   .center-btn {
     margin: 0 auto;
     /* Alinear horizontalmente */
@@ -1463,7 +1471,7 @@ if ($_SESSION["permisos"]["Cotizarpesados"] != "x") {
 
                 </div>
 
-                <div class="col-xs-12 col-sm-6 col-md-3">
+                <div class="col-xs-12 col-sm-6 col-md-3" style="display: none;">
                   <div class="row">
                     <div class="col-xs-5 col-sm-5 col-md-5 form-group">
                       <label style="display: none;">Es Oneroso?</label>
@@ -1481,22 +1489,24 @@ if ($_SESSION["permisos"]["Cotizarpesados"] != "x") {
                   </div>
                 </div>
 
-              </div>
-            </div>
-          </div>
+                <div class="row">
+                  <div id="contenBtnCotizar">
+                    <div class="col-lg-12 conten-cotizar">
+                      <div class="row">
+                        <div class="col-xs-12 col-sm-6 col-md-3 form-group">
+                          <button class="btn btn-primary btn-block" id="btnCotizarPesados">Cotizar Ofertas</button>
+                        </div>
+                        <div class="col-xs-12 col-sm-6 col-md-3 form-group" id="loaderOfertaBox">
+                          <div id="loaderOferta"></div>
+                        </div>
+                        <div class="col-xs-12 col-sm-6 col-md-3 form-group" id="loaderRecotOfertaBox">
+                          <div id="loaderRecotOferta"></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
 
-          <div id="contenBtnCotizar">
-            <div class="col-lg-12 conten-cotizar">
-              <div class="row">
-                <div class="col-xs-12 col-sm-6 col-md-3 form-group">
-                  <button class="btn btn-primary btn-block" id="btnCotizarPesados">Cotizar Ofertas</button>
-                </div>
-                <div class="col-xs-12 col-sm-6 col-md-3 form-group" id="loaderOfertaBox">
-                  <div id="loaderOferta"></div>
-                </div>
-                <div class="col-xs-12 col-sm-6 col-md-3 form-group" id="loaderRecotOfertaBox">
-                  <div id="loaderRecotOferta"></div>
-                </div>
               </div>
             </div>
           </div>

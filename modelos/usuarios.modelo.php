@@ -68,7 +68,7 @@ class ModeloUsuarios
 				$stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla, $tabla2, $tabla3 WHERE $tabla.id_rol = $tabla2.id_rol AND $item = :$item AND $tabla.id_Intermediario = $tabla3.id_Intermediario");
 				$stmt->bindParam(":" . $item, $valor, PDO::PARAM_STR);
 				$stmt->execute();
-				$user = $stmt->fetch(PDO::FETCH_ASSOC);		
+				$user = $stmt->fetch(PDO::FETCH_ASSOC);
 				if ($user) {
 					if ($user['id_rol'] == "19" || $user['id_rol'] == 19) {
 						$value = $user['usu_documento'];
@@ -98,7 +98,7 @@ class ModeloUsuarios
 				$stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla, $tabla2 WHERE $tabla.id_rol = $tabla2.id_rol ORDER BY $tabla.id_usuario ASC");
 				$stmt->execute();
 				$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-				
+
 				$stmt = null; // Liberar recursos
 				return $result;
 			} else {
@@ -147,63 +147,63 @@ class ModeloUsuarios
 
 
 	static public function mdlMostrarUsuariosFilters($params)
-    {
-        global $stmt;
+	{
+		global $stmt;
 
-        // Validar los parámetros
-        $valores = [];
-        foreach ($params as $clave => $valor) {
+		// Validar los parámetros
+		$valores = [];
+		foreach ($params as $clave => $valor) {
 
-            // Sanitizar valores para evitar SQL Injection
-            $valores[$clave] = htmlspecialchars($valor, ENT_QUOTES, 'UTF-8');
-        }
+			// Sanitizar valores para evitar SQL Injection
+			$valores[$clave] = htmlspecialchars($valor, ENT_QUOTES, 'UTF-8');
+		}
 
-        // Crear consulta dinámica
-        $sql = "SELECT u.*, r.rol_descripcion FROM usuarios u INNER JOIN roles r on r.id_rol = u.id_rol WHERE 1=1"; // Query base
-        foreach ($valores as $campo => $valor) {
+		// Crear consulta dinámica
+		$sql = "SELECT u.*, r.rol_descripcion FROM usuarios u INNER JOIN roles r on r.id_rol = u.id_rol WHERE 1=1"; // Query base
+		foreach ($valores as $campo => $valor) {
 			var_dump($campo);
 			var_dump($valor);
-            switch ($campo) {
-                case 'nombreFiltro':
-                    # code...
-                    $sql .= " AND usu_nombre like '%$valor%'";
-                    break;
-                case 'fechaVinculacionFiltro':
-                    # code...
-                    $sql .= " AND usu_fch_creacion = '$valor'";
-                    break;
-                case 'fechaDesvinculacionFiltro':
-                    # code...
-                    $sql .= " AND fechaFin = '$valor'";
-                    break;
-                case 'ciudadFiltro':
-                    # code...
-                    $sql .= " AND ciudades_id = '$valor'";
-                    break;
-                case 'celularFiltro':
-                    # code...
-                    $sql .= " AND usu_telefono = '$valor'";
-                    break;
-                case 'emailFiltro':
-                    # code...
-                    $sql .= " AND usu_email = '$valor'";
-                    break;
-                default:
-                    # code...
-                    break;
-            }
-        }
-        $stmt = Conexion::conectar()->prepare($sql);
-        $stmt->execute();
+			switch ($campo) {
+				case 'nombreFiltro':
+					# code...
+					$sql .= " AND usu_nombre like '%$valor%'";
+					break;
+				case 'fechaVinculacionFiltro':
+					# code...
+					$sql .= " AND usu_fch_creacion = '$valor'";
+					break;
+				case 'fechaDesvinculacionFiltro':
+					# code...
+					$sql .= " AND fechaFin = '$valor'";
+					break;
+				case 'ciudadFiltro':
+					# code...
+					$sql .= " AND ciudades_id = '$valor'";
+					break;
+				case 'celularFiltro':
+					# code...
+					$sql .= " AND usu_telefono = '$valor'";
+					break;
+				case 'emailFiltro':
+					# code...
+					$sql .= " AND usu_email = '$valor'";
+					break;
+				default:
+					# code...
+					break;
+			}
+		}
+		$stmt = Conexion::conectar()->prepare($sql);
+		$stmt->execute();
 
-        $numRows = $stmt->rowCount();
+		$numRows = $stmt->rowCount();
 
-        if ($numRows > 0) {
-            return $stmt->fetchAll(PDO::FETCH_ASSOC);
-        }
-        $stmt->closeCursor();
-        $stmt = null;
-    }
+		if ($numRows > 0) {
+			return $stmt->fetchAll(PDO::FETCH_ASSOC);
+		}
+		$stmt->closeCursor();
+		$stmt = null;
+	}
 
 	/*=============================================
 	  PERMISOS USUARIOS
@@ -383,7 +383,7 @@ class ModeloUsuarios
 			try {
 				$idUsuario = $datos["id"];
 				$idDocUser = $datos["documento"];
-				$stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla u LEFT JOIN `analistas_freelances` a ON a.id_usuario = :idUsuarioDoc WHERE u.id_usuario = :idUsuario");
+				$stmt = Conexion::conectar()->prepare("SELECT u.*, u.id_usuario as idUsuario_1 FROM $tabla u LEFT JOIN `analistas_freelances` a ON a.id_usuario = :idUsuarioDoc WHERE u.id_usuario = :idUsuario");
 				$stmt->bindParam(":idUsuarioDoc", $idDocUser, PDO::PARAM_INT);
 				$stmt->bindParam(":idUsuario", $idUsuario, PDO::PARAM_INT);
 				$stmt->execute();
@@ -395,7 +395,8 @@ class ModeloUsuarios
 					$stmtUser->bindParam(":idUsuarioUser", $analistPost, PDO::PARAM_INT);
 
 					$controlVar = $stmtUser->execute();
-
+					// echo $controlVar;
+					// die();
 					if (!$controlVar) {
 						return array("result" => "error", "detailedResponse" => "fallo la busqueda, o no hay datos del usuario");
 					} else if ($controlVar != false) {
@@ -407,6 +408,8 @@ class ModeloUsuarios
 						echo "Driver-specific error message AQUI: " . $errorInfo[2] . "\n";
 					}
 					$resultadosUser = $stmtUser->fetch(PDO::FETCH_ASSOC);
+
+
 					$nombreFreelance = $resultados[0]["usu_nombre"] . ' ' . $resultados[0]["usu_apellido"];
 					$email = $resultados[0]["usu_email"];
 					$document = $resultados[0]['usu_documento'];
@@ -476,15 +479,15 @@ class ModeloUsuarios
 					if (!empty($cotTot)) {
 						$updateQuery .= ", cotizacionesTotales = :cotTotales";
 					}
-					
-                    $ciudadID = 0;
-                    
-                    if($datos["ciudad"] == ""){
-                        $ciudadID = 0;
-                        $datos["ciudad"] = 0;
-                    } else {
-                        $ciudadID = $datos["ciudad"];
-                    }
+
+					$ciudadID = 0;
+
+					if ($datos["ciudad"] == "") {
+						$ciudadID = 0;
+						$datos["ciudad"] = 0;
+					} else {
+						$ciudadID = $datos["ciudad"];
+					}
 
 					$updateQuery .= " WHERE usu_usuario = :usuario";
 
@@ -516,13 +519,20 @@ class ModeloUsuarios
 					$stmt->bindParam(":rol", $datos["rol"], PDO::PARAM_STR);
 
 
-					// echo json_encode($datos);
-					// die();
+					$ejecutado = $stmt->execute();
 
-					if ($stmt->execute()) {
-						// var_dump("Entre aqui");
-						return "ok";
+					if ($ejecutado) {
+						$filasAfectadas = $stmt->rowCount();
+
+						if ($filasAfectadas > 0) {
+							// Sí se actualizó el usuario
+							return "ok";
+						} else {
+							// No se cambió ningún dato (la consulta se ejecutó, pero no modificó nada)
+							return "sin cambios";
+						}
 					} else {
+						// Hubo un error en la ejecución
 						$errorInfo = $stmt->errorInfo();
 						echo "SQLSTATE error code: " . $errorInfo[0] . "\n";
 						echo "Driver-specific error code: " . $errorInfo[1] . "\n";

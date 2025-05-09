@@ -159,6 +159,10 @@ $rolAsesor = $_SESSION['permisos']['idRol'];
     }
   }
 
+  #contenBtnConsultarPlacaMotos2 {
+    padding-top: 25px
+  }
+
 
   .custom-title-messageFinesa {
     font-size: 16px;
@@ -1427,22 +1431,25 @@ $rolAsesor = $_SESSION['permisos']['idRol'];
                     </div>
                   </div>
 
-                  <div id="contenBtnCotizar">
-                    <div class="col-lg-12 conten-cotizar">
-                      <div class="row">
-                        <div class="col-xs-12 col-sm-6 col-md-3 form-group">
-                          <button class="btn btn-primary btn-block" id="btnCotizarMotos">Cotizar Ofertas</button>
-                        </div>
-                        <div class="col-xs-12 col-sm-6 col-md-3 form-group" id="loaderOfertaBox">
-                          <div id="loaderOferta"></div>
-                        </div>
-                        <div class="col-xs-12 col-sm-6 col-md-3 form-group" id="loaderRecotOfertaBox">
-                          <div id="loaderRecotOferta"></div>
+                  <div class="row">
+                    <div id="contenBtnCotizar">
+                      <div class="col-lg-12 conten-cotizar">
+                        <div class="row">
+                          <div class="col-xs-12 col-sm-6 col-md-3 form-group">
+                            <button class="btn btn-primary btn-block" id="btnCotizarMotos">Cotizar Ofertas</button>
+                          </div>
+                          <div class="col-xs-12 col-sm-6 col-md-3 form-group" id="loaderOfertaBox">
+                            <div id="loaderOferta"></div>
+                          </div>
+                          <div class="col-xs-12 col-sm-6 col-md-3 form-group" id="loaderRecotOfertaBox">
+                            <div id="loaderRecotOferta"></div>
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
+              </div>
           </form>
           <!--- RESUMEN DE COTIZACIONES -->
           <div id="contenParrilla" style="display: none;">
@@ -1522,7 +1529,7 @@ $rolAsesor = $_SESSION['permisos']['idRol'];
                   </div>
                   <div>
                     <div id="mensajeSga" class="col-lg-12" style="font-size: 13px;">
-                    <p><b>Notas Importantes: </b></p>
+                      <p><b>Notas Importantes: </b></p>
                       <p>
                         <strong>Condiciones Generales:</strong><br>
                         • Para motos con valores asegurados menores a $7 millones de pesos solo se presentan las condiciones que genere el cotizador web.<br>
