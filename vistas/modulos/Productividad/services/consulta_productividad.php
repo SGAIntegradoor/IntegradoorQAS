@@ -1,7 +1,9 @@
 <?php
 require_once "../../../../config/dbconfig.php";
-$enlace->set_charset("utf8mb4");
 
+var_dump("entre aca");
+// $enlace->set_charset("utf8mb4");
+die();
 class Asesor {
     public $asesor_id;
     public $asesor;
