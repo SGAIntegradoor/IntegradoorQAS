@@ -116,20 +116,53 @@ function searchInfo() {
       ramo
     },
     success: function (response) {
-      const datos = JSON.parse(response);
-      renderTable(datos);
+      try {
+        const datos = JSON.parse(response);
 
-      // Ocultar el loader
-      $("#loader").hide();
+        if (Array.isArray(datos.asesores) && datos.asesores.length > 0) {
+          renderTable(datos);
+
+          Swal.fire({
+            icon: 'success',
+            title: 'Consulta exitosa',
+            text: `Se encontraron ${datos.asesores.length} asesores.`,
+            timer: 3000,
+            showConfirmButton: false
+          });
+        } else {
+          Swal.fire({
+            icon: 'warning',
+            title: 'Sin resultados',
+            text: 'No se encontraron asesores con los filtros seleccionados.',
+            timer: 3000,
+            showConfirmButton: false
+          });
+        }
+      } catch (err) {
+        console.error("Error al procesar los datos:", err);
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'Hubo un problema al procesar la respuesta del servidor.',
+        });
+      } finally {
+        $("#loader").hide();
+      }
     },
-    error: function (error) {
-      console.error("Error al consultar los datos:", error);
+    error: function (xhr, status, error) {
+      console.error("Error en la solicitud AJAX:", error);
 
-      // Ocultar el loader en caso de error
+      Swal.fire({
+        icon: 'error',
+        title: 'Error de red',
+        text: 'No se pudo obtener la información. Intenta nuevamente.',
+      });
+
       $("#loader").hide();
     }
   });
 }
+
 
 function calcularEfectividad(cotizaciones, negocios) {
   if (cotizaciones === 0) {

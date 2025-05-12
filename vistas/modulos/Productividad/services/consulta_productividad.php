@@ -1,7 +1,6 @@
 <?php
 require_once "../../../../config/dbconfig.php";
 $enlace->set_charset("utf8mb4");
-
 class Asesor {
     public $asesor_id;
     public $asesor;
@@ -23,7 +22,7 @@ $analista = $_POST["analista"] ?? null;
 $ramo     = $_POST["ramo"] ?? null;
 
 // =======================================
-// 1. Determinar rango de meses
+// 1. Determinar rango de fechas
 // =======================================
 function getRangoFechas($anio = null, $mes = null) {
     $fechas = [];
@@ -60,6 +59,7 @@ function getRangoFechas($anio = null, $mes = null) {
 
     return $fechas;
 }
+
 // =======================================
 // 2. Obtener asesores
 // =======================================
@@ -94,22 +94,31 @@ function getAsesores($asesor = null, $analista = null) {
 
     $stmt = prepareQuery($sql, $types, $params);
     $stmt->execute();
-    $result = $stmt->get_result();
 
+    // Definir las variables para el bind_result
+    $id_usuario = null;
+    $asesor = null;
+    $fecha_ingreso = null;
+    $estado_usuario = null;
+    $analista = null;
+
+    // Vincular los resultados de la consulta con las variables definidas
+    $stmt->bind_result($id_usuario, $asesor, $fecha_ingreso, $estado_usuario, $analista);
     $asesores = [];
-    while ($row = $result->fetch_assoc()) {
+    while ($stmt->fetch()) {
         $asesorObj = new Asesor();
-        $asesorObj->asesor_id = $row['id_usuario'];
-        $asesorObj->asesor = $row['asesor'];
-        $asesorObj->fecha_ingreso = $row['fecha_ingreso'];
-        $asesorObj->estado_usuario = $row['estado_usuario'];
-        $asesorObj->analista = $row['analista'] ?? '';
-        $asesores[$row['id_usuario']] = $asesorObj;
+        $asesorObj->asesor_id = $id_usuario;
+        $asesorObj->asesor = $asesor;
+        $asesorObj->fecha_ingreso = $fecha_ingreso;
+        $asesorObj->estado_usuario = $estado_usuario;
+        $asesorObj->analista = $analista ?? '';
+        $asesores[$id_usuario] = $asesorObj;
     }
 
     return $asesores;
 }
 
+// Función para preparar la consulta
 function prepareQuery($sql, $types = '', $params = []) {
     global $enlace;
     $stmt = $enlace->prepare($sql);
@@ -128,32 +137,46 @@ function contarCotizacionesAgrupadas($rangoFechas, $ramo = null) {
     $data = [];
 
     foreach ($rangoFechas as $keyMes => $rango) {
-        $condiciones = "";
         $fechaInicio = $rango['inicio'];
         $fechaFin    = $rango['fin'];
 
+        // Caso para ramo '2' (cotizaciones_salud)
         if ($ramo === '2') {
             $sql = "SELECT id_usuario, COUNT(*) as total FROM cotizaciones_salud 
-                    WHERE fecha_cotizacion BETWEEN ? AND ?
+                    WHERE fecha_cotizacion BETWEEN ? AND ? 
                     GROUP BY id_usuario";
             $stmt = prepareQuery($sql, 'ss', [$fechaInicio, $fechaFin]);
             $stmt->execute();
-            $res = $stmt->get_result();
-            while ($row = $res->fetch_assoc()) {
-                $data[$row['id_usuario']][$keyMes] = $row['total'];
+
+            // Definir las variables para bind_result
+            $id_usuario = null;
+            $total = null;
+
+            // Vincular los resultados con bind_result
+            $stmt->bind_result($id_usuario, $total);
+            while ($stmt->fetch()) {
+                $data[$id_usuario][$keyMes] = $total;
             }
 
+        // Caso para ramo '3' (cotizaciones_assistcard)
         } elseif ($ramo === '3') {
             $sql = "SELECT id_usuario, COUNT(*) as total FROM cotizaciones_assistcard 
-                    WHERE fecha_cot BETWEEN ? AND ?
+                    WHERE fecha_cot BETWEEN ? AND ? 
                     GROUP BY id_usuario";
             $stmt = prepareQuery($sql, 'ss', [$fechaInicio, $fechaFin]);
             $stmt->execute();
-            $res = $stmt->get_result();
-            while ($row = $res->fetch_assoc()) {
-                $data[$row['id_usuario']][$keyMes] = $row['total'];
+
+            // Definir las variables para bind_result
+            $id_usuario = null;
+            $total = null;
+
+            // Vincular los resultados con bind_result
+            $stmt->bind_result($id_usuario, $total);
+            while ($stmt->fetch()) {
+                $data[$id_usuario][$keyMes] = $total;
             }
 
+        // Caso por defecto (varias tablas)
         } else {
             $tablas = [
                 ['tabla' => 'cotizaciones', 'campo_fecha' => 'cot_fch_cotizacion'],
@@ -163,16 +186,22 @@ function contarCotizacionesAgrupadas($rangoFechas, $ramo = null) {
 
             foreach ($tablas as $t) {
                 $sql = "SELECT id_usuario, COUNT(*) as total FROM {$t['tabla']} 
-                        WHERE {$t['campo_fecha']} BETWEEN ? AND ?
+                        WHERE {$t['campo_fecha']} BETWEEN ? AND ? 
                         GROUP BY id_usuario";
                 $stmt = prepareQuery($sql, 'ss', [$fechaInicio, $fechaFin]);
                 $stmt->execute();
-                $res = $stmt->get_result();
-                while ($row = $res->fetch_assoc()) {
-                    if (!isset($data[$row['id_usuario']][$keyMes])) {
-                        $data[$row['id_usuario']][$keyMes] = 0;
+
+                // Definir las variables para bind_result
+                $id_usuario = null;
+                $total = null;
+
+                // Vincular los resultados con bind_result
+                $stmt->bind_result($id_usuario, $total);
+                while ($stmt->fetch()) {
+                    if (!isset($data[$id_usuario][$keyMes])) {
+                        $data[$id_usuario][$keyMes] = 0;
                     }
-                    $data[$row['id_usuario']][$keyMes] += $row['total'];
+                    $data[$id_usuario][$keyMes] += $total;
                 }
             }
         }
@@ -181,6 +210,7 @@ function contarCotizacionesAgrupadas($rangoFechas, $ramo = null) {
     return $data;
 }
 
+
 // =======================================
 // 4. Contar negocios agrupados
 // =======================================
@@ -188,28 +218,42 @@ function contarNegociosAgrupados($rangoFechas, $ramo = null) {
     global $enlace;
     $data = [];
 
+
     foreach ($rangoFechas as $keyMes => $rango) {
         $fechaInicio = $rango['inicio'];
         $fechaFin    = $rango['fin'];
 
+
+
+        // Consulta SQL básica
         $sql = "SELECT id_user_freelance, COUNT(*) as total FROM oportunidades 
                 WHERE fecha_expedicion BETWEEN ? AND ? AND estado = 'Emitida'";
 
-        if ($ramo == '1') {
+        // Añadir condiciones adicionales dependiendo del valor de $ramo, solo si no es null
+        if ($ramo === '1') {
             $sql .= " AND ramo IN ('Automoviles', 'Motos', 'Pesados')";
-        } elseif ($ramo == '2') {
+        } elseif ($ramo === '2') {
             $sql .= " AND ramo IN ('Salud', 'vida deudor')";
-        } elseif ($ramo == '3') {
+        } elseif ($ramo === '3') {
             $sql .= " AND ramo IN ('Asistencia en viajes')";
         }
 
+        // Agrupar por id_user_freelance
         $sql .= " GROUP BY id_user_freelance";
+     
 
+        // Preparar y ejecutar la consulta
         $stmt = prepareQuery($sql, 'ss', [$fechaInicio, $fechaFin]);
         $stmt->execute();
-        $res = $stmt->get_result();
-        while ($row = $res->fetch_assoc()) {
-            $data[$row['id_user_freelance']][$keyMes] = $row['total'];
+
+        // Definir las variables para el bind_result
+        $id_user_freelance = null;
+        $total = null;
+
+        // Vincular los resultados de la consulta con las variables definidas
+        $stmt->bind_result($id_user_freelance, $total);
+        while ($stmt->fetch()) {
+            $data[$id_user_freelance][$keyMes] = $total;
         }
     }
 
@@ -224,7 +268,6 @@ $asesores    = getAsesores($asesor, $analista);
 
 $cotizacionesData = contarCotizacionesAgrupadas($fechasMeses, $ramo);
 $negociosData     = contarNegociosAgrupados($fechasMeses, $ramo);
-
 // Llenar datos en cada asesor
 foreach ($asesores as $asesorObj) {
     $id = $asesorObj->asesor_id;
@@ -236,7 +279,8 @@ foreach ($asesores as $asesorObj) {
 }
 
 // Salida final
-echo json_encode([
+echo json_encode([ 
     'fechasBusqueda' => $fechasMeses,
     'asesores' => array_values($asesores)
 ], JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
+?>
