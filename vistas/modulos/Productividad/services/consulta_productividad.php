@@ -1,13 +1,8 @@
 <?php
 require_once "../../../../config/dbconfig.php";
-<<<<<<< HEAD
 
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-=======
 $enlace->set_charset("utf8mb4");
->>>>>>> freelance-manager
+
 class Asesor {
     public $asesor_id;
     public $asesor;
@@ -98,14 +93,6 @@ function getAsesores($asesor = null, $analista = null) {
 
     $stmt = prepareQuery($sql, $types, $params);
     $stmt->execute();
-<<<<<<< HEAD
-
-    $id_usuario = $asesorNombre = $fecha_ingreso = $estado_usuario = $analistaNombre = null;
-
-    // Aquí usamos bind_result en lugar de get_result
-    $stmt->bind_result($id_usuario, $asesorNombre, $fecha_ingreso, $estado_usuario, $analistaNombre);
-=======
->>>>>>> freelance-manager
 
     // Definir las variables para el bind_result
     $id_usuario = null;
@@ -120,17 +107,10 @@ function getAsesores($asesor = null, $analista = null) {
     while ($stmt->fetch()) {
         $asesorObj = new Asesor();
         $asesorObj->asesor_id = $id_usuario;
-<<<<<<< HEAD
-        $asesorObj->asesor = $asesorNombre;
-        $asesorObj->fecha_ingreso = $fecha_ingreso;
-        $asesorObj->estado_usuario = $estado_usuario;
-        $asesorObj->analista = $analistaNombre ?? '';
-=======
         $asesorObj->asesor = $asesor;
         $asesorObj->fecha_ingreso = $fecha_ingreso;
         $asesorObj->estado_usuario = $estado_usuario;
         $asesorObj->analista = $analista ?? '';
->>>>>>> freelance-manager
         $asesores[$id_usuario] = $asesorObj;
     }
 
@@ -138,11 +118,7 @@ function getAsesores($asesor = null, $analista = null) {
     return $asesores;
 }
 
-<<<<<<< HEAD
-
-=======
 // Función para preparar la consulta
->>>>>>> freelance-manager
 function prepareQuery($sql, $types = '', $params = []) {
     global $enlace;
 
@@ -279,18 +255,12 @@ function contarCotizacionesAgrupadas($rangoFechas, $ramo = null) {
             $stmt = prepareQuery($sql, 'ss', [$fechaInicio, $fechaFin]);
             $stmt->execute();
 
-<<<<<<< HEAD
-            $id_usuario = $total = null;
-            $stmt->bind_result($id_usuario, $total);
-
-=======
             // Definir las variables para bind_result
             $id_usuario = null;
             $total = null;
 
             // Vincular los resultados con bind_result
             $stmt->bind_result($id_usuario, $total);
->>>>>>> freelance-manager
             while ($stmt->fetch()) {
                 $data[$id_usuario][$keyMes] = $total;
             }
@@ -304,18 +274,12 @@ function contarCotizacionesAgrupadas($rangoFechas, $ramo = null) {
             $stmt = prepareQuery($sql, 'ss', [$fechaInicio, $fechaFin]);
             $stmt->execute();
 
-<<<<<<< HEAD
-            $id_usuario = $total = null;
-            $stmt->bind_result($id_usuario, $total);
-
-=======
             // Definir las variables para bind_result
             $id_usuario = null;
             $total = null;
 
             // Vincular los resultados con bind_result
             $stmt->bind_result($id_usuario, $total);
->>>>>>> freelance-manager
             while ($stmt->fetch()) {
                 $data[$id_usuario][$keyMes] = $total;
             }
@@ -336,18 +300,12 @@ function contarCotizacionesAgrupadas($rangoFechas, $ramo = null) {
                 $stmt = prepareQuery($sql, 'ss', [$fechaInicio, $fechaFin]);
                 $stmt->execute();
 
-<<<<<<< HEAD
-                $id_usuario = $total = null;
-                $stmt->bind_result($id_usuario, $total);
-
-=======
                 // Definir las variables para bind_result
                 $id_usuario = null;
                 $total = null;
 
                 // Vincular los resultados con bind_result
                 $stmt->bind_result($id_usuario, $total);
->>>>>>> freelance-manager
                 while ($stmt->fetch()) {
                     if (!isset($data[$id_usuario][$keyMes])) {
                         $data[$id_usuario][$keyMes] = 0;
@@ -362,13 +320,10 @@ function contarCotizacionesAgrupadas($rangoFechas, $ramo = null) {
     return $data;
 }
 
-<<<<<<< HEAD
-=======
 
 // =======================================
 // 4. Contar negocios agrupados
 // =======================================
->>>>>>> freelance-manager
 function contarNegociosAgrupados($rangoFechas, $ramo = null) {
     global $enlace;
     $data = [];
@@ -401,18 +356,12 @@ function contarNegociosAgrupados($rangoFechas, $ramo = null) {
         $stmt = prepareQuery($sql, 'ss', [$fechaInicio, $fechaFin]);
         $stmt->execute();
 
-<<<<<<< HEAD
-        $id_user_freelance = $total = null;
-        $stmt->bind_result($id_user_freelance, $total);
-
-=======
         // Definir las variables para el bind_result
         $id_user_freelance = null;
         $total = null;
 
         // Vincular los resultados de la consulta con las variables definidas
         $stmt->bind_result($id_user_freelance, $total);
->>>>>>> freelance-manager
         while ($stmt->fetch()) {
             $data[$id_user_freelance][$keyMes] = $total;
         }
