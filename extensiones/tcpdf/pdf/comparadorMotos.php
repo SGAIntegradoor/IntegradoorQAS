@@ -13,6 +13,9 @@ $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, 'A4', true, 'UTF-8', false);
 
 $identificador = $_GET['cotizacion'];
 
+$user = "grupoasi_cotizautos";
+$password = "M1graci0n123"; //poner tu propia contraseña, si tienes una.
+
 $URI = explode("/", $_SERVER['REQUEST_URI']);
 
 if (in_array("dev", $URI)) {
