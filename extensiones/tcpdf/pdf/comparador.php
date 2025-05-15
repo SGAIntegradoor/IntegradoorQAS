@@ -29,7 +29,6 @@ $identificador = $_GET['cotizacion'];
 $user = "grupoasi_cotizautos";
 $password = "M1graci0n123"; //poner tu propia contraseña, si tienes una.
 
-
 $URI = explode("/", $_SERVER['REQUEST_URI']);
 
 if (in_array("dev", $URI)) {
@@ -410,12 +409,12 @@ $pdf->SetFont('dejavusanscondensed', 'BI', 15);
 $pdf->SetFont('dejavusanscondensed', 'I', 15);
 $pdf->SetTextColor(104, 104, 104);
 $pdf->SetXY(46.5, 89);
-$pdf->Cell(10, 0, 'Hemos ', 0, $ln = 0, 'C', 0, '', 0, false, 'C', 'C');
+$pdf->Cell(10, 0, 'Hemos  ', 0, $ln = 0, 'C', 0, '', 0, false, 'C', 'C');
 
 $pdf->SetFont('dejavusanscondensed', 'BI', 15);
 $pdf->SetTextColor(103, 181, 252);
 $pdf->SetXY(90.5, 89);
-$pdf->Cell(10, 0, 'cotizado ' . $asegSelecionada . ' aseguradora(s),', 0, $ln = 0, 'C', 0, '', 0, false, 'C', 'C');
+$pdf->Cell(10, 0, ' cotizado ' . $asegSelecionada . ' aseguradora(s), ', 0, $ln = 0, 'C', 0, '', 0, false, 'C', 'C');
 
 $pdf->SetFont('dejavusanscondensed', 'I', 15);
 $pdf->SetTextColor(104, 104, 104);
