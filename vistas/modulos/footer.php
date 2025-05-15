@@ -1,4 +1,4 @@
-<footer class="main-footer" style="margin-left: 66px !important;
+<footer class="main-footer" style="margin-left: 36px !important;
     margin-right: 36px !important;
     margin-bottom: 0px !important;
     padding-bottom: 0px !important;

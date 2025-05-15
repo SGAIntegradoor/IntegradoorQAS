@@ -147,14 +147,6 @@ echo '<script>console.log(' . $idIntermediario . ", " . $rolAsesor . ')</script>
     /* Puedes ajustar el valor según tus preferencias */
   }
 
-  /* Estilo para pantallas más pequeñas (menos de 495px) */
-  /* @media (max-width: 495px) {
-    .table-responsive {
-      overflow-x: auto;
-    }
-  }
-*/
-
   .custom-title-messageFinesa {
     font-size: 16px;
     font-weight: bold;
@@ -868,7 +860,7 @@ echo '<script>console.log(' . $idIntermediario . ", " . $rolAsesor . ')</script>
 
     <h1>
 
-    Cotizar vehículos de transporte de pasajeros
+      Cotizar vehículos de transporte de pasajeros
 
     </h1>
 
@@ -1417,27 +1409,15 @@ echo '<script>console.log(' . $idIntermediario . ", " . $rolAsesor . ')</script>
                       <select class="form-control" id="txtTipoTransporteVehiculo" required>
                         <option value=""></option>
                         <option value="Taxi">Taxi</option>
-                        <option value="Bus">Bus</option>
-                        <option value="MicroBus">MicroBus</option>
-                        <option value="Buseta">Buseta</option>
+                        <option value="Bus/Buseta/Microbus">Bus/Buseta/Microbus</option>
                         <option value="ServicioEsp">Servicio Especial</option>
                         <option value="PlacaBlanca">Placa Blanca</option>
                       </select>
                     </div>
-                    
+
                   </div>
 
                   <div class="row">
-                    <!-- <div class="col-xs-12 col-sm-6 col-md-3 form-group">
-                      <label for="txtTipoServicio">Tipo de Servicio</label>
-                      <select class="form-control" id="txtTipoServicio" required>
-                        <option value=""></option>
-                        <option value="14" selected>Particular</option>
-                        <option value="11">Publico Municipal</option>
-                        <option value="12">Publico Intermunicipal</option>
-                      </select>
-                    </div> -->
-
                     <div class="col-xs-12 col-sm-6 col-md-3 form-group" id="divNumeroPasajeros" style="display: none;">
                       <label for="txtNumeroPasajeros">Numero de Pasajeros</label>
                       <select class="form-control" name="txtNumeroPasajeros" id="txtNumeroPasajeros" required>
@@ -1538,10 +1518,7 @@ echo '<script>console.log(' . $idIntermediario . ", " . $rolAsesor . ')</script>
                 </div>
               </div>
             </div>
-
-
           </form>
-
 
           <!--- RESUMEN DE COTIZACIONES -->
           <div id="contenParrilla" style="display: none;">
@@ -1615,37 +1592,11 @@ echo '<script>console.log(' . $idIntermediario . ", " . $rolAsesor . ')</script>
                     </div>
                   </div>
                 </div>
-
-
-                <!-- <div id="mensajePrevisora">
-                  <p class="aviso-container col-lg-12">
-                  <ul style="padding-right: 25px !important; text-align: justify;">
-                    <li>
-                      <p>
-                        Si a tu cliente le interesa Previsora, Allianz o HDI, ten en cuenta que ciertas líneas de vehículos requieren la instalación del dispositivo Cazador al tomar su seguro. Para Previsora tiene un costo adicional a la póliza y para Allianz y HDI es totalmente gratis. Por favor confirma con tu área comercial.
-                      </p>
-                    </li>
-                    <li>
-                      <p>
-                        Los vehículos KIA de las líneas PICANTO y SPORTAGE se encuentran fuera de políticas en Seguros
-                        del Estado. Si se genera cotización con esta Aseguradora, omitir dicha oferta. Igualmente con
-                        esta compañía, la clase de vehículo PICK UP solo se asegura como vehículo publico.
-                      </p>
-                    </li>
-                    <li>
-                      <p style="font-weight: bold;">Política de valor asegurado livianos:</p>
-                      <p>Menos de 200 millones, se asegura de acuerdo a políticas de cada aseguradora. Entre 200 a 250 millones, se puede asegurar con autorización del Director Comercial de Grupo Asistencia. Entre 250 a 300 millones, se puede asegurar solo bajo autorización de Gerencia de Grupo Asistencia, de acuerdo al nivel de productividad del Asesor.</p>
-                      <p><b>Nota:</b> Tener en cuenta que aunque el cotizador genere ofertas, no todos los vehículos son asegurables. Se podrán hacer excepciones de valor asegurado superior cuando el asesor sea productivo, tenga más de 6 meses de antigüedad con Grupo Asistencia, no tenga altos indices de siniestralidad en su cartera, y si el cliente tiene vinculación con otros productos de la aseguradora. El valor de las primas de las cotizaciones puede variar al momento de emitir en los casos autorizados de manera excepcional.
-                      </p>
-                    </li>
-                  </ul>
-                </div> -->
               </div>
             </div>
 
             <!-- PARRILLA DE COTIZACIONES -->
             <div id="parrillaCotizaciones">
-
               <div class="col-lg-12 form-coti">
                 <div class="row row-parrilla">
                   <div class="col-xs-12 col-sm-6 col-md-3">
@@ -1661,16 +1612,11 @@ echo '<script>console.log(' . $idIntermediario . ", " . $rolAsesor . ')</script>
               </div>
 
               <div id="contenCotizacionPDFLivianos">
-
               </div>
-              
-
             </div>
-
           </div>
 
           <div id="dialog"></div>
-
           <!-- CAMPOS OCULTOS PARA OPTENER LA INFORMACION-->
           <div style="display: none;">
             <label>Aseguradoras</label>

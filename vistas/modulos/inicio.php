@@ -98,7 +98,7 @@ echo '<script>
 
   </section>
 
-  <?php require_once "./vistas/components/ai-chat/view/index.php"?>
+  <?php require_once "./vistas/components/ai-chat/view/index.php" ?>
 
   <?php
   echo '<script>
@@ -108,4 +108,5 @@ echo '<script>
   ?>
 
 
-  <script src="vistas\js\inicio.js" defer></script>
+
+<script src="vistas\js\inicio.js" defer></script>

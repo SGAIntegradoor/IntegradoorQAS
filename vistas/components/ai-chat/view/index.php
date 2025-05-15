@@ -4,6 +4,24 @@
 
 if ($_SESSION["permisos"]["ai-chat"] == "x") {
 ?>
+
+<style>
+    .chat-section {
+    min-height: 84vh;/* Ajusta 80px al alto de tu footer */
+    display: flex;
+    flex-direction: column;
+}
+
+@media (min-height: 1100px) {
+    .chat-section {
+        min-height: 80dvh;
+        height: calc(100vh + 80px);
+    }
+}
+
+</style>
+
+<section class="chat-section">  
     <div id="chatAi">
         <header class="chat__header">
             <img src="./vistas/img/intermediario/SEGUROS GRUPO ASISTENCIA SAS/LogoGA.png" alt="Icono" class="header__img">
@@ -25,6 +43,7 @@ if ($_SESSION["permisos"]["ai-chat"] == "x") {
             </div>
         </section>
     </div>
+</section>
 <?php
 } else {
 ?>

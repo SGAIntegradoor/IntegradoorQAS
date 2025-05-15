@@ -260,20 +260,20 @@
   <!-- <script src="vistas/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.es.min.js" charset="UTF-8"></script> -->
 
 
-  <!--=====================================
-CUERPO DOCUMENTO
+<!--=====================================
+  CUERPO DOCUMENTO
 ======================================-->
-
+<!-- 
   <style>
     .content-wrapper {
       /* O la altura que necesites */
       height: 100% !important;
       min-height: 100vh !important;
     }
-  </style>
+  </style> 
+-->
 
 <body class="hold-transition skin-blue sidebar-mini <?php echo (isset($_SESSION["iniciarSesion"]) && $_SESSION["iniciarSesion"] == "ok") ? 'sidebar-collapse' : 'login-page'; ?>" class="hold-transition skin-blue sidebar-mini <?php echo (isset($_SESSION["iniciarSesion"]) && $_SESSION["iniciarSesion"] == "ok") ? 'sidebar-collapse' : 'login-page'; ?>">
-
   <?php
   if (isset($_SESSION["iniciarSesion"]) && $_SESSION["iniciarSesion"] == "ok") {
 
@@ -290,7 +290,7 @@ CUERPO DOCUMENTO
       "Mapfre" => array("A" => $permisos["Mapfre_A"], "C" => $permisos["Mapfre_C"]),
       "Mundial" => array("A" => $permisos["Mundial_A"], "C" => $permisos["Mundial_C"]),
       "Previsora" => array("A" => $permisos["Previsora_A"], "C" => $permisos["Previsora_C"]),
-      // "Qualitas" => array("A" => $permisos["Qualitas_A"], "C" => $permisos["Qualitas_C"]),
+      "Qualitas" => array("A" => $permisos["Qualitas_A"], "C" => $permisos["Qualitas_C"]),
       "SBS" => array("A" => $permisos["SBS_A"], "C" => $permisos["SBS_C"]),
       "Solidaria" => array("A" => $permisos["Solidaria_A"], "C" => $permisos["Solidaria_C"]),
       "Zurich" => array("A" => $permisos["Zurich_A"], "C" => $permisos["Zurich_C"]),
