@@ -702,7 +702,9 @@ function consultarAsegurado() {
         $("#tipoDocumentoIDRepresentante").val(
           data?.rep_legal?.rep_tipo_documento
         );
-        $("#numDocumentoIDRepresentante").val(data?.rep_legal?.rep_num_documento);
+        $("#numDocumentoIDRepresentante").val(
+          data?.rep_legal?.rep_num_documento
+        );
         $("#txtNombresRepresentante").val(data?.rep_legal?.rep_nombre);
         $("#txtApellidosRepresentante").val(data?.rep_legal?.rep_apellidos);
         $("#generoRepresentante").val(data?.rep_legal?.rep_genero);
@@ -1892,10 +1894,6 @@ const mostrarOfertaPesados = (
                     <div class="selec-oferta">
                     <label for="seleccionar">SELECCIONAR</label>&nbsp;&nbsp;
                     <input type="checkbox" class="classSelecOferta" name="selecOferta" id="selec${numCotizOferta}${numId}${productoGlobal}\" onclick='seleccionarOferta(\"${aseguradora}\", \"${prima}\", \"${productoGlobal}\", \"${numCotizOferta}\", this);' />
-                    </div>
-                    <div class="recom-oferta">
-                    <label for="recomendar">RECOMENDAR</label>&nbsp;&nbsp;
-                    <input type="checkbox" class="classRecomOferta" name="recomOferta" id="recom${numCotizOferta}${numId}${productoGlobal}\" onclick='recomendarOferta(\"${aseguradora}\", \"${prima}\", \"${productoGlobal}\", \"${numCotizOferta}\", this);' />
                     </div>
                   </div>`;
   if (
@@ -3177,7 +3175,7 @@ function cotizarOfertasPesados() {
                     let arrAseguradora = [
                       {
                         Mensajes: [
-                           "Solicita cotización manual con tu Analista Comercial asignado",
+                          "Solicita cotización manual con tu Analista Comercial asignado",
                         ],
                       },
                     ];

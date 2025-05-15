@@ -1990,10 +1990,6 @@ ${
               <label for="seleccionar">SELECCIONAR</label>&nbsp;&nbsp;
               <input type="checkbox" class="classSelecOferta" name="selecOferta" id="selec${numCotizOferta}${numId}${producto}\" onclick='seleccionarOferta(\"${aseguradora}\", \"${prima}\", \"${producto}\", \"${numCotizOferta}\", this);' />
             </div>
-            <div class="recom-oferta">
-              <label for="recomendar">RECOMENDAR</label>&nbsp;&nbsp;
-              <input type="checkbox" class="classRecomOferta" name="recomOferta" id="recom${numCotizOferta}${numId}${producto}\" onclick='recomendarOferta(\"${aseguradora}\", \"${prima}\", \"${producto}\", \"${numCotizOferta}\", this);' />
-            </div>
           </div>`;
   if (
     (aseguradora == "Seguros Bolivar" || aseguradora == "Axa Colpatria") &&
