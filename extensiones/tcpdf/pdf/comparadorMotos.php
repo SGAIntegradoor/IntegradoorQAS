@@ -13,10 +13,18 @@ $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, 'A4', true, 'UTF-8', false);
 
 $identificador = $_GET['cotizacion'];
 
-$server = "localhost";
-$user = "grupoasi_cotizautos";
-$password = "M1graci0n123"; //poner tu propia contraseña, si tienes una.
-$bd = "grupoasi_cotizautos_qas";
+$URI = explode("/", $_SERVER['REQUEST_URI']);
+
+if (in_array("dev", $URI)) {
+	$server = "localhost:3307";
+	$bd = "grupoasi_cotizautos_qas";
+} else if (in_array("QAS", $URI)) {
+	$server = "localhost";
+	$bd = "grupoasi_cotizautos_qas";
+} else {
+	$server = "localhost";
+	$bd = "grupoasi_cotizautos";
+}
 
 $conexion = mysqli_connect($server, $user, $password, $bd);
 if (!$conexion) {
@@ -254,7 +262,7 @@ if ($valorLogo == "undefined") {
 	$yPosition = 13; // Ajusta según la posición vertical deseada
 
 	// Verificar el formato de la imagen y agregarla al PDF
-	if ($pieces[1] == 'png') {
+	if ($pieces[1] == 'PNG' || $pieces[1] == 'png') {
 		$pdf->Image($imagePath, $xPosition, $yPosition, $imgWidth, $imgHeight, 'PNG',  '', '', false, 300, '', false, false, 0, false, false, false);
 	} else {
 		$pdf->Image($imagePath, $xPosition, $yPosition, $imgWidth, $imgHeight, 'JPG',  '', '', false, 300, '', false, false, 0, false, false, false);
@@ -264,9 +272,9 @@ if ($valorLogo == "undefined") {
 	$pdf->Image($urlSGA, 8, 13, 0, 20, 'PNG', '', '', true, 160, '', false, false, 0, false, false, false);
 } else {
 	if ($intermediario == "89" || $intermediario == 89) {
-		$urlSGA = "../../../vistas/img/intermediario/SEGUROS GRUPO ASISTENCIA SAS/LogoIntegradoor.jpg";
+		$urlSGA = "../../../vistas/img/intermediario/SEGUROS GRUPO ASISTENCIA SAS/LogoIntegradoor.png";
 		$height = 15;
-		$pdf->Image($urlSGA, 8, 13, 0, $height, 'JPG', '', '', true, 160, '', false, false, 0, false, false, false);
+		$pdf->Image($urlSGA, 8, 13, 0, $height, 'PNG', '', '', true, 160, '', false, false, 0, false, false, false);
 	} else {
 		$urlSGA = "../../../vistas/img/intermediario/SEGUROS GRUPO ASISTENCIA SAS/LogoGA.png";
 		$pdf->Image($urlSGA, 8, 13, 0, 20, 'PNG', '', '', true, 160, '', false, false, 0, false, false, false);
