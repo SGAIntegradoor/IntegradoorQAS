@@ -123,6 +123,7 @@
                             <option value="10">Hogar</option>
                             <option value="11">Hogar deudor</option>
                             <option value="12">Asistencia en viajes</option>
+                            <option value="13">Autos Pasajeros</option>
                         </select>
                     </div>
                     <div class="col-xs-12 col-sm-6 col-md-3" style="padding-left: 25px; padding-right: 25px">

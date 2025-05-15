@@ -2,8 +2,6 @@
 let manualGeneral = 0;
 
 $(document).ready(function () {
-
-
   function obtenerFechaActual() {
     const hoy = new Date();
     const año = hoy.getFullYear();
@@ -125,7 +123,9 @@ $(document).ready(function () {
               ? "Automoviles"
               : oferta.Manual == 8
               ? "Motos"
-              : "Pesados"
+              : oferta.Manual == 0
+              ? "Pesados"
+              : "Autos Pasajeros"
           );
           data.append("placa", oferta.Placa);
           data.append("oneroso", oneroso);
@@ -727,15 +727,15 @@ $(document).ready(function () {
 
           window.open(url, "_blank");
         } else {
+          let url = `extensiones/tcpdf/pdf/comparador${
+            manualGeneral == 4 ? "Pasajeros.php" : ".php"
+          }?cotizacion=${idCotizacionPDF}`;
 
-            let url = `extensiones/tcpdf/pdf/comparador${manualGeneral == 4 ? "Pasajeros.php": ".php"}?cotizacion=${idCotizacionPDF}`;
+          if (checkboxAsesorEditar.is(":checked")) {
+            url += "&generar_pdf=1";
+          }
 
-            if (checkboxAsesorEditar.is(":checked")) {
-              url += "&generar_pdf=1";
-            }
-  
-            window.open(url, "_blank");
-        
+          window.open(url, "_blank");
         }
       }
     }
@@ -1263,7 +1263,7 @@ async function renderCards(response) {
         "HDI (Antes Liberty)",
         "Axa Colpatria",
         "Previsora",
-        "Solidaria"
+        "Solidaria",
       ];
 
       const planesViajes = [
@@ -2293,13 +2293,14 @@ function editarCotizacion(id) {
               $("#divTipoServicio").css("display", "none");
               $("#divTipoTransporte").css("display", "block");
               // trigger chance
-              if(respuesta["cot_tip_uso"] == "Bus"){
+              if (respuesta["cot_tip_uso"] == "Bus") {
                 $("#divNumeroPasajeros").css("display", "block");
                 $("#txtNumeroPasajeros").val(respuesta["cot_num_pasajeros"]);
               }
 
-              $("#txtTipoTransporteVehiculo").val(respuesta["cot_tip_uso"]).trigger("change");
-              
+              $("#txtTipoTransporteVehiculo")
+                .val(respuesta["cot_tip_uso"])
+                .trigger("change");
             }
 
             renderCards(resp);

@@ -329,7 +329,7 @@ $(document).ready(function () {
   $("#txtTipoTransporteVehiculo").on("change", function () {
     var tipoTransporte = $(this).val();
     console.log(tipoTransporte);
-    if (tipoTransporte == "Bus") {
+    if (tipoTransporte == "Bus/Buseta/Microbus") {
       $("#divNumeroPasajeros").show();
     } else {
       $("#divNumeroPasajeros").css("display", "none");
@@ -4082,7 +4082,7 @@ function cotizarOfertasPasajeros() {
               confirmButtonText: "Cerrar",
             });
             enableInputs(true);
-            countOfferts();
+            // countOfferts();
           }
         });
       }

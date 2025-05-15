@@ -590,6 +590,7 @@
               <option value="10">Hogar</option>
               <option value="11">Hogar deudor</option>
               <option value="12">Asistencia en viajes</option>
+              <option value="13">Autos Pasajeros</option>
             </select>
           </div>
         </div>
