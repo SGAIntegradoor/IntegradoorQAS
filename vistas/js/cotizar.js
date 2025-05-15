@@ -1355,7 +1355,7 @@ function consulPlacaMapfre(valnumplaca) {
         $("#txtFasecolda").val(codFasecolda);
 
         consulDatosFasecolda(codFasecolda, modelo).then(function (resp) {
-          // desactive
+          
           // console.log(resp)
           $("#txtMarcaVeh").val(resp.marcaVeh);
           $("#txtReferenciaVeh").val(resp.lineaVeh);
@@ -1375,7 +1375,7 @@ function consulPlacaMapfre(valnumplaca) {
       }
     })
     .catch(function (error) {
-      // desactive
+      
       // console.log("Parece que hubo un problema: \n", error);
       document.getElementById("formularioVehiculo").style.display = "block";
       document.getElementById("headerAsegurado").style.display = "block";
@@ -1422,7 +1422,7 @@ function consulCodFasecolda() {
         refe2: refe3,
       },
       success: function (data) {
-        // desactive
+        
         // console.log(data);
         var codFasecolda = data.result.codigo;
         consulValorfasecolda(codFasecolda, edadVeh);
@@ -1469,7 +1469,7 @@ function consulValorfasecolda(codFasecolda, edadVeh) {
       return response.json();
     })
     .then(function (myJson) {
-      // desactive
+      
       // console.log(myJson);
       if (myJson.Data != null) {
         var codigoClase = myJson.Data.ClassId;
@@ -1547,7 +1547,7 @@ function consulValorfasecolda(codFasecolda, edadVeh) {
       }
     })
     .catch(function (error) {
-      // desactive
+      
       //console.log("Parece que hubo un problema: \n", error);
 
       contErrProtConsulFasec++;
@@ -1661,7 +1661,7 @@ function consulDatosFasecoldaPesados(codFasecolda, edadVeh) {
         modelo: edadVeh,
       },
       success: function (data) {
-        // desactive
+        
         // console.log(data);
         var claseVeh = data.clase;
         var marcaVeh = data.marca;
@@ -1998,7 +1998,7 @@ function registrarOferta(
         resolve();
       },
       error: function (error) {
-        // desactive
+        
         //console.log(error);
         reject(error);
       },
@@ -2370,9 +2370,7 @@ function validarProblema(aseguradora, ofertas) {
     ofertas.jsonZurich &&
     typeof ofertas.jsonZurich === "object"
   ) {
-    // // debugger;
-    // console.log("Entre a zurich porque es Zurich");
-    // console.log("ofertas Zurich", ofertas);
+
     // let cadena = ""
     // Caso específico para la estructura de Zurich
     let mensajesZurich = ofertas.Mensajes || [];
@@ -2499,8 +2497,7 @@ function enableInputs(opt) {
         .attr("disabled", "disabled");
 }
 
-// desactive
-//console.log(permisosPlantilla)
+
 // Captura los datos suministrados por el cliente y los envia al API para recibir la cotizacion.
 function cotizarOfertas() {
   showCircularProgress("Cotización Autos en Proceso", 2200, 90000);
@@ -2756,7 +2753,7 @@ function cotizarOfertas() {
   );
 
   // console.log(aseguradoras_autorizar);
-  // desactive
+  
   //console.log(aseguradoras_autorizar)
 
   if (ciudadCirculacion.length == 4) {
@@ -2984,7 +2981,7 @@ function cotizarOfertas() {
           // Agregar el elemento de carga a la celda de respuesta
           celdaResponse.appendChild(loadingElement);
         });
-        // desactive
+        
         //console.log(aseguradorasCredenciales)
         primerIntentoRealizado = true;
         $.ajax({
@@ -3124,7 +3121,7 @@ function cotizarOfertas() {
                 );
                 // Verificar si ya existe una fila para la aseguradora
                 const filaExistente = document.getElementById(aseguradora);
-                // desactive
+                
                 // console.log(filaExistente)
                 if (filaExistente) {
                   // Si la fila existe, actualiza el mensaje de observaciones
@@ -3179,7 +3176,7 @@ function cotizarOfertas() {
                 );
                 // V  erificar si ya existe una fila para la aseguradora
                 const filaExistente = document.getElementById(aseguradora);
-                // desactive
+                
                 // console.log(filaExistente)
                 if (filaExistente) {
                   // Si la fila existe, actualiza el mensaje de observaciones
@@ -3229,8 +3226,8 @@ function cotizarOfertas() {
               if (aseguradora === "HDI") {
                 url = `https://grupoasistencia.com/motor_webservice/HdiPlus`;
               } else if (aseguradora === "Zurich") {
-                // const planes = ["FULL", "MEDIUM"];
-                const planes = ["FULL"];
+                const planes = ["FULL", "MEDIUM", "BASIC"];
+                //const planes = ["FULL"];
                 planes.forEach((plan) => {
                   let lineaVeh =
                     document.getElementById("txtReferenciaVeh").value;
@@ -3699,7 +3696,7 @@ function cotizarOfertas() {
             );
             // Verificar si ya existe una fila para la aseguradora
             const filaExistente = document.getElementById(aseguradora);
-            // desactive
+            
             // console.log(filaExistente)
             if (filaExistente) {
               // Si la fila existe, actualiza el mensaje de observaciones
@@ -3754,7 +3751,7 @@ function cotizarOfertas() {
             );
             // V  erificar si ya existe una fila para la aseguradora
             const filaExistente = document.getElementById(aseguradora);
-            // desactive
+            
             // console.log(filaExistente)
             if (filaExistente) {
               // Si la fila existe, actualiza el mensaje de observaciones
