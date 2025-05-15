@@ -1651,19 +1651,7 @@ async function renderCards(response) {
   
                         </div>
   
-                        <div class="recom-oferta">
-  
-                          <label for="recomendar">RECOMENDAR</label>&nbsp;&nbsp;
-  
-                          <input type="checkbox" class="classRecomOferta" name="recomOferta" id="recom${
-                            oferta.NumCotizOferta
-                          }${numId}\" onclick='recomendarOferta(\"${
-        oferta.Aseguradora
-      }\", \"${oferta.Prima}\", \"${oferta.Producto}\", \"${
-        oferta.NumCotizOferta
-      }\", this);' ${recomChecked}/>
-  
-                        </div>
+                        
   
                         </div>`;
 
