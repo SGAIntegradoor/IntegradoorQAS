@@ -1296,7 +1296,7 @@ $response = retrieveQuotation($idCotizacion);
           </div>
         </div>
 
-        <div class="col-lg-12" style="">
+        <div class="col-lg-12">
           <?php require "vistas/components/cotizar/catfilters.php" ?>
         </div>
 
