@@ -764,7 +764,7 @@ if ($rowValidateF >= 1) {
 		$font_size = ($rowValidate > 10) ? 7 : (($rowValidate == 10) ? 8 : 9);
 
 		if ($viable) {
-			if ($resultado['cuota_1'] != null && $resultado['Prima'] >= "1000000") {
+			if ($resultado['cuota_1'] != null && $resultado['Prima'] >= "800000") {
 				if ($resultado['Aseguradora'] == "HDI (Antes Liberty)" || $resultado['Aseguradora'] == "Seguros Bolivar") {
 					$html2 .= '<td style="font-size:' . ($font_size - 2) . 'px; color:#666666; font-family:dejavusanscondensedb; text-align: center;" class="puntos td2 ' . $fondo_class . '">
 					Pdte. cotizar 
@@ -779,7 +779,7 @@ if ($rowValidateF >= 1) {
 					</td>';
 				}
 				$cont3++;
-			} else if (($resultado['Prima'] < "1000000" && $resultado['Aseguradora'] != "HDI (Antes Liberty)") && ($resultado['Prima'] < "1000000" && $resultado['Aseguradora'] != "Seguros Bolivar")) {
+			} else if (($resultado['Prima'] < "800000" && $resultado['Aseguradora'] != "HDI (Antes Liberty)") && ($resultado['Prima'] < "800000" && $resultado['Aseguradora'] != "Seguros Bolivar")) {
 				$html2 .= '<td style="font-size:' . ($font_size - 2) . 'px; color:#666666; font-family:dejavusanscondensedb; text-align: center;" class="puntos td2 ' . $fondo_class . '">
 				No Aplica
 				<br>
