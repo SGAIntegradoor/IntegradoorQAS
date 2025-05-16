@@ -948,12 +948,7 @@ echo '<script>console.log(' . $idIntermediario . ", " . $rolAsesor . ')</script>
                         <option value="1">Cedula de ciudadania</option>
                         <option value="2">NIT</option>
                         <option value="3">Cédula de extranjería</option>
-                        <option value="4">Tarjeta de identidad</option>
                         <option value="5">Pasaporte</option>
-                        <option value="6">Carné diplomático</option>
-                        <option value="7">Sociedad extranjera sin NIT en Colombia</option>
-                        <option value="8">Fideicomiso</option>
-                        <option value="9">Registro civil de nacimiento</option>
                       </select>
                       <div id="alertaTipoDocumento" class="alert alert-danger mt-2" style="display: none;">
                         Debes seleccionar un tipo de documento.
@@ -1089,9 +1084,13 @@ echo '<script>console.log(' . $idIntermediario . ", " . $rolAsesor . ')</script>
                         <select class="form-control" id="tipoDocumentoIDRepresentante" name="tipoDocumentoIDRepresentante" required>
                           <option value="" disabled selected>Selecciona el tipo de documento</option>
                           <option value="1">Cedula de ciudadania</option>
-                          <option value="2">NIT</option>
                           <option value="3">Cédula de extranjería</option>
+                          <option value="4">Tarjeta de identidad</option>
                           <option value="5">Pasaporte</option>
+                          <option value="6">Carné diplomático</option>
+                          <option value="7">Sociedad extranjera sin NIT en Colombia</option>
+                          <option value="8">Fideicomiso</option>
+                          <option value="9">Registro civil de nacimiento</option>
                         </select>
                         <div id="alertaTipoDocumento" class="alert alert-danger mt-2" style="display: none;">
                           Debes seleccionar un tipo de documento.
