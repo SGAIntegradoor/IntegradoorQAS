@@ -132,18 +132,14 @@ if ($_SESSION["permisos"]["Cotizarpesados"] != "x") {
 <style>
   .table-padding {
     padding: 15px;
-    /* Puedes ajustar el valor según tus preferencias */
   }
 
-  /* Agregar relleno general al contenedor padre */
   .card-ofertas {
     padding: 20px;
-    /* Puedes ajustar el valor según tus preferencias */
   }
 
   .thTable {
     text-align: center;
-    /* Puedes ajustar el valor según tus preferencias */
   }
 
   .custom-title-messageFinesa {
@@ -191,7 +187,6 @@ if ($_SESSION["permisos"]["Cotizarpesados"] != "x") {
     border-radius: 5px !important;
   }
 
-  /* Estilo para pantallas más pequeñas (menos de 495px) */
   @media (max-width: 495px) {
     .table-responsive {
       overflow-x: auto;
@@ -572,7 +567,6 @@ if ($_SESSION["permisos"]["Cotizarpesados"] != "x") {
       flex-direction: column;
       width: 40% !important;
       padding: 20px 20px 20px 20px !important;
-      /* gap: 10px; */
       border-radius: 15px !important;
       font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     }
@@ -664,7 +658,6 @@ if ($_SESSION["permisos"]["Cotizarpesados"] != "x") {
       flex-direction: column;
       width: 37% !important;
       padding: 20px 20px 20px 20px !important;
-      /* gap: 10px; */
       border-radius: 15px !important;
       font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     }
@@ -790,13 +783,9 @@ if ($_SESSION["permisos"]["Cotizarpesados"] != "x") {
 
   .ui-dialog .ui-dialog-title {
     text-align: center;
-    /* Centra el texto del título */
     width: 100%;
-    /* Ajusta el ancho del título */
     padding: 0;
-    /* Elimina el relleno por defecto */
     margin: 0;
-    /* Elimina el margen por defecto */
   }
 
   .ui-dialog .ui-dialog-content {
@@ -813,7 +802,6 @@ if ($_SESSION["permisos"]["Cotizarpesados"] != "x") {
 
   .center-btn {
     margin: 0 auto;
-    /* Alinear horizontalmente */
     display: block;
   }
 </style>

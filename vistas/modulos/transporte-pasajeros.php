@@ -133,18 +133,14 @@ echo '<script>console.log(' . $idIntermediario . ", " . $rolAsesor . ')</script>
 <style>
   .table-padding {
     padding: 15px;
-    /* Puedes ajustar el valor según tus preferencias */
   }
 
-  /* Agregar relleno general al contenedor padre */
   .card-ofertas {
     padding: 20px;
-    /* Puedes ajustar el valor según tus preferencias */
   }
 
   .thTable {
     text-align: center;
-    /* Puedes ajustar el valor según tus preferencias */
   }
 
   .custom-title-messageFinesa {
@@ -648,7 +644,6 @@ echo '<script>console.log(' . $idIntermediario . ", " . $rolAsesor . ')</script>
       flex-direction: column;
       width: 35% !important;
       padding: 0px 27px 0px 27px;
-      /* gap: 10px; */
       border-radius: 15px !important;
     }
 
@@ -676,10 +671,8 @@ echo '<script>console.log(' . $idIntermediario . ", " . $rolAsesor . ')</script>
     .custom-swal-alertaMontoLivianos .swal2-html-container {
       display: flex !important;
       flex-direction: column;
-      /* gap: 10px; */
       padding-right: 10px;
       padding-left: 10px;
-      /* padding-bottom: 8px; */
       align-items: center;
     }
 
@@ -687,8 +680,6 @@ echo '<script>console.log(' . $idIntermediario . ", " . $rolAsesor . ')</script>
       font-size: 19px;
       padding-top: 10px;
       text-align: justify;
-      /* padding-left: 20px; */
-      /* padding-right: 20px; */
     }
 
     .swal2-actions {
@@ -724,13 +715,6 @@ echo '<script>console.log(' . $idIntermediario . ", " . $rolAsesor . ')</script>
   .btnConfirm {
     background: #88d600;
   }
-
-  /* 
-  @media (max-width: 495px) {
-    .table-responsive {
-      overflow-x: auto;
-    }
-  } */
 
   .form-coti {
     padding-top: 25px;
@@ -778,13 +762,9 @@ echo '<script>console.log(' . $idIntermediario . ", " . $rolAsesor . ')</script>
 
   .ui-dialog .ui-dialog-title {
     text-align: center;
-    /* Centra el texto del título */
     width: 100%;
-    /* Ajusta el ancho del título */
     padding: 0;
-    /* Elimina el relleno por defecto */
     margin: 0;
-    /* Elimina el margen por defecto */
   }
 
   .ui-dialog .ui-dialog-content {
@@ -793,7 +773,6 @@ echo '<script>console.log(' . $idIntermediario . ", " . $rolAsesor . ')</script>
 
   .center-btn {
     margin: 0 auto;
-    /* Alinear horizontalmente */
     display: block;
   }
 
@@ -820,38 +799,6 @@ echo '<script>console.log(' . $idIntermediario . ", " . $rolAsesor . ')</script>
     color: white;
   }
 
-  /* 
-  .swal2-icon {
-    width: 90px;
-    height: 90px;
-    border: 4px solid #f8bb86 !important;
-  }
-
-  .custom-swal-popup {
-    border-radius: 25px;
-  } */
-
-  /* .swal2-icon-content {
-    font-size: 65px !important;
-  } */
-  /* 
-  .custom-swal-title {
-    font-size: 20px !important;
-    font-weight: bold;
-   } */
-
-  /* .custom-swal-popup {
-    display: flex !important;
-    flex-direction: column !important;
-    padding: 10px;
-  } */
-
-  /* 
-
-  .custom-swal-title {
-    font-size: 20px !important;
-    font-weight: bold;
-   } */
 </style>
 
 <div class="content-wrapper">

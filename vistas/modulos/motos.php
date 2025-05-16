@@ -125,28 +125,21 @@ if ($_SESSION["permisos"]["Cotizarmotos"] != "x") {
 }
 $idIntermediario = $_SESSION['permisos']['id_Intermediario'];
 $rolAsesor = $_SESSION['permisos']['idRol'];
-//var_dump($_SESSION);
 
 ?>
 
 <style>
   .table-padding {
     padding: 15px;
-    /* Puedes ajustar el valor según tus preferencias */
   }
-
-  /* Agregar relleno general al contenedor padre */
   .card-ofertas {
     padding: 20px;
-    /* Puedes ajustar el valor según tus preferencias */
   }
 
   .thTable {
     text-align: center;
-    /* Puedes ajustar el valor según tus preferencias */
   }
 
-  /* Estilo para pantallas más pequeñas (menos de 495px) */
   @media (max-width: 495px) {
     .table-responsive {
       overflow-x: auto;

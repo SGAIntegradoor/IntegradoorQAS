@@ -1,6 +1,8 @@
 // let permisos = "";
 let manualGeneral = 0;
 
+const paramsGenerals = new URLSearchParams(window.location.search);
+
 $(document).ready(function () {
   function obtenerFechaActual() {
     const hoy = new Date();
@@ -438,10 +440,7 @@ $(document).ready(function () {
               a.aseguradora.localeCompare(b.aseguradora)
             );
 
-            //Desactive
-            //console.log(combinedArray);
-
-            //COTIZACIONES EXITOSAS VARIAS PETICIONES//
+            // COTIZACIONES EXITOSAS VARIAS PETICIONES //
 
             var tableBody = documentosTable.getElementsByTagName("tbody")[0];
             tableBody.innerHTML = "";
@@ -469,7 +468,7 @@ $(document).ready(function () {
             //   });
             // }
 
-            //COTIZACIONES EXITOSAS VARIAS PETICIONES FINAL//
+            // COTIZACIONES EXITOSAS VARIAS PETICIONES FINAL //
 
             // UNA OFERTA Iterar sobre los datos y agregar filas a la tabla
             combinedArray.forEach((usuario) => {
@@ -508,38 +507,6 @@ $(document).ready(function () {
     });
   } else {
   }
-  // Mostrar alertas
-  //PRIMERA VERSION ALERTAS
-
-  // alertas.then(result => {
-
-  //   console.log(alertas)
-
-  //   result.forEach(alerta => {
-
-  //     if (alerta.exitosa == '1') {
-
-  //       // if (!aseguradorasExitosas.includes(alerta.aseguradora)) {
-
-  //       //   document.querySelector('.exitosas').innerHTML += `<span style="margin-right: 15px;"><i class="fa fa-check" aria-hidden="true" style="color: green; margin-right: 5px;
-
-  //       //             "></i>${alerta.aseguradora}</span>
-
-  //       //             `
-
-  //       //   aseguradorasExitosas.push(alerta.aseguradora)
-
-  //       // }
-
-  //     } else {
-
-  //       // document.querySelector('.fallidas').innerHTML += `<p><i class="fa fa-times" aria-hidden="true" style="color: red; margin-right: 10px;"></i>${alerta.aseguradora}: ${alerta.mensaje}</p>`
-
-  //     }
-
-  //   })
-
-  // })
 
   $("#valorTotal").numeric();
   const parseNumbersToString = (selector) => {
@@ -556,9 +523,6 @@ $(document).ready(function () {
   };
   parseNumbersToString("#valorTotal");
 
-  // $('#btnMotosX').click(function (){
-  //   window.location = "motos"
-  // })
   // Limpia los contenedores de las Cards y del Boton PDF y Recotiza
 
   $("#btnRecotizar").click(function () {
@@ -1066,6 +1030,51 @@ $(document).ready(function () {
         fechaFinalCotizaciones1;
     }
   });
+
+  /*================================================
+ Funcion para resetear el formulario de aseguradora
+================================================*/
+
+  function resetFormAseg() {
+    $(".form-resumAseg")
+      .find("input, select")
+      .each(function () {
+        if (this.id == "tipoDocumentoID") {
+          console.log("entre aca");
+        } else if (this.id == "placaVeh" && $(this).val() != "") {
+          return;
+        } else {
+          if (
+            this.id == "mesnacimiento" ||
+            this.id == "dianacimiento" ||
+            this.id == "anionacimiento" ||
+            this.id == "dianacimientoRepresentante" ||
+            this.id == "mesnacimientoRepresentante" ||
+            this.id == "anionacimientoRepresentante"
+          ) {
+            $(this).val("").trigger("change"); // Limpia los campos de texto y los select
+          } else {
+            $(this).val(""); // Limpia los campos de texto y los select
+          }
+        }
+      });
+  }
+
+  /*================================================
+ Eventos en cambio de documento
+================================================*/
+
+  let params = urlPage.searchParams.getAll("idCotizacion");
+  if (params.length <= 0) {
+    $("#tipoDocumentoID").change(function () {
+      resetFormAseg();
+      if ($(this).val() == "2") {
+        $("#numDocumentoID").attr("maxlength", "9");
+      } else {
+        $("#numDocumentoID").attr("maxlength", "10");
+      }
+    });
+  }
 });
 
 /*================================================
