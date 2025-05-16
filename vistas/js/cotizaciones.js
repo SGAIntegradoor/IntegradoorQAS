@@ -4149,11 +4149,13 @@ function menosRECot() {
 //   }, 500);
 // }
 
-function showCircularProgress(cotType, time, totalTransition) {
+function showCircularProgress(cotType, time, totalTransition) { 
+
   let progress = 0;
-  let totalDuration = totalTransition; // Duración total en milisegundos (90 segundos)
-  let steps = totalDuration / time; // Número de iteraciones en 90 segundos
-  let incrementPerStep = Math.floor(99 / steps); // Incremento por paso
+  let totalDuration = totalTransition;
+  let steps = totalDuration / time; 
+  let incrementPerStep = Math.floor(99 / steps); 
+
 
   Swal.fire({
     title: `${cotType}`,

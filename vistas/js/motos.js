@@ -1,4 +1,21 @@
+let env = "";
+
 $(document).ready(function () {
+
+  // Obtener la URL completa
+  const urlCompleta = window.location.href;
+
+  // Dividir la URL por "/"
+  const partes = urlCompleta.split("/");
+
+  if (partes.includes("dev") || partes.includes("DEV")) {
+    env = "dev";
+  } else if (partes.includes("QAS") || partes.includes("qas")) {
+    env = "qas";
+  } else if (partes.includes("app") || partes.includes("App")) {
+    env = "";
+  }
+
   $("#numDocumentoID").numeric();
   $("#txtFasecolda").numeric();
   $("#txtValorFasecolda").numeric();
@@ -736,7 +753,9 @@ function consultarAsegurado() {
         $("#tipoDocumentoIDRepresentante").val(
           data?.rep_legal?.rep_tipo_documento
         );
-        $("#numDocumentoIDRepresentante").val(data?.rep_legal?.rep_num_documento);
+        $("#numDocumentoIDRepresentante").val(
+          data?.rep_legal?.rep_num_documento
+        );
         $("#txtNombresRepresentante").val(data?.rep_legal?.rep_nombre);
         $("#txtApellidosRepresentante").val(data?.rep_legal?.rep_apellidos);
         $("#generoRepresentante").val(data?.rep_legal?.rep_genero);
@@ -1380,19 +1399,21 @@ function consulValorfasecoldaMotos(codFasecolda, edadVeh) {
         $("#txtFasecolda").val(codigoFasecolda);
         $("#txtValorFasecolda").val(valorAsegurado);
 
-        consulDatosFasecoldaMotos(codigoFasecolda, modeloVehiculo).then(function (
-          resp
-        ) {
-          $("#txtMarcaVeh").val(resp.marcaVeh);
-          $("#txtReferenciaVeh").val(resp.lineaVeh);
-        });
+        consulDatosFasecoldaMotos(codigoFasecolda, modeloVehiculo).then(
+          function (resp) {
+            $("#txtMarcaVeh").val(resp.marcaVeh);
+            $("#txtReferenciaVeh").val(resp.lineaVeh);
+          }
+        );
       } else {
         contErrMetEstadoFasec++;
         if (contErrMetEstadoFasec > 2) {
           $("#txtModeloVeh").val(edadVeh);
           $("#txtFasecolda").val(codFasecolda);
 
-          consulDatosFasecoldaMotos(codFasecolda, edadVeh).then(function (resp) {
+          consulDatosFasecoldaMotos(codFasecolda, edadVeh).then(function (
+            resp
+          ) {
             var codigoClaseEstado = "";
             if (resp.claseVeh == "MOTOS") {
               codigoClaseEstado = 12;
@@ -1621,7 +1642,7 @@ function saveQuotations(responses) {
 let cotizoFinesaMotos = false;
 
 function cotizarFinesaMotos(ofertasCotizaciones) {
-  showCircularProgress("Cotización Finesa en Proceso...", 500, 50000);
+  showCircularProgress("Cotización Finesa en Proceso...", 500, 40000);
   let cotEnFinesaResponse = [];
   let promisesFinesa = [];
 
@@ -1648,9 +1669,10 @@ function cotizarFinesaMotos(ofertasCotizaciones) {
 
     if (element.cotizada == null || element.cotizada == false) {
       //console.log(element);
+
       promisesFinesa.push(
         fetch(
-          "https://www.grupoasistencia.com/motor_webservice/paymentInstallmentsFinesa_qas",
+          `https://www.grupoasistencia.com/motor_webservice/paymentInstallmentsFinesa${env = "qas" ? "_qas": env = "dev" ? "_qas" : ""}`,
           // "http://localhost/motorTest/paymentInstallmentsFinesa",
           {
             method: "POST",
@@ -1670,7 +1692,7 @@ function cotizarFinesaMotos(ofertasCotizaciones) {
             finesaData.identity = element.objFinesa;
             finesaData.cuotas = element.cuotas;
             return fetch(
-              "https://www.grupoasistencia.com/motor_webservice/saveDataQuotationsFinesa_qas",
+              `https://www.grupoasistencia.com/motor_webservice/saveDataQuotationsFinesa${env = "qas" ? "_qas": env = "dev" ? "_qas" : ""}`,
               //"http://localhost/motorTest/saveDataQuotationsFinesa",
               {
                 method: "POST",
@@ -1684,7 +1706,7 @@ function cotizarFinesaMotos(ofertasCotizaciones) {
                 console.log(dbData);
                 console.log(element.aseguradora);
                 if (
-                  (element.prima < 1000000 &&
+                  (element.prima < 800000 &&
                     !(element.aseguradora == "HDI (Antes Liberty)")) ||
                   element.aseguradora == "Bolivar" ||
                   element.aseguradora == "Seguros Bolivar" ||
@@ -1896,13 +1918,12 @@ const mostrarOfertaMotos = (
   var permisosCredenciales = permisos[aseguradoraCredenciales];
 
   let calcCuotas =
-    prima.replace(/\./g, "") > 800000 && prima.replace(/\./g, "") <= 1400000
+    prima.replace(/\./g, "") > 800000 && prima.replace(/\./g, "") <= 1000000
       ? 7
-      : prima.replace(/\./g, "") > 1400000 && prima.replace(/\./g, "") < 2000000
-      ? 9
-      : prima.replace(/\./g, "") > 2000000
+      : prima.replace(/\./g, "") > 1000000 &&
+        prima.replace(/\./g, "") <= 2000000
       ? 11
-      : 11;
+      : 12;
 
   let cotOferta = {
     aseguradora: aseguradora,
@@ -2277,7 +2298,7 @@ var recotizacionIntentoRealizado = false;
 
 function cotizarOfertasMotos() {
   // debugger;
-  showCircularProgress("Cotización Motos en Proceso...", 500, 50000);
+  showCircularProgress("Cotización Motos en Proceso...", 500, 40000);
   var codigoFasecolda1 = document.getElementById("txtFasecolda");
   var contenido = codigoFasecolda1.value;
 
