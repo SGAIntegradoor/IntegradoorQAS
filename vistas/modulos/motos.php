@@ -1522,7 +1522,6 @@ $rolAsesor = $_SESSION['permisos']['idRol'];
                         <strong>Condiciones Generales:</strong><br>
                         • Para motos de valor asegurado menor a $7 millones, solo aplican las condiciones del cotizador web.<br>
                         • Grupo Asistencia cotiza manualmente motos de valor asegurado mayor a $7 millones.<br>
-                        • El equipo del Canal Asesores Freelance solo cotiza manualmente motos con valores asegurados mayores a $7 millones.<br>
                         • El valor asegurado máximo para motos es de $80 millones. Valores superiores requieren autorización del Gerente General, quien podrá exceptuar este límite si el asesor es productivo, tiene más de 6 meses de antigüedad, baja siniestralidad y el cliente tiene otros productos con la aseguradora.<br>
                         • Primas totales menores a $800.000 pesos para motos solo se pagan de contado.<br><br>
                         <strong>Condiciones de Financiación:</strong><br>

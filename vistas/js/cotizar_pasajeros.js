@@ -329,7 +329,7 @@ $(document).ready(function () {
   $("#txtTipoTransporteVehiculo").on("change", function () {
     var tipoTransporte = $(this).val();
     console.log(tipoTransporte);
-    if (tipoTransporte == "Bus/Buseta/Microbus") {
+    if (tipoTransporte == "2") {
       $("#divNumeroPasajeros").show();
     } else {
       $("#divNumeroPasajeros").css("display", "none");
@@ -1255,7 +1255,11 @@ function consulPlaca(query = "1") {
                     //       resp.claseVeh.split(" / ").includes(tipo)
                     //     )
                     // ) {
+
                     $("#txtClaseVeh").val(claseVehiculo);
+                    if(claseVehiculo == "BUS / BUSETA / MICROBUS"){
+                      $("#txtTipoTransporteVehiculo").val("2").trigger("change");
+                    }
                     // } else {
                     //   Swal.fire({
                     //     icon: "warning",
