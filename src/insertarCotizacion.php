@@ -58,12 +58,31 @@ $Ciudad = $_POST["Ciudad"];
 $benefOneroso = $_POST["benefOneroso"];
 $idCotizacion = $_POST["idCotizacion"];
 $idUsuario = isset($_SESSION["idUsuario"]) ? $_SESSION["idUsuario"] : 1190;
+
 if (!isset($_POST["mundial"]) || isset($_POST['mundial']) == "") {
 	$mundial = NULL;
 } else {
 	$mundial = $_POST['mundial'];
 }
 $credenciales = $_POST["credenciales"];
+
+/* VALIDAMOS El TIPO DE USO DEL VEHICULO Inicio */
+
+// 1 = Taxi
+// 2 = Bus/Buseta/Microbus
+// 3 = Placa Blanca (Servicio Especial)
+
+	if($tipoUsoVehiculo == 1){
+		$tipoUsoVehiculo = "Taxi";
+	} else if($tipoUsoVehiculo == 2){
+		$tipoUsoVehiculo = "Bus/Buseta/Microbus";
+	} else if($tipoUsoVehiculo == 3){
+		$tipoUsoVehiculo = "Placa Blanca (Servicio Especial)";
+	} else {
+		$tipoUsoVehiculo = $_POST["tipoUsoVehiculo"];
+	}
+
+/* VALIDAMOS El TIPO DE USO DEL VEHICULO Final */
 
 // VALIDAMOS SI VIENE EL CODIGO DEL CLIENTE Y DE LO CONTRARIO SE CREA EN LA BD
 if ($idCliente == "" && $tipoDocumento != 2) {

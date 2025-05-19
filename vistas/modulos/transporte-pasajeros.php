@@ -1350,10 +1350,9 @@ echo '<script>console.log(' . $idIntermediario . ", " . $rolAsesor . ')</script>
                       <label for="txtTipoTransporteVehiculo">Tipo de transporte</label>
                       <select class="form-control" id="txtTipoTransporteVehiculo" required>
                         <option value=""></option>
-                        <option value="Taxi">Taxi</option>
-                        <option value="Bus/Buseta/Microbus">Bus/Buseta/Microbus</option>
-                        <option value="ServicioEsp">Servicio Especial</option>
-                        <option value="PlacaBlanca">Placa Blanca</option>
+                        <option value="1">Taxi</option>
+                        <option value="2">Bus/Buseta/Microbus</option>
+                        <option value="3">Placa Blanca (Servicio Especial)</option>
                       </select>
                     </div>
 
