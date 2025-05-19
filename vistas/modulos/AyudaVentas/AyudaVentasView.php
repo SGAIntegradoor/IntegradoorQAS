@@ -1331,7 +1331,6 @@ $nombreArchivo = "COTIZADOR VIGENTE FINESA $nombreMes $anio.xlsx";
                     </div>
                     <div id="boxDropdown2" class="sectionDropdown hide">
                         <div style="display: flex; flex-direction: row; align-items: center; gap: 5px;">
-                            <p style="font-weight: bold; margin-bottom: 0px !important;">Ultima Guia: </p>
                             <a href="vistas/modulos/AyudaVentas/pdf/fasecolda/Guia_Excel_343 - Formato Unico.xlsx" download="Guia_Excel_343 - Formato Unico.xlsx">
                                 <div style="display: flex; flex-direction: row; align-items: center; gap: 7px;">
                                     <img src="vistas/img/excelIco.png" />
