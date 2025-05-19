@@ -1530,7 +1530,7 @@ async function renderCards(response) {
                                       ($("#CodigoClase").val() == 17 ||
                                         $("#CodigoClase").val() == 18 ||
                                         $("#CodigoClase").val() == 19) &&
-                                      oferta.Prima < 1000000 &&
+                                      oferta.Prima < 800000 &&
                                       !(
                                         oferta.Aseguradora ==
                                           "HDI (Antes Liberty)" ||
