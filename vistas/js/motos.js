@@ -5,7 +5,6 @@ $(document).ready(function () {
   // Obtener la URL completa
   const urlCompleta = window.location.href;
 
-  // Dividir la URL por "/"
   const partes = urlCompleta.split("/");
 
   if (partes.includes("dev") || partes.includes("DEV")) {
@@ -2296,6 +2295,25 @@ $(
 // Variable para controlar la recotización
 var recotizacionIntentoRealizado = false;
 
+function addAseguradora(aseguradora) {
+  // Verificar si ya existe una fila para la aseguradora
+  const filaExistente = document.getElementById(aseguradora);
+
+  if (filaExistente) {
+    // Si la fila existe, actualiza el mensaje de observaciones
+    // Acceder directamente a las celdas de la fila existente
+    const celdaContador = filaExistente.cells[2]; // Tercera celda de la fila
+    const celdaCotizo = filaExistente.cells[1]; // Segunda celda de la fila
+    const celdaResponse = filaExistente.cells[3]; // Cuarta celda de la fila
+
+    celdaContador.textContent = 0;
+    celdaCotizo.innerHTML =
+      '<i class="fa fa-times" aria-hidden="true" style="color: red; margin-right: 10px;"></i>';
+    celdaResponse.textContent =
+      "Solicita cotización manual con tu Analista Comercial asignado";
+  }
+}
+
 function cotizarOfertasMotos() {
   // debugger;
   showCircularProgress("Cotización Motos en Proceso...", 500, 40000);
@@ -2984,62 +3002,27 @@ function cotizarOfertasMotos() {
                 });
                 return;
               } else if (aseguradora === "Estado") {
-                const aseguradorasEstado = ["Estado", "Estado2"]; // Agrega más aseguradoras según sea necesario
-                aseguradorasEstado.forEach((aseguradora) => {
-                  let successAseguradora = true;
-                  cont.push(
-                    fetch(
-                      `https://grupoasistencia.com/motor_webservice_tst2/${aseguradora}`,
-                      requestOptions
-                    )
-                      .then((res) => {
-                        if (!res.ok) throw Error(res.statusText);
-                        return res.json();
-                      })
-                      .then((ofertas) => {
-                        let result = [];
-                        result.push(ofertas);
-                        if (typeof result[0].Resultado !== "undefined") {
-                          validarProblemaMotos(aseguradora, result);
-                          agregarAseguradoraFallidaMotos("Estado");
-                          result[0].Mensajes.forEach((mensaje) => {
-                            mostrarAlertarCotizacionFallida(
-                              aseguradora,
-                              mensaje
-                            );
-                          });
-                        } else {
-                          const contadorPorEntidad = validarOfertasMotos(
-                            result,
-                            aseguradora,
-                            1
-                          );
-                          if (successAseguradora) {
-                            mostrarAlertaCotizacionExitosa(
-                              aseguradora,
-                              contadorPorEntidad
-                            );
-                            successAseguradora = false;
-                          }
-                        }
-                      })
-                      .catch((err) => {
-                        agregarAseguradoraFallidaMotos("Estado");
-                        mostrarAlertarCotizacionFallida(
-                          aseguradora,
-                          "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
-                        );
-                        validarProblemaMotos("Allianz", [
-                          {
-                            Mensajes: [
-                              "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
-                            ],
-                          },
-                        ]);
-                      })
-                  );
+                let estadoPromise = new Promise((resolve, reject) => {
+                  try {
+                    let arrAseguradora = [
+                      {
+                        Mensajes: [
+                          "Solicita cotización manual con tu Analista Comercial asignado",
+                        ],
+                      },
+                    ];
+                    setTimeout(function () {
+                      validarProblemaMotos("Estado", arrAseguradora);
+                      addAseguradora("Estado");
+                      resolve();
+                    }, 1000);
+                  } catch (error) {
+                    resolve();
+                  }
                 });
-                return; // Salir del bucle después de procesar Estado
+
+                cont.push(estadoPromise);
+                return;
               } else {
                 // Construir la URL de la solicitud para cada aseguradora
                 url = `https://grupoasistencia.com/motor_webservice/${aseguradora}_motos`;

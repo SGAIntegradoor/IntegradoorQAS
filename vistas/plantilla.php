@@ -300,6 +300,7 @@
       "Allianz" => array("A" => $permisos["Allianz_A_motos"], "C" => $permisos["Allianz_C_motos"]),
       "AXA" => array("A" => $permisos["AXA_A_motos"], "C" => $permisos["AXA_C_motos"]),
       "SBS" => array("A" => $permisos["SBS_A_motos"], "C" => $permisos["SBS_C_motos"]),
+      "Estado" => array("A" => $permisos["Estado_A_motos"], "C" => $permisos["Estado_C_motos"]),
       "HDI (Antes Liberty)" => array("A" => $permisos["Liberty_A_motos"], "C" => $permisos["Liberty_C_motos"]),
     );
 

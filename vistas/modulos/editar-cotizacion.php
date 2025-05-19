@@ -1244,16 +1244,24 @@ $response = retrieveQuotation($idCotizacion);
               <?php if ($response['cot_clase'] == "MOTOCICLETA" && !in_array($response['cot_tip_uso'], $tipoUsoVeh)) {
                 if ($idIntermediario != 78 && $idIntermediario != 4) {
                   echo '<div class="aviso-container col-lg-12" style="font-size: 13px">
+                      <p><b>Notas Importantes: </b></p>
                       <p>
                         <strong>Condiciones Generales:</strong><br>
-                        • Para motos con valores asegurados menores a $7 millones de pesos solo se presentan las condiciones que genere el cotizador web.<br>
+                        • Para motos de valor asegurado menor a $7 millones, solo aplican las condiciones del cotizador web.<br>
+                        • Grupo Asistencia cotiza manualmente motos de valor asegurado mayor a $7 millones.<br>
                         • El equipo del Canal Asesores Freelance solo cotiza manualmente motos con valores asegurados mayores a $7 millones.<br>
-                        • Para motocicletas el valor asegurado máximo es $50 millones. Motos por encima de ese valor deben ser autorizadas por el Gerente General, quien podrá hacer excepciones de valor asegurado superior cuando  el asesor sea productivo, tenga más de 6 meses de antigüedad con Grupo Asistencia, no tenga altos indices de siniestralidad en su cartera, y si el cliente tiene vinculación con otros productos de la aseguradora.<br>
-                        • Motos con valor de prima total menor de $1 millón de pesos solo se permite pago de contado.<br><br>
-                        <b>Condiciones de Financiación:</b><br>
-                        • Se puede financiar motos con valor de prima total mayor a $1 millón de pesos.<br>
-                        • Se pueden financiar hasta en 11 cuotas, motos con beneficiarios onerosos de modelos de 2022 en adelante, después de que la prima con IVA supere $1 millón de pesos.<br>
-                        • Las cuotas máximas de financiación dependen del valor de prima total, de acuerdo a los siguientes rangos: entre $1 y $1,4 millones máx. 7 cuotas; mayor a 1,4 y menor a $2 millones máx 9 cuotas; y para motos con valor de prima total mayor a $2 millones se pueden financiar hasta en 11 cuotas.<br>
+                        • El valor asegurado máximo para motos es de $80 millones. Valores superiores requieren autorización del Gerente General, quien podrá exceptuar este límite si el asesor es productivo, tiene más de 6 meses de antigüedad, baja siniestralidad y el cliente tiene otros productos con la aseguradora.<br>
+                        • Primas totales menores a $800.000 pesos para motos solo se pagan de contado.<br><br>
+                        <strong>Condiciones de Financiación:</strong><br>
+                        • Se financian motos con prima total superior a $800.000 pesos.<br>
+                        • Motos con beneficiario oneroso, modelos 2022 en adelante y prima total mayor a $800.000 pesos pueden financiarse hasta en 11 cuotas.<br>
+                        • El número máximo de cuotas depende de la prima total:
+                          <ul>
+                            <li>$800.000 - $1 millón: máx. 7 cuotas.</li>
+                            <li>$1 - $2 millones: máx. 11 cuotas.</li>
+                            <li>Mayor a $2 millones: hasta 12 cuotas.</li>
+                          </ul>
+                        <br>
                       </p>
                     </div>';
                 }
