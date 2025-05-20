@@ -226,9 +226,9 @@ $pdf->SetFont('dejavusanscondensed', '', 11);
 $pdf->AddPage();
 
 if ($fila['id_tipo_documento'] == 2) {
-	$pdf->Image('../../../vistas/img/logos/imagencotizador3.jpg', -5, 0, 0, 92, 'JPG', '', '', true, 200, '', false, false, 0, false, false, false);
+	$pdf->Image('../../../vistas/img/logos/imagencotizador3.jpg', -5, 0, 0, 86, 'JPG', '', '', true, 200, '', false, false, 0, false, false, false);
 } else {
-	$pdf->Image('../../../vistas/img/logos/imagencotizador2.jpg', -5, 0, 0, 92, 'JPG', '', '', true, 200, '', false, false, 0, false, false, false);
+	$pdf->Image('../../../vistas/img/logos/imagencotizador2.jpg', -5, 0, 0, 86, 'JPG', '', '', true, 200, '', false, false, 0, false, false, false);
 }
 
 $id_usuario_cot = $fila['id_usuario'];

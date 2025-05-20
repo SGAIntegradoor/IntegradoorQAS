@@ -226,9 +226,9 @@ $pdf->SetFont('dejavusanscondensed', '', 11);
 $pdf->AddPage();
 
 if ($fila['id_tipo_documento'] == 2) {
-	$pdf->Image('../../../vistas/img/logos/imagencotizador3.jpg', -5, 0, 0, 92, 'JPG', '', '', true, 200, '', false, false, 0, false, false, false);
+	$pdf->Image('../../../vistas/img/logos/imagencotizador3.jpg', -5, 0, 0, 86, 'JPG', '', '', true, 200, '', false, false, 0, false, false, false);
 } else {
-	$pdf->Image('../../../vistas/img/logos/imagencotizador2.jpg', -5, 0, 0, 92, 'JPG', '', '', true, 200, '', false, false, 0, false, false, false);
+	$pdf->Image('../../../vistas/img/logos/imagencotizador2.jpg', -5, 0, 0, 86, 'JPG', '', '', true, 200, '', false, false, 0, false, false, false);
 }
 
 $id_usuario_cot = $fila['id_usuario'];
@@ -318,14 +318,14 @@ if ($valorLog == "undefined") {
 		$pdf->Image($urlSGA, 8, 13, 0, 20, 'PNG', '', '', true, 160, '', false, false, 0, false, false, false);
 	}
 }
-$pdf->Image('../../../vistas/img/logos/cheque.png', 100.5, 150.5, 0, -12, 'PNG', '', '', true, 160, '', false, false, 0, false, false, false);
+$pdf->Image('../../../vistas/img/logos/cheque.png', 100.5, 159.5, 0, -12, 'PNG', '', '', true, 160, '', false, false, 0, false, false, false);
 
 $pdf->SetFont('dejavusanscondensed', 'B', 10);
 $pdf->SetXY(158, 3);
 $pdf->SetTextColor(104, 104, 104);
 $pdf->Cell(25, 6, "No. cotización: " . $identificador);
 
-$pdf->Image('../../../vistas/img/logos/transporte_pasajero.png', 15.5, 99.5, 0, 25, 'PNG', '', '', true, 160, '', false, false, 0, false, false, false);
+$pdf->Image('../../../vistas/img/logos/transporte_pasajero.png', 15.5, 115, 0, 25, 'PNG', '', '', true, 160, '', false, false, 0, false, false, false);
 
 $pdf->SetFont('dejavusanscondensed', '', 2);
 
@@ -410,22 +410,22 @@ $pdf->SetFont('dejavusanscondensed', 'BI', 15);
 
 $pdf->SetFont('dejavusanscondensed', 'I', 15);
 $pdf->SetTextColor(104, 104, 104);
-$pdf->SetXY(46.5, 89);
+$pdf->SetXY(46.5, 104);
 $pdf->Cell(10, 0, 'Hemos   ', 0, $ln = 0, 'C', 0, '', 0, false, 'C', 'C');
 
 $pdf->SetFont('dejavusanscondensed', 'BI', 15);
 $pdf->SetTextColor(103, 181, 252);
-$pdf->SetXY(90.5, 89);
+$pdf->SetXY(90.5, 104);
 $pdf->Cell(10, 0, ' cotizado ' . $asegSelecionada . ' aseguradora(s), ', 0, $ln = 0, 'C', 0, '', 0, false, 'C', 'C');
 
 $pdf->SetFont('dejavusanscondensed', 'I', 15);
 $pdf->SetTextColor(104, 104, 104);
-$pdf->SetXY(145.5, 89);
+$pdf->SetXY(145.5, 104);
 $pdf->Cell(10, 0, 'a continuación ', 0, $ln = 0, 'C', 0, '', 0, false, 'C', 'C');
 
 $pdf->SetFont('dejavusanscondensed', 'I', 15);
 $pdf->SetTextColor(104, 104, 104);
-$pdf->SetXY(98, 94);
+$pdf->SetXY(98, 109);
 $pdf->Cell(10, 0, 'te presentamos un comparativo de precios (IVA incluido)', 0, $ln = 0, 'C', 0, '', 0, false, 'C', 'C');
 
 $pdf->SetFont('dejavusanscondensed', 'B', 9);
@@ -446,6 +446,31 @@ $pdf->SetAlpha(1.0);
 
 $pdf->SetTextColor(0, 0, 0);
 $pdf->SetXY(0, 107);
+
+$html1Pasajeros = '
+<style>
+.second{
+
+}
+.fondo {
+    background-color:#0FB2F1;
+	font-family:dejavusanscondensedb;
+	width: 100%;
+	text-align:center;
+}
+</style>
+<table style="width:600px;" class="second" cellpadding="1"  border="0">
+<tr>
+<td class="fondo">
+<div style="font-size:9pt">&nbsp;
+</div>
+<b style="color:white; font-family:dejavusanscondensedbi; font-size:20px;">SEGURO VEHICULOS PASAJEROS</b>
+<div style="font-size:6pt">&nbsp;
+</div>
+</td>
+</tr>
+</table>
+';
 
 $html2 = '
 <style>
@@ -2459,38 +2484,42 @@ $html7 .= '</tr>';
 
 $html7 .= '</table>';
 
-$pdf->SetXY(100, 100);
+
+$pdf->SetXY(0, 85);
+$pdf->writeHTML($html1Pasajeros, true, false, true, false, 'C');
+
+$pdf->SetXY(100, 114);
 $pdf->writeHTML($html2, true, false, true, false, 'C');
 $pdf->Ln();
 
 $pdf->SetFont('dejavusanscondensed', 'I', 15);
 $pdf->SetTextColor(104, 104, 104);
-$pdf->SetXY(33.5, 139);
+$pdf->SetXY(33.5, 152);
 $pdf->Cell(10, 0, 'Si quieres', 0, $ln = 0, 'C', 0, '', 0, false, 'C', 'C');
 
 $pdf->SetFont('dejavusanscondensed', 'BI', 15);
 $pdf->SetTextColor(15, 178, 241);
-$pdf->SetXY(98.4, 139);
+$pdf->SetXY(98.4, 152);
 $pdf->Cell(10, 0, ' comparar las coberturas y asistencias', 0, $ln = 0, 'C', 0, '', 0, false, 'C', 'C');
 
 $pdf->SetFont('dejavusanscondensed', 'I', 15);
 $pdf->SetTextColor(104, 104, 104);
-$pdf->SetXY(163, 139);
+$pdf->SetXY(163, 152);
 $pdf->Cell(10, 0, 'de todas', 0, $ln = 0, 'C', 0, '', 0, false, 'C', 'C');
 
 $pdf->SetFont('dejavusanscondensed', 'I', 15);
 $pdf->SetTextColor(104, 104, 104);
-$pdf->SetXY(70, 146);
+$pdf->SetXY(70, 157);
 $pdf->Cell(10, 0, 'las aseguradoras, revisa', 0, $ln = 0, 'C', 0, '', 0, false, 'C', 'C');
 
 $pdf->SetFont('dejavusanscondensed', 'BI', 15);
 $pdf->SetTextColor(235, 135, 39);
-$pdf->SetXY(127, 146);
+$pdf->SetXY(127, 157);
 $pdf->Cell(10, 0, ' el siguiente cuadro', 0, $ln = 0, 'C', 0, '', 0, false, 'C', 'C');
 
 $pdf->SetFont('dejavusanscondensed', 'I', 11);
 $pdf->SetTextColor(104, 104, 104);
-$pdf->SetXY(101, 153);
+$pdf->SetXY(101, 162);
 $pdf->Cell(10, 0, '(Recuerda que este icono       significa Si Aplica o Si Cubre)', 0, $ln = 0, 'C', 0, '', 0, false, 'C', 'C');
 
 
