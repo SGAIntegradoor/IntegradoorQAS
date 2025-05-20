@@ -464,7 +464,7 @@ $html1Pasajeros = '
 <td class="fondo">
 <div style="font-size:9pt">&nbsp;
 </div>
-<b style="color:white; font-family:dejavusanscondensedbi; font-size:20px;">SEGURO VEHICULOS PASAJEROS</b>
+<b style="color:white; font-family:dejavusanscondensedbi; font-size:20px;">SEGURO VEHICULOS TRANSPORTE DE PASAJEROS</b>
 <div style="font-size:6pt">&nbsp;
 </div>
 </td>
