@@ -1,16 +1,7 @@
 <?php
 
 require_once "config/retrieveQuotation.php";
-// if ($_SESSION["rol"] != 1 && $_SESSION["rol"] != 2) {
 
-//   echo '<script>
-
-//     window.location = "inicio";
-
-//   </script>';
-
-//   return;
-//}
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
@@ -22,13 +13,10 @@ $idCotizacion = $_GET['idCotizacion'];
 
 $response = retrieveQuotation($idCotizacion);
 
-// echo '<script>
-//   console.log(' . json_encode($response) . '); </script>';
-
 ?>
 
 <head>
-  <!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
+
 </head>
 <style>
   .divCards {
@@ -153,37 +141,30 @@ $response = retrieveQuotation($idCotizacion);
   }
 
   .no-resize {
-    /* resize: vertical; Permite cambiar solo la altura, no el ancho */
-    /* Si deseas deshabilitar completamente el redimensionamiento, usa: */
     resize: none;
   }
 
   .full-width-textarea {
     width: 100%;
-    /* Ocupa el 100% del ancho disponible */
     box-sizing: border-box;
-    /* Incluye el padding y el borde en el cálculo del ancho */
   }
 
-  /* Ajusta estos estilos según tus necesidades */
-
-
-  /* Estilo para pantallas más pequeñas (menos de 495px) */
   @media (max-width: 495px) {
     .table-responsive {
       overflow-x: auto;
     }
   }
+
+  .form-parrilla {
+    padding-top: 15px !important;
+  }
+  
 </style>
 
 <div class="content-wrapper">
 
   <section class="content-header">
 
-    <?php
-
-
-    ?>
     <input type="hidden" id="idofertaguardarmanual" value="<?php echo  $idCotizacion; ?>">
     <h1>
 
@@ -1245,7 +1226,6 @@ $response = retrieveQuotation($idCotizacion);
                 if ($idIntermediario != 78 && $idIntermediario != 4) {
                   echo '<div class="aviso-container col-lg-12" style="font-size: 13px">
                       <p><b>Notas Importantes: </b></p>
-                      <p>
                         <strong>Condiciones Generales:</strong><br>
                         • Para motos de valor asegurado menor a $7 millones, solo aplican las condiciones del cotizador web.<br>
                         • Grupo Asistencia cotiza manualmente motos de valor asegurado mayor a $7 millones.<br>
@@ -1260,8 +1240,6 @@ $response = retrieveQuotation($idCotizacion);
                             <li>$1 - $2 millones: máx. 11 cuotas.</li>
                             <li>Mayor a $2 millones: hasta 12 cuotas.</li>
                           </ul>
-                        <br>
-                      </p>
                     </div>';
                 }
               }

@@ -248,7 +248,7 @@ checkUserStatus();
 				echo '<li id="menuCotPas" class="' . ($currentPage == 'transporte-pasajeros' ? 'active' : '') . '">
 				<a href="transporte-pasajeros">
 				<i class="fa-solid fa-bus" style="font-size: 16px"></i>
-				<span>Cotizar Transporte Pasajeros</span>
+				<span>Cotizar Autos Pasajeros</span>
 				</a>
 			</li>';
 			}

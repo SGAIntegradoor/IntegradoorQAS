@@ -807,7 +807,7 @@ echo '<script>console.log(' . $idIntermediario . ", " . $rolAsesor . ')</script>
 
     <h1>
 
-      Cotizar vehículos de transporte de pasajeros
+      Cotizar Seguro Autos Transporte de Pasajeros
 
     </h1>
 

@@ -136,7 +136,7 @@ if ($_SESSION["permisos"]["administracionCotizaciones"] != "x") {
           <?php
           if ($_SESSION["permisos"]["cotizarpasajeros"] == "x") {
             echo '<button class="btnNuevaCot">
-              Cotizar T.  Pasajeros
+              Cotizar Autos Pasaj.
               <i class="fa-solid fa-bus" aria-hidden="true"></i>
             </button>';
           }
@@ -191,81 +191,6 @@ if ($_SESSION["permisos"]["administracionCotizaciones"] != "x") {
           </thead>
 
           <tbody>
-            <!-- <tr role="row" class="odd">
-
-            <td class="text-center sorting_1" tabindex="0">3</td>
-
-            <td class="text-center sorting_2">2022/09/13</td>
-
-            <td class="text-right">12345789</td>
-
-            <td class="text-right">Ricky Martin</td>
-            
-            <td class="text-center">ABC987</td>
-
-            <td class="">MAZDA 2 [2] TOURING SEDAN TP 1500CC 6AB</td>
-
-            <td class="">Juan</td>
-
-            <td class="text-center">
-
-              <div class="btn-group">
-              
-                <button class="btn btn-primary btnEditarCotizacion" idcotizacion="" disabled="disabled">Seleccionar</button></div>
-
-            </td>
-
-          </tr>
-          <tr role="row" class="odd">
-
-            <td class="text-center sorting_1" tabindex="0">2</td>
-
-            <td class="text-center sorting_2">2022/09/09</td>
-
-            <td class="text-right">90876543</td>
-
-            <td class="text-right">Marco Antonio Muñiz</td>
-            
-            <td class="text-center">ZYX234</td>
-
-            <td class="">HYUNDAI STAREX [1] H1 PANEL MT 2600CC DSL SA</td>
-
-            <td class="">Pablo</td>
-
-            <td class="text-center">
-
-              <div class="btn-group">
-              
-                <button class="btn btn-primary btnEditarCotizacion" idcotizacion="" disabled="disabled">Seleccionar</button></div>
-
-            </td>
-
-          </tr>
-          <tr role="row" class="odd">
-
-            <td class="text-center sorting_1" tabindex="0">1</td>
-
-            <td class="text-center sorting_2">2022/09/02</td>
-
-            <td class="text-right">34567891</td>
-
-            <td class="text-right">Alberto Aguilera Valadez</td>
-
-            <td class="text-center">YYY678</td>
-
-            <td class="">RENAULT STEPWAY [2] DYNAMIQUE / INTENS MT 1600CC AA 16V 2AB</td>
-
-            <td class="">Maria</td>
-
-            <td class="text-center">
-
-              <div class="btn-group">
-              
-                <button class="btn btn-primary btnEditarCotizacion" idcotizacion="" disabled="disabled">Seleccionar</button></div>
-
-            </td>
-
-          </tr> -->
 
             <?php
 

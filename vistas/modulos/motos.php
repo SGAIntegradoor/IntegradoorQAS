@@ -712,7 +712,7 @@ $rolAsesor = $_SESSION['permisos']['idRol'];
   }
 
   .form-coti {
-    padding-top: 25px;
+    padding-top: 15px;
   }
 
   .divsButtonsModals {
@@ -1518,7 +1518,6 @@ $rolAsesor = $_SESSION['permisos']['idRol'];
                   <div>
                     <div id="mensajeSga" class="col-lg-12" style="font-size: 13px;">
                       <p><b>Notas Importantes: </b></p>
-                      <p>
                         <strong>Condiciones Generales:</strong><br>
                         • Para motos de valor asegurado menor a $7 millones, solo aplican las condiciones del cotizador web.<br>
                         • Grupo Asistencia cotiza manualmente motos de valor asegurado mayor a $7 millones.<br>
@@ -1533,8 +1532,6 @@ $rolAsesor = $_SESSION['permisos']['idRol'];
                             <li>$1 - $2 millones: máx. 11 cuotas.</li>
                             <li>Mayor a $2 millones: hasta 12 cuotas.</li>
                           </ul>
-                        <br>
-                      </p>
                     </div>
                   </div>
                 </div>

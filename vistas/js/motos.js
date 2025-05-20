@@ -1019,8 +1019,9 @@ function consulPlacaMotos(query = "1") {
                 if (valorAsegurado == "null" || valorAsegurado == null) {
                   consulPlacaMapfre(valnumplaca);
                   //! Agregar esto a MOTOS y Pesados START
-                  $("#loaderPlaca").html("");
-                  $("#loaderPlaca2").html("");
+                  
+                  // $("#loaderPlaca").html("");
+                  // $("#loaderPlaca2").html("");
                   //! Agregar esto a MOTOS y Pesados END
                 } else {
                   var claseVehiculo = "";
@@ -1169,7 +1170,6 @@ function consulPlacaMapfre(valnumplaca) {
 
   let headersList = {
     Accept: "*/*",
-    "User-Agent": "Thunder Client (https://www.thunderclient.com)",
     "Content-Type": "application/json",
   };
 
@@ -1227,7 +1227,7 @@ function consulPlacaMapfre(valnumplaca) {
         } else if (codigoClase == 4) {
           claseVehiculo = "UTILITARIOS DEPORTIVOS";
           limiteRCESTADO = 6;
-        } else if (codigoClase == 12) {
+        } else if (codigoClase == 12 || codigoClase == 17 || codigoClase == 18) {
           claseVehiculo = "MOTOCICLETA";
           limiteRCESTADO = 6;
         } else if (codigoClase == 14 || codigoClase == 21) {
@@ -1254,6 +1254,8 @@ function consulPlacaMapfre(valnumplaca) {
           $("#txtReferenciaVeh").val(resp.lineaVeh);
           $("#txtValorFasecolda").val(resp.valorVeh);
         });
+         $("#loaderPlaca").html("");
+         $("#loaderPlaca2").html("");
       } else {
         document.getElementById("formularioVehiculo").style.display = "block";
         document.getElementById("headerAsegurado").style.display = "block";
