@@ -104,7 +104,7 @@ if ($_SESSION["permisos"]["administracionCotizaciones"] != "x") {
     <div class="box">
 
       <div class="box-header with-border">
-        <button class="btnNuevaCot" id="btnRedLivianos">
+        <button class="btnNuevaCot" id="btnRedLivianos" style="font-size: 16px">
           Cotizar Liviano
           <i class="fa fa-car" aria-hidden="true"></i>
         </button>
@@ -113,7 +113,7 @@ if ($_SESSION["permisos"]["administracionCotizaciones"] != "x") {
         <a href="pesados">
           <?php
           if ($_SESSION["permisos"]["Cotizarpesadoboton"] == "x") {
-            echo '<button class="btnNuevaCot">
+            echo '<button class="btnNuevaCot" style="font-size: 16px">
             Cotizar Pesado
             <i class="fa fa-truck" aria-hidden="true"></i>
           </button>';
@@ -124,7 +124,7 @@ if ($_SESSION["permisos"]["administracionCotizaciones"] != "x") {
         <a href="motos">
           <?php
           if ($_SESSION["permisos"]["Cotizarmotos"] == "x") {
-            echo '<button class="btnNuevaCot" id="btnMotosX">            
+            echo '<button class="btnNuevaCot" id="btnMotosX" style="font-size: 16px">            
             Cotizar Motos
             <i class="fa fa-motorcycle" aria-hidden="true"></i>
           </button>';
@@ -135,7 +135,7 @@ if ($_SESSION["permisos"]["administracionCotizaciones"] != "x") {
         <a href="transporte-pasajeros">
           <?php
           if ($_SESSION["permisos"]["cotizarpasajeros"] == "x") {
-            echo '<button class="btnNuevaCot">
+            echo '<button class="btnNuevaCot" style="font-size: 16px">
               Cotizar Autos Pasaj.
               <i class="fa-solid fa-bus" aria-hidden="true"></i>
             </button>';
