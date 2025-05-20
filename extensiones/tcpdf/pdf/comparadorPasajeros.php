@@ -464,7 +464,7 @@ $html1Pasajeros = '
 <td class="fondo">
 <div style="font-size:9pt">&nbsp;
 </div>
-<b style="color:white; font-family:dejavusanscondensedbi; font-size:20px;">SEGURO VEHICULOS TRANSPORTE DE PASAJEROS</b>
+<b style="color:white; font-family:dejavusanscondensedbi; font-size:18px;">SEGURO VEHICULOS TRANSPORTE DE PASAJEROS</b>
 <div style="font-size:6pt">&nbsp;
 </div>
 </td>
@@ -2591,12 +2591,8 @@ function calculaedad($fechaNacimiento)
 	$ano_diferencia = date("Y") - $ano;
 	$mes_diferencia = date("m") - $mes;
 	$dia_diferencia = date("d") - $dia;
-	// if ($dia_diferencia < 0 || $mes_diferencia < 0)
-	// 	$ano_diferencia--;
-
-	// var_dump($ano_diferencia);
-	// var_dump($mes_diferencia);
-	// var_dump($dia_diferencia);
+	if ($dia_diferencia < 0 || $mes_diferencia < 0)
+		$ano_diferencia--;
 	// // var_dump($ano_diferencia);
 	return $ano_diferencia;
 }
