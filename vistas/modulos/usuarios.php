@@ -226,7 +226,7 @@ if (isset($_SESSION["rol"])) {
               <th style="font-weight: bold;">Rol</th>
               <th style="font-weight: bold;">Últ_login</th>
               <th style="font-weight: bold;">Fecha_Creacion</th>
-              <th style="font-weight: bold;">Foto</th>
+              <!-- <th style="font-weight: bold;">Foto</th> -->
               <th style="font-weight: bold;">Estado</th>
               <?php
               if ($_SESSION['intermediario'] == "3") {
@@ -281,11 +281,11 @@ if (isset($_SESSION["rol"])) {
                 $ultimoLogin = $value["usu_ultimo_login"] == NULL ? " " : date("d/m/Y", strtotime($value["usu_ultimo_login"]));
                 echo '<td>' . $ultimoLogin . '</td>';
                 echo '<td>' . $value['usu_fch_creacion'] . '</td>';
-                if ($value["usu_foto"] != "") {
-                  echo '<td><img src="' . $value["usu_foto"] . '" class="img-thumbnail" width="40px"></td>';
-                } else {
-                  echo '<td><img src="vistas/img/usuarios/default/anonymous.png" class="img-thumbnail" width="40px"></td>';
-                }
+                // if ($value["usu_foto"] != "") {
+                //   echo '<td><img src="' . $value["usu_foto"] . '" class="img-thumbnail" width="40px"></td>';
+                // } else {
+                //   echo '<td><img src="vistas/img/usuarios/default/anonymous.png" class="img-thumbnail" width="40px"></td>';
+                // }
 
                 if ($value["usu_estado"] != 0) {
                   echo '<td><button class="btn btn-success btn-xs btnActivar" idUsuario="' . $value["id_usuario"] . '" estadoUsuario="0">Activo</button></td>';
@@ -1138,7 +1138,7 @@ MODAL EDITAR USUARIO
 
                 <div class="input-group">
                   <span class="input-group-addon"><i class="fa fa-unlock-alt"></i></span>
-                  <input type="password" class="form-control input-lg" name="passwordActual" id="passwordActual" <?php echo in_array($_SESSION['rol'], ["10", "11", "12", "1"]) ? '' : 'readonly'; ?>>
+                  <input type="password" class="form-control input-lg" name="passwordActual" id="passwordActual" <?php echo in_array($_SESSION['rol'], ["22","10", "11", "12", "1"]) ? '' : 'readonly'; ?>>
 
                 </div>
 

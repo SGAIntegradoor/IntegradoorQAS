@@ -34,8 +34,6 @@ class ModeloInvitacion
             $preRegistro = new ModeloInvitacion();
             $response = $preRegistro->mdlPreRegistro($email, $cedula, $tabla, $token, $nombre);
 
-            var_dump("entre aqui", $response);
-            die();
             if ($response === true) {
                 // Configuracion SMTP
                 $mail = new PHPMailer();

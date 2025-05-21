@@ -15,11 +15,10 @@ if(isset($_POST['idRol'])){
     $idRol = $_POST['idRol'];
 }
 
-if(isset($idRol) && ($idRol == 1 || $idRol == 10 || $idRol == 22)){
+if(isset($idRol) && in_array($idRol, [1,11, 12, 22, 23, 10])){
     $query = "SELECT * FROM roles";
-}else if(isset($idRol) && ($idRol == 1 || $idRol == 10 || $idRol == 22)){
-    $query = "SELECT * FROM roles WHERE id_rol IN (19, 11, 12)";
 }
+
 $ejecucion = mysqli_query($enlace,$query);
 $opcion = "";
 while($fila = $ejecucion->fetch_assoc()){

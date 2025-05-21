@@ -1,3 +1,13 @@
+$(document).ready(function () {
+  let url = window.location.href;
+  let urlParams = new URL(url).searchParams;
+  let clave_registro = urlParams.get("token");
+
+  $("#clave_registro").val(clave_registro);
+  $("#clave_registro").attr("readonly", true);
+  $("#clave_registro").attr("disabled", true);
+})
+
 $("#DptoCirculacion").change(function () {
   consultarCiudad();
 });
@@ -23,18 +33,6 @@ $("#apellido").keyup(function () {
       return a.toUpperCase();
     });
 });
-
-
-
-
-// // Carga la fecha de Nacimiento
-// $("#diaCirculacion, #mesCirculacion, #anioCirculacion").select2({
-//   theme: "bootstrap fecnacimiento",
-//   language: "es",
-//   width: "100%",
-//   minimumResultsForSearch: 0 // Desactiva la búsqueda
-
-// });
 
 // Carga las Ciudades disponibles
 $("#ciudadCirculacion").select2({

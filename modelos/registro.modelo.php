@@ -14,14 +14,15 @@ class ModeloRegistroFreeLancer{
         $stmt->bindParam(":identificacion", $identificacion);
         $stmt->execute();
         $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
-        //echo "Nombre: ".$nombre, " Apellido: ".$apellido, " Direccion: ".$direccion, " Ciudad: ".$ciudad, " Usuario: ".$identificacion, "Tipo de documento: ".$tipo_documento, " Password: ".$confirmar_contrasena, " Genero: ".$genero, " Telefono: ".$telefono, " Email: ".$correo_electronico, " Fecha de nacimiento: ".$dia_nacimiento, " Tabla: ".$tabla, " Clave: ".$clave;
+        // echo "Nombre: ".$nombre, " Apellido: ".$apellido, " Direccion: ".$direccion, " Ciudad: ".$ciudad, " Usuario: ".$identificacion, "Tipo de documento: ".$tipo_documento, " Password: ".$confirmar_contrasena, " Genero: ".$genero, " Telefono: ".$telefono, " Email: ".$correo_electronico, " Fecha de nacimiento: ".$dia_nacimiento, " Tabla: ".$tabla, " Clave: ".$clave;
+        // die();
         if ($resultado && is_array($resultado)) {
             // Comparar la clave con la registrada en la base de datos
             if ($resultado['tokenGuest'] === $clave) {
                 $registro = new ModeloRegistroFreeLancer();
                 $response = $registro->mdlRegistrarFreeLancer($nombre, $apellido, $direccion, $ciudad, $identificacion, $confirmar_contrasena, $tipo_documento, $genero, $celular, $correo_electronico, $dia_nacimiento, $mes_nacimiento, $anio_nacimiento, $tabla, $clave);
             } else {
-                $response = array('error' => 'Clave incorrecta');
+                $response = array('error' => 'numero de documento no asignado a este token', "statusCode" => 221);
                 $jsonResponse = json_encode($response);
                 echo $jsonResponse;
             }

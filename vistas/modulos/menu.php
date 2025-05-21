@@ -256,24 +256,31 @@ checkUserStatus();
 			/*=============================================
 		NEGOCIOS
 		=============================================*/
-			if ($_SESSION['rol'] == 11 || $_SESSION['rol'] == 12 || $_SESSION["rol"] == 10 || $_SESSION['rol'] == 1 || $_SESSION['rol'] == 22) {
-					echo '<li class="' . ($currentPage == 'negocios' || $currentPage == 'productividad' ? 'active' : '') . '">
-			<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-				<i class="fa fa-briefcase"></i>
-				<span>Admin. Negocios</span>
-			</a>
-			<ul class="dropdown-menu right">
-				<li class="' . ($currentPage == "negocios" ? "active" : "") . '">
-					<a href="negocios">Admin. Oportunidades</a>
+
+			if (in_array($_SESSION['rol'], [1, 10, 11, 12, 22])) {
+				$isActive = in_array($currentPage, ['negocios', 'productividad']) ? 'active' : '';
+				echo '
+				<li class="dropdown ' . $isActive . '">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+						<i class="fa fa-briefcase"></i>
+						<span>Admin. Negocios</span>
+					</a>
+					<ul class="dropdown-menu right" style="width: 200px; margin-left: 9px; text-align: left;">';
+
+							echo '
+						<li class="' . ($currentPage == 'negocios' ? 'active' : '') . '" style="text-align: left;">
+							<a href="negocios">
+								- Admin. Oportunidades
+							</a>
+						</li>
+						<li class="divider"></li>
+						<li class="' . ($currentPage == 'productividad' ? 'active' : '') . '" style="text-align: left;">
+							<a href="productividad">
+								- Productividad
+							</a>
+						</li>
+					</ul>
 				</li>';
-					
-			echo '<li class="' . ($currentPage == "productividad" ? "active" : "") . '">
-					<a href="productividad">Productividad</a>
-				</li>';
-		
-			echo '
-				</ul>
-			</li>';
 			}
 
 

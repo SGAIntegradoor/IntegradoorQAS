@@ -2,17 +2,8 @@
 
 require "../modelos/registro.modelo.php";
 
-// echo "user: ". $userPrev ."
-// pass: ". $passPrev ."
-// agentCode: ". $agentCodePrev ."
-// sourceCode: ". $sourceCodePrev ."
-// bussinessCodePrev: ". $bussinessCodePrev. "
-// branchCodePrev: ". $branchCodePrev." 
-// url: ". $url;
-// die();
 class invitationController
 {
-
     public static function authValidate()
     {
 
@@ -20,8 +11,6 @@ class invitationController
 
             $requestData = json_decode(file_get_contents('php://input'), true);
             $accion = $requestData['accion'];
-
-            
 
             if ($accion === 'verificarCodigo') {
 
@@ -45,23 +34,15 @@ class invitationController
                 $confirmar_contrasena = $requestData['confirmar_contrasena'];
                 $accion = $requestData['accion'];
 
-
-
                 if ($contrasena === $confirmar_contrasena) {
-
                     $response = ModeloRegistroFreeLancer::mdlBuscarCodigo($clave, $nombre, $apellido, $tipo_documento, $identificacion, $dia_nacimiento, $mes_nacimiento, $anio_nacimiento, $genero, $direccion, $ciudad, $telefono, $celular, $correo_electronico, $contrasena, $confirmar_contrasena, $accion, $tabla, $item);
-                    // var_dump($response);
-                    // die();
                     if ($response == true) {
-
                         $usuario = $identificacion;
                         $response = ModeloRegistroFreeLancer::mdlRegistrarFreeLancer($nombre, $apellido, $direccion, $ciudad, $usuario, $confirmar_contrasena, $tipo_documento ,$genero, $telefono, $correo_electronico, $dia_nacimiento, $mes_nacimiento, $anio_nacimiento, $tabla, $clave);
-
                         if ($response == true) {
                             $item = ModeloRegistroFreeLancer::mdlEliminarToken($usuario, $tabla);
                         } else {
                             echo $response;
-                            // echo json_encode(['error' => 'Error de registro']);
                         }
                     }
                 } else {
@@ -75,7 +56,4 @@ class invitationController
 }
 
 $validate = new invitationController();
-$validate->authValidate();  
-
-// var_dump($request);
-// die();
+$validate->authValidate();

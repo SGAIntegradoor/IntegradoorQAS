@@ -233,7 +233,6 @@ function cargarRoll() {
     data: { idRol: idRol }, // Enviar idRol en el cuerpo de la solicitud AJAX
     success: function (respuesta) {
       respuesta = "<option disabled selected></option>" + respuesta;
-console.log(respuesta)
       $idRoll.innerHTML = respuesta;
       $idRoll1.innerHTML = respuesta;
 
@@ -309,6 +308,7 @@ $("#editarNombre").keyup(function () {
     })
   );
 });
+
 $("#editarApellido").keyup(function () {
   var cliApellido = document
     .getElementById("editarApellido")
@@ -732,10 +732,8 @@ $("#analista").on("change", function () {
   if($(this).val() === initialValueAnalista){
     changeAnalist = false;
     notAssigned = false;
-    console.log(notAssigned)
   } else {
     changeAnalist = true;
-    console.log(notAssigned)
   }
 });
 
