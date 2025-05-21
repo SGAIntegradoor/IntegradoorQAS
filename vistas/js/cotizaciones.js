@@ -1,9 +1,24 @@
-// let permisos = "";
 let manualGeneral = 0;
+
+let env = "";
 
 const paramsGenerals = new URLSearchParams(window.location.search);
 
 $(document).ready(function () {
+
+  // Obtener la URL completa
+  const urlCompleta = window.location.href;
+
+  const partes = urlCompleta.split("/");
+
+  if (partes.includes("dev") || partes.includes("DEV")) {
+    env = "dev";
+  } else if (partes.includes("QAS") || partes.includes("qas")) {
+    env = "qas";
+  } else if (partes.includes("app") || partes.includes("App")) {
+    env = "";
+  }
+
   function obtenerFechaActual() {
     const hoy = new Date();
     const año = hoy.getFullYear();
@@ -1848,34 +1863,6 @@ async function renderCards(response) {
   }, 1000);
 }
 
-// async function offertsFinesaRender() {
-//   let ofrts = [];
-
-//   const headers = new Headers();
-//   headers.append("Content-Type", "application/json");
-
-//   const body = {
-//     idCotizacion: idCotizacion,
-//     env: "QAS",
-//   };
-
-//   try {
-//     const dbResponse = await fetch(
-//       "https://www.grupoasistencia.com/motor_webservice/getOffertsFinesa_qas",
-//       // "http://localhost/motorTest/getOffertsFinesa",
-//       {
-//         method: "POST",
-//         headers: headers,
-//         body: JSON.stringify(body),
-//       }
-//     );
-
-//     ofrts = await dbResponse.json();
-//     return ofrts;
-//   } catch (error) {
-//     console.error("Error fetching data:", error);
-//   }
-// }
 async function offertsFinesaRender() {
   let ofrts = [];
   const MAX_RETRIES = 3; // Número máximo de intentos
@@ -1893,7 +1880,8 @@ async function offertsFinesaRender() {
   async function fetchWithRetry(retries = MAX_RETRIES) {
     try {
       const dbResponse = await fetch(
-        "https://www.grupoasistencia.com/motor_webservice/getOffertsFinesa_qas",
+        `https://www.grupoasistencia.com/motor_webservice/getOffertsFinesa${(env ==
+            "qas" ? "_qas" : (env == "dev" ? "_qas" : ""))}`,
         {
           method: "POST",
           headers: headers,
@@ -2290,7 +2278,7 @@ function editarCotizacion(id) {
               $("#divTipoServicio").css("display", "none");
               $("#divTipoTransporte").css("display", "block");
               // trigger chance
-              if (respuesta["cot_tip_uso"] == "Bus") {
+              if (respuesta["cot_tip_uso"] == "2") {
                 $("#divNumeroPasajeros").css("display", "block");
                 $("#txtNumeroPasajeros").val(respuesta["cot_num_pasajeros"]);
               }

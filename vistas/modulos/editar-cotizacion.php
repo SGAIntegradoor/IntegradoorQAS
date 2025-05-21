@@ -592,13 +592,10 @@ $response = retrieveQuotation($idCotizacion);
                       <div class="col-xs-12 col-sm-6 col-md-3 form-group" id="divTipoTransporte" style="display: none;">
                         <label for="txtTipoTransporteVehiculo">Tipo de transporte</label>
                         <select class="form-control" id="txtTipoTransporteVehiculo" required>
-                          <option value=""></option>
-                          <option value="Taxi">Taxi</option>
-                          <option value="Bus">Bus</option>
-                          <option value="MicroBus">MicroBus</option>
-                          <option value="Buseta">Buseta</option>
-                          <option value="ServicioEsp">Servicio Especial</option>
-                          <option value="PlacaBlanca">Placa Blanca</option>
+                           <option value=""></option>
+                           <option value="1">Taxi</option>
+                           <option value="2">Bus/Buseta/Microbus</option>
+                           <option value="3">Placa Blanca (Servicio Especial)</option>
                         </select>
                       </div>
                       <div class="col-xs-12 col-sm-6 col-md-3 form-group" id="divTipoServicio">

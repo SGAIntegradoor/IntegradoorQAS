@@ -2835,7 +2835,6 @@ $pdf->Cell(10, 0, '(Recuerda que este icono       significa Si Aplica o Si Cubre
 
 //$pdf->Cell(210, 0, 'las aseguradoras, revisa el siguiente cuadro', 0, $ln = 0, 'C', 0, '', 0, false, 'C', 'C');
 $pdf->Ln();
-$pdf->Ln();
 
 if($rowValidate > 3){
 	$pdf->Ln();

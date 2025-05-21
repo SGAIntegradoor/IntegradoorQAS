@@ -1,4 +1,3 @@
-let env = "";
 
 $(document).ready(function () {
 
@@ -1673,7 +1672,7 @@ function cotizarFinesaMotos(ofertasCotizaciones) {
 
       promisesFinesa.push(
         fetch(
-          `https://www.grupoasistencia.com/motor_webservice/paymentInstallmentsFinesa${env = "qas" ? "_qas": env = "dev" ? "_qas" : ""}`,
+          `https://www.grupoasistencia.com/motor_webservice/paymentInstallmentsFinesa${env == "qas" ? "_qas": env == "dev" ? "_qas" : ""}`,
           // "http://localhost/motorTest/paymentInstallmentsFinesa",
           {
             method: "POST",
@@ -1693,7 +1692,7 @@ function cotizarFinesaMotos(ofertasCotizaciones) {
             finesaData.identity = element.objFinesa;
             finesaData.cuotas = element.cuotas;
             return fetch(
-              `https://www.grupoasistencia.com/motor_webservice/saveDataQuotationsFinesa${env = "qas" ? "_qas": env = "dev" ? "_qas" : ""}`,
+              `https://www.grupoasistencia.com/motor_webservice/saveDataQuotationsFinesa${env == "qas" ? "_qas": env == "dev" ? "_qas" : ""}`,
               //"http://localhost/motorTest/saveDataQuotationsFinesa",
               {
                 method: "POST",

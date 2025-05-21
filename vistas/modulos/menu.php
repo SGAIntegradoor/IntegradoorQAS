@@ -173,7 +173,7 @@ checkUserStatus();
 			// 	</li>-->';
 			// 	}
 
-		/*=============================================
+			/*=============================================
 		CLIENTES
 		=============================================*/
 			if ($_SESSION["permisos"]["Clientes"] == "x") {
@@ -184,7 +184,7 @@ checkUserStatus();
 				</a>
 			</li>';
 			}
-		/*=============================================
+			/*=============================================
 		ASSITCARD
 		=============================================*/
 
@@ -256,23 +256,27 @@ checkUserStatus();
 			/*=============================================
 		NEGOCIOS
 		=============================================*/
-		if ($_SESSION['rol'] == 11 || $_SESSION['rol'] == 12 || $_SESSION["rol"] == 10 || $_SESSION['rol'] == 1 || $_SESSION['rol'] == 22 ) {
-			echo '<li class="treeview">
-			<a href="#">
+			if ($_SESSION['rol'] == 11 || $_SESSION['rol'] == 12 || $_SESSION["rol"] == 10 || $_SESSION['rol'] == 1 || $_SESSION['rol'] == 22) {
+					echo '<li class="' . ($currentPage == 'negocios' || $currentPage == 'productividad' ? 'active' : '') . '">
+			<a href="#" class="dropdown-toggle" data-toggle="dropdown">
 				<i class="fa fa-briefcase"></i>
 				<span>Admin. Negocios</span>
-				<i class="fa fa-angle-left pull-right"></i>
 			</a>
-			<ul class="treeview-menu subitems-normal">
+			<ul class="dropdown-menu right">
 				<li class="' . ($currentPage == "negocios" ? "active" : "") . '">
 					<a href="negocios">Admin. Oportunidades</a>
-				</li>
-				<li class="' . ($currentPage == "productividad" ? "active" : "") . '">
+				</li>';
+					
+			echo '<li class="' . ($currentPage == "productividad" ? "active" : "") . '">
 					<a href="productividad">Productividad</a>
-				</li>
-			</ul>
-		</li>';
-		}
+				</li>';
+		
+			echo '
+				</ul>
+			</li>';
+			}
+
+
 			/*=============================================
 		HOGAR
 		=============================================*/
@@ -347,16 +351,16 @@ checkUserStatus();
 			/*=============================================
 		AYUDA VENTAS
 		=============================================*/
-		if ($_SESSION['rol'] != 2) {
+			if ($_SESSION['rol'] != 2) {
 			?>
-			<li id="menuCotAyud" class="<?php echo $currentPage == 'ayuda-ventas' ? 'active' : ''; ?>">
-				<a id="ayuda-ventas">
-					<i class="fa fa-book"></i>
-					<span>Ayuda Ventas</span>
-				</a>
-			</li>
+				<li id="menuCotAyud" class="<?php echo $currentPage == 'ayuda-ventas' ? 'active' : ''; ?>">
+					<a id="ayuda-ventas">
+						<i class="fa fa-book"></i>
+						<span>Ayuda Ventas</span>
+					</a>
+				</li>
 			<?php
-		}
+			}
 			/*=============================================
 		INTERMEDIARIO
 		=============================================*/

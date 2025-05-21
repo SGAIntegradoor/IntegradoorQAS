@@ -1,4 +1,17 @@
 $(document).ready(function () {
+
+  const urlCompleta = window.location.href;
+
+  const partes = urlCompleta.split("/");
+
+  if (partes.includes("dev") || partes.includes("DEV")) {
+    env = "dev";
+  } else if (partes.includes("QAS") || partes.includes("qas")) {
+    env = "qas";
+  } else if (partes.includes("app") || partes.includes("App")) {
+    env = "";
+  }
+
   const parrillaCotizaciones = document.getElementById("parrillaCotizaciones");
   parrillaCotizaciones.style.display = "none";
 
@@ -2149,8 +2162,8 @@ function cotizarFinesa(ofertasCotizaciones) {
     if (element.cotizada == null || element.cotizada == false) {
       promisesFinesa.push(
         fetch(
-          `https://www.grupoasistencia.com/motor_webservice/paymentInstallmentsFinesa${(env =
-            "qas" ? "_qas" : (env = "dev" ? "_qas" : ""))}`,
+          `https://www.grupoasistencia.com/motor_webservice/paymentInstallmentsFinesa${(env ==
+            "qas" ? "_qas" : (env == "dev" ? "_qas" : ""))}`,
           //"http://localhost/motorTest/paymentInstallmentsFinesa",
           {
             method: "POST",
@@ -2168,8 +2181,8 @@ function cotizarFinesa(ofertasCotizaciones) {
             finesaData.identity = element.objFinesa;
             finesaData.cuotas = element.cuotas;
             return fetch(
-              `https://www.grupoasistencia.com/motor_webservice/saveDataQuotationsFinesa${(env =
-                "qas" ? "_qas" : (env = "dev" ? "_qas" : ""))}`,
+              `https://www.grupoasistencia.com/motor_webservice/saveDataQuotationsFinesa${(env ==
+                "qas" ? "_qas" : (env == "dev" ? "_qas" : ""))}`,
               //"http://localhost/motorTest//saveDataQuotationsFinesa",
               {
                 method: "POST",
