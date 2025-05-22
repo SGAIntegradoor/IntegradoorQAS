@@ -392,7 +392,7 @@ $(document).ready(function () {
   }
 
   function mostrarPoliticaValorAseguradoMotos() {
-    swal.fire({
+    Swal.fire({
       icon: "warning",
       title: "POL\u00cdTICA DE VALOR ASEGURADO MOTOS",
       //html: "<p style='font-family: Helvetica, Arial, sans-serif;'>Para motocicletas el valor asegurado m\u00e1ximo es $50 millones. Motos por encima de ese valor, deben ser autorizadas por la Gerencia General.</p>",
@@ -1108,7 +1108,7 @@ function consulPlacaMotos(query = "1") {
                   "Parámetros Inválidos. Placa es requerido." ||
                 mensajeConsulta == "Favor diligenciar correctamente la placa"
               ) {
-                swal.fire({
+                Swal.fire({
                   text: "! Favor diligenciar correctamente la placa. ¡",
                 });
               } else {
@@ -3078,7 +3078,7 @@ function cotizarOfertasMotos() {
                 let intermediario =
                   document.getElementById("intermediario").value;
                 if (intermediario != 3 && intermediario != 149) {
-                  swal.fire({
+                  Swal.fire({
                     title: "¡Proceso de Cotización Finalizada!",
                     showConfirmButton: true,
                     confirmButtonText: "Cerrar",
@@ -3124,7 +3124,7 @@ function cotizarOfertasMotos() {
                     });
                 }
               } else {
-                return swal.fire({
+                return Swal.fire({
                   title: "Proceso de Cotización Finalizado",
                   showConfirmButton: true,
                   confirmButtonText: "Cerrar",
@@ -3175,7 +3175,7 @@ function cotizarOfertasMotos() {
                   });
                 } else {
                   if (!todosOn) {
-                    swal.fire({
+                    Swal.fire({
                       title: "¡Debes seleccionar mínimo una oferta!",
                     });
                   } else {
@@ -3561,7 +3561,7 @@ function cotizarOfertasMotos() {
             let intermediario = document.getElementById("intermediario").value;
             if (intermediario != 3 && intermediario != 149) {
               Swal.close();
-              swal.fire({
+              Swal.fire({
                 title: "¡Proceso de Cotización Finalizada!",
                 showConfirmButton: true,
                 confirmButtonText: "Cerrar",
@@ -3611,7 +3611,7 @@ function cotizarOfertasMotos() {
             let anuncio = true;
             if (anuncio) {
               anuncio = false;
-              swal.fire({
+              Swal.fire({
                 title: "¡Proceso de Re-Cotización Finalizada!",
                 showConfirmButton: true,
                 confirmButtonText: "Cerrar",

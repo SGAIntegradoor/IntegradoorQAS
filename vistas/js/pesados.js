@@ -1,6 +1,6 @@
 $(document).ready(function () {
 
-  const urlCompleta = window.location.href;
+   const urlCompleta = window.location.href;
 
   const partes = urlCompleta.split("/");
 
@@ -363,7 +363,7 @@ $(document).ready(function () {
   });
 
   function mostrarAlertaCotizacionesExcedidasPesadosFreelance() {
-    swal
+    Swal
       .fire({
         icon: "error",
         title:
@@ -392,7 +392,7 @@ $(document).ready(function () {
   }
 
   function mostrarAlertaCotizacionesExcedidasPesadosDemo() {
-    swal
+    Swal
       .fire({
         icon: "error",
         title:
@@ -421,7 +421,7 @@ $(document).ready(function () {
   }
 
   function mostrarAlertaErrorDeConexionPesados() {
-    swal
+    Swal
       .fire({
         icon: "error",
         title: "Error de conexion",
@@ -438,7 +438,7 @@ $(document).ready(function () {
   }
 
   function mostrarPoliticaValorAseguradoPesados() {
-    swal.fire({
+    Swal.fire({
       icon: "warning",
       title: "POLÍTICA DE VALOR ASEGURADO<br/> PESADOS",
       html: `
@@ -1240,7 +1240,7 @@ function consulPlacaPesados(query = "1") {
             mensajeConsulta == "Parámetros Inválidos. Placa es requerido." ||
             mensajeConsulta == "Favor diligenciar correctamente la placa"
           ) {
-            swal.fire({
+            Swal.fire({
               text: "! Favor diligenciar correctamente la placa. ¡",
             });
           } else if (
@@ -3263,7 +3263,7 @@ function cotizarOfertasPesados() {
               $("#loaderOferta").html("");
               //$("#loaderOfertaBox").css("display", "none");
               if (intermediario != 3 && intermediario != 149) {
-                swal.fire({
+                Swal.fire({
                   title: "¡Proceso de Cotización Finalizada!",
                   showConfirmButton: true,
                   confirmButtonText: "Cerrar",
@@ -3351,7 +3351,7 @@ function cotizarOfertasPesados() {
                   });
                 } else {
                   if (!todosOn) {
-                    swal.fire({
+                    Swal.fire({
                       title: "¡Debes seleccionar mínimo una oferta!",
                     });
                   } else {
@@ -3802,14 +3802,14 @@ function cotizarOfertasPesados() {
           if (nuevasPesadas.length > 0) {
             if (intermediario != 3 && intermediario != 149) {
               Swal.close();
-              swal.fire({
+              Swal.fire({
                 title: "¡Proceso de  Re-Cotización Finalizada!",
                 showConfirmButton: true,
                 confirmButtonText: "Cerrar",
               });
             } else {
               Swal.close();
-              swal
+              Swal
                 .fire({
                   title: "¡Proceso de Re-Cotización Finalizada!",
                   text: "¿Deseas incluir la financiación con Finesa a 11 cuotas?",
@@ -3849,7 +3849,7 @@ function cotizarOfertasPesados() {
                 });
             }
           } else {
-            swal.fire({
+            Swal.fire({
               title: "¡Proceso de Re-Cotización Finalizada!",
               showConfirmButton: true,
               confirmButtonText: "Cerrar",

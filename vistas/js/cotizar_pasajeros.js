@@ -4364,6 +4364,11 @@ $("#btnConsultarVehmanualbuscador").click(function () {
             document.getElementById("txtValorFasecolda").value = valorVeh;
             document.getElementById("txtReferenciaVeh").value = lineaVeh;
             document.getElementById("txtClaseVeh").value = claseVeh;
+
+            if(claseVeh == "BUS / BUSETA / MICROBUS"){
+              $("#txtTipoTransporteVehiculo").val("2").trigger("change");
+            }
+            
           }
         }
       },

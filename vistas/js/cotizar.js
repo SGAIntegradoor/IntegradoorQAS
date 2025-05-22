@@ -1904,7 +1904,7 @@ function cotizarFinesa(ofertasCotizaciones) {
       $("#loaderRecotOferta").html("");
       $("#loaderRecotOfertaBox").css("display", "none");
       Swal.close();
-      swal
+      Swal
         .fire({
           title: "¡Cotización a Finesa Finalizada!",
           showConfirmButton: true,
@@ -3314,7 +3314,7 @@ function cotizarOfertas() {
                 });
                 return; // Salir del bucle después de procesar Zurich
               } else if (aseguradora === "Estado") {
-                const aseguradorasEstado = ["Estado", "Estado2", "Estado3"]; // Agrega más aseguradoras según sea necesario
+                const aseguradorasEstado = ["Estado", "Estado2"]; // Agrega más aseguradoras según sea necesario
                 aseguradorasEstado.forEach((aseguradora) => {
                   let successAseguradora = true;
                   cont.push(
@@ -3496,7 +3496,7 @@ function cotizarOfertas() {
               //$("#loaderOfertaBox").css("display", "none");
               if (intermediario != 3 && intermediario != 149) {
                 Swal.close();
-                swal.fire({
+                Swal.fire({
                   title: "¡Proceso de Cotización Finalizada!",
                   showConfirmButton: true,
                   confirmButtonText: "Cerrar",
@@ -3505,7 +3505,7 @@ function cotizarOfertas() {
                 //countOfferts();
               } else {
                 Swal.close();
-                swal
+                Swal
                   .fire({
                     title: "¡Proceso de Cotización Finalizada!",
                     text: "¿Deseas incluir la financiación con Finesa a 11 cuotas?",
@@ -3513,6 +3513,7 @@ function cotizarOfertas() {
                     confirmButtonText: "Si",
                     showCancelButton: true,
                     cancelButtonText: "No",
+                    allowOutsideClick: false,
                     customClass: {
                       title: "custom-title-messageFinesa",
                       htmlContainer: "custom-text-messageFinesa",
@@ -4451,7 +4452,7 @@ function cotizarOfertas() {
               enableInputs(true);
             } else {
               Swal.close();
-              swal
+              Swal
                 .fire({
                   title: "¡Proceso de Re-Cotización Finalizada!",
                   text: "¿Deseas incluir la financiación con Finesa a 11 cuotas?",
@@ -4459,6 +4460,7 @@ function cotizarOfertas() {
                   confirmButtonText: "Si",
                   showCancelButton: true,
                   cancelButtonText: "No",
+                  allowOutsideClick: false,
                   customClass: {
                     title: "custom-title-messageFinesa",
                     htmlContainer: "custom-text-messageFinesa",
