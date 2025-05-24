@@ -700,7 +700,7 @@ const controlFields = (val) => {
 
     // Fila Fecha, Razon Social (Para Nit), Genero, Estado Civil, Celular (Todas menos NIT)
     $('label[name="lblFechaNacimiento"]').html(
-      'Fecha Constitución Empresa <span style="font-weight: normal;">(Opcional. Se requiere para Zurich y Allianz)</span>'
+      'Fecha Constitución Empresa'
     );
     $('label[name="lblFechaNacimiento"]').css("max-width", "447px");
     $('label[name="lblFechaNacimiento"]').css("width", "447px");
@@ -1159,22 +1159,22 @@ function consulPlaca(query = "1") {
                 } else if (codigoClase == 3) {
                   claseVehiculo = "PICK UPS";
                   limiteRCESTADO = 18;
-                  var restriccion = "";
-                  if (rolAsesor == 19) {
-                    restriccion =
-                      "Lo sentimos, no puedes cotizar Pick Ups por este módulo. Para hacerlo debes ingresar al modulo Cotizar Livianos.";
-                  } else {
-                    restriccion =
-                      "Lo sentimos, no puedes cotizar Pick Ups por este módulo.";
-                  }
-                  Swal.fire({
-                    icon: "error",
-                    text: restriccion,
-                    confirmButtonText: "Cerrar",
-                  }).then(() => {
-                    // Recargar la página después de cerrar el SweetAlert
-                    location.reload();
-                  });
+                  // var restriccion = "";
+                  // if (rolAsesor == 19) {
+                  //   restriccion =
+                  //     "Lo sentimos, no puedes cotizar Pick Ups por este módulo. Para hacerlo debes ingresar al modulo Cotizar Livianos.";
+                  // } else {
+                  //   restriccion =
+                  //     "Lo sentimos, no puedes cotizar Pick Ups por este módulo.";
+                  // }
+                  // Swal.fire({
+                  //   icon: "error",
+                  //   text: restriccion,
+                  //   confirmButtonText: "Cerrar",
+                  // }).then(() => {
+                  //   // Recargar la página después de cerrar el SweetAlert
+                  //   location.reload();
+                  // });
                 } else if (codigoClase == 4) {
                   claseVehiculo = "UTILITARIOS DEPORTIVOS";
                   limiteRCESTADO = 6;
@@ -2852,6 +2852,9 @@ function cotizarOfertasPasajeros() {
         tipoServicio: "11",
         ValorAsegurado: valorFasecolda,
         LimiteRC: LimiteRC,
+        LineaVeh: lineaVeh,
+        Marca: marcaVeh,
+        NoPasajeros: numeroPasajeros == "" ? 0 : numeroPasajeros,
         Cobertura: CoberturaEstado,
         ValorAccesorios: ValorAccesorios,
         CiudadBolivar: ciudadCirculacion,
@@ -3216,7 +3219,8 @@ function cotizarOfertasPasajeros() {
 
             //console.log(aseguradorasCoti); // Esto imprimirá el array con los nombres de aseguradoras autorizadas
             // return;
-
+            const lineaVeh = document.getElementById("txtReferenciaVeh").value;
+            
             aseguradorasCoti.forEach((aseguradora) => {
               let url;
               if (aseguradora === "HDI (Antes Liberty)") {
@@ -3265,18 +3269,9 @@ function cotizarOfertasPasajeros() {
                 return;
               } else if (aseguradora === "AXA") {
                 url = `https://grupoasistencia.com/motor_webservice_publics/${aseguradora}_Pasajeros`;
-                /* AXA */
-                // console.log(condicional)
                 let bodyAXA = JSON.parse(requestOptions.body);
                 var planesAXA = productos_pasajeros;
-                // let planesAXA = [];
-                // if (intermediario == 78) {
-                //   planesAXA = [4210, 4211, 4212, 4213, 4214, 4215];
-                // } else if (intermediario == 3) {
-                //   planesAXA = [5308, 5309, 5310, 5311, 5312, 5313];
-                // }
                 let array = JSON.parse(planesAXA);
-
                 let productosAXA = [];
                 if (condicional == 4 || condicional == 22) {
                   productosAXA.push(array[0]);
@@ -4269,6 +4264,10 @@ const tipoVehiculo = [
   "BUS",
   "AUTOMOVIL",
   "CAMPERO",
+  "PICK UPS",
+  "PICKUP SENCILLA",
+  "PICKUP DOBLE CABINA",
+  "PICKUP DOBLE CAB",
 ];
 
 $("#btnConsultarVehmanualbuscador").click(function () {

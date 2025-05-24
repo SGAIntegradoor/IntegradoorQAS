@@ -27,7 +27,7 @@ $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, 'A4', true, 'UTF-8', false);
 $identificador = $_GET['cotizacion'];
 
 $user = "grupoasi_cotizautos";
-$password = "M1graci0n123"; //poner tu propia contraseña, si tienes una.
+$password = "M1graci0n123";
 
 $URI = explode("/", $_SERVER['REQUEST_URI']);
 
@@ -226,9 +226,9 @@ $pdf->SetFont('dejavusanscondensed', '', 11);
 $pdf->AddPage();
 
 if ($fila['id_tipo_documento'] == 2) {
-	$pdf->Image('../../../vistas/img/logos/imagencotizador3.jpg', -5, 0, 0, 86, 'JPG', '', '', true, 200, '', false, false, 0, false, false, false);
+	$pdf->Image('../../../vistas/img/logos/imagencotizador3.jpg', -5, 0, 0, 92, 'JPG', '', '', true, 200, '', false, false, 0, false, false, false);
 } else {
-	$pdf->Image('../../../vistas/img/logos/imagencotizador2.jpg', -5, 0, 0, 86, 'JPG', '', '', true, 200, '', false, false, 0, false, false, false);
+	$pdf->Image('../../../vistas/img/logos/imagencotizador2.jpg', -5, 0, 0, 92, 'JPG', '', '', true, 200, '', false, false, 0, false, false, false);
 }
 
 $id_usuario_cot = $fila['id_usuario'];
@@ -2163,7 +2163,7 @@ $html4 .= '</tr>';
 //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
 $html4 .= '<tr>';
-$html4 .= '<td class="fondo puntos" style="width:10%; text-align: center; font-family:dejavusanscondensedb;"><font size="8">Transporte del vehículo recuperado</font></td>';
+$html4 .= '<td class="fondo puntos" style="width:10%; text-align: center; font-family:dejavusanscondensedb;"><font size="8">Transporte vehículo recuperado</font></td>';
 
 $cont19 = 1;
 foreach ($resultados as $resultado) {
@@ -2200,7 +2200,7 @@ $html4 .= '</tr>';
 //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
 $html4 .= '<tr>';
-$html4 .= '<td class ="fondo puntos" style="width:10%; text-align: center; font-family:dejavusanscondensedb;"><font size="8">Transporte de pasajeros por accidente</font></td>';
+$html4 .= '<td class ="fondo puntos" style="width:10%; text-align: center; font-family:dejavusanscondensedb;"><font size="8">Transporte pasajeros por accidente</font></td>';
 
 // $query22 = "SELECT DISTINCT o.Producto, o.Aseguradora
 // FROM cotizaciones_finesa cf 
@@ -2255,7 +2255,7 @@ $html4 .= '</tr>';
 
 
 $html4 .= '<tr>';
-$html4 .= '<td class="fondo puntos" style="width:10%;"><font size="8" style="font-family:dejavusanscondensedb; text-align: center;">Transporte de pasajeros por varada</font></td>';
+$html4 .= '<td class="fondo puntos" style="width:10%;"><font size="8" style="font-family:dejavusanscondensedb; text-align: center;">Transporte pasajeros por varada</font></td>';
 
 // $query24 = "SELECT DISTINCT o.Producto, o.Aseguradora
 // FROM cotizaciones_finesa cf 
@@ -2309,7 +2309,7 @@ $html4 .= '</tr>';
 //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
 $html4 .= '<tr>';
-$html4 .= '<td class="fondo puntos" style="width:10%;"><div style="font-size:5pt">&nbsp;</div><font size="8" style="font-family:dejavusanscondensedb; text-align: center;">Indemnización por accidentes</font><span style="font-size: 6pt; text-align: center;"><br>(asegurado, conductor u ocupantes)</span></td>';
+$html4 .= '<td class="fondo puntos" style="width:10%;"><div style="font-size:5pt">&nbsp;</div><font size="8" style="font-family:dejavusanscondensedb; text-align: center;">Indemnización por accidentes</font><span style="font-size: 6pt; text-align: center;"></span></td>';
 
 // $query25 = "SELECT DISTINCT o.Producto, o.Aseguradora
 // FROM cotizaciones_finesa cf 
@@ -2808,7 +2808,7 @@ $pdf->writeHTML($htmlFooter, true, false, true, true, '');
 $pdf->Ln();
 
 $pdf->SetXY(0, 270);
-$htmlFooter = '<p style="font-size: 7.3px; color: red">Importante: Algunas líneas de vehículos en las compañías Allianz, Previsora, Mundial y HDI requieren la instalación de un dispositivo de georreferenciación tipo Cazador. El incumplimiento de esta obligación (garantía) puede conllevar la aplicación de exclusiones a diferentes amparos, la ampliación de los deducibles a cargo del asegurado o incluso la aseguradora no será responsable de indemnizar al asegurado. Consulta con tu asesor si tu vehículo necesita este dispositivo antes de tomar tu póliza.</p>';
+$htmlFooter = '<p style="font-size: 6.2px; color: red">Importante: Algunas líneas de vehículos en las compañías Allianz, Previsora, Mundial y HDI requieren la instalación de un dispositivo de georreferenciación tipo Cazador. El incumplimiento de esta obligación (garantía) puede conllevar la aplicación de exclusiones a diferentes amparos, la ampliación de los deducibles a cargo del asegurado o incluso la aseguradora no será responsable de indemnizar al asegurado. Consulta con tu asesor si tu vehículo necesita este dispositivo antes de tomar tu póliza.</p>';
 $pdf->writeHTML($htmlFooter, true, false, true, true, '');
 $pdf->Ln();
 
@@ -2845,18 +2845,13 @@ function claseV($dato)
 // Calcula la Edad a partir de la Fecha de Nacimiento
 function calculaedad($fechaNacimiento)
 {
-
 	list($ano, $mes, $dia) = explode("-", $fechaNacimiento);
 	$ano_diferencia = date("Y") - $ano;
 	$mes_diferencia = date("m") - $mes;
 	$dia_diferencia = date("d") - $dia;
-	// if ($dia_diferencia < 0 || $mes_diferencia < 0)
-	// 	$ano_diferencia--;
+	if ($dia_diferencia < 0 || $mes_diferencia < 0)
+	  $ano_diferencia--;
 
-	// var_dump($ano_diferencia);
-	// var_dump($mes_diferencia);
-	// var_dump($dia_diferencia);
-	// // var_dump($ano_diferencia);
 	return $ano_diferencia;
 }
 

@@ -86,9 +86,6 @@
  <script src="libraries/DataTables/datatables.min.js"></script>-->
   <link rel="stylesheet" href="libraries/DataTables/datatables1.min.css">
   <script src="libraries/DataTables/datatables1.min.js"></script>
-  <!--<script src="vistas/plugins/datatables/datatables.min.js"></script>-->
-
-  <!-- <link rel="stylesheet" href="vistas/bower_components/datatables.net-bs/css/responsive.bootstrap.min.css"> -->
 
   <!-- iCheck for checkboxes and radio inputs -->
   <link rel="stylesheet" href="vistas/plugins/iCheck/all.css">
@@ -110,7 +107,7 @@
   <link rel="stylesheet" href="vistas/components/cotizar/css/stylesFilters.css?v=<?php echo (rand()); ?>">
 
   <!-- SweetAlerts -->
-  <!-- <link rel="stylesheet" href="sweetalert2.min.css"> -->
+  <link rel="stylesheet" href="./libraries/sweetalert2/sweetalert2.min.css">
 
   <!--=====================================
   PLUGINS DE JAVASCRIPT
@@ -202,18 +199,8 @@
   <!-- AdminLTE App -->
   <script src="vistas/dist/js/adminlte.min.js"></script>
 
-  <!--DataTables-->
-  <!--<script src="vistas/plugins/datatables/datatables.min.js"></script>-->
-  <!-- <script src="libraries/DataTables/datatables.min.css"></script> -->
-  <!-- <script src="vistas/bower_components/datatables.net-bs/js/responsive.bootstrap.min.js"></script> 
- <script src="vistas/bower_components/datatables.net-bs/js/dataTables.responsive.min.js"></script> 
- <script src="vistas/bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
- <script src="vistas/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>-->
-  <!--<link rel="stylesheet" href="libraries/DataTables/datatables.min.js"> -->
-
   <!-- SweetAlert 2 -->
-  <!-- <script src="vistas/plugins/sweetalert2/sweetalert2.all.js"></script> -->
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="./libraries/sweetalert2/sweetalert2.min.js"></script>
   <!-- By default SweetAlert2 doesn't support IE. To enable IE 11 support, include Promise polyfill:-->
   <!-- <script src="vistas/plugins/sweetalert2/core-2.4.1.js"></script> -->
 
@@ -451,7 +438,6 @@
   }
 
   ?>
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script src="vistas/js/authChange.js"></script>
   <script src="vistas/js/invitacion.js?v=<?php echo (rand()); ?>"></script>
   <!--<script src="vistas/js/pesados.js?v=<?php echo (rand()); ?>"></script>-->

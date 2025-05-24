@@ -647,41 +647,6 @@ class ControladorUsuarios
 
 					$tabla = "usuarios";
 
-
-					// 	if (preg_match('/^[a-zA-Z0-9]+$/', $_POST["passwordActual"])) {
-
-					// 		$encriptar = crypt($_POST["passwordActual"], '$2a$07$asxx54ahjppf45sd87a5a4dDDGsystemdev$');
-
-					// 	} else {
-
-					// 		echo '<script>
-
-					// 				swal.fire({
-					// 					  type: "error",
-					// 					  title: "¡La contraseña no puede ir vacía o llevar caracteres especiales!",
-					// 					  showConfirmButton: true,
-					// 					  confirmButtonText: "Cerrar"
-					// 					  }).then(function(result) {
-					// 						if (result.value) {
-
-					// 						window.location = "usuarios";
-
-					// 						}
-					// 					})
-
-					// 		  	</script>';
-
-					// 		return;
-
-					// 	}
-
-					// if($_POST['passwordActual'])
-
-					// // }
-					// $intermediario = $_POST["idIntermediario2"];
-					// var_dump($intermediario);
-					// die();
-
 					$actualPassword = crypt($_POST["passwordActual"], '$2a$07$asxx54ahjppf45sd87a5a4dDDGsystemdev$');
 					$actualPassw = $_POST["passwordActual"];
 					$actualIdUser = $_POST['idUsuEdit'];
@@ -689,7 +654,6 @@ class ControladorUsuarios
 					$checkPass = ModeloUsuarios::mdlCheckPassword($actualPassw, $actualIdUser);
 					if (!$checkPass) {
 						if (isset($_POST["ciudad2"]) && $_POST["ciudad2"] == NULL) {
-
 							$datos = array(
 								"id" => $_POST["idUsuEdit"],
 								"nombre" => $_POST["editarNombre"],
@@ -742,7 +706,6 @@ class ControladorUsuarios
 
 
 						$respuesta = ModeloUsuarios::mdlEditarUsuario($tabla, $datos);
-
 						if ($respuesta == "ok") {
 
 							echo '<script>
@@ -759,11 +722,42 @@ class ControladorUsuarios
 										})
 		
 							</script>';
-						} else {
+						} else if ($respuesta == "authError") {
 
 							echo '<script>
 		
 							swal.fire({
+								  icon: "error",
+								  title: "No tiene permisos para ejecutar esta función, comunícate con el administrador del sistema",
+								  showConfirmButton: true,
+								  confirmButtonText: "Cerrar"
+								  }).then(function(result) {
+									if (result.value) {	
+										window.location = "usuarios";	
+									} else if (result.isDismissed) {
+										window.location = "usuarios"
+									}
+								})
+		
+						  </script>';
+						} else if ($respuesta == "Sin cambios") {
+
+							echo '<script>
+		
+							swal.fire({
+								  type: "warning",
+								  title: "No se hicieron cambios en el usuario",
+								  showConfirmButton: true,
+								  confirmButtonText: "Cerrar"
+								  }).then(function(result) {
+									if (result.value) {	
+										//window.location = "usuarios";	
+									}
+								})
+						  </script>';
+						} else {
+							echo '<script>
+								swal.fire({
 								  type: "error",
 								  title: "¡El nombre no puede ir vacío o llevar arcacteres especiales!",
 								  showConfirmButton: true,
@@ -773,7 +767,6 @@ class ControladorUsuarios
 										//window.location = "usuarios";	
 									}
 								})
-		
 						  </script>';
 						}
 					} else {
@@ -831,21 +824,10 @@ class ControladorUsuarios
 								"analista" => $_POST['analista'],
 								"foto" => $ruta
 							);
-							// $datos["If2"] = "Es if 2";
-							// $datos['Ciudadmala'] = $_POST["codigoCiudadActual"];
-							// $datos['ciudadbuena'] = $_POST["ciudad2"];
-							// echo json_encode($_POST);
-							// echo json_encode($datos);
-							// die();
 						}
 
-						// echo '<pre>';
-						// print_r(json_encode($_POST)); // O puedes usar var_dump($_POST);
-						// echo '</pre>';
-						// die();
-
-
 						$respuesta = ModeloUsuarios::mdlEditarUsuario($tabla, $datos);
+
 						if ($respuesta == "ok") {
 
 							echo '<script>
@@ -882,7 +864,24 @@ class ControladorUsuarios
 								})
 		
 						  </script>';
-						} else {
+						} else if ($respuesta == "Sin cambios") {
+
+							echo '<script>
+		
+							swal.fire({
+								  type: "warning",
+								  title: "No se hicieron cambios en el usuario",
+								  showConfirmButton: true,
+								  confirmButtonText: "Cerrar"
+								  }).then(function(result) {
+									if (result.value) {	
+										//window.location = "usuarios";	
+									}
+								})
+		
+						  </script>';
+
+						}else {
 
 							echo '<script>
 		
@@ -923,7 +922,7 @@ class ControladorUsuarios
 	}
 	/*=============================================
 					  BORRAR USUARIO
-					  =============================================*/
+	=============================================*/
 
 	static public function ctrBorrarUsuario()
 	{

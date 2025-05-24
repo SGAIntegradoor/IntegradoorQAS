@@ -226,9 +226,9 @@ $pdf->SetFont('dejavusanscondensed', '', 11);
 $pdf->AddPage();
 
 if ($fila['id_tipo_documento'] == 2) {
-	$pdf->Image('../../../vistas/img/logos/imagencotizador3.jpg', -5, 0, 0, 86, 'JPG', '', '', true, 200, '', false, false, 0, false, false, false);
+	$pdf->Image('../../../vistas/img/logos/imagencotizador3_pasajeros.jpg', -5, 0, 0, 85, 'JPG', '', '', true, 200, '', false, false, 0, false, false, false);
 } else {
-	$pdf->Image('../../../vistas/img/logos/imagencotizador2.jpg', -5, 0, 0, 86, 'JPG', '', '', true, 200, '', false, false, 0, false, false, false);
+	$pdf->Image('../../../vistas/img/logos/imagencotizador2_pasajeros.jpg', -5, 0, 0, 85, 'JPG', '', '', true, 200, '', false, false, 0, false, false, false);
 }
 
 $id_usuario_cot = $fila['id_usuario'];
@@ -459,10 +459,10 @@ $html1Pasajeros = '
 	text-align:center;
 }
 </style>
-<table style="width:600px;" class="second" cellpadding="1"  border="0">
+<table style="width:600px;" class="second" cellpadding="2"  border="0">
 <tr>
 <td class="fondo">
-<div style="font-size:9pt">&nbsp;
+<div style="font-size:6pt">&nbsp;
 </div>
 <b style="color:white; font-family:dejavusanscondensedbi; font-size:18px;">SEGURO VEHICULOS TRANSPORTE DE PASAJEROS</b>
 <div style="font-size:6pt">&nbsp;
@@ -2485,7 +2485,7 @@ $html7 .= '</tr>';
 $html7 .= '</table>';
 
 
-$pdf->SetXY(0, 85);
+$pdf->SetXY(0, 87);
 $pdf->writeHTML($html1Pasajeros, true, false, true, false, 'C');
 
 $pdf->SetXY(100, 114);

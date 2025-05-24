@@ -383,7 +383,7 @@ class ModeloUsuarios
 			try {
 				$idUsuario = $datos["id"];
 				$idDocUser = $datos["documento"];
-				$stmt = Conexion::conectar()->prepare("SELECT u.*, u.id_usuario as idUsuario_1 FROM $tabla u LEFT JOIN `analistas_freelances` a ON a.id_usuario = :idUsuarioDoc WHERE u.id_usuario = :idUsuario");
+				$stmt = Conexion::conectar()->prepare("SELECT a.*, u.*, u.id_usuario as idUsuario_1 FROM $tabla u LEFT JOIN `analistas_freelances` a ON a.id_usuario = :idUsuarioDoc WHERE u.id_usuario = :idUsuario");
 				$stmt->bindParam(":idUsuarioDoc", $idDocUser, PDO::PARAM_INT);
 				$stmt->bindParam(":idUsuario", $idUsuario, PDO::PARAM_INT);
 				$stmt->execute();
@@ -395,8 +395,6 @@ class ModeloUsuarios
 					$stmtUser->bindParam(":idUsuarioUser", $analistPost, PDO::PARAM_INT);
 
 					$controlVar = $stmtUser->execute();
-					// echo $controlVar;
-					// die();
 					if (!$controlVar) {
 						return array("result" => "error", "detailedResponse" => "fallo la busqueda, o no hay datos del usuario");
 					} else if ($controlVar != false) {
@@ -420,7 +418,6 @@ class ModeloUsuarios
 
 					if ($analistPost != 1 && ($idAnalista == null || $idAnalista == "")) {
 						$stmtAnalist = Conexion::conectar()->prepare("INSERT INTO analistas_freelances (id, id_usuario, nombre_completo_freelance, correo, nombre_analista, id_analista ) VALUES (null, '$document', '$nombreFreelance','$email', '$analistName', $analistPost)");
-
 						if ($stmtAnalist->execute()) {
 							$cont++;
 						} else {
@@ -430,9 +427,8 @@ class ModeloUsuarios
 							echo "Driver-specific error message: " . $errorInfo[2] . "\n";
 						}
 					} else if ($analistPost != 1 && ($idAnalista != null && $idAnalista != "") && $analistPost != $idAnalista) {
-						$updateQueryAnalist = "UPDATE analistas_freelances SET 
-												  nombre_analista = :nombre_analista,
-												  id_analista = :id_analista WHERE id_usuario = $document";
+
+						$updateQueryAnalist = "UPDATE analistas_freelances SET nombre_analista = '$analistName', id_analista = $analistPost WHERE id_usuario = '$document'";
 						$stmtUpdate = Conexion::conectar()->prepare($updateQueryAnalist);
 						$stmtUpdate->bindParam(":nombre_analista", $analistName, PDO::PARAM_STR);
 						$stmtUpdate->bindParam(":id_analista", $analistPost, PDO::PARAM_INT);
@@ -525,11 +521,18 @@ class ModeloUsuarios
 						$filasAfectadas = $stmt->rowCount();
 
 						if ($filasAfectadas > 0) {
+							$cont++;
+							echo "Se actualizó el usuario con ID $idUsuario.\n cont: $cont\n";
+						}
+						if ($cont > 0) {
 							// Sí se actualizó el usuario
 							return "ok";
-						} else {
+						} else if ($cont == 0) {
 							// No se cambió ningún dato (la consulta se ejecutó, pero no modificó nada)
 							return "sin cambios";
+						} else {
+							// No se cambió ningún dato (la consulta se ejecutó, pero no modificó nada)
+							return "error";
 						}
 					} else {
 						// Hubo un error en la ejecución
