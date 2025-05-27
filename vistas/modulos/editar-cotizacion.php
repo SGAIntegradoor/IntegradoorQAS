@@ -1375,7 +1375,7 @@ $response = retrieveQuotation($idCotizacion);
 
 </div>
 
-<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="//cdn.jsdelivr.net/npm/z@11"></script>
 <script src="vistas/js/modals.js?v=<?php echo (rand()); ?>" defer></script>
 <script>
 

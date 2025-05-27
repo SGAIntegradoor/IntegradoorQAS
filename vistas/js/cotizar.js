@@ -60,7 +60,7 @@ $(document).ready(function () {
 
   // tokenPrevisora();
 
-  // //FUNCION PARA LEVANTAR EL TOKEN DE PREVISORA APENAS INICIE LA PAGINA
+  //FUNCION PARA LEVANTAR EL TOKEN DE PREVISORA APENAS INICIE LA PAGINA
   // function tokenPrevisora() {
   //   var myHeaders = new Headers();
   //   myHeaders.append("Content-Type", "application/json");
@@ -1903,7 +1903,7 @@ function cotizarFinesa(ofertasCotizaciones) {
       $("#loaderOfertaBox").css("display", "none");
       $("#loaderRecotOferta").html("");
       $("#loaderRecotOfertaBox").css("display", "none");
-      Swal.close();
+      // Swal.close();
       Swal
         .fire({
           title: "¡Cotización a Finesa Finalizada!",
@@ -2536,7 +2536,7 @@ function cotizarOfertas() {
       restriccion =
         "Lo sentimos, no puedes realizar cotizaciones para vehículo de trabajo por este cotizador.";
     }
-    Swal.close();
+    // Swal.close();
     Swal.fire({
       icon: "error",
       confirmButtonText: "Cerrar",
@@ -2561,7 +2561,7 @@ function cotizarOfertas() {
       restriccion =
         "Lo sentimos, no puedes realizar cotizaciones para el tipo de servicio público o intermunicipal por este cotizador.";
     }
-    Swal.close();
+    // Swal.close();
     Swal.fire({
       icon: "error",
       confirmButtonText: "Cerrar",
@@ -2762,10 +2762,6 @@ function cotizarOfertas() {
   var aseguradoras_autorizar = JSON.parse(
     document.getElementById("aseguradoras").value
   );
-
-  // console.log(aseguradoras_autorizar);
-  
-  //console.log(aseguradoras_autorizar)
 
   if (ciudadCirculacion.length == 4) {
     ciudadCirculacion = "0" + ciudadCirculacion;
@@ -3495,7 +3491,7 @@ function cotizarOfertas() {
               $("#loaderOferta").html("");
               //$("#loaderOfertaBox").css("display", "none");
               if (intermediario != 3 && intermediario != 149) {
-                Swal.close();
+                // Swal.close();
                 Swal.fire({
                   title: "¡Proceso de Cotización Finalizada!",
                   showConfirmButton: true,
@@ -3504,7 +3500,7 @@ function cotizarOfertas() {
                 enableInputs(true);
                 //countOfferts();
               } else {
-                Swal.close();
+                // Swal.close();
                 Swal
                   .fire({
                     title: "¡Proceso de Cotización Finalizada!",
@@ -4451,7 +4447,7 @@ function cotizarOfertas() {
               //countOfferts();
               enableInputs(true);
             } else {
-              Swal.close();
+              // Swal.close();
               Swal
                 .fire({
                   title: "¡Proceso de Re-Cotización Finalizada!",
@@ -4503,7 +4499,7 @@ function cotizarOfertas() {
             }
           } else {
             // debugger;
-            Swal.close();
+            // Swal.close();
             swal.fire({
               title: "¡Proceso de Re-Cotización Finalizada!",
               showConfirmButton: true,

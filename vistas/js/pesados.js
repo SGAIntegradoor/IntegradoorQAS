@@ -1165,6 +1165,24 @@ function consulPlacaPesados(query = "1") {
               } else if (codigoClase == 4) {
                 claseVehiculo = "UTILITARIOS DEPORTIVOS";
                 limiteRCESTADO = 6;
+              } else if (codigoClase == 11) {
+                claseVehiculo = "CAMIONETA REPAR";
+                limiteRCESTADO = 18;
+                if (rolAsesor == 19) {
+                  restriccion =
+                    "Lo sentimos, no puedes cotizar vehículos livianos/livianos herramienta de trabajo por este módulo.";
+                } else {
+                  restriccion =
+                    "Lo sentimos, no puedes cotizar vehículos livianos/livianos herramienta de trabajo por este módulo.";
+                }
+                Swal.fire({
+                  icon: "error",
+                  text: restriccion,
+                  confirmButtonText: "Cerrar",
+                }).then(() => {
+                  // Recargar la página después de cerrar el SweetAlert
+                  location.reload();
+                });
               } else if (codigoClase == 12) {
                 claseVehiculo = "MOTOCICLETA";
                 limiteRCESTADO = 6;

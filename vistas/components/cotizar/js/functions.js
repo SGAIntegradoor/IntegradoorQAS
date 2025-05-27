@@ -85,7 +85,6 @@ function countOfferts() {
   getOffertsByFilter("Todas", function (response) {
     // Asegúrate de que la respuesta es válida
     try {
-      //console.log("Respuesta completa:", JSON.stringify(response, null, 2));
       let offers = response;
       let todas = offers.length;
       let categoria = [];
@@ -121,11 +120,9 @@ function countOfferts() {
               }
             });
           }
-          // console.log(categoria);
           // Incrementa los contadores según la categoría
         } catch (e) {
           console.error("Error al procesar la categoría:", e, e.stack);
-          //alert("Error en JSON.parse de Categoria: " + e.message);
         }
       });
       if(categoria.length == 0) {

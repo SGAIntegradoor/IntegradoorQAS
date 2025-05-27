@@ -9,9 +9,7 @@ class ControladorClientes{
 	/*=============================================
 	CREAR CLIENTES
 	=============================================*/
-
 	static public function ctrCrearCliente(){
-
 		if(isset($_POST["nuevoNumDocIdCliente"])){
 
 			if(preg_match('/^[0-9]+$/', $_POST["nuevoTipoDocIdCliente"]) &&
