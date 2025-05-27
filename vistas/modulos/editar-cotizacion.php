@@ -1371,6 +1371,7 @@ $response = retrieveQuotation($idCotizacion);
     </div>
 </div>
 
+
 </section>
 
 </div>
