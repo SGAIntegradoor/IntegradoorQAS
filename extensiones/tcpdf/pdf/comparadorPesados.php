@@ -123,10 +123,26 @@ $valorA = number_format($fila["cot_valor_asegurado"], 0, '.', '.');
 $clase = claseV($fila["cot_clase"]);
 $servicio = servise($fila["cot_tip_servicio"]);
 $departamento = DptoVehiculo($fila["cot_departamento"]);
-$codCiudad = $fila["cot_ciudad"];
 
-// Consulta la Ciudad a partir del codigo
-$respNomCiudad = $conexion->query("SELECT `Nombre` FROM `ciudadesbolivar` WHERE `Codigo` = $codCiudad");
+/*
+* INICIO: Consultar nombre de la ciudad
+* Se consulta ciudad dependiendo del departamento seleccionado.
+* Ejm. Florencia (Caqueta) tiene el codigo 18001, pero el departamento es 10 segun la BD.
+* Este genera el cambio en la sentencia SQL para que lo busque correctamente.
+*/
+
+$codDepto = $fila["cot_departamento"];
+$queryCiudad = "SELECT `Nombre` FROM `ciudadesbolivar` WHERE `Codigo` = $codCiudad";
+
+if($codDepto == 10){
+	$queryCiudad = "SELECT `Nombre` FROM `ciudadesbolivar` WHERE `Codigo` = $codCiudad AND `Departamento` = 10";
+}
+$respNomCiudad = $conexion->query($queryCiudad);
+
+/*
+* FIN: Consultar nombre de la ciudad
+*/
+
 $nomCiudad = $respNomCiudad->fetch_assoc();
 $explodeCiudad = explode('-', $nomCiudad["Nombre"]);
 $ciudad = $explodeCiudad[0];

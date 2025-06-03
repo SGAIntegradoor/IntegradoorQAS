@@ -34,6 +34,9 @@ let cont = 0
 const countdown = (dateTo, element, rol) => {
     if(rol == "20" || rol == "19" || rol == "2"){
         const item = document.getElementById(element);
+        if (rol == "19" && item) {
+            item.style.display = "none";
+        }
         const timerUpdate = setInterval( () => {
             let currenTime = getTime(dateTo);          
             if(currenTime.hours != 'NaN'){
@@ -43,21 +46,18 @@ const countdown = (dateTo, element, rol) => {
                         icon: 'error',
                         title: '!Tu tiempo de uso se agoto!',
                         confirmButtonText: 'Ok',
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            window.location = "salir";
-                        } else if (result.isDenied) {
-                        }
-                    })
+                    }).then(() => {
+                        window.location = "salir";
+                    });
                     setTimeout(function(){
                         window.location = "salir";
                     }, 10000);
                 }else{
-                    if(item){
+                    if(item && (rol == "20" || rol == "2")){
                         item.innerHTML =  currenTime.days + "D " + currenTime.hours +  'H ' + currenTime.minutes + 'M ' + currenTime.seconds + 'S';
+                        item.style.display = "block";
                     }
                 }
-            }else{
             }
         }, 1000);
     }
@@ -86,7 +86,10 @@ getRolUser().then(function(respuesta) {
         console.error(respuesta.error);
     } else {
         rolId = respuesta.rol;
-        countdown(fecha, 'cuentatras', rolId);
+        // Valid que la fecha esta bien antes de iniciar el countdown el cual es le que arroja el mensaje
+        if (fecha && !isNaN(new Date(fecha).getTime()) && (rolId == "20" || rolId == "19" || rolId == "2")) {
+            countdown(fecha, 'cuentatras', rolId);
+        }
     }
 }).catch(function(error) {
     console.error("Error fetching user role:", error);

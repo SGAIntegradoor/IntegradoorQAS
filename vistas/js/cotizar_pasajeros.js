@@ -1176,7 +1176,7 @@ function consulPlaca(query = "1") {
                   //   location.reload();
                   // });
                 } else if (codigoClase == 4) {
-                  claseVehiculo = "UTILITARIOS DEPORTIVOS";
+                  claseVehiculo = "CAMIONETA PASAJ.";
                   limiteRCESTADO = 6;
                 } else if (codigoClase == 12) {
                   claseVehiculo = "MOTOCICLETA";
@@ -1574,7 +1574,7 @@ function consulValorfasecolda(codFasecolda, edadVeh) {
           claseVehiculo = "PICK UPS";
           limiteRCESTADO = 18;
         } else if (codigoClase == 4) {
-          claseVehiculo = "UTILITARIOS DEPORTIVOS";
+          claseVehiculo = "CAMIONETA PASAJ.";
           limiteRCESTADO = 6;
         } else if (codigoClase == 12) {
           claseVehiculo = "MOTOCICLETA";
@@ -4264,10 +4264,12 @@ const tipoVehiculo = [
   "BUS",
   "AUTOMOVIL",
   "CAMPERO",
+  "UTILITARIO DEPORTIVO",
   "PICK UPS",
   "PICKUP SENCILLA",
   "PICKUP DOBLE CABINA",
   "PICKUP DOBLE CAB",
+  "CAMIONETA PASAJ.",
 ];
 
 $("#btnConsultarVehmanualbuscador").click(function () {
@@ -4318,7 +4320,7 @@ $("#btnConsultarVehmanualbuscador").click(function () {
             Swal.fire({
               icon: "error",
               title:
-                "Lo sentimos, no puedes cotizar vehÍculos diferentes a livianos por este módulo.",
+                "Lo sentimos, no puedes cotizar vehÍculos diferentes a vehiculos de transporte de pasajeros por este módulo.",
               confirmButtonText: "Cerrar",
               allowOutsideClick: false,
             }).then((result) => {

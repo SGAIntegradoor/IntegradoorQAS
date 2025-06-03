@@ -570,7 +570,7 @@ $(document).ready(function () {
   }
 
   function mostrarPoliticaValorAsegurado() {
-    return swal.fire({
+    return Swal.fire({
       icon: "warning",
       title: "POLÍTICA DE VALOR ASEGURADO<br>LIVIANOS",
       html: `
@@ -1142,7 +1142,7 @@ function consulPlaca(query = "1") {
                   claseVehiculo = "PICK UPS";
                   limiteRCESTADO = 18;
                 } else if (codigoClase == 4) {
-                  claseVehiculo = "UTILITARIOS DEPORTIVOS";
+                  claseVehiculo = "CAMIONETA PASAJ.";
                   limiteRCESTADO = 6;
                 } else if (codigoClase == 12) {
                   claseVehiculo = "MOTOCICLETA";
@@ -1228,7 +1228,7 @@ function consulPlaca(query = "1") {
               mensajeConsulta == "Parámetros Inválidos. Placa es requerido." ||
               mensajeConsulta == "Favor diligenciar correctamente la placa"
             ) {
-              swal.fire({
+              Swal.fire({
                 text: "! Favor diligenciar correctamente la placa. ¡",
               });
             } else {
@@ -3233,8 +3233,8 @@ function cotizarOfertas() {
               if (aseguradora === "HDI") {
                 url = `https://grupoasistencia.com/motor_webservice/HdiPlus`;
               } else if (aseguradora === "Zurich") {
-                const planes = ["FULL", "MEDIUM", "BASIC"];
-                //const planes = ["FULL"];
+                // const planes = ["FULL", "MEDIUM", "BASIC"];
+                const planes = ["FULL"];
                 planes.forEach((plan) => {
                   let lineaVeh =
                     document.getElementById("txtReferenciaVeh").value;
@@ -3310,6 +3310,7 @@ function cotizarOfertas() {
                 });
                 return; // Salir del bucle después de procesar Zurich
               } else if (aseguradora === "Estado") {
+                const aseguradorasEstado = ["Estado", "Estado2"]; // Agrega más aseguradoras según sea necesario
                 const aseguradorasEstado = ["Estado", "Estado2"]; // Agrega más aseguradoras según sea necesario
                 aseguradorasEstado.forEach((aseguradora) => {
                   let successAseguradora = true;
@@ -3592,7 +3593,7 @@ function cotizarOfertas() {
                   });
                 } else {
                   if (!todosOn) {
-                    swal.fire({
+                    Swal.fire({
                       title: "¡Debes seleccionar mínimo una oferta!",
                     });
                   } else {
@@ -4439,7 +4440,7 @@ function cotizarOfertas() {
           if (nuevas.length > 0) {
             // debugger;
             if (intermediario != 3 && intermediario != 149) {
-              swal.fire({
+              Swal.fire({
                 title: "¡Proceso de  Re-Cotización Finalizada!",
                 showConfirmButton: true,
                 confirmButtonText: "Cerrar",

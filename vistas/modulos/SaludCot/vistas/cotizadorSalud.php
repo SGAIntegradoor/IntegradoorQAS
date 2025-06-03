@@ -154,7 +154,7 @@
                             required>
                             <option value="">Año</option>
                             <?php
-                            for ($j = 1920; $j <= 2024; $j++) {
+                            for ($j = 1920; $j <= 2026; $j++) {
                             ?>
                                 <option value="<?php echo $j ?>"><?php echo $j ?></option><?php
                                                                                         }
@@ -194,9 +194,7 @@
     </div>';
     }
 
-
     ?>
-
     <div class="row">
         <div class="col-xs-12 text-center">
             <div class="spinner-container" id="spinener-cot-salud">

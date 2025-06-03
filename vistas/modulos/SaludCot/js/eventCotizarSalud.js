@@ -846,10 +846,7 @@ function makeTable(asegurados, plan_id) {
                       </thead>
                       <tbody>`;
 
-  let subtotalMensual = 0,
-    subtotalTrimestral = 0,
-    subtotalSemestral = 0,
-    subtotalAnual = 0;
+  let subtotalMensual = 0, subtotalTrimestral = 0, subtotalSemestral = 0, subtotalAnual = 0;
 
   asegurados.forEach((asegurado) => {
     let plan = asegurado.planes.find((p) => p.plan_id === plan_id);
