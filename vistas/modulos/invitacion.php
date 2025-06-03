@@ -218,8 +218,8 @@
 
                                         <div class="row">
                                             <div class="col-xs-12 col-md-3 form-group">
-                                                <label for="DptoCirculacion">Departamento de residencia <strong class="text-danger">*</strong></label>
-                                                <select class="form-control" id="DptoCirculacion" required>
+                                                <label for="DptoCirculacionInvi">Departamento de residencia <strong class="text-danger">*</strong></label>
+                                                <select class="form-control" id="DptoCirculacionInvi" required>
                                                     <option value=""></option>
                                                     <option value="1">Amazonas</option>
                                                     <option value="2">Antioquia</option>
@@ -373,11 +373,7 @@
 
 </body>
 
-
-
-
-<script src="vistas/js/invitacion.js"></script>
-
+<script src="vistas/js/invitacion.js?v=<?php echo (rand()); ?>"></script>
 <script>
   document.addEventListener("keydown", function(event) {
     if (event.keyCode === 13) {

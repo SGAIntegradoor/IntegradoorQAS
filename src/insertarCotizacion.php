@@ -59,6 +59,10 @@ $benefOneroso = $_POST["benefOneroso"];
 $idCotizacion = $_POST["idCotizacion"];
 $idUsuario = isset($_SESSION["idUsuario"]) ? $_SESSION["idUsuario"] : 1190;
 
+if($Departamento == 16){
+	$Departamento = 14;
+}
+
 if (!isset($_POST["mundial"]) || isset($_POST['mundial']) == "") {
 	$mundial = NULL;
 } else {

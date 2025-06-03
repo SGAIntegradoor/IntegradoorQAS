@@ -1023,7 +1023,7 @@ echo '<script>console.log(' . $idIntermediario . ", " . $rolAsesor . ')</script>
                     <label style="font-style: underline; text-decoration: underline; padding-bottom: 15px">Datos Representante Legal</label>
                     <div class="row">
                       <div class="col-xs-12 col-sm-6 col-md-3 form-group" id="tipoDocumento">
-                        <input type="hidden" class="form-control" id="intermediario" value="<?php echo $_SESSION["intermediario"]; ?>">
+                        <!-- <input type="hidden" class="form-control" id="intermediario" value="<php echo $_SESSION["intermediario"]; ?>"> -->
                         <input type="hidden" class="form-control" id="cotRestanv" value="<?php echo $_SESSION["cotRestantes"]; ?>">
                         <label for="tipoDocumentoIDRepresentante">Tipo de Documento</label>
                         <select class="form-control" id="tipoDocumentoIDRepresentante" name="tipoDocumentoIDRepresentante" required>

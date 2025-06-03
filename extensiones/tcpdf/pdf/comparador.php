@@ -126,8 +126,6 @@ $queryAsegSelec = "SELECT DISTINCT Aseguradora FROM ofertas WHERE `id_cotizacion
 $valorAsegSelec = $conexion->query($queryAsegSelec);
 $asegSelecionada = mysqli_num_rows($valorAsegSelec);
 
-
-
 $fechaCotiz = substr($fila['cot_fch_cotizacion'], 0, -9);
 $fechaVigencia = date("d-m-Y", strtotime($fechaCotiz));
 
@@ -145,8 +143,25 @@ $servicio = servise($fila["cot_tip_servicio"]);
 $departamento = DptoVehiculo($fila["cot_departamento"]);
 $codCiudad = $fila["cot_ciudad"];
 
-// Consulta la Ciudad a partir del codigo
-$respNomCiudad = $conexion->query("SELECT `Nombre` FROM `ciudadesbolivar` WHERE `Codigo` = $codCiudad");
+/*
+* INICIO: Consultar nombre de la ciudad
+* Se consulta ciudad dependiendo del departamento seleccionado.
+* Ejm. Florencia (Caqueta) tiene el codigo 18001, pero el departamento es 10 segun la BD.
+* Este genera el cambio en la sentencia SQL para que lo busque correctamente.
+*/
+
+$codDepto = $fila["cot_departamento"];
+$queryCiudad = "SELECT `Nombre` FROM `ciudadesbolivar` WHERE `Codigo` = $codCiudad";
+
+if($codDepto == 10){
+	$queryCiudad = "SELECT `Nombre` FROM `ciudadesbolivar` WHERE `Codigo` = $codCiudad AND `Departamento` = 10";
+}
+$respNomCiudad = $conexion->query($queryCiudad);
+
+/*
+* FIN: Consultar nombre de la ciudad
+*/
+
 $nomCiudad = $respNomCiudad->fetch_assoc();
 $explodeCiudad = explode('-', $nomCiudad["Nombre"]);
 $ciudad = $explodeCiudad[0];
@@ -242,83 +257,83 @@ $valorLogo2 = $valorLogo2['usu_logo_pdf'];
 // var_dump($valorLogo);
 // var_dump($valorLogo2);
 
-	$id_usuario_log = $_SESSION['idUsuario'];
+$id_usuario_log = $_SESSION['idUsuario'];
 
-	if ($valorLog == "undefined") {
+if ($valorLog == "undefined") {
+	$height = 20;
+	$pieces = explode(".", $valorLogo2);
+	if ($intermediario == "89" || $intermediario == 89) {
+		$urlSGA = "../../../vistas/img/intermediario/SEGUROS GRUPO ASISTENCIA SAS/LogoIntegradoor.jpg";
 		$height = 20;
-		$pieces = explode(".", $valorLogo2);
-		if ($intermediario == "89" || $intermediario == 89) {
-			$urlSGA = "../../../vistas/img/intermediario/SEGUROS GRUPO ASISTENCIA SAS/LogoIntegradoor.jpg";
-			$height = 20;
-		} else {
-			$urlSGA = "../../../vistas/img/intermediario/SEGUROS GRUPO ASISTENCIA SAS/LogoGA.png";
-		}
-
-		$width = 40;  // El ancho que deseas en el PDF
-		if ($pieces[0] == "") {
-			list($imgWidth2, $imgHeight2) = getimagesize($urlSGA);
-			$pdf->Image($urlSGA, 10, 13, 0, $height, 'JPG', '', '', false, 160, '', false, false, 0, false, false, false);
-		} else if ($pieces[1] == 'png') {
-			list($imgWidth, $imgHeight) = getimagesize('../../../' . $valorLogo2);
-			$height = ($imgHeight / $imgWidth) * $width;  // Mantener la relación de aspecto
-			$pdf->Image('../../../' . $valorLogo2, 10, 13, 0, $height, 'PNG', '', '', false, 160, '', false, false, 0, false, false, false);
-		} else {
-
-			//var_dump("entre aqui");
-			list($imgWidth, $imgHeight) = getimagesize('../../../' . $valorLogo2);
-			$height = ($imgHeight / $imgWidth) * $width;  // Mantener la relación de aspecto
-			$pdf->Image('../../../' . $valorLogo2, 10, 13, 0, $height, 'JPG', '', '', false, 160, '', false, false, 0, false, false, false);
-		}
-	} else if ($valorLogo !== "undefined" && !empty($valorLogo2)) {
-		// var_dump("entre aqui");
-		$pieces = explode(".", $valorLogo2);
-
-		// Ruta completa de la imagen
-		$imagePath = '../../../' . $valorLogo2;
-
-		// Obtener dimensiones de la imagen original
-		list($imgWidth, $imgHeight) = getimagesize($imagePath);
-
-		// Dimensiones máximas permitidas para la imagen en el PDF
-		$maxWidth = 100; // Ajusta según el espacio disponible
-		$maxHeight = 20;
-
-		if ($imgWidth > 1080 && $imgHeight < 428) {
-			$maxHeight = 15;
-		}
-		// Escalar la imagen manteniendo la proporción
-		if ($imgWidth > $maxWidth || $imgHeight > $maxHeight) {
-
-			$scaleFactor = min($maxWidth / $imgWidth, $maxHeight / $imgHeight);
-
-			$imgWidth = $imgWidth * $scaleFactor;
-			$imgHeight = $imgHeight * $scaleFactor;
-		}
-
-		// Coordenadas de posición inicial
-		$xPosition = 10; // Ajusta según la posición horizontal deseada
-		$yPosition = 13; // Ajusta según la posición vertical deseada
-
-		// Verificar el formato de la imagen y agregarla al PDF
-		if ($pieces[1] == 'PNG' || $pieces[1] == 'png') {
-			$pdf->Image($imagePath, $xPosition, $yPosition, $imgWidth, $imgHeight, 'PNG',  '', '', false, 300, '', false, false, 0, false, false, false);
-		} else {
-			$pdf->Image($imagePath, $xPosition, $yPosition, $imgWidth, $imgHeight, 'JPG',  '', '', false, 300, '', false, false, 0, false, false, false);
-		}
-	} else if ($valorLog != "") {
-		$urlSGA = "../../../vistas/img/logosIntermediario/" . $valorLog;
-		$pdf->Image($urlSGA, 8, 13, 0, 20, 'PNG', '', '', true, 160, '', false, false, 0, false, false, false);
 	} else {
-		if ($intermediario == "89" || $intermediario == 89) {
-			$urlSGA = "../../../vistas/img/intermediario/SEGUROS GRUPO ASISTENCIA SAS/LogoIntegradoor.png";
-			$height = 15;
-			$pdf->Image($urlSGA, 8, 13, 0, $height, 'PNG', '', '', true, 160, '', false, false, 0, false, false, false);
-		} else {
-			$urlSGA = "../../../vistas/img/intermediario/SEGUROS GRUPO ASISTENCIA SAS/LogoGA.png";
-			$pdf->Image($urlSGA, 8, 13, 0, 20, 'PNG', '', '', true, 160, '', false, false, 0, false, false, false);
-		}
+		$urlSGA = "../../../vistas/img/intermediario/SEGUROS GRUPO ASISTENCIA SAS/LogoGA.png";
 	}
-	$pdf->Image('../../../vistas/img/logos/cheque.png', 100.5, 150.5, 0, -12, 'PNG', '', '', true, 160, '', false, false, 0, false, false, false);
+
+	$width = 40;  // El ancho que deseas en el PDF
+	if ($pieces[0] == "") {
+		list($imgWidth2, $imgHeight2) = getimagesize($urlSGA);
+		$pdf->Image($urlSGA, 10, 13, 0, $height, 'JPG', '', '', false, 160, '', false, false, 0, false, false, false);
+	} else if ($pieces[1] == 'png') {
+		list($imgWidth, $imgHeight) = getimagesize('../../../' . $valorLogo2);
+		$height = ($imgHeight / $imgWidth) * $width;  // Mantener la relación de aspecto
+		$pdf->Image('../../../' . $valorLogo2, 10, 13, 0, $height, 'PNG', '', '', false, 160, '', false, false, 0, false, false, false);
+	} else {
+
+		//var_dump("entre aqui");
+		list($imgWidth, $imgHeight) = getimagesize('../../../' . $valorLogo2);
+		$height = ($imgHeight / $imgWidth) * $width;  // Mantener la relación de aspecto
+		$pdf->Image('../../../' . $valorLogo2, 10, 13, 0, $height, 'JPG', '', '', false, 160, '', false, false, 0, false, false, false);
+	}
+} else if ($valorLogo !== "undefined" && !empty($valorLogo2)) {
+	// var_dump("entre aqui");
+	$pieces = explode(".", $valorLogo2);
+
+	// Ruta completa de la imagen
+	$imagePath = '../../../' . $valorLogo2;
+
+	// Obtener dimensiones de la imagen original
+	list($imgWidth, $imgHeight) = getimagesize($imagePath);
+
+	// Dimensiones máximas permitidas para la imagen en el PDF
+	$maxWidth = 100; // Ajusta según el espacio disponible
+	$maxHeight = 20;
+
+	if ($imgWidth > 1080 && $imgHeight < 428) {
+		$maxHeight = 15;
+	}
+	// Escalar la imagen manteniendo la proporción
+	if ($imgWidth > $maxWidth || $imgHeight > $maxHeight) {
+
+		$scaleFactor = min($maxWidth / $imgWidth, $maxHeight / $imgHeight);
+
+		$imgWidth = $imgWidth * $scaleFactor;
+		$imgHeight = $imgHeight * $scaleFactor;
+	}
+
+	// Coordenadas de posición inicial
+	$xPosition = 10; // Ajusta según la posición horizontal deseada
+	$yPosition = 13; // Ajusta según la posición vertical deseada
+
+	// Verificar el formato de la imagen y agregarla al PDF
+	if ($pieces[1] == 'PNG' || $pieces[1] == 'png') {
+		$pdf->Image($imagePath, $xPosition, $yPosition, $imgWidth, $imgHeight, 'PNG',  '', '', false, 300, '', false, false, 0, false, false, false);
+	} else {
+		$pdf->Image($imagePath, $xPosition, $yPosition, $imgWidth, $imgHeight, 'JPG',  '', '', false, 300, '', false, false, 0, false, false, false);
+	}
+} else if ($valorLog != "") {
+	$urlSGA = "../../../vistas/img/logosIntermediario/" . $valorLog;
+	$pdf->Image($urlSGA, 8, 13, 0, 20, 'PNG', '', '', true, 160, '', false, false, 0, false, false, false);
+} else {
+	if ($intermediario == "89" || $intermediario == 89) {
+		$urlSGA = "../../../vistas/img/intermediario/SEGUROS GRUPO ASISTENCIA SAS/LogoIntegradoor.png";
+		$height = 15;
+		$pdf->Image($urlSGA, 8, 13, 0, $height, 'PNG', '', '', true, 160, '', false, false, 0, false, false, false);
+	} else {
+		$urlSGA = "../../../vistas/img/intermediario/SEGUROS GRUPO ASISTENCIA SAS/LogoGA.png";
+		$pdf->Image($urlSGA, 8, 13, 0, 20, 'PNG', '', '', true, 160, '', false, false, 0, false, false, false);
+	}
+}
+$pdf->Image('../../../vistas/img/logos/cheque.png', 100.5, 150.5, 0, -12, 'PNG', '', '', true, 160, '', false, false, 0, false, false, false);
 
 $pdf->SetFont('dejavusanscondensed', 'B', 10);
 $pdf->SetXY(158, 3);
@@ -1351,8 +1366,8 @@ foreach ($resultados as $resultado) {
 		$queryConsultaAsistencia5Eve = "SELECT Eventos, Placa FROM ofertas WHERE `id_cotizacion` = $identificador AND `aseguradora` LIKE 'Previsora Seguros' AND `producto` LIKE '$nombreProducto'";
 		$respuestaqueryAsistencia5Eve =  $conexion->query($queryConsultaAsistencia5Eve);
 		$rowRespuestaAsistencia5Eve = mysqli_fetch_assoc($respuestaqueryAsistencia5Eve);
-        
-		if(isset($rowRespuestaAsistencia5Eve['Eventos']) && $rowRespuestaAsistencia5Eve['Eventos'] != null){
+
+		if (isset($rowRespuestaAsistencia5Eve['Eventos']) && $rowRespuestaAsistencia5Eve['Eventos'] != null) {
 			if ($cont9 % 2 == 0) {
 				$html3 .= '<td class="puntos fondo" style="width:' . $valorTabla . '%;"><center><div style="font-size:12pt">&nbsp;</div><font size="7"style="text-align: center;  font-family:dejavusanscondensed;">' . $rowRespuestaAsistencia5Eve['Eventos'] . '</font></center></td>';
 			} else {
@@ -1365,7 +1380,6 @@ foreach ($resultados as $resultado) {
 				$html3 .= '<td class="puntos fondo2" style="width:' . $valorTabla . '%;"><center><div style="font-size:12pt">&nbsp;</div><font size="7"style="text-align: center;  font-family:dejavusanscondensed;">' . $rowRespuestaAsistencia5['eventos'] . '</font></center></td>';
 			}
 		}
-		
 	}
 
 
@@ -2891,11 +2905,11 @@ function DptoVehiculo($codigoDpto)
 		$nomDpto = "Cauca";
 	} else if ($codigoDpto == 13) {
 		$nomDpto = "Cesar";
-	} else if ($codigoDpto == 14) {
+	} else if ($codigoDpto == 16) {
 		$nomDpto = "Chocó";
 	} else if ($codigoDpto == 15) {
 		$nomDpto = "Córdoba";
-	} else if ($codigoDpto == 16) {
+	} else if ($codigoDpto == 14) {
 		$nomDpto = "Cundinamarca";
 	} else if ($codigoDpto == 17) {
 		$nomDpto = "Guainía";
