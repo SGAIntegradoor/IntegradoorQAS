@@ -3311,7 +3311,6 @@ function cotizarOfertas() {
                 return; // Salir del bucle después de procesar Zurich
               } else if (aseguradora === "Estado") {
                 const aseguradorasEstado = ["Estado", "Estado2"]; // Agrega más aseguradoras según sea necesario
-                const aseguradorasEstado = ["Estado", "Estado2"]; // Agrega más aseguradoras según sea necesario
                 aseguradorasEstado.forEach((aseguradora) => {
                   let successAseguradora = true;
                   cont.push(
