@@ -992,7 +992,7 @@ function consulPlaca(query = "1") {
     var apellidosAseg = document.getElementById("txtApellidos").value;
     var generoAseg = document.getElementById("genero").value;
     var estadoCivil = document.getElementById("estadoCivil").value;
-    var intermediario = document.getElementById("intermediario").value;
+    var intermediario = document.getElementById("idIntermediario").value;
 
     //! Agregar esto a MOTOS y Pesados START
     let digitoVerif = $("#txtDigitoVerif").val();
@@ -2701,7 +2701,7 @@ function cotizarOfertasPasajeros() {
   var isBenefOneroso = $("input:radio[name=oneroso]:checked").val(); // Valida que alguno de los 2 este selecionado
   var benefOneroso = document.getElementById("benefOneroso").value;
   var TokenPrevisora = document.getElementById("previsoraToken").value;
-  var intermediario = document.getElementById("intermediario").value;
+  var intermediario = document.getElementById("idIntermediario").value;
 
   var tipoUsoVehiculo = document.getElementById(
     "txtTipoTransporteVehiculo"

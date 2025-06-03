@@ -245,7 +245,7 @@ $(document).ready(function () {
     });
   }
 
-  let intermediario = document.getElementById("intermediario").value;
+  let intermediario = document.getElementById("idIntermediario").value;
   // Ejectura la funcion Cotizar Ofertas
   $("#btnCotizarMotos").click(function (e) {
     let deptoCirc = $("#DptoCirculacion").val();
@@ -866,7 +866,7 @@ function consulPlacaMotos(query = "1") {
     var apellidosAseg = document.getElementById("txtApellidos").value;
     var generoAseg = document.getElementById("genero").value;
     var estadoCivil = document.getElementById("estadoCivil").value;
-    var intermediario = document.getElementById("intermediario").value;
+    var intermediario = document.getElementById("idIntermediario").value;
     if (intermediario !== "3") {
       var mensajeSga = document.getElementById("mensajeSga");
       mensajeSga.style.display = "none"; // o cualquier otro valor como 'inline', 'flex', etc.
@@ -3076,7 +3076,7 @@ function cotizarOfertasMotos() {
               $("#loaderOferta").html("");
               if (contCotizacionMotos > 0) {
                 let intermediario =
-                  document.getElementById("intermediario").value;
+                  document.getElementById("idIntermediario").value;
                 if (intermediario != 3 && intermediario != 149) {
                   Swal.fire({
                     title: "¡Proceso de Cotización Finalizada!",
@@ -3558,7 +3558,7 @@ function cotizarOfertasMotos() {
             (cotizaciones) => cotizaciones.cotizada === null
           );
           if (nuevas.length > 0) {
-            let intermediario = document.getElementById("intermediario").value;
+            let intermediario = document.getElementById("idIntermediario").value;
             if (intermediario != 3 && intermediario != 149) {
               Swal.close();
               Swal.fire({
