@@ -34,13 +34,13 @@ function obtenerCredenciales($enlace, $tabla, $columnas, $idIntermediario)
 
 
 // FUNCION PARA OBTENER CREDENCIALES SBS
-$creSBS = obtenerCredenciales($enlace, 'Credenciales_SBS', 'cre_sbs_usuario, cre_sbs_contrasena', $_SESSION['intermediario']);
+$creSBS = obtenerCredenciales($enlace, 'credenciales_sbs', 'cre_sbs_usuario, cre_sbs_contrasena', $_SESSION['intermediario']);
 
 $cre_sbs_usuario = $creSBS['cre_sbs_usuario'];
 $cre_sbs_contrasena = $creSBS['cre_sbs_contrasena']; // Aquí está el cambio
 
 // FUNCION PARA OBTENER CREDENCIALES ALLIANZ
-$creAllianz = obtenerCredenciales($enlace, 'Credenciales_Allianz', '*', $_SESSION['intermediario']);
+$creAllianz = obtenerCredenciales($enlace, 'credenciales_allianz', '*', $_SESSION['intermediario']);
 
 $cre_alli_sslcertfile = $creAllianz['cre_alli_sslcertfile'];
 $cre_alli_sslkeyfile = $creAllianz['cre_alli_sslkeyfile'];
@@ -55,7 +55,7 @@ $cre_alli_agentcode = $creAllianz['cre_alli_agentcode'];
 
 
 // FUNCION PARA OBTENER CREDENCIALES ESTADO
-$creEstado = obtenerCredenciales($enlace, 'Credenciales_Estado', '*', $_SESSION['intermediario']);
+$creEstado = obtenerCredenciales($enlace, 'credenciales_estado', '*', $_SESSION['intermediario']);
 
 $cre_est_usuario = $creEstado['cre_est_usuario'];
 $cre_equ_contrasena = $creEstado['cre_equ_contrasena'];
@@ -64,7 +64,7 @@ $cre_est_zona = $creEstado['cre_est_zona'];
 
 
 // FUNCION PARA OBTENER CREDENCIALES AXA
-$creAXA = obtenerCredenciales($enlace, 'Credenciales_AXA', '*', $_SESSION['intermediario']);
+$creAXA = obtenerCredenciales($enlace, 'credenciales_axa', '*', $_SESSION['intermediario']);
 
 $cre_axa_sslcertfile = $creAXA['cre_axa_sslcertfile'];
 $cre_axa_sslkeyfile = $creAXA['cre_axa_sslkeyfile'];
@@ -78,7 +78,7 @@ $url_axa = $creAXA['url_axa'];
 $motos_productos = $creAXA['motos_productos'];
 
 
-$creSolidaria = obtenerCredenciales($enlace, 'Credenciales_Solidaria', '*', $_SESSION['intermediario']);
+$creSolidaria = obtenerCredenciales($enlace, 'credenciales_solidaria', '*', $_SESSION['intermediario']);
 
 $cre_sol_id = $creSolidaria['cre_sol_id'] ?? null;
 $id_Intermediario = $creSolidaria['id_Intermediario'] ?? null;
@@ -93,7 +93,7 @@ $cre_sol_token = $creSolidaria['cre_sol_token'] ?? null;
 $cre_sol_fecha_token = $creSolidaria['cre_sol_fecha_token'] ?? null;
 
 
-$query8 = "SELECT *  FROM `Credenciales_Bolivar` WHERE `id_Intermediario` = '" . $_SESSION["intermediario"] . "'";
+$query8 = "SELECT *  FROM `credenciales_bolivar` WHERE `id_Intermediario` = '" . $_SESSION["intermediario"] . "'";
 
 $ejecucion8 = mysqli_query($enlace, $query8);
 $numerofilas8 = mysqli_num_rows($ejecucion8);
@@ -103,7 +103,7 @@ if ($numerofilas8 > 0) {
   $cre_bol_api_key = $fila8['cre_bol_api_key'];
   $cre_bol_claveAsesor = $fila8['cre_bol_claveAsesor'];
 } else {
-  $query9 = "SELECT * FROM `Credenciales_Bolivar` WHERE `id_Intermediario` = 3";
+  $query9 = "SELECT * FROM `credenciales_bolivar` WHERE `id_Intermediario` = 3";
 
   $ejecucion9 = mysqli_query($enlace, $query9);
   $numerofilas9 = mysqli_num_rows($ejecucion9);

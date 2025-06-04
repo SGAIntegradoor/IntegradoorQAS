@@ -3137,14 +3137,16 @@ function consultarCiudadHogar() {
     url: "src/consultarCiudadHogar.php",
     data: { codigoDpto: codigoDpto },
     cache: false,
-    success: function (data) {
+    dataType: "json",
+    success: function (response) {
       //
       let ciudadesVeh = `<option value="">Seleccionar Ciudad</option>`;
       try {
-        let json = JSON.parse(data);
-        json.sort((a, b) => a.codigo - b.codigo);
-
-        json.forEach(({ codigo, ciudad }) => {
+        let json = response;
+        const { data } = json
+        console.log(data)
+        data.sort((a, b) => a.codigo - b.codigo);
+        data.forEach(({ codigo, ciudad }) => {
           ciudadesVeh += `<option value="${codigo}">${ciudad}</option>`;
         });
 
