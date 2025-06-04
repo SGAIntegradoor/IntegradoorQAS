@@ -302,6 +302,7 @@
 
     $aseguradoras_publicos = array(
       "AXA" => array("A" => $permisos["AXA_A_Publicos"], "C" => $permisos["AXA_C_Publicos"]),
+      "Equidad" => array("A" => $permisos["Equidad_A_Publicos"], "C" => $permisos["Equidad_C_Publicos"]),
       "Estado" => array("A" => $permisos["Estado_A_Publicos"], "C" => $permisos["Estado_C_Publicos"]),
       "HDI (Antes Liberty)" => array("A" => $permisos["Liberty_A_Publicos"], "C" => $permisos["Liberty_C_Publicos"]),
       "Solidaria" => array("A" => $permisos["Solidaria_A_Publicos"], "C" => $permisos["Solidaria_C_Publicos"]),

@@ -3,7 +3,6 @@
 let conPressed = 0;
 
 $(document).ready(function () {
-
   // Obtener la URL completa
   const urlCompleta = window.location.href;
 
@@ -699,9 +698,7 @@ const controlFields = (val) => {
     $("#digitoVerificacion").css("display", "block");
 
     // Fila Fecha, Razon Social (Para Nit), Genero, Estado Civil, Celular (Todas menos NIT)
-    $('label[name="lblFechaNacimiento"]').html(
-      'Fecha Constitución Empresa'
-    );
+    $('label[name="lblFechaNacimiento"]').html("Fecha Constitución Empresa");
     $('label[name="lblFechaNacimiento"]').css("max-width", "447px");
     $('label[name="lblFechaNacimiento"]').css("width", "447px");
 
@@ -1271,8 +1268,10 @@ function consulPlaca(query = "1") {
                     // ) {
 
                     $("#txtClaseVeh").val(claseVehiculo);
-                    if(claseVehiculo == "BUS / BUSETA / MICROBUS"){
-                      $("#txtTipoTransporteVehiculo").val("2").trigger("change");
+                    if (claseVehiculo == "BUS / BUSETA / MICROBUS") {
+                      $("#txtTipoTransporteVehiculo")
+                        .val("2")
+                        .trigger("change");
                     }
                     // } else {
                     //   Swal.fire({
@@ -1885,7 +1884,9 @@ function cotizarFinesa(ofertasCotizaciones) {
     if (element.cotizada == null || element.cotizada == false) {
       promisesFinesa.push(
         fetch(
-          `https://www.grupoasistencia.com/motor_webservice/paymentInstallmentsFinesa${env == "qas" ? "_qas": env == "dev" ? "_qas" : ""}`,
+          `https://www.grupoasistencia.com/motor_webservice/paymentInstallmentsFinesa${
+            env == "qas" ? "_qas" : env == "dev" ? "_qas" : ""
+          }`,
           // "http://localhost/motorTest/paymentInstallmentsFinesa",
           {
             method: "POST",
@@ -1903,8 +1904,9 @@ function cotizarFinesa(ofertasCotizaciones) {
             finesaData.cuotas = element.cuotas;
             return fetch(
               // "http://localhost/motorTest/saveDataQuotationsFinesa",
-              `https://www.grupoasistencia.com/motor_webservice/saveDataQuotationsFinesa${(env ==
-                "qas" ? "_qas" : (env == "dev" ? "_qas" : ""))}`,
+              `https://www.grupoasistencia.com/motor_webservice/saveDataQuotationsFinesa${
+                env == "qas" ? "_qas" : env == "dev" ? "_qas" : ""
+              }`,
               {
                 method: "POST",
                 headers: headers,
@@ -2813,8 +2815,7 @@ function cotizarOfertasPasajeros() {
   let conditions = false;
 
   if (tipoUsoVehiculo === "2") {
-    const pasajerosValidos =
-      numeroPasajeros !== "";
+    const pasajerosValidos = numeroPasajeros !== "";
     conditions = camposComunesValidos && pasajerosValidos;
   } else {
     conditions = camposComunesValidos;
@@ -3220,7 +3221,7 @@ function cotizarOfertasPasajeros() {
             //console.log(aseguradorasCoti); // Esto imprimirá el array con los nombres de aseguradoras autorizadas
             // return;
             const lineaVeh = document.getElementById("txtReferenciaVeh").value;
-            
+
             aseguradorasCoti.forEach((aseguradora) => {
               let url;
               if (aseguradora === "HDI (Antes Liberty)") {
@@ -3881,50 +3882,50 @@ function cotizarOfertasPasajeros() {
         //   cont.push(previsoraPromise);
 
         /* Equidad */
-        //   const equidadPromise = comprobarFallida("Equidad")
-        //     ? fetch(
-        //         "https://grupoasistencia.com/motor_webservice/Equidad_autos?callback=myCallback",
-        //         requestOptions
-        //       )
-        //         .then((res) => {
-        //           if (!res.ok) throw Error(res.statusText);
-        //           return res.json();
-        //         })
-        //         .then((ofertas) => {
-        //           if (typeof ofertas[0].Resultado !== "undefined") {
-        //             agregarAseguradoraFallida("Equidad");
-        //             validarProblema("Equidad", ofertas);
-        //             ofertas[0].Mensajes.forEach((mensaje) => {
-        //               mostrarAlertarCotizacionFallida("Equidad", mensaje);
-        //             });
-        //           } else {
-        //             // eliminarAseguradoraFallida('Equidad');
-        //             const contadorPorEntidad = validarOfertas(
-        //               ofertas,
-        //               "Equidad",
-        //               1
-        //             );
-        //             mostrarAlertaCotizacionExitosa("Equidad", contadorPorEntidad);
-        //           }
-        //         })
-        //         .catch((err) => {
-        //           agregarAseguradoraFallida("Equidad");
-        //           mostrarAlertarCotizacionFallida(
-        //             "Equidad",
-        //             "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
-        //           );
-        //           validarProblema("Equidad", [
-        //             {
-        //               Mensajes: [
-        //                 "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
-        //               ],
-        //             },
-        //           ]);
-        //           console.error(err);
-        //         })
-        //     : Promise.resolve();
+          const equidadPromise = comprobarFallida("Equidad")
+            ? fetch(
+                "https://grupoasistencia.com/motor_webservice_publics/Equidad_Pasajeros",
+                requestOptions
+              )
+                .then((res) => {
+                  if (!res.ok) throw Error(res.statusText);
+                  return res.json();
+                })
+                .then((ofertas) => {
+                  if (typeof ofertas[0].Resultado !== "undefined") {
+                    agregarAseguradoraFallida("Equidad");
+                    validarProblema("Equidad", ofertas);
+                    ofertas[0].Mensajes.forEach((mensaje) => {
+                      mostrarAlertarCotizacionFallida("Equidad", mensaje);
+                    });
+                  } else {
+                    // eliminarAseguradoraFallida('Equidad');
+                    const contadorPorEntidad = validarOfertas(
+                      ofertas,
+                      "Equidad",
+                      1
+                    );
+                    mostrarAlertaCotizacionExitosa("Equidad", contadorPorEntidad);
+                  }
+                })
+                .catch((err) => {
+                  agregarAseguradoraFallida("Equidad");
+                  mostrarAlertarCotizacionFallida(
+                    "Equidad",
+                    "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
+                  );
+                  validarProblema("Equidad", [
+                    {
+                      Mensajes: [
+                        "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
+                      ],
+                    },
+                  ]);
+                  console.error(err);
+                })
+            : Promise.resolve();
 
-        //   cont.push(equidadPromise);
+          cont.push(equidadPromise);
 
         const lineaVeh = document.getElementById("txtReferenciaVeh").value;
 
@@ -4366,10 +4367,9 @@ $("#btnConsultarVehmanualbuscador").click(function () {
             document.getElementById("txtReferenciaVeh").value = lineaVeh;
             document.getElementById("txtClaseVeh").value = claseVeh;
 
-            if(claseVeh == "BUS / BUSETA / MICROBUS"){
+            if (claseVeh == "BUS / BUSETA / MICROBUS") {
               $("#txtTipoTransporteVehiculo").val("2").trigger("change");
             }
-            
           }
         }
       },
