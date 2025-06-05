@@ -1,6 +1,6 @@
 <?php
 
-$DB_host = "52.15.158.65:3306";
+$DB_host = "52.15.158.65";
 $DB_user = "grupoasi_cotizautos";
 $DB_pass = "M1graci0n123";
 $DB_name = "grupoasi_cotizautos_dev";

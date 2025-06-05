@@ -32,13 +32,13 @@ $password = "M1graci0n123"; //poner tu propia contraseña, si tienes una.
 $URI = explode("/", $_SERVER['REQUEST_URI']);
 
 if (in_array("dev", $URI)) {
-	$server = "52.15.158.65:3306";
+	$server = "52.15.158.65";
 	$bd = "grupoasi_cotizautos_dev";
 } else if (in_array("QAS", $URI)) {
-	$server = "52.15.158.65:3306";
+	$server = "52.15.158.65";
 	$bd = "grupoasi_cotizautos_qas";
 } else {
-	$server = "52.15.158.65:3306";
+	$server = "52.15.158.65";
 	$bd = "grupoasi_cotizautos";
 }
 // var_dump($server, $bd, $user, $password);
