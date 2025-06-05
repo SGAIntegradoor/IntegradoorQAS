@@ -612,8 +612,8 @@ $response = retrieveQuotation($idCotizacion);
                         <label for="txtNumeroPasajeros">Numero de Pasajeros</label>
                         <select name="txtNumeroPasajeros" id="txtNumeroPasajeros" class="form-control">
                           <option value="">Seleccione una opción...</option>
-                          <option value="hasta19">Hasta 19 Pasajeros</option>
-                          <option value="masDe19">Mas de 19 Pasajeros</option>
+                          <option value="1">Hasta 19 Pasajeros</option>
+                          <option value="2">Mas de 19 Pasajeros</option>
                         </select>
                       </div>
 

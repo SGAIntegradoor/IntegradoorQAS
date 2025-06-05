@@ -1288,6 +1288,8 @@ async function renderCards(response) {
         "Axa Colpatria",
         "Previsora",
         "Solidaria",
+        "Equidad",
+        "AXA Colpatria"
       ];
 
       const planesViajes = [
@@ -1322,6 +1324,10 @@ async function renderCards(response) {
         "Buses Premium",
         "Buses Plus",
         "Buses Elite",
+        "Plan Básico",
+        "Plan Normal",
+        "Plan Full",
+        "Buses"
       ];
 
       var valorRC = isNumeric(oferta.ValorRC);
@@ -1401,9 +1407,9 @@ async function renderCards(response) {
                           <img src='${oferta.logo}' style="${
         oferta.Aseguradora == "Mundial"
           ? "margin-top: 65px;"
-          : // : oferta.Aseguradora == "HDI (Antes Liberty)"
-            // ? "margin-top: 3px;"
-            null
+          : oferta.Aseguradora == "Equidad" && oferta.Manual == "4"
+          ? "padding-top: 15px;"
+          : null
       }">
                         </center>
                         <div class='col-12' style='margin-top:2%;'>
@@ -1423,7 +1429,7 @@ async function renderCards(response) {
                                     "x" &&
                                   aseguradoraPermisos == "1"
                                 ? `<center>
-                                <label class='entidad'>N° Cot: <span style='color:black'> ${oferta.NumCotizOferta}</span></label>
+                                ${aseguradora == "Equidad" ? "" : "<label class='entidad'>N° Cot: <span style='color:black'>" + oferta.NumCotizOferta + "</span></label>"}
                               </center>`
                                 : ""
                             }
@@ -1606,7 +1612,7 @@ async function renderCards(response) {
                             <li class="list-group-item">
   
                               <span class="badge">* ${
-                                valorRCFormat !== "No cubre" ? "$" : ""
+                                valorRCFormat !== "No cubre" && !valorRCFormat.includes("/") ? "$" : ""
                               }${valorRCFormat}</span>
   
                               Responsabilidad Civil (RCE)
@@ -2277,8 +2283,9 @@ function editarCotizacion(id) {
               $("#divTipoUso").css("display", "none");
               $("#divTipoServicio").css("display", "none");
               $("#divTipoTransporte").css("display", "block");
-              // trigger chance
+              // trigger change
               if (respuesta["cot_tip_uso"] == "2") {
+                console.log(respuesta["cot_tip_uso"] )
                 $("#divNumeroPasajeros").css("display", "block");
                 $("#txtNumeroPasajeros").val(respuesta["cot_num_pasajeros"]);
               }

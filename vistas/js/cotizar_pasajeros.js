@@ -2189,14 +2189,13 @@ const mostrarOferta = (
                             <div class='col-lg-12'>
                                 <div class='card-ofertas'>
                                     <div class='row card-body'>
-                                        <div class="col-xs-12 col-sm-6 col-md-2 oferta-logo">
+                                        <div class="col-xs-12 col-sm-6 col-md-2 oferta-logo" style="${aseguradora == "Equidad" ? "padding-top: 15px;" : ""}">
                                         <center>
-    
                                             <img src='vistas/img/logos/${logo}' 
                                            >
-    
-                      </center>  
-    
+
+                      </center>
+
                       <div class='col-12' style='margin-top:2%;'>
                         ${
                           (aseguradora == "Axa Colpatria" ||
@@ -2212,7 +2211,7 @@ const mostrarOferta = (
                             : permisos.Vernumerodecotizacionencadaaseguradora ==
                                 "x" && permisosCredenciales == "1"
                             ? `<center>
-                            <label class='entidad'>N° Cot: <span style='color:black'>${numCotizOferta}</span></label>
+                          ${aseguradora == "Equidad" ? "" : "<label class='entidad'>N° Cot: <span style='color:black'>" + numCotizOferta + "</span></label>"}
                           </center>`
                             : ""
                         }
@@ -2938,18 +2937,22 @@ function cotizarOfertasPasajeros() {
           // Crear la celda de nombre de aseguradora
           const celdaNombre = document.createElement("td");
           celdaNombre.textContent = aseguradora;
+          celdaNombre.className = "text-center";
+          celdaNombre.style.verticalAlign = "middle";
           celdaNombre.id = aseguradora; // Establecer el id igual al nombre de la aseguradora
           fila.appendChild(celdaNombre);
 
           // Crear la celda de respuesta
           const celdaRespuesta = document.createElement("td");
           celdaRespuesta.className = "text-center";
+          celdaRespuesta.style.verticalAlign = "middle";
           celdaRespuesta.id = `${aseguradora}Response`;
           fila.appendChild(celdaRespuesta);
 
           // Crear la celda de productos cotizados
           const celdaProductos = document.createElement("td");
           celdaProductos.className = "text-center";
+          celdaProductos.style.verticalAlign = "middle";
           celdaProductos.id = `${aseguradora}Products`;
           fila.appendChild(celdaProductos);
 
@@ -3394,9 +3397,26 @@ function cotizarOfertasPasajeros() {
                       if (typeof ofertas[0].Resultado !== "undefined") {
                         agregarAseguradoraFallida(aseguradora);
                         validarProblema(aseguradora, ofertas);
-                        ofertas[0].Mensajes.forEach((mensaje) => {
-                          mostrarAlertarCotizacionFallida(aseguradora, mensaje);
-                        });
+                        if (
+                          aseguradora == "Equidad" &&
+                          ofertas[0].Mensajes.length > 1
+                        ) {
+                          let mensajesConcatenados = "Cotización Fallida: <br><br>";
+                          ofertas[0].Mensajes.forEach((mensaje) => {
+                            mensajesConcatenados += mensaje + "<br>";
+                          });
+                          mostrarAlertarCotizacionFallida(
+                            aseguradora,
+                            mensajesConcatenados
+                          );
+                        } else {
+                          ofertas[0].Mensajes.forEach((mensaje) => {
+                            mostrarAlertarCotizacionFallida(
+                              aseguradora,
+                              mensaje
+                            );
+                          });
+                        }
                       } else {
                         const contadorPorEntidad = validarOfertas(
                           ofertas,
@@ -3882,50 +3902,65 @@ function cotizarOfertasPasajeros() {
         //   cont.push(previsoraPromise);
 
         /* Equidad */
-          const equidadPromise = comprobarFallida("Equidad")
-            ? fetch(
-                "https://grupoasistencia.com/motor_webservice_publics/Equidad_Pasajeros",
-                requestOptions
-              )
-                .then((res) => {
-                  if (!res.ok) throw Error(res.statusText);
-                  return res.json();
-                })
-                .then((ofertas) => {
-                  if (typeof ofertas[0].Resultado !== "undefined") {
-                    agregarAseguradoraFallida("Equidad");
-                    validarProblema("Equidad", ofertas);
-                    ofertas[0].Mensajes.forEach((mensaje) => {
-                      mostrarAlertarCotizacionFallida("Equidad", mensaje);
-                    });
-                  } else {
-                    // eliminarAseguradoraFallida('Equidad');
-                    const contadorPorEntidad = validarOfertas(
-                      ofertas,
-                      "Equidad",
-                      1
-                    );
-                    mostrarAlertaCotizacionExitosa("Equidad", contadorPorEntidad);
-                  }
-                })
-                .catch((err) => {
+        const equidadPromise = comprobarFallida("Equidad")
+          ? fetch(
+              "https://grupoasistencia.com/motor_webservice_publics/Equidad_Pasajeros",
+              requestOptions
+            )
+              .then((res) => {
+                if (!res.ok) throw Error(res.statusText);
+                return res.json();
+              })
+              .then((ofertas) => {
+                if (typeof ofertas[0].Resultado !== "undefined") {
                   agregarAseguradoraFallida("Equidad");
-                  mostrarAlertarCotizacionFallida(
+                  validarProblema("Equidad", ofertas);
+                  // ofertas[0].Mensajes.forEach((mensaje) => {
+                  //   mostrarAlertarCotizacionFallida("Equidad", mensaje);
+                  // });
+                  let mensajesConcatenados = "Cotización Fallida: <br><br>";
+                  if (ofertas[0].Mensajes.length > 1) {
+                    ofertas[0].Mensajes.forEach((mensaje) => {
+                      mensajesConcatenados += mensaje + "<br>";
+                    });
+                    mostrarAlertarCotizacionFallida(
+                      "Equidad",
+                      mensajesConcatenados
+                    );
+                  } else {
+                    ofertas[0].Mensajes.forEach((mensaje) => {
+                      mensajesConcatenados += mensaje;
+                      mostrarAlertarCotizacionFallida("Equidad", mensajesConcatenados);
+                    });
+                  }
+                } else {
+                  // eliminarAseguradoraFallida('Equidad');
+                  const contadorPorEntidad = validarOfertas(
+                    ofertas,
                     "Equidad",
-                    "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
+                    1
                   );
-                  validarProblema("Equidad", [
-                    {
-                      Mensajes: [
-                        "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
-                      ],
-                    },
-                  ]);
-                  console.error(err);
-                })
-            : Promise.resolve();
+                  mostrarAlertaCotizacionExitosa("Equidad", contadorPorEntidad);
+                }
+              })
+              .catch((err) => {
+                agregarAseguradoraFallida("Equidad");
+                mostrarAlertarCotizacionFallida(
+                  "Equidad",
+                  "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
+                );
+                validarProblema("Equidad", [
+                  {
+                    Mensajes: [
+                      "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
+                    ],
+                  },
+                ]);
+                console.error(err);
+              })
+          : Promise.resolve();
 
-          cont.push(equidadPromise);
+        cont.push(equidadPromise);
 
         const lineaVeh = document.getElementById("txtReferenciaVeh").value;
 
