@@ -325,6 +325,57 @@ function generateAseguradosFields() {
                     </div>
                 </div>
             </div>
+            <div class="row">
+              <div class="form-group col-sm-6 col-md-2">
+                        <label for="departamento_${i}">Departamento</label>
+                        <select id="departamento_${i}" class="form-control departamento" >
+                          <option value=""></option>
+                          <option value="1">Amazonas</option>
+                          <option value="2">Antioquia</option>
+                          <option value="3">Arauca</option>
+                          <option value="4">Atlántico</option>
+
+                          <option value="7">Bolívar</option>
+                          <option value="8">Boyacá</option>
+                          <option value="9">Caldas</option>
+                          <option value="10">Caquetá</option>
+
+                          <option value="11">Casanare</option>
+                          <option value="12">Cauca</option>
+                          <option value="13">Cesar</option>
+                          <option value="14">Chocó</option>
+                          <option value="15">Córdoba</option>
+
+                          <option value="16">Cundinamarca</option>
+                          <option value="17">Guainía</option>
+                          <option value="18">La Guajira</option>
+                          <option value="19">Guaviare</option>
+                          <option value="20">Huila</option>
+
+                          <option value="21">Magdalena</option>
+                          <option value="22">Meta</option>
+                          <option value="23">Nariño</option>
+                          <option value="24">Norte de Santander</option>
+                          <option value="25">Putumayo</option>
+
+                          <option value="26">Quindío</option>
+                          <option value="27">Risaralda</option>
+                          <option value="28">San Andrés</option>
+                          <option value="29">Santander</option>
+                          <option value="30">Sucre</option>
+
+                          <option value="31">Tolima</option>
+                          <option value="32">Valle del Cauca</option>
+                          <option value="33">Vaupés</option>
+                          <option value="34">Vichada</option>
+                        </select>
+              </div>
+              <div class="form-group col-sm-6 col-md-2">
+                        <label for="ciudad_${i}">Ciudad</label>
+                        <input id="ciudad_${i}" class="form-control ciudad" type="number" />
+              </div>
+            </div>
+
         `;
 
     // Agregar los nuevos campos al contenedor
@@ -376,7 +427,7 @@ function handleMismoAsegurado() {
   var isSameInsured = $("#si").is(":checked"); // Verificar si el radio button 'Sí' está seleccionado
 
   if (isSameInsured) {
-    console.log("entre aca")
+    console.log("entre aca");
     // Copiar información de los campos principales a los campos clonados
     var tipoDocumento = $(".tipoDocumento").val();
     var numeroDocumento = $(".numeroDocumento").val();
@@ -395,8 +446,7 @@ function handleMismoAsegurado() {
     $("#aseguradoTemplate").find(".numeroDocumento").val("");
     $("#aseguradoTemplate").find(".nombre").val("");
     $("#aseguradoTemplate").find(".apellido").val("");
-    $("#aseguradoTemplate").each(function () {
-    });
+    $("#aseguradoTemplate").each(function () {});
   }
 }
 
@@ -846,7 +896,10 @@ function makeTable(asegurados, plan_id) {
                       </thead>
                       <tbody>`;
 
-  let subtotalMensual = 0, subtotalTrimestral = 0, subtotalSemestral = 0, subtotalAnual = 0;
+  let subtotalMensual = 0,
+    subtotalTrimestral = 0,
+    subtotalSemestral = 0,
+    subtotalAnual = 0;
 
   asegurados.forEach((asegurado) => {
     let plan = asegurado.planes.find((p) => p.plan_id === plan_id);
@@ -1176,118 +1229,107 @@ function cotizar() {
   };
 
   if (param) {
-          document.getElementById("spinener-cot-salud").style.display = "flex";
-          var tipoCotizacion = $("#individual").is(":checked") ? 1 : 2;
-          var esCotizacionIndividual = $("#individual").is(":checked");
-          var tomador = {
-            tipoDocumento: $("#tomadorContainerData").find(".tipoDocumento").val(),
-            numeroDocumento: $("#tomadorContainerData").find(".numeroDocumento").val(),
-            nombre: $("#tomadorContainerData").find(".nombre").val(),
-            apellido: $("#tomadorContainerData").find(".apellido").val(),
-          };
+    document.getElementById("spinener-cot-salud").style.display = "flex";
+    var tipoCotizacion = $("#individual").is(":checked") ? 1 : 2;
+    var esCotizacionIndividual = $("#individual").is(":checked");
+    var tomador = {
+      tipoDocumento: $("#tomadorContainerData").find(".tipoDocumento").val(),
+      numeroDocumento: $("#tomadorContainerData")
+        .find(".numeroDocumento")
+        .val(),
+      nombre: $("#tomadorContainerData").find(".nombre").val(),
+      apellido: $("#tomadorContainerData").find(".apellido").val(),
+    };
 
-          // Obtener y convertir las variables para la fecha de nacimiento a números enteros
-          var diaNacimiento = parseInt($("#dianacimiento").val(), 10);
-          var mesNacimiento = parseInt($("#mesnacimiento").val(), 10);
-          var anioNacimiento = parseInt($("#anionacimiento").val(), 10);
+    // Obtener y convertir las variables para la fecha de nacimiento a números enteros
+    var diaNacimiento = parseInt($("#dianacimiento").val(), 10);
+    var mesNacimiento = parseInt($("#mesnacimiento").val(), 10);
+    var anioNacimiento = parseInt($("#anionacimiento").val(), 10);
 
-          // Añadir el asegurado base
-          var aseguradoBase = {
-            id: 1, // Aquí debes poner un ID apropiado si es necesario
-            tipoDocumento: $("#tipoDocumento").val(),
-            numeroDocumento: $("#numeroDocumento").val(),
-            nombre: $("#nombre").val(),
-            apellido: $("#apellido").val(),
-            genero: $("#genero").val(),
-            edad: calcularEdadAsegurado(
-              diaNacimiento,
-              mesNacimiento,
-              anioNacimiento
-            ),
+    // Añadir el asegurado base
+    var aseguradoBase = {
+      id: 1, // Aquí debes poner un ID apropiado si es necesario
+      tipoDocumento: $("#tipoDocumento").val(),
+      numeroDocumento: $("#numeroDocumento").val(),
+      nombre: $("#nombre").val(),
+      apellido: $("#apellido").val(),
+      genero: $("#genero").val(),
+      edad: calcularEdadAsegurado(diaNacimiento, mesNacimiento, anioNacimiento),
+      fechaNacimiento: {
+        dia: diaNacimiento,
+        mes: mesNacimiento,
+        anio: anioNacimiento,
+      },
+    };
+
+    var asegurados = [aseguradoBase];
+
+    // Añadir los asegurados adicionales si es una cotización grupal
+    if (!esCotizacionIndividual) {
+      $(".row.asegurado").each(function () {
+        var aseguradoId = $(this).data("asegurado-id");
+        // Comienza desde el ID 2
+        if (aseguradoId > 1) {
+          var dia = parseInt($(this).find('[id^="dianacimiento_"]').val(), 10);
+          var mes = parseInt($(this).find('[id^="mesnacimiento_"]').val(), 10);
+          var anio = parseInt(
+            $(this).find('[id^="anionacimiento_"]').val(),
+            10
+          );
+
+          var asegurado = {
+            id: aseguradoId,
+            tipoDocumento: $(this).find('[id^="tipoDocumento_"]').val(),
+            numeroDocumento: $(this).find('[id^="numeroDocumento_"]').val(),
+            nombre: $(this).find('[id^="nombre_"]').val(),
+            apellido: $(this).find('[id^="apellido_"]').val(),
+            genero: $(this).find('[id^="genero_"]').val(),
+            edad: calcularEdadAsegurado(dia, mes, anio),
             fechaNacimiento: {
-              dia: diaNacimiento,
-              mes: mesNacimiento,
-              anio: anioNacimiento,
+              dia: dia,
+              mes: mes,
+              anio: anio,
             },
           };
+          asegurados.push(asegurado);
+        }
+      });
+    }
 
-          var asegurados = [aseguradoBase];
+    // Finalmente, construimos el objeto final que se enviará
+    var datosCotizacion = {
+      tipoCotizacion: tipoCotizacion,
+      tomador: tomador,
+      asegurados: asegurados,
+      id_usuario: permisos.id_usuario,
+      //env: "QAS",
+    };
 
-          // Añadir los asegurados adicionales si es una cotización grupal
-          if (!esCotizacionIndividual) {
-            $(".row.asegurado").each(function () {
-              var aseguradoId = $(this).data("asegurado-id");
-              // Comienza desde el ID 2
-              if (aseguradoId > 1) {
-                var dia = parseInt(
-                  $(this).find('[id^="dianacimiento_"]').val(),
-                  10
-                );
-                var mes = parseInt(
-                  $(this).find('[id^="mesnacimiento_"]').val(),
-                  10
-                );
-                var anio = parseInt(
-                  $(this).find('[id^="anionacimiento_"]').val(),
-                  10
-                );
+    // Puedes ver el JSON en la consola para verificar
+    console.log(JSON.stringify(datosCotizacion, null, 2));
 
-                var asegurado = {
-                  id: aseguradoId,
-                  tipoDocumento: $(this).find('[id^="tipoDocumento_"]').val(),
-                  numeroDocumento: $(this)
-                    .find('[id^="numeroDocumento_"]')
-                    .val(),
-                  nombre: $(this).find('[id^="nombre_"]').val(),
-                  apellido: $(this).find('[id^="apellido_"]').val(),
-                  genero: $(this).find('[id^="genero_"]').val(),
-                  edad: calcularEdadAsegurado(dia, mes, anio),
-                  fechaNacimiento: {
-                    dia: dia,
-                    mes: mes,
-                    anio: anio,
-                  },
-                };
-                asegurados.push(asegurado);
-              }
-            });
-          }
-
-          // Finalmente, construimos el objeto final que se enviará
-          var datosCotizacion = {
-            tipoCotizacion: tipoCotizacion,
-            tomador: tomador,
-            asegurados: asegurados,
-            id_usuario: permisos.id_usuario,
-            //env: "QAS",
-          };
-
-          // Puedes ver el JSON en la consola para verificar
-          console.log(JSON.stringify(datosCotizacion, null, 2));
-
-          $.ajax({
-            url: "https://grupoasistencia.com/health_engine/WSAxa/axa.php",
-            //url: "http://localhost/motorTest/health_engine/axa.php",
-            type: "POST",
-            data: JSON.stringify(datosCotizacion),
-            success: function (data) {
-              hideMainContainerCards();
-              showContainerCardsSalud();
-              toogleDataContainer();
-              document.getElementById("spinener-cot-salud").style.display =
-                "none";
-              makeCards(data, tipoCotizacion);
-            },
-            error: function (data) {
-              Swal.fire({
-                icon: "error",
-                title: "Error al cotizar",
-                text: "Por favor, verifica los datos ingresados.",
-              });
-            },
-          });
-          window.scrollTo(0, 0);
-  } 
+    $.ajax({
+      url: "https://grupoasistencia.com/health_engine/WSAxa/axa.php",
+      //url: "http://localhost/motorTest/health_engine/axa.php",
+      type: "POST",
+      data: JSON.stringify(datosCotizacion),
+      success: function (data) {
+        hideMainContainerCards();
+        showContainerCardsSalud();
+        toogleDataContainer();
+        document.getElementById("spinener-cot-salud").style.display = "none";
+        makeCards(data, tipoCotizacion);
+      },
+      error: function (data) {
+        Swal.fire({
+          icon: "error",
+          title: "Error al cotizar",
+          text: "Por favor, verifica los datos ingresados.",
+        });
+      },
+    });
+    window.scrollTo(0, 0);
+  }
 }
 /**
  * Inicializar todo.
@@ -1343,7 +1385,7 @@ $(document).ready(function () {
   });
 
   $("#btnCotizarAsiss").click(function (event) {
-    if(!controlBtn){
+    if (!controlBtn) {
       if (!validateFormFields()) {
         event.preventDefault();
         Swal.fire({
