@@ -1402,7 +1402,7 @@ $(document).ready(function () {
     }
   });
 
-  // Cargar las ciudades al cargar la página Javier Pendiente. hacer que se llamen todas las ciudades
+  // Cargar las ciudades al cargar la página Javier Pendiente. hacer que se llamen todas las ciudades modify
   $.ajax({
     type: "POST",
     url: "src/consultarCiudad.php",
