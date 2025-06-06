@@ -2736,6 +2736,7 @@ function cotizarOfertasPasajeros() {
   ).value;
   var url_axa = document.getElementById("url_axa").value;
   var productos_pasajeros = document.getElementById("cre_axa_pasajeros").value;
+  console.log(productos_pasajeros);
 
   /**
    * Variables de Solidaria
