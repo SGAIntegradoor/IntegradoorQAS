@@ -9,22 +9,8 @@
 define('DB_HOST', '52.15.158.65');//DB_HOST:  generalmente suele ser "127.0.0.1"
 define('DB_USER', 'grupoasi_cotizautos');//Usuario de tu base de datos
 define('DB_PASS', 'M1graci0n123');//Contraseña del usuario de la base de datos
-
-$DB_name = "";
-
-$URI = explode("/", $_SERVER['REQUEST_URI']);
-
-if (in_array("dev", $URI)) {
-	$DB_name = 'grupoasi_cotizautos_dev';
-} else if (in_array("QAS", $URI) || in_array("qas", $URI)) {
-	$DB_name = 'grupoasi_cotizautos_qas';
-} else {
-	$DB_name = 'grupoasi_cotizautos';
-}
-
-
-define('DB_NAME', $DB_name);//Nombre de la base de datos
-
+define('DB_NAME', 'grupoasi_cotizautos_dev');//Nombre de la base de datos
+ 
 
 /*Datos de la empresa*/
 define('NOMBRE_EMPRESA', 'SEGUROS GRUPO ASISTENCIA');
