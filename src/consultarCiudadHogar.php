@@ -9,7 +9,11 @@ require_once("../config/conexion.php"); //Contiene funcion que conecta a la base
 
 $codigo = $_POST['codigoDpto'];
 
-$sql = "SELECT `codigo`,`ciudad`,`departamento`, `cod_departamento` FROM `ciudadeshogar` WHERE `cod_departamento` = '$codigo' ORDER BY `codigo` ASC";
+$condicion = "WHERE cod_departamento = '$codigo'";
+
+if($codigo == 0) $condicion = "";
+
+$sql = "SELECT codigo,ciudad,departamento, cod_departamento FROM ciudadeshogar $condicion ORDER BY ciudad ASC";
 
 $res = mysqli_query($con, $sql);
 $num_rows = mysqli_num_rows($res);

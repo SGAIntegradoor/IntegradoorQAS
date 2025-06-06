@@ -324,58 +324,61 @@ function generateAseguradosFields() {
                         <select id="genero_${i}" class="form-control genero"></select>
                     </div>
                 </div>
+
+              <div class="col-xs-12 col-sm-6 col-md-2">
+                <div class="form-group">
+                <label for="departamento_${i}">Departamento</label>
+                <select id="departamento_${i}" class="form-control departamento">
+                    <option value=""></option>
+                        <option value="91">Amazonas</option>
+                        <option value="05">Antioquia</option>
+                        <option value="81">Arauca</option>
+                        <option value="08">Atlántico</option>
+
+                        <option value="13">Bolívar</option>
+                        <option value="15">Boyacá</option>
+                        <option value="17">Caldas</option>
+                        <option value="18">Caquetá</option>
+
+                        <option value="85">Casanare</option>
+                        <option value="19">Cauca</option>
+                        <option value="20">Cesar</option>
+                        <option value="27">Chocó</option>
+                        <option value="23">Córdoba</option>
+
+                        <option value="25">Cundinamarca</option>
+                        <option value="94">Guainía</option>
+                        <option value="44">La Guajira</option>
+                        <option value="95">Guaviare</option>
+                        <option value="41">Huila</option>
+
+                        <option value="47">Magdalena</option>
+                        <option value="50">Meta</option>
+                        <option value="52">Nariño</option>
+                        <option value="54">Norte de Santander</option>
+                        <option value="86">Putumayo</option>
+
+                        <option value="63">Quindío</option>
+                        <option value="66">Risaralda</option>
+                        <option value="88">San Andrés, Providencia y Santa Catalina</option>
+                        <option value="68">Santander</option>
+                        <option value="70">Sucre</option>
+
+                        <option value="73">Tolima</option>
+                        <option value="76">Valle del Cauca</option>
+                        <option value="97">Vaupés</option>
+                        <option value="99">Vichada</option>
+                </select>
             </div>
-            <div class="row">
-              <div class="form-group col-sm-6 col-md-2">
-                        <label for="departamento_${i}">Departamento</label>
-                        <select id="departamento_${i}" class="form-control departamento" >
-                          <option value=""></option>
-                          <option value="1">Amazonas</option>
-                          <option value="2">Antioquia</option>
-                          <option value="3">Arauca</option>
-                          <option value="4">Atlántico</option>
-
-                          <option value="7">Bolívar</option>
-                          <option value="8">Boyacá</option>
-                          <option value="9">Caldas</option>
-                          <option value="10">Caquetá</option>
-
-                          <option value="11">Casanare</option>
-                          <option value="12">Cauca</option>
-                          <option value="13">Cesar</option>
-                          <option value="14">Chocó</option>
-                          <option value="15">Córdoba</option>
-
-                          <option value="16">Cundinamarca</option>
-                          <option value="17">Guainía</option>
-                          <option value="18">La Guajira</option>
-                          <option value="19">Guaviare</option>
-                          <option value="20">Huila</option>
-
-                          <option value="21">Magdalena</option>
-                          <option value="22">Meta</option>
-                          <option value="23">Nariño</option>
-                          <option value="24">Norte de Santander</option>
-                          <option value="25">Putumayo</option>
-
-                          <option value="26">Quindío</option>
-                          <option value="27">Risaralda</option>
-                          <option value="28">San Andrés</option>
-                          <option value="29">Santander</option>
-                          <option value="30">Sucre</option>
-
-                          <option value="31">Tolima</option>
-                          <option value="32">Valle del Cauca</option>
-                          <option value="33">Vaupés</option>
-                          <option value="34">Vichada</option>
-                        </select>
-              </div>
-              <div class="form-group col-sm-6 col-md-2">
-                        <label for="ciudad_${i}">Ciudad</label>
-                        <input id="ciudad_${i}" class="form-control ciudad" type="number" />
-              </div>
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-2">
+            <div class="form-group">
+                <label for="ciudad_${i}">Ciudad</label>
+                <select id="ciudad_${i}" class="form-control ciudad"></select>
             </div>
+        </div>
 
+            </div>
         `;
 
     // Agregar los nuevos campos al contenedor
@@ -1254,6 +1257,7 @@ function cotizar() {
       nombre: $("#nombre").val(),
       apellido: $("#apellido").val(),
       genero: $("#genero").val(),
+      ciudad: $("#ciudad_1").val(),
       edad: calcularEdadAsegurado(diaNacimiento, mesNacimiento, anioNacimiento),
       fechaNacimiento: {
         dia: diaNacimiento,
@@ -1284,6 +1288,7 @@ function cotizar() {
             nombre: $(this).find('[id^="nombre_"]').val(),
             apellido: $(this).find('[id^="apellido_"]').val(),
             genero: $(this).find('[id^="genero_"]').val(),
+            ciudad: $(this).find('[id^="ciudad_"]').val(),
             edad: calcularEdadAsegurado(dia, mes, anio),
             fechaNacimiento: {
               dia: dia,
@@ -1405,14 +1410,58 @@ $(document).ready(function () {
   // Cargar las ciudades al cargar la página Javier Pendiente. hacer que se llamen todas las ciudades modify
   $.ajax({
     type: "POST",
-    url: "src/consultarCiudad.php",
-    dataType: "json",
-    data: { data: 4 },
+    url: "src/consultarCiudadHogar.php",
+    data: { codigoDpto: 0 },
     cache: false,
     success: function (data) {
-       console.log(data);
-      
+      // Si la respuesta es un string, conviértela a objeto
+      let response = typeof data === "string" ? JSON.parse(data) : data;
+      // Guardar solo el array de ciudades en localStorage
+      if (response.data && Array.isArray(response.data)) {
+        localStorage.setItem("ciudades", JSON.stringify(response.data));
+        console.log("Ciudades guardadas en localStorage como array");
+      } else {
+        localStorage.setItem("ciudades", "[]");
+        console.warn("No se encontraron ciudades en la respuesta");
+      }
     },
+    error: function (xhr, status, error) {
+      console.error("Error en la solicitud AJAX:", error);
+    },
+  });
+
+  $(document).on("change", ".departamento", function () {
+    const selectId = $(this).attr("id"); // e.g. departamento_1
+    const index = selectId.split("_")[1]; // e.g. 1
+    const selectedDepartamento = $(this).val(); // valor del departamento seleccionado
+    const ciudadSelect = $(`#ciudad_${index}`); // select relacionado
+    let ciudadesData = [];
+
+    // Recuperar el array de ciudades directamente
+    try {
+      ciudadesData = JSON.parse(localStorage.getItem("ciudades")) || [];
+    } catch (e) {
+      ciudadesData = [];
+    }
+
+    // Filtrar ciudades que pertenecen al departamento
+    const ciudadesFiltradas = ciudadesData.filter(
+      (ciudad) => ciudad.cod_departamento == Number(selectedDepartamento)
+    );
+
+    // Limpiar el select de ciudad antes de llenarlo
+    ciudadSelect.empty();
+
+    if (ciudadesFiltradas.length > 0) {
+      ciudadSelect.append(`<option value="">Seleccione una ciudad</option>`);
+      ciudadesFiltradas.forEach((ciudad) => {
+        ciudadSelect.append(
+          `<option value="${ciudad.codigo}">${ciudad.ciudad}</option>`
+        );
+      });
+    } else {
+      ciudadSelect.append(`<option value="">No hay ciudades</option>`);
+    }
   });
 });
 // ========================================================================================================================
