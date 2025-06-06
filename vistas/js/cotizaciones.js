@@ -146,7 +146,7 @@ $(document).ready(function () {
           );
           data.append("placa", oferta.Placa);
           data.append("oneroso", oneroso);
-          data.append("aseguradora", oferta.Aseguradora);
+          data.append("aseguradora", oferta.Aseguradora == "Previsora" ? "Previsora Seguros" : oferta.Aseguradora);
           data.append("analista_comercial", analista_comercial);
           data.append("numcotaseg", oferta.NumCotizOferta);
           data.append("id_analista_comercial", id_analista_comercial);
