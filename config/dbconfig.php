@@ -5,7 +5,6 @@ $DB_user = "grupoasi_cotizautos";
 $DB_pass = "M1graci0n123";
 $DB_name = "";
 
-
 $URI = explode("/", $_SERVER['REQUEST_URI']);
 
 if (in_array("dev", $URI)) {
@@ -16,7 +15,8 @@ if (in_array("dev", $URI)) {
 	$DB_name = "grupoasi_cotizautos";
 }
 
-
+// ECHO DB NAME
+echo $DB_name . "<br>";
 
 try {
 	$DB_con = new PDO("mysql:host={$DB_host};dbname={$DB_name}", $DB_user, $DB_pass, array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"));
