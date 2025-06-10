@@ -1254,6 +1254,7 @@ $response = retrieveQuotation($idCotizacion);
               ) {
                 if ($idIntermediario != 78 && $idIntermediario != 4) {
                   echo '<div class="aviso-container col-lg-12" style="font-size: 13px">
+                  <p><b>Notas Importantes: </b></p>
                   <ul>
                     <li>
                       <p>El precio de la póliza con Seguros Mundial tiene incluido un descuento del 5%, solo aplica para pago de contado o financiación con Finesa.</p></li>
