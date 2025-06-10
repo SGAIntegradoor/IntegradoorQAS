@@ -5,7 +5,6 @@ let env = "";
 const paramsGenerals = new URLSearchParams(window.location.search);
 
 $(document).ready(function () {
-
   // Obtener la URL completa
   const urlCompleta = window.location.href;
 
@@ -146,7 +145,12 @@ $(document).ready(function () {
           );
           data.append("placa", oferta.Placa);
           data.append("oneroso", oneroso);
-          data.append("aseguradora", oferta.Aseguradora == "Previsora" ? "Previsora Seguros" : oferta.Aseguradora);
+          data.append(
+            "aseguradora",
+            oferta.Aseguradora == "Previsora"
+              ? "Previsora Seguros"
+              : oferta.Aseguradora
+          );
           data.append("analista_comercial", analista_comercial);
           data.append("numcotaseg", oferta.NumCotizOferta);
           data.append("id_analista_comercial", id_analista_comercial);
@@ -382,13 +386,6 @@ $(document).ready(function () {
               }
             }
 
-            // console.log(cotizacionesExitosa0);
-            // console.log(cotizacionesExitosa1);
-            // Ahora cotizacionesExitosa1 y cotizacionesExitosa0 contienen la estructura que deseas
-            // desactive
-            //console.log(cotizacionesExitosa1);
-            //console.log(cotizacionesExitosa0);
-
             let aseguradorasData = {};
             for (const aseguradora in cotizacionesPorAseguradora) {
               const exitosa1Array =
@@ -439,16 +436,12 @@ $(document).ready(function () {
 
             // Convertir el objeto en un array
             const resultadoFinal = Object.values(aseguradorasData);
-            //console.log(resultadoFinal);
-            //console.log(cotizacionesConUnaOferta)
 
             // Combina los dos arrays
             const combinedArray = [
               ...resultadoFinal,
               ...cotizacionesConUnaOferta,
             ];
-
-            //console.log(combinedArray)
 
             // Ordena el array resultante por la propiedad "aseguradora"
             combinedArray.sort((a, b) =>
@@ -459,29 +452,6 @@ $(document).ready(function () {
 
             var tableBody = documentosTable.getElementsByTagName("tbody")[0];
             tableBody.innerHTML = "";
-
-            // if (resultadoFinal) {
-            //   resultadoFinal.forEach(usuario => {
-            //     var newRow = tableBody.insertRow();
-
-            //     var aseguradoraCell = newRow.insertCell();
-            //     aseguradoraCell.textContent = usuario.aseguradora;
-
-            //     var cotizoCell = newRow.insertCell();
-            //     // Cambiar el contenido de la celda en función de si cotizó o no
-            //     cotizoCell.innerHTML = usuario.exitosa === 1
-            //       ? '<i class="fa fa-check" aria-hidden="true" style="color: green; margin-right: 5px;"></i>'
-            //       : '<i class="fa fa-times" aria-hidden="true" style="color: red; margin-right: 10px;"></i>';
-            //     cotizoCell.classList.add('text-center'); // Agrega la clase text-center a cotizoCell
-
-            //     var productosCell = newRow.insertCell();
-            //     productosCell.textContent = usuario.ofertas_cotizadas;
-            //     productosCell.classList.add('text-center'); // Agregar la clase text-center a productosCell
-
-            //     var observacionesCell = newRow.insertCell();
-            //     observacionesCell.textContent = usuario.mensaje;
-            //   });
-            // }
 
             // COTIZACIONES EXITOSAS VARIAS PETICIONES FINAL //
 
@@ -1289,7 +1259,7 @@ async function renderCards(response) {
         "Previsora",
         "Solidaria",
         "Equidad",
-        "AXA Colpatria"
+        "AXA Colpatria",
       ];
 
       const planesViajes = [
@@ -1327,7 +1297,7 @@ async function renderCards(response) {
         "Plan Básico",
         "Plan Normal",
         "Plan Full",
-        "Buses"
+        "Buses",
       ];
 
       var valorRC = isNumeric(oferta.ValorRC);
@@ -1429,7 +1399,13 @@ async function renderCards(response) {
                                     "x" &&
                                   aseguradoraPermisos == "1"
                                 ? `<center>
-                                ${aseguradora == "Equidad" ? "" : "<label class='entidad'>N° Cot: <span style='color:black'>" + oferta.NumCotizOferta + "</span></label>"}
+                                ${
+                                  aseguradora == "Equidad"
+                                    ? ""
+                                    : "<label class='entidad'>N° Cot: <span style='color:black'>" +
+                                      oferta.NumCotizOferta +
+                                      "</span></label>"
+                                }
                               </center>`
                                 : ""
                             }
@@ -1612,7 +1588,10 @@ async function renderCards(response) {
                             <li class="list-group-item">
   
                               <span class="badge">* ${
-                                valorRCFormat !== "No cubre" && !valorRCFormat.includes("/") ? "$" : ""
+                                valorRCFormat !== "No cubre" &&
+                                !valorRCFormat.includes("/")
+                                  ? "$"
+                                  : ""
                               }${valorRCFormat}</span>
   
                               Responsabilidad Civil (RCE)
@@ -1886,8 +1865,9 @@ async function offertsFinesaRender() {
   async function fetchWithRetry(retries = MAX_RETRIES) {
     try {
       const dbResponse = await fetch(
-        `https://www.grupoasistencia.com/motor_webservice/getOffertsFinesa${(env ==
-            "qas" ? "_qas" : (env == "dev" ? "_qas" : ""))}`,
+        `https://www.grupoasistencia.com/motor_webservice/getOffertsFinesa${
+          env == "qas" ? "_qas" : env == "dev" ? "_qas" : ""
+        }`,
         {
           method: "POST",
           headers: headers,
@@ -2275,8 +2255,11 @@ function editarCotizacion(id) {
           menosRE();
           if (resp.length > 0) {
             manualGeneral = resp[0].Manual;
-
             if (manualGeneral != "4") {
+              if (manualGeneral == "3") {
+                $("#divNumToneladas").css("display", "block");
+                $("#numToneladas").val(respuesta["cot_num_toneladas"]);
+              }
               $("#txtTipoUsoVehiculo").val(respuesta["cot_tip_uso"]);
               $("#txtTipoServicio").val(respuesta["cot_tip_servicio"]);
             } else {
@@ -2285,7 +2268,7 @@ function editarCotizacion(id) {
               $("#divTipoTransporte").css("display", "block");
               // trigger change
               if (respuesta["cot_tip_uso"] == "2") {
-                console.log(respuesta["cot_tip_uso"] )
+                console.log(respuesta["cot_tip_uso"]);
                 $("#divNumeroPasajeros").css("display", "block");
                 $("#txtNumeroPasajeros").val(respuesta["cot_num_pasajeros"]);
               }
@@ -4144,13 +4127,11 @@ function menosRECot() {
 //   }, 500);
 // }
 
-function showCircularProgress(cotType, time, totalTransition) { 
-
+function showCircularProgress(cotType, time, totalTransition) {
   let progress = 0;
   let totalDuration = totalTransition;
-  let steps = totalDuration / time; 
-  let incrementPerStep = Math.floor(99 / steps); 
-
+  let steps = totalDuration / time;
+  let incrementPerStep = Math.floor(99 / steps);
 
   Swal.fire({
     title: `${cotType}`,
