@@ -51,9 +51,9 @@ if ($codigo == 32) {
 	$codigoV = 12;
 } else if ($codigo == 11) {
 	$codigoV = 11;
-}else if ($codigo == 10) {
+} else if ($codigo == 10) {
 	$codigoV = 10;
-}else if ($codigo == 25) {
+} else if ($codigo == 25) {
 	$codigoV = 25;
 }
 
@@ -61,6 +61,8 @@ if ($codigo == 5) {
 	$sql = "SELECT DISTINCT `Nombre`,`Departamento`,`Codigo` FROM `ciudadesbolivar` WHERE `Codigo` LIKE '4000' ORDER BY `Nombre` ASC";
 } else if ($codigo == 6) {
 	$sql = "SELECT DISTINCT `Nombre`,`Departamento`,`Codigo` FROM `ciudadesbolivar` WHERE `Codigo` LIKE '14000' ORDER BY `Nombre` ASC";
+} else if ($codigo == 0) {
+	$sql = "SELECT DISTINCT `Nombre`,`Departamento`,`Codigo` FROM `ciudadesbolivar`ORDER BY `Nombre` ASC";
 } else {
 	$sql = "SELECT DISTINCT `Nombre`,`Departamento`,`Codigo` FROM `ciudadesbolivar` WHERE `Departamento` = $codigoV ORDER BY `Nombre` ASC";
 }
