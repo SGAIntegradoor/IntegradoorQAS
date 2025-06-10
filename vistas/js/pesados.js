@@ -1905,7 +1905,7 @@ const mostrarOfertaPesados = (
                             "x" &&
                           permisosCredenciales == "1"
                             ? `<center>
-                            <label class='entidad'>N° Cot: <span style ='color :black'>${numCotizOferta}</span></label>
+                          ${aseguradora == "Equidad" ? "" : "<label class='entidad'>N° Cot: <span style='color:black'>" + numCotizOferta + "</span></label>"}
                           </center>`
                             : ""
                         }
