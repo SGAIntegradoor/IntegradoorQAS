@@ -139,7 +139,7 @@ $(document).ready(function () {
               ? "Automoviles"
               : oferta.Manual == 8
               ? "Motos"
-              : oferta.Manual == 0
+              : oferta.Manual == 0 || oferta.Manual == 3
               ? "Pesados"
               : "Autos Pasajeros"
           );
