@@ -658,8 +658,14 @@ class ModeloCotizaciones
 			}
 
 			$finMes = $finMes->format('Y-m-d');
+			// $tabla = "cotizaciones_salud";
+			// $tabla2 = "tomadores_cotizaciones_salud";
+			// $tabla3 = "asegurados_cotizaciones_salud";
+			// $tabla4 = "planes_cotizaciones_salud";
+			// $tabla5 = "usuarios";
 
-			if ($_SESSION['rol'] == 10 || $_SESSION['rol'] == 1 || $_SESSION['rol'] == 12) {
+			if ($_SESSION['rol'] == 10 || $_SESSION['rol'] == 1 || $_SESSION['rol'] == 12 || $_SESSION['rol'] == 22) {
+				
 				$stmt = Conexion::conectar()->prepare("
 					SELECT 
 						*
@@ -677,7 +683,7 @@ class ModeloCotizaciones
 				");
 			} else {
 				$stmt = Conexion::conectar()->prepare("
-					SELECT 
+					SELECT
 						*
 					FROM 
 						cotizaciones_salud c
@@ -690,7 +696,8 @@ class ModeloCotizaciones
 					WHERE 
 						c.fecha_cotizacion BETWEEN :fechaInicial AND :fechaFinal
 						AND us.id_Intermediario = :idIntermediario
-						AND c.id_usuario = :idUsuario;
+						AND c.id_usuario = :idUsuario
+					GROUP BY c.id_cotizacion;
 				");
 			}
 
@@ -698,7 +705,7 @@ class ModeloCotizaciones
 			$stmt->bindParam(":fechaInicial", $inicioMes, PDO::PARAM_STR);
 			$stmt->bindParam(":fechaFinal", $finMes, PDO::PARAM_STR);
 			// Enlazar solo si aplica
-			if ($_SESSION['rol'] != 10 && $_SESSION['rol'] != 1 && $_SESSION['rol'] != 12) {
+			if ($_SESSION['rol'] != 10 && $_SESSION['rol'] != 1 && $_SESSION['rol'] != 12 && $_SESSION['rol'] != 22) {
 				$stmt->bindParam(":idIntermediario", $_SESSION["intermediario"], PDO::PARAM_INT);
 				$stmt->bindParam(":idUsuario", $_SESSION["idUsuario"], PDO::PARAM_INT);
 			}
