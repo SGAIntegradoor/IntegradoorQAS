@@ -19,13 +19,13 @@ $password = "M1graci0n123";
 $URI = explode("/", $_SERVER['REQUEST_URI']);
 
 if (in_array("dev", $URI)) {
-	$server = "localhost:3307";
-	$bd = "grupoasi_cotizautos_qas";
+	$server = "52.15.158.65";
+	$bd = "grupoasi_cotizautos_dev";
 } else if (in_array("QAS", $URI)) {
-	$server = "localhost";
+	$server = "52.15.158.65";
 	$bd = "grupoasi_cotizautos_qas";
 } else {
-	$server = "localhost";
+	$server = "52.15.158.65";
 	$bd = "grupoasi_cotizautos";
 }
 
@@ -35,11 +35,9 @@ if (!$conexion) {
 }
 $conexion->set_charset("utf8");
 
-
 $query2 = "SELECT *	FROM cotizaciones, clientes WHERE cotizaciones.id_cliente = clientes.id_cliente AND `id_cotizacion` = $identificador";
 $valor2 = $conexion->query($query2);
 $fila = mysqli_fetch_array($valor2);
-
 
 $query5x = "SELECT * FROM ofertas WHERE `id_cotizacion` = $identificador AND `seleccionar` = 'Si' ORDER BY Aseguradora ASC";
 $respuestaquery5x = $conexion->query($query5x);
@@ -121,6 +119,7 @@ $valorA = number_format($fila["cot_valor_asegurado"], 0, '.', '.');
 $clase = claseV($fila["cot_clase"]);
 $servicio = servise($fila["cot_tip_servicio"]);
 $departamento = DptoVehiculo($fila["cot_departamento"]);
+$codCiudad = $fila["cot_ciudad"];
 
 /*
 * INICIO: Consultar nombre de la ciudad
@@ -1217,8 +1216,6 @@ foreach ($resultados as $resultado) {
 	// -- AND `rce` LIKE '$valorRC' AND `ppd` LIKE '$perdidaParcial'";
 	$respuestaqueryAsistencia1 =  $conexion->query($queryConsultaAsistencia1);
 	$rowRespuestaAsistencia1 = mysqli_fetch_assoc($respuestaqueryAsistencia1);
-	// var_dump($rowRespuestaAsistencia1);
-	// die();
 	$rce_excesoNumeric = $rowRespuestaAsistencia1['rceexceso'];
 
 	if (is_numeric($rce_excesoNumeric)) {
