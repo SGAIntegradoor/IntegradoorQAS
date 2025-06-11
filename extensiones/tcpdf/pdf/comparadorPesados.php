@@ -35,12 +35,6 @@ if (!$conexion) {
 }
 $conexion->set_charset("utf8");
 
-$conexion = mysqli_connect($server, $user, $password, $bd);
-if (!$conexion) {
-	die('Error de Conexión: ' . mysqli_connect_errno());
-}
-$conexion->set_charset("utf8");
-
 
 $query2 = "SELECT *	FROM cotizaciones, clientes WHERE cotizaciones.id_cliente = clientes.id_cliente AND `id_cotizacion` = $identificador";
 $valor2 = $conexion->query($query2);
