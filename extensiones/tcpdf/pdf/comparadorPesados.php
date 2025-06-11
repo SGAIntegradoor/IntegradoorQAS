@@ -14,20 +14,26 @@ $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, 'A4', true, 'UTF-8', false);
 $identificador = $_GET['cotizacion'];
 
 $user = "grupoasi_cotizautos";
-$password = "M1graci0n123"; //poner tu propia contraseña, si tienes una.
+$password = "M1graci0n123"; 
 
 $URI = explode("/", $_SERVER['REQUEST_URI']);
 
 if (in_array("dev", $URI)) {
-	$server = "52.15.158.65";
-	$bd = "grupoasi_cotizautos_dev";
+	$server = "localhost:3307";
+	$bd = "grupoasi_cotizautos_qas";
 } else if (in_array("QAS", $URI)) {
-	$server = "52.15.158.65";
+	$server = "localhost";
 	$bd = "grupoasi_cotizautos_qas";
 } else {
-	$server = "52.15.158.65";
+	$server = "localhost";
 	$bd = "grupoasi_cotizautos";
 }
+
+$conexion = mysqli_connect($server, $user, $password, $bd);
+if (!$conexion) {
+	die('Error de Conexión: ' . mysqli_connect_errno());
+}
+$conexion->set_charset("utf8");
 
 $conexion = mysqli_connect($server, $user, $password, $bd);
 if (!$conexion) {
