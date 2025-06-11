@@ -1225,6 +1225,7 @@ function cotizar() {
       apellido: $("#apellido").val(),
       genero: $("#genero").val(),
       ciudad: $("#ciudad_1").val(),
+      departamento: $("#departamento_1").val(),
       edad: calcularEdadAsegurado(diaNacimiento, mesNacimiento, anioNacimiento),
       fechaNacimiento: {
         dia: diaNacimiento,
@@ -1258,6 +1259,7 @@ function cotizar() {
             apellido: $(this).find('[id^="apellido_"]').val(),
             genero: $(this).find('[id^="genero_"]').val(),
             ciudad: $(this).find('[id^="ciudad_"]').val(),
+            departamento: $(this).find('[id^="departamento_"]').val(),
             edad: calcularEdadAsegurado(dia, mes, anio),
             fechaNacimiento: {
               dia: dia,

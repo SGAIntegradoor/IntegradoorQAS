@@ -1905,7 +1905,7 @@ const mostrarOfertaPesados = (
                             "x" &&
                           permisosCredenciales == "1"
                             ? `<center>
-                            <label class='entidad'>N° Cot: <span style ='color :black'>${numCotizOferta}</span></label>
+                          ${aseguradora == "Equidad" ? "" : "<label class='entidad'>N° Cot: <span style='color:black'>" + numCotizOferta + "</span></label>"}
                           </center>`
                             : ""
                         }
@@ -2051,7 +2051,7 @@ function validarOfertasPesados(ofertas, aseguradora, exito) {
       oferta.imagen,
       oferta.pdf,
       $responsabilidadCivilFamiliar,
-      0,
+      3,
       null,
       oferta.pph
     );
@@ -2795,6 +2795,7 @@ function cotizarOfertasPesados() {
             benefOneroso: benefOneroso,
             idCotizacion: idCotizacion,
             mundial: mundial,
+            numToneladas: numeroToneladas,
             credenciales: aseguradorasCredenciales,
             razonSocial: razonSocial,
             digitoVerif: digitoVerif,
@@ -3197,10 +3198,10 @@ function cotizarOfertasPesados() {
                   cont.push(libertyPromise);
                 });
 
-                /* HDI PESADOS */
+                /* EQUIDAD PESADOS */
               } else if (aseguradora === "Equidad") {
                 let equidadPromise = fetch(
-                  `http://localhost/motor_webservice_publics/Equidad_Pasajeros`,
+                  `https://grupoasistencia.com/motor_webservice_publics/Equidad_Pasajeros`,
                   requestOptions
                 )
                   .then((res) => {

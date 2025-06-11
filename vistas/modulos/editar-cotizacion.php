@@ -158,7 +158,6 @@ $response = retrieveQuotation($idCotizacion);
   .form-parrilla {
     padding-top: 15px !important;
   }
-  
 </style>
 
 <div class="content-wrapper">
@@ -592,10 +591,10 @@ $response = retrieveQuotation($idCotizacion);
                       <div class="col-xs-12 col-sm-6 col-md-3 form-group" id="divTipoTransporte" style="display: none;">
                         <label for="txtTipoTransporteVehiculo">Tipo de transporte</label>
                         <select class="form-control" id="txtTipoTransporteVehiculo" required>
-                           <option value=""></option>
-                           <option value="1">Taxi</option>
-                           <option value="2">Bus/Buseta/Microbus</option>
-                           <option value="3">Placa Blanca (Servicio Especial)</option>
+                          <option value=""></option>
+                          <option value="1">Taxi</option>
+                          <option value="2">Bus/Buseta/Microbus</option>
+                          <option value="3">Placa Blanca (Servicio Especial)</option>
                         </select>
                       </div>
                       <div class="col-xs-12 col-sm-6 col-md-3 form-group" id="divTipoServicio">
@@ -814,6 +813,13 @@ $response = retrieveQuotation($idCotizacion);
                         <option value="5">Trailers</option>
                       </select>
                     </div>
+
+                    
+                      <div class="col-xs-12 col-sm-6 col-md-3 form-group" id="divNumToneladas" style="display: none;">
+                        <label for="numToneladas">Capacidad de carga en toneladas</label>
+                        <input type="number" class="form-control" id="numToneladas" step="any">
+                      </div>
+
                   </div>
 
                 </div>
@@ -1189,7 +1195,7 @@ $response = retrieveQuotation($idCotizacion);
               </div>
               <?php
               // var_dump($response);
-              if (($response['cot_clase'] == "AUTOMOVIL" || $response['cot_clase'] == "AUTOMOVILES" || $response['cot_clase'] == "UTILITARIOS DEPORTIVOS" || $response['cot_clase'] == "CAMPEROS" || $response['cot_clase'] == "PICK UPS") && $response["ofertas"][0]["Manual"] != 4 ) {
+              if (($response['cot_clase'] == "AUTOMOVIL" || $response['cot_clase'] == "AUTOMOVILES" || $response['cot_clase'] == "UTILITARIOS DEPORTIVOS" || $response['cot_clase'] == "CAMPEROS" || $response['cot_clase'] == "PICK UPS") && $response["ofertas"][0]["Manual"] != 4) {
                 if ($idIntermediario != 78 && $idIntermediario != 4) {
                   echo '<div class="aviso-container col-lg-12" style="font-size: 13px">
                     <p><b>Notas Importantes: </b></p>
@@ -1248,6 +1254,7 @@ $response = retrieveQuotation($idCotizacion);
               ) {
                 if ($idIntermediario != 78 && $idIntermediario != 4) {
                   echo '<div class="aviso-container col-lg-12" style="font-size: 13px">
+                  <p><b>Notas Importantes: </b></p>
                   <ul>
                     <li>
                       <p>El precio de la póliza con Seguros Mundial tiene incluido un descuento del 5%, solo aplica para pago de contado o financiación con Finesa.</p></li>
@@ -1278,13 +1285,13 @@ $response = retrieveQuotation($idCotizacion);
         </div>
 
         <div class="col-lg-12">
-          
-          <?php 
-          if($response["ofertas"][0]["Manual"] != 4){
-            require "vistas/components/cotizar/catfilters.php" ;
+
+          <?php
+          if ($response["ofertas"][0]["Manual"] != 4) {
+            require "vistas/components/cotizar/catfilters.php";
           }
           ?>
-          
+
         </div>
 
         <div id="cardCotizacion">
