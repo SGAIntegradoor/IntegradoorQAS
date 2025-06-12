@@ -854,7 +854,12 @@ $nombreArchivo = "COTIZADOR VIGENTE FINESA $nombreMes $anio.xlsx";
                                         <br>
                                         <br>
                                         <div style="display: flex; flex-direction: column; align-items: center;">
-                                            <a href="https://idocumentos-webclient-previsora.azurewebsites.net/?a=autogestion&em=860002400" target="_blank">Sarlaft Digital</a>
+                                            <button
+                                                class="btn btn-alert"
+                                                style="background: red; color: #fff; font-weight: 500; margin-bottom: 5px; width: 90px;"><a style="color: white;" href="https://idocumentos-webclient-previsora.azurewebsites.net/?a=autogestion&em=860002400" target="_blank">Sarlaft PN</a></button>
+                                            <button
+                                                class="btn btn-alert"
+                                                style="background: red; color: #fff; font-weight: 500; margin-bottom: 5px; width: 90px;"><a style="color: white;" href="https://integradoor.com/app/vistas/modulos/AyudaVentas/pdf/sarlaft2/FORMATO DE CONOCIMIENTO DEL CLIENTE.xlsx" target="_blank">Sarlaft PJ</a></button>
                                         </div>
                                         <br>
                                         <br>

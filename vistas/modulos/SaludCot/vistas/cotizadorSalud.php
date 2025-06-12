@@ -177,59 +177,59 @@
                 </div>
             </div>
         </div>
-        <div class="form-group col-sm-6 col-md-2">
-            <label for="departamento_1">Departamento</label>
-            <select id="departamento_1" class="form-control departamento">
-                <option value=""></option>
-                <option value="91">Amazonas</option>
-                <option value="05">Antioquia</option>
-                <option value="81">Arauca</option>
-                <option value="08">Atlántico</option>
 
-                <option value="13">Bolívar</option>
-                <option value="15">Boyacá</option>
-                <option value="17">Caldas</option>
-                <option value="18">Caquetá</option>
+        <div class="col-xs-12 col-sm-6 col-md-2">
+            <div class="form-group">
+                <label for="departamento_1">Departamento</label>
+                <select id="departamento_1" class="form-control departamento">
+                    <option value=""></option>
+                    <option value="91">Amazonas</option>
+                    <option value="05">Antioquia</option>
+                    <option value="81">Arauca</option>
+                    <option value="08">Atlántico</option>
 
-                <option value="85">Casanare</option>
-                <option value="19">Cauca</option>
-                <option value="20">Cesar</option>
-                <option value="27">Chocó</option>
-                <option value="23">Córdoba</option>
+                    <option value="13">Bolívar</option>
+                    <option value="15">Boyacá</option>
+                    <option value="17">Caldas</option>
+                    <option value="18">Caquetá</option>
 
-                <option value="25">Cundinamarca</option>
-                <option value="94">Guainía</option>
-                <option value="44">La Guajira</option>
-                <option value="95">Guaviare</option>
-                <option value="41">Huila</option>
+                    <option value="85">Casanare</option>
+                    <option value="19">Cauca</option>
+                    <option value="20">Cesar</option>
+                    <option value="27">Chocó</option>
+                    <option value="23">Córdoba</option>
 
-                <option value="47">Magdalena</option>
-                <option value="50">Meta</option>
-                <option value="52">Nariño</option>
-                <option value="54">Norte de Santander</option>
-                <option value="86">Putumayo</option>
+                    <option value="25">Cundinamarca</option>
+                    <option value="94">Guainía</option>
+                    <option value="44">La Guajira</option>
+                    <option value="95">Guaviare</option>
+                    <option value="41">Huila</option>
 
-                <option value="63">Quindío</option>
-                <option value="66">Risaralda</option>
-                <option value="88">San Andrés, Providencia y Santa Catalina</option>
-                <option value="68">Santander</option>
-                <option value="70">Sucre</option>
+                    <option value="47">Magdalena</option>
+                    <option value="50">Meta</option>
+                    <option value="52">Nariño</option>
+                    <option value="54">Norte de Santander</option>
+                    <option value="86">Putumayo</option>
 
-                <option value="73">Tolima</option>
-                <option value="76">Valle del Cauca</option>
-                <option value="97">Vaupés</option>
-                <option value="99">Vichada</option>
-            </select>
+                    <option value="63">Quindío</option>
+                    <option value="66">Risaralda</option>
+                    <option value="88">San Andrés, Providencia y Santa Catalina</option>
+                    <option value="68">Santander</option>
+                    <option value="70">Sucre</option>
+
+                    <option value="73">Tolima</option>
+                    <option value="76">Valle del Cauca</option>
+                    <option value="97">Vaupés</option>
+                    <option value="99">Vichada</option>
+                </select>
+            </div>
         </div>
-        <div class="form-group col-sm-6 col-md-2">
-            <label for="ciudad_1">Ciudad</label>
-            <select id="ciudad_1" class="form-control ciudad">
-            </select>
+        <div class="col-xs-12 col-sm-6 col-md-2">
+            <div class="form-group">
+                <label for="ciudad_1">Ciudad</label>
+                <select id="ciudad_1" class="form-control ciudad"></select>
+            </div>
         </div>
-
-    </div>
-
-    <div class="row">
 
     </div>
 
