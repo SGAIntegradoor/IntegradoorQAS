@@ -3835,7 +3835,7 @@ function cotizarOfertasPesados() {
 
         const equidadPromise = comprobarFallidaPesados("Equidad")
           ? fetch(
-              "http://localhost/motor_webservice_publics/Equidad_Pasajeros",
+              "https://grupoasistencia.com/motor_webservice_publics/Equidad_Pasajeros",
               requestOptions
             )
               .then((res) => {
