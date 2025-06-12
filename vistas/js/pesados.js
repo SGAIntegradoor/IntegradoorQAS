@@ -4178,9 +4178,9 @@ $("#btnConsultarVehmanualbuscador").click(function () {
               allowOutsideClick: false,
             }).then((result) => {
               if (result.isConfirmed) {
-                window.location = "pesados";
+                //! window.location = "pesados";
               } else if (result.isDenied) {
-                window.location = "pesados";
+                //! window.location = "pesados";
               }
             });
           }
