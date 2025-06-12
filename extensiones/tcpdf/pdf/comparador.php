@@ -2901,11 +2901,11 @@ function DptoVehiculo($codigoDpto)
 	} else if ($codigoDpto == 13) {
 		$nomDpto = "Cesar";
 	} else if ($codigoDpto == 16) {
-		$nomDpto = "Chocó";
+		$nomDpto = "Cundinamarca";
 	} else if ($codigoDpto == 15) {
 		$nomDpto = "Córdoba";
 	} else if ($codigoDpto == 14) {
-		$nomDpto = "Cundinamarca";
+		$nomDpto = "Choco";
 	} else if ($codigoDpto == 17) {
 		$nomDpto = "Guainía";
 	} else if ($codigoDpto == 18) {

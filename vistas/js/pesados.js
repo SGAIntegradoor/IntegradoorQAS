@@ -1883,6 +1883,7 @@ const mostrarOfertaPesados = (
                           ${
                             aseguradora !== "Mundial" &&
                             aseguradora !== "HDI Seguros" &&
+                            aseguradora !== "Equidad" &&
                             permisos.Vernumerodecotizacionencadaaseguradora ==
                               "x"
                               ? `<center>
