@@ -1441,8 +1441,8 @@ if ($_SESSION["permisos"]["Cotizarpesados"] != "x") {
                   </div>
 
                   <div class="col-xs-12 col-sm-6 col-md-3 form-group" id="divNumToneladas" style="display: none;">
-                    <label for="numToneladas">Capacidad de carga en toneladas</label>
-                    <input type="number" class="form-control" id="numToneladas" step="any">
+                    <label for="numToneladas">Capacidad Carga (Kg)</label>
+                    <input type="number" class="form-control" id="numToneladas">
                   </div>
 
                   <div class="col-xs-12 col-sm-6 col-md-3 form-group" style="display: none;">
