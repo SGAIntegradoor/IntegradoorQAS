@@ -48,7 +48,7 @@ const planesPorDestinoEstudiantiles = {
   "07": "10475", // Oceania // Internacional
   "08": "10474", // Latam 365 Dias +
   "09": "10476", // Internacional 365 Dias +
-  "10": "10478", // Norte America y Canada 365 +
+  10: "10478", // Norte America y Canada 365 +
 };
 
 // Cargar el select de origen
@@ -512,7 +512,7 @@ function cotizar() {
   var contPasajeros = 1;
   var arrayPajaseros = {};
   var fechaNacimientoStr = diaNac + "/" + mesNac + "/" + anioNac;
-//
+  //
   // Parsear la fecha de nacimiento a un objeto Date
   var partesFecha = fechaNacimientoStr.split("/");
   var fechaNacimiento = new Date(
@@ -562,15 +562,13 @@ function cotizar() {
   // Ajax para mandar la informacion a cotizar con AssitCard
   let validar = validarCampos();
   if (validar) {
-    
     if (
       (SelmotivoViaje2 === "Estudiantil" && txtDiasViaje < 60) ||
       (SelmotivoViaje2 === "Estudiantil" && txtDiasViaje > 365)
     ) {
       Swal.fire({
         icon: "error",
-        title:
-          "Plan Estudiantil partir de 60 días y hasta 365 días corridos.",
+        title: "Plan Estudiantil partir de 60 días y hasta 365 días corridos.",
       });
     } else {
       var SelmotivoViaje2 = $("#motivoViaje").val();
@@ -602,6 +600,42 @@ function cotizar() {
             document.getElementById("row_contenedor_general").innerHTML =
               html_error;
           } else {
+            if (SelmotivoViaje2 === "Estudiantil") {
+              var txtDestino = $("#lugarDestino").val();
+              var codigoPermitido = planesPorDestinoEstudiantiles[txtDestino];
+              var cotizaciones = objResponse.cotizaciones.cotizacion;
+              var cotizacionesArray = [];
+
+              // Si solo viene un objeto, se convierte en array para iterar
+              if (!Array.isArray(cotizaciones)) {
+                cotizacionesArray = [cotizaciones];
+              } else {
+                cotizacionesArray = cotizaciones;
+              }
+
+              var cotizacionesPermitidas = 0;
+
+              cotizacionesArray.forEach(function (cotizacion) {
+                if (cotizacion.codigoTarifa == codigoPermitido) {
+                  cotizacionesPermitidas++;
+                }
+              });
+
+              console.log("Cotizaciones permitidas:", cotizacionesPermitidas);
+
+              if (cotizacionesPermitidas == 0) {
+                Swal.fire({
+                  icon: "info",
+                  title: "No se encontraron planes disponibles",
+                  allowOutsideClick: false,
+                }).then((result) => {
+                  window.location.reload();
+                });
+                return;
+              }
+              
+            }
+
             if (objResponse.codigo) {
               document.getElementById("spinener-cot").style.display = "none";
               //console.log(SelmotivoViaje2, " ", txtDiasViaje)
@@ -617,14 +651,15 @@ function cotizar() {
               } else {
                 Swal.fire({
                   icon: "error",
-                  title: "Oops... Por favor revisa toda la información ingresada",
+                  title:
+                    "Oops... Por favor revisa toda la información ingresada",
                 });
               }
             } else {
               var dolarHoy = objResponse.cotizacionDolar;
               var cotizaciones = objResponse.cotizaciones;
               var cotizacion = cotizaciones.cotizacion;
-  
+
               var html_data = "";
               hideMainContainers();
               showContainerCards();
@@ -639,7 +674,7 @@ function cotizar() {
                   if (validarCodigoEmpresarial(cotizacion.codigo)) {
                     cotizacion.last_id = objResponse.last_id;
                     cotizacion.modalidad = SelmotivoViaje2;
-                    console.log(cotizacion)
+                    console.log(cotizacion);
                     guardarOfertas(cotizacion);
                     toogleDataContainer();
                     html_data += ` 
@@ -668,7 +703,8 @@ function cotizar() {
                                                         : "COP"
                                                     } $` +
                                                     parseFloat(
-                                                      cotizacion.clientesCotizados
+                                                      cotizacion
+                                                        .clientesCotizados
                                                         .clienteCotizacion[0]
                                                         .valorAsistencia
                                                     ).toFixed(2)
@@ -678,7 +714,8 @@ function cotizar() {
                                                         : "COP"
                                                     } $` +
                                                     parseFloat(
-                                                      cotizacion.clientesCotizados
+                                                      cotizacion
+                                                        .clientesCotizados
                                                         .clienteCotizacion
                                                         .valorAsistencia
                                                     ).toFixed(2)
@@ -765,7 +802,8 @@ function cotizar() {
                                                         : "COP"
                                                     } $` +
                                                     parseFloat(
-                                                      cotizacion.clientesCotizados
+                                                      cotizacion
+                                                        .clientesCotizados
                                                         .clienteCotizacion[0]
                                                         .valorAsistencia
                                                     ).toFixed(2)
@@ -775,7 +813,8 @@ function cotizar() {
                                                         : "COP"
                                                     } $` +
                                                     parseFloat(
-                                                      cotizacion.clientesCotizados
+                                                      cotizacion
+                                                        .clientesCotizados
                                                         .clienteCotizacion
                                                         .valorAsistencia
                                                     ).toFixed(2)
