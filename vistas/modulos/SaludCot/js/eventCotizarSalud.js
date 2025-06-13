@@ -988,6 +988,7 @@ function makeCards(data, tipoCotizacion) {
     data.asegurados.forEach((asegurado) => {
       asegurado.planes.forEach((plan) => {
         if (!planesSumados[plan.plan_id]) {
+          // Javier-Dev iterar planes, crear un array parecido a planesSumados para ir almacenando los planes y sus valores por cada plan y que non se repitan
           planesSumados[plan.plan_id] = {
             nombre: plan.nombre,
             mensual: 0,
