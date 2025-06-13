@@ -308,6 +308,7 @@ $(document).ready(function () {
     let deptoCirc = $("#DptoCirculacion").val();
     let ciudadCirc = $("#ciudadCirculacion").val();
     let numToneladas = $("#numToneladas").val();
+    let clasePesados = $("#clasepesados").val();
 
     if (!mundialInput) {
       return;
@@ -318,7 +319,7 @@ $(document).ready(function () {
     if (!ciudadCirc) {
       return;
     }
-    if (!numToneladas) {
+    if (clasePesados == "FURGON" && !numToneladas) {
       return;
     }
 
@@ -3232,8 +3233,12 @@ function cotizarOfertasPesados() {
                         ofertas[0].Mensajes.length > 1
                       ) {
                         let mensajesConcatenados = "Cotización Fallida: ";
-                        ofertas[0].Mensajes.forEach((mensaje) => {
-                          mensajesConcatenados += mensaje + ", ";
+                        ofertas[0].Mensajes.forEach((mensaje, index) => {
+                          if(index == ofertas[0].Mensajes.length - 1 ){
+                              mensajesConcatenados += mensaje;
+                          } else {
+                              mensajesConcatenados += mensaje + ", ";
+                          }
                         });
                         mostrarAlertarCotizacionFallida(
                           aseguradora,
