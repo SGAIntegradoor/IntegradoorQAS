@@ -205,6 +205,7 @@ function cargarIntermediario() {
         language: "es",
         width: "100%",
         placeholder: "Intermediario*", // Esto configura el placeholder
+        dropdownParent: $("#modalAgregarUsuario")
       });
 
       //Carga los Intermediarios disponibles para editar
@@ -213,6 +214,7 @@ function cargarIntermediario() {
         language: "es",
         width: "100%",
         placeholder: "Intermediario", // Esto configura el placeholder
+        dropdownParent: $("#modalAgregarUsuario")
       });
     },
   });
@@ -242,6 +244,7 @@ function cargarRoll() {
         language: "es",
         width: "100%",
         placeholder: "Rol*", // Esto configura el placeholder
+        dropdownParent: $("#modalAgregarUsuario")
       });
 
       // Carga los Intermediarios disponibles para editar
@@ -250,6 +253,7 @@ function cargarRoll() {
         language: "es",
         width: "100%",
         placeholder: "Rol", // Esto configura el placeholder
+        dropdownParent: $("#modalAgregarUsuario")
       });
     },
   });
@@ -347,6 +351,7 @@ $("#agregarTipoDocumento").select2({
   language: "es",
   width: "100%",
   placeholder: "Tipo Documento*", // Esto configura el placeholder
+  dropdownParent: $("#modalAgregarUsuario")
 });
 
 // Carga los Generos disponibles para agregar
@@ -355,6 +360,7 @@ $("#nuevoGenero").select2({
   language: "es",
   width: "100%",
   placeholder: "Genero*", // Esto configura el placeholder
+  dropdownParent: $("#modalAgregarUsuario")
 });
 
 // Carga los Departamentos disponibles para editar

@@ -1269,7 +1269,18 @@ $response = retrieveQuotation($idCotizacion);
                       </p>
                       </div>';
               }
+              
             }
+            // else {
+            //     echo '<div class="aviso-container col-lg-12" style="font-size: 13px">
+            //             <p><b>Notas Importantes: </b></p>
+            //               <ul>
+            //                 <li>
+            //                     <p><b>Equidad:</b> La aseguradora maneja una prima Mínima de $1.600.000 + asistencia en viaje $220.000 + gastos de expedición $30.000 ($1.850.000 valores sin IVA incluido).</p>
+            //                 </li>
+            //               </ul>
+            //           </div>';
+            // }
             ?>
           </div>
         </div>
