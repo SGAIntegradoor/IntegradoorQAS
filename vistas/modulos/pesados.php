@@ -1327,9 +1327,7 @@ if ($_SESSION["permisos"]["Cotizarpesados"] != "x") {
                     <label for="txtMarcaVeh">Marca</label>
                     <input type="text" class="form-control classMarcaVeh" id="txtMarcaVeh" placeholder="" disabled>
                   </div>
-                </div>
 
-                <div class="row">
                   <div class="col-xs-12 col-sm-6 col-md-3 form-group">
                     <label for="txtReferenciaVeh">Línea</label>
                     <input type="text" class="form-control classReferenciaVeh" id="txtReferenciaVeh" placeholder="" disabled>
@@ -1354,6 +1352,12 @@ if ($_SESSION["permisos"]["Cotizarpesados"] != "x") {
                     <label for="txtValorFasecolda">Valor Asegurado</label>
                     <input type="text" class="form-control" id="txtValorFasecolda" placeholder="" required>
                   </div>
+
+                  <div class="col-xs-12 col-sm-6 col-md-3 form-group" id="divNumToneladas" style="display: none;">
+                    <label for="numToneladas">Capacidad Carga (Kg)</label>
+                    <input type="number" class="form-control" id="numToneladas" min="1">
+                  </div>
+
                   <div class="col-xs-12 col-sm-6 col-md-3 form-group" style="display: none;">
                     <label for="txtTipoUsoVehiculo">Tipo de Uso</label>
                     <select class="form-control" id="txtTipoUsoVehiculo" required>
@@ -1372,9 +1376,6 @@ if ($_SESSION["permisos"]["Cotizarpesados"] != "x") {
                     </select>
                   </div>
 
-                </div>
-
-                <div class="row">
 
 
                   <div class="col-xs-12 col-sm-6 col-md-3 form-group">
@@ -1440,11 +1441,6 @@ if ($_SESSION["permisos"]["Cotizarpesados"] != "x") {
                     </select>
                   </div>
 
-                  <div class="col-xs-12 col-sm-6 col-md-3 form-group" id="divNumToneladas" style="display: none;">
-                    <label for="numToneladas">Capacidad Carga (Kg)</label>
-                    <input type="number" class="form-control" id="numToneladas" min="1">
-                  </div>
-
                   <div class="col-xs-12 col-sm-6 col-md-3 form-group" style="display: none;">
                     <label for="obligacionfinanciera">Obligaciones Financieras</label>
                     <select class="form-control" id="obligacionfinanciera" required>
@@ -1453,31 +1449,30 @@ if ($_SESSION["permisos"]["Cotizarpesados"] != "x") {
                     </select>
                   </div>
 
-                </div>
 
-                <div class="row">
 
-                </div>
-
-                <div class="col-xs-12 col-sm-6 col-md-3" style="display: none;">
                   <div class="row">
-                    <div class="col-xs-5 col-sm-5 col-md-5 form-group">
-                      <label style="display: none;">Es Oneroso?</label>
-                      <div class="conten-oneroso" style="display: none;">
-                        <label for="Si">Si</label>
-                        <input type="radio" name="oneroso" id="esOnerosoSi" value="Si">&nbsp;&nbsp;&nbsp;&nbsp;
-                        <label for="No">No</label>
-                        <input type="radio" name="oneroso" id="esOnerosoNo" value="No" required checked>
+
+                  </div>
+
+                  <div class="col-xs-12 col-sm-6 col-md-3" style="display: none;">
+                    <div class="row">
+                      <div class="col-xs-5 col-sm-5 col-md-5 form-group">
+                        <label style="display: none;">Es Oneroso?</label>
+                        <div class="conten-oneroso" style="display: none;">
+                          <label for="Si">Si</label>
+                          <input type="radio" name="oneroso" id="esOnerosoSi" value="Si">&nbsp;&nbsp;&nbsp;&nbsp;
+                          <label for="No">No</label>
+                          <input type="radio" name="oneroso" id="esOnerosoNo" value="No" required checked>
+                        </div>
+                      </div>
+                      <div class="col-xs-7 col-sm-7 col-md-7 form-group" id="contenBenefOneroso">
+                        <label for="benefOneroso">Beneficiario</label>
+                        <input type="text" class="form-control" id="benefOneroso">
                       </div>
                     </div>
-                    <div class="col-xs-7 col-sm-7 col-md-7 form-group" id="contenBenefOneroso">
-                      <label for="benefOneroso">Beneficiario</label>
-                      <input type="text" class="form-control" id="benefOneroso">
-                    </div>
                   </div>
-                </div>
 
-                <div class="row">
                   <div id="contenBtnCotizar">
                     <div class="col-lg-12 conten-cotizar">
                       <div class="row">
