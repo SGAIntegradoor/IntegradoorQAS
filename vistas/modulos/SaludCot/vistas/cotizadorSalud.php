@@ -257,6 +257,47 @@
         </div>
     </div>
 </div>
+
+<!-- Inicio Agregado Javier-Dev -->
+
+<!-- Mostrar alertas -->
+<div id="resumenCotizaciones" class="container-fluid" style="display: none;">
+    <div class="col-lg-12" style="display: block;">
+        <div class="card-ofertas">
+            <div class="table-responsive">
+                <table class="table table-bordered table-padding" id="tablaResumenCot">
+                    <thead>
+                        <tr>
+                            <th class="thTable" scope="col" style="color: #88d600; margin-right: 5px;">Aseguradora</th>
+                            <th class="thTable" scope="col" style="color: #88d600; margin-right: 5px;">Cotizo?</th>
+                            <th class="thTable" scope="col" style="color: #88d600;; margin-right: 5px;">Productos cotizados</th>
+                            <th class="thTable" scope="col" style="color: #88d600;; margin-right: 5px;">Observaciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Axa Colpatria</td>
+                            <td class="text-center"><i class="fa fa-check" aria-hidden="true" style="color: green; margin-right: 5px;"></i></td>
+                            <td class="text-center">6</td>
+                            <td>Cotización exitosa!</td>
+                        </tr>
+                        <tr>
+                            <td>Seguros Bolivar</td>
+                            <td class="text-center"><i class="fa fa-check" aria-hidden="true" style="color: green; margin-right: 5px;"></i></td>
+                            <td class="text-center">2</td>
+                            <td>Cotización exitosa!</td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Fin agregado Javier-Dev -->
+
+
 <div class="container-fluid" id="containerCardsSalud">
     <div class="col-lg-12">
         <div class="row row-aseg">

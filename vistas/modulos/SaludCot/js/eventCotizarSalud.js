@@ -613,15 +613,24 @@ function makeIndividualCard(
   precioSemestral,
   precioAnual,
   coberturas,
+  titulo,
+  subtitulo,
+  pdf,
+  logo,
   tipoCotizacion,
   cantAseg,
   tableHTML
 ) {
+  coberturasHTML = "";
+  coberturas.forEach((plan) => {
+    coberturasHTML += `<li>${plan}</li>`;
+  });
+
   return `
     <div class='card-ofertas'>
       <div class='row card-body'>
           <div class="col-xs-12 col-sm-6 col-md-2 align-horizontal ">
-              <img src="vistas/modulos/SaludCot/img/logo-convenio-axa-colpatria.png" class="logoCardAsist" alt="Logo">  
+              <img src="${logo}" class="logoCardAsist" alt="Logo">  
               <span class="tittleCard tittleCard_top">
                   ${capitalizeFirstLetter(nombrePlan)}
               </span>
@@ -677,160 +686,19 @@ function makeIndividualCard(
                     <strong>Nota:</strong> Esta propuesta tiene una vigencia limitada
                 </div>
                 </div>
-                ${
-                  capitalizeFirstLetter(nombrePlan) === "Fesalud amparado"
-                    ? `<div class="col-xs-12 col-sm-6 col-md-5 textCards">     
+                
+                <div class="col-xs-12 col-sm-6 col-md-5 textCards">     
                   <div style="width: 100%; text-align: justify; padding-right: 25px">
-                    <b>Este Plan es mejor que el Plan Original, incluyendo coberturas como:</b> Urgencias + Hospitalización y cirugía + Consulta externa ilimitada en todas las especialidades + Examenes y laboratorios + Asistencia medica domiciliaria (primeras 5 sin pago de bono) + Continuidad en el pago de prima por desempleo + Exoneración pago de prima por fallecimiento + Urgencias odontologicas
+                    <p>${titulo}</p>
                     <br>
-                    <b>Más estas otras coberturas como:</b>
+                    <b>${subtitulo}</b>
                     <br>
                     <ul>
-                      <li>
-                      Clínicas TOP
-                      </li>
-                      <li>
-                      Deportes de Alto riesgo
-                      </li>
-                      <li>
-                      Acceso a servicios sin cobro de bono (terapias y exámenes)
-                      </li>
-                      <li>
-                      Asistencia internacional USD$50.000
-                      </li>
+                      ${coberturasHTML}
                     </ul>
-                    <a href="vistas/pdfs/PDF FESALUD AMPARADO.pdf" target="_blank"><img src="vistas/img/iconosResources/icons8-pdf-office-m/icons8-pdf-30.png" width="25px"/> Ver más</a> 
+                    <a href="${pdf}" target="_blank"><img src="vistas/img/iconosResources/icons8-pdf-office-m/icons8-pdf-30.png" width="25px"/> Ver más</a> 
                   </div>
-                </div>`
-                    : capitalizeFirstLetter(nombrePlan) === "Original amparado"
-                    ? `<div class="col-xs-12 col-sm-6 col-md-5 textCards">     
-                    <div style="width: 100%; text-align: justify; padding-right: 25px">
-                      <b>Este Plan es mejor que el Plan Alterno, incluyendo coberturas como:</b> Urgencias + Hospitalización y cirugía + Consulta externa ilimitada en todas las especialidades + Examenes y laboratorios + Asistencia medica domiciliaria (primeras 5 sin pago de bono)
-                      <br>
-                      <b>Más estas otras coberturas como:</b>
-                      <br>
-                      <ul>
-                        <li>
-                        Continuidad en el pago de prima por desempleo
-                        </li>
-                        <li>
-                        Exoneración pago de prima por fallecimiento
-                        </li>
-                        <li>
-                        Urgencias odontologicas
-                        </li>
-                        <li>
-                        Asistencia internacional USD$30.000
-                        </li>
-                      </ul>
-                      <a href="vistas/pdfs/PDF ORIGINAL AMPARADO.pdf" target="_blank"><img src="vistas/img/iconosResources/icons8-pdf-office-m/icons8-pdf-30.png" width="25px"/> Ver más</a> 
-                    </div>
-                  </div>`
-                    : capitalizeFirstLetter(nombrePlan) === "Alterno amparado"
-                    ? `<div class="col-xs-12 col-sm-6 col-md-5 textCards">     
-                      <div style="width: 100%; text-align: justify; padding-right: 25px">
-                        <b>El Plan Alterno incluye coberturas como:</b> 
-                        <br>
-                        <ul>
-                          <li>
-                          Urgencias
-                          </li>
-                          <li>
-                          Hospitalización y cirugía
-                          </li>
-                          <li>
-                          Consulta externa ilimitada en todas las especialidades
-                          </li>
-                          <li>
-                          Examenes y laboratorios
-                          </li>
-                          <li>
-                          Asistencia internacional USD$25.000
-                          </li>
-                          <li>
-                          Asistencia medica domiciliaria (primeras 5 sin pago de bono)
-                          </li>
-                        </ul>
-                        <a href="vistas/pdfs/PDF ALTERNO AMPARADO.pdf" target="_blank"><img src="vistas/img/iconosResources/icons8-pdf-office-m/icons8-pdf-30.png" width="25px"/> Ver más</a> 
-                      </div>
-                    </div>`
-                    : capitalizeFirstLetter(nombrePlan) === "Salud ideal"
-                    ? `<div class="col-xs-12 col-sm-6 col-md-5 textCards">     
-                      <div style="width: 100%; text-align: justify; padding-right: 25px">
-                        <b>Coberturas:</b> 
-                        <br>
-                        <ul>
-                          <li>
-                          Urgencias y hospitalización
-                          </li>
-                          <li>
-                          Cirugía
-                          </li>
-                          <li>
-                          Consultas, exámenes complementarios y terapias relacionadas con hospitalización
-                          </li>
-                          <li>
-                          Urgencias odontológicas
-                          </li>
-                          <li>
-                          Acceso a una amplia red de médicos especialistas con tarifas preferenciales.
-                          </li>
-                          <li>
-                          Asistencia internacional y muchas coberturas más
-                          </li>
-                        </ul>
-                        <a href="vistas/pdfs/PDF SALUD IDEAL.pdf" target="_blank"> <img src="vistas/img/iconosResources/icons8-pdf-office-m/icons8-pdf-30.png" width="25px"/>Ver más</a>
-                      </div>
-                    </div>`
-                    : capitalizeFirstLetter(nombrePlan) ===
-                      "Salud ideal + emermedica"
-                    ? `<div class="col-xs-12 col-sm-6 col-md-5 textCards">
-                    <div style="width: 100%; text-align: justify; padding-right: 25px">
-                      <b>Incluye coberturas del Plan Salud Ideal como: </b>emergencias odontológicas + consultas, exámenes complementarios y terapias relacionados con hospitalización + medicamentos ambulatorios de hospitalización + atención médica de urgencias en el exterior.
-                    <br>
-                    <b>Más estas otras coberturas como:</b>
-                      <br>
-                      <ul>
-                        <li>
-                        Asesoría en Lactancia Materna
-                        </li>
-                        <li>
-                        Consulta Médica domiciliaria ilimitada sin Pago de bono.
-                        </li>
-                      </ul>
-                      <a href="vistas/pdfs/PDF SALUD IDEAL + EMERMEDICA.pdf" target="_blank"><img src="vistas/img/iconosResources/icons8-pdf-office-m/icons8-pdf-30.png" width="25px"/> Ver más</a> 
-                    </div>
-                  </div>`
-                    : capitalizeFirstLetter(nombrePlan) === "Plan ambulatorio"
-                    ? `<div class="col-xs-12 col-sm-6 col-md-5 textCards">     
-                    <div style="width: 100%; text-align: justify; padding-right: 25px">
-                      <b>Coberturas:</b>
-                      <br>
-                      <ul>
-                        <li>
-                        Consulta médica general, prioritaria y especializada con bono
-                        </li>
-                        <li>
-                        Traslado a consulta médica 3 eventos por año de vigencia sin pago de bono
-                        </li>
-                        <li>
-                        Servicio odontologicos de urgencia y prevención
-                        </li>
-                        <li>
-                        Exámenes de laboratorio y diagnóstico simple 
-                        </li>
-                        <li>
-                         Renta diaria por hospitalización
-                        </li>
-                        <li>
-                         Terapias ilimitadas con pago de bono y muchas coberturas más
-                        </li>
-                      </ul>
-                      <a href="vistas/pdfs/PDF PLAN AMBULTARIO.pdf" target="_blank"><img src="vistas/img/iconosResources/icons8-pdf-office-m/icons8-pdf-30.png" width="25px"/> Ver más</a> 
-                    </div>
-                  </div>`
-                    : ""
-                }
+                </div>
                 
               </div>
               <div class='row card-body'>
@@ -984,13 +852,19 @@ function makeCards(data, tipoCotizacion) {
     // Generar tarjetas individuales para cada plan
     // Acumular los valores por plan_id
     let planesSumados = {};
+    let coberturasAgrupadas = {};
 
     data.asegurados.forEach((asegurado) => {
       asegurado.planes.forEach((plan) => {
         if (!planesSumados[plan.plan_id]) {
           // Javier-Dev iterar planes, crear un array parecido a planesSumados para ir almacenando los planes y sus valores por cada plan y que non se repitan
+
           planesSumados[plan.plan_id] = {
             nombre: plan.nombre,
+            titulo: plan.titulo,
+            subtitulo: plan.descripcion,
+            logo: plan.logo,
+            pdf: plan.pdf,
             mensual: 0,
             trimestral: 0,
             semestral: 0,
@@ -1014,34 +888,38 @@ function makeCards(data, tipoCotizacion) {
 
         // Si el plan tiene coberturas, agregarlas
         if (planesSumados[plan.plan_id].coberturas.length === 0) {
-          let nombrePlanUpper = plan.nombre.toUpperCase();
-          switch (nombrePlanUpper) {
-            case "FESALUD AMPARADO":
-              planesSumados[plan.plan_id].coberturas =
-                COBERTURAS_FESALUD_AMPARADO;
-              break;
-            case "ORIGINAL AMPARADO":
-              planesSumados[plan.plan_id].coberturas =
-                COBERTURAS_ORIGINAL_AMPARADO;
-              break;
-            case "ALTERNO AMPARADO":
-              planesSumados[plan.plan_id].coberturas =
-                COBERTURAS_ALTERNO_AMPARADO;
-              break;
-            case "SALUD IDEAL":
-              planesSumados[plan.plan_id].coberturas = COBERTURAS_SALUD_IDEAL;
-              break;
-            case "SALUD IDEAL + EMERMEDICA":
-              planesSumados[plan.plan_id].coberturas =
-                COBERTURAS_SALUD_IDEAL_EMERMEDICA;
-              break;
-            case "PLAN AMBULATORIO":
-              planesSumados[plan.plan_id].coberturas =
-                COBERTURAS_PLAN_AMBULATORIO;
-              break;
-            default:
-              planesSumados[plan.plan_id].coberturas = ["Cobertura estándar"];
-          }
+          planesSumados[plan.plan_id].coberturas = plan.coberturas || [];
+
+          // console.log(plan.coberturas); // coberturas del plan javier-dev
+
+          // let nombrePlanUpper = plan.nombre.toUpperCase();
+          // switch (nombrePlanUpper) {
+          //   case "FESALUD AMPARADO":
+          //     planesSumados[plan.plan_id].coberturas =
+          //       COBERTURAS_FESALUD_AMPARADO;
+          //     break;
+          //   case "ORIGINAL AMPARADO":
+          //     planesSumados[plan.plan_id].coberturas =
+          //       COBERTURAS_ORIGINAL_AMPARADO;
+          //     break;
+          //   case "ALTERNO AMPARADO":
+          //     planesSumados[plan.plan_id].coberturas =
+          //       COBERTURAS_ALTERNO_AMPARADO;
+          //     break;
+          //   case "SALUD IDEAL":
+          //     planesSumados[plan.plan_id].coberturas = COBERTURAS_SALUD_IDEAL;
+          //     break;
+          //   case "SALUD IDEAL + EMERMEDICA":
+          //     planesSumados[plan.plan_id].coberturas =
+          //       COBERTURAS_SALUD_IDEAL_EMERMEDICA;
+          //     break;
+          //   case "PLAN AMBULATORIO":
+          //     planesSumados[plan.plan_id].coberturas =
+          //       COBERTURAS_PLAN_AMBULATORIO;
+          //     break;
+          //   default:
+          //     planesSumados[plan.plan_id].coberturas = ["Cobertura estándar"];
+          // }
         }
       });
     });
@@ -1057,6 +935,10 @@ function makeCards(data, tipoCotizacion) {
         processValue(plan.semestral, iva),
         processValue(plan.anual, iva),
         plan.coberturas,
+        plan.titulo,
+        plan.subtitulo,
+        plan.pdf,
+        plan.logo,
         tipoCotizacion,
         data.asegurados.length,
         tableHTML
@@ -1071,6 +953,10 @@ function makeCards(data, tipoCotizacion) {
         if (!planesSumados[plan.plan_id]) {
           planesSumados[plan.plan_id] = {
             nombre: plan.nombre,
+            titulo: plan.titulo,
+            subtitulo: plan.descripcion,
+            logo: plan.logo,
+            pdf: plan.pdf,
             mensual: 0,
             trimestral: 0,
             semestral: 0,
@@ -1094,34 +980,38 @@ function makeCards(data, tipoCotizacion) {
 
         // Si el plan tiene coberturas, agregarlas
         if (planesSumados[plan.plan_id].coberturas.length === 0) {
-          let nombrePlanUpper = plan.nombre.toUpperCase();
-          switch (nombrePlanUpper) {
-            case "FESALUD AMPARADO":
-              planesSumados[plan.plan_id].coberturas =
-                COBERTURAS_FESALUD_AMPARADO;
-              break;
-            case "ORIGINAL AMPARADO":
-              planesSumados[plan.plan_id].coberturas =
-                COBERTURAS_ORIGINAL_AMPARADO;
-              break;
-            case "ALTERNO AMPARADO":
-              planesSumados[plan.plan_id].coberturas =
-                COBERTURAS_ALTERNO_AMPARADO;
-              break;
-            case "SALUD IDEAL":
-              planesSumados[plan.plan_id].coberturas = COBERTURAS_SALUD_IDEAL;
-              break;
-            case "SALUD IDEAL + EMERMEDICA":
-              planesSumados[plan.plan_id].coberturas =
-                COBERTURAS_SALUD_IDEAL_EMERMEDICA;
-              break;
-            case "PLAN AMBULATORIO":
-              planesSumados[plan.plan_id].coberturas =
-                COBERTURAS_PLAN_AMBULATORIO;
-              break;
-            default:
-              planesSumados[plan.plan_id].coberturas = ["Cobertura estándar"];
-          }
+          planesSumados[plan.plan_id].coberturas = plan.coberturas || [];
+
+          // console.log(plan.coberturas); // coberturas del plan javier-dev
+
+          // let nombrePlanUpper = plan.nombre.toUpperCase();
+          // switch (nombrePlanUpper) {
+          //   case "FESALUD AMPARADO":
+          //     planesSumados[plan.plan_id].coberturas =
+          //       COBERTURAS_FESALUD_AMPARADO;
+          //     break;
+          //   case "ORIGINAL AMPARADO":
+          //     planesSumados[plan.plan_id].coberturas =
+          //       COBERTURAS_ORIGINAL_AMPARADO;
+          //     break;
+          //   case "ALTERNO AMPARADO":
+          //     planesSumados[plan.plan_id].coberturas =
+          //       COBERTURAS_ALTERNO_AMPARADO;
+          //     break;
+          //   case "SALUD IDEAL":
+          //     planesSumados[plan.plan_id].coberturas = COBERTURAS_SALUD_IDEAL;
+          //     break;
+          //   case "SALUD IDEAL + EMERMEDICA":
+          //     planesSumados[plan.plan_id].coberturas =
+          //       COBERTURAS_SALUD_IDEAL_EMERMEDICA;
+          //     break;
+          //   case "PLAN AMBULATORIO":
+          //     planesSumados[plan.plan_id].coberturas =
+          //       COBERTURAS_PLAN_AMBULATORIO;
+          //     break;
+          //   default:
+          //     planesSumados[plan.plan_id].coberturas = ["Cobertura estándar"];
+          // }
         }
       });
     });
@@ -1137,6 +1027,10 @@ function makeCards(data, tipoCotizacion) {
         processValue(plan.semestral, iva),
         processValue(plan.anual, iva),
         plan.coberturas,
+        plan.titulo,
+        plan.subtitulo,
+        plan.pdf,
+        plan.logo,
         tipoCotizacion,
         data.asegurados.length,
         tableHTML
@@ -1149,9 +1043,10 @@ function makeCards(data, tipoCotizacion) {
       html_data;
     showPopup = !showPopup;
   } else {
-    document.getElementById("row_contenedor_general_salud").innerHTML =
+    document.getElementById("row_contenedor_general_salud").innerHTML +=
       html_data;
   }
+  $("#resumenCotizaciones").show();
   cargarEstilos("vistas/modulos/SaludCot/css/cardsResult.css");
 
   showPopup
@@ -1280,7 +1175,7 @@ function cotizar() {
       env = "DEV";
     } else if (path.includes("/QAS/") || path.includes("/qas/")) {
       env = "QAS";
-    } 
+    }
 
     // Finalmente, construimos el objeto final que se enviará
     var datosCotizacion = {
@@ -1292,10 +1187,12 @@ function cotizar() {
     };
 
     $.ajax({
-      url: "https://grupoasistencia.com/health_engine/WSAxa/axa.php",
-      //url: "http://localhost/motorTest/health_engine/axa.php",
+      // url: "https://grupoasistencia.com/health_engine/WSAxa/axa.php",
+      url: "http://localhost/WS-laravel/api/salud/axa/cotizar",
       type: "POST",
       data: JSON.stringify(datosCotizacion),
+      contentType: "application/json",
+      dataType: "json",
       success: function (data) {
         hideMainContainerCards();
         showContainerCardsSalud();
@@ -1304,6 +1201,32 @@ function cotizar() {
         makeCards(data, tipoCotizacion);
       },
       error: function (data) {
+        Swal.fire({
+          icon: "error",
+          title: "Error al cotizar",
+          text: "Por favor, verifica los datos ingresados.",
+        });
+      },
+    });
+    $.ajax({
+      url: "http://localhost/WS-laravel/api/salud/bolivar/cotizar",
+      type: "POST",
+      data: JSON.stringify(datosCotizacion),
+      contentType: "application/json", // ✅ CRUCIAL: Especifica el tipo de contenido
+      dataType: "json", // ✅ Especifica que esperas JSON como respuesta
+      success: function (data) {
+        hideMainContainerCards();
+        showContainerCardsSalud();
+        toogleDataContainer();
+        document.getElementById("spinener-cot-salud").style.display = "none";
+        makeCards(data, tipoCotizacion);
+      },
+      error: function (xhr, status, error) {
+        // ✅ Mejora el manejo de errores para ver qué está pasando
+        console.log("Error status:", status);
+        console.log("Error:", error);
+        console.log("Response:", xhr.responseText);
+
         Swal.fire({
           icon: "error",
           title: "Error al cotizar",
