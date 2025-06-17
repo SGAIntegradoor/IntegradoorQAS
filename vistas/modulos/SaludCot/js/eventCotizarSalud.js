@@ -1,4 +1,5 @@
 // Declaramos las constantes que vamos a utilizar
+var errores = 0;
 const numMaxAseg = 10;
 const iva = 5;
 const COBERTURAS_FESALUD_AMPARADO = ["XXXXXX"];
@@ -636,7 +637,7 @@ function makeIndividualCard(
               </span>
           </div>
 
-          <div class="col-xs-12 col-sm-6 col-md-5 oferta-logo infoPlanes">
+          <div class="col-xs-12 col-sm-6 col-md-3 oferta-logo infoPlanes">
                 <div class='row textCenter tittlePrice2'>
                     <span class="tittlePrice">
                         ${
@@ -655,6 +656,7 @@ function makeIndividualCard(
                             $${precioMensual}
                         </span>
                     </div>
+                    <!-- *** inicio comentado para trimestral y semestral ***
                     <div class="col-xs-12 col-sm-6 col-md-3 aling-start">
                          <span class="tittleCard centar-span-txt">
                             Trimestral
@@ -671,6 +673,7 @@ function makeIndividualCard(
                             $${precioSemestral}
                         </span>                     
                     </div>
+                    *** fin comentado para trimestral y semestral *** -->
                     <div class="col-xs-12 col-sm-6 col-md-3 aling-start">
                         <span class="tittleCard centar-span-txt">
                             Anual
@@ -687,7 +690,7 @@ function makeIndividualCard(
                 </div>
                 </div>
                 
-                <div class="col-xs-12 col-sm-6 col-md-5 textCards">     
+                <div class="col-xs-12 col-sm-6 col-md-7 textCards">     
                   <div style="width: 100%; text-align: justify; padding-right: 25px">
                     <p>${titulo}</p>
                     <br>
@@ -746,8 +749,10 @@ function makeTable(asegurados, plan_id) {
                               <th>Género</th>
                               <th>Edad</th>
                               <th>Mensual</th>
+                              <!-- *** inicio comentado para trimestral y semestral Javier***
                               <th>Trimestral</th>
                               <th>Semestral</th>
+                              *** fin comentario *** -->
                               <th>Anual</th>
                           </tr>
                       </thead>
@@ -784,8 +789,10 @@ function makeTable(asegurados, plan_id) {
               <td>${generoTexto}</td>
               <td>${asegurado.edad}</td>
               <td>$${processValue(mensual, 0)}</td>
+              <!-- *** inicio comentado para trimestral y semestral Javier ***
               <td>$${processValue(trimestral, 0)}</td>
               <td>$${processValue(semestral, 0)}</td>
+              *** fin comentario *** -->
               <td>$${processValue(anual, 0)}</td>
           </tr>`;
     }
@@ -808,24 +815,30 @@ function makeTable(asegurados, plan_id) {
                               <th class="th-out-border"></th>
                               <td colspan="2">Subtotal</td>
                               <td>$${processValue(subtotalMensual, 0)}</td>
+                              <!-- *** inicio comentado para trimestral y semestral Javier ***
                               <td>$${processValue(subtotalTrimestral, 0)}</td>
                               <td>$${processValue(subtotalSemestral, 0)}</td>
+                              *** fin comentario *** -->
                               <td>$${processValue(subtotalAnual, 0)}</td>
                           </tr>
                           <tr class="bold-row">
                               <th class="th-out-border"></th>
                               <td colspan="2">IVA (5%)</td>
                               <td>$${processValue(ivaMensual, 0)}</td>
+                              <!-- *** inicio comentado para trimestral y semestral Javier ***
                               <td>$${processValue(ivaTrimestral, 0)}</td>
                               <td>$${processValue(ivaSemestral, 0)}</td>
+                              *** fin comentario *** -->
                               <td>$${processValue(ivaAnual, 0)}</td>
                           </tr>
                           <tr class="bold-row">
                               <th class="th-out-border"></th>
                               <td colspan="2">Total</td>
                               <td>$${processValue(totalMensual, 0)}</td>
+                              <!-- *** inicio comentado para trimestral y semestral Javier ***
                               <td>$${processValue(totalTrimestral, 0)}</td>
                               <td>$${processValue(totalSemestral, 0)}</td>
+                              *** fin comentario *** -->
                               <td>$${processValue(totalAnual, 0)}</td>
                           </tr>
                       </tfoot>
@@ -1049,12 +1062,12 @@ function makeCards(data, tipoCotizacion) {
   $("#resumenCotizaciones").show();
   cargarEstilos("vistas/modulos/SaludCot/css/cardsResult.css");
 
-  showPopup
-    ? Swal.fire({
-        title: "¡Cotización Exitosa!",
-        icon: "success",
-      })
-    : null;
+  // showPopup
+  //   ? Swal.fire({
+  //       title: "¡Cotización Exitosa!",
+  //       icon: "success",
+  //     })
+  //   : null;
 }
 
 /**
@@ -1201,6 +1214,7 @@ function cotizar() {
         makeCards(data, tipoCotizacion);
       },
       error: function (data) {
+        errores = errores + 1;
         Swal.fire({
           icon: "error",
           title: "Error al cotizar",
@@ -1223,6 +1237,7 @@ function cotizar() {
       },
       error: function (xhr, status, error) {
         // ✅ Mejora el manejo de errores para ver qué está pasando
+        errores = errores + 1;
         console.log("Error status:", status);
         console.log("Error:", error);
         console.log("Response:", xhr.responseText);
@@ -1234,7 +1249,48 @@ function cotizar() {
         });
       },
     });
+    $.ajax({
+      url: "http://localhost/WS-laravel/api/salud/coomeva/cotizar",
+      type: "POST",
+      data: JSON.stringify(datosCotizacion),
+      contentType: "application/json", // ✅ CRUCIAL: Especifica el tipo de contenido
+      dataType: "json", // ✅ Especifica que esperas JSON como respuesta
+      success: function (data) {
+        hideMainContainerCards();
+        showContainerCardsSalud();
+        toogleDataContainer();
+        document.getElementById("spinener-cot-salud").style.display = "none";
+        makeCards(data, tipoCotizacion);
+      },
+      error: function (xhr, status, error) {
+        // ✅ Mejora el manejo de errores para ver qué está pasando
+        errores = errores + 1;
+        console.log("Error status:", status);
+        console.log("Error:", error);
+        console.log("Response:", xhr.responseText);
+
+        Swal.fire({
+          icon: "error",
+          title: "Error al cotizar",
+          text: "Por favor, verifica los datos ingresados.",
+        });
+      },
+    });
+    if (errores == 0) {
+      //esperar dos segundos antes de mostrar el mensaje Javier-Dev
+      $("body").append(
+        '<div id="overlay-cotizacion" style="position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.3);z-index:9999;"></div>'
+      );
+      setTimeout(() => {
+        $("#overlay-cotizacion").remove();
+        Swal.fire({
+          title: "¡Cotización Exitosa!",
+          icon: "success",
+        });
+      }, 2000);
+    }
     window.scrollTo(0, 0);
+    $("#contenParrilla").show();
   }
 }
 /**

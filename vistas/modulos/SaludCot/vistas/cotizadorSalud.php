@@ -260,18 +260,40 @@
 
 <!-- Inicio Agregado Javier-Dev -->
 
+<div id="contenParrilla" class="container-fluid" style="display: none;">
+    <div class="col-lg-12 form-parrilla">
+        <div class="row row-parrilla">
+            <div class="col-xs-12 col-sm-6 col-md-3">
+                <label for="">RESUMEN DE COTIZACIONES</label>
+            </div>
+            <div class="col-xs-12 col-sm-6 col-md-3">
+            </div>
+            <div class="col-xs-12 col-sm-6 col-md-3">
+            </div>
+            <div class="col-xs-12 col-sm-6 col-md-3 text-right">
+                <div id="masResOferta" style="display: none;">
+                    <p id="masResumen" onclick="masRE();">Ver mas <i class="fa fa-plus-square-o"></i></p>
+                </div>
+                <div id="menosResOferta">
+                    <p id="menosResumen" onclick="menosRE();">Ver menos <i class="fa fa-minus-square-o"></i></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!-- Mostrar alertas -->
-<div id="resumenCotizaciones" class="container-fluid" style="display: none;">
+<div id="resumenCotizaciones" style="display: none;">
     <div class="col-lg-12" style="display: block;">
-        <div class="card-ofertas">
+        <div class="card-ofertas" style="font-size: 1.42rem;">
             <div class="table-responsive">
                 <table class="table table-bordered table-padding" id="tablaResumenCot">
                     <thead>
                         <tr>
-                            <th class="thTable" scope="col" style="color: #88d600; margin-right: 5px;">Aseguradora</th>
-                            <th class="thTable" scope="col" style="color: #88d600; margin-right: 5px;">Cotizo?</th>
-                            <th class="thTable" scope="col" style="color: #88d600;; margin-right: 5px;">Productos cotizados</th>
-                            <th class="thTable" scope="col" style="color: #88d600;; margin-right: 5px;">Observaciones</th>
+                            <th class="thTable" scope="col" style="color: #88d600; margin-right: 5px; text-align: center;">Aseguradora</th>
+                            <th class="thTable" scope="col" style="color: #88d600; margin-right: 5px; text-align: center;">Cotizo?</th>
+                            <th class="thTable" scope="col" style="color: #88d600;; margin-right: 5px; text-align: center;">Productos cotizados</th>
+                            <th class="thTable" scope="col" style="color: #88d600;; margin-right: 5px; text-align: center;">Observaciones</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -279,7 +301,7 @@
                             <td>Axa Colpatria</td>
                             <td class="text-center"><i class="fa fa-check" aria-hidden="true" style="color: green; margin-right: 5px;"></i></td>
                             <td class="text-center">6</td>
-                            <td>Cotización exitosa!</td>
+                            <td>🔥 Nuevo seguro de autos livianos con modalidad de indemnización ARREGLO DIRECTO para pérdidas parciales. Solicita cotización manual a tu Analista Comercial. Revisa informacion adicional en la seccion de Notas importantes.</td>
                         </tr>
                         <tr>
                             <td>Seguros Bolivar</td>
