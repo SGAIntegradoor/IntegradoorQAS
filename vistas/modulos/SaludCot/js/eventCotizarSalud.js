@@ -313,9 +313,9 @@ function generateAseguradosFields() {
                         <select id="genero_${i}" class="form-control genero"></select>
                     </div>
                 </div>
-                <div class="form-group col-sm-6 col-md-2">
+                <div class="form-group col-sm-6 col-md-2 departamento">
                         <label for="departamento_${i}">Departamento</label>
-                        <select id="departamento_${i}" class="form-control departamento" >
+                        <select id="departamento_${i}" class="form-control departamento departamentoSelect" >
                           <option value=""></option>
                           <option value="91">Amazonas</option>
                           <option value="05">Antioquia</option>
@@ -357,15 +357,28 @@ function generateAseguradosFields() {
                           <option value="99">Vichada</option>
                         </select>
               </div>
-              <div class="form-group col-sm-6 col-md-2">
+              <div class="form-group col-sm-6 col-md-2 ciudad">
                         <label for="ciudad_${i}">Ciudad</label>
-                        <select id="ciudad_${i}" class="form-control ciudad"></select>
+                        <select id="ciudad_${i}" class="form-control ciudad ciudadSelect"></select>
+              </div>
+
+              <!-- Campo pregunta algun asegurado es asociado a coomeva -->
+              <div class="col-xs-12 col-sm-6 col-md-4 asociadoC">
+                  <div class="form-group">
+                      <label id="">Asociado Cooperativa Coomeva</label><br>
+                      <div class="form-check form-check-inline">
+                          <span class=" center-elements">
+                              <input type="radio" id="asociadoSi_${i}" name="aseguradoAsociadoCoomeva_${i}" class="form-check-input">
+                              <label for="" class="form-check-label colorGray">Si</label>
+                          </span>
+                          <span class="radio-container center-elements">
+                              <input type="radio" id="asociadoNo_${i}" name="aseguradoAsociadoCoomeva_${i}" class="form-check-input" checked>
+                              <label for="" class="form-check-label colorGray">No</label>
+                          </span>
+                      </div>
+                  </div>
               </div>
             </div>
-            <div class="row">
-              
-            </div>
-
         `;
 
     // Agregar los nuevos campos al contenedor
@@ -377,6 +390,8 @@ function generateAseguradosFields() {
   initializeSelect2(".fecha-nacimiento");
   CargarSelectTipoDocumento();
   CargarSelectGenero();
+  hideShowCamposCiudad();
+  hideShowAsociadoCoomeva();
 }
 function generateOptions(start, end, isMonth = false, isYear = false) {
   var options = "";
@@ -491,28 +506,30 @@ function validateFormFields() {
     function () {
       var $field = $(this);
 
-      // Si el campo está vacío
-      if ($field.val() === "" || $field.val() === null) {
-        // Si es un campo Select2, aplicar borde rojo al contenedor de Select2
-        if ($field.hasClass("select2-hidden-accessible")) {
-          $field
-            .next(".select2-container")
-            .find(".select2-selection")
-            .css("border", "2px solid red");
+      if ($field.is(":visible")) {
+        // Si el campo está vacío
+        if ($field.val() === "" || $field.val() === null) {
+          // Si es un campo Select2, aplicar borde rojo al contenedor de Select2
+          if ($field.hasClass("select2-hidden-accessible")) {
+            $field
+              .next(".select2-container")
+              .find(".select2-selection")
+              .css("border", "2px solid red");
+          } else {
+            // Marcar con borde rojo los campos normales
+            $field.css("border", "2px solid red");
+          }
+          allFieldsFilled = false;
         } else {
-          // Marcar con borde rojo los campos normales
-          $field.css("border", "2px solid red");
-        }
-        allFieldsFilled = false;
-      } else {
-        // Quitar el borde si el campo está lleno
-        if ($field.hasClass("select2-hidden-accessible")) {
-          $field
-            .next(".select2-container")
-            .find(".select2-selection")
-            .css("border", "");
-        } else {
-          $field.css("border", "");
+          // Quitar el borde si el campo está lleno
+          if ($field.hasClass("select2-hidden-accessible")) {
+            $field
+              .next(".select2-container")
+              .find(".select2-selection")
+              .css("border", "");
+          } else {
+            $field.css("border", "");
+          }
         }
       }
     }
@@ -1128,11 +1145,12 @@ function cotizar() {
     // Añadir el asegurado base
     var aseguradoBase = {
       id: 1, // Aquí debes poner un ID apropiado si es necesario
-      tipoDocumento: null,
-      numeroDocumento: null,
+      tipoDocumento: $("#TipoDocumento").val(),
+      numeroDocumento: $("#NroDocumento").val(),
       nombre: $("#nombre").val(),
       apellido: $("#apellido").val(),
       genero: $("#genero").val(),
+      asociado: $("#asociadoSi_1").prop("checked") ? 1 : 0,
       ciudad: $("#ciudad_1").val(),
       departamento: $("#departamento_1").val(),
       edad: calcularEdadAsegurado(diaNacimiento, mesNacimiento, anioNacimiento),
@@ -1163,10 +1181,13 @@ function cotizar() {
             // tipoDocumento: $(this).find('[id^="tipoDocumento_"]').val(),
             // numeroDocumento: $(this).find('[id^="numeroDocumento_"]').val(),
             tipoDocumento: null,
-            numeroDocumento: null,
+            // numeroDocumento: null,
             nombre: $(this).find('[id^="nombre_"]').val(),
             apellido: $(this).find('[id^="apellido_"]').val(),
             genero: $(this).find('[id^="genero_"]').val(),
+            asociado: $(this).find('[id^="asociadoSi_"]').prop("checked")
+              ? 1
+              : 0,
             ciudad: $(this).find('[id^="ciudad_"]').val(),
             departamento: $(this).find('[id^="departamento_"]').val(),
             edad: calcularEdadAsegurado(dia, mes, anio),
@@ -1199,44 +1220,100 @@ function cotizar() {
       env: env,
     };
 
+    console.log("Datos de la cotización:", datosCotizacion);
+    
+
+    //Principal peticion ajax para crear la cotizacion
     $.ajax({
-      // url: "https://grupoasistencia.com/health_engine/WSAxa/axa.php",
-      url: "http://localhost/WS-laravel/api/salud/axa/cotizar",
+      url: "http://localhost/WS-laravel/api/salud/nueva-cotizacion",
       type: "POST",
       data: JSON.stringify(datosCotizacion),
       contentType: "application/json",
       dataType: "json",
-      success: function (data) {
-        hideMainContainerCards();
-        showContainerCardsSalud();
-        toogleDataContainer();
-        document.getElementById("spinener-cot-salud").style.display = "none";
-        makeCards(data, tipoCotizacion);
-      },
-      error: function (data) {
-        errores = errores + 1;
-        Swal.fire({
-          icon: "error",
-          title: "Error al cotizar",
-          text: "Por favor, verifica los datos ingresados.",
+      success: function (newCoti) {
+        $.ajax({
+          // url: "https://grupoasistencia.com/health_engine/WSAxa/axa.php",
+          url: "http://localhost/WS-laravel/api/salud/axa/cotizar?idNewCoti=" + newCoti,
+          type: "POST",
+          data: JSON.stringify(datosCotizacion),
+          contentType: "application/json",
+          dataType: "json",
+          success: function (data) {
+            hideMainContainerCards();
+            showContainerCardsSalud();
+            toogleDataContainer();
+            document.getElementById("spinener-cot-salud").style.display =
+              "none";
+            makeCards(data, tipoCotizacion);
+          },
+          error: function (data) {
+            errores = errores + 1;
+            Swal.fire({
+              icon: "error",
+              title: "Error al cotizar",
+              text: "Por favor, verifica los datos ingresados.",
+            });
+          },
+        });
+        // AQUI QUEDAMOS VIERNES 20 JUNIO 2025 JAVIER-DEV
+        $.ajax({
+          url: "http://localhost/WS-laravel/api/salud/bolivar/cotizar?idNewCoti=" + newCoti,
+          type: "POST",
+          data: JSON.stringify(datosCotizacion),
+          contentType: "application/json", // ✅ CRUCIAL: Especifica el tipo de contenido
+          dataType: "json", // ✅ Especifica que esperas JSON como respuesta
+          success: function (data) {
+            hideMainContainerCards();
+            showContainerCardsSalud();
+            toogleDataContainer();
+            document.getElementById("spinener-cot-salud").style.display =
+              "none";
+            makeCards(data, tipoCotizacion);
+          },
+          error: function (xhr, status, error) {
+            // ✅ Mejora el manejo de errores para ver qué está pasando
+            errores = errores + 1;
+            console.log("Error status:", status);
+            console.log("Error:", error);
+            console.log("Response:", xhr.responseText);
+
+            Swal.fire({
+              icon: "error",
+              title: "Error al cotizar",
+              text: "Por favor, verifica los datos ingresados.",
+            });
+          },
+        });
+        $.ajax({
+          url: "http://localhost/WS-laravel/api/salud/coomeva/cotizar?idNewCoti=" + newCoti,
+          type: "POST",
+          data: JSON.stringify(datosCotizacion),
+          contentType: "application/json", // ✅ CRUCIAL: Especifica el tipo de contenido
+          dataType: "json", // ✅ Especifica que esperas JSON como respuesta
+          success: function (data) {
+            hideMainContainerCards();
+            showContainerCardsSalud();
+            toogleDataContainer();
+            document.getElementById("spinener-cot-salud").style.display =
+              "none";
+            makeCards(data, tipoCotizacion);
+          },
+          error: function (xhr, status, error) {
+            // ✅ Mejora el manejo de errores para ver qué está pasando
+            errores = errores + 1;
+            console.log("Error status:", status);
+            console.log("Error:", error);
+            console.log("Response:", xhr.responseText);
+
+            Swal.fire({
+              icon: "error",
+              title: "Error al cotizar",
+              text: "Por favor, verifica los datos ingresados.",
+            });
+          },
         });
       },
-    });
-    $.ajax({
-      url: "http://localhost/WS-laravel/api/salud/bolivar/cotizar",
-      type: "POST",
-      data: JSON.stringify(datosCotizacion),
-      contentType: "application/json", // ✅ CRUCIAL: Especifica el tipo de contenido
-      dataType: "json", // ✅ Especifica que esperas JSON como respuesta
-      success: function (data) {
-        hideMainContainerCards();
-        showContainerCardsSalud();
-        toogleDataContainer();
-        document.getElementById("spinener-cot-salud").style.display = "none";
-        makeCards(data, tipoCotizacion);
-      },
       error: function (xhr, status, error) {
-        // ✅ Mejora el manejo de errores para ver qué está pasando
         errores = errores + 1;
         console.log("Error status:", status);
         console.log("Error:", error);
@@ -1249,33 +1326,7 @@ function cotizar() {
         });
       },
     });
-    $.ajax({
-      url: "http://localhost/WS-laravel/api/salud/coomeva/cotizar",
-      type: "POST",
-      data: JSON.stringify(datosCotizacion),
-      contentType: "application/json", // ✅ CRUCIAL: Especifica el tipo de contenido
-      dataType: "json", // ✅ Especifica que esperas JSON como respuesta
-      success: function (data) {
-        hideMainContainerCards();
-        showContainerCardsSalud();
-        toogleDataContainer();
-        document.getElementById("spinener-cot-salud").style.display = "none";
-        makeCards(data, tipoCotizacion);
-      },
-      error: function (xhr, status, error) {
-        // ✅ Mejora el manejo de errores para ver qué está pasando
-        errores = errores + 1;
-        console.log("Error status:", status);
-        console.log("Error:", error);
-        console.log("Response:", xhr.responseText);
 
-        Swal.fire({
-          icon: "error",
-          title: "Error al cotizar",
-          text: "Por favor, verifica los datos ingresados.",
-        });
-      },
-    });
     if (errores == 0) {
       //esperar dos segundos antes de mostrar el mensaje Javier-Dev
       $("body").append(
@@ -1293,6 +1344,43 @@ function cotizar() {
     $("#contenParrilla").show();
   }
 }
+
+function hideShowCamposCiudad() {
+  var mostrarCampoCiudad = $("#siCiudadB").prop("checked");
+  const selectsDepartamento = document.querySelectorAll(".departamentoSelect");
+  const selectsCiudad = document.querySelectorAll(".ciudadSelect");
+
+  if (mostrarCampoCiudad) {
+    $('[class*="departamento"]').show();
+    $('[class*="ciudad"]').show();
+    selectsCiudad.forEach((select) => {
+      select.required = true;
+    });
+    selectsDepartamento.forEach((select) => {
+      select.required = true;
+    });
+  } else {
+    $('[class*="departamento"]').hide();
+    $('[class*="ciudad"]').hide();
+    selectsDepartamento.forEach((select) => {
+      select.required = false;
+    });
+    selectsCiudad.forEach((select) => {
+      select.required = false;
+    });
+  }
+}
+
+function hideShowAsociadoCoomeva() {
+  var mostrarCampoCiudad = $("#siAsociadoC").prop("checked");
+
+  if (mostrarCampoCiudad) {
+    $('[class*="asociadoC"]').show();
+  } else {
+    $('[class*="asociadoC"]').hide();
+  }
+}
+
 /**
  * Inicializar todo.
  * @function
@@ -1321,6 +1409,20 @@ $(document).ready(function () {
     syncFieldsOnChange();
     validateNames();
   });
+
+  /*** Inicio bloque de codigo Javier-Dev, agrega logica para manejar eventos en las preguntas de cotización  ***/
+
+  // Pregunta sobre ciudad barranquilla
+  $('input[name="ciudadBarranquilla"]').change(function () {
+    hideShowCamposCiudad();
+  });
+
+  // Pregunta sobre asociación a coomeva
+  $('input[name="asociadoCoomeva"]').change(function () {
+    hideShowAsociadoCoomeva();
+  });
+
+  /*** Fin bloque Javier-Dev ***/
 
   $('input[name="tipoCotizacion"]').change(function () {
     validateNames();

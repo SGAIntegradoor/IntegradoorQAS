@@ -21,18 +21,18 @@
         <div class="col-xs-12 col-sm-6 col-md-2">
             <div class="form-group">
                 <label for="">Tipo de Documento</label>
-                <select id="" class="form-control tipoDocumento"></select>
+                <select id="TipoDocumento" class="form-control tipoDocumento"></select>
             </div>
         </div>
 
         <div class="col-xs-12 col-sm-6 col-md-2">
             <div class="form-group">
                 <label for="">No. Documento</label>
-                <input id="" class="form-control numeroDocumento" type="number"></input>
+                <input id="NroDocumento" class="form-control numeroDocumento" type="number"></input>
             </div>
         </div>
 
-        <div class="col-xs-12 col-sm-6 col-md-4">
+        <div class="col-xs-12 col-sm-6 col-md-3">
             <div class="form-group">
                 <label for="fechaSalida">Nombre Completo</label>
                 <div class="nombreCompleto">
@@ -42,7 +42,7 @@
             </div>
         </div>
 
-        <div class="col-xs-12 col-sm-6 col-md-4">
+        <div class="col-xs-12 col-sm-6 col-md-3">
             <div class="form-group">
                 <label>¿Se requiere cotizar individual o grupo familiar?</label><br>
                 <div class="form-check form-check-inline">
@@ -57,16 +57,18 @@
                 </div>
             </div>
         </div>
-    </div>
 
-    <div class="row">
         <div class="col-xs-12 col-sm-6 col-md-2 cantAsegurados">
             <div class="form-group">
                 <label for="numAsegurados">Cantidad de asegurados</label>
                 <select id="numAsegurados" class="form-control"></select>
             </div>
         </div>
-        <div class="col-xs-12 col-sm-6 col-md-6">
+    </div>
+
+    <div class="row">
+
+        <div class="col-xs-12 col-sm-6 col-md-3">
             <div class="form-group">
                 <label id="lblTomador">¿El tomador es el mismo asegurado?</label><br>
                 <div class="form-check form-check-inline">
@@ -81,6 +83,41 @@
                 </div>
             </div>
         </div>
+
+        <!-- Campo pregunta algun asegurado vive en barranquilla -->
+        <div class="col-xs-12 col-sm-6 col-md-3">
+            <div class="form-group">
+                <label id="">¿Algún asegurado vive en Barranquilla?</label><br>
+                <div class="form-check form-check-inline">
+                    <span class=" center-elements">
+                        <input type="radio" id="siCiudadB" name="ciudadBarranquilla" class="form-check-input">
+                        <label for="siCiudadB" class="form-check-label colorGray">Si</label>
+                    </span>
+                    <span class="radio-container center-elements">
+                        <input type="radio" id="noCiudadB" name="ciudadBarranquilla" class="form-check-input" checked>
+                        <label for="noCiudadB" class="form-check-label colorGray">No</label>
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Campo pregunta algun asegurado es asociado a coomeva -->
+        <div class="col-xs-12 col-sm-6 col-md-4">
+            <div class="form-group">
+                <label id="">¿Algún asegurado es asociado a la Cooperativa de Coomeva?</label><br>
+                <div class="form-check form-check-inline">
+                    <span class=" center-elements">
+                        <input type="radio" id="siAsociadoC" name="asociadoCoomeva" class="form-check-input">
+                        <label for="" class="form-check-label colorGray">Si</label>
+                    </span>
+                    <span class="radio-container center-elements">
+                        <input type="radio" id="noAsociadoC" name="asociadoCoomeva" class="form-check-input" checked>
+                        <label for="" class="form-check-label colorGray">No</label>
+                    </span>
+                </div>
+            </div>
+        </div>
+
     </div>
 
     <div class="row ">
@@ -178,10 +215,10 @@
             </div>
         </div>
 
-        <div class="col-xs-12 col-sm-6 col-md-2">
+        <div class="col-xs-12 col-sm-6 col-md-2 departamento" style="display: none;">
             <div class="form-group">
                 <label for="departamento_1">Departamento</label>
-                <select id="departamento_1" class="form-control departamento">
+                <select id="departamento_1" class="form-control departamento departamentoSelect">
                     <option value=""></option>
                     <option value="91">Amazonas</option>
                     <option value="05">Antioquia</option>
@@ -224,10 +261,27 @@
                 </select>
             </div>
         </div>
-        <div class="col-xs-12 col-sm-6 col-md-2">
+        <div class="col-xs-12 col-sm-6 col-md-2 ciudad" style="display: none;">
             <div class="form-group">
                 <label for="ciudad_1">Ciudad</label>
-                <select id="ciudad_1" class="form-control ciudad"></select>
+                <select id="ciudad_1" class="form-control ciudad ciudadSelect"></select>
+            </div>
+        </div>
+
+        <!-- Campo pregunta algun asegurado es asociado a coomeva -->
+        <div class="col-xs-12 col-sm-6 col-md-4 asociadoC" style="display: none;">
+            <div class="form-group">
+                <label id="">Asociado Cooperativa Coomeva</label><br>
+                <div class="form-check form-check-inline">
+                    <span class="center-elements">
+                        <input type="radio" id="asociadoSi_1" name="aseguradoAsociadoCoomeva_1" class="form-check-input">
+                        <label for="" class="form-check-label colorGray">Si</label>
+                    </span>
+                    <span class="radio-container center-elements">
+                        <input type="radio" id="asociadoNo_1" name="aseguradoAsociadoCoomeva_1" class="form-check-input" checked>
+                        <label for="" class="form-check-label colorGray">No</label>
+                    </span>
+                </div>
             </div>
         </div>
 
@@ -298,18 +352,23 @@
                     </thead>
                     <tbody>
                         <tr>
+                            <td>Seguros Bolivar</td>
+                            <td class="text-center"><i class="fa fa-check" aria-hidden="true" style="color: green; margin-right: 5px;"></i></td>
+                            <td class="text-center">2</td>
+                            <td>Cotización exitosa!</td>
+                        </tr>
+                        <tr>
                             <td>Axa Colpatria</td>
                             <td class="text-center"><i class="fa fa-check" aria-hidden="true" style="color: green; margin-right: 5px;"></i></td>
                             <td class="text-center">6</td>
                             <td>🔥 Nuevo seguro de autos livianos con modalidad de indemnización ARREGLO DIRECTO para pérdidas parciales. Solicita cotización manual a tu Analista Comercial. Revisa informacion adicional en la seccion de Notas importantes.</td>
                         </tr>
                         <tr>
-                            <td>Seguros Bolivar</td>
+                            <td>Coomeva</td>
                             <td class="text-center"><i class="fa fa-check" aria-hidden="true" style="color: green; margin-right: 5px;"></i></td>
-                            <td class="text-center">2</td>
-                            <td>Cotización exitosa!</td>
+                            <td class="text-center">6</td>
+                            <td>🔥 Nuevo seguro de autos livianos con modalidad de indemnización ARREGLO DIRECTO para pérdidas parciales. Solicita cotización manual a tu Analista Comercial. Revisa informacion adicional en la seccion de Notas importantes.</td>
                         </tr>
-
                     </tbody>
                 </table>
             </div>

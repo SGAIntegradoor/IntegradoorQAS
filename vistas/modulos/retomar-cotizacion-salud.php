@@ -355,7 +355,7 @@ if (!isset($_GET['idCotizacionSalud'])) {
 
 ?>
 <script>
-  
+
 </script>
 
 <div class="content-wrapper">
@@ -381,20 +381,21 @@ if (!isset($_GET['idCotizacionSalud'])) {
       <?php include_once './vistas/modulos/SaludCot/vistas/cotizadorSalud.php'; ?>
       <div class="container-fluid" id="">
         <div class="col-lg-12">
-            <div class="row row-aseg">
-                <div class="col-xs-12 col-sm-6 col-md-3">
-                    <label for="">PARRILLA DE COTIZACIONES</label>
-                </div>
+          <div class="row row-aseg">
+            <div class="col-xs-12 col-sm-6 col-md-3">
+              <label for="">PARRILLA DE COTIZACIONES</label>
             </div>
+          </div>
         </div>
         <div class="container-fluid" id="Cards">
-            <div class="row">
-                <div class="col-xs-12">
-                    <p><strong>Nota: </strong>Esta propuesta tiene una vigencia limitada</p>
-                </div>
+          <div class="row">
+            <div class="col-xs-12">
+              <p><strong>Nota: </strong>Esta propuesta tiene una vigencia limitada</p>
             </div>
-            <div class="row" id="row_contenedor_general_salud2"></div>
+          </div>
+          <div class="row" id="row_contenedor_general_salud2"></div>
         </div>
+      </div>
     </div>
   </section>
 </div>
@@ -402,4 +403,3 @@ if (!isset($_GET['idCotizacionSalud'])) {
 <link rel="stylesheet" href="vistas\modulos\SaludCot\css\cotizadorSalud.css">
 <script src="vistas/js/cotizaciones_salud.js?v=<?php echo (rand()); ?>" defer></script>
 <script src="vistas\modulos\SaludCot\js\adminCotizacionesSalud.js?v=<?php echo (rand()); ?>" defer></script>
-

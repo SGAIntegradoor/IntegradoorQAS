@@ -249,13 +249,14 @@ function editarCotizacionSalud(id) {
         $("#individual").prop("checked", false).trigger("click");
       }
 
+      // verifica si hay mas de un asegurado, si es asi le da un check a el radio de grupo familiar
       if ($("#grupoFamiliar").is(":checked")) {
         $(".cantAsegurados").show();
         $("#numAsegurados").val(respuesta.asegurados.length);
         generateAseguradosFields();
         $("#lblTomador").text("¿El tomador también será asegurado?");
       }
-
+      // verifica si el tomador es asegurado, si es asi le da un check a el radio de si
       if (respuesta.asegurados[0].numeroDocumento == cedula) {
         $("#si").prop("checked", true);
         $("#lblDatosAse").text("Tomador Asegurado");
@@ -273,7 +274,17 @@ function editarCotizacionSalud(id) {
 
       // let objAsegurados = [];
       // let asegs = [];
-
+      // console.log(asegurados[2 - 1].nombre);
+      
+      
+      // crear un for que recorra los asegurados y y vaya asignado el valor de acuerdo al id (nombre_2, apellido_2, etc)
+      // Puede ser un for o un forEach JAVIER-DEV Viernes 20 de Junio de 2025
+      $("#nombre").val(asegurados[0].nombre);
+      for (let i = 1; i < (asegurados.length); i++) {
+        console.log("epa j");
+        $("#nombre_" + (i+1)).val(asegurados[i].nombre);
+      }
+      debugger;
       $(".asegurado").each(function (index) {
         $(this).find(".nombre").val(asegurados[index].nombre);
         $(this).find(".apellido").val(asegurados[index].apellido);
@@ -326,6 +337,12 @@ function editarCotizacionSalud(id) {
       console.error("Respuesta del servidor:", jqXHR.responseText);
     },
   });
+
+  setTimeout(function () {
+    $(".container-salud")
+      .find("input, select, textarea")
+      .prop("disabled", true);
+  }, 3000);
 }
 
 $(document).on("change", ".departamento", function () {
