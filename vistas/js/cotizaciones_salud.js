@@ -222,8 +222,13 @@ function editarCotizacionSalud(id) {
     processData: false,
     dataType: "json",
     success: function (respuesta) {
+      console.log(respuesta.asegurados);
       const { cedula, nombre, apellido, tipoDocumento } =
         respuesta.requestData.tomador;
+
+      if (respuesta.asegurados[0].ciudad) {
+        $("#siCiudadB").prop("checked", true);
+      }
 
       const { asegurados } = respuesta.requestData;
 
@@ -257,10 +262,12 @@ function editarCotizacionSalud(id) {
         $("#lblTomador").text("¿El tomador también será asegurado?");
       }
       // verifica si el tomador es asegurado, si es asi le da un check a el radio de si
-      if (respuesta.asegurados[0].numeroDocumento == cedula) {
+      if (respuesta.asegurados[0].nombre == nombre) {
         $("#si").prop("checked", true);
         $("#lblDatosAse").text("Tomador Asegurado");
       }
+
+      $(".asociadoC").hide();
 
       $("#numAsegurados").prop("disabled", true);
       $("#tipoDocumento").prop("disabled", true);
@@ -274,18 +281,46 @@ function editarCotizacionSalud(id) {
 
       // let objAsegurados = [];
       // let asegs = [];
-      // console.log(asegurados[2 - 1].nombre);
-      
-      
-      // crear un for que recorra los asegurados y y vaya asignado el valor de acuerdo al id (nombre_2, apellido_2, etc)
-      // Puede ser un for o un forEach JAVIER-DEV Viernes 20 de Junio de 2025
+
+     /* BLOQUE AGREGADO Y FUNCIONAL PARA RECUPERAR LA INFO DE LA COTIZACION JAVIER-DEV */
       $("#nombre").val(asegurados[0].nombre);
-      for (let i = 1; i < (asegurados.length); i++) {
-        console.log("epa j");
-        $("#nombre_" + (i+1)).val(asegurados[i].nombre);
+      $("#apellido").val(asegurados[0].apellido);
+      $("#genero").val(asegurados[0].genero);
+      $("#select2-dianacimiento-container").text(
+        asegurados[0].fechaNacimiento.dia
+      );
+      $("#select2-mesnacimiento-container").text(
+        asegurados[0].fechaNacimiento.mes
+      );
+      $("#select2-anionacimiento-container").text(
+        asegurados[0].fechaNacimiento.anio
+      );
+
+      $("#departamento_1").val(asegurados[0].id_departamento).trigger("change");
+
+      $("#ciudad_1").val(asegurados[0].id_ciudad);
+
+      for (let i = 1; i < asegurados.length; i++) {
+        $("#nombre_" + (i + 1)).val(asegurados[i].nombre);
+        $("#apellido_" + (i + 1)).val(asegurados[i].apellido);
+        $("#genero_" + (i + 1)).val(asegurados[i].genero);
+        $("#select2-dianacimiento_" + (i + 1) + "-container").text(
+          asegurados[i].fechaNacimiento.dia
+        );
+        $("#select2-mesnacimiento_" + (i + 1) + "-container").text(
+          asegurados[i].fechaNacimiento.mes
+        );
+        $("#select2-anionacimiento_" + (i + 1) + "-container").text(
+          asegurados[i].fechaNacimiento.anio
+        );
+
+        $("#departamento_" + (i + 1)).val(asegurados[i].id_departamento).trigger("change");
+
+        $("#ciudad_" + (i + 1)).val(asegurados[i].id_ciudad);
+
       }
-      debugger;
-      $(".asegurado").each(function (index) {
+
+      $(".aseguradosContainer").each(function (index) {
         $(this).find(".nombre").val(asegurados[index].nombre);
         $(this).find(".apellido").val(asegurados[index].apellido);
         // $(this).find(".tipoDocumento").val(asegurados[index].tipoDocumento);
@@ -303,8 +338,6 @@ function editarCotizacionSalud(id) {
         let dia = asegurados[index].fechaNacimiento.dia.toString();
         let mes = asegurados[index].fechaNacimiento.mes.toString();
         let anio = asegurados[index].fechaNacimiento.anio.toString();
-
-        console.log(dia, mes, anio);
 
         let monthFormatted = mes.padStart(2, "0");
 
@@ -327,7 +360,7 @@ function editarCotizacionSalud(id) {
           .trigger("change"); // Actualiza el select2
       });
 
-      makeCards(respuesta, 2);
+      makeCards(respuesta, 2); // CONTINUAR AQUI, REVISAR LA ESTRUCTURA DE RESPUESTA PARA HACER LAS TARJETAS. 2025-06-24
     },
 
     error: function (jqXHR, textStatus, errorThrown) {
@@ -345,7 +378,7 @@ function editarCotizacionSalud(id) {
   }, 3000);
 }
 
-$(document).on("change", ".departamento", function () {
+$(document).on("change", ".departamentoSelect", function () {
   const selectId = $(this).attr("id"); // e.g. departamento_1
   const index = selectId.split("_")[1]; // e.g. 1
   const selectedDepartamento = $(this).val(); // valor del departamento seleccionado

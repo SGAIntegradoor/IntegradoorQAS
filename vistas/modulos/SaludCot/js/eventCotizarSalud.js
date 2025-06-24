@@ -980,6 +980,7 @@ function makeCards(data, tipoCotizacion) {
 
     data.asegurados.forEach((asegurado) => {
       asegurado.planes.forEach((plan) => {
+        // console.log(plan);debugger;
         if (!planesSumados[plan.plan_id]) {
           planesSumados[plan.plan_id] = {
             nombre: plan.nombre,

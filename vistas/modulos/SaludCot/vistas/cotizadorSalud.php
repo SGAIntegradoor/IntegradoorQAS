@@ -42,7 +42,7 @@
             </div>
         </div>
 
-        <div class="col-xs-12 col-sm-6 col-md-3">
+        <div class="col-xs-12 col-sm-6 col-md-3 text-center">
             <div class="form-group">
                 <label>¿Se requiere cotizar individual o grupo familiar?</label><br>
                 <div class="form-check form-check-inline">
@@ -58,13 +58,13 @@
             </div>
         </div>
 
-        <div class="col-xs-12 col-sm-6 col-md-2 cantAsegurados">
+        <div class="col-xs-12 col-sm-6 col-md-2 cantAsegurados p-0">
             <div class="form-group">
                 <label for="numAsegurados">Cantidad de asegurados</label>
                 <select id="numAsegurados" class="form-control"></select>
             </div>
         </div>
-    </div>
+    </div><br>
 
     <div class="row">
 
@@ -102,7 +102,7 @@
         </div>
 
         <!-- Campo pregunta algun asegurado es asociado a coomeva -->
-        <div class="col-xs-12 col-sm-6 col-md-4">
+        <div class="col-xs-12 col-sm-6 col-md-4 asociadoC">
             <div class="form-group">
                 <label id="">¿Algún asegurado es asociado a la Cooperativa de Coomeva?</label><br>
                 <div class="form-check form-check-inline">
@@ -366,7 +366,7 @@
                         <tr>
                             <td>Coomeva</td>
                             <td class="text-center"><i class="fa fa-check" aria-hidden="true" style="color: green; margin-right: 5px;"></i></td>
-                            <td class="text-center">6</td>
+                            <td class="text-center">7</td>
                             <td>🔥 Nuevo seguro de autos livianos con modalidad de indemnización ARREGLO DIRECTO para pérdidas parciales. Solicita cotización manual a tu Analista Comercial. Revisa informacion adicional en la seccion de Notas importantes.</td>
                         </tr>
                     </tbody>

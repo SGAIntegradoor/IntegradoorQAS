@@ -72,7 +72,7 @@ class ControladorCotizaciones
 
 	static public function ctrShowOffertsQuoteAssistCard($id)
 	{
-		
+
 		session_start();
 		$tabla = "ofertas_assistcard";
 		$field = "id_cotizacion";
@@ -123,8 +123,17 @@ class ControladorCotizaciones
 		$tabla3 = "asegurados_cotizaciones_salud";
 		$tabla4 = "planes_cotizaciones_salud";
 		$tabla5 = "usuarios";
+		$tabla7 = "coberturas_salud";
+		$tabla8 = "planes_salud";
+		$tabla9 = "aseguradoras_salud";
+		$tabla6 = "(SELECT
+						ch.codigo AS id_ciudad,
+						ch.cod_departamento AS id_departamento,
+						ch.ciudad AS ciudad_asegurado,
+						ch.departamento AS departamento_asegurado
+				    FROM ciudadeshogar ch)";
 		$field = "id_cotizacion";
-		$respuesta = ModeloCotizaciones::mdlShowQuoteSalud($tabla, $tabla2, $tabla3, $tabla4, $tabla5, $field, $id);
+		$respuesta = ModeloCotizaciones::mdlShowQuoteSalud($tabla, $tabla2, $tabla3, $tabla4, $tabla5, $tabla6, $tabla7, $tabla8, $tabla9, $field, $id);
 
 		return $respuesta;
 	}
@@ -248,7 +257,7 @@ class ControladorCotizaciones
 	{
 
 		$tabla = "cotizaciones_hogar";
-		$tabla2 = "ofertas_hogar"; 
+		$tabla2 = "ofertas_hogar";
 		$tabla3 = "clientes";
 		$tabla4 = "usuarios";
 
