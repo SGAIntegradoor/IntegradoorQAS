@@ -268,6 +268,7 @@ class ModeloCotizaciones
 						$stmtCob = Conexion::conectar()->prepare("SELECT cd.cobertura FROM cobertura_detalle_salud cd WHERE cd.id_cobertura = " . $plan["id_cobertura"] . ";");
 						$stmtCob->execute();
 						$coberturasDb = $stmtCob->fetchAll(PDO::FETCH_ASSOC);
+						$coberturasSoloValores = array_column($coberturasDb, 'cobertura');
 						$plans[] = [
 							"plan_id" => $plan["id_plan"],
 							"anual" => $plan["anual_plan"],
@@ -280,7 +281,7 @@ class ModeloCotizaciones
 							"logo" => $plan["logo"],
 							"pdf" => $plan["pdf"],
 							"tipo_cotizacion_id" => (int)$plan["tipo_cotizacion"],
-							"coberturas" => $coberturasDb,
+							"coberturas" => $coberturasSoloValores,
 						];
 					}
 				}

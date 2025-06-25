@@ -1245,6 +1245,7 @@ function cotizar() {
             toogleDataContainer();
             document.getElementById("spinener-cot-salud").style.display =
               "none";
+              console.log(data);debugger;
             makeCards(data, tipoCotizacion);
           },
           error: function (data) {
@@ -1373,9 +1374,9 @@ function hideShowCamposCiudad() {
 }
 
 function hideShowAsociadoCoomeva() {
-  var mostrarCampoCiudad = $("#siAsociadoC").prop("checked");
+  var mostrarCampoasociado = $("#siAsociadoC").prop("checked");
 
-  if (mostrarCampoCiudad) {
+  if (mostrarCampoasociado) {
     $('[class*="asociadoC"]').show();
   } else {
     $('[class*="asociadoC"]').hide();

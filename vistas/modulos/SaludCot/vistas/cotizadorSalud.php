@@ -68,7 +68,7 @@
 
     <div class="row">
 
-        <div class="col-xs-12 col-sm-6 col-md-3">
+        <div class="col-xs-12 col-sm-6 col-md-3 preguntasForm">
             <div class="form-group">
                 <label id="lblTomador">¿El tomador es el mismo asegurado?</label><br>
                 <div class="form-check form-check-inline">
@@ -85,7 +85,7 @@
         </div>
 
         <!-- Campo pregunta algun asegurado vive en barranquilla -->
-        <div class="col-xs-12 col-sm-6 col-md-3">
+        <div class="col-xs-12 col-sm-6 col-md-3 preguntasForm">
             <div class="form-group">
                 <label id="">¿Algún asegurado vive en Barranquilla?</label><br>
                 <div class="form-check form-check-inline">
@@ -102,7 +102,7 @@
         </div>
 
         <!-- Campo pregunta algun asegurado es asociado a coomeva -->
-        <div class="col-xs-12 col-sm-6 col-md-4 asociadoC">
+        <div class="col-xs-12 col-sm-6 col-md-4 preguntasForm">
             <div class="form-group">
                 <label id="">¿Algún asegurado es asociado a la Cooperativa de Coomeva?</label><br>
                 <div class="form-check form-check-inline">

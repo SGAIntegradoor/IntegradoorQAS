@@ -211,6 +211,10 @@ function editarCotizacionSalud(id) {
   idCotizacionSalud = id; // Almacena el Id en la variable global de idCotización
   var datos = new FormData();
 
+  $("#loaderFilters").html(
+    `<div style="display:flex; align-items: center; justify-content: center; margin-bottom: 90px; margin-top: 90px; gap: 10px"><img src="vistas/img/plantilla/loader-update.gif" width="34" height="34"><strong style="font-size: 19px"> Cargando...</strong></div>`
+  );
+
   datos.append("idCotizacionSalud", idCotizacionSalud);
 
   $.ajax({
@@ -251,7 +255,7 @@ function editarCotizacionSalud(id) {
       if (respuesta.asegurados.length > 1) {
         $("#grupoFamiliar").prop("checked", true).trigger("click");
       } else {
-        $("#individual").prop("checked", false).trigger("click");
+        $("#individual").prop("checked", true).trigger("click");
       }
 
       // verifica si hay mas de un asegurado, si es asi le da un check a el radio de grupo familiar
@@ -267,7 +271,7 @@ function editarCotizacionSalud(id) {
         $("#lblDatosAse").text("Tomador Asegurado");
       }
 
-      $(".asociadoC").hide();
+      $(".preguntasForm").hide();
 
       $("#numAsegurados").prop("disabled", true);
       $("#tipoDocumento").prop("disabled", true);
@@ -282,7 +286,7 @@ function editarCotizacionSalud(id) {
       // let objAsegurados = [];
       // let asegs = [];
 
-     /* BLOQUE AGREGADO Y FUNCIONAL PARA RECUPERAR LA INFO DE LA COTIZACION JAVIER-DEV */
+      /* BLOQUE AGREGADO Y FUNCIONAL PARA RECUPERAR LA INFO DE LA COTIZACION JAVIER-DEV */
       $("#nombre").val(asegurados[0].nombre);
       $("#apellido").val(asegurados[0].apellido);
       $("#genero").val(asegurados[0].genero);
@@ -301,6 +305,17 @@ function editarCotizacionSalud(id) {
       $("#ciudad_1").val(asegurados[0].id_ciudad);
 
       for (let i = 1; i < asegurados.length; i++) {
+        // Deshabilita los inputs de los asegurados
+        $("#nombre_" + (i + 1)).prop("disabled", true);
+        $("#apellido_" + (i + 1)).prop("disabled", true);
+        $("#departamento_" + (i + 1)).prop("disabled", true);
+        $("#ciudad_" + (i + 1)).prop("disabled", true);
+        $("#dianacimiento_" + (i + 1)).prop("disabled", true);
+        $("#mesnacimiento_" + (i + 1)).prop("disabled", true);
+        $("#anionacimiento_" + (i + 1)).prop("disabled", true);
+        $("#genero_" + (i + 1)).prop("disabled", true);
+
+        // Asigna los valores de los asegurados a los inputs correspondientes
         $("#nombre_" + (i + 1)).val(asegurados[i].nombre);
         $("#apellido_" + (i + 1)).val(asegurados[i].apellido);
         $("#genero_" + (i + 1)).val(asegurados[i].genero);
@@ -314,10 +329,11 @@ function editarCotizacionSalud(id) {
           asegurados[i].fechaNacimiento.anio
         );
 
-        $("#departamento_" + (i + 1)).val(asegurados[i].id_departamento).trigger("change");
+        $("#departamento_" + (i + 1))
+          .val(asegurados[i].id_departamento)
+          .trigger("change");
 
         $("#ciudad_" + (i + 1)).val(asegurados[i].id_ciudad);
-
       }
 
       $(".aseguradosContainer").each(function (index) {
@@ -359,8 +375,10 @@ function editarCotizacionSalud(id) {
           .val(anio) // Cambia el valor del select
           .trigger("change"); // Actualiza el select2
       });
+      // console.log(respuesta);debugger;
+      makeCards(respuesta, 2);
 
-      makeCards(respuesta, 2); // CONTINUAR AQUI, REVISAR LA ESTRUCTURA DE RESPUESTA PARA HACER LAS TARJETAS. 2025-06-24
+      $("#loaderFilters").hide(); // CONTINUAR AQUI, REVISAR LA ESTRUCTURA DE RESPUESTA PARA HACER LAS TARJETAS. 2025-06-24
     },
 
     error: function (jqXHR, textStatus, errorThrown) {
@@ -370,6 +388,8 @@ function editarCotizacionSalud(id) {
       console.error("Respuesta del servidor:", jqXHR.responseText);
     },
   });
+
+  
 
   setTimeout(function () {
     $(".container-salud")

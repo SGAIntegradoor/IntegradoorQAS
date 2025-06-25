@@ -359,6 +359,7 @@ if (!isset($_GET['idCotizacionSalud'])) {
 </script>
 
 <div class="content-wrapper">
+
   <section class="content-header">
 
     <h1 style="margin-bottom: 0%;">
@@ -395,6 +396,7 @@ if (!isset($_GET['idCotizacionSalud'])) {
           </div>
           <div class="row" id="row_contenedor_general_salud2"></div>
         </div>
+        <div id="loaderFilters"></div>
       </div>
     </div>
   </section>
