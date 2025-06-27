@@ -1245,7 +1245,7 @@ function cotizar() {
             toogleDataContainer();
             document.getElementById("spinener-cot-salud").style.display =
               "none";
-              console.log(data);debugger;
+              // console.log(data);debugger;
             makeCards(data, tipoCotizacion);
           },
           error: function (data) {

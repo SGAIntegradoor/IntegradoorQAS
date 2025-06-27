@@ -287,6 +287,7 @@ class ModeloCotizaciones
 				}
 
 				// Dividir nombre y fecha de nacimiento
+				
 				$arrayFecha = explode("-", $row["fch_nac_asegurado"]);
 				$arrayNombre = explode(" ", $row["nom_asegurado"], 2);
 
