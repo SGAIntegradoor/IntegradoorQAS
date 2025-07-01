@@ -45,6 +45,10 @@ class ModeloOportunidades
                     # code...
                     $sql .= " AND mes_expedicion = '$valor'";
                     break;
+                case 'canal':
+                    # code...
+                    $sql .= " AND canal_oportunidad = '$valor'";
+                    break;
                 case 'aseguradoraOpo':
                     # code...
                     $sql .= " AND aseguradora = '$valor'";

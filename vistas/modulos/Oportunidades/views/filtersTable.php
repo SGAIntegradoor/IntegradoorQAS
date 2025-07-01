@@ -61,6 +61,17 @@
                             <option value="6">Perdido</option>
                         </select>
                     </div>
+
+                    <!-- campo agregado canal Javier -->
+                    <div class="col-xs-12 col-sm-6 col-md-3" style="padding-left: 25px; padding-right: 25px">
+                        <label for="canal">Canal:</label>
+                        <select class="form-control estado" name="canal" id="canal">
+                            <option value="" selected></option>
+                            <option value="1">Directo</option>
+                            <option value="2">Freelance</option>
+                        </select>
+                    </div>
+
                     <div class="col-xs-12 col-sm-6 col-md-3" style="padding-left: 25px; padding-right: 25px">
                         <div class="form-group">
                             <label for="nombreAsesor">Nombre Asesor:</label>
@@ -69,6 +80,9 @@
                             </select> <!-- Cierra correctamente aquí -->
                         </div>
                     </div>
+
+                </div>
+                <div class="row">
                     <div class="col-xs-12 col-sm-6 col-md-3" style="padding-left: 25px; padding-right: 25px">
                         <div class="form-group">
                             <label for="analistaGA">Analista/Asesor GA:</label>
@@ -78,8 +92,6 @@
                             </select>
                         </div>
                     </div>
-                </div>
-                <div class="row">
                     <div class="col-xs-12 col-sm-6 col-md-3" style="padding-left: 25px; padding-right: 25px">
                         <div class="form-group">
                             <label for="aseguradoraOpo">Aseguradora:</label>
@@ -140,6 +152,9 @@
                             </select> <!-- Cierra correctamente aquí -->
                         </div>
                     </div>
+
+                </div>
+                <div class="row">
                     <div class="col-xs-12 col-sm-6 col-md-3" style="padding-left: 25px; padding-right: 25px">
                         <div class="form-group">
                             <label for="formaDePago">Forma de pago:</label>
@@ -158,8 +173,6 @@
                             </select>
                         </div>
                     </div>
-                </div>
-                <div class="row">
                     <div class="col-xs-12 col-sm-6 col-md-3" style="padding-left: 25px; padding-right: 25px">
                         <div class="form-group">
                             <label for="financiera">Financiera:</label>
@@ -185,17 +198,20 @@
                         </div>
                     </div>
                     <div class="col-xs-12 col-sm-6 col-md-3" style="padding-left: 25px; padding-right: 25px">
-                        <div class="form-group">
-                            <button class="btn btn-primary btn-block btnConsultar" onclick="searchInfo()">Consultar</button>
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-6 col-md-6" style="padding-left: 25px; padding-right: 25px">
+                                <div class="form-group">
+                                    <button class="btn btn-primary btn-block btnConsultar" onclick="searchInfo()">Consultar</button>
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-sm-6 col-md-6" style="padding-left: 25px; padding-right: 25px">
+                                <div class="form-group">
+                                    <button class="btn btn-primary btn-block btnCancelar" onclick="reset()">Limpiar</button>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-xs-12 col-sm-6 col-md-3">
-                    </div>
-                    <div class="col-xs-12 col-sm-6 col-md-3" style="padding-left: 25px; padding-right: 25px">
-                        <div class="form-group">
-                            <button class="btn btn-primary btn-block btnCancelar" onclick="reset()">Limpiar</button>
-                        </div>
-                    </div>
+                    
                 </div>
             </div>
         </div>

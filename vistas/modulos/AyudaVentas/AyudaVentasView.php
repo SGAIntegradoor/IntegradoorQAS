@@ -1259,7 +1259,7 @@ $nombreArchivo = "COTIZADOR VIGENTE FINESA $nombreMes $anio.xlsx";
                             <tr style="height: 100%;">
                                 <td style="padding-top: 30px; text-align: center; vertical-align: top;">
                                     <div style="display: flex; flex-direction: column; align-items: center; height: 350px;">
-                                        <img src="vistas/img/logos/zurich.png" alt="" width="105">
+                                        <img src="vistas/img/logos/logo-qualitas-secundario.png" alt="" width="105">
                                         <br>
                                         <br>
                                         <div style="width: 100%; text-align: center;">
@@ -1272,10 +1272,10 @@ $nombreArchivo = "COTIZADOR VIGENTE FINESA $nombreMes $anio.xlsx";
                                             <button
                                                 class="btn btn-alert"
                                                 style="background: red; color: #fff; font-weight: 500; margin-bottom: 5px; width: 90px;">
-                                                <a style="text-decoration: none; color: white;" href="https://integradoor.com/app/vistas/modulos/AyudaVentas/pdf/sarlaft/11_SBS_Sarlaft.pdf" target="_blank">Sarlaft PN</a></button>
+                                                <a style="text-decoration: none; color: white;" href="" target="_blank">Sarlaft PN</a></button>
                                             <button
                                                 class="btn btn-alert"
-                                                style="background: red; color: #fff; font-weight: 500; margin-bottom: 5px; width: 90px;"><a style="text-decoration: none; color: white;" href="https://integradoor.com/app/vistas/modulos/AyudaVentas/pdf/sarlaft2/11_SBS_Sarlaft2.pdf" target="_blank">Sarlaft PJ</a></button>
+                                                style="background: red; color: #fff; font-weight: 500; margin-bottom: 5px; width: 90px;"><a style="text-decoration: none; color: white;" href="" target="_blank">Sarlaft PJ</a></button>
                                         </div>
                                         <br>
                                         <br>

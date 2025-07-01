@@ -12,6 +12,7 @@ $idCotizacion = $_POST["idCotizacion"];
 $idCotAseguradora = $_POST["idCotAseguradora"] == "" ? "" : $_POST["idCotAseguradora"];
 $valor_cotizacion = $_POST["valor_cotizacion"];
 $mesOportunidad = $_POST["mesOportunidad"];
+$canalOportunidad = $_POST['canalOportunidad'];
 $asesor_freelance = $_POST["asesor_freelance"];
 $id_user_freelance = $_POST["id_user_freelance"];
 $ramo = $_POST["ramo"];
@@ -49,6 +50,7 @@ try {
             id_cotizacion = :idCotizacion, 
             valor_cotizacion = :valorCotizacion, 
             mes_oportunidad = :mesOportunidad, 
+            canal_oportunidad = :canalOportunidad, 
             asesor_freelance = :asesorFreelance, 
             id_user_freelance = :id_user_freelance,
             ramo = :ramo, 
@@ -80,6 +82,7 @@ try {
     $stmt->bindParam(':idCotAseguradora', $idCotAseguradora, PDO::PARAM_STR);
     $stmt->bindParam(':valorCotizacion', $valor_cotizacion, PDO::PARAM_INT);
     $stmt->bindParam(':mesOportunidad', $mesOportunidad, PDO::PARAM_STR);
+    $stmt->bindParam(':canalOportunidad', $canalOportunidad, PDO::PARAM_STR);
     $stmt->bindParam(':asesorFreelance', $asesor_freelance, PDO::PARAM_STR);
     $stmt->bindParam(':id_user_freelance', $id_user_freelance, PDO::PARAM_INT);
     $stmt->bindParam(':ramo', $ramo, PDO::PARAM_STR);
