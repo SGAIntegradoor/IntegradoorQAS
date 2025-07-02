@@ -1262,8 +1262,8 @@ function cotizar() {
           url: "https://grupoasistencia.com/WS-laravel/api/salud/bolivar/cotizar?idNewCoti=" + newCoti,
           type: "POST",
           data: JSON.stringify(datosCotizacion),
-          contentType: "application/json", // ✅ CRUCIAL: Especifica el tipo de contenido
-          dataType: "json", // ✅ Especifica que esperas JSON como respuesta
+          contentType: "application/json", 
+          dataType: "json", 
           success: function (data) {
             hideMainContainerCards();
             showContainerCardsSalud();
@@ -1273,7 +1273,7 @@ function cotizar() {
             makeCards(data, tipoCotizacion);
           },
           error: function (xhr, status, error) {
-            // ✅ Mejora el manejo de errores para ver qué está pasando
+            
             errores = errores + 1;
             console.log("Error status:", status);
             console.log("Error:", error);
@@ -1290,8 +1290,8 @@ function cotizar() {
           url: "https://grupoasistencia.com/WS-laravel/api/salud/coomeva/cotizar?idNewCoti=" + newCoti,
           type: "POST",
           data: JSON.stringify(datosCotizacion),
-          contentType: "application/json", // ✅ CRUCIAL: Especifica el tipo de contenido
-          dataType: "json", // ✅ Especifica que esperas JSON como respuesta
+          contentType: "application/json",
+          dataType: "json",
           success: function (data) {
             hideMainContainerCards();
             showContainerCardsSalud();
@@ -1301,7 +1301,7 @@ function cotizar() {
             makeCards(data, tipoCotizacion);
           },
           error: function (xhr, status, error) {
-            // ✅ Mejora el manejo de errores para ver qué está pasando
+           
             errores = errores + 1;
             console.log("Error status:", status);
             console.log("Error:", error);

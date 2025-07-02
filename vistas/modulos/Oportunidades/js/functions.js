@@ -70,12 +70,14 @@ function cleanFields() {
   $("#txtPlacaOportunidadModal").val("");
   $("#txtPlacaOportunidadModal").prop("disabled", false);
   $("#txtAseguradoModal").val("");
+  $("#txtOtraRazonOportunidadModal").val("");
   $("#txtAnalistaGAModal").val("");
   $("#txtObservacionesOportunidadModal").val("");
 
   // Restablecer selects al valor por defecto
   $("#txtMesOportunidadModal").val(null).trigger("change"); // Restablece al valor por defecto
   $("#txtCanalModal").val(null).trigger("change"); // Restablece al valor por defecto
+  $("#txtRazonPerdidoOportunidadModal").val(null).trigger("change"); // Restablece al valor por defecto
   $("#txtAsesorOportunidadModal").val(null).trigger("change"); // Restablece al valor por defecto
   $("#txtRamoModal").val(null).trigger("change"); // Restablece al valor por defecto
   $("#txtOnerosoOportunidadModal").val(null).trigger("change"); // Restablece al valor por defecto
@@ -187,8 +189,9 @@ function abrirDialogoCrear(id = null) {
         let mesOportunidad = $(
           "#txtMesOportunidadModal option:selected"
         ).text();
-        let canalOportunidad = $(
-          "#txtCanalModal option:selected"
+        let canalOportunidad = $("#txtCanalModal option:selected").text();
+        let razonPerdidaOportunidad = $(
+          "#txtRazonPerdidoOportunidadModal option:selected"
         ).text();
         let asesor_freelance = $(
           "#txtAsesorOportunidadModal option:selected"
@@ -206,6 +209,7 @@ function abrirDialogoCrear(id = null) {
         let estado = $("#txtEstadoOportunidadModal option:selected").text();
         let noPoliza = $("#txtNoPolizaOportunidadModal").val();
         let asegurado = $("#txtAseguradoModal").val();
+        let otraRazon = $("#txtOtraRazonOportunidadModal").val();
         let primaSinIva = $("#txtPrimaSinIvaModal").val();
         let gastos = $("#txtGastosOportunidadModal").val();
         let asistencias = $("#txtAsistOtrosOportunidadModal").val();
@@ -242,6 +246,7 @@ function abrirDialogoCrear(id = null) {
           data.append("idOferta", 0);
           data.append("mesOportunidad", mesOportunidad);
           data.append("canalOportunidad", canalOportunidad);
+          data.append("razonPerdidaOportunidad", razonPerdidaOportunidad);
           data.append("asesor_freelance", asesor_freelance);
           data.append("id_user_freelance", id_asesor_freelance);
           data.append("ramo", ramo);
@@ -252,6 +257,7 @@ function abrirDialogoCrear(id = null) {
           data.append("id_analista_comercial", permisos.id_usuario);
           data.append("estado", estado);
           data.append("asegurado", asegurado);
+          data.append("otraRazon", otraRazon);
           //numero de poliza
           data.append(
             "noPoliza",
@@ -288,6 +294,7 @@ function abrirDialogoCrear(id = null) {
           data.append("idOferta", 0);
           data.append("mesOportunidad", mesOportunidad);
           data.append("canalOportunidad", canalOportunidad);
+          data.append("razonPerdidaOportunidad", razonPerdidaOportunidad);
           data.append("asesor_freelance", asesor_freelance);
           data.append("id_user_freelance", id_asesor_freelance);
           data.append("ramo", ramo);
@@ -298,6 +305,7 @@ function abrirDialogoCrear(id = null) {
           data.append("id_analista_comercial", permisos.id_usuario);
           data.append("estado", estado);
           data.append("asegurado", asegurado);
+          data.append("otraRazon", otraRazon);
           //numero de poliza
           data.append(
             "noPoliza",
@@ -443,11 +451,12 @@ function abrirDialogoCrear(id = null) {
                 "#txtMesOportunidadModal",
                 respuesta[0].mes_oportunidad
               );
+              selectByText("#txtCanalModal", respuesta[0].canal_oportunidad);
               selectByText(
-                "#txtCanalModal",
-                respuesta[0].canal_oportunidad
+                "#txtRazonPerdidoOportunidadModal",
+                respuesta[0].razon_negocio_perdido
               );
-              
+
               $("#txtAsesorOportunidadModal")
                 .val(respuesta[0].id_user_freelance)
                 .trigger("change");
@@ -465,10 +474,21 @@ function abrirDialogoCrear(id = null) {
               selectByText("#txtEstadoOportunidadModal", respuesta[0].estado);
               $("#txtNoPolizaOportunidadModal").val(respuesta[0].no_poliza);
               $("#txtAseguradoModal").val(respuesta[0].asegurado);
+              $("#txtOtraRazonOportunidadModal").val(
+                respuesta[0].otra_razon_negocio_perdido
+              );
               selectByText(
                 "#txtAseguradoraOportunidadModal",
                 respuesta[0].aseguradora
               );
+
+              if ($("#txtEstadoOportunidadModal").val() == "6") {
+                $("#perdidaHide").show();
+                if ($("#txtRazonPerdidoOportunidadModal").val() == "Otro") {
+                  $("#divOtraRazon").show();
+                }
+              }
+
               $("#txtPrimaSinIvaModal").val(respuesta[0].prima_sin_iva);
               $("#txtAsistOtrosOportunidadModal").val(respuesta[0].asist_otros);
               $("#txtGastosOportunidadModal").val(respuesta[0].gastos);
@@ -641,8 +661,8 @@ function eliminarOportunidad(id_oportunidad, id_oferta) {
     confirmButtonText: "Sí, eliminar",
     cancelButtonText: "Cancelar",
     customClass: {
-      confirmButton: "boton-eliminar", 
-    }
+      confirmButton: "boton-eliminar",
+    },
   }).then((result) => {
     if (result.isConfirmed) {
       let data = new FormData();
@@ -658,13 +678,19 @@ function eliminarOportunidad(id_oportunidad, id_oferta) {
         dataType: "json",
         success: function (respuesta) {
           if (respuesta.statusCode === 1) {
-            Swal.fire("Eliminado!", "La oportunidad ha sido eliminada.").then((result) => {
+            Swal.fire("Eliminado!", "La oportunidad ha sido eliminada.").then(
+              (result) => {
+                window.location.reload();
+              }
+            );
+          } else {
+            Swal.fire(
+              "error",
+              "Error!",
+              "La oportunidad no pudo ser eliminada."
+            ).then((result) => {
               window.location.reload();
-            })
-          }else{
-            Swal.fire("error","Error!", "La oportunidad no pudo ser eliminada.").then((result) => {
-              window.location.reload();
-            })
+            });
           }
         },
       });
@@ -677,9 +703,11 @@ function searchInfo() {
     $("#mesExpedicion").val() !== ""
       ? $("#mesExpedicion option:selected").text()
       : "";
-   let canalOportunidad =
-    $("#canal").val() !== ""
-      ? $("#canal option:selected").text()
+  let canalOportunidad =
+    $("#canal").val() !== "" ? $("#canal option:selected").text() : "";
+  let razonPerdidaOportunidad =
+    $("#txtRazonPerdidoOportunidadModal").val() !== ""
+      ? $("#txtRazonPerdidoOportunidadModal option:selected").text()
       : "";
   let estado =
     $("#estado").val() !== "" ? $("#estado option:selected").text() : "";
@@ -713,8 +741,11 @@ function searchInfo() {
     url += `&mesExpedicion=${mesExpedicion}`;
   }
 
-   if (canalOportunidad !== "") {
+  if (canalOportunidad !== "") {
     url += `&canal=${canalOportunidad}`;
+  }
+  if (razonPerdidaOportunidad !== "") {
+    url += `&razonPerdida=${razonPerdidaOportunidad}`;
   }
 
   if (estado !== "") {
@@ -864,6 +895,15 @@ $("#txtCanalModal").select2({
   placeholder: "Canal",
   dropdownParent: $("#txtCanalModal").parent(), // Ubica el dropdown dentro del modal
 });
+$("#txtRazonPerdidoOportunidadModal").select2({
+  theme: "bootstrap selectingModal",
+  language: {
+    emptyTable: "No se encontraron registros",
+  },
+  width: "100%",
+  placeholder: "Razón",
+  dropdownParent: $("#txtRazonPerdidoOportunidadModal").parent(), // Ubica el dropdown dentro del modal
+});
 //fin canal Javier
 
 $("#txtMesExpedicionOportunidadModal").select2({
@@ -910,12 +950,27 @@ $("#txtFormaDePagoOportunidadModal").on("change", function () {
     $("#financieraDiv").css("display", "none");
   }
 });
+
+$("#txtRazonPerdidoOportunidadModal").on("change", function () {
+  if ($(this).val() == "Otro") {
+    $("#divOtraRazon").show();
+    $("#txtOtraRazonOportunidadModal")[0].required = true;
+  } else {
+    $("#txtOtraRazonOportunidadModal").val("");
+    $("#divOtraRazon").hide();
+    $("#txtOtraRazonOportunidadModal")[0].required = false;
+  }
+});
+
 $("#txtEstadoOportunidadModal").on("change", function () {
   if ($(this).val() === "4") {
+    $("#perdidaHide").hide();
     $("#firstHide").css("display", "block");
     $("#secondHide").css("display", "block");
 
     $("#txtNoPolizaOportunidadModal")[0].required = true;
+    $("#txtOtraRazonOportunidadModal")[0].required = false;
+    $("#txtRazonPerdidoOportunidadModal")[0].required = false;
     $("#txtAseguradoModal")[0].required = true;
     $("#txtPrimaSinIvaModal")[0].required = true;
     $("#txtGastosOportunidadModal")[0].required = true;
@@ -925,11 +980,26 @@ $("#txtEstadoOportunidadModal").on("change", function () {
     $("#txtFechaExpedicionOportunidadModal")[0].required = true;
     $("#txtMesExpedicionOportunidadModal")[0].required = true;
     $("#txtFormaDePagoOportunidadModal")[0].required = true;
+    $("#txtRazonPerdidoOportunidadModal").val("");
+    $("#txtOtraRazonOportunidadModal").val("");
+  } else if ($(this).val() === "6") {
+    console.log('Estado "perdido" seleccionado');
+    $("#perdidaHide").show();
+    if ($("#txtRazonPerdidoOportunidadModal").val() == "Otro") {
+      $("#divOtraRazon").show();
+    }
+    $("#divOtraRazon").hide();
+    $("#txtRazonPerdidoOportunidadModal")[0].required = true;
   } else {
+    $("#txtOtraRazonOportunidadModal").val("");
+    $("#txtRazonPerdidoOportunidadModal").val("");
+    $("#perdidaHide").hide();
     $("#firstHide").css("display", "none");
     $("#secondHide").css("display", "none");
     $("#financieraDiv").css("display", "none");
 
+    $("#txtOtraRazonOportunidadModal").removeAttr("required");
+    $("#txtRazonPerdidoOportunidadModal").removeAttr("required");
     $("#txtNoPolizaOportunidadModal").removeAttr("required");
     $("#txtAseguradoModal").removeAttr("required");
     $("#txtPrimaSinIvaModal").removeAttr("required");
@@ -1218,7 +1288,7 @@ $(".tablas-oportunidades").DataTable({
     [1, "desc"],
   ],
   columnDefs: [
-    { targets: [25], visible: false, searchable: false } // Oculta las columnas 10 y 11 (ajusta según el índice de tus columnas ocultas)
+    { targets: [25], visible: false, searchable: false }, // Oculta las columnas 10 y 11 (ajusta según el índice de tus columnas ocultas)
   ],
 
   language: {
