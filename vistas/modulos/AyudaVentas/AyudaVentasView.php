@@ -1174,6 +1174,7 @@ $nombreArchivo = "COTIZADOR VIGENTE FINESA $nombreMes $anio.xlsx";
 
                                 </td>
                             </tr>
+                            <!-- Zurich -->
                             <tr style="height: 100%;">
                                 <td style="padding-top: 30px; text-align: center; vertical-align: top;">
                                     <div style="display: flex; flex-direction: column; align-items: center; height: 350px;">
@@ -1253,6 +1254,97 @@ $nombreArchivo = "COTIZADOR VIGENTE FINESA $nombreMes $anio.xlsx";
                                     </ul>
                                 </td>
                             </tr>
+                            <!-- Fin Zurich -->
+                            <!-- Qualitas -->
+                            <tr style="height: 100%;">
+                                <td style="padding-top: 30px; text-align: center; vertical-align: top;">
+                                    <div style="display: flex; flex-direction: column; align-items: center; height: 350px;">
+                                        <img src="vistas/img/logos/logo-qualitas-secundario.png" alt="" width="105">
+                                        <br>
+                                        <br>
+                                        <div style="width: 100%; text-align: center;">
+                                            <span style="font-size: 16px;">Línea de atención:</span>
+                                            <p>#963</p>
+                                        </div>
+                                        <br>
+                                        <br>
+                                        <div style="display: flex; flex-direction: column; align-items: center;">
+                                            <button
+                                                class="btn btn-alert"
+                                                style="background: red; color: #fff; font-weight: 500; margin-bottom: 5px; width: 90px;">
+                                                <a style="text-decoration: none; color: white;" href="" target="_blank">Sarlaft PN</a></button>
+                                            <button
+                                                class="btn btn-alert"
+                                                style="background: red; color: #fff; font-weight: 500; margin-bottom: 5px; width: 90px;"><a style="text-decoration: none; color: white;" href="" target="_blank">Sarlaft PJ</a></button>
+                                        </div>
+                                        <br>
+                                        <br>
+                                        <div style="display: flex; flex-direction: column; align-items: center;">
+                                            <a href="https://conocimientodigital.qualitascolombia.com.co:8443/microsite/" target="_blank">Sarlaft Digital</a>
+                                        </div>
+                                        <br>
+                                        <br>
+                                        <div style="text-align: center; display: flex; flex-direction: column;">
+                                            <span>Clausulado</span>
+                                            <button class="btn btn-alert" style="border-color: #88d600; width: 160px; color: #88d600; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                                                <a style="text-decoration: none; color: #88d600;" href="https://www.qualitascolombia.com.co/documents/20125/596596/1352-P-03-AUTOLIVIANOPER03-D00I.pdf/be192050-5914-b2b7-4dc1-d1f3b70479ef?t=1745351030407" target="_blank">
+                                                    https://www.qualitascolombia.com.co/documents/20125/596596/1352-P-03-AUTOLIVIANOPER03-D00I.pdf/be192050-5914-b2b7-4dc1-d1f3b70479ef?t=1745351030407
+                                                </a>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td style="padding: 30px; text-align: justify;">
+                                    <ol class="olEmision" style="padding-left: 10px; list-style-position: inside;">
+                                        <li style="margin-bottom: 5px;"><b>Documentos:</b> TP, Cédula, Contrato de Compraventa (si aplica), Factura (0 km), Póliza anterior (si hay continuidad). Declaración de renta (si aplica)</li>
+                                        <li style="margin-bottom: 5px;"><b>SARLAFT:</b> Cliente lo diligencia en este link. Si el vehículo tiene un valor asegurado mayor a 180 SMMLV, debe realizar sarlaft ordinario (lo selecciona en la sección 3 del Sarlaft Virtual). De lo contrario, debe seleccionar sarlaft simplificado. Si el proceso digital falla, se diligencia por computador o a mano y se pone firma manuscrita. Siempre se debe enviar el PDF al AC.</li>
+                                        <li style="margin-bottom: 5px;"><b>Enviar docs y confirmar forma de pago:</b> Si están completos pasan; si no, se devuelven. 0 km o en continuidad pasan a emisión; los demás, a inspección.</li>
+                                        <li style="margin-bottom: 5px;"><b>Orden de inspección:</b> Solo se carga orden de inspección virtual por medio de plataforma de Qualitas. Se envía link de inspección al celular del cliente.</li>
+                                        <li style="margin-bottom: 5px;"><b>Inspección:</b> Se completa y el AF confirma a su AC, de lo contrario, no se puede emitir.</li>
+                                        <li style="margin-bottom: 5px;"><b>Validar inspección:</b> Según el resultado de la inspección, se informa al AF.</li>
+                                        <li style="margin-bottom: 5px;"><b>Emisión y Financiación:</b> Se realiza la emisión y se descarga el PDF. Si es financiada se debe realizar proceso de financiación con Finesa.</li>
+                                        <li style="margin-bottom: 5px;"><b>Revisión y envío:</b> AC verifica y envía la póliza al AF.</li>
+                                        <li style="margin-bottom: 5px;"><b>Entrega:</b> AF entrega póliza al cliente y, si aplica, el cupón de pago de la financiación.</li>
+                                        <li style="margin-bottom: 5px;"><b>Seguimiento:</b> AF hace seguimiento al pago, si aplica, la legalización del crédito.</li>
+                                    </ol>
+                                </td>
+                                <td style="padding: 30px; vertical-align: top;">
+                                    <b>Antigüedad Máxima:</b>
+                                    <ul>
+                                        <li>Vehiculos livianos 25 años.</li>
+                                    </ul>
+
+                                    <b>Continuidad Livianos:</b>
+                                    <ul>
+                                        <li>No aplica para continuidad, todos los vehículos realizan inspección.</li>
+                                    </ul>
+
+                                    <b>Centros de Inspección:</b>
+                                    <br>
+                                    <ul>
+                                        <li>
+                                            Virtual en la Plataforma Qualitas
+                                        </li>
+                                    </ul>
+                                </td>
+                                <td style="padding: 30px;">
+                                    <ul style="list-style: none;">
+                                        <li>✅ CUADRO PENDIENTEDoc.: Carta, Sarlaft, Cédula, Tarjeta de Propiedad y Condiciones de Renovación (de ser posible)</li>
+                                        <li>✅ Tiempo límite de recepción: 5 días hábiles antes del vencimiento.</li>
+                                        <li>✅ Tiempo de autorización: 2 días hábiles.</li>
+                                        <li>✅ Nota: No puede estar recaudada la renovación para autorizar cambio.</li>
+                                    </ul>
+                                </td>
+                                <td style="padding: 30px;">
+                                    <ul style="list-style: none;">
+                                        <li>✅ Bancos o corresponsales bancarios</li>
+                                        <li>✅ Pago en linea (PSE o Tarjeta de crédito)</li>
+                                        <li>✅ Financiacion con Finesa</li>
+                                        <li>✅ Más informacion <a href="https://www.qualitascolombia.com.co/web/qco/medios-de-pago" target="_blank">AQUÍ</a></li>
+                                    </ul>
+                                </td>
+                            </tr>
+                            <!-- Fin Qualitas -->
                         </tbody>
                     </table>
                 </div>

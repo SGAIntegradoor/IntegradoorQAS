@@ -262,8 +262,13 @@ class ModeloCotizaciones
 			if (!in_array($idAsegurado, $idsAsegurados)) {
 				// Obtener y formatear todos los planes relacionados con este asegurado
 				$plans = [];
+				$coberturas = [];
 				foreach ($responses as $plan) {
 					if ($plan["id_asegurado"] === $idAsegurado) {
+						$stmtCob = Conexion::conectar()->prepare("SELECT cd.cobertura FROM cobertura_detalle_salud cd WHERE cd.id_cobertura = " . $plan["id_cobertura"] . ";");
+						$stmtCob->execute();
+						$coberturasDb = $stmtCob->fetchAll(PDO::FETCH_ASSOC);
+						$coberturasSoloValores = array_column($coberturasDb, 'cobertura');
 						$plans[] = [
 							"plan_id" => $plan["id_plan"],
 							"anual" => $plan["anual_plan"],
@@ -271,12 +276,18 @@ class ModeloCotizaciones
 							"semestral" => $plan["semestral_plan"],
 							"trimestral" => $plan["trimestral_plan"],
 							"nombre" => $plan["nombre_plan"],
+							"titulo" => $plan["titulo"],
+							"descripcion" => $plan["descripcion"],
+							"logo" => $plan["logo"],
+							"pdf" => $plan["pdf"],
 							"tipo_cotizacion_id" => (int)$plan["tipo_cotizacion"],
+							"coberturas" => $coberturasSoloValores,
 						];
 					}
 				}
 
 				// Dividir nombre y fecha de nacimiento
+				
 				$arrayFecha = explode("-", $row["fch_nac_asegurado"]);
 				$arrayNombre = explode(" ", $row["nom_asegurado"], 2);
 
@@ -288,6 +299,10 @@ class ModeloCotizaciones
 					"apellido" => $arrayNombre[1] ?? "",
 					"edad" => $row["edad_asegurado"],
 					"genero" => $row["genero_asegurado"],
+					"ciudad" => $row["ciudad_asegurado"],
+					"departamento" => $row["departamento_asegurado"],
+					"id_departamento" => str_pad((string)$row["id_departamento"], 2, "0", STR_PAD_LEFT),
+					"id_ciudad" => str_pad((string)$row["id_ciudad"], 2, "0", STR_PAD_LEFT),
 					"numeroDocumento" => $row["cedula_asegurado"],
 					"fechaNacimiento" => [
 						"dia" => (int)$arrayFecha[2] ?? "",
@@ -339,7 +354,7 @@ class ModeloCotizaciones
 		];
 	}
 
-	static public function mdlShowQuoteSalud($tabla, $tabla2, $tabla3, $tabla4, $tabla5, $field, $id)
+	static public function mdlShowQuoteSalud($tabla, $tabla2, $tabla3, $tabla4, $tabla5, $tabla6, $tabla7, $tabla8, $tabla9, $field, $id)
 	{
 		// Inicializa la variable $stmt
 		$stmt = null;
@@ -356,6 +371,14 @@ class ModeloCotizaciones
 				$tabla4 p ON p.id_asegurado = a.id_asegurado
 			INNER JOIN 
 				$tabla5 us ON c.id_usuario = us.id_usuario
+			LEFT JOIN
+				$tabla7 cs ON cs.id_plan = p.id_plan
+			LEFT JOIN
+				$tabla8 ps ON ps.id_plan = p.id_plan
+			LEFT JOIN
+				$tabla9 ass ON ass.id_aseguradora = ps.id_aseguradora
+			LEFT JOIN 
+				$tabla6 ci ON ci.id_ciudad = a.ciudad
 			WHERE 
 				c.$field = :id");
 
@@ -665,7 +688,7 @@ class ModeloCotizaciones
 			// $tabla5 = "usuarios";
 
 			if ($_SESSION['rol'] == 10 || $_SESSION['rol'] == 1 || $_SESSION['rol'] == 12 || $_SESSION['rol'] == 22) {
-				
+
 				$stmt = Conexion::conectar()->prepare("
 					SELECT 
 						*
@@ -796,7 +819,6 @@ class ModeloCotizaciones
 					c.fecha_cotizacion BETWEEN :fechaInicial AND :fechaFinal 
 				GROUP BY c.id;
 				");
-				
 			} else {
 				$stmt = Conexion::conectar()->prepare("
 						SELECT 

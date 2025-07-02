@@ -1,4 +1,5 @@
 // Declaramos las constantes que vamos a utilizar
+var errores = 0;
 const numMaxAseg = 10;
 const iva = 5;
 const COBERTURAS_FESALUD_AMPARADO = ["XXXXXX"];
@@ -312,9 +313,9 @@ function generateAseguradosFields() {
                         <select id="genero_${i}" class="form-control genero"></select>
                     </div>
                 </div>
-                <div class="form-group col-sm-6 col-md-2">
+                <div class="form-group col-sm-6 col-md-2 departamento">
                         <label for="departamento_${i}">Departamento</label>
-                        <select id="departamento_${i}" class="form-control departamento" >
+                        <select id="departamento_${i}" class="form-control departamento departamentoSelect" >
                           <option value=""></option>
                           <option value="91">Amazonas</option>
                           <option value="05">Antioquia</option>
@@ -356,15 +357,28 @@ function generateAseguradosFields() {
                           <option value="99">Vichada</option>
                         </select>
               </div>
-              <div class="form-group col-sm-6 col-md-2">
+              <div class="form-group col-sm-6 col-md-2 ciudad">
                         <label for="ciudad_${i}">Ciudad</label>
-                        <select id="ciudad_${i}" class="form-control ciudad"></select>
+                        <select id="ciudad_${i}" class="form-control ciudad ciudadSelect"></select>
+              </div>
+
+              <!-- Campo pregunta algun asegurado es asociado a coomeva -->
+              <div class="col-xs-12 col-sm-6 col-md-4 asociadoC">
+                  <div class="form-group">
+                      <label id="">Asociado Cooperativa Coomeva</label><br>
+                      <div class="form-check form-check-inline">
+                          <span class=" center-elements">
+                              <input type="radio" id="asociadoSi_${i}" name="aseguradoAsociadoCoomeva_${i}" class="form-check-input">
+                              <label for="" class="form-check-label colorGray">Si</label>
+                          </span>
+                          <span class="radio-container center-elements">
+                              <input type="radio" id="asociadoNo_${i}" name="aseguradoAsociadoCoomeva_${i}" class="form-check-input" checked>
+                              <label for="" class="form-check-label colorGray">No</label>
+                          </span>
+                      </div>
+                  </div>
               </div>
             </div>
-            <div class="row">
-              
-            </div>
-
         `;
 
     // Agregar los nuevos campos al contenedor
@@ -376,6 +390,8 @@ function generateAseguradosFields() {
   initializeSelect2(".fecha-nacimiento");
   CargarSelectTipoDocumento();
   CargarSelectGenero();
+  hideShowCamposCiudad();
+  hideShowAsociadoCoomeva();
 }
 function generateOptions(start, end, isMonth = false, isYear = false) {
   var options = "";
@@ -490,28 +506,30 @@ function validateFormFields() {
     function () {
       var $field = $(this);
 
-      // Si el campo está vacío
-      if ($field.val() === "" || $field.val() === null) {
-        // Si es un campo Select2, aplicar borde rojo al contenedor de Select2
-        if ($field.hasClass("select2-hidden-accessible")) {
-          $field
-            .next(".select2-container")
-            .find(".select2-selection")
-            .css("border", "2px solid red");
+      if ($field.is(":visible")) {
+        // Si el campo está vacío
+        if ($field.val() === "" || $field.val() === null) {
+          // Si es un campo Select2, aplicar borde rojo al contenedor de Select2
+          if ($field.hasClass("select2-hidden-accessible")) {
+            $field
+              .next(".select2-container")
+              .find(".select2-selection")
+              .css("border", "2px solid red");
+          } else {
+            // Marcar con borde rojo los campos normales
+            $field.css("border", "2px solid red");
+          }
+          allFieldsFilled = false;
         } else {
-          // Marcar con borde rojo los campos normales
-          $field.css("border", "2px solid red");
-        }
-        allFieldsFilled = false;
-      } else {
-        // Quitar el borde si el campo está lleno
-        if ($field.hasClass("select2-hidden-accessible")) {
-          $field
-            .next(".select2-container")
-            .find(".select2-selection")
-            .css("border", "");
-        } else {
-          $field.css("border", "");
+          // Quitar el borde si el campo está lleno
+          if ($field.hasClass("select2-hidden-accessible")) {
+            $field
+              .next(".select2-container")
+              .find(".select2-selection")
+              .css("border", "");
+          } else {
+            $field.css("border", "");
+          }
         }
       }
     }
@@ -613,21 +631,30 @@ function makeIndividualCard(
   precioSemestral,
   precioAnual,
   coberturas,
+  titulo,
+  subtitulo,
+  pdf,
+  logo,
   tipoCotizacion,
   cantAseg,
   tableHTML
 ) {
+  coberturasHTML = "";
+  coberturas.forEach((plan) => {
+    coberturasHTML += `<li>${plan}</li>`;
+  });
+
   return `
     <div class='card-ofertas'>
       <div class='row card-body'>
           <div class="col-xs-12 col-sm-6 col-md-2 align-horizontal ">
-              <img src="vistas/modulos/SaludCot/img/logo-convenio-axa-colpatria.png" class="logoCardAsist" alt="Logo">  
+              <img src="${logo}" class="logoCardAsist" alt="Logo">  
               <span class="tittleCard tittleCard_top">
                   ${capitalizeFirstLetter(nombrePlan)}
               </span>
           </div>
 
-          <div class="col-xs-12 col-sm-6 col-md-5 oferta-logo infoPlanes">
+          <div class="col-xs-12 col-sm-6 col-md-3 oferta-logo infoPlanes">
                 <div class='row textCenter tittlePrice2'>
                     <span class="tittlePrice">
                         ${
@@ -646,6 +673,7 @@ function makeIndividualCard(
                             $${precioMensual}
                         </span>
                     </div>
+                    <!-- *** inicio comentado para trimestral y semestral ***
                     <div class="col-xs-12 col-sm-6 col-md-3 aling-start">
                          <span class="tittleCard centar-span-txt">
                             Trimestral
@@ -662,6 +690,7 @@ function makeIndividualCard(
                             $${precioSemestral}
                         </span>                     
                     </div>
+                    *** fin comentado para trimestral y semestral *** -->
                     <div class="col-xs-12 col-sm-6 col-md-3 aling-start">
                         <span class="tittleCard centar-span-txt">
                             Anual
@@ -677,160 +706,19 @@ function makeIndividualCard(
                     <strong>Nota:</strong> Esta propuesta tiene una vigencia limitada
                 </div>
                 </div>
-                ${
-                  capitalizeFirstLetter(nombrePlan) === "Fesalud amparado"
-                    ? `<div class="col-xs-12 col-sm-6 col-md-5 textCards">     
+                
+                <div class="col-xs-12 col-sm-6 col-md-7 textCards">     
                   <div style="width: 100%; text-align: justify; padding-right: 25px">
-                    <b>Este Plan es mejor que el Plan Original, incluyendo coberturas como:</b> Urgencias + Hospitalización y cirugía + Consulta externa ilimitada en todas las especialidades + Examenes y laboratorios + Asistencia medica domiciliaria (primeras 5 sin pago de bono) + Continuidad en el pago de prima por desempleo + Exoneración pago de prima por fallecimiento + Urgencias odontologicas
+                    <p>${titulo}</p>
                     <br>
-                    <b>Más estas otras coberturas como:</b>
+                    <b>${subtitulo}</b>
                     <br>
                     <ul>
-                      <li>
-                      Clínicas TOP
-                      </li>
-                      <li>
-                      Deportes de Alto riesgo
-                      </li>
-                      <li>
-                      Acceso a servicios sin cobro de bono (terapias y exámenes)
-                      </li>
-                      <li>
-                      Asistencia internacional USD$50.000
-                      </li>
+                      ${coberturasHTML}
                     </ul>
-                    <a href="vistas/pdfs/PDF FESALUD AMPARADO.pdf" target="_blank"><img src="vistas/img/iconosResources/icons8-pdf-office-m/icons8-pdf-30.png" width="25px"/> Ver más</a> 
+                    <a href="${pdf}" target="_blank"><img src="vistas/img/iconosResources/icons8-pdf-office-m/icons8-pdf-30.png" width="25px"/> Ver más</a> 
                   </div>
-                </div>`
-                    : capitalizeFirstLetter(nombrePlan) === "Original amparado"
-                    ? `<div class="col-xs-12 col-sm-6 col-md-5 textCards">     
-                    <div style="width: 100%; text-align: justify; padding-right: 25px">
-                      <b>Este Plan es mejor que el Plan Alterno, incluyendo coberturas como:</b> Urgencias + Hospitalización y cirugía + Consulta externa ilimitada en todas las especialidades + Examenes y laboratorios + Asistencia medica domiciliaria (primeras 5 sin pago de bono)
-                      <br>
-                      <b>Más estas otras coberturas como:</b>
-                      <br>
-                      <ul>
-                        <li>
-                        Continuidad en el pago de prima por desempleo
-                        </li>
-                        <li>
-                        Exoneración pago de prima por fallecimiento
-                        </li>
-                        <li>
-                        Urgencias odontologicas
-                        </li>
-                        <li>
-                        Asistencia internacional USD$30.000
-                        </li>
-                      </ul>
-                      <a href="vistas/pdfs/PDF ORIGINAL AMPARADO.pdf" target="_blank"><img src="vistas/img/iconosResources/icons8-pdf-office-m/icons8-pdf-30.png" width="25px"/> Ver más</a> 
-                    </div>
-                  </div>`
-                    : capitalizeFirstLetter(nombrePlan) === "Alterno amparado"
-                    ? `<div class="col-xs-12 col-sm-6 col-md-5 textCards">     
-                      <div style="width: 100%; text-align: justify; padding-right: 25px">
-                        <b>El Plan Alterno incluye coberturas como:</b> 
-                        <br>
-                        <ul>
-                          <li>
-                          Urgencias
-                          </li>
-                          <li>
-                          Hospitalización y cirugía
-                          </li>
-                          <li>
-                          Consulta externa ilimitada en todas las especialidades
-                          </li>
-                          <li>
-                          Examenes y laboratorios
-                          </li>
-                          <li>
-                          Asistencia internacional USD$25.000
-                          </li>
-                          <li>
-                          Asistencia medica domiciliaria (primeras 5 sin pago de bono)
-                          </li>
-                        </ul>
-                        <a href="vistas/pdfs/PDF ALTERNO AMPARADO.pdf" target="_blank"><img src="vistas/img/iconosResources/icons8-pdf-office-m/icons8-pdf-30.png" width="25px"/> Ver más</a> 
-                      </div>
-                    </div>`
-                    : capitalizeFirstLetter(nombrePlan) === "Salud ideal"
-                    ? `<div class="col-xs-12 col-sm-6 col-md-5 textCards">     
-                      <div style="width: 100%; text-align: justify; padding-right: 25px">
-                        <b>Coberturas:</b> 
-                        <br>
-                        <ul>
-                          <li>
-                          Urgencias y hospitalización
-                          </li>
-                          <li>
-                          Cirugía
-                          </li>
-                          <li>
-                          Consultas, exámenes complementarios y terapias relacionadas con hospitalización
-                          </li>
-                          <li>
-                          Urgencias odontológicas
-                          </li>
-                          <li>
-                          Acceso a una amplia red de médicos especialistas con tarifas preferenciales.
-                          </li>
-                          <li>
-                          Asistencia internacional y muchas coberturas más
-                          </li>
-                        </ul>
-                        <a href="vistas/pdfs/PDF SALUD IDEAL.pdf" target="_blank"> <img src="vistas/img/iconosResources/icons8-pdf-office-m/icons8-pdf-30.png" width="25px"/>Ver más</a>
-                      </div>
-                    </div>`
-                    : capitalizeFirstLetter(nombrePlan) ===
-                      "Salud ideal + emermedica"
-                    ? `<div class="col-xs-12 col-sm-6 col-md-5 textCards">
-                    <div style="width: 100%; text-align: justify; padding-right: 25px">
-                      <b>Incluye coberturas del Plan Salud Ideal como: </b>emergencias odontológicas + consultas, exámenes complementarios y terapias relacionados con hospitalización + medicamentos ambulatorios de hospitalización + atención médica de urgencias en el exterior.
-                    <br>
-                    <b>Más estas otras coberturas como:</b>
-                      <br>
-                      <ul>
-                        <li>
-                        Asesoría en Lactancia Materna
-                        </li>
-                        <li>
-                        Consulta Médica domiciliaria ilimitada sin Pago de bono.
-                        </li>
-                      </ul>
-                      <a href="vistas/pdfs/PDF SALUD IDEAL + EMERMEDICA.pdf" target="_blank"><img src="vistas/img/iconosResources/icons8-pdf-office-m/icons8-pdf-30.png" width="25px"/> Ver más</a> 
-                    </div>
-                  </div>`
-                    : capitalizeFirstLetter(nombrePlan) === "Plan ambulatorio"
-                    ? `<div class="col-xs-12 col-sm-6 col-md-5 textCards">     
-                    <div style="width: 100%; text-align: justify; padding-right: 25px">
-                      <b>Coberturas:</b>
-                      <br>
-                      <ul>
-                        <li>
-                        Consulta médica general, prioritaria y especializada con bono
-                        </li>
-                        <li>
-                        Traslado a consulta médica 3 eventos por año de vigencia sin pago de bono
-                        </li>
-                        <li>
-                        Servicio odontologicos de urgencia y prevención
-                        </li>
-                        <li>
-                        Exámenes de laboratorio y diagnóstico simple 
-                        </li>
-                        <li>
-                         Renta diaria por hospitalización
-                        </li>
-                        <li>
-                         Terapias ilimitadas con pago de bono y muchas coberturas más
-                        </li>
-                      </ul>
-                      <a href="vistas/pdfs/PDF PLAN AMBULTARIO.pdf" target="_blank"><img src="vistas/img/iconosResources/icons8-pdf-office-m/icons8-pdf-30.png" width="25px"/> Ver más</a> 
-                    </div>
-                  </div>`
-                    : ""
-                }
+                </div>
                 
               </div>
               <div class='row card-body'>
@@ -878,8 +766,10 @@ function makeTable(asegurados, plan_id) {
                               <th>Género</th>
                               <th>Edad</th>
                               <th>Mensual</th>
+                              <!-- *** inicio comentado para trimestral y semestral Javier***
                               <th>Trimestral</th>
                               <th>Semestral</th>
+                              *** fin comentario *** -->
                               <th>Anual</th>
                           </tr>
                       </thead>
@@ -916,8 +806,10 @@ function makeTable(asegurados, plan_id) {
               <td>${generoTexto}</td>
               <td>${asegurado.edad}</td>
               <td>$${processValue(mensual, 0)}</td>
+              <!-- *** inicio comentado para trimestral y semestral Javier ***
               <td>$${processValue(trimestral, 0)}</td>
               <td>$${processValue(semestral, 0)}</td>
+              *** fin comentario *** -->
               <td>$${processValue(anual, 0)}</td>
           </tr>`;
     }
@@ -940,24 +832,30 @@ function makeTable(asegurados, plan_id) {
                               <th class="th-out-border"></th>
                               <td colspan="2">Subtotal</td>
                               <td>$${processValue(subtotalMensual, 0)}</td>
+                              <!-- *** inicio comentado para trimestral y semestral Javier ***
                               <td>$${processValue(subtotalTrimestral, 0)}</td>
                               <td>$${processValue(subtotalSemestral, 0)}</td>
+                              *** fin comentario *** -->
                               <td>$${processValue(subtotalAnual, 0)}</td>
                           </tr>
                           <tr class="bold-row">
                               <th class="th-out-border"></th>
                               <td colspan="2">IVA (5%)</td>
                               <td>$${processValue(ivaMensual, 0)}</td>
+                              <!-- *** inicio comentado para trimestral y semestral Javier ***
                               <td>$${processValue(ivaTrimestral, 0)}</td>
                               <td>$${processValue(ivaSemestral, 0)}</td>
+                              *** fin comentario *** -->
                               <td>$${processValue(ivaAnual, 0)}</td>
                           </tr>
                           <tr class="bold-row">
                               <th class="th-out-border"></th>
                               <td colspan="2">Total</td>
                               <td>$${processValue(totalMensual, 0)}</td>
+                              <!-- *** inicio comentado para trimestral y semestral Javier ***
                               <td>$${processValue(totalTrimestral, 0)}</td>
                               <td>$${processValue(totalSemestral, 0)}</td>
+                              *** fin comentario *** -->
                               <td>$${processValue(totalAnual, 0)}</td>
                           </tr>
                       </tfoot>
@@ -984,12 +882,19 @@ function makeCards(data, tipoCotizacion) {
     // Generar tarjetas individuales para cada plan
     // Acumular los valores por plan_id
     let planesSumados = {};
+    let coberturasAgrupadas = {};
 
     data.asegurados.forEach((asegurado) => {
       asegurado.planes.forEach((plan) => {
         if (!planesSumados[plan.plan_id]) {
+          // Javier-Dev iterar planes, crear un array parecido a planesSumados para ir almacenando los planes y sus valores por cada plan y que non se repitan
+
           planesSumados[plan.plan_id] = {
             nombre: plan.nombre,
+            titulo: plan.titulo,
+            subtitulo: plan.descripcion,
+            logo: plan.logo,
+            pdf: plan.pdf,
             mensual: 0,
             trimestral: 0,
             semestral: 0,
@@ -1013,34 +918,38 @@ function makeCards(data, tipoCotizacion) {
 
         // Si el plan tiene coberturas, agregarlas
         if (planesSumados[plan.plan_id].coberturas.length === 0) {
-          let nombrePlanUpper = plan.nombre.toUpperCase();
-          switch (nombrePlanUpper) {
-            case "FESALUD AMPARADO":
-              planesSumados[plan.plan_id].coberturas =
-                COBERTURAS_FESALUD_AMPARADO;
-              break;
-            case "ORIGINAL AMPARADO":
-              planesSumados[plan.plan_id].coberturas =
-                COBERTURAS_ORIGINAL_AMPARADO;
-              break;
-            case "ALTERNO AMPARADO":
-              planesSumados[plan.plan_id].coberturas =
-                COBERTURAS_ALTERNO_AMPARADO;
-              break;
-            case "SALUD IDEAL":
-              planesSumados[plan.plan_id].coberturas = COBERTURAS_SALUD_IDEAL;
-              break;
-            case "SALUD IDEAL + EMERMEDICA":
-              planesSumados[plan.plan_id].coberturas =
-                COBERTURAS_SALUD_IDEAL_EMERMEDICA;
-              break;
-            case "PLAN AMBULATORIO":
-              planesSumados[plan.plan_id].coberturas =
-                COBERTURAS_PLAN_AMBULATORIO;
-              break;
-            default:
-              planesSumados[plan.plan_id].coberturas = ["Cobertura estándar"];
-          }
+          planesSumados[plan.plan_id].coberturas = plan.coberturas || [];
+
+          // console.log(plan.coberturas); // coberturas del plan javier-dev
+
+          // let nombrePlanUpper = plan.nombre.toUpperCase();
+          // switch (nombrePlanUpper) {
+          //   case "FESALUD AMPARADO":
+          //     planesSumados[plan.plan_id].coberturas =
+          //       COBERTURAS_FESALUD_AMPARADO;
+          //     break;
+          //   case "ORIGINAL AMPARADO":
+          //     planesSumados[plan.plan_id].coberturas =
+          //       COBERTURAS_ORIGINAL_AMPARADO;
+          //     break;
+          //   case "ALTERNO AMPARADO":
+          //     planesSumados[plan.plan_id].coberturas =
+          //       COBERTURAS_ALTERNO_AMPARADO;
+          //     break;
+          //   case "SALUD IDEAL":
+          //     planesSumados[plan.plan_id].coberturas = COBERTURAS_SALUD_IDEAL;
+          //     break;
+          //   case "SALUD IDEAL + EMERMEDICA":
+          //     planesSumados[plan.plan_id].coberturas =
+          //       COBERTURAS_SALUD_IDEAL_EMERMEDICA;
+          //     break;
+          //   case "PLAN AMBULATORIO":
+          //     planesSumados[plan.plan_id].coberturas =
+          //       COBERTURAS_PLAN_AMBULATORIO;
+          //     break;
+          //   default:
+          //     planesSumados[plan.plan_id].coberturas = ["Cobertura estándar"];
+          // }
         }
       });
     });
@@ -1056,6 +965,10 @@ function makeCards(data, tipoCotizacion) {
         processValue(plan.semestral, iva),
         processValue(plan.anual, iva),
         plan.coberturas,
+        plan.titulo,
+        plan.subtitulo,
+        plan.pdf,
+        plan.logo,
         tipoCotizacion,
         data.asegurados.length,
         tableHTML
@@ -1067,9 +980,14 @@ function makeCards(data, tipoCotizacion) {
 
     data.asegurados.forEach((asegurado) => {
       asegurado.planes.forEach((plan) => {
+        // console.log(plan);debugger;
         if (!planesSumados[plan.plan_id]) {
           planesSumados[plan.plan_id] = {
             nombre: plan.nombre,
+            titulo: plan.titulo,
+            subtitulo: plan.descripcion,
+            logo: plan.logo,
+            pdf: plan.pdf,
             mensual: 0,
             trimestral: 0,
             semestral: 0,
@@ -1093,34 +1011,38 @@ function makeCards(data, tipoCotizacion) {
 
         // Si el plan tiene coberturas, agregarlas
         if (planesSumados[plan.plan_id].coberturas.length === 0) {
-          let nombrePlanUpper = plan.nombre.toUpperCase();
-          switch (nombrePlanUpper) {
-            case "FESALUD AMPARADO":
-              planesSumados[plan.plan_id].coberturas =
-                COBERTURAS_FESALUD_AMPARADO;
-              break;
-            case "ORIGINAL AMPARADO":
-              planesSumados[plan.plan_id].coberturas =
-                COBERTURAS_ORIGINAL_AMPARADO;
-              break;
-            case "ALTERNO AMPARADO":
-              planesSumados[plan.plan_id].coberturas =
-                COBERTURAS_ALTERNO_AMPARADO;
-              break;
-            case "SALUD IDEAL":
-              planesSumados[plan.plan_id].coberturas = COBERTURAS_SALUD_IDEAL;
-              break;
-            case "SALUD IDEAL + EMERMEDICA":
-              planesSumados[plan.plan_id].coberturas =
-                COBERTURAS_SALUD_IDEAL_EMERMEDICA;
-              break;
-            case "PLAN AMBULATORIO":
-              planesSumados[plan.plan_id].coberturas =
-                COBERTURAS_PLAN_AMBULATORIO;
-              break;
-            default:
-              planesSumados[plan.plan_id].coberturas = ["Cobertura estándar"];
-          }
+          planesSumados[plan.plan_id].coberturas = plan.coberturas || [];
+
+          // console.log(plan.coberturas); // coberturas del plan javier-dev
+
+          // let nombrePlanUpper = plan.nombre.toUpperCase();
+          // switch (nombrePlanUpper) {
+          //   case "FESALUD AMPARADO":
+          //     planesSumados[plan.plan_id].coberturas =
+          //       COBERTURAS_FESALUD_AMPARADO;
+          //     break;
+          //   case "ORIGINAL AMPARADO":
+          //     planesSumados[plan.plan_id].coberturas =
+          //       COBERTURAS_ORIGINAL_AMPARADO;
+          //     break;
+          //   case "ALTERNO AMPARADO":
+          //     planesSumados[plan.plan_id].coberturas =
+          //       COBERTURAS_ALTERNO_AMPARADO;
+          //     break;
+          //   case "SALUD IDEAL":
+          //     planesSumados[plan.plan_id].coberturas = COBERTURAS_SALUD_IDEAL;
+          //     break;
+          //   case "SALUD IDEAL + EMERMEDICA":
+          //     planesSumados[plan.plan_id].coberturas =
+          //       COBERTURAS_SALUD_IDEAL_EMERMEDICA;
+          //     break;
+          //   case "PLAN AMBULATORIO":
+          //     planesSumados[plan.plan_id].coberturas =
+          //       COBERTURAS_PLAN_AMBULATORIO;
+          //     break;
+          //   default:
+          //     planesSumados[plan.plan_id].coberturas = ["Cobertura estándar"];
+          // }
         }
       });
     });
@@ -1136,6 +1058,10 @@ function makeCards(data, tipoCotizacion) {
         processValue(plan.semestral, iva),
         processValue(plan.anual, iva),
         plan.coberturas,
+        plan.titulo,
+        plan.subtitulo,
+        plan.pdf,
+        plan.logo,
         tipoCotizacion,
         data.asegurados.length,
         tableHTML
@@ -1148,17 +1074,18 @@ function makeCards(data, tipoCotizacion) {
       html_data;
     showPopup = !showPopup;
   } else {
-    document.getElementById("row_contenedor_general_salud").innerHTML =
+    document.getElementById("row_contenedor_general_salud").innerHTML +=
       html_data;
   }
+  $("#resumenCotizaciones").show();
   cargarEstilos("vistas/modulos/SaludCot/css/cardsResult.css");
 
-  showPopup
-    ? Swal.fire({
-        title: "¡Cotización Exitosa!",
-        icon: "success",
-      })
-    : null;
+  // showPopup
+  //   ? Swal.fire({
+  //       title: "¡Cotización Exitosa!",
+  //       icon: "success",
+  //     })
+  //   : null;
 }
 
 /**
@@ -1219,11 +1146,12 @@ function cotizar() {
     // Añadir el asegurado base
     var aseguradoBase = {
       id: 1, // Aquí debes poner un ID apropiado si es necesario
-      tipoDocumento: null,
-      numeroDocumento: null,
+      tipoDocumento: $("#TipoDocumento").val(),
+      numeroDocumento: $("#NroDocumento").val(),
       nombre: $("#nombre").val(),
       apellido: $("#apellido").val(),
       genero: $("#genero").val(),
+      asociado: $("#asociadoSi_1").prop("checked") ? 1 : 0,
       ciudad: $("#ciudad_1").val(),
       departamento: $("#departamento_1").val(),
       edad: calcularEdadAsegurado(diaNacimiento, mesNacimiento, anioNacimiento),
@@ -1254,10 +1182,13 @@ function cotizar() {
             // tipoDocumento: $(this).find('[id^="tipoDocumento_"]').val(),
             // numeroDocumento: $(this).find('[id^="numeroDocumento_"]').val(),
             tipoDocumento: null,
-            numeroDocumento: null,
+            // numeroDocumento: null,
             nombre: $(this).find('[id^="nombre_"]').val(),
             apellido: $(this).find('[id^="apellido_"]').val(),
             genero: $(this).find('[id^="genero_"]').val(),
+            asociado: $(this).find('[id^="asociadoSi_"]').prop("checked")
+              ? 1
+              : 0,
             ciudad: $(this).find('[id^="ciudad_"]').val(),
             departamento: $(this).find('[id^="departamento_"]').val(),
             edad: calcularEdadAsegurado(dia, mes, anio),
@@ -1279,7 +1210,7 @@ function cotizar() {
       env = "DEV";
     } else if (path.includes("/QAS/") || path.includes("/qas/")) {
       env = "QAS";
-    } 
+    }
 
     // Finalmente, construimos el objeto final que se enviará
     var datosCotizacion = {
@@ -1290,19 +1221,106 @@ function cotizar() {
       env: env,
     };
 
+    console.log("Datos de la cotización:", datosCotizacion);
+    
+
+    //Principal peticion ajax para crear la cotizacion
     $.ajax({
-      url: "https://grupoasistencia.com/health_engine/WSAxa/axa.php",
-      //url: "http://localhost/motorTest/health_engine/axa.php",
+      url: "http://localhost/WS-laravel/api/salud/nueva-cotizacion",
       type: "POST",
       data: JSON.stringify(datosCotizacion),
-      success: function (data) {
-        hideMainContainerCards();
-        showContainerCardsSalud();
-        toogleDataContainer();
-        document.getElementById("spinener-cot-salud").style.display = "none";
-        makeCards(data, tipoCotizacion);
+      contentType: "application/json",
+      dataType: "json",
+      success: function (newCoti) {
+        $.ajax({
+          // url: "https://grupoasistencia.com/health_engine/WSAxa/axa.php",
+          url: "http://localhost/WS-laravel/api/salud/axa/cotizar?idNewCoti=" + newCoti,
+          type: "POST",
+          data: JSON.stringify(datosCotizacion),
+          contentType: "application/json",
+          dataType: "json",
+          success: function (data) {
+            hideMainContainerCards();
+            showContainerCardsSalud();
+            toogleDataContainer();
+            document.getElementById("spinener-cot-salud").style.display =
+              "none";
+              // console.log(data);debugger;
+            makeCards(data, tipoCotizacion);
+          },
+          error: function (data) {
+            errores = errores + 1;
+            Swal.fire({
+              icon: "error",
+              title: "Error al cotizar",
+              text: "Por favor, verifica los datos ingresados.",
+            });
+          },
+        });
+        // AQUI QUEDAMOS VIERNES 20 JUNIO 2025 JAVIER-DEV
+        $.ajax({
+          url: "http://localhost/WS-laravel/api/salud/bolivar/cotizar?idNewCoti=" + newCoti,
+          type: "POST",
+          data: JSON.stringify(datosCotizacion),
+          contentType: "application/json", // ✅ CRUCIAL: Especifica el tipo de contenido
+          dataType: "json", // ✅ Especifica que esperas JSON como respuesta
+          success: function (data) {
+            hideMainContainerCards();
+            showContainerCardsSalud();
+            toogleDataContainer();
+            document.getElementById("spinener-cot-salud").style.display =
+              "none";
+            makeCards(data, tipoCotizacion);
+          },
+          error: function (xhr, status, error) {
+            // ✅ Mejora el manejo de errores para ver qué está pasando
+            errores = errores + 1;
+            console.log("Error status:", status);
+            console.log("Error:", error);
+            console.log("Response:", xhr.responseText);
+
+            Swal.fire({
+              icon: "error",
+              title: "Error al cotizar",
+              text: "Por favor, verifica los datos ingresados.",
+            });
+          },
+        });
+        $.ajax({
+          url: "http://localhost/WS-laravel/api/salud/coomeva/cotizar?idNewCoti=" + newCoti,
+          type: "POST",
+          data: JSON.stringify(datosCotizacion),
+          contentType: "application/json", // ✅ CRUCIAL: Especifica el tipo de contenido
+          dataType: "json", // ✅ Especifica que esperas JSON como respuesta
+          success: function (data) {
+            hideMainContainerCards();
+            showContainerCardsSalud();
+            toogleDataContainer();
+            document.getElementById("spinener-cot-salud").style.display =
+              "none";
+            makeCards(data, tipoCotizacion);
+          },
+          error: function (xhr, status, error) {
+            // ✅ Mejora el manejo de errores para ver qué está pasando
+            errores = errores + 1;
+            console.log("Error status:", status);
+            console.log("Error:", error);
+            console.log("Response:", xhr.responseText);
+
+            Swal.fire({
+              icon: "error",
+              title: "Error al cotizar",
+              text: "Por favor, verifica los datos ingresados.",
+            });
+          },
+        });
       },
-      error: function (data) {
+      error: function (xhr, status, error) {
+        errores = errores + 1;
+        console.log("Error status:", status);
+        console.log("Error:", error);
+        console.log("Response:", xhr.responseText);
+
         Swal.fire({
           icon: "error",
           title: "Error al cotizar",
@@ -1310,9 +1328,61 @@ function cotizar() {
         });
       },
     });
+
+    if (errores == 0) {
+      //esperar dos segundos antes de mostrar el mensaje Javier-Dev
+      $("body").append(
+        '<div id="overlay-cotizacion" style="position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.3);z-index:9999;"></div>'
+      );
+      setTimeout(() => {
+        $("#overlay-cotizacion").remove();
+        Swal.fire({
+          title: "¡Cotización Exitosa!",
+          icon: "success",
+        });
+      }, 2000);
+    }
     window.scrollTo(0, 0);
+    $("#contenParrilla").show();
   }
 }
+
+function hideShowCamposCiudad() {
+  var mostrarCampoCiudad = $("#siCiudadB").prop("checked");
+  const selectsDepartamento = document.querySelectorAll(".departamentoSelect");
+  const selectsCiudad = document.querySelectorAll(".ciudadSelect");
+
+  if (mostrarCampoCiudad) {
+    $('[class*="departamento"]').show();
+    $('[class*="ciudad"]').show();
+    selectsCiudad.forEach((select) => {
+      select.required = true;
+    });
+    selectsDepartamento.forEach((select) => {
+      select.required = true;
+    });
+  } else {
+    $('[class*="departamento"]').hide();
+    $('[class*="ciudad"]').hide();
+    selectsDepartamento.forEach((select) => {
+      select.required = false;
+    });
+    selectsCiudad.forEach((select) => {
+      select.required = false;
+    });
+  }
+}
+
+function hideShowAsociadoCoomeva() {
+  var mostrarCampoasociado = $("#siAsociadoC").prop("checked");
+
+  if (mostrarCampoasociado) {
+    $('[class*="asociadoC"]').show();
+  } else {
+    $('[class*="asociadoC"]').hide();
+  }
+}
+
 /**
  * Inicializar todo.
  * @function
@@ -1341,6 +1411,20 @@ $(document).ready(function () {
     syncFieldsOnChange();
     validateNames();
   });
+
+  /*** Inicio bloque de codigo Javier-Dev, agrega logica para manejar eventos en las preguntas de cotización  ***/
+
+  // Pregunta sobre ciudad barranquilla
+  $('input[name="ciudadBarranquilla"]').change(function () {
+    hideShowCamposCiudad();
+  });
+
+  // Pregunta sobre asociación a coomeva
+  $('input[name="asociadoCoomeva"]').change(function () {
+    hideShowAsociadoCoomeva();
+  });
+
+  /*** Fin bloque Javier-Dev ***/
 
   $('input[name="tipoCotizacion"]').change(function () {
     validateNames();

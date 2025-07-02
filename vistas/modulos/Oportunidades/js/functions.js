@@ -75,6 +75,7 @@ function cleanFields() {
 
   // Restablecer selects al valor por defecto
   $("#txtMesOportunidadModal").val(null).trigger("change"); // Restablece al valor por defecto
+  $("#txtCanalModal").val(null).trigger("change"); // Restablece al valor por defecto
   $("#txtAsesorOportunidadModal").val(null).trigger("change"); // Restablece al valor por defecto
   $("#txtRamoModal").val(null).trigger("change"); // Restablece al valor por defecto
   $("#txtOnerosoOportunidadModal").val(null).trigger("change"); // Restablece al valor por defecto
@@ -186,6 +187,9 @@ function abrirDialogoCrear(id = null) {
         let mesOportunidad = $(
           "#txtMesOportunidadModal option:selected"
         ).text();
+        let canalOportunidad = $(
+          "#txtCanalModal option:selected"
+        ).text();
         let asesor_freelance = $(
           "#txtAsesorOportunidadModal option:selected"
         ).text();
@@ -237,6 +241,7 @@ function abrirDialogoCrear(id = null) {
           data.append("valor_cotizacion", valorCotizacion);
           data.append("idOferta", 0);
           data.append("mesOportunidad", mesOportunidad);
+          data.append("canalOportunidad", canalOportunidad);
           data.append("asesor_freelance", asesor_freelance);
           data.append("id_user_freelance", id_asesor_freelance);
           data.append("ramo", ramo);
@@ -282,6 +287,7 @@ function abrirDialogoCrear(id = null) {
           data.append("valor_cotizacion", valorCotizacion);
           data.append("idOferta", 0);
           data.append("mesOportunidad", mesOportunidad);
+          data.append("canalOportunidad", canalOportunidad);
           data.append("asesor_freelance", asesor_freelance);
           data.append("id_user_freelance", id_asesor_freelance);
           data.append("ramo", ramo);
@@ -437,6 +443,11 @@ function abrirDialogoCrear(id = null) {
                 "#txtMesOportunidadModal",
                 respuesta[0].mes_oportunidad
               );
+              selectByText(
+                "#txtCanalModal",
+                respuesta[0].canal_oportunidad
+              );
+              
               $("#txtAsesorOportunidadModal")
                 .val(respuesta[0].id_user_freelance)
                 .trigger("change");
@@ -589,6 +600,7 @@ let getParams = () => {
 function aplicarCriterios() {
   const criterios = [
     "mesExpedicion",
+    "canal",
     "estado",
     "analistaGA",
     "nombreAsesor",
@@ -665,6 +677,10 @@ function searchInfo() {
     $("#mesExpedicion").val() !== ""
       ? $("#mesExpedicion option:selected").text()
       : "";
+   let canalOportunidad =
+    $("#canal").val() !== ""
+      ? $("#canal option:selected").text()
+      : "";
   let estado =
     $("#estado").val() !== "" ? $("#estado option:selected").text() : "";
   let nombreAsesor =
@@ -695,6 +711,10 @@ function searchInfo() {
 
   if (mesExpedicion !== "") {
     url += `&mesExpedicion=${mesExpedicion}`;
+  }
+
+   if (canalOportunidad !== "") {
+    url += `&canal=${canalOportunidad}`;
   }
 
   if (estado !== "") {
@@ -765,7 +785,7 @@ $(".tablas-oportunidades").on("click", ".btnEditarOportunidad", function () {
 });
 
 $(
-  "#nombreAsesor, #estado, #mesExpedicion, #nombreAsesor, #analistaGA, #aseguradoraOpo, #ramo, #onerosoOp, #formaDePago, #financiera, #carpeta"
+  "#nombreAsesor, #estado, #canal, #mesExpedicion, #nombreAsesor, #analistaGA, #aseguradoraOpo, #ramo, #onerosoOp, #formaDePago, #financiera, #carpeta"
 ).select2({
   theme: "bootstrap selecting",
   language: {
@@ -834,6 +854,18 @@ $("#txtMesOportunidadModal").select2({
   placeholder: "Mes Oportunidad",
   dropdownParent: $("#txtMesOportunidadModal").parent(), // Ubica el dropdown dentro del modal
 });
+// placeholder agregado canal Javier
+$("#txtCanalModal").select2({
+  theme: "bootstrap selectingModal",
+  language: {
+    emptyTable: "No se encontraron registros",
+  },
+  width: "100%",
+  placeholder: "Canal",
+  dropdownParent: $("#txtCanalModal").parent(), // Ubica el dropdown dentro del modal
+});
+//fin canal Javier
+
 $("#txtMesExpedicionOportunidadModal").select2({
   theme: "bootstrap selectingModal",
   language: {
