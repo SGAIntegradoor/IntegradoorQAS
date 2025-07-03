@@ -1226,7 +1226,7 @@ function cotizar() {
 
     //Principal peticion ajax para crear la cotizacion
     $.ajax({
-      url: "http://localhost/WS-laravel/api/salud/nueva-cotizacion",
+      url: "https://grupoasistencia.com/WS-laravel/api/salud/nueva-cotizacion",
       type: "POST",
       data: JSON.stringify(datosCotizacion),
       contentType: "application/json",
@@ -1234,7 +1234,7 @@ function cotizar() {
       success: function (newCoti) {
         $.ajax({
           // url: "https://grupoasistencia.com/health_engine/WSAxa/axa.php",
-          url: "http://localhost/WS-laravel/api/salud/axa/cotizar?idNewCoti=" + newCoti,
+          url: "https://grupoasistencia.com/WS-laravel/api/salud/axa/cotizar?idNewCoti=" + newCoti,
           type: "POST",
           data: JSON.stringify(datosCotizacion),
           contentType: "application/json",
@@ -1259,11 +1259,11 @@ function cotizar() {
         });
         // AQUI QUEDAMOS VIERNES 20 JUNIO 2025 JAVIER-DEV
         $.ajax({
-          url: "http://localhost/WS-laravel/api/salud/bolivar/cotizar?idNewCoti=" + newCoti,
+          url: "https://grupoasistencia.com/WS-laravel/api/salud/bolivar/cotizar?idNewCoti=" + newCoti,
           type: "POST",
           data: JSON.stringify(datosCotizacion),
-          contentType: "application/json", // ✅ CRUCIAL: Especifica el tipo de contenido
-          dataType: "json", // ✅ Especifica que esperas JSON como respuesta
+          contentType: "application/json", 
+          dataType: "json", 
           success: function (data) {
             hideMainContainerCards();
             showContainerCardsSalud();
@@ -1273,7 +1273,7 @@ function cotizar() {
             makeCards(data, tipoCotizacion);
           },
           error: function (xhr, status, error) {
-            // ✅ Mejora el manejo de errores para ver qué está pasando
+            
             errores = errores + 1;
             console.log("Error status:", status);
             console.log("Error:", error);
@@ -1287,11 +1287,11 @@ function cotizar() {
           },
         });
         $.ajax({
-          url: "http://localhost/WS-laravel/api/salud/coomeva/cotizar?idNewCoti=" + newCoti,
+          url: "https://grupoasistencia.com/WS-laravel/api/salud/coomeva/cotizar?idNewCoti=" + newCoti,
           type: "POST",
           data: JSON.stringify(datosCotizacion),
-          contentType: "application/json", // ✅ CRUCIAL: Especifica el tipo de contenido
-          dataType: "json", // ✅ Especifica que esperas JSON como respuesta
+          contentType: "application/json",
+          dataType: "json",
           success: function (data) {
             hideMainContainerCards();
             showContainerCardsSalud();
@@ -1301,7 +1301,7 @@ function cotizar() {
             makeCards(data, tipoCotizacion);
           },
           error: function (xhr, status, error) {
-            // ✅ Mejora el manejo de errores para ver qué está pasando
+           
             errores = errores + 1;
             console.log("Error status:", status);
             console.log("Error:", error);
