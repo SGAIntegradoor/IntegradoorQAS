@@ -204,7 +204,7 @@ function cargarIntermediario() {
         theme: "bootstrap",
         language: "es",
         width: "100%",
-        placeholder: "Intermediario", // Esto configura el placeholder
+        // placeholder: "Intermediario", // Esto configura el placeholder
         // dropdownParent: $("#modalAgregarUsuario")
         dropdownParent: $("#idIntermediario").parent(),
       });
@@ -214,7 +214,7 @@ function cargarIntermediario() {
         theme: "bootstrap",
         language: "es",
         width: "100%",
-        placeholder: "Intermediario", // Esto configura el placeholder
+        // placeholder: "Intermediario", // Esto configura el placeholder
         // dropdownParent: $("#modalAgregarUsuario")
         dropdownParent: $("#idIntermediario2").parent(),
       });
