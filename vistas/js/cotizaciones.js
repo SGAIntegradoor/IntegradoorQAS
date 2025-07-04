@@ -643,7 +643,6 @@ $(document).ready(function () {
         }
       });
     } else {
-
       const filtradas = ofertas.some((element) => element.seleccionar == "Si");
 
       if (!todosOn && !filtradas) {
@@ -720,8 +719,7 @@ $(document).ready(function () {
         }
       });
     } else {
-
-       const filtradas = ofertas.some((element) => element.seleccionar == "Si");
+      const filtradas = ofertas.some((element) => element.seleccionar == "Si");
 
       if (!todosOn && !filtradas) {
         swal.fire({
@@ -1136,20 +1134,6 @@ async function renderCards(response) {
       console.error("Error al obtener los permisos de cotización:", error);
     },
   });
-
-  // $.ajax({
-  //   url: "ajax/cotizaciones.ajax.php",
-  //   type: "POST",
-  //   data: { idCotizaOferta: idCotizacion },
-  //   success: function (response) {
-  //     console.log(JSON.parse(response));
-
-  //     $(".container-filters").css("display", "none");
-  //   },
-  //   error: function (error) {
-  //     console.error("Error al obtener los permisos de cotización:", error);
-  //   },
-  // });
 
   if (!response[0].Categoria) {
     $(".container-filters").css("display", "none");
@@ -1664,9 +1648,7 @@ async function renderCards(response) {
         oferta.Aseguradora
       }\", \"${oferta.Prima}\", \"${oferta.Producto}\", \"${
         oferta.NumCotizOferta
-      }\", \"${
-        oferta.id_oferta
-      }\" this);' ${selecChecked}/>
+      }\", \"${oferta.oferta_finesa}\", this);' ${selecChecked}/>
   
                         </div>
   
@@ -2383,8 +2365,6 @@ function seleccionarOferta(
 
   var placa = document.getElementById("placaVeh").value;
 
-  const validacion = ofertas.some((element) => element.id_oferta == id_oferta)
-
   // Capturamos el Id del Checkbox seleccionado
 
   var idCheckbox = $(valCheck).attr("id");
@@ -2394,6 +2374,14 @@ function seleccionarOferta(
   if (document.getElementById(idCheckbox).checked) {
     seleccionar = "Si";
   }
+
+  ofertas.forEach((element) => {
+    if(element.seleccionar == "Si" && element.oferta_finesa == id_oferta) {
+      element.seleccionar = "";
+    } else {
+      element.seleccionar = seleccionar;
+    }
+  });
 
   $.ajax({
     type: "POST",
@@ -2418,10 +2406,7 @@ function seleccionarOferta(
       seleccionar: seleccionar,
     },
 
-    success: function (data) {
-      //desactive
-      //console.log(data);
-    },
+    success: function (data) {},
   });
 }
 

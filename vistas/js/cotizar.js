@@ -1961,33 +1961,7 @@ function registrarOferta(
     var idCotizOferta = idCotizacion;
     var numDocumentoID = document.getElementById("numDocumentoID").value;
     var placa = document.getElementById("placaVeh").value;
-    // console.log({
-    //   placa: placa,
-    //   idCotizOferta: idCotizOferta,
-    //   numIdentificacion: numDocumentoID,
-    //   aseguradora: aseguradora,
-    //   numCotizOferta: numCotizOferta,
-    //   producto: producto,
-    //   valorPrima: prima,
-    //   valorRC: valorRC,
-    //   PT: PT,
-    //   PP: PP,
-    //   CE: CE,
-    //   GR: GR,
-    //   categorias: categorias,
-    //   logo: logo,
-    //   UrlPdf: UrlPdf,
-    //   manual: manual,
-    //   pdf: pdf,
-    //   // Agregue esta variable en Ofertas para reconocer el nombre en Script PHP e insertarlo en la BD en el momento que se crea.
-    //   identityElement: actIdentity != "" ? actIdentity : NULL,
-    //   eventos: eventos,
-    // });
-    $.ajax({
-      type: "POST",
-      url: "src/insertarOferta.php",
-      dataType: "json",
-      data: {
+    var dataObj = {
         placa: placa,
         idCotizOferta: idCotizOferta,
         numIdentificacion: numDocumentoID,
@@ -2008,8 +1982,14 @@ function registrarOferta(
         // Agregue esta variable en Ofertas para reconocer el nombre en Script PHP e insertarlo en la BD en el momento que se crea.
         identityElement: actIdentity != "" ? actIdentity : NULL,
         eventos: eventos,
-      },
+      };
+    $.ajax({
+      type: "POST",
+      url: "src/insertarOferta.php",
+      dataType: "json",
+      data: dataObj,
       success: function (data) {
+        ofertas.push(dataObj);
         resolve();
       },
       error: function (error) {
@@ -2086,17 +2066,6 @@ const mostrarOferta = (
   var nombreAseguradora = nombreAseguradora(aseguradora);
   var aseguradoraCredenciales = nombreAseguradora + "_C";
   var permisosCredenciales = permisos[aseguradoraCredenciales];
-
-  // if (nombreAseguradora == "Liberty") {
-  //   debugger;
-  //   console.log(nombreAseguradora);
-  //   console.log("HDI (Antes Liberty)", permisosCredenciales);
-  //   console.log(permisos.Vernumerodecotizacionencadaaseguradora);
-  // }
-  // if (nombreAseguradora == "HDI Seguros") {
-  //   console.log("HDI SEGUROS", permisosCredenciales);
-  //   console.log(permisos.Vernumerodecotizacionencadaaseguradora);
-  // }
 
   let cotOferta = {
     aseguradora: aseguradora,
@@ -2193,7 +2162,7 @@ const mostrarOferta = (
                                       <div class="col-xs-12 col-sm-6 col-md-2">
                                         <div class="selec-oferta">
                                           <label for="seleccionar">SELECCIONAR</label>&nbsp;&nbsp;
-                                          <input type="checkbox" class="classSelecOferta" name="selecOferta" id="selec${numCotizOferta}${numId}${producto}\" onclick='seleccionarOferta(\"${aseguradora}\", \"${prima}\", \"${producto}\", \"${numCotizOferta}\", this);' disabled/>
+                                          <input type="checkbox" class="classSelecOferta" name="selecOferta" id="selec${numCotizOferta}${numId}\" onclick='seleccionarOferta(\"${aseguradora}\", \"${prima}\", \"${producto}\", \"${numCotizOferta}\", \"${actIdentity}\", this);' disabled/>
                                         </div>
                                       </div>`;
   if (
@@ -3591,7 +3560,8 @@ function cotizarOfertas() {
                     }
                   });
                 } else {
-                  if (!todosOn) {
+                  const filtradas = ofertas.some((element) => element.seleccionar == "Si");
+                  if (!todosOn && !filtradas) {
                     Swal.fire({
                       title: "¡Debes seleccionar mínimo una oferta!",
                     });
