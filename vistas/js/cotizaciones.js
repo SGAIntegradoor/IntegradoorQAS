@@ -2,6 +2,8 @@ let manualGeneral = 0;
 
 let env = "";
 
+let ofertas = [];
+
 const paramsGenerals = new URLSearchParams(window.location.search);
 
 $(document).ready(function () {
@@ -641,7 +643,10 @@ $(document).ready(function () {
         }
       });
     } else {
-      if (!todosOn) {
+
+      const filtradas = ofertas.some((element) => element.seleccionar == "Si");
+
+      if (!todosOn && !filtradas) {
         swal.fire({
           icon: "error",
 
@@ -715,7 +720,10 @@ $(document).ready(function () {
         }
       });
     } else {
-      if (!todosOn) {
+
+       const filtradas = ofertas.some((element) => element.seleccionar == "Si");
+
+      if (!todosOn && !filtradas) {
         swal.fire({
           icon: "error",
 
@@ -1400,7 +1408,7 @@ async function renderCards(response) {
                                   aseguradoraPermisos == "1"
                                 ? `<center>
                                 ${
-                                  aseguradora == "Equidad" && oferta.NumCotizOferta != 0
+                                  oferta.NumCotizOferta != 0
                                     ? "<label class='entidad'>N° Cot: <span style='color:black'>" +
                                       oferta.NumCotizOferta +
                                       "</span></label>"
@@ -1656,7 +1664,9 @@ async function renderCards(response) {
         oferta.Aseguradora
       }\", \"${oferta.Prima}\", \"${oferta.Producto}\", \"${
         oferta.NumCotizOferta
-      }\", this);' ${selecChecked}/>
+      }\", \"${
+        oferta.id_oferta
+      }\" this);' ${selecChecked}/>
   
                         </div>
   
@@ -2255,6 +2265,7 @@ function editarCotizacion(id) {
         success: async function (resp) {
           menosRE();
           if (resp.length > 0) {
+            ofertas = resp;
             manualGeneral = resp[0].Manual;
             if (manualGeneral != "4") {
               if (manualGeneral == "3") {
@@ -2362,18 +2373,17 @@ FUNCION PARA SELECCIONAR OFERTA DE LA ASEGURADORA
 
 function seleccionarOferta(
   aseguradora,
-
   prima,
-
   producto,
-
   numCotizOferta,
-
+  id_oferta,
   valCheck
 ) {
   var idSelecOferta = idCotizacion;
 
   var placa = document.getElementById("placaVeh").value;
+
+  const validacion = ofertas.some((element) => element.id_oferta == id_oferta)
 
   // Capturamos el Id del Checkbox seleccionado
 
