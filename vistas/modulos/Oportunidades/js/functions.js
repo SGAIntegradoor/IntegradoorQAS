@@ -351,7 +351,7 @@ function abrirDialogoCrear(id = null) {
             }
           });
         }
-
+        
         $.ajax({
           url: url,
           method: "POST",
@@ -398,7 +398,7 @@ function abrirDialogoCrear(id = null) {
             }
           },
           error: function () {
-            console.log("Error al obtener los datos");
+            console.log("Error al obtener los datosj");
           },
         });
       },
@@ -895,6 +895,17 @@ $("#txtCanalModal").select2({
   placeholder: "Canal",
   dropdownParent: $("#txtCanalModal").parent(), // Ubica el dropdown dentro del modal
 });
+
+$("#txtAnalistaGAModal").select2({
+  theme: "bootstrap selectingModal",
+  language: {
+    emptyTable: "No se encontraron registros",
+  },
+  width: "100%",
+  placeholder: "Asesor GA",
+  dropdownParent: $("#txtCanalModal").parent(), // Ubica el dropdown dentro del modal
+});
+
 $("#txtRazonPerdidoOportunidadModal").select2({
   theme: "bootstrap selectingModal",
   language: {
@@ -941,6 +952,17 @@ $("#txtMesOportunidadModal").select2({
   width: "100%",
   placeholder: "Mes Oportunidad",
   dropdownParent: $("#txtMesOportunidadModal").parent(), // Ubica el dropdown dentro del modal
+});
+
+$("#txtCanalModal").on("change", function () {
+  if ($(this).val() == 2) {
+    $("#divAsesorFreelance").css("display", "block");
+    $("#txtAsesorOportunidadModal")[0].required = true;
+  } else {
+    $("#divAsesorFreelance").css("display", "none");
+    $("#txtAsesorOportunidadModal").val("");
+    $("#txtAsesorOportunidadModal")[0].required = false;
+  }
 });
 
 $("#txtFormaDePagoOportunidadModal").on("change", function () {

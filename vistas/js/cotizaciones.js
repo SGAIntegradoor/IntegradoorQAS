@@ -1400,11 +1400,11 @@ async function renderCards(response) {
                                   aseguradoraPermisos == "1"
                                 ? `<center>
                                 ${
-                                  aseguradora == "Equidad"
-                                    ? ""
-                                    : "<label class='entidad'>N° Cot: <span style='color:black'>" +
+                                  aseguradora == "Equidad" && oferta.NumCotizOferta != 0
+                                    ? "<label class='entidad'>N° Cot: <span style='color:black'>" +
                                       oferta.NumCotizOferta +
                                       "</span></label>"
+                                    : ""
                                 }
                               </center>`
                                 : ""
