@@ -99,7 +99,15 @@ $(document).ready(function () {
     });
   };
 
+  // Bloquea los "0000" en el campo numToneladas
+
+  $("#numToneladas").on("input", function () {
+    // Elimina ceros a la izquierda, excepto si el valor es solo "0"
+    this.value = this.value.replace(/^0+(?=\d)/, "");
+  });
+
   parseNumbersToString("#txtValorFasecolda");
+  // parseNumbersToString("#numToneladas");
 
   $("#formResumAseg, #formVehManual, #formResumVeh, #agregarOferta").on(
     "submit",
@@ -300,6 +308,7 @@ $(document).ready(function () {
     let deptoCirc = $("#DptoCirculacion").val();
     let ciudadCirc = $("#ciudadCirculacion").val();
     let numToneladas = $("#numToneladas").val();
+    let clasePesados = $("#clasepesados").val();
 
     if (!mundialInput) {
       return;
@@ -310,7 +319,7 @@ $(document).ready(function () {
     if (!ciudadCirc) {
       return;
     }
-    if (!numToneladas) {
+    if (clasePesados == "FURGON" && !numToneladas) {
       return;
     }
 
@@ -1906,7 +1915,13 @@ const mostrarOfertaPesados = (
                             "x" &&
                           permisosCredenciales == "1"
                             ? `<center>
-                          ${aseguradora == "Equidad" ? "" : "<label class='entidad'>N° Cot: <span style='color:black'>" + numCotizOferta + "</span></label>"}
+                          ${
+                            aseguradora == "Equidad"
+                              ? ""
+                              : "<label class='entidad'>N° Cot: <span style='color:black'>" +
+                                numCotizOferta +
+                                "</span></label>"
+                          }
                           </center>`
                             : ""
                         }
@@ -3214,17 +3229,21 @@ function cotizarOfertasPesados() {
                       validarProblema(aseguradora, ofertas);
                       agregarAseguradoraFallidaPesados(aseguradora);
                       if (
-                          aseguradora == "Equidad" &&
-                          ofertas[0].Mensajes.length > 1
-                        ) {
-                          let mensajesConcatenados = "Cotización Fallida: ";
-                          ofertas[0].Mensajes.forEach((mensaje) => {
-                            mensajesConcatenados += mensaje + ", ";
-                          });
-                          mostrarAlertarCotizacionFallida(
-                            aseguradora,
-                            mensajesConcatenados
-                          );
+                        aseguradora == "Equidad" &&
+                        ofertas[0].Mensajes.length > 1
+                      ) {
+                        let mensajesConcatenados = "Cotización Fallida: ";
+                        ofertas[0].Mensajes.forEach((mensaje, index) => {
+                          if(index == ofertas[0].Mensajes.length - 1 ){
+                              mensajesConcatenados += mensaje;
+                          } else {
+                              mensajesConcatenados += mensaje + ", ";
+                          }
+                        });
+                        mostrarAlertarCotizacionFallida(
+                          aseguradora,
+                          mensajesConcatenados
+                        );
                       } else {
                         ofertas[0].Mensajes.forEach((mensaje) => {
                           mostrarAlertarCotizacionFallida(aseguradora, mensaje);
@@ -3859,7 +3878,10 @@ function cotizarOfertasPesados() {
                   } else {
                     ofertas[0].Mensajes.forEach((mensaje) => {
                       mensajesConcatenados += mensaje;
-                      mostrarAlertarCotizacionFallida("Equidad", mensajesConcatenados);
+                      mostrarAlertarCotizacionFallida(
+                        "Equidad",
+                        mensajesConcatenados
+                      );
                     });
                   }
                 } else {
@@ -4178,9 +4200,9 @@ $("#btnConsultarVehmanualbuscador").click(function () {
               allowOutsideClick: false,
             }).then((result) => {
               if (result.isConfirmed) {
-                window.location = "pesados";
+                //! window.location = "pesados";
               } else if (result.isDenied) {
-                window.location = "pesados";
+                //! window.location = "pesados";
               }
             });
           }
