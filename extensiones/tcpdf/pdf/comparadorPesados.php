@@ -2858,9 +2858,7 @@ $pdf->writeHTML($html4, true, false, true, false, '');
 //$pdf->writeHTML($html5, true, false, true, false, '');
 //$pdf->Ln();
 
-
 //$pdf->lastPage();
-
 
 if ($asegRecomendada > 0) {
 
@@ -2878,11 +2876,17 @@ $pdf->SetTextColor(104, 104, 104);
 $pdf->Cell(25, 6, "Elaborado por Software Integradoor propiedad del proveedor tecnológico Strategico Technologies SAS BIC Nit: 901.542.216-8", 0, 1, '');
 $pdf->StopTransform();
 
-$pdf->SetXY(0, 274);
+$pdf->SetXY(10, 262);
 // $pdf->SetY(-45);
 $htmlFooter = '<p style="font-size: 6.2px;">Nota: Esta cotización no constituye una oferta comercial. La misma se expide única y exclusivamente con un propósito informativo sobre los posibles costos del seguro y sus condiciones, los cuales serán susceptibles de modificación hasta tanto no se concreten y determinen las características de los respectivos riesgos.</p>';
 $pdf->writeHTML($htmlFooter, true, false, true, false, '');
 $pdf->Ln();
+
+$pdf->SetXY(0, 270);
+$htmlFooter2 = '<p style="font-size: 6.2px; color: red">Importante: Algunas líneas de vehículos en las compañías Allianz, Previsora, Mundial y HDI requieren la instalación de un dispositivo de georreferenciación tipo Cazador. El incumplimiento de esta obligación (garantía) puede conllevar la aplicación de exclusiones a diferentes amparos, la ampliación de los deducibles a cargo del asegurado o incluso la aseguradora no será responsable de indemnizar al asegurado. Consulta con tu asesor si tu vehículo necesita este dispositivo antes de tomar tu póliza.</p>';
+$pdf->writeHTML($htmlFooter2, true, false, true, true, '');
+$pdf->Ln();
+
 
 // Consulta el servicio del vehiculo segun su codigo
 function servise($dato)

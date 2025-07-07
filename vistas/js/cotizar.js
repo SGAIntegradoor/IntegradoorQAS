@@ -1,5 +1,4 @@
 $(document).ready(function () {
-
   const urlCompleta = window.location.href;
 
   const partes = urlCompleta.split("/");
@@ -313,6 +312,7 @@ $(document).ready(function () {
     language: "es",
     width: "100%",
   });
+
   $("#DptoCirculacion").change(function () {
     consultarCiudad();
   });
@@ -415,7 +415,7 @@ $(document).ready(function () {
   let conPressed = 0;
 
   $("#btnCotizar").click(function (e) {
-    if(conPressed > 0) {
+    if (conPressed > 0) {
       Swal.fire({
         icon: "error",
         title: "Ya se ha presionado el botón de cotizar",
@@ -423,7 +423,7 @@ $(document).ready(function () {
         showConfirmButton: true,
       });
       throw new Error("Ya se ha presionado el botón de cotizar");
-    } else if(conPressed == 0) {
+    } else if (conPressed == 0) {
       conPressed++;
     }
     let deptoCirc = $("#DptoCirculacion").val();
@@ -839,7 +839,9 @@ function consultarAsegurado() {
         $("#tipoDocumentoIDRepresentante").val(
           data?.rep_legal?.rep_tipo_documento ?? 1
         );
-        $("#numDocumentoIDRepresentante").val(data?.rep_legal?.rep_num_documento);
+        $("#numDocumentoIDRepresentante").val(
+          data?.rep_legal?.rep_num_documento
+        );
         $("#txtNombresRepresentante").val(data?.rep_legal?.rep_nombre);
         $("#txtApellidosRepresentante").val(data?.rep_legal?.rep_apellidos);
         $("#generoRepresentante").val(data?.rep_legal?.rep_genero);
@@ -946,12 +948,10 @@ var contErrProtocolo = 0;
 
 // Permite consultar la informacion del vehiculo por medio de la Placa (Seguros del Estado)
 function consulPlaca(query = "1") {
-
   var numplaca = document.getElementById("placaVeh").value;
 
   let lastChar = numplaca.slice(-1);
-  if(!isNaN(lastChar)) {
-    
+  if (!isNaN(lastChar)) {
   } else {
     Swal.fire({
       icon: "error",
@@ -960,7 +960,7 @@ function consulPlaca(query = "1") {
       showConfirmButton: true,
     }).then(() => {
       window.location.reload();
-    })
+    });
     return false;
   }
 
@@ -1368,7 +1368,6 @@ function consulPlacaMapfre(valnumplaca) {
         $("#txtFasecolda").val(codFasecolda);
 
         consulDatosFasecolda(codFasecolda, modelo).then(function (resp) {
-          
           // console.log(resp)
           $("#txtMarcaVeh").val(resp.marcaVeh);
           $("#txtReferenciaVeh").val(resp.lineaVeh);
@@ -1388,7 +1387,6 @@ function consulPlacaMapfre(valnumplaca) {
       }
     })
     .catch(function (error) {
-      
       // console.log("Parece que hubo un problema: \n", error);
       document.getElementById("formularioVehiculo").style.display = "block";
       document.getElementById("headerAsegurado").style.display = "block";
@@ -1435,7 +1433,6 @@ function consulCodFasecolda() {
         refe2: refe3,
       },
       success: function (data) {
-        
         // console.log(data);
         var codFasecolda = data.result.codigo;
         consulValorfasecolda(codFasecolda, edadVeh);
@@ -1482,7 +1479,6 @@ function consulValorfasecolda(codFasecolda, edadVeh) {
       return response.json();
     })
     .then(function (myJson) {
-      
       // console.log(myJson);
       if (myJson.Data != null) {
         var codigoClase = myJson.Data.ClassId;
@@ -1560,7 +1556,6 @@ function consulValorfasecolda(codFasecolda, edadVeh) {
       }
     })
     .catch(function (error) {
-      
       //console.log("Parece que hubo un problema: \n", error);
 
       contErrProtConsulFasec++;
@@ -1674,7 +1669,6 @@ function consulDatosFasecoldaPesados(codFasecolda, edadVeh) {
         modelo: edadVeh,
       },
       success: function (data) {
-        
         // console.log(data);
         var claseVeh = data.clase;
         var marcaVeh = data.marca;
@@ -1734,8 +1728,19 @@ function consultarCiudad() {
     data: { data: codigoDpto },
     cache: false,
     success: function (data) {
-      // console.log(data);
       var ciudadesVeh = `<option value="">Seleccionar Ciudad</option>`;
+
+      if (data.mensaje) {
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: "El departamento actual no cuenta con ciudades para asegurar",
+        });
+        document.getElementById(
+          "ciudadCirculacion"
+        ).innerHTML = `<option value="">No se encontraron registros</option>`;
+        return;
+      }
 
       data.forEach(function (valor, i) {
         var valorNombre = valor.Nombre.split("-");
@@ -1747,6 +1752,14 @@ function consultarCiudad() {
         ciudadesVeh += `<option value="${valor.Codigo}">${ciudad}</option>`;
       });
       document.getElementById("ciudadCirculacion").innerHTML = ciudadesVeh;
+    },
+    error: function (xhr, status, error) {
+      console.error("Error al consultar las ciudades:", error);
+      Swal.fire({
+        icon: "error",
+        title: "Error al cargar las ciudades",
+        text: "Por favor, inténtalo de nuevo más tarde.",
+      });
     },
   });
 
@@ -1817,8 +1830,9 @@ function cotizarFinesa(ofertasCotizaciones) {
     if (element.cotizada == null || element.cotizada == false) {
       promisesFinesa.push(
         fetch(
-          `https://www.grupoasistencia.com/motor_webservice/paymentInstallmentsFinesa${(env ==
-            "qas" ? "_qas" : (env == "dev" ? "_qas" : ""))}`,
+          `https://www.grupoasistencia.com/motor_webservice/paymentInstallmentsFinesa${
+            env == "qas" ? "_qas" : env == "dev" ? "_qas" : ""
+          }`,
           // "http://localhost/motorTest/paymentInstallmentsFinesa",
           {
             method: "POST",
@@ -1836,8 +1850,9 @@ function cotizarFinesa(ofertasCotizaciones) {
             finesaData.cuotas = element.cuotas;
             return fetch(
               // "http://localhost/motorTest/saveDataQuotationsFinesa",
-              `https://www.grupoasistencia.com/motor_webservice/saveDataQuotationsFinesa${(env ==
-            "qas" ? "_qas" : (env == "dev" ? "_qas" : ""))}`,
+              `https://www.grupoasistencia.com/motor_webservice/saveDataQuotationsFinesa${
+                env == "qas" ? "_qas" : env == "dev" ? "_qas" : ""
+              }`,
               {
                 method: "POST",
                 headers: headers,
@@ -1904,30 +1919,28 @@ function cotizarFinesa(ofertasCotizaciones) {
       $("#loaderRecotOferta").html("");
       $("#loaderRecotOfertaBox").css("display", "none");
       // Swal.close();
-      Swal
-        .fire({
-          title: "¡Cotización a Finesa Finalizada!",
-          showConfirmButton: true,
-          confirmButtonText: "Cerrar",
-          backdrop: true, // Bloquea la interacción con el fondo
-          allowOutsideClick: false, // Evita cerrar la alerta haciendo clic afuera
-          allowEscapeKey: false, // Evita cerrar con la tecla "Escape"
-          allowEnterKey: false, // Evita cerrar con "Enter"
-          didOpen: () => {
-            document.body.style.overflow = "auto"; // Habilita el scroll en el fondo
-          },
-          willClose: () => {
-            document.body.style.overflow = ""; // Restaura el comportamiento normal
-          },
-        })
-        .then(() => {
-          $("#loaderOferta").html("");
-          $("#loaderOfertaBox").css("display", "none");
-          if (!cotizoFinesa) {
-            document.getElementById("btnReCotizarFallidas").disabled = false;
-            cotizoFinesa = true;
-          }
-        });
+      Swal.fire({
+        title: "¡Cotización a Finesa Finalizada!",
+        showConfirmButton: true,
+        confirmButtonText: "Cerrar",
+        backdrop: true, // Bloquea la interacción con el fondo
+        allowOutsideClick: false, // Evita cerrar la alerta haciendo clic afuera
+        allowEscapeKey: false, // Evita cerrar con la tecla "Escape"
+        allowEnterKey: false, // Evita cerrar con "Enter"
+        didOpen: () => {
+          document.body.style.overflow = "auto"; // Habilita el scroll en el fondo
+        },
+        willClose: () => {
+          document.body.style.overflow = ""; // Restaura el comportamiento normal
+        },
+      }).then(() => {
+        $("#loaderOferta").html("");
+        $("#loaderOfertaBox").css("display", "none");
+        if (!cotizoFinesa) {
+          document.getElementById("btnReCotizarFallidas").disabled = false;
+          cotizoFinesa = true;
+        }
+      });
     })
     .catch((error) => {
       console.error("Error en las promesas: ", error);
@@ -1962,27 +1975,27 @@ function registrarOferta(
     var numDocumentoID = document.getElementById("numDocumentoID").value;
     var placa = document.getElementById("placaVeh").value;
     var dataObj = {
-        placa: placa,
-        idCotizOferta: idCotizOferta,
-        numIdentificacion: numDocumentoID,
-        aseguradora: aseguradora,
-        numCotizOferta: numCotizOferta,
-        producto: producto,
-        valorPrima: prima,
-        valorRC: valorRC,
-        PT: PT,
-        PP: PP,
-        CE: CE,
-        GR: GR,
-        categorias: categorias,
-        logo: logo,
-        UrlPdf: UrlPdf,
-        manual: manual,
-        pdf: pdf,
-        // Agregue esta variable en Ofertas para reconocer el nombre en Script PHP e insertarlo en la BD en el momento que se crea.
-        identityElement: actIdentity != "" ? actIdentity : NULL,
-        eventos: eventos,
-      };
+      placa: placa,
+      idCotizOferta: idCotizOferta,
+      numIdentificacion: numDocumentoID,
+      aseguradora: aseguradora,
+      numCotizOferta: numCotizOferta,
+      producto: producto,
+      valorPrima: prima,
+      valorRC: valorRC,
+      PT: PT,
+      PP: PP,
+      CE: CE,
+      GR: GR,
+      categorias: categorias,
+      logo: logo,
+      UrlPdf: UrlPdf,
+      manual: manual,
+      pdf: pdf,
+      // Agregue esta variable en Ofertas para reconocer el nombre en Script PHP e insertarlo en la BD en el momento que se crea.
+      identityElement: actIdentity != "" ? actIdentity : NULL,
+      eventos: eventos,
+    };
     $.ajax({
       type: "POST",
       url: "src/insertarOferta.php",
@@ -1993,7 +2006,6 @@ function registrarOferta(
         resolve();
       },
       error: function (error) {
-        
         //console.log(error);
         reject(error);
       },
@@ -2350,7 +2362,6 @@ function validarProblema(aseguradora, ofertas) {
     ofertas.jsonZurich &&
     typeof ofertas.jsonZurich === "object"
   ) {
-
     // let cadena = ""
     // Caso específico para la estructura de Zurich
     let mensajesZurich = ofertas.Mensajes || [];
@@ -2476,7 +2487,6 @@ function enableInputs(opt) {
         .find("[id^='selec'], [id^='recom']")
         .attr("disabled", "disabled");
 }
-
 
 // Captura los datos suministrados por el cliente y los envia al API para recibir la cotizacion.
 function cotizarOfertas() {
@@ -2957,7 +2967,7 @@ function cotizarOfertas() {
           // Agregar el elemento de carga a la celda de respuesta
           celdaResponse.appendChild(loadingElement);
         });
-        
+
         //console.log(aseguradorasCredenciales)
         primerIntentoRealizado = true;
         $.ajax({
@@ -3097,7 +3107,7 @@ function cotizarOfertas() {
                 );
                 // Verificar si ya existe una fila para la aseguradora
                 const filaExistente = document.getElementById(aseguradora);
-                
+
                 // console.log(filaExistente)
                 if (filaExistente) {
                   // Si la fila existe, actualiza el mensaje de observaciones
@@ -3152,7 +3162,7 @@ function cotizarOfertas() {
                 );
                 // V  erificar si ya existe una fila para la aseguradora
                 const filaExistente = document.getElementById(aseguradora);
-                
+
                 // console.log(filaExistente)
                 if (filaExistente) {
                   // Si la fila existe, actualiza el mensaje de observaciones
@@ -3470,53 +3480,51 @@ function cotizarOfertas() {
                 //countOfferts();
               } else {
                 // Swal.close();
-                Swal
-                  .fire({
-                    title: "¡Proceso de Cotización Finalizada!",
-                    text: "¿Deseas incluir la financiación con Finesa a 11 cuotas?",
-                    showConfirmButton: true,
-                    confirmButtonText: "Si",
-                    showCancelButton: true,
-                    cancelButtonText: "No",
-                    allowOutsideClick: false,
-                    customClass: {
-                      title: "custom-title-messageFinesa",
-                      htmlContainer: "custom-text-messageFinesa",
-                      popup: "custom-popup-messageFinesa",
-                      actions: "custom-actions-messageFinesa",
-                      confirmButton: "custom-confirmnButton-messageFinesa",
-                      cancelButton: "custom-cancelButton-messageFinesa",
-                    },
-                  })
-                  .then(function (result) {
-                    if (result.isConfirmed) {
-                      document.getElementById(
-                        "btnReCotizarFallidas"
-                      ).disabled = true;
-                      $("#loaderOferta").html(
-                        '<img src="vistas/img/plantilla/loader-update.gif" width="34" height="34"><strong> Cotizando en Finesa...</strong>'
-                      );
+                Swal.fire({
+                  title: "¡Proceso de Cotización Finalizada!",
+                  text: "¿Deseas incluir la financiación con Finesa a 11 cuotas?",
+                  showConfirmButton: true,
+                  confirmButtonText: "Si",
+                  showCancelButton: true,
+                  cancelButtonText: "No",
+                  allowOutsideClick: false,
+                  customClass: {
+                    title: "custom-title-messageFinesa",
+                    htmlContainer: "custom-text-messageFinesa",
+                    popup: "custom-popup-messageFinesa",
+                    actions: "custom-actions-messageFinesa",
+                    confirmButton: "custom-confirmnButton-messageFinesa",
+                    cancelButton: "custom-cancelButton-messageFinesa",
+                  },
+                }).then(function (result) {
+                  if (result.isConfirmed) {
+                    document.getElementById(
+                      "btnReCotizarFallidas"
+                    ).disabled = true;
+                    $("#loaderOferta").html(
+                      '<img src="vistas/img/plantilla/loader-update.gif" width="34" height="34"><strong> Cotizando en Finesa...</strong>'
+                    );
+                    enableInputs(true);
+                    cotizarFinesa(cotizacionesFinesa);
+                    countOfferts();
+                    // $("#filtersSection").css("display", "block");
+                  } else if (result.isDismissed) {
+                    if (result.dismiss === "cancel") {
+                      // console.log("El usuario seleccionó 'No'");
+                      $("#loaderOferta").html("");
+                      $("#loaderOfertaBox").css("display", "none");
                       enableInputs(true);
-                      cotizarFinesa(cotizacionesFinesa);
                       countOfferts();
                       // $("#filtersSection").css("display", "block");
-                    } else if (result.isDismissed) {
-                      if (result.dismiss === "cancel") {
-                        // console.log("El usuario seleccionó 'No'");
-                        $("#loaderOferta").html("");
-                        $("#loaderOfertaBox").css("display", "none");
-                        enableInputs(true);
-                        countOfferts();
-                        // $("#filtersSection").css("display", "block");
-                      } else if (result.dismiss === "backdrop") {
-                        $("#loaderOferta").html("");
-                        $("#loaderOfertaBox").css("display", "none");
-                        enableInputs(true);
-                        countOfferts();
-                        // $("#filtersSection").css("display", "block");
-                      }
+                    } else if (result.dismiss === "backdrop") {
+                      $("#loaderOferta").html("");
+                      $("#loaderOfertaBox").css("display", "none");
+                      enableInputs(true);
+                      countOfferts();
+                      // $("#filtersSection").css("display", "block");
                     }
-                  });
+                  }
+                });
               }
               document.querySelector(".button-recotizar").style.display =
                 "block";
@@ -3560,7 +3568,9 @@ function cotizarOfertas() {
                     }
                   });
                 } else {
-                  const filtradas = ofertas.some((element) => element.seleccionar == "Si");
+                  const filtradas = ofertas.some(
+                    (element) => element.seleccionar == "Si"
+                  );
                   if (!todosOn && !filtradas) {
                     Swal.fire({
                       title: "¡Debes seleccionar mínimo una oferta!",
@@ -3674,7 +3684,7 @@ function cotizarOfertas() {
             );
             // Verificar si ya existe una fila para la aseguradora
             const filaExistente = document.getElementById(aseguradora);
-            
+
             // console.log(filaExistente)
             if (filaExistente) {
               // Si la fila existe, actualiza el mensaje de observaciones
@@ -3729,7 +3739,7 @@ function cotizarOfertas() {
             );
             // V  erificar si ya existe una fila para la aseguradora
             const filaExistente = document.getElementById(aseguradora);
-            
+
             // console.log(filaExistente)
             if (filaExistente) {
               // Si la fila existe, actualiza el mensaje de observaciones
@@ -4418,54 +4428,52 @@ function cotizarOfertas() {
               enableInputs(true);
             } else {
               // Swal.close();
-              Swal
-                .fire({
-                  title: "¡Proceso de Re-Cotización Finalizada!",
-                  text: "¿Deseas incluir la financiación con Finesa a 11 cuotas?",
-                  showConfirmButton: true,
-                  confirmButtonText: "Si",
-                  showCancelButton: true,
-                  cancelButtonText: "No",
-                  allowOutsideClick: false,
-                  customClass: {
-                    title: "custom-title-messageFinesa",
-                    htmlContainer: "custom-text-messageFinesa",
-                    popup: "custom-popup-messageFinesa",
-                    actions: "custom-actions-messageFinesa",
-                    confirmButton: "custom-confirmnButton-messageFinesa",
-                    cancelButton: "custom-cancelButton-messageFinesa",
-                  },
-                })
-                .then(function (result) {
-                  if (result.isConfirmed) {
-                    $("#loaderRecotOfertaBox").css("display", "block");
-                    $("#loaderRecotOferta").html(
-                      '<img src="vistas/img/plantilla/loader-update.gif" width="34" height="34"><strong>Re-Cotizando en Finesa...</strong>'
-                    );
-                    let btnRecot = document.getElementById(
-                      "btnReCotizarFallidas"
-                    );
-                    btnRecot.disabled = true;
+              Swal.fire({
+                title: "¡Proceso de Re-Cotización Finalizada!",
+                text: "¿Deseas incluir la financiación con Finesa a 11 cuotas?",
+                showConfirmButton: true,
+                confirmButtonText: "Si",
+                showCancelButton: true,
+                cancelButtonText: "No",
+                allowOutsideClick: false,
+                customClass: {
+                  title: "custom-title-messageFinesa",
+                  htmlContainer: "custom-text-messageFinesa",
+                  popup: "custom-popup-messageFinesa",
+                  actions: "custom-actions-messageFinesa",
+                  confirmButton: "custom-confirmnButton-messageFinesa",
+                  cancelButton: "custom-cancelButton-messageFinesa",
+                },
+              }).then(function (result) {
+                if (result.isConfirmed) {
+                  $("#loaderRecotOfertaBox").css("display", "block");
+                  $("#loaderRecotOferta").html(
+                    '<img src="vistas/img/plantilla/loader-update.gif" width="34" height="34"><strong>Re-Cotizando en Finesa...</strong>'
+                  );
+                  let btnRecot = document.getElementById(
+                    "btnReCotizarFallidas"
+                  );
+                  btnRecot.disabled = true;
+                  enableInputs(true);
+                  cotizarFinesa(cotizacionesFinesa);
+                  countOfferts();
+                  // $("#filtersSection").css("display", "block");
+                } else if (result.isDismissed && cotizacionesFinesa) {
+                  if (result.dismiss === "cancel") {
+                    $("#loaderRecotOfertaBox").css("display", "none");
+                    $("#loaderRecotOferta").html("");
                     enableInputs(true);
-                    cotizarFinesa(cotizacionesFinesa);
                     countOfferts();
                     // $("#filtersSection").css("display", "block");
-                  } else if (result.isDismissed && cotizacionesFinesa) {
-                    if (result.dismiss === "cancel") {
-                      $("#loaderRecotOfertaBox").css("display", "none");
-                      $("#loaderRecotOferta").html("");
-                      enableInputs(true);
-                      countOfferts();
-                      // $("#filtersSection").css("display", "block");
-                    } else if (result.dismiss === "backdrop") {
-                      $("#loaderRecotOfertaBox").css("display", "none");
-                      $("#loaderRecotOferta").html("");
-                      enableInputs(true);
-                      countOfferts();
-                      // $("#filtersSection").css("display", "block");
-                    }
+                  } else if (result.dismiss === "backdrop") {
+                    $("#loaderRecotOfertaBox").css("display", "none");
+                    $("#loaderRecotOferta").html("");
+                    enableInputs(true);
+                    countOfferts();
+                    // $("#filtersSection").css("display", "block");
                   }
-                });
+                }
+              });
             }
           } else {
             // debugger;

@@ -1357,7 +1357,6 @@ $rolAsesor = $_SESSION['permisos']['idRol'];
                         <option value="4">Atlántico</option>
                         <option value="5">Barranquilla</option>
 
-                        <option value="6">Bogotá</option>
                         <option value="7">Bolívar</option>
                         <option value="8">Boyacá</option>
                         <option value="9">Caldas</option>

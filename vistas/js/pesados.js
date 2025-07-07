@@ -247,6 +247,7 @@ $(document).ready(function () {
     language: "es",
     width: "100%",
   });
+
   $("#DptoCirculacion").change(function () {
     consultarCiudad();
   });
@@ -1663,6 +1664,16 @@ function consultarCiudad() {
     success: function (data) {
       // console.log(data);
       var ciudadesVeh = `<option value="">Seleccionar Ciudad</option>`;
+
+      if(data.mensaje){
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: "El departamento actual no cuenta con ciudades para asegurar",
+        });
+        document.getElementById("ciudadCirculacion").innerHTML = `<option value="">No se encontraron registros</option>`;
+        return;
+      }
 
       data.forEach(function (valor, i) {
         var valorNombre = valor.Nombre.split("-");

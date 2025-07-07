@@ -68,6 +68,13 @@ if ($codigo == 5) {
 }
 
 $res = mysqli_query($con, $sql);
+
+if($res === false) {
+	$data['mensaje'] = "No hay Registros";
+	echo json_encode($data, JSON_UNESCAPED_UNICODE);
+	exit;
+}
+
 $num_rows = mysqli_num_rows($res);
 
 if ($num_rows > 0) {

@@ -1,6 +1,4 @@
-
 $(document).ready(function () {
-
   // Obtener la URL completa
   const urlCompleta = window.location.href;
 
@@ -1018,7 +1016,7 @@ function consulPlacaMotos(query = "1") {
                 if (valorAsegurado == "null" || valorAsegurado == null) {
                   consulPlacaMapfre(valnumplaca);
                   //! Agregar esto a MOTOS y Pesados START
-                  
+
                   // $("#loaderPlaca").html("");
                   // $("#loaderPlaca2").html("");
                   //! Agregar esto a MOTOS y Pesados END
@@ -1226,7 +1224,11 @@ function consulPlacaMapfre(valnumplaca) {
         } else if (codigoClase == 4) {
           claseVehiculo = "UTILITARIOS DEPORTIVOS";
           limiteRCESTADO = 6;
-        } else if (codigoClase == 12 || codigoClase == 17 || codigoClase == 18) {
+        } else if (
+          codigoClase == 12 ||
+          codigoClase == 17 ||
+          codigoClase == 18
+        ) {
           claseVehiculo = "MOTOCICLETA";
           limiteRCESTADO = 6;
         } else if (codigoClase == 14 || codigoClase == 21) {
@@ -1253,8 +1255,8 @@ function consulPlacaMapfre(valnumplaca) {
           $("#txtReferenciaVeh").val(resp.lineaVeh);
           $("#txtValorFasecolda").val(resp.valorVeh);
         });
-         $("#loaderPlaca").html("");
-         $("#loaderPlaca2").html("");
+        $("#loaderPlaca").html("");
+        $("#loaderPlaca2").html("");
       } else {
         document.getElementById("formularioVehiculo").style.display = "block";
         document.getElementById("headerAsegurado").style.display = "block";
@@ -1577,6 +1579,10 @@ function consulDatosFasecoldaPesados(codFasecolda, edadVeh) {
   });
 }
 
+$("#DptoCirculacion").change(function () {
+  consultarCiudad();
+});
+
 // FUNCION PARA CARGAR LA CIUDAD DE CIRCULACIÓN
 function consultarCiudad() {
   var codigoDpto = document.getElementById("DptoCirculacion").value;
@@ -1590,6 +1596,16 @@ function consultarCiudad() {
     success: function (data) {
       // console.log(data);
       var ciudadesVeh = `<option value="">Seleccionar Ciudad</option>`;
+
+      if(data.mensaje){
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: "El departamento actual no cuenta con ciudades para asegurar",
+        });
+        document.getElementById("ciudadCirculacion").innerHTML = `<option value="">No se encontraron registros</option>`;
+        return;
+      }
 
       data.forEach(function (valor, i) {
         var valorNombre = valor.Nombre.split("-");
@@ -1672,7 +1688,9 @@ function cotizarFinesaMotos(ofertasCotizaciones) {
 
       promisesFinesa.push(
         fetch(
-          `https://www.grupoasistencia.com/motor_webservice/paymentInstallmentsFinesa${env == "qas" ? "_qas": env == "dev" ? "_qas" : ""}`,
+          `https://www.grupoasistencia.com/motor_webservice/paymentInstallmentsFinesa${
+            env == "qas" ? "_qas" : env == "dev" ? "_qas" : ""
+          }`,
           // "http://localhost/motorTest/paymentInstallmentsFinesa",
           {
             method: "POST",
@@ -1692,7 +1710,9 @@ function cotizarFinesaMotos(ofertasCotizaciones) {
             finesaData.identity = element.objFinesa;
             finesaData.cuotas = element.cuotas;
             return fetch(
-              `https://www.grupoasistencia.com/motor_webservice/saveDataQuotationsFinesa${env == "qas" ? "_qas": env == "dev" ? "_qas" : ""}`,
+              `https://www.grupoasistencia.com/motor_webservice/saveDataQuotationsFinesa${
+                env == "qas" ? "_qas" : env == "dev" ? "_qas" : ""
+              }`,
               //"http://localhost/motorTest/saveDataQuotationsFinesa",
               {
                 method: "POST",
@@ -3558,7 +3578,8 @@ function cotizarOfertasMotos() {
             (cotizaciones) => cotizaciones.cotizada === null
           );
           if (nuevas.length > 0) {
-            let intermediario = document.getElementById("idIntermediario").value;
+            let intermediario =
+              document.getElementById("idIntermediario").value;
             if (intermediario != 3 && intermediario != 149) {
               Swal.close();
               Swal.fire({
