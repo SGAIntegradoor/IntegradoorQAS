@@ -2883,7 +2883,7 @@ $pdf->writeHTML($htmlFooter, true, false, true, false, '');
 $pdf->Ln();
 
 $pdf->SetXY(0, 270);
-$htmlFooter2 = '<p style="font-size: 6.2px; color: red">Importante: Algunas líneas de vehículos en las compañías Allianz, Previsora, Mundial y HDI requieren la instalación de un dispositivo de georreferenciación tipo Cazador. El incumplimiento de esta obligación (garantía) puede conllevar la aplicación de exclusiones a diferentes amparos, la ampliación de los deducibles a cargo del asegurado o incluso la aseguradora no será responsable de indemnizar al asegurado. Consulta con tu asesor si tu vehículo necesita este dispositivo antes de tomar tu póliza.</p>';
+$htmlFooter2 = '<p style="font-size: 6.2px; color: red">Importante: Algunas líneas de vehículos en las compañías Previsora, Mundial y HDI requieren la instalación de un dispositivo de georreferenciación tipo Cazador. El incumplimiento de esta obligación (garantía) puede conllevar la aplicación de exclusiones a diferentes amparos, la ampliación de los deducibles a cargo del asegurado o incluso la aseguradora no será responsable de indemnizar al asegurado. Consulta con tu asesor si tu vehículo necesita este dispositivo antes de tomar tu póliza.</p>';
 $pdf->writeHTML($htmlFooter2, true, false, true, true, '');
 $pdf->Ln();
 
