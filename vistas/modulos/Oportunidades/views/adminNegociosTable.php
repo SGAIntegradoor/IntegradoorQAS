@@ -307,7 +307,7 @@
   }
 
   #myModal2 {
-    padding: 11px 58px 0px 58px !important;
+    padding: 11px 48px 0px 48px !important;
   }
 
   .ui-widget.ui-widget-content {
@@ -535,25 +535,201 @@
   <div class="col-lg-12" id="realModal">
     <form action="POST">
 
-      <div class="row" style="margin-bottom: 0px; margin-top: 20px; gap: 5px;">
-        <div class="row" style="margin-bottom: 10px;margin-top: 18px;">
-          <div class="col-xs-12 col-sm-6 col-md-4 form-group">
-            <label for="txtnoCotizacionModal">No. Cot. Integradoor</label>
-            <input type="text" class="form-control" name="txtnoCotizacionModal" id="txtnoCotizacionModal" placeholder="" required>
-          </div>
-          <div class="col-xs-12 col-sm-6 col-md-4 form-group">
-            <label for="txtnoCotAseguradoraModal">No. Cot. Aseguradora</label>
-            <input type="text" class="form-control" name="txtnoCotAseguradoraModal" id="txtnoCotAseguradoraModal" placeholder="">
-          </div>
-          <div class="col-xs-12 col-sm-6 col-md-4 form-group">
-            <label for="txtValorCotizacionModal">Valor cotización</label>
-            <input type="text" class="form-control" name="txtValorCotizacionModal" id="txtValorCotizacionModal" placeholder="" required>
-          </div>
+      <div class="row d-flex" style="margin-bottom: 0px; margin-top: 40px; gap: 5px; row-gap: 50px;">
+
+        <div class="col-xs-12 col-sm-6 col-md-4 form-group" style="margin-bottom: 30px;">
+          <label for="txtnoCotizacionModal">No. Cot. Integradoor</label>
+          <input type="text" class="form-control" name="txtnoCotizacionModal" id="txtnoCotizacionModal" placeholder="" required>
         </div>
-        <div class="row" style="margin-bottom: 10px;margin-top: 18px;">
-          <div class="col-xs-12 col-sm-6 col-md-4 form-group">
-            <label for="txtMesOportunidadModal">Mes oportunidad</label>
-            <select type="text" class="form-control mes-expedicion" name="txtMesOportunidadModal" id="txtMesOportunidadModal" placeholder="">
+        <div class="col-xs-12 col-sm-6 col-md-4 form-group" style="margin-bottom: 30px;">
+          <label for="txtnoCotAseguradoraModal">No. Cot. Aseguradora</label>
+          <input type="text" class="form-control" name="txtnoCotAseguradoraModal" id="txtnoCotAseguradoraModal" placeholder="">
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-4 form-group" style="margin-bottom: 30px;">
+          <label for="txtValorCotizacionModal">Valor cotización</label>
+          <input type="text" class="form-control" name="txtValorCotizacionModal" id="txtValorCotizacionModal" placeholder="" required>
+        </div>
+
+
+        <div class="col-xs-12 col-sm-6 col-md-4 form-group" style="margin-bottom: 30px;">
+          <label for="txtMesOportunidadModal">Mes oportunidad</label>
+          <select type="text" class="form-control mes-expedicion" name="txtMesOportunidadModal" id="txtMesOportunidadModal" placeholder="">
+            <option value="" selected>
+            </option>
+            <option value="1">Enero</option>
+            <option value="2">Febrero</option>
+            <option value="3">Marzo</option>
+            <option value="4">Abril</option>
+            <option value="5">Mayo</option>
+            <option value="6">Junio</option>
+            <option value="7">Julio</option>
+            <option value="8">Agosto</option>
+            <option value="9">Septiembre</option>
+            <option value="10">Octubre</option>
+            <option value="11">Noviembre</option>
+            <option value="12">Diciembre</option>
+          </select>
+        </div>
+        <!-- Campo canal agregado Javier -->
+        <div class="col-xs-12 col-sm-6 col-md-4 form-group" style="margin-bottom: 30px;">
+          <label for="txtCanalModal">Canal</label>
+          <select type="text" class="form-control mes-expedicion" name="txtCanalModal" id="txtCanalModal" placeholder="">
+            <option value="" selected>
+            </option>
+            <option value="1">Directo</option>
+            <option value="2">Freelance</option>
+          </select>
+        </div>
+        <!-- fin campo canal -->
+        <!-- </div> -->
+        <!-- <div class="row" style="margin-bottom: 10px;margin-top: 18px;"> -->
+        <div class="col-xs-12 col-sm-6 col-md-4 form-group" style="margin-bottom: 30px; display: none;" id="divAsesorFreelance">
+          <label for="txtAsesorOportunidadModal">Asesor Freelance</label>
+          <select class="form-control" name="txtAsesorOportunidadModal" id="txtAsesorOportunidadModal" required>
+            <option value="" selected></option>
+          </select>
+        </div>
+
+
+
+        <div class="col-xs-12 col-sm-6 col-md-4 form-group" style="margin-bottom: 30px;">
+          <label for="txtAnalistaGAModal">Analista/asesor GA</label>
+          <select type="text" class="form-control" name="txtAnalistaGAModal" id="txtAnalistaGAModal" placeholder="" required>
+            <option value=""></option>
+          </select>
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-4 form-group" style="margin-bottom: 30px;">
+          <label for="txtRamoModal">Ramo</label>
+          <select class="form-control" name="txtRamoModal" id="txtRamoModal" required>
+            <option value="" selected></option>
+            <option value="1">Automoviles</option>
+            <option value="2">Pesados</option>
+            <option value="3">Motos</option>
+            <option value="4">RCE autos</option>
+            <option value="5">Exequial</option>
+            <option value="6">Salud</option>
+            <option value="7">Pyme</option>
+            <option value="8">Vida</option>
+            <option value="9">Vida deudor</option>
+            <option value="10">Hogar</option>
+            <option value="11">Hogar deudor</option>
+            <option value="12">Asistencia en viajes</option>
+            <option value="13">Autos Pasajeros</option>
+          </select>
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-4 form-group" style="margin-bottom: 30px;">
+          <label for="txtPlacaOportunidadModal">Placa</label>
+          <input type="text" class="form-control" name="txtPlacaOportunidadModal" id="txtPlacaOportunidadModal" placeholder="" required>
+          <p id="errorMensaje" style="display: none; color: tomato">Formato placa invalido</p>
+        </div>
+        <!-- </div> -->
+        <!-- <div class="row" style="margin-bottom: 10px;margin-top: 18px;"> -->
+
+
+        <div class="col-xs-12 col-sm-6 col-md-4 form-group" style="margin-bottom: 30px;">
+          <label for="txtOnerosoOportunidadModal">Tiene oneroso</label>
+          <select type="text" class="form-control oneroso-op" name="txtOnerosoOportunidadModal" id="txtOnerosoOportunidadModal" placeholder="" required>
+            <option value="" selected></option>
+            <option value="1">
+              Si
+            </option>
+            <option value="2">
+              No
+          </select>
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-4 form-group" style="margin-bottom: 30px;">
+          <label for="txtAseguradoraOportunidadModal">Aseguradora</label>
+          <select type="text" class="form-control asegurado-opo" name="txtAseguradoraOportunidadModal" id="txtAseguradoraOportunidadModal" placeholder="Aseguradora" required>
+            <option value="" selected>
+            </option>
+            <option value="1">Allianz</option>
+            <option value="2">Axa Colpatria</option>
+            <option value="3">Seguros Bolivar</option>
+            <option value="4">Equidad</option>
+            <option value="5">Seguros del Estado</option>
+            <option value="6">HDI (Antes Liberty)</option>
+            <option value="7">Mapfre</option>
+            <option value="8">Previsora Seguros</option>
+            <option value="9">SBS Seguros</option>
+            <option value="10">Solidaria</option>
+            <option value="11">Zurich</option>
+            <option value="12">Mundial</option>
+            <option value="13">AssistCard</option>
+            <option value="14">AssistOne</option>
+            <option value="15">Universal</option>
+            <option value="16">Continental</option>
+            <option value="17">Olivos</option>
+            <option value="18">Sura</option>
+            <option value="19">Qualitas</option>
+          </select>
+        </div>
+        <!-- </div> -->
+        <!-- <div class="row" style="margin-bottom: 10px;margin-top: 18px;"> -->
+
+        <div class="col-xs-12 col-sm-6 col-md-4 form-group" style="margin-bottom: 30px;">
+          <label for="txtAseguradoModal">Asegurado</label>
+          <input type="text" class="form-control" name="" id="txtAseguradoModal" placeholder="">
+        </div>
+
+
+        <div class="col-xs-12 col-sm-6 col-md-4 form-group" style="margin-bottom: 30px;">
+          <label for="txtEstadoOportunidadModal">Estado</label>
+          <select type="text" class="form-control" name="txtEstadoOportunidadModal" id="txtEstadoOportunidadModal" required>
+            <option value="" selected></option>
+            <option value="1">Pdte orden inspección</option>
+            <option value="2">Pdte inspección</option>
+            <option value="3">Pdt emisión</option>
+            <option value="4">Emitida</option>
+            <option value="5">Cambio de Intermediario</option>
+            <option value="6">Perdido</option>
+          </select>
+        </div>
+
+        <div style="display:none" id="firstHide">
+
+          <div class="col-xs-12 col-sm-6 col-md-4 form-group" style="margin-bottom: 30px;">
+            <label for="txtNoPolizaOportunidadModal"># póliza</label>
+            <input type="text" class="form-control" name="" id="txtNoPolizaOportunidadModal" placeholder="">
+          </div>
+          <!-- </div> -->
+          <div id="secondHide" style="display: none">
+            <!-- <div class="row" style="margin-bottom: 10px;margin-top: 18px;"> -->
+            <div class="col-xs-12 col-sm-6 col-md-4 form-group" style="margin-bottom: 30px;">
+              <label for="txtPrimaSinIvaModal">Prima (sin iva)</label>
+              <input type="text" class="form-control" name="txtPrimaSinIvaModal" id="txtPrimaSinIvaModal" placeholder="">
+            </div>
+            <div class="col-xs-12 col-sm-6 col-md-4 form-group" style="margin-bottom: 30px;">
+              <label for="txtGastosOportunidadModal">Gastos</label>
+              <input type="text" class="form-control" name="txtGastosOportunidadModal" id="txtGastosOportunidadModal" placeholder="">
+            </div>
+          </div>
+
+
+          <div class="col-xs-12 col-sm-6 col-md-4 form-group" style="margin-bottom: 30px;">
+            <label for="txtAsistOtrosOportunidadModal">Asist/Otros</label>
+            <input type="text" class="form-control" name="txtAsistOtrosOportunidadModal" id="txtAsistOtrosOportunidadModal" placeholder="">
+          </div>
+          <!-- </div>
+        <div class="row" style="margin-bottom: 10px;margin-top: 18px;"> -->
+          <div class="col-xs-12 col-sm-6 col-md-4 form-group" style="margin-bottom: 30px;">
+            <label for="txtIvaOportunidadModal">IVA</label>
+            <input type="text" class="form-control" name="txtIvaOportunidadModal" id="txtIvaOportunidadModal">
+          </div>
+          <div class="col-xs-12 col-sm-6 col-md-4 form-group" style="margin-bottom: 30px;">
+            <label for="txtValorTotalModal">Valor Total</label>
+            <input type="text" class="form-control" name="txtValorTotalModal" id="txtValorTotalModal">
+          </div>
+
+
+          <div class="col-xs-12 col-sm-6 col-md-4 form-group" style="margin-bottom: 30px;">
+            <label for="txtFechaExpedicionOportunidadModal">Fecha de expedición</label>
+            <input type="date" class="form-control" name="txtFechaExpedicionOportunidadModal" id="txtFechaExpedicionOportunidadModal">
+          </div>
+          <!-- </div>
+        <div class="row" style="margin-bottom: 10px;margin-top: 18px;"> -->
+          <div class="col-xs-12 col-sm-6 col-md-4 form-group" style="margin-bottom: 30px;">
+            <label for="txtMesExpedicionOportunidadModal">Mes expedición</label>
+            <select type="text" class="form-control mes-expedicion" name="txtMesExpedicionOportunidadModal" id="txtMesExpedicionOportunidadModal" placeholder="">
               <option value="" selected>
               </option>
               <option value="1">Enero</option>
@@ -570,254 +746,77 @@
               <option value="12">Diciembre</option>
             </select>
           </div>
-          <!-- Campo canal agregado Javier -->
-          <div class="col-xs-12 col-sm-6 col-md-4 form-group">
-            <label for="txtCanalModal">Canal</label>
-            <select type="text" class="form-control mes-expedicion" name="txtCanalModal" id="txtCanalModal" placeholder="">
+          <div class="col-xs-12 col-sm-6 col-md-4 form-group" style="margin-bottom: 30px;">
+            <label for="txtFormaDePagoOportunidadModal">Forma de pago</label>
+            <select type="text" class="form-control mes-expedicion" name="txtFormaDePagoOportunidadModal" id="txtFormaDePagoOportunidadModal" placeholder="">
               <option value="" selected>
               </option>
-              <option value="1">Directo</option>
-              <option value="2">Freelance</option>
-            </select>
-          </div>
-          <!-- fin campo canal -->
-          <!-- </div> -->
-          <!-- <div class="row" style="margin-bottom: 10px;margin-top: 18px;"> -->
-          <div class="col-xs-12 col-sm-6 col-md-4 form-group">
-            <label for="txtAsesorOportunidadModal">Asesor Freelance</label>
-            <select class="form-control" name="txtAsesorOportunidadModal" id="txtAsesorOportunidadModal" required>
-              <option value="" selected></option>
-            </select>
-          </div>
-
-        </div>
-        <div class="row" style="margin-bottom: 10px;margin-top: 18px;">
-          <div class="col-xs-12 col-sm-6 col-md-4 form-group">
-            <label for="txtAnalistaGAModal">Analista/asesor GA</label>
-            <select type="text" class="form-control" name="txtAnalistaGAModal" id="txtAnalistaGAModal" placeholder="" required>
-              <option value=""></option>
-            </select>
-          </div>
-          <div class="col-xs-12 col-sm-6 col-md-4 form-group">
-            <label for="txtRamoModal">Ramo</label>
-            <select class="form-control" name="txtRamoModal" id="txtRamoModal" required>
-              <option value="" selected></option>
-              <option value="1">Automoviles</option>
-              <option value="2">Pesados</option>
-              <option value="3">Motos</option>
-              <option value="4">RCE autos</option>
-              <option value="5">Exequial</option>
-              <option value="6">Salud</option>
-              <option value="7">Pyme</option>
-              <option value="8">Vida</option>
-              <option value="9">Vida deudor</option>
-              <option value="10">Hogar</option>
-              <option value="11">Hogar deudor</option>
-              <option value="12">Asistencia en viajes</option>
-              <option value="13">Autos Pasajeros</option>
-            </select>
-          </div>
-          <div class="col-xs-12 col-sm-6 col-md-4 form-group">
-            <label for="txtPlacaOportunidadModal">Placa</label>
-            <input type="text" class="form-control" name="txtPlacaOportunidadModal" id="txtPlacaOportunidadModal" placeholder="" required>
-            <p id="errorMensaje" style="display: none; color: tomato">Formato placa invalido</p>
-          </div>
-          <!-- </div> -->
-          <!-- <div class="row" style="margin-bottom: 10px;margin-top: 18px;"> -->
-        </div>
-        <div class="row" style="margin-bottom: 10px;margin-top: 18px;">
-          <div class="col-xs-12 col-sm-6 col-md-4 form-group">
-            <label for="txtOnerosoOportunidadModal">Tiene oneroso</label>
-            <select type="text" class="form-control oneroso-op" name="txtOnerosoOportunidadModal" id="txtOnerosoOportunidadModal" placeholder="" required>
-              <option value="" selected></option>
               <option value="1">
-                Si
+                Financiada
               </option>
               <option value="2">
-                No
+                Contado
+              </option>
+              <option value="3">
+                Pdte.
+              </option>
+
             </select>
           </div>
-          <div class="col-xs-12 col-sm-6 col-md-4 form-group">
-            <label for="txtAseguradoraOportunidadModal">Aseguradora</label>
-            <select type="text" class="form-control asegurado-opo" name="txtAseguradoraOportunidadModal" id="txtAseguradoraOportunidadModal" placeholder="Aseguradora" required>
+
+
+          <div class="col-xs-12 col-sm-6 col-md-4 form-group" style="margin-bottom: 30px;" id="financieraDiv" style="display:none">
+            <label for="txtFinancieraOportunidadModal">Financiera</label>
+            <select type="text" class="form-control financiera" name="txtFinancieraOportunidadModal" id="txtFinancieraOportunidadModal" placeholder="">
               <option value="" selected>
               </option>
-              <option value="1">Allianz</option>
-              <option value="2">Axa Colpatria</option>
-              <option value="3">Seguros Bolivar</option>
-              <option value="4">Equidad</option>
-              <option value="5">Seguros del Estado</option>
-              <option value="6">HDI (Antes Liberty)</option>
-              <option value="7">Mapfre</option>
-              <option value="8">Previsora Seguros</option>
-              <option value="9">SBS Seguros</option>
-              <option value="10">Solidaria</option>
-              <option value="11">Zurich</option>
-              <option value="12">Mundial</option>
-              <option value="13">AssistCard</option>
-              <option value="14">AssistOne</option>
-              <option value="15">Universal</option>
-              <option value="16">Continental</option>
-              <option value="17">Olivos</option>
-              <option value="18">Sura</option>
-              <option value="19">Qualitas</option>
+              <option value="1">Finesa</option>
+              <option value="2">CrediMapfre</option>
+              <option value="3">Liberty</option>
+              <option value="4">Bolivar</option>
             </select>
           </div>
-          <!-- </div> -->
-          <!-- <div class="row" style="margin-bottom: 10px;margin-top: 18px;"> -->
+          <!-- </div>
+        <div class="row" style="margin-bottom: 10px;margin-top: 18px;"> -->
+          <div class="col-xs-12 col-sm-6 col-md-4 form-group" style="margin-bottom: 30px; display: flex; flex-direction: column;">
+            <label for="checkCarpetaModal">Carpeta</label>
+            <input type="checkbox" name="checkCarpetaModal" id="checkCarpetaModal" style="width: 20px; height:20px">
+          </div>
 
-          <div class="col-xs-12 col-sm-6 col-md-4 form-group">
-            <label for="txtAseguradoModal">Asegurado</label>
-            <input type="text" class="form-control" name="" id="txtAseguradoModal" placeholder="">
-          </div>
-        </div>
-        <div class="row" style="margin-bottom: 10px;margin-top: 18px;">
-          <div class="col-xs-12 col-sm-6 col-md-4 form-group">
-            <label for="txtEstadoOportunidadModal">Estado</label>
-            <select type="text" class="form-control" name="txtEstadoOportunidadModal" id="txtEstadoOportunidadModal" required>
-              <option value="" selected></option>
-              <option value="1">Pdte orden inspección</option>
-              <option value="2">Pdte inspección</option>
-              <option value="3">Pdt emisión</option>
-              <option value="4">Emitida</option>
-              <option value="5">Cambio de Intermediario</option>
-              <option value="6">Perdido</option>
-            </select>
-          </div>
-        </div>
-        <div style="display:none" id="firstHide">
-          <div class="row" style="margin-bottom: 10px;margin-top: 18px;">
-            <div class="col-xs-12 col-sm-6 col-md-4 form-group">
-              <label for="txtNoPolizaOportunidadModal"># póliza</label>
-              <input type="text" class="form-control" name="" id="txtNoPolizaOportunidadModal" placeholder="">
-            </div>
-            <!-- </div> -->
-            <div id="secondHide" style="display: none">
-              <!-- <div class="row" style="margin-bottom: 10px;margin-top: 18px;"> -->
-              <div class="col-xs-12 col-sm-6 col-md-4 form-group">
-                <label for="txtPrimaSinIvaModal">Prima (sin iva)</label>
-                <input type="text" class="form-control" name="txtPrimaSinIvaModal" id="txtPrimaSinIvaModal" placeholder="">
-              </div>
-              <div class="col-xs-12 col-sm-6 col-md-4 form-group">
-                <label for="txtGastosOportunidadModal">Gastos</label>
-                <input type="text" class="form-control" name="txtGastosOportunidadModal" id="txtGastosOportunidadModal" placeholder="">
-              </div>
-            </div>
-          </div>
-          <div class="row" style="margin-bottom: 10px;margin-top: 18px;">
-            <div class="col-xs-12 col-sm-6 col-md-4 form-group">
-              <label for="txtAsistOtrosOportunidadModal">Asist/Otros</label>
-              <input type="text" class="form-control" name="txtAsistOtrosOportunidadModal" id="txtAsistOtrosOportunidadModal" placeholder="">
-            </div>
-            <!-- </div>
-        <div class="row" style="margin-bottom: 10px;margin-top: 18px;"> -->
-            <div class="col-xs-12 col-sm-6 col-md-4 form-group">
-              <label for="txtIvaOportunidadModal">IVA</label>
-              <input type="text" class="form-control" name="txtIvaOportunidadModal" id="txtIvaOportunidadModal">
-            </div>
-            <div class="col-xs-12 col-sm-6 col-md-4 form-group">
-              <label for="txtValorTotalModal">Valor Total</label>
-              <input type="text" class="form-control" name="txtValorTotalModal" id="txtValorTotalModal">
-            </div>
-          </div>
-          <div class="row" style="margin-bottom: 10px;margin-top: 18px;">
-            <div class="col-xs-12 col-sm-6 col-md-4 form-group">
-              <label for="txtFechaExpedicionOportunidadModal">Fecha de expedición</label>
-              <input type="date" class="form-control" name="txtFechaExpedicionOportunidadModal" id="txtFechaExpedicionOportunidadModal">
-            </div>
-            <!-- </div>
-        <div class="row" style="margin-bottom: 10px;margin-top: 18px;"> -->
-            <div class="col-xs-12 col-sm-6 col-md-4 form-group">
-              <label for="txtMesExpedicionOportunidadModal">Mes expedición</label>
-              <select type="text" class="form-control mes-expedicion" name="txtMesExpedicionOportunidadModal" id="txtMesExpedicionOportunidadModal" placeholder="">
-                <option value="" selected>
-                </option>
-                <option value="1">Enero</option>
-                <option value="2">Febrero</option>
-                <option value="3">Marzo</option>
-                <option value="4">Abril</option>
-                <option value="5">Mayo</option>
-                <option value="6">Junio</option>
-                <option value="7">Julio</option>
-                <option value="8">Agosto</option>
-                <option value="9">Septiembre</option>
-                <option value="10">Octubre</option>
-                <option value="11">Noviembre</option>
-                <option value="12">Diciembre</option>
-              </select>
-            </div>
-            <div class="col-xs-12 col-sm-6 col-md-4 form-group">
-              <label for="txtFormaDePagoOportunidadModal">Forma de pago</label>
-              <select type="text" class="form-control mes-expedicion" name="txtFormaDePagoOportunidadModal" id="txtFormaDePagoOportunidadModal" placeholder="">
-                <option value="" selected>
-                </option>
-                <option value="1">
-                  Financiada
-                </option>
-                <option value="2">
-                  Contado
-                </option>
-                <option value="3">
-                  Pdte.
-                </option>
-
-              </select>
-            </div>
-          </div>
-          <div class="row" style="margin-bottom: 10px;margin-top: 18px;">
-            <div class="col-xs-12 col-sm-6 col-md-4 form-group" id="financieraDiv" style="display:none">
-              <label for="txtFinancieraOportunidadModal">Financiera</label>
-              <select type="text" class="form-control financiera" name="txtFinancieraOportunidadModal" id="txtFinancieraOportunidadModal" placeholder="">
-                <option value="" selected>
-                </option>
-                <option value="1">Finesa</option>
-                <option value="2">CrediMapfre</option>
-                <option value="3">Liberty</option>
-                <option value="4">Bolivar</option>
-              </select>
-            </div>
-            <!-- </div>
-        <div class="row" style="margin-bottom: 10px;margin-top: 18px;"> -->
-            <div class="col-xs-12 col-sm-6 col-md-4 form-group" style="display:flex; flex-direction: column">
-              <label for="checkCarpetaModal">Carpeta</label>
-              <input type="checkbox" name="checkCarpetaModal" id="checkCarpetaModal" style="width: 20px; height:20px">
-            </div>
-          </div>
         </div>
 
         <div style="display:none" id="perdidaHide">
-          <div class="row" style="margin-bottom: 10px;margin-top: 18px;">
-            <div class="col-xs-12 col-sm-6 col-md-4 form-group">
-              <label for="txtRazonPerdidoOportunidadModal">Razón negocio perdido</label>
-              <select type="text" class="form-control mes-expedicion" name="txtRazonPerdidoOportunidadModal" id="txtRazonPerdidoOportunidadModal" placeholder="">
-                <option value="" selected></option>
-                <option value="no_paso_inspeccion">No pasó inspección</option>
-                <option value="salvamento">Salvamento</option>
-                <option value="no_quiso_inspeccionar">No quiso inspeccionar</option>
-                <option value="desistio_negocio">Desistió del negocio</option>
-                <option value="asesor_no_respondio">Asesor no respondió</option>
-                <option value="errores_cotizacion">Errores en cotización</option>
-                <option value="demora_emision">Demora en emisión</option>
-                <option value="demora_cert_pago">Demora cert. de pago</option>
-                <option value="dificil_rptos">Difícil consecución rptos</option>
-                <option value="banco_no_prenda">Banco no aceptó prenda</option>
-                <option value="Otro">Otro</option>
-              </select>
-            </div>
-            <div class="col-xs-12 col-sm-6 col-md-4 form-group" id="divOtraRazon">
-              <label for="txtOtraRazonOportunidadModal">Otra razón negocio perdido</label>
-              <input type="text" class="form-control" name="txtOtraRazonOportunidadModal" id="txtOtraRazonOportunidadModal" placeholder="">
-            </div>
+
+          <div class="col-xs-12 col-sm-6 col-md-4 form-group" style="margin-bottom: 30px;">
+            <label for="txtRazonPerdidoOportunidadModal">Razón negocio perdido</label>
+            <select type="text" class="form-control mes-expedicion" name="txtRazonPerdidoOportunidadModal" id="txtRazonPerdidoOportunidadModal" placeholder="">
+              <option value="" selected></option>
+              <option value="no_paso_inspeccion">No pasó inspección</option>
+              <option value="salvamento">Salvamento</option>
+              <option value="no_quiso_inspeccionar">No quiso inspeccionar</option>
+              <option value="desistio_negocio">Desistió del negocio</option>
+              <option value="asesor_no_respondio">Asesor no respondió</option>
+              <option value="errores_cotizacion">Errores en cotización</option>
+              <option value="demora_emision">Demora en emisión</option>
+              <option value="demora_cert_pago">Demora cert. de pago</option>
+              <option value="dificil_rptos">Difícil consecución rptos</option>
+              <option value="banco_no_prenda">Banco no aceptó prenda</option>
+              <option value="Otro">Otro</option>
+            </select>
           </div>
+          <div class="col-xs-12 col-sm-6 col-md-4 form-group" style="margin-bottom: 30px;" id="divOtraRazon">
+            <label for="txtOtraRazonOportunidadModal">Otra razón negocio perdido</label>
+            <input type="text" class="form-control" name="txtOtraRazonOportunidadModal" id="txtOtraRazonOportunidadModal" placeholder="">
+          </div>
+
         </div>
 
+        <div class="col-xs-12 col-sm-12 col-md-12 form-group" style="margin-bottom: 30px;"><label for="txtObservacionesOportunidadModal">Observaciones</label>
+          <textarea class="form-control form-group no-resize full-width-textarea" rows="3" id="txtObservacionesOportunidadModal"></textarea>
+        </div>
 
       </div>
-      <div class="row">
-        <label for="txtObservacionesOportunidadModal">Observaciones</label>
-        <textarea class="form-control form-group no-resize full-width-textarea" rows="3" id="txtObservacionesOportunidadModal"></textarea>
 
-      </div>
     </form>
   </div>
 </div>

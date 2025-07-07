@@ -19,6 +19,7 @@ function changeTitlePage() {
   var newTittle = "Datos de la cotización";
   $("#lblDataTrip").text(newTittle);
 }
+
 if (getParams("idCotizacionSalud").length > 0) {
   console.log(getParams("idCotizacionSalud")[0]);
   editarCotizacionSalud(getParams("idCotizacionSalud")[0]);
@@ -208,6 +209,7 @@ function disableInputs(context, disabled) {
 }
 
 function editarCotizacionSalud(id) {
+  toggleContainerData();
   idCotizacionSalud = id; // Almacena el Id en la variable global de idCotización
   var datos = new FormData();
 
@@ -236,6 +238,20 @@ function editarCotizacionSalud(id) {
 
       const { asegurados } = respuesta.requestData;
 
+      // Verifica si algún asegurado es asociado a Coomeva
+      let algunoAsociado = false;
+      for (let i = 0; i < asegurados.length; i++) {
+        if (asegurados[i].asociado == 1) {
+          algunoAsociado = true;
+          break;
+        }
+      }
+      if (algunoAsociado) {
+        $("#siAsociadoC").prop("checked", true);
+      } else {
+        $("#noAsociadoC").prop("checked", true);
+      }
+
       const fields = ["nombre", "apellido", "tipoDocumento", "cedula"];
 
       fields.forEach((field) => {
@@ -247,8 +263,8 @@ function editarCotizacionSalud(id) {
 
       $("#tomadorContainerData")
         .find(".tipoDocumento")
-        .val("0" + tipoDocumento),
-        $("#tomadorContainerData").find(".numeroDocumento").val(cedula);
+        .val("0" + tipoDocumento);
+      $("#tomadorContainerData").find(".numeroDocumento").val(cedula);
       $("#tomadorContainerData").find(".nombre").val(nombre);
       $("#tomadorContainerData").find(".apellido").val(apellido);
 
@@ -271,7 +287,7 @@ function editarCotizacionSalud(id) {
         $("#lblDatosAse").text("Tomador Asegurado");
       }
 
-      $(".preguntasForm").hide();
+      // $(".preguntasForm").hide();
 
       $("#numAsegurados").prop("disabled", true);
       $("#tipoDocumento").prop("disabled", true);
@@ -301,8 +317,16 @@ function editarCotizacionSalud(id) {
       );
 
       $("#departamento_1").val(asegurados[0].id_departamento).trigger("change");
-
       $("#ciudad_1").val(asegurados[0].id_ciudad);
+      $("#ciudad_1").val(asegurados[0].id_ciudad);
+      $("#asociadoSi_1").prop("disabled", true);
+      $("#asociadoNo_1").prop("disabled", true);
+
+      if (asegurados[0].asociado == 1) {
+        $("#asociadoSi_1").prop("checked", true);
+      } else {
+        $("#asociadoNo_1").prop("checked", true);
+      }
 
       for (let i = 1; i < asegurados.length; i++) {
         // Deshabilita los inputs de los asegurados
@@ -314,6 +338,14 @@ function editarCotizacionSalud(id) {
         $("#mesnacimiento_" + (i + 1)).prop("disabled", true);
         $("#anionacimiento_" + (i + 1)).prop("disabled", true);
         $("#genero_" + (i + 1)).prop("disabled", true);
+        $("#asociadoSi_" + (i + 1)).prop("disabled", true);
+        $("#asociadoNo_" + (i + 1)).prop("disabled", true);
+
+        if (asegurados[i].asociado == 1) {
+          $("#asociadoSi_" + (i + 1)).prop("checked", true);
+        } else {
+          $("#asociadoNo_" + (i + 1)).prop("checked", true);
+        }
 
         // Asigna los valores de los asegurados a los inputs correspondientes
         $("#nombre_" + (i + 1)).val(asegurados[i].nombre);
@@ -375,10 +407,12 @@ function editarCotizacionSalud(id) {
           .val(anio) // Cambia el valor del select
           .trigger("change"); // Actualiza el select2
       });
-      // console.log(respuesta);debugger;
+      
+      hideShowCamposCiudad();
+      hideShowAsociadoCoomeva();
       makeCards(respuesta, 2);
 
-      $("#loaderFilters").hide(); // CONTINUAR AQUI, REVISAR LA ESTRUCTURA DE RESPUESTA PARA HACER LAS TARJETAS. 2025-06-24
+      $("#loaderFilters").hide();
     },
 
     error: function (jqXHR, textStatus, errorThrown) {
@@ -388,8 +422,6 @@ function editarCotizacionSalud(id) {
       console.error("Respuesta del servidor:", jqXHR.responseText);
     },
   });
-
-  
 
   setTimeout(function () {
     $(".container-salud")

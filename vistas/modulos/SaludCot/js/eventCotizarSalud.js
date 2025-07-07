@@ -1220,9 +1220,8 @@ function cotizar() {
       id_usuario: permisos.id_usuario,
       env: env,
     };
-
+    toogleDataContainer();
     console.log("Datos de la cotización:", datosCotizacion);
-    
 
     //Principal peticion ajax para crear la cotizacion
     $.ajax({
@@ -1234,7 +1233,9 @@ function cotizar() {
       success: function (newCoti) {
         $.ajax({
           // url: "https://grupoasistencia.com/health_engine/WSAxa/axa.php",
-          url: "https://grupoasistencia.com/WS-laravel/api/salud/axa/cotizar?idNewCoti=" + newCoti,
+          url:
+            "https://grupoasistencia.com/WS-laravel/api/salud/axa/cotizar?idNewCoti=" +
+            newCoti,
           type: "POST",
           data: JSON.stringify(datosCotizacion),
           contentType: "application/json",
@@ -1242,10 +1243,10 @@ function cotizar() {
           success: function (data) {
             hideMainContainerCards();
             showContainerCardsSalud();
-            toogleDataContainer();
+            // toogleDataContainer();
             document.getElementById("spinener-cot-salud").style.display =
               "none";
-              // console.log(data);debugger;
+            // console.log(data);debugger;
             makeCards(data, tipoCotizacion);
           },
           error: function (data) {
@@ -1257,23 +1258,24 @@ function cotizar() {
             });
           },
         });
-        // AQUI QUEDAMOS VIERNES 20 JUNIO 2025 JAVIER-DEV
+
         $.ajax({
-          url: "https://grupoasistencia.com/WS-laravel/api/salud/bolivar/cotizar?idNewCoti=" + newCoti,
+          url:
+            "https://grupoasistencia.com/WS-laravel/api/salud/bolivar/cotizar?idNewCoti=" +
+            newCoti,
           type: "POST",
           data: JSON.stringify(datosCotizacion),
-          contentType: "application/json", 
-          dataType: "json", 
+          contentType: "application/json",
+          dataType: "json",
           success: function (data) {
             hideMainContainerCards();
             showContainerCardsSalud();
-            toogleDataContainer();
+            // toogleDataContainer();
             document.getElementById("spinener-cot-salud").style.display =
               "none";
             makeCards(data, tipoCotizacion);
           },
           error: function (xhr, status, error) {
-            
             errores = errores + 1;
             console.log("Error status:", status);
             console.log("Error:", error);
@@ -1287,7 +1289,9 @@ function cotizar() {
           },
         });
         $.ajax({
-          url: "https://grupoasistencia.com/WS-laravel/api/salud/coomeva/cotizar?idNewCoti=" + newCoti,
+          url:
+            "https://grupoasistencia.com/WS-laravel/api/salud/coomeva/cotizar?idNewCoti=" +
+            newCoti,
           type: "POST",
           data: JSON.stringify(datosCotizacion),
           contentType: "application/json",
@@ -1295,13 +1299,12 @@ function cotizar() {
           success: function (data) {
             hideMainContainerCards();
             showContainerCardsSalud();
-            toogleDataContainer();
+            // toogleDataContainer();
             document.getElementById("spinener-cot-salud").style.display =
               "none";
             makeCards(data, tipoCotizacion);
           },
           error: function (xhr, status, error) {
-           
             errores = errores + 1;
             console.log("Error status:", status);
             console.log("Error:", error);
@@ -1344,6 +1347,73 @@ function cotizar() {
     }
     window.scrollTo(0, 0);
     $("#contenParrilla").show();
+
+    $(".nombreCompleto").find("input").prop("disabled", true);
+    $("#numAsegurados").prop("disabled", true);
+    $("#TipoDocumento").prop("disabled", true);
+    $("#NroDocumento").prop("disabled", true);
+    $("#nombre").prop("disabled", true);
+    $("#apellido").prop("disabled", true);
+    $("#genero").prop("disabled", true);
+    $("#grupoFamiliar").prop("disabled", true);
+    $("#dianacimiento").prop("disabled", true);
+    $("#mesnacimiento").prop("disabled", true);
+    $("#anionacimiento").prop("disabled", true);
+    $("#individual").prop("disabled", true);
+    $("#si").prop("disabled", true);
+    $("#no").prop("disabled", true);
+    $("#asociadoSi_1").prop("disabled", true);
+    $("#asociadoNo_1").prop("disabled", true);
+    $("#siAsociadoC").prop("disabled", true);
+    $("#noAsociadoC").prop("disabled", true);
+    $("#siCiudadB").prop("disabled", true);
+    $("#noCiudadB").prop("disabled", true);
+    $("#departamento_1").prop("disabled", true);
+    $("#ciudad_1").prop("disabled", true);
+
+    for (
+      let i = 1;
+      i < $("#numAsegurados").val() > 1 ? $("#numAsegurados").val() : 1;
+      i++
+    ) {
+      // Deshabilita los inputs de los asegurados
+      $("#nombre_" + (i + 1)).prop("disabled", true);
+      $("#apellido_" + (i + 1)).prop("disabled", true);
+      $("#departamento_" + (i + 1)).prop("disabled", true);
+      $("#ciudad_" + (i + 1)).prop("disabled", true);
+      $("#dianacimiento_" + (i + 1)).prop("disabled", true);
+      $("#mesnacimiento_" + (i + 1)).prop("disabled", true);
+      $("#anionacimiento_" + (i + 1)).prop("disabled", true);
+      $("#genero_" + (i + 1)).prop("disabled", true);
+      $("#asociadoSi_" + (i + 1)).prop("disabled", true);
+      $("#asociadoNo_" + (i + 1)).prop("disabled", true);
+
+      if (asegurados[i].asociado == 1) {
+        $("#asociadoSi_" + (i + 1)).prop("checked", true);
+      } else {
+        $("#asociadoNo_" + (i + 1)).prop("checked", true);
+      }
+
+      // Asigna los valores de los asegurados a los inputs correspondientes
+      $("#nombre_" + (i + 1)).val(asegurados[i].nombre);
+      $("#apellido_" + (i + 1)).val(asegurados[i].apellido);
+      $("#genero_" + (i + 1)).val(asegurados[i].genero);
+      $("#select2-dianacimiento_" + (i + 1) + "-container").text(
+        asegurados[i].fechaNacimiento.dia
+      );
+      $("#select2-mesnacimiento_" + (i + 1) + "-container").text(
+        asegurados[i].fechaNacimiento.mes
+      );
+      $("#select2-anionacimiento_" + (i + 1) + "-container").text(
+        asegurados[i].fechaNacimiento.anio
+      );
+
+      $("#departamento_" + (i + 1))
+        .val(asegurados[i].id_departamento)
+        .trigger("change");
+
+      $("#ciudad_" + (i + 1)).val(asegurados[i].id_ciudad);
+    }
   }
 }
 
