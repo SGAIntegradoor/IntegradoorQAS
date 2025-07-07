@@ -1176,7 +1176,7 @@ $response = retrieveQuotation($idCotizacion);
                   </tbody>
                 </table>
               </div>
-              <?php if ($response['cot_clase'] == "AUTOMOVIL" || $response['cot_clase'] == "AUTOMOVILES" || $response['cot_clase'] == "UTILITARIOS DEPORTIVOS" || $response['cot_clase'] == "CAMPEROS" || $response['cot_clase'] == "PICK UPS") {
+              <?php if ($response['cot_clase'] == "AUTOMOVIL" || $response['cot_clase'] == "AUTOMOVILES" || $response['cot_clase'] == "UTILITARIOS DEPORTIVOS" || $response['cot_clase'] == "CAMPEROS" || $response['cot_clase'] == "PICK UPS" || $response['cot_clase'] == "CAMIONETA PASAJ.") {
 
                 echo '<div style="font-size: 13px">
                           <p class="text-justify"><strong>¿Por qué algunas compañías no cotizan? R/. 0.</strong>Tiene póliza vigente con esa compañía. <strong>1.</strong> Aseguradora
@@ -1194,7 +1194,7 @@ $response = retrieveQuotation($idCotizacion);
             </div>
             <?php
             // var_dump($response);
-            if (($response['cot_clase'] == "AUTOMOVIL" || $response['cot_clase'] == "AUTOMOVILES" || $response['cot_clase'] == "UTILITARIOS DEPORTIVOS" || $response['cot_clase'] == "CAMPEROS" || $response['cot_clase'] == "PICK UPS") && $response["ofertas"][0]["Manual"] != 4) {
+            if (($response['cot_clase'] == "AUTOMOVIL" || $response['cot_clase'] == "AUTOMOVILES" || $response['cot_clase'] == "UTILITARIOS DEPORTIVOS" || $response['cot_clase'] == "CAMPEROS" || $response['cot_clase'] == "PICK UPS" || $response['cot_clase'] == "CAMIONETA PASAJ.") && $response["ofertas"][0]["Manual"] != 4) {
               if ($idIntermediario != 78 && $idIntermediario != 4) {
                 echo '<div class="aviso-container col-lg-12" style="font-size: 13px">
                     <p><b>Notas Importantes: </b></p>
