@@ -301,6 +301,7 @@ class ModeloCotizaciones
 					"genero" => $row["genero_asegurado"],
 					"ciudad" => $row["ciudad_asegurado"],
 					"departamento" => $row["departamento_asegurado"],
+					"asociado" => $row["asociado_coomeva"],
 					"id_departamento" => str_pad((string)$row["id_departamento"], 2, "0", STR_PAD_LEFT),
 					"id_ciudad" => str_pad((string)$row["id_ciudad"], 2, "0", STR_PAD_LEFT),
 					"numeroDocumento" => $row["cedula_asegurado"],

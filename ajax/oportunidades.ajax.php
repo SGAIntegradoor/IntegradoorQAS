@@ -19,7 +19,7 @@
         $razonPerdidaOportunidad = $_POST['razonPerdidaOportunidad'];
         $otraRazon = $_POST['otraRazon'];
         $asesor_freelance = $_POST["asesor_freelance"];
-        $id_user_freelance =  isset($_POST["id_user_freelance"]) ? "" : $_POST["id_user_freelance"]; // corregir
+        $id_user_freelance = empty($_POST["id_user_freelance"]) ? 0 : $_POST["id_user_freelance"];
         $ramo = $_POST["ramo"];
         $placa = $_POST["placa"];
         $oneroso = $_POST["oneroso"];
@@ -140,7 +140,7 @@
             : NULL;
         $id_asegurado = $_POST['id_asegurado'];
         $id_analista_comercial = $_POST['id_analista_comercial'];
-        $id_user_freelance =  isset($_POST["id_user_freelance"]) ? "" : $_POST["id_user_freelance"]; // corregir
+        $id_user_freelance = empty($_POST["id_user_freelance"]) ? 0 : $_POST["id_user_freelance"];
         $fechaActualizacion = "NULL";
 
         $query = "INSERT INTO oportunidades (id_oportunidad, id_cotizacion, valor_cotizacion, mes_oportunidad, canal_oportunidad, asesor_freelance, id_user_freelance, ramo, placa, oneroso, aseguradora, analista_comercial, id_analista_comercial, estado, razon_negocio_perdido, otra_razon_negocio_perdido, no_poliza, asegurado, id_asegurado, prima_sin_iva, asist_otros, gastos, iva, valor_total, fecha_expedicion, mes_expedicion, forma_pago, financiera, carpeta, observaciones, id_oferta, id_cot_aseguradora, fecha_creacion, fecha_actualizacion) VALUES (null, $noCotizacion, $valor_cotizacion, '$mesOportunidad', '$canalOportunidad', '$asesor_freelance', $id_user_freelance, '$ramo', '$placa', '$oneroso', '$aseguradora', '$analista_comercial', $id_analista_comercial, '$estado', '$razonPerdidaOportunidad', '$otraRazon', null, '$asegurado', $id_asegurado ,null, null, null, null, null, null, null, null, null, null, '$observaciones', $idOferta, '$idCotAseguradora', '$fechaCreacion', $fechaActualizacion)";

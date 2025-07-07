@@ -819,6 +819,7 @@ $(
   "#nombreAsesor, #estado, #canal, #mesExpedicion, #nombreAsesor, #analistaGA, #aseguradoraOpo, #ramo, #onerosoOp, #formaDePago, #financiera, #carpeta"
 ).select2({
   theme: "bootstrap selecting",
+  allowClear: true,
   language: {
     emptyTable: "No se encontraron registros",
   },
@@ -828,6 +829,7 @@ $(
 
 $("#txtEstadoOportunidadModal").select2({
   theme: "bootstrap selectingModal",
+  allowClear: true,
   language: {
     emptyTable: "No se encontraron registros",
   },
@@ -837,6 +839,7 @@ $("#txtEstadoOportunidadModal").select2({
 });
 
 $("#txtAsesorOportunidadModal").select2({
+  allowClear: true,
   theme: "bootstrap selectingModal",
   language: {
     emptyTable: "No se encontraron registros",
@@ -847,6 +850,7 @@ $("#txtAsesorOportunidadModal").select2({
 });
 
 $("#txtRamoModal").select2({
+  allowClear: true,
   theme: "bootstrap selectingModal",
   language: {
     emptyTable: "No se encontraron registros",
@@ -857,6 +861,7 @@ $("#txtRamoModal").select2({
 });
 
 $("#txtAseguradoraOportunidadModal").select2({
+  allowClear: true,
   theme: "bootstrap selectingModal",
   language: {
     emptyTable: "No se encontraron registros",
@@ -867,6 +872,7 @@ $("#txtAseguradoraOportunidadModal").select2({
 });
 
 $("#txtOnerosoOportunidadModal").select2({
+  allowClear: true,
   theme: "bootstrap selectingModal",
   language: {
     emptyTable: "No se encontraron registros",
@@ -877,6 +883,7 @@ $("#txtOnerosoOportunidadModal").select2({
 });
 
 $("#txtMesOportunidadModal").select2({
+  allowClear: true,
   theme: "bootstrap selectingModal",
   language: {
     emptyTable: "No se encontraron registros",
@@ -887,6 +894,7 @@ $("#txtMesOportunidadModal").select2({
 });
 // placeholder agregado canal Javier
 $("#txtCanalModal").select2({
+  allowClear: true,
   theme: "bootstrap selectingModal",
   language: {
     emptyTable: "No se encontraron registros",
@@ -897,6 +905,7 @@ $("#txtCanalModal").select2({
 });
 
 $("#txtAnalistaGAModal").select2({
+  allowClear: true,
   theme: "bootstrap selectingModal",
   language: {
     emptyTable: "No se encontraron registros",
@@ -907,6 +916,7 @@ $("#txtAnalistaGAModal").select2({
 });
 
 $("#txtRazonPerdidoOportunidadModal").select2({
+  allowClear: true,
   theme: "bootstrap selectingModal",
   language: {
     emptyTable: "No se encontraron registros",
@@ -918,6 +928,7 @@ $("#txtRazonPerdidoOportunidadModal").select2({
 //fin canal Javier
 
 $("#txtMesExpedicionOportunidadModal").select2({
+  allowClear: true,
   theme: "bootstrap selectingModal",
   language: {
     emptyTable: "No se encontraron registros",
@@ -927,6 +938,7 @@ $("#txtMesExpedicionOportunidadModal").select2({
   dropdownParent: $("#txtMesExpedicionOportunidadModal").parent(), // Ubica el dropdown dentro del modal
 });
 $("#txtFormaDePagoOportunidadModal").select2({
+  allowClear: true,
   theme: "bootstrap selectingModal",
   language: {
     emptyTable: "No se encontraron registros",
@@ -936,6 +948,7 @@ $("#txtFormaDePagoOportunidadModal").select2({
   dropdownParent: $("#txtFormaDePagoOportunidadModal").parent(), // Ubica el dropdown dentro del modal
 });
 $("#txtFinancieraOportunidadModal").select2({
+  allowClear: true,
   theme: "bootstrap selectingModal",
   language: {
     emptyTable: "No se encontraron registros",
@@ -945,6 +958,7 @@ $("#txtFinancieraOportunidadModal").select2({
   dropdownParent: $("#txtFinancieraOportunidadModal").parent(), // Ubica el dropdown dentro del modal
 });
 $("#txtMesOportunidadModal").select2({
+  allowClear: true,
   theme: "bootstrap selectingModal",
   language: {
     emptyTable: "No se encontraron registros",
@@ -1006,6 +1020,7 @@ $("#txtEstadoOportunidadModal").on("change", function () {
     $("#txtOtraRazonOportunidadModal").val("");
   } else if ($(this).val() === "6") {
     console.log('Estado "perdido" seleccionado');
+    $("#firstHide").hide();
     $("#perdidaHide").show();
     if ($("#txtRazonPerdidoOportunidadModal").val() == "Otro") {
       $("#divOtraRazon").show();
