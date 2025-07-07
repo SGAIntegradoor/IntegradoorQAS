@@ -2,6 +2,8 @@ let manualGeneral = 0;
 
 let env = "";
 
+let ofertas = [];
+
 const paramsGenerals = new URLSearchParams(window.location.search);
 
 $(document).ready(function () {
@@ -641,7 +643,9 @@ $(document).ready(function () {
         }
       });
     } else {
-      if (!todosOn) {
+      const filtradas = ofertas.some((element) => element.seleccionar == "Si");
+
+      if (!todosOn && !filtradas) {
         swal.fire({
           icon: "error",
 
@@ -715,7 +719,9 @@ $(document).ready(function () {
         }
       });
     } else {
-      if (!todosOn) {
+      const filtradas = ofertas.some((element) => element.seleccionar == "Si");
+
+      if (!todosOn && !filtradas) {
         swal.fire({
           icon: "error",
 
@@ -1129,20 +1135,6 @@ async function renderCards(response) {
     },
   });
 
-  // $.ajax({
-  //   url: "ajax/cotizaciones.ajax.php",
-  //   type: "POST",
-  //   data: { idCotizaOferta: idCotizacion },
-  //   success: function (response) {
-  //     console.log(JSON.parse(response));
-
-  //     $(".container-filters").css("display", "none");
-  //   },
-  //   error: function (error) {
-  //     console.error("Error al obtener los permisos de cotización:", error);
-  //   },
-  // });
-
   if (!response[0].Categoria) {
     $(".container-filters").css("display", "none");
   }
@@ -1400,7 +1392,7 @@ async function renderCards(response) {
                                   aseguradoraPermisos == "1"
                                 ? `<center>
                                 ${
-                                  aseguradora == "Equidad" && oferta.NumCotizOferta != 0
+                                  oferta.NumCotizOferta != 0
                                     ? "<label class='entidad'>N° Cot: <span style='color:black'>" +
                                       oferta.NumCotizOferta +
                                       "</span></label>"
@@ -1656,7 +1648,7 @@ async function renderCards(response) {
         oferta.Aseguradora
       }\", \"${oferta.Prima}\", \"${oferta.Producto}\", \"${
         oferta.NumCotizOferta
-      }\", this);' ${selecChecked}/>
+      }\", \"${oferta.oferta_finesa}\", this);' ${selecChecked}/>
   
                         </div>
   
@@ -2255,6 +2247,7 @@ function editarCotizacion(id) {
         success: async function (resp) {
           menosRE();
           if (resp.length > 0) {
+            ofertas = resp;
             manualGeneral = resp[0].Manual;
             if (manualGeneral != "4") {
               if (manualGeneral == "3") {
@@ -2362,13 +2355,10 @@ FUNCION PARA SELECCIONAR OFERTA DE LA ASEGURADORA
 
 function seleccionarOferta(
   aseguradora,
-
   prima,
-
   producto,
-
   numCotizOferta,
-
+  id_oferta,
   valCheck
 ) {
   var idSelecOferta = idCotizacion;
@@ -2384,6 +2374,14 @@ function seleccionarOferta(
   if (document.getElementById(idCheckbox).checked) {
     seleccionar = "Si";
   }
+
+  ofertas.forEach((element) => {
+    if(element.seleccionar == "Si" && element.oferta_finesa == id_oferta) {
+      element.seleccionar = "";
+    } else {
+      element.seleccionar = seleccionar;
+    }
+  });
 
   $.ajax({
     type: "POST",
@@ -2408,10 +2406,7 @@ function seleccionarOferta(
       seleccionar: seleccionar,
     },
 
-    success: function (data) {
-      //desactive
-      //console.log(data);
-    },
+    success: function (data) {},
   });
 }
 

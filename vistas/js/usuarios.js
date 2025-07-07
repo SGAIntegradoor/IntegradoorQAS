@@ -201,20 +201,22 @@ function cargarIntermediario() {
 
       //Carga los Intermediarios disponibles para agregar
       $("#idIntermediario").select2({
-        theme: "bootstrap int",
+        theme: "bootstrap",
         language: "es",
         width: "100%",
-        placeholder: "Intermediario*", // Esto configura el placeholder
-        dropdownParent: $("#modalAgregarUsuario")
+        // placeholder: "Intermediario", // Esto configura el placeholder
+        // dropdownParent: $("#modalAgregarUsuario")
+        dropdownParent: $("#idIntermediario").parent(),
       });
 
       //Carga los Intermediarios disponibles para editar
       $("#idIntermediario2").select2({
-        theme: "bootstrap int",
+        theme: "bootstrap",
         language: "es",
         width: "100%",
-        placeholder: "Intermediario", // Esto configura el placeholder
-        dropdownParent: $("#modalAgregarUsuario")
+        // placeholder: "Intermediario", // Esto configura el placeholder
+        // dropdownParent: $("#modalAgregarUsuario")
+        dropdownParent: $("#idIntermediario2").parent(),
       });
     },
   });
@@ -244,7 +246,8 @@ function cargarRoll() {
         language: "es",
         width: "100%",
         placeholder: "Rol*", // Esto configura el placeholder
-        dropdownParent: $("#modalAgregarUsuario")
+        // dropdownParent: $("#modalAgregarUsuario")
+        dropdownParent: $("#idRoll").parent(),
       });
 
       // Carga los Intermediarios disponibles para editar
@@ -253,7 +256,8 @@ function cargarRoll() {
         language: "es",
         width: "100%",
         placeholder: "Rol", // Esto configura el placeholder
-        dropdownParent: $("#modalAgregarUsuario")
+        // dropdownParent: $("#modalAgregarUsuario")
+        dropdownParent: $("#editarRol").parent(),
       });
     },
   });
@@ -351,7 +355,8 @@ $("#agregarTipoDocumento").select2({
   language: "es",
   width: "100%",
   placeholder: "Tipo Documento*", // Esto configura el placeholder
-  dropdownParent: $("#modalAgregarUsuario")
+  // dropdownParent: $("#modalAgregarUsuario")
+  dropdownParent: $("#agregarTipoDocumento").parent(),
 });
 
 // Carga los Generos disponibles para agregar
@@ -360,7 +365,8 @@ $("#nuevoGenero").select2({
   language: "es",
   width: "100%",
   placeholder: "Genero*", // Esto configura el placeholder
-  dropdownParent: $("#modalAgregarUsuario")
+  // dropdownParent: $("#modalAgregarUsuario")
+  dropdownParent: $("#nuevoGenero").parent(),
 });
 
 // Carga los Departamentos disponibles para editar
@@ -368,7 +374,8 @@ $("#DptoCirculacion").select2({
   theme: "bootstrap dpto1",
   language: "es",
   width: "100%",
-  dropdownParent: $("#modalAgregarUsuario")
+  // dropdownParent: $("#modalAgregarUsuario")
+  dropdownParent: $("#DptoCirculacion").parent(),
 });
 
 $("#DptoCirculacion").change(function () {
@@ -380,7 +387,8 @@ $("#ciudadCirculacion").select2({
   theme: "bootstrap ciudad1",
   language: "es",
   width: "100%",
-  dropdownParent: $("#modalAgregarUsuario")
+  // dropdownParent: $("#modalAgregarUsuario")
+  dropdownParent: $("#ciudadCirculacion").parent(),
 });
 
 // Carga los Departamentos disponibles para agregar
@@ -389,7 +397,8 @@ $("#ingDptoCirculacion").select2({
   language: "es",
   width: "100%",
   placeholder: "Departamento*",
-  dropdownParent: $("#modalAgregarUsuario")
+  dropdownParent: $("#ingDptoCirculacion").parent(),
+  // dropdownParent: $("#modalAgregarUsuario")
 });
 
 $("#ingDptoCirculacion").change(function () {
@@ -402,7 +411,8 @@ $("#ingciudadCirculacion").select2({
   language: "es",
   width: "100%",
   placeholder: "Ciudad*", // Texto del placeholder del buscador
-  dropdownParent: $("#modalAgregarUsuario")
+  // dropdownParent: $("#modalAgregarUsuario")
+  dropdownParent: $("#ingciudadCirculacion").parent(),
 });
 
 // FUNCION PARA CARGAR LA CIUDAD DE CIRCULACIÓN
@@ -721,7 +731,8 @@ $(".tablas").on("click", ".btnEditarUsuario", function (e) {
           },
           cache: true, // Habilitar el almacenamiento en caché para reducir las solicitudes al servidor
         },
-        dropdownParent: $("#modalEditarUsuario"), // Establecer el contenedor del desplegable
+        // dropdownParent: $("#modalEditarUsuario"), // Establecer el contenedor del desplegable
+        dropdownParent: $("#ciudad2").parent(),
         minimumInputLength: 3, // Número mínimo de caracteres para comenzar la búsqueda
         allowClear: true, // Mostrar botón para borrar la selección
         dropdownAutoWidth: true, // Ancho automático del desplegable
@@ -757,6 +768,8 @@ $("#editarTipoDocumento").select2({
   language: "es",
   width: "100%",
   // placeholder: "Tipo Documento*", // Esto configura el placeholder
+  dropdownParent: $("#editarTipoDocumento").parent(),
+  // dropdownParent: $("#modalAgregarUsuario")
 });
 
 // Carga los Generos disponibles para agregar
@@ -765,6 +778,8 @@ $("#editarGenero").select2({
   language: "es",
   width: "100%",
   // placeholder: "Genero*", // Esto configura el placeholder
+  dropdownParent: $("#editarGenero").parent(),
+  // dropdownParent: $("#modalAgregarUsuario")
 });
 
 /*=============================================

@@ -10,7 +10,7 @@ $(document).ready(function () {
 
 
 $("#DptoCirculacionInvi").change(function () {
-  consultarCiudad();
+  consultarCiudadInvitados();
 });
 
 $("#identificacion").numeric();
@@ -72,7 +72,7 @@ width: "100%",
 minimumResultsForSearch: 0, // Desactiva la búsqueda
 });
 
-function consultarCiudad() {
+function consultarCiudadInvitados() {
 var codigoDpto = document.getElementById("DptoCirculacionInvi").value;
 
 $.ajax({

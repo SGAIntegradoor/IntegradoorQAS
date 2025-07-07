@@ -218,17 +218,16 @@ $(".btnGuardar").on("click", function () {
 
   // END Validaciones
 
-  // Aquí puedes enviar el objeto data a tu servidor o procesarlo como necesites
-  // Por ejemplo, usando AJAX para enviarlo a un archivo PHP
+  // Aquí se puede enviar el objeto data al server, tambien puede ser procesado como se vaya a necesitar.
 
   $.ajax({
     url: "src/saveUser.php",
     method: "POST",
-    dataType: "json", // cómo esperas la respuesta
-    contentType: "application/json", // ¡Muy importante! Indicamos que mandamos JSON
+    dataType: "json", 
+    contentType: "application/json", // Se debe enviar un JSON si no el scriptt de php no lee el POST ya que el objeto es grande.
     data: JSON.stringify({
       id: id_usuario_edit == "" ? null : id_usuario_edit,
-      cambios: cambios, // se serializa todo correctamente
+      cambios: cambios, // se serializan los cambios detectados. (Ojo aqui, porque es la base clave para detectar cambios en el form, esto sigue en revision)
     }),
     success: function (respuesta) {
       if (respuesta.success) {
@@ -335,7 +334,7 @@ function cargarCargos() {
 Metodo de consultar ciudad por departamento
 =============================================*/
 
-function consultarCiudad() {
+function consultarCiudad(param = "") {
   var codigoDpto = $("#departamento").val();
 
   $.ajax({
@@ -344,7 +343,8 @@ function consultarCiudad() {
     data: { codigoDpto: codigoDpto },
     cache: false,
     success: function (data) {
-      $("#ciudad").empty(); // Limpiar el select de ciudades antes de agregar nuevas opciones
+      // Se limpia el select antes de ingresar las ciudades.
+      $("#ciudad").empty(); 
       let ciudadesVeh = `<option value="">Seleccionar Ciudad</option>`;
 
       let json = JSON.parse(data);
@@ -360,6 +360,13 @@ function consultarCiudad() {
           console.error("El campo data no es un array:", arrCitys);
         }
       }
+
+      if (param != "") {
+        $("#ciudad").val(param).trigger("change");
+      } else {
+        $("#ciudad").val("").trigger("change");
+      }
+
     },
   });
 }
@@ -756,18 +763,19 @@ async function loadUser(id) {
           $("#ciudad").val("").trigger("change");
         } else {
           let depto =
-            info_usuario?.ciudades_id.split("")[0] +
-            info_usuario?.ciudades_id.split("")[1];
-
+          info_usuario?.ciudades_id.split("")[0] +
+          info_usuario?.ciudades_id.split("")[1];
+          console.log(depto);
+          console.log(info_usuario?.ciudades_id);
           if (depto == 11) {
             depto = 25;
           }
           $("#departamento").val(depto).trigger("change");
+          consultarCiudad(info_usuario?.ciudades_id);
         }
         setTimeout(() => {
-          $("#ciudad").val(info_usuario.ciudades_id).trigger("change");
           initialSta = setState();
-        }, 500);
+        }, 1500);
         $("#direccion_perfil").val(info_usuario.usu_direccion);
         $("#telefono_perfil").val(info_usuario.usu_telefono);
         $("#email_perfil").val(info_usuario.usu_email);
