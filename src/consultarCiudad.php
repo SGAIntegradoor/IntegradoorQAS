@@ -1,75 +1,84 @@
 <?php
 
-/* Conectar a la base de datos*/
-require_once("../config/db.php"); //Contiene las variables de configuracion para conectar a la base de datos
-require_once("../config/conexion.php"); //Contiene funcion que conecta a la base de datos
+// Conectar a la base de datos
+require_once("../config/db.php");
+require_once("../config/conexion.php");
 
-$codigo = $_POST['data'];
-$codigoV = "";
+// Validar que el dato exista
+$codigo = isset($_POST['data']) ? intval($_POST['data']) : 0;
 
-if ($codigo == 32) {
-	$codigoV = 30;
-} else if ($codigo == 2) {
-	$codigoV = 2;
-} else if ($codigo == 4) {
-	$codigoV = 4;
-} else if ($codigo == 5) {
-	$codigoV = 4;
-} else if ($codigo == 7) {
-	$codigoV = 5;
-} else if ($codigo == 8) {
-	$codigoV = 6;
-} else if ($codigo == 9) {
-	$codigoV = 7;
-} else if ($codigo == 13) {
-	$codigoV = 11;
-} else if ($codigo == 15) {
-	$codigoV = 13;
-} else if ($codigo == 16) {
-	$codigoV = 14;
-} else if ($codigo == 20) {
-	$codigoV = 18;
-} else if ($codigo == 21) {
-	$codigoV = 19;
-} else if ($codigo == 22) {
-	$codigoV = 20;
-} else if ($codigo == 23) {
-	$codigoV = 21;
-} else if ($codigo == 24) {
-	$codigoV = 22;
-} else if ($codigo == 26) {
-	$codigoV = 24;
-} else if ($codigo == 27) {
-	$codigoV = 25;
-} else if ($codigo == 29) {
-	$codigoV = 27;
-} else if ($codigo == 30) {
-	$codigoV = 28;
-} else if ($codigo == 31) {
-	$codigoV = 29;
-} else if ($codigo == 12) {
-	$codigoV = 12;
-} else if ($codigo == 11) {
-	$codigoV = 11;
-} else if ($codigo == 10) {
-	$codigoV = 10;
-} else if ($codigo == 25) {
-	$codigoV = 25;
-}
+// Mapeo de códigos
+$codigoMap = [
+	32 => 30,
+	2 => 2,
+	4 => 4,
+	5 => 4,
+	7 => 5,
+	8 => 6,
+	9 => 7,
+	10 => 10,
+	11 => 11,
+	12 => 12,
+	13 => 11,
+	15 => 13,
+	16 => 14,
+	18 => 44,
+	20 => 18,
+	21 => 19,
+	22 => 20,
+	23 => 21,
+	24 => 22,
+	25 => 25,
+	26 => 24,
+	27 => 25,
+	29 => 27,
+	30 => 28,
+	31 => 29
+];
 
-if ($codigo == 5) {
-	$sql = "SELECT DISTINCT `Nombre`,`Departamento`,`Codigo` FROM `ciudadesbolivar` WHERE `Codigo` LIKE '4000' ORDER BY `Nombre` ASC";
-} else if ($codigo == 6) {
-	$sql = "SELECT DISTINCT `Nombre`,`Departamento`,`Codigo` FROM `ciudadesbolivar` WHERE `Codigo` LIKE '14000' ORDER BY `Nombre` ASC";
-} else if ($codigo == 0) {
-	$sql = "SELECT DISTINCT `Nombre`,`Departamento`,`Codigo` FROM `ciudadesbolivar`ORDER BY `Nombre` ASC";
-} else {
-	$sql = "SELECT DISTINCT `Nombre`,`Departamento`,`Codigo` FROM `ciudadesbolivar` WHERE `Departamento` = $codigoV ORDER BY `Nombre` ASC";
+// Obtener el valor mapeado o usar el mismo si no existe en el mapeo
+$codigoV = $codigoMap[$codigo] ?? $codigo;
+
+// Construcción de la consulta
+switch ($codigo) {
+	case 5:
+		$sql = "SELECT DISTINCT `Nombre`, `Departamento`, `Codigo` 
+                FROM `ciudadesbolivar` 
+                WHERE `Codigo` = '4000' 
+                ORDER BY `Nombre` ASC";
+		break;
+
+	case 6:
+		$sql = "SELECT DISTINCT `Nombre`, `Departamento`, `Codigo` 
+                FROM `ciudadesbolivar` 
+                WHERE `Codigo` = '14000' 
+                ORDER BY `Nombre` ASC";
+		break;
+
+	case 0:
+		$sql = "SELECT DISTINCT `Nombre`, `Departamento`, `Codigo` 
+                FROM `ciudadesbolivar` 
+                ORDER BY `Nombre` ASC";
+		break;
+
+	case 18:
+		$sql = "SELECT DISTINCT `ciudad` as `Nombre`, `departamento` as `Departamento`, `codigo` as `Codigo` 
+                FROM `ciudades` 
+				WHERE `Codigo` LIKE '44%'
+                ORDER BY `Nombre` ASC";
+		break;
+
+	default:
+		$sql = "SELECT DISTINCT `Nombre`, `Departamento`, `Codigo` 
+                FROM `ciudadesbolivar` 
+                WHERE `Departamento` = " . intval($codigoV) . " 
+                ORDER BY `Nombre` ASC";
+		break;
 }
 
 $res = mysqli_query($con, $sql);
 
-if($res === false) {
+if ($res === false) {
 	$data['mensaje'] = "No hay Registros";
 	echo json_encode($data, JSON_UNESCAPED_UNICODE);
 	exit;
