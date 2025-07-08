@@ -1711,60 +1711,60 @@ function consulDatosFasecoldaPesados(codFasecolda, edadVeh) {
 }
 
 // FUNCION PARA CARGAR LA CIUDAD DE CIRCULACIÓN
-function consultarCiudad() {
-  var codigoDpto = document.getElementById("DptoCirculacion").value;
+// function consultarCiudad() {
+//   var codigoDpto = document.getElementById("DptoCirculacion").value;
 
-  //if (codigoDpto == 1 || codigoDpto == 3 || codigoDpto == 10 || codigoDpto == 11 || codigoDpto == 12 || codigoDpto == 14 || codigoDpto == 17
-  //|| codigoDpto == 19 || codigoDpto == 25 || codigoDpto == 28 || codigoDpto == 33 || codigoDpto == 34) {
+//   //if (codigoDpto == 1 || codigoDpto == 3 || codigoDpto == 10 || codigoDpto == 11 || codigoDpto == 12 || codigoDpto == 14 || codigoDpto == 17
+//   //|| codigoDpto == 19 || codigoDpto == 25 || codigoDpto == 28 || codigoDpto == 33 || codigoDpto == 34) {
 
-  //	swal({ text: '! El Departamento de circulación no posee cobertura. ¡' });
+//   //	swal({ text: '! El Departamento de circulación no posee cobertura. ¡' });
 
-  //} else {
+//   //} else {
 
-  $.ajax({
-    type: "POST",
-    url: "src/consultarCiudad.php",
-    dataType: "json",
-    data: { data: codigoDpto },
-    cache: false,
-    success: function (data) {
-      var ciudadesVeh = `<option value="">Seleccionar Ciudad</option>`;
+//   $.ajax({
+//     type: "POST",
+//     url: "src/consultarCiudad.php",
+//     dataType: "json",
+//     data: { data: codigoDpto },
+//     cache: false,
+//     success: function (data) {
+//       var ciudadesVeh = `<option value="">Seleccionar Ciudad</option>`;
 
-      if (data.mensaje) {
-        Swal.fire({
-          icon: "error",
-          title: "Error",
-          text: "El departamento actual no cuenta con ciudades para asegurar",
-        });
-        document.getElementById(
-          "ciudadCirculacion"
-        ).innerHTML = `<option value="">No se encontraron registros</option>`;
-        return;
-      }
+//       if (data.mensaje) {
+//         Swal.fire({
+//           icon: "error",
+//           title: "Error",
+//           text: "El departamento actual no cuenta con ciudades para asegurar",
+//         });
+//         document.getElementById(
+//           "ciudadCirculacion"
+//         ).innerHTML = `<option value="">No se encontraron registros</option>`;
+//         return;
+//       }
 
-      data.forEach(function (valor, i) {
-        var valorNombre = valor.Nombre.split("-");
-        var nombreMinusc = valorNombre[0].toLowerCase();
-        var ciudad = nombreMinusc.replace(/^(.)|\s(.)/g, function ($1) {
-          return $1.toUpperCase();
-        });
+//       data.forEach(function (valor, i) {
+//         var valorNombre = valor.Nombre.split("-");
+//         var nombreMinusc = valorNombre[0].toLowerCase();
+//         var ciudad = nombreMinusc.replace(/^(.)|\s(.)/g, function ($1) {
+//           return $1.toUpperCase();
+//         });
 
-        ciudadesVeh += `<option value="${valor.Codigo}">${ciudad}</option>`;
-      });
-      document.getElementById("ciudadCirculacion").innerHTML = ciudadesVeh;
-    },
-    error: function (xhr, status, error) {
-      console.error("Error al consultar las ciudades:", error);
-      Swal.fire({
-        icon: "error",
-        title: "Error al cargar las ciudades",
-        text: "Por favor, inténtalo de nuevo más tarde.",
-      });
-    },
-  });
+//         ciudadesVeh += `<option value="${valor.Codigo}">${ciudad}</option>`;
+//       });
+//       document.getElementById("ciudadCirculacion").innerHTML = ciudadesVeh;
+//     },
+//     error: function (xhr, status, error) {
+//       console.error("Error al consultar las ciudades:", error);
+//       Swal.fire({
+//         icon: "error",
+//         title: "Error al cargar las ciudades",
+//         text: "Por favor, inténtalo de nuevo más tarde.",
+//       });
+//     },
+//   });
 
-  //}
-}
+//   //}
+// }
 
 //trae el ID del cliente sin caracteres especiales y solamente el numero para generar la cotización.
 function idWithOutSpecialChars() {

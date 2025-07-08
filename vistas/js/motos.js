@@ -1584,44 +1584,44 @@ $("#DptoCirculacion").change(function () {
 });
 
 // FUNCION PARA CARGAR LA CIUDAD DE CIRCULACIÓN
-function consultarCiudad() {
-  var codigoDpto = document.getElementById("DptoCirculacion").value;
+// function consultarCiudad() {
+//   var codigoDpto = document.getElementById("DptoCirculacion").value;
 
-  $.ajax({
-    type: "POST",
-    url: "src/consultarCiudad.php",
-    dataType: "json",
-    data: { data: codigoDpto },
-    cache: false,
-    success: function (data) {
-      // console.log(data);
-      var ciudadesVeh = `<option value="">Seleccionar Ciudad</option>`;
+//   $.ajax({
+//     type: "POST",
+//     url: "src/consultarCiudad.php",
+//     dataType: "json",
+//     data: { data: codigoDpto },
+//     cache: false,
+//     success: function (data) {
+//       // console.log(data);
+//       var ciudadesVeh = `<option value="">Seleccionar Ciudad</option>`;
 
-      if(data.mensaje){
-        Swal.fire({
-          icon: "error",
-          title: "Error",
-          text: "El departamento actual no cuenta con ciudades para asegurar",
-        });
-        document.getElementById("ciudadCirculacion").innerHTML = `<option value="">No se encontraron registros</option>`;
-        return;
-      }
+//       if(data.mensaje){
+//         Swal.fire({
+//           icon: "error",
+//           title: "Error",
+//           text: "El departamento actual no cuenta con ciudades para asegurar",
+//         });
+//         document.getElementById("ciudadCirculacion").innerHTML = `<option value="">No se encontraron registros</option>`;
+//         return;
+//       }
 
-      data.forEach(function (valor, i) {
-        var valorNombre = valor.Nombre.split("-");
-        var nombreMinusc = valorNombre[0].toLowerCase();
-        var ciudad = nombreMinusc.replace(/^(.)|\s(.)/g, function ($1) {
-          return $1.toUpperCase();
-        });
+//       data.forEach(function (valor, i) {
+//         var valorNombre = valor.Nombre.split("-");
+//         var nombreMinusc = valorNombre[0].toLowerCase();
+//         var ciudad = nombreMinusc.replace(/^(.)|\s(.)/g, function ($1) {
+//           return $1.toUpperCase();
+//         });
 
-        ciudadesVeh += `<option value="${valor.Codigo}">${ciudad}</option>`;
-      });
-      document.getElementById("ciudadCirculacion").innerHTML = ciudadesVeh;
-    },
-  });
+//         ciudadesVeh += `<option value="${valor.Codigo}">${ciudad}</option>`;
+//       });
+//       document.getElementById("ciudadCirculacion").innerHTML = ciudadesVeh;
+//     },
+//   });
 
-  //}
-}
+//   //}
+// }
 
 //trae el ID del cliente sin caracteres especiales y solamente el numero para generar la cotización.
 function idWithOutSpecialChars() {
