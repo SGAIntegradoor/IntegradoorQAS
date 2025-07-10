@@ -3035,7 +3035,7 @@ function cotizarOfertas() {
             let cont = [];
 
             const mostrarAlertaCotizacionExitosa = (aseguradora, contador) => {
-              if (aseguradora == "Estado2") {
+              if (aseguradora == "Estado2" || aseguradora == "Estado3") {
                 aseguradora = "Estado";
               }
 
@@ -3094,9 +3094,9 @@ function cotizarOfertas() {
             };
 
             const mostrarAlertarCotizacionFallida = (aseguradora, mensaje) => {
-              if (aseguradora == "Estado" || aseguradora == "Estado2") {
+              if (aseguradora == "Estado" || aseguradora == "Estado2" || aseguradora == "Estado3") {
                 // // debugger;
-                if (aseguradora == "Estado2") {
+                if (aseguradora == "Estado2" || aseguradora == "Estado3") {
                   aseguradora = "Estado";
                 }
                 // console.log(aseguradora);
@@ -3289,7 +3289,7 @@ function cotizarOfertas() {
                 });
                 return; // Salir del bucle después de procesar Zurich
               } else if (aseguradora === "Estado") {
-                const aseguradorasEstado = ["Estado", "Estado2"]; // Agrega más aseguradoras según sea necesario
+                const aseguradorasEstado = ["Estado", "Estado2", "Estado3"]; // Agrega más aseguradoras según sea necesario
                 aseguradorasEstado.forEach((aseguradora) => {
                   let successAseguradora = true;
                   cont.push(
@@ -4166,7 +4166,7 @@ function cotizarOfertas() {
           : Promise.resolve();
         cont.push(ZFullPromise);
         /* Estado */
-        const aseguradorasEstado = ["Estado", "Estado2"]; // Agrega más aseguradoras según sea necesario
+        const aseguradorasEstado = ["Estado", "Estado2", "Estado3"]; // Agrega más aseguradoras según sea necesario
         aseguradorasEstado.forEach((aseguradora) => {
           let successAseguradora = true;
           const aseguradoraPromise = comprobarFallida(aseguradora)

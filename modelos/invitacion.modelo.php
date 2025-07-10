@@ -146,7 +146,7 @@ class ModeloInvitacion
                                 <td>
                                     <h1 class="h1-name">Hola ' . $nombre . ',</h1>
                                     <p style="color:#2e2e2e !important;">Estas a punto de ser parte de nuestro equipo y dar un paso importante como empresario. En el presente correo se adjunta el enlace para completar el formulario y registrarte.</p>
-                                    <h4 class="h4-name">Haz click en el siguiente enlace para registrarte: https://integradoor.com/app/invitacion?token=' . $token . '</h4>
+                                    <h4 class="h4-name">Haz click en el siguiente enlace para registrarte: <a href="https://integradoor.com/app/invitacion?token=' . $token . '">https://integradoor.com/app/invitacion?token=' . $token . '</a></h4>
                                     </td>
                                     </tr>
                                     
