@@ -239,10 +239,14 @@ function toggleNumAsegSelector() {
 
   $('input[name="tipoCotizacion"]').change(function () {
     if ($("#grupoFamiliar").is(":checked")) {
+      $("#asociadoSi_1").prop("checked", false);
+      $("#asociadoNo_1").prop("checked", true);
       $(".cantAsegurados").show();
       generateAseguradosFields();
       $("#lblTomador").text("¿El tomador también será asegurado?");
     } else {
+      $("#asociadoSi_1").prop("checked", true);
+      $("#asociadoNo_1").prop("checked", false);
       $(".cantAsegurados").hide();
       $("#aseguradosContainer").empty();
       $("#lblTomador").text("¿El tomador es el mismo asegurado?");
@@ -1143,6 +1147,15 @@ function cotizar() {
     var mesNacimiento = parseInt($("#mesnacimiento").val(), 10);
     var anioNacimiento = parseInt($("#anionacimiento").val(), 10);
 
+    var asociado;
+    // Si el check general de NO está activo, todos los asociados adicionales son NO
+    if ($("#noAsociadoC").is(":checked")) {
+      asociado = 0;
+    } else {
+      // Si no, toma el valor seleccionado por el usuario
+      asociado = $("#asociadoSi_1").prop("checked") ? 1 : 0;
+    }
+
     // Añadir el asegurado base
     var aseguradoBase = {
       id: 1, // Aquí debes poner un ID apropiado si es necesario
@@ -1151,7 +1164,7 @@ function cotizar() {
       nombre: $("#nombre").val(),
       apellido: $("#apellido").val(),
       genero: $("#genero").val(),
-      asociado: $("#asociadoSi_1").prop("checked") ? 1 : 0,
+      asociado: asociado,
       ciudad: $("#ciudad_1").val(),
       departamento: $("#departamento_1").val(),
       edad: calcularEdadAsegurado(diaNacimiento, mesNacimiento, anioNacimiento),
@@ -1177,6 +1190,17 @@ function cotizar() {
             10
           );
 
+          var asociado;
+          // Si el check general de NO está activo, todos los asociados adicionales son NO
+          if ($("#noAsociadoC").is(":checked")) {
+            asociado = 0;
+          } else {
+            // Si no, toma el valor seleccionado por el usuario
+            asociado = $(this).find('[id^="asociadoSi_"]').prop("checked")
+              ? 1
+              : 0;
+          }
+
           var asegurado = {
             id: aseguradoId,
             // tipoDocumento: $(this).find('[id^="tipoDocumento_"]').val(),
@@ -1186,9 +1210,10 @@ function cotizar() {
             nombre: $(this).find('[id^="nombre_"]').val(),
             apellido: $(this).find('[id^="apellido_"]').val(),
             genero: $(this).find('[id^="genero_"]').val(),
-            asociado: $(this).find('[id^="asociadoSi_"]').prop("checked")
-              ? 1
-              : 0,
+            // asociado: $(this).find('[id^="asociadoSi_"]').prop("checked")
+            //   ? 1
+            //   : 0,
+            asociado: asociado,
             ciudad: $(this).find('[id^="ciudad_"]').val(),
             departamento: $(this).find('[id^="departamento_"]').val(),
             edad: calcularEdadAsegurado(dia, mes, anio),
@@ -1371,48 +1396,53 @@ function cotizar() {
     $("#departamento_1").prop("disabled", true);
     $("#ciudad_1").prop("disabled", true);
 
-    for (
-      let i = 1;
-      i < $("#numAsegurados").val() > 1 ? $("#numAsegurados").val() : 1;
-      i++
-    ) {
-      // Deshabilita los inputs de los asegurados
-      $("#nombre_" + (i + 1)).prop("disabled", true);
-      $("#apellido_" + (i + 1)).prop("disabled", true);
-      $("#departamento_" + (i + 1)).prop("disabled", true);
-      $("#ciudad_" + (i + 1)).prop("disabled", true);
-      $("#dianacimiento_" + (i + 1)).prop("disabled", true);
-      $("#mesnacimiento_" + (i + 1)).prop("disabled", true);
-      $("#anionacimiento_" + (i + 1)).prop("disabled", true);
-      $("#genero_" + (i + 1)).prop("disabled", true);
-      $("#asociadoSi_" + (i + 1)).prop("disabled", true);
-      $("#asociadoNo_" + (i + 1)).prop("disabled", true);
-
-      if (asegurados[i].asociado == 1) {
-        $("#asociadoSi_" + (i + 1)).prop("checked", true);
-      } else {
-        $("#asociadoNo_" + (i + 1)).prop("checked", true);
+    if ($("#individual").is(":checked")) {
+      if ($("#numAsegurados option[value='1']").length === 0) {
+        $("#numAsegurados").prepend('<option value="1">1</option>');
       }
+      $("#numAsegurados").val("1");
+    }
 
-      // Asigna los valores de los asegurados a los inputs correspondientes
-      $("#nombre_" + (i + 1)).val(asegurados[i].nombre);
-      $("#apellido_" + (i + 1)).val(asegurados[i].apellido);
-      $("#genero_" + (i + 1)).val(asegurados[i].genero);
-      $("#select2-dianacimiento_" + (i + 1) + "-container").text(
-        asegurados[i].fechaNacimiento.dia
-      );
-      $("#select2-mesnacimiento_" + (i + 1) + "-container").text(
-        asegurados[i].fechaNacimiento.mes
-      );
-      $("#select2-anionacimiento_" + (i + 1) + "-container").text(
-        asegurados[i].fechaNacimiento.anio
-      );
+    if ($("#numAsegurados").val() > 1) {
+      for (let i = 1; i < $("#numAsegurados").val(); i++) {
+        // Deshabilita los inputs de los asegurados
+        $("#nombre_" + (i + 1)).prop("disabled", true);
+        $("#apellido_" + (i + 1)).prop("disabled", true);
+        $("#departamento_" + (i + 1)).prop("disabled", true);
+        $("#ciudad_" + (i + 1)).prop("disabled", true);
+        $("#dianacimiento_" + (i + 1)).prop("disabled", true);
+        $("#mesnacimiento_" + (i + 1)).prop("disabled", true);
+        $("#anionacimiento_" + (i + 1)).prop("disabled", true);
+        $("#genero_" + (i + 1)).prop("disabled", true);
+        $("#asociadoSi_" + (i + 1)).prop("disabled", true);
+        $("#asociadoNo_" + (i + 1)).prop("disabled", true);
 
-      $("#departamento_" + (i + 1))
-        .val(asegurados[i].id_departamento)
-        .trigger("change");
+        if (asegurados[i].asociado == 1) {
+          $("#asociadoSi_" + (i + 1)).prop("checked", true);
+        } else {
+          $("#asociadoNo_" + (i + 1)).prop("checked", true);
+        }
 
-      $("#ciudad_" + (i + 1)).val(asegurados[i].id_ciudad);
+        // Asigna los valores de los asegurados a los inputs correspondientes
+        $("#nombre_" + (i + 1)).val(asegurados[i].nombre);
+        $("#apellido_" + (i + 1)).val(asegurados[i].apellido);
+        $("#genero_" + (i + 1)).val(asegurados[i].genero);
+        $("#select2-dianacimiento_" + (i + 1) + "-container").text(
+          asegurados[i].fechaNacimiento.dia
+        );
+        $("#select2-mesnacimiento_" + (i + 1) + "-container").text(
+          asegurados[i].fechaNacimiento.mes
+        );
+        $("#select2-anionacimiento_" + (i + 1) + "-container").text(
+          asegurados[i].fechaNacimiento.anio
+        );
+
+        $("#departamento_" + (i + 1))
+          .val(asegurados[i].id_departamento)
+          .trigger("change");
+
+        $("#ciudad_" + (i + 1)).val(asegurados[i].id_ciudad);
+      }
     }
   }
 }
@@ -1550,6 +1580,11 @@ $(document).ready(function () {
       }
     }
   });
+
+  $("#NroDocumento").numeric();
+  if ($("#noAsociadoC").is(":checked")) {
+    $;
+  }
 });
 
 // ========================================================================================================================

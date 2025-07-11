@@ -265,7 +265,7 @@ class ModeloCotizaciones
 				$coberturas = [];
 				foreach ($responses as $plan) {
 					if ($plan["id_asegurado"] === $idAsegurado) {
-						$stmtCob = Conexion::conectar()->prepare("SELECT cd.cobertura FROM cobertura_detalle_salud cd WHERE cd.id_cobertura = " . $plan["id_cobertura"] . ";");
+						$stmtCob = Conexion::conectar()->prepare("SELECT cd.cobertura FROM coberturas_salud cd WHERE cd.id_plan = " . $plan["id_plan"] . ";");
 						$stmtCob->execute();
 						$coberturasDb = $stmtCob->fetchAll(PDO::FETCH_ASSOC);
 						$coberturasSoloValores = array_column($coberturasDb, 'cobertura');
@@ -381,7 +381,8 @@ class ModeloCotizaciones
 			LEFT JOIN 
 				$tabla6 ci ON ci.id_ciudad = a.ciudad
 			WHERE 
-				c.$field = :id");
+				c.$field = :id
+			GROUP BY a.id_asegurado, ps.id_plan;");
 
 			$stmt->bindParam(":id", $id, PDO::PARAM_STR);
 
