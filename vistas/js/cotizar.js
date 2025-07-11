@@ -3610,7 +3610,7 @@ function cotizarOfertas() {
         };
 
         const mostrarAlertaCotizacionExitosa = (aseguradora, contador) => {
-          if (aseguradora == "Estado2") {
+          if (aseguradora == "Estado2" || aseguradora == "Estado3") {
             aseguradora = "Estado";
           }
 
@@ -3672,8 +3672,8 @@ function cotizarOfertas() {
         };
 
         const mostrarAlertarCotizacionFallida = (aseguradora, mensaje) => {
-          if (aseguradora == "Estado" || aseguradora == "Estado2") {
-            if (aseguradora == "Estado2") {
+          if (aseguradora == "Estado" || aseguradora == "Estado2" || aseguradora == "Estado3") {
+            if (aseguradora == "Estado2" || aseguradora == "Estado3") {
               aseguradora = "Estado";
             }
             // console.log(aseguradora);
