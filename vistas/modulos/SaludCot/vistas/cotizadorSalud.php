@@ -28,7 +28,7 @@
         <div class="col-xs-12 col-sm-6 col-md-2">
             <div class="form-group">
                 <label for="">No. Documento</label>
-                <input id="NroDocumento" class="form-control numeroDocumento" type="number"></input>
+                <input id="NroDocumento" maxlength="10" class="form-control numeroDocumento" type="text"></input>
             </div>
         </div>
 
@@ -274,11 +274,11 @@
                 <label id="">Asociado Cooperativa Coomeva</label><br>
                 <div class="form-check form-check-inline">
                     <span class="center-elements">
-                        <input type="radio" id="asociadoSi_1" name="aseguradoAsociadoCoomeva_1" class="form-check-input">
+                        <input type="radio" id="asociadoSi_1" name="aseguradoAsociadoCoomeva_1" class="form-check-input" checked>
                         <label for="" class="form-check-label colorGray">Si</label>
                     </span>
                     <span class="radio-container center-elements">
-                        <input type="radio" id="asociadoNo_1" name="aseguradoAsociadoCoomeva_1" class="form-check-input" checked>
+                        <input type="radio" id="asociadoNo_1" name="aseguradoAsociadoCoomeva_1" class="form-check-input">
                         <label for="" class="form-check-label colorGray">No</label>
                     </span>
                 </div>
