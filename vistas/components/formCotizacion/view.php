@@ -38,7 +38,7 @@
         <div class="col-xs-12 col-sm-6 col-md-3">
             <div class="form-group">
                 <label for="noDocumento">No. Documento</label>
-                <input id="noDocumento" class="form-control numeroDocumento" type="number"></input>
+                <input id="noDocumento" maxlength="10" class="form-control numeroDocumento" type="text"></input>
             </div>
         </div>
 

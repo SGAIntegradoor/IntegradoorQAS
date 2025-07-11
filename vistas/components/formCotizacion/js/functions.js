@@ -875,6 +875,20 @@ $(document).ready(function () {
       },
     });
   }
+
+  $("#noDocumento").numeric();
+
+  let params = urlPage.searchParams.getAll("idCotizacion");
+  if (params.length <= 0) {
+    $("#tipoDocumento").change(function () {
+      $("#noDocumento").val("");
+      if ($(this).val() == " ") {
+        $("#noDocumento").attr("maxlength", "9");
+      } else {
+        $("#noDocumento").attr("maxlength", "10");
+      }
+    });
+  }
 });
 
 let mascotaSeleccionada = "";
