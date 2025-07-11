@@ -113,28 +113,28 @@ if (isset($_SESSION["rol"])) {
 
     <div class="box">
 
-    <?php
-        if ($_SESSION["permisos"]["Agregarunusuarionuevo"] == "x" && $_SESSION['intermediario'] == "3") {
-          echo '<button class="btnAgregarUsuario" data-toggle="modal" data-target="#modalAgregarUsuario">
-
-          Agregar usuario
-
+      <?php
+      if ($_SESSION["permisos"]["Agregarunusuarionuevo"] == "x" && $_SESSION['intermediario'] == "3") {
+        echo '<button class="btnAgregarUsuario">
+          <a href="user" style="color: #fff; text-decoration: none;">
+            Agregar usuario
+          </a>
         </button>';
-        }
+      }
 
-        // if ($_SESSION["permisos"]["Agregarunusuarionuevo"] == "x" && $_SESSION['intermediario'] == "3") {
-        //   echo '<button class="btnAgregarUsuario" id="creaTemporal">
+      // if ($_SESSION["permisos"]["Agregarunusuarionuevo"] == "x" && $_SESSION['intermediario'] == "3") {
+      //   echo '<button class="btnAgregarUsuario" id="creaTemporal">
 
-        //   Crear Usuario Temporal
+      //   Crear Usuario Temporal
 
-        // </button>';
-        // }
-        ?>
+      // </button>';
+      // }
+      ?>
 
-    
+
       <link rel="stylesheet" href="vistas/modulos/Oportunidades/css/styles.css">
       <div class="container-fluid mainDataContainer">
-        
+
         <div class="col-lg-12">
           <div class="row row-filters">
             <div class="col-xs-12 col-sm-6 col-md-6">
@@ -328,7 +328,7 @@ if (isset($_SESSION["rol"])) {
               <th style="font-weight: bold;">Rol</th>
               <th style="font-weight: bold;">Últ_login</th>
               <th style="font-weight: bold;">Fecha_Creacion</th>
-              <th style="font-weight: bold;">Foto</th>
+              <!-- <th style="font-weight: bold;">Foto</th> -->
               <th style="font-weight: bold;">Estado</th>
               <?php
               if ($_SESSION['intermediario'] == "3") {
@@ -399,11 +399,11 @@ if (isset($_SESSION["rol"])) {
                 $ultimoLogin = $value["usu_ultimo_login"] == NULL ? " " : date("d/m/Y", strtotime($value["usu_ultimo_login"]));
                 echo '<td>' . $ultimoLogin . '</td>';
                 echo '<td>' . $value['usu_fch_creacion'] . '</td>';
-                if ($value["usu_foto"] != "") {
-                  echo '<td><img src="' . $value["usu_foto"] . '" class="img-thumbnail" width="40px"></td>';
-                } else {
-                  echo '<td><img src="vistas/img/usuarios/default/anonymous.png" class="img-thumbnail" width="40px"></td>';
-                }
+                // if ($value["usu_foto"] != "") {
+                //   echo '<td><img src="' . $value["usu_foto"] . '" class="img-thumbnail" width="40px"></td>';
+                // } else {
+                //   echo '<td><img src="vistas/img/usuarios/default/anonymous.png" class="img-thumbnail" width="40px"></td>';
+                // }
 
                 if ($value["usu_estado"] != 0) {
                   echo '<td><button class="btn btn-success btn-xs btnActivar" idUsuario="' . $value["id_usuario"] . '" estadoUsuario="0">Activo</button></td>';

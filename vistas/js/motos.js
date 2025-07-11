@@ -50,6 +50,20 @@ $(document).ready(function () {
     consultarAsegurado();
   }
 
+   // Carga los Departamentos disponibles
+  $("#DptoCirculacion").select2({
+    theme: "bootstrap dpto",
+    language: "es",
+    width: "100%",
+  });
+
+  // Carga las Ciudades disponibles
+  $("#ciudadCirculacion").select2({
+    theme: "bootstrap ciudad",
+    language: "es",
+    width: "100%",
+  });
+
   // Asociar eventos con debounce
   $("#numDocumentoID").on(
     "input paste change",

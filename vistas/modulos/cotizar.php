@@ -820,14 +820,9 @@ echo '<script>console.log(' . $idIntermediario . ", " . $rolAsesor . ')</script>
   </section>
 
   <section class="content">
-
     <div class="box">
-
-
       <div class="box-body">
-
         <div id="formularioResumen">
-
           <!-- FORMULARIO RESUMEN ASEGURADO -->
           <form method="Post" id="formResumAseg">
             <div id="resumenAsegurado">
@@ -1192,8 +1187,6 @@ echo '<script>console.log(' . $idIntermediario . ", " . $rolAsesor . ')</script>
 
               <div class="col-lg-12 form-consulVeh">
                 <div class="row">
-
-
                   <div class="col-md-12">
                     <div class="row">
                       <div class="col-xs-12 col-sm-6 col-md-3 form-group">
@@ -1233,9 +1226,6 @@ echo '<script>console.log(' . $idIntermediario . ", " . $rolAsesor . ')</script>
                       </div>
                     </div>
                   </div>
-
-
-
                   <div class="col-xs-12 col-sm-6 col-md-12">
                     <div class="row">
                       <div class="col-xs-12 col-sm-6 col-md-3 form-group">
@@ -1259,13 +1249,6 @@ echo '<script>console.log(' . $idIntermediario . ", " . $rolAsesor . ')</script>
                       </div>
                     </div>
                   </div>
-
-
-
-
-
-
-
                 </div>
               </div>
             </form>
@@ -1456,10 +1439,7 @@ echo '<script>console.log(' . $idIntermediario . ", " . $rolAsesor . ')</script>
                 </div>
               </div>
             </div>
-
-
           </form>
-
 
           <!--- RESUMEN DE COTIZACIONES -->
           <div id="contenParrilla" style="display: none;">
@@ -1499,9 +1479,6 @@ echo '<script>console.log(' . $idIntermediario . ", " . $rolAsesor . ')</script>
                           </tr>
                         </thead>
                         <tbody>
-
-
-
                         </tbody>
                       </table>
                     </div>

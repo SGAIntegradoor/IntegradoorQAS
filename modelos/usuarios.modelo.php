@@ -161,8 +161,6 @@ class ModeloUsuarios
 		// Crear consulta dinámica
 		$sql = "SELECT u.*, r.rol_descripcion FROM usuarios u INNER JOIN roles r on r.id_rol = u.id_rol WHERE 1=1"; // Query base
 		foreach ($valores as $campo => $valor) {
-			var_dump($campo);
-			var_dump($valor);
 			switch ($campo) {
 				case 'nombreFiltro':
 					# code...
@@ -175,6 +173,10 @@ class ModeloUsuarios
 				case 'fechaDesvinculacionFiltro':
 					# code...
 					$sql .= " AND fechaFin = '$valor'";
+					break;
+				case 'identificacionFiltro':
+					# code...
+					$sql .= " AND usu_documento = '$valor'";
 					break;
 				case 'ciudadFiltro':
 					# code...
@@ -193,6 +195,7 @@ class ModeloUsuarios
 					break;
 			}
 		}
+
 		$stmt = Conexion::conectar()->prepare($sql);
 		$stmt->execute();
 
