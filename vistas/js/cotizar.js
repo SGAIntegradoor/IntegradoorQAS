@@ -1816,7 +1816,7 @@ function cotizarFinesa(ofertasCotizaciones) {
       fecha_cotizacion: obtenerFechaActual(),
       valor_poliza: element.prima,
       beneficiario_oneroso: false,
-      cuotas: 12,
+      cuotas: 11,
       fecha_inicio_poliza: obtenerFechaActual(),
       primera_cuota: "min",
       valor_primera_cuota: 0,
@@ -2084,7 +2084,7 @@ const mostrarOferta = (
     objFinesa: aseguradora + "_" + contCotizacion,
     producto: producto,
     prima: Number(prima.replace(/\./g, "")),
-    cuotas: 12,
+    cuotas: 11,
     cotizada: null,
   };
 
@@ -3482,7 +3482,7 @@ function cotizarOfertas() {
                 // Swal.close();
                 Swal.fire({
                   title: "¡Proceso de Cotización Finalizada!",
-                  text: "¿Deseas incluir la financiación con Finesa a 12 cuotas?",
+                  text: "¿Deseas incluir la financiación con Finesa a 11 cuotas?",
                   showConfirmButton: true,
                   confirmButtonText: "Si",
                   showCancelButton: true,
@@ -4430,7 +4430,7 @@ function cotizarOfertas() {
               // Swal.close();
               Swal.fire({
                 title: "¡Proceso de Re-Cotización Finalizada!",
-                text: "¿Deseas incluir la financiación con Finesa a 12 cuotas?",
+                text: "¿Deseas incluir la financiación con Finesa a 11 cuotas?",
                 showConfirmButton: true,
                 confirmButtonText: "Si",
                 showCancelButton: true,
