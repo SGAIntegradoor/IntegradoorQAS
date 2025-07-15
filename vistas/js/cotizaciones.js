@@ -2340,9 +2340,9 @@ function editarCotizacion(id) {
 }
 
 $(
-  "#dianacimiento, #mesnacimiento, #anionacimiento, #dianacimientoRepresentante, #mesnacimientoRepresentante, #anionacimientoRepresentante"
+  "#dianacimiento, #mesnacimiento, #anionacimiento, #dianacimientoRepresentante, #mesnacimientoRepresentante, #anionacimientoRepresentante, #clase, #Marca, #edad"
 ).select2({
-  theme: "bootstrap fecnacimiento",
+  theme: "bootstrap ciudad",
   language: "es",
   width: "100%",
 });
@@ -2376,7 +2376,7 @@ function seleccionarOferta(
   }
 
   ofertas.forEach((element) => {
-    if(element.seleccionar == "Si" && element.oferta_finesa == id_oferta) {
+    if (element.seleccionar == "Si" && element.oferta_finesa == id_oferta) {
       element.seleccionar = "";
     } else {
       element.seleccionar = seleccionar;

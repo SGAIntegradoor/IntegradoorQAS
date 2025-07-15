@@ -132,6 +132,7 @@ $rolAsesor = $_SESSION['permisos']['idRol'];
   .table-padding {
     padding: 15px;
   }
+
   .card-ofertas {
     padding: 20px;
   }
@@ -1186,14 +1187,9 @@ $rolAsesor = $_SESSION['permisos']['idRol'];
                         <label for="clase">Clase Vehículo</label>
                         <select class="form-control" name="clase" id="clase" required="">
                           <option value="" selected>Seleccione la Clase</option>
-                          <option value="AUTOMOVIL">AUTOMOVIL</option>
-                          <option value="BUS">BUS</option>
-                          <option value="CAMIONETA">CAMIONETA</option>
-                          <option value="FURGONETA">FURGONETA</option>
+                          <option value="CUATRIMOTO">CUATRIMOTO</option>
                           <option value="MOTOCARRO">MOTOCARRO</option>
-                          <option value="MOTOS">MOTOS</option>
-                          <option value="PESADO">PESADO</option>
-                          <option value="PICKUP">PICKUP</option>
+                          <option value="MOTOCICLETA">MOTOCICLETA</option>
                         </select>
                       </div>
 
@@ -1517,20 +1513,20 @@ $rolAsesor = $_SESSION['permisos']['idRol'];
                   <div>
                     <div id="mensajeSga" class="col-lg-12" style="font-size: 13px;">
                       <p><b>Notas Importantes: </b></p>
-                        <strong>Condiciones Generales:</strong><br>
-                        • Para motos de valor asegurado menor a $7 millones, solo aplican las condiciones del cotizador web.<br>
-                        • Grupo Asistencia cotiza manualmente motos de valor asegurado mayor a $7 millones.<br>
-                        • El valor asegurado máximo para motos es de $80 millones. Valores superiores requieren autorización del Gerente General, quien podrá exceptuar este límite si el asesor es productivo, tiene más de 6 meses de antigüedad, baja siniestralidad y el cliente tiene otros productos con la aseguradora.<br>
-                        • Primas totales menores a $800.000 para motos solo se pagan de contado.<br><br>
-                        <strong>Condiciones de Financiación:</strong><br>
-                        • Se financian motos con prima total superior a $800.000.<br>
-                        • Motos con beneficiario oneroso, modelos 2022 en adelante y prima total mayor a $800.000 pueden financiarse hasta en 11 cuotas.<br>
-                        • El número máximo de cuotas depende de la prima total:
-                          <ul>
-                            <li>$800.000 - $1 millón: máx. 7 cuotas.</li>
-                            <li>$1 - $2 millones: máx. 11 cuotas.</li>
-                            <li>Mayor a $2 millones: hasta 12 cuotas.</li>
-                          </ul>
+                      <strong>Condiciones Generales:</strong><br>
+                      • Para motos de valor asegurado menor a $7 millones, solo aplican las condiciones del cotizador web.<br>
+                      • Grupo Asistencia cotiza manualmente motos de valor asegurado mayor a $7 millones.<br>
+                      • El valor asegurado máximo para motos es de $80 millones. Valores superiores requieren autorización del Gerente General, quien podrá exceptuar este límite si el asesor es productivo, tiene más de 6 meses de antigüedad, baja siniestralidad y el cliente tiene otros productos con la aseguradora.<br>
+                      • Primas totales menores a $800.000 para motos solo se pagan de contado.<br><br>
+                      <strong>Condiciones de Financiación:</strong><br>
+                      • Se financian motos con prima total superior a $800.000.<br>
+                      • Motos con beneficiario oneroso, modelos 2022 en adelante y prima total mayor a $800.000 pueden financiarse hasta en 11 cuotas.<br>
+                      • El número máximo de cuotas depende de la prima total:
+                      <ul>
+                        <li>$800.000 - $1 millón: máx. 7 cuotas.</li>
+                        <li>$1 - $2 millones: máx. 11 cuotas.</li>
+                        <li>Mayor a $2 millones: hasta 12 cuotas.</li>
+                      </ul>
                     </div>
                   </div>
                 </div>
