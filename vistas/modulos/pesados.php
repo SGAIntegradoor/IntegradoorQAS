@@ -1205,19 +1205,42 @@ if ($_SESSION["permisos"]["Cotizarpesados"] != "x") {
 
 
                 <div class="col-md-12">
+             <!-- AUTOMOVIL X
+                  BUS / BUSETA / MICROBUS X
+                  CAMION X
+                  CAMIONETA PASAJ. X
+                  CAMIONETA REPAR X
+                  CAMPERO X
+                  CARROTANQUE X
+                  CHASIS
+                  CUATRIMOTO
+                  FURGON
+                  FURGONETA
+                  ISOCARRO
+                  MOTOCARRO
+                  MOTOCICLETA
+                  PICKUP DOBLE CAB
+                  PICKUP SENCILLA
+                  REMOLCADOR
+                  REMOLQUE
+                  VOLQUETA -->
                   <div class="row">
                     <div class="col-xs-12 col-sm-6 col-md-3 form-group">
                       <label for="clase">Clase Vehículo</label>
                       <select class="form-control" name="clase" id="clase" required="">
                         <option value="" selected>Seleccione la Clase</option>
-                        <option value="AUTOMOVIL">AUTOMOVIL</option>
-                        <option value="BUS">BUS</option>
+                        <option value="BUS / BUSETA / MICROBUS">BUS / BUSETA / MICROBUS</option>
+                        <option value="CAMION">CAMION</option>
                         <option value="CAMIONETA">CAMIONETA</option>
+                        <option value="CAMIONETA PASAJ.">CAMIONETA PASAJERA</option>
+                        <option value="CAMIONETA REPAR">CAMIONETA REPARTIDORA</option>
+                        <option value="CARROTANQUE">CARROTANQUE</option>
+                        <option value="CHASIS">CHASIS</option>
+                        <option value="FURGON">FURGON</option>
                         <option value="FURGONETA">FURGONETA</option>
-                        <option value="MOTOCARRO">MOTOCARRO</option>
-                        <option value="MOTOS">MOTOS</option>
-                        <option value="PESADO">PESADO</option>
-                        <option value="PICKUP">PICKUP</option>
+                        <option value="REMOLCADOR">REMOLCADOR</option>
+                        <option value="REMOLQUE">REMOLQUE</option>
+                        <option value="VOLQUETA">VOLQUETA</option>
                       </select>
                     </div>
 
