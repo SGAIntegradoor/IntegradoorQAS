@@ -1833,7 +1833,9 @@ const mostrarOfertaPesados = (
     } else if ($data == "Mapfre") {
       $resultado = "Mapfre";
     } else if ($data == "Liberty Seguros") {
-      $resultado = "HDI (Antes Liberty)";
+      $resultado = "HDI Seguros";
+    } else if ($data == "HDI (Antes Liberty)") {
+      $resultado = "HDI Seguros";
     } else if ($data == "Aseguradora Solidaria") {
       $resultado = "Solidaria";
     } else if ($data == "Seguros Sura") {
@@ -1852,8 +1854,8 @@ const mostrarOfertaPesados = (
     return $resultado;
   }
 
-  var nombreAseguradora = nombreAseguradora(aseguradora);
-  var aseguradoraCredenciales = nombreAseguradora + "_C_pesados";
+  var nombreAseguradoraA = nombreAseguradora(aseguradora);
+  var aseguradoraCredenciales = nombreAseguradoraA + "_C_pesados";
   var permisosCredenciales = permisos[aseguradoraCredenciales];
 
   // Agrega al array de objetos el objeto de card con los valores y el consecutivo
@@ -1890,11 +1892,11 @@ const mostrarOfertaPesados = (
 
 
                 ${
-                  aseguradora !== "Liberty"
+                  nombreAseguradoraA !== "Liberty"
                     ? `<div class="col-xs-12 col-sm-6 col-md-2 oferta-logo" style="display: flex; flex-direction: column; justify-content: center; align-items: center;"}>
                           <center>
                             <img src='vistas/img/logos/${logo}' style='${
-                        aseguradora === "Mundial"
+                        nombreAseguradoraA === "Mundial"
                           ? "width: 128px; margin-top: 70px;"
                           : ""
                       }'>
@@ -1902,9 +1904,9 @@ const mostrarOfertaPesados = (
 
                         <div class='col-12' style='margin-top:2%;'>
                           ${
-                            aseguradora !== "Mundial" &&
-                            aseguradora !== "HDI Seguros" &&
-                            aseguradora !== "Equidad" &&
+                            nombreAseguradoraA !== "Mundial" &&
+                            nombreAseguradoraA !== "HDI Seguros" &&
+                            nombreAseguradoraA !== "Equidad" &&
                             permisos.Vernumerodecotizacionencadaaseguradora ==
                               "x"
                               ? `<center>
@@ -1916,19 +1918,19 @@ const mostrarOfertaPesados = (
                     </div>`
                     : `<div class="col-xs-12 col-sm-6 col-md-2 oferta-logo" style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
                         <img src='vistas/img/logos/${logo}' style='${
-                        aseguradora === "Mundial"
+                        nombreAseguradoraA === "Mundial"
                           ? "width: 128px; margin-top: 70px;"
                           : ""
                       }'>
                       <div class='col-12' style='margin-top:2%;'>
                         ${
-                          aseguradora !== "Mundial" &&
+                          nombreAseguradoraA !== "Mundial" &&
                           permisos.Vernumerodecotizacionencadaaseguradora ==
                             "x" &&
                           permisosCredenciales == "1"
                             ? `<center>
                           ${
-                            aseguradora == "Equidad"
+                            nombreAseguradoraA == "Equidad"
                               ? ""
                               : "<label class='entidad'>N° Cot: <span style='color:black'>" +
                                 numCotizOferta +
@@ -1942,7 +1944,7 @@ const mostrarOfertaPesados = (
                 }
                   
                   <div class="col-xs-12 col-sm-6 col-md-2 oferta-headerEdit">
-                    <h5 class='entidad' style='font-size: 15px'><b>${aseguradora} - ${
+                    <h5 class='entidad' style='font-size: 15px'><b>${nombreAseguradoraA} - ${
     producto == "Pesados con RCE en exceso" ? "Pesados RCE + Exceso" : producto
   }</b></h5>
                     <h5 class='precio' style='margin-top: 0px !important;'>Desde $ ${prima}</h5>
@@ -1973,7 +1975,7 @@ const mostrarOfertaPesados = (
                       <li class="list-group-item">
                         <span class="badge">* ${GR}</span>
                         ${
-                          aseguradorasViajes.includes(aseguradora)
+                          aseguradorasViajes.includes(nombreAseguradoraA)
                             ? "Asistencia en Viajes"
                             : "Servicio de Grua"
                         } 
@@ -1983,45 +1985,45 @@ const mostrarOfertaPesados = (
                   <div class="col-xs-12 col-sm-6 col-md-2">
                     <div class="selec-oferta">
                     <label for="seleccionar">SELECCIONAR</label>&nbsp;&nbsp;
-                    <input type="checkbox" class="classSelecOferta" name="selecOferta" id="selec${numCotizOferta}${numId}${productoGlobal}\" onclick='seleccionarOferta(\"${aseguradora}\", \"${prima}\", \"${productoGlobal}\", \"${numCotizOferta}\", this);' />
+                    <input type="checkbox" class="classSelecOferta" name="selecOferta" id="selec${numCotizOferta}${numId}${productoGlobal}\" onclick='seleccionarOferta(\"${nombreAseguradoraA}\", \"${prima}\", \"${productoGlobal}\", \"${numCotizOferta}\", this);' />
                     </div>
                   </div>`;
   if (
-    (aseguradora == "Seguros Bolivar" || aseguradora == "Axa Colpatria") &&
+    (nombreAseguradoraA == "Seguros Bolivar" || nombreAseguradoraA == "Axa Colpatria") &&
     permisosCredenciales == "1"
   ) {
     cardCotizacion += `
                     <div class="col-xs-12 col-sm-6 col-md-2 verpdf-oferta">
-                      <button type="button" class="btn btn-info" id="btnAsegPDF${numCotizOferta}${numId}\" onclick='verPdfOferta(\"${aseguradora}\", \"${numCotizOferta}\", \"${numId}\", \"${id_intermediario}\");'>
+                      <button type="button" class="btn btn-info" id="btnAsegPDF${numCotizOferta}${numId}\" onclick='verPdfOferta(\"${nombreAseguradoraA}\", \"${numCotizOferta}\", \"${numId}\", \"${id_intermediario}\");'>
                         <div id="verPdf${numCotizOferta}${numId}\">VER PDF &nbsp;&nbsp;<span class="fa fa-file-text"></span></div>
                       </button>
                     </div>`;
   } else if (
-    aseguradora == "Seguros del Estado" &&
+    nombreAseguradoraA == "Seguros del Estado" &&
     UrlPdf !== null &&
     permisosCredenciales == "1"
   ) {
     cardCotizacion += `
             <div class="col-xs-12 col-sm-6 col-md-2 verpdf-oferta">
-            <button type="button" class="btn btn-info" id="btnAsegPDF${numCotizOferta}${numId}\" onclick='verPdfEstado(\"${aseguradora}\", \"${numCotizOferta}\", \"${numId}\", \"${UrlPdf}\");'>
+            <button type="button" class="btn btn-info" id="btnAsegPDF${numCotizOferta}${numId}\" onclick='verPdfEstado(\"${nombreAseguradoraA}\", \"${numCotizOferta}\", \"${numId}\", \"${UrlPdf}\");'>
               <div id="verPdf${numCotizOferta}${numId}\">VER PDF &nbsp;&nbsp;<span class="fa fa-file-text"></span></div>
             </button>
             </div>`;
-  } else if (aseguradora == "Solidaria") {
+  } else if (nombreAseguradoraA == "Solidaria") {
     cardCotizacion += `
             <div class="col-xs-12 col-sm-6 col-md-2 verpdf-oferta">
               <button id="solidaria-pdf" type="button" class="btn btn-info" onclick='verPdfSolidaria(${numCotizOferta})'>
                 <div>VER PDF &nbsp;&nbsp;<span class="fa fa-file-text"></span></div>
               </button>
             </div>`;
-  } else if (aseguradora == "Zurich") {
+  } else if (nombreAseguradoraA == "Zurich") {
     cardCotizacion += `
             <div class="col-xs-12 col-sm-6 col-md-2 verpdf-oferta">
               <button id="solidaria-pdf${numCotizOferta}" type="button" class="btn btn-info" onclick='verPdfZurich(${numCotizOferta})'>
                 <div>VER PDF &nbsp;&nbsp;<span class="fa fa-file-text"></span></div>
               </button>
             </div>`;
-  } else if (aseguradora == "Previsora Seguros" || aseguradora == "Previsora") {
+  } else if (nombreAseguradoraA == "Previsora Seguros" || nombreAseguradoraA == "Previsora") {
     cardCotizacion += `
             <div class="col-xs-12 col-sm-6 col-md-2 verpdf-oferta">
               <button id="previsora-pdf${numCotizOferta}" type="button" class="btn btn-info" onclick='verPdfPrevisora(${numCotizOferta})'>
@@ -3155,7 +3157,7 @@ function cotizarOfertasPesados() {
 
                   cont.push(axaPromise);
                 });
-              } else if (aseguradora === "HDI (Antes Liberty)") {
+              } else if (aseguradora === "HDI Seguros") {
                 /* LIBERTY */
                 let body = JSON.parse(requestOptions.body);
                 let planesLiberty;
@@ -3634,7 +3636,7 @@ function cotizarOfertasPesados() {
         });
 
         /* Liberty */
-        const libertyPromise = comprobarFallidaPesados("Liberty")
+        const libertyPromise = comprobarFallidaPesados("HDI Seguros")
           ? fetch(
               "https://grupoasistencia.com/motor_webservice/Liberty_pesados?callback=myCallback",
               requestOptions
@@ -3645,28 +3647,28 @@ function cotizarOfertasPesados() {
               })
               .then((ofertas) => {
                 if (typeof ofertas[0].Resultado !== "undefined") {
-                  agregarAseguradoraFallidaPesados("Liberty");
-                  validarProblema("Liberty", ofertas);
+                  agregarAseguradoraFallidaPesados("HDI Seguros");
+                  validarProblema("HDI Seguros", ofertas);
                   ofertas[0].Mensajes.forEach((mensaje) => {
-                    mostrarAlertarCotizacionFallida("Liberty", mensaje);
+                    mostrarAlertarCotizacionFallida("HDI Seguros", mensaje);
                   });
                 } else {
-                  // eliminarAseguradoraFallida('Liberty');
+                  // eliminarAseguradoraFallida('HDI Seguros');
                   const contadorPorEntidad = validarOfertasPesados(
                     ofertas,
-                    "Liberty",
+                    "HDI Seguros",
                     1
                   );
-                  mostrarAlertaCotizacionExitosa("Liberty", contadorPorEntidad);
+                  mostrarAlertaCotizacionExitosa("HDI Seguros", contadorPorEntidad);
                 }
               })
               .catch((err) => {
-                agregarAseguradoraFallidaPesados("Liberty");
+                agregarAseguradoraFallidaPesados("HDI Seguros");
                 mostrarAlertarCotizacionFallida(
-                  "Liberty",
+                  "HDI Seguros",
                   "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
                 );
-                validarProblema("Liberty", [
+                validarProblema("HDI Seguros", [
                   {
                     Mensajes: [
                       "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
