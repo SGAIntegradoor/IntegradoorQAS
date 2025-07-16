@@ -34,12 +34,31 @@ class ModeloCotizaciones
 															AND $tabla2.id_estado_civil = $tabla4.id_estado_civil AND $tabla.id_cotizacion = :$item AND $tabla5.id_Intermediario = :idIntermediario AND $tabla7.id_cliente_asociado = $tabla2.id_cliente"
 					);
 				} else {
+					$stmtCoti = Conexion::conectar()->prepare(
+						"SELECT * FROM $tabla WHERE $tabla.id_cotizacion = :$item"
+					);
+					$stmtCoti->bindParam(":" . $item, $valor, PDO::PARAM_STR);
+					$stmtCoti->execute();
+					$responseCoti = $stmtCoti->fetch(PDO::FETCH_ASSOC);
+
+					$citie = false;
+
+					if (substr($responseCoti['cot_ciudad'], 0, 2) == "44") {
+						$citie = true;
+						$tabla6 = "ciudades";
+					}
+
+					$ciudadJoin = $citie
+						? "$tabla.cot_ciudad = ciudades.codigo"
+						: "$tabla.cot_ciudad = $tabla6.Codigo";
+
 					$stmt = Conexion::conectar()->prepare(
 						"SELECT * FROM $tabla, $tabla2, $tabla3, $tabla4, $tabla5, $tabla6
 															WHERE $tabla.id_cliente = $tabla2.id_cliente AND $tabla.id_usuario = $tabla5.id_usuario 
-															AND $tabla.cot_ciudad = $tabla6.Codigo AND $tabla2.id_tipo_documento = $tabla3.id_tipo_documento 
+															AND $ciudadJoin AND $tabla2.id_tipo_documento = $tabla3.id_tipo_documento 
 															AND $tabla2.id_estado_civil = $tabla4.id_estado_civil AND $tabla.id_cotizacion = :$item AND $tabla5.id_Intermediario = :idIntermediario"
 					);
+
 				}
 
 				$stmt->bindParam(":" . $item, $valor, PDO::PARAM_STR);
@@ -287,7 +306,7 @@ class ModeloCotizaciones
 				}
 
 				// Dividir nombre y fecha de nacimiento
-				
+
 				$arrayFecha = explode("-", $row["fch_nac_asegurado"]);
 				$arrayNombre = explode(" ", $row["nom_asegurado"], 2);
 

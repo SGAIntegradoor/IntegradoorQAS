@@ -296,7 +296,7 @@
       "AXA" => array("A" => $permisos["AXA_A_pesados"], "C" => $permisos["AXA_C_pesados"]),
       "Equidad" => array("A" => $permisos["Equidad_A_pesados"], "C" => $permisos["Equidad_C_pesados"]),
       "Estado" => array("A" => $permisos["Estado_A_pesados"], "C" => $permisos["Estado_C_pesados"]),
-      "HDI (Antes Liberty)" => array("A" => $permisos["Liberty_A_pesados"], "C" => $permisos["Liberty_C_pesados"]),
+      "HDI Seguros" => array("A" => $permisos["Liberty_A_pesados"], "C" => $permisos["Liberty_C_pesados"]),
       // "HDI" => array("A" => $permisos["HDI_A_pesados"], "C" => $permisos["HDI_C_pesados"]),
       "Mundial" => array("A" => $permisos["Mundial_A_pesados"], "C" => $permisos["Mundial_C_pesados"]),
       "Previsora" => array("A" => $permisos["Previsora_A_pesados"], "C" => $permisos["Previsora_C_pesados"]),

@@ -462,7 +462,10 @@ $(document).ready(function () {
               var newRow = tableBody.insertRow();
 
               var aseguradoraCell = newRow.insertCell();
-              aseguradoraCell.textContent = usuario.aseguradora;
+              aseguradoraCell.textContent =
+                usuario.aseguradora == "HDI (Antes Liberty)"
+                  ? "HDI Seguros"
+                  : usuario.aseguradora;
 
               var cotizoCell = newRow.insertCell();
               // Cambiar el contenido de la celda en función de si cotizó o no
@@ -1175,7 +1178,7 @@ async function renderCards(response) {
             resultado = "Mapfre";
             break;
           case "HDI (Antes Liberty)":
-            resultado = "HDI (Antes Liberty)";
+            resultado = "HDI Seguros";
             break;
           case "Aseguradora Solidaria":
           case "Solidaria":
@@ -1436,7 +1439,9 @@ async function renderCards(response) {
                             : "padding-top: 14px"
                         }'>
                         <h5 class='entidad' style='font-size: 15px'><b>${
-                          oferta.Aseguradora
+                          oferta.Aseguradora == "HDI (Antes Liberty)"
+                            ? "HDI Seguros"
+                            : oferta.Aseguradora
                         } - ${
         oferta.Producto == "Pesados con RCE en exceso"
           ? "Pesados RCE + Exceso"
@@ -2127,9 +2132,15 @@ function editarCotizacion(id) {
           "</option>"
       );
 
-      var posicion = respuesta["Nombre"].split("-");
+      var posicion =
+        respuesta["cot_ciudad"].slice(0, 2) == "44"
+          ? respuesta["ciudad"]
+          : respuesta["Nombre"].split("-");
 
-      var ciudad = posicion[0].toLowerCase();
+      var ciudad =
+        respuesta["cot_ciudad"].slice(0, 2) == "44"
+          ? posicion.toLowerCase()
+          : posicion[0].toLowerCase();
 
       var nomCiudad = ciudad.replace(/^(.)|\s(.)/g, function ($1) {
         return $1.toUpperCase();
