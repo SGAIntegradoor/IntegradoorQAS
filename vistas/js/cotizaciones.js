@@ -1142,6 +1142,8 @@ async function renderCards(response) {
     $(".container-filters").css("display", "none");
   }
 
+  console.log(response)
+
   // Obtener los permisos de cotización END
   cardCotizacion = "";
   cards = response;
@@ -1208,7 +1210,7 @@ async function renderCards(response) {
 
       if (permisosCotizacion === null || permisosCotizacion === undefined) {
         var permisosCotizacion =
-          '{"Allianz":{"A":"1","C":"1"},"AXA":{"A":"1","C":"1"},"Bolivar":{"A":"1","C":"1"},"Equidad":{"A":"1","C":"1"},"Estado":{"A":"1","C":"1"},"HDI (Antes Liberty)":{"A":"1","C":"1"},"HDI":{"A":"1","C":"1"},"Mapfre":{"A":"1","C":"1"},"Previsora":{"A":"1","C":"1"},"SBS":{"A":"1","C":"1"},"Solidaria":{"A":"1","C":"1"},"Zurich":{"A":"1","C":"1"}}';
+          '{"Allianz":{"A":"1","C":"1"},"AXA":{"A":"1","C":"1"},"Bolivar":{"A":"1","C":"1"},"Equidad":{"A":"1","C":"1"},"Estado":{"A":"1","C":"1"},"HDI (Antes Liberty)":{"A":"1","C":"1"},"HDI Seguros":{"A":"1","C":"1"},"Mapfre":{"A":"1","C":"1"},"Previsora":{"A":"1","C":"1"},"SBS":{"A":"1","C":"1"},"Solidaria":{"A":"1","C":"1"},"Zurich":{"A":"1","C":"1"}}';
       }
 
       // Permisos Credenciales aseguradoras
@@ -1237,7 +1239,7 @@ async function renderCards(response) {
       let aseguradora = oferta.Aseguradora;
       let aseguradoraName = nombreAseguradora(aseguradora);
       let aseguradoraPermisos = obtenerValorC(aseguradoraName);
-      //console.log(aseguradoraPermisos)
+      console.log(aseguradoraPermisos)
 
       var primaFormat = formatNumber(oferta.Prima);
       var id_intermediario = document.getElementById("idIntermediario").value;
@@ -1389,12 +1391,12 @@ async function renderCards(response) {
                                 <!-- Agrega aquí el contenido específico para estas aseguradoras -->
                               </center>`
                                 : oferta.Aseguradora !== "Mundial" &&
-                                  oferta.Aseguradora !== "HDI Seguros" &&
                                   permisos.Vernumerodecotizacionencadaaseguradora ==
                                     "x" &&
                                   aseguradoraPermisos == "1"
                                 ? `<center>
                                 ${
+                                  // agregar aqui un console.log para verificar si la oferta tiene un número de cotización
                                   oferta.NumCotizOferta != 0
                                     ? "<label class='entidad'>N° Cot: <span style='color:black'>" +
                                       oferta.NumCotizOferta +
@@ -2373,6 +2375,8 @@ function seleccionarOferta(
   valCheck
 ) {
   var idSelecOferta = idCotizacion;
+
+  console.log(aseguradora, prima, producto, numCotizOferta, id_oferta, valCheck);
 
   var placa = document.getElementById("placaVeh").value;
 

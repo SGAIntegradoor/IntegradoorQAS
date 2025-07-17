@@ -127,12 +127,16 @@ $queryCiudad = "SELECT `Nombre` FROM `ciudadesbolivar` WHERE `Codigo` = $codCiud
 
 if($codDepto == 10){
 	$queryCiudad = "SELECT `Nombre` FROM `ciudadesbolivar` WHERE `Codigo` = $codCiudad AND `Departamento` = 10";
+} else if($codDepto == 18){
+	$queryCiudad = "SELECT `ciudad` as `Nombre` FROM `ciudades` WHERE `Codigo` = $codCiudad";
 }
+
 $respNomCiudad = $conexion->query($queryCiudad);
 
 /*
 * FIN: Consultar nombre de la ciudad
 */
+
 $nomCiudad = $respNomCiudad->fetch_assoc();
 $explodeCiudad = explode('-', $nomCiudad["Nombre"]);
 $ciudad = $explodeCiudad[0];

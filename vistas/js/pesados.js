@@ -1905,7 +1905,6 @@ const mostrarOfertaPesados = (
                         <div class='col-12' style='margin-top:2%;'>
                           ${
                             nombreAseguradoraA !== "Mundial" &&
-                            nombreAseguradoraA !== "HDI Seguros" &&
                             nombreAseguradoraA !== "Equidad" &&
                             permisos.Vernumerodecotizacionencadaaseguradora ==
                               "x"
@@ -1985,7 +1984,7 @@ const mostrarOfertaPesados = (
                   <div class="col-xs-12 col-sm-6 col-md-2">
                     <div class="selec-oferta">
                     <label for="seleccionar">SELECCIONAR</label>&nbsp;&nbsp;
-                    <input type="checkbox" class="classSelecOferta" name="selecOferta" id="selec${numCotizOferta}${numId}${productoGlobal}\" onclick='seleccionarOferta(\"${nombreAseguradoraA}\", \"${prima}\", \"${productoGlobal}\", \"${numCotizOferta}\", this);' />
+                    <input type="checkbox" class="classSelecOferta" name="selecOferta" id="selec${numCotizOferta}${numId}${productoGlobal}\" onclick='seleccionarOferta(\"${aseguradora}\", \"${prima}\", \"${productoGlobal}\", \"${numCotizOferta}\", \"${actIdentity}\", this);' />
                     </div>
                   </div>`;
   if (
