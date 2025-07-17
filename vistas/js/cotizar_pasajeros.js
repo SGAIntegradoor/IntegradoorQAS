@@ -2276,7 +2276,7 @@ const mostrarOferta = (
                                         <div class="col-xs-12 col-sm-6 col-md-2">
                                           <div class="selec-oferta">
                                             <label for="seleccionar">SELECCIONAR</label>&nbsp;&nbsp;
-                                            <input type="checkbox" class="classSelecOferta" name="selecOferta" id="selec${numCotizOferta}${numId}${producto}\" onclick='seleccionarOferta(\"${aseguradora}\", \"${prima}\", \"${producto}\", \"${numCotizOferta}\", this);' disabled/>
+                                            <input type="checkbox" class="classSelecOferta" name="selecOferta" id="selec${numCotizOferta}${numId}${producto}\" onclick='seleccionarOferta(\"${aseguradora}\", \"${prima}\", \"${producto}\", \"${numCotizOferta}\" \"${actIdentity}\", this);' disabled/>
                                           </div>
                                         </div>`;
   if (
