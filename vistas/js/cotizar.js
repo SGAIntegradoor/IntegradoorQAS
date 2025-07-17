@@ -3212,8 +3212,8 @@ function cotizarOfertas() {
               if (aseguradora === "HDI") {
                 url = `https://grupoasistencia.com/motor_webservice/HdiPlus`;
               } else if (aseguradora === "Zurich") {
-                // const planes = ["FULL", "MEDIUM", "BASIC"];
-                const planes = ["FULL"];
+                const planes = ["FULL", "MEDIUM", "BASIC"];
+                // const planes = ["FULL"];
                 planes.forEach((plan) => {
                   let lineaVeh =
                     document.getElementById("txtReferenciaVeh").value;
