@@ -2037,7 +2037,7 @@ function registrarOferta(
 let contCotizacion = 0;
 let cotizacionesFinesa = [];
 let cardCotizacion = "";
-
+console.log(cotizacionesFinesa);
 const mostrarOferta = (
   aseguradora,
   prima,
@@ -2063,7 +2063,7 @@ const mostrarOferta = (
     } else if ($data == "Axa Colpatria") {
       $resultado = "AXA";
     } else if ($data == "HDI Seguros") {
-      $resultado = "HDI";
+      $resultado = "HDI Seguros";
     } else if ($data == "SBS Seguros") {
       $resultado = "SBS";
     } else if ($data == "Allianz Seguros") {
@@ -2077,7 +2077,7 @@ const mostrarOferta = (
     } else if ($data == "Mapfre") {
       $resultado = "Mapfre";
     } else if ($data == "HDI (Antes Liberty)") {
-      $resultado = "Liberty";
+      $resultado = "HDI Seguros";
     } else if ($data == "Aseguradora Solidaria") {
       $resultado = "Solidaria";
     } else if ($data == "Seguros Sura") {
@@ -2096,8 +2096,12 @@ const mostrarOferta = (
     return $resultado;
   }
 
-  var nombreAseguradora = nombreAseguradora(aseguradora);
-  var aseguradoraCredenciales = nombreAseguradora + "_C";
+  var nombreAseguradoraA = nombreAseguradora(aseguradora);
+
+  var aseguradoraCredenciales =
+    nombreAseguradoraA == "HDI Seguros"
+      ? "Liberty_C"
+      : nombreAseguradoraA + "_C";
   var permisosCredenciales = permisos[aseguradoraCredenciales];
 
   let cotOferta = {
@@ -2152,7 +2156,7 @@ const mostrarOferta = (
                     </div>
                        </div>
                        <div class="col-xs-12 col-sm-6 col-md-2 oferta-headerEdit">
-                       <h5 class='entidad' style='font-size: 15px'><b>${aseguradora} - ${
+                       <h5 class='entidad' style='font-size: 15px'><b>${nombreAseguradoraA} - ${
     producto == "Pesados con RCE en exceso"
       ? "Pesados RCE + Exceso"
       : producto == "PREVILIVIANOS INDIVIDUAL - "
@@ -2576,6 +2580,8 @@ function cotizarOfertas() {
     // Salir del código aquí para evitar la ejecución del resto del código
     return;
   }
+
+  console.log(aseguradorasFallidas);
 
   var placa = document.getElementById("placaVeh").value;
   var esCeroKmSi = document.getElementById("txtEsCeroKmSi").checked;
@@ -3378,7 +3384,7 @@ function cotizarOfertas() {
                 });
                 return; // Salir del bucle después de procesar Estado
                 // Construir la URL de la solicitud para cada aseguradora
-              } else if (aseguradora === "HDI (Antes Liberty)") {
+              } else if (aseguradora === "HDI Seguros") {
                 url = `https://grupoasistencia.com/motor_webservice/Liberty_autos`;
                 cont.push(
                   fetch(url, requestOptions)

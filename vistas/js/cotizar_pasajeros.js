@@ -2147,7 +2147,7 @@ const mostrarOferta = (
     } else if ($data == "Axa Colpatria") {
       $resultado = "AXA";
     } else if ($data == "HDI Seguros") {
-      $resultado = "HDI";
+      $resultado = "HDI Seguros";
     } else if ($data == "SBS Seguros") {
       $resultado = "SBS";
     } else if ($data == "Allianz Seguros") {
@@ -2161,7 +2161,7 @@ const mostrarOferta = (
     } else if ($data == "Mapfre") {
       $resultado = "Mapfre";
     } else if ($data == "HDI (Antes Liberty)") {
-      $resultado = "Liberty";
+      $resultado = "HDI Seguros";
     } else if ($data == "Aseguradora Solidaria") {
       $resultado = "Solidaria";
     } else if ($data == "Seguros Sura") {
@@ -2180,8 +2180,12 @@ const mostrarOferta = (
     return $resultado;
   }
 
-  var nombreAseguradora = nombreAseguradora(aseguradora);
-  var aseguradoraCredenciales = nombreAseguradora + "_C";
+  var nombreAseguradoraA = nombreAseguradora(aseguradora);
+
+  var aseguradoraCredenciales =
+    nombreAseguradoraA == "HDI Seguros"
+      ? "Liberty_C_Publicos"
+      : nombreAseguradoraA + "_C_Publicos";
   var permisosCredenciales = permisos[aseguradoraCredenciales];
 
   // if (nombreAseguradora == "Liberty") {
@@ -2246,7 +2250,7 @@ const mostrarOferta = (
                       </div>
                          </div>
                          <div class="col-xs-12 col-sm-6 col-md-2 oferta-headerEdit">
-                         <h5 class='entidad' style='font-size: 15px'><b>${aseguradora} - ${
+                         <h5 class='entidad' style='font-size: 15px'><b>${nombreAseguradoraA} - ${
     producto == "Pesados con RCE en exceso"
       ? "Pesados RCE + Exceso"
       : producto == "PREVILIVIANOS INDIVIDUAL - "
@@ -3256,7 +3260,7 @@ function cotizarOfertasPasajeros() {
 
             aseguradorasCoti.forEach((aseguradora) => {
               let url;
-              if (aseguradora === "HDI (Antes Liberty)") {
+              if (aseguradora === "HDI Seguros") {
                 url = `https://grupoasistencia.com/motor_webservice_publics/HDI_Pasajeros`;
                 cont.push(
                   fetch(url, requestOptions)
@@ -3600,39 +3604,6 @@ function cotizarOfertasPasajeros() {
                   }
                 }
               });
-              // $("#btnParrillaPDF").click(function () {
-              //   const todosOn = $(".classSelecOferta:checked").length;
-              //   const idCotizacionPDF = idCotizacion;
-              //   const checkboxAsesor = $("#checkboxAsesor");
-
-              //   if (permisos.Generarpdfdecotizacion != "x") {
-              //     Swal.fire({
-              //       icon: "error",
-              //       title:
-              //         "¡Esta versión no tiene ésta funcionalidad disponible!",
-              //       showCancelButton: true,
-              //       confirmButtonText: "Cerrar",
-              //       cancelButtonText: "Conoce más",
-              //     }).then((result) => {
-              //       if (result.isConfirmed) {
-              //       } else if (result.isDismissed) {
-              //         window.open("https://www.integradoor.com", "_blank");
-              //       }
-              //     });
-              //   } else {
-              //     if (!todosOn) {
-              //       swal.fire({
-              //         title: "¡Debes seleccionar mínimo una oferta!",
-              //       });
-              //     } else {
-              //       let url = `extensiones/tcpdf/pdf/comparador.php?cotizacion=${idCotizacionPDF}`;
-              //       if (checkboxAsesor.is(":checked")) {
-              //         url += "&generar_pdf=1";
-              //       }
-              //       window.open(url, "_blank");
-              //     }
-              //   }
-              // });
             });
           },
         });
@@ -3994,7 +3965,7 @@ function cotizarOfertasPasajeros() {
         const lineaVeh = document.getElementById("txtReferenciaVeh").value;
 
         /* Liberty */
-        const libertyPromise = comprobarFallida("HDI (Antes Liberty)")
+        const libertyPromise = comprobarFallida("HDI Seguros")
           ? fetch(
               "https://grupoasistencia.com/motor_webservice_publics/HDI_Pasajeros",
               requestOptions
@@ -4005,34 +3976,31 @@ function cotizarOfertasPasajeros() {
               })
               .then((ofertas) => {
                 if (typeof ofertas[0].Resultado !== "undefined") {
-                  agregarAseguradoraFallida("HDI (Antes Liberty)");
-                  validarProblema("HDI (Antes Liberty)", ofertas);
+                  agregarAseguradoraFallida("HDI Seguros");
+                  validarProblema("HDI Seguros", ofertas);
                   ofertas[0].Mensajes.forEach((mensaje) => {
-                    mostrarAlertarCotizacionFallida(
-                      "HDI (Antes Liberty)",
-                      mensaje
-                    );
+                    mostrarAlertarCotizacionFallida("HDI Seguros", mensaje);
                   });
                 } else {
-                  // eliminarAseguradoraFallida('HDI (Antes Liberty)');
+                  // eliminarAseguradoraFallida('HDI Seguros');
                   const contadorPorEntidad = validarOfertas(
                     ofertas,
-                    "HDI (Antes Liberty)",
+                    "HDI Seguros",
                     1
                   );
                   mostrarAlertaCotizacionExitosa(
-                    "HDI (Antes Liberty)",
+                    "HDI Seguros",
                     contadorPorEntidad
                   );
                 }
               })
               .catch((err) => {
-                agregarAseguradoraFallida("HDI (Antes Liberty)");
+                agregarAseguradoraFallida("HDI Seguros");
                 mostrarAlertarCotizacionFallida(
-                  "HDI (Antes Liberty)",
+                  "HDI Seguros",
                   "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
                 );
-                validarProblema("HDI (Antes Liberty)", [
+                validarProblema("HDI Seguros", [
                   {
                     Mensajes: [
                       "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",

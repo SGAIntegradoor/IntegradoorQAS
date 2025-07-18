@@ -274,7 +274,7 @@
       "Bolivar" => array("A" => $permisos["Bolivar_A"], "C" => $permisos["Bolivar_C"]),
       "Equidad" => array("A" => $permisos["Equidad_A"], "C" => $permisos["Equidad_C"]),
       "Estado" => array("A" => $permisos["Estado_A"], "C" => $permisos["Estado_C"]),
-      "HDI (Antes Liberty)" => array("A" => $permisos["Liberty_A"], "C" => $permisos["Liberty_C"]),
+      "HDI Seguros" => array("A" => $permisos["Liberty_A"], "C" => $permisos["Liberty_C"]),
       "Mapfre" => array("A" => $permisos["Mapfre_A"], "C" => $permisos["Mapfre_C"]),
       "Mundial" => array("A" => $permisos["Mundial_A"], "C" => $permisos["Mundial_C"]),
       "Previsora" => array("A" => $permisos["Previsora_A"], "C" => $permisos["Previsora_C"]),
@@ -289,7 +289,7 @@
       "AXA" => array("A" => $permisos["AXA_A_motos"], "C" => $permisos["AXA_C_motos"]),
       "SBS" => array("A" => $permisos["SBS_A_motos"], "C" => $permisos["SBS_C_motos"]),
       "Estado" => array("A" => $permisos["Estado_A_motos"], "C" => $permisos["Estado_C_motos"]),
-      "HDI (Antes Liberty)" => array("A" => $permisos["Liberty_A_motos"], "C" => $permisos["Liberty_C_motos"]),
+      "HDI Seguros" => array("A" => $permisos["Liberty_A_motos"], "C" => $permisos["Liberty_C_motos"]),
     );
 
     $aseguradoras_pesados = array(
@@ -306,7 +306,7 @@
       "AXA" => array("A" => $permisos["AXA_A_Publicos"], "C" => $permisos["AXA_C_Publicos"]),
       "Equidad" => array("A" => $permisos["Equidad_A_Publicos"], "C" => $permisos["Equidad_C_Publicos"]),
       "Estado" => array("A" => $permisos["Estado_A_Publicos"], "C" => $permisos["Estado_C_Publicos"]),
-      "HDI (Antes Liberty)" => array("A" => $permisos["Liberty_A_Publicos"], "C" => $permisos["Liberty_C_Publicos"]),
+      "HDI Seguros" => array("A" => $permisos["Liberty_A_Publicos"], "C" => $permisos["Liberty_C_Publicos"]),
       "Solidaria" => array("A" => $permisos["Solidaria_A_Publicos"], "C" => $permisos["Solidaria_C_Publicos"]),
     );
 
