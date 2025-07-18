@@ -10,7 +10,6 @@ if ($_POST['dataString'] && $clasveh = $_POST['clasveh'] && $MarcaVeh = $_POST['
 
 	$ejecutar = ejecutar($clasveh);
 
-
 	switch ($ejecutar) {
 			//-----------------------------------------------------------------------------------------------------
 		case "MOTOCICLETA":
@@ -320,7 +319,44 @@ if ($_POST['dataString'] && $clasveh = $_POST['clasveh'] && $MarcaVeh = $_POST['
 
 
 			break;
+
 			//-----------------------------------------------------------------------------------------------------	
+
+			default:
+				$stmt = $DB_con->prepare("SELECT * FROM fasecolda WHERE  marca=:MarcaVeh AND referencia1=:id  AND `$edadVeh` <> 0 and clase='$ejecutar' GROUP BY referencia2 ORDER BY id_fasecolda");
+				$stmt->execute(array(':id' => $id, ':MarcaVeh' => $MarcaVeh));
+				$contar = $stmt->rowCount();
+
+				if ($contar > 1) {
+					?>
+
+					<label>Referencia:</label>
+					<select type="select" name="refe1" class="refe1 form-control" required>
+						<option value="">Seleccione la Referencia</option>
+						<?php
+						$stmt = $DB_con->prepare("SELECT * FROM fasecolda WHERE  marca=:MarcaVeh AND referencia1=:id  AND `$edadVeh` <> 0 and clase='$ejecutar' GROUP BY referencia2 ORDER BY id_fasecolda");
+						$stmt->execute(array(':id' => $id, ':MarcaVeh' => $MarcaVeh));
+
+						while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+						?>
+							<option value="<?php echo $row['referencia2']; ?>"><?php echo $row['referencia2']; ?></option>
+						<?php
+						}
+						?>
+					</select>
+
+					<?php
+				} else {
+					$stmt = $DB_con->prepare("SELECT * FROM fasecolda WHERE  marca=:MarcaVeh AND referencia1=:id  AND `$edadVeh` <> 0 and clase='$ejecutar' GROUP BY referencia2 ORDER BY id_fasecolda");
+					$stmt->execute(array(':id' => $id, ':MarcaVeh' => $MarcaVeh));
+					while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+					?>
+						<label>Referencia</label>
+						<input type="text" class="refe1 form-control" required value="<?php echo $row['referencia2']; ?>" name="refe1" disabled>
+				<?php
+					}
+				}
+				break;
 	}
 }
 

@@ -280,8 +280,8 @@ $(document).ready(function () {
   });
 
   // Ejecuta la funcion que trae el Codigo Fasecolda de la Guia
-  $("#btnConsultarVeh").click(function () {
-    consulCodFasecolda();
+  $("#btnConsultarVeh").click(function (e) {
+    consulCodFasecolda(e);
   });
 
   async function checkCotTotales() {
@@ -1356,7 +1356,7 @@ function consulPlacaPesados(query = "1") {
 }
 
 // CONSULTA LA GUIA PARA OBTENER EL CODIGO FASECOLDA MANUALMENTE
-function consulCodFasecolda() {
+function consulCodFasecolda(e = null) {
   var claseVeh = document.getElementById("clase").value;
   var marcaVeh = document.getElementById("Marca").value;
   var edadVeh = document.getElementById("edad").value;
@@ -1364,20 +1364,7 @@ function consulCodFasecolda() {
   var refe2 = $(".refe1").val();
   var refe3 = $(".refe22").val();
 
-  console.log(
-    "Clase: " +
-      claseVeh +
-      "\n" +
-      "Clase: " +
-      marcaVeh +
-      "\n" +
-      "Clase: " +
-      edadVeh +
-      "\n" +
-      "Clase: " +
-      refe +
-      "\n"
-  );
+  let tipoConsulta = e.currentTarget.id;
 
   if (
     claseVeh != "" &&
@@ -1401,114 +1388,151 @@ function consulCodFasecolda() {
       },
       success: function (data) {
         // console.log(data);
+        if (tipoConsulta != "btnConsultarVeh") {
+          tipoConsulta = null;
+        }
         var codFasecolda = data.result.codigo;
-        consulValorfasecolda(codFasecolda, edadVeh);
+        consulValorfasecolda(codFasecolda, edadVeh, tipoConsulta);
       },
     });
   }
 }
 
+
 var contErrMetEstadoFasec = 0;
 var contErrProtConsulFasec = 0;
 
 // Permite consultar la informacion del vehiculo segun la Guia Fasecolda
-function consulValorfasecolda(codFasecolda, edadVeh) {
+function consulValorfasecolda(codFasecolda, edadVeh, tipoConsulta) {
   $("#loaderVehiculo").html(
     '<img src="vistas/img/plantilla/loader-loading.gif" width="34" height="34"><strong> Consultando Vehículo...</strong>'
   );
 
-  var myHeaders = new Headers();
-  myHeaders.append("Content-Type", "application/json");
-
-  var raw = JSON.stringify({
-    CodigoFasecolda: codFasecolda,
-    brand: "",
-    brandline: "",
-    ClassId: "",
-    Modelo: edadVeh,
-  });
-
-  var requestOptions = {
-    method: "POST",
-    headers: myHeaders,
-    body: raw,
-    redirect: "follow",
-  };
-
-  fetch(
-    "https://grupoasistencia.com/motor_webservice/VehiculoFasecolda",
-    requestOptions
-  )
-    .then(function (response) {
-      if (!response.ok) {
-        throw Error(response.statusText);
+  if (tipoConsulta != null) {
+    consulDatosFasecolda(codFasecolda, edadVeh).then(function (resp) {
+      var codigoClaseEstado = "";
+      if (resp.claseVeh == "MOTOS") {
+        codigoClaseEstado = 12;
       }
-      return response.json();
-    })
-    .then(function (myJson) {
-      // console.log(myJson);
-      if (myJson.Data != null) {
-        var codigoClase = myJson.Data.ClassId;
-        var codigoMarca = myJson.Data.Brand;
-        var modeloVehiculo = myJson.Data.Modelo;
-        var codigoLinea = myJson.Data.BrandLine;
-        var codigoFasecolda = myJson.Data.CodigoFasecolda;
-        var valorAsegurado = myJson.Data.ValorAsegurado;
+      $("#CodigoClase").val(codigoClaseEstado);
+      $("#txtClaseVeh").val(resp.claseVeh);
+      $("#txtMarcaVeh").val(resp.marcaVeh);
+      $("#txtReferenciaVeh").val(resp.lineaVeh);
+      $("#txtValorFasecolda").val(resp.valorVeh);
+      $("#txtModeloVeh").val(edadVeh);
+      $("#txtFasecolda").val(codFasecolda);
+    });
+  } else {
+     var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
 
-        var claseVehiculo = "";
-        var limiteRCESTADO = "";
+    var raw = JSON.stringify({
+      CodigoFasecolda: codFasecolda,
+      brand: "",
+      brandline: "",
+      ClassId: "",
+      Modelo: edadVeh,
+    });
 
-        if (codigoClase == 1) {
-          claseVehiculo = "AUTOMOVILES";
-          limiteRCESTADO = 6;
-        } else if (codigoClase == 2) {
-          claseVehiculo = "CAMPEROS";
-          limiteRCESTADO = 18;
-        } else if (codigoClase == 3) {
-          claseVehiculo = "PICK UPS";
-          limiteRCESTADO = 18;
-        } else if (codigoClase == 4) {
-          claseVehiculo = "UTILITARIOS DEPORTIVOS";
-          limiteRCESTADO = 6;
-        } else if (codigoClase == 12) {
-          claseVehiculo = "MOTOCICLETA";
-          limiteRCESTADO = 6;
-        } else if (codigoClase == 14) {
-          claseVehiculo = "PESADO";
-          limiteRCESTADO = 18;
-        } else if (codigoClase == 19) {
-          claseVehiculo = "VAN";
-          limiteRCESTADO = 18;
-        } else if (codigoClase == 16) {
-          claseVehiculo = "MOTOCICLETA";
-          limiteRCESTADO = 6;
+    var requestOptions = {
+      method: "POST",
+      headers: myHeaders,
+      body: raw,
+      redirect: "follow",
+    };
+
+    fetch(
+      "https://grupoasistencia.com/motor_webservice/VehiculoFasecolda",
+      requestOptions
+    )
+      .then(function (response) {
+        if (!response.ok) {
+          throw Error(response.statusText);
         }
+        return response.json();
+      })
+      .then(function (myJson) {
+        // console.log(myJson);
+        if (myJson.Data != null) {
+          var codigoClase = myJson.Data.ClassId;
+          var codigoMarca = myJson.Data.Brand;
+          var modeloVehiculo = myJson.Data.Modelo;
+          var codigoLinea = myJson.Data.BrandLine;
+          var codigoFasecolda = myJson.Data.CodigoFasecolda;
+          var valorAsegurado = myJson.Data.ValorAsegurado;
 
-        $("#CodigoClase").val(codigoClase);
-        $("#clasepesados").val(claseVehiculo);
-        if (
-          $("#clasepesados").val() === "FURGON" ||
-          $("#clasepesados").val() === "FURGÓN"
-        ) {
-          $("#numToneladas").prop("required", true);
-          $("#divNumToneladas").show(); // ✅ mostrar el div
+          var claseVehiculo = "";
+          var limiteRCESTADO = "";
+
+          if (codigoClase == 1) {
+            claseVehiculo = "AUTOMOVILES";
+            limiteRCESTADO = 6;
+          } else if (codigoClase == 2) {
+            claseVehiculo = "CAMPEROS";
+            limiteRCESTADO = 18;
+          } else if (codigoClase == 3) {
+            claseVehiculo = "PICK UPS";
+            limiteRCESTADO = 18;
+          } else if (codigoClase == 4) {
+            claseVehiculo = "UTILITARIOS DEPORTIVOS";
+            limiteRCESTADO = 6;
+          } else if (codigoClase == 12) {
+            claseVehiculo = "MOTOCICLETA";
+            limiteRCESTADO = 6;
+          } else if (codigoClase == 14) {
+            claseVehiculo = "PESADO";
+            limiteRCESTADO = 18;
+          } else if (codigoClase == 19) {
+            claseVehiculo = "VAN";
+            limiteRCESTADO = 18;
+          } else if (codigoClase == 16) {
+            claseVehiculo = "MOTOCICLETA";
+            limiteRCESTADO = 6;
+          }
+
+          $("#CodigoClase").val(codigoClase);
+          $("#txtClaseVeh").val(claseVehiculo);
+          $("#LimiteRC").val(limiteRCESTADO);
+          $("#CodigoMarca").val(codigoMarca);
+          $("#txtModeloVeh").val(modeloVehiculo);
+          $("#CodigoLinea").val(codigoLinea);
+          $("#txtFasecolda").val(codigoFasecolda);
+          $("#txtValorFasecolda").val(valorAsegurado);
+
+          consulDatosFasecolda(codigoFasecolda, modeloVehiculo).then(function (
+            resp
+          ) {
+            $("#txtMarcaVeh").val(resp.marcaVeh);
+            $("#txtReferenciaVeh").val(resp.lineaVeh);
+          });
+        } else {
+          contErrMetEstadoFasec++;
+          if (contErrMetEstadoFasec > 2) {
+            $("#txtModeloVeh").val(edadVeh);
+            $("#txtFasecolda").val(codFasecolda);
+
+            consulDatosFasecolda(codFasecolda, edadVeh).then(function (resp) {
+              var codigoClaseEstado = "";
+              if (resp.claseVeh == "MOTOS") {
+                codigoClaseEstado = 12;
+              }
+              $("#CodigoClase").val(codigoClaseEstado);
+              $("#txtClaseVeh").val(resp.claseVeh);
+              $("#txtMarcaVeh").val(resp.marcaVeh);
+              $("#txtReferenciaVeh").val(resp.lineaVeh);
+              $("#txtValorFasecolda").val(resp.valorVeh);
+            });
+            contErrMetEstadoFasec = 0;
+          } else {
+            setTimeout(consulCodFasecolda, 2000);
+          }
         }
-        $("#LimiteRC").val(limiteRCESTADO);
-        $("#CodigoMarca").val(codigoMarca);
-        $("#txtModeloVeh").val(modeloVehiculo);
-        $("#CodigoLinea").val(codigoLinea);
-        $("#txtFasecolda").val(codigoFasecolda);
-        $("#txtValorFasecolda").val(valorAsegurado);
+      })
+      .catch(function (error) {
+        //console.log("Parece que hubo un problema: \n", error);
 
-        consulDatosFasecolda(codigoFasecolda, modeloVehiculo).then(function (
-          resp
-        ) {
-          $("#txtMarcaVeh").val(resp.marcaVeh);
-          $("#txtReferenciaVeh").val(resp.lineaVeh);
-        });
-      } else {
-        contErrMetEstadoFasec++;
-        if (contErrMetEstadoFasec > 2) {
+        contErrProtConsulFasec++;
+        if (contErrProtConsulFasec > 1) {
           $("#txtModeloVeh").val(edadVeh);
           $("#txtFasecolda").val(codFasecolda);
 
@@ -1518,55 +1542,18 @@ function consulValorfasecolda(codFasecolda, edadVeh) {
               codigoClaseEstado = 12;
             }
             $("#CodigoClase").val(codigoClaseEstado);
-            $("#clasepesados").val(resp.claseVeh);
-            if (
-              $("#clasepesados").val() === "FURGON" ||
-              $("#clasepesados").val() === "FURGÓN"
-            ) {
-              $("#numToneladas").prop("required", true);
-              $("#divNumToneladas").show(); // ✅ mostrar el div
-            }
+            $("#txtClaseVeh").val(resp.claseVeh);
             $("#txtMarcaVeh").val(resp.marcaVeh);
             $("#txtReferenciaVeh").val(resp.lineaVeh);
             $("#txtValorFasecolda").val(resp.valorVeh);
           });
-          contErrMetEstadoFasec = 0;
+          contErrProtConsulFasec = 0;
         } else {
-          setTimeout(consulCodFasecolda, 2000);
+          setTimeout(consulCodFasecolda, 4000);
         }
-      }
-    })
-    .catch(function (error) {
-      console.log("Parece que hubo un problema: \n", error);
+      });
+  }
 
-      contErrProtConsulFasec++;
-      if (contErrProtConsulFasec > 1) {
-        $("#txtModeloVeh").val(edadVeh);
-        $("#txtFasecolda").val(codFasecolda);
-
-        consulDatosFasecolda(codFasecolda, edadVeh).then(function (resp) {
-          var codigoClaseEstado = "";
-          if (resp.claseVeh == "MOTOS") {
-            codigoClaseEstado = 12;
-          }
-          $("#CodigoClase").val(codigoClaseEstado);
-          $("#clasepesados").val(resp.claseVeh);
-          if (
-            $("#clasepesados").val() === "FURGON" ||
-            $("#clasepesados").val() === "FURGÓN"
-          ) {
-            $("#numToneladas").prop("required", true);
-            $("#divNumToneladas").show(); // ✅ mostrar el div
-          }
-          $("#txtMarcaVeh").val(resp.marcaVeh);
-          $("#txtReferenciaVeh").val(resp.lineaVeh);
-          $("#txtValorFasecolda").val(resp.valorVeh);
-        });
-        contErrProtConsulFasec = 0;
-      } else {
-        setTimeout(consulCodFasecolda, 4000);
-      }
-    });
 }
 
 //FUNCION PARA CONSULTAR VALORES EN FASECOLDA

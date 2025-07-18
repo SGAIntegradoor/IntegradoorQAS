@@ -34,6 +34,9 @@
 			case 'PESADO':
 				$nombre="clase='CAMION' OR clase='CARROTANQUE' OR clase='FURGON' OR clase='REMOLCADOR' OR clase='VOLQUETA' OR clase='UNIMOG'";
 				break;
+			default:
+				$nombre=$variable;
+				break;
 		}
 		
 
