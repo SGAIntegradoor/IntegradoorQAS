@@ -1935,7 +1935,7 @@ const mostrarOfertaMotos = (
     } else if ($data == "Axa Colpatria") {
       $resultado = "AXA";
     } else if ($data == "HDI Seguros") {
-      $resultado = "HDI";
+      $resultado = "HDI Seguros";
     } else if ($data == "SBS Seguros") {
       $resultado = "SBS";
     } else if ($data == "Allianz Seguros") {
@@ -1949,7 +1949,7 @@ const mostrarOfertaMotos = (
     } else if ($data == "Mapfre") {
       $resultado = "Mapfre";
     } else if ($data == "HDI (Antes Liberty)") {
-      $resultado = "HDI (Antes Liberty)";
+      $resultado = "HDI Seguros";
     } else if ($data == "Aseguradora Solidaria") {
       $resultado = "Solidaria";
     } else if ($data == "Seguros Sura") {
@@ -1968,8 +1968,12 @@ const mostrarOfertaMotos = (
     return $resultado;
   }
 
-  var nombreAseguradora = nombreAseguradora(aseguradora);
-  var aseguradoraCredenciales = nombreAseguradora + "_C_motos";
+   var nombreAseguradoraA = nombreAseguradora(aseguradora);
+
+  var aseguradoraCredenciales =
+    nombreAseguradoraA == "HDI Seguros"
+      ? "Liberty_C_motos"
+      : nombreAseguradoraA + "_C_motos";
   var permisosCredenciales = permisos[aseguradoraCredenciales];
 
   let calcCuotas =
@@ -2031,7 +2035,7 @@ ${
             </div>
               </div>
                   <div class="col-xs-12 col-sm-6 col-md-2 oferta-headerEdit">
-                  <h5 class='entidad' style='font-size: 15px'><b>${aseguradora} - ${producto}</b></h5>
+                  <h5 class='entidad' style='font-size: 15px'><b>${nombreAseguradoraA} - ${producto}</b></h5>
                   <h5 class='precio' style='margin-top: 0px !important;'>Desde $ ${prima}</h5>
                   <p class='title-precio' style='margin: 0 0 3px !important'>Precio (IVA incluido)</p>
                   <div id='${actIdentityMotos}' style='display: none; color: #88d600;'>
@@ -3004,7 +3008,7 @@ function cotizarOfertasMotos() {
                   );
                 });
                 return; // Salir del bucle después de procesar Zurich
-              } else if (aseguradora === "HDI (Antes Liberty)") {
+              } else if (aseguradora === "HDI Seguros") {
                 const planes = ["INTEGRAL", "BASICO + PT", "FULL"];
                 planes.forEach((plan) => {
                   let body = JSON.parse(requestOptions.body);

@@ -151,6 +151,8 @@ $(document).ready(function () {
             "aseguradora",
             oferta.Aseguradora == "Previsora"
               ? "Previsora Seguros"
+              : oferta.Aseguradora == "HDI (Antes Liberty)"
+              ? "HDI Seguros"
               : oferta.Aseguradora
           );
           data.append("analista_comercial", analista_comercial);
@@ -240,7 +242,7 @@ $(document).ready(function () {
               respuesta.usu_nombre + " " + respuesta.usu_apellido
             );
             $("#txtPlacaOportunidad").val(respuesta.cot_placa);
-            $("#txtAseguradoraOportunidad").val(oferta.Aseguradora);
+            $("#txtAseguradoraOportunidad").val(oferta.Aseguradora == "HDI (Antes Liberty)" ? "HDI Seguros" : oferta.Aseguradora);
             info = respuesta;
           },
           error: function () {
