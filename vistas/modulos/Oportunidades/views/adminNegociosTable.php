@@ -419,6 +419,7 @@
           <th style="font-weight: bold; text-align: center;">Analista/comercial</th>
           <th style="font-weight: bold; text-align: center;">Estado</th>
           <th style="font-weight: bold; text-align: center;">Razón Negocio Perdido</th>
+          <th style="font-weight: bold; text-align: center;">Otra razón</th>
           <th style="font-weight: bold; text-align: center;"># Poliza</th>
           <th style="font-weight: bold; text-align: center;">Asegurado</th>
           <th style="font-weight: bold; text-align: center;">Prima sin iva</th>
@@ -485,6 +486,7 @@
             <td class="text-center" style="font-size: 14px;">' . (!empty($value['analista_comercial']) ? $value['analista_comercial'] : '') . '</td>
             <td class="text-left" style="font-size: 14px;">' . (!empty($value['estado']) ? $value['estado'] : '') . '</td>
             <td class="text-left" style="font-size: 14px;">' . (!empty($value['razon_negocio_perdido']) ? $value['razon_negocio_perdido'] : '') . '</td>
+            <td class="text-left" style="font-size: 14px;">' . (!empty($value['otra_razon_negocio_perdido']) ? $value['otra_razon_negocio_perdido'] : '') . '</td>
             <td class="text-center" style="font-size: 14px;">' . (!empty($value['no_poliza']) ? $value['no_poliza'] : '') . '</td>
             <td class="text-center" style="font-size: 14px;">' . (!empty($value['asegurado']) ? $value['asegurado'] : '') . '</td>
             <td class="text-center" style="font-size: 14px;">' . (!empty($value['prima_sin_iva']) ? '$ ' . number_format($value['prima_sin_iva'], 0, ',', '.') : '') . '</td>
@@ -615,6 +617,7 @@
             <option value="11">Hogar deudor</option>
             <option value="12">Asistencia en viajes</option>
             <option value="13">Autos Pasajeros</option>
+            <option value="14">Bicicletas</option>
           </select>
         </div>
         <div class="col-xs-12 col-sm-6 col-md-4 form-group" style="margin-bottom: 30px;">

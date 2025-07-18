@@ -629,6 +629,7 @@ function capitalizeFirstLetter(str) {
  * @function
  */
 function makeIndividualCard(
+  plan_id,
   nombrePlan,
   precioMensual,
   precioTrimestral,
@@ -647,6 +648,9 @@ function makeIndividualCard(
   coberturas.forEach((plan) => {
     coberturasHTML += `<li>${plan}</li>`;
   });
+
+  const uniqueId = `table_${plan_id}`; // Crear un ID único basado en plan_id
+  const buttonId = `toggleBtn_${plan_id}`;
 
   return `
     <div class='card-ofertas'>
@@ -712,18 +716,28 @@ function makeIndividualCard(
                 </div>
                 
                 <div class="col-xs-12 col-sm-6 col-md-7 textCards">     
-                  <div style="width: 100%; text-align: justify; padding-right: 25px">
-                    <p>${titulo}</p>
-                    <br>
-                    <b>${subtitulo}</b>
-                    <br>
-                    <ul>
-                      ${coberturasHTML}
-                    </ul>
-                    <a href="${pdf}" target="_blank"><img src="vistas/img/iconosResources/icons8-pdf-office-m/icons8-pdf-30.png" width="25px"/> Ver más</a> 
-                  </div>
+                    <div style="width: 100%; text-align: justify; padding-right: 25px">
+                      <p>${titulo}</p>
+                      <br>
+                        <div class="coberturas_botones_padre">
+                            <div>
+                              <b>${subtitulo}</b>
+                              <br>
+                              <ul>
+                                ${coberturasHTML}
+                              </ul>
+                            </div>
+                            <div class="botones_hijo">
+                             <a class="btn-table float-left" href="${pdf}" target="_blank"><img src="vistas/img/iconosResources/icons8-pdf-office-m/icons8-pdf-30.png" width="25px"/> Ver más</a>    
+                            
+                              <!--<button id="" class="btn-table float-left" data-target="#${uniqueId}">Ver PDF</button>-->
+                              <button id="${buttonId}" class="btn-table float-left" data-target="#${uniqueId}">Ver detalle de precios por asegurado</button>
+                              
+                            </div>
+                        </div
+                    </div>
                 </div>
-                
+                </div>
               </div>
               <div class='row card-body'>
               ${tipoCotizacion === 2 ? tableHTML : tableHTML}
@@ -744,7 +758,7 @@ function formatInput(value) {
  * Cuando la cotizacion es grupal generamos tabla resumen.
  * @function
  */
-function makeTable(asegurados, plan_id) {
+function makeTable(asegurados, plan_id, pdf) {
   const uniqueId = `table_${plan_id}`; // Crear un ID único basado en plan_id
   const buttonId = `toggleBtn_${plan_id}`;
 
@@ -752,8 +766,9 @@ function makeTable(asegurados, plan_id) {
 
   <div class="container flex-colum table-responsive">
       <div class="row custom-table-colum">
-            <div class="col-12">
-              <button id="${buttonId}" class="btn-table float-left" data-target="#${uniqueId}">Ver detalle de precios por asegurado</button>
+            <div class="col-12 botonesSoloMovil">
+            <a class="btn-table float-left" href="${pdf}" target="_blank"><img src="vistas/img/iconosResources/icons8-pdf-office-m/icons8-pdf-30.png" width="25px"/> Ver más</a>    
+            <button id="${buttonId}" class="btn-table float-left" data-target="#${uniqueId}">Ver detalle de precios por asegurado</button>
           </div>
       </div>
       <div class="row">
@@ -878,6 +893,7 @@ let showPopup = true;
  * Manager para generar las cards en general.
  * @function
  */
+
 function makeCards(data, tipoCotizacion) {
   console.log(data, tipoCotizacion);
 
@@ -891,9 +907,8 @@ function makeCards(data, tipoCotizacion) {
     data.asegurados.forEach((asegurado) => {
       asegurado.planes.forEach((plan) => {
         if (!planesSumados[plan.plan_id]) {
-          // Javier-Dev iterar planes, crear un array parecido a planesSumados para ir almacenando los planes y sus valores por cada plan y que non se repitan
-
           planesSumados[plan.plan_id] = {
+            id_plan: plan.plan_id,
             nombre: plan.nombre,
             titulo: plan.titulo,
             subtitulo: plan.descripcion,
@@ -923,46 +938,27 @@ function makeCards(data, tipoCotizacion) {
         // Si el plan tiene coberturas, agregarlas
         if (planesSumados[plan.plan_id].coberturas.length === 0) {
           planesSumados[plan.plan_id].coberturas = plan.coberturas || [];
-
-          // console.log(plan.coberturas); // coberturas del plan javier-dev
-
-          // let nombrePlanUpper = plan.nombre.toUpperCase();
-          // switch (nombrePlanUpper) {
-          //   case "FESALUD AMPARADO":
-          //     planesSumados[plan.plan_id].coberturas =
-          //       COBERTURAS_FESALUD_AMPARADO;
-          //     break;
-          //   case "ORIGINAL AMPARADO":
-          //     planesSumados[plan.plan_id].coberturas =
-          //       COBERTURAS_ORIGINAL_AMPARADO;
-          //     break;
-          //   case "ALTERNO AMPARADO":
-          //     planesSumados[plan.plan_id].coberturas =
-          //       COBERTURAS_ALTERNO_AMPARADO;
-          //     break;
-          //   case "SALUD IDEAL":
-          //     planesSumados[plan.plan_id].coberturas = COBERTURAS_SALUD_IDEAL;
-          //     break;
-          //   case "SALUD IDEAL + EMERMEDICA":
-          //     planesSumados[plan.plan_id].coberturas =
-          //       COBERTURAS_SALUD_IDEAL_EMERMEDICA;
-          //     break;
-          //   case "PLAN AMBULATORIO":
-          //     planesSumados[plan.plan_id].coberturas =
-          //       COBERTURAS_PLAN_AMBULATORIO;
-          //     break;
-          //   default:
-          //     planesSumados[plan.plan_id].coberturas = ["Cobertura estándar"];
-          // }
         }
       });
     });
 
+    const params = new URLSearchParams(window.location.search);
+
+    const idCoti = params.get("idCotizacionSalud");
+
+    if (!idCoti) {
+      // Convertir el objeto a un array de sus valores, Ordenar por el valor mensual desc y Actualizar planesSumados con el objeto ordenado
+      const planesArray = Object.values(planesSumados);
+      planesArray.sort((a, b) => b.mensual - a.mensual);
+      planesSumados = planesArray;
+    }
+
     // Generar tarjetas grupales con los valores sumados
     for (let plan_id in planesSumados) {
       let plan = planesSumados[plan_id];
-      let tableHTML = makeTable(data.asegurados, plan_id);
+      let tableHTML = makeTable(data.asegurados, plan.id_plan, plan.pdf);
       html_data += makeIndividualCard(
+        plan.id_plan,
         plan.nombre,
         processValue(plan.mensual, iva),
         processValue(plan.trimestral, iva),
@@ -979,14 +975,13 @@ function makeCards(data, tipoCotizacion) {
       );
     }
   } else if (tipoCotizacion === 2) {
-    // Acumular los valores por plan_id
     let planesSumados = {};
 
     data.asegurados.forEach((asegurado) => {
       asegurado.planes.forEach((plan) => {
-        // console.log(plan);debugger;
         if (!planesSumados[plan.plan_id]) {
           planesSumados[plan.plan_id] = {
+            id_plan: plan.plan_id,
             nombre: plan.nombre,
             titulo: plan.titulo,
             subtitulo: plan.descripcion,
@@ -1013,49 +1008,30 @@ function makeCards(data, tipoCotizacion) {
           plan.anual.replace(/\./g, "").replace(",", ".")
         );
 
-        // Si el plan tiene coberturas, agregarlas
         if (planesSumados[plan.plan_id].coberturas.length === 0) {
           planesSumados[plan.plan_id].coberturas = plan.coberturas || [];
-
-          // console.log(plan.coberturas); // coberturas del plan javier-dev
-
-          // let nombrePlanUpper = plan.nombre.toUpperCase();
-          // switch (nombrePlanUpper) {
-          //   case "FESALUD AMPARADO":
-          //     planesSumados[plan.plan_id].coberturas =
-          //       COBERTURAS_FESALUD_AMPARADO;
-          //     break;
-          //   case "ORIGINAL AMPARADO":
-          //     planesSumados[plan.plan_id].coberturas =
-          //       COBERTURAS_ORIGINAL_AMPARADO;
-          //     break;
-          //   case "ALTERNO AMPARADO":
-          //     planesSumados[plan.plan_id].coberturas =
-          //       COBERTURAS_ALTERNO_AMPARADO;
-          //     break;
-          //   case "SALUD IDEAL":
-          //     planesSumados[plan.plan_id].coberturas = COBERTURAS_SALUD_IDEAL;
-          //     break;
-          //   case "SALUD IDEAL + EMERMEDICA":
-          //     planesSumados[plan.plan_id].coberturas =
-          //       COBERTURAS_SALUD_IDEAL_EMERMEDICA;
-          //     break;
-          //   case "PLAN AMBULATORIO":
-          //     planesSumados[plan.plan_id].coberturas =
-          //       COBERTURAS_PLAN_AMBULATORIO;
-          //     break;
-          //   default:
-          //     planesSumados[plan.plan_id].coberturas = ["Cobertura estándar"];
-          // }
         }
       });
     });
 
+    const params = new URLSearchParams(window.location.search);
+
+    const idCoti = params.get("idCotizacionSalud");
+
+    if (!idCoti) {
+      // Convertir el objeto a un array de sus valores, Ordenar por el valor mensual desc y Actualizar planesSumados con el objeto ordenado
+      const planesArray = Object.values(planesSumados);
+      planesArray.sort((a, b) => b.mensual - a.mensual);
+      planesSumados = planesArray;
+    }
+
     // Generar tarjetas grupales con los valores sumados
     for (let plan_id in planesSumados) {
+      
       let plan = planesSumados[plan_id];
-      let tableHTML = makeTable(data.asegurados, plan_id);
+      let tableHTML = makeTable(data.asegurados, plan.id_plan, plan.pdf);
       html_data += makeIndividualCard(
+        plan.id_plan,
         plan.nombre,
         processValue(plan.mensual, iva),
         processValue(plan.trimestral, iva),
@@ -1083,13 +1059,6 @@ function makeCards(data, tipoCotizacion) {
   }
   $("#resumenCotizaciones").show();
   cargarEstilos("vistas/modulos/SaludCot/css/cardsResult.css");
-
-  // showPopup
-  //   ? Swal.fire({
-  //       title: "¡Cotización Exitosa!",
-  //       icon: "success",
-  //     })
-  //   : null;
 }
 
 /**
@@ -1250,16 +1219,16 @@ function cotizar() {
 
     //Principal peticion ajax para crear la cotizacion
     $.ajax({
-      url: "https://grupoasistencia.com/WS-laravel/api/salud/nueva-cotizacion",
+      url: "http://localhost/WS-laravel/api/salud/nueva-cotizacion",
       type: "POST",
       data: JSON.stringify(datosCotizacion),
       contentType: "application/json",
       dataType: "json",
       success: function (newCoti) {
         $.ajax({
-          // url: "https://grupoasistencia.com/health_engine/WSAxa/axa.php",
+          // url: "http://localhost/health_engine/WSAxa/axa.php",
           url:
-            "https://grupoasistencia.com/WS-laravel/api/salud/axa/cotizar?idNewCoti=" +
+            "http://localhost/WS-laravel/api/salud/axa/cotizar?idNewCoti=" +
             newCoti,
           type: "POST",
           data: JSON.stringify(datosCotizacion),
@@ -1286,7 +1255,7 @@ function cotizar() {
 
         $.ajax({
           url:
-            "https://grupoasistencia.com/WS-laravel/api/salud/bolivar/cotizar?idNewCoti=" +
+            "http://localhost/WS-laravel/api/salud/bolivar/cotizar?idNewCoti=" +
             newCoti,
           type: "POST",
           data: JSON.stringify(datosCotizacion),
@@ -1315,7 +1284,7 @@ function cotizar() {
         });
         $.ajax({
           url:
-            "https://grupoasistencia.com/WS-laravel/api/salud/coomeva/cotizar?idNewCoti=" +
+            "http://localhost/WS-laravel/api/salud/coomeva/cotizar?idNewCoti=" +
             newCoti,
           type: "POST",
           data: JSON.stringify(datosCotizacion),

@@ -137,6 +137,7 @@
                             <option value="11">Hogar deudor</option>
                             <option value="12">Asistencia en viajes</option>
                             <option value="13">Autos Pasajeros</option>
+                            <option value="14">Bicicletas</option>
                         </select>
                     </div>
                     <div class="col-xs-12 col-sm-6 col-md-3" style="padding-left: 25px; padding-right: 25px">
@@ -199,12 +200,12 @@
                     </div>
                     <div class="col-xs-12 col-sm-6 col-md-3" style="padding-left: 25px; padding-right: 25px">
                         <div class="row">
-                            <div class="col-xs-12 col-sm-6 col-md-6" style="padding-left: 25px; padding-right: 25px">
+                            <div class="col-xs-12 col-sm-6 col-md-6" style="padding-left: 15px; padding-right: 5px">
                                 <div class="form-group">
                                     <button class="btn btn-primary btn-block btnConsultar" onclick="searchInfo()">Consultar</button>
                                 </div>
                             </div>
-                            <div class="col-xs-12 col-sm-6 col-md-6" style="padding-left: 25px; padding-right: 25px">
+                            <div class="col-xs-12 col-sm-6 col-md-6" style="padding-left: 15px; padding-right: 5px">
                                 <div class="form-group">
                                     <button class="btn btn-primary btn-block btnCancelar" onclick="reset()">Limpiar</button>
                                 </div>

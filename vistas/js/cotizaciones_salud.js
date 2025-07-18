@@ -228,7 +228,7 @@ function editarCotizacionSalud(id) {
     processData: false,
     dataType: "json",
     success: function (respuesta) {
-      console.log(respuesta.asegurados);
+      console.log("Respuesta del back: ", respuesta);
       const { cedula, nombre, apellido, tipoDocumento } =
         respuesta.requestData.tomador;
 
