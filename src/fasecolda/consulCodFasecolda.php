@@ -71,6 +71,11 @@ if ($_POST['clasveh'] != "" && $_POST['MarcaVeh'] != "" && $edadVeh = $_POST['ed
 			$stmt->execute(array(':MarcaVeh' => $MarcaVeh, ':lineaVeh' => $lineaVeh, ':refe' => $refe, ':refe2' => $refe2));
 			$verConfig = $stmt->fetch(PDO::FETCH_ASSOC);
 			break;
+		default:
+			$stmt = $DB_con->prepare("select * FROM fasecolda WHERE marca=:MarcaVeh AND `$edadVeh` <> 0 AND referencia1=:lineaVeh AND referencia2=:refe AND referencia3=:refe2  and clase='$ejecutar' GROUP BY codigo ORDER BY id_fasecolda");
+			$stmt->execute(array(':MarcaVeh' => $MarcaVeh, ':lineaVeh' => $lineaVeh, ':refe' => $refe, ':refe2' => $refe2));
+			$verConfig = $stmt->fetch(PDO::FETCH_ASSOC);
+			break;
 	}
 
 	$data['result'] = $verConfig;

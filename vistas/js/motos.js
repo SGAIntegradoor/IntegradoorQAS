@@ -548,8 +548,8 @@ $("#btnConsultarVehmanualbuscadorMotos").click(function () {
   }
 });
 
-$("#btnConsultarVehmanualMotos").click(function () {
-  consulCodFasecoldaMotos();
+$("#btnConsultarVehmanualMotos").click(function (e) {
+  consulCodFasecoldaMotos(e);
 });
 
 const requiredFieldsNotNit = (val) => {
@@ -1295,7 +1295,7 @@ function consulPlacaMapfre(valnumplaca) {
 }
 
 // CONSULTA LA GUIA PARA OBTENER EL CODIGO FASECOLDA MANUALMENTE
-function consulCodFasecoldaMotos() {
+function consulCodFasecoldaMotos(e = null) {
   var claseVeh = document.getElementById("clase").value;
   var marcaVeh = document.getElementById("Marca").value;
   var edadVeh = document.getElementById("edad").value;
@@ -1303,8 +1303,10 @@ function consulCodFasecoldaMotos() {
   var refe2 = $(".refe1").val();
   var refe3 = $(".refe22").val();
 
+  let tipoConsulta = e.currentTarget.id;
+
   if (
-    claseVeh != "" &&
+    claseVeh != "" && 
     marcaVeh != "" &&
     edadVeh != "" &&
     refe != "" &&
@@ -1324,8 +1326,11 @@ function consulCodFasecoldaMotos() {
         refe2: refe3,
       },
       success: function (data) {
+         if (tipoConsulta != "btnConsultarVehmanualMotos") {
+          tipoConsulta = null;
+        }
         var codFasecolda = data.result.codigo;
-        consulValorfasecoldaMotos(codFasecolda, edadVeh);
+        consulValorfasecoldaMotos(codFasecolda, edadVeh, tipoConsulta);
       },
     });
   }
@@ -1335,12 +1340,27 @@ var contErrMetEstadoFasec = 0;
 var contErrProtConsulFasec = 0;
 
 // Permite consultar la informacion del vehiculo segun la Guia Fasecolda
-function consulValorfasecoldaMotos(codFasecolda, edadVeh) {
+function consulValorfasecoldaMotos(codFasecolda, edadVeh, tipoConsulta) {
   $("#loaderVehiculo").html(
     '<img src="vistas/img/plantilla/loader-loading.gif" width="34" height="34"><strong> Consultando Vehículo...</strong>'
   );
 
-  var myHeaders = new Headers();
+  if(tipoConsulta != null){
+    consulDatosFasecoldaMotos(codFasecolda, edadVeh).then(function (resp) {
+      var codigoClaseEstado = "";
+      if (resp.claseVeh == "MOTOS") {
+        codigoClaseEstado = 12;
+      }
+      $("#CodigoClase").val(codigoClaseEstado);
+      $("#txtClaseVeh").val(resp.claseVeh);
+      $("#txtMarcaVeh").val(resp.marcaVeh);
+      $("#txtReferenciaVeh").val(resp.lineaVeh);
+      $("#txtValorFasecolda").val(resp.valorVeh);
+      $("#txtModeloVeh").val(edadVeh);
+      $("#txtFasecolda").val(codFasecolda);
+    });
+  } else {
+      var myHeaders = new Headers();
   myHeaders.append("Content-Type", "application/json");
 
   var raw = JSON.stringify({
@@ -1468,6 +1488,7 @@ function consulValorfasecoldaMotos(codFasecolda, edadVeh) {
         setTimeout(consulCodFasecolda, 4000);
       }
     });
+  }
 }
 
 //FUNCION PARA CONSULTAR VALORES EN FASECOLDA
