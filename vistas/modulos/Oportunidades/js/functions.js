@@ -610,6 +610,7 @@ $(document).ready(function () {
     .catch((error) => {
       console.error("Error al cargar datos:", error);
     });
+  location  
 });
 
 let getParams = () => {

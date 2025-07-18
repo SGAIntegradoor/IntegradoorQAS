@@ -361,13 +361,13 @@
                             <td>Axa Colpatria</td>
                             <td class="text-center"><i class="fa fa-check" aria-hidden="true" style="color: green; margin-right: 5px;"></i></td>
                             <td class="text-center">6</td>
-                            <td>🔥 Nuevo seguro de autos livianos con modalidad de indemnización ARREGLO DIRECTO para pérdidas parciales. Solicita cotización manual a tu Analista Comercial. Revisa informacion adicional en la seccion de Notas importantes.</td>
+                            <td>Cotización exitosa!</td>
                         </tr>
                         <tr>
                             <td>Coomeva</td>
                             <td class="text-center"><i class="fa fa-check" aria-hidden="true" style="color: green; margin-right: 5px;"></i></td>
                             <td class="text-center">7</td>
-                            <td>🔥 Nuevo seguro de autos livianos con modalidad de indemnización ARREGLO DIRECTO para pérdidas parciales. Solicita cotización manual a tu Analista Comercial. Revisa informacion adicional en la seccion de Notas importantes.</td>
+                            <td>Cotización exitosa!</td>
                         </tr>
                     </tbody>
                 </table>
