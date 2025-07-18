@@ -401,7 +401,8 @@ class ModeloCotizaciones
 				$tabla6 ci ON ci.id_ciudad = a.ciudad
 			WHERE 
 				c.$field = :id
-			GROUP BY a.id_asegurado, ps.id_plan;");
+			GROUP BY a.id_asegurado, ps.id_plan
+			ORDER BY ass.id_aseguradora desc ,p.mensual_plan DESC;");
 
 			$stmt->bindParam(":id", $id, PDO::PARAM_STR);
 
