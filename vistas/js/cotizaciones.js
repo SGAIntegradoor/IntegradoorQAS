@@ -1141,9 +1141,6 @@ async function renderCards(response) {
   if (!response[0].Categoria) {
     $(".container-filters").css("display", "none");
   }
-
-  console.log(response)
-
   // Obtener los permisos de cotización END
   cardCotizacion = "";
   cards = response;
@@ -1239,7 +1236,6 @@ async function renderCards(response) {
       let aseguradora = oferta.Aseguradora;
       let aseguradoraName = nombreAseguradora(aseguradora);
       let aseguradoraPermisos = obtenerValorC(aseguradoraName);
-      console.log(aseguradoraPermisos)
 
       var primaFormat = formatNumber(oferta.Prima);
       var id_intermediario = document.getElementById("idIntermediario").value;
