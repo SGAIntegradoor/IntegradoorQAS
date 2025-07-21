@@ -1,0 +1,3616 @@
+diff --git a/extensiones/tcpdf/pdf/comparador.php b/extensiones/tcpdf/pdf/comparador.php
+index 224383d..ad35425 100644
+--- a/extensiones/tcpdf/pdf/comparador.php
++++ b/extensiones/tcpdf/pdf/comparador.php
+@@ -155,7 +155,10 @@ $queryCiudad = "SELECT `Nombre` FROM `ciudadesbolivar` WHERE `Codigo` = $codCiud
+ 
+ if($codDepto == 10){
+ 	$queryCiudad = "SELECT `Nombre` FROM `ciudadesbolivar` WHERE `Codigo` = $codCiudad AND `Departamento` = 10";
++} else if($codDepto == 18){
++	$queryCiudad = "SELECT `ciudad` as `Nombre` FROM `ciudades` WHERE `Codigo` = $codCiudad";
+ }
++
+ $respNomCiudad = $conexion->query($queryCiudad);
+ 
+ /*
+diff --git a/extensiones/tcpdf/pdf/comparadorMotos.php b/extensiones/tcpdf/pdf/comparadorMotos.php
+index 7c618d9..92e09fb 100644
+--- a/extensiones/tcpdf/pdf/comparadorMotos.php
++++ b/extensiones/tcpdf/pdf/comparadorMotos.php
+@@ -127,12 +127,16 @@ $queryCiudad = "SELECT `Nombre` FROM `ciudadesbolivar` WHERE `Codigo` = $codCiud
+ 
+ if($codDepto == 10){
+ 	$queryCiudad = "SELECT `Nombre` FROM `ciudadesbolivar` WHERE `Codigo` = $codCiudad AND `Departamento` = 10";
++} else if($codDepto == 18){
++	$queryCiudad = "SELECT `ciudad` as `Nombre` FROM `ciudades` WHERE `Codigo` = $codCiudad";
+ }
++
+ $respNomCiudad = $conexion->query($queryCiudad);
+ 
+ /*
+ * FIN: Consultar nombre de la ciudad
+ */
++
+ $nomCiudad = $respNomCiudad->fetch_assoc();
+ $explodeCiudad = explode('-', $nomCiudad["Nombre"]);
+ $ciudad = $explodeCiudad[0];
+diff --git a/extensiones/tcpdf/pdf/comparadorPasajeros.php b/extensiones/tcpdf/pdf/comparadorPasajeros.php
+index 4c6c54c..32f6a53 100644
+--- a/extensiones/tcpdf/pdf/comparadorPasajeros.php
++++ b/extensiones/tcpdf/pdf/comparadorPasajeros.php
+@@ -157,7 +157,10 @@ $queryCiudad = "SELECT `Nombre` FROM `ciudadesbolivar` WHERE `Codigo` = $codCiud
+ 
+ if($codDepto == 10){
+ 	$queryCiudad = "SELECT `Nombre` FROM `ciudadesbolivar` WHERE `Codigo` = $codCiudad AND `Departamento` = 10";
++} else if($codDepto == 18){
++	$queryCiudad = "SELECT `ciudad` as `Nombre` FROM `ciudades` WHERE `Codigo` = $codCiudad";
+ }
++
+ $respNomCiudad = $conexion->query($queryCiudad);
+ 
+ /*
+diff --git a/extensiones/tcpdf/pdf/comparadorPesados.php b/extensiones/tcpdf/pdf/comparadorPesados.php
+index 0b253c7..aac8c99 100644
+--- a/extensiones/tcpdf/pdf/comparadorPesados.php
++++ b/extensiones/tcpdf/pdf/comparadorPesados.php
+@@ -133,7 +133,10 @@ $queryCiudad = "SELECT `Nombre` FROM `ciudadesbolivar` WHERE `Codigo` = $codCiud
+ 
+ if($codDepto == 10){
+ 	$queryCiudad = "SELECT `Nombre` FROM `ciudadesbolivar` WHERE `Codigo` = $codCiudad AND `Departamento` = 10";
++} else if($codDepto == 18){
++	$queryCiudad = "SELECT `ciudad` as `Nombre` FROM `ciudades` WHERE `Codigo` = $codCiudad";
+ }
++
+ $respNomCiudad = $conexion->query($queryCiudad);
+ 
+ /*
+@@ -141,7 +144,7 @@ $respNomCiudad = $conexion->query($queryCiudad);
+ */
+ 
+ $nomCiudad = $respNomCiudad->fetch_assoc();
+-$explodeCiudad = explode('-', $nomCiudad["Nombre"]);
++$explodeCiudad = $codDepto == 18 ?  [$nomCiudad["Nombre"]] : explode('-', $nomCiudad["Nombre"]);
+ $ciudad = $explodeCiudad[0];
+ 
+ $rest = substr($placa, 0, 3);
+diff --git a/modelos/cotizaciones.modelo.php b/modelos/cotizaciones.modelo.php
+index 64a83e6..d897be0 100644
+--- a/modelos/cotizaciones.modelo.php
++++ b/modelos/cotizaciones.modelo.php
+@@ -34,12 +34,31 @@ class ModeloCotizaciones
+ 															AND $tabla2.id_estado_civil = $tabla4.id_estado_civil AND $tabla.id_cotizacion = :$item AND $tabla5.id_Intermediario = :idIntermediario AND $tabla7.id_cliente_asociado = $tabla2.id_cliente"
+ 					);
+ 				} else {
++					$stmtCoti = Conexion::conectar()->prepare(
++						"SELECT * FROM $tabla WHERE $tabla.id_cotizacion = :$item"
++					);
++					$stmtCoti->bindParam(":" . $item, $valor, PDO::PARAM_STR);
++					$stmtCoti->execute();
++					$responseCoti = $stmtCoti->fetch(PDO::FETCH_ASSOC);
++
++					$citie = false;
++
++					if (substr($responseCoti['cot_ciudad'], 0, 2) == "44") {
++						$citie = true;
++						$tabla6 = "ciudades";
++					}
++
++					$ciudadJoin = $citie
++						? "$tabla.cot_ciudad = ciudades.codigo"
++						: "$tabla.cot_ciudad = $tabla6.Codigo";
++
+ 					$stmt = Conexion::conectar()->prepare(
+ 						"SELECT * FROM $tabla, $tabla2, $tabla3, $tabla4, $tabla5, $tabla6
+ 															WHERE $tabla.id_cliente = $tabla2.id_cliente AND $tabla.id_usuario = $tabla5.id_usuario 
+-															AND $tabla.cot_ciudad = $tabla6.Codigo AND $tabla2.id_tipo_documento = $tabla3.id_tipo_documento 
++															AND $ciudadJoin AND $tabla2.id_tipo_documento = $tabla3.id_tipo_documento 
+ 															AND $tabla2.id_estado_civil = $tabla4.id_estado_civil AND $tabla.id_cotizacion = :$item AND $tabla5.id_Intermediario = :idIntermediario"
+ 					);
++
+ 				}
+ 
+ 				$stmt->bindParam(":" . $item, $valor, PDO::PARAM_STR);
+@@ -287,7 +306,7 @@ class ModeloCotizaciones
+ 				}
+ 
+ 				// Dividir nombre y fecha de nacimiento
+-				
++
+ 				$arrayFecha = explode("-", $row["fch_nac_asegurado"]);
+ 				$arrayNombre = explode(" ", $row["nom_asegurado"], 2);
+ 
+diff --git a/modelos/invitacion.modelo.php b/modelos/invitacion.modelo.php
+index 49d2d9f..649ff78 100644
+--- a/modelos/invitacion.modelo.php
++++ b/modelos/invitacion.modelo.php
+@@ -146,7 +146,7 @@ class ModeloInvitacion
+                                 <td>
+                                     <h1 class="h1-name">Hola ' . $nombre . ',</h1>
+                                     <p style="color:#2e2e2e !important;">Estas a punto de ser parte de nuestro equipo y dar un paso importante como empresario. En el presente correo se adjunta el enlace para completar el formulario y registrarte.</p>
+-                                    <h4 class="h4-name">Haz click en el siguiente enlace para registrarte: https://integradoor.com/app/invitacion?token=' . $token . '</h4>
++                                    <h4 class="h4-name">Haz click en el siguiente enlace para registrarte: <a href="https://integradoor.com/app/invitacion?token=' . $token . '">https://integradoor.com/app/invitacion?token=' . $token . '</a></h4>
+                                     </td>
+                                     </tr>
+                                     
+diff --git a/modelos/usuarios.modelo.php b/modelos/usuarios.modelo.php
+index c83363a..04e2957 100644
+--- a/modelos/usuarios.modelo.php
++++ b/modelos/usuarios.modelo.php
+@@ -161,8 +161,6 @@ class ModeloUsuarios
+ 		// Crear consulta dinámica
+ 		$sql = "SELECT u.*, r.rol_descripcion FROM usuarios u INNER JOIN roles r on r.id_rol = u.id_rol WHERE 1=1"; // Query base
+ 		foreach ($valores as $campo => $valor) {
+-			var_dump($campo);
+-			var_dump($valor);
+ 			switch ($campo) {
+ 				case 'nombreFiltro':
+ 					# code...
+@@ -176,6 +174,10 @@ class ModeloUsuarios
+ 					# code...
+ 					$sql .= " AND fechaFin = '$valor'";
+ 					break;
++				case 'identificacionFiltro':
++					# code...
++					$sql .= " AND usu_documento = '$valor'";
++					break;
+ 				case 'ciudadFiltro':
+ 					# code...
+ 					$sql .= " AND ciudades_id = '$valor'";
+@@ -193,6 +195,7 @@ class ModeloUsuarios
+ 					break;
+ 			}
+ 		}
++
+ 		$stmt = Conexion::conectar()->prepare($sql);
+ 		$stmt->execute();
+ 
+diff --git a/src/consultarCiudad.php b/src/consultarCiudad.php
+index 8442cc3..9d0fae5 100644
+--- a/src/consultarCiudad.php
++++ b/src/consultarCiudad.php
+@@ -1,75 +1,84 @@
+ <?php
+ 
+-/* Conectar a la base de datos*/
+-require_once("../config/db.php"); //Contiene las variables de configuracion para conectar a la base de datos
+-require_once("../config/conexion.php"); //Contiene funcion que conecta a la base de datos
++// Conectar a la base de datos
++require_once("../config/db.php");
++require_once("../config/conexion.php");
+ 
+-$codigo = $_POST['data'];
+-$codigoV = "";
++// Validar que el dato exista
++$codigo = isset($_POST['data']) ? intval($_POST['data']) : 0;
+ 
+-if ($codigo == 32) {
+-	$codigoV = 30;
+-} else if ($codigo == 2) {
+-	$codigoV = 2;
+-} else if ($codigo == 4) {
+-	$codigoV = 4;
+-} else if ($codigo == 5) {
+-	$codigoV = 4;
+-} else if ($codigo == 7) {
+-	$codigoV = 5;
+-} else if ($codigo == 8) {
+-	$codigoV = 6;
+-} else if ($codigo == 9) {
+-	$codigoV = 7;
+-} else if ($codigo == 13) {
+-	$codigoV = 11;
+-} else if ($codigo == 15) {
+-	$codigoV = 13;
+-} else if ($codigo == 16) {
+-	$codigoV = 14;
+-} else if ($codigo == 20) {
+-	$codigoV = 18;
+-} else if ($codigo == 21) {
+-	$codigoV = 19;
+-} else if ($codigo == 22) {
+-	$codigoV = 20;
+-} else if ($codigo == 23) {
+-	$codigoV = 21;
+-} else if ($codigo == 24) {
+-	$codigoV = 22;
+-} else if ($codigo == 26) {
+-	$codigoV = 24;
+-} else if ($codigo == 27) {
+-	$codigoV = 25;
+-} else if ($codigo == 29) {
+-	$codigoV = 27;
+-} else if ($codigo == 30) {
+-	$codigoV = 28;
+-} else if ($codigo == 31) {
+-	$codigoV = 29;
+-} else if ($codigo == 12) {
+-	$codigoV = 12;
+-} else if ($codigo == 11) {
+-	$codigoV = 11;
+-} else if ($codigo == 10) {
+-	$codigoV = 10;
+-} else if ($codigo == 25) {
+-	$codigoV = 25;
+-}
++// Mapeo de códigos
++$codigoMap = [
++	32 => 30,
++	2 => 2,
++	4 => 4,
++	5 => 4,
++	7 => 5,
++	8 => 6,
++	9 => 7,
++	10 => 10,
++	11 => 11,
++	12 => 12,
++	13 => 11,
++	15 => 13,
++	16 => 14,
++	18 => 44,
++	20 => 18,
++	21 => 19,
++	22 => 20,
++	23 => 21,
++	24 => 22,
++	25 => 25,
++	26 => 24,
++	27 => 25,
++	29 => 27,
++	30 => 28,
++	31 => 29
++];
+ 
+-if ($codigo == 5) {
+-	$sql = "SELECT DISTINCT `Nombre`,`Departamento`,`Codigo` FROM `ciudadesbolivar` WHERE `Codigo` LIKE '4000' ORDER BY `Nombre` ASC";
+-} else if ($codigo == 6) {
+-	$sql = "SELECT DISTINCT `Nombre`,`Departamento`,`Codigo` FROM `ciudadesbolivar` WHERE `Codigo` LIKE '14000' ORDER BY `Nombre` ASC";
+-} else if ($codigo == 0) {
+-	$sql = "SELECT DISTINCT `Nombre`,`Departamento`,`Codigo` FROM `ciudadesbolivar`ORDER BY `Nombre` ASC";
+-} else {
+-	$sql = "SELECT DISTINCT `Nombre`,`Departamento`,`Codigo` FROM `ciudadesbolivar` WHERE `Departamento` = $codigoV ORDER BY `Nombre` ASC";
++// Obtener el valor mapeado o usar el mismo si no existe en el mapeo
++$codigoV = $codigoMap[$codigo] ?? $codigo;
++
++// Construcción de la consulta
++switch ($codigo) {
++	case 5:
++		$sql = "SELECT DISTINCT `Nombre`, `Departamento`, `Codigo` 
++                FROM `ciudadesbolivar` 
++                WHERE `Codigo` = '4000' 
++                ORDER BY `Nombre` ASC";
++		break;
++
++	case 6:
++		$sql = "SELECT DISTINCT `Nombre`, `Departamento`, `Codigo` 
++                FROM `ciudadesbolivar` 
++                WHERE `Codigo` = '14000' 
++                ORDER BY `Nombre` ASC";
++		break;
++
++	case 0:
++		$sql = "SELECT DISTINCT `Nombre`, `Departamento`, `Codigo` 
++                FROM `ciudadesbolivar` 
++                ORDER BY `Nombre` ASC";
++		break;
++
++	case 18:
++		$sql = "SELECT DISTINCT `ciudad` as `Nombre`, `departamento` as `Departamento`, `codigo` as `Codigo` 
++                FROM `ciudades` 
++				WHERE `Codigo` LIKE '44%'
++                ORDER BY `Nombre` ASC";
++		break;
++
++	default:
++		$sql = "SELECT DISTINCT `Nombre`, `Departamento`, `Codigo` 
++                FROM `ciudadesbolivar` 
++                WHERE `Departamento` = " . intval($codigoV) . " 
++                ORDER BY `Nombre` ASC";
++		break;
+ }
+ 
+ $res = mysqli_query($con, $sql);
+ 
+-if($res === false) {
++if ($res === false) {
+ 	$data['mensaje'] = "No hay Registros";
+ 	echo json_encode($data, JSON_UNESCAPED_UNICODE);
+ 	exit;
+@@ -85,4 +94,4 @@ if ($num_rows > 0) {
+ } else {
+ 	$data['mensaje'] = "No hay Registros";
+ 	echo json_encode($data, JSON_UNESCAPED_UNICODE);
+-}
+\ No newline at end of file
++}
+diff --git a/src/fasecolda/categorias.php b/src/fasecolda/categorias.php
+index b4da97c..8e8c4b9 100644
+--- a/src/fasecolda/categorias.php
++++ b/src/fasecolda/categorias.php
+@@ -34,6 +34,9 @@
+ 			case 'PESADO':
+ 				$nombre="clase='CAMION' OR clase='CARROTANQUE' OR clase='FURGON' OR clase='REMOLCADOR' OR clase='VOLQUETA' OR clase='UNIMOG'";
+ 				break;
++			default:
++				$nombre=$variable;
++				break;
+ 		}
+ 		
+ 
+diff --git a/src/fasecolda/consulCodFasecolda.php b/src/fasecolda/consulCodFasecolda.php
+index 061a10e..a6f0237 100644
+--- a/src/fasecolda/consulCodFasecolda.php
++++ b/src/fasecolda/consulCodFasecolda.php
+@@ -71,6 +71,11 @@ if ($_POST['clasveh'] != "" && $_POST['MarcaVeh'] != "" && $edadVeh = $_POST['ed
+ 			$stmt->execute(array(':MarcaVeh' => $MarcaVeh, ':lineaVeh' => $lineaVeh, ':refe' => $refe, ':refe2' => $refe2));
+ 			$verConfig = $stmt->fetch(PDO::FETCH_ASSOC);
+ 			break;
++		default:
++			$stmt = $DB_con->prepare("select * FROM fasecolda WHERE marca=:MarcaVeh AND `$edadVeh` <> 0 AND referencia1=:lineaVeh AND referencia2=:refe AND referencia3=:refe2  and clase='$ejecutar' GROUP BY codigo ORDER BY id_fasecolda");
++			$stmt->execute(array(':MarcaVeh' => $MarcaVeh, ':lineaVeh' => $lineaVeh, ':refe' => $refe, ':refe2' => $refe2));
++			$verConfig = $stmt->fetch(PDO::FETCH_ASSOC);
++			break;
+ 	}
+ 
+ 	$data['result'] = $verConfig;
+diff --git a/src/fasecolda/edadveh.php b/src/fasecolda/edadveh.php
+index ac63f7b..e5cea66 100644
+--- a/src/fasecolda/edadveh.php
++++ b/src/fasecolda/edadveh.php
+@@ -1,24 +1,16 @@
+ <?php
+-//require_once("../config/db.php"); //Contiene las variables de configuracion para conectar a la base de datos
++//require_on
+ require_once("../../config/dbconfig.php"); //Contiene funcion que conecta a la base de datos
+ 
+-require 'categorias.php';
+-
+-//require 'funcionesBD.php';
+-
+ if ($_POST['dataString'] && $clasveh = $_POST['clasveh']) {
+-    $id = $_POST['dataString'];
+ 
+-    if ($id == "ALFA") {
+-        $id = "ALFA ROMERO";
+-    } else {
+-    }
++    $id = $_POST['dataString'];
+ 
+     $clasveh = $_POST['clasveh'];
+ 
+-    $ejecutar = ejecutar($clasveh);
++    $anio_actual = date("Y") + 1;
+ 
+-    $sql = $DB_con->prepare("select distinct COLUMN_NAME from INFORMATION_SCHEMA.COLUMNS where TABLE_NAME = 'fasecolda' and COLUMN_NAME  between '1000' and '2025'");
++    $sql = $DB_con->prepare("SELECT DISTINCT COLUMN_NAME from INFORMATION_SCHEMA.COLUMNS where TABLE_NAME = 'fasecolda' and COLUMN_NAME  between '1970' and '" . $anio_actual . "'");
+     $sql->execute();
+     $rows = $sql->rowCount();
+ 
+@@ -28,176 +20,13 @@ if ($_POST['dataString'] && $clasveh = $_POST['clasveh']) {
+         $CargaConfig[$i] = $verConfig["COLUMN_NAME"];
+     }
+ 
+-    log($CargaConfig);
+     $cantidad = count($CargaConfig);
+ 
+-    switch ($ejecutar) {
+-
+-        case "MOTOCICLETA":
+-
+-            for ($k = 0; $k < ($cantidad); $k++) {
+-                $vector[$k] = $CargaConfig[$k];
+-
+-                $sql2 = $DB_con->prepare("SELECT `" . $vector[$k] . "` FROM fasecolda where clase=:ejecutar AND  MARCA=:id and `" . $vector[$k] . "` <>0");
+-
+-                $sql2->execute(array(':id' => $id, ':ejecutar' => $ejecutar));
+-                $v = $sql2->fetch(PDO::FETCH_NUM);
+-                //condicional para guardar la posicion de los campos diferentes a cero de la consulta
+-                if ($v[0] > 0) {
+-                    $valor = $valor + 1;
+-                    $val[$valor - 1] = $k;
+-                }
+-            }
+-
+-            break;
+-            //----------------------------------------------------------------------------------------------------          
+-        case "AUTOMOVIL":
+-
+-            for ($k = 0; $k < ($cantidad); $k++) {
+-                $vector[$k] = $CargaConfig[$k];
+-
+-                $sql2 = $DB_con->prepare("SELECT `" . $vector[$k] . "` FROM fasecolda where clase=:ejecutar AND  MARCA=:id and `" . $vector[$k] . "` <>0");
+-
+-                $sql2->execute(array(':id' => $id, ':ejecutar' => $ejecutar));
+-                $v = $sql2->fetch(PDO::FETCH_NUM);
+-                //condicional para guardar la posicion de los campos diferentes a cero de la consulta
+-                if ($v[0] > 0) {
+-                    $valor = $valor + 1;
+-                    $val[$valor - 1] = $k;
+-                }
+-            }
+-
+-
+-            break;
+-            //-----------------------------------------------------------------------------------------------------
+-        case "clase='CAMIONETA REPAR' OR clase='CAMIONETA PASAJ.' OR clase='CAMPERO'":
+-
+-            for ($k = 0; $k < ($cantidad); $k++) {
+-                $vector[$k] = $CargaConfig[$k];
+-
+-                $sql2 = $DB_con->prepare("SELECT `" . $vector[$k] . "` FROM fasecolda where  MARCA=:id and `" . $vector[$k] . "` <>0 AND (" . $ejecutar . ")");
+-
+-                $sql2->execute(array(':id' => $id));
+-                $v = $sql2->fetch(PDO::FETCH_NUM);
+-                //condicional para guardar la posicion de los campos diferentes a cero de la consulta
+-                if ($v[0] > 0) {
+-                    $valor = $valor + 1;
+-                    $val[$valor - 1] = $k;
+-                }
+-            }
+-
+-            break;
+-            //------------------------------------------------------------------------------------------------------
+-        case "clase='PICKUP DOBLE CAB' OR clase='PICKUP SENCILLA'":
+-            for ($k = 0; $k < ($cantidad); $k++) {
+-                $vector[$k] = $CargaConfig[$k];
+-
+-                $sql2 = $DB_con->prepare("SELECT `" . $vector[$k] . "` FROM fasecolda where  MARCA=:id and `" . $vector[$k] . "` <>0 AND (" . $ejecutar . ")");
+-
+-                $sql2->execute(array(':id' => $id));
+-                $v = $sql2->fetch(PDO::FETCH_NUM);
+-                //condicional para guardar la posicion de los campos diferentes a cero de la consulta
+-                if ($v[0] > 0) {
+-                    $valor = $valor + 1;
+-                    $val[$valor - 1] = $k;
+-                }
+-            }
+-
+-            break;
+-            //------------------------------------------------------------------------------------------------------
+-        case "clase='MOTOCARRO' OR clase='ISOCARRO'":
+-
+-            for ($k = 0; $k < ($cantidad); $k++) {
+-                $vector[$k] = $CargaConfig[$k];
+-
+-                $sql2 = $DB_con->prepare("SELECT `" . $vector[$k] . "` FROM fasecolda where  MARCA=:id and `" . $vector[$k] . "` <>0 AND (" . $ejecutar . ")");
+-
+-                $sql2->execute(array(':id' => $id));
+-                $v = $sql2->fetch(PDO::FETCH_NUM);
+-                //condicional para guardar la posicion de los campos diferentes a cero de la consulta
+-                if ($v[0] > 0) {
+-                    $valor = $valor + 1;
+-                    $val[$valor - 1] = $k;
+-                }
+-            }
+-
+-            break;
+-            //------------------------------------------------------------------------------------------------------
+-        case 'FURGONETA':
+-            for ($k = 0; $k < ($cantidad); $k++) {
+-                $vector[$k] = $CargaConfig[$k];
+-
+-                $sql2 = $DB_con->prepare("SELECT `" . $vector[$k] . "` FROM fasecolda where clase=:ejecutar AND  MARCA=:id and `" . $vector[$k] . "` <>0");
+-
+-                $sql2->execute(array(':id' => $id, ':ejecutar' => $ejecutar));
+-                $v = $sql2->fetch(PDO::FETCH_NUM);
+-                //condicional para guardar la posicion de los campos diferentes a cero de la consulta
+-                if ($v[0] > 0) {
+-                    $valor = $valor + 1;
+-                    $val[$valor - 1] = $k;
+-                }
+-            }
+-            break;
+-            //------------------------------------------------------------------------------------------------------
+-
+-        case "BUS / BUSETA / MICROBUS":
+-            for ($k = 0; $k < ($cantidad); $k++) {
+-                $vector[$k] = $CargaConfig[$k];
+-
+-                $sql2 = $DB_con->prepare("SELECT `" . $vector[$k] . "` FROM fasecolda where clase=:ejecutar AND  MARCA=:id and `" . $vector[$k] . "` <>0");
+-
+-                $sql2->execute(array(':id' => $id, ':ejecutar' => $ejecutar));
+-                $v = $sql2->fetch(PDO::FETCH_NUM);
+-                //condicional para guardar la posicion de los campos diferentes a cero de la consulta
+-                if ($v[0] > 0) {
+-                    $valor = $valor + 1;
+-                    $val[$valor - 1] = $k;
+-                }
+-            }
+-            break;
+-            //------------------------------------------------------------------------------------------------------
+-        case "clase='CAMION' OR clase='CARROTANQUE' OR clase='FURGON' OR clase='REMOLCADOR' OR clase='VOLQUETA' OR clase='UNIMOG'":
+-
+-            for ($k = 0; $k < ($cantidad); $k++) {
+-                $vector[$k] = $CargaConfig[$k];
+-
+-                $sql2 = $DB_con->prepare("SELECT `" . $vector[$k] . "` FROM fasecolda where  MARCA=:id and `" . $vector[$k] . "` <>0 AND (" . $ejecutar . ")");
+-
+-                $sql2->execute(array(':id' => $id));
+-                $v = $sql2->fetch(PDO::FETCH_NUM);
+-                //condicional para guardar la posicion de los campos diferentes a cero de la consulta
+-                if ($v[0] > 0) {
+-                    $valor = $valor + 1;
+-                    $val[$valor - 1] = $k;
+-                }
+-            }
+-
+-            break;
+-            //------------------------------------------------------------------------------------------------------
+-    }
+-
+-
+-    $valo = count($val);
+-
+-    //--------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-
+-    $query = "SELECT * from fasecolda";
+-    $resultado = mysqli_query($enlace, $query);
+-    $finfo = mysqli_fetch_field_direct($resultado, 1);
+-
+-    //for para recorrer sacar las possiciones de los campos.
+-    for ($j = 0; $j < $valo; $j++) {
+-        $finfos = mysqli_fetch_field_direct($resultado, ($val[$j] + 12));
+-        $da[$j] = $finfos->name;
+-    }
+-
+-    // Contador de campo arreglo 
+-    $suma = count($da);
+ ?>
+     <option value="">Seleccione el Modelo</option><?php
+-                                                    for ($p = 0; $p < $suma; $p++) {
++                                                    for ($p = 0; $p < $cantidad; $p++) {
+                                                     ?>
+-        <option value="<?php echo $da[$p] ?>"><?php echo $da[$p] ?></option>
++        <option value="<?php echo $CargaConfig[$p] ?>"><?php echo $CargaConfig[$p] ?></option>
+ <?php
+                                                     }
+ 
+diff --git a/src/fasecolda/marca.php b/src/fasecolda/marca.php
+index 3632796..a5b1c37 100644
+--- a/src/fasecolda/marca.php
++++ b/src/fasecolda/marca.php
+@@ -2,53 +2,51 @@
+ 
+ require_once("../../config/db.php"); //Contiene las variables de configuracion para conectar a la base de datos
+ require_once("../../config/conexion.php"); //Contiene funcion que conecta a la base de datos
+-require 'categorias.php';
+ 
+ if ($_POST['id']) {
+ 	$id = $_POST['id'];
+-	$ejecutar = ejecutar($id);
+ 
+ 	$sql = "";
+-	switch ($ejecutar) {
++	$sql = "SELECT f.marca FROM fasecolda f WHERE clase='" . $id . "' GROUP BY marca ORDER BY marca asc";
++	// switch ($ejecutar) {
+ 
+-		case "MOTOCICLETA":
++	// 	case "MOTOCICLETA":
+ 
+-			$sql = "SELECT * FROM fasecolda WHERE clase='" . $ejecutar . "' and (marca='AUTECO' or marca='YAMAHA' or marca='HONDA' OR marca='AKT' OR marca='SUZUKI' OR marca='KYMCO' OR marca='HERO' or marca='TVS' or marca='KAWASAKI' or marca='SIGMA') GROUP BY marca ORDER BY marca asc";
+-			break;
++	// 		break;
+ 
+-		case "AUTOMOVIL":
++	// 	case "AUTOMOVIL":
+ 
+-			$sql = "SELECT * FROM fasecolda WHERE clase='" . $ejecutar . "' and (marca='CHEVROLET' or marca='RENAULT' or marca='NISSAN' or marca='KIA' or marca='MAZDA' or marca='FORD' or marca='TOYOTA' or marca='HYUNDAI' or marca='VOLKSWAGEN' or marca='SUZUKI') GROUP BY marca ORDER BY marca asc";
+-			break;
++	// 		$sql = "SELECT * FROM fasecolda WHERE clase='" . $ejecutar . "' and (marca='CHEVROLET' or marca='RENAULT' or marca='NISSAN' or marca='KIA' or marca='MAZDA' or marca='FORD' or marca='TOYOTA' or marca='HYUNDAI' or marca='VOLKSWAGEN' or marca='SUZUKI') GROUP BY marca ORDER BY marca asc";
++	// 		break;
+ 
+-		case "clase='CAMIONETA REPAR' OR clase='CAMIONETA PASAJ.' OR clase='CAMPERO'":
++	// 	case "clase='CAMIONETA REPAR' OR clase='CAMIONETA PASAJ.' OR clase='CAMPERO'":
+ 
+-			$sql = "SELECT * FROM fasecolda WHERE (" . $ejecutar . ") and (marca='NISSAN' or marca='RENAULT' or marca='TOYOTA' or marca='FORD' or marca='CHEVROLET' or marca='AUDI') GROUP BY marca ORDER BY marca asc";
+-			break;
++	// 		$sql = "SELECT * FROM fasecolda WHERE (" . $ejecutar . ") and (marca='NISSAN' or marca='RENAULT' or marca='TOYOTA' or marca='FORD' or marca='CHEVROLET' or marca='AUDI') GROUP BY marca ORDER BY marca asc";
++	// 		break;
+ 
+-		case "clase='PICKUP DOBLE CAB' OR clase='PICKUP SENCILLA'":
+-			$sql = "SELECT * FROM fasecolda WHERE (" . $ejecutar . ") and (marca='NISSAN' or marca='RENAULT' or marca='TOYOTA' or marca='FORD' or marca='CHEVROLET') GROUP BY marca ORDER BY marca asc";
+-			break;
++	// 	case "clase='PICKUP DOBLE CAB' OR clase='PICKUP SENCILLA'":
++	// 		$sql = "SELECT * FROM fasecolda WHERE (" . $ejecutar . ") and (marca='NISSAN' or marca='RENAULT' or marca='TOYOTA' or marca='FORD' or marca='CHEVROLET') GROUP BY marca ORDER BY marca asc";
++	// 		break;
+ 
+-		case "clase='MOTOCARRO' OR clase='ISOCARRO'":
++	// 	case "clase='MOTOCARRO' OR clase='ISOCARRO'":
+ 
+-			$sql = "SELECT * FROM fasecolda WHERE (" . $ejecutar . ") GROUP BY marca ORDER BY marca asc";
+-			break;
++	// 		$sql = "SELECT * FROM fasecolda WHERE (" . $ejecutar . ") GROUP BY marca ORDER BY marca asc";
++	// 		break;
+ 
+-		case 'FURGONETA':
+-			$sql = "SELECT * FROM fasecolda WHERE clase='" . $ejecutar . "' GROUP BY marca ORDER BY marca asc";
+-			break;
++	// 	case 'FURGONETA':
++	// 		$sql = "SELECT * FROM fasecolda WHERE clase='" . $ejecutar . "' GROUP BY marca ORDER BY marca asc";
++	// 		break;
+ 
+-		case "BUS / BUSETA / MICROBUS":
+-			$sql = "SELECT * FROM fasecolda WHERE clase='" . $ejecutar . "' and (marca='CHEVROLET' or marca='HINO' or marca='SCANIA' or marca='VOLVO' or marca='AGRALE' or marca='HYUNDAI' or marca='IVECO' or marca='JAC' or marca='RENAULT' or marca='MERCEDES BENZ' or marca='VOLKSWAGEN' or marca='KIA')GROUP BY marca ORDER BY marca asc";
+-			break;
++	// 	case "BUS / BUSETA / MICROBUS":
++	// 		$sql = "SELECT * FROM fasecolda WHERE clase='" . $ejecutar . "' and (marca='CHEVROLET' or marca='HINO' or marca='SCANIA' or marca='VOLVO' or marca='AGRALE' or marca='HYUNDAI' or marca='IVECO' or marca='JAC' or marca='RENAULT' or marca='MERCEDES BENZ' or marca='VOLKSWAGEN' or marca='KIA')GROUP BY marca ORDER BY marca asc";
++	// 		break;
+ 
+ 
+-		case "clase='CAMION' OR clase='CARROTANQUE' OR clase='FURGON' OR clase='REMOLCADOR' OR clase='VOLQUETA' OR clase='UNIMOG'":
++	// 	case "clase='CAMION' OR clase='CARROTANQUE' OR clase='FURGON' OR clase='REMOLCADOR' OR clase='VOLQUETA' OR clase='UNIMOG'":
+ 
+-			$sql = "SELECT * FROM fasecolda WHERE (" . $ejecutar . ") and (marca='CHEVROLET' or marca='HINO' OR marca='FOTON' or marca='JAC' or marca='NISSAN' or marca='INTERNATIONAL' or marca='FREIGHTLINER' or marca='KENWORTH' or marca='RENAULT') GROUP BY marca ORDER BY marca asc";
+-			break;
+-	}
++	// 		$sql = "SELECT * FROM fasecolda WHERE (" . $ejecutar . ") and (marca='CHEVROLET' or marca='HINO' OR marca='FOTON' or marca='JAC' or marca='NISSAN' or marca='INTERNATIONAL' or marca='FREIGHTLINER' or marca='KENWORTH' or marca='RENAULT') GROUP BY marca ORDER BY marca asc";
++	// 		break;
++	// }
+ 
+ 	$consulta = mysqli_query($con, $sql);
+ 
+@@ -59,7 +57,5 @@ if ($_POST['id']) {
+ 		$selectMarca .= "<option value=" . $row['marca'] . ">" . $row['marca'] . "</option>";
+ 	}
+ 
+-	$selectMarca .= "<option VALUE='Mas'>--Mas--</option>";
+-
+ 	echo $selectMarca;
+ }
+diff --git a/src/fasecolda/referencia1.php b/src/fasecolda/referencia1.php
+index 580ccab..f582e39 100644
+--- a/src/fasecolda/referencia1.php
++++ b/src/fasecolda/referencia1.php
+@@ -1,186 +1,27 @@
+ <?php
+-	include_once '../../config/dbconfig.php';
+-	require 'categorias.php';
+-	
+-	if($_POST['dataString'] && $clasveh=$_POST['clasveh'] && $MarcaVeh=$_POST['MarcaVeh'])
+-	{
+-		$id=$_POST['dataString'];
+-		$clasveh=$_POST['clasveh'];
+-		$MarcaVeh=$_POST['MarcaVeh'];
++include_once '../../config/dbconfig.php';
+ 
+-		$ejecutar=ejecutar($clasveh);
++if (isset($_POST['dataString'], $_POST['clasveh'], $_POST['MarcaVeh'])) {
++    $id = $_POST['dataString'];
++    $clasveh = $_POST['clasveh'];
++    $MarcaVeh = $_POST['MarcaVeh'];
+ 
+-		switch ($ejecutar) {
+-//-----------------------------------------------------------------------------------------------------
+-			case "MOTOCICLETA":
+-				$stmt = $DB_con->prepare("SELECT * FROM fasecolda WHERE clase=:ejecutar AND marca=:MarcaVeh AND `$id` <> 0  GROUP BY referencia1 ORDER BY referencia1 ASC");
+-				$stmt->execute(array(':ejecutar' => $ejecutar, ':MarcaVeh'=>$MarcaVeh));
+-			
+-				?>
+-				<select type="select" name="lineaVehh" class="lineaVeh" required>
+-				<option value="">Seleccione la Linea</option><?php
+-				while($row=$stmt->fetch(PDO::FETCH_ASSOC))
+-							{
+-								?>
+-								<option value="<?php echo $row['referencia1']; ?>"><?php echo $row['referencia1']; ?></option>
+-						 	
+-						<?php
+-						}
+-						?>
+-					</select>
+-					<?php
+-					break;
+-//----------------------------------------------------------------------------------------------------
+-			 case "AUTOMOVIL":
+-			 	$stmt = $DB_con->prepare("SELECT * FROM fasecolda WHERE clase=:ejecutar AND marca=:MarcaVeh AND `$id` <> 0  GROUP BY referencia1 ORDER BY id_fasecolda");
+-				$stmt->execute(array(':ejecutar' => $ejecutar, ':MarcaVeh'=>$MarcaVeh));
++    // Usa variable correcta en el bind (corregido: $clasveh en lugar de $claseveh)
++    $stmt = $DB_con->prepare("SELECT * FROM fasecolda WHERE clase = :Clase AND marca = :MarcaVeh AND `$id` <> 0 GROUP BY referencia1 ORDER BY id_fasecolda");
++    $stmt->execute(array(':Clase' => $clasveh, ':MarcaVeh' => $MarcaVeh));
+ 
+-				?>
+-				<select type="select" name="lineaVeh" class="lineaVeh" required>
+-				<option value="">Seleccione la Linea</option><?php
+-				while($row=$stmt->fetch(PDO::FETCH_ASSOC))
+-							{
+-								?>
+-								<option value="<?php echo $row['referencia1']; ?>"><?php echo $row['referencia1']; ?></option>
+-						 	
+-						<?php
+-						}
+-						?>
+-					</select>
+-					<?php
+-			 	break;
++    $output = '<select name="lineaVeh" class="lineaVeh" required>';
++    $output .= '<option value="">Seleccione la Linea</option>';
+ 
+-//----------------------------------------------------------------------------------------------------
+-			 	case "FURGONETA":
+-			 		$stmt = $DB_con->prepare("SELECT * FROM fasecolda WHERE clase=:ejecutar AND marca=:MarcaVeh AND `$id` <> 0  GROUP BY referencia1 ORDER BY id_fasecolda");
+-					$stmt->execute(array(':ejecutar' => $ejecutar, ':MarcaVeh'=>$MarcaVeh));
+-				//$stmt->execute(array(':id' => $_POST['dataString'], ':clasveh' => $_POST['clasveh']));
+-					?>
+-					<select type="select" name="lineaVeh" class="lineaVeh" required>
+-						<option value="">Seleccione la Linea</option><?php
+-						while($row=$stmt->fetch(PDO::FETCH_ASSOC))
+-							{
+-								?>
+-								<option value="<?php echo $row['referencia1']; ?>"><?php echo $row['referencia1']; ?></option>
+-						 	
+-						<?php
+-						}
+-						?>
+-					</select>
+-					<?php
+-			 		break;
+-//---------------------------------------------------------------------------------------------------
+-			 	case "BUS / BUSETA / MICROBUS":
+-			 		$stmt = $DB_con->prepare("SELECT * FROM fasecolda WHERE clase=:ejecutar AND marca=:MarcaVeh AND `$id` <> 0  GROUP BY referencia1 ORDER BY id_fasecolda");
+-						$stmt->execute(array(':ejecutar' => $ejecutar, ':MarcaVeh'=>$MarcaVeh));
+-					//$stmt->execute(array(':id' => $_POST['dataString'], ':clasveh' => $_POST['clasveh']));
+-					?>
+-					<select type="select" name="lineaVeh" class="lineaVeh" required>
+-						<option value="">Seleccione la Linea</option><?php
+-						while($row=$stmt->fetch(PDO::FETCH_ASSOC))
+-							{
+-								?>
+-								<option value="<?php echo $row['referencia1']; ?>"><?php echo $row['referencia1']; ?></option>
+-						 	
+-						<?php
+-						}
+-						?>
+-					</select>
+-					<?php
+-			 		break;
+-//--------------------------------------------------------------------------------------------------
+-			 	case "clase='CAMIONETA REPAR' OR clase='CAMIONETA PASAJ.' OR clase='CAMPERO'":
+-                
+-	                $stmt = $DB_con->prepare("SELECT * FROM fasecolda where marca=:MarcaVeh AND `$id` <> 0 and (".$ejecutar.") GROUP BY referencia1");
+-							$stmt->execute(array(':MarcaVeh'=>$MarcaVeh));
+-		
+-						?>
+-					<select type="select" name="lineaVeh" class="lineaVeh" required>
+-						<option value="">Seleccione la Linea</option><?php
+-						while($row=$stmt->fetch(PDO::FETCH_ASSOC))
+-							{
+-								?>
+-								<option value="<?php echo $row['referencia1']; ?>"><?php echo $row['referencia1']; ?></option>
+-						 	
+-						<?php
+-						}
+-						?>
+-					</select>
+-					<?php              
+-                break;
+-//------------------------------------------------------------------------------------------------------
+-            case "clase='PICKUP DOBLE CAB' OR clase='PICKUP SENCILLA'":
+-               	$stmt = $DB_con->prepare("SELECT * FROM fasecolda where marca=:MarcaVeh AND `$id` <> 0 and (".$ejecutar.") GROUP BY referencia1");
+-				$stmt->execute(array(':MarcaVeh'=>$MarcaVeh));
+-	//$stmt->execute(array(':id' => $_POST['dataString'], ':clasveh' => $_POST['clasveh']));
+-				?>
+-				<select type="select" name="lineaVeh" class="lineaVeh" required>
+-						<option value="">Seleccione la Linea</option><?php
+-						while($row=$stmt->fetch(PDO::FETCH_ASSOC))
+-							{
+-								?>
+-								<option value="<?php echo $row['referencia1']; ?>"><?php echo $row['referencia1']; ?></option>
+-						 	
+-						<?php
+-						}
+-						?>
+-					</select>
+-					<?php                  
+-                break;
+-//------------------------------------------------------------------------------------------------------
+-            case "clase='MOTOCARRO' OR clase='ISOCARRO'":
++    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
++        $referencia = htmlspecialchars($row['referencia1']);
++        $output .= "<option value=\"{$referencia}\">{$referencia}</option>";
++    }
+ 
+-                $stmt = $DB_con->prepare("SELECT * FROM fasecolda where marca=:MarcaVeh AND `$id` <> 0 and (".$ejecutar.") GROUP BY referencia1");
+-				$stmt->execute(array(':MarcaVeh'=>$MarcaVeh));
+-				//$stmt->execute(array(':id' => $_POST['dataString'], ':clasveh' => $_POST['clasveh']));
+-				?>
+-				<select type="select" name="lineaVeh" class="lineaVeh" required>
+-						<option value="">Seleccione la Linea</option><?php
+-						while($row=$stmt->fetch(PDO::FETCH_ASSOC))
+-							{
+-								?>
+-								<option value="<?php echo $row['referencia1']; ?>"><?php echo $row['referencia1']; ?></option>
+-						 	
+-						<?php
+-						}
+-						?>
+-					</select>
+-					<?php
+-
+-                break;
+-//-----------------------------------------------------------------------------------------------------
+-			case "clase='CAMION' OR clase='CARROTANQUE' OR clase='FURGON' OR clase='REMOLCADOR' OR clase='VOLQUETA' OR clase='UNIMOG'":
+-
+-	                $stmt = $DB_con->prepare("SELECT * FROM fasecolda where marca=:MarcaVeh AND `$id` <> 0 and (".$ejecutar.") GROUP BY referencia1");
+-					$stmt->execute(array(':MarcaVeh'=>$MarcaVeh));
+-					//$stmt->execute(array(':id' => $_POST['dataString'], ':clasveh' => $_POST['clasveh']));
+-					?>
+-					<select type="select" name="lineaVeh" class="lineaVeh" required>
+-						<option value="">Seleccione la Linea</option><?php
+-						while($row=$stmt->fetch(PDO::FETCH_ASSOC))
+-							{
+-								?>
+-								<option value="<?php echo $row['referencia1']; ?>"><?php echo $row['referencia1']; ?></option>
+-						 	
+-						<?php
+-						}
+-						?>
+-					</select>
+-					<?php
+-
+-	                break;
+-//-----------------------------------------------------------------------------------------------------	
+-		}
+-
+-
+-
+-
+-
+-
+-	}
+-
+-
+-
+-	
++    $output .= '</select>';
+ 
++    echo $output;
++} else {
++    echo '<select name="lineaVeh" class="lineaVeh" required><option value="">Seleccione la Linea</option></select>';
++}
+ ?>
+\ No newline at end of file
+diff --git a/src/fasecolda/referencia2.php b/src/fasecolda/referencia2.php
+index dc95f1d..363cce7 100644
+--- a/src/fasecolda/referencia2.php
++++ b/src/fasecolda/referencia2.php
+@@ -10,7 +10,6 @@ if ($_POST['dataString'] && $clasveh = $_POST['clasveh'] && $MarcaVeh = $_POST['
+ 
+ 	$ejecutar = ejecutar($clasveh);
+ 
+-
+ 	switch ($ejecutar) {
+ 			//-----------------------------------------------------------------------------------------------------
+ 		case "MOTOCICLETA":
+@@ -320,7 +319,44 @@ if ($_POST['dataString'] && $clasveh = $_POST['clasveh'] && $MarcaVeh = $_POST['
+ 
+ 
+ 			break;
++
+ 			//-----------------------------------------------------------------------------------------------------	
++
++			default:
++				$stmt = $DB_con->prepare("SELECT * FROM fasecolda WHERE  marca=:MarcaVeh AND referencia1=:id  AND `$edadVeh` <> 0 and clase='$ejecutar' GROUP BY referencia2 ORDER BY id_fasecolda");
++				$stmt->execute(array(':id' => $id, ':MarcaVeh' => $MarcaVeh));
++				$contar = $stmt->rowCount();
++
++				if ($contar > 1) {
++					?>
++
++					<label>Referencia:</label>
++					<select type="select" name="refe1" class="refe1 form-control" required>
++						<option value="">Seleccione la Referencia</option>
++						<?php
++						$stmt = $DB_con->prepare("SELECT * FROM fasecolda WHERE  marca=:MarcaVeh AND referencia1=:id  AND `$edadVeh` <> 0 and clase='$ejecutar' GROUP BY referencia2 ORDER BY id_fasecolda");
++						$stmt->execute(array(':id' => $id, ':MarcaVeh' => $MarcaVeh));
++
++						while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
++						?>
++							<option value="<?php echo $row['referencia2']; ?>"><?php echo $row['referencia2']; ?></option>
++						<?php
++						}
++						?>
++					</select>
++
++					<?php
++				} else {
++					$stmt = $DB_con->prepare("SELECT * FROM fasecolda WHERE  marca=:MarcaVeh AND referencia1=:id  AND `$edadVeh` <> 0 and clase='$ejecutar' GROUP BY referencia2 ORDER BY id_fasecolda");
++					$stmt->execute(array(':id' => $id, ':MarcaVeh' => $MarcaVeh));
++					while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
++					?>
++						<label>Referencia</label>
++						<input type="text" class="refe1 form-control" required value="<?php echo $row['referencia2']; ?>" name="refe1" disabled>
++				<?php
++					}
++				}
++				break;
+ 	}
+ }
+ 
+diff --git a/src/fasecolda/referencia3.php b/src/fasecolda/referencia3.php
+index 4c73eee..b96e583 100644
+--- a/src/fasecolda/referencia3.php
++++ b/src/fasecolda/referencia3.php
+@@ -13,7 +13,7 @@ if ($_POST['dataString'] && $clasveh = $_POST['clasveh'] && $MarcaVeh = $_POST['
+ 	$ejecutar = ejecutar($clasveh);
+ 
+ 	switch ($ejecutar) {
+-			//-----------------------------------------------------------------------------------------------------
++		//-----------------------------------------------------------------------------------------------------
+ 		case "MOTOCICLETA":
+ 			$stmt = $DB_con->prepare("SELECT * FROM fasecolda WHERE clase=:ejecutar AND marca=:MarcaVeh AND `$edadVeh` <> 0 and referencia1=:lineaVeh and referencia2=:id  GROUP BY referencia3 ORDER BY referencia3 ASC");
+ 			$stmt->execute(array(':id' => $id, ':ejecutar' => $ejecutar, ':MarcaVeh' => $MarcaVeh, ':lineaVeh' => $lineaVeh));
+@@ -52,7 +52,7 @@ if ($_POST['dataString'] && $clasveh = $_POST['clasveh'] && $MarcaVeh = $_POST['
+ 			}
+ 
+ 			break;
+-			//----------------------------------------------------------------------------------------------------
++		//----------------------------------------------------------------------------------------------------
+ 		case "AUTOMOVIL":
+ 			$stmt = $DB_con->prepare("SELECT * FROM fasecolda WHERE clase=:ejecutar AND marca=:MarcaVeh AND `$edadVeh` <> 0 and referencia1=:lineaVeh and referencia2=:id  GROUP BY referencia3 ORDER BY id_fasecolda");
+ 			$stmt->execute(array(':id' => $id, ':ejecutar' => $ejecutar, ':MarcaVeh' => $MarcaVeh, ':lineaVeh' => $lineaVeh));
+@@ -90,7 +90,7 @@ if ($_POST['dataString'] && $clasveh = $_POST['clasveh'] && $MarcaVeh = $_POST['
+ 			}
+ 			break;
+ 
+-			//----------------------------------------------------------------------------------------------------
++		//----------------------------------------------------------------------------------------------------
+ 		case "FURGONETA":
+ 			$stmt = $DB_con->prepare("SELECT * FROM fasecolda WHERE clase=:ejecutar AND marca=:MarcaVeh AND `$edadVeh` <> 0 and referencia1=:lineaVeh and referencia2=:id  GROUP BY referencia3 ORDER BY id_fasecolda");
+ 			$stmt->execute(array(':id' => $id, ':ejecutar' => $ejecutar, ':MarcaVeh' => $MarcaVeh, ':lineaVeh' => $lineaVeh));
+@@ -126,7 +126,7 @@ if ($_POST['dataString'] && $clasveh = $_POST['clasveh'] && $MarcaVeh = $_POST['
+ 				}
+ 			}
+ 			break;
+-			//---------------------------------------------------------------------------------------------------
++		//---------------------------------------------------------------------------------------------------
+ 		case "BUS / BUSETA / MICROBUS":
+ 			$stmt = $DB_con->prepare("SELECT * FROM fasecolda WHERE clase=:ejecutar AND marca=:MarcaVeh AND `$edadVeh` <> 0 and referencia1=:lineaVeh and referencia2=:id  GROUP BY referencia3 ORDER BY id_fasecolda");
+ 			$stmt->execute(array(':id' => $id, ':ejecutar' => $ejecutar, ':MarcaVeh' => $MarcaVeh, ':lineaVeh' => $lineaVeh));
+@@ -164,7 +164,7 @@ if ($_POST['dataString'] && $clasveh = $_POST['clasveh'] && $MarcaVeh = $_POST['
+ 			}
+ 			break;
+ 
+-			//--------------------------------------------------------------------------------------------------
++		//--------------------------------------------------------------------------------------------------
+ 		case "clase='CAMIONETA REPAR' OR clase='CAMIONETA PASAJ.' OR clase='CAMPERO'":
+ 
+ 			$stmt = $DB_con->prepare("SELECT * FROM fasecolda WHERE marca=:MarcaVeh AND `$edadVeh` <> 0 and referencia1=:lineaVeh and referencia2=:id  and (" . $ejecutar . ") GROUP BY referencia3 ORDER BY id_fasecolda");
+@@ -202,7 +202,7 @@ if ($_POST['dataString'] && $clasveh = $_POST['clasveh'] && $MarcaVeh = $_POST['
+ 				}
+ 			}
+ 			break;
+-			//------------------------------------------------------------------------------------------------------
++		//------------------------------------------------------------------------------------------------------
+ 		case "clase='PICKUP DOBLE CAB' OR clase='PICKUP SENCILLA'":
+ 			$stmt = $DB_con->prepare("SELECT * FROM fasecolda WHERE marca=:MarcaVeh AND `$edadVeh` <> 0 and referencia1=:lineaVeh and referencia2=:id  and (" . $ejecutar . ") GROUP BY referencia3 ORDER BY id_fasecolda");
+ 			$stmt->execute(array(':id' => $id, ':MarcaVeh' => $MarcaVeh, ':lineaVeh' => $lineaVeh));
+@@ -239,7 +239,7 @@ if ($_POST['dataString'] && $clasveh = $_POST['clasveh'] && $MarcaVeh = $_POST['
+ 				}
+ 			}
+ 			break;
+-			//------------------------------------------------------------------------------------------------------
++		//------------------------------------------------------------------------------------------------------
+ 		case "clase='MOTOCARRO' OR clase='ISOCARRO'":
+ 
+ 			$stmt = $DB_con->prepare("SELECT * FROM fasecolda WHERE marca=:MarcaVeh AND `$edadVeh` <> 0 and referencia1=:lineaVeh and referencia2=:id  and (" . $ejecutar . ") GROUP BY referencia3 ORDER BY id_fasecolda");
+@@ -278,7 +278,7 @@ if ($_POST['dataString'] && $clasveh = $_POST['clasveh'] && $MarcaVeh = $_POST['
+ 			}
+ 
+ 			break;
+-			//-----------------------------------------------------------------------------------------------------
++		//-----------------------------------------------------------------------------------------------------
+ 		case "clase='CAMION' OR clase='CARROTANQUE' OR clase='FURGON' OR clase='REMOLCADOR' OR clase='VOLQUETA' OR clase='UNIMOG'":
+ 
+ 			$stmt = $DB_con->prepare("SELECT * FROM fasecolda WHERE marca=:MarcaVeh AND `$edadVeh` <> 0 and referencia1=:lineaVeh and referencia2=:id  and (" . $ejecutar . ") GROUP BY referencia3 ORDER BY id_fasecolda");
+@@ -312,12 +312,49 @@ if ($_POST['dataString'] && $clasveh = $_POST['clasveh'] && $MarcaVeh = $_POST['
+ 				?>
+ 					<label>Referencia 2</label>
+ 					<input type="text" class="refe22 form-control" required value="<?php echo $row['referencia3']; ?>" name="refe22" disabled>
+-<?php
++				<?php
+ 				}
+ 			}
+ 
+ 			break;
+-			//-----------------------------------------------------------------------------------------------------	
++		//-----------------------------------------------------------------------------------------------------	
++
++		default:
++			$stmt = $DB_con->prepare("SELECT * FROM fasecolda WHERE marca=:MarcaVeh AND `$edadVeh` <> 0 and referencia1=:lineaVeh and referencia2=:id  and clase='$ejecutar' GROUP BY referencia3 ORDER BY id_fasecolda");
++			$stmt->execute(array(':id' => $id, ':MarcaVeh' => $MarcaVeh, ':lineaVeh' => $lineaVeh));
++			//$stmt->execute(array(':id' => $_POST['dataString'], ':clasveh' => $_POST['clasveh']));
++			$contar = $stmt->rowCount();
++
++			if ($contar > 1) {
++				?>
++
++				<label>Referencia 3:</label>
++				<select type="select" name="refe22" class="refe22 form-control" required>
++					<option value="">Seleccione la Referencia</option>
++					<?php
++					$stmt = $DB_con->prepare("SELECT * FROM fasecolda WHERE marca=:MarcaVeh AND `$edadVeh` <> 0 and referencia1=:lineaVeh and referencia2=:id  and clase='$ejecutar' GROUP BY referencia3 ORDER BY id_fasecolda");
++					$stmt->execute(array(':id' => $id, ':MarcaVeh' => $MarcaVeh, ':lineaVeh' => $lineaVeh));
++
++					while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
++					?>
++						<option value="<?php echo $row['referencia3']; ?>"><?php echo $row['referencia3']; ?></option>
++					<?php
++					}
++					?>
++				</select>
++
++				<?php
++			} else {
++				$stmt = $DB_con->prepare("SELECT * FROM fasecolda WHERE marca=:MarcaVeh AND `$edadVeh` <> 0 and referencia1=:lineaVeh and referencia2=:id  and clase='$ejecutar' GROUP BY referencia3 ORDER BY id_fasecolda");
++				$stmt->execute(array(':id' => $id, ':MarcaVeh' => $MarcaVeh, ':lineaVeh' => $lineaVeh));
++				while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
++				?>
++					<label>Referencia 2:</label>
++					<input type="text" class="refe22 form-control" required value="<?php echo $row['referencia3']; ?>" name="refe22" disabled>
++<?php
++				}
++			}
++			break;
+ 	}
+ }
+ 
+diff --git a/vistas/js/cotizaciones.js b/vistas/js/cotizaciones.js
+index ff907d7..4fea189 100644
+--- a/vistas/js/cotizaciones.js
++++ b/vistas/js/cotizaciones.js
+@@ -151,6 +151,8 @@ $(document).ready(function () {
+             "aseguradora",
+             oferta.Aseguradora == "Previsora"
+               ? "Previsora Seguros"
++              : oferta.Aseguradora == "HDI (Antes Liberty)"
++              ? "HDI Seguros"
+               : oferta.Aseguradora
+           );
+           data.append("analista_comercial", analista_comercial);
+@@ -240,7 +242,7 @@ $(document).ready(function () {
+               respuesta.usu_nombre + " " + respuesta.usu_apellido
+             );
+             $("#txtPlacaOportunidad").val(respuesta.cot_placa);
+-            $("#txtAseguradoraOportunidad").val(oferta.Aseguradora);
++            $("#txtAseguradoraOportunidad").val(oferta.Aseguradora == "HDI (Antes Liberty)" ? "HDI Seguros" : oferta.Aseguradora);
+             info = respuesta;
+           },
+           error: function () {
+@@ -462,7 +464,10 @@ $(document).ready(function () {
+               var newRow = tableBody.insertRow();
+ 
+               var aseguradoraCell = newRow.insertCell();
+-              aseguradoraCell.textContent = usuario.aseguradora;
++              aseguradoraCell.textContent =
++                usuario.aseguradora == "HDI (Antes Liberty)"
++                  ? "HDI Seguros"
++                  : usuario.aseguradora;
+ 
+               var cotizoCell = newRow.insertCell();
+               // Cambiar el contenido de la celda en función de si cotizó o no
+@@ -1138,7 +1143,6 @@ async function renderCards(response) {
+   if (!response[0].Categoria) {
+     $(".container-filters").css("display", "none");
+   }
+-
+   // Obtener los permisos de cotización END
+   cardCotizacion = "";
+   cards = response;
+@@ -1175,7 +1179,7 @@ async function renderCards(response) {
+             resultado = "Mapfre";
+             break;
+           case "HDI (Antes Liberty)":
+-            resultado = "HDI (Antes Liberty)";
++            resultado = "HDI Seguros";
+             break;
+           case "Aseguradora Solidaria":
+           case "Solidaria":
+@@ -1205,7 +1209,7 @@ async function renderCards(response) {
+ 
+       if (permisosCotizacion === null || permisosCotizacion === undefined) {
+         var permisosCotizacion =
+-          '{"Allianz":{"A":"1","C":"1"},"AXA":{"A":"1","C":"1"},"Bolivar":{"A":"1","C":"1"},"Equidad":{"A":"1","C":"1"},"Estado":{"A":"1","C":"1"},"HDI (Antes Liberty)":{"A":"1","C":"1"},"HDI":{"A":"1","C":"1"},"Mapfre":{"A":"1","C":"1"},"Previsora":{"A":"1","C":"1"},"SBS":{"A":"1","C":"1"},"Solidaria":{"A":"1","C":"1"},"Zurich":{"A":"1","C":"1"}}';
++          '{"Allianz":{"A":"1","C":"1"},"AXA":{"A":"1","C":"1"},"Bolivar":{"A":"1","C":"1"},"Equidad":{"A":"1","C":"1"},"Estado":{"A":"1","C":"1"},"HDI (Antes Liberty)":{"A":"1","C":"1"},"HDI Seguros":{"A":"1","C":"1"},"Mapfre":{"A":"1","C":"1"},"Previsora":{"A":"1","C":"1"},"SBS":{"A":"1","C":"1"},"Solidaria":{"A":"1","C":"1"},"Zurich":{"A":"1","C":"1"}}';
+       }
+ 
+       // Permisos Credenciales aseguradoras
+@@ -1234,7 +1238,6 @@ async function renderCards(response) {
+       let aseguradora = oferta.Aseguradora;
+       let aseguradoraName = nombreAseguradora(aseguradora);
+       let aseguradoraPermisos = obtenerValorC(aseguradoraName);
+-      //console.log(aseguradoraPermisos)
+ 
+       var primaFormat = formatNumber(oferta.Prima);
+       var id_intermediario = document.getElementById("idIntermediario").value;
+@@ -1386,12 +1389,12 @@ async function renderCards(response) {
+                                 <!-- Agrega aquí el contenido específico para estas aseguradoras -->
+                               </center>`
+                                 : oferta.Aseguradora !== "Mundial" &&
+-                                  oferta.Aseguradora !== "HDI Seguros" &&
+                                   permisos.Vernumerodecotizacionencadaaseguradora ==
+                                     "x" &&
+                                   aseguradoraPermisos == "1"
+                                 ? `<center>
+                                 ${
++                                  // agregar aqui un console.log para verificar si la oferta tiene un número de cotización
+                                   oferta.NumCotizOferta != 0
+                                     ? "<label class='entidad'>N° Cot: <span style='color:black'>" +
+                                       oferta.NumCotizOferta +
+@@ -1436,7 +1439,9 @@ async function renderCards(response) {
+                             : "padding-top: 14px"
+                         }'>
+                         <h5 class='entidad' style='font-size: 15px'><b>${
+-                          oferta.Aseguradora
++                          oferta.Aseguradora == "HDI (Antes Liberty)"
++                            ? "HDI Seguros"
++                            : oferta.Aseguradora
+                         } - ${
+         oferta.Producto == "Pesados con RCE en exceso"
+           ? "Pesados RCE + Exceso"
+@@ -2127,9 +2132,15 @@ function editarCotizacion(id) {
+           "</option>"
+       );
+ 
+-      var posicion = respuesta["Nombre"].split("-");
++      var posicion =
++        respuesta["cot_ciudad"].slice(0, 2) == "44"
++          ? respuesta["ciudad"]
++          : respuesta["Nombre"].split("-");
+ 
+-      var ciudad = posicion[0].toLowerCase();
++      var ciudad =
++        respuesta["cot_ciudad"].slice(0, 2) == "44"
++          ? posicion.toLowerCase()
++          : posicion[0].toLowerCase();
+ 
+       var nomCiudad = ciudad.replace(/^(.)|\s(.)/g, function ($1) {
+         return $1.toUpperCase();
+@@ -2340,9 +2351,9 @@ function editarCotizacion(id) {
+ }
+ 
+ $(
+-  "#dianacimiento, #mesnacimiento, #anionacimiento, #dianacimientoRepresentante, #mesnacimientoRepresentante, #anionacimientoRepresentante"
++  "#dianacimiento, #mesnacimiento, #anionacimiento, #dianacimientoRepresentante, #mesnacimientoRepresentante, #anionacimientoRepresentante, #clase, #Marca, #edad"
+ ).select2({
+-  theme: "bootstrap fecnacimiento",
++  theme: "bootstrap ciudad",
+   language: "es",
+   width: "100%",
+ });
+@@ -2363,6 +2374,8 @@ function seleccionarOferta(
+ ) {
+   var idSelecOferta = idCotizacion;
+ 
++  console.log(aseguradora, prima, producto, numCotizOferta, id_oferta, valCheck);
++
+   var placa = document.getElementById("placaVeh").value;
+ 
+   // Capturamos el Id del Checkbox seleccionado
+@@ -2376,7 +2389,7 @@ function seleccionarOferta(
+   }
+ 
+   ofertas.forEach((element) => {
+-    if(element.seleccionar == "Si" && element.oferta_finesa == id_oferta) {
++    if (element.seleccionar == "Si" && element.oferta_finesa == id_oferta) {
+       element.seleccionar = "";
+     } else {
+       element.seleccionar = seleccionar;
+@@ -4123,6 +4136,61 @@ function menosRECot() {
+ //   }, 500);
+ // }
+ 
++function consultarCiudad() {
++  var codigoDpto = document.getElementById("DptoCirculacion").value;
++
++  //if (codigoDpto == 1 || codigoDpto == 3 || codigoDpto == 10 || codigoDpto == 11 || codigoDpto == 12 || codigoDpto == 14 || codigoDpto == 17
++  //|| codigoDpto == 19 || codigoDpto == 25 || codigoDpto == 28 || codigoDpto == 33 || codigoDpto == 34) {
++
++  //	swal({ text: '! El Departamento de circulación no posee cobertura. ¡' });
++
++  //} else {
++
++  $.ajax({
++    type: "POST",
++    url: "src/consultarCiudad.php",
++    dataType: "json",
++    data: { data: codigoDpto },
++    cache: false,
++    success: function (data) {
++      var ciudadesVeh = `<option value="">Seleccionar Ciudad</option>`;
++
++      if (data.mensaje) {
++        Swal.fire({
++          icon: "error",
++          title: "Error",
++          text: "El departamento actual no cuenta con ciudades para asegurar",
++        });
++        document.getElementById(
++          "ciudadCirculacion"
++        ).innerHTML = `<option value="">No se encontraron registros</option>`;
++        return;
++      }
++
++      data.forEach(function (valor, i) {
++        var valorNombre = valor.Nombre.split("-");
++        var nombreMinusc = valorNombre[0].toLowerCase();
++        var ciudad = nombreMinusc.replace(/^(.)|\s(.)/g, function ($1) {
++          return $1.toUpperCase();
++        });
++
++        ciudadesVeh += `<option value="${valor.Codigo}">${ciudad}</option>`;
++      });
++      document.getElementById("ciudadCirculacion").innerHTML = ciudadesVeh;
++    },
++    error: function (xhr, status, error) {
++      console.error("Error al consultar las ciudades:", error);
++      Swal.fire({
++        icon: "error",
++        title: "Error al cargar las ciudades",
++        text: "Por favor, inténtalo de nuevo más tarde.",
++      });
++    },
++  });
++
++  //}
++}
++
+ function showCircularProgress(cotType, time, totalTransition) {
+   let progress = 0;
+   let totalDuration = totalTransition;
+diff --git a/vistas/js/cotizar.js b/vistas/js/cotizar.js
+index fcc49b7..84bcc91 100644
+--- a/vistas/js/cotizar.js
++++ b/vistas/js/cotizar.js
+@@ -1399,12 +1399,12 @@ function consulPlacaMapfre(valnumplaca) {
+     });
+ }
+ 
+-$("#btnConsultarVehmanual").on("click", function () {
+-  consulCodFasecolda();
++$("#btnConsultarVehmanual").on("click", function (e) {
++  consulCodFasecolda(e);
+ });
+ 
+ // CONSULTA LA GUIA PARA OBTENER EL CODIGO FASECOLDA MANUALMENTE
+-function consulCodFasecolda() {
++function consulCodFasecolda(e = null) {
+   var claseVeh = document.getElementById("clase").value;
+   var marcaVeh = document.getElementById("Marca").value;
+   var edadVeh = document.getElementById("edad").value;
+@@ -1412,6 +1412,8 @@ function consulCodFasecolda() {
+   var refe2 = $(".refe1").val();
+   var refe3 = $(".refe22").val();
+ 
++  let tipoConsulta = e.currentTarget.id;
++
+   if (
+     claseVeh != "" &&
+     marcaVeh != "" &&
+@@ -1434,8 +1436,11 @@ function consulCodFasecolda() {
+       },
+       success: function (data) {
+         // console.log(data);
++        if (tipoConsulta != "btnConsultarVehmanual") {
++          tipoConsulta = null;
++        }
+         var codFasecolda = data.result.codigo;
+-        consulValorfasecolda(codFasecolda, edadVeh);
++        consulValorfasecolda(codFasecolda, edadVeh, tipoConsulta);
+       },
+     });
+   }
+@@ -1445,96 +1450,136 @@ var contErrMetEstadoFasec = 0;
+ var contErrProtConsulFasec = 0;
+ 
+ // Permite consultar la informacion del vehiculo segun la Guia Fasecolda
+-function consulValorfasecolda(codFasecolda, edadVeh) {
++function consulValorfasecolda(codFasecolda, edadVeh, tipoConsulta) {
+   $("#loaderVehiculo").html(
+     '<img src="vistas/img/plantilla/loader-loading.gif" width="34" height="34"><strong> Consultando Vehículo...</strong>'
+   );
+ 
+-  var myHeaders = new Headers();
+-  myHeaders.append("Content-Type", "application/json");
+-
+-  var raw = JSON.stringify({
+-    CodigoFasecolda: codFasecolda,
+-    brand: "",
+-    brandline: "",
+-    ClassId: "",
+-    Modelo: edadVeh,
+-  });
+-
+-  var requestOptions = {
+-    method: "POST",
+-    headers: myHeaders,
+-    body: raw,
+-    redirect: "follow",
+-  };
+-
+-  fetch(
+-    "https://grupoasistencia.com/motor_webservice/VehiculoFasecolda",
+-    requestOptions
+-  )
+-    .then(function (response) {
+-      if (!response.ok) {
+-        throw Error(response.statusText);
++  if (tipoConsulta != null) {
++    consulDatosFasecolda(codFasecolda, edadVeh).then(function (resp) {
++      var codigoClaseEstado = "";
++      if (resp.claseVeh == "MOTOS") {
++        codigoClaseEstado = 12;
+       }
+-      return response.json();
+-    })
+-    .then(function (myJson) {
+-      // console.log(myJson);
+-      if (myJson.Data != null) {
+-        var codigoClase = myJson.Data.ClassId;
+-        var codigoMarca = myJson.Data.Brand;
+-        var modeloVehiculo = myJson.Data.Modelo;
+-        var codigoLinea = myJson.Data.BrandLine;
+-        var codigoFasecolda = myJson.Data.CodigoFasecolda;
+-        var valorAsegurado = myJson.Data.ValorAsegurado;
++      $("#CodigoClase").val(codigoClaseEstado);
++      $("#txtClaseVeh").val(resp.claseVeh);
++      $("#txtMarcaVeh").val(resp.marcaVeh);
++      $("#txtReferenciaVeh").val(resp.lineaVeh);
++      $("#txtValorFasecolda").val(resp.valorVeh);
++      $("#txtModeloVeh").val(edadVeh);
++      $("#txtFasecolda").val(codFasecolda);
++    });
++  } else {
++    var myHeaders = new Headers();
++    myHeaders.append("Content-Type", "application/json");
++
++    var raw = JSON.stringify({
++      CodigoFasecolda: codFasecolda,
++      brand: "",
++      brandline: "",
++      ClassId: "",
++      Modelo: edadVeh,
++    });
+ 
+-        var claseVehiculo = "";
+-        var limiteRCESTADO = "";
++    var requestOptions = {
++      method: "POST",
++      headers: myHeaders,
++      body: raw,
++      redirect: "follow",
++    };
+ 
+-        if (codigoClase == 1) {
+-          claseVehiculo = "AUTOMOVILES";
+-          limiteRCESTADO = 6;
+-        } else if (codigoClase == 2) {
+-          claseVehiculo = "CAMPEROS";
+-          limiteRCESTADO = 18;
+-        } else if (codigoClase == 3) {
+-          claseVehiculo = "PICK UPS";
+-          limiteRCESTADO = 18;
+-        } else if (codigoClase == 4) {
+-          claseVehiculo = "UTILITARIOS DEPORTIVOS";
+-          limiteRCESTADO = 6;
+-        } else if (codigoClase == 12) {
+-          claseVehiculo = "MOTOCICLETA";
+-          limiteRCESTADO = 6;
+-        } else if (codigoClase == 14) {
+-          claseVehiculo = "PESADO";
+-          limiteRCESTADO = 18;
+-        } else if (codigoClase == 19) {
+-          claseVehiculo = "VAN";
+-          limiteRCESTADO = 18;
+-        } else if (codigoClase == 16) {
+-          claseVehiculo = "MOTOCICLETA";
+-          limiteRCESTADO = 6;
++    fetch(
++      "https://grupoasistencia.com/motor_webservice/VehiculoFasecolda",
++      requestOptions
++    )
++      .then(function (response) {
++        if (!response.ok) {
++          throw Error(response.statusText);
+         }
++        return response.json();
++      })
++      .then(function (myJson) {
++        // console.log(myJson);
++        if (myJson.Data != null) {
++          var codigoClase = myJson.Data.ClassId;
++          var codigoMarca = myJson.Data.Brand;
++          var modeloVehiculo = myJson.Data.Modelo;
++          var codigoLinea = myJson.Data.BrandLine;
++          var codigoFasecolda = myJson.Data.CodigoFasecolda;
++          var valorAsegurado = myJson.Data.ValorAsegurado;
++
++          var claseVehiculo = "";
++          var limiteRCESTADO = "";
++
++          if (codigoClase == 1) {
++            claseVehiculo = "AUTOMOVILES";
++            limiteRCESTADO = 6;
++          } else if (codigoClase == 2) {
++            claseVehiculo = "CAMPEROS";
++            limiteRCESTADO = 18;
++          } else if (codigoClase == 3) {
++            claseVehiculo = "PICK UPS";
++            limiteRCESTADO = 18;
++          } else if (codigoClase == 4) {
++            claseVehiculo = "UTILITARIOS DEPORTIVOS";
++            limiteRCESTADO = 6;
++          } else if (codigoClase == 12) {
++            claseVehiculo = "MOTOCICLETA";
++            limiteRCESTADO = 6;
++          } else if (codigoClase == 14) {
++            claseVehiculo = "PESADO";
++            limiteRCESTADO = 18;
++          } else if (codigoClase == 19) {
++            claseVehiculo = "VAN";
++            limiteRCESTADO = 18;
++          } else if (codigoClase == 16) {
++            claseVehiculo = "MOTOCICLETA";
++            limiteRCESTADO = 6;
++          }
+ 
+-        $("#CodigoClase").val(codigoClase);
+-        $("#txtClaseVeh").val(claseVehiculo);
+-        $("#LimiteRC").val(limiteRCESTADO);
+-        $("#CodigoMarca").val(codigoMarca);
+-        $("#txtModeloVeh").val(modeloVehiculo);
+-        $("#CodigoLinea").val(codigoLinea);
+-        $("#txtFasecolda").val(codigoFasecolda);
+-        $("#txtValorFasecolda").val(valorAsegurado);
+-
+-        consulDatosFasecolda(codigoFasecolda, modeloVehiculo).then(function (
+-          resp
+-        ) {
+-          $("#txtMarcaVeh").val(resp.marcaVeh);
+-          $("#txtReferenciaVeh").val(resp.lineaVeh);
+-        });
+-      } else {
+-        contErrMetEstadoFasec++;
+-        if (contErrMetEstadoFasec > 2) {
++          $("#CodigoClase").val(codigoClase);
++          $("#txtClaseVeh").val(claseVehiculo);
++          $("#LimiteRC").val(limiteRCESTADO);
++          $("#CodigoMarca").val(codigoMarca);
++          $("#txtModeloVeh").val(modeloVehiculo);
++          $("#CodigoLinea").val(codigoLinea);
++          $("#txtFasecolda").val(codigoFasecolda);
++          $("#txtValorFasecolda").val(valorAsegurado);
++
++          consulDatosFasecolda(codigoFasecolda, modeloVehiculo).then(function (
++            resp
++          ) {
++            $("#txtMarcaVeh").val(resp.marcaVeh);
++            $("#txtReferenciaVeh").val(resp.lineaVeh);
++          });
++        } else {
++          contErrMetEstadoFasec++;
++          if (contErrMetEstadoFasec > 2) {
++            $("#txtModeloVeh").val(edadVeh);
++            $("#txtFasecolda").val(codFasecolda);
++
++            consulDatosFasecolda(codFasecolda, edadVeh).then(function (resp) {
++              var codigoClaseEstado = "";
++              if (resp.claseVeh == "MOTOS") {
++                codigoClaseEstado = 12;
++              }
++              $("#CodigoClase").val(codigoClaseEstado);
++              $("#txtClaseVeh").val(resp.claseVeh);
++              $("#txtMarcaVeh").val(resp.marcaVeh);
++              $("#txtReferenciaVeh").val(resp.lineaVeh);
++              $("#txtValorFasecolda").val(resp.valorVeh);
++            });
++            contErrMetEstadoFasec = 0;
++          } else {
++            setTimeout(consulCodFasecolda, 2000);
++          }
++        }
++      })
++      .catch(function (error) {
++        //console.log("Parece que hubo un problema: \n", error);
++
++        contErrProtConsulFasec++;
++        if (contErrProtConsulFasec > 1) {
+           $("#txtModeloVeh").val(edadVeh);
+           $("#txtFasecolda").val(codFasecolda);
+ 
+@@ -1549,36 +1594,12 @@ function consulValorfasecolda(codFasecolda, edadVeh) {
+             $("#txtReferenciaVeh").val(resp.lineaVeh);
+             $("#txtValorFasecolda").val(resp.valorVeh);
+           });
+-          contErrMetEstadoFasec = 0;
++          contErrProtConsulFasec = 0;
+         } else {
+-          setTimeout(consulCodFasecolda, 2000);
++          setTimeout(consulCodFasecolda, 4000);
+         }
+-      }
+-    })
+-    .catch(function (error) {
+-      //console.log("Parece que hubo un problema: \n", error);
+-
+-      contErrProtConsulFasec++;
+-      if (contErrProtConsulFasec > 1) {
+-        $("#txtModeloVeh").val(edadVeh);
+-        $("#txtFasecolda").val(codFasecolda);
+-
+-        consulDatosFasecolda(codFasecolda, edadVeh).then(function (resp) {
+-          var codigoClaseEstado = "";
+-          if (resp.claseVeh == "MOTOS") {
+-            codigoClaseEstado = 12;
+-          }
+-          $("#CodigoClase").val(codigoClaseEstado);
+-          $("#txtClaseVeh").val(resp.claseVeh);
+-          $("#txtMarcaVeh").val(resp.marcaVeh);
+-          $("#txtReferenciaVeh").val(resp.lineaVeh);
+-          $("#txtValorFasecolda").val(resp.valorVeh);
+-        });
+-        contErrProtConsulFasec = 0;
+-      } else {
+-        setTimeout(consulCodFasecolda, 4000);
+-      }
+-    });
++      });
++  }
+ }
+ 
+ //FUNCION PARA CONSULTAR VALORES EN FASECOLDA
+@@ -1711,60 +1732,60 @@ function consulDatosFasecoldaPesados(codFasecolda, edadVeh) {
+ }
+ 
+ // FUNCION PARA CARGAR LA CIUDAD DE CIRCULACIÓN
+-function consultarCiudad() {
+-  var codigoDpto = document.getElementById("DptoCirculacion").value;
+-
+-  //if (codigoDpto == 1 || codigoDpto == 3 || codigoDpto == 10 || codigoDpto == 11 || codigoDpto == 12 || codigoDpto == 14 || codigoDpto == 17
+-  //|| codigoDpto == 19 || codigoDpto == 25 || codigoDpto == 28 || codigoDpto == 33 || codigoDpto == 34) {
+-
+-  //	swal({ text: '! El Departamento de circulación no posee cobertura. ¡' });
+-
+-  //} else {
+-
+-  $.ajax({
+-    type: "POST",
+-    url: "src/consultarCiudad.php",
+-    dataType: "json",
+-    data: { data: codigoDpto },
+-    cache: false,
+-    success: function (data) {
+-      var ciudadesVeh = `<option value="">Seleccionar Ciudad</option>`;
+-
+-      if (data.mensaje) {
+-        Swal.fire({
+-          icon: "error",
+-          title: "Error",
+-          text: "El departamento actual no cuenta con ciudades para asegurar",
+-        });
+-        document.getElementById(
+-          "ciudadCirculacion"
+-        ).innerHTML = `<option value="">No se encontraron registros</option>`;
+-        return;
+-      }
+-
+-      data.forEach(function (valor, i) {
+-        var valorNombre = valor.Nombre.split("-");
+-        var nombreMinusc = valorNombre[0].toLowerCase();
+-        var ciudad = nombreMinusc.replace(/^(.)|\s(.)/g, function ($1) {
+-          return $1.toUpperCase();
+-        });
+-
+-        ciudadesVeh += `<option value="${valor.Codigo}">${ciudad}</option>`;
+-      });
+-      document.getElementById("ciudadCirculacion").innerHTML = ciudadesVeh;
+-    },
+-    error: function (xhr, status, error) {
+-      console.error("Error al consultar las ciudades:", error);
+-      Swal.fire({
+-        icon: "error",
+-        title: "Error al cargar las ciudades",
+-        text: "Por favor, inténtalo de nuevo más tarde.",
+-      });
+-    },
+-  });
+-
+-  //}
+-}
++// function consultarCiudad() {
++//   var codigoDpto = document.getElementById("DptoCirculacion").value;
++
++//   //if (codigoDpto == 1 || codigoDpto == 3 || codigoDpto == 10 || codigoDpto == 11 || codigoDpto == 12 || codigoDpto == 14 || codigoDpto == 17
++//   //|| codigoDpto == 19 || codigoDpto == 25 || codigoDpto == 28 || codigoDpto == 33 || codigoDpto == 34) {
++
++//   //	swal({ text: '! El Departamento de circulación no posee cobertura. ¡' });
++
++//   //} else {
++
++//   $.ajax({
++//     type: "POST",
++//     url: "src/consultarCiudad.php",
++//     dataType: "json",
++//     data: { data: codigoDpto },
++//     cache: false,
++//     success: function (data) {
++//       var ciudadesVeh = `<option value="">Seleccionar Ciudad</option>`;
++
++//       if (data.mensaje) {
++//         Swal.fire({
++//           icon: "error",
++//           title: "Error",
++//           text: "El departamento actual no cuenta con ciudades para asegurar",
++//         });
++//         document.getElementById(
++//           "ciudadCirculacion"
++//         ).innerHTML = `<option value="">No se encontraron registros</option>`;
++//         return;
++//       }
++
++//       data.forEach(function (valor, i) {
++//         var valorNombre = valor.Nombre.split("-");
++//         var nombreMinusc = valorNombre[0].toLowerCase();
++//         var ciudad = nombreMinusc.replace(/^(.)|\s(.)/g, function ($1) {
++//           return $1.toUpperCase();
++//         });
++
++//         ciudadesVeh += `<option value="${valor.Codigo}">${ciudad}</option>`;
++//       });
++//       document.getElementById("ciudadCirculacion").innerHTML = ciudadesVeh;
++//     },
++//     error: function (xhr, status, error) {
++//       console.error("Error al consultar las ciudades:", error);
++//       Swal.fire({
++//         icon: "error",
++//         title: "Error al cargar las ciudades",
++//         text: "Por favor, inténtalo de nuevo más tarde.",
++//       });
++//     },
++//   });
++
++//   //}
++// }
+ 
+ //trae el ID del cliente sin caracteres especiales y solamente el numero para generar la cotización.
+ function idWithOutSpecialChars() {
+@@ -2016,7 +2037,7 @@ function registrarOferta(
+ let contCotizacion = 0;
+ let cotizacionesFinesa = [];
+ let cardCotizacion = "";
+-
++console.log(cotizacionesFinesa);
+ const mostrarOferta = (
+   aseguradora,
+   prima,
+@@ -2042,7 +2063,7 @@ const mostrarOferta = (
+     } else if ($data == "Axa Colpatria") {
+       $resultado = "AXA";
+     } else if ($data == "HDI Seguros") {
+-      $resultado = "HDI";
++      $resultado = "HDI Seguros";
+     } else if ($data == "SBS Seguros") {
+       $resultado = "SBS";
+     } else if ($data == "Allianz Seguros") {
+@@ -2056,7 +2077,7 @@ const mostrarOferta = (
+     } else if ($data == "Mapfre") {
+       $resultado = "Mapfre";
+     } else if ($data == "HDI (Antes Liberty)") {
+-      $resultado = "Liberty";
++      $resultado = "HDI Seguros";
+     } else if ($data == "Aseguradora Solidaria") {
+       $resultado = "Solidaria";
+     } else if ($data == "Seguros Sura") {
+@@ -2075,8 +2096,12 @@ const mostrarOferta = (
+     return $resultado;
+   }
+ 
+-  var nombreAseguradora = nombreAseguradora(aseguradora);
+-  var aseguradoraCredenciales = nombreAseguradora + "_C";
++  var nombreAseguradoraA = nombreAseguradora(aseguradora);
++
++  var aseguradoraCredenciales =
++    nombreAseguradoraA == "HDI Seguros"
++      ? "Liberty_C"
++      : nombreAseguradoraA + "_C";
+   var permisosCredenciales = permisos[aseguradoraCredenciales];
+ 
+   let cotOferta = {
+@@ -2131,7 +2156,7 @@ const mostrarOferta = (
+                     </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-6 col-md-2 oferta-headerEdit">
+-                       <h5 class='entidad' style='font-size: 15px'><b>${aseguradora} - ${
++                       <h5 class='entidad' style='font-size: 15px'><b>${nombreAseguradoraA} - ${
+     producto == "Pesados con RCE en exceso"
+       ? "Pesados RCE + Exceso"
+       : producto == "PREVILIVIANOS INDIVIDUAL - "
+@@ -2556,6 +2581,8 @@ function cotizarOfertas() {
+     return;
+   }
+ 
++  console.log(aseguradorasFallidas);
++
+   var placa = document.getElementById("placaVeh").value;
+   var esCeroKmSi = document.getElementById("txtEsCeroKmSi").checked;
+   var esCeroKm = esCeroKmSi.toString();
+@@ -3035,7 +3062,7 @@ function cotizarOfertas() {
+             let cont = [];
+ 
+             const mostrarAlertaCotizacionExitosa = (aseguradora, contador) => {
+-              if (aseguradora == "Estado2") {
++              if (aseguradora == "Estado2" || aseguradora == "Estado3") {
+                 aseguradora = "Estado";
+               }
+ 
+@@ -3094,9 +3121,13 @@ function cotizarOfertas() {
+             };
+ 
+             const mostrarAlertarCotizacionFallida = (aseguradora, mensaje) => {
+-              if (aseguradora == "Estado" || aseguradora == "Estado2") {
++              if (
++                aseguradora == "Estado" ||
++                aseguradora == "Estado2" ||
++                aseguradora == "Estado3"
++              ) {
+                 // // debugger;
+-                if (aseguradora == "Estado2") {
++                if (aseguradora == "Estado2" || aseguradora == "Estado3") {
+                   aseguradora = "Estado";
+                 }
+                 // console.log(aseguradora);
+@@ -3212,8 +3243,8 @@ function cotizarOfertas() {
+               if (aseguradora === "HDI") {
+                 url = `https://grupoasistencia.com/motor_webservice/HdiPlus`;
+               } else if (aseguradora === "Zurich") {
+-                // const planes = ["FULL", "MEDIUM", "BASIC"];
+-                const planes = ["FULL"];
++                const planes = ["FULL", "MEDIUM", "BASIC"];
++                // const planes = ["FULL"];
+                 planes.forEach((plan) => {
+                   let lineaVeh =
+                     document.getElementById("txtReferenciaVeh").value;
+@@ -3289,7 +3320,7 @@ function cotizarOfertas() {
+                 });
+                 return; // Salir del bucle después de procesar Zurich
+               } else if (aseguradora === "Estado") {
+-                const aseguradorasEstado = ["Estado", "Estado2"]; // Agrega más aseguradoras según sea necesario
++                const aseguradorasEstado = ["Estado", "Estado2", "Estado3"]; // Agrega más aseguradoras según sea necesario
+                 aseguradorasEstado.forEach((aseguradora) => {
+                   let successAseguradora = true;
+                   cont.push(
+@@ -3353,7 +3384,7 @@ function cotizarOfertas() {
+                 });
+                 return; // Salir del bucle después de procesar Estado
+                 // Construir la URL de la solicitud para cada aseguradora
+-              } else if (aseguradora === "HDI (Antes Liberty)") {
++              } else if (aseguradora === "HDI Seguros") {
+                 url = `https://grupoasistencia.com/motor_webservice/Liberty_autos`;
+                 cont.push(
+                   fetch(url, requestOptions)
+@@ -3610,7 +3641,7 @@ function cotizarOfertas() {
+         };
+ 
+         const mostrarAlertaCotizacionExitosa = (aseguradora, contador) => {
+-          if (aseguradora == "Estado2") {
++          if (aseguradora == "Estado2" || aseguradora == "Estado3") {
+             aseguradora = "Estado";
+           }
+ 
+@@ -3672,8 +3703,12 @@ function cotizarOfertas() {
+         };
+ 
+         const mostrarAlertarCotizacionFallida = (aseguradora, mensaje) => {
+-          if (aseguradora == "Estado" || aseguradora == "Estado2") {
+-            if (aseguradora == "Estado2") {
++          if (
++            aseguradora == "Estado" ||
++            aseguradora == "Estado2" ||
++            aseguradora == "Estado3"
++          ) {
++            if (aseguradora == "Estado2" || aseguradora == "Estado3") {
+               aseguradora = "Estado";
+             }
+             // console.log(aseguradora);
+@@ -4166,7 +4201,7 @@ function cotizarOfertas() {
+           : Promise.resolve();
+         cont.push(ZFullPromise);
+         /* Estado */
+-        const aseguradorasEstado = ["Estado", "Estado2"]; // Agrega más aseguradoras según sea necesario
++        const aseguradorasEstado = ["Estado", "Estado2", "Estado3"]; // Agrega más aseguradoras según sea necesario
+         aseguradorasEstado.forEach((aseguradora) => {
+           let successAseguradora = true;
+           const aseguradoraPromise = comprobarFallida(aseguradora)
+diff --git a/vistas/js/cotizar_pasajeros.js b/vistas/js/cotizar_pasajeros.js
+index b40255e..5cce012 100644
+--- a/vistas/js/cotizar_pasajeros.js
++++ b/vistas/js/cotizar_pasajeros.js
+@@ -1469,12 +1469,12 @@ function consulPlacaMapfre(valnumplaca) {
+     });
+ }
+ 
+-$("#btnConsultarVehmanual").on("click", function () {
+-  consulCodFasecolda();
++$("#btnConsultarVehmanual").on("click", function (e) {
++  consulCodFasecolda(e);
+ });
+ 
+ // CONSULTA LA GUIA PARA OBTENER EL CODIGO FASECOLDA MANUALMENTE
+-function consulCodFasecolda() {
++function consulCodFasecolda(e = null) {
+   var claseVeh = document.getElementById("clase").value;
+   var marcaVeh = document.getElementById("Marca").value;
+   var edadVeh = document.getElementById("edad").value;
+@@ -1482,6 +1482,8 @@ function consulCodFasecolda() {
+   var refe2 = $(".refe1").val();
+   var refe3 = $(".refe22").val();
+ 
++  let tipoConsulta = e.currentTarget.id;
++
+   if (
+     claseVeh != "" &&
+     marcaVeh != "" &&
+@@ -1503,10 +1505,12 @@ function consulCodFasecolda() {
+         refe2: refe3,
+       },
+       success: function (data) {
+-        // desactive
+         // console.log(data);
++        if (tipoConsulta != "btnConsultarVehmanual") {
++          tipoConsulta = null;
++        }
+         var codFasecolda = data.result.codigo;
+-        consulValorfasecolda(codFasecolda, edadVeh);
++        consulValorfasecolda(codFasecolda, edadVeh, tipoConsulta);
+       },
+     });
+   }
+@@ -1516,97 +1520,136 @@ var contErrMetEstadoFasec = 0;
+ var contErrProtConsulFasec = 0;
+ 
+ // Permite consultar la informacion del vehiculo segun la Guia Fasecolda
+-function consulValorfasecolda(codFasecolda, edadVeh) {
++function consulValorfasecolda(codFasecolda, edadVeh, tipoConsulta) {
+   $("#loaderVehiculo").html(
+     '<img src="vistas/img/plantilla/loader-loading.gif" width="34" height="34"><strong> Consultando Vehículo...</strong>'
+   );
+ 
+-  var myHeaders = new Headers();
+-  myHeaders.append("Content-Type", "application/json");
+-
+-  var raw = JSON.stringify({
+-    CodigoFasecolda: codFasecolda,
+-    brand: "",
+-    brandline: "",
+-    ClassId: "",
+-    Modelo: edadVeh,
+-  });
+-
+-  var requestOptions = {
+-    method: "POST",
+-    headers: myHeaders,
+-    body: raw,
+-    redirect: "follow",
+-  };
+-
+-  fetch(
+-    "https://grupoasistencia.com/motor_webservice/VehiculoFasecolda",
+-    requestOptions
+-  )
+-    .then(function (response) {
+-      if (!response.ok) {
+-        throw Error(response.statusText);
++  if (tipoConsulta != null) {
++    consulDatosFasecolda(codFasecolda, edadVeh).then(function (resp) {
++      var codigoClaseEstado = "";
++      if (resp.claseVeh == "MOTOS") {
++        codigoClaseEstado = 12;
+       }
+-      return response.json();
+-    })
+-    .then(function (myJson) {
+-      // desactive
+-      // console.log(myJson);
+-      if (myJson.Data != null) {
+-        var codigoClase = myJson.Data.ClassId;
+-        var codigoMarca = myJson.Data.Brand;
+-        var modeloVehiculo = myJson.Data.Modelo;
+-        var codigoLinea = myJson.Data.BrandLine;
+-        var codigoFasecolda = myJson.Data.CodigoFasecolda;
+-        var valorAsegurado = myJson.Data.ValorAsegurado;
++      $("#CodigoClase").val(codigoClaseEstado);
++      $("#txtClaseVeh").val(resp.claseVeh);
++      $("#txtMarcaVeh").val(resp.marcaVeh);
++      $("#txtReferenciaVeh").val(resp.lineaVeh);
++      $("#txtValorFasecolda").val(resp.valorVeh);
++      $("#txtModeloVeh").val(edadVeh);
++      $("#txtFasecolda").val(codFasecolda);
++    });
++  } else {
++    var myHeaders = new Headers();
++    myHeaders.append("Content-Type", "application/json");
++
++    var raw = JSON.stringify({
++      CodigoFasecolda: codFasecolda,
++      brand: "",
++      brandline: "",
++      ClassId: "",
++      Modelo: edadVeh,
++    });
+ 
+-        var claseVehiculo = "";
+-        var limiteRCESTADO = "";
++    var requestOptions = {
++      method: "POST",
++      headers: myHeaders,
++      body: raw,
++      redirect: "follow",
++    };
+ 
+-        if (codigoClase == 1) {
+-          claseVehiculo = "AUTOMOVILES";
+-          limiteRCESTADO = 6;
+-        } else if (codigoClase == 2) {
+-          claseVehiculo = "CAMPEROS";
+-          limiteRCESTADO = 18;
+-        } else if (codigoClase == 3) {
+-          claseVehiculo = "PICK UPS";
+-          limiteRCESTADO = 18;
+-        } else if (codigoClase == 4) {
+-          claseVehiculo = "CAMIONETA PASAJ.";
+-          limiteRCESTADO = 6;
+-        } else if (codigoClase == 12) {
+-          claseVehiculo = "MOTOCICLETA";
+-          limiteRCESTADO = 6;
+-        } else if (codigoClase == 14) {
+-          claseVehiculo = "PESADO";
+-          limiteRCESTADO = 18;
+-        } else if (codigoClase == 19) {
+-          claseVehiculo = "VAN";
+-          limiteRCESTADO = 18;
+-        } else if (codigoClase == 16) {
+-          claseVehiculo = "MOTOCICLETA";
+-          limiteRCESTADO = 6;
++    fetch(
++      "https://grupoasistencia.com/motor_webservice/VehiculoFasecolda",
++      requestOptions
++    )
++      .then(function (response) {
++        if (!response.ok) {
++          throw Error(response.statusText);
+         }
++        return response.json();
++      })
++      .then(function (myJson) {
++        // console.log(myJson);
++        if (myJson.Data != null) {
++          var codigoClase = myJson.Data.ClassId;
++          var codigoMarca = myJson.Data.Brand;
++          var modeloVehiculo = myJson.Data.Modelo;
++          var codigoLinea = myJson.Data.BrandLine;
++          var codigoFasecolda = myJson.Data.CodigoFasecolda;
++          var valorAsegurado = myJson.Data.ValorAsegurado;
++
++          var claseVehiculo = "";
++          var limiteRCESTADO = "";
++
++          if (codigoClase == 1) {
++            claseVehiculo = "AUTOMOVILES";
++            limiteRCESTADO = 6;
++          } else if (codigoClase == 2) {
++            claseVehiculo = "CAMPEROS";
++            limiteRCESTADO = 18;
++          } else if (codigoClase == 3) {
++            claseVehiculo = "PICK UPS";
++            limiteRCESTADO = 18;
++          } else if (codigoClase == 4) {
++            claseVehiculo = "UTILITARIOS DEPORTIVOS";
++            limiteRCESTADO = 6;
++          } else if (codigoClase == 12) {
++            claseVehiculo = "MOTOCICLETA";
++            limiteRCESTADO = 6;
++          } else if (codigoClase == 14) {
++            claseVehiculo = "PESADO";
++            limiteRCESTADO = 18;
++          } else if (codigoClase == 19) {
++            claseVehiculo = "VAN";
++            limiteRCESTADO = 18;
++          } else if (codigoClase == 16) {
++            claseVehiculo = "MOTOCICLETA";
++            limiteRCESTADO = 6;
++          }
+ 
+-        $("#CodigoClase").val(codigoClase);
+-        $("#txtClaseVeh").val(claseVehiculo);
+-        $("#LimiteRC").val(limiteRCESTADO);
+-        $("#CodigoMarca").val(codigoMarca);
+-        $("#txtModeloVeh").val(modeloVehiculo);
+-        $("#CodigoLinea").val(codigoLinea);
+-        $("#txtFasecolda").val(codigoFasecolda);
+-        $("#txtValorFasecolda").val(valorAsegurado);
+-
+-        consulDatosFasecolda(codigoFasecolda, modeloVehiculo).then(function (
+-          resp
+-        ) {
+-          $("#txtMarcaVeh").val(resp.marcaVeh);
+-          $("#txtReferenciaVeh").val(resp.lineaVeh);
+-        });
+-      } else {
+-        contErrMetEstadoFasec++;
+-        if (contErrMetEstadoFasec > 2) {
++          $("#CodigoClase").val(codigoClase);
++          $("#txtClaseVeh").val(claseVehiculo);
++          $("#LimiteRC").val(limiteRCESTADO);
++          $("#CodigoMarca").val(codigoMarca);
++          $("#txtModeloVeh").val(modeloVehiculo);
++          $("#CodigoLinea").val(codigoLinea);
++          $("#txtFasecolda").val(codigoFasecolda);
++          $("#txtValorFasecolda").val(valorAsegurado);
++
++          consulDatosFasecolda(codigoFasecolda, modeloVehiculo).then(function (
++            resp
++          ) {
++            $("#txtMarcaVeh").val(resp.marcaVeh);
++            $("#txtReferenciaVeh").val(resp.lineaVeh);
++          });
++        } else {
++          contErrMetEstadoFasec++;
++          if (contErrMetEstadoFasec > 2) {
++            $("#txtModeloVeh").val(edadVeh);
++            $("#txtFasecolda").val(codFasecolda);
++
++            consulDatosFasecolda(codFasecolda, edadVeh).then(function (resp) {
++              var codigoClaseEstado = "";
++              if (resp.claseVeh == "MOTOS") {
++                codigoClaseEstado = 12;
++              }
++              $("#CodigoClase").val(codigoClaseEstado);
++              $("#txtClaseVeh").val(resp.claseVeh);
++              $("#txtMarcaVeh").val(resp.marcaVeh);
++              $("#txtReferenciaVeh").val(resp.lineaVeh);
++              $("#txtValorFasecolda").val(resp.valorVeh);
++            });
++            contErrMetEstadoFasec = 0;
++          } else {
++            setTimeout(consulCodFasecolda, 2000);
++          }
++        }
++      })
++      .catch(function (error) {
++        //console.log("Parece que hubo un problema: \n", error);
++
++        contErrProtConsulFasec++;
++        if (contErrProtConsulFasec > 1) {
+           $("#txtModeloVeh").val(edadVeh);
+           $("#txtFasecolda").val(codFasecolda);
+ 
+@@ -1621,37 +1664,12 @@ function consulValorfasecolda(codFasecolda, edadVeh) {
+             $("#txtReferenciaVeh").val(resp.lineaVeh);
+             $("#txtValorFasecolda").val(resp.valorVeh);
+           });
+-          contErrMetEstadoFasec = 0;
++          contErrProtConsulFasec = 0;
+         } else {
+-          setTimeout(consulCodFasecolda, 2000);
++          setTimeout(consulCodFasecolda, 4000);
+         }
+-      }
+-    })
+-    .catch(function (error) {
+-      // desactive
+-      //console.log("Parece que hubo un problema: \n", error);
+-
+-      contErrProtConsulFasec++;
+-      if (contErrProtConsulFasec > 1) {
+-        $("#txtModeloVeh").val(edadVeh);
+-        $("#txtFasecolda").val(codFasecolda);
+-
+-        consulDatosFasecolda(codFasecolda, edadVeh).then(function (resp) {
+-          var codigoClaseEstado = "";
+-          if (resp.claseVeh == "MOTOS") {
+-            codigoClaseEstado = 12;
+-          }
+-          $("#CodigoClase").val(codigoClaseEstado);
+-          $("#txtClaseVeh").val(resp.claseVeh);
+-          $("#txtMarcaVeh").val(resp.marcaVeh);
+-          $("#txtReferenciaVeh").val(resp.lineaVeh);
+-          $("#txtValorFasecolda").val(resp.valorVeh);
+-        });
+-        contErrProtConsulFasec = 0;
+-      } else {
+-        setTimeout(consulCodFasecolda, 4000);
+-      }
+-    });
++      });
++  }
+ }
+ 
+ //FUNCION PARA CONSULTAR VALORES EN FASECOLDA
+@@ -1785,51 +1803,51 @@ function consulDatosFasecoldaPesados(codFasecolda, edadVeh) {
+ }
+ 
+ // FUNCION PARA CARGAR LA CIUDAD DE CIRCULACIÓN
+-function consultarCiudad() {
+-  var codigoDpto = document.getElementById("DptoCirculacion").value;
+-
+-  //if (codigoDpto == 1 || codigoDpto == 3 || codigoDpto == 10 || codigoDpto == 11 || codigoDpto == 12 || codigoDpto == 14 || codigoDpto == 17
+-  //|| codigoDpto == 19 || codigoDpto == 25 || codigoDpto == 28 || codigoDpto == 33 || codigoDpto == 34) {
+-
+-  //	swal({ text: '! El Departamento de circulación no posee cobertura. ¡' });
+-
+-  //} else {
+-
+-  $.ajax({
+-    type: "POST",
+-    url: "src/consultarCiudad.php",
+-    dataType: "json",
+-    data: { data: codigoDpto },
+-    cache: false,
+-    success: function (data) {
+-      // console.log(data);
+-      var ciudadesVeh = `<option value="">Seleccionar Ciudad</option>`;
+-
+-      if(data.mensaje){
+-        Swal.fire({
+-          icon: "error",
+-          title: "Error",
+-          text: "El departamento actual no cuenta con ciudades para asegurar",
+-        });
+-        document.getElementById("ciudadCirculacion").innerHTML = `<option value="">No se encontraron registros</option>`;
+-        return;
+-      }
+-
+-      data.forEach(function (valor, i) {
+-        var valorNombre = valor.Nombre.split("-");
+-        var nombreMinusc = valorNombre[0].toLowerCase();
+-        var ciudad = nombreMinusc.replace(/^(.)|\s(.)/g, function ($1) {
+-          return $1.toUpperCase();
+-        });
+-
+-        ciudadesVeh += `<option value="${valor.Codigo}">${ciudad}</option>`;
+-      });
+-      document.getElementById("ciudadCirculacion").innerHTML = ciudadesVeh;
+-    },
+-  });
+-
+-  //}
+-}
++// function consultarCiudad() {
++//   var codigoDpto = document.getElementById("DptoCirculacion").value;
++
++//   //if (codigoDpto == 1 || codigoDpto == 3 || codigoDpto == 10 || codigoDpto == 11 || codigoDpto == 12 || codigoDpto == 14 || codigoDpto == 17
++//   //|| codigoDpto == 19 || codigoDpto == 25 || codigoDpto == 28 || codigoDpto == 33 || codigoDpto == 34) {
++
++//   //	swal({ text: '! El Departamento de circulación no posee cobertura. ¡' });
++
++//   //} else {
++
++//   $.ajax({
++//     type: "POST",
++//     url: "src/consultarCiudad.php",
++//     dataType: "json",
++//     data: { data: codigoDpto },
++//     cache: false,
++//     success: function (data) {
++//       // console.log(data);
++//       var ciudadesVeh = `<option value="">Seleccionar Ciudad</option>`;
++
++//       if(data.mensaje){
++//         Swal.fire({
++//           icon: "error",
++//           title: "Error",
++//           text: "El departamento actual no cuenta con ciudades para asegurar",
++//         });
++//         document.getElementById("ciudadCirculacion").innerHTML = `<option value="">No se encontraron registros</option>`;
++//         return;
++//       }
++
++//       data.forEach(function (valor, i) {
++//         var valorNombre = valor.Nombre.split("-");
++//         var nombreMinusc = valorNombre[0].toLowerCase();
++//         var ciudad = nombreMinusc.replace(/^(.)|\s(.)/g, function ($1) {
++//           return $1.toUpperCase();
++//         });
++
++//         ciudadesVeh += `<option value="${valor.Codigo}">${ciudad}</option>`;
++//       });
++//       document.getElementById("ciudadCirculacion").innerHTML = ciudadesVeh;
++//     },
++//   });
++
++//   //}
++// }
+ 
+ //trae el ID del cliente sin caracteres especiales y solamente el numero para generar la cotización.
+ function idWithOutSpecialChars() {
+@@ -2129,7 +2147,7 @@ const mostrarOferta = (
+     } else if ($data == "Axa Colpatria") {
+       $resultado = "AXA";
+     } else if ($data == "HDI Seguros") {
+-      $resultado = "HDI";
++      $resultado = "HDI Seguros";
+     } else if ($data == "SBS Seguros") {
+       $resultado = "SBS";
+     } else if ($data == "Allianz Seguros") {
+@@ -2143,7 +2161,7 @@ const mostrarOferta = (
+     } else if ($data == "Mapfre") {
+       $resultado = "Mapfre";
+     } else if ($data == "HDI (Antes Liberty)") {
+-      $resultado = "Liberty";
++      $resultado = "HDI Seguros";
+     } else if ($data == "Aseguradora Solidaria") {
+       $resultado = "Solidaria";
+     } else if ($data == "Seguros Sura") {
+@@ -2162,8 +2180,12 @@ const mostrarOferta = (
+     return $resultado;
+   }
+ 
+-  var nombreAseguradora = nombreAseguradora(aseguradora);
+-  var aseguradoraCredenciales = nombreAseguradora + "_C";
++  var nombreAseguradoraA = nombreAseguradora(aseguradora);
++
++  var aseguradoraCredenciales =
++    nombreAseguradoraA == "HDI Seguros"
++      ? "Liberty_C_Publicos"
++      : nombreAseguradoraA + "_C_Publicos";
+   var permisosCredenciales = permisos[aseguradoraCredenciales];
+ 
+   // if (nombreAseguradora == "Liberty") {
+@@ -2228,7 +2250,7 @@ const mostrarOferta = (
+                       </div>
+                          </div>
+                          <div class="col-xs-12 col-sm-6 col-md-2 oferta-headerEdit">
+-                         <h5 class='entidad' style='font-size: 15px'><b>${aseguradora} - ${
++                         <h5 class='entidad' style='font-size: 15px'><b>${nombreAseguradoraA} - ${
+     producto == "Pesados con RCE en exceso"
+       ? "Pesados RCE + Exceso"
+       : producto == "PREVILIVIANOS INDIVIDUAL - "
+@@ -2276,7 +2298,7 @@ const mostrarOferta = (
+                                         <div class="col-xs-12 col-sm-6 col-md-2">
+                                           <div class="selec-oferta">
+                                             <label for="seleccionar">SELECCIONAR</label>&nbsp;&nbsp;
+-                                            <input type="checkbox" class="classSelecOferta" name="selecOferta" id="selec${numCotizOferta}${numId}${producto}\" onclick='seleccionarOferta(\"${aseguradora}\", \"${prima}\", \"${producto}\", \"${numCotizOferta}\", this);' disabled/>
++                                            <input type="checkbox" class="classSelecOferta" name="selecOferta" id="selec${numCotizOferta}${numId}${producto}\" onclick='seleccionarOferta(\"${aseguradora}\", \"${prima}\", \"${producto}\", \"${numCotizOferta}\" \"${actIdentity}\", this);' disabled/>
+                                           </div>
+                                         </div>`;
+   if (
+@@ -3238,7 +3260,7 @@ function cotizarOfertasPasajeros() {
+ 
+             aseguradorasCoti.forEach((aseguradora) => {
+               let url;
+-              if (aseguradora === "HDI (Antes Liberty)") {
++              if (aseguradora === "HDI Seguros") {
+                 url = `https://grupoasistencia.com/motor_webservice_publics/HDI_Pasajeros`;
+                 cont.push(
+                   fetch(url, requestOptions)
+@@ -3582,39 +3604,6 @@ function cotizarOfertasPasajeros() {
+                   }
+                 }
+               });
+-              // $("#btnParrillaPDF").click(function () {
+-              //   const todosOn = $(".classSelecOferta:checked").length;
+-              //   const idCotizacionPDF = idCotizacion;
+-              //   const checkboxAsesor = $("#checkboxAsesor");
+-
+-              //   if (permisos.Generarpdfdecotizacion != "x") {
+-              //     Swal.fire({
+-              //       icon: "error",
+-              //       title:
+-              //         "¡Esta versión no tiene ésta funcionalidad disponible!",
+-              //       showCancelButton: true,
+-              //       confirmButtonText: "Cerrar",
+-              //       cancelButtonText: "Conoce más",
+-              //     }).then((result) => {
+-              //       if (result.isConfirmed) {
+-              //       } else if (result.isDismissed) {
+-              //         window.open("https://www.integradoor.com", "_blank");
+-              //       }
+-              //     });
+-              //   } else {
+-              //     if (!todosOn) {
+-              //       swal.fire({
+-              //         title: "¡Debes seleccionar mínimo una oferta!",
+-              //       });
+-              //     } else {
+-              //       let url = `extensiones/tcpdf/pdf/comparador.php?cotizacion=${idCotizacionPDF}`;
+-              //       if (checkboxAsesor.is(":checked")) {
+-              //         url += "&generar_pdf=1";
+-              //       }
+-              //       window.open(url, "_blank");
+-              //     }
+-              //   }
+-              // });
+             });
+           },
+         });
+@@ -3976,7 +3965,7 @@ function cotizarOfertasPasajeros() {
+         const lineaVeh = document.getElementById("txtReferenciaVeh").value;
+ 
+         /* Liberty */
+-        const libertyPromise = comprobarFallida("HDI (Antes Liberty)")
++        const libertyPromise = comprobarFallida("HDI Seguros")
+           ? fetch(
+               "https://grupoasistencia.com/motor_webservice_publics/HDI_Pasajeros",
+               requestOptions
+@@ -3987,34 +3976,31 @@ function cotizarOfertasPasajeros() {
+               })
+               .then((ofertas) => {
+                 if (typeof ofertas[0].Resultado !== "undefined") {
+-                  agregarAseguradoraFallida("HDI (Antes Liberty)");
+-                  validarProblema("HDI (Antes Liberty)", ofertas);
++                  agregarAseguradoraFallida("HDI Seguros");
++                  validarProblema("HDI Seguros", ofertas);
+                   ofertas[0].Mensajes.forEach((mensaje) => {
+-                    mostrarAlertarCotizacionFallida(
+-                      "HDI (Antes Liberty)",
+-                      mensaje
+-                    );
++                    mostrarAlertarCotizacionFallida("HDI Seguros", mensaje);
+                   });
+                 } else {
+-                  // eliminarAseguradoraFallida('HDI (Antes Liberty)');
++                  // eliminarAseguradoraFallida('HDI Seguros');
+                   const contadorPorEntidad = validarOfertas(
+                     ofertas,
+-                    "HDI (Antes Liberty)",
++                    "HDI Seguros",
+                     1
+                   );
+                   mostrarAlertaCotizacionExitosa(
+-                    "HDI (Antes Liberty)",
++                    "HDI Seguros",
+                     contadorPorEntidad
+                   );
+                 }
+               })
+               .catch((err) => {
+-                agregarAseguradoraFallida("HDI (Antes Liberty)");
++                agregarAseguradoraFallida("HDI Seguros");
+                 mostrarAlertarCotizacionFallida(
+-                  "HDI (Antes Liberty)",
++                  "HDI Seguros",
+                   "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
+                 );
+-                validarProblema("HDI (Antes Liberty)", [
++                validarProblema("HDI Seguros", [
+                   {
+                     Mensajes: [
+                       "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
+diff --git a/vistas/js/motos.js b/vistas/js/motos.js
+index 9faae0a..a5387d3 100644
+--- a/vistas/js/motos.js
++++ b/vistas/js/motos.js
+@@ -50,6 +50,20 @@ $(document).ready(function () {
+     consultarAsegurado();
+   }
+ 
++   // Carga los Departamentos disponibles
++  $("#DptoCirculacion").select2({
++    theme: "bootstrap dpto",
++    language: "es",
++    width: "100%",
++  });
++
++  // Carga las Ciudades disponibles
++  $("#ciudadCirculacion").select2({
++    theme: "bootstrap ciudad",
++    language: "es",
++    width: "100%",
++  });
++
+   // Asociar eventos con debounce
+   $("#numDocumentoID").on(
+     "input paste change",
+@@ -534,8 +548,8 @@ $("#btnConsultarVehmanualbuscadorMotos").click(function () {
+   }
+ });
+ 
+-$("#btnConsultarVehmanualMotos").click(function () {
+-  consulCodFasecoldaMotos();
++$("#btnConsultarVehmanualMotos").click(function (e) {
++  consulCodFasecoldaMotos(e);
+ });
+ 
+ const requiredFieldsNotNit = (val) => {
+@@ -1281,7 +1295,7 @@ function consulPlacaMapfre(valnumplaca) {
+ }
+ 
+ // CONSULTA LA GUIA PARA OBTENER EL CODIGO FASECOLDA MANUALMENTE
+-function consulCodFasecoldaMotos() {
++function consulCodFasecoldaMotos(e = null) {
+   var claseVeh = document.getElementById("clase").value;
+   var marcaVeh = document.getElementById("Marca").value;
+   var edadVeh = document.getElementById("edad").value;
+@@ -1289,8 +1303,10 @@ function consulCodFasecoldaMotos() {
+   var refe2 = $(".refe1").val();
+   var refe3 = $(".refe22").val();
+ 
++  let tipoConsulta = e.currentTarget.id;
++
+   if (
+-    claseVeh != "" &&
++    claseVeh != "" && 
+     marcaVeh != "" &&
+     edadVeh != "" &&
+     refe != "" &&
+@@ -1310,8 +1326,11 @@ function consulCodFasecoldaMotos() {
+         refe2: refe3,
+       },
+       success: function (data) {
++         if (tipoConsulta != "btnConsultarVehmanualMotos") {
++          tipoConsulta = null;
++        }
+         var codFasecolda = data.result.codigo;
+-        consulValorfasecoldaMotos(codFasecolda, edadVeh);
++        consulValorfasecoldaMotos(codFasecolda, edadVeh, tipoConsulta);
+       },
+     });
+   }
+@@ -1321,12 +1340,27 @@ var contErrMetEstadoFasec = 0;
+ var contErrProtConsulFasec = 0;
+ 
+ // Permite consultar la informacion del vehiculo segun la Guia Fasecolda
+-function consulValorfasecoldaMotos(codFasecolda, edadVeh) {
++function consulValorfasecoldaMotos(codFasecolda, edadVeh, tipoConsulta) {
+   $("#loaderVehiculo").html(
+     '<img src="vistas/img/plantilla/loader-loading.gif" width="34" height="34"><strong> Consultando Vehículo...</strong>'
+   );
+ 
+-  var myHeaders = new Headers();
++  if(tipoConsulta != null){
++    consulDatosFasecoldaMotos(codFasecolda, edadVeh).then(function (resp) {
++      var codigoClaseEstado = "";
++      if (resp.claseVeh == "MOTOS") {
++        codigoClaseEstado = 12;
++      }
++      $("#CodigoClase").val(codigoClaseEstado);
++      $("#txtClaseVeh").val(resp.claseVeh);
++      $("#txtMarcaVeh").val(resp.marcaVeh);
++      $("#txtReferenciaVeh").val(resp.lineaVeh);
++      $("#txtValorFasecolda").val(resp.valorVeh);
++      $("#txtModeloVeh").val(edadVeh);
++      $("#txtFasecolda").val(codFasecolda);
++    });
++  } else {
++      var myHeaders = new Headers();
+   myHeaders.append("Content-Type", "application/json");
+ 
+   var raw = JSON.stringify({
+@@ -1454,6 +1488,7 @@ function consulValorfasecoldaMotos(codFasecolda, edadVeh) {
+         setTimeout(consulCodFasecolda, 4000);
+       }
+     });
++  }
+ }
+ 
+ //FUNCION PARA CONSULTAR VALORES EN FASECOLDA
+@@ -1584,44 +1619,44 @@ $("#DptoCirculacion").change(function () {
+ });
+ 
+ // FUNCION PARA CARGAR LA CIUDAD DE CIRCULACIÓN
+-function consultarCiudad() {
+-  var codigoDpto = document.getElementById("DptoCirculacion").value;
+-
+-  $.ajax({
+-    type: "POST",
+-    url: "src/consultarCiudad.php",
+-    dataType: "json",
+-    data: { data: codigoDpto },
+-    cache: false,
+-    success: function (data) {
+-      // console.log(data);
+-      var ciudadesVeh = `<option value="">Seleccionar Ciudad</option>`;
+-
+-      if(data.mensaje){
+-        Swal.fire({
+-          icon: "error",
+-          title: "Error",
+-          text: "El departamento actual no cuenta con ciudades para asegurar",
+-        });
+-        document.getElementById("ciudadCirculacion").innerHTML = `<option value="">No se encontraron registros</option>`;
+-        return;
+-      }
+-
+-      data.forEach(function (valor, i) {
+-        var valorNombre = valor.Nombre.split("-");
+-        var nombreMinusc = valorNombre[0].toLowerCase();
+-        var ciudad = nombreMinusc.replace(/^(.)|\s(.)/g, function ($1) {
+-          return $1.toUpperCase();
+-        });
+-
+-        ciudadesVeh += `<option value="${valor.Codigo}">${ciudad}</option>`;
+-      });
+-      document.getElementById("ciudadCirculacion").innerHTML = ciudadesVeh;
+-    },
+-  });
++// function consultarCiudad() {
++//   var codigoDpto = document.getElementById("DptoCirculacion").value;
++
++//   $.ajax({
++//     type: "POST",
++//     url: "src/consultarCiudad.php",
++//     dataType: "json",
++//     data: { data: codigoDpto },
++//     cache: false,
++//     success: function (data) {
++//       // console.log(data);
++//       var ciudadesVeh = `<option value="">Seleccionar Ciudad</option>`;
++
++//       if(data.mensaje){
++//         Swal.fire({
++//           icon: "error",
++//           title: "Error",
++//           text: "El departamento actual no cuenta con ciudades para asegurar",
++//         });
++//         document.getElementById("ciudadCirculacion").innerHTML = `<option value="">No se encontraron registros</option>`;
++//         return;
++//       }
++
++//       data.forEach(function (valor, i) {
++//         var valorNombre = valor.Nombre.split("-");
++//         var nombreMinusc = valorNombre[0].toLowerCase();
++//         var ciudad = nombreMinusc.replace(/^(.)|\s(.)/g, function ($1) {
++//           return $1.toUpperCase();
++//         });
++
++//         ciudadesVeh += `<option value="${valor.Codigo}">${ciudad}</option>`;
++//       });
++//       document.getElementById("ciudadCirculacion").innerHTML = ciudadesVeh;
++//     },
++//   });
+ 
+-  //}
+-}
++//   //}
++// }
+ 
+ //trae el ID del cliente sin caracteres especiales y solamente el numero para generar la cotización.
+ function idWithOutSpecialChars() {
+@@ -1900,7 +1935,7 @@ const mostrarOfertaMotos = (
+     } else if ($data == "Axa Colpatria") {
+       $resultado = "AXA";
+     } else if ($data == "HDI Seguros") {
+-      $resultado = "HDI";
++      $resultado = "HDI Seguros";
+     } else if ($data == "SBS Seguros") {
+       $resultado = "SBS";
+     } else if ($data == "Allianz Seguros") {
+@@ -1914,7 +1949,7 @@ const mostrarOfertaMotos = (
+     } else if ($data == "Mapfre") {
+       $resultado = "Mapfre";
+     } else if ($data == "HDI (Antes Liberty)") {
+-      $resultado = "HDI (Antes Liberty)";
++      $resultado = "HDI Seguros";
+     } else if ($data == "Aseguradora Solidaria") {
+       $resultado = "Solidaria";
+     } else if ($data == "Seguros Sura") {
+@@ -1933,8 +1968,12 @@ const mostrarOfertaMotos = (
+     return $resultado;
+   }
+ 
+-  var nombreAseguradora = nombreAseguradora(aseguradora);
+-  var aseguradoraCredenciales = nombreAseguradora + "_C_motos";
++   var nombreAseguradoraA = nombreAseguradora(aseguradora);
++
++  var aseguradoraCredenciales =
++    nombreAseguradoraA == "HDI Seguros"
++      ? "Liberty_C_motos"
++      : nombreAseguradoraA + "_C_motos";
+   var permisosCredenciales = permisos[aseguradoraCredenciales];
+ 
+   let calcCuotas =
+@@ -1996,7 +2035,7 @@ ${
+             </div>
+               </div>
+                   <div class="col-xs-12 col-sm-6 col-md-2 oferta-headerEdit">
+-                  <h5 class='entidad' style='font-size: 15px'><b>${aseguradora} - ${producto}</b></h5>
++                  <h5 class='entidad' style='font-size: 15px'><b>${nombreAseguradoraA} - ${producto}</b></h5>
+                   <h5 class='precio' style='margin-top: 0px !important;'>Desde $ ${prima}</h5>
+                   <p class='title-precio' style='margin: 0 0 3px !important'>Precio (IVA incluido)</p>
+                   <div id='${actIdentityMotos}' style='display: none; color: #88d600;'>
+@@ -2029,7 +2068,7 @@ ${
+           <div class="col-xs-12 col-sm-6 col-md-2">
+             <div class="selec-oferta">
+               <label for="seleccionar">SELECCIONAR</label>&nbsp;&nbsp;
+-              <input type="checkbox" class="classSelecOferta" name="selecOferta" id="selec${numCotizOferta}${numId}${producto}\" onclick='seleccionarOferta(\"${aseguradora}\", \"${prima}\", \"${producto}\", \"${numCotizOferta}\", this);' />
++              <input type="checkbox" class="classSelecOferta" name="selecOferta" id="selec${numCotizOferta}${numId}${producto}\" onclick='seleccionarOferta(\"${aseguradora}\", \"${prima}\", \"${producto}\", \"${numCotizOferta}\", \"${actIdentityMotos}\", this);' />
+             </div>
+           </div>`;
+   if (
+@@ -2969,7 +3008,7 @@ function cotizarOfertasMotos() {
+                   );
+                 });
+                 return; // Salir del bucle después de procesar Zurich
+-              } else if (aseguradora === "HDI (Antes Liberty)") {
++              } else if (aseguradora === "HDI Seguros") {
+                 const planes = ["INTEGRAL", "BASICO + PT", "FULL"];
+                 planes.forEach((plan) => {
+                   let body = JSON.parse(requestOptions.body);
+diff --git a/vistas/js/pesados.js b/vistas/js/pesados.js
+index 0fdb05d..bc8887d 100644
+--- a/vistas/js/pesados.js
++++ b/vistas/js/pesados.js
+@@ -280,8 +280,8 @@ $(document).ready(function () {
+   });
+ 
+   // Ejecuta la funcion que trae el Codigo Fasecolda de la Guia
+-  $("#btnConsultarVeh").click(function () {
+-    consulCodFasecolda();
++  $("#btnConsultarVeh").click(function (e) {
++    consulCodFasecolda(e);
+   });
+ 
+   async function checkCotTotales() {
+@@ -1356,7 +1356,7 @@ function consulPlacaPesados(query = "1") {
+ }
+ 
+ // CONSULTA LA GUIA PARA OBTENER EL CODIGO FASECOLDA MANUALMENTE
+-function consulCodFasecolda() {
++function consulCodFasecolda(e = null) {
+   var claseVeh = document.getElementById("clase").value;
+   var marcaVeh = document.getElementById("Marca").value;
+   var edadVeh = document.getElementById("edad").value;
+@@ -1364,20 +1364,7 @@ function consulCodFasecolda() {
+   var refe2 = $(".refe1").val();
+   var refe3 = $(".refe22").val();
+ 
+-  console.log(
+-    "Clase: " +
+-      claseVeh +
+-      "\n" +
+-      "Clase: " +
+-      marcaVeh +
+-      "\n" +
+-      "Clase: " +
+-      edadVeh +
+-      "\n" +
+-      "Clase: " +
+-      refe +
+-      "\n"
+-  );
++  let tipoConsulta = e.currentTarget.id;
+ 
+   if (
+     claseVeh != "" &&
+@@ -1401,114 +1388,151 @@ function consulCodFasecolda() {
+       },
+       success: function (data) {
+         // console.log(data);
++        if (tipoConsulta != "btnConsultarVeh") {
++          tipoConsulta = null;
++        }
+         var codFasecolda = data.result.codigo;
+-        consulValorfasecolda(codFasecolda, edadVeh);
++        consulValorfasecolda(codFasecolda, edadVeh, tipoConsulta);
+       },
+     });
+   }
+ }
+ 
++
+ var contErrMetEstadoFasec = 0;
+ var contErrProtConsulFasec = 0;
+ 
+ // Permite consultar la informacion del vehiculo segun la Guia Fasecolda
+-function consulValorfasecolda(codFasecolda, edadVeh) {
++function consulValorfasecolda(codFasecolda, edadVeh, tipoConsulta) {
+   $("#loaderVehiculo").html(
+     '<img src="vistas/img/plantilla/loader-loading.gif" width="34" height="34"><strong> Consultando Vehículo...</strong>'
+   );
+ 
+-  var myHeaders = new Headers();
+-  myHeaders.append("Content-Type", "application/json");
++  if (tipoConsulta != null) {
++    consulDatosFasecolda(codFasecolda, edadVeh).then(function (resp) {
++      var codigoClaseEstado = "";
++      if (resp.claseVeh == "MOTOS") {
++        codigoClaseEstado = 12;
++      }
++      $("#CodigoClase").val(codigoClaseEstado);
++      $("#txtClaseVeh").val(resp.claseVeh);
++      $("#txtMarcaVeh").val(resp.marcaVeh);
++      $("#txtReferenciaVeh").val(resp.lineaVeh);
++      $("#txtValorFasecolda").val(resp.valorVeh);
++      $("#txtModeloVeh").val(edadVeh);
++      $("#txtFasecolda").val(codFasecolda);
++    });
++  } else {
++     var myHeaders = new Headers();
++    myHeaders.append("Content-Type", "application/json");
+ 
+-  var raw = JSON.stringify({
+-    CodigoFasecolda: codFasecolda,
+-    brand: "",
+-    brandline: "",
+-    ClassId: "",
+-    Modelo: edadVeh,
+-  });
++    var raw = JSON.stringify({
++      CodigoFasecolda: codFasecolda,
++      brand: "",
++      brandline: "",
++      ClassId: "",
++      Modelo: edadVeh,
++    });
+ 
+-  var requestOptions = {
+-    method: "POST",
+-    headers: myHeaders,
+-    body: raw,
+-    redirect: "follow",
+-  };
++    var requestOptions = {
++      method: "POST",
++      headers: myHeaders,
++      body: raw,
++      redirect: "follow",
++    };
+ 
+-  fetch(
+-    "https://grupoasistencia.com/motor_webservice/VehiculoFasecolda",
+-    requestOptions
+-  )
+-    .then(function (response) {
+-      if (!response.ok) {
+-        throw Error(response.statusText);
+-      }
+-      return response.json();
+-    })
+-    .then(function (myJson) {
+-      // console.log(myJson);
+-      if (myJson.Data != null) {
+-        var codigoClase = myJson.Data.ClassId;
+-        var codigoMarca = myJson.Data.Brand;
+-        var modeloVehiculo = myJson.Data.Modelo;
+-        var codigoLinea = myJson.Data.BrandLine;
+-        var codigoFasecolda = myJson.Data.CodigoFasecolda;
+-        var valorAsegurado = myJson.Data.ValorAsegurado;
++    fetch(
++      "https://grupoasistencia.com/motor_webservice/VehiculoFasecolda",
++      requestOptions
++    )
++      .then(function (response) {
++        if (!response.ok) {
++          throw Error(response.statusText);
++        }
++        return response.json();
++      })
++      .then(function (myJson) {
++        // console.log(myJson);
++        if (myJson.Data != null) {
++          var codigoClase = myJson.Data.ClassId;
++          var codigoMarca = myJson.Data.Brand;
++          var modeloVehiculo = myJson.Data.Modelo;
++          var codigoLinea = myJson.Data.BrandLine;
++          var codigoFasecolda = myJson.Data.CodigoFasecolda;
++          var valorAsegurado = myJson.Data.ValorAsegurado;
+ 
+-        var claseVehiculo = "";
+-        var limiteRCESTADO = "";
++          var claseVehiculo = "";
++          var limiteRCESTADO = "";
++
++          if (codigoClase == 1) {
++            claseVehiculo = "AUTOMOVILES";
++            limiteRCESTADO = 6;
++          } else if (codigoClase == 2) {
++            claseVehiculo = "CAMPEROS";
++            limiteRCESTADO = 18;
++          } else if (codigoClase == 3) {
++            claseVehiculo = "PICK UPS";
++            limiteRCESTADO = 18;
++          } else if (codigoClase == 4) {
++            claseVehiculo = "UTILITARIOS DEPORTIVOS";
++            limiteRCESTADO = 6;
++          } else if (codigoClase == 12) {
++            claseVehiculo = "MOTOCICLETA";
++            limiteRCESTADO = 6;
++          } else if (codigoClase == 14) {
++            claseVehiculo = "PESADO";
++            limiteRCESTADO = 18;
++          } else if (codigoClase == 19) {
++            claseVehiculo = "VAN";
++            limiteRCESTADO = 18;
++          } else if (codigoClase == 16) {
++            claseVehiculo = "MOTOCICLETA";
++            limiteRCESTADO = 6;
++          }
+ 
+-        if (codigoClase == 1) {
+-          claseVehiculo = "AUTOMOVILES";
+-          limiteRCESTADO = 6;
+-        } else if (codigoClase == 2) {
+-          claseVehiculo = "CAMPEROS";
+-          limiteRCESTADO = 18;
+-        } else if (codigoClase == 3) {
+-          claseVehiculo = "PICK UPS";
+-          limiteRCESTADO = 18;
+-        } else if (codigoClase == 4) {
+-          claseVehiculo = "UTILITARIOS DEPORTIVOS";
+-          limiteRCESTADO = 6;
+-        } else if (codigoClase == 12) {
+-          claseVehiculo = "MOTOCICLETA";
+-          limiteRCESTADO = 6;
+-        } else if (codigoClase == 14) {
+-          claseVehiculo = "PESADO";
+-          limiteRCESTADO = 18;
+-        } else if (codigoClase == 19) {
+-          claseVehiculo = "VAN";
+-          limiteRCESTADO = 18;
+-        } else if (codigoClase == 16) {
+-          claseVehiculo = "MOTOCICLETA";
+-          limiteRCESTADO = 6;
++          $("#CodigoClase").val(codigoClase);
++          $("#txtClaseVeh").val(claseVehiculo);
++          $("#LimiteRC").val(limiteRCESTADO);
++          $("#CodigoMarca").val(codigoMarca);
++          $("#txtModeloVeh").val(modeloVehiculo);
++          $("#CodigoLinea").val(codigoLinea);
++          $("#txtFasecolda").val(codigoFasecolda);
++          $("#txtValorFasecolda").val(valorAsegurado);
++
++          consulDatosFasecolda(codigoFasecolda, modeloVehiculo).then(function (
++            resp
++          ) {
++            $("#txtMarcaVeh").val(resp.marcaVeh);
++            $("#txtReferenciaVeh").val(resp.lineaVeh);
++          });
++        } else {
++          contErrMetEstadoFasec++;
++          if (contErrMetEstadoFasec > 2) {
++            $("#txtModeloVeh").val(edadVeh);
++            $("#txtFasecolda").val(codFasecolda);
++
++            consulDatosFasecolda(codFasecolda, edadVeh).then(function (resp) {
++              var codigoClaseEstado = "";
++              if (resp.claseVeh == "MOTOS") {
++                codigoClaseEstado = 12;
++              }
++              $("#CodigoClase").val(codigoClaseEstado);
++              $("#txtClaseVeh").val(resp.claseVeh);
++              $("#txtMarcaVeh").val(resp.marcaVeh);
++              $("#txtReferenciaVeh").val(resp.lineaVeh);
++              $("#txtValorFasecolda").val(resp.valorVeh);
++            });
++            contErrMetEstadoFasec = 0;
++          } else {
++            setTimeout(consulCodFasecolda, 2000);
++          }
+         }
++      })
++      .catch(function (error) {
++        //console.log("Parece que hubo un problema: \n", error);
+ 
+-        $("#CodigoClase").val(codigoClase);
+-        $("#clasepesados").val(claseVehiculo);
+-        if (
+-          $("#clasepesados").val() === "FURGON" ||
+-          $("#clasepesados").val() === "FURGÓN"
+-        ) {
+-          $("#numToneladas").prop("required", true);
+-          $("#divNumToneladas").show(); // ✅ mostrar el div
+-        }
+-        $("#LimiteRC").val(limiteRCESTADO);
+-        $("#CodigoMarca").val(codigoMarca);
+-        $("#txtModeloVeh").val(modeloVehiculo);
+-        $("#CodigoLinea").val(codigoLinea);
+-        $("#txtFasecolda").val(codigoFasecolda);
+-        $("#txtValorFasecolda").val(valorAsegurado);
+-
+-        consulDatosFasecolda(codigoFasecolda, modeloVehiculo).then(function (
+-          resp
+-        ) {
+-          $("#txtMarcaVeh").val(resp.marcaVeh);
+-          $("#txtReferenciaVeh").val(resp.lineaVeh);
+-        });
+-      } else {
+-        contErrMetEstadoFasec++;
+-        if (contErrMetEstadoFasec > 2) {
++        contErrProtConsulFasec++;
++        if (contErrProtConsulFasec > 1) {
+           $("#txtModeloVeh").val(edadVeh);
+           $("#txtFasecolda").val(codFasecolda);
+ 
+@@ -1518,55 +1542,18 @@ function consulValorfasecolda(codFasecolda, edadVeh) {
+               codigoClaseEstado = 12;
+             }
+             $("#CodigoClase").val(codigoClaseEstado);
+-            $("#clasepesados").val(resp.claseVeh);
+-            if (
+-              $("#clasepesados").val() === "FURGON" ||
+-              $("#clasepesados").val() === "FURGÓN"
+-            ) {
+-              $("#numToneladas").prop("required", true);
+-              $("#divNumToneladas").show(); // ✅ mostrar el div
+-            }
++            $("#txtClaseVeh").val(resp.claseVeh);
+             $("#txtMarcaVeh").val(resp.marcaVeh);
+             $("#txtReferenciaVeh").val(resp.lineaVeh);
+             $("#txtValorFasecolda").val(resp.valorVeh);
+           });
+-          contErrMetEstadoFasec = 0;
++          contErrProtConsulFasec = 0;
+         } else {
+-          setTimeout(consulCodFasecolda, 2000);
++          setTimeout(consulCodFasecolda, 4000);
+         }
+-      }
+-    })
+-    .catch(function (error) {
+-      console.log("Parece que hubo un problema: \n", error);
+-
+-      contErrProtConsulFasec++;
+-      if (contErrProtConsulFasec > 1) {
+-        $("#txtModeloVeh").val(edadVeh);
+-        $("#txtFasecolda").val(codFasecolda);
++      });
++  }
+ 
+-        consulDatosFasecolda(codFasecolda, edadVeh).then(function (resp) {
+-          var codigoClaseEstado = "";
+-          if (resp.claseVeh == "MOTOS") {
+-            codigoClaseEstado = 12;
+-          }
+-          $("#CodigoClase").val(codigoClaseEstado);
+-          $("#clasepesados").val(resp.claseVeh);
+-          if (
+-            $("#clasepesados").val() === "FURGON" ||
+-            $("#clasepesados").val() === "FURGÓN"
+-          ) {
+-            $("#numToneladas").prop("required", true);
+-            $("#divNumToneladas").show(); // ✅ mostrar el div
+-          }
+-          $("#txtMarcaVeh").val(resp.marcaVeh);
+-          $("#txtReferenciaVeh").val(resp.lineaVeh);
+-          $("#txtValorFasecolda").val(resp.valorVeh);
+-        });
+-        contErrProtConsulFasec = 0;
+-      } else {
+-        setTimeout(consulCodFasecolda, 4000);
+-      }
+-    });
+ }
+ 
+ //FUNCION PARA CONSULTAR VALORES EN FASECOLDA
+@@ -1652,44 +1639,45 @@ function consulDatosFasecolda(codFasecolda, edadVeh) {
+ }
+ 
+ // FUNCION PARA CARGAR LA CIUDAD DE CIRCULACIÓN
+-function consultarCiudad() {
+-  var codigoDpto = document.getElementById("DptoCirculacion").value;
+-
+-  $.ajax({
+-    type: "POST",
+-    url: "src/consultarCiudad.php",
+-    dataType: "json",
+-    data: { data: codigoDpto },
+-    cache: false,
+-    success: function (data) {
+-      // console.log(data);
+-      var ciudadesVeh = `<option value="">Seleccionar Ciudad</option>`;
+-
+-      if(data.mensaje){
+-        Swal.fire({
+-          icon: "error",
+-          title: "Error",
+-          text: "El departamento actual no cuenta con ciudades para asegurar",
+-        });
+-        document.getElementById("ciudadCirculacion").innerHTML = `<option value="">No se encontraron registros</option>`;
+-        return;
+-      }
+-
+-      data.forEach(function (valor, i) {
+-        var valorNombre = valor.Nombre.split("-");
+-        var nombreMinusc = valorNombre[0].toLowerCase();
+-        var ciudad = nombreMinusc.replace(/^(.)|\s(.)/g, function ($1) {
+-          return $1.toUpperCase();
+-        });
+-
+-        ciudadesVeh += `<option value="${valor.Codigo}">${ciudad}</option>`;
+-      });
+-      document.getElementById("ciudadCirculacion").innerHTML = ciudadesVeh;
+-    },
+-  });
++// function consultarCiudad() {
++//   var codigoDpto = document.getElementById("DptoCirculacion").value;
++
++//   $.ajax({
++//     type: "POST",
++//     url: "src/consultarCiudad.php",
++//     dataType: "json",
++//     data: { data: codigoDpto },
++//     cache: false,
++//     success: function (data) {
++//       // console.log(data);
++//       var ciudadesVeh = `<option value="">Seleccionar Ciudad</option>`;
++
++//       if(data.mensaje){
++//         Swal.fire({
++//           icon: "error",
++//           title: "Error",
++//           text: "El departamento actual no cuenta con ciudades para asegurar",
++//         });
++//         document.getElementById("ciudadCirculacion").innerHTML = `<option value="">No se encontraron registros</option>`;
++//         return;
++//       }
++
++//       data.forEach(function (valor, i) {
++//         var valorNombre = valor.Nombre.split("-");
++//         var nombreMinusc = valorNombre[0].toLowerCase();
++//         var ciudad = nombreMinusc.replace(/^(.)|\s(.)/g, function ($1) {
++//           return $1.toUpperCase();
++//         });
++
++//         ciudadesVeh += `<option value="${valor.Codigo}">${ciudad}</option>`;
++//       });
++//       document.getElementById("ciudadCirculacion").innerHTML = ciudadesVeh;
++//     },
++//   });
++
++//   //}
++// }
+ 
+-  //}
+-}
+ let actIdentity = "";
+ // REGISTRA CADA UNA DE LAS OFERTAS COTIZADAS EN LA BD
+ function registrarOfertaPesados(
+@@ -1832,7 +1820,9 @@ const mostrarOfertaPesados = (
+     } else if ($data == "Mapfre") {
+       $resultado = "Mapfre";
+     } else if ($data == "Liberty Seguros") {
+-      $resultado = "HDI (Antes Liberty)";
++      $resultado = "HDI Seguros";
++    } else if ($data == "HDI (Antes Liberty)") {
++      $resultado = "HDI Seguros";
+     } else if ($data == "Aseguradora Solidaria") {
+       $resultado = "Solidaria";
+     } else if ($data == "Seguros Sura") {
+@@ -1851,8 +1841,8 @@ const mostrarOfertaPesados = (
+     return $resultado;
+   }
+ 
+-  var nombreAseguradora = nombreAseguradora(aseguradora);
+-  var aseguradoraCredenciales = nombreAseguradora + "_C_pesados";
++  var nombreAseguradoraA = nombreAseguradora(aseguradora);
++  var aseguradoraCredenciales = nombreAseguradoraA + "_C_pesados";
+   var permisosCredenciales = permisos[aseguradoraCredenciales];
+ 
+   // Agrega al array de objetos el objeto de card con los valores y el consecutivo
+@@ -1889,11 +1879,11 @@ const mostrarOfertaPesados = (
+ 
+ 
+                 ${
+-                  aseguradora !== "Liberty"
++                  nombreAseguradoraA !== "Liberty"
+                     ? `<div class="col-xs-12 col-sm-6 col-md-2 oferta-logo" style="display: flex; flex-direction: column; justify-content: center; align-items: center;"}>
+                           <center>
+                             <img src='vistas/img/logos/${logo}' style='${
+-                        aseguradora === "Mundial"
++                        nombreAseguradoraA === "Mundial"
+                           ? "width: 128px; margin-top: 70px;"
+                           : ""
+                       }'>
+@@ -1901,9 +1891,8 @@ const mostrarOfertaPesados = (
+ 
+                         <div class='col-12' style='margin-top:2%;'>
+                           ${
+-                            aseguradora !== "Mundial" &&
+-                            aseguradora !== "HDI Seguros" &&
+-                            aseguradora !== "Equidad" &&
++                            nombreAseguradoraA !== "Mundial" &&
++                            nombreAseguradoraA !== "Equidad" &&
+                             permisos.Vernumerodecotizacionencadaaseguradora ==
+                               "x"
+                               ? `<center>
+@@ -1915,19 +1904,19 @@ const mostrarOfertaPesados = (
+                     </div>`
+                     : `<div class="col-xs-12 col-sm-6 col-md-2 oferta-logo" style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
+                         <img src='vistas/img/logos/${logo}' style='${
+-                        aseguradora === "Mundial"
++                        nombreAseguradoraA === "Mundial"
+                           ? "width: 128px; margin-top: 70px;"
+                           : ""
+                       }'>
+                       <div class='col-12' style='margin-top:2%;'>
+                         ${
+-                          aseguradora !== "Mundial" &&
++                          nombreAseguradoraA !== "Mundial" &&
+                           permisos.Vernumerodecotizacionencadaaseguradora ==
+                             "x" &&
+                           permisosCredenciales == "1"
+                             ? `<center>
+                           ${
+-                            aseguradora == "Equidad"
++                            nombreAseguradoraA == "Equidad"
+                               ? ""
+                               : "<label class='entidad'>N° Cot: <span style='color:black'>" +
+                                 numCotizOferta +
+@@ -1941,7 +1930,7 @@ const mostrarOfertaPesados = (
+                 }
+                   
+                   <div class="col-xs-12 col-sm-6 col-md-2 oferta-headerEdit">
+-                    <h5 class='entidad' style='font-size: 15px'><b>${aseguradora} - ${
++                    <h5 class='entidad' style='font-size: 15px'><b>${nombreAseguradoraA} - ${
+     producto == "Pesados con RCE en exceso" ? "Pesados RCE + Exceso" : producto
+   }</b></h5>
+                     <h5 class='precio' style='margin-top: 0px !important;'>Desde $ ${prima}</h5>
+@@ -1972,7 +1961,7 @@ const mostrarOfertaPesados = (
+                       <li class="list-group-item">
+                         <span class="badge">* ${GR}</span>
+                         ${
+-                          aseguradorasViajes.includes(aseguradora)
++                          aseguradorasViajes.includes(nombreAseguradoraA)
+                             ? "Asistencia en Viajes"
+                             : "Servicio de Grua"
+                         } 
+@@ -1982,45 +1971,45 @@ const mostrarOfertaPesados = (
+                   <div class="col-xs-12 col-sm-6 col-md-2">
+                     <div class="selec-oferta">
+                     <label for="seleccionar">SELECCIONAR</label>&nbsp;&nbsp;
+-                    <input type="checkbox" class="classSelecOferta" name="selecOferta" id="selec${numCotizOferta}${numId}${productoGlobal}\" onclick='seleccionarOferta(\"${aseguradora}\", \"${prima}\", \"${productoGlobal}\", \"${numCotizOferta}\", this);' />
++                    <input type="checkbox" class="classSelecOferta" name="selecOferta" id="selec${numCotizOferta}${numId}${productoGlobal}\" onclick='seleccionarOferta(\"${aseguradora}\", \"${prima}\", \"${productoGlobal}\", \"${numCotizOferta}\", \"${actIdentity}\", this);' />
+                     </div>
+                   </div>`;
+   if (
+-    (aseguradora == "Seguros Bolivar" || aseguradora == "Axa Colpatria") &&
++    (nombreAseguradoraA == "Seguros Bolivar" || nombreAseguradoraA == "Axa Colpatria") &&
+     permisosCredenciales == "1"
+   ) {
+     cardCotizacion += `
+                     <div class="col-xs-12 col-sm-6 col-md-2 verpdf-oferta">
+-                      <button type="button" class="btn btn-info" id="btnAsegPDF${numCotizOferta}${numId}\" onclick='verPdfOferta(\"${aseguradora}\", \"${numCotizOferta}\", \"${numId}\", \"${id_intermediario}\");'>
++                      <button type="button" class="btn btn-info" id="btnAsegPDF${numCotizOferta}${numId}\" onclick='verPdfOferta(\"${nombreAseguradoraA}\", \"${numCotizOferta}\", \"${numId}\", \"${id_intermediario}\");'>
+                         <div id="verPdf${numCotizOferta}${numId}\">VER PDF &nbsp;&nbsp;<span class="fa fa-file-text"></span></div>
+                       </button>
+                     </div>`;
+   } else if (
+-    aseguradora == "Seguros del Estado" &&
++    nombreAseguradoraA == "Seguros del Estado" &&
+     UrlPdf !== null &&
+     permisosCredenciales == "1"
+   ) {
+     cardCotizacion += `
+             <div class="col-xs-12 col-sm-6 col-md-2 verpdf-oferta">
+-            <button type="button" class="btn btn-info" id="btnAsegPDF${numCotizOferta}${numId}\" onclick='verPdfEstado(\"${aseguradora}\", \"${numCotizOferta}\", \"${numId}\", \"${UrlPdf}\");'>
++            <button type="button" class="btn btn-info" id="btnAsegPDF${numCotizOferta}${numId}\" onclick='verPdfEstado(\"${nombreAseguradoraA}\", \"${numCotizOferta}\", \"${numId}\", \"${UrlPdf}\");'>
+               <div id="verPdf${numCotizOferta}${numId}\">VER PDF &nbsp;&nbsp;<span class="fa fa-file-text"></span></div>
+             </button>
+             </div>`;
+-  } else if (aseguradora == "Solidaria") {
++  } else if (nombreAseguradoraA == "Solidaria") {
+     cardCotizacion += `
+             <div class="col-xs-12 col-sm-6 col-md-2 verpdf-oferta">
+               <button id="solidaria-pdf" type="button" class="btn btn-info" onclick='verPdfSolidaria(${numCotizOferta})'>
+                 <div>VER PDF &nbsp;&nbsp;<span class="fa fa-file-text"></span></div>
+               </button>
+             </div>`;
+-  } else if (aseguradora == "Zurich") {
++  } else if (nombreAseguradoraA == "Zurich") {
+     cardCotizacion += `
+             <div class="col-xs-12 col-sm-6 col-md-2 verpdf-oferta">
+               <button id="solidaria-pdf${numCotizOferta}" type="button" class="btn btn-info" onclick='verPdfZurich(${numCotizOferta})'>
+                 <div>VER PDF &nbsp;&nbsp;<span class="fa fa-file-text"></span></div>
+               </button>
+             </div>`;
+-  } else if (aseguradora == "Previsora Seguros" || aseguradora == "Previsora") {
++  } else if (nombreAseguradoraA == "Previsora Seguros" || nombreAseguradoraA == "Previsora") {
+     cardCotizacion += `
+             <div class="col-xs-12 col-sm-6 col-md-2 verpdf-oferta">
+               <button id="previsora-pdf${numCotizOferta}" type="button" class="btn btn-info" onclick='verPdfPrevisora(${numCotizOferta})'>
+@@ -3154,7 +3143,7 @@ function cotizarOfertasPesados() {
+ 
+                   cont.push(axaPromise);
+                 });
+-              } else if (aseguradora === "HDI (Antes Liberty)") {
++              } else if (aseguradora === "HDI Seguros") {
+                 /* LIBERTY */
+                 let body = JSON.parse(requestOptions.body);
+                 let planesLiberty;
+@@ -3633,7 +3622,7 @@ function cotizarOfertasPesados() {
+         });
+ 
+         /* Liberty */
+-        const libertyPromise = comprobarFallidaPesados("Liberty")
++        const libertyPromise = comprobarFallidaPesados("HDI Seguros")
+           ? fetch(
+               "https://grupoasistencia.com/motor_webservice/Liberty_pesados?callback=myCallback",
+               requestOptions
+@@ -3644,28 +3633,28 @@ function cotizarOfertasPesados() {
+               })
+               .then((ofertas) => {
+                 if (typeof ofertas[0].Resultado !== "undefined") {
+-                  agregarAseguradoraFallidaPesados("Liberty");
+-                  validarProblema("Liberty", ofertas);
++                  agregarAseguradoraFallidaPesados("HDI Seguros");
++                  validarProblema("HDI Seguros", ofertas);
+                   ofertas[0].Mensajes.forEach((mensaje) => {
+-                    mostrarAlertarCotizacionFallida("Liberty", mensaje);
++                    mostrarAlertarCotizacionFallida("HDI Seguros", mensaje);
+                   });
+                 } else {
+-                  // eliminarAseguradoraFallida('Liberty');
++                  // eliminarAseguradoraFallida('HDI Seguros');
+                   const contadorPorEntidad = validarOfertasPesados(
+                     ofertas,
+-                    "Liberty",
++                    "HDI Seguros",
+                     1
+                   );
+-                  mostrarAlertaCotizacionExitosa("Liberty", contadorPorEntidad);
++                  mostrarAlertaCotizacionExitosa("HDI Seguros", contadorPorEntidad);
+                 }
+               })
+               .catch((err) => {
+-                agregarAseguradoraFallidaPesados("Liberty");
++                agregarAseguradoraFallidaPesados("HDI Seguros");
+                 mostrarAlertarCotizacionFallida(
+-                  "Liberty",
++                  "HDI Seguros",
+                   "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
+                 );
+-                validarProblema("Liberty", [
++                validarProblema("HDI Seguros", [
+                   {
+                     Mensajes: [
+                       "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
+diff --git a/vistas/modulos/cotizar.php b/vistas/modulos/cotizar.php
+index f7a4fae..e87e463 100644
+--- a/vistas/modulos/cotizar.php
++++ b/vistas/modulos/cotizar.php
+@@ -820,14 +820,9 @@ echo '<script>console.log(' . $idIntermediario . ", " . $rolAsesor . ')</script>
+   </section>
+ 
+   <section class="content">
+-
+     <div class="box">
+-
+-
+       <div class="box-body">
+-
+         <div id="formularioResumen">
+-
+           <!-- FORMULARIO RESUMEN ASEGURADO -->
+           <form method="Post" id="formResumAseg">
+             <div id="resumenAsegurado">
+@@ -1192,22 +1187,17 @@ echo '<script>console.log(' . $idIntermediario . ", " . $rolAsesor . ')</script>
+ 
+               <div class="col-lg-12 form-consulVeh">
+                 <div class="row">
+-
+-
+                   <div class="col-md-12">
+                     <div class="row">
+                       <div class="col-xs-12 col-sm-6 col-md-3 form-group">
+                         <label for="clase">Clase Vehículo</label>
+                         <select class="form-control" name="clase" id="clase" required="">
+-                          <option value="" selected>Seleccione la Clase</option>
+-                          <option value="AUTOMOVIL">AUTOMOVIL</option>
+-                          <option value="BUS">BUS</option>
+-                          <option value="CAMIONETA">CAMIONETA</option>
+-                          <option value="FURGONETA">FURGONETA</option>
+-                          <option value="MOTOCARRO">MOTOCARRO</option>
+-                          <option value="MOTOS">MOTOS</option>
+-                          <option value="PESADO">PESADO</option>
+-                          <option value="PICKUP">PICKUP</option>
++                        <option value="AUTOMOVIL">AUTOMOVIL</option>           
++                        <option value="CAMPERO">CAMPERO</option>
++                        <option value="CAMIONETA PASAJ.">CAMIONETA PASAJERO</option>
++                        <option value="ISOCARRO">ISOCARRO</option>
++                        <option value="PICKUP DOBLE CAB">PICKUP DOBLE CAB</option>
++                        <option value="PICKUP SENCILLA">PICKUP SENCILLA</option>
+                         </select>
+                       </div>
+ 
+@@ -1233,9 +1223,6 @@ echo '<script>console.log(' . $idIntermediario . ", " . $rolAsesor . ')</script>
+                       </div>
+                     </div>
+                   </div>
+-
+-
+-
+                   <div class="col-xs-12 col-sm-6 col-md-12">
+                     <div class="row">
+                       <div class="col-xs-12 col-sm-6 col-md-3 form-group">
+@@ -1259,13 +1246,6 @@ echo '<script>console.log(' . $idIntermediario . ", " . $rolAsesor . ')</script>
+                       </div>
+                     </div>
+                   </div>
+-
+-
+-
+-
+-
+-
+-
+                 </div>
+               </div>
+             </form>
+@@ -1456,11 +1436,8 @@ echo '<script>console.log(' . $idIntermediario . ", " . $rolAsesor . ')</script>
+                 </div>
+               </div>
+             </div>
+-
+-
+           </form>
+ 
+-
+           <!--- RESUMEN DE COTIZACIONES -->
+           <div id="contenParrilla" style="display: none;">
+             <div class="col-lg-12 form-parrilla">
+@@ -1499,9 +1476,6 @@ echo '<script>console.log(' . $idIntermediario . ", " . $rolAsesor . ')</script>
+                           </tr>
+                         </thead>
+                         <tbody>
+-
+-
+-
+                         </tbody>
+                       </table>
+                     </div>
+diff --git a/vistas/modulos/motos.php b/vistas/modulos/motos.php
+index 5f17c34..0828c5e 100644
+--- a/vistas/modulos/motos.php
++++ b/vistas/modulos/motos.php
+@@ -132,6 +132,7 @@ $rolAsesor = $_SESSION['permisos']['idRol'];
+   .table-padding {
+     padding: 15px;
+   }
++
+   .card-ofertas {
+     padding: 20px;
+   }
+@@ -1186,14 +1187,9 @@ $rolAsesor = $_SESSION['permisos']['idRol'];
+                         <label for="clase">Clase Vehículo</label>
+                         <select class="form-control" name="clase" id="clase" required="">
+                           <option value="" selected>Seleccione la Clase</option>
+-                          <option value="AUTOMOVIL">AUTOMOVIL</option>
+-                          <option value="BUS">BUS</option>
+-                          <option value="CAMIONETA">CAMIONETA</option>
+-                          <option value="FURGONETA">FURGONETA</option>
++                          <option value="CUATRIMOTO">CUATRIMOTO</option>
+                           <option value="MOTOCARRO">MOTOCARRO</option>
+-                          <option value="MOTOS">MOTOS</option>
+-                          <option value="PESADO">PESADO</option>
+-                          <option value="PICKUP">PICKUP</option>
++                          <option value="MOTOCICLETA">MOTOCICLETA</option>
+                         </select>
+                       </div>
+ 
+@@ -1517,20 +1513,20 @@ $rolAsesor = $_SESSION['permisos']['idRol'];
+                   <div>
+                     <div id="mensajeSga" class="col-lg-12" style="font-size: 13px;">
+                       <p><b>Notas Importantes: </b></p>
+-                        <strong>Condiciones Generales:</strong><br>
+-                        • Para motos de valor asegurado menor a $7 millones, solo aplican las condiciones del cotizador web.<br>
+-                        • Grupo Asistencia cotiza manualmente motos de valor asegurado mayor a $7 millones.<br>
+-                        • El valor asegurado máximo para motos es de $80 millones. Valores superiores requieren autorización del Gerente General, quien podrá exceptuar este límite si el asesor es productivo, tiene más de 6 meses de antigüedad, baja siniestralidad y el cliente tiene otros productos con la aseguradora.<br>
+-                        • Primas totales menores a $800.000 para motos solo se pagan de contado.<br><br>
+-                        <strong>Condiciones de Financiación:</strong><br>
+-                        • Se financian motos con prima total superior a $800.000.<br>
+-                        • Motos con beneficiario oneroso, modelos 2022 en adelante y prima total mayor a $800.000 pueden financiarse hasta en 11 cuotas.<br>
+-                        • El número máximo de cuotas depende de la prima total:
+-                          <ul>
+-                            <li>$800.000 - $1 millón: máx. 7 cuotas.</li>
+-                            <li>$1 - $2 millones: máx. 11 cuotas.</li>
+-                            <li>Mayor a $2 millones: hasta 12 cuotas.</li>
+-                          </ul>
++                      <strong>Condiciones Generales:</strong><br>
++                      • Para motos de valor asegurado menor a $7 millones, solo aplican las condiciones del cotizador web.<br>
++                      • Grupo Asistencia cotiza manualmente motos de valor asegurado mayor a $7 millones.<br>
++                      • El valor asegurado máximo para motos es de $80 millones. Valores superiores requieren autorización del Gerente General, quien podrá exceptuar este límite si el asesor es productivo, tiene más de 6 meses de antigüedad, baja siniestralidad y el cliente tiene otros productos con la aseguradora.<br>
++                      • Primas totales menores a $800.000 para motos solo se pagan de contado.<br><br>
++                      <strong>Condiciones de Financiación:</strong><br>
++                      • Se financian motos con prima total superior a $800.000.<br>
++                      • Motos con beneficiario oneroso, modelos 2022 en adelante y prima total mayor a $800.000 pueden financiarse hasta en 11 cuotas.<br>
++                      • El número máximo de cuotas depende de la prima total:
++                      <ul>
++                        <li>$800.000 - $1 millón: máx. 7 cuotas.</li>
++                        <li>$1 - $2 millones: máx. 11 cuotas.</li>
++                        <li>Mayor a $2 millones: hasta 12 cuotas.</li>
++                      </ul>
+                     </div>
+                   </div>
+                 </div>
+diff --git a/vistas/modulos/pesados.php b/vistas/modulos/pesados.php
+index a9b9894..7be00d1 100644
+--- a/vistas/modulos/pesados.php
++++ b/vistas/modulos/pesados.php
+@@ -1205,19 +1205,42 @@ if ($_SESSION["permisos"]["Cotizarpesados"] != "x") {
+ 
+ 
+                 <div class="col-md-12">
++             <!-- AUTOMOVIL X
++                  BUS / BUSETA / MICROBUS X
++                  CAMION X
++                  CAMIONETA PASAJ. X
++                  CAMIONETA REPAR X
++                  CAMPERO X
++                  CARROTANQUE X
++                  CHASIS
++                  CUATRIMOTO
++                  FURGON
++                  FURGONETA
++                  ISOCARRO
++                  MOTOCARRO
++                  MOTOCICLETA
++                  PICKUP DOBLE CAB
++                  PICKUP SENCILLA
++                  REMOLCADOR
++                  REMOLQUE
++                  VOLQUETA -->
+                   <div class="row">
+                     <div class="col-xs-12 col-sm-6 col-md-3 form-group">
+                       <label for="clase">Clase Vehículo</label>
+                       <select class="form-control" name="clase" id="clase" required="">
+                         <option value="" selected>Seleccione la Clase</option>
+-                        <option value="AUTOMOVIL">AUTOMOVIL</option>
+-                        <option value="BUS">BUS</option>
++                        <option value="BUS / BUSETA / MICROBUS">BUS / BUSETA / MICROBUS</option>
++                        <option value="CAMION">CAMION</option>
+                         <option value="CAMIONETA">CAMIONETA</option>
++                        <option value="CAMIONETA PASAJ.">CAMIONETA PASAJERA</option>
++                        <option value="CAMIONETA REPAR">CAMIONETA REPARTIDORA</option>
++                        <option value="CARROTANQUE">CARROTANQUE</option>
++                        <option value="CHASIS">CHASIS</option>
++                        <option value="FURGON">FURGON</option>
+                         <option value="FURGONETA">FURGONETA</option>
+-                        <option value="MOTOCARRO">MOTOCARRO</option>
+-                        <option value="MOTOS">MOTOS</option>
+-                        <option value="PESADO">PESADO</option>
+-                        <option value="PICKUP">PICKUP</option>
++                        <option value="REMOLCADOR">REMOLCADOR</option>
++                        <option value="REMOLQUE">REMOLQUE</option>
++                        <option value="VOLQUETA">VOLQUETA</option>
+                       </select>
+                     </div>
+ 
+diff --git a/vistas/modulos/transporte-pasajeros.php b/vistas/modulos/transporte-pasajeros.php
+index 8217e42..9ac730f 100644
+--- a/vistas/modulos/transporte-pasajeros.php
++++ b/vistas/modulos/transporte-pasajeros.php
+@@ -1207,15 +1207,13 @@ echo '<script>console.log(' . $idIntermediario . ", " . $rolAsesor . ')</script>
+                       <div class="col-xs-12 col-sm-6 col-md-3 form-group">
+                         <label for="clase">Clase Vehículo</label>
+                         <select class="form-control" name="clase" id="clase" required="">
+-                          <option value="" selected>Seleccione la Clase</option>
+                           <option value="AUTOMOVIL">AUTOMOVIL</option>
+-                          <option value="BUS">BUS</option>
+-                          <option value="CAMIONETA">CAMIONETA</option>
+-                          <option value="FURGONETA">FURGONETA</option>
+-                          <option value="MOTOCARRO">MOTOCARRO</option>
+-                          <option value="MOTOS">MOTOS</option>
+-                          <option value="PESADO">PESADO</option>
+-                          <option value="PICKUP">PICKUP</option>
++                          <option value="BUS / BUSETA / MICROBUS">BUS / BUSETA / MICROBUS</option>
++                          <option value="CAMPERO">CAMPERO</option>
++                          <option value="CAMIONETA PASAJ.">CAMIONETA PASAJERA</option>
++                          <option value="CAMIONETA REPAR">CAMIONETA REPARTIDORA</option>
++                          <option value="PICKUP DOBLE CAB">PICKUP DOBLE CAB</option>
++                          <option value="PICKUP SENCILLA">PICKUP SENCILLA</option>
+                         </select>
+                       </div>
+ 
+diff --git a/vistas/modulos/usuarios3.php b/vistas/modulos/usuarios3.php
+index 4b03277..a8138c3 100644
+--- a/vistas/modulos/usuarios3.php
++++ b/vistas/modulos/usuarios3.php
+@@ -113,28 +113,28 @@ if (isset($_SESSION["rol"])) {
+ 
+     <div class="box">
+ 
+-    <?php
+-        if ($_SESSION["permisos"]["Agregarunusuarionuevo"] == "x" && $_SESSION['intermediario'] == "3") {
+-          echo '<button class="btnAgregarUsuario" data-toggle="modal" data-target="#modalAgregarUsuario">
+-
+-          Agregar usuario
+-
++      <?php
++      if ($_SESSION["permisos"]["Agregarunusuarionuevo"] == "x" && $_SESSION['intermediario'] == "3") {
++        echo '<button class="btnAgregarUsuario">
++          <a href="user" style="color: #fff; text-decoration: none;">
++            Agregar usuario
++          </a>
+         </button>';
+-        }
++      }
+ 
+-        // if ($_SESSION["permisos"]["Agregarunusuarionuevo"] == "x" && $_SESSION['intermediario'] == "3") {
+-        //   echo '<button class="btnAgregarUsuario" id="creaTemporal">
++      // if ($_SESSION["permisos"]["Agregarunusuarionuevo"] == "x" && $_SESSION['intermediario'] == "3") {
++      //   echo '<button class="btnAgregarUsuario" id="creaTemporal">
+ 
+-        //   Crear Usuario Temporal
++      //   Crear Usuario Temporal
++
++      // </button>';
++      // }
++      ?>
+ 
+-        // </button>';
+-        // }
+-        ?>
+ 
+-    
+       <link rel="stylesheet" href="vistas/modulos/Oportunidades/css/styles.css">
+       <div class="container-fluid mainDataContainer">
+-        
++
+         <div class="col-lg-12">
+           <div class="row row-filters">
+             <div class="col-xs-12 col-sm-6 col-md-6">
+@@ -328,7 +328,7 @@ if (isset($_SESSION["rol"])) {
+               <th style="font-weight: bold;">Rol</th>
+               <th style="font-weight: bold;">Últ_login</th>
+               <th style="font-weight: bold;">Fecha_Creacion</th>
+-              <th style="font-weight: bold;">Foto</th>
++              <!-- <th style="font-weight: bold;">Foto</th> -->
+               <th style="font-weight: bold;">Estado</th>
+               <?php
+               if ($_SESSION['intermediario'] == "3") {
+@@ -399,11 +399,11 @@ if (isset($_SESSION["rol"])) {
+                 $ultimoLogin = $value["usu_ultimo_login"] == NULL ? " " : date("d/m/Y", strtotime($value["usu_ultimo_login"]));
+                 echo '<td>' . $ultimoLogin . '</td>';
+                 echo '<td>' . $value['usu_fch_creacion'] . '</td>';
+-                if ($value["usu_foto"] != "") {
+-                  echo '<td><img src="' . $value["usu_foto"] . '" class="img-thumbnail" width="40px"></td>';
+-                } else {
+-                  echo '<td><img src="vistas/img/usuarios/default/anonymous.png" class="img-thumbnail" width="40px"></td>';
+-                }
++                // if ($value["usu_foto"] != "") {
++                //   echo '<td><img src="' . $value["usu_foto"] . '" class="img-thumbnail" width="40px"></td>';
++                // } else {
++                //   echo '<td><img src="vistas/img/usuarios/default/anonymous.png" class="img-thumbnail" width="40px"></td>';
++                // }
+ 
+                 if ($value["usu_estado"] != 0) {
+                   echo '<td><button class="btn btn-success btn-xs btnActivar" idUsuario="' . $value["id_usuario"] . '" estadoUsuario="0">Activo</button></td>';
+diff --git a/vistas/plantilla.php b/vistas/plantilla.php
+index 524d7ac..68abef2 100644
+--- a/vistas/plantilla.php
++++ b/vistas/plantilla.php
+@@ -274,7 +274,7 @@
+       "Bolivar" => array("A" => $permisos["Bolivar_A"], "C" => $permisos["Bolivar_C"]),
+       "Equidad" => array("A" => $permisos["Equidad_A"], "C" => $permisos["Equidad_C"]),
+       "Estado" => array("A" => $permisos["Estado_A"], "C" => $permisos["Estado_C"]),
+-      "HDI (Antes Liberty)" => array("A" => $permisos["Liberty_A"], "C" => $permisos["Liberty_C"]),
++      "HDI Seguros" => array("A" => $permisos["Liberty_A"], "C" => $permisos["Liberty_C"]),
+       "Mapfre" => array("A" => $permisos["Mapfre_A"], "C" => $permisos["Mapfre_C"]),
+       "Mundial" => array("A" => $permisos["Mundial_A"], "C" => $permisos["Mundial_C"]),
+       "Previsora" => array("A" => $permisos["Previsora_A"], "C" => $permisos["Previsora_C"]),
+@@ -289,14 +289,14 @@
+       "AXA" => array("A" => $permisos["AXA_A_motos"], "C" => $permisos["AXA_C_motos"]),
+       "SBS" => array("A" => $permisos["SBS_A_motos"], "C" => $permisos["SBS_C_motos"]),
+       "Estado" => array("A" => $permisos["Estado_A_motos"], "C" => $permisos["Estado_C_motos"]),
+-      "HDI (Antes Liberty)" => array("A" => $permisos["Liberty_A_motos"], "C" => $permisos["Liberty_C_motos"]),
++      "HDI Seguros" => array("A" => $permisos["Liberty_A_motos"], "C" => $permisos["Liberty_C_motos"]),
+     );
+ 
+     $aseguradoras_pesados = array(
+       "AXA" => array("A" => $permisos["AXA_A_pesados"], "C" => $permisos["AXA_C_pesados"]),
+       "Equidad" => array("A" => $permisos["Equidad_A_pesados"], "C" => $permisos["Equidad_C_pesados"]),
+       "Estado" => array("A" => $permisos["Estado_A_pesados"], "C" => $permisos["Estado_C_pesados"]),
+-      "HDI (Antes Liberty)" => array("A" => $permisos["Liberty_A_pesados"], "C" => $permisos["Liberty_C_pesados"]),
++      "HDI Seguros" => array("A" => $permisos["Liberty_A_pesados"], "C" => $permisos["Liberty_C_pesados"]),
+       // "HDI" => array("A" => $permisos["HDI_A_pesados"], "C" => $permisos["HDI_C_pesados"]),
+       "Mundial" => array("A" => $permisos["Mundial_A_pesados"], "C" => $permisos["Mundial_C_pesados"]),
+       "Previsora" => array("A" => $permisos["Previsora_A_pesados"], "C" => $permisos["Previsora_C_pesados"]),
+@@ -306,7 +306,7 @@
+       "AXA" => array("A" => $permisos["AXA_A_Publicos"], "C" => $permisos["AXA_C_Publicos"]),
+       "Equidad" => array("A" => $permisos["Equidad_A_Publicos"], "C" => $permisos["Equidad_C_Publicos"]),
+       "Estado" => array("A" => $permisos["Estado_A_Publicos"], "C" => $permisos["Estado_C_Publicos"]),
+-      "HDI (Antes Liberty)" => array("A" => $permisos["Liberty_A_Publicos"], "C" => $permisos["Liberty_C_Publicos"]),
++      "HDI Seguros" => array("A" => $permisos["Liberty_A_Publicos"], "C" => $permisos["Liberty_C_Publicos"]),
+       "Solidaria" => array("A" => $permisos["Solidaria_A_Publicos"], "C" => $permisos["Solidaria_C_Publicos"]),
+     );
+ 
+@@ -400,9 +400,9 @@
+         }
+         if ($_GET['ruta'] == 'usuarios') {
+           if (!($_SESSION['rol'] == 1 || $_SESSION['rol'] == 10 || $_SESSION['rol'] == 11 || $_SESSION["rol"] == 12 || $_SESSION['rol'] == 22 || $_SESSION['rol'] == 23)) {
+-            $_GET['ruta'] = 'usuarios3';
+-          } else {
+             $_GET['ruta'] = 'usuarios';
++          } else {
++            $_GET['ruta'] = 'usuarios3';
+           }
+         }
+ 

@@ -2353,7 +2353,7 @@ function editarCotizacion(id) {
 $(
   "#dianacimiento, #mesnacimiento, #anionacimiento, #dianacimientoRepresentante, #mesnacimientoRepresentante, #anionacimientoRepresentante, #clase, #Marca, #edad"
 ).select2({
-  theme: "bootstrap ciudad",
+  theme: "bootstrap fecnacimiento",
   language: "es",
   width: "100%",
 });
