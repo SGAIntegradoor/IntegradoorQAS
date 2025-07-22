@@ -8,45 +8,6 @@ if ($_POST['id']) {
 
 	$sql = "";
 	$sql = "SELECT f.marca FROM fasecolda f WHERE clase='" . $id . "' GROUP BY marca ORDER BY marca asc";
-	// switch ($ejecutar) {
-
-	// 	case "MOTOCICLETA":
-
-	// 		break;
-
-	// 	case "AUTOMOVIL":
-
-	// 		$sql = "SELECT * FROM fasecolda WHERE clase='" . $ejecutar . "' and (marca='CHEVROLET' or marca='RENAULT' or marca='NISSAN' or marca='KIA' or marca='MAZDA' or marca='FORD' or marca='TOYOTA' or marca='HYUNDAI' or marca='VOLKSWAGEN' or marca='SUZUKI') GROUP BY marca ORDER BY marca asc";
-	// 		break;
-
-	// 	case "clase='CAMIONETA REPAR' OR clase='CAMIONETA PASAJ.' OR clase='CAMPERO'":
-
-	// 		$sql = "SELECT * FROM fasecolda WHERE (" . $ejecutar . ") and (marca='NISSAN' or marca='RENAULT' or marca='TOYOTA' or marca='FORD' or marca='CHEVROLET' or marca='AUDI') GROUP BY marca ORDER BY marca asc";
-	// 		break;
-
-	// 	case "clase='PICKUP DOBLE CAB' OR clase='PICKUP SENCILLA'":
-	// 		$sql = "SELECT * FROM fasecolda WHERE (" . $ejecutar . ") and (marca='NISSAN' or marca='RENAULT' or marca='TOYOTA' or marca='FORD' or marca='CHEVROLET') GROUP BY marca ORDER BY marca asc";
-	// 		break;
-
-	// 	case "clase='MOTOCARRO' OR clase='ISOCARRO'":
-
-	// 		$sql = "SELECT * FROM fasecolda WHERE (" . $ejecutar . ") GROUP BY marca ORDER BY marca asc";
-	// 		break;
-
-	// 	case 'FURGONETA':
-	// 		$sql = "SELECT * FROM fasecolda WHERE clase='" . $ejecutar . "' GROUP BY marca ORDER BY marca asc";
-	// 		break;
-
-	// 	case "BUS / BUSETA / MICROBUS":
-	// 		$sql = "SELECT * FROM fasecolda WHERE clase='" . $ejecutar . "' and (marca='CHEVROLET' or marca='HINO' or marca='SCANIA' or marca='VOLVO' or marca='AGRALE' or marca='HYUNDAI' or marca='IVECO' or marca='JAC' or marca='RENAULT' or marca='MERCEDES BENZ' or marca='VOLKSWAGEN' or marca='KIA')GROUP BY marca ORDER BY marca asc";
-	// 		break;
-
-
-	// 	case "clase='CAMION' OR clase='CARROTANQUE' OR clase='FURGON' OR clase='REMOLCADOR' OR clase='VOLQUETA' OR clase='UNIMOG'":
-
-	// 		$sql = "SELECT * FROM fasecolda WHERE (" . $ejecutar . ") and (marca='CHEVROLET' or marca='HINO' OR marca='FOTON' or marca='JAC' or marca='NISSAN' or marca='INTERNATIONAL' or marca='FREIGHTLINER' or marca='KENWORTH' or marca='RENAULT') GROUP BY marca ORDER BY marca asc";
-	// 		break;
-	// }
 
 	$consulta = mysqli_query($con, $sql);
 
@@ -54,7 +15,9 @@ if ($_POST['id']) {
 	$selectMarca .= "<option value=''>Seleccione la Marca</option>";
 
 	while ($row = mysqli_fetch_assoc($consulta)) {
-		$selectMarca .= "<option value=" . $row['marca'] . ">" . $row['marca'] . "</option>";
+		// la marca viene asi ZQ MOTORS
+		// pero en el valor del option debe colocarlo con espacio y todo
+		$selectMarca .= "<option value='" . $row['marca'] . "'>" . $row['marca'] . "</option>";
 	}
 
 	echo $selectMarca;

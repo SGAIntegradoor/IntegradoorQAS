@@ -570,6 +570,14 @@ $(document).ready(function () {
     }
   });
 
+  $("#clase").change(function () {
+    $("#Marca").html("");
+    $("#edad").html("");
+    $("#linea").html("");
+    $("#referenciados").html("");
+    $("#referenciatres").html("");
+  });
+
   // Funcion para seleccionar el Producto Manualmente
 
   $("#aseguradora").change(function () {
