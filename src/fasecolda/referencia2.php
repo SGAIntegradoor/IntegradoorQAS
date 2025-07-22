@@ -21,7 +21,7 @@ if ($_POST['dataString'] && $clasveh = $_POST['clasveh'] && $MarcaVeh = $_POST['
 			if ($contar > 1) {
 ?>
 
-				<label>Referencia:</label>
+				<label>Referencia 2:</label>
 				<select type="select" name="refe1" id="refe1" class="refe1 form-control" required>
 					<option value="">Seleccione la Referencia</option>
 					<?php
@@ -44,7 +44,7 @@ if ($_POST['dataString'] && $clasveh = $_POST['clasveh'] && $MarcaVeh = $_POST['
 
 				while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
 				?>
-					<label>Segunda Referencia</label>
+					<label>Referencia 2:</label>
 					<input type="text" class="refe1 form-control" required value="<?php echo $row['referencia2']; ?>" name="refe1" disabled>
 				<?php
 				}
@@ -63,7 +63,7 @@ if ($_POST['dataString'] && $clasveh = $_POST['clasveh'] && $MarcaVeh = $_POST['
 			if ($contar > 1) {
 				?>
 
-				<label>Referencia:</label>
+				<label>Referencia 2:</label>
 				<select type="select" name="refe1" class="refe1 form-control" required>
 					<option value="">Seleccione la Referencia</option>
 					<?php
@@ -85,7 +85,7 @@ if ($_POST['dataString'] && $clasveh = $_POST['clasveh'] && $MarcaVeh = $_POST['
 
 				while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
 				?>
-					<label>Segunda Referencia</label>
+					<label>Referencia 2:</label>
 					<input type="text" class="refe1 form-control" required value="<?php echo $row['referencia2']; ?>" name="refe1" disabled>
 				<?php
 				}
@@ -101,7 +101,7 @@ if ($_POST['dataString'] && $clasveh = $_POST['clasveh'] && $MarcaVeh = $_POST['
 			if ($contar > 1) {
 				?>
 
-				<label>Referencia:</label>
+				<label>Referencia 2:</label>
 				<select type="select" name="refe1" class="refe1 form-control" required>
 					<option value="">Seleccione la Referencia</option>
 					<?php
@@ -122,7 +122,7 @@ if ($_POST['dataString'] && $clasveh = $_POST['clasveh'] && $MarcaVeh = $_POST['
 				$stmt->execute(array(':id' => $id, ':ejecutar' => $ejecutar, ':MarcaVeh' => $MarcaVeh));
 				while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
 				?>
-					<label>Segunda Referencia</label>
+					<label>Referencia 2:</label>
 					<input type="text" class="refe1 form-control" required value="<?php echo $row['referencia2']; ?>" name="refe1" disabled>
 				<?php
 				}
@@ -138,7 +138,7 @@ if ($_POST['dataString'] && $clasveh = $_POST['clasveh'] && $MarcaVeh = $_POST['
 			if ($contar > 1) {
 				?>
 
-				<label>Referencia:</label>
+				<label>Referencia 2:</label>
 				<select type="select" name="refe1" class="refe1 form-control" required>
 					<option value="">Seleccione la Referencia</option>
 					<?php
@@ -159,7 +159,7 @@ if ($_POST['dataString'] && $clasveh = $_POST['clasveh'] && $MarcaVeh = $_POST['
 				$stmt->execute(array(':id' => $id, ':ejecutar' => $ejecutar, ':MarcaVeh' => $MarcaVeh));
 				while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
 				?>
-					<label>Segunda Referencia</label>
+					<label>Referencia 2:</label>
 					<input type="text" class="refe1 form-control" required value="<?php echo $row['referencia2']; ?>" name="refe1" disabled>
 				<?php
 				}
@@ -176,7 +176,7 @@ if ($_POST['dataString'] && $clasveh = $_POST['clasveh'] && $MarcaVeh = $_POST['
 			if ($contar > 1) {
 				?>
 
-				<label>Referencia:</label>
+				<label>Referencia 2:</label>
 				<select type="select" name="refe1" class="refe1  form-control">
 					<option value="">Seleccione la Referencia</option>
 					<?php
@@ -198,7 +198,7 @@ if ($_POST['dataString'] && $clasveh = $_POST['clasveh'] && $MarcaVeh = $_POST['
 				$stmt->execute(array(':id' => $id, ':MarcaVeh' => $MarcaVeh));
 				while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
 				?>
-					<label>Segunda Referencia</label>
+					<label>Referencia 2:</label>
 					<input type="text" class="refe1 form-control" required value="<?php echo $row['referencia2']; ?>" name="refe1" disabled>
 				<?php
 				}
@@ -214,7 +214,7 @@ if ($_POST['dataString'] && $clasveh = $_POST['clasveh'] && $MarcaVeh = $_POST['
 			if ($contar > 1) {
 				?>
 
-				<label>Referencia:</label>
+				<label>Referencia 2:</label>
 				<select type="select" name="refe1" class="refe1 form-control" required>
 					<option value="">Seleccione la Referencia</option>
 					<?php
@@ -235,7 +235,7 @@ if ($_POST['dataString'] && $clasveh = $_POST['clasveh'] && $MarcaVeh = $_POST['
 				$stmt->execute(array(':id' => $id, ':MarcaVeh' => $MarcaVeh));
 				while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
 				?>
-					<label>Referencia</label>
+					<label>Referencia 2:</label>
 					<input type="text" class="refe1 form-control" required value="<?php echo $row['referencia2']; ?>" name="refe1" disabled>
 				<?php
 				}
@@ -252,7 +252,7 @@ if ($_POST['dataString'] && $clasveh = $_POST['clasveh'] && $MarcaVeh = $_POST['
 			if ($contar > 1) {
 				?>
 
-				<label>Referencia:</label>
+				<label>Referencia 2:</label>
 				<select type="select" name="refe1" class="refe1 form-control" required>
 					<option value="">Seleccione la Referencia</option>
 					<?php
@@ -273,7 +273,7 @@ if ($_POST['dataString'] && $clasveh = $_POST['clasveh'] && $MarcaVeh = $_POST['
 				$stmt->execute(array(':id' => $id, ':MarcaVeh' => $MarcaVeh));
 				while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
 				?>
-					<label>Referencia</label>
+					<label>Referencia 2:</label>
 					<input type="text" class="refe1 form-control" required value="<?php echo $row['referencia2']; ?>" name="refe1" disabled>
 				<?php
 				}
@@ -290,7 +290,7 @@ if ($_POST['dataString'] && $clasveh = $_POST['clasveh'] && $MarcaVeh = $_POST['
 			if ($contar > 1) {
 				?>
 
-				<label>Referencia:</label>
+				<label>Referencia 2:</label>
 				<select type="select" name="refe1" class="refe1 form-control" required>
 					<option value="">Seleccione la Referencia</option>
 					<?php
@@ -311,7 +311,7 @@ if ($_POST['dataString'] && $clasveh = $_POST['clasveh'] && $MarcaVeh = $_POST['
 				$stmt->execute(array(':id' => $id, ':MarcaVeh' => $MarcaVeh));
 				while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
 				?>
-					<label>Referencia</label>
+					<label>Referencia 2:</label>
 					<input type="text" class="refe1 form-control" required value="<?php echo $row['referencia2']; ?>" name="refe1" disabled>
 <?php
 				}
@@ -330,7 +330,7 @@ if ($_POST['dataString'] && $clasveh = $_POST['clasveh'] && $MarcaVeh = $_POST['
 				if ($contar > 1) {
 					?>
 
-					<label>Referencia:</label>
+					<label>Referencia 2:</label>
 					<select type="select" name="refe1" class="refe1 form-control" required>
 						<option value="">Seleccione la Referencia</option>
 						<?php
@@ -351,7 +351,7 @@ if ($_POST['dataString'] && $clasveh = $_POST['clasveh'] && $MarcaVeh = $_POST['
 					$stmt->execute(array(':id' => $id, ':MarcaVeh' => $MarcaVeh));
 					while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
 					?>
-						<label>Referencia</label>
+						<label>Referencia 2:</label>
 						<input type="text" class="refe1 form-control" required value="<?php echo $row['referencia2']; ?>" name="refe1" disabled>
 				<?php
 					}

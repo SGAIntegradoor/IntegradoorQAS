@@ -1192,10 +1192,10 @@ echo '<script>console.log(' . $idIntermediario . ", " . $rolAsesor . ')</script>
                       <div class="col-xs-12 col-sm-6 col-md-3 form-group">
                         <label for="clase">Clase Vehículo</label>
                         <select class="form-control" name="clase" id="clase" required="">
+                        <option value="">Seleccione una opción</option>           
                         <option value="AUTOMOVIL">AUTOMOVIL</option>           
                         <option value="CAMPERO">CAMPERO</option>
                         <option value="CAMIONETA PASAJ.">CAMIONETA PASAJERO</option>
-                        <option value="ISOCARRO">ISOCARRO</option>
                         <option value="PICKUP DOBLE CAB">PICKUP DOBLE CAB</option>
                         <option value="PICKUP SENCILLA">PICKUP SENCILLA</option>
                         </select>

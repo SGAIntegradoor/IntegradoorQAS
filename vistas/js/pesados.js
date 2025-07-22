@@ -1930,7 +1930,7 @@ const mostrarOfertaPesados = (
                 }
                   
                   <div class="col-xs-12 col-sm-6 col-md-2 oferta-headerEdit">
-                    <h5 class='entidad' style='font-size: 15px'><b>${nombreAseguradoraA} - ${
+                    <h5 class='entidad' style='font-size: 15px'><b>${aseguradora} - ${
     producto == "Pesados con RCE en exceso" ? "Pesados RCE + Exceso" : producto
   }</b></h5>
                     <h5 class='precio' style='margin-top: 0px !important;'>Desde $ ${prima}</h5>
@@ -1961,7 +1961,7 @@ const mostrarOfertaPesados = (
                       <li class="list-group-item">
                         <span class="badge">* ${GR}</span>
                         ${
-                          aseguradorasViajes.includes(nombreAseguradoraA)
+                          aseguradorasViajes.includes(aseguradora)
                             ? "Asistencia en Viajes"
                             : "Servicio de Grua"
                         } 
@@ -1975,7 +1975,7 @@ const mostrarOfertaPesados = (
                     </div>
                   </div>`;
   if (
-    (nombreAseguradoraA == "Seguros Bolivar" || nombreAseguradoraA == "Axa Colpatria") &&
+    (nombreAseguradoraA == "Seguros Bolivar" || aseguradora == "Axa Colpatria") &&
     permisosCredenciales == "1"
   ) {
     cardCotizacion += `

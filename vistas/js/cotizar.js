@@ -280,11 +280,11 @@ $(document).ready(function () {
   });
 
   // Carga la edad
-  $("#edad").select2({
-    theme: "bootstrap edad",
-    language: "es",
-    width: "100%",
-  });
+  // $("#edad").select2({
+  //   theme: "bootstrap edad",
+  //   language: "es",
+  //   width: "100%",
+  // });
 
   // Conviete la letras iniciales del Nombre y el Apellido deL Cliente en Mayusculas
   $("#txtNombres").keyup(function () {

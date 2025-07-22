@@ -1229,11 +1229,7 @@ if ($_SESSION["permisos"]["Cotizarpesados"] != "x") {
                       <label for="clase">Clase Vehículo</label>
                       <select class="form-control" name="clase" id="clase" required="">
                         <option value="" selected>Seleccione la Clase</option>
-                        <option value="BUS / BUSETA / MICROBUS">BUS / BUSETA / MICROBUS</option>
                         <option value="CAMION">CAMION</option>
-                        <option value="CAMIONETA">CAMIONETA</option>
-                        <option value="CAMIONETA PASAJ.">CAMIONETA PASAJERA</option>
-                        <option value="CAMIONETA REPAR">CAMIONETA REPARTIDORA</option>
                         <option value="CARROTANQUE">CARROTANQUE</option>
                         <option value="CHASIS">CHASIS</option>
                         <option value="FURGON">FURGON</option>

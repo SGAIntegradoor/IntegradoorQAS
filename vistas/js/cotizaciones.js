@@ -1259,6 +1259,7 @@ async function renderCards(response) {
         "Solidaria",
         "Equidad",
         "AXA Colpatria",
+        "AXA"
       ];
 
       const planesViajes = [
@@ -2355,7 +2356,7 @@ function editarCotizacion(id) {
 }
 
 $(
-  "#dianacimiento, #mesnacimiento, #anionacimiento, #dianacimientoRepresentante, #mesnacimientoRepresentante, #anionacimientoRepresentante, #clase, #Marca, #edad"
+  "#dianacimiento, #mesnacimiento, #anionacimiento, #dianacimientoRepresentante, #mesnacimientoRepresentante, #anionacimientoRepresentante"
 ).select2({
   theme: "bootstrap fecnacimiento",
   language: "es",
