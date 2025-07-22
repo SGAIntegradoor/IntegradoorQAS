@@ -78,7 +78,7 @@ function cleanFields() {
   $("#txtMesOportunidadModal").val(null).trigger("change"); // Restablece al valor por defecto
   $("#txtCanalModal").val(null).trigger("change"); // Restablece al valor por defecto
   $("#txtRazonPerdidoOportunidadModal").val(null).trigger("change"); // Restablece al valor por defecto
-  $("#txtAsesorOportunidadModal").val(null).trigger("change"); // Restablece al valor por defecto
+  $("#txtAsesorOportunidadModal").val('').trigger("change"); // Restablece al valor por defecto
   $("#txtRamoModal").val(null).trigger("change"); // Restablece al valor por defecto
   $("#txtOnerosoOportunidadModal").val(null).trigger("change"); // Restablece al valor por defecto
   $("#txtAseguradoraOportunidadModal").val(null).trigger("change"); // Restablece al valor por defecto
@@ -972,10 +972,13 @@ $("#txtMesOportunidadModal").select2({
 $("#txtCanalModal").on("change", function () {
   if ($(this).val() == 2) {
     $("#divAsesorFreelance").css("display", "block");
+    $("#txtAsesorOportunidadModal").val(null).trigger('change');
+    // $("#txtAsesorOportunidadModal").text('');
     $("#txtAsesorOportunidadModal")[0].required = true;
   } else {
     $("#divAsesorFreelance").css("display", "none");
-    $("#txtAsesorOportunidadModal").val("");
+    $("#txtAsesorOportunidadModal").val(null).trigger('change');
+    // $("#txtAsesorOportunidadModal").text('');
     $("#txtAsesorOportunidadModal")[0].required = false;
   }
 });
