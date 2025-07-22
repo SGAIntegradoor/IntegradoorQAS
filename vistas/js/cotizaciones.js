@@ -242,7 +242,11 @@ $(document).ready(function () {
               respuesta.usu_nombre + " " + respuesta.usu_apellido
             );
             $("#txtPlacaOportunidad").val(respuesta.cot_placa);
-            $("#txtAseguradoraOportunidad").val(oferta.Aseguradora == "HDI (Antes Liberty)" ? "HDI Seguros" : oferta.Aseguradora);
+            $("#txtAseguradoraOportunidad").val(
+              oferta.Aseguradora == "HDI (Antes Liberty)"
+                ? "HDI Seguros"
+                : oferta.Aseguradora
+            );
             info = respuesta;
           },
           error: function () {
@@ -1063,7 +1067,7 @@ $(document).ready(function () {
   let params = urlPage.searchParams.getAll("idCotizacion");
   if (params.length <= 0) {
     $("#tipoDocumentoID").change(function () {
-      resetFormAseg();
+      // resetFormAseg(); se deshabilita mientras se mide la funcionalidad de los campos
       if ($(this).val() == "2") {
         $("#numDocumentoID").attr("maxlength", "9");
       } else {
@@ -2374,7 +2378,14 @@ function seleccionarOferta(
 ) {
   var idSelecOferta = idCotizacion;
 
-  console.log(aseguradora, prima, producto, numCotizOferta, id_oferta, valCheck);
+  console.log(
+    aseguradora,
+    prima,
+    producto,
+    numCotizOferta,
+    id_oferta,
+    valCheck
+  );
 
   var placa = document.getElementById("placaVeh").value;
 
