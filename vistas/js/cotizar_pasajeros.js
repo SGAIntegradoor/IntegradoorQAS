@@ -3434,9 +3434,9 @@ function cotizarOfertasPasajeros() {
                           aseguradora == "Equidad" &&
                           ofertas[0].Mensajes.length > 1
                         ) {
-                          let mensajesConcatenados = "Cotización Fallida: <br><br>";
+                          let mensajesConcatenados = "Cotización Fallida: ";
                           ofertas[0].Mensajes.forEach((mensaje) => {
-                            mensajesConcatenados += mensaje + "<br>";
+                            mensajesConcatenados += mensaje + " ";
                           });
                           mostrarAlertarCotizacionFallida(
                             aseguradora,
@@ -3918,10 +3918,10 @@ function cotizarOfertasPasajeros() {
                   // ofertas[0].Mensajes.forEach((mensaje) => {
                   //   mostrarAlertarCotizacionFallida("Equidad", mensaje);
                   // });
-                  let mensajesConcatenados = "Cotización Fallida: <br><br>";
+                  let mensajesConcatenados = "Cotización Fallida: ";
                   if (ofertas[0].Mensajes.length > 1) {
                     ofertas[0].Mensajes.forEach((mensaje) => {
-                      mensajesConcatenados += mensaje + "<br>";
+                      mensajesConcatenados += mensaje + " ";
                     });
                     mostrarAlertarCotizacionFallida(
                       "Equidad",

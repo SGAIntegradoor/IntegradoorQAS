@@ -3130,6 +3130,10 @@ function cotizarOfertas() {
                 if (aseguradora == "Estado2" || aseguradora == "Estado3") {
                   aseguradora = "Estado";
                 }
+
+                if (aseguradora == "HDI FULL" || aseguradora == "INTEGRAL 20") {
+                  aseguradora = "Estado";
+                }
                 // console.log(aseguradora);
                 // console.log(mensaje);
                 // Referecnia de la tabla
@@ -3385,48 +3389,57 @@ function cotizarOfertas() {
                 return; // Salir del bucle después de procesar Estado
                 // Construir la URL de la solicitud para cada aseguradora
               } else if (aseguradora === "HDI Seguros") {
-                url = `https://grupoasistencia.com/motor_webservice/Liberty_autos`;
-                cont.push(
-                  fetch(url, requestOptions)
-                    .then((res) => {
-                      if (!res.ok) throw Error(res.statusText);
-                      return res.json();
-                    })
-                    .then((ofertas) => {
-                      if (typeof ofertas[0].Resultado !== "undefined") {
-                        agregarAseguradoraFallida(aseguradora);
-                        validarProblema(aseguradora, ofertas);
-                        ofertas[0].Mensajes.forEach((mensaje) => {
-                          mostrarAlertarCotizacionFallida(aseguradora, mensaje);
-                        });
-                      } else {
-                        const contadorPorEntidad = validarOfertas(
-                          ofertas,
+                const planes = ["HDI FULL", "INTEGRAL 20", "BASICO + PT", "BASICO"];
+                planes.forEach((plan) => {
+                  let body = JSON.parse(requestOptions.body);
+                  body.plan = plan;
+                  requestOptions.body = JSON.stringify(body);
+                  url = `https://grupoasistencia.com/motor_webservice/Liberty_autos`;
+                  cont.push(
+                    fetch(url, requestOptions)
+                      .then((res) => {
+                        if (!res.ok) throw Error(res.statusText);
+                        return res.json();
+                      })
+                      .then((ofertas) => {
+                        if (typeof ofertas[0].Resultado !== "undefined") {
+                          agregarAseguradoraFallida(plan);
+                          validarProblema(aseguradora, ofertas);
+                          ofertas[0].Mensajes.forEach((mensaje) => {
+                            mostrarAlertarCotizacionFallida(
+                              aseguradora,
+                              mensaje
+                            );
+                          });
+                        } else {
+                          const contadorPorEntidad = validarOfertas(
+                            ofertas,
+                            aseguradora,
+                            1
+                          );
+                          mostrarAlertaCotizacionExitosa(
+                            aseguradora,
+                            contadorPorEntidad
+                          );
+                        }
+                      })
+                      .catch((err) => {
+                        agregarAseguradoraFallida(plan);
+                        mostrarAlertarCotizacionFallida(
                           aseguradora,
-                          1
+                          "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
                         );
-                        mostrarAlertaCotizacionExitosa(
-                          aseguradora,
-                          contadorPorEntidad
-                        );
-                      }
-                    })
-                    .catch((err) => {
-                      agregarAseguradoraFallida(aseguradora);
-                      mostrarAlertarCotizacionFallida(
-                        aseguradora,
-                        "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
-                      );
-                      validarProblema(aseguradora, [
-                        {
-                          Mensajes: [
-                            "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
-                          ],
-                        },
-                      ]);
-                      console.error(err);
-                    })
-                );
+                        validarProblema(aseguradora, [
+                          {
+                            Mensajes: [
+                              "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
+                            ],
+                          },
+                        ]);
+                        console.error(err);
+                      })
+                  );
+                });
                 return;
               } else {
                 url = `https://grupoasistencia.com/motor_webservice/${aseguradora}_autos`;
@@ -3823,6 +3836,16 @@ function cotizarOfertas() {
           ) {
             aseguradora = "Zurich";
           }
+
+          if (
+            aseguradora == "BASICO + PT" ||
+            aseguradora == "BASICO" ||
+            aseguradora == "INTEGRAL 20" ||
+            aseguradora == "HDIFULL"
+          ) {
+            aseguradora = "HDI Seguros";
+          }
+
           const celdaResponse = document.getElementById(
             `${aseguradora}Response`
           );
