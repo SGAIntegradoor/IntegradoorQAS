@@ -98,25 +98,26 @@ getRolUser().then(function(respuesta) {
 async function mostrarCotRestantes() {
     let fecha1 = new Date();
 
-    // Obtener el último día del mes pasado
     const year = fecha1.getFullYear();
     const month = String(fecha1.getMonth() + 1).padStart(2, '0');
     const startDay = '01';
     const nowDate = `${year}-${month}-${startDay}`;
 
-    // Obtener el último día del mes actual
     let endOfMonthDate = new Date(fecha1.getFullYear(), fecha1.getMonth() + 1, 0);
     const yearEndOfMonth = endOfMonthDate.getFullYear();
-    const monthEndOfMonth = String(endOfMonthDate.getMonth() + 1).padStart(2, '0'); // +1 porque getMonth() devuelve 0-11
+    const monthEndOfMonth = String(endOfMonthDate.getMonth() + 1).padStart(2, '0');
     const dayEndOfMonth = String(endOfMonthDate.getDate()).padStart(2, '0');
     const lastDateOfCurrentMonth = `${yearEndOfMonth}-${monthEndOfMonth}-${dayEndOfMonth}`;
 
-    // Convertir la solicitud AJAX a una promesa
-    const response = await new Promise((resolve, reject) => {
+    // AJAX como una promesa para el manejo del then y el chatch 
+    const response = await new Promise((resolve) => {
         $.ajax({
             url: "ajax/compararFecha.php",
             method: "POST",
-            data: { fechaInicio: nowDate, fechaFin: lastDateOfCurrentMonth },
+            data: {
+                fechaInicio: nowDate,
+                fechaFin: lastDateOfCurrentMonth
+            },
             success: function (respuesta) {
                 let $p = document.getElementById("cotRestantes1");
                 if ($p) {
@@ -124,14 +125,27 @@ async function mostrarCotRestantes() {
                 }
                 resolve(respuesta);
             },
-            error: function (xhr, status, error) {
-                reject(error);
+            error: function () {
+                // Muesta una notificación de error
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Problema de conexión',
+                    text: 'No se pudo obtener la cantidad de cotizaciones. Revisa tu conexión o sesión.',
+                    confirmButtonColor: '#3085d6'
+                });
+
+                // Mostrar 0 en el contador
+                let $p = document.getElementById("cotRestantes1");
+                if ($p) {
+                    $p.innerHTML = 0;
+                }
+
+                resolve(0);
             }
         });
     });
 
     return response;
 }
-
 
 mostrarCotRestantes();
