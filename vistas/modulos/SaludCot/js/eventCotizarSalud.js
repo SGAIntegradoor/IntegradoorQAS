@@ -1407,10 +1407,10 @@ function cotizar() {
         );
 
         $("#departamento_" + (i + 1))
-          .val(asegurados[i].id_departamento)
+          .val(asegurados[i].departamento)
           .trigger("change");
 
-        $("#ciudad_" + (i + 1)).val(asegurados[i].id_ciudad);
+        $("#ciudad_" + (i + 1)).val(asegurados[i].ciudad);
       }
     }
   }
