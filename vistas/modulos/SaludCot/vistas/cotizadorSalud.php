@@ -326,7 +326,7 @@
             </div>
             <div class="col-xs-12 col-sm-6 col-md-3 text-right">
                 <div id="masResOferta" style="display: none;">
-                    <p id="masResumen" onclick="masRE();">Ver mas <i class="fa fa-plus-square-o"></i></p>
+                    <p id="masResumen" onclick="masRE();">Ver más <i class="fa fa-plus-square-o"></i></p>
                 </div>
                 <div id="menosResOferta">
                     <p id="menosResumen" onclick="menosRE();">Ver menos <i class="fa fa-minus-square-o"></i></p>

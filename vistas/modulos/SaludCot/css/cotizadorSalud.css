@@ -126,7 +126,7 @@
 
 .coberturas_botones_padre {
   display: flex;
-  gap: 60px;
+  gap: 45px;
   justify-content: space-between;
   align-items: center;
 }

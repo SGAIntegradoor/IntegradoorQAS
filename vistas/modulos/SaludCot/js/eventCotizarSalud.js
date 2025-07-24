@@ -728,10 +728,11 @@ function makeIndividualCard(
                               </ul>
                             </div>
                             <div class="botones_hijo">
-                             <a class="btn-table float-left" href="${pdf}" target="_blank"><img src="vistas/img/iconosResources/icons8-pdf-office-m/icons8-pdf-30.png" width="25px"/> Ver más</a>    
+                               <!--<b style="font-size: 14px; margin-bottom: 15px;">Muchas más coberturas 👇🏼</b>-->
+                              <a style="width: 100%;" class="" href="${pdf}" target="_blank"><!--<img src="vistas/img/iconosResources/icons8-pdf-office-m/icons8-pdf-30.png" width="25px"/>--> <button style="width: 100%;" class="btn-table float-left">Más coberturas</button></a>    
                             
-                              <!--<button id="" class="btn-table float-left" data-target="#${uniqueId}">Ver PDF</button>-->
-                              <button id="${buttonId}" class="btn-table float-left" data-target="#${uniqueId}">Ver detalle de precios por asegurado</button>
+                              <!--<button id="" class="btn-table float-left" data-target="#${uniqueId}">Más coberturas</button>-->
+                              <button style="width: 100%;" id="${buttonId}" class="btn-table float-left" data-target="#${uniqueId}">Detalle de precios</button>
                               
                             </div>
                         </div
@@ -767,8 +768,8 @@ function makeTable(asegurados, plan_id, pdf) {
   <div class="container flex-colum table-responsive">
       <div class="row custom-table-colum">
             <div class="col-12 botonesSoloMovil">
-            <a class="btn-table float-left" href="${pdf}" target="_blank"><img src="vistas/img/iconosResources/icons8-pdf-office-m/icons8-pdf-30.png" width="25px"/> Ver más</a>    
-            <button id="${buttonId}" class="btn-table float-left" data-target="#${uniqueId}">Ver detalle de precios por asegurado</button>
+            <a style="width: 100%;" href="${pdf}" target="_blank"><!--<img src="vistas/img/iconosResources/icons8-pdf-office-m/icons8-pdf-30.png" width="25px"/>--> <button style="width: 100%;" class="btn-table float-left">Más coberturas</button></a>    
+            <button style="width: 100%;" id="${buttonId}" class="btn-table float-left" data-target="#${uniqueId}">Detalle de precios</button>
           </div>
       </div>
       <div class="row">
@@ -1525,10 +1526,10 @@ $(document).ready(function () {
 
     // Cambia el texto del botón dependiendo de su texto actual
     var button = $(this);
-    if (button.text() === "Ver detalle de precios por asegurado") {
-      button.text("Cerrar detalle de precios por asegurado");
+    if (button.text() === "Detalle de precios") {
+      button.text("Ocultar detalles");
     } else {
-      button.text("Ver detalle de precios por asegurado");
+      button.text("Detalle de precios");
     }
   });
 
