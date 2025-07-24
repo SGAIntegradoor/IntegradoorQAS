@@ -153,9 +153,9 @@ $codCiudad = $fila["cot_ciudad"];
 $codDepto = $fila["cot_departamento"];
 $queryCiudad = "SELECT `Nombre` FROM `ciudadesbolivar` WHERE `Codigo` = $codCiudad";
 
-if($codDepto == 10){
+if ($codDepto == 10) {
 	$queryCiudad = "SELECT `Nombre` FROM `ciudadesbolivar` WHERE `Codigo` = $codCiudad AND `Departamento` = 10";
-} else if($codDepto == 18){
+} else if ($codDepto == 18) {
 	$queryCiudad = "SELECT `ciudad` as `Nombre` FROM `ciudades` WHERE `Codigo` = $codCiudad";
 }
 
@@ -1355,7 +1355,20 @@ foreach ($resultados as $resultado) {
 	$nombreAseguradora = nombreAseguradora($resultado['Aseguradora']);
 	$nombreProducto = productoAseguradora($resultado['Aseguradora'], $resultado['Producto']);
 
-	$queryConsultaAsistencia5 = "SELECT * FROM asistencias WHERE `aseguradora` LIKE '$nombreAseguradora' AND `producto` LIKE '$nombreProducto'";
+	$valorCondicion = "";
+
+	if ($nombreProducto == "Basico + PT") {
+		$valorAsegurado = $fila["cot_valor_asegurado"];
+		if ($valorAsegurado <= 150000000) {
+			$valorCondicion = "Deducible: 1 SMMLV";
+		} else {
+			$valorCondicion = "Deducible: 10% MIN 1 SMMLV";
+		}
+		$queryConsultaAsistencia5 = "SELECT * FROM asistencias WHERE `aseguradora` LIKE '$nombreAseguradora' AND `producto` LIKE '$nombreProducto' AND `eventos` LIKE '$valorCondicion'";
+	} else {
+		$queryConsultaAsistencia5 = "SELECT * FROM asistencias WHERE `aseguradora` LIKE '$nombreAseguradora' AND `producto` LIKE '$nombreProducto'";
+	}
+
 	$respuestaqueryAsistencia5 =  $conexion->query($queryConsultaAsistencia5);
 	$rowRespuestaAsistencia5 = mysqli_fetch_assoc($respuestaqueryAsistencia5);
 
@@ -1419,8 +1432,19 @@ $cont10 = 1;
 foreach ($resultados as $resultado) {
 	$nombreAseguradora = nombreAseguradora($resultado['Aseguradora']);
 	$nombreProducto = productoAseguradora($resultado['Aseguradora'], $resultado['Producto']);
+	$valorCondicion = "";
 
-	$queryConsultaAsistencia6 = "SELECT * FROM asistencias WHERE `aseguradora` LIKE '$nombreAseguradora' AND `producto` LIKE '$nombreProducto'";
+	if ($nombreProducto == "Basico + PT") {
+		$valorAsegurado = $fila["cot_valor_asegurado"];
+		if ($valorAsegurado <= 150000000) {
+			$valorCondicion = "Deducible: 1 SMMLV";
+		} else {
+			$valorCondicion = "Deducible: 10% MIN 1 SMMLV";
+		}
+		$queryConsultaAsistencia6 = "SELECT * FROM asistencias WHERE `aseguradora` LIKE '$nombreAseguradora' AND `producto` LIKE '$nombreProducto' AND `eventos` LIKE '$valorCondicion'";
+	} else {
+		$queryConsultaAsistencia6 = "SELECT * FROM asistencias WHERE `aseguradora` LIKE '$nombreAseguradora' AND `producto` LIKE '$nombreProducto'";
+	}
 	$respuestaqueryAsistencia6 =  $conexion->query($queryConsultaAsistencia6);
 	$rowRespuestaAsistencia6 = mysqli_fetch_assoc($respuestaqueryAsistencia6);
 
@@ -1768,8 +1792,17 @@ foreach ($resultados as $resultado) {
 	$pdf->SetFont('dejavusanscondensed', '', 8);
 	$nombreAseguradora = nombreAseguradora($resultado['Aseguradora']);
 	$nombreProducto = productoAseguradora($resultado['Aseguradora'], $resultado['Producto']);
-
-	$queryConsultaAsistencia7 = "SELECT * FROM asistencias WHERE `aseguradora` LIKE '$nombreAseguradora' AND `producto` LIKE '$nombreProducto'";
+	if ($nombreProducto == "Basico + PT") {
+		$valorAsegurado = $fila["cot_valor_asegurado"];
+		if ($valorAsegurado <= 150000000) {
+			$valorCondicion = "Deducible: 1 SMMLV";
+		} else {
+			$valorCondicion = "Deducible: 10% MIN 1 SMMLV";
+		}
+		$queryConsultaAsistencia7 = "SELECT * FROM asistencias WHERE `aseguradora` LIKE '$nombreAseguradora' AND `producto` LIKE '$nombreProducto' AND `eventos` LIKE '$valorCondicion'";
+	} else {
+		$queryConsultaAsistencia7 = "SELECT * FROM asistencias WHERE `aseguradora` LIKE '$nombreAseguradora' AND `producto` LIKE '$nombreProducto'";
+	}
 	$respuestaqueryAsistencia7 =  $conexion->query($queryConsultaAsistencia7);
 	$rowRespuestaAsistencia7 = mysqli_fetch_assoc($respuestaqueryAsistencia7);
 
@@ -1821,7 +1854,18 @@ foreach ($resultados as $resultado) {
 	$nombreAseguradora = nombreAseguradora($resultado['Aseguradora']);
 	$nombreProducto = productoAseguradora($resultado['Aseguradora'], $resultado['Producto']);
 
-	$queryConsultaAsistencia8 = "SELECT * FROM asistencias WHERE `aseguradora` LIKE '$nombreAseguradora' AND `producto` LIKE '$nombreProducto'";
+	if ($nombreProducto == "Basico + PT") {
+		$valorAsegurado = $fila["cot_valor_asegurado"];
+		if ($valorAsegurado <= 150000000) {
+			$valorCondicion = "Deducible: 1 SMMLV";
+		} else {
+			$valorCondicion = "Deducible: 10% MIN 1 SMMLV";
+		}
+		$queryConsultaAsistencia8 = "SELECT * FROM asistencias WHERE `aseguradora` LIKE '$nombreAseguradora' AND `producto` LIKE '$nombreProducto' AND `eventos` LIKE '$valorCondicion'";
+	} else {
+		$queryConsultaAsistencia8 = "SELECT * FROM asistencias WHERE `aseguradora` LIKE '$nombreAseguradora' AND `producto` LIKE '$nombreProducto'";
+	}
+
 	$respuestaqueryAsistencia8 =  $conexion->query($queryConsultaAsistencia8);
 	$rowRespuestaAsistencia8 = mysqli_fetch_assoc($respuestaqueryAsistencia8);
 
@@ -1874,7 +1918,18 @@ foreach ($resultados as $resultado) {
 	$nombreAseguradora = nombreAseguradora($resultado['Aseguradora']);
 	$nombreProducto = productoAseguradora($resultado['Aseguradora'], $resultado['Producto']);
 
-	$queryConsultaAsistencia9 = "SELECT * FROM asistencias WHERE `aseguradora` LIKE '$nombreAseguradora' AND `producto` LIKE '$nombreProducto'";
+	if ($nombreProducto == "Basico + PT") {
+		$valorAsegurado = $fila["cot_valor_asegurado"];
+		if ($valorAsegurado <= 150000000) {
+			$valorCondicion = "Deducible: 1 SMMLV";
+		} else {
+			$valorCondicion = "Deducible: 10% MIN 1 SMMLV";
+		}
+		$queryConsultaAsistencia9 = "SELECT * FROM asistencias WHERE `aseguradora` LIKE '$nombreAseguradora' AND `producto` LIKE '$nombreProducto' AND `eventos` LIKE '$valorCondicion'";
+	} else {
+		$queryConsultaAsistencia9 = "SELECT * FROM asistencias WHERE `aseguradora` LIKE '$nombreAseguradora' AND `producto` LIKE '$nombreProducto'";
+	}
+
 	$respuestaqueryAsistencia9 =  $conexion->query($queryConsultaAsistencia9);
 	$rowRespuestaAsistencia9 = mysqli_fetch_assoc($respuestaqueryAsistencia9);
 
@@ -1927,7 +1982,18 @@ foreach ($resultados as $resultado) {
 	$nombreAseguradora = nombreAseguradora($resultado['Aseguradora']);
 	$nombreProducto = productoAseguradora($resultado['Aseguradora'], $resultado['Producto']);
 
-	$queryConsultaAsistencia10 = "SELECT * FROM asistencias WHERE `aseguradora` LIKE '$nombreAseguradora' AND `producto` LIKE '$nombreProducto'";
+	if ($nombreProducto == "Basico + PT") {
+		$valorAsegurado = $fila["cot_valor_asegurado"];
+		if ($valorAsegurado <= 150000000) {
+			$valorCondicion = "Deducible: 1 SMMLV";
+		} else {
+			$valorCondicion = "Deducible: 10% MIN 1 SMMLV";
+		}
+		$queryConsultaAsistencia10 = "SELECT * FROM asistencias WHERE `aseguradora` LIKE '$nombreAseguradora' AND `producto` LIKE '$nombreProducto' AND `eventos` LIKE '$valorCondicion'";
+	} else {
+		$queryConsultaAsistencia10 = "SELECT * FROM asistencias WHERE `aseguradora` LIKE '$nombreAseguradora' AND `producto` LIKE '$nombreProducto'";
+	}
+
 	$respuestaqueryAsistencia10 =  $conexion->query($queryConsultaAsistencia10);
 	$rowRespuestaAsistencia10 = mysqli_fetch_assoc($respuestaqueryAsistencia10);
 
@@ -1983,11 +2049,17 @@ $cont15 = 1;
 foreach ($resultados as $resultado) {
 	$nombreAseguradora = nombreAseguradora($resultado['Aseguradora']);
 	$nombreProducto = productoAseguradora($resultado['Aseguradora'], $resultado['Producto']);
-
-	$queryConsultaAsistencia11 = "
-    SELECT * FROM asistencias 
-    WHERE `aseguradora` LIKE '$nombreAseguradora' 
-    AND `producto` LIKE '$nombreProducto'";
+if ($nombreProducto == "Basico + PT") {
+		$valorAsegurado = $fila["cot_valor_asegurado"];
+		if ($valorAsegurado <= 150000000) {
+			$valorCondicion = "Deducible: 1 SMMLV";
+		} else {
+			$valorCondicion = "Deducible: 10% MIN 1 SMMLV";
+		}
+		$queryConsultaAsistencia11 = "SELECT * FROM asistencias WHERE `aseguradora` LIKE '$nombreAseguradora' AND `producto` LIKE '$nombreProducto' AND `eventos` LIKE '$valorCondicion'";
+	} else {
+		$queryConsultaAsistencia11 = "SELECT * FROM asistencias WHERE `aseguradora` LIKE '$nombreAseguradora' AND `producto` LIKE '$nombreProducto'";
+	}
 	$respuestaqueryAsistencia11 = $conexion->query($queryConsultaAsistencia11);
 	if (!$respuestaqueryAsistencia11) {
 		die('Error en la consulta de asistencia: ' . $conexion->error);
@@ -2036,8 +2108,17 @@ $cont16 = 1;
 foreach ($resultados as $resultado) {
 	$nombreAseguradora = nombreAseguradora($resultado['Aseguradora']);
 	$nombreProducto = productoAseguradora($resultado['Aseguradora'], $resultado['Producto']);
-
-	$queryConsultaAsistencia12 = "SELECT * FROM asistencias WHERE `aseguradora` LIKE '$nombreAseguradora' AND `producto` LIKE '$nombreProducto'";
+	if ($nombreProducto == "Basico + PT") {
+		$valorAsegurado = $fila["cot_valor_asegurado"];
+		if ($valorAsegurado <= 150000000) {
+			$valorCondicion = "Deducible: 1 SMMLV";
+		} else {
+			$valorCondicion = "Deducible: 10% MIN 1 SMMLV";
+		}
+		$queryConsultaAsistencia12 = "SELECT * FROM asistencias WHERE `aseguradora` LIKE '$nombreAseguradora' AND `producto` LIKE '$nombreProducto' AND `eventos` LIKE '$valorCondicion'";
+	} else {
+		$queryConsultaAsistencia12 = "SELECT * FROM asistencias WHERE `aseguradora` LIKE '$nombreAseguradora' AND `producto` LIKE '$nombreProducto'";
+	}
 	$respuestaqueryAsistencia12 =  $conexion->query($queryConsultaAsistencia12);
 	$rowRespuestaAsistencia12 = mysqli_fetch_assoc($respuestaqueryAsistencia12);
 
@@ -2091,8 +2172,17 @@ foreach ($resultados as $resultado) {
 
 	$nombreAseguradora = nombreAseguradora($resultado['Aseguradora']);
 	$nombreProducto = productoAseguradora($resultado['Aseguradora'], $resultado['Producto']);
-
-	$queryConsultaAsistencia13 = "SELECT * FROM asistencias WHERE `aseguradora` LIKE '$nombreAseguradora' AND `producto` LIKE '$nombreProducto'";
+	if ($nombreProducto == "Basico + PT") {
+		$valorAsegurado = $fila["cot_valor_asegurado"];
+		if ($valorAsegurado <= 150000000) {
+			$valorCondicion = "Deducible: 1 SMMLV";
+		} else {
+			$valorCondicion = "Deducible: 10% MIN 1 SMMLV";
+		}
+		$queryConsultaAsistencia13 = "SELECT * FROM asistencias WHERE `aseguradora` LIKE '$nombreAseguradora' AND `producto` LIKE '$nombreProducto' AND `eventos` LIKE '$valorCondicion'";
+	} else {
+		$queryConsultaAsistencia13 = "SELECT * FROM asistencias WHERE `aseguradora` LIKE '$nombreAseguradora' AND `producto` LIKE '$nombreProducto'";
+	}
 	$respuestaqueryAsistencia13 =  $conexion->query($queryConsultaAsistencia13);
 	$rowRespuestaAsistencia13 = mysqli_fetch_assoc($respuestaqueryAsistencia13);
 
@@ -2146,8 +2236,17 @@ foreach ($resultados as $resultado) {
 
 	$nombreAseguradora = nombreAseguradora($resultado['Aseguradora']);
 	$nombreProducto = productoAseguradora($resultado['Aseguradora'], $resultado['Producto']);
-
-	$queryConsultaAsistencia14 = "SELECT * FROM asistencias WHERE `aseguradora` LIKE '$nombreAseguradora' AND `producto` LIKE '$nombreProducto'";
+	if ($nombreProducto == "Basico + PT") {
+		$valorAsegurado = $fila["cot_valor_asegurado"];
+		if ($valorAsegurado <= 150000000) {
+			$valorCondicion = "Deducible: 1 SMMLV";
+		} else {
+			$valorCondicion = "Deducible: 10% MIN 1 SMMLV";
+		}
+		$queryConsultaAsistencia14 = "SELECT * FROM asistencias WHERE `aseguradora` LIKE '$nombreAseguradora' AND `producto` LIKE '$nombreProducto' AND `eventos` LIKE '$valorCondicion'";
+	} else {
+		$queryConsultaAsistencia14 = "SELECT * FROM asistencias WHERE `aseguradora` LIKE '$nombreAseguradora' AND `producto` LIKE '$nombreProducto'";
+	}
 	$respuestaqueryAsistencia14 =  $conexion->query($queryConsultaAsistencia14);
 	$rowRespuestaAsistencia14 = mysqli_fetch_assoc($respuestaqueryAsistencia14);
 
@@ -2187,8 +2286,17 @@ foreach ($resultados as $resultado) {
 
 	$nombreAseguradora = nombreAseguradora($resultado['Aseguradora']);
 	$nombreProducto = productoAseguradora($resultado['Aseguradora'], $resultado['Producto']);
-
-	$queryConsultaAsistencia15 = "SELECT * FROM asistencias WHERE `aseguradora` LIKE '$nombreAseguradora' AND `producto` LIKE '$nombreProducto'";
+	if ($nombreProducto == "Basico + PT") {
+		$valorAsegurado = $fila["cot_valor_asegurado"];
+		if ($valorAsegurado <= 150000000) {
+			$valorCondicion = "Deducible: 1 SMMLV";
+		} else {
+			$valorCondicion = "Deducible: 10% MIN 1 SMMLV";
+		}
+		$queryConsultaAsistencia15 = "SELECT * FROM asistencias WHERE `aseguradora` LIKE '$nombreAseguradora' AND `producto` LIKE '$nombreProducto' AND `eventos` LIKE '$valorCondicion'";
+	} else {
+		$queryConsultaAsistencia15 = "SELECT * FROM asistencias WHERE `aseguradora` LIKE '$nombreAseguradora' AND `producto` LIKE '$nombreProducto'";
+	}
 	$respuestaqueryAsistencia15 =  $conexion->query($queryConsultaAsistencia15);
 	$rowRespuestaAsistencia15 = mysqli_fetch_assoc($respuestaqueryAsistencia15);
 
@@ -2242,7 +2350,18 @@ foreach ($resultados as $resultado) {
 	$nombreAseguradora = nombreAseguradora($resultado['Aseguradora']);
 	$nombreProducto = productoAseguradora($resultado['Aseguradora'], $resultado['Producto']);
 
-	$queryConsultaAsistencia16 = "SELECT * FROM asistencias WHERE `aseguradora` LIKE '$nombreAseguradora' AND `producto` LIKE '$nombreProducto'";
+	if ($nombreProducto == "Basico + PT") {
+		$valorAsegurado = $fila["cot_valor_asegurado"];
+		if ($valorAsegurado <= 150000000) {
+			$valorCondicion = "Deducible: 1 SMMLV";
+		} else {
+			$valorCondicion = "Deducible: 10% MIN 1 SMMLV";
+		}
+		$queryConsultaAsistencia16 = "SELECT * FROM asistencias WHERE `aseguradora` LIKE '$nombreAseguradora' AND `producto` LIKE '$nombreProducto' AND `eventos` LIKE '$valorCondicion'";
+	} else {
+		$queryConsultaAsistencia16 = "SELECT * FROM asistencias WHERE `aseguradora` LIKE '$nombreAseguradora' AND `producto` LIKE '$nombreProducto'";
+	}
+
 	$respuestaqueryAsistencia16 =  $conexion->query($queryConsultaAsistencia16);
 	$rowRespuestaAsistencia16 = mysqli_fetch_assoc($respuestaqueryAsistencia16);
 
@@ -2296,6 +2415,18 @@ foreach ($resultados as $resultado) {
 
 	$nombreAseguradora = nombreAseguradora($resultado['Aseguradora']);
 	$nombreProducto = productoAseguradora($resultado['Aseguradora'], $resultado['Producto']);
+
+	if ($nombreProducto == "Basico + PT") {
+		$valorAsegurado = $fila["cot_valor_asegurado"];
+		if ($valorAsegurado <= 150000000) {
+			$valorCondicion = "Deducible: 1 SMMLV";
+		} else {
+			$valorCondicion = "Deducible: 10% MIN 1 SMMLV";
+		}
+		$queryConsultaAsistencia17 = "SELECT * FROM asistencias WHERE `aseguradora` LIKE '$nombreAseguradora' AND `producto` LIKE '$nombreProducto' AND `eventos` LIKE '$valorCondicion'";
+	} else {
+		$queryConsultaAsistencia17 = "SELECT * FROM asistencias WHERE `aseguradora` LIKE '$nombreAseguradora' AND `producto` LIKE '$nombreProducto'";
+	}
 
 	$queryConsultaAsistencia17 = "SELECT * FROM asistencias WHERE `aseguradora` LIKE '$nombreAseguradora' AND `producto` LIKE '$nombreProducto'";
 	$respuestaqueryAsistencia17 =  $conexion->query($queryConsultaAsistencia17);
@@ -2867,7 +2998,7 @@ function calculaedad($fechaNacimiento)
 	$mes_diferencia = date("m") - $mes;
 	$dia_diferencia = date("d") - $dia;
 	if ($dia_diferencia < 0 || $mes_diferencia < 0)
-	  $ano_diferencia--;
+		$ano_diferencia--;
 
 	return $ano_diferencia;
 }
