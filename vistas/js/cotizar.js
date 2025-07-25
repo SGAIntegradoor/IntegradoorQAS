@@ -3447,15 +3447,10 @@ function cotizarOfertas() {
                 cont.push(
                   fetch(url, requestOptions)
                     .then((res) => {
-                      console.log("epa res: ");
-                      console.log(res); debugger;
                       if (!res.ok) throw Error(res.statusText);
                       return res.json();
                     })
                     .then((ofertas) => {
-                      console.log("epa ofertas: ");
-                      console.log(ofertas);
-                      console.log(typeof ofertas[0].Resultado); debugger;
                       if (typeof ofertas[0].Resultado !== "undefined") {
                         agregarAseguradoraFallida(aseguradora);
                         validarProblema(aseguradora, ofertas);

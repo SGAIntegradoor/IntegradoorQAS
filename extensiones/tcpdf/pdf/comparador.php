@@ -2327,23 +2327,6 @@ $html4 .= '</tr>';
 $html4 .= '<tr>';
 $html4 .= '<td class ="fondo puntos" style="width:10%; text-align: center; font-family:dejavusanscondensedb;"><font size="8">Transporte pasajeros por accidente</font></td>';
 
-// $query22 = "SELECT DISTINCT o.Producto, o.Aseguradora
-// FROM cotizaciones_finesa cf 
-// INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion
-// WHERE o.seleccionar = 'Si' 
-// AND cf.identityElement = o.oferta_finesa
-// AND cf.id_cotizacion = $identificador";
-
-// $respuestaquery22 = $conexion->query($query22);
-// $rowValidate = mysqli_num_rows($respuestaquery22);
-
-// if ($rowValidate == 0 || $rowValidate == false || $rowValidate == null) {
-// 	mysqli_free_result($respuestaquery22);
-// 	$query22 = "SELECT * FROM ofertas WHERE `id_cotizacion` = $identificador AND `seleccionar` = 'Si'";
-// 	$respuestaquery22 = $conexion->query($query22);
-// 	$rowValidate = mysqli_num_rows($respuestaquery22);
-// }
-
 $cont20 = 1;
 foreach ($resultados as $resultado) {
 
@@ -2393,23 +2376,6 @@ $html4 .= '</tr>';
 $html4 .= '<tr>';
 $html4 .= '<td class="fondo puntos" style="width:10%;"><font size="8" style="font-family:dejavusanscondensedb; text-align: center;">Transporte pasajeros por varada</font></td>';
 
-// $query24 = "SELECT DISTINCT o.Producto, o.Aseguradora
-// FROM cotizaciones_finesa cf 
-// INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion
-// WHERE o.seleccionar = 'Si' 
-// AND cf.identityElement = o.oferta_finesa
-// AND cf.id_cotizacion = $identificador";
-
-// $respuestaquery24 = $conexion->query($query24);
-// $rowValidate = mysqli_num_rows($respuestaquery24);
-
-// if ($rowValidate == 0 || $rowValidate == false || $rowValidate == null) {
-// 	mysqli_free_result($respuestaquery24);
-// 	$query24 = "SELECT Aseguradora, Producto FROM ofertas WHERE `id_cotizacion` = $identificador AND `seleccionar` = 'Si'";
-// 	$respuestaquery24 = $conexion->query($query24);
-// 	$rowValidate = mysqli_num_rows($respuestaquery24);
-// }
-
 $cont22 = 1;
 foreach ($resultados as $resultado) {
 
@@ -2428,7 +2394,6 @@ foreach ($resultados as $resultado) {
 		$queryConsultaAsistencia17 = "SELECT * FROM asistencias WHERE `aseguradora` LIKE '$nombreAseguradora' AND `producto` LIKE '$nombreProducto'";
 	}
 
-	$queryConsultaAsistencia17 = "SELECT * FROM asistencias WHERE `aseguradora` LIKE '$nombreAseguradora' AND `producto` LIKE '$nombreProducto'";
 	$respuestaqueryAsistencia17 =  $conexion->query($queryConsultaAsistencia17);
 	$rowRespuestaAsistencia17 = mysqli_fetch_assoc($respuestaqueryAsistencia17);
 
@@ -2459,29 +2424,24 @@ $html4 .= '</tr>';
 $html4 .= '<tr>';
 $html4 .= '<td class="fondo puntos" style="width:10%;"><div style="font-size:5pt">&nbsp;</div><font size="8" style="font-family:dejavusanscondensedb; text-align: center;">Indemnización por accidentes</font><span style="font-size: 6pt; text-align: center;"></span></td>';
 
-// $query25 = "SELECT DISTINCT o.Producto, o.Aseguradora
-// FROM cotizaciones_finesa cf 
-// INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion
-// WHERE o.seleccionar = 'Si' 
-// AND cf.identityElement = o.oferta_finesa
-// AND cf.id_cotizacion = $identificador";
-
-// $respuestaquery25 = $conexion->query($query25);
-// $rowValidate = mysqli_num_rows($respuestaquery25);
-
-// if ($rowValidate == 0 || $rowValidate == false || $rowValidate == null) {
-// 	mysqli_free_result($respuestaquery25);
-// 	$query25 = "SELECT Producto, Aseguradora FROM ofertas WHERE `id_cotizacion` = $identificador AND `seleccionar` = 'Si'";
-// 	$respuestaquery25 = $conexion->query($query25);
-// 	$rowValidate = mysqli_num_rows($respuestaquery25);
-// }
 $cont23 = 1;
 foreach ($resultados as $resultado) {
 
 	$nombreAseguradora = nombreAseguradora($resultado['Aseguradora']);
 	$nombreProducto = productoAseguradora($resultado['Aseguradora'], $resultado['Producto']);
 
-	$queryConsultaAsistencia18 = "SELECT * FROM asistencias WHERE `aseguradora` LIKE '$nombreAseguradora' AND `producto` LIKE '$nombreProducto'";
+	if ($nombreProducto == "Basico + PT") {
+		$valorAsegurado = $fila["cot_valor_asegurado"];
+		if ($valorAsegurado <= 150000000) {
+			$valorCondicion = "Deducible: 1 SMMLV";
+		} else {
+			$valorCondicion = "Deducible: 10% MIN 1 SMMLV";
+		}
+		$queryConsultaAsistencia18 = "SELECT * FROM asistencias WHERE `aseguradora` LIKE '$nombreAseguradora' AND `producto` LIKE '$nombreProducto' AND `eventos` LIKE '$valorCondicion'";
+	} else {
+		$queryConsultaAsistencia18 = "SELECT * FROM asistencias WHERE `aseguradora` LIKE '$nombreAseguradora' AND `producto` LIKE '$nombreProducto'";
+	}
+
 	$respuestaqueryAsistencia18 =  $conexion->query($queryConsultaAsistencia18);
 	$rowRespuestaAsistencia18 = mysqli_fetch_assoc($respuestaqueryAsistencia18);
 
@@ -2512,30 +2472,23 @@ $html4 .= '</tr>';
 $html4 .= '<tr>';
 $html4 .= '<td class="fondo puntos" style="width:10%;"><font size="8" style="font-family:dejavusanscondensedb; text-align: center;">Llantas estalladas</font></td>';
 
-// $query26 = "SELECT DISTINCT o.Producto, o.Aseguradora
-// FROM cotizaciones_finesa cf 
-// INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion
-// WHERE o.seleccionar = 'Si' 
-// AND cf.identityElement = o.oferta_finesa
-// AND cf.id_cotizacion = $identificador";
-
-// $respuestaquery26 = $conexion->query($query26);
-// $rowValidate = mysqli_num_rows($respuestaquery26);
-
-// if ($rowValidate == 0 || $rowValidate == false || $rowValidate == null) {
-// 	mysqli_free_result($respuestaquery26);
-// 	$query26 = "SELECT Producto, Aseguradora FROM ofertas WHERE `id_cotizacion` = $identificador AND `seleccionar` = 'Si'";
-// 	$respuestaquery26 = $conexion->query($query26);
-// 	$rowValidate = mysqli_num_rows($respuestaquery26);
-// }
-
 $cont24 = 1;
 foreach ($resultados as $resultado) {
 
 	$nombreAseguradora = nombreAseguradora($resultado['Aseguradora']);
 	$nombreProducto = productoAseguradora($resultado['Aseguradora'], $resultado['Producto']);
 
-	$queryConsultaAsistencia19 = "SELECT * FROM asistencias WHERE `aseguradora` LIKE '$nombreAseguradora' AND `producto` LIKE '$nombreProducto'";
+	if ($nombreProducto == "Basico + PT") {
+		$valorAsegurado = $fila["cot_valor_asegurado"];
+		if ($valorAsegurado <= 150000000) {
+			$valorCondicion = "Deducible: 1 SMMLV";
+		} else {
+			$valorCondicion = "Deducible: 10% MIN 1 SMMLV";
+		}
+		$queryConsultaAsistencia19 = "SELECT * FROM asistencias WHERE `aseguradora` LIKE '$nombreAseguradora' AND `producto` LIKE '$nombreProducto' AND `eventos` LIKE '$valorCondicion'";
+	} else {
+		$queryConsultaAsistencia19 = "SELECT * FROM asistencias WHERE `aseguradora` LIKE '$nombreAseguradora' AND `producto` LIKE '$nombreProducto'";
+	}
 	$respuestaqueryAsistencia19 =  $conexion->query($queryConsultaAsistencia19);
 	$rowRespuestaAsistencia19 = mysqli_fetch_assoc($respuestaqueryAsistencia19);
 
@@ -2567,30 +2520,24 @@ $html4 .= '</tr>';
 $html4 .= '<tr>';
 $html4 .= '<td class="fondo puntos" style="width:10%;"><font size="8" style="font-family:dejavusanscondensedb; text-align: center;">Pérdida de llaves</font></td>';
 
-// $query28 = "SELECT DISTINCT o.Producto, o.Aseguradora
-// FROM cotizaciones_finesa cf 
-// INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion
-// WHERE o.seleccionar = 'Si' 
-// AND cf.identityElement = o.oferta_finesa
-// AND cf.id_cotizacion = $identificador";
-
-// $respuestaquery28 = $conexion->query($query28);
-// $rowValidate = mysqli_num_rows($respuestaquery28);
-
-// if ($rowValidate == 0 || $rowValidate == false || $rowValidate == null) {
-// 	mysqli_free_result($respuestaquery28);
-// 	$query28 = "SELECT Producto, Aseguradora FROM ofertas WHERE `id_cotizacion` = $identificador AND `seleccionar` = 'Si'";
-// 	$respuestaquery28 = $conexion->query($query28);
-// 	$rowValidate = mysqli_num_rows($respuestaquery28);
-// }
-
 $cont25 = 1;
 foreach ($resultados as $resultado) {
 
 	$nombreAseguradora = nombreAseguradora($resultado['Aseguradora']);
 	$nombreProducto = productoAseguradora($resultado['Aseguradora'], $resultado['Producto']);
 
-	$queryConsultaAsistencia20 = "SELECT * FROM asistencias WHERE `aseguradora` LIKE '$nombreAseguradora' AND `producto` LIKE '$nombreProducto'";
+	if ($nombreProducto == "Basico + PT") {
+		$valorAsegurado = $fila["cot_valor_asegurado"];
+		if ($valorAsegurado <= 150000000) {
+			$valorCondicion = "Deducible: 1 SMMLV";
+		} else {
+			$valorCondicion = "Deducible: 10% MIN 1 SMMLV";
+		}
+		$queryConsultaAsistencia20 = "SELECT * FROM asistencias WHERE `aseguradora` LIKE '$nombreAseguradora' AND `producto` LIKE '$nombreProducto' AND `eventos` LIKE '$valorCondicion'";
+	} else {
+		$queryConsultaAsistencia20 = "SELECT * FROM asistencias WHERE `aseguradora` LIKE '$nombreAseguradora' AND `producto` LIKE '$nombreProducto'";
+	}
+	
 	$respuestaqueryAsistencia2O =  $conexion->query($queryConsultaAsistencia20);
 	$rowRespuestaAsistencia20 = mysqli_fetch_assoc($respuestaqueryAsistencia2O);
 
