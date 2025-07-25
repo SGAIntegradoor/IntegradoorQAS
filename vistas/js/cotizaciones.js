@@ -1221,7 +1221,7 @@ async function renderCards(response) {
 
       if (permisosCotizacion === null || permisosCotizacion === undefined) {
         var permisosCotizacion =
-          '{"Qualitas":{"A":"1","C":"1"},"Allianz":{"A":"1","C":"1"},"AXA":{"A":"1","C":"1"},"Bolivar":{"A":"1","C":"1"},"Equidad":{"A":"1","C":"1"},"Estado":{"A":"1","C":"1"},"HDI (Antes Liberty)":{"A":"1","C":"1"},"HDI":{"A":"1","C":"1"},"Mapfre":{"A":"1","C":"1"},"Previsora":{"A":"1","C":"1"},"SBS":{"A":"1","C":"1"},"Solidaria":{"A":"1","C":"1"},"Zurich":{"A":"1","C":"1"}}';
+          '{"Qualitas":{"A":"1","C":"1"},"Allianz":{"A":"1","C":"1"},"AXA":{"A":"1","C":"1"},"Bolivar":{"A":"1","C":"1"},"Equidad":{"A":"1","C":"1"},"Estado":{"A":"1","C":"1"},"HDI (Antes Liberty)":{"A":"1","C":"1"},"HDI Seguros":{"A":"1","C":"1"},"Mapfre":{"A":"1","C":"1"},"Previsora":{"A":"1","C":"1"},"SBS":{"A":"1","C":"1"},"Solidaria":{"A":"1","C":"1"},"Zurich":{"A":"1","C":"1"}}';
       }
 
       // Permisos Credenciales aseguradoras
