@@ -910,6 +910,7 @@ function makeCards(data, tipoCotizacion) {
         if (!planesSumados[plan.plan_id]) {
           planesSumados[plan.plan_id] = {
             id_plan: plan.plan_id,
+            id_plan_ordenado: plan.id_plan_ordenado,
             nombre: plan.nombre,
             titulo: plan.titulo,
             subtitulo: plan.descripcion,
@@ -949,8 +950,12 @@ function makeCards(data, tipoCotizacion) {
 
     if (!idCoti) {
       // Convertir el objeto a un array de sus valores, Ordenar por el valor mensual desc y Actualizar planesSumados con el objeto ordenado
-      const planesArray = Object.values(planesSumados);
+      let planesArray = Object.values(planesSumados);
       planesArray.sort((a, b) => b.mensual - a.mensual);
+      planesSumados = planesArray;
+    } else if (idCoti) {
+      let planesArray = Object.values(planesSumados);
+      planesArray.sort((a, b) => b.id_plan_sumado - a.id_plan_sumado);
       planesSumados = planesArray;
     }
 
@@ -983,6 +988,7 @@ function makeCards(data, tipoCotizacion) {
         if (!planesSumados[plan.plan_id]) {
           planesSumados[plan.plan_id] = {
             id_plan: plan.plan_id,
+            id_plan_ordenado: plan.id_plan_ordenado,
             nombre: plan.nombre,
             titulo: plan.titulo,
             subtitulo: plan.descripcion,
@@ -1021,8 +1027,12 @@ function makeCards(data, tipoCotizacion) {
 
     if (!idCoti) {
       // Convertir el objeto a un array de sus valores, Ordenar por el valor mensual desc y Actualizar planesSumados con el objeto ordenado
-      const planesArray = Object.values(planesSumados);
+      let planesArray = Object.values(planesSumados);
       planesArray.sort((a, b) => b.mensual - a.mensual);
+      planesSumados = planesArray;
+    } else if (idCoti) {
+      let planesArray = Object.values(planesSumados);
+      planesArray.sort((a, b) => a.id_plan_ordenado - b.id_plan_ordenado);
       planesSumados = planesArray;
     }
 
