@@ -1176,7 +1176,7 @@ $response = retrieveQuotation($idCotizacion);
                   </tbody>
                 </table>
               </div>
-              <?php if ($response['cot_clase'] == "AUTOMOVIL" || $response['cot_clase'] == "AUTOMOVILES" || $response['cot_clase'] == "UTILITARIOS DEPORTIVOS" || $response['cot_clase'] == "CAMPEROS" || $response['cot_clase'] == "PICK UPS" || $response['cot_clase'] == "CAMIONETA PASAJ.") {
+              <?php if (($response['cot_clase'] == "AUTOMOVIL" || $response['cot_clase'] == "AUTOMOVILES" || $response['cot_clase'] == "UTILITARIOS DEPORTIVOS" || $response['cot_clase'] == "CAMPEROS" || $response['cot_clase'] == "PICK UPS" || $response['cot_clase'] == "CAMIONETA PASAJ.") && $response["ofertas"][0]["Manual"] != 4) {
 
                 echo '<div style="font-size: 13px">
                           <p class="text-justify"><strong>¿Por qué algunas compañías no cotizan? R/. 0.</strong>Tiene póliza vigente con esa compañía. <strong>1.</strong> Aseguradora

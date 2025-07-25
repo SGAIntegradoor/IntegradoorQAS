@@ -1508,25 +1508,7 @@ echo '<script>console.log(' . $idIntermediario . ", " . $rolAsesor . ')</script>
 
                         </tbody>
                       </table>
-                    </div>
-                    <div>
-                      <p class="text-justify"><strong>¿Por qué algunas compañías no cotizan? R/. 0.</strong>Tiene póliza
-                        vigente con esa compañía. <strong>1.</strong> Aseguradora
-                        caída, en mantenimiento o en actualización. <strong>2.</strong> RUNT, Cexper, Sistema Fasecolda
-                        caído. <strong>3.</strong> Fallas Portal
-                        Integradoor. <strong>4.</strong> Vehículo fuera de políticas por marca, línea o modelo.
-                        <strong>5.</strong> Ciudad bloqueada. <strong>6.</strong> Error en
-                        validación datos del asegurado. <strong>7.</strong> Valor asegurado no autorizado para cotizar
-                        vía webservice. <strong>8.</strong> Vehículo
-                        salvamento. <strong>9.</strong> Motos, Pesados, Públicos no se cotizan por este módulo.
-                        <strong>10.</strong> Personas Jurídicas se cotizan
-                        manualmente. <strong>11.</strong> Algunas aseguradoras no cotizan 0 km vía webservice.
-                        <strong>12.</strong> Vehículo bloqueado por cotización
-                        vigente con otro asesor (ej. Solidaria). <strong>13.</strong> Mal uso del usuario registrando
-                        espacios o caracteres en placas,
-                        nombres, apellidos o documentos de identidad
-                      </p>
-                    </div>
+                    </div>  
                     <div class="row button-recotizar" style="display: none; margin:5px">
                       <div class="col-md-6"></div>
                       <div class="col-xs-12 col-sm-12 col-md-3 form-group">
