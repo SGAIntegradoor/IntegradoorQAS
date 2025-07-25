@@ -2139,6 +2139,7 @@ const mostrarOferta = (
                         (aseguradora == "Axa Colpatria" ||
                           aseguradora == "HDI (Antes Liberty)" ||
                           aseguradora == "Equidad" ||
+                          aseguradora == "Qualitas" ||
                           aseguradora == "Mapfre" ||
                           aseguradora == "Seguros Bolivar") &&
                         id_intermediario == "79"
@@ -3441,11 +3442,60 @@ function cotizarOfertas() {
                   );
                 });
                 return;
+              } /*inicio javier */else if (aseguradora === "Qualitas") {
+                url = `https://grupoasistencia.com/WS-laravel/api/autos/qualitas`;
+                cont.push(
+                  fetch(url, requestOptions)
+                    .then((res) => {
+                      console.log("epa res: ");
+                      console.log(res); debugger;
+                      if (!res.ok) throw Error(res.statusText);
+                      return res.json();
+                    })
+                    .then((ofertas) => {
+                      console.log("epa ofertas: ");
+                      console.log(ofertas);
+                      console.log(typeof ofertas[0].Resultado); debugger;
+                      if (typeof ofertas[0].Resultado !== "undefined") {
+                        agregarAseguradoraFallida(aseguradora);
+                        validarProblema(aseguradora, ofertas);
+                        ofertas[0].Mensajes.forEach((mensaje) => {
+                          mostrarAlertarCotizacionFallida(aseguradora, mensaje);
+                        });
+                      } else {
+                        const contadorPorEntidad = validarOfertas(
+                          ofertas,
+                          aseguradora,
+                          1
+                        );
+                        mostrarAlertaCotizacionExitosa(
+                          aseguradora,
+                          contadorPorEntidad
+                        );
+                      }
+                    })
+                    .catch((err) => {
+                      agregarAseguradoraFallida(aseguradora);
+                      mostrarAlertarCotizacionFallida(
+                        aseguradora,
+                        "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
+                      );
+                      validarProblema(aseguradora, [
+                        {
+                          Mensajes: [
+                            "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
+                          ],
+                        },
+                      ]);
+                      console.error(err);
+                    })
+                );
+                return; /*Fin javier */
               } else {
                 url = `https://grupoasistencia.com/motor_webservice/${aseguradora}_autos`;
               }
-              // // Realizar la solicitud fetch y agregar la promesa al array
-              if (aseguradora == "Qualitas" || aseguradora == "Mundial") {
+              // Realizar la solicitud fetch y agregar la promesa al array
+              if (aseguradora == "Qualitas1" || aseguradora == "Mundial") {
                 let message =
                   aseguradora == "Qualitas"
                     ? `💡 <b>Nueva aseguradora</b> especializada en <b>seguros de autos.</b> La principal aseguradora mexicana de seguros de autos llega a Colombia y <b>nosotros ya tenemos convenio.</b> Solicita cotización manual a tu Analista Comercial.`

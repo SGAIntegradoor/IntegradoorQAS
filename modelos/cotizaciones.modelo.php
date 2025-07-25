@@ -290,6 +290,7 @@ class ModeloCotizaciones
 						$coberturasSoloValores = array_column($coberturasDb, 'cobertura');
 						$plans[] = [
 							"plan_id" => $plan["id_plan"],
+							"id_plan_ordenado" => $plan["id_plan_ordenado"],
 							"anual" => $plan["anual_plan"],
 							"mensual" => $plan["mensual_plan"],
 							"semestral" => $plan["semestral_plan"],
@@ -380,7 +381,15 @@ class ModeloCotizaciones
 		$stmt = null;
 		if ($id != null) {
 			$stmt = Conexion::conectar()->prepare("SELECT 
-				*
+					  ROW_NUMBER() OVER (ORDER BY ass.id_aseguradora DESC ,p.mensual_plan DESC) AS id_plan_ordenado, c.*,
+						t.*,
+						a.*,
+						p.*,
+						us.*,
+						cs.*,
+						ps.*,
+						ass.*,
+						ci.*
 			FROM 
 				$tabla c
 			INNER JOIN 
