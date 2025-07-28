@@ -234,12 +234,14 @@ $(document).ready(function () {
     width: "100%",
   });
 
+  // Se deshabilita en QAS y Dev
+  
   // Carga la edad
-  $("#edad").select2({
-    theme: "bootstrap edad",
-    language: "es",
-    width: "100%",
-  });
+  // $("#edad").select2({
+  //   theme: "bootstrap edad",
+  //   language: "es",
+  //   width: "100%",
+  // });
 
   // Carga los Departamentos disponibles
   $("#DptoCirculacion").select2({
