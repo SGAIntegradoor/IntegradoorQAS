@@ -423,18 +423,27 @@ $(document).ready(function () {
         showConfirmButton: true,
       });
       throw new Error("Ya se ha presionado el botón de cotizar");
-    } else if (conPressed == 0) {
-      conPressed++;
-    }
+    } 
+
     let deptoCirc = $("#DptoCirculacion").val();
     let ciudadCirc = $("#ciudadCirculacion").val();
 
     if (!deptoCirc) {
       return;
     }
+
     if (!ciudadCirc) {
       return;
     }
+
+    if (conPressed == 0) {
+      conPressed++;
+
+      setTimeout(() => {
+        conPressed = 0;
+      }, 2000);
+    }
+
     masRE();
     if (intermediario != 3) {
       checkCotTotales().then((response) => {
