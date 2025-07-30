@@ -3399,19 +3399,14 @@ function cotizarOfertas() {
                 );
                 return;
               } /*inicio javier */else if (aseguradora === "Qualitas") {
-                url = `https://grupoasistencia.com/WS-laravel/api/autos/qualitas`;
+                url = `http://localhost/WS-laravel/api/autos/qualitas`;
                 cont.push(
                   fetch(url, requestOptions)
                     .then((res) => {
-                      console.log("epa res: ");
-                      console.log(res); debugger;
                       if (!res.ok) throw Error(res.statusText);
                       return res.json();
                     })
                     .then((ofertas) => {
-                      console.log("epa ofertas: ");
-                      console.log(ofertas);
-                      console.log(typeof ofertas[0].Resultado); debugger;
                       if (typeof ofertas[0].Resultado !== "undefined") {
                         agregarAseguradoraFallida(aseguradora);
                         validarProblema(aseguradora, ofertas);
@@ -4095,6 +4090,55 @@ function cotizarOfertas() {
           : Promise.resolve();
 
         cont.push(bolivarPromise);
+
+        /* Qualitas*/
+        /*inicio javier */ const qualitasPromise = comprobarFallida("Qualitas")
+          ? fetch(
+              "http://localhost/WS-laravel/api/autos/qualitas",
+              requestOptions
+            )
+              .then((res) => {
+                if (!res.ok) throw Error(res.statusText);
+                return res.json();
+              })
+              .then((ofertas) => {
+                if (typeof ofertas[0].Resultado !== "undefined") {
+                  agregarAseguradoraFallida("Qualitas");
+                  validarProblema("Qualitas", ofertas);
+                  ofertas[0].Mensajes.forEach((mensaje) => {
+                    mostrarAlertarCotizacionFallida("Qualitas", mensaje);
+                  });
+                } else {
+                  const contadorPorEntidad = validarOfertas(
+                    ofertas,
+                    "Qualitas",
+                    1
+                  );
+                  mostrarAlertaCotizacionExitosa(
+                    "Qualitas",
+                    contadorPorEntidad
+                  );
+                }
+              })
+              .catch((err) => {
+                agregarAseguradoraFallida(aseguradora);
+                mostrarAlertarCotizacionFallida(
+                  aseguradora,
+                  "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
+                );
+                validarProblema(aseguradora, [
+                  {
+                    Mensajes: [
+                      "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
+                    ],
+                  },
+                ]);
+                console.error(err);
+              })
+          : Promise.resolve();
+
+        cont.push(qualitasPromise);
+        /*Fin javier */
 
         /* HDI */
         const HDIPromise = comprobarFallida("HDI")
