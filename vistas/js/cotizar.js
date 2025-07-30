@@ -1833,7 +1833,7 @@ function cotizarFinesa(ofertasCotizaciones) {
           `https://www.grupoasistencia.com/motor_webservice/paymentInstallmentsFinesa${
             env == "qas" ? "_qas" : env == "dev" ? "_qas" : ""
           }`,
-          // "http://localhost/motorTest/paymentInstallmentsFinesa",
+          // "https://grupoasistencia.com/motorTest/paymentInstallmentsFinesa",
           {
             method: "POST",
             headers: headers,
@@ -1849,7 +1849,7 @@ function cotizarFinesa(ofertasCotizaciones) {
             finesaData.identity = element.objFinesa;
             finesaData.cuotas = element.cuotas;
             return fetch(
-              // "http://localhost/motorTest/saveDataQuotationsFinesa",
+              // "https://grupoasistencia.com/motorTest/saveDataQuotationsFinesa",
               `https://www.grupoasistencia.com/motor_webservice/saveDataQuotationsFinesa${
                 env == "qas" ? "_qas" : env == "dev" ? "_qas" : ""
               }`,
@@ -3399,7 +3399,7 @@ function cotizarOfertas() {
                 );
                 return;
               } /*inicio javier */else if (aseguradora === "Qualitas") {
-                url = `http://localhost/WS-laravel/api/autos/qualitas`;
+                url = `https://grupoasistencia.com/WS-laravel/api/autos/qualitas`;
                 cont.push(
                   fetch(url, requestOptions)
                     .then((res) => {
@@ -4094,7 +4094,7 @@ function cotizarOfertas() {
         /* Qualitas*/
         /*inicio javier */ const qualitasPromise = comprobarFallida("Qualitas")
           ? fetch(
-              "http://localhost/WS-laravel/api/autos/qualitas",
+              "https://grupoasistencia.com/WS-laravel/api/autos/qualitas",
               requestOptions
             )
               .then((res) => {
