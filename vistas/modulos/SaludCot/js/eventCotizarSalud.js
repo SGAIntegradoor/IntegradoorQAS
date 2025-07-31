@@ -149,6 +149,29 @@ function initializeSelect2(selectors) {
 }
 
 /**
+ * Cargar dpto y ciudad.
+ * @function
+ */
+function initializeSelect2Dpto(selectors) {
+  $(selectors).each(function () {
+    if (!$(this).data("select2")) {
+      $(this)
+        .select2({
+          theme: "bootstrap dpto",
+          language: "es",
+          width: "100%",
+        })
+        .on("select2:open", function () {
+          var $select2 = $(this).data("select2");
+          $select2.dropdown.$dropdownContainer.addClass(
+            "select2-container--above"
+          );
+        });
+    }
+  });
+}
+
+/**
  * Abrir y cerrar dataContainer
  * @function
  */
@@ -392,6 +415,8 @@ function generateAseguradosFields() {
 
   // Inicializa Select2 solo en los nuevos elementos clonados
   initializeSelect2(".fecha-nacimiento");
+  initializeSelect2Dpto(".ciudadSelect");
+  initializeSelect2Dpto(".departamentoSelect");
   CargarSelectTipoDocumento();
   CargarSelectGenero();
   hideShowCamposCiudad();
@@ -838,12 +863,20 @@ function makeTable(asegurados, plan_id, pdf) {
   let ivaMensual = subtotalMensual * (iva / 100);
   let ivaTrimestral = subtotalTrimestral * (iva / 100);
   let ivaSemestral = subtotalSemestral * (iva / 100);
-  let ivaAnual = subtotalAnual * (iva / 100);
+  let ivaAnual = 0;
 
   let totalMensual = subtotalMensual + ivaMensual;
   let totalTrimestral = subtotalTrimestral + ivaTrimestral;
   let totalSemestral = subtotalSemestral + ivaSemestral;
-  let totalAnual = subtotalAnual + ivaAnual;
+  let totalAnual = 0;
+
+  if (plan_id >= 9 && plan_id <= 15) {
+    ivaAnual = (subtotalAnual - (subtotalAnual * 9) / 100) * (iva / 100);
+    totalAnual = subtotalAnual - (subtotalAnual * 9) / 100 + ivaAnual;
+  } else {
+    ivaAnual = subtotalAnual * (iva / 100);
+    totalAnual = subtotalAnual + ivaAnual;
+  }
 
   tableHTML += `
                       </tbody>
@@ -962,6 +995,11 @@ function makeCards(data, tipoCotizacion) {
     // Generar tarjetas grupales con los valores sumados
     for (let plan_id in planesSumados) {
       let plan = planesSumados[plan_id];
+      if (plan.id_plan >= 9 && plan.id_plan <= 15) {
+        planAnual = plan.anual - (plan.anual * 9) / 100;
+      } else {
+        planAnual = plan.anual;
+      }
       let tableHTML = makeTable(data.asegurados, plan.id_plan, plan.pdf);
       html_data += makeIndividualCard(
         plan.id_plan,
@@ -969,7 +1007,7 @@ function makeCards(data, tipoCotizacion) {
         processValue(plan.mensual, iva),
         processValue(plan.trimestral, iva),
         processValue(plan.semestral, iva),
-        processValue(plan.anual, iva),
+        processValue(planAnual, iva),
         plan.coberturas,
         plan.titulo,
         plan.subtitulo,
@@ -1038,7 +1076,6 @@ function makeCards(data, tipoCotizacion) {
 
     // Generar tarjetas grupales con los valores sumados
     for (let plan_id in planesSumados) {
-      
       let plan = planesSumados[plan_id];
       let tableHTML = makeTable(data.asegurados, plan.id_plan, plan.pdf);
       html_data += makeIndividualCard(
@@ -1431,6 +1468,8 @@ function hideShowCamposCiudad() {
   var mostrarCampoCiudad = $("#siCiudadB").prop("checked");
   const selectsDepartamento = document.querySelectorAll(".departamentoSelect");
   const selectsCiudad = document.querySelectorAll(".ciudadSelect");
+  initializeSelect2Dpto(".ciudadSelect");
+  initializeSelect2Dpto(".departamentoSelect");
 
   if (mostrarCampoCiudad) {
     $('[class*="departamento"]').show();
