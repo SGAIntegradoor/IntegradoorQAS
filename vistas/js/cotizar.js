@@ -3780,8 +3780,8 @@ function cotizarOfertas() {
 
         const mostrarAlertarCotizacionFallida = (aseguradora, mensaje) => {
           if(aseguradora == "HDI Seguros" || aseguradora == "HDI FULL" || aseguradora == "INTEGRAL 20" || aseguradora == "BASICO + PT" || aseguradora == "BASICO") {
-            console.log("Entre aqui");
-            debugger;
+            //console.log("Entre aqui");
+            //debugger;
           }
 
           if (
@@ -3789,7 +3789,7 @@ function cotizarOfertas() {
             aseguradora == "Estado2" ||
             aseguradora == "Estado3"
           ) {
-            console.log("Entre por aca Estado");
+            //console.log("Entre por aca Estado");
             // if (aseguradora == "Estado2" || aseguradora == "Estado3") {
             //   aseguradora = "Estado";
             // }
