@@ -1329,9 +1329,9 @@ $nombreArchivo = "COTIZADOR VIGENTE FINESA $nombreMes $anio.xlsx";
                                 </td>
                                 <td style="padding: 30px;">
                                     <ul style="list-style: none;">
-                                        <li>✅ CUADRO PENDIENTEDoc.: Carta, Sarlaft, Cédula, Tarjeta de Propiedad y Condiciones de Renovación (de ser posible)</li>
-                                        <li>✅ Tiempo límite de recepción: 5 días hábiles antes del vencimiento.</li>
-                                        <li>✅ Tiempo de autorización: 2 días hábiles.</li>
+                                        <li>✅ Doc.: Carta, Sarlaft, Cédula, Tarjeta de Propiedad y Condiciones de Renovación (de ser posible).</li>
+                                        <li>✅ Tiempo límite de recepción: 15 días calendario antes del vencimiento</li>
+                                        <li>✅ Tiempo de autorización: 3 días antes de terminar la vigencia</li>
                                         <li>✅ Nota: No puede estar recaudada la renovación para autorizar cambio.</li>
                                     </ul>
                                 </td>

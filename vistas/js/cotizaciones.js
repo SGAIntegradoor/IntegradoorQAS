@@ -1250,8 +1250,6 @@ async function renderCards(response) {
       let aseguradora = oferta.Aseguradora;
       let aseguradoraName = nombreAseguradora(aseguradora);
       let aseguradoraPermisos = obtenerValorC(aseguradoraName);
-      console.log(aseguradoraName);
-      console.log(aseguradoraPermisos);
 
       var primaFormat = formatNumber(oferta.Prima);
       var id_intermediario = document.getElementById("idIntermediario").value;

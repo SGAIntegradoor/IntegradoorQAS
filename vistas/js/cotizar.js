@@ -1863,7 +1863,7 @@ function cotizarFinesa(ofertasCotizaciones) {
           `https://www.grupoasistencia.com/motor_webservice/paymentInstallmentsFinesa${
             env == "qas" ? "_qas" : env == "dev" ? "_qas" : ""
           }`,
-          // "http://localhost/motorTest/paymentInstallmentsFinesa",
+          // "https://grupoasistencia.com/motorTest/paymentInstallmentsFinesa",
           {
             method: "POST",
             headers: headers,
@@ -1879,7 +1879,7 @@ function cotizarFinesa(ofertasCotizaciones) {
             finesaData.identity = element.objFinesa;
             finesaData.cuotas = element.cuotas;
             return fetch(
-              // "http://localhost/motorTest/saveDataQuotationsFinesa",
+              // "https://grupoasistencia.com/motorTest/saveDataQuotationsFinesa",
               `https://www.grupoasistencia.com/motor_webservice/saveDataQuotationsFinesa${
                 env == "qas" ? "_qas" : env == "dev" ? "_qas" : ""
               }`,
@@ -4157,6 +4157,55 @@ function cotizarOfertas() {
           : Promise.resolve();
 
         cont.push(bolivarPromise);
+
+        /* Qualitas*/
+        /*inicio javier */ const qualitasPromise = comprobarFallida("Qualitas")
+          ? fetch(
+              "https://grupoasistencia.com/WS-laravel/api/autos/qualitas",
+              requestOptions
+            )
+              .then((res) => {
+                if (!res.ok) throw Error(res.statusText);
+                return res.json();
+              })
+              .then((ofertas) => {
+                if (typeof ofertas[0].Resultado !== "undefined") {
+                  agregarAseguradoraFallida("Qualitas");
+                  validarProblema("Qualitas", ofertas);
+                  ofertas[0].Mensajes.forEach((mensaje) => {
+                    mostrarAlertarCotizacionFallida("Qualitas", mensaje);
+                  });
+                } else {
+                  const contadorPorEntidad = validarOfertas(
+                    ofertas,
+                    "Qualitas",
+                    1
+                  );
+                  mostrarAlertaCotizacionExitosa(
+                    "Qualitas",
+                    contadorPorEntidad
+                  );
+                }
+              })
+              .catch((err) => {
+                agregarAseguradoraFallida(aseguradora);
+                mostrarAlertarCotizacionFallida(
+                  aseguradora,
+                  "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
+                );
+                validarProblema(aseguradora, [
+                  {
+                    Mensajes: [
+                      "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
+                    ],
+                  },
+                ]);
+                console.error(err);
+              })
+          : Promise.resolve();
+
+        cont.push(qualitasPromise);
+        /*Fin javier */
 
         /* HDI */
         const HDIPromise = comprobarFallida("HDI")
