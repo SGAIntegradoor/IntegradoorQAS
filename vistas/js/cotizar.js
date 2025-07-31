@@ -423,7 +423,7 @@ $(document).ready(function () {
         showConfirmButton: true,
       });
       throw new Error("Ya se ha presionado el botón de cotizar");
-    } 
+    }
 
     let deptoCirc = $("#DptoCirculacion").val();
     let ciudadCirc = $("#ciudadCirculacion").val();
@@ -3141,8 +3141,8 @@ function cotizarOfertas() {
                   aseguradora = "Estado";
                 }
 
-                if (aseguradora == "HDI FULL" || aseguradora == "INTEGRAL 20") {
-                  aseguradora = "Estado";
+                if (aseguradora == "HDI FULL" || aseguradora == "INTEGRAL 20" || aseguradora == "BASICO" || aseguradora == "BASICO + PT") {
+                  aseguradora = "HDI Seguros";
                 }
                 // console.log(aseguradora);
                 // console.log(mensaje);
@@ -3399,7 +3399,12 @@ function cotizarOfertas() {
                 return; // Salir del bucle después de procesar Estado
                 // Construir la URL de la solicitud para cada aseguradora
               } else if (aseguradora === "HDI Seguros") {
-                const planes = ["HDI FULL", "INTEGRAL 20", "BASICO + PT", "BASICO"];
+                const planes = [
+                  "HDI FULL",
+                  "INTEGRAL 20",
+                  "BASICO + PT",
+                  "BASICO",
+                ];
                 planes.forEach((plan) => {
                   let body = JSON.parse(requestOptions.body);
                   body.plan = plan;
@@ -3451,7 +3456,7 @@ function cotizarOfertas() {
                   );
                 });
                 return;
-              } /*inicio javier */else if (aseguradora === "Qualitas") {
+              } /*inicio javier */ else if (aseguradora === "Qualitas") {
                 url = `https://grupoasistencia.com/WS-laravel/api/autos/qualitas`;
                 cont.push(
                   fetch(url, requestOptions)
@@ -3712,6 +3717,10 @@ function cotizarOfertas() {
             aseguradora = "Estado";
           }
 
+          if (aseguradora == "INTEGRAL 20" || aseguradora == "BASICO + PT" || aseguradora == "BASICO" || aseguradora == "HDI FULL") {
+            aseguradora = "HDI Seguros";
+          }
+
           // Obtener la primera clave del objeto
           const primeraClave = Object.keys(contador)[0];
 
@@ -3770,14 +3779,21 @@ function cotizarOfertas() {
         };
 
         const mostrarAlertarCotizacionFallida = (aseguradora, mensaje) => {
+          if(aseguradora == "HDI Seguros" || aseguradora == "HDI FULL" || aseguradora == "INTEGRAL 20" || aseguradora == "BASICO + PT" || aseguradora == "BASICO") {
+            console.log("Entre aqui");
+            debugger;
+          }
+
           if (
             aseguradora == "Estado" ||
             aseguradora == "Estado2" ||
             aseguradora == "Estado3"
           ) {
-            if (aseguradora == "Estado2" || aseguradora == "Estado3") {
-              aseguradora = "Estado";
-            }
+            console.log("Entre por aca Estado");
+            // if (aseguradora == "Estado2" || aseguradora == "Estado3") {
+            //   aseguradora = "Estado";
+            // }
+            aseguradora = "Estado";
             // console.log(aseguradora);
             // console.log(mensaje);
             // Referecnia de la tabla
@@ -3835,7 +3851,7 @@ function cotizarOfertas() {
           } else {
             // console.log(aseguradora);
             // console.log(mensaje);
-            // Referecnia de la tabla
+            // Referencia de la tabla
             const tablaResumenCotBody = document.querySelector(
               "#tablaResumenCot tbody"
             );
@@ -3864,7 +3880,6 @@ function cotizarOfertas() {
               //   console.log(`${aseguradora} tiene alertas iguales: "${observacionesActuales}" === "${mensaje}"`);
               // }
             } else {
-              //console.log(mensaje);
               // Si no existe, crea una nueva fila
               const nuevaFila = document.createElement("tr");
               nuevaFila.setAttribute("data-aseguradora", aseguradora);
@@ -3883,6 +3898,7 @@ function cotizarOfertas() {
 
         //console.log(aseguradorasFallidas)
         aseguradorasFallidas.forEach((aseguradora) => {
+          // debugger;
           if (
             aseguradora == "BASIC" ||
             aseguradora == "MEDIUM" ||
@@ -3892,13 +3908,12 @@ function cotizarOfertas() {
           }
 
           if (
-            aseguradora == "BASICO + PT" ||
-            aseguradora == "BASICO" ||
+            aseguradora == "HDI FULL" ||
             aseguradora == "INTEGRAL 20" ||
-            aseguradora == "HDIFULL"
-          ) {
+            aseguradora == "BASICO" ||
+            aseguradora == "BASICO + PT"
+          )
             aseguradora = "HDI Seguros";
-          }
 
           const celdaResponse = document.getElementById(
             `${aseguradora}Response`
@@ -4390,56 +4405,66 @@ function cotizarOfertas() {
         });
 
         /* Liberty */
-        const libertyPromise = comprobarFallida("HDI (Antes Liberty)")
-          ? fetch(
-              "https://grupoasistencia.com/motor_webservice/Liberty_autos",
-              requestOptions
-            )
-              .then((res) => {
-                if (!res.ok) throw Error(res.statusText);
-                return res.json();
-              })
-              .then((ofertas) => {
-                if (typeof ofertas[0].Resultado !== "undefined") {
-                  agregarAseguradoraFallida("HDI (Antes Liberty)");
-                  validarProblema("HDI (Antes Liberty)", ofertas);
-                  ofertas[0].Mensajes.forEach((mensaje) => {
-                    mostrarAlertarCotizacionFallida(
-                      "HDI (Antes Liberty)",
-                      mensaje
+        const aseguradorasHDI = [
+          "HDI FULL",
+          "INTEGRAL 20",
+          "BASICO + PT",
+          "BASICO",
+        ];
+        aseguradorasHDI.forEach((aseguradora) => {
+          let body = JSON.parse(requestOptions.body);
+          body.plan = aseguradora;
+          requestOptions.body = JSON.stringify(body);
+          const libertyPromise = comprobarFallida(aseguradora)
+            ? fetch(
+                "https://grupoasistencia.com/motor_webservice/Liberty_autos",
+                requestOptions
+              )
+                .then((res) => {
+                  if (!res.ok) throw Error(res.statusText);
+                  return res.json();
+                })
+                .then((ofertas) => {
+                  if (typeof ofertas[0].Resultado !== "undefined") {
+                    debugger;
+                    agregarAseguradoraFallida(aseguradora);
+                    validarProblema(aseguradora, ofertas);
+                    ofertas[0].Mensajes.forEach((mensaje) => {
+                      console.log("Entre aqui")
+                      mostrarAlertarCotizacionFallida("HDI Seguros", mensaje);
+                    });
+                  } else {
+                    // eliminarAseguradoraFallida(aseguradora);
+                    const contadorPorEntidad = validarOfertas(
+                      ofertas,
+                      aseguradora,
+                      1
                     );
-                  });
-                } else {
-                  // eliminarAseguradoraFallida('HDI (Antes Liberty)');
-                  const contadorPorEntidad = validarOfertas(
-                    ofertas,
-                    "HDI (Antes Liberty)",
-                    1
+                    mostrarAlertaCotizacionExitosa(
+                      aseguradora,
+                      contadorPorEntidad
+                    );
+                  }
+                })
+                .catch((err) => {
+                  agregarAseguradoraFallida(aseguradora);
+                  mostrarAlertarCotizacionFallida(
+                    "HDI Seguros",
+                    "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
                   );
-                  mostrarAlertaCotizacionExitosa(
-                    "HDI (Antes Liberty)",
-                    contadorPorEntidad
-                  );
-                }
-              })
-              .catch((err) => {
-                agregarAseguradoraFallida("HDI (Antes Liberty)");
-                mostrarAlertarCotizacionFallida(
-                  "HDI (Antes Liberty)",
-                  "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
-                );
-                validarProblema("HDI (Antes Liberty)", [
-                  {
-                    Mensajes: [
-                      "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
-                    ],
-                  },
-                ]);
-                console.error(err);
-              })
-          : Promise.resolve();
+                  validarProblema(aseguradora, [
+                    {
+                      Mensajes: [
+                        "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
+                      ],
+                    },
+                  ]);
+                  console.error(err);
+                })
+            : Promise.resolve();
 
-        cont.push(libertyPromise);
+          cont.push(libertyPromise);
+        });
 
         /* Allianz */
         const allianzPromise = comprobarFallida("Allianz")

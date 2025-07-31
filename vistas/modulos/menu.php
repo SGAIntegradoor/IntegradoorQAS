@@ -188,7 +188,7 @@ checkUserStatus();
 		ASSITCARD
 		=============================================*/
 
-			if (($_SESSION["permisos"]["AsistenciaEnViajes"] == "x") || $_SESSION["idUsuario"] == 34) {
+			if (($_SESSION["permisos"]["AsistenciaEnViajes"] == "x")) {
 				echo '<li id="menuCoAssist" class="' . ($currentPage == 'assistcard' ? 'active' : '') . '">
 				<a href="assistcard">
 				<i class="fa fa-plane" aria-hidden="true" style="font-size: 1.2em;"></i>
