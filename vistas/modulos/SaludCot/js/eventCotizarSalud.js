@@ -826,6 +826,7 @@ function makeTable(asegurados, plan_id, pdf) {
     subtotalAnual = 0;
 
   asegurados.forEach((asegurado) => {
+    descuentoAsegurado = asegurado.asociado;
     let plan = asegurado.planes.find((p) => p.plan_id === plan_id);
     if (plan) {
       let mensual = parseFloat(
@@ -842,9 +843,16 @@ function makeTable(asegurados, plan_id, pdf) {
       subtotalMensual += mensual;
       subtotalTrimestral += trimestral;
       subtotalSemestral += semestral;
-      subtotalAnual += anual;
+      if (plan_id >= 9 && plan_id <= 15) {
+        if (descuentoAsegurado == 1) {
+          subtotalAnual += anual - (anual * 9.5) / 100;
+        } else {
+          subtotalAnual += anual - (anual * 9) / 100;
+        }
+      } else {
+        subtotalAnual += anual;
+      }
       let generoTexto = asegurado.genero === "1" ? "Masculino" : "Femenino";
-      descuentoAsegurado = asegurado.asociado;
 
       tableHTML += `
           <tr>
@@ -864,25 +872,12 @@ function makeTable(asegurados, plan_id, pdf) {
   let ivaMensual = subtotalMensual * (iva / 100);
   let ivaTrimestral = subtotalTrimestral * (iva / 100);
   let ivaSemestral = subtotalSemestral * (iva / 100);
-  let ivaAnual = 0;
+  let ivaAnual = subtotalAnual * (iva / 100);
 
   let totalMensual = subtotalMensual + ivaMensual;
   let totalTrimestral = subtotalTrimestral + ivaTrimestral;
   let totalSemestral = subtotalSemestral + ivaSemestral;
-  let totalAnual = 0;
-
-  if (plan_id >= 9 && plan_id <= 15) {
-    if (descuentoAsegurado == 1) {
-      ivaAnual = (subtotalAnual - (subtotalAnual * 9.5) / 100) * (iva / 100);
-      totalAnual = subtotalAnual - (subtotalAnual * 9.5) / 100 + ivaAnual;
-    } else {
-      ivaAnual = (subtotalAnual - (subtotalAnual * 9) / 100) * (iva / 100);
-      totalAnual = subtotalAnual - (subtotalAnual * 9) / 100 + ivaAnual;
-    }
-  } else {
-    ivaAnual = subtotalAnual * (iva / 100);
-    totalAnual = subtotalAnual + ivaAnual;
-  }
+  let totalAnual = subtotalAnual + ivaAnual;
 
   tableHTML += `
                       </tbody>
@@ -946,6 +941,7 @@ function makeCards(data, tipoCotizacion) {
     let coberturasAgrupadas = {};
 
     data.asegurados.forEach((asegurado) => {
+      aseguradoDes = asegurado.asociado;
       asegurado.planes.forEach((plan) => {
         if (!planesSumados[plan.plan_id]) {
           planesSumados[plan.plan_id] = {
@@ -973,16 +969,29 @@ function makeCards(data, tipoCotizacion) {
         planesSumados[plan.plan_id].semestral += parseFloat(
           plan.semestral.replace(/\./g, "").replace(",", ".")
         );
-        planesSumados[plan.plan_id].anual += parseFloat(
-          plan.anual.replace(/\./g, "").replace(",", ".")
-        );
+        if (plan.plan_id >= 9 && plan.plan_id <= 15) {
+          // Limpiar el valor de plan.anual (ej: "1.234,56" => 1234.56)
+          const anualParsed = parseFloat(
+            plan.anual.replace(/\./g, "").replace(",", ".")
+          );
 
+          if (aseguradoDes == 1) {
+            planesSumados[plan.plan_id].anual +=
+              anualParsed - (anualParsed * 9.5) / 100;
+          } else {
+            planesSumados[plan.plan_id].anual +=
+              anualParsed - (anualParsed * 9) / 100;
+          }
+        } else {
+          planesSumados[plan.plan_id].anual += parseFloat(
+            plan.anual.replace(/\./g, "").replace(",", ".")
+          );
+        }
         // Si el plan tiene coberturas, agregarlas
         if (planesSumados[plan.plan_id].coberturas.length === 0) {
           planesSumados[plan.plan_id].coberturas = plan.coberturas || [];
         }
       });
-      aseguradoDes = asegurado.asociado;
     });
 
     const params = new URLSearchParams(window.location.search);
@@ -1003,15 +1012,7 @@ function makeCards(data, tipoCotizacion) {
     // Generar tarjetas grupales con los valores sumados
     for (let plan_id in planesSumados) {
       let plan = planesSumados[plan_id];
-      if (plan.id_plan >= 9 && plan.id_plan <= 15) {
-        if ((aseguradoDes == 1)) {
-          planAnual = plan.anual - (plan.anual * 9.5) / 100;
-        } else {
-          planAnual = plan.anual - (plan.anual * 9) / 100;
-        }
-      } else {
-        planAnual = plan.anual;
-      }
+      planAnual = plan.anual;
       let tableHTML = makeTable(data.asegurados, plan.id_plan, plan.pdf);
       html_data += makeIndividualCard(
         plan.id_plan,
@@ -1034,6 +1035,7 @@ function makeCards(data, tipoCotizacion) {
     let planesSumados = {};
 
     data.asegurados.forEach((asegurado) => {
+      aseguradoDes = asegurado.asociado;
       asegurado.planes.forEach((plan) => {
         if (!planesSumados[plan.plan_id]) {
           planesSumados[plan.plan_id] = {
@@ -1061,15 +1063,29 @@ function makeCards(data, tipoCotizacion) {
         planesSumados[plan.plan_id].semestral += parseFloat(
           plan.semestral.replace(/\./g, "").replace(",", ".")
         );
-        planesSumados[plan.plan_id].anual += parseFloat(
-          plan.anual.replace(/\./g, "").replace(",", ".")
-        );
+        if (plan.plan_id >= 9 && plan.plan_id <= 15) {
+          // Limpiar el valor de plan.anual (ej: "1.234,56" => 1234.56)
+          const anualParsed = parseFloat(
+            plan.anual.replace(/\./g, "").replace(",", ".")
+          );
+
+          if (aseguradoDes == 1) {
+            planesSumados[plan.plan_id].anual +=
+              anualParsed - (anualParsed * 9.5) / 100;
+          } else {
+            planesSumados[plan.plan_id].anual +=
+              anualParsed - (anualParsed * 9) / 100;
+          }
+        } else {
+          planesSumados[plan.plan_id].anual += parseFloat(
+            plan.anual.replace(/\./g, "").replace(",", ".")
+          );
+        }
 
         if (planesSumados[plan.plan_id].coberturas.length === 0) {
           planesSumados[plan.plan_id].coberturas = plan.coberturas || [];
         }
       });
-      aseguradoDes = asegurado.asociado;
     });
 
     const params = new URLSearchParams(window.location.search);
@@ -1090,15 +1106,7 @@ function makeCards(data, tipoCotizacion) {
     // Generar tarjetas grupales con los valores sumados
     for (let plan_id in planesSumados) {
       let plan = planesSumados[plan_id];
-      if (plan.id_plan >= 9 && plan.id_plan <= 15) {
-        if ((aseguradoDes == 1)) {
-          planAnual = plan.anual - (plan.anual * 9.5) / 100;
-        } else {
-          planAnual = plan.anual - (plan.anual * 9) / 100;
-        }
-      } else {
-        planAnual = plan.anual;
-      }
+      planAnual = plan.anual;
       let tableHTML = makeTable(data.asegurados, plan.id_plan, plan.pdf);
       html_data += makeIndividualCard(
         plan.id_plan,
