@@ -22,8 +22,6 @@ if($aseguradora == "Previsora Seguros"){
     $aseguradora = "Bolivar";
 }elseif($aseguradora == "Axa Colpatria"){
     $aseguradora = "AXA";
-}elseif($aseguradora == "HDI Seguros"){
-    $aseguradora = "HDI";
 }
 
 

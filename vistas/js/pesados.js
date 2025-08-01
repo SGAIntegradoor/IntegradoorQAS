@@ -1699,6 +1699,11 @@ function registrarOfertaPesados(
   pdf,
   pph
 ) {
+  if(aseguradora == "HDI Seguros" || aseguradora == "HDI (Antes Liberty)") {;
+    debugger;
+    console.log(aseguradora)
+  }
+
   return new Promise((resolve, reject) => {
     var idCotizOferta = idCotizacion;
     var numDocumentoID = document.getElementById("numDocumentoID").value;
@@ -1844,7 +1849,10 @@ const mostrarOfertaPesados = (
   }
 
   var nombreAseguradoraA = nombreAseguradora(aseguradora);
-  var aseguradoraCredenciales = nombreAseguradoraA + "_C_pesados";
+  var aseguradoraCredenciales =
+    nombreAseguradoraA == "HDI Seguros"
+      ? "Liberty_C_pesados"
+      : nombreAseguradoraA + "_C_pesados";
   var permisosCredenciales = permisos[aseguradoraCredenciales];
 
   // Agrega al array de objetos el objeto de card con los valores y el consecutivo
@@ -1932,7 +1940,7 @@ const mostrarOfertaPesados = (
                 }
                   
                   <div class="col-xs-12 col-sm-6 col-md-2 oferta-headerEdit">
-                    <h5 class='entidad' style='font-size: 15px'><b>${aseguradora} - ${
+                    <h5 class='entidad' style='font-size: 15px'><b>${nombreAseguradoraA} - ${
     producto == "Pesados con RCE en exceso" ? "Pesados RCE + Exceso" : producto
   }</b></h5>
                     <h5 class='precio' style='margin-top: 0px !important;'>Desde $ ${prima}</h5>
@@ -2030,6 +2038,8 @@ const mostrarOfertaPesados = (
 };
 
 function validarOfertasPesados(ofertas, aseguradora, exito) {
+  debugger;
+  console.log(aseguradora, ofertas, exito);
   let contadorPorEntidad = {};
   $responsabilidadCivilFamiliar = ofertas[0].responsabilidad_civil_familiar;
   ofertas.forEach((oferta, i) => {
@@ -2086,6 +2096,8 @@ function validarOfertasPesados(ofertas, aseguradora, exito) {
 }
 
 function validarProblema(aseguradora, ofertas) {
+  console.log(aseguradora, ofertas);
+  debugger;
   var idCotizOferta = idCotizacion;
   //console.log(ofertas);
 
@@ -2131,6 +2143,7 @@ function validarProblema(aseguradora, ofertas) {
     ofertas.jsonZurich &&
     typeof ofertas.jsonZurich === "object"
   ) {
+    debugger;
     // Caso específico para la estructura de Zurich
     var mensajesZurich = ofertas.jsonZurich.result.messages || [];
     if (Array.isArray(mensajesZurich) && mensajesZurich.length > 0) {
@@ -2332,6 +2345,8 @@ function cotizarFinesa(ofertasCotizaciones) {
 }
 
 function registrarNumeroOfertas(entidad, contador, numCotizacion, exito) {
+  debugger
+  console.log(entidad, contador, numCotizacion, exito);
   $.ajax({
     type: "POST",
     url: "src/insertarAlerta.php",
@@ -3169,8 +3184,10 @@ function cotizarOfertasPesados() {
                     })
                     .then((ofertas) => {
                       if (typeof ofertas[0].Resultado !== "undefined") {
-                        validarProblema(aseguradora, ofertas);
+                        debugger;
+                        validarProblema("HDI (Antes Liberty)", ofertas);
                         agregarAseguradoraFallidaPesados(aseguradora);
+                        console.log(aseguradorasFallidas)
                         if (ofertas[0].length > 1) {
                           ofertas[0].Mensajes.forEach((mensaje) => {
                             mostrarAlertarCotizacionFallida(
@@ -3204,7 +3221,7 @@ function cotizarOfertasPesados() {
                         aseguradora,
                         "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
                       );
-                      validarProblema(aseguradora, [
+                      validarProblema("HDI (Antes Liberty)", [
                         {
                           Mensajes: [
                             "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
@@ -3627,7 +3644,7 @@ function cotizarOfertasPesados() {
         /* Liberty */
         const libertyPromise = comprobarFallidaPesados("HDI Seguros")
           ? fetch(
-              "https://grupoasistencia.com/motor_webservice/Liberty_pesados?callback=myCallback",
+              "https://grupoasistencia.com/motor_webservice/Liberty_pesados",
               requestOptions
             )
               .then((res) => {
@@ -3636,8 +3653,9 @@ function cotizarOfertasPesados() {
               })
               .then((ofertas) => {
                 if (typeof ofertas[0].Resultado !== "undefined") {
+                  debugger;
                   agregarAseguradoraFallidaPesados("HDI Seguros");
-                  validarProblema("HDI Seguros", ofertas);
+                  validarProblema("HDI (Antes Liberty)", ofertas);
                   ofertas[0].Mensajes.forEach((mensaje) => {
                     mostrarAlertarCotizacionFallida("HDI Seguros", mensaje);
                   });
@@ -3657,7 +3675,7 @@ function cotizarOfertasPesados() {
                   "HDI Seguros",
                   "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
                 );
-                validarProblema("HDI Seguros", [
+                validarProblema("HDI (Antes Liberty)", [
                   {
                     Mensajes: [
                       "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
@@ -3809,50 +3827,50 @@ function cotizarOfertasPesados() {
         cont2.push(previsoraPromise);
 
         /* HDI */
-        const HDIPromise = comprobarFallidaPesados("HDI")
-          ? fetch(
-              "https://grupoasistencia.com/motor_webservice/HDI_pesados",
-              requestOptions
-            )
-              .then((res) => {
-                if (!res.ok) throw Error(res.statusText);
-                return res.json();
-              })
-              .then((ofertas) => {
-                if (typeof ofertas[0].Resultado !== "undefined") {
-                  agregarAseguradoraFallidaPesados("HDI");
-                  validarProblema("HDI", ofertas);
-                  ofertas[0].Mensajes.forEach((mensaje) => {
-                    mostrarAlertarCotizacionFallida("HDI", mensaje);
-                  });
-                } else {
-                  // eliminarAseguradoraFallida('HDI');
-                  const contadorPorEntidad = validarOfertasPesados(
-                    ofertas,
-                    "HDI",
-                    1
-                  );
-                  mostrarAlertaCotizacionExitosa("HDI", contadorPorEntidad);
-                }
-              })
-              .catch((err) => {
-                agregarAseguradoraFallidaPesados("HDI");
-                mostrarAlertarCotizacionFallida(
-                  "HDI",
-                  "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
-                );
-                validarProblema("HDI", [
-                  {
-                    Mensajes: [
-                      "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
-                    ],
-                  },
-                ]);
-                console.error(err);
-              })
-          : Promise.resolve();
+        // const HDIPromise = comprobarFallidaPesados("HDI")
+        //   ? fetch(
+        //       "https://grupoasistencia.com/motor_webservice/HDI_pesados",
+        //       requestOptions
+        //     )
+        //       .then((res) => {
+        //         if (!res.ok) throw Error(res.statusText);
+        //         return res.json();
+        //       })
+        //       .then((ofertas) => {
+        //         if (typeof ofertas[0].Resultado !== "undefined") {
+        //           agregarAseguradoraFallidaPesados("HDI");
+        //           validarProblema("HDI", ofertas);
+        //           ofertas[0].Mensajes.forEach((mensaje) => {
+        //             mostrarAlertarCotizacionFallida("HDI", mensaje);
+        //           });
+        //         } else {
+        //           // eliminarAseguradoraFallida('HDI');
+        //           const contadorPorEntidad = validarOfertasPesados(
+        //             ofertas,
+        //             "HDI",
+        //             1
+        //           );
+        //           mostrarAlertaCotizacionExitosa("HDI", contadorPorEntidad);
+        //         }
+        //       })
+        //       .catch((err) => {
+        //         agregarAseguradoraFallidaPesados("HDI");
+        //         mostrarAlertarCotizacionFallida(
+        //           "HDI",
+        //           "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
+        //         );
+        //         validarProblema("HDI", [
+        //           {
+        //             Mensajes: [
+        //               "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
+        //             ],
+        //           },
+        //         ]);
+        //         console.error(err);
+        //       })
+        //   : Promise.resolve();
 
-        cont2.push(HDIPromise);
+        // cont2.push(HDIPromise);
 
         /* Equidad */
 
