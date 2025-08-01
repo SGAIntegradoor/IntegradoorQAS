@@ -844,6 +844,7 @@ function makeTable(asegurados, plan_id, pdf) {
       subtotalSemestral += semestral;
       subtotalAnual += anual;
       let generoTexto = asegurado.genero === "1" ? "Masculino" : "Femenino";
+      descuentoAsegurado = asegurado.asociado;
 
       tableHTML += `
           <tr>
@@ -871,8 +872,13 @@ function makeTable(asegurados, plan_id, pdf) {
   let totalAnual = 0;
 
   if (plan_id >= 9 && plan_id <= 15) {
-    ivaAnual = (subtotalAnual - (subtotalAnual * 9) / 100) * (iva / 100);
-    totalAnual = subtotalAnual - (subtotalAnual * 9) / 100 + ivaAnual;
+    if (descuentoAsegurado == 1) {
+      ivaAnual = (subtotalAnual - (subtotalAnual * 9.5) / 100) * (iva / 100);
+      totalAnual = subtotalAnual - (subtotalAnual * 9.5) / 100 + ivaAnual;
+    } else {
+      ivaAnual = (subtotalAnual - (subtotalAnual * 9) / 100) * (iva / 100);
+      totalAnual = subtotalAnual - (subtotalAnual * 9) / 100 + ivaAnual;
+    }
   } else {
     ivaAnual = subtotalAnual * (iva / 100);
     totalAnual = subtotalAnual + ivaAnual;
@@ -932,6 +938,7 @@ function makeCards(data, tipoCotizacion) {
   console.log(data, tipoCotizacion);
 
   let html_data = "";
+  let aseguradoDes = 0;
   if (tipoCotizacion === 1) {
     // Generar tarjetas individuales para cada plan
     // Acumular los valores por plan_id
@@ -975,6 +982,7 @@ function makeCards(data, tipoCotizacion) {
           planesSumados[plan.plan_id].coberturas = plan.coberturas || [];
         }
       });
+      aseguradoDes = asegurado.asociado;
     });
 
     const params = new URLSearchParams(window.location.search);
@@ -996,7 +1004,11 @@ function makeCards(data, tipoCotizacion) {
     for (let plan_id in planesSumados) {
       let plan = planesSumados[plan_id];
       if (plan.id_plan >= 9 && plan.id_plan <= 15) {
-        planAnual = plan.anual - (plan.anual * 9) / 100;
+        if ((aseguradoDes == 1)) {
+          planAnual = plan.anual - (plan.anual * 9.5) / 100;
+        } else {
+          planAnual = plan.anual - (plan.anual * 9) / 100;
+        }
       } else {
         planAnual = plan.anual;
       }
@@ -1057,6 +1069,7 @@ function makeCards(data, tipoCotizacion) {
           planesSumados[plan.plan_id].coberturas = plan.coberturas || [];
         }
       });
+      aseguradoDes = asegurado.asociado;
     });
 
     const params = new URLSearchParams(window.location.search);
@@ -1077,6 +1090,15 @@ function makeCards(data, tipoCotizacion) {
     // Generar tarjetas grupales con los valores sumados
     for (let plan_id in planesSumados) {
       let plan = planesSumados[plan_id];
+      if (plan.id_plan >= 9 && plan.id_plan <= 15) {
+        if ((aseguradoDes == 1)) {
+          planAnual = plan.anual - (plan.anual * 9.5) / 100;
+        } else {
+          planAnual = plan.anual - (plan.anual * 9) / 100;
+        }
+      } else {
+        planAnual = plan.anual;
+      }
       let tableHTML = makeTable(data.asegurados, plan.id_plan, plan.pdf);
       html_data += makeIndividualCard(
         plan.id_plan,
@@ -1084,7 +1106,7 @@ function makeCards(data, tipoCotizacion) {
         processValue(plan.mensual, iva),
         processValue(plan.trimestral, iva),
         processValue(plan.semestral, iva),
-        processValue(plan.anual, iva),
+        processValue(planAnual, iva),
         plan.coberturas,
         plan.titulo,
         plan.subtitulo,
