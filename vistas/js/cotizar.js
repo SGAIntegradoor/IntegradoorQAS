@@ -1624,7 +1624,6 @@ function consulDatosFasecolda(codFasecolda, edadVeh) {
       },
       success: function (data) {
         if (data.mensaje == "No hay Registros.") {
-          //console.log("entr aqui");
           document.getElementById("formularioVehiculo").style.display = "block";
           Swal.fire({
             icon: "error",
@@ -3780,19 +3779,15 @@ function cotizarOfertas() {
 
         const mostrarAlertarCotizacionFallida = (aseguradora, mensaje) => {
           if(aseguradora == "HDI Seguros" || aseguradora == "HDI FULL" || aseguradora == "INTEGRAL 20" || aseguradora == "BASICO + PT" || aseguradora == "BASICO") {
-            //console.log("Entre aqui");
-            //debugger;
-          }
-
+            aseguradora = "HDI Seguros";
+            // debugger;
+          } 
+          
           if (
             aseguradora == "Estado" ||
             aseguradora == "Estado2" ||
             aseguradora == "Estado3"
           ) {
-            //console.log("Entre por aca Estado");
-            // if (aseguradora == "Estado2" || aseguradora == "Estado3") {
-            //   aseguradora = "Estado";
-            // }
             aseguradora = "Estado";
             // console.log(aseguradora);
             // console.log(mensaje);
@@ -3872,6 +3867,9 @@ function cotizarOfertas() {
                 celdaCotizo.innerHTML =
                   '<i class="fa fa-times" aria-hidden="true" style="color: red; margin-right: 10px;"></i>';
                 celdaResponse.textContent = mensaje;
+              } else {
+                celdaCotizo.innerHTML =
+                  '<i class="fa fa-check" aria-hidden="true" style="color: green; margin-right: 5px;"></i>';
               }
               // Verifica si el mensaje es diferente antes de actualizar
               // if (observacionesActuales !== mensaje) {
@@ -3895,8 +3893,6 @@ function cotizarOfertas() {
             }
           }
         };
-
-        //console.log(aseguradorasFallidas)
         aseguradorasFallidas.forEach((aseguradora) => {
           // debugger;
           if (
@@ -4426,11 +4422,10 @@ function cotizarOfertas() {
                 })
                 .then((ofertas) => {
                   if (typeof ofertas[0].Resultado !== "undefined") {
-                    debugger;
+                    // debugger;
                     agregarAseguradoraFallida(aseguradora);
                     validarProblema(aseguradora, ofertas);
                     ofertas[0].Mensajes.forEach((mensaje) => {
-                      console.log("Entre aqui")
                       mostrarAlertarCotizacionFallida("HDI Seguros", mensaje);
                     });
                   } else {
@@ -4600,7 +4595,6 @@ function cotizarOfertas() {
           let nuevas = cotizacionesFinesa.filter(
             (cotizaciones) => cotizaciones.cotizada === null
           );
-          // console.log(nuevas)
           // debugger;
           if (nuevas.length > 0) {
             // debugger;
