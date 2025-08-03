@@ -25,12 +25,6 @@
                         <label for="anioExpedicion">Año Expedición:</label>
                         <select class="form-control" id="anioExpedicionPro" name="anioExpedicion">
                         <option value="">Seleccione año</option>
-                        <option value="2017">2017</option>
-                        <option value="2018">2018</option>
-                        <option value="2019">2019</option>
-                        <option value="2020">2020</option>
-                        <option value="2021">2021</option>
-                        <option value="2022">2022</option>
                         <option value="2023">2023</option>
                         <option value="2024">2024</option>
                         <option value="2025">2025</option>
@@ -82,6 +76,19 @@
                 </div>
 
                 <div class="row">
+
+    <!-- Estado Asesor -->
+    <div class="col-md-3">
+        <div class="form-group">
+            <label for="estado">Estado Asesor:</label>
+            <select class="form-control" id="estadoPro" name="estado">
+                <option value="">Seleccione</option>
+                <option value="1">Activo</option>
+                <option value="0">Inactivo</option>
+            </select>
+        </div>
+    </div>
+
     <!-- Ramo -->
     <div class="col-md-3">
         <div class="form-group">
@@ -108,12 +115,58 @@
             <div class="spinner"></div>
         </div>
     </div>
-</div>
-            </div>
 
+     <!-- Modal -->
+    <div id="modalSeguimiento" class="modal-flotante" title="Seguimiento del asesor" style="display: none;">
+    <input type="hidden" id="idAsesorSeguimiento">
+    <input type="hidden" id="idUsuarioActual" value="<?php echo htmlspecialchars($_SESSION['idUsuario'], ENT_QUOTES, 'UTF-8'); ?>">
+    <form>
+        <div class="row">
+        <div class="col-sm-4 form-group">
+            <label>Nombre Asesor:</label>
+            <input type="text" class="form-control" id="nombreAsesor" readonly>
         </div>
-        <?php include_once './vistas/modulos/Productividad/views/productividadTable.php'; ?>
+        <div class="col-sm-4 form-group">
+            <label>Fecha de ingreso:</label>
+            <input type="text" class="form-control" id="fechaIngreso" readonly>
+        </div>
+        <div class="col-sm-4 form-group">
+            <label>Estado usuario:</label>
+            <input type="text" class="form-control" id="estadoUsuario" readonly>
+        </div>
+        <div class="col-sm-4 form-group">
+            <label>Analista:</label>
+            <input type="text" class="form-control" id="analista" readonly>
+        </div>
+        <div class="col-sm-4 form-group">
+            <label>Categoría:</label>
+            <input type="text" class="form-control" id="categoria" readonly>
+        </div>
+        <div class="col-sm-4 form-group">
+            <label>Estado freelance:</label>
+            <input type="text" class="form-control" id="estadoFreelance" readonly>
+        </div>
+        </div>
+
+        <div class="row">
+        <label>Agregar comentarios:</label>
+        <textarea class="form-control" id="comentariosAsesor"></textarea>
+        </div>
+
+        <div style="margin-top: 10px;">
+        <button type="button" class="btn btn-primary " id="btnGuardarSeguimiento">Agregar</button>
+        </div>
+
+        <div class="form-group" style="margin-top: 20px;">
+        <label>Historial de comentarios:</label>
+        <div id="historialComentarios" style="background-color: #f5f5f5; padding: 10px; border: 1px solid #ccc; max-height: 150px; overflow-y: auto; font-size: 14px; border-radius: 4px;"></div>
+        </div>
+    </form>
     </div>
+
+
+        <?php include_once './vistas/modulos/Productividad/views/productividadTable.php'; ?>
+
 
 
    

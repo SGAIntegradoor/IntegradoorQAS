@@ -6,11 +6,13 @@ class Asesor {
     public $asesor;
     public $fecha_ingreso;
     public $estado_usuario;
+    public $estado_freelance;
+    public $categoria_freelance;
     public $analista;
     public $meses = [
-        'mes1' => ['cotizaciones' => 0, 'negocios' => 0],
-        'mes2' => ['cotizaciones' => 0, 'negocios' => 0],
-        'mes3' => ['cotizaciones' => 0, 'negocios' => 0]
+        'mes1' => ['cotizaciones' => 0, 'negocios' => 0, 'prima_emitida' => 0],
+        'mes2' => ['cotizaciones' => 0, 'negocios' => 0, 'prima_emitida' => 0],
+        'mes3' => ['cotizaciones' => 0, 'negocios' => 0, 'prima_emitida' => 0]
     ];
 }
 
@@ -20,6 +22,8 @@ $mes      = $_POST["mes"] ?? null;
 $asesor   = $_POST["asesor"] ?? null;
 $analista = $_POST["analista"] ?? null;
 $ramo     = $_POST["ramo"] ?? null;
+$estado   = $_POST["estado"] ?? null;
+error_log("Estado recibido: " . var_export($estado, true));
 
 // =======================================
 // 1. Determinar rango de fechas
@@ -63,19 +67,21 @@ function getRangoFechas($anio = null, $mes = null) {
 // =======================================
 // 2. Obtener asesores
 // =======================================
-function getAsesores($asesor = null, $analista = null) {
+function getAsesores($asesor = null, $analista = null, $estado = null) {
     global $enlace;
 
     $sql = "
-        SELECT 
+       SELECT 
             u.id_usuario,
             CONCAT(u.usu_nombre, ' ', u.usu_apellido) AS asesor,
             DATE_FORMAT(u.usu_fch_creacion, '%d/%m/%Y') AS fecha_ingreso,
             CASE WHEN u.usu_estado = 1 THEN 'Activo' ELSE 'Inactivo' END AS estado_usuario,
-            af.nombre_analista AS analista
+            af.nombre_analista AS analista,
+            u.estado_freelance,
+            u.categoria_freelance
         FROM usuarios u
         LEFT JOIN analistas_freelances af ON af.id_usuario = u.usu_documento
-        WHERE u.id_rol IN (19, 12, 11, 10, 1)";
+        WHERE u.id_rol IN (19)";
     
     $params = [];
     $types  = "";
@@ -92,6 +98,12 @@ function getAsesores($asesor = null, $analista = null) {
         $types .= "i";
     }
 
+   if ($estado !== null && in_array((string)$estado, ['0', '1'], true)) {
+    $sql .= " AND u.usu_estado = ?";
+    $params[] = (int)$estado;
+    $types   .= "i";
+}
+
     $stmt = prepareQuery($sql, $types, $params);
     $stmt->execute();
 
@@ -101,9 +113,11 @@ function getAsesores($asesor = null, $analista = null) {
     $fecha_ingreso = null;
     $estado_usuario = null;
     $analista = null;
+    $estado_freelance = null;
+    $categoria_freelance = null;
 
     // Vincular los resultados de la consulta con las variables definidas
-    $stmt->bind_result($id_usuario, $asesor, $fecha_ingreso, $estado_usuario, $analista);
+    $stmt->bind_result($id_usuario, $asesor, $fecha_ingreso, $estado_usuario, $analista, $estado_freelance, $categoria_freelance);
     $asesores = [];
     while ($stmt->fetch()) {
         $asesorObj = new Asesor();
@@ -112,6 +126,8 @@ function getAsesores($asesor = null, $analista = null) {
         $asesorObj->fecha_ingreso = $fecha_ingreso;
         $asesorObj->estado_usuario = $estado_usuario;
         $asesorObj->analista = $analista ?? '';
+        $asesorObj->estado_freelance = $estado_freelance ?? '';
+        $asesorObj->categoria_freelance = $categoria_freelance ?? '';
         $asesores[$id_usuario] = $asesorObj;
     }
 
@@ -225,15 +241,18 @@ function contarNegociosAgrupados($rangoFechas, $ramo = null) {
 
 
 
-        // Consulta SQL básica
-        $sql = "SELECT id_user_freelance, COUNT(*) as total FROM oportunidades 
-                WHERE fecha_expedicion BETWEEN ? AND ? AND estado = 'Emitida'";
+      $sql = "SELECT 
+            id_user_freelance, 
+            COUNT(*) as total, 
+            SUM(COALESCE(prima_sin_iva, 0)) AS total_prima
+        FROM oportunidades 
+        WHERE fecha_expedicion BETWEEN ? AND ? AND estado = 'Emitida'";
 
         // Añadir condiciones adicionales dependiendo del valor de $ramo, solo si no es null
         if ($ramo === '1') {
             $sql .= " AND ramo IN ('Automoviles', 'Motos', 'Pesados')";
         } elseif ($ramo === '2') {
-            $sql .= " AND ramo IN ('Salud', 'vida deudor')";
+            $sql .= " AND ramo IN ('Salud')";
         } elseif ($ramo === '3') {
             $sql .= " AND ramo IN ('Asistencia en viajes')";
         }
@@ -248,12 +267,15 @@ function contarNegociosAgrupados($rangoFechas, $ramo = null) {
 
         // Definir las variables para el bind_result
         $id_user_freelance = null;
-        $total = null;
-
+        $total_negocios = null;
+        $total_prima = null;
         // Vincular los resultados de la consulta con las variables definidas
-        $stmt->bind_result($id_user_freelance, $total);
+        $stmt->bind_result($id_user_freelance, $total_negocios, $total_prima);
         while ($stmt->fetch()) {
-            $data[$id_user_freelance][$keyMes] = $total;
+            $data[$id_user_freelance][$keyMes] = [
+                'negocios' => (int)$total_negocios,
+                'prima_emitida' => (int)$total_prima
+            ];
         }
     }
 
@@ -264,17 +286,19 @@ function contarNegociosAgrupados($rangoFechas, $ramo = null) {
 // 5. Ejecutar y armar respuesta
 // =======================================
 $fechasMeses = getRangoFechas($anio, $mes);
-$asesores    = getAsesores($asesor, $analista);
+$asesores    = getAsesores($asesor, $analista, $estado);
 
 $cotizacionesData = contarCotizacionesAgrupadas($fechasMeses, $ramo);
-$negociosData     = contarNegociosAgrupados($fechasMeses, $ramo);
-// Llenar datos en cada asesor
+$negociosYPrimasData = contarNegociosAgrupados($fechasMeses, $ramo);
+
 foreach ($asesores as $asesorObj) {
     $id = $asesorObj->asesor_id;
+
     foreach ($fechasMeses as $keyMes => $rango) {
-        $asesorObj->meses[$keyMes]['cotizaciones'] = $cotizacionesData[$id][$keyMes] ?? 0;
-        $asesorObj->meses[$keyMes]['negocios'] = $negociosData[$id][$keyMes] ?? 0;
-        $asesorObj->meses[$keyMes]['fechas'] = $rango;
+        $asesorObj->meses[$keyMes]['cotizaciones']   = $cotizacionesData[$id][$keyMes] ?? 0;
+        $asesorObj->meses[$keyMes]['negocios']       = $negociosYPrimasData[$id][$keyMes]['negocios'] ?? 0;
+        $asesorObj->meses[$keyMes]['prima_emitida']  = $negociosYPrimasData[$id][$keyMes]['prima_emitida'] ?? 0;
+        $asesorObj->meses[$keyMes]['fechas']         = $rango;
     }
 }
 
