@@ -1700,7 +1700,7 @@ function registrarOfertaPesados(
   pph
 ) {
   if(aseguradora == "HDI Seguros" || aseguradora == "HDI (Antes Liberty)") {;
-    debugger;
+    // debugger;
     console.log(aseguradora)
   }
 
@@ -2038,7 +2038,7 @@ const mostrarOfertaPesados = (
 };
 
 function validarOfertasPesados(ofertas, aseguradora, exito) {
-  debugger;
+  // debugger;
   console.log(aseguradora, ofertas, exito);
   let contadorPorEntidad = {};
   $responsabilidadCivilFamiliar = ofertas[0].responsabilidad_civil_familiar;
@@ -2097,7 +2097,7 @@ function validarOfertasPesados(ofertas, aseguradora, exito) {
 
 function validarProblema(aseguradora, ofertas) {
   console.log(aseguradora, ofertas);
-  debugger;
+  // debugger;
   var idCotizOferta = idCotizacion;
   //console.log(ofertas);
 
@@ -2143,7 +2143,7 @@ function validarProblema(aseguradora, ofertas) {
     ofertas.jsonZurich &&
     typeof ofertas.jsonZurich === "object"
   ) {
-    debugger;
+    // debugger;
     // Caso específico para la estructura de Zurich
     var mensajesZurich = ofertas.jsonZurich.result.messages || [];
     if (Array.isArray(mensajesZurich) && mensajesZurich.length > 0) {
@@ -3184,7 +3184,7 @@ function cotizarOfertasPesados() {
                     })
                     .then((ofertas) => {
                       if (typeof ofertas[0].Resultado !== "undefined") {
-                        debugger;
+                        // debugger;
                         validarProblema("HDI (Antes Liberty)", ofertas);
                         agregarAseguradoraFallidaPesados(aseguradora);
                         console.log(aseguradorasFallidas)
@@ -3653,7 +3653,7 @@ function cotizarOfertasPesados() {
               })
               .then((ofertas) => {
                 if (typeof ofertas[0].Resultado !== "undefined") {
-                  debugger;
+                  // debugger;
                   agregarAseguradoraFallidaPesados("HDI Seguros");
                   validarProblema("HDI (Antes Liberty)", ofertas);
                   ofertas[0].Mensajes.forEach((mensaje) => {
