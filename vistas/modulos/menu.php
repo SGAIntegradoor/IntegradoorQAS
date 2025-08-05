@@ -45,39 +45,6 @@ checkUserStatus();
 		var arrayCot = ["menuCotLiv", "menuCotMot", "menuCotPes", "menuCotMas"];
 		// Verificar si el valor obtenido es válido y está definido
 		if (permisosCotizacionesTotales !== null && permisosCotizacionesTotales !== undefined) {
-			/* Iteramos sobre el array de vistas el cual sera unico y generamos un 
-			JQuery con cada uno de los items dentro del array los cuales son ide que luego se les 
-			asocia el evento click al elemento del menú */
-			// 		arrayCot.forEach(view => {
-			// 			return $(`#${view}`).on("click", function(e) {
-			// 				// Verificar los permisos
-			// 				// if (cotHechas >= permisosCotizacionesTotales ) {
-			// 				// 	e.preventDefault();
-			// 				// 	swal
-			// 				// 		.fire({
-			// 				// 			icon: "error",
-			// 				// 			title: "Sin Cotizaciones Disponibles",
-			// 				// 			html: `<div style="text-align: justify; font-family: Helvetica, Arial, sans-serif; font-size: 15px; border-radius: 4px; padding: 8px;">El usuario no cuenta con cotizaciones disponibles. En este momento solo podrás visualizar las cotizaciones realizadas hasta que se agoten los días habilitados. Si quieres seguir haciendo cotizaciones solicita vincularte al Programa. Comunícate con el área encargada de vinculaciones de Grupo Asistencia al:
-			// 				// 			<br><br>
-			// 				// 			<div style="text-align: center;">📱<strong>+573185127910</strong> o vía 📧 <strong>mercadeo@grupoasistencia.com</strong> </div></div>`,
-			// 				// 			width: "60%",
-			// 				// 			showConfirmButton: true,
-			// 				// 			confirmButtonText: "Cerrar",
-			// 				// 			customClass: {
-			// 				// 				popup: "custom-swal-popup",
-			// 				// 				title: "custom-swal-title",
-			// 				// 				content: "custom-swal-content",
-			// 				// 				confirmButton: "custom-swal-confirm-button",
-			// 				// 			},
-			// 				// 		})
-			// 				// 		.then(function(result) {
-			// 				// 			if (result.value) {
-			// 				// 				window.location = "inicio";
-			// 				// 			}
-			// 				// 		});
-			// 				// }
-			// 			});
-			// 		})
 		}
 	});
 </script>
@@ -106,6 +73,21 @@ checkUserStatus();
 		/* Ajusta el ancho según sea necesario */
 		height: auto;
 		/* Ajusta el alto según sea necesario */
+	}
+
+	.bg-li-active {
+		background-color: #d0d0d0 !important;
+		color: white !important;
+	}
+
+	.bg-li-active:hover {
+		background-color: white !important;
+		color: #88d600 !important;
+	}
+
+	.hoverLi:hover {
+		background-color: white !important;
+		color: black !important;
 	}
 </style>
 <aside class="main-sidebar">
@@ -259,25 +241,18 @@ checkUserStatus();
 
 			if (in_array($_SESSION['rol'], [1, 10, 11, 12, 22])) {
 				$isActive = in_array($currentPage, ['negocios', 'productividad']) ? 'active' : '';
-				echo '
-				<li class="dropdown ' . $isActive . '">
-					<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+				echo '<li class="treeview">
+					<a href="#">
 						<i class="fa fa-briefcase"></i>
 						<span>Admin. Negocios</span>
+						<i class="fa fa-angle-left pull-right"></i>
 					</a>
-					<ul class="dropdown-menu right" style="width: 200px; margin-left: 9px; text-align: left;">';
-
-							echo '
-						<li class="' . ($currentPage == 'negocios' ? 'active' : '') . '" style="text-align: left;">
-							<a href="negocios">
-								- Admin. Oportunidades
-							</a>
+					<ul class="treeview-menu subitems-normal">
+						<li class="' . ($currentPage == "negocios" ? "active bg-li-active" : "hoverLi") . '" style="border: 1px solid gray; border-radius: 5px; padding: 5px;">
+							<a href="negocios">Admin. Oportunidades</a>
 						</li>
-						<li class="divider"></li>
-						<li class="' . ($currentPage == 'productividad' ? 'active' : '') . '" style="text-align: left;">
-							<a href="productividad">
-								- Productividad
-							</a>
+						<li class="' . ($currentPage == "productividad" ? "active bg-li-active" : "hoverLi") . '" style="border: 1px solid gray; border-radius: 5px; padding: 5px;">
+							<a href="productividad">Productividad</a>
 						</li>
 					</ul>
 				</li>';
