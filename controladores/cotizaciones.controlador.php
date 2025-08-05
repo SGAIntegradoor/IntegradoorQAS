@@ -278,4 +278,11 @@ class ControladorCotizaciones
 
 		return $respuesta;
 	}
+
+	static public function ctrMostrarCotizacionesFilters($params)
+	{
+		$respuesta = ModeloCotizaciones::mdlMostrarCotizacionesFilters($params);
+
+		return $respuesta;
+	}
 }
