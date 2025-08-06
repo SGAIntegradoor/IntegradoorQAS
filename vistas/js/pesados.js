@@ -3326,9 +3326,7 @@ function cotizarOfertasPesados() {
               // }
               else {
                 let promise = fetch(
-                  aseguradora != "Estado"
-                    ? `https://grupoasistencia.com/motor_webservice/${aseguradora}_pesados`
-                    : `http://localhost/motorTest/Estado_pesados`,
+                  `https://grupoasistencia.com/motor_webservice/${aseguradora}_pesados`,
                   requestOptions
                 )
                   .then((res) => {
