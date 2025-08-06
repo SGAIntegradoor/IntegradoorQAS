@@ -401,9 +401,9 @@
         }
         if ($_GET['ruta'] == 'usuarios') {
           if (!($_SESSION['rol'] == 1 || $_SESSION['rol'] == 10 || $_SESSION['rol'] == 11 || $_SESSION["rol"] == 12 || $_SESSION['rol'] == 22 || $_SESSION['rol'] == 23)) {
-            $_GET['ruta'] = 'usuarios';
-          } else {
             $_GET['ruta'] = 'usuarios3';
+          } else {
+            $_GET['ruta'] = 'usuarios';
           }
         }
 

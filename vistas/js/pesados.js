@@ -235,7 +235,7 @@ $(document).ready(function () {
   });
 
   // Se deshabilita en QAS y Dev
-  
+
   // Carga la edad
   // $("#edad").select2({
   //   theme: "bootstrap edad",
@@ -1400,7 +1400,6 @@ function consulCodFasecolda(e = null) {
   }
 }
 
-
 var contErrMetEstadoFasec = 0;
 var contErrProtConsulFasec = 0;
 
@@ -1425,7 +1424,7 @@ function consulValorfasecolda(codFasecolda, edadVeh, tipoConsulta) {
       $("#txtFasecolda").val(codFasecolda);
     });
   } else {
-     var myHeaders = new Headers();
+    var myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
 
     var raw = JSON.stringify({
@@ -1555,7 +1554,6 @@ function consulValorfasecolda(codFasecolda, edadVeh, tipoConsulta) {
         }
       });
   }
-
 }
 
 //FUNCION PARA CONSULTAR VALORES EN FASECOLDA
@@ -1699,9 +1697,9 @@ function registrarOfertaPesados(
   pdf,
   pph
 ) {
-  if(aseguradora == "HDI Seguros" || aseguradora == "HDI (Antes Liberty)") {;
-    debugger;
-    console.log(aseguradora)
+  if (aseguradora == "HDI Seguros" || aseguradora == "HDI (Antes Liberty)") {
+    // debugger;
+    console.log(aseguradora);
   }
 
   return new Promise((resolve, reject) => {
@@ -1985,7 +1983,8 @@ const mostrarOfertaPesados = (
                     </div>
                   </div>`;
   if (
-    (nombreAseguradoraA == "Seguros Bolivar" || aseguradora == "Axa Colpatria") &&
+    (nombreAseguradoraA == "Seguros Bolivar" ||
+      aseguradora == "Axa Colpatria") &&
     permisosCredenciales == "1"
   ) {
     cardCotizacion += `
@@ -2019,7 +2018,10 @@ const mostrarOfertaPesados = (
                 <div>VER PDF &nbsp;&nbsp;<span class="fa fa-file-text"></span></div>
               </button>
             </div>`;
-  } else if (nombreAseguradoraA == "Previsora Seguros" || nombreAseguradoraA == "Previsora") {
+  } else if (
+    nombreAseguradoraA == "Previsora Seguros" ||
+    nombreAseguradoraA == "Previsora"
+  ) {
     cardCotizacion += `
             <div class="col-xs-12 col-sm-6 col-md-2 verpdf-oferta">
               <button id="previsora-pdf${numCotizOferta}" type="button" class="btn btn-info" onclick='verPdfPrevisora(${numCotizOferta})'>
@@ -2038,7 +2040,7 @@ const mostrarOfertaPesados = (
 };
 
 function validarOfertasPesados(ofertas, aseguradora, exito) {
-  debugger;
+  // debugger;
   console.log(aseguradora, ofertas, exito);
   let contadorPorEntidad = {};
   $responsabilidadCivilFamiliar = ofertas[0].responsabilidad_civil_familiar;
@@ -2097,7 +2099,7 @@ function validarOfertasPesados(ofertas, aseguradora, exito) {
 
 function validarProblema(aseguradora, ofertas) {
   console.log(aseguradora, ofertas);
-  debugger;
+  // debugger;
   var idCotizOferta = idCotizacion;
   //console.log(ofertas);
 
@@ -2143,7 +2145,7 @@ function validarProblema(aseguradora, ofertas) {
     ofertas.jsonZurich &&
     typeof ofertas.jsonZurich === "object"
   ) {
-    debugger;
+    // debugger;
     // Caso específico para la estructura de Zurich
     var mensajesZurich = ofertas.jsonZurich.result.messages || [];
     if (Array.isArray(mensajesZurich) && mensajesZurich.length > 0) {
@@ -2215,7 +2217,7 @@ function saveQuotations(responses) {
 let cotizoFinesaPesados = false;
 
 function cotizarFinesa(ofertasCotizaciones) {
-  showCircularProgress("Cotización Finesa en Proceso...", 500, 40000);
+  showCircularProgress("Cotización Finesa en Proceso...", 1000, 40000);
   let cotEnFinesaResponse = [];
   let promisesFinesa = [];
 
@@ -2345,7 +2347,7 @@ function cotizarFinesa(ofertasCotizaciones) {
 }
 
 function registrarNumeroOfertas(entidad, contador, numCotizacion, exito) {
-  debugger
+  // debugger;
   console.log(entidad, contador, numCotizacion, exito);
   $.ajax({
     type: "POST",
@@ -2687,6 +2689,7 @@ function cotizarOfertasPesados() {
         TokenPrevisora: TokenPrevisora,
         intermediario: intermediario,
         mundial: mundial,
+        claseVeh: claseVeh,
         lineaVeh: lineaVeh,
         marcaVeh: marcaVeh,
         Marca: marcaVeh,
@@ -3184,10 +3187,10 @@ function cotizarOfertasPesados() {
                     })
                     .then((ofertas) => {
                       if (typeof ofertas[0].Resultado !== "undefined") {
-                        debugger;
+                        // debugger;
                         validarProblema("HDI (Antes Liberty)", ofertas);
                         agregarAseguradoraFallidaPesados(aseguradora);
-                        console.log(aseguradorasFallidas)
+                        console.log(aseguradorasFallidas);
                         if (ofertas[0].length > 1) {
                           ofertas[0].Mensajes.forEach((mensaje) => {
                             mostrarAlertarCotizacionFallida(
@@ -3254,10 +3257,10 @@ function cotizarOfertasPesados() {
                       ) {
                         let mensajesConcatenados = "Cotización Fallida: ";
                         ofertas[0].Mensajes.forEach((mensaje, index) => {
-                          if(index == ofertas[0].Mensajes.length - 1 ){
-                              mensajesConcatenados += mensaje;
+                          if (index == ofertas[0].Mensajes.length - 1) {
+                            mensajesConcatenados += mensaje;
                           } else {
-                              mensajesConcatenados += mensaje + ", ";
+                            mensajesConcatenados += mensaje + ", ";
                           }
                         });
                         mostrarAlertarCotizacionFallida(
@@ -3298,30 +3301,34 @@ function cotizarOfertasPesados() {
                   });
 
                 cont.push(equidadPromise);
-              } else if (aseguradora === "Estado") {
-                let estadoPromise = new Promise((resolve, reject) => {
-                  try {
-                    let arrAseguradora = [
-                      {
-                        Mensajes: [
-                          "Solicita cotización manual con tu Analista Comercial asignado",
-                        ],
-                      },
-                    ];
-                    setTimeout(function () {
-                      validarProblema("Estado", arrAseguradora);
-                      addAseguradora("Estado");
-                      resolve();
-                    }, 1000);
-                  } catch (error) {
-                    resolve();
-                  }
-                });
+              }
+              //   else if (aseguradora === "Estado") {
+              //   let estadoPromise = new Promise((resolve, reject) => {
+              //     try {
+              //       let arrAseguradora = [
+              //         {
+              //           Mensajes: [
+              //             "Solicita cotización manual con tu Analista Comercial asignado",
+              //           ],
+              //         },
+              //       ];
+              //       setTimeout(function () {
+              //         validarProblema("Estado", arrAseguradora);
+              //         addAseguradora("Estado");
+              //         resolve();
+              //       }, 1000);
+              //     } catch (error) {
+              //       resolve();
+              //     }
+              //   });
 
-                cont.push(estadoPromise);
-              } else {
+              //   cont.push(estadoPromise);
+              // }
+              else {
                 let promise = fetch(
-                  `https://grupoasistencia.com/motor_webservice/${aseguradora}_pesados`,
+                  aseguradora != "Estado"
+                    ? `https://grupoasistencia.com/motor_webservice/${aseguradora}_pesados`
+                    : `http://localhost/motorTest/Estado_pesados`,
                   requestOptions
                 )
                   .then((res) => {
@@ -3653,7 +3660,7 @@ function cotizarOfertasPesados() {
               })
               .then((ofertas) => {
                 if (typeof ofertas[0].Resultado !== "undefined") {
-                  debugger;
+                  // debugger;
                   agregarAseguradoraFallidaPesados("HDI Seguros");
                   validarProblema("HDI (Antes Liberty)", ofertas);
                   ofertas[0].Mensajes.forEach((mensaje) => {
@@ -3666,7 +3673,10 @@ function cotizarOfertasPesados() {
                     "HDI Seguros",
                     1
                   );
-                  mostrarAlertaCotizacionExitosa("HDI Seguros", contadorPorEntidad);
+                  mostrarAlertaCotizacionExitosa(
+                    "HDI Seguros",
+                    contadorPorEntidad
+                  );
                 }
               })
               .catch((err) => {
