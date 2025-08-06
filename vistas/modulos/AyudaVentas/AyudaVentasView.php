@@ -1268,15 +1268,6 @@ $nombreArchivo = "COTIZADOR VIGENTE FINESA $nombreMes $anio.xlsx";
                                         </div>
                                         <br>
                                         <br>
-                                        <div style="display: flex; flex-direction: column; align-items: center;">
-                                            <button
-                                                class="btn btn-alert"
-                                                style="background: red; color: #fff; font-weight: 500; margin-bottom: 5px; width: 90px;">
-                                                <a style="text-decoration: none; color: white;" href="" target="_blank">Sarlaft PN</a></button>
-                                            <button
-                                                class="btn btn-alert"
-                                                style="background: red; color: #fff; font-weight: 500; margin-bottom: 5px; width: 90px;"><a style="text-decoration: none; color: white;" href="" target="_blank">Sarlaft PJ</a></button>
-                                        </div>
                                         <br>
                                         <br>
                                         <div style="display: flex; flex-direction: column; align-items: center;">
@@ -1296,8 +1287,8 @@ $nombreArchivo = "COTIZADOR VIGENTE FINESA $nombreMes $anio.xlsx";
                                 </td>
                                 <td style="padding: 30px; text-align: justify;">
                                     <ol class="olEmision" style="padding-left: 10px; list-style-position: inside;">
-                                        <li style="margin-bottom: 5px;"><b>Documentos:</b> TP, Cédula, Contrato de Compraventa (si aplica), Factura (0 km), Póliza anterior (si hay continuidad). Declaración de renta (si aplica)</li>
-                                        <li style="margin-bottom: 5px;"><b>SARLAFT:</b> Cliente lo diligencia en este link. Si el vehículo tiene un valor asegurado mayor a 180 SMMLV, debe realizar sarlaft ordinario (lo selecciona en la sección 3 del Sarlaft Virtual). De lo contrario, debe seleccionar sarlaft simplificado. Si el proceso digital falla, se diligencia por computador o a mano y se pone firma manuscrita. Siempre se debe enviar el PDF al AC.</li>
+                                        <li style="margin-bottom: 5px;"><b>Documentos:</b> TP, Cédula, Declaración de Renta (si aplica), Contrato de Compraventa (si aplica), Factura (0 km), Póliza anterior (si hay continuidad).</li>
+                                        <li style="margin-bottom: 5px;"><b>SARLAFT:</b> Cliente lo diligencia en <a href="https://conocimientodigital.qualitascolombia.com.co:8443/microsite/" target="_blank">este link</a>. Si el vehículo tiene un valor asegurado mayor a 180 SMMLV, debe realizar sarlaft ordinario (lo selecciona en la sección 3 del Sarlaft Virtual). De lo contrario, debe seleccionar sarlaft simplificado. Si el proceso digital falla, se diligencia por computador o a mano y se pone firma manuscrita. Siempre se debe enviar el PDF al AC.</li>
                                         <li style="margin-bottom: 5px;"><b>Enviar docs y confirmar forma de pago:</b> Si están completos pasan; si no, se devuelven. 0 km o en continuidad pasan a emisión; los demás, a inspección.</li>
                                         <li style="margin-bottom: 5px;"><b>Orden de inspección:</b> Solo se carga orden de inspección virtual por medio de plataforma de Qualitas. Se envía link de inspección al celular del cliente.</li>
                                         <li style="margin-bottom: 5px;"><b>Inspección:</b> Se completa y el AF confirma a su AC, de lo contrario, no se puede emitir.</li>
