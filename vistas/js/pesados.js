@@ -3877,9 +3877,7 @@ function cotizarOfertasPesados() {
         //         console.error(err);
         //       })
         //   : Promise.resolve();
-
         // cont2.push(HDIPromise);
-
         /* Equidad */
 
         const equidadPromise = comprobarFallidaPesados("Equidad")
