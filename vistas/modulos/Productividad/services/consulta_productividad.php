@@ -1,6 +1,11 @@
 <?php
 require_once "../../../../config/dbconfig.php";
 $enlace->set_charset("utf8mb4");
+
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 class Asesor {
     public $asesor_id;
     public $asesor;
