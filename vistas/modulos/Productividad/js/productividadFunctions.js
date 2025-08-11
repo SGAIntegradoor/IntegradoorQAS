@@ -106,7 +106,7 @@ function searchInfo() {
   $("#loader").show();
 
   $.ajax({
-    url: "./vistas/modulos/Productividad/services/consulta_productividad.php",
+    url: "vistas/modulos/Productividad/services/consulta_productividad.php",
     type: "POST",
     data: {
       anio,
