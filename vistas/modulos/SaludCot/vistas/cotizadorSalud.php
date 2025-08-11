@@ -21,18 +21,18 @@
         <div class="col-xs-12 col-sm-6 col-md-2">
             <div class="form-group">
                 <label for="">Tipo de Documento</label>
-                <select id="TipoDocumento" class="form-control tipoDocumento"></select>
+                <select id="" class="form-control tipoDocumento"></select>
             </div>
         </div>
 
         <div class="col-xs-12 col-sm-6 col-md-2">
             <div class="form-group">
                 <label for="">No. Documento</label>
-                <input id="NroDocumento" maxlength="10" class="form-control numeroDocumento" type="text"></input>
+                <input id="" class="form-control numeroDocumento" type="number"></input>
             </div>
         </div>
 
-        <div class="col-xs-12 col-sm-6 col-md-3">
+        <div class="col-xs-12 col-sm-6 col-md-4">
             <div class="form-group">
                 <label for="fechaSalida">Nombre Completo</label>
                 <div class="nombreCompleto">
@@ -42,7 +42,7 @@
             </div>
         </div>
 
-        <div class="col-xs-12 col-sm-6 col-md-3 text-center">
+        <div class="col-xs-12 col-sm-6 col-md-4">
             <div class="form-group">
                 <label>¿Se requiere cotizar individual o grupo familiar?</label><br>
                 <div class="form-check form-check-inline">
@@ -57,18 +57,16 @@
                 </div>
             </div>
         </div>
+    </div>
 
-        <div class="col-xs-12 col-sm-6 col-md-2 cantAsegurados p-0">
+    <div class="row">
+        <div class="col-xs-12 col-sm-6 col-md-2 cantAsegurados">
             <div class="form-group">
                 <label for="numAsegurados">Cantidad de asegurados</label>
                 <select id="numAsegurados" class="form-control"></select>
             </div>
         </div>
-    </div><br>
-
-    <div class="row">
-
-        <div class="col-xs-12 col-sm-6 col-md-3 preguntasForm">
+        <div class="col-xs-12 col-sm-6 col-md-6">
             <div class="form-group">
                 <label id="lblTomador">¿El tomador es el mismo asegurado?</label><br>
                 <div class="form-check form-check-inline">
@@ -83,41 +81,6 @@
                 </div>
             </div>
         </div>
-
-        <!-- Campo pregunta algun asegurado vive en barranquilla -->
-        <div class="col-xs-12 col-sm-6 col-md-3 preguntasForm">
-            <div class="form-group">
-                <label id="">¿Algún asegurado vive en Barranquilla?</label><br>
-                <div class="form-check form-check-inline">
-                    <span class=" center-elements">
-                        <input type="radio" id="siCiudadB" name="ciudadBarranquilla" class="form-check-input">
-                        <label for="siCiudadB" class="form-check-label colorGray">Si</label>
-                    </span>
-                    <span class="radio-container center-elements">
-                        <input type="radio" id="noCiudadB" name="ciudadBarranquilla" class="form-check-input" checked>
-                        <label for="noCiudadB" class="form-check-label colorGray">No</label>
-                    </span>
-                </div>
-            </div>
-        </div>
-
-        <!-- Campo pregunta algun asegurado es asociado a coomeva -->
-        <div class="col-xs-12 col-sm-6 col-md-4 preguntasForm">
-            <div class="form-group">
-                <label id="">¿Algún asegurado es asociado a la Cooperativa de Coomeva?</label><br>
-                <div class="form-check form-check-inline">
-                    <span class=" center-elements">
-                        <input type="radio" id="siAsociadoC" name="asociadoCoomeva" class="form-check-input">
-                        <label for="" class="form-check-label colorGray">Si</label>
-                    </span>
-                    <span class="radio-container center-elements">
-                        <input type="radio" id="noAsociadoC" name="asociadoCoomeva" class="form-check-input" checked>
-                        <label for="" class="form-check-label colorGray">No</label>
-                    </span>
-                </div>
-            </div>
-        </div>
-
     </div>
 
     <div class="row ">
@@ -127,21 +90,20 @@
     </div>
 
     <div class="row asegurado" id="aseguradoTemplate" data-asegurado-id="1">
-        <!-- <div id="asegurado1Id">
-            <div class="col-xs-12 col-sm-6 col-md-2">
-                <div class="form-group">
-                    <label for="tipoDocumento">Tipo de Documento</label>
-                    <select id="tipoDocumento" class="form-control tipoDocumento"></select>
-                </div>
+        <div class="col-xs-12 col-sm-6 col-md-2">
+            <div class="form-group">
+                <label for="tipoDocumento">Tipo de Documento</label>
+                <select id="tipoDocumento" class="form-control tipoDocumento"></select>
             </div>
+        </div>
 
-            <div class="col-xs-12 col-sm-6 col-md-2">
-                <div class="form-group">
-                    <label for="numeroDocumento">No. Documento</label>
-                    <input id="numeroDocumento" class="form-control numeroDocumento" type="number"></input>
-                </div>
+        <div class="col-xs-12 col-sm-6 col-md-2">
+            <div class="form-group">
+                <label for="numeroDocumento">No. Documento</label>
+                <input id="numeroDocumento" class="form-control numeroDocumento" type="number"></input>
             </div>
-        </div> -->
+        </div>
+
         <div class="col-xs-12 col-sm-6 col-md-3">
             <div class="form-group">
                 <label for="fechaSalida">Nombre Completo</label>
@@ -192,7 +154,7 @@
                             required>
                             <option value="">Año</option>
                             <?php
-                            for ($j = 1920; $j <= 2026; $j++) {
+                            for ($j = 1920; $j <= 2024; $j++) {
                             ?>
                                 <option value="<?php echo $j ?>"><?php echo $j ?></option><?php
                                                                                         }
@@ -215,76 +177,6 @@
             </div>
         </div>
 
-        <div class="col-xs-12 col-sm-6 col-md-2 departamento" style="display: none;">
-            <div class="form-group">
-                <label for="departamento_1">Departamento</label>
-                <select id="departamento_1" class="form-control departamento departamentoSelect">
-                    <option value=""></option>
-                    <option value="91">Amazonas</option>
-                    <option value="05">Antioquia</option>
-                    <option value="81">Arauca</option>
-                    <option value="08">Atlántico</option>
-
-                    <option value="13">Bolívar</option>
-                    <option value="15">Boyacá</option>
-                    <option value="17">Caldas</option>
-                    <option value="18">Caquetá</option>
-
-                    <option value="85">Casanare</option>
-                    <option value="19">Cauca</option>
-                    <option value="20">Cesar</option>
-                    <option value="27">Chocó</option>
-                    <option value="23">Córdoba</option>
-
-                    <option value="25">Cundinamarca</option>
-                    <option value="94">Guainía</option>
-                    <option value="44">La Guajira</option>
-                    <option value="95">Guaviare</option>
-                    <option value="41">Huila</option>
-
-                    <option value="47">Magdalena</option>
-                    <option value="50">Meta</option>
-                    <option value="52">Nariño</option>
-                    <option value="54">Norte de Santander</option>
-                    <option value="86">Putumayo</option>
-
-                    <option value="63">Quindío</option>
-                    <option value="66">Risaralda</option>
-                    <option value="88">San Andrés, Providencia y Santa Catalina</option>
-                    <option value="68">Santander</option>
-                    <option value="70">Sucre</option>
-
-                    <option value="73">Tolima</option>
-                    <option value="76">Valle del Cauca</option>
-                    <option value="97">Vaupés</option>
-                    <option value="99">Vichada</option>
-                </select>
-            </div>
-        </div>
-        <div class="col-xs-12 col-sm-6 col-md-2 ciudad" style="display: none;">
-            <div class="form-group">
-                <label for="ciudad_1">Ciudad</label>
-                <select id="ciudad_1" class="form-control ciudad ciudadSelect"></select>
-            </div>
-        </div>
-
-        <!-- Campo pregunta algun asegurado es asociado a coomeva -->
-        <div class="col-xs-12 col-sm-6 col-md-4 asociadoC" style="display: none;">
-            <div class="form-group">
-                <label id="">Asociado Cooperativa Coomeva</label><br>
-                <div class="form-check form-check-inline">
-                    <span class="center-elements">
-                        <input type="radio" id="asociadoSi_1" name="aseguradoAsociadoCoomeva_1" class="form-check-input" checked>
-                        <label for="" class="form-check-label colorGray">Si</label>
-                    </span>
-                    <span class="radio-container center-elements">
-                        <input type="radio" id="asociadoNo_1" name="aseguradoAsociadoCoomeva_1" class="form-check-input">
-                        <label for="" class="form-check-label colorGray">No</label>
-                    </span>
-                </div>
-            </div>
-        </div>
-
     </div>
 
     <div id="aseguradosContainer"></div>
@@ -302,7 +194,9 @@
     </div>';
     }
 
+
     ?>
+
     <div class="row">
         <div class="col-xs-12 text-center">
             <div class="spinner-container" id="spinener-cot-salud">
@@ -311,74 +205,6 @@
         </div>
     </div>
 </div>
-
-<!-- Inicio Agregado Javier-Dev -->
-
-<div id="contenParrilla" class="container-fluid" style="display: none;">
-    <div class="col-lg-12 form-parrilla">
-        <div class="row row-parrilla">
-            <div class="col-xs-12 col-sm-6 col-md-3">
-                <label for="">RESUMEN DE COTIZACIONES</label>
-            </div>
-            <div class="col-xs-12 col-sm-6 col-md-3">
-            </div>
-            <div class="col-xs-12 col-sm-6 col-md-3">
-            </div>
-            <div class="col-xs-12 col-sm-6 col-md-3 text-right">
-                <div id="masResOferta" style="display: none;">
-                    <p id="masResumen" onclick="masRE();">Ver más <i class="fa fa-plus-square-o"></i></p>
-                </div>
-                <div id="menosResOferta">
-                    <p id="menosResumen" onclick="menosRE();">Ver menos <i class="fa fa-minus-square-o"></i></p>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Mostrar alertas -->
-<div id="resumenCotizaciones" style="display: none;">
-    <div class="col-lg-12" style="display: block;">
-        <div class="card-ofertas" style="font-size: 1.42rem;">
-            <div class="table-responsive">
-                <table class="table table-bordered table-padding" id="tablaResumenCot">
-                    <thead>
-                        <tr>
-                            <th class="thTable" scope="col" style="color: #88d600; margin-right: 5px; text-align: center;">Aseguradora</th>
-                            <th class="thTable" scope="col" style="color: #88d600; margin-right: 5px; text-align: center;">Cotizo?</th>
-                            <th class="thTable" scope="col" style="color: #88d600;; margin-right: 5px; text-align: center;">Productos cotizados</th>
-                            <th class="thTable" scope="col" style="color: #88d600;; margin-right: 5px; text-align: center;">Observaciones</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Seguros Bolivar</td>
-                            <td class="text-center"><i class="fa fa-check" aria-hidden="true" style="color: green; margin-right: 5px;"></i></td>
-                            <td class="text-center">2</td>
-                            <td>Cotización exitosa!</td>
-                        </tr>
-                        <tr>
-                            <td>Axa Colpatria</td>
-                            <td class="text-center"><i class="fa fa-check" aria-hidden="true" style="color: green; margin-right: 5px;"></i></td>
-                            <td class="text-center">6</td>
-                            <td>Cotización exitosa!</td>
-                        </tr>
-                        <tr>
-                            <td>Coomeva</td>
-                            <td class="text-center"><i class="fa fa-check" aria-hidden="true" style="color: green; margin-right: 5px;"></i></td>
-                            <td class="text-center">7</td>
-                            <td>Cotización exitosa!</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Fin agregado Javier-Dev -->
-
-
 <div class="container-fluid" id="containerCardsSalud">
     <div class="col-lg-12">
         <div class="row row-aseg">

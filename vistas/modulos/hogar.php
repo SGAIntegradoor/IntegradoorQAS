@@ -286,82 +286,6 @@
     height: 900px;
     transition: width 0.5s;
   }
-
-  .general-container-aseg {
-    padding-right: 25px;
-    padding-left: 25px;
-    margin-right: auto;
-    margin-left: auto;
-  }
-
-  .general-container-datos {
-    padding-right: 25px;
-    padding-left: 25px;
-    margin-right: auto;
-    margin-left: auto;
-  }
-
-  .box {
-    border: 0 !important;
-  }
-
-  .wrapper {
-    overflow: hidden;
-  }
-
-  .header-modal-vida-deudor {
-    font-size: 16px;
-    text-align: center;
-  }
-
-  .modalVidaDeudor {
-    padding: 20px;
-    padding-bottom: 50px;
-    padding-top: 40px;
-    border-radius: 20px;
-  }
-
-
-  .btn-excel {
-    display: flex !important;
-    border: 0px !important;
-    height: 32px;
-    align-items: center;
-  }
-
-  .dt-search {
-    display: flex !important;
-    align-items: center;
-    justify-content: flex-end;
-  }
-
-  .paging_full_numbers {
-    display: flex !important;
-    justify-content: flex-end;
-  }
-
-  .dt-length {
-    display: flex;
-  }
-
-  .dt-start {
-    width: 60px !important;
-  }
-
-  .dt-info {
-    width: 600px !important;
-  }
-
-  .dt-column-title {
-    font-size: 14px !important;
-  }
-
-  @media (max-width: 495px) {
-    .dt-info {
-      width: 300px !important;
-      text-align: left;
-    }
-  }
 </style>
 
 <div class="content-wrapper">
@@ -369,7 +293,8 @@
 
     <h1 style="margin-bottom: 0%;">
 
-      Cotizador Seguro de Hogar
+      Solicitud de Cotización de Hogar
+
     </h1>
 
     <ol class="breadcrumb">
@@ -383,7 +308,6 @@
   </section>
   <section class="content">
     <div class="box">
-      <?php include_once './vistas/components/formCotizacion/adminCotizacionesHogar.php'; ?>
       <div class="row card-container">
         <!-- TITULO PLANES -->
         <div class="content">
@@ -414,7 +338,7 @@
                   <b>Cotizamos con 2 aseguradoras:</b>
                 </p>
                 <div style="display: flex; flex-direction: row; gap: 30px; justify-content: center; padding-top: 30px;">
-                  <img src="vistas/img/logos/sbs.png" class="img-fluid mx-auto" style="height: 26px; margin-top: 14px;">
+                  <img src="vistas/img/logos/LOGO BOLIVAR.png" class="img-fluid mx-auto" style="max-width: 35%;">
                   <img src="vistas/img/logos/LOGO ALLIANZ.png" class="img-fluid mx-auto" style="max-width: 35%; margin-top: 3px;">
                 </div>
                 <br>
@@ -432,18 +356,17 @@
                 <p class="card-text">Este seguro puede ofrecerse en 3 modalidades: sólo contenidos, sólo estructuras (también llamado edificio) y contenidos + estructuras.
                   <br>
                   <br>
-                  <b>Principales coberturas y asistencias:</b>
-                </p>
-
+                  <b>Principales coberturas y asistencias:</b></p>
+                
                 <ul class="card-text" style="padding-left: 16px; text-align: justify;">
                   <li>
-                    Incendio, rayo, terremoto, daños por agua, anegación, huracán, granizo, vientos fuertes y otros eventos de la naturaleza
+                  Incendio, rayo, terremoto, daños por agua, anegación, huracán, granizo, vientos fuertes y otros eventos de la naturaleza
                   </li>
                   <li>
                     Hurto con violencia
                   </li>
                   <li>
-                    Rotura accidental de vidrios planos y permanentes
+                    Rotura accidental de vidrios planos y permanentes 
                   </li>
                   <li>
                     Asonada, motín, conmoción civil o popular, huelgas, conflictos colectivos de trabajo, actos mal intencionados de terceros y terrorismo
@@ -454,15 +377,15 @@
                   <li>
                     Asistencia domiciliaria: cerrajería, electricidad, plomería, entre otros.
                   </li>
-                </ul>
+                </ul>  
               </div>
             </div>
           </div>
           <div class="col-md-4 col-sm-12 mb-3">
             <div class="card-exequias">
               <div class="card-body">
-                <h4 class="card-title" style="font-weight: bold; padding-top: 20px">¿Qué datos se requieren para cotizar?</h4>
-                <p class="card-text" style="text-align: justify;">Ten a la mano los siguientes datos para solicitar una cotización de <b>Seguro de Hogar:</b></p>
+              <h4 class="card-title" style="font-weight: bold; padding-top: 20px">¿Qué datos se requieren para cotizar?</h4>
+              <p class="card-text" style="text-align: justify;">Ten a la mano los siguientes datos para solicitar una cotización de <b>Seguro de Hogar:</b></p>
                 <ul class="card-text" style="padding-left: 18px; text-align: justify;">
                   <li><b>Datos del asegurado</b> (Ej: No. de Identificación, nombre completo, etc.)</li>
                   <li><b>Datos generales del inmueble</b> (Ej: Dirección completa, ciudad, departamento, estrato, características de la vivienda, área, tipo de construcción, etc.)</li>
@@ -494,160 +417,41 @@
           </div>
 
           <!-- sexta tarjeta con título y párrafo -->
-
           <div class="col-md-4 col-sm-12 mb-3">
             <div class="card-exequias">
               <div class="card-body text-center">
                 <h4 class="card-title" style="font-weight: bold; padding-top: 20px">Comisión</h4>
-                <p class="card-text">De este porcentaje, tu participación será de acuerdo al nivel de ventas de todos los negocios (sin IVA), sumando todos los ramos, que realices en el mes.</p>
+                <p class="card-text">La comisión base que nos ofrece Seguros Bolívar y Allianz Seguros para nuestra alianza de asesores es del 15% y 20% respectivamente. De este porcentaje, tu participación será de acuerdo al nivel de ventas de todos los negocios (sin IVA), sumando todos los ramos, que realices en el mes.</p>
                 <ul class="card-text" style="padding-left: 0px; list-style-position: inside;">
-                  <li>Primas mensuales inferiores a 8 SMMLV: 70%</li>
-                  <li>Primas mensuales superiores a 8 SMMLV: 75%</li>
+                  <li>- Primas mensuales inferiores a 8 SMMLV: 70%</li>
+                  <li>- Primas mensuales superiores a 8 SMMLV: 75%</li> 
                 </ul>
                 <h4 class="card-title" style="font-weight: bold;">Clausulados</h4>
                 <p class="card-text" style="text-align:justify">
-                  Para conocer más del <b>Seguro de Hogar</b> de <b>Allianz</b> ingresa <b><a href="./vistas/pdfs/Clausulado%20Hogar%20Allianz.pdf" target="_blank">AQUÍ</a></b>
+                  Para conocer más del <b>Seguro de Hogar</b> de <b>Allianz</b> ingresa <b><a href="https://integradoor.com/app/vistas/pdfs/Clausulado%20Hogar%20Allianz.pdf" target="_blank">AQUÍ</a></b>
                   <br>
-                  Para conocer más del <b>Seguro de Hogar</b> de <b>SBS</b> ingresa <b><a href="./vistas/pdfs/Clausulado%20Hogar%20SBS.pdf" target="_blank">AQUÍ</a></b>
-                  <!-- Para conocer más del <b>Seguro de Hogar</b> de <b>Bolívar</b> ingresa <b><a href="https://integradoor.com/app/vistas/pdfs/Clausulado%20Hogar%20Bolivar.pdf" target="_blank">AQUÍ</a></b> -->
+                  Para conocer más del <b>Seguro de Hogar</b> de <b>Bolívar</b> ingresa <b><a href="https://integradoor.com/app/vistas/pdfs/Clausulado%20Hogar%20Bolivar.pdf" target="_blank">AQUÍ</a></b>
                 </p>
               </div>
             </div>
           </div>
+        </div>
+      </div>
 
+
+      <!-- //FORMULARIO VIAJES -->
+      <div class="content" style="margin-top: -5px; margin-bottom: 5px" data-evaluar="si">
+        <!-- TITULO FORMULARIO VIAJES -->
+        <h4 style="font-family: 'Arial Arabic', Arial; font-weight: bold; margin-bottom: 5px; margin-top: 3px;">Solicita una cotización en el siguiente formulario:</h4>
+        <div style="width: 100%; max-width: 640px; margin: 0 auto; margin-top: 30px; margin-bottom: -2px">
+          <img src="vistas/img/bannerHogar.png" alt="Banner de hogar" style="width: 100%; height: auto; display: block; margin: 0 auto;">
+          <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSfpwY-AgJ7VWmmUh7dVcjKoLisjqpN1QFfFVe22Xuv3jmpHxw/viewform?embedded=true" width="640" height="2875" frameborder="0" marginheight="0" marginwidth="0">Cargando…</iframe>
         </div>
       </div>
-      <div class="content" style="padding-top: 0px;">
-        <div class="box">
-          <?php
-          require_once "vistas/components/formCotizacion/view.php";
-          ?>
-        </div>
-        <div class="box">
-          <?php
-          require_once "vistas/components/formCotizacion/formDataHogar.php";
-          ?>
-          <?php
-          require_once "vistas/components/formCotizacion/formValoresHogarAllianz.php";
-          ?>
-          <?php
-          require_once "vistas/components/formCotizacion/formValoresHogar.php";
-          ?>
-          <?php
-          require_once "vistas/components/formCotizacion/alertasHogar.php";
-          ?>
-        </div>
-      </div>
+
     </div>
   </section>
 </div>
-
-<!-- Modal Vida Deudor Inicio -->
-
-<div id="myModalHogarVidaDeudor" style="display: none;">
-  <div class="header-modal-vida-deudor">
-    Estamos cotizando el seguro de hogar para tu cliente. <b>¿ Deseas solicitar una cotización manual del seguro de vida deudor ?</b>
-  </div>
-  <div class="col-lg-12" id="modalVidaDeudor">
-    <div style="display: flex; flex-direction: row; gap: 30px; justify-content: center; align-items: center; margin-top: 30px;">
-      <button class="btn btn-primary btn-modal" onclick="closeModal('#myModalHogarVidaDeudor')" id="btnNoVidaDeudor" style="width: 80px; background: black">No</button>
-      <button class="btn btn-primary btn-modal" onclick="openFormQuestions()" id="btnSiVidaDeudor" style="width: 80px">Si</button>
-    </div>
-    <section style="display: none; margin-top: 30px;" id="formQuestionVidaDeudor">
-      <div class="" style="display: flex; flex-direction: column; gap: 10px;">
-        <div class="row" style="display: flex; flex-direction: row; margin-bottom: 20px; margin-top: 18px; gap:50px">
-          <div style="display: flex; flex-direction: column; width: 40%">
-            <label for="valorDeuda">Valor de la deuda según el extracto financiero</label>
-            <input type="text" class="form-control" name="valorDeuda" id="valorDeuda" placeholder="" required>
-          </div>
-          <div class="" id="fechaNacimiento" style="width: 40%;">
-            <label name="lblFechaNacimiento">Fecha de nacimiento del deudor</label>
-            <div id="fechaCompleta" class="row" style="display:flex; margin-top: 19px; gap:10px">
-              <div class="col-xs-4 col-sm-4 col-md-4 conten-dia" style="padding-left: 4px;">
-                <select class="form-control fecha-nacimiento" name="dianacimientoVidaDeudor" id="dianacimientoVidaDeudor" required>
-                  <option value="">Dia</option>
-                  <?php
-                  for ($i = 1; $i <= 31; $i++) {
-                    if (strlen($i) == 1) { ?>
-                      <option value="<?php echo "0" . $i ?>"><?php echo "0" . $i ?></option><?php
-                                                                                          } else { ?>
-                      <option value="<?php echo $i ?>"><?php echo $i ?></option><?php
-                                                                                          }
-                                                                                        }
-                                                                                ?>
-                </select>
-              </div>
-              <div class="col-xs-4 col-sm-4 col-md-4 conten-mes">
-                <select class="form-control fecha-nacimiento" name="mesnacimientoVidaDeudor" id="mesnacimientoVidaDeudor" required>
-                  <option value="" selected>Mes</option>
-                  <option value="01">Enero</option>
-                  <option value="02">Febrero</option>
-                  <option value="03">Marzo</option>
-                  <option value="04">Abril</option>
-                  <option value="05">Mayo</option>
-                  <option value="06">Junio</option>
-                  <option value="07">Julio</option>
-                  <option value="08">Agosto</option>
-                  <option value="09">Septiembre</option>
-                  <option value="10">Octubre</option>
-                  <option value="11">Noviembre</option>
-                  <option value="12">Diciembre</option>
-                </select>
-              </div>
-              <div class="col-xs-4 col-sm-4 col-md-4 conten-anio">
-                <select class="form-control fecha-nacimiento" name="anionacimientoVidaDeudor" id="anionacimientoVidaDeudor" required>
-                  <option value="">Año</option>
-                  <?php
-                  for ($j = 1920; $j <= 2025; $j++) {
-                  ?>
-                    <option value="<?php echo $j ?>"><?php echo $j ?></option><?php
-                                                                            }
-                                                                              ?>
-                </select>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="row" style="display: flex; flex-direction: row; margin-bottom: 20px; margin-top: 10px; gap:50px">
-          <div style="display: flex; flex-direction: column; width: 40%">
-            <label for="pesoDeudor">Peso del deudor (en Kg)</label>
-            <input type="text" class="form-control" name="pesoDeudor" id="pesoDeudor" placeholder="" required>
-          </div>
-          <div class="" id="fechaNacimiento" style="width: 40%;">
-            <label for="alturaDeudor">Altura del deudor</label>
-            <input type="text" class="form-control" name="alturaDeudor" id="alturaDeudor" placeholder="" required>
-          </div>
-        </div>
-        <div class="row" style="display: flex; flex-direction: column; margin-bottom: 20px; margin-top: 10px; margin-left: 34px;">
-          <label for="valorDeuda">¿ El deudor tiene alguna enfermedad o condición de salud especial que reportar ?</label>
-          <div style="display: flex; flex-direction: row; gap: 40px;">
-            <div style="display: flex; flex-direction: row; gap: 15px; align-items: flex-start;">
-              <p style="margin:0; font-weight: bold ">Si</p>
-              <input type="radio" id="siCondicion" name="infoCheck" value="si">
-            </div>
-            <div style="display: flex; flex-direction: row; gap: 15px; align-items: flex-start;">
-              <p style="margin:0; font-weight: bold">No</p>
-              <input type="radio" id="noCondicion" name="infoCheck" value="no" checked>
-            </div>
-          </div>
-        </div>
-        <div class="row" style="display: flex; flex-direction: column; margin-bottom: 20px; margin-top: 10px; margin-left: 34px; margin-right: 34px;">
-          <label for="condicionSal">Describa la condición de salud</label>
-          <input type="text" class="form-control" name="condicionSal" id="condicionSal" required>
-        </div>
-        <div class="row" style="display: flex; flex-direction: column; margin-bottom: 20px; margin-top: 10px; margin-left: 34px; margin-right: 34px;  align-items: center; justify-content: center;">
-          <button class="btn btn-primary btn-modal" id="btnSiVidaDeudor" onclick="enviarCorreoVidaDeudor()">Solicitar Cotización</button>
-        </div>
-
-        <div class="row" style="display: flex; flex-direction: column; margin-bottom: 20px; margin-top: 25px; margin-left: 34px; margin-right: 34px; align-items: center; justify-content: center;">
-          <p>Nota: Esta cotización de seguro de vida deudor sera realizada por tu analista de manera manual.</p>
-        </div>
-
-    </section>
-  </div>
-</div>
-
-<!-- Modal Vida Deudor Fin -->
 
 <script>
   document.addEventListener("DOMContentLoaded", function() {
@@ -688,5 +492,3 @@
     window.addEventListener('resize', ajustarAlturaTarjetas);
   });
 </script>
-
-<script src="vistas\components\formCotizacion\js\functions.js"></script>

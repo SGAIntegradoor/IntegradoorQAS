@@ -1,0 +1,147 @@
+/* //Cotizador AssistCard// */
+
+.radio-container {
+  margin-left: 30px;
+}
+
+.btn-cot {
+  margin-top: 25px;
+}
+
+.spinner-container {
+  justify-content: center;
+  align-items: center;
+  margin: 20px;
+  display: none;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid rgba(0, 0, 0, 0.1);
+  border-left-color: #88d600;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.row-aseg {
+  margin-bottom: 20px;
+}
+
+#menosCotizacion {
+  display: block;
+  text-align: right;
+}
+
+#masCotizacion {
+  display: none;
+  text-align: right;
+}
+
+#menosParrilla {
+  display: block;
+  text-align: right;
+}
+
+#masParrilla {
+  display: none;
+  text-align: right;
+}
+
+.planeCot {
+  color: #88d600;
+  margin-left: 10px;
+  transform: scale(1.5);
+}
+
+#containerCardsSalud {
+  margin-top: 10px;
+  display: none;
+}
+.mainDataContainer {
+  margin-top: 20px;
+}
+
+.marginBot {
+  margin-bottom: 60px;
+}
+
+.select2-container--bootstrap .select2-results > .select2-results__options {
+  max-height: 90px !important;
+  overflow-y: auto;
+}
+
+.nombreCompleto {
+  display: flex;
+  gap: 10px;
+}
+.nombre,
+.apellido {
+  flex: 1;
+}
+/* 
+.form-check-input[type="radio"] {
+    accent-color: #88d600;
+} */
+
+.rowAseg {
+  margin: 15px 0px 20px 0px;
+}
+
+.colorGray {
+  color: #95989e;
+}
+
+.cantAsegurados {
+  display: block;
+}
+
+@media (max-width: 767px) {
+  /* estilos agregados para botones y coberturnas Javier */
+  .coberturas_botones_padre {
+    display: block !important;
+  }
+
+  .botones_hijo {
+    margin-top: 20px;
+  }
+
+  .botonesSoloMovil {
+    display: flex !important;
+    flex-direction: column;
+    gap: 15px;
+    justify-content: space-between;
+  }
+
+  .botones_hijo {
+    display: none !important;
+  }
+}
+
+.coberturas_botones_padre {
+  display: flex;
+  gap: 45px;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.botonesSoloMovil {
+  display: none;
+}
+
+.botones_hijo {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/*///////////////////////////////////////////////////////////////////////////////// */
