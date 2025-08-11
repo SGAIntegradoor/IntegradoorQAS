@@ -251,13 +251,13 @@ checkUserStatus();
 						<li class="' . ($currentPage == "negocios" ? "active bg-li-active" : "hoverLi") . '" style="border: 1px solid gray; border-radius: 5px; padding: 5px;">
 							<a href="negocios">Admin. Oportunidades</a>
 						</li>
-						<li class="' . ($currentPage == "productividad" ? "active bg-li-active" : "hoverLi") . '" style="border: 1px solid gray; border-radius: 5px; padding: 5px;">
-							<a href="productividad">Productividad</a>
-						</li>
-					</ul>
-				</li>';
-			}
-
+						</ul>
+						</li>';
+					}
+					
+					// <li class="' . ($currentPage == "productividad" ? "active bg-li-active" : "hoverLi") . '" style="border: 1px solid gray; border-radius: 5px; padding: 5px;">
+					// 	<a href="productividad">Productividad</a>
+					// </li>
 
 			/*=============================================
 		HOGAR
