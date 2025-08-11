@@ -6,7 +6,8 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-class Asesor {
+class Asesor
+{
     public $asesor_id;
     public $asesor;
     public $fecha_ingreso;
@@ -33,7 +34,8 @@ error_log("Estado recibido: " . var_export($estado, true));
 // =======================================
 // 1. Determinar rango de fechas
 // =======================================
-function getRangoFechas($anio = null, $mes = null) {
+function getRangoFechas($anio = null, $mes = null)
+{
     $fechas = [];
     $hoy = new DateTime();
 
@@ -72,7 +74,8 @@ function getRangoFechas($anio = null, $mes = null) {
 // =======================================
 // 2. Obtener asesores
 // =======================================
-function getAsesores($asesor = null, $analista = null, $estado = null) {
+function getAsesores($asesor = null, $analista = null, $estado = null)
+{
     global $enlace;
 
     $sql = "
@@ -87,7 +90,7 @@ function getAsesores($asesor = null, $analista = null, $estado = null) {
         FROM usuarios u
         LEFT JOIN analistas_freelances af ON af.id_usuario = u.usu_documento
         WHERE u.id_rol IN (19)";
-    
+
     $params = [];
     $types  = "";
 
@@ -103,13 +106,16 @@ function getAsesores($asesor = null, $analista = null, $estado = null) {
         $types .= "i";
     }
 
-   if ($estado !== null && in_array((string)$estado, ['0', '1'], true)) {
-    $sql .= " AND u.usu_estado = ?";
-    $params[] = (int)$estado;
-    $types   .= "i";
-}
+    if ($estado !== null && in_array((string)$estado, ['0', '1'], true)) {
+        $sql .= " AND u.usu_estado = ?";
+        $params[] = (int)$estado;
+        $types   .= "i";
+    }
 
     $stmt = prepareQuery($sql, $types, $params);
+    if (!$stmt) {
+        die("Error preparando la consulta, revisa logs");
+    }
     $stmt->execute();
 
     // Definir las variables para el bind_result
@@ -140,19 +146,40 @@ function getAsesores($asesor = null, $analista = null, $estado = null) {
 }
 
 // Función para preparar la consulta
-function prepareQuery($sql, $types = '', $params = []) {
+// function prepareQuery($sql, $types = '', $params = []) {
+//     global $enlace;
+//     $stmt = $enlace->prepare($sql);
+//     if (!empty($types)) {
+//         $stmt->bind_param($types, ...$params);
+//     }
+//     return $stmt;
+// }
+function prepareQuery($sql, $types = '', $params = [])
+{
     global $enlace;
     $stmt = $enlace->prepare($sql);
-    if (!empty($types)) {
-        $stmt->bind_param($types, ...$params);
+
+    if ($stmt === false) {
+        error_log("Error al preparar SQL: " . $enlace->error);
+        error_log("Consulta: " . $sql);
+        return false;
     }
+
+    if (!empty($types)) {
+        if (!$stmt->bind_param($types, ...$params)) {
+            error_log("Error al hacer bind_param: " . $stmt->error);
+            return false;
+        }
+    }
+
     return $stmt;
 }
 
 // =======================================
 // 3. Contar cotizaciones agrupadas
 // =======================================
-function contarCotizacionesAgrupadas($rangoFechas, $ramo = null) {
+function contarCotizacionesAgrupadas($rangoFechas, $ramo = null)
+{
     global $enlace;
 
     $data = [];
@@ -179,7 +206,7 @@ function contarCotizacionesAgrupadas($rangoFechas, $ramo = null) {
                 $data[$id_usuario][$keyMes] = $total;
             }
 
-        // Caso para ramo '3' (cotizaciones_assistcard)
+            // Caso para ramo '3' (cotizaciones_assistcard)
         } elseif ($ramo === '3') {
             $sql = "SELECT id_usuario, COUNT(*) as total FROM cotizaciones_assistcard 
                     WHERE fecha_cot BETWEEN ? AND ? 
@@ -197,7 +224,7 @@ function contarCotizacionesAgrupadas($rangoFechas, $ramo = null) {
                 $data[$id_usuario][$keyMes] = $total;
             }
 
-        // Caso por defecto (varias tablas)
+            // Caso por defecto (varias tablas)
         } else {
             $tablas = [
                 ['tabla' => 'cotizaciones', 'campo_fecha' => 'cot_fch_cotizacion'],
@@ -235,7 +262,8 @@ function contarCotizacionesAgrupadas($rangoFechas, $ramo = null) {
 // =======================================
 // 4. Contar negocios agrupados
 // =======================================
-function contarNegociosAgrupados($rangoFechas, $ramo = null) {
+function contarNegociosAgrupados($rangoFechas, $ramo = null)
+{
     global $enlace;
     $data = [];
 
@@ -246,7 +274,7 @@ function contarNegociosAgrupados($rangoFechas, $ramo = null) {
 
 
 
-      $sql = "SELECT 
+        $sql = "SELECT 
             id_user_freelance, 
             COUNT(*) as total, 
             SUM(COALESCE(prima_sin_iva, 0)) AS total_prima
@@ -264,7 +292,7 @@ function contarNegociosAgrupados($rangoFechas, $ramo = null) {
 
         // Agrupar por id_user_freelance
         $sql .= " GROUP BY id_user_freelance";
-     
+
 
         // Preparar y ejecutar la consulta
         $stmt = prepareQuery($sql, 'ss', [$fechaInicio, $fechaFin]);
@@ -308,8 +336,7 @@ foreach ($asesores as $asesorObj) {
 }
 
 // Salida final
-echo json_encode([ 
+echo json_encode([
     'fechasBusqueda' => $fechasMeses,
     'asesores' => array_values($asesores)
 ], JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
-?>
