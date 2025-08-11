@@ -3333,9 +3333,7 @@ function cotizarOfertas() {
                 });
                 return; // Salir del bucle después de procesar Zurich
               } else if (aseguradora === "Estado") {
-                // comento para que solo salgan 2 planes y no los 3 
-                // const aseguradorasEstado = ["Estado", "Estado2", "Estado3"]; // Agrega más aseguradoras según sea necesario
-                const aseguradorasEstado = ["Estado", "Estado2"]; // Agrega más aseguradoras según sea necesario
+                const aseguradorasEstado = ["Estado", "Estado2", "Estado3"]; // Agrega más aseguradoras según sea necesario
                 aseguradorasEstado.forEach((aseguradora) => {
                   let successAseguradora = true;
                   cont.push(
@@ -3400,16 +3398,16 @@ function cotizarOfertas() {
                 return; // Salir del bucle después de procesar Estado
                 // Construir la URL de la solicitud para cada aseguradora
               } else if (aseguradora === "HDI Seguros") {
-                // const planes = [
-                //   "HDI FULL",
-                //   "INTEGRAL 20",
-                //   "BASICO + PT",
-                //   "BASICO",
-                // ];
-                // planes.forEach((plan) => {
-                //   let body = JSON.parse(requestOptions.body);
-                //   body.plan = plan;
-                //   requestOptions.body = JSON.stringify(body);
+                const planes = [
+                  "HDI FULL",
+                  "INTEGRAL 20",
+                  "BASICO + PT",
+                  "BASICO",
+                ];
+                planes.forEach((plan) => {
+                  let body = JSON.parse(requestOptions.body);
+                  body.plan = plan;
+                  requestOptions.body = JSON.stringify(body);
                   url = `https://grupoasistencia.com/motor_webservice/Liberty_autos`;
                   cont.push(
                     fetch(url, requestOptions)
@@ -3419,8 +3417,7 @@ function cotizarOfertas() {
                       })
                       .then((ofertas) => {
                         if (typeof ofertas[0].Resultado !== "undefined") {
-                          // cambie variable plan por aseguradora
-                          agregarAseguradoraFallida(aseguradora);
+                          agregarAseguradoraFallida(plan);
                           validarProblema(aseguradora, ofertas);
                           ofertas[0].Mensajes.forEach((mensaje) => {
                             mostrarAlertarCotizacionFallida(
@@ -3456,59 +3453,57 @@ function cotizarOfertas() {
                         console.error(err);
                       })
                   );
-                // });
+                });
                 return;
-              } 
-              // /*inicio javier */ else if (aseguradora === "Qualitas") {
-              //   url = `https://grupoasistencia.com/WS-laravel/api/autos/qualitas`;
-              //   cont.push(
-              //     fetch(url, requestOptions)
-              //       .then((res) => {
-              //         if (!res.ok) throw Error(res.statusText);
-              //         return res.json();
-              //       })
-              //       .then((ofertas) => {
-              //         if (typeof ofertas[0].Resultado !== "undefined") {
-              //           agregarAseguradoraFallida(aseguradora);
-              //           validarProblema(aseguradora, ofertas);
-              //           ofertas[0].Mensajes.forEach((mensaje) => {
-              //             mostrarAlertarCotizacionFallida(aseguradora, mensaje);
-              //           });
-              //         } else {
-              //           const contadorPorEntidad = validarOfertas(
-              //             ofertas,
-              //             aseguradora,
-              //             1
-              //           );
-              //           mostrarAlertaCotizacionExitosa(
-              //             aseguradora,
-              //             contadorPorEntidad
-              //           );
-              //         }
-              //       })
-              //       .catch((err) => {
-              //         agregarAseguradoraFallida(aseguradora);
-              //         mostrarAlertarCotizacionFallida(
-              //           aseguradora,
-              //           "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
-              //         );
-              //         validarProblema(aseguradora, [
-              //           {
-              //             Mensajes: [
-              //               "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
-              //             ],
-              //           },
-              //         ]);
-              //         console.error(err);
-              //       })
-              //   );
-              //   return; /*Fin javier */
-              // } 
-              else {
+              } /*inicio javier */ else if (aseguradora === "Qualitas") {
+                url = `https://grupoasistencia.com/WS-laravel/api/autos/qualitas`;
+                cont.push(
+                  fetch(url, requestOptions)
+                    .then((res) => {
+                      if (!res.ok) throw Error(res.statusText);
+                      return res.json();
+                    })
+                    .then((ofertas) => {
+                      if (typeof ofertas[0].Resultado !== "undefined") {
+                        agregarAseguradoraFallida(aseguradora);
+                        validarProblema(aseguradora, ofertas);
+                        ofertas[0].Mensajes.forEach((mensaje) => {
+                          mostrarAlertarCotizacionFallida(aseguradora, mensaje);
+                        });
+                      } else {
+                        const contadorPorEntidad = validarOfertas(
+                          ofertas,
+                          aseguradora,
+                          1
+                        );
+                        mostrarAlertaCotizacionExitosa(
+                          aseguradora,
+                          contadorPorEntidad
+                        );
+                      }
+                    })
+                    .catch((err) => {
+                      agregarAseguradoraFallida(aseguradora);
+                      mostrarAlertarCotizacionFallida(
+                        aseguradora,
+                        "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
+                      );
+                      validarProblema(aseguradora, [
+                        {
+                          Mensajes: [
+                            "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
+                          ],
+                        },
+                      ]);
+                      console.error(err);
+                    })
+                );
+                return; /*Fin javier */
+              } else {
                 url = `https://grupoasistencia.com/motor_webservice/${aseguradora}_autos`;
               }
               // Realizar la solicitud fetch y agregar la promesa al array
-              if (aseguradora == "Qualitas" || aseguradora == "Mundial") {
+              if (aseguradora == "Qualitas1" || aseguradora == "Mundial") {
                 let message =
                   aseguradora == "Qualitas"
                     ? `💡 <b>Nueva aseguradora</b> especializada en <b>seguros de autos.</b> La principal aseguradora mexicana de seguros de autos llega a Colombia y <b>nosotros ya tenemos convenio.</b> Solicita cotización manual a tu Analista Comercial.`
@@ -4175,95 +4170,95 @@ function cotizarOfertas() {
         cont.push(bolivarPromise);
 
         /* Qualitas*/
-        // /*inicio javier */ const qualitasPromise = comprobarFallida("Qualitas")
-        //   ? fetch(
-        //       "https://grupoasistencia.com/WS-laravel/api/autos/qualitas",
-        //       requestOptions
-        //     )
-        //       .then((res) => {
-        //         if (!res.ok) throw Error(res.statusText);
-        //         return res.json();
-        //       })
-        //       .then((ofertas) => {
-        //         if (typeof ofertas[0].Resultado !== "undefined") {
-        //           agregarAseguradoraFallida("Qualitas");
-        //           validarProblema("Qualitas", ofertas);
-        //           ofertas[0].Mensajes.forEach((mensaje) => {
-        //             mostrarAlertarCotizacionFallida("Qualitas", mensaje);
-        //           });
-        //         } else {
-        //           const contadorPorEntidad = validarOfertas(
-        //             ofertas,
-        //             "Qualitas",
-        //             1
-        //           );
-        //           mostrarAlertaCotizacionExitosa(
-        //             "Qualitas",
-        //             contadorPorEntidad
-        //           );
-        //         }
-        //       })
-        //       .catch((err) => {
-        //         agregarAseguradoraFallida(aseguradora);
-        //         mostrarAlertarCotizacionFallida(
-        //           aseguradora,
-        //           "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
-        //         );
-        //         validarProblema(aseguradora, [
-        //           {
-        //             Mensajes: [
-        //               "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
-        //             ],
-        //           },
-        //         ]);
-        //         console.error(err);
-        //       })
-        //   : Promise.resolve();
+        /*inicio javier */ const qualitasPromise = comprobarFallida("Qualitas")
+          ? fetch(
+              "https://grupoasistencia.com/WS-laravel/api/autos/qualitas",
+              requestOptions
+            )
+              .then((res) => {
+                if (!res.ok) throw Error(res.statusText);
+                return res.json();
+              })
+              .then((ofertas) => {
+                if (typeof ofertas[0].Resultado !== "undefined") {
+                  agregarAseguradoraFallida("Qualitas");
+                  validarProblema("Qualitas", ofertas);
+                  ofertas[0].Mensajes.forEach((mensaje) => {
+                    mostrarAlertarCotizacionFallida("Qualitas", mensaje);
+                  });
+                } else {
+                  const contadorPorEntidad = validarOfertas(
+                    ofertas,
+                    "Qualitas",
+                    1
+                  );
+                  mostrarAlertaCotizacionExitosa(
+                    "Qualitas",
+                    contadorPorEntidad
+                  );
+                }
+              })
+              .catch((err) => {
+                agregarAseguradoraFallida(aseguradora);
+                mostrarAlertarCotizacionFallida(
+                  aseguradora,
+                  "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
+                );
+                validarProblema(aseguradora, [
+                  {
+                    Mensajes: [
+                      "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
+                    ],
+                  },
+                ]);
+                console.error(err);
+              })
+          : Promise.resolve();
 
-        // cont.push(qualitasPromise);
-        // /*Fin javier */
+        cont.push(qualitasPromise);
+        /*Fin javier */
 
         /* HDI */
-        // const HDIPromise = comprobarFallida("HDI")
-        //   ? fetch(
-        //       "https://grupoasistencia.com/motor_webservice/HdiPlus?callback=myCallback",
-        //       requestOptions
-        //     )
-        //       .then((res) => {
-        //         if (!res.ok) throw Error(res.statusText);
-        //         return res.json();
-        //       })
-        //       .then((ofertas) => {
-        //         if (typeof ofertas[0].Resultado !== "undefined") {
-        //           agregarAseguradoraFallida("HDI");
-        //           validarProblema("HDI", ofertas);
-        //           ofertas[0].Mensajes.forEach((mensaje) => {
-        //             mostrarAlertarCotizacionFallida("HDI", mensaje);
-        //           });
-        //         } else {
-        //           // eliminarAseguradoraFallida('HDI');
-        //           const contadorPorEntidad = validarOfertas(ofertas, "HDI", 1);
-        //           mostrarAlertaCotizacionExitosa("HDI", contadorPorEntidad);
-        //         }
-        //       })
-        //       .catch((err) => {
-        //         agregarAseguradoraFallida("HDI");
-        //         mostrarAlertarCotizacionFallida(
-        //           "HDI",
-        //           "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
-        //         );
-        //         validarProblema("HDI", [
-        //           {
-        //             Mensajes: [
-        //               "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
-        //             ],
-        //           },
-        //         ]);
-        //         console.error(err);
-        //       })
-        //   : Promise.resolve();
+        const HDIPromise = comprobarFallida("HDI")
+          ? fetch(
+              "https://grupoasistencia.com/motor_webservice/HdiPlus?callback=myCallback",
+              requestOptions
+            )
+              .then((res) => {
+                if (!res.ok) throw Error(res.statusText);
+                return res.json();
+              })
+              .then((ofertas) => {
+                if (typeof ofertas[0].Resultado !== "undefined") {
+                  agregarAseguradoraFallida("HDI");
+                  validarProblema("HDI", ofertas);
+                  ofertas[0].Mensajes.forEach((mensaje) => {
+                    mostrarAlertarCotizacionFallida("HDI", mensaje);
+                  });
+                } else {
+                  // eliminarAseguradoraFallida('HDI');
+                  const contadorPorEntidad = validarOfertas(ofertas, "HDI", 1);
+                  mostrarAlertaCotizacionExitosa("HDI", contadorPorEntidad);
+                }
+              })
+              .catch((err) => {
+                agregarAseguradoraFallida("HDI");
+                mostrarAlertarCotizacionFallida(
+                  "HDI",
+                  "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
+                );
+                validarProblema("HDI", [
+                  {
+                    Mensajes: [
+                      "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
+                    ],
+                  },
+                ]);
+                console.error(err);
+              })
+          : Promise.resolve();
 
-        // cont.push(HDIPromise);
+        cont.push(HDIPromise);
 
         const lineaVeh = document.getElementById("txtReferenciaVeh").value;
         // const planes = ["FULL"];
@@ -4343,8 +4338,7 @@ function cotizarOfertas() {
           : Promise.resolve();
         cont.push(ZFullPromise);
         /* Estado */
-        // const aseguradorasEstado = ["Estado", "Estado2", "Estado3"]; // Agrega más aseguradoras según sea necesario
-        const aseguradorasEstado = ["Estado", "Estado2"]; // Agrega más aseguradoras según sea necesario
+        const aseguradorasEstado = ["Estado", "Estado2", "Estado3"]; // Agrega más aseguradoras según sea necesario
         aseguradorasEstado.forEach((aseguradora) => {
           let successAseguradora = true;
           const aseguradoraPromise = comprobarFallida(aseguradora)
@@ -4406,21 +4400,18 @@ function cotizarOfertas() {
           cont.push(aseguradoraPromise);
         });
 
-        // Comente para quitar los nuevos planes de HDI
-
         /* Liberty */
-        // const aseguradorasHDI = [
-        //   "HDI FULL",
-          // "INTEGRAL 20",
-          // "BASICO + PT",
-          // "BASICO",
-        // ];
-        // aseguradorasHDI.forEach((aseguradora) => {
-        //   let body = JSON.parse(requestOptions.body);
-        //   body.plan = aseguradora;
-        //   requestOptions.body = JSON.stringify(body);
-        // const libertyPromise = comprobarFallida(aseguradora)
-          const libertyPromise = comprobarFallida("HDI Seguros")
+        const aseguradorasHDI = [
+          "HDI FULL",
+          "INTEGRAL 20",
+          "BASICO + PT",
+          "BASICO",
+        ];
+        aseguradorasHDI.forEach((aseguradora) => {
+          let body = JSON.parse(requestOptions.body);
+          body.plan = aseguradora;
+          requestOptions.body = JSON.stringify(body);
+          const libertyPromise = comprobarFallida(aseguradora)
             ? fetch(
                 "https://grupoasistencia.com/motor_webservice/Liberty_autos",
                 requestOptions
@@ -4468,12 +4459,12 @@ function cotizarOfertas() {
             : Promise.resolve();
 
           cont.push(libertyPromise);
-        // });
+        });
 
         /* Allianz */
         const allianzPromise = comprobarFallida("Allianz")
           ? fetch(
-              "https://grupoasistencia.com/motor_webservice/Allianz_autos",
+              "https://grupoasistencia.com/motor_webservice/Allianz_autos?callback=myCallback",
               requestOptions
             )
               .then((res) => {
