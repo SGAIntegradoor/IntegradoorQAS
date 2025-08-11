@@ -10,7 +10,7 @@ $URI = explode("/", $_SERVER['REQUEST_URI']);
 
 if (in_array("dev", $URI)) {
 	$DB_name = "grupoasi_cotizautos_dev";
-} elseif (in_array("QAS", $URI) || in_array("qas", $URI)) {
+} elseif (in_array("QAS", $URI) || in_array("qas", $URI) || in_array("Pruebas", $URI)) {
 	$DB_name = "grupoasi_cotizautos_qas";
 } else {
 	$DB_name = "grupoasi_cotizautos";
