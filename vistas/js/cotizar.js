@@ -2278,6 +2278,7 @@ const mostrarOferta = (
                               </div>
                       `;
   $("#cardCotizacion").append(cardCotizacion);
+  numId++;
 };
 
 // VALIDA QUE LAS OFERTAS COTIZADAS HAYAN SIDO GUARDADAS EN SU TOTALIDAD
