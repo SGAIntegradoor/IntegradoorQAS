@@ -1,39 +1,35 @@
 <?php
 
 if (!isset($_SESSION['loggedIn']) || !$_SESSION['loggedIn']) {
-  header('Location: login');
-  exit();
+    header('Location: login');
+    exit();
 }
-
 
 // Actualiza el tiempo de la última actividad
 $_SESSION['lastActivity'] = time();
 
+$show = true;
 $showPopup = false;
-if (isset($_SESSION['showPopup']) && $_SESSION['rol'] != 2) {
-  $showPopup = true;
-  unset($_SESSION['showPopup']); // Evita que el popup aparezca nuevamente después de refrescar
+
+if($show && $_SESSION['rol'] != 2){
+    if (isset($_SESSION['showPopup']) && $_SESSION['showPopup'] === true) {
+        $showPopup = true;
+        unset($_SESSION['showPopup']); // Evita que el popup aparezca nuevamente después de refrescar la view
+    }
 }
-
-echo '<script>
-            console.log(' . json_encode($_SESSION) . ');
-        </script>';
-
-
 ?>
-
 <script>
   document.addEventListener("DOMContentLoaded", function() {
-    let linkControl = true
+    let linkControl = true;
     let showPopUp = <?= json_encode($showPopup) ?>; // Asegura que el valor se pase correctamente como booleano
     let linkURL = `<div id="linkReg">
-                            <a href="https://forms.gle/pAGxjtjKrkCv49PL6" target="_blank">REGÍSTRATE DANDO CLIC AQUÍ</a>
+                            <span>Escríbenos al <b>3185127910</b> o haz clic </span><a href="https://wa.link/xwqueu" target="_blank"> AQUÍ</a>
                         </div>`
     if (showPopUp) {
       Swal.fire({
-        html: `
+        html:   `
                     <div style='display: flex; align-items: center; justify-content: center; flex-direction: column;'>
-                        <img id="modalHome" src='vistas/img/modals/img/home/homeModal23.png'/>
+                        <img id="modalHome" src='vistas/img/modals/img/home/homeModal39.png'/>
                         ${linkControl ? linkURL: ""}
                     </div>
                 `,
@@ -50,20 +46,23 @@ echo '<script>
   });
 </script>
 
+<!--<div id="linkReg">
+        <a href="https://forms.gle/L5wYZNTaavYu9Chn7" target="_blank">REGÍSTRATE DANDO CLIC AQUÍ</a>
+</div> -->
 
 
 <style>
   #linkReg a {
     text-decoration: underline;
     /* Subrayado */
-    color: #0e1f87;
+    color: #ea0a2a;
     font-weight: bold;
     font-size: 24px;
     /* Mantiene el color original del texto */
   }
 
   #linkReg a:visited {
-    color: #ea0b2a;
+    color: #ea0a2a;
     /* Mantiene el color después de hacer clic */
   }
 
@@ -73,15 +72,15 @@ echo '<script>
   }
 
   #linkReg a:active {
-    color: #ea0b2a;
+    color: #0e1f87;
     /* Mantiene el color al hacer clic */
   }
 </style>
 
 
-<div class="content-wrapper" style="height: 100vh;">
+<div class="content-wrapper">
 
-  <section class="content-header" style="padding-left: 36px">
+  <section class="content-header">
 
     <h1>
 
@@ -98,15 +97,12 @@ echo '<script>
 
   </section>
 
-  <?php require_once "./vistas/components/ai-chat/view/index.php" ?>
-
   <?php
   echo '<script>
             console.log(' . json_encode($_SESSION) . ');
         </script>';
 
   ?>
+  
 
-
-
-<script src="vistas\js\inicio.js" defer></script>
+  <script src="vistas\js\inicio.js" defer></script>
