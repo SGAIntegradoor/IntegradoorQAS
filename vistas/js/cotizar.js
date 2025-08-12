@@ -3499,6 +3499,51 @@ function cotizarOfertas() {
                     })
                 );
                 return; /*Fin javier */
+              } /*inicio Daniel */
+               else if (aseguradora === "Mundial") {
+                url = `https://grupoasistencia.com/motor_webservice/Mundial_autos`;
+                cont.push(
+                  fetch(url, requestOptions)
+                    .then((res) => {
+                      if (!res.ok) throw Error(res.statusText);
+                      return res.json();
+                    })
+                    .then((ofertas) => {
+                      if (typeof ofertas[0].Resultado !== "undefined") {
+                        agregarAseguradoraFallida(aseguradora);
+                        validarProblema(aseguradora, ofertas);
+                        ofertas[0].Mensajes.forEach((mensaje) => {
+                          mostrarAlertarCotizacionFallida(aseguradora, mensaje);
+                        });
+                      } else {
+                        const contadorPorEntidad = validarOfertas(
+                          ofertas,
+                          aseguradora,
+                          1
+                        );
+                        mostrarAlertaCotizacionExitosa(
+                          aseguradora,
+                          contadorPorEntidad
+                        );
+                      }
+                    })
+                    .catch((err) => {
+                      agregarAseguradoraFallida(aseguradora);
+                      mostrarAlertarCotizacionFallida(
+                        aseguradora,
+                        "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
+                      );
+                      validarProblema(aseguradora, [
+                        {
+                          Mensajes: [
+                            "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
+                          ],
+                        },
+                      ]);
+                      console.error(err);
+                    })
+                );
+                return; /*Fin Daniel */
               } else {
                 url = `https://grupoasistencia.com/motor_webservice/${aseguradora}_autos`;
               }
