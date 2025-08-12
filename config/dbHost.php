@@ -14,7 +14,7 @@ $URI = explode("/", $_SERVER['REQUEST_URI']);
 
 if (in_array("dev", $URI)) {
     define('DB_NAME', 'grupoasi_cotizautos_dev');//Nombre de la base de datos
-} elseif (in_array("QAS", $URI) || in_array("qas", $URI)) {
+} elseif (in_array("QAS", $URI) || in_array("qas", $URI) || in_array("Pruebas", $URI) || in_array("pruebas", $URI)) {
 	define('DB_NAME', 'grupoasi_cotizautos_qas');//Nombre de la base de datos
 } else {
 	define('DB_NAME', 'grupoasi_cotizautos');
