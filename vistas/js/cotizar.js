@@ -2045,7 +2045,7 @@ function registrarOferta(
 let contCotizacion = 0;
 let cotizacionesFinesa = [];
 let cardCotizacion = "";
-console.log(cotizacionesFinesa);
+// console.log(cotizacionesFinesa);
 const mostrarOferta = (
   aseguradora,
   prima,
@@ -2098,6 +2098,8 @@ const mostrarOferta = (
       $resultado = "Previsora";
     } else if ($data == "Solidaria") {
       $resultado = "Solidaria";
+    } else if ($data == "Mundial") {
+      $resultado = "Mundial";
     } else {
       $resultado = $data;
     }
@@ -2253,7 +2255,14 @@ const mostrarOferta = (
                                   <div>VER PDF &nbsp;&nbsp;<span class="fa fa-file-text"></span></div>
                               </button>
                           </div>`;
-  } else if (
+  } else if (aseguradora == "Mundial" && permisosCredenciales == "1") {
+    cardCotizacion += `
+                          <div class="col-xs-12 col-sm-6 col-md-2 verpdf-oferta">
+                              <button id="mundial-pdf${producto}" type="button" class="btn btn-info" onclick='verPdfMundialLivianos(\"${UrlPdf}\")'>
+                                  <div>VER PDF &nbsp;&nbsp;<span class="fa fa-file-text"></span></div>
+                              </button>
+                          </div>`;
+  }  else if (
     aseguradora == "Previsora Seguros" &&
     permisosCredenciales == "1"
   ) {

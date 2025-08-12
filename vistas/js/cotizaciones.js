@@ -1267,7 +1267,7 @@ async function renderCards(response) {
         "Solidaria",
         "Equidad",
         "AXA Colpatria",
-        "AXA"
+        "AXA",
       ];
 
       const planesViajes = [
@@ -2718,6 +2718,38 @@ const verPdfPrevisora = async (cotizacion) => {
     $("#previsora-pdf" + cotizacion).html(
       'VER PDF &nbsp;&nbsp;<span class="fa fa-file-text"></span>'
     );
+  }
+};
+
+const verPdfMundialLivianos = async (pdf) => {
+  if (permisos.Verpdfindividuales != "x") {
+    Swal.fire({
+      icon: "error",
+      title: "¡Esta versión no tiene ésta funcionalidad disponible!",
+      showCancelButton: true,
+      confirmButtonText: "Cerrar",
+      cancelButtonText: "Conoce más",
+    }).then((result) => {
+      if (result.isConfirmed) {
+      } else if (result.isDismissed) {
+        window.open("https://www.integradoor.com", "_blank");
+      }
+    });
+  } else {
+    const linkSource = `data:application/pdf;base64,${pdf}`;
+
+    // abrir pdf en una ventana nueva
+    const ventanaPDF = window.open("", "Mundial PDF", "width=1024, height=768");
+    if (ventanaPDF) {
+      ventanaPDF.document.write(
+        "<html><head><title>Mundial PDF</title></head><body>"
+      );
+      ventanaPDF.document.write(
+        `<iframe src="${linkSource}" width="100%" height="100%" style="border:none;"></iframe>`
+      );
+      ventanaPDF.document.write("</body></html>");
+      ventanaPDF.document.close();
+    }
   }
 };
 
