@@ -1,5 +1,5 @@
 <?php
-require_once "../../../../config/dbconfig.php";
+require_once "../../../../config/QAStoPRD.php";
 $enlace->set_charset("utf8mb4");
 
 $idAsesor = $_POST['id_asesor'] ?? null;
