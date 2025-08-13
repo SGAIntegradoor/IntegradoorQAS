@@ -350,7 +350,7 @@ $nombreArchivo = "COTIZADOR VIGENTE FINESA $nombreMes $anio.xlsx";
                                         <div style="text-align: center; display: flex; flex-direction: column;">
                                             <span>Clausulado</span>
                                             <button class="btn btn-alert" style="border-color: #88d600; width: 160px; color: #88d600; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
-                                                <a style="text-decoration: none; color: #88d600;" href="https://www.axacolpatria.co/es/portalpublico-lf/personas/seguro-autos/autos#coberturas" target="_blank">https://www.axacolpatria.co/es/portalpublico-lf/personas/seguro-autos/autos#coberturas</a>
+                                                <a style="text-decoration: none; color: #88d600;" href="https://www.axacolpatria.co/es/seguro-de-auto" target="_blank">https://www.axacolpatria.co/es/seguro-de-auto</a>
                                             </button>
                                         </div>
                                     </div>
