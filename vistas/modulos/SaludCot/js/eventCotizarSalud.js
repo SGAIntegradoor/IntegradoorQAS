@@ -932,6 +932,24 @@ let showPopup = true;
 function makeCards(data, tipoCotizacion) {
   console.log(data, tipoCotizacion);
 
+  if (countFiltrado == 0) {
+    data.asegurados[0].planes.forEach((plan) => {
+      totalOfertas++;
+
+      const categorias = JSON.parse(plan.categoria);
+
+      if (categorias.includes("Basicas")) {
+        basicasOfertas++;
+      } else if (categorias.includes("Premium")) {
+        premiumOfertas++;
+      }
+    });
+
+    $("#Basicas").text(basicasOfertas);
+    $("#Premium").text(premiumOfertas);
+    $("#Todas").text(totalOfertas);
+  }
+
   let html_data = "";
   let aseguradoDes = 0;
   if (tipoCotizacion === 1) {
@@ -1005,7 +1023,7 @@ function makeCards(data, tipoCotizacion) {
       planesSumados = planesArray;
     } else if (idCoti) {
       let planesArray = Object.values(planesSumados);
-      planesArray.sort((a, b) => b.id_plan_sumado - a.id_plan_sumado);
+      planesArray.sort((a, b) => a.id_plan_ordenado - b.id_plan_ordenado);
       planesSumados = planesArray;
     }
 
@@ -1091,13 +1109,13 @@ function makeCards(data, tipoCotizacion) {
     const params = new URLSearchParams(window.location.search);
 
     const idCoti = params.get("idCotizacionSalud");
-
-    if (!idCoti) {
+    // Logica para ordenar planes segun plan ordenado, este viene desde la DB
+    if (!idCoti && countFiltrado == 0) {
       // Convertir el objeto a un array de sus valores, Ordenar por el valor mensual desc y Actualizar planesSumados con el objeto ordenado
       let planesArray = Object.values(planesSumados);
       planesArray.sort((a, b) => b.mensual - a.mensual);
       planesSumados = planesArray;
-    } else if (idCoti) {
+    } else if (idCoti || countFiltrado > 0) {
       let planesArray = Object.values(planesSumados);
       planesArray.sort((a, b) => a.id_plan_ordenado - b.id_plan_ordenado);
       planesSumados = planesArray;
@@ -1126,6 +1144,8 @@ function makeCards(data, tipoCotizacion) {
       );
     }
   }
+
+  $("#loaderFilters").hide();
 
   if (getParams("idCotizacionSalud").length > 0) {
     document.getElementById("row_contenedor_general_salud2").innerHTML =
@@ -1292,34 +1312,76 @@ function cotizar() {
       id_usuario: permisos.id_usuario,
       env: env,
     };
+    let ofertasResultas = 0;
     toogleDataContainer();
     console.log("Datos de la cotización:", datosCotizacion);
+    $("#loader-overlay").css("display", "flex");
 
     //Principal peticion ajax para crear la cotizacion
     $.ajax({
-      url: "https://grupoasistencia.com/WS-laravel/api/salud/nueva-cotizacion",
+      url: "http://localhost/WS-laravel/api/salud/nueva-cotizacion",
       type: "POST",
       data: JSON.stringify(datosCotizacion),
       contentType: "application/json",
       dataType: "json",
       success: function (newCoti) {
+        idCotiNew = newCoti;
+        usarID();
+
         $.ajax({
-          // url: "https://grupoasistencia.com/health_engine/WSAxa/axa.php",
+          // url: "http://localhost/health_engine/WSAxa/axa.php",
           url:
-            "https://grupoasistencia.com/WS-laravel/api/salud/axa/cotizar?idNewCoti=" +
+            "http://localhost/WS-laravel/api/salud/axa/cotizar?idNewCoti=" +
             newCoti,
           type: "POST",
           data: JSON.stringify(datosCotizacion),
           contentType: "application/json",
           dataType: "json",
           success: function (data) {
-            hideMainContainerCards();
-            showContainerCardsSalud();
-            // toogleDataContainer();
-            document.getElementById("spinener-cot-salud").style.display =
-              "none";
-            // console.log(data);debugger;
-            makeCards(data, tipoCotizacion);
+            if (data.error) {
+              classTdResumen = "fa fa-times";
+              observacionResumen = data.error;
+              cantidadOfertas = 0;
+              colorIconoResumen = "red";
+            } else {
+              classTdResumen = "fa fa-check";
+              observacionResumen = "";
+              colorIconoResumen = "green";
+              cantidadOfertas = data.asegurados[0].planes.length;
+              hideMainContainerCards();
+              showContainerCardsSalud();
+              // toogleDataContainer();
+              document.getElementById("spinener-cot-salud").style.display =
+                "none";
+              makeCards(data, tipoCotizacion);
+            }
+
+            alertasCotizacion = {
+              id_cotizacion: newCoti,
+              aseguradora: "Axa Colpatria",
+              mensaje: observacionResumen,
+              exitosa: cantidadOfertas > 0 ? 1 : 0,
+              ofertas_cotizadas: cantidadOfertas,
+            };
+
+            // Ajax para guardar las alertas de la cotizacion
+            $.ajax({
+              url: "http://localhost/WS-laravel/api/salud/guardarAlertas",
+              type: "POST",
+              data: JSON.stringify(alertasCotizacion),
+              contentType: "application/json",
+              dataType: "json",
+            });
+
+            htmlTablaResumen = `
+                        <tr>
+                            <td>Axa Colpatria</td>
+                            <td class="text-center"><i class="${classTdResumen}" aria-hidden="true" style="color: ${colorIconoResumen}; margin-right: 5px;"></i></td>
+                            <td class="text-center">${cantidadOfertas}</td>
+                            <td>${observacionResumen}</td>
+                        </tr>
+                        `;
+            $("#tablaResumenCot tbody").append(htmlTablaResumen);
           },
           error: function (data) {
             errores = errores + 1;
@@ -1333,19 +1395,57 @@ function cotizar() {
 
         $.ajax({
           url:
-            "https://grupoasistencia.com/WS-laravel/api/salud/bolivar/cotizar?idNewCoti=" +
+            "http://localhost/WS-laravel/api/salud/bolivar/cotizar?idNewCoti=" +
             newCoti,
           type: "POST",
           data: JSON.stringify(datosCotizacion),
           contentType: "application/json",
           dataType: "json",
           success: function (data) {
-            hideMainContainerCards();
-            showContainerCardsSalud();
-            // toogleDataContainer();
-            document.getElementById("spinener-cot-salud").style.display =
-              "none";
-            makeCards(data, tipoCotizacion);
+            if (data.error) {
+              classTdResumen = "fa fa-times";
+              observacionResumen = data.error;
+              cantidadOfertas = 0;
+              colorIconoResumen = "red";
+            } else {
+              classTdResumen = "fa fa-check";
+              observacionResumen = "";
+              colorIconoResumen = "green";
+              cantidadOfertas = data.asegurados[0].planes.length;
+              hideMainContainerCards();
+              showContainerCardsSalud();
+              // toogleDataContainer();
+              document.getElementById("spinener-cot-salud").style.display =
+                "none";
+              makeCards(data, tipoCotizacion);
+            }
+
+            alertasCotizacion = {
+              id_cotizacion: newCoti,
+              aseguradora: "Seguros Bolivar",
+              mensaje: observacionResumen,
+              exitosa: cantidadOfertas > 0 ? 1 : 0,
+              ofertas_cotizadas: cantidadOfertas,
+            };
+
+            // Ajax para guardar las alertas de la cotizacion
+            $.ajax({
+              url: "http://localhost/WS-laravel/api/salud/guardarAlertas",
+              type: "POST",
+              data: JSON.stringify(alertasCotizacion),
+              contentType: "application/json",
+              dataType: "json",
+            });
+
+            htmlTablaResumen = `
+                        <tr>
+                            <td>Seguros Bolivar</td>
+                            <td class="text-center"><i class="${classTdResumen}" aria-hidden="true" style="color: ${colorIconoResumen}; margin-right: 5px;"></i></td>
+                            <td class="text-center">${cantidadOfertas}</td>
+                            <td>${observacionResumen}</td>
+                        </tr>
+                        `;
+            $("#tablaResumenCot tbody").append(htmlTablaResumen);
           },
           error: function (xhr, status, error) {
             errores = errores + 1;
@@ -1362,19 +1462,61 @@ function cotizar() {
         });
         $.ajax({
           url:
-            "https://grupoasistencia.com/WS-laravel/api/salud/coomeva/cotizar?idNewCoti=" +
+            "http://localhost/WS-laravel/api/salud/coomeva/cotizar?idNewCoti=" +
             newCoti,
           type: "POST",
           data: JSON.stringify(datosCotizacion),
           contentType: "application/json",
           dataType: "json",
           success: function (data) {
-            hideMainContainerCards();
-            showContainerCardsSalud();
-            // toogleDataContainer();
-            document.getElementById("spinener-cot-salud").style.display =
-              "none";
-            makeCards(data, tipoCotizacion);
+            if (data.error) {
+              classTdResumen = "fa fa-times";
+              observacionResumen = data.error;
+              cantidadOfertas = 0;
+              colorIconoResumen = "red";
+            } else {
+              classTdResumen = "fa fa-check";
+              observacionResumen = "";
+              colorIconoResumen = "green";
+              cantidadOfertas = data.asegurados[0].planes.length;
+              hideMainContainerCards();
+              showContainerCardsSalud();
+              // toogleDataContainer();
+              document.getElementById("spinener-cot-salud").style.display =
+                "none";
+              makeCards(data, tipoCotizacion);
+
+              setTimeout(() => {
+                $("#loader-overlay").css("display", "none");
+              }, 2000);
+            }
+
+            alertasCotizacion = {
+              id_cotizacion: newCoti,
+              aseguradora: "Coomeva",
+              mensaje: observacionResumen,
+              exitosa: cantidadOfertas > 0 ? 1 : 0,
+              ofertas_cotizadas: cantidadOfertas,
+            };
+
+            // Ajax para guardar las alertas de la cotizacion
+            $.ajax({
+              url: "http://localhost/WS-laravel/api/salud/guardarAlertas",
+              type: "POST",
+              data: JSON.stringify(alertasCotizacion),
+              contentType: "application/json",
+              dataType: "json",
+            });
+
+            htmlTablaResumen = `
+                        <tr>
+                            <td>Coomeva</td>
+                            <td class="text-center"><i class="${classTdResumen}" aria-hidden="true" style="color: ${colorIconoResumen}; margin-right: 5px;"></i></td>
+                            <td class="text-center">${cantidadOfertas}</td>
+                            <td>${observacionResumen}</td>
+                        </tr>
+                        `;
+            $("#tablaResumenCot tbody").append(htmlTablaResumen);
           },
           error: function (xhr, status, error) {
             errores = errores + 1;
@@ -1402,21 +1544,26 @@ function cotizar() {
           text: "Por favor, verifica los datos ingresados.",
         });
       },
+    }).always(function () {
+      setTimeout(() => {
+        $("#ContainerfiltersSection").css("display", "block");
+        $("#loader-overlay").css("display", "none");
+      }, 4000);
     });
 
-    if (errores == 0) {
-      //esperar dos segundos antes de mostrar el mensaje Javier-Dev
-      $("body").append(
-        '<div id="overlay-cotizacion" style="position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.3);z-index:9999;"></div>'
-      );
-      setTimeout(() => {
-        $("#overlay-cotizacion").remove();
-        Swal.fire({
-          title: "¡Cotización Exitosa!",
-          icon: "success",
-        });
-      }, 2000);
-    }
+    // if (errores == 0) {
+    //   //esperar dos segundos antes de mostrar el mensaje Javier-Dev
+    //   $("body").append(
+    //     '<div id="overlay-cotizacion" style="position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.3);z-index:9999;"></div>'
+    //   );
+    //   setTimeout(() => {
+    //     $("#overlay-cotizacion").remove();
+    //     Swal.fire({
+    //       title: "¡Cotización Exitosa!",
+    //       icon: "success",
+    //     });
+    //   }, 2000);
+    // }
     window.scrollTo(0, 0);
     $("#contenParrilla").show();
 

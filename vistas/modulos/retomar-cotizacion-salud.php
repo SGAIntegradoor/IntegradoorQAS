@@ -388,6 +388,21 @@ if (!isset($_GET['idCotizacionSalud'])) {
             </div>
           </div>
         </div>
+
+        <div class="col-lg-12" id="ContainerfiltersSection" style="display: none;">
+          <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12">
+              <h4 style="color: #514D4D; margin-bottom: 33px; margin-top: 40px;"><b>Filtro por categoria de producto</b></h4>
+              <?php if ($_GET['idCotizacionSalud']) { ?>
+                <div id="filtersSection" class="col-lg-12" style="display: flex; justify-content: center;">
+                  <?php include "vistas/modulos/SaludCot/vistas/filtrosCategoriaSalud.php"; ?>
+                </div>
+              <?php }
+              ?>
+            </div>
+          </div>
+        </div>
+
         <div class="container-fluid" id="Cards">
           <div class="row">
             <div class="col-xs-12">
@@ -396,7 +411,7 @@ if (!isset($_GET['idCotizacionSalud'])) {
           </div>
           <div class="row" id="row_contenedor_general_salud2"></div>
         </div>
-        <div id="loaderFilters"></div>
+        <div id="loaderFilters2"></div>
       </div>
     </div>
   </section>

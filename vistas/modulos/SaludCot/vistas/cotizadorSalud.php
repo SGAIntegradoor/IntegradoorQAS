@@ -1,3 +1,30 @@
+<style>
+    #loader-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(255, 255, 255, 0.8);
+        /* Fondo blanco semi-transparente */
+        z-index: 9999;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    #loader-container img {
+        width: 40px;
+        /* Ajusta el tamaño de tu gif */
+    }
+</style>
+
+<div id="loader-overlay" style="display: none;">
+    <div id="loader-container">
+        <img src="vistas/img/plantilla/loader-update.gif" alt="Cargando..." />
+    </div>
+</div>
+
 <div class="container-fluid mainDataContainer">
     <div class="col-lg-12">
         <div class="row row-aseg">
@@ -351,7 +378,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
+                        <!-- <tr>
                             <td>Seguros Bolivar</td>
                             <td class="text-center"><i class="fa fa-check" aria-hidden="true" style="color: green; margin-right: 5px;"></i></td>
                             <td class="text-center">2</td>
@@ -368,7 +395,7 @@
                             <td class="text-center"><i class="fa fa-check" aria-hidden="true" style="color: green; margin-right: 5px;"></i></td>
                             <td class="text-center">7</td>
                             <td>Cotización exitosa!</td>
-                        </tr>
+                        </tr> -->
                     </tbody>
                 </table>
             </div>
@@ -387,6 +414,17 @@
             </div>
         </div>
     </div>
+
+    <!-- REVISAR COMO AGREGAR ESTE DIV -->
+     <h4 style="color: #514D4D; margin-bottom: 33px; margin-top: 40px; margin-left: 15px;"><b>Filtro por categoria de producto</b></h4>
+    <?php if (!isset($_GET['idCotizacionSalud'])) { ?>
+        <div id="filtersSection" class="col-lg-12" style="display: flex; justify-content: center;">
+            <?php include "vistas/modulos/SaludCot/vistas/filtrosCategoriaSalud.php"; ?>
+        </div>
+    <?php
+    }
+    ?>
+
     <div class="container-fluid" id="Cards">
         <div class="row">
             <div class="col-xs-12">
@@ -394,6 +432,9 @@
             </div>
         </div>
         <div class="row" id="row_contenedor_general_salud"></div>
+    </div>
+    <div id="loaderFilters">
+        <div style="display:flex; align-items: center; justify-content: center; margin-bottom: 90px; margin-top: 90px; gap: 10px"><img src="vistas/img/plantilla/loader-update.gif" width="34" height="34"><strong style="font-size: 19px"> Cargando...</strong></div>
     </div>
 </div>
 
