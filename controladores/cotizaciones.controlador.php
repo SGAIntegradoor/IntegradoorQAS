@@ -115,7 +115,7 @@ class ControladorCotizaciones
 	MOSTRAR COTIZACIONES "OFERTAS SALUD POR ID"
 	=============================================*/
 
-	static public function ctrShowOffertsQuoteSaludID($id)
+	static public function ctrShowOffertsQuoteSaludID($id, $filtro)
 	{
 		session_start();
 		$tabla = "cotizaciones_salud";
@@ -133,7 +133,7 @@ class ControladorCotizaciones
 						ch.departamento AS departamento_asegurado
 				    FROM ciudadeshogar ch)";
 		$field = "id_cotizacion";
-		$respuesta = ModeloCotizaciones::mdlShowQuoteSalud($tabla, $tabla2, $tabla3, $tabla4, $tabla5, $tabla6, $tabla7, $tabla8, $tabla9, $field, $id);
+		$respuesta = ModeloCotizaciones::mdlShowQuoteSalud($tabla, $tabla2, $tabla3, $tabla4, $tabla5, $tabla6, $tabla7, $tabla8, $tabla9, $field, $id, $filtro);
 
 		return $respuesta;
 	}

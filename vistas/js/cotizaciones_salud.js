@@ -213,11 +213,54 @@ function editarCotizacionSalud(id) {
   idCotizacionSalud = id; // Almacena el Id en la variable global de idCotización
   var datos = new FormData();
 
-  $("#loaderFilters").html(
+  $("#loaderFilters2").html(
     `<div style="display:flex; align-items: center; justify-content: center; margin-bottom: 90px; margin-top: 90px; gap: 10px"><img src="vistas/img/plantilla/loader-update.gif" width="34" height="34"><strong style="font-size: 19px"> Cargando...</strong></div>`
   );
 
   datos.append("idCotizacionSalud", idCotizacionSalud);
+  datos.append("filtro", "Todas");
+
+  alertasSaludCoti = {
+    alertaSalud: true,
+    cotizacion: idCotizacionSalud,
+  };
+
+  let htmlTablaResumen = "";
+
+  $.ajax({
+    url: "ajax/alerta_aseguradora.ajax.php",
+    method: "POST",
+    data: JSON.stringify(alertasSaludCoti),
+    cache: false,
+    contentType: false,
+    processData: false,
+    dataType: "json",
+    success: function (respuestaAlertas) {
+      respuestaAlertas.forEach((alerta) => {
+        htmlTablaResumen += `
+                        <tr>
+                            <td>${alerta.aseguradora}</td>
+                            <td class="text-center"><i class="${
+                              alerta.exitosa > 0 ? "fa fa-check" : "fa fa-times"
+                            }" aria-hidden="true" style="color: ${
+          alerta.exitosa > 0 ? "green" : "red"
+        }; margin-right: 5px;"></i></td>
+                            <td class="text-center">${
+                              alerta.ofertas_cotizadas
+                            }</td>
+                            <td>${alerta.mensaje}</td>
+                        </tr>
+                        `;
+      });
+      $("#tablaResumenCot tbody").append(htmlTablaResumen);
+    },
+    error: function (xhr, status, error) {
+      errores = errores + 1;
+      console.log("Error status:", status);
+      console.log("Error:", error);
+      console.log("Response:", xhr.responseText);
+    },
+  });
 
   $.ajax({
     url: "ajax/cotizaciones.ajax.php",
@@ -229,6 +272,32 @@ function editarCotizacionSalud(id) {
     dataType: "json",
     success: function (respuesta) {
       console.log("Respuesta del back: ", respuesta);
+
+      let productsAxaCount = 0;
+      let productsBolivarCount = 0;
+      let productsCoomevaCount = 0;
+
+      respuesta.asegurados[0].planes.forEach((plan) => {
+        if (plan.aseguradora == "Axa Colpatria") {
+          productsAxaCount++;
+        } else if (plan.aseguradora == "Bolivar") {
+          productsBolivarCount++;
+        } else if (plan.aseguradora == "Coomeva") {
+          productsCoomevaCount++;
+        }
+      });
+
+      if (productsAxaCount <= 0) {
+        classTdResumen = "fa fa-times";
+        observacionResumen = data.error;
+        cantidadOfertas = 0;
+        colorIconoResumen = "red";
+      } else {
+        classTdResumen = "fa fa-check";
+        observacionResumen = "";
+        colorIconoResumen = "green";
+      }
+
       const { cedula, nombre, apellido, tipoDocumento } =
         respuesta.requestData.tomador;
 
@@ -302,7 +371,7 @@ function editarCotizacionSalud(id) {
       // let objAsegurados = [];
       // let asegs = [];
 
-      /* BLOQUE AGREGADO Y FUNCIONAL PARA RECUPERAR LA INFO DE LA COTIZACION JAVIER-DEV */
+      /* BLOQUE AGREGADO Y FUNCIONAL PARA RECUPERAR LA INFO DE LA COTIZACION */
       $("#nombre").val(asegurados[0].nombre);
       $("#apellido").val(asegurados[0].apellido);
       $("#genero").val(asegurados[0].genero);
@@ -407,12 +476,13 @@ function editarCotizacionSalud(id) {
           .val(anio) // Cambia el valor del select
           .trigger("change"); // Actualiza el select2
       });
-      
+
       hideShowCamposCiudad();
       hideShowAsociadoCoomeva();
       makeCards(respuesta, 2);
 
-      $("#loaderFilters").hide();
+      $("#ContainerfiltersSection").css("display", "block");
+      $("#loaderFilters2").hide();
     },
 
     error: function (jqXHR, textStatus, errorThrown) {

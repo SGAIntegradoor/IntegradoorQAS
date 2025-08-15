@@ -18,6 +18,13 @@
 
             echo json_encode($resultado);
         }
+
+        public function obtenerAlertasSalud($cotizacion) {
+            $resultado = ModeloAlertaAseguradora::mdlObtenerAlertasSalud($cotizacion);  
+            if (!$resultado) { return false; }
+
+            echo json_encode($resultado);
+        }
     }
 
     $data = json_decode(file_get_contents('php://input'), true);
@@ -29,5 +36,10 @@
     if (isset($data['alertasHogar'])) {
         $alertaAseguradora = new AlertaAseguradora();
         $alertaAseguradora->obtenerAlertasHogar($data['cotizacion']);
+    }
+
+    if (isset($data['alertaSalud'])) {
+        $alertaAseguradora = new AlertaAseguradora();
+        $alertaAseguradora->obtenerAlertasSalud($data['cotizacion']);
     }
 

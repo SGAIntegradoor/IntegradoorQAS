@@ -127,11 +127,11 @@ class AjaxCotizaciones {
 	}
 	public $idCotizacionSalud;
 
-	public function ajaxRetriveOffertsQuotationSalud(){
+	public function ajaxRetriveOffertsQuotationSalud($filtro){
 
 		$id = $this->idCotizacionSalud;
 
-		$respuesta = ControladorCotizaciones::ctrShowOffertsQuoteSaludID($id);
+		$respuesta = ControladorCotizaciones::ctrShowOffertsQuoteSaludID($id, $filtro);
 
 		echo json_encode($respuesta);
 
@@ -238,6 +238,6 @@ if(isset($_POST["idCotizacionSalud"])){
 
 	$retriveQuoteSalud = new AjaxCotizaciones();
 	$retriveQuoteSalud -> idCotizacionSalud = $_POST["idCotizacionSalud"];
-	$retriveQuoteSalud -> ajaxRetriveOffertsQuotationSalud();
+	$retriveQuoteSalud -> ajaxRetriveOffertsQuotationSalud($_POST["filtro"]);
 }
 
