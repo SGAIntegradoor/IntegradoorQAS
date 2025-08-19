@@ -57,7 +57,7 @@ $pdf->SetXY(14, $pdf->getPageHeight() - 40);
 
 // Establecer color azul solo para el enlace
 $pdf->SetTextColor(0, 0, 0);
-$pdf->Write(0, 'Paga fácil a través de corresponsales bancarios, Efecty, Baloto, Gane o PSE. info ');
+$pdf->Write(0, 'Paga fácil a través de corresponsales bancarios, Efecty, Baloto, Gane o PSE. Info   ');
 
 // Restablecer el color predeterminado para el texto restante
 $pdf->SetTextColor(0, 0, 255);
@@ -65,7 +65,7 @@ $pdf->SetTextColor(0, 0, 255);
 $pdf->SetFont('helvetica', '', 10);
 $pdf->SetXY(141, $pdf->GetY());
 // $pdf->Write(0, 'https://cali.losolivos.co/pagos-pse/');
-$pdf->Write(0, 'AQUI', 'https://cali.losolivos.co/canales-de-recaudo');
+$pdf->Write(0, '   AQUI', 'https://cali.losolivos.co/canales-de-recaudo');
 
 
 $pdf->Output('Plan_Exequial_Personal_'.$identificador.'.pdf', 'I');
@@ -124,14 +124,14 @@ $pdf->SetXY(14, $pdf->getPageHeight() - 40);
 
 // Establecer color azul solo para el enlace
 $pdf->SetTextColor(0, 0, 0);
-$pdf->Write(0, 'Paga fácil a través de corresponsales bancarios, Efecty, Baloto, Gane o PSE. info ');
+$pdf->Write(0, 'Paga fácil a través de corresponsales bancarios, Efecty, Baloto, Gane o PSE. Info   ');
 
 // Restablecer el color predeterminado para el texto restante
 $pdf->SetTextColor(0, 0, 255);
 
 $pdf->SetFont('helvetica', '', 10);
 $pdf->SetXY(141, $pdf->GetY());
-$pdf->Write(0, 'AQUI', 'https://cali.losolivos.co/canales-de-recaudo');
+$pdf->Write(0, '   AQUI', 'https://cali.losolivos.co/canales-de-recaudo');
 
 
 $pdf->Output('Plan_Exequial_Familia_'.$identificador.'.pdf', 'I');
