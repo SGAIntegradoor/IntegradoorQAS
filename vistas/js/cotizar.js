@@ -1746,7 +1746,7 @@ function consulDatosFasecoldaPesados(codFasecolda, edadVeh) {
 //   //if (codigoDpto == 1 || codigoDpto == 3 || codigoDpto == 10 || codigoDpto == 11 || codigoDpto == 12 || codigoDpto == 14 || codigoDpto == 17
 //   //|| codigoDpto == 19 || codigoDpto == 25 || codigoDpto == 28 || codigoDpto == 33 || codigoDpto == 34) {
 
-//   //	swal({ text: '! El Departamento de circulación no posee cobertura. ¡' });
+//   // swal({ text: '! El Departamento de circulación no posee cobertura. ¡' });
 
 //   //} else {
 
@@ -1845,7 +1845,7 @@ function cotizarFinesa(ofertasCotizaciones) {
       fecha_cotizacion: obtenerFechaActual(),
       valor_poliza: element.prima,
       beneficiario_oneroso: false,
-      cuotas: 11,
+      cuotas: 12, // cambiar a 12 cuotas Javier
       fecha_inicio_poliza: obtenerFechaActual(),
       primera_cuota: "min",
       valor_primera_cuota: 0,
@@ -1859,7 +1859,7 @@ function cotizarFinesa(ofertasCotizaciones) {
     if (element.cotizada == null || element.cotizada == false) {
       promisesFinesa.push(
         fetch(
-          `https://www.grupoasistencia.com/motor_webservice/paymentInstallmentsFinesa${
+          `http://localhost/motor_webservice/paymentInstallmentsFinesa${
             env == "qas" ? "_qas" : env == "dev" ? "_qas" : ""
           }`,
           // "https://grupoasistencia.com/motorTest/paymentInstallmentsFinesa",
@@ -1879,7 +1879,7 @@ function cotizarFinesa(ofertasCotizaciones) {
             finesaData.cuotas = element.cuotas;
             return fetch(
               // "https://grupoasistencia.com/motorTest/saveDataQuotationsFinesa",
-              `https://www.grupoasistencia.com/motor_webservice/saveDataQuotationsFinesa${
+              `http://localhost/motor_webservice/saveDataQuotationsFinesa${
                 env == "qas" ? "_qas" : env == "dev" ? "_qas" : ""
               }`,
               {
@@ -2119,7 +2119,7 @@ const mostrarOferta = (
     objFinesa: aseguradora + "_" + contCotizacion,
     producto: producto,
     prima: Number(prima.replace(/\./g, "")),
-    cuotas: 11,
+    cuotas: 12,
     cotizada: null,
   };
 
@@ -2220,8 +2220,8 @@ const mostrarOferta = (
     cardCotizacion += `
                                           <div class="col-xs-12 col-sm-6 col-md-2 verpdf-oferta">
                                               <button type="button" class="btn btn-info" id="btnAsegPDF${numCotizOferta}${numId}\" onclick='verPdfOferta(\"${aseguradora}\", \"${numCotizOferta}\", \"${numId}\", \"${id_intermediario}\");'>
-												<div id="verPdf${numCotizOferta}${numId}\">VER PDF &nbsp;&nbsp;<span class="fa fa-file-text"></span></div>
-											</button>
+                                                <div id="verPdf${numCotizOferta}${numId}\">VER PDF &nbsp;&nbsp;<span class="fa fa-file-text"></span></div>
+                                            </button>
                                           </div>`;
   } else if (
     aseguradora == "Seguros del Estado" &&
@@ -2287,6 +2287,7 @@ const mostrarOferta = (
                               </div>
                       `;
   $("#cardCotizacion").append(cardCotizacion);
+  numId++;
 };
 
 // VALIDA QUE LAS OFERTAS COTIZADAS HAYAN SIDO GUARDADAS EN SU TOTALIDAD
@@ -3635,7 +3636,12 @@ function cotizarOfertas() {
                 enableInputs(true);
                 //countOfferts();
               } else {
-                // Swal.close();
+                  Swal.close();
+                  $("#loaderOferta").html("");
+                  $("#loaderOfertaBox").css("display", "none");
+                  enableInputs(true);
+                  countOfferts();
+                  /*
                 Swal.fire({
                   title: "¡Proceso de Cotización Finalizada!",
                   text: "¿Deseas incluir la financiación con Finesa a 11 cuotas?",
@@ -3681,7 +3687,7 @@ function cotizarOfertas() {
                     }
                   }
                 });
-              }
+              */}
               document.querySelector(".button-recotizar").style.display =
                 "block";
               /* Se monta el botón para generar el pdf con 
@@ -4990,3 +4996,13 @@ $("#btnConsultarVehmanualbuscador").click(function () {
     });
   }
 });
+
+  $("#btnCotizarFinesa").click(function () {
+    document.getElementById("btnReCotizarFallidas").disabled = true;
+    $("#loaderOferta").html(
+      '<img src="vistas/img/plantilla/loader-update.gif" width="34" height="34"><strong> Cotizando en Finesa...</strong>'
+    );
+    enableInputs(true);
+    cotizarFinesa(cotizacionesFinesa);
+    countOfferts();
+  });

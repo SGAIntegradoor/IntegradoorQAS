@@ -13,6 +13,21 @@ $idCotizacion = $_GET['idCotizacion'];
 
 $response = retrieveQuotation($idCotizacion);
 
+$stmt = Conexion::conectar()->prepare("SELECT o.Aseguradora AS aseguradora,
+o.oferta_finesa AS objFinesa,
+o.Producto AS producto,
+o.Prima AS prima,
+12 as cuotas,
+NULL AS cotizada 
+FROM ofertas o 
+WHERE o.id_cotizacion = :idCotizacion;");
+$stmt->bindParam(":idCotizacion", $idCotizacion, PDO::PARAM_INT);
+$stmt->execute();
+
+$cotizacionesFinesa = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$jsonCotizaciones = json_encode($cotizacionesFinesa, JSON_UNESCAPED_UNICODE);
+echo '<script>window.cotizacionesFinesa = ' . $jsonCotizaciones . ';</script>';
+
 ?>
 
 <head>
@@ -1188,7 +1203,16 @@ $response = retrieveQuotation($idCotizacion);
                             vigente con otro asesor (ej. Solidaria). <strong>13.</strong> Mal uso del usuario registrando espacios o caracteres en placas,
                             nombres, apellidos o documentos de identidad
                           </p>
-                        </div>';
+                        </div>
+                        
+                      <div class="row button-recotizar" style="display: block; margin:5px">
+                          <div class="col-md-6"></div>
+                          <div class="col-xs-12 col-sm-12 col-md-3 form-group">
+                            <button class="btn btn-primary btn-block"  style="background-color: black; display: none; width: auto;" id="btnCotizarFinesa">Cotizar financiación con Finesa a 12 cuotas</button>
+                          </div>
+                          <div class="col-md-3"></div>
+                      </div>
+                        ';
               }
               ?>
             </div>

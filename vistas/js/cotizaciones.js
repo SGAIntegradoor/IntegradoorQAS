@@ -1876,7 +1876,7 @@ async function offertsFinesaRender() {
   async function fetchWithRetry(retries = MAX_RETRIES) {
     try {
       const dbResponse = await fetch(
-        `https://www.grupoasistencia.com/motor_webservice/getOffertsFinesa${
+        `http://localhost/motor_webservice/getOffertsFinesa${
           env == "qas" ? "_qas" : env == "dev" ? "_qas" : ""
         }`,
         {
@@ -1891,6 +1891,9 @@ async function offertsFinesaRender() {
       }
 
       ofrts = await dbResponse.json();
+      if (ofrts.length === 0) {
+        $("#btnCotizarFinesa").show();
+      }
       return ofrts;
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -4310,3 +4313,160 @@ function showCircularProgress(cotType, time, totalTransition) {
 }
 
 // Simula una actualización del % (ajústalo según tu petición real)
+
+function cotizarFinesaRetoma(ofertasCotizaciones) {
+  disableFilters();
+  showCircularProgress("Cotización Finesa en Proceso...", 2200, 90000);
+  let cotEnFinesaResponse = [];
+  let promisesFinesa = [];
+  const headers = new Headers();
+  headers.append("Content-Type", "application/json");
+
+  const tipoId = document.getElementById("tipoDocumentoID").value;
+
+  ofertasCotizaciones.forEach((element, index) => {
+    let data = {
+      fecha_cotizacion: obtenerFechaActual(),
+      valor_poliza: element.prima,
+      beneficiario_oneroso: false,
+      cuotas: 12, // cambiar a 12 cuotas Javier
+      fecha_inicio_poliza: obtenerFechaActual(),
+      primera_cuota: "min",
+      valor_primera_cuota: 0,
+      id_ramo: 1,
+      valor_mayor: 0,
+      fecha_fin_poliza: obtenerFechaActual(true),
+      id_insured: idWithOutSpecialChars(),
+      typeId: tipoId,
+    };
+
+    if (element.cotizada == null || element.cotizada == false) {
+      promisesFinesa.push(
+        fetch(
+          `http://localhost/motor_webservice/paymentInstallmentsFinesa${
+            env == "qas" ? "_qas" : env == "dev" ? "_qas" : ""
+          }`,
+          // "https://grupoasistencia.com/motorTest/paymentInstallmentsFinesa",
+          {
+            method: "POST",
+            headers: headers,
+            body: JSON.stringify(data),
+          }
+        )
+          .then((response) => response.json())
+          .then((finesaData) => {
+            // Sub Promesa para guardar la data en la BD con relacion a la cotizacion actual.u
+            finesaData.producto = element.producto;
+            finesaData.aseguradora = element.aseguradora;
+            finesaData.id_cotizacion = idCotizacion;
+            finesaData.identity = element.objFinesa;
+            finesaData.cuotas = element.cuotas;
+            return fetch(
+              // "https://grupoasistencia.com/motorTest/saveDataQuotationsFinesa",
+              `http://localhost/motor_webservice/saveDataQuotationsFinesa${
+                env == "qas" ? "_qas" : env == "dev" ? "_qas" : ""
+              }`,
+              {
+                method: "POST",
+                headers: headers,
+                body: JSON.stringify(finesaData),
+              }
+            )
+              .then((dbResponse) => dbResponse.json())
+              .then((dbData) => {
+                const elementDiv = document.getElementById(element.objFinesa);
+                if (
+                  element.aseguradora == "Seguros Bolivar" ||
+                  element.aseguradora == "HDI (Antes Liberty)" ||
+                  element.aseguradora == "Mapfre" ||
+                  element.aseguradora == "Seguros Mapfre"
+                ) {
+                  cotizacionesFinesa[index].cotizada = true;
+                  elementDiv.innerHTML = `Financiación Aseguradora:<br /> Consulte analista`;
+                } else if (
+                  dbData?.data?.mensaje.includes("Por políticas de Finesa")
+                ) {
+                  cotizacionesFinesa[index].cotizada = true;
+                  elementDiv.innerHTML = `Financiación:<br /> No aplica financiación`;
+                } else if (
+                  dbData?.data?.mensaje.includes(
+                    "Asegurado no viable para financiacion"
+                  )
+                ) {
+                  cotizacionesFinesa[index].cotizada = true;
+                  elementDiv.innerHTML = `Financiación Finesa:<br /> Asegurado no viable para financiación`;
+                } else {
+                  cotizacionesFinesa[index].cotizada = true;
+                  elementDiv.innerHTML = `Financiación Finesa:<br />$${dbData?.data?.data?.val_cuo.toLocaleString(
+                    "es-ES"
+                  )} (${dbData?.data?.cuotas} Cuotas)`;
+                }
+
+                elementDiv.style.display = "block";
+                // Agrega el resultado final al array
+                cotEnFinesaResponse.push({
+                  finesaData: finesaData,
+                  dbData: dbData,
+                });
+                return {
+                  finesaData: finesaData,
+                  dbData: dbData,
+                };
+              });
+          })
+      );
+      $("#filtersSection").prop("disabled", false);
+    } else {
+      $("#loaderRecotOferta").html("");
+      $("#loaderRecotOfertaBox").css("display", "none");
+      //console.log(cotizacionesFinesa);
+      return;
+    }
+  });
+
+  Promise.all(promisesFinesa)
+    .then((results) => {
+      cotEnFinesaResponse = saveQuotations(results);
+      $("#loaderOferta").html("");
+      $("#loaderOfertaBox").css("display", "none");
+      $("#loaderRecotOferta").html("");
+      $("#loaderRecotOfertaBox").css("display", "none");
+      // Swal.close();
+      Swal.fire({
+        title: "¡Cotización a Finesa Finalizada!",
+        showConfirmButton: true,
+        confirmButtonText: "Cerrar",
+        backdrop: true, // Bloquea la interacción con el fondo
+        allowOutsideClick: false, // Evita cerrar la alerta haciendo clic afuera
+        allowEscapeKey: false, // Evita cerrar con la tecla "Escape"
+        allowEnterKey: false, // Evita cerrar con "Enter"
+        didOpen: () => {
+          document.body.style.overflow = "auto"; // Habilita el scroll en el fondo
+        },
+        willClose: () => {
+          document.body.style.overflow = ""; // Restaura el comportamiento normal
+        },
+      }).then(() => {
+        $("#loaderOferta").html("");
+        $("#loaderOfertaBox").css("display", "none");
+        if (!cotizoFinesa) {
+          document.getElementById("btnReCotizarFallidas").disabled = false;
+          cotizoFinesa = true;
+        }
+      });
+    })
+    .catch((error) => {
+      console.error("Error en las promesas: ", error);
+    })
+    .finally(() => {
+      enableFilters();
+    });
+}
+
+  $("#btnCotizarFinesa").click(function () {
+    $("#loaderOferta").html(
+      '<img src="vistas/img/plantilla/loader-update.gif" width="34" height="34"><strong> Cotizando en Finesa...</strong>'
+    );
+    cotizarFinesaRetoma(cotizacionesFinesa);
+    countOfferts();
+  });

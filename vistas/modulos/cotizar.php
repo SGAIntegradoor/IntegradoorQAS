@@ -1503,6 +1503,9 @@ echo '<script>console.log(' . $idIntermediario . ", " . $rolAsesor . ')</script>
                         <button class="btn btn-primary btn-block" id="btnReCotizarFallidas">Recotizar Ofertas
                           Fallidas</button>
                       </div>
+                      <div class="col-xs-12 col-sm-12 col-md-3 form-group">
+                        <button class="btn btn-primary btn-block"  style="background-color: black;" id="btnCotizarFinesa">Cotizar financiación con Finesa a 12 cuotas</button>
+                      </div>
                       <div class="col-md-3"></div>
                     </div>
                   </div>
