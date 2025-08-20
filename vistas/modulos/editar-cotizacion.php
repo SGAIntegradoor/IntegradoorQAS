@@ -1199,6 +1199,13 @@ echo '<script>window.resultNewRenderCardsFinesa = ' . $jsonCotizaciones . ';</sc
                   </tbody>
                 </table>
               </div>
+               <div class="row button-recotizar" style="display: none; margin:5px">
+                    <div class="col-md-6"></div>
+                    <div class="col-xs-12 col-sm-12 col-md-3 form-group">
+                      <button class="btn btn-primary btn-block"  style="background-color: black;" id="btnCotizarFinesaRetoma">Financiar con Finesa</button>
+                    </div>
+                    <div class="col-md-3"></div>
+                  </div>
               <?php if (($response['cot_clase'] == "AUTOMOVIL" || $response['cot_clase'] == "AUTOMOVILES" || $response['cot_clase'] == "UTILITARIOS DEPORTIVOS" || $response['cot_clase'] == "CAMPEROS" || $response['cot_clase'] == "PICK UPS" || $response['cot_clase'] == "CAMIONETA PASAJ.") && $response["ofertas"][0]["Manual"] != 4) {
 
                 echo '<div style="font-size: 13px">
@@ -1212,14 +1219,6 @@ echo '<script>window.resultNewRenderCardsFinesa = ' . $jsonCotizaciones . ';</sc
                             nombres, apellidos o documentos de identidad
                           </p>
                         </div>
-                        
-                      <div class="row button-recotizar" style="display: block; margin:5px">
-                          <div class="col-md-6"></div>
-                          <div class="col-xs-12 col-sm-12 col-md-3 form-group">
-                            <button class="btn btn-primary btn-block"  style="background-color: black; display: none; width: auto;" id="btnCotizarFinesaRetoma">Cotizar financiación con Finesa a 12 cuotas</button>
-                          </div>
-                          <div class="col-md-3"></div>
-                      </div>
                         ';
               }
               ?>
