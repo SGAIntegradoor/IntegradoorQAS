@@ -3083,10 +3083,69 @@ function cotizarOfertasPesados() {
                         ]);
                         console.error(err);
                       });
+
+                    if (plan == "RPA") {
+                      let mundialPromise2 = fetch(
+                        "https://grupoasistencia.com/motor_webservice/Mundial_pesados_rpa",
+                        requestOptions
+                      )
+                        .then((res) => {
+                          if (!res.ok) throw Error(res.statusText);
+                          return res.json();
+                        })
+                        .then((ofertas) => {
+                          if (typeof ofertas[0].Resultado !== "undefined") {
+                            validarProblema(aseguradora, ofertas);
+                            agregarAseguradoraFallidaPesados(aseguradora);
+                            if (ofertas[0].length > 1) {
+                              ofertas.Mensajes[0].forEach((mensaje) => {
+                                mostrarAlertarCotizacionFallida(
+                                  aseguradora,
+                                  mensaje
+                                );
+                              });
+                            } else {
+                              ofertas[0].Mensajes.forEach((mensaje) => {
+                                mostrarAlertarCotizacionFallida(
+                                  aseguradora,
+                                  mensaje
+                                );
+                              });
+                            }
+                          } else {
+                            const contadorPorEntidad = validarOfertasPesados(
+                              ofertas,
+                              aseguradora,
+                              1
+                            );
+                            mostrarAlertaCotizacionExitosa(
+                              aseguradora,
+                              contadorPorEntidad
+                            );
+                          }
+                        })
+                        .catch((err) => {
+                          agregarAseguradoraFallidaPesados(aseguradora);
+                          mostrarAlertarCotizacionFallida(
+                            aseguradora,
+                            "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
+                          );
+                          validarProblema(aseguradora, [
+                            {
+                              Mensajes: [
+                                "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
+                              ],
+                            },
+                          ]);
+                          console.error(err);
+                        });
+                        cont.push(mundialPromise2);
+                    }
                     cont.push(mundialPromise);
+                    return
                   });
                 }
-              } else if (aseguradora === "AXA") {
+              }else if (aseguradora === "AXA") {
                 /* AXA */
                 // console.log(condicional)
                 let bodyAXA = JSON.parse(requestOptions.body);
