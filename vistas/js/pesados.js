@@ -2968,7 +2968,7 @@ function cotizarOfertasPesados() {
                 tablaResumenCotBody.appendChild(nuevaFila);
               }
             };
-
+            let contMundial = 0;
             aseguradorasCoti.forEach((aseguradora) => {
               if (aseguradora === "Mundial") {
                 /*MUNDIAL*/
@@ -3022,7 +3022,7 @@ function cotizarOfertasPesados() {
 
                   cont.push(mundialPromise);
                 } else {
-                  let planesMundial = ["Normal", "RC_Exceso"];
+                  let planesMundial = ["Normal", "RC_Exceso", "RPA"];
                   let body = JSON.parse(requestOptions.body);
 
                   planesMundial.forEach((plan) => {
@@ -3083,7 +3083,6 @@ function cotizarOfertasPesados() {
                         ]);
                         console.error(err);
                       });
-
                     cont.push(mundialPromise);
                   });
                 }
