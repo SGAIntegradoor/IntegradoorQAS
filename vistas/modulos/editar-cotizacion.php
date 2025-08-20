@@ -28,6 +28,14 @@ $cotizacionesFinesa = $stmt->fetchAll(PDO::FETCH_ASSOC);
 $jsonCotizaciones = json_encode($cotizacionesFinesa, JSON_UNESCAPED_UNICODE);
 echo '<script>window.cotizacionesFinesa = ' . $jsonCotizaciones . ';</script>';
 
+$stmt2 = Conexion::conectar()->prepare("SELECT * FROM ofertas o WHERE o.id_cotizacion = :idCotizacion;");
+$stmt2->bindParam(":idCotizacion", $idCotizacion, PDO::PARAM_INT);
+$stmt2->execute();
+
+$resultNewRenderCardsFinesa = $stmt2->fetchAll(PDO::FETCH_ASSOC);
+$jsonCotizaciones = json_encode($resultNewRenderCardsFinesa, JSON_UNESCAPED_UNICODE);
+echo '<script>window.resultNewRenderCardsFinesa = ' . $jsonCotizaciones . ';</script>';
+
 ?>
 
 <head>

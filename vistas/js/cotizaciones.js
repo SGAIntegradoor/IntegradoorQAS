@@ -4341,46 +4341,46 @@ function cotizarFinesaRetoma(ofertasCotizaciones) {
               }
             )
               .then((dbResponse) => dbResponse.json())
-              .then((dbData) => {
-                const elementDiv = document.getElementById(element.objFinesa);
-                if (
-                  element.aseguradora == "Seguros Bolivar" ||
-                  element.aseguradora == "HDI (Antes Liberty)" ||
-                  element.aseguradora == "Mapfre" ||
-                  element.aseguradora == "Seguros Mapfre"
-                ) {
-                  cotizacionesFinesa[index].cotizada = true;
-                  elementDiv.innerHTML = `Financiación Aseguradora:<br /> Consulte analista`;
-                } else if (
-                  dbData?.data?.mensaje.includes("Por políticas de Finesa")
-                ) {
-                  cotizacionesFinesa[index].cotizada = true;
-                  elementDiv.innerHTML = `Financiación:<br /> No aplica financiación`;
-                } else if (
-                  dbData?.data?.mensaje.includes(
-                    "Asegurado no viable para financiacion"
-                  )
-                ) {
-                  cotizacionesFinesa[index].cotizada = true;
-                  elementDiv.innerHTML = `Financiación Finesa:<br /> Asegurado no viable para financiación`;
-                } else {
-                  cotizacionesFinesa[index].cotizada = true;
-                  elementDiv.innerHTML = `Financiación Finesa:<br />$${dbData?.data?.data?.val_cuo.toLocaleString(
-                    "es-ES"
-                  )} (${dbData?.data?.cuotas} Cuotas)`;
-                }
+              // .then((dbData) => {
+              //   const elementDiv = document.getElementById(element.objFinesa);
+              //   if (
+              //     element.aseguradora == "Seguros Bolivar" ||
+              //     element.aseguradora == "HDI (Antes Liberty)" ||
+              //     element.aseguradora == "Mapfre" ||
+              //     element.aseguradora == "Seguros Mapfre"
+              //   ) {
+              //     cotizacionesFinesa[index].cotizada = true;
+              //     elementDiv.innerHTML = `Financiación Aseguradora:<br /> Consulte analista`;
+              //   } else if (
+              //     dbData?.data?.mensaje.includes("Por políticas de Finesa")
+              //   ) {
+              //     cotizacionesFinesa[index].cotizada = true;
+              //     elementDiv.innerHTML = `Financiación:<br /> No aplica financiación`;
+              //   } else if (
+              //     dbData?.data?.mensaje.includes(
+              //       "Asegurado no viable para financiacion"
+              //     )
+              //   ) {
+              //     cotizacionesFinesa[index].cotizada = true;
+              //     elementDiv.innerHTML = `Financiación Finesa:<br /> Asegurado no viable para financiación`;
+              //   } else {
+              //     cotizacionesFinesa[index].cotizada = true;
+              //     elementDiv.innerHTML = `Financiación Finesa:<br />$${dbData?.data?.data?.val_cuo.toLocaleString(
+              //       "es-ES"
+              //     )} (${dbData?.data?.cuotas} Cuotas)`;
+              //   }
 
-                elementDiv.style.display = "block";
-                // Agrega el resultado final al array
-                cotEnFinesaResponse.push({
-                  finesaData: finesaData,
-                  dbData: dbData,
-                });
-                return {
-                  finesaData: finesaData,
-                  dbData: dbData,
-                };
-              });
+              //   elementDiv.style.display = "block";
+              //   // Agrega el resultado final al array
+              //   cotEnFinesaResponse.push({
+              //     finesaData: finesaData,
+              //     dbData: dbData,
+              //   });
+              //   return {
+              //     finesaData: finesaData,
+              //     dbData: dbData,
+              //   };
+              // });
           })
       );
       $("#filtersSection").prop("disabled", false);
@@ -4399,6 +4399,7 @@ function cotizarFinesaRetoma(ofertasCotizaciones) {
       $("#loaderOfertaBox").css("display", "none");
       $("#loaderRecotOferta").html("");
       $("#loaderRecotOfertaBox").css("display", "none");
+      renderCards(resultNewRenderCardsFinesa);
       // Swal.close();
       Swal.fire({
         title: "¡Cotización a Finesa Finalizada!",
@@ -4417,10 +4418,6 @@ function cotizarFinesaRetoma(ofertasCotizaciones) {
       }).then(() => {
         $("#loaderOferta").html("");
         $("#loaderOfertaBox").css("display", "none");
-        if (!cotizoFinesa) {
-          document.getElementById("btnReCotizarFallidas").disabled = false;
-          cotizoFinesa = true;
-        }
       });
     })
     .catch((error) => {
@@ -4438,3 +4435,34 @@ function cotizarFinesaRetoma(ofertasCotizaciones) {
     cotizarFinesaRetoma(cotizacionesFinesa);
     countOfferts();
   });
+
+// Obtiene la fecha para la cotizacion de finesa, puede obtener la fecha actual y la fecha un año despues
+function obtenerFechaActual(incrementarAnio = false) {
+  const fecha = new Date();
+
+  if (incrementarAnio) {
+    fecha.setFullYear(fecha.getFullYear() + 1);
+  }
+
+  const dia = String(fecha.getDate()).padStart(2, "0");
+  const mes = String(fecha.getMonth() + 1).padStart(2, "0"); // Los meses van de 0 a 11, por eso se suma 1
+  const año = fecha.getFullYear();
+
+  return `${dia}-${mes}-${año}`;
+}
+
+function idWithOutSpecialChars() {
+  const numeroInput = document.getElementById("numDocumentoID").value;
+  const idWOSpecialChars = numeroInput.replace(/[^0-9]/g, "");
+  return idWOSpecialChars;
+}
+
+function saveQuotations(responses) {
+  let dataToDB = [];
+  if (Array.isArray(responses) && responses.length >= 1) {
+    dataToDB = responses.map((element) => {
+      return element;
+    });
+  }
+  return dataToDB;
+}
