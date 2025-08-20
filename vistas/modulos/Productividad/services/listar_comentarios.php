@@ -22,15 +22,32 @@ $sql = "
 ";
 
 $stmt = $enlace->prepare($sql);
-$stmt->bind_param("i", $idAsesor);
-$stmt->execute();
-
-$result = $stmt->get_result();
-$comentarios = [];
-
-while ($row = $result->fetch_assoc()) {
-    $comentarios[] = $row;
+if (!$stmt) {
+    http_response_code(500);
+    echo json_encode(['error' => 'Error en la preparación de la consulta']);
+    exit;
 }
+
+$stmt->bind_param("i", $idAsesor);
+
+if (!$stmt->execute()) {
+    http_response_code(500);
+    echo json_encode(['error' => 'Error al ejecutar la consulta']);
+    exit;
+}
+
+$stmt->bind_result($comentario, $fecha_creacion, $autor);
+
+$comentarios = [];
+while ($stmt->fetch()) {
+    $comentarios[] = [
+        'comentario'     => $comentario,
+        'fecha_creacion' => $fecha_creacion,
+        'autor'          => $autor
+    ];
+}
+
+$stmt->close();
 
 echo json_encode($comentarios, JSON_UNESCAPED_UNICODE);
 ?>
