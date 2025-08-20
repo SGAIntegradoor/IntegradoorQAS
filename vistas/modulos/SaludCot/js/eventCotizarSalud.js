@@ -1319,7 +1319,7 @@ function cotizar() {
 
     //Principal peticion ajax para crear la cotizacion
     $.ajax({
-      url: "http://localhost/WS-laravel/api/salud/nueva-cotizacion",
+      url: "https://www.grupoasistencia.com/WS-laravel/api/salud/nueva-cotizacion",
       type: "POST",
       data: JSON.stringify(datosCotizacion),
       contentType: "application/json",
@@ -1329,9 +1329,9 @@ function cotizar() {
         usarID();
 
         $.ajax({
-          // url: "http://localhost/health_engine/WSAxa/axa.php",
+          // url: "https://www.grupoasistencia.com/health_engine/WSAxa/axa.php",
           url:
-            "http://localhost/WS-laravel/api/salud/axa/cotizar?idNewCoti=" +
+            "https://www.grupoasistencia.com/WS-laravel/api/salud/axa/cotizar?idNewCoti=" +
             newCoti,
           type: "POST",
           data: JSON.stringify(datosCotizacion),
@@ -1366,7 +1366,7 @@ function cotizar() {
 
             // Ajax para guardar las alertas de la cotizacion
             $.ajax({
-              url: "http://localhost/WS-laravel/api/salud/guardarAlertas",
+              url: "https://www.grupoasistencia.com/WS-laravel/api/salud/guardarAlertas",
               type: "POST",
               data: JSON.stringify(alertasCotizacion),
               contentType: "application/json",
@@ -1395,7 +1395,7 @@ function cotizar() {
 
         $.ajax({
           url:
-            "http://localhost/WS-laravel/api/salud/bolivar/cotizar?idNewCoti=" +
+            "https://www.grupoasistencia.com/WS-laravel/api/salud/bolivar/cotizar?idNewCoti=" +
             newCoti,
           type: "POST",
           data: JSON.stringify(datosCotizacion),
@@ -1430,7 +1430,7 @@ function cotizar() {
 
             // Ajax para guardar las alertas de la cotizacion
             $.ajax({
-              url: "http://localhost/WS-laravel/api/salud/guardarAlertas",
+              url: "https://www.grupoasistencia.com/WS-laravel/api/salud/guardarAlertas",
               type: "POST",
               data: JSON.stringify(alertasCotizacion),
               contentType: "application/json",
@@ -1462,7 +1462,7 @@ function cotizar() {
         });
         $.ajax({
           url:
-            "http://localhost/WS-laravel/api/salud/coomeva/cotizar?idNewCoti=" +
+            "https://www.grupoasistencia.com/WS-laravel/api/salud/coomeva/cotizar?idNewCoti=" +
             newCoti,
           type: "POST",
           data: JSON.stringify(datosCotizacion),
@@ -1501,7 +1501,7 @@ function cotizar() {
 
             // Ajax para guardar las alertas de la cotizacion
             $.ajax({
-              url: "http://localhost/WS-laravel/api/salud/guardarAlertas",
+              url: "https://www.grupoasistencia.com/WS-laravel/api/salud/guardarAlertas",
               type: "POST",
               data: JSON.stringify(alertasCotizacion),
               contentType: "application/json",
