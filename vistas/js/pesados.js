@@ -3391,6 +3391,7 @@ function cotizarOfertasPesados() {
                 Swal.close();
                   $("#loaderOferta").html("");
                   $("#loaderOfertaBox").css("display", "none");
+                  document.querySelector(".button-recotizar").style.display = "block";
                   // enableInputs(true);
                   // countOfferts();
                   /*
@@ -4317,6 +4318,7 @@ $("#btnCotizarFinesa").click(function () {
   $("#loaderOferta").html(
     '<img src="vistas/img/plantilla/loader-update.gif" width="34" height="34"><strong> Cotizando en Finesa...</strong>'
   );
+  $(this).hide();
   // enableInputs(true);
   cotizarFinesa(cotizacionesFinesa);
   // countOfferts();

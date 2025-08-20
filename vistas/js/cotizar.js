@@ -4957,6 +4957,7 @@ $("#btnConsultarVehmanualbuscador").click(function () {
     $("#loaderOferta").html(
       '<img src="vistas/img/plantilla/loader-update.gif" width="34" height="34"><strong> Cotizando en Finesa...</strong>'
     );
+    $(this).hide();
     enableInputs(true);
     cotizarFinesa(cotizacionesFinesa);
     countOfferts();

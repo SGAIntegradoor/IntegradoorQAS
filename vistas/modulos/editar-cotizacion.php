@@ -36,6 +36,14 @@ $resultNewRenderCardsFinesa = $stmt2->fetchAll(PDO::FETCH_ASSOC);
 $jsonCotizaciones = json_encode($resultNewRenderCardsFinesa, JSON_UNESCAPED_UNICODE);
 echo '<script>window.resultNewRenderCardsFinesa = ' . $jsonCotizaciones . ';</script>';
 
+$stmt3 = Conexion::conectar()->prepare("SELECT * FROM cotizaciones_finesa o WHERE o.id_cotizacion = :idCotizacion;");
+$stmt3->bindParam(":idCotizacion", $idCotizacion, PDO::PARAM_INT);
+$stmt3->execute();
+
+$cotiFinesaOferts = $stmt3->fetchAll(PDO::FETCH_ASSOC);
+$jsonCotizaciones = json_encode($cotiFinesaOferts, JSON_UNESCAPED_UNICODE);
+echo '<script>window.cotiFinesaOferts = ' . $jsonCotizaciones . ';</script>';
+
 ?>
 
 <head>
@@ -1199,7 +1207,7 @@ echo '<script>window.resultNewRenderCardsFinesa = ' . $jsonCotizaciones . ';</sc
                   </tbody>
                 </table>
               </div>
-               <div class="row button-recotizar" style="display: none; margin:5px">
+               <div class="row button-recotizar" style="display: block; margin:5px">
                     <div class="col-md-6"></div>
                     <div class="col-xs-12 col-sm-12 col-md-3 form-group">
                       <button class="btn btn-primary btn-block"  style="background-color: black;" id="btnCotizarFinesaRetoma">Financiar con Finesa</button>
@@ -1427,5 +1435,7 @@ echo '<script>window.resultNewRenderCardsFinesa = ' . $jsonCotizaciones . ';</sc
 <script src="//cdn.jsdelivr.net/npm/z@11"></script>
 <script src="vistas/js/modals.js?v=<?php echo (rand()); ?>" defer></script>
 <script>
-
+if (cotiFinesaOferts.length > 0) {
+  document.querySelector(".button-recotizar").style.display = "none";
+};
 </script>

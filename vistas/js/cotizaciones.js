@@ -4434,6 +4434,7 @@ function cotizarFinesaRetoma(ofertasCotizaciones) {
     );
     cotizarFinesaRetoma(cotizacionesFinesa);
     countOfferts();
+    $(this).hide();
   });
 
 // Obtiene la fecha para la cotizacion de finesa, puede obtener la fecha actual y la fecha un año despues
