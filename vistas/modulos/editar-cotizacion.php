@@ -1216,7 +1216,7 @@ echo '<script>window.resultNewRenderCardsFinesa = ' . $jsonCotizaciones . ';</sc
                       <div class="row button-recotizar" style="display: block; margin:5px">
                           <div class="col-md-6"></div>
                           <div class="col-xs-12 col-sm-12 col-md-3 form-group">
-                            <button class="btn btn-primary btn-block"  style="background-color: black; display: none; width: auto;" id="btnCotizarFinesa">Cotizar financiación con Finesa a 12 cuotas</button>
+                            <button class="btn btn-primary btn-block"  style="background-color: black; display: none; width: auto;" id="btnCotizarFinesaRetoma">Cotizar financiación con Finesa a 12 cuotas</button>
                           </div>
                           <div class="col-md-3"></div>
                       </div>

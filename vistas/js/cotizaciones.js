@@ -1892,7 +1892,7 @@ async function offertsFinesaRender() {
 
       ofrts = await dbResponse.json();
       if (ofrts.length === 0) {
-        $("#btnCotizarFinesa").show();
+        $("#btnCotizarFinesaRetoma").show();
       }
       return ofrts;
     } catch (error) {
@@ -4428,7 +4428,7 @@ function cotizarFinesaRetoma(ofertasCotizaciones) {
     });
 }
 
-  $("#btnCotizarFinesa").click(function () {
+  $("#btnCotizarFinesaRetoma").click(function () {
     $("#loaderOferta").html(
       '<img src="vistas/img/plantilla/loader-update.gif" width="34" height="34"><strong> Cotizando en Finesa...</strong>'
     );
