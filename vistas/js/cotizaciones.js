@@ -1892,7 +1892,7 @@ async function offertsFinesaRender() {
 
       ofrts = await dbResponse.json();
       if (ofrts.length === 0) {
-        $("#btnCotizarFinesa").show();
+        $("#btnCotizarFinesaRetoma").show();
       }
       return ofrts;
     } catch (error) {
@@ -4315,7 +4315,9 @@ function showCircularProgress(cotType, time, totalTransition) {
 // Simula una actualización del % (ajústalo según tu petición real)
 
 function cotizarFinesaRetoma(ofertasCotizaciones) {
-  disableFilters();
+  if (typeof disableFilters === "function") {
+    disableFilters();
+  }
   showCircularProgress("Cotización Finesa en Proceso...", 2200, 90000);
   let cotEnFinesaResponse = [];
   let promisesFinesa = [];
@@ -4371,48 +4373,7 @@ function cotizarFinesaRetoma(ofertasCotizaciones) {
                 headers: headers,
                 body: JSON.stringify(finesaData),
               }
-            )
-              .then((dbResponse) => dbResponse.json())
-              .then((dbData) => {
-                const elementDiv = document.getElementById(element.objFinesa);
-                if (
-                  element.aseguradora == "Seguros Bolivar" ||
-                  element.aseguradora == "HDI (Antes Liberty)" ||
-                  element.aseguradora == "Mapfre" ||
-                  element.aseguradora == "Seguros Mapfre"
-                ) {
-                  cotizacionesFinesa[index].cotizada = true;
-                  elementDiv.innerHTML = `Financiación Aseguradora:<br /> Consulte analista`;
-                } else if (
-                  dbData?.data?.mensaje.includes("Por políticas de Finesa")
-                ) {
-                  cotizacionesFinesa[index].cotizada = true;
-                  elementDiv.innerHTML = `Financiación:<br /> No aplica financiación`;
-                } else if (
-                  dbData?.data?.mensaje.includes(
-                    "Asegurado no viable para financiacion"
-                  )
-                ) {
-                  cotizacionesFinesa[index].cotizada = true;
-                  elementDiv.innerHTML = `Financiación Finesa:<br /> Asegurado no viable para financiación`;
-                } else {
-                  cotizacionesFinesa[index].cotizada = true;
-                  elementDiv.innerHTML = `Financiación Finesa:<br />$${dbData?.data?.data?.val_cuo.toLocaleString(
-                    "es-ES"
-                  )} (${dbData?.data?.cuotas} Cuotas)`;
-                }
-
-                elementDiv.style.display = "block";
-                // Agrega el resultado final al array
-                cotEnFinesaResponse.push({
-                  finesaData: finesaData,
-                  dbData: dbData,
-                });
-                return {
-                  finesaData: finesaData,
-                  dbData: dbData,
-                };
-              });
+            ).then((dbResponse) => dbResponse.json());
           })
       );
       $("#filtersSection").prop("disabled", false);
@@ -4431,6 +4392,7 @@ function cotizarFinesaRetoma(ofertasCotizaciones) {
       $("#loaderOfertaBox").css("display", "none");
       $("#loaderRecotOferta").html("");
       $("#loaderRecotOfertaBox").css("display", "none");
+      renderCards(resultNewRenderCardsFinesa);
       // Swal.close();
       Swal.fire({
         title: "¡Cotización a Finesa Finalizada!",
@@ -4449,24 +4411,162 @@ function cotizarFinesaRetoma(ofertasCotizaciones) {
       }).then(() => {
         $("#loaderOferta").html("");
         $("#loaderOfertaBox").css("display", "none");
-        if (!cotizoFinesa) {
-          document.getElementById("btnReCotizarFallidas").disabled = false;
-          cotizoFinesa = true;
-        }
       });
     })
     .catch((error) => {
       console.error("Error en las promesas: ", error);
     })
     .finally(() => {
-      enableFilters();
+      if (typeof enableFilters === "function") {
+        enableFilters();
+      }
     });
 }
 
-  $("#btnCotizarFinesa").click(function () {
-    $("#loaderOferta").html(
-      '<img src="vistas/img/plantilla/loader-update.gif" width="34" height="34"><strong> Cotizando en Finesa...</strong>'
-    );
-    cotizarFinesaRetoma(cotizacionesFinesa);
-    countOfferts();
+function cotizarFinesaMotosRetoma(ofertasCotizaciones) {
+  showCircularProgress("Cotización Finesa en Proceso...", 500, 40000);
+  let cotEnFinesaResponse = [];
+  let promisesFinesa = [];
+
+  const headers = new Headers();
+  headers.append("Content-Type", "application/json");
+
+  const tipoId = document.getElementById("tipoDocumentoID").value;
+
+  ofertasCotizaciones.forEach((element, index) => {
+    let data = {
+      fecha_cotizacion: obtenerFechaActual(),
+      valor_poliza: element.prima,
+      beneficiario_oneroso: false,
+      cuotas: element.cuotas,
+      fecha_inicio_poliza: obtenerFechaActual(),
+      primera_cuota: "min",
+      valor_primera_cuota: 0,
+      id_ramo: 1,
+      valor_mayor: 0,
+      fecha_fin_poliza: obtenerFechaActual(true),
+      id_insured: idWithOutSpecialChars(),
+      typeId: tipoId,
+    };
+
+    if (element.cotizada == null || element.cotizada == false) {
+      //console.log(element);
+
+      promisesFinesa.push(
+        fetch(
+          `http://localhost/motor_webservice/paymentInstallmentsFinesa${
+            env == "qas" ? "_qas" : env == "dev" ? "_qas" : ""
+          }`,
+          // "http://localhost/motorTest/paymentInstallmentsFinesa",
+          {
+            method: "POST",
+            headers: headers,
+            redirect: "follow",
+            referrerPolicy: "no-referrer",
+            body: JSON.stringify(data),
+          }
+        )
+          .then((response) => response.json())
+          .then((finesaData) => {
+            // Sub Promesa para guardar la data en la BD con relacion a la cotizacion actual.
+
+            finesaData.producto = element.producto;
+            finesaData.aseguradora = element.aseguradora;
+            finesaData.id_cotizacion = idCotizacion;
+            finesaData.identity = element.objFinesa;
+            finesaData.cuotas = element.cuotas;
+            return fetch(
+              `http://localhost/motor_webservice/saveDataQuotationsFinesa${
+                env == "qas" ? "_qas" : env == "dev" ? "_qas" : ""
+              }`,
+              //"http://localhost/motorTest/saveDataQuotationsFinesa",
+              {
+                method: "POST",
+                headers: headers,
+                body: JSON.stringify(finesaData),
+              }
+            ).then((dbResponse) => dbResponse.json())
+          })
+      );
+    } else {
+      return;
+    }
   });
+
+  Promise.all(promisesFinesa)
+    .then((results) => {
+      cotEnFinesaResponse = saveQuotations(results);
+      swal
+        .fire({
+          title: "¡Cotización a Finesa Finalizada!",
+          showConfirmButton: true,
+          confirmButtonText: "Cerrar",
+        })
+        .then(() => {
+          $("#loaderOferta").html("");
+          $("#loaderOfertaBox").css("display", "none");
+          $("#loaderRecotOferta").html("");
+          $("#loaderRecotOfertaBox").css("display", "none");
+          renderCards(resultNewRenderCardsFinesa);
+          // if (!cotizoFinesaMotos) {
+          //   document.getElementById(
+          //     "btnReCotizarFallidasMotos"
+          //   ).disabled = false;
+          //   cotizoFinesaMotos = true;
+          // }
+        });
+    })
+    .catch((error) => {
+      console.error("Error en las promesas: ", error);
+    })
+    .finally(() => {
+      //console.log(cotEnFinesaResponse);
+      Swal.close();
+    });
+}
+
+$("#btnCotizarFinesaRetoma").click(function () {
+  $("#loaderOferta").html(
+    '<img src="vistas/img/plantilla/loader-update.gif" width="34" height="34"><strong> Cotizando en Finesa...</strong>'
+  );
+  if (resultNewRenderCardsFinesa[0].Manual == 8) {
+    cotizarFinesaMotosRetoma(cotizacionesFinesa);
+  } else {
+    cotizarFinesaRetoma(cotizacionesFinesa);
+  }
+  if (typeof countOfferts === "function") {
+    countOfferts();
+  }
+  $(this).prop("disabled", true);
+});
+
+// Obtiene la fecha para la cotizacion de finesa, puede obtener la fecha actual y la fecha un año despues
+function obtenerFechaActual(incrementarAnio = false) {
+  const fecha = new Date();
+
+  if (incrementarAnio) {
+    fecha.setFullYear(fecha.getFullYear() + 1);
+  }
+
+  const dia = String(fecha.getDate()).padStart(2, "0");
+  const mes = String(fecha.getMonth() + 1).padStart(2, "0"); // Los meses van de 0 a 11, por eso se suma 1
+  const año = fecha.getFullYear();
+
+  return `${dia}-${mes}-${año}`;
+}
+
+function idWithOutSpecialChars() {
+  const numeroInput = document.getElementById("numDocumentoID").value;
+  const idWOSpecialChars = numeroInput.replace(/[^0-9]/g, "");
+  return idWOSpecialChars;
+}
+
+function saveQuotations(responses) {
+  let dataToDB = [];
+  if (Array.isArray(responses) && responses.length >= 1) {
+    dataToDB = responses.map((element) => {
+      return element;
+    });
+  }
+  return dataToDB;
+}

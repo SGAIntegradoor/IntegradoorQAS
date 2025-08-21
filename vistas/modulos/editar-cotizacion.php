@@ -13,20 +13,48 @@ $idCotizacion = $_GET['idCotizacion'];
 
 $response = retrieveQuotation($idCotizacion);
 
-$stmt = Conexion::conectar()->prepare("SELECT o.Aseguradora AS aseguradora,
-o.oferta_finesa AS objFinesa,
-o.Producto AS producto,
-o.Prima AS prima,
-12 as cuotas,
-NULL AS cotizada 
-FROM ofertas o 
-WHERE o.id_cotizacion = :idCotizacion;");
+$stmt = Conexion::conectar()->prepare("
+SELECT
+	o.Aseguradora AS aseguradora,
+	o.oferta_finesa AS objFinesa,
+	o.Producto AS producto,
+	o.Prima AS prima,
+	CASE
+		WHEN o.Manual = 8 THEN
+		CASE
+			WHEN o.Prima BETWEEN 800000 AND 1000000 THEN 7
+			WHEN o.Prima BETWEEN 1000001 AND 2000000 THEN 11
+			WHEN o.Prima BETWEEN 2000001 AND 10000000 THEN 12
+		END
+		ELSE 12
+	END AS cuotas,
+	NULL AS cotizada
+FROM
+	ofertas o
+WHERE o.id_cotizacion = :idCotizacion;
+");
 $stmt->bindParam(":idCotizacion", $idCotizacion, PDO::PARAM_INT);
 $stmt->execute();
 
 $cotizacionesFinesa = $stmt->fetchAll(PDO::FETCH_ASSOC);
 $jsonCotizaciones = json_encode($cotizacionesFinesa, JSON_UNESCAPED_UNICODE);
 echo '<script>window.cotizacionesFinesa = ' . $jsonCotizaciones . ';</script>';
+
+$stmt2 = Conexion::conectar()->prepare("SELECT * FROM ofertas o WHERE o.id_cotizacion = :idCotizacion;");
+$stmt2->bindParam(":idCotizacion", $idCotizacion, PDO::PARAM_INT);
+$stmt2->execute();
+
+$resultNewRenderCardsFinesa = $stmt2->fetchAll(PDO::FETCH_ASSOC);
+$jsonCotizaciones = json_encode($resultNewRenderCardsFinesa, JSON_UNESCAPED_UNICODE);
+echo '<script>window.resultNewRenderCardsFinesa = ' . $jsonCotizaciones . ';</script>';
+
+$stmt3 = Conexion::conectar()->prepare("SELECT * FROM cotizaciones_finesa o WHERE o.id_cotizacion = :idCotizacion;");
+$stmt3->bindParam(":idCotizacion", $idCotizacion, PDO::PARAM_INT);
+$stmt3->execute();
+
+$cotiFinesaOferts = $stmt3->fetchAll(PDO::FETCH_ASSOC);
+$jsonCotizaciones = json_encode($cotiFinesaOferts, JSON_UNESCAPED_UNICODE);
+echo '<script>window.cotiFinesaOferts = ' . $jsonCotizaciones . ';</script>';
 
 ?>
 
@@ -1191,6 +1219,13 @@ echo '<script>window.cotizacionesFinesa = ' . $jsonCotizaciones . ';</script>';
                   </tbody>
                 </table>
               </div>
+               <div class="row button-recotizar" style="display: block; margin:5px">
+                    <div class="col-md-6"></div>
+                    <div class="col-xs-12 col-sm-12 col-md-3 form-group">
+                      <button class="btn btn-primary btn-block"  style="background-color: black;" id="btnCotizarFinesaRetoma">Calcular Financiación</button>
+                    </div>
+                    <div class="col-md-3"></div>
+                  </div>
               <?php if (($response['cot_clase'] == "AUTOMOVIL" || $response['cot_clase'] == "AUTOMOVILES" || $response['cot_clase'] == "UTILITARIOS DEPORTIVOS" || $response['cot_clase'] == "CAMPEROS" || $response['cot_clase'] == "PICK UPS" || $response['cot_clase'] == "CAMIONETA PASAJ.") && $response["ofertas"][0]["Manual"] != 4) {
 
                 echo '<div style="font-size: 13px">
@@ -1204,14 +1239,6 @@ echo '<script>window.cotizacionesFinesa = ' . $jsonCotizaciones . ';</script>';
                             nombres, apellidos o documentos de identidad
                           </p>
                         </div>
-                        
-                      <div class="row button-recotizar" style="display: block; margin:5px">
-                          <div class="col-md-6"></div>
-                          <div class="col-xs-12 col-sm-12 col-md-3 form-group">
-                            <button class="btn btn-primary btn-block"  style="background-color: black; display: none; width: auto;" id="btnCotizarFinesa">Cotizar financiación con Finesa a 12 cuotas</button>
-                          </div>
-                          <div class="col-md-3"></div>
-                      </div>
                         ';
               }
               ?>
@@ -1420,5 +1447,7 @@ echo '<script>window.cotizacionesFinesa = ' . $jsonCotizaciones . ';</script>';
 <script src="//cdn.jsdelivr.net/npm/z@11"></script>
 <script src="vistas/js/modals.js?v=<?php echo (rand()); ?>" defer></script>
 <script>
-
+if (cotiFinesaOferts.length > 0) {
+  document.querySelector(".button-recotizar").style.display = "none";
+};
 </script>
