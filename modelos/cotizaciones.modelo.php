@@ -365,7 +365,7 @@ class ModeloCotizaciones
 		$filtro = ($filtro === 'Todas') ? '' : $filtro;
 		if ($id != null) {
 			$stmt = Conexion::conectar()->prepare("SELECT 
-					  ROW_NUMBER() OVER (ORDER BY ass.id_aseguradora DESC ,p.mensual_plan DESC) AS id_plan_ordenado, ass.nombre as aseguradoraN,
+					  ROW_NUMBER() OVER (ORDER BY ass.id_aseguradora DESC ,p.mensual_plan ASC) AS id_plan_ordenado, ass.nombre as aseguradoraN,
 					    c.*,
 						t.*,
 						a.*,
@@ -397,7 +397,7 @@ class ModeloCotizaciones
 			AND c.$field = :id
 			AND p.categoria like '%$filtro%'
 			GROUP BY a.id_asegurado, ps.id_plan
-			ORDER BY ass.id_aseguradora desc ,p.mensual_plan DESC;");
+			ORDER BY ass.id_aseguradora DESC, p.mensual_plan ASC;");
 
 			$stmt->bindParam(":id", $id, PDO::PARAM_STR);
 

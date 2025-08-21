@@ -1019,7 +1019,7 @@ function makeCards(data, tipoCotizacion) {
     if (!idCoti) {
       // Convertir el objeto a un array de sus valores, Ordenar por el valor mensual desc y Actualizar planesSumados con el objeto ordenado
       let planesArray = Object.values(planesSumados);
-      planesArray.sort((a, b) => b.mensual - a.mensual);
+      planesArray.sort((a, b) => a.mensual - b.mensual);
       planesSumados = planesArray;
     } else if (idCoti) {
       let planesArray = Object.values(planesSumados);
