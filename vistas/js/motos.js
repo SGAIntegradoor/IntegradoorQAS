@@ -1726,7 +1726,7 @@ function cotizarFinesaMotos(ofertasCotizaciones) {
           `https://www.grupoasistencia.com/motor_webservice/paymentInstallmentsFinesa${
             env == "qas" ? "_qas" : env == "dev" ? "_qas" : ""
           }`,
-          // "http://localhost/motorTest/paymentInstallmentsFinesa",
+          // "https://www.grupoasistencia.com/motorTest/paymentInstallmentsFinesa",
           {
             method: "POST",
             headers: headers,
@@ -1748,7 +1748,7 @@ function cotizarFinesaMotos(ofertasCotizaciones) {
               `https://www.grupoasistencia.com/motor_webservice/saveDataQuotationsFinesa${
                 env == "qas" ? "_qas" : env == "dev" ? "_qas" : ""
               }`,
-              //"http://localhost/motorTest/saveDataQuotationsFinesa",
+              //"https://www.grupoasistencia.com/motorTest/saveDataQuotationsFinesa",
               {
                 method: "POST",
                 headers: headers,
@@ -3145,6 +3145,10 @@ function cotizarOfertasMotos() {
                   $("#loaderOferta").html("");
                   $("#loaderOfertaBox").css("display", "none");
                 } else {
+                  Swal.close();
+                  $("#loaderOferta").html("");
+                  $("#loaderOfertaBox").css("display", "none");
+                  /*
                   swal
                     .fire({
                       title: "¡Proceso de Cotización Finalizada!",
@@ -3181,7 +3185,7 @@ function cotizarOfertasMotos() {
                         }
                       }
                     });
-                }
+                */}
               } else {
                 return Swal.fire({
                   title: "Proceso de Cotización Finalizado",
@@ -3629,6 +3633,10 @@ function cotizarOfertasMotos() {
               $("#loaderOferta").html("");
               $("#loaderOfertaBox").css("display", "none");
             } else {
+                Swal.close();
+                $("#loaderOferta").html("");
+                $("#loaderOfertaBox").css("display", "none");
+                  /*
               Swal.close();
               swal
                 .fire({
@@ -3666,7 +3674,7 @@ function cotizarOfertasMotos() {
                     }
                   }
                 });
-            }
+            */}
           } else {
             let anuncio = true;
             if (anuncio) {
@@ -3791,4 +3799,14 @@ $(window).resize(function () {
 // Ejecuta function Fluid Dialog cuando detecta que se abre algun dialogo con el nombre dialogopen o ui-dialog como clase
 $(document).on("dialogopen", ".ui-dialog", function (event, ui) {
   fluidDialog();
+});
+
+$("#btnCotizarFinesa").click(function () {
+  document.getElementById("btnReCotizarFallidasMotos").disabled = true;
+  $("#loaderOferta").html(
+    '<img src="vistas/img/plantilla/loader-update.gif" width="34" height="34"><strong> Cotizando en Finesa...</strong>'
+  );
+  $(this).prop("disabled", true);
+  // enableInputs(true);
+  cotizarFinesaMotos(cotizacionesFinesaMotos);
 });

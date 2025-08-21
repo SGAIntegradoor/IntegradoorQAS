@@ -1859,7 +1859,7 @@ function cotizarFinesa(ofertasCotizaciones) {
     if (element.cotizada == null || element.cotizada == false) {
       promisesFinesa.push(
         fetch(
-          `http://localhost/motor_webservice/paymentInstallmentsFinesa${
+          `https://www.grupoasistencia.com/motor_webservice/paymentInstallmentsFinesa${
             env == "qas" ? "_qas" : env == "dev" ? "_qas" : ""
           }`,
           // "https://grupoasistencia.com/motorTest/paymentInstallmentsFinesa",
@@ -1879,7 +1879,7 @@ function cotizarFinesa(ofertasCotizaciones) {
             finesaData.cuotas = element.cuotas;
             return fetch(
               // "https://grupoasistencia.com/motorTest/saveDataQuotationsFinesa",
-              `http://localhost/motor_webservice/saveDataQuotationsFinesa${
+              `https://www.grupoasistencia.com/motor_webservice/saveDataQuotationsFinesa${
                 env == "qas" ? "_qas" : env == "dev" ? "_qas" : ""
               }`,
               {
@@ -4622,7 +4622,12 @@ function cotizarOfertas() {
               //countOfferts();
               enableInputs(true);
             } else {
-              // Swal.close();
+                 Swal.close();
+                  $("#loaderOferta").html("");
+                  $("#loaderOfertaBox").css("display", "none");
+                  enableInputs(true);
+                  countOfferts();
+                  /*
               Swal.fire({
                 title: "¡Proceso de Re-Cotización Finalizada!",
                 text: "¿Deseas incluir la financiación con Finesa a 11 cuotas?",
@@ -4669,7 +4674,7 @@ function cotizarOfertas() {
                   }
                 }
               });
-            }
+            */}
           } else {
             // debugger;
             // Swal.close();
@@ -4957,7 +4962,7 @@ $("#btnConsultarVehmanualbuscador").click(function () {
     $("#loaderOferta").html(
       '<img src="vistas/img/plantilla/loader-update.gif" width="34" height="34"><strong> Cotizando en Finesa...</strong>'
     );
-    $(this).hide();
+    $(this).prop("disabled", true);
     enableInputs(true);
     cotizarFinesa(cotizacionesFinesa);
     countOfferts();

@@ -13,14 +13,26 @@ $idCotizacion = $_GET['idCotizacion'];
 
 $response = retrieveQuotation($idCotizacion);
 
-$stmt = Conexion::conectar()->prepare("SELECT o.Aseguradora AS aseguradora,
-o.oferta_finesa AS objFinesa,
-o.Producto AS producto,
-o.Prima AS prima,
-12 as cuotas,
-NULL AS cotizada 
-FROM ofertas o 
-WHERE o.id_cotizacion = :idCotizacion;");
+$stmt = Conexion::conectar()->prepare("
+SELECT
+	o.Aseguradora AS aseguradora,
+	o.oferta_finesa AS objFinesa,
+	o.Producto AS producto,
+	o.Prima AS prima,
+	CASE
+		WHEN o.Manual = 8 THEN
+		CASE
+			WHEN o.Prima BETWEEN 800000 AND 1000000 THEN 7
+			WHEN o.Prima BETWEEN 1000001 AND 2000000 THEN 11
+			WHEN o.Prima BETWEEN 2000001 AND 10000000 THEN 12
+		END
+		ELSE 12
+	END AS cuotas,
+	NULL AS cotizada
+FROM
+	ofertas o
+WHERE o.id_cotizacion = :idCotizacion;
+");
 $stmt->bindParam(":idCotizacion", $idCotizacion, PDO::PARAM_INT);
 $stmt->execute();
 
@@ -1210,7 +1222,7 @@ echo '<script>window.cotiFinesaOferts = ' . $jsonCotizaciones . ';</script>';
                <div class="row button-recotizar" style="display: block; margin:5px">
                     <div class="col-md-6"></div>
                     <div class="col-xs-12 col-sm-12 col-md-3 form-group">
-                      <button class="btn btn-primary btn-block"  style="background-color: black;" id="btnCotizarFinesaRetoma">Financiar con Finesa</button>
+                      <button class="btn btn-primary btn-block"  style="background-color: black;" id="btnCotizarFinesaRetoma">Calcular Financiación</button>
                     </div>
                     <div class="col-md-3"></div>
                   </div>
