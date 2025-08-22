@@ -997,7 +997,7 @@ class ModeloCotizaciones
 						WHEN 8 THEN 'Motos'
 						WHEN 9 THEN 'Livianos'
 					END AS modulo_cotizacion, o.id_cotizacion FROM ofertas o GROUP BY o.id_cotizacion) o ON o.id_cotizacion = cotizaciones.id_cotizacion
-					WHERE 1 AND cotizaciones.cot_fch_cotizacion BETWEEN CURDATE() - INTERVAL 1 MONTH AND CURDATE()"; // Query base
+					WHERE 1 AND cotizaciones.cot_fch_cotizacion BETWEEN CURDATE() - INTERVAL 1 MONTH AND CURDATE() + INTERVAL 1 DAY"; // Query base
         foreach ($valores as $campo => $valor) {
             switch ($campo) {
                 case 'moduloCotizacion':

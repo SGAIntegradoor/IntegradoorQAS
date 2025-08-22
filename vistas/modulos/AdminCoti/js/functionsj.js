@@ -106,7 +106,7 @@ function loadAnalistas() {
       type: "POST",
       success: function (data) {
         let dat = JSON.parse(data);
-        $("#analistaGA").trigger("change");
+        $("#analistaGA").append(dat.options).trigger("change");
         resolve(); // Resolviendo la promesa una vez que los datos se han añadido
       },
       error: function (error) {
