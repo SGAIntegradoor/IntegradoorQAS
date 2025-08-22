@@ -137,7 +137,7 @@ $nombreArchivo = "COTIZADOR VIGENTE FINESA $nombreMes $anio.xlsx";
 
                 <div style="text-align: right !important; margin-right: 2%">
                     <p id="fech_ult">
-                        <b>Fecha ultima actualización: 14/04/2025</b>
+                        <b>Fecha ultima actualización: 01/08/2025</b>
                     </p>
                 </div>
 
@@ -1419,10 +1419,10 @@ $nombreArchivo = "COTIZADOR VIGENTE FINESA $nombreMes $anio.xlsx";
                     </div>
                     <div id="boxDropdown2" class="sectionDropdown hide">
                         <div style="display: flex; flex-direction: row; align-items: center; gap: 5px;">
-                            <a href="vistas/modulos/AyudaVentas/pdf/fasecolda/Guia_Excel_343 - Formato Unico.xlsx" download="Guia_Excel_343 - Formato Unico.xlsx">
+                            <a href="vistas/modulos/AyudaVentas/pdf/fasecolda/Guia_Excel_348 - Formato Unico.xlsx" download="Guia_Excel_348 - Formato Unico.xlsx">
                                 <div style="display: flex; flex-direction: row; align-items: center; gap: 7px;">
                                     <img src="vistas/img/excelIco.png" />
-                                    <p style="margin-bottom: 0px !important;">Fecha de Cargue: 22/04/2025</p>
+                                    <p style="margin-bottom: 0px !important;">Fecha de Cargue: 17/08/2025</p>
                                 </div>
                             </a>
                             </img>
