@@ -28,8 +28,7 @@
                     <div class="form-group">
                         <label for="moduloCotizacion">Módulo de cotización:</label>
                         <select type="text" class="form-control" name="moduloCotizacion" id="moduloCotizacion" placeholder="Modulo de cotización">
-                            <option value="">
-                            </option>
+                            <option value=""></option>
                             <option value="1">Livianos</option>
                             <option value="2">Pesados</option>
                             <option value="3">Motos</option>
@@ -40,32 +39,54 @@
 
                 <div class="col-xs-12 col-sm-6 col-md-3" style="padding-left: 25px; padding-right: 25px">
                     <label for="clase">Clase de Vehículo:</label>
-                    <select class="form-control" name="clase" id="clase">
+                    <select class="form-control" name="clase" id="clase"> <!-- id="clase" -->
                         <option value=""></option>
+                        <option value="AUTOMOVIL">AUTOMÓVIL</option>
+                        <option value="BUS / BUSETA / MICROBUS">BUS / BUSETA / MICROBUS</option>
+                        <option value="CAMION">CAMIÓN</option>
+                        <option value="CAMIONETA PASAJEROS">CAMIONETA PASAJEROS</option>
+                        <option value="CAMIONETA REPARACION">CAMIONETA REPARACIÓN</option>
+                        <option value="CAMPERO">CAMPERO</option>
+                        <option value="CARROTANQUE">CARROTANQUE</option>
+                        <option value="CHASIS">CHASIS</option>
+                        <option value="CUATRIMOTO">CUATRIMOTO</option>
+                        <option value="FURGON">FURGÓN</option>
+                        <option value="MOTOCARRO">MOTOCARRO</option>
+                        <option value="MOTOCICLETA">MOTOCICLETA</option>
+                        <option value="PESADO">PESADO (SIN CLASIFICAR)</option>
+                        <option value="PICKUP">PICKUP</option>
+                        <option value="REMOLCADOR">REMOLCADOR</option>
+                        <option value="REMOLQUE">REMOLQUE</option>
+                        <option value="TAXI">TAXI</option>
+                        <option value="TRAILER">TRAILER</option>
+                        <option value="SUV">SUV</option>
+                        <option value="VAN">VAN</option>
+                        <option value="VOLQUETA">VOLQUETA</option>
+                        <option value="DESCONOCIDO">DESCONOCIDO</option>
                     </select>
                 </div>
 
                 <?php if ($_SESSION["rol"] == 22 || $_SESSION["rol"] == 6 || $_SESSION["rol"] == 10) { ?>
 
-                <div class="col-xs-12 col-sm-6 col-md-3" style="padding-left: 25px; padding-right: 25px">
-                    <label for="canal">Canal:</label>
-                    <select class="form-control" name="canal" id="canal">
-                        <option value="" selected></option>
-                        <option value="1">Directo</option>
-                        <option value="2">Freelance</option>
-                    </select>
-                </div>
-
-                <div class="col-xs-12 col-sm-6 col-md-3" style="padding-left: 25px; padding-right: 25px">
-                    <div class="form-group">
-                        <label for="analistaGA">Analista/Asesor GA:</label>
-                        <select id="analistaGA" class="form-control">
-                            <option value="">
-                            </option>
+                    <div class="col-xs-12 col-sm-6 col-md-3" style="padding-left: 25px; padding-right: 25px">
+                        <label for="canal">Canal:</label>
+                        <select class="form-control" name="canal" id="canal">
+                            <option value="" selected></option>
+                            <option value="1">Directo</option>
+                            <option value="2">Freelance</option>
                         </select>
                     </div>
 
-                </div>
+                    <div class="col-xs-12 col-sm-6 col-md-3" style="padding-left: 25px; padding-right: 25px">
+                        <div class="form-group">
+                            <label for="analistaGA">Analista/Asesor GA:</label>
+                            <select id="analistaGA" class="form-control">
+                                <option value="">
+                                </option>
+                            </select>
+                        </div>
+
+                    </div>
 
             </div>
             <div class="row">
@@ -77,22 +98,22 @@
                         </select>
                     </div>
                 </div>
-                <?php } ?>
+            <?php } ?>
 
-                <div class="col-xs-12 col-sm-6 col-md-3" style="padding-left: 25px; padding-right: 25px">
-                    <div class="row">
-                        <div class="col-xs-12 col-sm-6 col-md-6" style="padding-left: 15px; padding-right: 5px">
-                            <div class="form-group">
-                                <button class="btn btn-primary btn-block btnConsultar" onclick="searchInfo()">Consultar</button>
-                            </div>
+            <div class="col-xs-12 col-sm-6 col-md-3" style="padding-left: 25px; padding-right: 25px">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-6 col-md-6" style="padding-left: 15px; padding-right: 5px">
+                        <div class="form-group">
+                            <button class="btn btn-primary btn-block btnConsultar" onclick="searchInfo()">Consultar</button>
                         </div>
-                        <div class="col-xs-12 col-sm-6 col-md-6" style="padding-left: 15px; padding-right: 5px">
-                            <div class="form-group">
-                                <button class="btn btn-primary btn-block btnCancelar" onclick="reset()">Limpiar</button>
-                            </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-6" style="padding-left: 15px; padding-right: 5px">
+                        <div class="form-group">
+                            <button class="btn btn-primary btn-block btnCancelar" onclick="reset()">Limpiar</button>
                         </div>
                     </div>
                 </div>
+            </div>
             </div>
         </div>
     </div>

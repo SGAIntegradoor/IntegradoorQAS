@@ -9,12 +9,6 @@ if ($_SESSION["permisos"]["administracionCotizaciones"] != "x") {
 
 ?>
 
-<div id="loader-overlay">
-  <div id="loader-container">
-    <img src="vistas/img/plantilla/loader-update.gif" alt="Cargando..." />
-  </div>
-</div>
-
 <style>
   .btnNuevaCot {
     border-radius: 4px;
@@ -84,23 +78,38 @@ if ($_SESSION["permisos"]["administracionCotizaciones"] != "x") {
     }
   }
 
+  #tabla-wrapper {
+    position: relative;
+  }
+
   #loader-overlay {
-    position: fixed;
+    position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
     background-color: rgba(255, 255, 255, 0.8);
-    /* Fondo blanco semi-transparente */
-    z-index: 9999;
+    z-index: 100;
     display: flex;
     align-items: center;
     justify-content: center;
   }
 
+  /* #loader-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.8);
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+} */
+
   #loader-container img {
     width: 40px;
-    /* Ajusta el tamaño de tu gif */
   }
 </style>
 
@@ -193,59 +202,66 @@ if ($_SESSION["permisos"]["administracionCotizaciones"] != "x") {
       </div>
 
       <div class="box-body">
+        <div id="tabla-wrapper" style="position: relative;">
+          <div id="loader-overlay">
+            <div id="loader-container">
+              <img src="vistas/img/plantilla/loader-update.gif" alt="Cargando..." />
+            </div>
+          </div>
 
-        <table class="table table-bordered table-striped dt-responsive tablas-cotizaciones" width="100%">
+          <table class="table table-bordered table-striped dt-responsive tablas-cotizaciones" width="100%">
 
-          <thead>
+            <thead>
 
-            <tr>
+              <tr>
 
-              <th style="font-weight: bold; text-align: center;">N°</th>
-              <th style="font-weight: bold; text-align: center;">Fecha</th>
-              <th style="font-weight: bold; text-align: center;">Documento</th>
-              <th style="font-weight: bold; text-align: center;">Cliente</th>
-              <th style="font-weight: bold; text-align: center;">Placa</th>
-              <th style="font-weight: bold; text-align: center;">Referencia del Vehículo</th>
-              <th style="font-weight: bold; text-align: center;">Clase</th>
-              <th style="font-weight: bold; text-align: center;">Módulo</th>
-              <th style="font-weight: bold; text-align: center;">Asesor</th>
-              <th style="width:110px; font-weight: bold; text-align: center;">Acciones</th>
+                <th style="font-weight: bold; text-align: center;">N°</th>
+                <th style="font-weight: bold; text-align: center;">Fecha</th>
+                <th style="font-weight: bold; text-align: center;">Documento</th>
+                <th style="font-weight: bold; text-align: center;">Cliente</th>
+                <th style="font-weight: bold; text-align: center;">Contacto</th>
+                <th style="font-weight: bold; text-align: center;">Placa</th>
+                <th style="font-weight: bold; text-align: center;">Referencia del Vehículo</th>
+                <th style="font-weight: bold; text-align: center;">Clase</th>
+                <th style="font-weight: bold; text-align: center;">Módulo</th>
+                <th style="font-weight: bold; text-align: center;">Asesor</th>
+                <th style="width:110px; font-weight: bold; text-align: center;">Acciones</th>
 
-            </tr>
+              </tr>
 
-          </thead>
+            </thead>
 
-          <tbody>
+            <tbody style="display: none;">
 
-            <?php
+              <?php
 
-            if (isset($_GET["fechaInicialCotizaciones"])) {
+              if (isset($_GET["fechaInicialCotizaciones"])) {
 
-              $fechaInicialCotizaciones = $_GET["fechaInicialCotizaciones"];
-              $fechaFinalCotizaciones = $_GET["fechaFinalCotizaciones"];
-              $respuesta = ControladorCotizaciones::ctrRangoFechasCotizaciones($fechaFinalCotizaciones, $fechaInicialCotizaciones);
-            } else if (isset($_GET["moduloCotizacion"]) || isset($_GET["canal"]) || isset($_GET["clase"]) || isset($_GET["nombreAsesor"]) || isset($_GET["analistaGA"])) {
-              $respuesta = ControladorCotizaciones::ctrMostrarCotizacionesFilters($_GET);
-            } else {
-              $fechaActual = new DateTime();
+                $fechaInicialCotizaciones = $_GET["fechaInicialCotizaciones"];
+                $fechaFinalCotizaciones = $_GET["fechaFinalCotizaciones"];
+                $respuesta = ControladorCotizaciones::ctrRangoFechasCotizaciones($fechaFinalCotizaciones, $fechaInicialCotizaciones);
+              } else if (isset($_GET["moduloCotizacion"]) || isset($_GET["canal"]) || isset($_GET["clase"]) || isset($_GET["nombreAsesor"]) || isset($_GET["analistaGA"])) {
+                $respuesta = ControladorCotizaciones::ctrMostrarCotizacionesFilters($_GET);
+              } else {
+                $fechaActual = new DateTime();
 
-              // Obtener la fecha de inicio de los últimos 30 días
-              $inicioMes = clone $fechaActual;
-              $inicioMes->modify('-30 days');
-              $inicioMes = $inicioMes->format('Y-m-d');
+                // Obtener la fecha de inicio de los últimos 30 días
+                $inicioMes = clone $fechaActual;
+                $inicioMes->modify('-30 days');
+                $inicioMes = $inicioMes->format('Y-m-d');
 
-              // Obtener la fecha de fin (la fecha actual)
-              $fechaActual->modify('+1 day');
-              $fechaActual = $fechaActual->format('Y-m-d');
+                // Obtener la fecha de fin (la fecha actual)
+                $fechaActual->modify('+1 day');
+                $fechaActual = $fechaActual->format('Y-m-d');
 
-              $respuesta = ControladorCotizaciones::ctrRangoFechasCotizaciones($fechaActual, $inicioMes);
-            }
+                $respuesta = ControladorCotizaciones::ctrRangoFechasCotizaciones($fechaActual, $inicioMes);
+              }
 
 
-            if ($respuesta) {
-              foreach ($respuesta as $key => $value) {
+              if ($respuesta) {
+                foreach ($respuesta as $key => $value) {
 
-                echo '<tr>
+                  echo '<tr>
 
                   <td class="text-center" style="font-size: 14px">' . $value['id_cotizacion'] . '</td>
 
@@ -253,10 +269,11 @@ if ($_SESSION["permisos"]["administracionCotizaciones"] != "x") {
 
                   <td class="text-right" style="font-size: 14px">' . $value['cli_num_documento'] . '</td>
 
-                  <td class="text-right" style="font-size: 14px">' . $value['cli_nombre'] . ' ' . $value['cli_apellidos'] . '</td>';
+                  <td class="text-right" style="font-size: 14px">' . $value['cli_nombre'] . ' ' . $value['cli_apellidos'] . '</td>
+                  <td class="text-right" style="font-size: 14px">' . $value['cli_telefono'] . '</td>';
 
-                $placa = $value['cot_placa'] == "KZY000" ? "SIN PLACA" : $value['cot_placa'];
-                echo '<td class="text-center" style="font-size: 14px">' . $placa . '</td>
+                  $placa = $value['cot_placa'] == "KZY000" ? "SIN PLACA" : $value['cot_placa'];
+                  echo '<td class="text-center" style="font-size: 14px">' . $placa . '</td>
 
                   <td class="text-center" style="font-size: 14px">' . $value['cot_marca'] . ' ' . $value['cot_linea'] . '</td>
 
@@ -272,24 +289,24 @@ if ($_SESSION["permisos"]["administracionCotizaciones"] != "x") {
                     
                       <button class="btn btn-primary btnEditarCotizacion" idCotizacion="' . $value["id_cotizacion"] . '">Seleccionar</button>';
 
-                if ($_SESSION["rol"] == 1) {
+                  if ($_SESSION["rol"] == 1) {
 
-                  echo '<button class="btn btn-danger btnEliminarCotizacion" style="display: none !important;" idCotizacion="' . $value["id_cotizacion"] . '"><i class="fa fa-times"></i></button>';
-                }
+                    echo '<button class="btn btn-danger btnEliminarCotizacion" style="display: none !important;" idCotizacion="' . $value["id_cotizacion"] . '"><i class="fa fa-times"></i></button>';
+                  }
 
-                echo '</div>
+                  echo '</div>
 
                   </td>
 
                 </tr>';
+                }
               }
-            }
-            ?>
+              ?>
 
-          </tbody>
+            </tbody>
 
-        </table>
-
+          </table>
+        </div>
         <?php
 
         $eliminarCotizacion = new ControladorCotizaciones();
