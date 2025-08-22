@@ -95,6 +95,7 @@ $(window).on("load", function () {
     .finally(() => {
       // Oculta el loader al finalizar todas las cargas AJAX
       $("#loader-overlay").fadeOut();
+      $(".tablas-cotizaciones tbody").fadeIn();
     });
 });
 
@@ -105,7 +106,7 @@ function loadAnalistas() {
       type: "POST",
       success: function (data) {
         let dat = JSON.parse(data);
-        $("#analistaGA").append(dat.options).trigger("change");
+        $("#analistaGA").trigger("change");
         resolve(); // Resolviendo la promesa una vez que los datos se han añadido
       },
       error: function (error) {

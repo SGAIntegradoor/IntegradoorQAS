@@ -946,6 +946,31 @@ class ModeloCotizaciones
     {
 		global $stmt;
 
+		$claseMap = [
+			'AUTOMÓVIL' => ['AUTOMOVIL', 'AUTOMOVILES'],
+			'BUS / BUSETA / MICROBUS' => ['BUS / BUSETA / MICROBUS'],
+			'CAMIÓN' => ['CAMION'],
+			'CAMIONETA PASAJEROS' => ['CAMIONETA PASAJ.'],
+			'CAMIONETA REPARACIÓN' => ['CAMIONETA REPAR'],
+			'CAMPERO' => ['CAMPERO', 'CAMPEROS'],
+			'CARROTANQUE' => ['CARROTANQUE'],
+			'CHASIS' => ['CHASIS'],
+			'CUATRIMOTO' => ['CUATRIMOTO'],
+			'FURGÓN' => ['FURGON'],
+			'MOTOCARRO' => ['MOTOCARRO'],
+			'MOTOCICLETA' => ['MOTOCICLETA'],
+			'PESADO' => ['PESADO'],
+			'PICKUP' => ['PICK UPS', 'PICKUP DOBLE CAB', 'PICKUP SENCILLA'],
+			'REMOLCADOR' => ['REMOLCADOR'],
+			'REMOLQUE' => ['REMOLQUE'],
+			'TAXI' => ['TAXI'],
+			'TRAILER' => ['TRAILER'],
+			'SUV' => ['UTILITARIOS DEPORTIVOS'],
+			'VAN' => ['VAN'],
+			'VOLQUETA' => ['VOLQUETA'],
+			'DESCONOCIDO' => ['undefined']
+		];
+
 		$rol = $_SESSION['rol'];
 		$idUsuario = $_SESSION['idUsuario'];
 
@@ -977,7 +1002,7 @@ class ModeloCotizaciones
 						WHEN 8 THEN 'Motos'
 						WHEN 9 THEN 'Livianos'
 					END AS modulo_cotizacion, o.id_cotizacion FROM ofertas o GROUP BY o.id_cotizacion) o ON o.id_cotizacion = cotizaciones.id_cotizacion
-					WHERE 1"; // Query base
+					WHERE 1 AND cotizaciones.cot_fch_cotizacion BETWEEN CURDATE() - INTERVAL 1 MONTH AND CURDATE()"; // Query base
         foreach ($valores as $campo => $valor) {
             switch ($campo) {
                 case 'moduloCotizacion':
@@ -990,7 +1015,13 @@ class ModeloCotizaciones
                     break;
                 case 'clase':
                     # code...
-                    $sql .= " AND cotizaciones.cot_clase = '$valor'";
+					if (isset($claseMap[$valor])) {
+						$clasesOriginales = $claseMap[$valor];
+						$escaped = array_map(function ($v) {
+							return "'" . htmlspecialchars($v, ENT_QUOTES, 'UTF-8') . "'";
+						}, $clasesOriginales);
+						$sql .= " AND cotizaciones.cot_clase IN (" . implode(',', $escaped) . ")";
+    			}
                     break;
                 case 'analistaGA':
                     # code...
