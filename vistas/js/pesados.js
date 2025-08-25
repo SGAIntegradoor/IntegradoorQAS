@@ -2308,7 +2308,7 @@ function cotizarFinesa(ofertasCotizaciones) {
                   cotizacionesFinesa[index].cotizada = true;
                   elementDiv.innerHTML = `Financiación Finesa:<br />$${dbData?.data?.data?.val_cuo.toLocaleString(
                     "es-ES"
-                  )} (${dbData?.data?.cuotas} Cuotas)`;
+                  )} (${dbData?.data?.cuotas} Cuotas pólizas sin oneroso)`;
                 }
                 elementDiv.style.display = "block";
                 cotEnFinesaResponse.push({
@@ -3566,6 +3566,7 @@ function cotizarOfertasPesados() {
         );
         const btnRecotizar = document.getElementById("btnReCotizarFallidas");
         btnRecotizar.disabled = true;
+        document.getElementById("btnCotizarFinesa").disabled = false;
         const contenParrilla = document.querySelector("#contenParrilla");
         raw.cotizacion = idCotizacion;
 
