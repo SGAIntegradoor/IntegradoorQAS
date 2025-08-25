@@ -3009,6 +3009,7 @@ function cotizarOfertasMotos() {
                 });
                 return; // Salir del bucle después de procesar Zurich
               } else if (aseguradora === "HDI Seguros") {
+                debugger
                 const planes = ["INTEGRAL", "BASICO + PT", "FULL"];
                 planes.forEach((plan) => {
                   let body = JSON.parse(requestOptions.body);
@@ -3050,7 +3051,7 @@ function cotizarOfertasMotos() {
                           aseguradora,
                           "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
                         );
-                        validarProblemaMotos("Allianz", [
+                        validarProblemaMotos("HDI (Antes Liberty)", [
                           {
                             Mensajes: [
                               "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
@@ -3420,7 +3421,8 @@ function cotizarOfertasMotos() {
         let cont = [];
 
         /* Liberty */
-        comprobarFallida("HDI (Antes Liberty)")
+
+        comprobarFallida("HDI Seguros")
           ? cont.push(
               fetch(
                 "https://grupoasistencia.com/motor_webservice/Liberty_motos",
@@ -3432,11 +3434,11 @@ function cotizarOfertasMotos() {
                 })
                 .then((ofertas) => {
                   if (typeof ofertas[0].Resultado !== "undefined") {
-                    agregarAseguradoraFallidaMotos("HDI (Antes Liberty)");
-                    validarProblemaMotos("HDI (Antes Liberty)", ofertas);
+                    agregarAseguradoraFallidaMotos("HDI Seguros");
+                    validarProblemaMotos("HDI Seguros", ofertas);
                     ofertas[0].Mensajes.forEach((mensaje) => {
                       mostrarAlertarCotizacionFallida(
-                        "HDI (Antes Liberty)",
+                        "HDI Seguros",
                         mensaje
                       );
                     });
@@ -3456,7 +3458,7 @@ function cotizarOfertasMotos() {
                 .catch((err) => {
                   agregarAseguradoraFallidaMotos("HDI (Antes Liberty)");
                   mostrarAlertarCotizacionFallida(
-                    "HDI (Antes Liberty)",
+                    "HDI Seguros",
                     "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
                   );
                   validarProblemaMotos("HDI (Antes Liberty)", [
