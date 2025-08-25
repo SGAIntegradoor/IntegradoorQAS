@@ -85,7 +85,7 @@ $(window).on("load", function () {
     menosCotizaciones();
   });
 
-  Promise.all([loadAnalistas(), loadFreelance(), loadClaseVehiculos()])
+  Promise.all([loadAnalistas(), loadFreelance()/*, loadClaseVehiculos()*/])
     .then(() => {
       aplicarCriterios(); // Llama a aplicarCriterios una vez que ambos AJAX han completado
     })
@@ -132,28 +132,28 @@ function loadFreelance() {
   });
 }
 
-function loadClaseVehiculos() {
-  return new Promise((resolve, reject) => {
-    $.ajax({
-      url: "ajax/clasesVehiculo.ajax.php",
-      type: "POST",
-      success: function (data) {
-        let dat = JSON.parse(data);
-        $("#clase").append(dat.options).trigger("change");
-        resolve(); // Resolviendo la promesa una vez que los datos se han añadido
-      },
-      error: function (error) {
-        reject(error); // En caso de error, rechazar la promesa
-      },
-    });
-  });
-}
+// function loadClaseVehiculos() {
+//   return new Promise((resolve, reject) => {
+//     $.ajax({
+//       url: "ajax/clasesVehiculo.ajax.php",
+//       type: "POST",
+//       success: function (data) {
+//         let dat = JSON.parse(data);
+//         $("#clase").append(dat.options).trigger("change");
+//         resolve(); // Resolviendo la promesa una vez que los datos se han añadido
+//       },
+//       error: function (error) {
+//         reject(error); // En caso de error, rechazar la promesa
+//       },
+//     });
+//   });
+// }
 
 function aplicarCriterios() {
   const criterios = [
     "moduloCotizacion",
     "canal",
-    "clase",
+   // "clase",
     "analistaGA",
     "nombreAsesor",
   ];

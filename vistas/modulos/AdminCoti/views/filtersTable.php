@@ -45,7 +45,7 @@
                         <option value="BUS / BUSETA / MICROBUS">BUS / BUSETA / MICROBUS</option>
                         <option value="CAMION">CAMIÓN</option>
                         <option value="CAMIONETA PASAJEROS">CAMIONETA PASAJEROS</option>
-                        <option value="CAMIONETA REPARACION">CAMIONETA REPARACIÓN</option>
+                        <option value="CAMIONETA REPARTICION">CAMIONETA REPARTICIÓN</option>
                         <option value="CAMPERO">CAMPERO</option>
                         <option value="CARROTANQUE">CARROTANQUE</option>
                         <option value="CHASIS">CHASIS</option>
