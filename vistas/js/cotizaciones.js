@@ -1580,7 +1580,7 @@ async function renderCards(response) {
                                       return `Financiación Finesa:<br />$${Number(
                                         element.cuota_1
                                       ).toLocaleString("de-DE")}
-                                    (${element.cuotas} Cuotas)`;
+                                    (${element.cuotas} Cuotas pólizas sin oneroso)`;
                                     }
                                   }
                                   return "";
@@ -1876,7 +1876,7 @@ async function offertsFinesaRender() {
   async function fetchWithRetry(retries = MAX_RETRIES) {
     try {
       const dbResponse = await fetch(
-        `http://localhost/motor_webservice/getOffertsFinesa${
+        `https://grupoasistencia.com/motor_webservice/getOffertsFinesa${
           env == "qas" ? "_qas" : env == "dev" ? "_qas" : ""
         }`,
         {
@@ -4313,7 +4313,7 @@ function cotizarFinesaRetoma(ofertasCotizaciones) {
     if (element.cotizada == null || element.cotizada == false) {
       promisesFinesa.push(
         fetch(
-          `http://localhost/motor_webservice/paymentInstallmentsFinesa${
+          `https://grupoasistencia.com/motor_webservice/paymentInstallmentsFinesa${
             env == "qas" ? "_qas" : env == "dev" ? "_qas" : ""
           }`,
           // "https://grupoasistencia.com/motorTest/paymentInstallmentsFinesa",
@@ -4333,7 +4333,7 @@ function cotizarFinesaRetoma(ofertasCotizaciones) {
             finesaData.cuotas = element.cuotas;
             return fetch(
               // "https://grupoasistencia.com/motorTest/saveDataQuotationsFinesa",
-              `http://localhost/motor_webservice/saveDataQuotationsFinesa${
+              `https://grupoasistencia.com/motor_webservice/saveDataQuotationsFinesa${
                 env == "qas" ? "_qas" : env == "dev" ? "_qas" : ""
               }`,
               {
@@ -4422,10 +4422,10 @@ function cotizarFinesaMotosRetoma(ofertasCotizaciones) {
 
       promisesFinesa.push(
         fetch(
-          `http://localhost/motor_webservice/paymentInstallmentsFinesa${
+          `https://grupoasistencia.com/motor_webservice/paymentInstallmentsFinesa${
             env == "qas" ? "_qas" : env == "dev" ? "_qas" : ""
           }`,
-          // "http://localhost/motorTest/paymentInstallmentsFinesa",
+          // "https://grupoasistencia.com/motorTest/paymentInstallmentsFinesa",
           {
             method: "POST",
             headers: headers,
@@ -4444,10 +4444,10 @@ function cotizarFinesaMotosRetoma(ofertasCotizaciones) {
             finesaData.identity = element.objFinesa;
             finesaData.cuotas = element.cuotas;
             return fetch(
-              `http://localhost/motor_webservice/saveDataQuotationsFinesa${
+              `https://grupoasistencia.com/motor_webservice/saveDataQuotationsFinesa${
                 env == "qas" ? "_qas" : env == "dev" ? "_qas" : ""
               }`,
-              //"http://localhost/motorTest/saveDataQuotationsFinesa",
+              //"https://grupoasistencia.com/motorTest/saveDataQuotationsFinesa",
               {
                 method: "POST",
                 headers: headers,

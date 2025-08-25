@@ -1791,7 +1791,7 @@ function cotizarFinesaMotos(ofertasCotizaciones) {
                   cotizacionesFinesaMotos[index].cotizada = true;
                   elementDiv.innerHTML = `Financiación Finesa:<br />$${dbData?.data?.data?.val_cuo.toLocaleString(
                     "es-ES"
-                  )} (${dbData?.data?.cuotas} Cuotas)`;
+                  )} (${dbData?.data?.cuotas} Cuotas pólizas sin oneroso)`;
                 }
                 elementDiv.style.display = "block";
                 // Agrega el resultado final al array
@@ -3262,10 +3262,9 @@ function cotizarOfertasMotos() {
       } else if (primerIntentoRealizado && !recotizacionIntentoRealizado) {
         //ZONA RECOTIZACIÓN//
         console.log("Entrando en el bloque else");
-        const btnRecotizar = document.getElementById(
-          "btnReCotizarFallidasMotos"
-        );
+        const btnRecotizar = document.getElementById("btnReCotizarFallidasMotos");
         btnRecotizar.disabled = true;
+        document.getElementById("btnCotizarFinesa").disabled = false;
         const contenParrilla = document.querySelector("#contenParrilla");
         raw.cotizacion = idCotizacion;
 
