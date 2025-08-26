@@ -14,7 +14,7 @@ $(document).ready(function () {
 
   if (partes.includes("dev") || partes.includes("DEV")) {
     env = "dev";
-  } else if (partes.includes("QAS") || partes.includes("qas")) {
+  } else if (partes.includes("QAS") || partes.includes("qas") || partes.includes("Pruebas")) {
     env = "qas";
   } else if (partes.includes("app") || partes.includes("App")) {
     env = "";
