@@ -3369,29 +3369,28 @@ function cotizarOfertasPesados() {
 
                 cont.push(equidadPromise);
               }
-                else if (aseguradora === "Estado") {
-                  let estadoPromise = new Promise((resolve, reject) => {
-                    try {
-                      let arrAseguradora = [
-                        {
-                          Mensajes: [
-                            "Solicita cotización manual con tu Analista Comercial asignado",
-                          ],
-                        },
-                      ];
-                      setTimeout(function () {
-                        validarProblema("Estado", arrAseguradora);
-                        addAseguradora("Estado");
-                        resolve();
-                      }, 1000);
-                    } catch (error) {
-                      resolve();
-                    }
-                  });
-
-                  cont.push(estadoPromise);
-                } else {
-                  if (aseguradora == "Sura") {
+                /*else if (aseguradora === "Estado") {
+                   let estadoPromise = new Promise((resolve, reject) => {
+                     try {
+                       let arrAseguradora = [
+                         {
+                           Mensajes: [
+                             "Solicita cotización manual con tu Analista Comercial asignado",
+                           ],
+                         },
+                       ];
+                       setTimeout(function () {
+                         validarProblema("Estado", arrAseguradora);
+                         addAseguradora("Estado");
+                         resolve();
+                       }, 1000);
+                     } catch (error) {
+                       resolve();
+                     }
+                   });
+                   cont.push(estadoPromise);
+                } */ 
+                else if (aseguradora == "Sura") {
                     let message =
                       aseguradora == "Sura"
                         ? `🐯 <b>Nueva alianza para comercializar seguros Sura.</b> Solicita cotización manual a tu Analista Comercial.`
@@ -3467,7 +3466,7 @@ function cotizarOfertasPesados() {
                     cont.push(promise);
                   }
                 }
-            });
+            );
             //console.log(cont, "cotizacion");
             Promise.all(cont).then(() => {
               // $("#btnCotizar").hide();
@@ -3582,7 +3581,7 @@ function cotizarOfertasPesados() {
                 }
               });
             });
-          },
+          }
         });
       } else {
         //ZONA RECOTIZACIÓN//
