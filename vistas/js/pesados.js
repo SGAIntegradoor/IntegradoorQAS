@@ -2951,7 +2951,7 @@ function cotizarOfertasPesados() {
                   celdaContador.textContent = 0;
                   celdaCotizo.innerHTML =
                     '<i class="fa fa-times" aria-hidden="true" style="color: red; margin-right: 10px;"></i>';
-                  celdaResponse.textContent = mensaje;
+                  celdaResponse.innerHTML = mensaje;
                 }
               } else {
                 // Si no existe, crea una nueva fila
@@ -3303,78 +3303,103 @@ function cotizarOfertasPesados() {
                 cont.push(equidadPromise);
               }
                 else if (aseguradora === "Estado") {
-                let estadoPromise = new Promise((resolve, reject) => {
-                  try {
-                    let arrAseguradora = [
+                  let estadoPromise = new Promise((resolve, reject) => {
+                    try {
+                      let arrAseguradora = [
+                        {
+                          Mensajes: [
+                            "Solicita cotización manual con tu Analista Comercial asignado",
+                          ],
+                        },
+                      ];
+                      setTimeout(function () {
+                        validarProblema("Estado", arrAseguradora);
+                        addAseguradora("Estado");
+                        resolve();
+                      }, 1000);
+                    } catch (error) {
+                      resolve();
+                    }
+                  });
+
+                  cont.push(estadoPromise);
+                } else {
+                  if (aseguradora == "Sura") {
+                    let message =
+                      aseguradora == "Sura"
+                        ? `🐯 <b>Nueva alianza para comercializar seguros Sura.</b> Solicita cotización manual a tu Analista Comercial.`
+                        : ``;
+
+                    let ofertas = [
                       {
-                        Mensajes: [
-                          "Solicita cotización manual con tu Analista Comercial asignado",
-                        ],
+                        Resultado: false,
+                        Mensajes: [message],
                       },
                     ];
-                    setTimeout(function () {
-                      validarProblema("Estado", arrAseguradora);
-                      addAseguradora("Estado");
-                      resolve();
-                    }, 1000);
-                  } catch (error) {
-                    resolve();
-                  }
-                });
 
-                cont.push(estadoPromise);
-              }
-              else {
-                let promise = fetch(
-                  `https://grupoasistencia.com/motor_webservice/${aseguradora}_pesados`,
-                  requestOptions
-                )
-                  .then((res) => {
-                    if (!res.ok) throw Error(res.statusText);
-                    return res.json();
-                  })
-                  .then((ofertas) => {
-                    if (typeof ofertas[0].Resultado !== "undefined") {
-                      validarProblema(aseguradora, ofertas);
-                      agregarAseguradoraFallidaPesados(aseguradora);
-                      if (ofertas[0].length > 1) {
-                        ofertas[0].Mensajes.forEach((mensaje) => {
-                          mostrarAlertarCotizacionFallida(aseguradora, mensaje);
-                        });
-                      } else {
-                        ofertas[0].Mensajes.forEach((mensaje) => {
-                          mostrarAlertarCotizacionFallida(aseguradora, mensaje);
-                        });
-                      }
-                    } else {
-                      const contadorPorEntidad = validarOfertasPesados(
-                        ofertas,
-                        aseguradora,
-                        1
-                      );
-                      mostrarAlertaCotizacionExitosa(
-                        aseguradora,
-                        contadorPorEntidad
-                      );
-                    }
-                  })
-                  .catch((err) => {
-                    agregarAseguradoraFallidaPesados(aseguradora);
-                    mostrarAlertarCotizacionFallida(
-                      aseguradora,
-                      "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
-                    );
-                    validarProblema(aseguradora, [
-                      {
-                        Mensajes: [
-                          "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
-                        ],
-                      },
-                    ]);
-                    console.error(err);
-                  });
-                cont.push(promise);
-              }
+                    //agregarAseguradoraFallida(aseguradora);
+                    validarProblema(aseguradora, ofertas);
+                    ofertas[0].Mensajes.forEach((mensaje) => {
+                      mostrarAlertarCotizacionFallida(aseguradora, mensaje);
+                    });
+                  } else {
+                    let promise = fetch(
+                      `https://grupoasistencia.com/motor_webservice/${aseguradora}_pesados`,
+                      requestOptions
+                    )
+                      .then((res) => {
+                        if (!res.ok) throw Error(res.statusText);
+                        return res.json();
+                      })
+                      .then((ofertas) => {
+                        if (typeof ofertas[0].Resultado !== "undefined") {
+                          validarProblema(aseguradora, ofertas);
+                          agregarAseguradoraFallidaPesados(aseguradora);
+                          if (ofertas[0].length > 1) {
+                            ofertas[0].Mensajes.forEach((mensaje) => {
+                              mostrarAlertarCotizacionFallida(
+                                aseguradora,
+                                mensaje
+                              );
+                            });
+                          } else {
+                            ofertas[0].Mensajes.forEach((mensaje) => {
+                              mostrarAlertarCotizacionFallida(
+                                aseguradora,
+                                mensaje
+                              );
+                            });
+                          }
+                        } else {
+                          const contadorPorEntidad = validarOfertasPesados(
+                            ofertas,
+                            aseguradora,
+                            1
+                          );
+                          mostrarAlertaCotizacionExitosa(
+                            aseguradora,
+                            contadorPorEntidad
+                          );
+                        }
+                      })
+                      .catch((err) => {
+                        agregarAseguradoraFallidaPesados(aseguradora);
+                        mostrarAlertarCotizacionFallida(
+                          aseguradora,
+                          "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
+                        );
+                        validarProblema(aseguradora, [
+                          {
+                            Mensajes: [
+                              "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
+                            ],
+                          },
+                        ]);
+                        console.error(err);
+                      });
+                    cont.push(promise);
+                  }
+                }
             });
             //console.log(cont, "cotizacion");
             Promise.all(cont).then(() => {
@@ -3591,7 +3616,7 @@ function cotizarOfertasPesados() {
             celdaContador.textContent = 0;
             celdaCotizo.innerHTML =
               '<i class="fa fa-times" aria-hidden="true" style="color: red; margin-right: 10px;"></i>';
-            celdaResponse.textContent = mensaje;
+            celdaResponse.innerHTML = mensaje;
 
             // Verifica si el mensaje es diferente antes de actualizar
             // if (observacionesActuales !== mensaje) {
