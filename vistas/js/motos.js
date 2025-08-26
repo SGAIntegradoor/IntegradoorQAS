@@ -2914,7 +2914,7 @@ function cotizarOfertasMotos() {
                   celdaContador.textContent = 0;
                   celdaCotizo.innerHTML =
                     '<i class="fa fa-times" aria-hidden="true" style="color: red; margin-right: 10px;"></i>';
-                  celdaResponse.textContent = mensaje;
+                  celdaResponse.innerHTML = mensaje;
                 }
                 // Verifica si el mensaje es diferente antes de actualizar
                 // if (observacionesActuales !== mensaje) {
@@ -3089,7 +3089,27 @@ function cotizarOfertasMotos() {
               }
 
               // Realizar la solicitud fetch y agregar la promesa al array
-              cont.push(
+
+              if (aseguradora == "Sura") {
+                let message =
+                  aseguradora == "Sura"
+                    ? `🐯 <b>Nueva alianza para comercializar seguros Sura.</b> Solicita cotización manual a tu Analista Comercial.`
+                    : ``;
+
+                let ofertas = [
+                  {
+                    Resultado: false,
+                    Mensajes: [message],
+                  },
+                ];
+
+                //agregarAseguradoraFallida(aseguradora);
+                validarProblemaMotos(aseguradora, ofertas);
+                ofertas[0].Mensajes.forEach((mensaje) => {
+                mostrarAlertarCotizacionFallida(aseguradora, mensaje);
+                });
+              } else {
+                cont.push(
                 fetch(url, requestOptions)
                   .then((res) => {
                     if (!res.ok) throw Error(res.statusText);
@@ -3129,6 +3149,7 @@ function cotizarOfertasMotos() {
                     ]);
                   })
               );
+              }
             });
 
             Promise.all(cont).then(() => {

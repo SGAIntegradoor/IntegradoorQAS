@@ -284,6 +284,7 @@
       "Qualitas" => array("A" => $permisos["Qualitas_A"], "C" => $permisos["Qualitas_C"]),
       "SBS" => array("A" => $permisos["SBS_A"], "C" => $permisos["SBS_C"]),
       "Solidaria" => array("A" => $permisos["Solidaria_A"], "C" => $permisos["Solidaria_C"]),
+      "Sura" => array("A" => $permisos["Sura_A"], "C" => $permisos["Sura_C"]),
       "Zurich" => array("A" => $permisos["Zurich_A"], "C" => $permisos["Zurich_C"]),
     );
 
@@ -294,6 +295,7 @@
       "Mundial" => array("A" => $permisos["Mundial_A_motos"], "C" => $permisos["Mundial_C_motos"]),
       "Estado" => array("A" => $permisos["Estado_A_motos"], "C" => $permisos["Estado_C_motos"]),
       "HDI Seguros" => array("A" => $permisos["Liberty_A_motos"], "C" => $permisos["Liberty_C_motos"]),
+      "Sura" => array("A" => $permisos["Sura_A_motos"], "C" => $permisos["Sura_C_motos"]),
     );
 
     $aseguradoras_pesados = array(
@@ -304,6 +306,7 @@
       // "HDI" => array("A" => $permisos["HDI_A_pesados"], "C" => $permisos["HDI_C_pesados"]),
       "Mundial" => array("A" => $permisos["Mundial_A_pesados"], "C" => $permisos["Mundial_C_pesados"]),
       "Previsora" => array("A" => $permisos["Previsora_A_pesados"], "C" => $permisos["Previsora_C_pesados"]),
+      "Sura" => array("A" => $permisos["Sura_A_pesados"], "C" => $permisos["Sura_C_pesados"]),
     );
 
     $aseguradoras_publicos = array(
