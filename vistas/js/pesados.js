@@ -1880,6 +1880,7 @@ const mostrarOfertaPesados = (
     "HDI (Antes Liberty)",
     "Axa Colpatria",
     "Previsora",
+    "Estado"
   ];
 
   let cardCotizacion = `

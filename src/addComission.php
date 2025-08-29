@@ -27,14 +27,13 @@ try {
     $tipoNegocio = isset($data['tipoNegocio']) ? json_encode($data['tipoNegocio'], JSON_UNESCAPED_UNICODE) : "[]";
     $tipoExpedicion = isset($data['tipoExpedicion']) ? json_encode($data['tipoExpedicion'], JSON_UNESCAPED_UNICODE) : "[]";
     
-    $valorComision = $data['valorComision'] ?? 0;
+    $valorComision = $data['valorComision'];
     $id_usuario = $data['id_usuario'] ?? null;
     $id_super_usuario = $data['id_super_usuario'] ?? null;
     $observaciones = $data['observaciones'] ?? "";
 
     // Insert con PDO correctamente estructurado
-    $stmt = $pdo->prepare("
-        INSERT INTO comisiones_usuarios 
+    $stmt = $pdo->prepare("INSERT INTO comisiones_usuarios 
         (id_comision, ramo, unidad_negocio, tipo_negocio, tipo_expedicion, valor_comision, id_usuario, id_super_usuario, observaciones)
         VALUES 
         (NULL, :ramo, :unidad_negocio, :tipo_negocio, :tipo_expedicion, :valor_comision, :id_usuario, :id_super_usuario, :observaciones)
@@ -54,10 +53,8 @@ try {
     if ($stmt->execute()) {
         echo json_encode(["status" => "success", "message" => "Guardado correctamente"], JSON_UNESCAPED_UNICODE);
     } else {
-        echo json_encode(["status" => "error", "message" => "Error al guardar"], JSON_UNESCAPED_UNICODE);
+        echo json_encode(["status" => "error", "message" => $stmt->errorInfo()], JSON_UNESCAPED_UNICODE);
     }
 } catch (PDOException $e) {
     echo json_encode(["status" => "error", "message" => "Error de conexión: " . $e->getMessage()], JSON_UNESCAPED_UNICODE);
-} catch (Exception $e) {
-    echo json_encode(["status" => "error", "message" => "Error: " . $e->getMessage()], JSON_UNESCAPED_UNICODE);
-}
+} 
