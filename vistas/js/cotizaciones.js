@@ -1750,6 +1750,7 @@ async function renderCards(response) {
         (oferta.Manual == "0" ||
           oferta.Manual == "8" ||
           oferta.Manual == "9" ||
+          oferta.Manual == "3" ||
           oferta.Manual == "4") &&
         oferta.Aseguradora == "Seguros del Estado" &&
         oferta.UrlPdf !== null &&
