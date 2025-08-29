@@ -26,7 +26,7 @@ try {
     $unidadNegocio = isset($data['unidadNegocio']) ? json_encode($data['unidadNegocio'], JSON_UNESCAPED_UNICODE) : "[]";
     $tipoNegocio = isset($data['tipoNegocio']) ? json_encode($data['tipoNegocio'], JSON_UNESCAPED_UNICODE) : "[]";
     $tipoExpedicion = isset($data['tipoExpedicion']) ? json_encode($data['tipoExpedicion'], JSON_UNESCAPED_UNICODE) : "[]";
-    
+
     $valorComision = $data['valorComision'] ?? 0;
     $id_usuario = $data['id_usuario'] ?? null;
     $id_super_usuario = $data['id_super_usuario'] ?? null;
@@ -45,7 +45,7 @@ try {
     $stmt->bindParam(':unidad_negocio', $unidadNegocio, PDO::PARAM_STR);
     $stmt->bindParam(':tipo_negocio', $tipoNegocio, PDO::PARAM_STR);
     $stmt->bindParam(':tipo_expedicion', $tipoExpedicion, PDO::PARAM_STR);
-    $stmt->bindParam(':valor_comision', $valorComision, PDO::PARAM_INT);
+    $stmt->bindParam(':valor_comision', $valorComision, PDO::PARAM_STR);
     $stmt->bindParam(':id_usuario', $id_usuario, PDO::PARAM_INT);
     $stmt->bindParam(':id_super_usuario', $id_super_usuario, PDO::PARAM_INT);
     $stmt->bindParam(':observaciones', $observaciones, PDO::PARAM_STR);

@@ -10,6 +10,7 @@ if (isset($_POST['id_usuario']) && ($_SESSION["rol"] == 12 || $_SESSION["rol"] =
     mysqli_set_charset($enlace, "utf8");
     $query = "SELECT * FROM comisiones_usuarios WHERE id_usuario = $id_usuario";
     $ejecucion = mysqli_query($enlace, $query);
+    $result = array();
     while ($fila = $ejecucion->fetch_assoc()) {
         $result[] = array(
             'id_comision' => $fila['id_comision'],
