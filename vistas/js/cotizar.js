@@ -1033,7 +1033,8 @@ function consulPlaca(query = "1") {
 
     let typeQuery =
       query != "2"
-        ? numplaca != "" &&
+        ? $("#tipoUso").val() != null &&
+          numplaca != "" &&
           tipoDocumentoID != "" &&
           numDocumentoID != "" &&
           dianacimiento != "" &&
@@ -1153,6 +1154,17 @@ function consulPlaca(query = "1") {
                 } else if (codigoClase == 4) {
                   claseVehiculo = "CAMIONETA PASAJ.";
                   limiteRCESTADO = 6;
+                } else if (codigoClase == 11) {
+                  claseVehiculo = "CAMIONETA REPARTIDORA";
+                  restriccion =
+                    "Lo sentimos, no puedes cotizar vehiculos utilitarios por este módulo. Para hacerlo debes ingresar al modulo Cotizar Livianos Utilitarios.";
+                  Swal.fire({
+                    icon: "error",
+                    text: restriccion,
+                    confirmButtonText: "Cerrar",
+                  }).then(() => {
+                    location.reload();
+                  });
                 } else if (codigoClase == 12) {
                   claseVehiculo = "MOTOCICLETA";
                   limiteRCESTADO = 6;
@@ -1261,7 +1273,7 @@ function consulPlaca(query = "1") {
           }
         });
     } else {
-      $("#dianacimiento, #mesnacimiento, #anionacimiento").each(function () {
+      $("#dianacimiento, #mesnacimiento, #anionacimiento, #tipoUso").each(function () {
         // Verificar si el campo tiene un valor
         if ($(this).val() === "") {
           // Cambiar el borde a rojo para los campos vacíos
@@ -1275,6 +1287,18 @@ function consulPlaca(query = "1") {
             .next(".select2-container")
             .find(".select2-selection")
             .css("border", "");
+        }
+
+        if ($(this).val() === "" || $(this).val() === null) {
+          if ($(this).val() === null) {
+            // Cambiar el borde a rojo para los campos vacíos
+            $(this)
+              .css("border", "1px solid red");
+          } else {
+            // Restablecer el estilo para los campos que tienen valor
+            $(this)
+              .css("border", "");
+          }
         }
       });
 
@@ -4944,5 +4968,40 @@ $("#btnConsultarVehmanualbuscador").click(function () {
         }
       },
     });
+  }
+});
+
+// Logica para tipo de uso
+$("#tipoUso").change(function () {
+  let tipoUso = $("#tipoUso").val();
+  if (tipoUso == 2) {
+    Swal.fire({
+      icon: "info",
+      title: "INFO",
+      text: "Los vehículos de plataformas se cotizan con el producto. Solicita cotización manual a tu Analista Comercial asignado.",
+      showConfirmButton: true,
+      allowOutsideClick: true,
+      allowEscapeKey: true,
+    }).then(() => {
+      window.location.reload();
+    });
+  } else if (tipoUso == 3) {
+    Swal.fire({
+      icon: "info",
+      title: "INFO",
+      text: "Este módulo solo permite cotizar vehículos de uso familiar exclusivo. Por favor utiliza el módulo correspondiente para vehículos de trabajo.",
+      showConfirmButton: true,
+      allowOutsideClick: true,
+      allowEscapeKey: true,
+    }).then(() => {
+      window.location.reload();
+    });
+  } else {
+    $("#txtTipoServicio").append(
+      $("<option>", {
+        value: "14",
+        text: "Particular"
+      })
+    );
   }
 });
