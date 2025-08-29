@@ -72,7 +72,7 @@
                         if (data) {
                             this.mostrarModal = true
                             setTimeout(() => {
-                                window.location.href = "/IntegradoorQAS/qas/login";
+                                window.location.href = "/app/login";
                             }, 3000)
                         }
                     })
@@ -82,7 +82,7 @@
             },
             cerrarModal() {
                 this.mostrarModal = false
-                window.location.href = "/IntegradoorQAS/qas/login";
+                window.location.href = "/app/login";
             }
         },
         mounted() {
