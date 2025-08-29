@@ -427,6 +427,21 @@ function toogleDataContainer() {
 
 //Cambiar titulo data container una vez se cotiza
 function validarCampos() {
+
+  // Bloque de restriccion para plan estudiantil, quitar cuando habiliten este plan en el WS
+  if ($("#motivoViaje").val() == "Estudiantil") {
+    Swal.fire({
+      icon: "info",
+      title: "INFO",
+      text: "No hay cotizaciones disponibles para los parámetros ingresados.",
+      showConfirmButton: true,
+    }).then(() => {
+      window.location.reload();
+    });
+    return false;
+  }
+  // Fin bloque de restriccion
+
   var campos = [
     "#fechaSalida",
     "#fechaRegreso",
