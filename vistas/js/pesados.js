@@ -1997,7 +1997,7 @@ const mostrarOfertaPesados = (
                       </button>
                     </div>`;
   } else if (
-    nombreAseguradoraA == "Seguros del Estado" &&
+    nombreAseguradoraA == "Estado" &&
     UrlPdf !== null &&
     permisosCredenciales == "1"
   ) {
