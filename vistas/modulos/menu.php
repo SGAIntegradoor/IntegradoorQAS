@@ -182,7 +182,7 @@ checkUserStatus();
 		COTIZAR LIVIANO
 		=============================================*/
 			echo  '<li class="' . ($currentPage == 'cotizar' ? 'active' : '') . '">
-				<a id="menuCotLiv" href="cotizar">
+				<a id="menuCotLiv" href="livianos">
 					<i class="fa fa-car"></i>
 					<span>Cotizar Livano Particular</span>
 				</a>
