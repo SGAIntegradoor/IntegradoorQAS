@@ -103,7 +103,7 @@
                                 <option value="3">Seguros Bolivar</option>
                                 <option value="4">Equidad</option>
                                 <option value="5">Seguros del Estado</option>
-                                <option value="6">HDI (Antes Liberty)</option>
+                                <option value="6">HDI Seguros</option>
                                 <option value="7">Mapfre</option>
                                 <option value="8">Previsora Seguros</option>
                                 <option value="9">SBS Seguros</option>
