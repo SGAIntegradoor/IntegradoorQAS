@@ -1880,6 +1880,7 @@ const mostrarOfertaPesados = (
     "HDI (Antes Liberty)",
     "Axa Colpatria",
     "Previsora",
+    "Estado"
   ];
 
   let cardCotizacion = `
@@ -1996,7 +1997,7 @@ const mostrarOfertaPesados = (
                       </button>
                     </div>`;
   } else if (
-    nombreAseguradoraA == "Seguros del Estado" &&
+    nombreAseguradoraA == "Estado" &&
     UrlPdf !== null &&
     permisosCredenciales == "1"
   ) {
