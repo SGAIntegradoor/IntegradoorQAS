@@ -4188,7 +4188,7 @@ function cotizarOfertas() {
         /* Bolivar */
         const bolivarPromise = comprobarFallida("Bolivar")
           ? fetch(
-              "https://grupoasistencia.com/motor_webservice/Bolivar_autos?callback=myCallback",
+              "https://grupoasistencia.com/backend_node/WSBolivar/postQuotationBolivar",
               requestOptions
             )
               .then((res) => {

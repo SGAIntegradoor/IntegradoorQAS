@@ -82,7 +82,7 @@
             },
             cerrarModal() {
                 this.mostrarModal = false
-                window.location.href = "/IntegradoorQAS/qas/login";
+                window.location.href = "/app/login";
             }
         },
         mounted() {
