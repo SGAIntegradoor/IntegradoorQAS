@@ -75,7 +75,7 @@ function getAsesores($asesor = null, $analista = null, $estado = null) {
             u.id_usuario,
             CONCAT(u.usu_nombre, ' ', u.usu_apellido) AS asesor,
             DATE_FORMAT(u.usu_fch_creacion, '%d/%m/%Y') AS fecha_ingreso,
-            CASE WHEN u.usu_estado = 1 THEN 'Activo' ELSE 'Inactivo' END AS estado_usuario,
+            CASE WHEN u.usu_estado = 1 THEN 'Activo' ELSE 'Bloqueado' END AS estado_usuario,
             af.nombre_analista AS analista,
             u.estado_freelance,
             u.categoria_freelance

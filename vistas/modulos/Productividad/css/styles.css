@@ -519,3 +519,7 @@
     border: none;
     cursor: pointer;
   }
+
+  .tabla-productividad tbody td {
+  font-size: 13px !important;
+  }
