@@ -3505,7 +3505,9 @@ function cotizarOfertas() {
               //   );
               //   return; /*Fin javier */
               // } 
-              else {
+              else if (aseguradora === "Bolivar") {
+                url = `https://grupoasistencia.com/backend_node/WSBolivar/postQuotationBolivar`;
+              } else {
                 url = `https://grupoasistencia.com/motor_webservice/${aseguradora}_autos`;
               }
               // Realizar la solicitud fetch y agregar la promesa al array
@@ -4132,7 +4134,7 @@ function cotizarOfertas() {
         /* Bolivar */
         const bolivarPromise = comprobarFallida("Bolivar")
           ? fetch(
-              "https://grupoasistencia.com/motor_webservice/Bolivar_autos?callback=myCallback",
+              "https://grupoasistencia.com/backend_node/WSBolivar/postQuotationBolivar",
               requestOptions
             )
               .then((res) => {
