@@ -913,7 +913,7 @@ $("#txtAnalistaGAModal").select2({
   },
   width: "100%",
   placeholder: "Asesor GA",
-  dropdownParent: $("#txtCanalModal").parent(), // Ubica el dropdown dentro del modal
+  dropdownParent: $("#txtAnalistaGAModal").parent(), // Ubica el dropdown dentro del modal
 });
 
 $("#txtRazonPerdidoOportunidadModal").select2({
@@ -972,12 +972,14 @@ $("#txtMesOportunidadModal").select2({
 $("#txtCanalModal").on("change", function () {
   if ($(this).val() == 2) {
     $("#divAsesorFreelance").css("display", "block");
-    $("#txtAsesorOportunidadModal").val(null).trigger('change');
+    // $("#txtAsesorOportunidadModal").val(null).trigger('change');
+    $("#txtAsesorOportunidadModal").prop('disabled', false);
     // $("#txtAsesorOportunidadModal").text('');
     $("#txtAsesorOportunidadModal")[0].required = true;
   } else {
     $("#divAsesorFreelance").css("display", "none");
-    $("#txtAsesorOportunidadModal").val(null).trigger('change');
+    // $("#txtAsesorOportunidadModal").val(null).trigger('change');
+    $("#txtAsesorOportunidadModal").prop('disabled', true);
     // $("#txtAsesorOportunidadModal").text('');
     $("#txtAsesorOportunidadModal")[0].required = false;
   }

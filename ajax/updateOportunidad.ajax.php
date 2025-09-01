@@ -15,7 +15,7 @@ $mesOportunidad = $_POST["mesOportunidad"];
 $canalOportunidad = $_POST['canalOportunidad'];
 $razonPerdidaOportunidad = $_POST['razonPerdidaOportunidad'];
 $otraRazon = $_POST['otraRazon'];
-$asesor_freelance = $_POST["asesor_freelance"];
+$asesor_freelance = $canalOportunidad == 'Directo' ? '' : $_POST["asesor_freelance"];
 $id_user_freelance = $_POST["id_user_freelance"];
 $ramo = $_POST["ramo"];
 $placa = $_POST["placa"];
