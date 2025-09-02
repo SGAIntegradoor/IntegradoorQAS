@@ -200,7 +200,7 @@ function renderTable(data) {
         <tr>
           <th rowspan="2">Acción</th>
           <th rowspan="2" class="col-nombre">Asesor</th>
-          <th rowspan="2">Fecha de ingreso</th>
+          <th rowspan="2">Fecha de creación</th>
           <th rowspan="2">Estado Usuario</th>
           <th rowspan="2">Analista</th>
           <th rowspan="2">Estado freelance</th>
