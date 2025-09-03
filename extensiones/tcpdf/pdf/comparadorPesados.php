@@ -3123,7 +3123,7 @@ function productoAseguradora($aseguradora, $producto)
 function getClassByFasecolda ($fasecolda) {
 	$cCaracter = substr($fasecolda, 3, 1);
 	$qCaracter = substr($fasecolda, 4, 1);
-	if($cCaracter == "1"){
+	if((int)$cCaracter > 0){
 		return $cCaracter.''.$qCaracter;
 	} else {
 		return $qCaracter;

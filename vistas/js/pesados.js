@@ -1840,7 +1840,7 @@ const mostrarOfertaPesados = (
       $resultado = "Previsora";
     } else if ($data == "Solidaria") {
       $resultado = "Solidaria";
-    } else if ($data == "Mundial") {
+    } else if ($data == "Seguros Mundial") {
       $resultado = "Mundial";
     } else {
       $resultado = $data;
@@ -1972,7 +1972,7 @@ const mostrarOfertaPesados = (
                       <li class="list-group-item">
                         <span class="badge">* ${GR}</span>
                         ${
-                          aseguradorasViajes.includes(aseguradora)
+                          aseguradorasViajes.includes(nombreAseguradoraA)
                             ? "Asistencia en Viajes"
                             : "Servicio de Grua"
                         } 
@@ -2021,7 +2021,7 @@ const mostrarOfertaPesados = (
                 <div>VER PDF &nbsp;&nbsp;<span class="fa fa-file-text"></span></div>
               </button>
             </div>`;
-  } else if (aseguradora == "Mundial" && permisosCredenciales == "1" && producto == "Conduce Tranquilo") {
+  } else if (aseguradora == "Mundial" && permisosCredenciales == "1" && producto == "Conduce Tranquilo Pes") {
     cardCotizacion += `
                           <div class="col-xs-12 col-sm-6 col-md-2 verpdf-oferta">
                               <button id="mundial-pdf${producto}" type="button" class="btn btn-info" onclick='verPdfMundialLivianos(\"${UrlPdf}\")'>
