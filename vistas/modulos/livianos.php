@@ -739,7 +739,7 @@ echo '<script>console.log(' . $idIntermediario . ", " . $rolAsesor . ')</script>
                     </div>
 
                     <div class="col-lg-3">
-                        <a href="#">
+                        <a href="http://localhost/dev/IntegradoorQAS/utilitarios">
                             <div class="card">
                                 <div class="d-flex justify-content-center pt-3">
                                     <img style="width: 90px; transform: scale(1);" src="http://localhost/dev/IntegradoorQAS/vistas/modulos/utilitarios/img/utilitario_imagen.png" class="card-img-top text-center" alt="..." onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">

@@ -312,6 +312,17 @@
       "Solidaria" => array("A" => $permisos["Solidaria_A_Publicos"], "C" => $permisos["Solidaria_C_Publicos"]),
     );
 
+    $aseguradoras_utilitarios = array(
+      "Allianz" => array("A" => $permisos["Allianz_A"], "C" => $permisos["Allianz_C"]),
+      "AXA" => array("A" => $permisos["AXA_A"], "C" => $permisos["AXA_C"]),
+      "Bolivar" => array("A" => $permisos["Bolivar_A"], "C" => $permisos["Bolivar_C"]),
+      "Equidad" => array("A" => $permisos["Equidad_A"], "C" => $permisos["Equidad_C"]),
+      "Estado" => array("A" => $permisos["Estado_A"], "C" => $permisos["Estado_C"]),
+      "HDI Seguros" => array("A" => $permisos["Liberty_A"], "C" => $permisos["Liberty_C"]),
+      "Previsora" => array("A" => $permisos["Previsora_A"], "C" => $permisos["Previsora_C"]),
+      "Solidaria" => array("A" => $permisos["Solidaria_A"], "C" => $permisos["Solidaria_C"]),
+    );    
+
 
   ?>
     <script>
@@ -371,6 +382,7 @@
         $_GET["ruta"] == "cotizar" ||
         $_GET["ruta"] == "pesados" ||
         $_GET["ruta"] == "motos" ||
+        $_GET["ruta"] == "utilitarios" ||
         $_GET["ruta"] == "autogestion" ||
         $_GET["ruta"] == "salir" ||
         $_GET["ruta"] == "modificacion-productos" ||
