@@ -802,7 +802,7 @@ if ($rowValidateF >= 1) {
 					$html2 .= '<td style="font-size:' . ($font_size - 2) . 'px; color:#666666; font-family:dejavusanscondensedb; text-align: center;" class="puntos td2 ' . $fondo_class . '">
 				 $' . number_format($resultado['cuota_1'], 0, ',', '.') . '
                 <br>
-                (' . $resultado['cuotas'] . ' Cuotas)
+                (' . $resultado['cuotas'] . ' Cuotas)*
                 </td>';
 				}
 				$cont3++;
@@ -2819,6 +2819,12 @@ $html7 .= '</table>';
 
 $pdf->SetXY(80, 119);
 $pdf->writeHTML($html2, true, false, true, false, '');
+
+$pdf->SetFont('', '', 6.2);
+$pdf->SetTextColor(104, 104, 104);
+$pdf->SetXY(129, 151);
+$pdf->Cell(10, 0, '*No se permite financiar a 12 cuotas si el vehiculo tiene prenda y la póliza tiene beneficiario oneros; máximo 11 cuotas.', 0, $ln = 0, 'C', 0, '', 0, false, 'C', 'C');
+$pdf->Ln();
 
 $pdf->SetFont('dejavusanscondensed', 'I', 15);
 $pdf->SetTextColor(104, 104, 104);
