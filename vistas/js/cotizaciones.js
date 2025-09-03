@@ -1221,7 +1221,7 @@ async function renderCards(response) {
 
       if (permisosCotizacion === null || permisosCotizacion === undefined) {
         var permisosCotizacion =
-          '{"Qualitas":{"A":"1","C":"1"},"Allianz":{"A":"1","C":"1"},"AXA":{"A":"1","C":"1"},"Bolivar":{"A":"1","C":"1"},"Equidad":{"A":"1","C":"1"},"Estado":{"A":"1","C":"1"},"HDI (Antes Liberty)":{"A":"1","C":"1"},"HDI Seguros":{"A":"1","C":"1"},"Mapfre":{"A":"1","C":"1"},"Previsora":{"A":"1","C":"1"},"SBS":{"A":"1","C":"1"},"Solidaria":{"A":"1","C":"1"},"Zurich":{"A":"1","C":"1"}}';
+          '{"Mundial":{"A":"1","C":"1"},"Qualitas":{"A":"1","C":"1"},"Allianz":{"A":"1","C":"1"},"AXA":{"A":"1","C":"1"},"Bolivar":{"A":"1","C":"1"},"Equidad":{"A":"1","C":"1"},"Estado":{"A":"1","C":"1"},"HDI (Antes Liberty)":{"A":"1","C":"1"},"HDI Seguros":{"A":"1","C":"1"},"Mapfre":{"A":"1","C":"1"},"Previsora":{"A":"1","C":"1"},"SBS":{"A":"1","C":"1"},"Solidaria":{"A":"1","C":"1"},"Zurich":{"A":"1","C":"1"}}';
       }
 
       // Permisos Credenciales aseguradoras
@@ -1260,6 +1260,8 @@ async function renderCards(response) {
       }
       const aseguradorasViajes = [
         "Mundial",
+        "Mundial Seguros",
+        "Seguros Mundial",
         "HDI Seguros",
         "HDI (Antes Liberty)",
         "Axa Colpatria",
@@ -1269,6 +1271,7 @@ async function renderCards(response) {
         "AXA Colpatria",
         "AXA",
         "Estado"
+
       ];
 
       const planesViajes = [
@@ -1307,7 +1310,8 @@ async function renderCards(response) {
         "Plan Normal",
         "Plan Full",
         "Buses",
-        "Genio Pesado"
+        "Genio Pesado",
+        "Conduce Tranquilo Pes"
       ];
 
       var valorRC = isNumeric(oferta.ValorRC);
@@ -1456,7 +1460,7 @@ async function renderCards(response) {
                         <h5 class='entidad' style='font-size: 15px'><b>${
                           oferta.Aseguradora == "HDI (Antes Liberty)"
                             ? "HDI Seguros"
-                            : oferta.Aseguradora
+                            : nombreAseguradora(oferta.Aseguradora)
                         } - ${
         oferta.Producto == "Pesados con RCE en exceso"
           ? "Pesados RCE + Exceso"
@@ -1644,7 +1648,7 @@ async function renderCards(response) {
   
                               <span class="badge">* ${oferta.Grua}</span>
                               ${
-                                aseguradorasViajes.includes(aseguradora) &&
+                                aseguradorasViajes.includes(nombreAseguradora(oferta.Aseguradora)) &&
                                 planesViajes.includes(oferta.Producto)
                                   ? "Asistencia en Viajes"
                                   : "Servicio de Grúa"
@@ -1742,6 +1746,29 @@ async function renderCards(response) {
                         <button type="button" class="btn btn-info" id="previsora-pdf${oferta.NumCotizOferta}" onclick='verPdfPrevisora(\"${oferta.NumCotizOferta}\");'>
   
                           <div id="verPdf${oferta.NumCotizOferta}${numId}\">VER PDF &nbsp;&nbsp;<span class="fa fa-file-text"></span></div>
+  
+                        </button>
+  
+                        </div>`;
+      } else if (
+        (oferta.Manual == "0" ||
+          oferta.Manual == "8" ||
+          oferta.Manual == "9" ||
+          oferta.Manual == "3" ||
+          oferta.Manual == "4") &&
+        (oferta.Aseguradora == "Mundial" ||
+          oferta.Aseguradora == "Seguros Mundial" || oferta.Aseguradora == "Mundial Seguros") &&
+        oferta.UrlPdf !== null &&
+        aseguradoraPermisos == "1" && oferta.Producto == "Conduce Tranquilo Pes"
+      ) {
+        
+        cardCotizacion += `
+  
+                        <div class="col-xs-12 col-sm-6 col-md-2 verpdf-oferta">
+  
+                        <button type="button" class="btn btn-info" id="previsora-pdf${oferta.NumCotizOferta}" onclick='verPdfMundialLivianos(\"${oferta.UrlPdf}\");'>
+  
+                          <div>VER PDF &nbsp;&nbsp;<span class="fa fa-file-text"></span></div>
   
                         </button>
   
