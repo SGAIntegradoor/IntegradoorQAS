@@ -435,7 +435,7 @@ function validarCampos() {
       title: "Información",
       text: "Cotización motivo Estudiantil en mantenimiento. Solicita cotización manual.",
       showConfirmButton: true,
-      textConfirmButtonText: "Cerrar",
+      confirmButtonText: "Cerrar",
     }).then(() => {
       window.location.reload();
     });
