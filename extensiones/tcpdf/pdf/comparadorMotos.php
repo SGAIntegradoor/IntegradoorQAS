@@ -2445,11 +2445,13 @@ $html7 .= '</table>';
 $pdf->SetXY(80, 119);
 $pdf->writeHTML($html2, true, false, true, false, '');
 
-$pdf->SetFont('', '', 5.5);
-$pdf->SetTextColor(104, 104, 104);
-$pdf->SetXY(121, 153);
-$pdf->Cell(10, 0, '*No se permite financiar a 12 cuotas si el vehículo tiene prenda y la póliza beneficiario oneroso; máximo 11 cuotas.', 0, $ln = 0, 'C', 0, '', 0, false, 'C', 'C');
-$pdf->Ln();
+if ($rowValidateF > 0) {
+	$pdf->SetFont('', '', 6.2);
+	$pdf->SetTextColor(104, 104, 104);
+	$pdf->SetXY(67, 132);
+	$pdf->Cell(10, 0, '*No se permite financiar a 12 cuotas si el vehículo tiene prenda y la póliza beneficiario oneroso; máximo 11 cuotas.', 0, $ln = 0, 'C', 0, '', 0, false, 'C', 'C');
+	$pdf->Ln();
+}
 
 $pdf->SetFont('dejavusanscondensed', 'I', 15);
 $pdf->SetTextColor(104, 104, 104);
@@ -2513,7 +2515,7 @@ $pdf->SetTextColor(104, 104, 104);
 $pdf->Cell(25, 6, "Elaborado por Software Integradoor propiedad del proveedor tecnológico Strategico Technologies SAS BIC Nit: 901.542.216-8", 0, 1, '');
 $pdf->StopTransform();
 
-$pdf->SetXY(0, 274);
+$pdf->SetXY(0, 276);
 // $pdf->SetY(-45);
 $htmlFooter = '<p style="font-size: 6.2px;">Nota: Esta cotización no constituye una oferta comercial. La misma se expide única y exclusivamente con un propósito informativo sobre los posibles costos del seguro y sus condiciones, los cuales serán susceptibles de modificación hasta tanto no se concreten y determinen las características de los respectivos riesgos. No se permite financiar a 12 cuotas si el vehículo tiene prenda y la póliza beneficiario oneroso; máximo 11 cuotas.</p>';
 $pdf->writeHTML($htmlFooter, true, false, true, false, '');

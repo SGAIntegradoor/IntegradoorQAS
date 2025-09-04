@@ -2820,11 +2820,13 @@ $html7 .= '</table>';
 $pdf->SetXY(80, 119);
 $pdf->writeHTML($html2, true, false, true, false, '');
 
-$pdf->SetFont('', '', 6.2);
-$pdf->SetTextColor(104, 104, 104);
-$pdf->SetXY(129, 151);
-$pdf->Cell(10, 0, '*No se permite financiar a 12 cuotas si el vehículo tiene prenda y la póliza beneficiario oneroso; máximo 11 cuotas.', 0, $ln = 0, 'C', 0, '', 0, false, 'C', 'C');
-$pdf->Ln();
+if ($rowValidateF > 0) {
+	$pdf->SetFont('', '', 6.2);
+	$pdf->SetTextColor(104, 104, 104);
+	$pdf->SetXY(67, 132);
+	$pdf->Cell(10, 0, '*No se permite financiar a 12 cuotas si el vehículo tiene prenda y la póliza beneficiario oneroso; máximo 11 cuotas.', 0, $ln = 0, 'C', 0, '', 0, false, 'C', 'C');
+	$pdf->Ln();
+}
 
 $pdf->SetFont('dejavusanscondensed', 'I', 15);
 $pdf->SetTextColor(104, 104, 104);
@@ -2895,7 +2897,7 @@ $htmlFooter = '<p style="font-size: 6.2px;">Nota: Esta cotización no constituye
 $pdf->writeHTML($htmlFooter, true, false, true, true, '');
 $pdf->Ln();
 
-$pdf->SetXY(0, 270);
+$pdf->SetXY(0, 272);
 $htmlFooter = '<p style="font-size: 6.2px; color: red">Importante: Algunas líneas de vehículos en las compañías Allianz, Previsora, Mundial y HDI requieren la instalación de un dispositivo de georreferenciación tipo Cazador. El incumplimiento de esta obligación (garantía) puede conllevar la aplicación de exclusiones a diferentes amparos, la ampliación de los deducibles a cargo del asegurado o incluso la aseguradora no será responsable de indemnizar al asegurado. Consulta con tu asesor si tu vehículo necesita este dispositivo antes de tomar tu póliza.</p>';
 $pdf->writeHTML($htmlFooter, true, false, true, true, '');
 $pdf->Ln();
