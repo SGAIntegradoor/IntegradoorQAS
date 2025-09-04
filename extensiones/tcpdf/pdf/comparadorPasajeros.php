@@ -341,7 +341,7 @@ if ($valorLog == "undefined") {
 		$pdf->Image($urlSGA, 8, 13, 0, 20, 'PNG', '', '', true, 160, '', false, false, 0, false, false, false);
 	}
 }
-$pdf->Image('../../../vistas/img/logos/cheque.png', 100.5, 159.5, 0, -12, 'PNG', '', '', true, 160, '', false, false, 0, false, false, false);
+$pdf->Image('../../../vistas/img/logos/cheque.png', 100.5, 164, 0, -12, 'PNG', '', '', true, 160, '', false, false, 0, false, false, false);
 
 $pdf->SetFont('dejavusanscondensed', 'B', 10);
 $pdf->SetXY(158, 3);
@@ -782,7 +782,7 @@ if ($rowValidateF >= 1) {
 					$html2 .= '<td style="font-size:' . ($font_size - 2) . 'px; color:#666666; font-family:dejavusanscondensedb; text-align: center;" class="puntos td2 ' . $fondo_class . '">
 				 $' . number_format($resultado['cuota_1'], 0, ',', '.') . '
                 <br>
-                (' . $resultado['cuotas'] . ' Cuotas)
+                (' . $resultado['cuotas'] . ' Cuotas)*
                 </td>';
 				}
 				$cont3++;
@@ -2515,39 +2515,44 @@ $pdf->SetXY(100, 114);
 $pdf->writeHTML($html2, true, false, true, false, 'C');
 $pdf->Ln();
 
+$pdf->SetFont('', '', 6.2);
+$pdf->SetTextColor(104, 104, 104);
+$pdf->SetXY(120, 147);
+$pdf->Cell(10, 0, '*No se permite financiar a 12 cuotas si el vehiculo tiene prenda y la póliza tiene beneficiario oneros; máximo 11 cuotas.', 0, $ln = 0, 'C', 0, '', 0, false, 'C', 'C');
+$pdf->Ln();
+
 $pdf->SetFont('dejavusanscondensed', 'I', 15);
 $pdf->SetTextColor(104, 104, 104);
-$pdf->SetXY(33.5, 152);
+$pdf->SetXY(33.5, 155);
 $pdf->Cell(10, 0, 'Si quieres', 0, $ln = 0, 'C', 0, '', 0, false, 'C', 'C');
 
 $pdf->SetFont('dejavusanscondensed', 'BI', 15);
 $pdf->SetTextColor(15, 178, 241);
-$pdf->SetXY(98.4, 152);
+$pdf->SetXY(98.4, 155);
 $pdf->Cell(10, 0, ' comparar las coberturas y asistencias', 0, $ln = 0, 'C', 0, '', 0, false, 'C', 'C');
 
 $pdf->SetFont('dejavusanscondensed', 'I', 15);
 $pdf->SetTextColor(104, 104, 104);
-$pdf->SetXY(163, 152);
+$pdf->SetXY(163, 155);
 $pdf->Cell(10, 0, 'de todas', 0, $ln = 0, 'C', 0, '', 0, false, 'C', 'C');
 
 $pdf->SetFont('dejavusanscondensed', 'I', 15);
 $pdf->SetTextColor(104, 104, 104);
-$pdf->SetXY(70, 157);
+$pdf->SetXY(70, 161);
 $pdf->Cell(10, 0, 'las aseguradoras, revisa', 0, $ln = 0, 'C', 0, '', 0, false, 'C', 'C');
 
 $pdf->SetFont('dejavusanscondensed', 'BI', 15);
 $pdf->SetTextColor(235, 135, 39);
-$pdf->SetXY(127, 157);
+$pdf->SetXY(127, 161);
 $pdf->Cell(10, 0, ' el siguiente cuadro', 0, $ln = 0, 'C', 0, '', 0, false, 'C', 'C');
 
 $pdf->SetFont('dejavusanscondensed', 'I', 11);
 $pdf->SetTextColor(104, 104, 104);
-$pdf->SetXY(101, 162);
+$pdf->SetXY(101, 167);
 $pdf->Cell(10, 0, '(Recuerda que este icono       significa Si Aplica o Si Cubre)', 0, $ln = 0, 'C', 0, '', 0, false, 'C', 'C');
 
 
 //$pdf->Cell(210, 0, 'las aseguradoras, revisa el siguiente cuadro', 0, $ln = 0, 'C', 0, '', 0, false, 'C', 'C');
-$pdf->Ln();
 $pdf->Ln();
 
 $pdf->writeHTML($html3, true, false, true, false, '');
