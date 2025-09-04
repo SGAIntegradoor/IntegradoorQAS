@@ -431,9 +431,9 @@ function validarCampos() {
   // Bloque de restriccion para plan estudiantil, quitar cuando habiliten este plan en el WS
   if ($("#motivoViaje").val() == "Estudiantil") {
     Swal.fire({
-      icon: "info",
+      icon: "error",
       title: "INFO",
-      text: "No hay cotizaciones disponibles para los parámetros ingresados.",
+      text: "Cotización motivo Estudiantil en mantenimiento",
       showConfirmButton: true,
     }).then(() => {
       window.location.reload();
@@ -640,7 +640,7 @@ function cotizar() {
 
               if (cotizacionesPermitidas == 0) {
                 Swal.fire({
-                  icon: "info",
+                  icon: "error",
                   title: "No se encontraron planes disponibles",
                   allowOutsideClick: false,
                 }).then((result) => {
