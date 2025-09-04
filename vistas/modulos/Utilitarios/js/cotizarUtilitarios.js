@@ -2170,7 +2170,9 @@ const mostrarOferta = (
                         </center>`
                           : permisos.Vernumerodecotizacionencadaaseguradora ==
                               "x" && permisosCredenciales == "1"
-                          ? `<center>
+                          ? aseguradora == "Equidad" 
+                          ? ``
+                          : `<center>
                           <label class='entidad'>N° Cot: <span style='color:black'>${numCotizOferta}</span></label>
                         </center>`
                           : ""
@@ -2315,7 +2317,7 @@ function validarOfertas(ofertas, aseguradora, exito) {
       oferta.entidad,
       oferta.precio,
       oferta.producto,
-      oferta.numero_cotizacion,
+      oferta.numero_cotizacion ? oferta.numero_cotizacion : '',
       oferta.responsabilidad_civil,
       oferta.cubrimiento,
       oferta.deducible,
