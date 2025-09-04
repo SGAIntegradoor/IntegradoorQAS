@@ -432,9 +432,10 @@ function validarCampos() {
   if ($("#motivoViaje").val() == "Estudiantil") {
     Swal.fire({
       icon: "error",
-      title: "INFO",
-      text: "Cotización motivo Estudiantil en mantenimiento",
+      title: "Información",
+      text: "Cotización motivo Estudiantil en mantenimiento. Solicita cotización manual.",
       showConfirmButton: true,
+      textConfirmButtonText: "Cerrar",
     }).then(() => {
       window.location.reload();
     });
