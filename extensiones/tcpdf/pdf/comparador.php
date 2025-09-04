@@ -2900,11 +2900,14 @@ $pdf->SetXY(80, 98);
 $pdf->writeHTML($html2, true, false, true, false, '');
 $pdf->Ln();
 
-$pdf->SetFont('', '', 6.2);
-$pdf->SetTextColor(104, 104, 104);
-$pdf->SetXY(67, 132);
-$pdf->Cell(10, 0, '*No se permite financiar a 12 cuotas si el vehiculo tiene prenda y la póliza tiene beneficiario oneros; máximo 11 cuotas.', 0, $ln = 0, 'C', 0, '', 0, false, 'C', 'C');
-$pdf->Ln();
+
+if ($rowValidateF > 0) {
+	$pdf->SetFont('', '', 6.2);
+	$pdf->SetTextColor(104, 104, 104);
+	$pdf->SetXY(67, 132);
+	$pdf->Cell(10, 0, '*No se permite financiar a 12 cuotas si el vehículo tiene prenda y la póliza beneficiario oneroso; máximo 11 cuotas.', 0, $ln = 0, 'C', 0, '', 0, false, 'C', 'C');
+	$pdf->Ln();
+}
 
 $pdf->SetFont('dejavusanscondensed', 'I', 15);
 $pdf->SetTextColor(104, 104, 104);
@@ -2962,11 +2965,11 @@ $pdf->Cell(25, 6, "Elaborado por Software Integradoor propiedad del proveedor te
 $pdf->StopTransform();
 
 $pdf->SetXY(0, 262);
-$htmlFooter = '<p style="font-size: 6.2px;">Nota: Esta cotización no constituye una oferta comercial. La misma se expide única y exclusivamente con un propósito informativo sobre los posibles costos del seguro y sus condiciones, los cuales serán susceptibles de modificación hasta tanto no se concreten y determinen las características de los respectivos riesgos.</p>';
+$htmlFooter = '<p style="font-size: 6.2px;">Nota: Esta cotización no constituye una oferta comercial. La misma se expide única y exclusivamente con un propósito informativo sobre los posibles costos del seguro y sus condiciones, los cuales serán susceptibles de modificación hasta tanto no se concreten y determinen las características de los respectivos riesgos. No se permite financiar a 12 cuotas si el vehículo tiene prenda y la póliza beneficiario oneroso; máximo 11 cuotas.</p>';
 $pdf->writeHTML($htmlFooter, true, false, true, true, '');
 $pdf->Ln();
 
-$pdf->SetXY(0, 270);
+$pdf->SetXY(0, 272);
 $htmlFooter = '<p style="font-size: 6.2px; color: red">Importante: Algunas líneas de vehículos en las compañías Allianz, Previsora, Mundial y HDI requieren la instalación de un dispositivo de georreferenciación tipo Cazador. El incumplimiento de esta obligación (garantía) puede conllevar la aplicación de exclusiones a diferentes amparos, la ampliación de los deducibles a cargo del asegurado o incluso la aseguradora no será responsable de indemnizar al asegurado. Consulta con tu asesor si tu vehículo necesita este dispositivo antes de tomar tu póliza.</p>';
 $pdf->writeHTML($htmlFooter, true, false, true, true, '');
 $pdf->Ln();
