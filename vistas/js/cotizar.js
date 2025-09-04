@@ -3504,7 +3504,10 @@ function cotizarOfertas() {
               //       })
               //   );
               //   return; /*Fin javier */
-              // } 
+              // }
+              else if (aseguradora === "Bolivar" || aseguradora === "Seguros Bolivar") {
+                url = `https://grupoasistencia.com/backend_node/WSBolivar/postQuotationBolivar`;
+              }
               else {
                 url = `https://grupoasistencia.com/motor_webservice/${aseguradora}_autos`;
               }
