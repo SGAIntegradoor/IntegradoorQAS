@@ -71,8 +71,9 @@ function cleanFields() {
   $("#txtPlacaOportunidadModal").prop("disabled", false);
   $("#txtAseguradoModal").val("");
   $("#txtOtraRazonOportunidadModal").val("");
-  $("#txtAnalistaGAModal").val("");
+  $("#txtAnalistaGAModal").val("").trigger("change");;
   $("#txtObservacionesOportunidadModal").val("");
+  $("#txtnoCotAseguradoraModal").val("");
 
   // Restablecer selects al valor por defecto
   $("#txtMesOportunidadModal").val(null).trigger("change"); // Restablece al valor por defecto
@@ -152,6 +153,7 @@ $("#txtFechaExpedicionOportunidadModal").on("change", function () {
 $(".sorting_1").css("text-align", "center");
 
 function abrirDialogoCrear(id = null) {
+  cleanFields();
   // Configurar el diálogo
   $("#myModal2").dialog({
     title: "Agregar/editar oportunidad",
@@ -480,7 +482,7 @@ function abrirDialogoCrear(id = null) {
               selectByText(
                 "#txtAseguradoraOportunidadModal",
                 respuesta[0].aseguradora
-              );
+              ).trigger("change");
 
               if ($("#txtEstadoOportunidadModal").val() == "6") {
                 $("#perdidaHide").show();
@@ -649,6 +651,7 @@ function aplicarCriterios() {
 let url = `index.php?ruta=negocios`;
 
 function editarOportunidad(id) {
+  cleanFields();
   abrirDialogoCrear(id);
 }
 
