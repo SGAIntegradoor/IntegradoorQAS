@@ -661,9 +661,9 @@ while ($i < count($resultados)) {
 		// fin bloque Javier
 		case 'Mundial':
 			$html2 .= '<td class="puntos td2 ' . $fondo_class . '" style="font-size: 6.5px; font-family:dejavusanscondensedb;">
-			<div style="font-size:5.5pt">&nbsp;</div>
+			<div style="font-size:3.5pt">&nbsp;</div>
 			<img style="width:50px;" src="../../../vistas/img/logos/mundial.png" alt="">
-			<div style="font-size:9.5pt">&nbsp;</div>
+			<div style="font-size:6pt">&nbsp;</div>
 			<span style="color:#666666;">' . $resultados[$i]['Producto'] . '</span>
 			</td>';
 			break;
