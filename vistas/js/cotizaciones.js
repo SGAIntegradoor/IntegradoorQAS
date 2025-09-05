@@ -2339,6 +2339,7 @@ function editarCotizacion(id) {
               });
             }
 
+            // INICIO Bloque con logica no funcional j
             let videos = document.querySelectorAll(".eliminar-manual");
             for (video of videos) {
               video.addEventListener("click", function (e) {
@@ -2350,6 +2351,7 @@ function editarCotizacion(id) {
                 deleteManualOffer(id2[1]);
               });
             }
+            // FIN Bloque con logica no funcional j
           } else {
             $("#loaderOferta").html("");
 
@@ -4341,6 +4343,13 @@ function showCircularProgress(cotType, time, totalTransition) {
     },
   });
 }
+
+$(document).on("click", ".eliminar-manual", function (e) {
+  let id = this.id;
+  let id2 = id.split("-");
+  // console.log('Elimnar oferta manual con id: ' + id2[1])
+  deleteManualOffer(id2[1]);
+});
 
 // Simula una actualización del % (ajústalo según tu petición real)
 
