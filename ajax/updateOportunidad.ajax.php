@@ -15,7 +15,7 @@ $mesOportunidad = $_POST["mesOportunidad"];
 $canalOportunidad = $_POST['canalOportunidad'];
 $razonPerdidaOportunidad = $_POST['razonPerdidaOportunidad'];
 $otraRazon = $_POST['otraRazon'];
-$asesor_freelance = $_POST["asesor_freelance"];
+$asesor_freelance = $canalOportunidad == 'Directo' ? '' : $_POST["asesor_freelance"];
 $id_user_freelance = $_POST["id_user_freelance"];
 $ramo = $_POST["ramo"];
 $placa = $_POST["placa"];
@@ -36,7 +36,8 @@ $formaDePago = trim($_POST["formaDePago"]);
 $financiera = trim($_POST["financiera"]);
 $carpeta = $_POST["carpeta"];
 $observaciones = $_POST["observaciones"];
-$fechaActualizacion = $_POST["fechaActualizacion"] == "null" ? null : $_POST["fechaActualizacion"];
+// $fechaActualizacion = $_POST["fechaActualizacion"] == "null" ? null : $_POST["fechaActualizacion"];
+$fechaActualizacion = date("Y-m-d");
 
 // Validar ID
 if (empty($id_oportunidad_update)) {

@@ -71,8 +71,9 @@ function cleanFields() {
   $("#txtPlacaOportunidadModal").prop("disabled", false);
   $("#txtAseguradoModal").val("");
   $("#txtOtraRazonOportunidadModal").val("");
-  $("#txtAnalistaGAModal").val("");
+  $("#txtAnalistaGAModal").val("").trigger("change");;
   $("#txtObservacionesOportunidadModal").val("");
+  $("#txtnoCotAseguradoraModal").val("");
 
   // Restablecer selects al valor por defecto
   $("#txtMesOportunidadModal").val(null).trigger("change"); // Restablece al valor por defecto
@@ -152,6 +153,7 @@ $("#txtFechaExpedicionOportunidadModal").on("change", function () {
 $(".sorting_1").css("text-align", "center");
 
 function abrirDialogoCrear(id = null) {
+  cleanFields();
   // Configurar el diálogo
   $("#myModal2").dialog({
     title: "Agregar/editar oportunidad",
@@ -480,7 +482,7 @@ function abrirDialogoCrear(id = null) {
               selectByText(
                 "#txtAseguradoraOportunidadModal",
                 respuesta[0].aseguradora
-              );
+              ).trigger("change");
 
               if ($("#txtEstadoOportunidadModal").val() == "6") {
                 $("#perdidaHide").show();
@@ -649,6 +651,7 @@ function aplicarCriterios() {
 let url = `index.php?ruta=negocios`;
 
 function editarOportunidad(id) {
+  cleanFields();
   abrirDialogoCrear(id);
 }
 
@@ -913,7 +916,7 @@ $("#txtAnalistaGAModal").select2({
   },
   width: "100%",
   placeholder: "Asesor GA",
-  dropdownParent: $("#txtCanalModal").parent(), // Ubica el dropdown dentro del modal
+  dropdownParent: $("#txtAnalistaGAModal").parent(), // Ubica el dropdown dentro del modal
 });
 
 $("#txtRazonPerdidoOportunidadModal").select2({
@@ -972,12 +975,14 @@ $("#txtMesOportunidadModal").select2({
 $("#txtCanalModal").on("change", function () {
   if ($(this).val() == 2) {
     $("#divAsesorFreelance").css("display", "block");
-    $("#txtAsesorOportunidadModal").val(null).trigger('change');
+    // $("#txtAsesorOportunidadModal").val(null).trigger('change');
+    $("#txtAsesorOportunidadModal").prop('disabled', false);
     // $("#txtAsesorOportunidadModal").text('');
     $("#txtAsesorOportunidadModal")[0].required = true;
   } else {
     $("#divAsesorFreelance").css("display", "none");
-    $("#txtAsesorOportunidadModal").val(null).trigger('change');
+    // $("#txtAsesorOportunidadModal").val(null).trigger('change');
+    $("#txtAsesorOportunidadModal").prop('disabled', true);
     // $("#txtAsesorOportunidadModal").text('');
     $("#txtAsesorOportunidadModal")[0].required = false;
   }
