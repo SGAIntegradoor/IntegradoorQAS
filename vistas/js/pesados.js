@@ -1879,6 +1879,8 @@ const mostrarOfertaPesados = (
     "HDI Seguros",
     "HDI (Antes Liberty)",
     "Axa Colpatria",
+    "AXA",
+    "AXA Colpatria",
     "Previsora",
     "Estado"
   ];
