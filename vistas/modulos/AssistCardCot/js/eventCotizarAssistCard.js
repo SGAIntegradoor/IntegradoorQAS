@@ -427,6 +427,22 @@ function toogleDataContainer() {
 
 //Cambiar titulo data container una vez se cotiza
 function validarCampos() {
+
+  // Bloque de restriccion para plan estudiantil, quitar cuando habiliten este plan en el WS
+  if ($("#motivoViaje").val() == "Estudiantil") {
+    Swal.fire({
+      icon: "error",
+      title: "Información",
+      text: "Cotización motivo Estudiantil en mantenimiento. Solicita cotización manual.",
+      showConfirmButton: true,
+      confirmButtonText: "Cerrar",
+    }).then(() => {
+      window.location.reload();
+    });
+    return false;
+  }
+  // Fin bloque de restriccion
+
   var campos = [
     "#fechaSalida",
     "#fechaRegreso",
@@ -625,7 +641,7 @@ function cotizar() {
 
               if (cotizacionesPermitidas == 0) {
                 Swal.fire({
-                  icon: "info",
+                  icon: "error",
                   title: "No se encontraron planes disponibles",
                   allowOutsideClick: false,
                 }).then((result) => {
