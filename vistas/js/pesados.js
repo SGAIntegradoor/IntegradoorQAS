@@ -3377,8 +3377,7 @@ function cotizarOfertasPesados() {
                   });
 
                 cont.push(equidadPromise);
-              }
-                else if (aseguradora === "Estado") {
+              } else if (aseguradora === "Estado") {
                 let estadoPromise = new Promise((resolve, reject) => {
                   try {
                     let arrAseguradora = [

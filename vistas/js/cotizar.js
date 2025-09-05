@@ -3285,8 +3285,8 @@ function cotizarOfertas() {
               if (aseguradora === "HDI") {
                 url = `https://grupoasistencia.com/motor_webservice/HdiPlus`;
               } else if (aseguradora === "Zurich") {
-                const planes = ["FULL", "MEDIUM", "BASIC"];
-                // const planes = ["FULL"];
+                //const planes = ["FULL", "MEDIUM", "BASIC"];
+                const planes = ["FULL"];
                 planes.forEach((plan) => {
                   let lineaVeh =
                     document.getElementById("txtReferenciaVeh").value;
@@ -3487,51 +3487,54 @@ function cotizarOfertas() {
                   );
                 // });
                 return;
-              } /*inicio javier */ else if (aseguradora === "Qualitas") {
-                url = `https://grupoasistencia.com/WS-laravel/api/autos/qualitas`;
-                cont.push(
-                  fetch(url, requestOptions)
-                    .then((res) => {
-                      if (!res.ok) throw Error(res.statusText);
-                      return res.json();
-                    })
-                    .then((ofertas) => {
-                      if (typeof ofertas[0].Resultado !== "undefined") {
-                        agregarAseguradoraFallida(aseguradora);
-                        validarProblema(aseguradora, ofertas);
-                        ofertas[0].Mensajes.forEach((mensaje) => {
-                          mostrarAlertarCotizacionFallida(aseguradora, mensaje);
-                        });
-                      } else {
-                        const contadorPorEntidad = validarOfertas(
-                          ofertas,
-                          aseguradora,
-                          1
-                        );
-                        mostrarAlertaCotizacionExitosa(
-                          aseguradora,
-                          contadorPorEntidad
-                        );
-                      }
-                    })
-                    .catch((err) => {
-                      agregarAseguradoraFallida(aseguradora);
-                      mostrarAlertarCotizacionFallida(
-                        aseguradora,
-                        "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
-                      );
-                      validarProblema(aseguradora, [
-                        {
-                          Mensajes: [
-                            "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
-                          ],
-                        },
-                      ]);
-                      console.error(err);
-                    })
-                );
-                return; /*Fin javier */
-              } /*inicio Daniel */ else if (aseguradora === "Mundial") {
+              } 
+              // /*inicio javier */ else if (aseguradora === "Qualitas") {
+              //   url = `https://grupoasistencia.com/WS-laravel/api/autos/qualitas`;
+              //   cont.push(
+              //     fetch(url, requestOptions)
+              //       .then((res) => {
+              //         if (!res.ok) throw Error(res.statusText);
+              //         return res.json();
+              //       })
+              //       .then((ofertas) => {
+              //         if (typeof ofertas[0].Resultado !== "undefined") {
+              //           agregarAseguradoraFallida(aseguradora);
+              //           validarProblema(aseguradora, ofertas);
+              //           ofertas[0].Mensajes.forEach((mensaje) => {
+              //             mostrarAlertarCotizacionFallida(aseguradora, mensaje);
+              //           });
+              //         } else {
+              //           const contadorPorEntidad = validarOfertas(
+              //             ofertas,
+              //             aseguradora,
+              //             1
+              //           );
+              //           mostrarAlertaCotizacionExitosa(
+              //             aseguradora,
+              //             contadorPorEntidad
+              //           );
+              //         }
+              //       })
+              //       .catch((err) => {
+              //         agregarAseguradoraFallida(aseguradora);
+              //         mostrarAlertarCotizacionFallida(
+              //           aseguradora,
+              //           "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
+              //         );
+              //         validarProblema(aseguradora, [
+              //           {
+              //             Mensajes: [
+              //               "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
+              //             ],
+              //           },
+              //         ]);
+              //         console.error(err);
+              //       })
+              //   );
+              //   return; /*Fin javier */
+
+              /*inicio Daniel */ 
+              else if (aseguradora === "Mundial") {
                 url = `https://grupoasistencia.com/motor_webservice/Mundial_autos`;
                 cont.push(
                   fetch(url, requestOptions)
@@ -3579,7 +3582,7 @@ function cotizarOfertas() {
                 url = `https://grupoasistencia.com/motor_webservice/${aseguradora}_autos`;
               }
               // Realizar la solicitud fetch y agregar la promesa al array
-              if (aseguradora == "Qualitas" || aseguradora == "Mundial") {
+              if (aseguradora == "Qualitas" || aseguradora == "Mundial1") {
                 let message =
                   aseguradora == "Qualitas"
                     ? `💡 <b>Nueva aseguradora</b> especializada en <b>seguros de autos.</b> La principal aseguradora mexicana de seguros de autos llega a Colombia y <b>nosotros ya tenemos convenio.</b> Solicita cotización manual a tu Analista Comercial.`
