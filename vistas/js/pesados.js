@@ -3377,28 +3377,29 @@ function cotizarOfertasPesados() {
                   });
 
                 cont.push(equidadPromise);
-              } else if (aseguradora === "Estado") {
-                let estadoPromise = new Promise((resolve, reject) => {
-                  try {
-                    let arrAseguradora = [
-                      {
-                        Mensajes: [
-                          "Solicita cotización manual con tu Analista Comercial asignado",
-                        ],
-                      },
-                    ];
-                    setTimeout(function () {
-                      validarProblema("Estado", arrAseguradora);
-                      addAseguradora("Estado");
-                      resolve();
-                    }, 1000);
-                  } catch (error) {
-                    resolve();
-                  }
-                });
+              } 
+              // else if (aseguradora === "Estado") {
+              //   let estadoPromise = new Promise((resolve, reject) => {
+              //     try {
+              //       let arrAseguradora = [
+              //         {
+              //           Mensajes: [
+              //             "Solicita cotización manual con tu Analista Comercial asignado",
+              //           ],
+              //         },
+              //       ];
+              //       setTimeout(function () {
+              //         validarProblema("Estado", arrAseguradora);
+              //         addAseguradora("Estado");
+              //         resolve();
+              //       }, 1000);
+              //     } catch (error) {
+              //       resolve();
+              //     }
+              //   });
 
-                cont.push(estadoPromise);
-              }
+              //   cont.push(estadoPromise);
+              // }
               else {
                 let promise = fetch(
                   `https://grupoasistencia.com/motor_webservice/${aseguradora}_pesados`,
