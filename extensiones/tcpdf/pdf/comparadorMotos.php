@@ -1026,6 +1026,10 @@ foreach ($resultados as $resultado) {
 			<div style="font-size:4pt">&nbsp;</div>
 			<center><img style="width:35px;" src="../../../vistas/img/logos/solidaria.png" alt=""></center>
 			</td>';
+		} else if ($resultado['Aseguradora'] == 'Mundial') {
+			$html3 .= '<td class="puntos fondo2" style="width:' . $valorTabla . '%;text-align: center;">
+			<div style="font-size:4pt">&nbsp;</div>
+			<center><img style="width:35px;" src="../../../vistas/img/logos/mundial.png" alt=""></center></td>';
 		}
 	} else {
 		if ($resultado['Aseguradora'] == 'Axa Colpatria') {
