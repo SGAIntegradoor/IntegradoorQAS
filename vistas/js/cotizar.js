@@ -2158,7 +2158,10 @@ const mostrarOferta = (
                           <!-- Agrega aquí el contenido específico para estas aseguradoras y el id_intermediario no es 78 -->
                         </center>`
                           : permisos.Vernumerodecotizacionencadaaseguradora ==
-                              "x" && permisosCredenciales == "1"
+                              "x" &&
+                            permisosCredenciales == "1" &&
+                            numCotizOferta !== 0 &&
+                            numCotizOferta !== null
                           ? `<center>
                           <label class='entidad'>N° Cot: <span style='color:black'>${numCotizOferta}</span></label>
                         </center>`
@@ -2262,7 +2265,7 @@ const mostrarOferta = (
                                   <div>VER PDF &nbsp;&nbsp;<span class="fa fa-file-text"></span></div>
                               </button>
                           </div>`;
-  }  else if (
+  } else if (
     aseguradora == "Previsora Seguros" &&
     permisosCredenciales == "1"
   ) {
@@ -2279,14 +2282,18 @@ const mostrarOferta = (
                                   <div>VER PDF &nbsp;&nbsp;<span class="fa fa-file-text"></span></div>
                               </button>
                           </div>`;
-  } else if (aseguradora == "Mundial" && permisosCredenciales == "1" && producto == "Conduce Tranquilo Liv") {
+  } else if (
+    aseguradora == "Mundial" &&
+    permisosCredenciales == "1" &&
+    producto == "Conduce Tranquilo Liv"
+  ) {
     cardCotizacion += `
           <div class="col-xs-12 col-sm-6 col-md-2 verpdf-oferta">
               <button id="mundial-pdf${producto}" type="button" class="btn btn-info" onclick='verPdfMundialLivianos(\"${UrlPdf}\")'>
                   <div>VER PDF &nbsp;&nbsp;<span class="fa fa-file-text"></span></div>
               </button>
           </div>`;
-  } 
+  }
   cardCotizacion += `
                                           </div>
                                       </div>
@@ -3156,7 +3163,12 @@ function cotizarOfertas() {
                   aseguradora = "Estado";
                 }
 
-                if (aseguradora == "HDI FULL" || aseguradora == "INTEGRAL 20" || aseguradora == "BASICO" || aseguradora == "BASICO + PT") {
+                if (
+                  aseguradora == "HDI FULL" ||
+                  aseguradora == "INTEGRAL 20" ||
+                  aseguradora == "BASICO" ||
+                  aseguradora == "BASICO + PT"
+                ) {
                   aseguradora = "HDI Seguros";
                 }
                 // console.log(aseguradora);
@@ -3515,8 +3527,7 @@ function cotizarOfertas() {
                     })
                 );
                 return; /*Fin javier */
-              } /*inicio Daniel */
-               else if (aseguradora === "Mundial") {
+              } /*inicio Daniel */ else if (aseguradora === "Mundial") {
                 url = `https://grupoasistencia.com/motor_webservice/Mundial_autos`;
                 cont.push(
                   fetch(url, requestOptions)
@@ -3777,7 +3788,12 @@ function cotizarOfertas() {
             aseguradora = "Estado";
           }
 
-          if (aseguradora == "INTEGRAL 20" || aseguradora == "BASICO + PT" || aseguradora == "BASICO" || aseguradora == "HDI FULL") {
+          if (
+            aseguradora == "INTEGRAL 20" ||
+            aseguradora == "BASICO + PT" ||
+            aseguradora == "BASICO" ||
+            aseguradora == "HDI FULL"
+          ) {
             aseguradora = "HDI Seguros";
           }
 
@@ -3839,11 +3855,17 @@ function cotizarOfertas() {
         };
 
         const mostrarAlertarCotizacionFallida = (aseguradora, mensaje) => {
-          if(aseguradora == "HDI Seguros" || aseguradora == "HDI FULL" || aseguradora == "INTEGRAL 20" || aseguradora == "BASICO + PT" || aseguradora == "BASICO") {
+          if (
+            aseguradora == "HDI Seguros" ||
+            aseguradora == "HDI FULL" ||
+            aseguradora == "INTEGRAL 20" ||
+            aseguradora == "BASICO + PT" ||
+            aseguradora == "BASICO"
+          ) {
             aseguradora = "HDI Seguros";
             // debugger;
-          } 
-          
+          }
+
           if (
             aseguradora == "Estado" ||
             aseguradora == "Estado2" ||

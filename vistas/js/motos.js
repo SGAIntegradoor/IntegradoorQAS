@@ -2026,7 +2026,7 @@ ${
           <!-- Agrega aquí el contenido específico para estas aseguradoras y el id_intermediario no es 78 -->
           </center>`
     : permisos.Vernumerodecotizacionencadaaseguradora == "x" &&
-      permisosCredenciales == "1"
+      permisosCredenciales == "1" && (numCotizOferta !== 0 && numCotizOferta !== null)
     ? `<center>
           <label class='entidad'>N° Cot: <span style='color:black'>${numCotizOferta}</span></label>
           </center>`
