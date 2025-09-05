@@ -2221,7 +2221,11 @@ const mostrarOferta = (
                             <div class='col-lg-12'>
                                 <div class='card-ofertas'>
                                     <div class='row card-body'>
-                                        <div class="col-xs-12 col-sm-6 col-md-2 oferta-logo" style="${aseguradora == "Equidad" ? "padding-top: 15px;" : ""}">
+                                        <div class="col-xs-12 col-sm-6 col-md-2 oferta-logo" style="${
+                                          aseguradora == "Equidad"
+                                            ? "padding-top: 15px;"
+                                            : ""
+                                        }">
                                         <center>
                                             <img src='vistas/img/logos/${logo}' 
                                            >
@@ -2241,9 +2245,18 @@ const mostrarOferta = (
                             <!-- Agrega aquí el contenido específico para estas aseguradoras y el id_intermediario no es 78 -->
                           </center>`
                             : permisos.Vernumerodecotizacionencadaaseguradora ==
-                                "x" && permisosCredenciales == "1"
+                                "x" &&
+                              permisosCredenciales == "1" &&
+                              numCotizOferta !== 0 &&
+                              numCotizOferta !== null
                             ? `<center>
-                          ${aseguradora == "Equidad" ? "" : "<label class='entidad'>N° Cot: <span style='color:black'>" + numCotizOferta + "</span></label>"}
+                          ${
+                            aseguradora == "Equidad"
+                              ? ""
+                              : "<label class='entidad'>N° Cot: <span style='color:black'>" +
+                                numCotizOferta +
+                                "</span></label>"
+                          }
                           </center>`
                             : ""
                         }
@@ -3930,7 +3943,10 @@ function cotizarOfertasPasajeros() {
                   } else {
                     ofertas[0].Mensajes.forEach((mensaje) => {
                       mensajesConcatenados += mensaje;
-                      mostrarAlertarCotizacionFallida("Equidad", mensajesConcatenados);
+                      mostrarAlertarCotizacionFallida(
+                        "Equidad",
+                        mensajesConcatenados
+                      );
                     });
                   }
                 } else {

@@ -2045,7 +2045,7 @@ function registrarOferta(
 let contCotizacion = 0;
 let cotizacionesFinesa = [];
 let cardCotizacion = "";
-console.log(cotizacionesFinesa);
+// console.log(cotizacionesFinesa);
 const mostrarOferta = (
   aseguradora,
   prima,
@@ -2098,6 +2098,8 @@ const mostrarOferta = (
       $resultado = "Previsora";
     } else if ($data == "Solidaria") {
       $resultado = "Solidaria";
+    } else if ($data == "Mundial") {
+      $resultado = "Mundial";
     } else {
       $resultado = $data;
     }
@@ -2156,7 +2158,10 @@ const mostrarOferta = (
                           <!-- Agrega aquí el contenido específico para estas aseguradoras y el id_intermediario no es 78 -->
                         </center>`
                           : permisos.Vernumerodecotizacionencadaaseguradora ==
-                              "x" && permisosCredenciales == "1"
+                              "x" &&
+                            permisosCredenciales == "1" &&
+                            numCotizOferta !== 0 &&
+                            numCotizOferta !== null
                           ? `<center>
                           <label class='entidad'>N° Cot: <span style='color:black'>${numCotizOferta}</span></label>
                         </center>`
@@ -2253,6 +2258,13 @@ const mostrarOferta = (
                                   <div>VER PDF &nbsp;&nbsp;<span class="fa fa-file-text"></span></div>
                               </button>
                           </div>`;
+  } else if (aseguradora == "Mundial" && permisosCredenciales == "1") {
+    cardCotizacion += `
+                          <div class="col-xs-12 col-sm-6 col-md-2 verpdf-oferta">
+                              <button id="mundial-pdf${producto}" type="button" class="btn btn-info" onclick='verPdfMundialLivianos(\"${UrlPdf}\")'>
+                                  <div>VER PDF &nbsp;&nbsp;<span class="fa fa-file-text"></span></div>
+                              </button>
+                          </div>`;
   } else if (
     aseguradora == "Previsora Seguros" &&
     permisosCredenciales == "1"
@@ -2270,6 +2282,17 @@ const mostrarOferta = (
                                   <div>VER PDF &nbsp;&nbsp;<span class="fa fa-file-text"></span></div>
                               </button>
                           </div>`;
+  } else if (
+    aseguradora == "Mundial" &&
+    permisosCredenciales == "1" &&
+    producto == "Conduce Tranquilo Liv"
+  ) {
+    cardCotizacion += `
+          <div class="col-xs-12 col-sm-6 col-md-2 verpdf-oferta">
+              <button id="mundial-pdf${producto}" type="button" class="btn btn-info" onclick='verPdfMundialLivianos(\"${UrlPdf}\")'>
+                  <div>VER PDF &nbsp;&nbsp;<span class="fa fa-file-text"></span></div>
+              </button>
+          </div>`;
   }
   cardCotizacion += `
                                           </div>
@@ -3141,7 +3164,12 @@ function cotizarOfertas() {
                   aseguradora = "Estado";
                 }
 
-                if (aseguradora == "HDI FULL" || aseguradora == "INTEGRAL 20" || aseguradora == "BASICO" || aseguradora == "BASICO + PT") {
+                if (
+                  aseguradora == "HDI FULL" ||
+                  aseguradora == "INTEGRAL 20" ||
+                  aseguradora == "BASICO" ||
+                  aseguradora == "BASICO + PT"
+                ) {
                   aseguradora = "HDI Seguros";
                 }
                 // console.log(aseguradora);
@@ -3459,53 +3487,95 @@ function cotizarOfertas() {
                   );
                 // });
                 return;
-              } 
-              // /*inicio javier */ else if (aseguradora === "Qualitas") {
-              //   url = `https://grupoasistencia.com/WS-laravel/api/autos/qualitas`;
-              //   cont.push(
-              //     fetch(url, requestOptions)
-              //       .then((res) => {
-              //         if (!res.ok) throw Error(res.statusText);
-              //         return res.json();
-              //       })
-              //       .then((ofertas) => {
-              //         if (typeof ofertas[0].Resultado !== "undefined") {
-              //           agregarAseguradoraFallida(aseguradora);
-              //           validarProblema(aseguradora, ofertas);
-              //           ofertas[0].Mensajes.forEach((mensaje) => {
-              //             mostrarAlertarCotizacionFallida(aseguradora, mensaje);
-              //           });
-              //         } else {
-              //           const contadorPorEntidad = validarOfertas(
-              //             ofertas,
-              //             aseguradora,
-              //             1
-              //           );
-              //           mostrarAlertaCotizacionExitosa(
-              //             aseguradora,
-              //             contadorPorEntidad
-              //           );
-              //         }
-              //       })
-              //       .catch((err) => {
-              //         agregarAseguradoraFallida(aseguradora);
-              //         mostrarAlertarCotizacionFallida(
-              //           aseguradora,
-              //           "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
-              //         );
-              //         validarProblema(aseguradora, [
-              //           {
-              //             Mensajes: [
-              //               "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
-              //             ],
-              //           },
-              //         ]);
-              //         console.error(err);
-              //       })
-              //   );
-              //   return; /*Fin javier */
-              // } 
-              else {
+              } /*inicio javier */ else if (aseguradora === "Qualitas") {
+                url = `https://grupoasistencia.com/WS-laravel/api/autos/qualitas`;
+                cont.push(
+                  fetch(url, requestOptions)
+                    .then((res) => {
+                      if (!res.ok) throw Error(res.statusText);
+                      return res.json();
+                    })
+                    .then((ofertas) => {
+                      if (typeof ofertas[0].Resultado !== "undefined") {
+                        agregarAseguradoraFallida(aseguradora);
+                        validarProblema(aseguradora, ofertas);
+                        ofertas[0].Mensajes.forEach((mensaje) => {
+                          mostrarAlertarCotizacionFallida(aseguradora, mensaje);
+                        });
+                      } else {
+                        const contadorPorEntidad = validarOfertas(
+                          ofertas,
+                          aseguradora,
+                          1
+                        );
+                        mostrarAlertaCotizacionExitosa(
+                          aseguradora,
+                          contadorPorEntidad
+                        );
+                      }
+                    })
+                    .catch((err) => {
+                      agregarAseguradoraFallida(aseguradora);
+                      mostrarAlertarCotizacionFallida(
+                        aseguradora,
+                        "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
+                      );
+                      validarProblema(aseguradora, [
+                        {
+                          Mensajes: [
+                            "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
+                          ],
+                        },
+                      ]);
+                      console.error(err);
+                    })
+                );
+                return; /*Fin javier */
+              } /*inicio Daniel */ else if (aseguradora === "Mundial") {
+                url = `https://grupoasistencia.com/motor_webservice/Mundial_autos`;
+                cont.push(
+                  fetch(url, requestOptions)
+                    .then((res) => {
+                      if (!res.ok) throw Error(res.statusText);
+                      return res.json();
+                    })
+                    .then((ofertas) => {
+                      if (typeof ofertas[0].Resultado !== "undefined") {
+                        agregarAseguradoraFallida(aseguradora);
+                        validarProblema(aseguradora, ofertas);
+                        ofertas[0].Mensajes.forEach((mensaje) => {
+                          mostrarAlertarCotizacionFallida(aseguradora, mensaje);
+                        });
+                      } else {
+                        const contadorPorEntidad = validarOfertas(
+                          ofertas,
+                          aseguradora,
+                          1
+                        );
+                        mostrarAlertaCotizacionExitosa(
+                          aseguradora,
+                          contadorPorEntidad
+                        );
+                      }
+                    })
+                    .catch((err) => {
+                      agregarAseguradoraFallida(aseguradora);
+                      mostrarAlertarCotizacionFallida(
+                        aseguradora,
+                        "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
+                      );
+                      validarProblema(aseguradora, [
+                        {
+                          Mensajes: [
+                            "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
+                          ],
+                        },
+                      ]);
+                      console.error(err);
+                    })
+                );
+                return; /*Fin Daniel */
+              } else {
                 url = `https://grupoasistencia.com/motor_webservice/${aseguradora}_autos`;
               }
               // Realizar la solicitud fetch y agregar la promesa al array
@@ -3722,7 +3792,12 @@ function cotizarOfertas() {
             aseguradora = "Estado";
           }
 
-          if (aseguradora == "INTEGRAL 20" || aseguradora == "BASICO + PT" || aseguradora == "BASICO" || aseguradora == "HDI FULL") {
+          if (
+            aseguradora == "INTEGRAL 20" ||
+            aseguradora == "BASICO + PT" ||
+            aseguradora == "BASICO" ||
+            aseguradora == "HDI FULL"
+          ) {
             aseguradora = "HDI Seguros";
           }
 
@@ -3784,11 +3859,17 @@ function cotizarOfertas() {
         };
 
         const mostrarAlertarCotizacionFallida = (aseguradora, mensaje) => {
-          if(aseguradora == "HDI Seguros" || aseguradora == "HDI FULL" || aseguradora == "INTEGRAL 20" || aseguradora == "BASICO + PT" || aseguradora == "BASICO") {
+          if (
+            aseguradora == "HDI Seguros" ||
+            aseguradora == "HDI FULL" ||
+            aseguradora == "INTEGRAL 20" ||
+            aseguradora == "BASICO + PT" ||
+            aseguradora == "BASICO"
+          ) {
             aseguradora = "HDI Seguros";
             // debugger;
-          } 
-          
+          }
+
           if (
             aseguradora == "Estado" ||
             aseguradora == "Estado2" ||

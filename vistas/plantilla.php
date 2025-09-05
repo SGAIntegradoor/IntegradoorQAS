@@ -120,7 +120,7 @@
   <!-- <script src="https://kit.fontawesome.com/3482978eb8.js" crossorigin="anonymous"></script> -->
   <!-- <script src="https://kit.fontawesome.com/b9b0b9afa1.js" crossorigin="anonymous"></script> -->
   <!-- <script src="https://kit.fontawesome.com/011aa713aa.js" crossorigin="anonymous"></script> -->
-  <script src="https://kit.fontawesome.com/f34bf25b33.js" crossorigin="anonymous"></script>
+  <script src="https://kit.fontawesome.com/0eb21b7309.js" crossorigin="anonymous"></script>
   <!-- jQuery 3 -->
   <!-- <script type="text/javascript" src="libraries\JQueryUI\external\jquery\jquery.js"></script> -->
 
@@ -290,6 +290,7 @@
       "Allianz" => array("A" => $permisos["Allianz_A_motos"], "C" => $permisos["Allianz_C_motos"]),
       "AXA" => array("A" => $permisos["AXA_A_motos"], "C" => $permisos["AXA_C_motos"]),
       "SBS" => array("A" => $permisos["SBS_A_motos"], "C" => $permisos["SBS_C_motos"]),
+      "Mundial" => array("A" => $permisos["Mundial_A_motos"], "C" => $permisos["Mundial_C_motos"]),
       "Estado" => array("A" => $permisos["Estado_A_motos"], "C" => $permisos["Estado_C_motos"]),
       "HDI Seguros" => array("A" => $permisos["Liberty_A_motos"], "C" => $permisos["Liberty_C_motos"]),
     );

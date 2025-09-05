@@ -2026,7 +2026,7 @@ ${
           <!-- Agrega aquí el contenido específico para estas aseguradoras y el id_intermediario no es 78 -->
           </center>`
     : permisos.Vernumerodecotizacionencadaaseguradora == "x" &&
-      permisosCredenciales == "1"
+      permisosCredenciales == "1" && (numCotizOferta !== 0 && numCotizOferta !== null)
     ? `<center>
           <label class='entidad'>N° Cot: <span style='color:black'>${numCotizOferta}</span></label>
           </center>`
@@ -2061,7 +2061,7 @@ ${
                   </li>
                   <li class="list-group-item">
                       <span class="badge">* ${GR}</span>
-                      Servicio de Grúa
+                      Asistencia en viajes
                   </li>
               </ul>
           </div>
@@ -2123,7 +2123,14 @@ ${
       <div>VER PDF &nbsp;&nbsp;<span class="fa fa-file-text"></span></div>
   </button>
 </div>`;
-  }
+  } else if (aseguradora == "Mundial" && permisosCredenciales == "1" && producto == "Conduce Tranquilo Mot") {
+    cardCotizacion += `
+          <div class="col-xs-12 col-sm-6 col-md-2 verpdf-oferta">
+              <button id="mundial-pdf${producto}" type="button" class="btn btn-info" onclick='verPdfMundialLivianos(\"${UrlPdf}\")'>
+                  <div>VER PDF &nbsp;&nbsp;<span class="fa fa-file-text"></span></div>
+              </button>
+          </div>`;
+  } 
   cardCotizacion += `
               </div>
           </div>

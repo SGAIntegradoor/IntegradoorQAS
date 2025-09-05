@@ -1840,6 +1840,8 @@ const mostrarOfertaPesados = (
       $resultado = "Previsora";
     } else if ($data == "Solidaria") {
       $resultado = "Solidaria";
+    } else if ($data == "Seguros Mundial") {
+      $resultado = "Mundial";
     } else {
       $resultado = $data;
     }
@@ -1877,7 +1879,10 @@ const mostrarOfertaPesados = (
     "HDI Seguros",
     "HDI (Antes Liberty)",
     "Axa Colpatria",
+    "AXA",
+    "AXA Colpatria",
     "Previsora",
+    "Estado",
   ];
 
   let cardCotizacion = `
@@ -1902,7 +1907,9 @@ const mostrarOfertaPesados = (
                             nombreAseguradoraA !== "Mundial" &&
                             nombreAseguradoraA !== "Equidad" &&
                             permisos.Vernumerodecotizacionencadaaseguradora ==
-                              "x"
+                              "x" &&
+                            numCotizOferta !== 0 &&
+                            numCotizOferta !== null
                               ? `<center>
                             <label class='entidad'>N° Cot: <span style ='color :black'>${numCotizOferta}</span></label>
                           </center>`
@@ -1969,7 +1976,7 @@ const mostrarOfertaPesados = (
                       <li class="list-group-item">
                         <span class="badge">* ${GR}</span>
                         ${
-                          aseguradorasViajes.includes(aseguradora)
+                          aseguradorasViajes.includes(nombreAseguradoraA)
                             ? "Asistencia en Viajes"
                             : "Servicio de Grua"
                         } 
@@ -1994,7 +2001,7 @@ const mostrarOfertaPesados = (
                       </button>
                     </div>`;
   } else if (
-    nombreAseguradoraA == "Seguros del Estado" &&
+    nombreAseguradoraA == "Estado" &&
     UrlPdf !== null &&
     permisosCredenciales == "1"
   ) {
@@ -2018,6 +2025,17 @@ const mostrarOfertaPesados = (
                 <div>VER PDF &nbsp;&nbsp;<span class="fa fa-file-text"></span></div>
               </button>
             </div>`;
+  } else if (
+    aseguradora == "Mundial" &&
+    permisosCredenciales == "1" &&
+    producto == "Conduce Tranquilo Pes"
+  ) {
+    cardCotizacion += `
+                          <div class="col-xs-12 col-sm-6 col-md-2 verpdf-oferta">
+                              <button id="mundial-pdf${producto}" type="button" class="btn btn-info" onclick='verPdfMundialLivianos(\"${UrlPdf}\")'>
+                                  <div>VER PDF &nbsp;&nbsp;<span class="fa fa-file-text"></span></div>
+                              </button>
+                          </div>`;
   } else if (
     nombreAseguradoraA == "Previsora Seguros" ||
     nombreAseguradoraA == "Previsora"
@@ -2968,7 +2986,7 @@ function cotizarOfertasPesados() {
                 tablaResumenCotBody.appendChild(nuevaFila);
               }
             };
-
+            let contMundial = 0;
             aseguradorasCoti.forEach((aseguradora) => {
               if (aseguradora === "Mundial") {
                 /*MUNDIAL*/
@@ -3022,7 +3040,7 @@ function cotizarOfertasPesados() {
 
                   cont.push(mundialPromise);
                 } else {
-                  let planesMundial = ["Normal", "RC_Exceso"];
+                  let planesMundial = ["Normal", "RC_Exceso", "RPA"];
                   let body = JSON.parse(requestOptions.body);
 
                   planesMundial.forEach((plan) => {
@@ -3084,7 +3102,65 @@ function cotizarOfertasPesados() {
                         console.error(err);
                       });
 
+                    if (plan == "RPA") {
+                      let mundialPromise2 = fetch(
+                        "https://grupoasistencia.com/motor_webservice/Mundial_pesados_rpa",
+                        requestOptions
+                      )
+                        .then((res) => {
+                          if (!res.ok) throw Error(res.statusText);
+                          return res.json();
+                        })
+                        .then((ofertas) => {
+                          if (typeof ofertas[0].Resultado !== "undefined") {
+                            validarProblema(aseguradora, ofertas);
+                            agregarAseguradoraFallidaPesados(aseguradora);
+                            if (ofertas[0].length > 1) {
+                              ofertas.Mensajes[0].forEach((mensaje) => {
+                                mostrarAlertarCotizacionFallida(
+                                  aseguradora,
+                                  mensaje
+                                );
+                              });
+                            } else {
+                              ofertas[0].Mensajes.forEach((mensaje) => {
+                                mostrarAlertarCotizacionFallida(
+                                  aseguradora,
+                                  mensaje
+                                );
+                              });
+                            }
+                          } else {
+                            const contadorPorEntidad = validarOfertasPesados(
+                              ofertas,
+                              aseguradora,
+                              1
+                            );
+                            mostrarAlertaCotizacionExitosa(
+                              aseguradora,
+                              contadorPorEntidad
+                            );
+                          }
+                        })
+                        .catch((err) => {
+                          agregarAseguradoraFallidaPesados(aseguradora);
+                          mostrarAlertarCotizacionFallida(
+                            aseguradora,
+                            "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
+                          );
+                          validarProblema(aseguradora, [
+                            {
+                              Mensajes: [
+                                "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
+                              ],
+                            },
+                          ]);
+                          console.error(err);
+                        });
+                      cont.push(mundialPromise2);
+                    }
                     cont.push(mundialPromise);
+                    return;
                   });
                 }
               } else if (aseguradora === "AXA") {
@@ -3877,9 +3953,7 @@ function cotizarOfertasPesados() {
         //         console.error(err);
         //       })
         //   : Promise.resolve();
-
         // cont2.push(HDIPromise);
-
         /* Equidad */
 
         const equidadPromise = comprobarFallidaPesados("Equidad")
