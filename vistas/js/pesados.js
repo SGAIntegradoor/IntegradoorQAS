@@ -3376,30 +3376,30 @@ function cotizarOfertasPesados() {
                     console.error(err);
                   });
 
-                cont.push(equidadPromise);
-              }
-                else if (aseguradora === "Estado") {
-                  let estadoPromise = new Promise((resolve, reject) => {
-                    try {
-                      let arrAseguradora = [
-                        {
-                          Mensajes: [
-                            "Solicita cotización manual con tu Analista Comercial asignado",
-                          ],
-                        },
-                      ];
-                      setTimeout(function () {
-                        validarProblema("Estado", arrAseguradora);
-                        addAseguradora("Estado");
-                        resolve();
-                      }, 1000);
-                    } catch (error) {
-                      resolve();
-                    }
-                  });
+                  cont.push(equidadPromise);
+                  // }
+                  //   else if (aseguradora === "Estado") {
+                  //     let estadoPromise = new Promise((resolve, reject) => {
+                  //       try {
+                  //         let arrAseguradora = [
+                  //           {
+                  //             Mensajes: [
+                  //               "Solicita cotización manual con tu Analista Comercial asignado",
+                  //             ],
+                  //           },
+                  //         ];
+                  //         setTimeout(function () {
+                  //           validarProblema("Estado", arrAseguradora);
+                  //           addAseguradora("Estado");
+                  //           resolve();
+                  //         }, 1000);
+                  //       } catch (error) {
+                  //         resolve();
+                  //       }
+                  //     });
 
-                  cont.push(estadoPromise);
-                } else {
+                  //     cont.push(estadoPromise);
+              } else {
                   if (aseguradora == "Sura") {
                     let message =
                       aseguradora == "Sura"
