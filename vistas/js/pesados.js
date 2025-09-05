@@ -1882,7 +1882,7 @@ const mostrarOfertaPesados = (
     "AXA",
     "AXA Colpatria",
     "Previsora",
-    "Estado"
+    "Estado",
   ];
 
   let cardCotizacion = `
@@ -1907,7 +1907,9 @@ const mostrarOfertaPesados = (
                             nombreAseguradoraA !== "Mundial" &&
                             nombreAseguradoraA !== "Equidad" &&
                             permisos.Vernumerodecotizacionencadaaseguradora ==
-                              "x"
+                              "x" &&
+                            numCotizOferta !== 0 &&
+                            numCotizOferta !== null
                               ? `<center>
                             <label class='entidad'>N° Cot: <span style ='color :black'>${numCotizOferta}</span></label>
                           </center>`
@@ -2023,7 +2025,11 @@ const mostrarOfertaPesados = (
                 <div>VER PDF &nbsp;&nbsp;<span class="fa fa-file-text"></span></div>
               </button>
             </div>`;
-  } else if (aseguradora == "Mundial" && permisosCredenciales == "1" && producto == "Conduce Tranquilo Pes") {
+  } else if (
+    aseguradora == "Mundial" &&
+    permisosCredenciales == "1" &&
+    producto == "Conduce Tranquilo Pes"
+  ) {
     cardCotizacion += `
                           <div class="col-xs-12 col-sm-6 col-md-2 verpdf-oferta">
                               <button id="mundial-pdf${producto}" type="button" class="btn btn-info" onclick='verPdfMundialLivianos(\"${UrlPdf}\")'>
@@ -3151,13 +3157,13 @@ function cotizarOfertasPesados() {
                           ]);
                           console.error(err);
                         });
-                        cont.push(mundialPromise2);
+                      cont.push(mundialPromise2);
                     }
                     cont.push(mundialPromise);
-                    return
+                    return;
                   });
                 }
-              }else if (aseguradora === "AXA") {
+              } else if (aseguradora === "AXA") {
                 /* AXA */
                 // console.log(condicional)
                 let bodyAXA = JSON.parse(requestOptions.body);
