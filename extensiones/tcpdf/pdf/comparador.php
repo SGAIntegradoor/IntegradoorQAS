@@ -810,7 +810,19 @@ if ($rowValidateF >= 1) {
 	$html2 .= '</tr>';
 }
 
-$html2 .= '</table></div>';
+$html2 .= '</table>';
+
+if ($rowValidateF > 0) {
+	
+	$html2 .= '<table cellpadding="0" cellspacing="0">
+					<tr>
+						<td width="1" height="10"></td> <!-- margen simulado -->
+						<td width="550"><span style="font-size: 6.2px; color: grey;">*No se permite financiar a 12 cuotas si el vehículo tiene prenda y la póliza beneficiario oneroso; máximo 11 cuotas.</span></td>
+					</tr>
+				</table>';
+}
+
+$html2 .= '</div>';
 
 $html3 = '
 <style>
@@ -2905,13 +2917,13 @@ $pdf->writeHTML($html2, true, false, true, false, '');
 $pdf->Ln();
 
 
-if ($rowValidateF > 0) {
-	$pdf->SetFont('', '', 6.2);
-	$pdf->SetTextColor(104, 104, 104);
-	$pdf->SetXY(67, 132);
-	$pdf->Cell(10, 0, '*No se permite financiar a 12 cuotas si el vehículo tiene prenda y la póliza beneficiario oneroso; máximo 11 cuotas.', 0, $ln = 0, 'C', 0, '', 0, false, 'C', 'C');
-	$pdf->Ln();
-}
+// if ($rowValidateF > 0) {
+// 	$pdf->SetFont('', '', 6.2);
+// 	$pdf->SetTextColor(104, 104, 104);
+// 	$pdf->SetXY(67, 132);
+// 	$pdf->Cell(10, 0, '*No se permite financiar a 12 cuotas si el vehículo tiene prenda y la póliza beneficiario oneroso; máximo 11 cuotas.', 0, $ln = 0, 'C', 0, '', 0, false, 'C', 'C');
+// 	$pdf->Ln();
+// }
 
 $pdf->SetFont('dejavusanscondensed', 'I', 15);
 $pdf->SetTextColor(104, 104, 104);
