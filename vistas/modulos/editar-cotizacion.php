@@ -1102,7 +1102,7 @@ echo '<script>window.cotiFinesaOferts = ' . $jsonCotizaciones . ';</script>';
                   <option class="clsAseguradora" value="Seguros Sura">Seguros Sura</option>
                   <option class="clsAseguradora" value="Zurich Seguros">Zurich Seguros</option>
                   <option class="clsAseguradora" value="Allianz Seguros">Allianz Seguros</option>
-                  <option class="clsAseguradora" value="HDI (Antes Liberty)">HDI (Antes Liberty)</option>
+                  <option class="clsAseguradora" value="HDI (Antes Liberty)">HDI Seguros</option>
                   <option class="clsAseguradora" value="Seguros Mapfre">Seguros Mapfre</option>
                   <option class="clsAseguradora" value="Equidad Seguros">Equidad Seguros</option>
                   <option class="clsAseguradora" value="Previsora Seguros">Previsora Seguros</option>
