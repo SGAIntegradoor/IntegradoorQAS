@@ -1107,6 +1107,7 @@ echo '<script>window.cotiFinesaOferts = ' . $jsonCotizaciones . ';</script>';
                   <option class="clsAseguradora" value="Equidad Seguros">Equidad Seguros</option>
                   <option class="clsAseguradora" value="Previsora Seguros">Previsora Seguros</option>
                   <option class="clsAseguradora" value="Aseguradora Solidaria">Aseguradora Solidaria</option>
+                  <option class="clsAseguradora" value="Mundial">Seguros Mundial</option>
                 </select>
               </div>
 
