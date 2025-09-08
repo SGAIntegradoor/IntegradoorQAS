@@ -310,6 +310,7 @@
     );
 
     $aseguradoras_publicos = array(
+      "Allianz" => array("A" => $permisos["Allianz_A_Publicos"], "C" => $permisos["Allianz_C_Publicos"]),
       "AXA" => array("A" => $permisos["AXA_A_Publicos"], "C" => $permisos["AXA_C_Publicos"]),
       "Equidad" => array("A" => $permisos["Equidad_A_Publicos"], "C" => $permisos["Equidad_C_Publicos"]),
       "Estado" => array("A" => $permisos["Estado_A_Publicos"], "C" => $permisos["Estado_C_Publicos"]),
