@@ -1891,34 +1891,36 @@ function cotizarFinesa(ofertasCotizaciones) {
               .then((dbResponse) => dbResponse.json())
               .then((dbData) => {
                 const elementDiv = document.getElementById(element.objFinesa);
-                if (
-                  element.aseguradora == "Seguros Bolivar" ||
-                  element.aseguradora == "HDI (Antes Liberty)" ||
-                  element.aseguradora == "Mapfre" ||
-                  element.aseguradora == "Seguros Mapfre"
-                ) {
-                  cotizacionesFinesa[index].cotizada = true;
-                  elementDiv.innerHTML = `Financiación Aseguradora:<br /> Consulte analista`;
-                } else if (
-                  dbData?.data?.mensaje.includes("Por políticas de Finesa")
-                ) {
-                  cotizacionesFinesa[index].cotizada = true;
-                  elementDiv.innerHTML = `Financiación:<br /> No aplica financiación`;
-                } else if (
-                  dbData?.data?.mensaje.includes(
-                    "Asegurado no viable para financiacion"
-                  )
-                ) {
-                  cotizacionesFinesa[index].cotizada = true;
-                  elementDiv.innerHTML = `Financiación Finesa:<br /> Asegurado no viable para financiación`;
-                } else {
-                  cotizacionesFinesa[index].cotizada = true;
-                  elementDiv.innerHTML = `Financiación Finesa:<br />$${dbData?.data?.data?.val_cuo.toLocaleString(
-                    "es-ES"
-                  )} (${dbData?.data?.cuotas} Cuotas pólizas sin oneroso)`;
+                if (elementDiv) {
+                  if (
+                    element.aseguradora == "Seguros Bolivar" ||
+                    element.aseguradora == "HDI (Antes Liberty)" ||
+                    element.aseguradora == "Mapfre" ||
+                    element.aseguradora == "Seguros Mapfre"
+                  ) {
+                    cotizacionesFinesa[index].cotizada = true;
+                    elementDiv.innerHTML = `Financiación Aseguradora:<br /> Consulte analista`;
+                  } else if (
+                    dbData?.data?.mensaje.includes("Por políticas de Finesa")
+                  ) {
+                    cotizacionesFinesa[index].cotizada = true;
+                    elementDiv.innerHTML = `Financiación:<br /> No aplica financiación`;
+                  } else if (
+                    dbData?.data?.mensaje.includes(
+                      "Asegurado no viable para financiacion"
+                    )
+                  ) {
+                    cotizacionesFinesa[index].cotizada = true;
+                    elementDiv.innerHTML = `Financiación Finesa:<br /> Asegurado no viable para financiación`;
+                  } else {
+                    cotizacionesFinesa[index].cotizada = true;
+                    elementDiv.innerHTML = `Financiación Finesa:<br />$${dbData?.data?.data?.val_cuo.toLocaleString(
+                      "es-ES"
+                    )} (${dbData?.data?.cuotas} Cuotas pólizas sin oneroso)`;
+                  }
+                  elementDiv.style.display = "block";
                 }
 
-                elementDiv.style.display = "block";
                 // Agrega el resultado final al array
                 cotEnFinesaResponse.push({
                   finesaData: finesaData,
