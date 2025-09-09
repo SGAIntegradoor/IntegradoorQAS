@@ -49,7 +49,11 @@
 
         $carpeta = $_POST["carpeta"];
         $observaciones = $_POST["observaciones"];
-        $fechaCreacion = $_POST["fechaCreacion"];
+        // $fechaCreacion = $_POST["fechaCreacion"];
+        $fechaCreacion = date("Y-m-d H:i:s");
+        $fecha = new DateTime($fechaCreacion);
+        $fecha->modify('-5 hours');
+        $fechaCreacion = $fecha->format('Y-m-d');
 
         $fechaActualizacion = null;
 
