@@ -482,7 +482,7 @@ function abrirDialogoCrear(id = null) {
               selectByText(
                 "#txtAseguradoraOportunidadModal",
                 respuesta[0].aseguradora
-              ).trigger("change");
+              );
 
               if ($("#txtEstadoOportunidadModal").val() == "6") {
                 $("#perdidaHide").show();
