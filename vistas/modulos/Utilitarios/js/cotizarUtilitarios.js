@@ -2581,7 +2581,7 @@ function cotizarOfertas() {
     return;
   }
   var tipoServicio = document.getElementById("txtTipoServicio").value;
-  if (tipoServicio == "11" || tipoServicio == "12") {
+  if (/*tipoServicio == "11" ||*/ tipoServicio == "12") { // Restriccion no usa por el momento, no se elimina el bloque de codigo por si se vuelve a necesitar
     var restriccion = "";
     if (rolAsesor == 19) {
       restriccion =

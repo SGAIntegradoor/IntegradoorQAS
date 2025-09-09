@@ -1337,9 +1337,9 @@ echo '<script>console.log(' . $idIntermediario . ", " . $rolAsesor . ')</script>
                                         <div class="col-xs-12 col-sm-6 col-md-3 form-group">
                                             <label for="txtTipoUsoVehiculo">Tipo de Uso</label>
                                             <select class="form-control" id="txtTipoUsoVehiculo" required>
-                                                <option value=""></option>
-                                                <option value="Particular" selected>Particular</option>
-                                                <option value="Trabajo">Trabajo</option>
+                                                <option value="" disabled></option>
+                                                <option value="Particular" selected>Particular o publico de uso comercial o de trabajo</option>
+                                                <!-- <option value="Trabajo">Trabajo</option> -->
                                             </select>
                                         </div>
                                     </div>

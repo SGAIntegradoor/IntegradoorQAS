@@ -181,7 +181,7 @@ checkUserStatus();
 			/*=============================================
 		COTIZAR LIVIANO
 		=============================================*/
-			echo  '<li class="' . ($currentPage == 'cotizar' ? 'active' : '') . '">
+			echo  '<li class="' . ($currentPage == 'cotizar' || $currentPage == 'utilitarios' || $currentPage == 'livianos' ? 'active' : '') . '">
 				<a id="menuCotLiv" href="livianos">
 					<i class="fa fa-car"></i>
 					<span>Cotizar Livano Particular</span>
