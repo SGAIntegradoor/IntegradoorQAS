@@ -108,7 +108,7 @@ checkUserStatus();
 			<?php
 			if (in_array($_SESSION['rol'], [1, 10, 11, 12, 22])) {
 				echo '<li id="menuCRM">
-			<a href="http://localhost:5173/" target="_blank">
+			<a id="btnCRM">
 			<i class="fas fa-users"></i>
 			<span>CRM</span>
 			</a>
