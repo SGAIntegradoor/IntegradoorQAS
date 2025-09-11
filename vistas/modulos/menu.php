@@ -181,10 +181,20 @@ checkUserStatus();
 			/*=============================================
 		COTIZAR LIVIANO
 		=============================================*/
-			echo  '<li class="' . ($currentPage == 'cotizar' || $currentPage == 'utilitarios' || $currentPage == 'livianos' ? 'active' : '') . '">
-				<a id="menuCotLiv" href="livianos">
+			echo  '<li class="' . ($currentPage == 'cotizar' || $currentPage == 'livianos' ? 'active' : '') . '">
+				<a id="menuCotLiv" href="cotizar">
 					<i class="fa fa-car"></i>
-					<span>Cotizar Livano Particular</span>
+					<span>Cotizar Livano Familiar</span>
+				</a>
+			</li>';
+
+			/*=============================================
+		COTIZAR UTILITARIO
+		=============================================*/
+			echo  '<li class="' . ($currentPage == 'utilitarios' || $currentPage == 'livianos' ? 'active' : '') . '">
+				<a id="menuCotLiv" href="utilitarios">
+					<i class="fa fa-truck-pickup"></i>
+					<span>Cotizar Livano Utilitario</span>
 				</a>
 			</li>';
 			?>
