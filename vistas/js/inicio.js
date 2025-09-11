@@ -16,7 +16,7 @@ document.addEventListener("DOMContentLoaded", function () {
           // Redirigir al CRM con el token en la URL
           console.log("entre aca")
           window.location.href =
-            "http://localhost:5173/crm/login?token=" + data.token;
+            "http://integradoor.com/crm/login?token=" + data.token;
         } else {
           alert("Error al iniciar sesión: " + data.message);
         }
