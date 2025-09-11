@@ -44,8 +44,7 @@ checkUserStatus();
 		let cotHechas = await mostrarCotRestantes();
 		var arrayCot = ["menuCotLiv", "menuCotMot", "menuCotPes", "menuCotMas"];
 		// Verificar si el valor obtenido es válido y está definido
-		if (permisosCotizacionesTotales !== null && permisosCotizacionesTotales !== undefined) {
-		}
+		if (permisosCotizacionesTotales !== null && permisosCotizacionesTotales !== undefined) {}
 	});
 </script>
 <style>
@@ -103,8 +102,18 @@ checkUserStatus();
 				</a>
 			</li>
 
+			
+
 
 			<?php
+			if (in_array($_SESSION['rol'], [1, 10, 11, 12, 22])) {
+				echo '<li id="btnCRM">
+			<a id="btnCRM">
+			<i class="fas fa-users"></i>
+			<span>CRM</span>
+			</a>
+			</li>';
+			}
 			/*=============================================
 		CONFIGURAR POLÍTICIAS
 		=============================================*/
@@ -234,6 +243,12 @@ checkUserStatus();
 				</a>
 			</li>';
 			}
+
+			
+
+			// <li class="' . ($currentPage == "productividad" ? "active bg-li-active" : "hoverLi") . '" style="border: 1px solid gray; border-radius: 5px; padding: 5px;">
+			// 	<a href="productividad">Productividad</a>
+			// </li>
 
 			/*=============================================
 		NEGOCIOS

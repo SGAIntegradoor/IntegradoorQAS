@@ -13,6 +13,23 @@ document.addEventListener("DOMContentLoaded", function () {
   // al iniciar cabe resaltar que solo se disparan si
   // es un usuario nuevo
 
+$("#valorComision").on("input", function () {
+  let valorComision = $(this).val();
+
+  // 1. Reemplaza comas por puntos
+  valorComision = valorComision.replace(/,/g, ".");
+
+  // 2. Elimina todo lo que no sea dígito o punto
+  valorComision = valorComision.replace(/[^0-9.]/g, "");
+
+  // 3. Permite solo un punto decimal (elimina los extras)
+  const parts = valorComision.split(".");
+  if (parts.length > 2) {
+    valorComision = parts[0] + "." + parts.slice(1).join("");
+  }
+
+  $(this).val(valorComision);
+});
   $("#tipoDePersona").val(1).trigger("change");
   $("#tipoDePersona").show();
   $("#noAsistente").prop("checked", true).trigger("change");
@@ -223,7 +240,7 @@ $(".btnGuardar").on("click", function () {
   $.ajax({
     url: "src/saveUser.php",
     method: "POST",
-    dataType: "json", 
+    dataType: "json",
     contentType: "application/json", // Se debe enviar un JSON si no el scriptt de php no lee el POST ya que el objeto es grande.
     data: JSON.stringify({
       id: id_usuario_edit == "" ? null : id_usuario_edit,
@@ -344,7 +361,7 @@ function consultarCiudad(param = "") {
     cache: false,
     success: function (data) {
       // Se limpia el select antes de ingresar las ciudades.
-      $("#ciudad").empty(); 
+      $("#ciudad").empty();
       let ciudadesVeh = `<option value="">Seleccionar Ciudad</option>`;
 
       let json = JSON.parse(data);
@@ -366,7 +383,6 @@ function consultarCiudad(param = "") {
       } else {
         $("#ciudad").val("").trigger("change");
       }
-
     },
   });
 }
@@ -763,8 +779,8 @@ async function loadUser(id) {
           $("#ciudad").val("").trigger("change");
         } else {
           let depto =
-          info_usuario?.ciudades_id.split("")[0] +
-          info_usuario?.ciudades_id.split("")[1];
+            info_usuario?.ciudades_id.split("")[0] +
+            info_usuario?.ciudades_id.split("")[1];
           console.log(depto);
           console.log(info_usuario?.ciudades_id);
           if (depto == 11) {
@@ -799,7 +815,7 @@ function getComissions(id = null) {
     data: { id_usuario: id },
     success: function (respuesta) {
       const data = JSON.parse(respuesta);
-      // console.log(data);
+      console.log(data);
       if (data.length == 0) {
         $("#comisionesTable tbody").html(
           '<tr><td colspan="7" class="text-center">No hay comisiones configuradas para este usuario</td></tr>'
@@ -986,10 +1002,13 @@ Configuración del modal
 =============================================*/
 
 function openModalComisiones(id = null) {
-
-  console.log(permisos.id_rol)
-  if(permisos.id_rol != 22 && permisos.id_rol != 23 && permisos.id_usuario != id){
-   Swal.fire({
+  console.log(permisos.id_rol);
+  if (
+    permisos.id_rol != 22 &&
+    permisos.id_rol != 23 &&
+    permisos.id_usuario != id
+  ) {
+    Swal.fire({
       icon: "error",
       title: "Error",
       text: "No tienes permisos para acceder a esta opción.",
@@ -1155,6 +1174,11 @@ function checkFieldsComision(
     });
     return false; // Algún campo está vacío o no seleccionado
   }
+
+  if (valorComision.includes(",")) {
+    valorComision = valorComision.replace(",", ".");
+  }
+
   return true; // Todos los campos están completos
 }
 
