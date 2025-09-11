@@ -3452,6 +3452,7 @@ function cotizarOfertasPasajeros() {
                       console.error(err);
                     })
                 );
+                return;
               } else {
                 url = `https://grupoasistencia.com/motor_webservice_publics/${aseguradora}_Pasajeros`;
               }
