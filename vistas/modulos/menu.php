@@ -107,7 +107,7 @@ checkUserStatus();
 
 			<?php
 			if (in_array($_SESSION['rol'], [1, 10, 11, 12, 22])) {
-				echo '<li id="menuCRM">
+				echo '<li id="btnCRM">
 			<a id="btnCRM">
 			<i class="fas fa-users"></i>
 			<span>CRM</span>
