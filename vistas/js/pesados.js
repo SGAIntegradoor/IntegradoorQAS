@@ -2324,7 +2324,7 @@ function cotizarFinesa(ofertasCotizaciones) {
       cotEnFinesaResponse = saveQuotations(results);
       swal
         .fire({
-          title: "¡Cotización a Finesa Finalizada!",
+          title: "¡Cotizacion Finesa finalizada a 12 cuotas!",
           showConfirmButton: true,
           confirmButtonText: "Cerrar",
         })
