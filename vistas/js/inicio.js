@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", function () {
   const navCRM = () => {
-    fetch("http://localhost/integradoorQAS/API/login/SSO/", {
+    fetch("https://grupoasistencia.com/Auth/Login/SSO/", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
