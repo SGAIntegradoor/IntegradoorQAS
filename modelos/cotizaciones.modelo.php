@@ -1043,7 +1043,7 @@ class ModeloCotizaciones
 			'BUS / BUSETA / MICROBUS' => ['BUS / BUSETA / MICROBUS'],
 			'CAMIÓN' => ['CAMION'],
 			'CAMIONETA PASAJEROS' => ['CAMIONETA PASAJ.'],
-			'CAMIONETA REPARACIÓN' => ['CAMIONETA REPAR'],
+			'CAMIONETA REPARTIDORA' => ['CAMIONETA REPAR'],
 			'CAMPERO' => ['CAMPERO', 'CAMPEROS'],
 			'CARROTANQUE' => ['CARROTANQUE'],
 			'CHASIS' => ['CHASIS'],
@@ -1092,7 +1092,8 @@ class ModeloCotizaciones
 						WHEN 4 THEN 'Transporte pasajeros'
 						WHEN 3 THEN 'Pesados'
 						WHEN 8 THEN 'Motos'
-						WHEN 9 THEN 'Livianos'
+						WHEN 9 THEN 'Livianos Familiares'
+						WHEN 2 THEN 'Livianos Utilitarios'
 					END AS modulo_cotizacion, o.id_cotizacion FROM ofertas o GROUP BY o.id_cotizacion) o ON o.id_cotizacion = cotizaciones.id_cotizacion
 					WHERE 1 AND cotizaciones.cot_fch_cotizacion BETWEEN CURDATE() - INTERVAL 1 MONTH AND CURDATE() + INTERVAL 1 DAY"; // Query base
         foreach ($valores as $campo => $valor) {
