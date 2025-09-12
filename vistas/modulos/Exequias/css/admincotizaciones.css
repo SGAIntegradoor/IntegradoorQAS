@@ -1,0 +1,14 @@
+#menosAdminCoti {
+    display: none;
+    text-align: right;
+  }
+  
+#masAdminCoti {
+    display: block;
+    text-align: right;
+ }
+
+ #containerTable {
+    display: none;
+    text-align: center;
+ }
