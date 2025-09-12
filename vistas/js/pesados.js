@@ -3376,29 +3376,29 @@ function cotizarOfertasPesados() {
                     console.error(err);
                   });
 
-                cont.push(equidadPromise);
-              }
-                /*else if (aseguradora === "Estado") {
-                   let estadoPromise = new Promise((resolve, reject) => {
-                     try {
-                       let arrAseguradora = [
-                         {
-                           Mensajes: [
-                             "Solicita cotización manual con tu Analista Comercial asignado",
-                           ],
-                         },
-                       ];
-                       setTimeout(function () {
-                         validarProblema("Estado", arrAseguradora);
-                         addAseguradora("Estado");
-                         resolve();
-                       }, 1000);
-                     } catch (error) {
-                       resolve();
-                     }
-                   });
-                   cont.push(estadoPromise);
-                } */ 
+                  cont.push(equidadPromise);
+                  // }
+                  //   /*else if (aseguradora === "Estado") {
+                   //     let estadoPromise = new Promise((resolve, reject) => {
+                   //       try {
+                   //         let arrAseguradora = [
+                   //           {
+                   //             Mensajes: [
+                   //               "Solicita cotización manual con tu Analista Comercial asignado",
+                   //             ],
+                   //           },
+                   //         ];
+                   //         setTimeout(function () {
+                   //           validarProblema("Estado", arrAseguradora);
+                   //           addAseguradora("Estado");
+                   //           resolve();
+                   //         }, 1000);
+                   //       } catch (error) {
+                   //         resolve();
+                   //       }
+                   //     });
+                   //     cont.push(estadoPromise);
+              } */ 
                 else if (aseguradora == "Sura") {
                     let message =
                       aseguradora == "Sura"
@@ -3893,6 +3893,50 @@ function cotizarOfertasPesados() {
           : Promise.resolve();
 
         cont2.push(mundialPromise);
+
+        const estadoPromise = comprobarFallidaPesados("Estado")
+          ? fetch(
+              "https://grupoasistencia.com/motor_webservice/Estado_pesados",
+              requestOptions
+            )
+              .then((res) => {
+                if (!res.ok) throw Error(res.statusText);
+                return res.json();
+              })
+              .then((ofertas) => {
+                if (typeof ofertas[0].Resultado !== "undefined") {
+                  agregarAseguradoraFallidaPesados("Estado");
+                  validarProblema("Estado", ofertas);
+                  ofertas[0].Mensajes.forEach((mensaje) => {
+                    mostrarAlertarCotizacionFallida("Estado", mensaje);
+                  });
+                } else {
+                  const contadorPorEntidad = validarOfertasPesados(
+                    ofertas,
+                    "Estado",
+                    1
+                  );
+                  mostrarAlertaCotizacionExitosa("Estado", contadorPorEntidad);
+                }
+              })
+              .catch((err) => {
+                agregarAseguradoraFallidaPesados("Estado");
+                mostrarAlertarCotizacionFallida(
+                  "Estado",
+                  "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
+                );
+                validarProblema("Estado", [
+                  {
+                    Mensajes: [
+                      "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
+                    ],
+                  },
+                ]);
+                console.error(err);
+              })
+          : Promise.resolve();
+
+        cont2.push(estadoPromise);
 
         const previsoraPromise = comprobarFallidaPesados("Previsora")
           ? fetch(
