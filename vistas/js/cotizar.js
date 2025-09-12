@@ -5,7 +5,11 @@ $(document).ready(function () {
 
   if (partes.includes("dev") || partes.includes("DEV")) {
     env = "dev";
-  } else if (partes.includes("QAS") || partes.includes("qas") || partes.includes("Pruebas")) {
+  } else if (
+    partes.includes("QAS") ||
+    partes.includes("qas") ||
+    partes.includes("Pruebas")
+  ) {
     env = "qas";
   } else if (partes.includes("app") || partes.includes("App")) {
     env = "";
@@ -3609,7 +3613,8 @@ function cotizarOfertas() {
                 let message =
                   aseguradora == "Qualitas"
                     ? `💡 <b>Nueva aseguradora</b> especializada en <b>seguros de autos.</b> La principal aseguradora mexicana de seguros de autos llega a Colombia y <b>nosotros ya tenemos convenio.</b> Solicita cotización manual a tu Analista Comercial.`
-                    : aseguradora == "Sura" ? `<b>🐯 Nueva alianza para comercializar seguros Sura.</b> Solicita cotización manual a tu Analista Comercial.`
+                    : aseguradora == "Sura"
+                    ? `<b>🐯 Nueva alianza para comercializar seguros Sura.</b> Solicita cotización manual a tu Analista Comercial.`
                     : `🔥 <b>Nuevo seguro de autos livianos</b> con modalidad de indemnización ARREGLO DIRECTO para <b>pérdidas parciales</b>. Solicita cotización manual a tu Analista Comercial. Revisa informacion adicional en la seccion de <b>Notas importantes.</b>`;
 
                 let ofertas = [
@@ -3684,12 +3689,12 @@ function cotizarOfertas() {
                 enableInputs(true);
                 //countOfferts();
               } else {
-                  Swal.close();
-                  $("#loaderOferta").html("");
-                  $("#loaderOfertaBox").css("display", "none");
-                  enableInputs(true);
-                  countOfferts();
-                  /*
+                Swal.close();
+                $("#loaderOferta").html("");
+                $("#loaderOfertaBox").css("display", "none");
+                enableInputs(true);
+                countOfferts();
+                /*
                 Swal.fire({
                   title: "¡Proceso de Cotización Finalizada!",
                   text: "¿Deseas incluir la financiación con Finesa a 11 cuotas?",
@@ -3735,7 +3740,8 @@ function cotizarOfertas() {
                     }
                   }
                 });
-              */}
+              */
+              }
               document.querySelector(".button-recotizar").style.display =
                 "block";
               /* Se monta el botón para generar el pdf con 
@@ -4383,80 +4389,102 @@ function cotizarOfertas() {
         const lineaVeh = document.getElementById("txtReferenciaVeh").value;
         // Para 'FULL'
         //const plan = "FULL";
-        const planes = ["BASIC", "MEDIUM", "FULL"];
-        let body = JSON.parse(requestOptions.body);
-        body.plan = plan;
-        body.Email = "@gmail.com";
-        body.Email2 = Math.round(Math.random() * 999999) + body.Email;
-        body.linea = lineaVeh;
-        requestOptions.body = JSON.stringify(body);
-        let url = `https://grupoasistencia.com/motor_webservice/Zurich_autos`;
-        let ZFullPromise = comprobarFallida("FULL")
-          ? fetch(url, {
-              ...requestOptions,
-              method: "POST",
-              headers: {
-                ...requestOptions.headers,
-                "Content-Type": "application/json",
-              },
-            })
-              .then((res) => {
-                if (!res.ok) throw Error(res.statusText);
-                return res.json();
+
+        aseguradorasFallidas.map((aseguradora) => {
+          let plan = aseguradora;
+          let count = 0;
+          
+          if (plan === "FULL") {
+            plan = "FULL";
+            count++;
+          } else if (plan === "MEDIUM") {
+            plan = "MEDIUM";
+            count++;
+          } else if (plan === "BASIC") {
+            plan = "BASIC";
+            count++;
+          }
+
+          if (count === 0) return;
+
+          let body = JSON.parse(requestOptions.body);
+          body.plan = plan;
+          body.Email = "@gmail.com";
+          body.Email2 = Math.round(Math.random() * 999999) + body.Email;
+          body.linea = lineaVeh;
+          requestOptions.body = JSON.stringify(body);
+          let url = `https://grupoasistencia.com/motor_webservice/Zurich_autos`;
+
+          let ZFullPromise = comprobarFallida(plan)
+            ? fetch(url, {
+                ...requestOptions,
+                method: "POST",
+                headers: {
+                  ...requestOptions.headers,
+                  "Content-Type": "application/json",
+                },
               })
-              .then((ofertas) => {
-                if (typeof ofertas.Resultado !== "undefined") {
-                  agregarAseguradoraFallida(plan);
-                  validarProblema("Zurich", ofertas);
-                  let mensaje = "";
-                  if (ofertas.Mensajes.length == 1) {
-                    mensaje = ofertas.Mensajes[0];
+                .then((res) => {
+                  if (!res.ok) throw Error(res.statusText);
+                  return res.json();
+                })
+                .then((ofertas) => {
+                  if (typeof ofertas.Resultado !== "undefined") {
+                    agregarAseguradoraFallida(plan);
+                    validarProblema("Zurich", ofertas);
+                    let mensaje = "";
+                    if (ofertas.Mensajes.length == 1) {
+                      mensaje = ofertas.Mensajes[0];
+                    } else {
+                      ofertas.Mensajes.map((element, index) => {
+                        if (element.includes("Lo sentimos")) {
+                          mensaje += " - " + element;
+                        } else if (element.includes("Referred")) {
+                          if (index == 2) {
+                            mensaje += " - " + element;
+                          } else {
+                            mensaje += element;
+                          }
+                        } else {
+                          if (index >= 1) {
+                            mensaje += " - " + element;
+                          } else {
+                            mensaje += element;
+                          }
+                        }
+                      });
+                    }
+                    mostrarAlertarCotizacionFallida(`Zurich`, mensaje);
                   } else {
-                    ofertas.Mensajes.map((element, index) => {
-                      if (element.includes("Lo sentimos")) {
-                        mensaje += " - " + element;
-                      } else if (element.includes("Referred")) {
-                        if (index == 2) {
-                          mensaje += " - " + element;
-                        } else {
-                          mensaje += element;
-                        }
-                      } else {
-                        if (index >= 1) {
-                          mensaje += " - " + element;
-                        } else {
-                          mensaje += element;
-                        }
-                      }
-                    });
+                    const contadorPorEntidad = validarOfertas(
+                      ofertas,
+                      "Zurich",
+                      1
+                    );
+                    mostrarAlertaCotizacionExitosa(
+                      `Zurich`,
+                      contadorPorEntidad
+                    );
                   }
-                  mostrarAlertarCotizacionFallida(`Zurich`, mensaje);
-                } else {
-                  const contadorPorEntidad = validarOfertas(
-                    ofertas,
+                })
+                .catch((err) => {
+                  agregarAseguradoraFallida(plan);
+                  mostrarAlertarCotizacionFallida(
                     "Zurich",
-                    1
+                    "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
                   );
-                  mostrarAlertaCotizacionExitosa(`Zurich`, contadorPorEntidad);
-                }
-              })
-              .catch((err) => {
-                agregarAseguradoraFallida(plan);
-                mostrarAlertarCotizacionFallida(
-                  "Zurich",
-                  "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
-                );
-                validarProblema("Zurich", [
-                  {
-                    Mensajes: [
-                      "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
-                    ],
-                  },
-                ]);
-                console.error(err);
-              })
-          : Promise.resolve();
-        cont.push(ZFullPromise);
+                  validarProblema("Zurich", [
+                    {
+                      Mensajes: [
+                        "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
+                      ],
+                    },
+                  ]);
+                  console.error(err);
+                })
+            : Promise.resolve();
+          cont.push(ZFullPromise);
+        });
         /* Estado */
         const aseguradorasEstado = ["Estado", "Estado2", "Estado3"]; // Agrega más aseguradoras según sea necesario
         aseguradorasEstado.forEach((aseguradora) => {
@@ -4734,10 +4762,7 @@ function cotizarOfertas() {
                     "Mundial",
                     1
                   );
-                  mostrarAlertaCotizacionExitosa(
-                    "Mundial",
-                    contadorPorEntidad
-                  );
+                  mostrarAlertaCotizacionExitosa("Mundial", contadorPorEntidad);
                 }
               })
               .catch((err) => {
@@ -4777,12 +4802,12 @@ function cotizarOfertas() {
               //countOfferts();
               enableInputs(true);
             } else {
-                 Swal.close();
-                  $("#loaderOferta").html("");
-                  $("#loaderOfertaBox").css("display", "none");
-                  enableInputs(true);
-                  countOfferts();
-                  /*
+              Swal.close();
+              $("#loaderOferta").html("");
+              $("#loaderOfertaBox").css("display", "none");
+              enableInputs(true);
+              countOfferts();
+              /*
               Swal.fire({
                 title: "¡Proceso de Re-Cotización Finalizada!",
                 text: "¿Deseas incluir la financiación con Finesa a 11 cuotas?",
@@ -4829,7 +4854,8 @@ function cotizarOfertas() {
                   }
                 }
               });
-            */}
+            */
+            }
           } else {
             // debugger;
             // Swal.close();
@@ -5147,13 +5173,13 @@ $("#tipoUso").change(function () {
   }
 });
 
-  $("#btnCotizarFinesa").click(function () {
-    document.getElementById("btnReCotizarFallidas").disabled = true;
-    $("#loaderOferta").html(
-      '<img src="vistas/img/plantilla/loader-update.gif" width="34" height="34"><strong> Cotizando en Finesa...</strong>'
-    );
-    $(this).prop("disabled", true);
-    enableInputs(true);
-    cotizarFinesa(cotizacionesFinesa);
-    countOfferts();
-  });
+$("#btnCotizarFinesa").click(function () {
+  document.getElementById("btnReCotizarFallidas").disabled = true;
+  $("#loaderOferta").html(
+    '<img src="vistas/img/plantilla/loader-update.gif" width="34" height="34"><strong> Cotizando en Finesa...</strong>'
+  );
+  $(this).prop("disabled", true);
+  enableInputs(true);
+  cotizarFinesa(cotizacionesFinesa);
+  countOfferts();
+});
