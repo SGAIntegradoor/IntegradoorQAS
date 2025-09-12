@@ -29,7 +29,8 @@
                         <label for="moduloCotizacion">Módulo de cotización:</label>
                         <select type="text" class="form-control" name="moduloCotizacion" id="moduloCotizacion" placeholder="Modulo de cotización">
                             <option value=""></option>
-                            <option value="1">Livianos</option>
+                            <option value="1">Livianos Familiares</option>
+                            <option value="5">Livianos Utilitarios</option>
                             <option value="2">Pesados</option>
                             <option value="3">Motos</option>
                             <option value="4">Transporte Pasajeros</option>
