@@ -57,9 +57,7 @@ checkUserStatus();
 
 	.mi-clase-warning {
 		width: 600px;
-		/* Ajusta el ancho según sea necesario */
 		height: auto;
-		/* Ajusta el alto según sea necesario */
 	}
 
 	#negociosOp {
@@ -69,25 +67,75 @@ checkUserStatus();
 
 	.mi-clase-success {
 		width: 600px;
-		/* Ajusta el ancho según sea necesario */
 		height: auto;
-		/* Ajusta el alto según sea necesario */
 	}
 
-	.bg-li-active {
-		background-color: #d0d0d0 !important;
+	.bg-li-active:active {
+		background-color: #88d600 !important;
 		color: white !important;
 	}
 
-	.bg-li-active:hover {
-		background-color: white !important;
-		color: #88d600 !important;
+	.hoverLi:hover {
+		background-color: #88d600 !important;
+		color: white !important;
+		border-radius: 5px;
+		/* border-bottom: 1px solid gray; */
 	}
 
-	.hoverLi:hover {
-		background-color: white !important;
-		color: black !important;
+	.skin-blue .sidebar-menu .treeview-menu > li > a:hover {
+		background-color: #88d600 !important;
+		color: white !important;
+		border-radius: 5px;
 	}
+
+	.skin-blue .sidebar-menu .sidebar .sidebar-menu .treeview-menu > li > a:active{
+		color: white !important;
+	}
+
+	.skin-blue .main-sidebar .sidebar .sidebar-menu .treeview-menu > li > a:hover {
+		background-color: #88d600 !important;
+		color: white !important;
+		border-radius: 5px;
+	}
+
+	.skin-blue .sidebar-menu .treeview-menu > li > a:active {
+		color: white !important;
+	}
+
+	.active-li{
+		background-color: #88d600 !important;
+		color: white !important;
+		border-radius: 5px
+	}
+
+	/* Abierto/normal → ocupa todo el ancho del sidebar */
+body:not(.sidebar-collapse) .sidebar-menu .consultas-sub{
+  width: 100% !important;
+  position: static;      /* que no sea flotante */
+  box-shadow: none;
+}
+
+/* Sidebar mini/colapsado → flyout de 178px a la derecha del icono */
+.sidebar-mini.sidebar-collapse .sidebar-menu > li > .consultas-sub{
+  position: absolute;
+  left: 50px;            /* ancho de la barra colapsada */
+  top: 0;
+  width: 178px;          /* tu ancho cuando está cerrado */
+  margin-left: 0 !important;
+  display: none;         /* oculto por defecto en mini */
+  box-shadow: 0 6px 18px rgba(0,0,0,.15);
+  border-radius: 6px;
+  z-index: 1050;
+}
+
+/* Mostrar el flyout al pasar el mouse o si el item está abierto */
+.sidebar-mini.sidebar-collapse .sidebar-menu > li:hover > .consultas-sub,
+.sidebar-mini.sidebar-collapse .sidebar-menu > li.menu-open > .consultas-sub{
+  display: block;
+}
+
+
+
 </style>
 <aside class="main-sidebar">
 	<section class="sidebar">
@@ -102,7 +150,7 @@ checkUserStatus();
 				</a>
 			</li>
 
-			
+
 
 
 			<?php
@@ -113,6 +161,31 @@ checkUserStatus();
 			<span>CRM</span>
 			</a>
 			</li>';
+			}
+
+
+			if ($_SESSION["permisos"]["veradministracionintegradoor"] == "x" || in_array($_SESSION['rol'], [1, 10, 11, 12, 22, 19])) {
+				echo '<li class="treeview">
+					<a href="#">
+						<i class="fa-solid fa-magnifying-glass"></i>
+						<span class="text-center" style="padding-left: 5px;">Consultas</span>
+						<i class="fa fa-angle-left pull-right"></i>
+					</a>
+					<ul class="treeview-menu" style="background-color: white; margin-left: 2px; padding-top: 0px; padding-bottom: 0px; padding-left: 0px !important;">
+						<li style="border-bottom: 0.5px solid gray !important" class="' . ($currentPage == "user-negocios" ? "active-li bg-li-active" : "hoverLi" ) . '">
+							<a id="user-negocios" href="user-negocios" style="text-align: center; padding-left: 0px">Tus negocios</a>
+						</li>
+						<li style="border-bottom: 0.5px solid gray !important" class="' . ($currentPage == "user-clientes" ? "active-li bg-li-active" : "hoverLi") . '">
+							<a id="user-clientes" href="#" style="text-align: center; padding-left: 0px">Clientes</a>
+						</li>
+						<li style="border-bottom: 0.5px solid gray !important" class="' . ($currentPage == "user-comisiones" ? "active-li bg-li-active" : "hoverLi") . '">
+							<a id="user-comisiones" href="#" style="text-align: center; padding-left: 0px">Comisiones</a>
+						</li>
+						<li style="border-bottom: 0.5px solid gray !important" class="' . ($currentPage == "user-cartera" ? "active-li bg-li-active" : "hoverLi") . '">
+							<a id="user-cartera" href="#" style="text-align: center; padding-left: 0px">Cartera</a>
+						</li>
+					</ul>
+				</li>';
 			}
 			/*=============================================
 		CONFIGURAR POLÍTICIAS
@@ -244,7 +317,7 @@ checkUserStatus();
 			</li>';
 			}
 
-			
+
 
 			// <li class="' . ($currentPage == "productividad" ? "active bg-li-active" : "hoverLi") . '" style="border: 1px solid gray; border-radius: 5px; padding: 5px;">
 			// 	<a href="productividad">Productividad</a>

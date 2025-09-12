@@ -265,6 +265,17 @@ $(document).ready(function () {
 
   window.abrirDialogo = abrirDialogo;
 
+
+  $("#user-comisiones, #user-cartera, #user-clientes").click(function () {
+    Swal.fire({
+      icon: "info",
+      title: "Próximamente",
+      text: "Esta funcionalidad estará disponible en futuras actualizaciones.",
+      showConfirmButton: true,
+      confirmButtonText: "Cerrar",
+    });
+  });
+
   // Asignar eventos a elementos específicos
   // $(document).on("click", ".openModal", function() {
   //   abrirDialogo(); // Llamar la función con el ID específico
