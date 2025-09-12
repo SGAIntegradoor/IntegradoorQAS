@@ -1154,6 +1154,9 @@ function consulPlaca(query = "1") {
                 } else if (codigoClase == 4) {
                   claseVehiculo = "CAMIONETA PASAJ.";
                   limiteRCESTADO = 6;
+                } else if (codigoClase == 11) {
+                  claseVehiculo = "CAMIONETA REPAR";
+                  limiteRCESTADO = 6;
                 } else if (codigoClase == 12) {
                   claseVehiculo = "MOTOCICLETA";
                   limiteRCESTADO = 6;
