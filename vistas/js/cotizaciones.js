@@ -14,7 +14,11 @@ $(document).ready(function () {
 
   if (partes.includes("dev") || partes.includes("DEV")) {
     env = "dev";
-  } else if (partes.includes("QAS") || partes.includes("qas") || partes.includes("Pruebas")) {
+  } else if (
+    partes.includes("QAS") ||
+    partes.includes("qas") ||
+    partes.includes("Pruebas")
+  ) {
     env = "qas";
   } else if (partes.includes("app") || partes.includes("App")) {
     env = "";
@@ -264,7 +268,6 @@ $(document).ready(function () {
   }
 
   window.abrirDialogo = abrirDialogo;
-
 
   $("#user-comisiones, #user-cartera, #user-clientes").click(function () {
     Swal.fire({
@@ -1281,8 +1284,7 @@ async function renderCards(response) {
         "Equidad",
         "AXA Colpatria",
         "AXA",
-        "Estado"
-
+        "Estado",
       ];
 
       const planesViajes = [
@@ -1322,7 +1324,7 @@ async function renderCards(response) {
         "Plan Full",
         "Buses",
         "Genio Pesado",
-        "Conduce Tranquilo Pes"
+        "Conduce Tranquilo Pes",
       ];
 
       var valorRC = isNumeric(oferta.ValorRC);
@@ -1597,7 +1599,9 @@ async function renderCards(response) {
                                       return `Financiación Finesa:<br />$${Number(
                                         element.cuota_1
                                       ).toLocaleString("de-DE")}
-                                    (${element.cuotas} Cuotas pólizas sin oneroso)`;
+                                    (${
+                                      element.cuotas
+                                    } Cuotas pólizas sin oneroso)`;
                                     }
                                   }
                                   return "";
@@ -1659,8 +1663,9 @@ async function renderCards(response) {
   
                               <span class="badge">* ${oferta.Grua}</span>
                               ${
-                                aseguradorasViajes.includes(nombreAseguradora(oferta.Aseguradora)) &&
-                                planesViajes.includes(oferta.Producto)
+                                aseguradorasViajes.includes(
+                                  nombreAseguradora(oferta.Aseguradora)
+                                ) && planesViajes.includes(oferta.Producto)
                                   ? "Asistencia en Viajes"
                                   : "Servicio de Grúa"
                               } 
@@ -1768,11 +1773,12 @@ async function renderCards(response) {
           oferta.Manual == "3" ||
           oferta.Manual == "4") &&
         (oferta.Aseguradora == "Mundial" ||
-          oferta.Aseguradora == "Seguros Mundial" || oferta.Aseguradora == "Mundial Seguros") &&
+          oferta.Aseguradora == "Seguros Mundial" ||
+          oferta.Aseguradora == "Mundial Seguros") &&
         oferta.UrlPdf !== null &&
-        aseguradoraPermisos == "1" && oferta.Producto == "Conduce Tranquilo Pes"
+        aseguradoraPermisos == "1" &&
+        oferta.Producto == "Conduce Tranquilo Pes"
       ) {
-        
         cardCotizacion += `
   
                         <div class="col-xs-12 col-sm-6 col-md-2 verpdf-oferta">
@@ -4535,7 +4541,7 @@ function cotizarFinesaMotosRetoma(ofertasCotizaciones) {
                 headers: headers,
                 body: JSON.stringify(finesaData),
               }
-            ).then((dbResponse) => dbResponse.json())
+            ).then((dbResponse) => dbResponse.json());
           })
       );
     } else {
@@ -4622,7 +4628,11 @@ function saveQuotations(responses) {
 }
 
 document.addEventListener("DOMContentLoaded", function () {
+  const loader = document.getElementById("loaderOverlay");
+
   const navCRM = () => {
+    loader.style.display = "flex";
+
     fetch("https://grupoasistencia.com/Auth/Login/SSO/", {
       method: "POST",
       headers: {
@@ -4636,18 +4646,19 @@ document.addEventListener("DOMContentLoaded", function () {
       .then((response) => response.json())
       .then((data) => {
         if (data.status === "Ok" && data.token) {
-          // Redirigir al CRM con el token en la URL
           window.location.href =
             "https://integradoor.com/crm/login?token=" + data.token;
         } else {
+          loader.style.display = "none";
           alert("Error al iniciar sesión: " + data.message);
         }
       })
       .catch((error) => {
+        loader.style.display = "none";
         console.error("Error:", error);
+        alert("Hubo un error en la conexión con el servidor.");
       });
   };
 
-  // ejemplo: enlazar al botón del menú
   document.getElementById("btnCRM").addEventListener("click", navCRM);
 });

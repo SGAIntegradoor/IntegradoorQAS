@@ -114,7 +114,7 @@
   ======================================-->
 
   <!-- Font - Awesome -->
-<!-- Font - Awesome -->
+  <!-- Font - Awesome -->
   <!-- <script src="https://kit.fontawesome.com/6fed49f72f.js" crossorigin="anonymous"></script> -->
   <!-- <script src="https://kit.fontawesome.com/3a9385df11.js" crossorigin="anonymous"></script> -->
   <!-- <script src="https://kit.fontawesome.com/327ffeb36b.js" crossorigin="anonymous"></script> -->
@@ -194,6 +194,42 @@
     .sidebar {
       padding-bottom: 0px !important;
     }
+
+    /* Overlay de pantalla completa */
+    #loaderOverlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.6);
+      /* fondo semitransparente */
+      display: none;
+      /* oculto por defecto */
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      flex-direction: column;
+      color: white;
+      font-family: Arial, sans-serif;
+    }
+
+    /* Spinner */
+    .spinner {
+      border: 8px solid rgba(255, 255, 255, 0.2);
+      border-top: 8px solid #fff;
+      border-radius: 50%;
+      width: 70px;
+      height: 70px;
+      animation: spin 1s linear infinite;
+      margin-bottom: 20px;
+    }
+
+    @keyframes spin {
+      100% {
+        transform: rotate(360deg);
+      }
+    }
   </style>
 
 
@@ -251,10 +287,10 @@
   <!-- <script src="vistas/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.es.min.js" charset="UTF-8"></script> -->
 
 
-<!--=====================================
+  <!--=====================================
   CUERPO DOCUMENTO
 ======================================-->
-<!-- 
+  <!-- 
   <style>
     .content-wrapper {
       /* O la altura que necesites */
@@ -327,7 +363,7 @@
       "HDI Seguros" => array("A" => $permisos["Liberty_A"], "C" => $permisos["Liberty_C"]),
       "Previsora" => array("A" => $permisos["Previsora_A"], "C" => $permisos["Previsora_C"]),
       "Solidaria" => array("A" => $permisos["Solidaria_A"], "C" => $permisos["Solidaria_C"]),
-    );      
+    );
 
 
   ?>
@@ -414,7 +450,7 @@
         $_GET["ruta"] == "user-clientes" ||
         $_GET["ruta"] == "user-comisiones" ||
         $_GET["ruta"] == "user-cartera" ||
-        $_GET["ruta"] == "transporte-pasajeros"||
+        $_GET["ruta"] == "transporte-pasajeros" ||
         $_GET["ruta"] == "livianos"
       ) {
         if ($_GET['ruta'] == 'modificacion-productos') {
@@ -484,6 +520,10 @@
   <script src="vistas/js/cotizaciones.js?v=<?php echo (rand()); ?>"></script>
   <script src="vistas/js/validacionPermisos.js?v=<?php echo (rand()); ?>"></script>
 
+  <div id="loaderOverlay">
+    <div class="spinner"></div>
+    <h2>Espere, iniciando sesión en CRM...</h2>
+  </div>
 
 </body>
 
