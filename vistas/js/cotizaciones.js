@@ -4623,7 +4623,7 @@ function saveQuotations(responses) {
 
 document.addEventListener("DOMContentLoaded", function () {
   const navCRM = () => {
-    fetch("https://grupoasistencia.com/Auth/login/SSO/", {
+    fetch("https://grupoasistencia.com/Auth/Login/SSO/", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
