@@ -1858,7 +1858,7 @@ function cotizarFinesa(ofertasCotizaciones) {
       fecha_cotizacion: obtenerFechaActual(),
       valor_poliza: element.prima,
       beneficiario_oneroso: false,
-      cuotas: 11,
+      cuotas: 12, // cambiar a 12 cuotas Javier
       fecha_inicio_poliza: obtenerFechaActual(),
       primera_cuota: "min",
       valor_primera_cuota: 0,
@@ -1904,34 +1904,36 @@ function cotizarFinesa(ofertasCotizaciones) {
               .then((dbResponse) => dbResponse.json())
               .then((dbData) => {
                 const elementDiv = document.getElementById(element.objFinesa);
-                if (
-                  element.aseguradora == "Seguros Bolivar" ||
-                  element.aseguradora == "HDI (Antes Liberty)" ||
-                  element.aseguradora == "Mapfre" ||
-                  element.aseguradora == "Seguros Mapfre"
-                ) {
-                  cotizacionesFinesa[index].cotizada = true;
-                  elementDiv.innerHTML = `Financiación Aseguradora:<br /> Consulte analista`;
-                } else if (
-                  dbData?.data?.mensaje.includes("Por políticas de Finesa")
-                ) {
-                  cotizacionesFinesa[index].cotizada = true;
-                  elementDiv.innerHTML = `Financiación:<br /> No aplica financiación`;
-                } else if (
-                  dbData?.data?.mensaje.includes(
-                    "Asegurado no viable para financiacion"
-                  )
-                ) {
-                  cotizacionesFinesa[index].cotizada = true;
-                  elementDiv.innerHTML = `Financiación Finesa:<br /> Asegurado no viable para financiación`;
-                } else {
-                  cotizacionesFinesa[index].cotizada = true;
-                  elementDiv.innerHTML = `Financiación Finesa:<br />$${dbData?.data?.data?.val_cuo.toLocaleString(
-                    "es-ES"
-                  )} (${dbData?.data?.cuotas} Cuotas)`;
+                if (elementDiv) {
+                  if (
+                    element.aseguradora == "Seguros Bolivar" ||
+                    element.aseguradora == "HDI (Antes Liberty)" ||
+                    element.aseguradora == "Mapfre" ||
+                    element.aseguradora == "Seguros Mapfre"
+                  ) {
+                    cotizacionesFinesa[index].cotizada = true;
+                    elementDiv.innerHTML = `Financiación Aseguradora:<br /> Consulte analista`;
+                  } else if (
+                    dbData?.data?.mensaje.includes("Por políticas de Finesa")
+                  ) {
+                    cotizacionesFinesa[index].cotizada = true;
+                    elementDiv.innerHTML = `Financiación:<br /> No aplica financiación`;
+                  } else if (
+                    dbData?.data?.mensaje.includes(
+                      "Asegurado no viable para financiacion"
+                    )
+                  ) {
+                    cotizacionesFinesa[index].cotizada = true;
+                    elementDiv.innerHTML = `Financiación Finesa:<br /> Asegurado no viable para financiación`;
+                  } else {
+                    cotizacionesFinesa[index].cotizada = true;
+                    elementDiv.innerHTML = `Financiación Finesa:<br />$${dbData?.data?.data?.val_cuo.toLocaleString(
+                      "es-ES"
+                    )} (${dbData?.data?.cuotas} Cuotas pólizas sin oneroso)`;
+                  }
+                  elementDiv.style.display = "block";
                 }
 
-                elementDiv.style.display = "block";
                 // Agrega el resultado final al array
                 cotEnFinesaResponse.push({
                   finesaData: finesaData,
@@ -1962,7 +1964,7 @@ function cotizarFinesa(ofertasCotizaciones) {
       $("#loaderRecotOfertaBox").css("display", "none");
       // Swal.close();
       Swal.fire({
-        title: "¡Cotización a Finesa Finalizada!",
+        title: "¡Cotizacion Finesa finalizada a 12 cuotas!",
         showConfirmButton: true,
         confirmButtonText: "Cerrar",
         backdrop: true, // Bloquea la interacción con el fondo
@@ -2130,7 +2132,7 @@ const mostrarOferta = (
     objFinesa: aseguradora + "_" + contCotizacion,
     producto: producto,
     prima: Number(prima.replace(/\./g, "")),
-    cuotas: 11,
+    cuotas: 12,
     cotizada: null,
   };
 
@@ -3558,7 +3560,12 @@ function cotizarOfertas() {
                 enableInputs(true);
                 //countOfferts();
               } else {
-                // Swal.close();
+                  Swal.close();
+                  $("#loaderOferta").html("");
+                  $("#loaderOfertaBox").css("display", "none");
+                  enableInputs(true);
+                  countOfferts();
+                  /*
                 Swal.fire({
                   title: "¡Proceso de Cotización Finalizada!",
                   text: "¿Deseas incluir la financiación con Finesa a 11 cuotas?",
@@ -3604,7 +3611,7 @@ function cotizarOfertas() {
                     }
                   }
                 });
-              }
+              */}
               document.querySelector(".button-recotizar").style.display =
                 "block";
               /* Se monta el botón para generar el pdf con 
@@ -3677,6 +3684,7 @@ function cotizarOfertas() {
         // debugger;
         const btnRecotizar = document.getElementById("btnReCotizarFallidas");
         btnRecotizar.disabled = true;
+        document.getElementById("btnCotizarFinesa").disabled = false;
         const contenParrilla = document.querySelector("#contenParrilla");
         raw.cotizacion = idCotizacion;
         raw.env = "";
@@ -4588,7 +4596,12 @@ function cotizarOfertas() {
               //countOfferts();
               enableInputs(true);
             } else {
-              // Swal.close();
+                 Swal.close();
+                  $("#loaderOferta").html("");
+                  $("#loaderOfertaBox").css("display", "none");
+                  enableInputs(true);
+                  countOfferts();
+                  /*
               Swal.fire({
                 title: "¡Proceso de Re-Cotización Finalizada!",
                 text: "¿Deseas incluir la financiación con Finesa a 11 cuotas?",
@@ -4635,7 +4648,7 @@ function cotizarOfertas() {
                   }
                 }
               });
-            }
+            */}
           } else {
             // debugger;
             // Swal.close();
@@ -4918,7 +4931,18 @@ $("#btnConsultarVehmanualbuscador").click(function () {
   }
 });
 
-// Logica para tipo de uso
+  $("#btnCotizarFinesa").click(function () {
+    document.getElementById("btnReCotizarFallidas").disabled = true;
+    $("#loaderOferta").html(
+      '<img src="vistas/img/plantilla/loader-update.gif" width="34" height="34"><strong> Cotizando en Finesa...</strong>'
+    );
+    $(this).prop("disabled", true);
+    enableInputs(true);
+    cotizarFinesa(cotizacionesFinesa);
+    countOfferts();
+  });
+
+  // Logica para tipo de uso
 $("#tipoUso").change(function () {
   let tipoUso = $("#tipoUso").val();
   if (tipoUso == 2) {
