@@ -3510,7 +3510,8 @@ function cotizarOfertas() {
                   );
                 });
                 return;
-              } /*inicio javier */ else if (aseguradora === "Qualitas") {
+              } /*inicio javier */ 
+              else if (aseguradora === "Qualitas") {
                 url = `https://grupoasistencia.com/WS-laravel/api/autos/qualitas`;
                 cont.push(
                   fetch(url, requestOptions)
@@ -4531,6 +4532,7 @@ function cotizarOfertas() {
           body.plan = aseguradora;
           requestOptions.body = JSON.stringify(body);
           const libertyPromise = comprobarFallida(aseguradora)
+          // const libertyPromise = comprobarFallida("HDI Seguros")
             ? fetch(
                 "https://grupoasistencia.com/motor_webservice/Liberty_autos",
                 requestOptions
@@ -4707,6 +4709,55 @@ function cotizarOfertas() {
           : Promise.resolve();
 
         cont.push(sbsPromise);
+
+        /* Mundial */
+        const mundialPromise = comprobarFallida("Mundial")
+          ? fetch(
+              "https://grupoasistencia.com/motor_webservice/Mundial_autos",
+              requestOptions
+            )
+              .then((res) => {
+                if (!res.ok) throw Error(res.statusText);
+                return res.json();
+              })
+              .then((ofertas) => {
+                if (typeof ofertas[0].Resultado !== "undefined") {
+                  agregarAseguradoraFallida("Mundial");
+                  validarProblema("Mundial", ofertas);
+                  ofertas[0].Mensajes.forEach((mensaje) => {
+                    mostrarAlertarCotizacionFallida("Mundial", mensaje);
+                  });
+                } else {
+                  // eliminarAseguradoraFallida('Solidaria');
+                  const contadorPorEntidad = validarOfertas(
+                    ofertas,
+                    "Mundial",
+                    1
+                  );
+                  mostrarAlertaCotizacionExitosa(
+                    "Mundial",
+                    contadorPorEntidad
+                  );
+                }
+              })
+              .catch((err) => {
+                agregarAseguradoraFallida("Mundial");
+                mostrarAlertarCotizacionFallida(
+                  "Mundial",
+                  "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
+                );
+                validarProblema("Mundial", [
+                  {
+                    Mensajes: [
+                      "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
+                    ],
+                  },
+                ]);
+                console.error(err);
+              })
+          : Promise.resolve();
+
+        cont.push(mundialPromise);
         //  console.log(cont)
         Promise.all(cont).then(() => {
           $("#loaderOferta").html("");

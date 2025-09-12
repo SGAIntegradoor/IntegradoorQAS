@@ -37,7 +37,10 @@ $financiera = trim($_POST["financiera"]);
 $carpeta = $_POST["carpeta"];
 $observaciones = $_POST["observaciones"];
 // $fechaActualizacion = $_POST["fechaActualizacion"] == "null" ? null : $_POST["fechaActualizacion"];
-$fechaActualizacion = date("Y-m-d");
+$fechaActualizacion = date("Y-m-d H:i:s");
+$fecha = new DateTime($fechaActualizacion);
+$fecha->modify('-5 hours');
+$fechaActualizacion = $fecha->format('Y-m-d');
 
 // Validar ID
 if (empty($id_oportunidad_update)) {

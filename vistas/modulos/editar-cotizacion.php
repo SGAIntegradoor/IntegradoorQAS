@@ -1097,7 +1097,6 @@ echo '<script>window.cotiFinesaOferts = ' . $jsonCotizaciones . ';</script>';
                   <option class="clsAseguradora" value="Seguros del Estado">Seguros del Estado</option>
                   <option class="clsAseguradora" value="Seguros Bolivar">Seguros Bolivar</option>
                   <option class="clsAseguradora" value="Axa Colpatria">Axa Colpatria</option>
-                  <option class="clsAseguradora" value="HDI Seguros">HDI Seguros</option>
                   <option class="clsAseguradora" value="SBS Seguros">SBS Seguros</option>
                   <option class="clsAseguradora" value="Seguros Sura">Seguros Sura</option>
                   <option class="clsAseguradora" value="Zurich Seguros">Zurich Seguros</option>
