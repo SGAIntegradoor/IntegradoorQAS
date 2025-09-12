@@ -4513,7 +4513,7 @@ function cotizarOfertas() {
           let body = JSON.parse(requestOptions.body);
           body.plan = aseguradora;
           requestOptions.body = JSON.stringify(body);
-          const libertyPromise = comprobarFallida(aseguradora)
+          const libertyPromise = comprobarFallida("HDI Seguros")
           // const libertyPromise = comprobarFallida("HDI Seguros")
             ? fetch(
                 "https://grupoasistencia.com/motor_webservice/Liberty_autos",
