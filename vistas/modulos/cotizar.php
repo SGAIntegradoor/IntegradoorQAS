@@ -805,7 +805,7 @@ echo '<script>console.log(' . $idIntermediario . ", " . $rolAsesor . ')</script>
 
     <h1>
 
-      Cotizar Seguro Autos Livianos
+      Cotizar Seguro Autos Livianos Particular Familiar
 
     </h1>
 
@@ -849,7 +849,17 @@ echo '<script>console.log(' . $idIntermediario . ", " . $rolAsesor . ')</script>
               <div id="DatosAsegurado">
                 <div class="col-lg-12 form-resumAseg">
                   <div class="row">
-
+                    <div class="col-xs-12 col-sm-6 col-md-3 form-group">
+                      <label for="tipoUso">Tipo de Uso</label>
+                      <select class="form-control" id="tipoUso">
+                        <option value="" disabled selected>Selecciona el tipo de uso</option>
+                        <option value="1">Particular de uso familiar exclusivo</option>
+                        <option value="2">Particular plataformas Uber, Didi, Cabify, Yango, etc.</option>
+                        <option value="3">Particular o publico de uso comercial o de trabajo</option>
+                      </select>
+                    </div>
+                  </div><br>
+                  <div class="row">
                     <div class="col-xs-12 col-sm-6 col-md-3" id="contenSuperiorPlaca">
                       <div class="row">
                         <div class="col-xs-12 col-sm-6 col-md-6 form-group" id="conocesPlaca">
@@ -1192,12 +1202,12 @@ echo '<script>console.log(' . $idIntermediario . ", " . $rolAsesor . ')</script>
                       <div class="col-xs-12 col-sm-6 col-md-3 form-group">
                         <label for="clase">Clase Vehículo</label>
                         <select class="form-control" name="clase" id="clase" required="">
-                        <option value="">Seleccione una opción</option>           
-                        <option value="AUTOMOVIL">AUTOMOVIL</option>           
-                        <option value="CAMPERO">CAMPERO</option>
-                        <option value="CAMIONETA PASAJ.">CAMIONETA PASAJERO</option>
-                        <option value="PICKUP DOBLE CAB">PICKUP DOBLE CAB</option>
-                        <option value="PICKUP SENCILLA">PICKUP SENCILLA</option>
+                          <option value="">Seleccione una opción</option>
+                          <option value="AUTOMOVIL">AUTOMOVIL</option>
+                          <option value="CAMPERO">CAMPERO</option>
+                          <option value="CAMIONETA PASAJ.">CAMIONETA PASAJERO</option>
+                          <option value="PICKUP DOBLE CAB">PICKUP DOBLE CAB</option>
+                          <option value="PICKUP SENCILLA">PICKUP SENCILLA</option>
                         </select>
                       </div>
 
@@ -1327,9 +1337,9 @@ echo '<script>console.log(' . $idIntermediario . ", " . $rolAsesor . ')</script>
                     <div class="col-xs-12 col-sm-6 col-md-3 form-group">
                       <label for="txtTipoUsoVehiculo">Tipo de Uso</label>
                       <select class="form-control" id="txtTipoUsoVehiculo" required>
-                        <option value=""></option>
-                        <option value="Particular" selected>Particular</option>
-                        <option value="Trabajo">Trabajo</option>
+                        <option value="" disabled></option>
+                        <option value="Particular" selected>Particular de uso familiar exclusivo</option>
+                        <!-- <option value="Trabajo">Trabajo</option> -->
                       </select>
                     </div>
                   </div>
@@ -1338,10 +1348,10 @@ echo '<script>console.log(' . $idIntermediario . ", " . $rolAsesor . ')</script>
                     <div class="col-xs-12 col-sm-6 col-md-3 form-group">
                       <label for="txtTipoServicio">Tipo de Servicio</label>
                       <select class="form-control" id="txtTipoServicio" required>
-                        <option value=""></option>
+                        <!-- <option value=""></option>
                         <option value="14" selected>Particular</option>
                         <option value="11">Publico Municipal</option>
-                        <option value="12">Publico Intermunicipal</option>
+                        <option value="12">Publico Intermunicipal</option> -->
                       </select>
                     </div>
 

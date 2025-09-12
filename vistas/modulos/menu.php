@@ -263,10 +263,20 @@ body:not(.sidebar-collapse) .sidebar-menu .consultas-sub{
 			/*=============================================
 		COTIZAR LIVIANO
 		=============================================*/
-			echo  '<li class="' . ($currentPage == 'cotizar' ? 'active' : '') . '">
+			echo  '<li class="' . ($currentPage == 'cotizar' || $currentPage == 'livianos' ? 'active' : '') . '">
 				<a id="menuCotLiv" href="cotizar">
 					<i class="fa fa-car"></i>
-					<span>Cotizar Livanos</span>
+					<span>Cotizar Livano Familiar</span>
+				</a>
+			</li>';
+
+			/*=============================================
+		COTIZAR UTILITARIO
+		=============================================*/
+			echo  '<li class="' . ($currentPage == 'utilitarios' || $currentPage == 'livianos' ? 'active' : '') . '">
+				<a id="menuCotLiv" href="utilitarios">
+					<i class="fa fa-truck-pickup"></i>
+					<span>Cotizar Livano Utilitario</span>
 				</a>
 			</li>';
 			?>
