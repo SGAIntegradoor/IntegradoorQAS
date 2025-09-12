@@ -392,7 +392,11 @@
         $_GET["ruta"] == "retomar-cotizacion-hogar" ||
         $_GET["ruta"] == "negocios" ||
         $_GET["ruta"] == "productividad" ||
-        $_GET["ruta"] == "transporte-pasajeros" 
+        $_GET["ruta"] == "user-negocios" ||
+        $_GET["ruta"] == "user-clientes" ||
+        $_GET["ruta"] == "user-comisiones" ||
+        $_GET["ruta"] == "user-cartera" ||
+        $_GET["ruta"] == "transporte-pasajeros"
       ) {
         if ($_GET['ruta'] == 'modificacion-productos') {
           $_GET['ruta'] = 'ModificacionProductos/ModificacionProductosView';
@@ -402,9 +406,9 @@
         }
         if ($_GET['ruta'] == 'usuarios') {
           if (!($_SESSION['rol'] == 1 || $_SESSION['rol'] == 10 || $_SESSION['rol'] == 11 || $_SESSION["rol"] == 12 || $_SESSION['rol'] == 22 || $_SESSION['rol'] == 23)) {
-            $_GET['ruta'] = 'usuarios';
-          } else {
             $_GET['ruta'] = 'usuarios3';
+          } else {
+            $_GET['ruta'] = 'usuarios';
           }
         }
 
