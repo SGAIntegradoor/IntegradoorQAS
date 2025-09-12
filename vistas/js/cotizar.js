@@ -3431,16 +3431,16 @@ function cotizarOfertas() {
                 return; // Salir del bucle después de procesar Estado
                 // Construir la URL de la solicitud para cada aseguradora
               } else if (aseguradora === "HDI Seguros") {
-                // const planes = [
-                //   "HDI FULL",
-                //   "INTEGRAL 20",
-                //   "BASICO + PT",
-                //   "BASICO",
-                // ];
-                // planes.forEach((plan) => {
-                //   let body = JSON.parse(requestOptions.body);
-                //   body.plan = plan;
-                //   requestOptions.body = JSON.stringify(body);
+                const planes = [
+                  "HDI FULL",
+                  "INTEGRAL 20",
+                  "BASICO + PT",
+                  "BASICO",
+                ];
+                planes.forEach((plan) => {
+                  let body = JSON.parse(requestOptions.body);
+                  body.plan = plan;
+                  requestOptions.body = JSON.stringify(body);
                   url = `https://grupoasistencia.com/motor_webservice/Liberty_autos`;
                   cont.push(
                     fetch(url, requestOptions)
@@ -3487,7 +3487,7 @@ function cotizarOfertas() {
                         console.error(err);
                       })
                   );
-                // });
+                 });
                 return;
               } 
               // /*inicio javier */ else if (aseguradora === "Qualitas") {
@@ -4503,18 +4503,18 @@ function cotizarOfertas() {
         // Comente para quitar los nuevos planes de HDI
 
         /* Liberty */
-        // const aseguradorasHDI = [
-        //   "HDI FULL",
-          // "INTEGRAL 20",
-          // "BASICO + PT",
-          // "BASICO",
-        // ];
-        // aseguradorasHDI.forEach((aseguradora) => {
-        //   let body = JSON.parse(requestOptions.body);
-        //   body.plan = aseguradora;
-        //   requestOptions.body = JSON.stringify(body);
-        // const libertyPromise = comprobarFallida(aseguradora)
-          const libertyPromise = comprobarFallida("HDI Seguros")
+        const aseguradorasHDI = [
+          "HDI FULL",
+          "INTEGRAL 20",
+          "BASICO + PT",
+          "BASICO",
+        ];
+        aseguradorasHDI.forEach((aseguradora) => {
+          let body = JSON.parse(requestOptions.body);
+          body.plan = aseguradora;
+          requestOptions.body = JSON.stringify(body);
+          const libertyPromise = comprobarFallida(aseguradora)
+          // const libertyPromise = comprobarFallida("HDI Seguros")
             ? fetch(
                 "https://grupoasistencia.com/motor_webservice/Liberty_autos",
                 requestOptions
@@ -4562,7 +4562,7 @@ function cotizarOfertas() {
             : Promise.resolve();
 
           cont.push(libertyPromise);
-        // });
+        });
 
         /* Allianz */
         const allianzPromise = comprobarFallida("Allianz")
