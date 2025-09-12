@@ -4623,7 +4623,7 @@ function saveQuotations(responses) {
 
 document.addEventListener("DOMContentLoaded", function () {
   const navCRM = () => {
-    fetch("http://localhost/integradoorQAS/API/login/SSO/", {
+    fetch("http://grupoasistencia.com/API/login/SSO/", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -4637,9 +4637,8 @@ document.addEventListener("DOMContentLoaded", function () {
       .then((data) => {
         if (data.status === "Ok" && data.token) {
           // Redirigir al CRM con el token en la URL
-          console.log("entre aca")
           window.location.href =
-            "http://localhost:5173/crm/login?token=" + data.token;
+            "http://integradoor.com/crm/login?token=" + data.token;
         } else {
           alert("Error al iniciar sesión: " + data.message);
         }
