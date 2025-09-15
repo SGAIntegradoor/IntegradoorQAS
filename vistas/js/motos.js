@@ -2512,6 +2512,8 @@ function cotizarOfertasMotos() {
   var CodigoMarca = document.getElementById("CodigoMarca").value;
   var CodigoLinea = document.getElementById("CodigoLinea").value;
   var claseVeh = document.getElementById("txtClaseVeh").value;
+  var lineaVeh = document.getElementById("txtReferenciaVeh").value;
+  var marcaVeh = document.getElementById("txtMarcaVeh").value;
 
   var LimiteRC = document.getElementById("LimiteRC").value;
   var CoberturaEstado = document.getElementById("CoberturaEstado").value;
@@ -2652,6 +2654,9 @@ function cotizarOfertasMotos() {
         ValorAsegurado: valorfasecoldaVeh,
         LimiteRC: LimiteRC,
         Cobertura: CoberturaEstado,
+        claseVeh: claseVeh,
+        lineaVeh: lineaVeh,
+        marcaVeh: marcaVeh,
         ValorAccesorios: ValorAccesorios,
         CiudadBolivar: ciudadCirculacion,
         tipoServicio: tipoServicio,
