@@ -1320,6 +1320,7 @@ $html3 .= '</tr>';
 
 $html3 .= '<tr>';
 $html3 .= '<td class="puntos fondo" style="width:10%; text-align: center; font-family:dejavusanscondensedb;"><font size="8">Pérdida parcial por daño</font></td>';
+$pp = "";
 $cont7 = 1;
 
 foreach ($resultados as $resultado) {
@@ -1328,9 +1329,19 @@ foreach ($resultados as $resultado) {
 	$nombreProducto = productoAseguradora($resultado['Aseguradora'], $resultado['Producto']);
 
 	if ($cont7 % 2 == 0) {
-		$html3 .= '<td class="puntos fondo" style="width:' . $valorTabla . '%;"><center><div style="font-size:6pt">&nbsp;</div><font size="7"style="text-align: center;  font-family:dejavusanscondensed;">' . $resultado['PerdidaParcial'] . '</font></center></td>';
+		if ($nombreProducto == "MEDIUM" && $nombreAseguradora == "Zurich") {
+			$pp = "Tope 50% Vr. Asegurado Deducible: 10% min. 1 SMMLV";
+			$html3 .= '<td class="puntos fondo" style="width:' . $valorTabla . '%;"><div style="font-size:8pt">&nbsp;</div><center><font size="7"style="text-align: center;  font-family:dejavusanscondensed;">' . $pp . '</font></center></td>';
+		} else {
+			$html3 .= '<td class="puntos fondo" style="width:' . $valorTabla . '%;"><center><div style="font-size:6pt">&nbsp;</div><font size="7"style="text-align: center;  font-family:dejavusanscondensed;">' . $resultado['PerdidaParcial'] . '</font></center></td>';
+		}
 	} else {
-		$html3 .= '<td class="puntos fondo2" style="width:' . $valorTabla . '%;"><center><div style="font-size:6pt">&nbsp;</div><font size="7"style="text-align: center;  font-family:dejavusanscondensed;">' . $resultado['PerdidaParcial'] . '</font></center></td>';
+		if ($nombreProducto == "MEDIUM" && $nombreAseguradora == "Zurich") {
+			$pp = "Tope 50% Vr. Asegurado Deducible: 10% min. 1 SMMLV";
+			$html3 .= '<td class="puntos fondo2" style="width:' . $valorTabla . '%;"><div style="font-size:8pt">&nbsp;</div><center><font size="7"style="text-align: center;  font-family:dejavusanscondensed;">' . $pp . '</font></center></td>';
+		} else {
+			$html3 .= '<td class="puntos fondo2" style="width:' . $valorTabla . '%;"><center><div style="font-size:6pt">&nbsp;</div><font size="7"style="text-align: center;  font-family:dejavusanscondensed;">' . $resultado['PerdidaParcial'] . '</font></center></td>';
+		}
 	}
 
 	$cont7 += 1;
@@ -1345,23 +1356,6 @@ $html3 .= '</tr>';
 $html3 .= '<tr>';
 $html3 .= '<td class="puntos fondo" style="width:10%; text-align: center; font-family:dejavusanscondensedb;"><font size="8">Pérdida parcial por hurto</font></td>';
 
-// $query12 = "SELECT DISTINCT cf.identityElement, o.Aseguradora, o.PerdidaParcial, o.Producto
-// FROM cotizaciones_finesa cf 
-// INNER JOIN ofertas o ON o.id_cotizacion = cf.id_cotizacion
-// WHERE o.seleccionar = 'Si' 
-// AND cf.identityElement = o.oferta_finesa
-// AND cf.id_cotizacion = $identificador";
-
-// $respuestaquery12 = $conexion->query($query12);
-// $rowValidate = mysqli_num_rows($respuestaquery12);
-
-// if ($rowValidate == 0 || $rowValidate == false || $rowValidate == null) {
-// 	mysqli_free_result($respuestaquery12);
-// 	$query12 = "SELECT Aseguradora, PerdidaParcial, Producto FROM ofertas WHERE `id_cotizacion` = $identificador AND `seleccionar` = 'Si'";
-// 	$respuestaquery12 = $conexion->query($query12);
-// 	$rowValidate = mysqli_num_rows($respuestaquery12);
-// }
-
 $cont8 = 1;
 
 foreach ($resultados as $resultado) {
@@ -1370,9 +1364,19 @@ foreach ($resultados as $resultado) {
 	$nombreProducto = productoAseguradora($resultado['Aseguradora'], $resultado['Producto']);
 
 	if ($cont8 % 2 == 0) {
-		$html3 .= '<td class="puntos fondo" style="width:' . $valorTabla . '%;"><center><div style="font-size:4pt">&nbsp;</div><font size="7"style="text-align: center;  font-family:dejavusanscondensed;">' . $resultado['PerdidaParcial'] . '</font></center></td>';
+		if ($nombreProducto == "MEDIUM" && $nombreAseguradora == "Zurich") {
+			$pph = "Tope 70% Vr. Asegurado Deducible: 10% min. 1 SMMLV";
+			$html3 .= '<td class="puntos fondo" style="width:' . $valorTabla . '%;"><div style="font-size:8pt">&nbsp;</div><center><font size="7"style="text-align: center;  font-family:dejavusanscondensed;">' . $pph . '</font></center></td>';
+		} else {
+			$html3 .= '<td class="puntos fondo" style="width:' . $valorTabla . '%;"><center><div style="font-size:6pt">&nbsp;</div><font size="7"style="text-align: center;  font-family:dejavusanscondensed;">' . $resultado['PerdidaParcial'] . '</font></center></td>';
+		}
 	} else {
-		$html3 .= '<td class="puntos fondo2" style="width:' . $valorTabla . '%;"><center><div style="font-size:4pt">&nbsp;</div><font size="7"style="text-align: center;  font-family:dejavusanscondensed;">' . $resultado['PerdidaParcial'] . '</font></center></td>';
+		if ($nombreProducto == "MEDIUM" && $nombreAseguradora == "Zurich") {
+			$pph = "Tope 70% Vr. Asegurado Deducible: 10% min. 1 SMMLV";
+			$html3 .= '<td class="puntos fondo2" style="width:' . $valorTabla . '%;"><div style="font-size:8pt">&nbsp;</div><center><font size="7"style="text-align: center;  font-family:dejavusanscondensed;">' . $pph . '</font></center></td>';
+		} else {
+			$html3 .= '<td class="puntos fondo2" style="width:' . $valorTabla . '%;"><center><div style="font-size:6pt">&nbsp;</div><font size="7"style="text-align: center;  font-family:dejavusanscondensed;">' . $resultado['PerdidaParcial'] . '</font></center></td>';
+		}
 	}
 
 	$cont8 += 1;

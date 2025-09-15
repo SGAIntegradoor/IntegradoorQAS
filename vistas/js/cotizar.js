@@ -5,7 +5,11 @@ $(document).ready(function () {
 
   if (partes.includes("dev") || partes.includes("DEV")) {
     env = "dev";
-  } else if (partes.includes("QAS") || partes.includes("qas") || partes.includes("Pruebas")) {
+  } else if (
+    partes.includes("QAS") ||
+    partes.includes("qas") ||
+    partes.includes("Pruebas")
+  ) {
     env = "qas";
   } else if (partes.includes("app") || partes.includes("App")) {
     env = "";
@@ -3287,8 +3291,8 @@ function cotizarOfertas() {
               if (aseguradora === "HDI") {
                 url = `https://grupoasistencia.com/motor_webservice/HdiPlus`;
               } else if (aseguradora === "Zurich") {
-                //const planes = ["FULL", "MEDIUM", "BASIC"];
-                const planes = ["FULL"];
+                const planes = ["FULL", "MEDIUM", "BASIC"];
+                // const planes = ["FULL"];
                 planes.forEach((plan) => {
                   let lineaVeh =
                     document.getElementById("txtReferenciaVeh").value;
@@ -3364,7 +3368,7 @@ function cotizarOfertas() {
                 });
                 return; // Salir del bucle después de procesar Zurich
               } else if (aseguradora === "Estado") {
-                // comento para que solo salgan 2 planes y no los 3 
+                // comento para que solo salgan 2 planes y no los 3
                 // const aseguradorasEstado = ["Estado", "Estado2", "Estado3"]; // Agrega más aseguradoras según sea necesario
                 const aseguradorasEstado = ["Estado", "Estado2"]; // Agrega más aseguradoras según sea necesario
                 aseguradorasEstado.forEach((aseguradora) => {
@@ -3441,55 +3445,52 @@ function cotizarOfertas() {
                 //   let body = JSON.parse(requestOptions.body);
                 //   body.plan = plan;
                 //   requestOptions.body = JSON.stringify(body);
-                  url = `https://grupoasistencia.com/motor_webservice/Liberty_autos`;
-                  cont.push(
-                    fetch(url, requestOptions)
-                      .then((res) => {
-                        if (!res.ok) throw Error(res.statusText);
-                        return res.json();
-                      })
-                      .then((ofertas) => {
-                        if (typeof ofertas[0].Resultado !== "undefined") {
-                          // cambie variable plan por aseguradora
-                          agregarAseguradoraFallida(aseguradora);
-                          validarProblema(aseguradora, ofertas);
-                          ofertas[0].Mensajes.forEach((mensaje) => {
-                            mostrarAlertarCotizacionFallida(
-                              aseguradora,
-                              mensaje
-                            );
-                          });
-                        } else {
-                          const contadorPorEntidad = validarOfertas(
-                            ofertas,
-                            aseguradora,
-                            1
-                          );
-                          mostrarAlertaCotizacionExitosa(
-                            aseguradora,
-                            contadorPorEntidad
-                          );
-                        }
-                      })
-                      .catch((err) => {
-                        agregarAseguradoraFallida(plan);
-                        mostrarAlertarCotizacionFallida(
+                url = `https://grupoasistencia.com/motor_webservice/Liberty_autos`;
+                cont.push(
+                  fetch(url, requestOptions)
+                    .then((res) => {
+                      if (!res.ok) throw Error(res.statusText);
+                      return res.json();
+                    })
+                    .then((ofertas) => {
+                      if (typeof ofertas[0].Resultado !== "undefined") {
+                        // cambie variable plan por aseguradora
+                        agregarAseguradoraFallida(aseguradora);
+                        validarProblema(aseguradora, ofertas);
+                        ofertas[0].Mensajes.forEach((mensaje) => {
+                          mostrarAlertarCotizacionFallida(aseguradora, mensaje);
+                        });
+                      } else {
+                        const contadorPorEntidad = validarOfertas(
+                          ofertas,
                           aseguradora,
-                          "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
+                          1
                         );
-                        validarProblema(aseguradora, [
-                          {
-                            Mensajes: [
-                              "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
-                            ],
-                          },
-                        ]);
-                        console.error(err);
-                      })
-                  );
+                        mostrarAlertaCotizacionExitosa(
+                          aseguradora,
+                          contadorPorEntidad
+                        );
+                      }
+                    })
+                    .catch((err) => {
+                      agregarAseguradoraFallida(plan);
+                      mostrarAlertarCotizacionFallida(
+                        aseguradora,
+                        "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
+                      );
+                      validarProblema(aseguradora, [
+                        {
+                          Mensajes: [
+                            "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
+                          ],
+                        },
+                      ]);
+                      console.error(err);
+                    })
+                );
                 // });
                 return;
-              } 
+              }
               // /*inicio javier */ else if (aseguradora === "Qualitas") {
               //   url = `https://grupoasistencia.com/WS-laravel/api/autos/qualitas`;
               //   cont.push(
@@ -3535,7 +3536,7 @@ function cotizarOfertas() {
               //   );
               //   return; /*Fin javier */
 
-              /*inicio Daniel */ 
+              /*inicio Daniel */
               else if (aseguradora === "Mundial") {
                 url = `https://grupoasistencia.com/motor_webservice/Mundial_autos`;
                 cont.push(
@@ -3588,7 +3589,8 @@ function cotizarOfertas() {
                 let message =
                   aseguradora == "Qualitas"
                     ? `💡 <b>Nueva aseguradora</b> especializada en <b>seguros de autos.</b> La principal aseguradora mexicana de seguros de autos llega a Colombia y <b>nosotros ya tenemos convenio.</b> Solicita cotización manual a tu Analista Comercial.`
-                    : aseguradora == "Sura" ? `<b>🐯 Nueva alianza para comercializar seguros Sura.</b> Solicita cotización manual a tu Analista Comercial.`
+                    : aseguradora == "Sura"
+                    ? `<b>🐯 Nueva alianza para comercializar seguros Sura.</b> Solicita cotización manual a tu Analista Comercial.`
                     : `🔥 <b>Nuevo seguro de autos livianos</b> con modalidad de indemnización ARREGLO DIRECTO para <b>pérdidas parciales</b>. Solicita cotización manual a tu Analista Comercial. Revisa informacion adicional en la seccion de <b>Notas importantes.</b>`;
 
                 let ofertas = [
@@ -3663,12 +3665,12 @@ function cotizarOfertas() {
                 enableInputs(true);
                 //countOfferts();
               } else {
-                  Swal.close();
-                  $("#loaderOferta").html("");
-                  $("#loaderOfertaBox").css("display", "none");
-                  enableInputs(true);
-                  countOfferts();
-                  /*
+                Swal.close();
+                $("#loaderOferta").html("");
+                $("#loaderOfertaBox").css("display", "none");
+                enableInputs(true);
+                countOfferts();
+                /*
                 Swal.fire({
                   title: "¡Proceso de Cotización Finalizada!",
                   text: "¿Deseas incluir la financiación con Finesa a 11 cuotas?",
@@ -3714,7 +3716,8 @@ function cotizarOfertas() {
                     }
                   }
                 });
-              */}
+              */
+              }
               document.querySelector(".button-recotizar").style.display =
                 "block";
               /* Se monta el botón para generar el pdf con 
@@ -4360,82 +4363,104 @@ function cotizarOfertas() {
         // cont.push(HDIPromise);
 
         const lineaVeh = document.getElementById("txtReferenciaVeh").value;
-        // const planes = ["FULL"];
         // Para 'FULL'
-        const plan = "FULL";
-        let body = JSON.parse(requestOptions.body);
-        body.plan = plan;
-        body.Email = "@gmail.com";
-        body.Email2 = Math.round(Math.random() * 999999) + body.Email;
-        body.linea = lineaVeh;
-        requestOptions.body = JSON.stringify(body);
-        let url = `https://grupoasistencia.com/motor_webservice/Zurich_autos`;
-        let ZFullPromise = comprobarFallida("FULL")
-          ? fetch(url, {
-              ...requestOptions,
-              method: "POST",
-              headers: {
-                ...requestOptions.headers,
-                "Content-Type": "application/json",
-              },
-            })
-              .then((res) => {
-                if (!res.ok) throw Error(res.statusText);
-                return res.json();
+        //const plan = "FULL";
+
+        aseguradorasFallidas.map((aseguradora) => {
+          let plan = aseguradora;
+          let count = 0;
+          
+          if (plan === "FULL") {
+            plan = "FULL";
+            count++;
+          } else if (plan === "MEDIUM") {
+            plan = "MEDIUM";
+            count++;
+          } else if (plan === "BASIC") {
+            plan = "BASIC";
+            count++;
+          }
+
+          if (count === 0) return;
+
+          let body = JSON.parse(requestOptions.body);
+          body.plan = plan;
+          body.Email = "@gmail.com";
+          body.Email2 = Math.round(Math.random() * 999999) + body.Email;
+          body.linea = lineaVeh;
+          requestOptions.body = JSON.stringify(body);
+          let url = `https://grupoasistencia.com/motor_webservice/Zurich_autos`;
+
+          let ZFullPromise = comprobarFallida(plan)
+            ? fetch(url, {
+                ...requestOptions,
+                method: "POST",
+                headers: {
+                  ...requestOptions.headers,
+                  "Content-Type": "application/json",
+                },
               })
-              .then((ofertas) => {
-                if (typeof ofertas.Resultado !== "undefined") {
-                  agregarAseguradoraFallida(plan);
-                  validarProblema("Zurich", ofertas);
-                  let mensaje = "";
-                  if (ofertas.Mensajes.length == 1) {
-                    mensaje = ofertas.Mensajes[0];
+                .then((res) => {
+                  if (!res.ok) throw Error(res.statusText);
+                  return res.json();
+                })
+                .then((ofertas) => {
+                  if (typeof ofertas.Resultado !== "undefined") {
+                    agregarAseguradoraFallida(plan);
+                    validarProblema("Zurich", ofertas);
+                    let mensaje = "";
+                    if (ofertas.Mensajes.length == 1) {
+                      mensaje = ofertas.Mensajes[0];
+                    } else {
+                      ofertas.Mensajes.map((element, index) => {
+                        if (element.includes("Lo sentimos")) {
+                          mensaje += " - " + element;
+                        } else if (element.includes("Referred")) {
+                          if (index == 2) {
+                            mensaje += " - " + element;
+                          } else {
+                            mensaje += element;
+                          }
+                        } else {
+                          if (index >= 1) {
+                            mensaje += " - " + element;
+                          } else {
+                            mensaje += element;
+                          }
+                        }
+                      });
+                    }
+                    mostrarAlertarCotizacionFallida(`Zurich`, mensaje);
                   } else {
-                    ofertas.Mensajes.map((element, index) => {
-                      if (element.includes("Lo sentimos")) {
-                        mensaje += " - " + element;
-                      } else if (element.includes("Referred")) {
-                        if (index == 2) {
-                          mensaje += " - " + element;
-                        } else {
-                          mensaje += element;
-                        }
-                      } else {
-                        if (index >= 1) {
-                          mensaje += " - " + element;
-                        } else {
-                          mensaje += element;
-                        }
-                      }
-                    });
+                    const contadorPorEntidad = validarOfertas(
+                      ofertas,
+                      "Zurich",
+                      1
+                    );
+                    mostrarAlertaCotizacionExitosa(
+                      `Zurich`,
+                      contadorPorEntidad
+                    );
                   }
-                  mostrarAlertarCotizacionFallida(`Zurich`, mensaje);
-                } else {
-                  const contadorPorEntidad = validarOfertas(
-                    ofertas,
+                })
+                .catch((err) => {
+                  agregarAseguradoraFallida(plan);
+                  mostrarAlertarCotizacionFallida(
                     "Zurich",
-                    1
+                    "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
                   );
-                  mostrarAlertaCotizacionExitosa(`Zurich`, contadorPorEntidad);
-                }
-              })
-              .catch((err) => {
-                agregarAseguradoraFallida(plan);
-                mostrarAlertarCotizacionFallida(
-                  "Zurich",
-                  "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
-                );
-                validarProblema("Zurich", [
-                  {
-                    Mensajes: [
-                      "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
-                    ],
-                  },
-                ]);
-                console.error(err);
-              })
-          : Promise.resolve();
-        cont.push(ZFullPromise);
+                  validarProblema("Zurich", [
+                    {
+                      Mensajes: [
+                        "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
+                      ],
+                    },
+                  ]);
+                  console.error(err);
+                })
+            : Promise.resolve();
+          cont.push(ZFullPromise);
+        });
         /* Estado */
         // const aseguradorasEstado = ["Estado", "Estado2", "Estado3"]; // Agrega más aseguradoras según sea necesario
         const aseguradorasEstado = ["Estado", "Estado2"]; // Agrega más aseguradoras según sea necesario
@@ -4505,63 +4530,63 @@ function cotizarOfertas() {
         /* Liberty */
         // const aseguradorasHDI = [
         //   "HDI FULL",
-          // "INTEGRAL 20",
-          // "BASICO + PT",
-          // "BASICO",
+        // "INTEGRAL 20",
+        // "BASICO + PT",
+        // "BASICO",
         // ];
         // aseguradorasHDI.forEach((aseguradora) => {
         //   let body = JSON.parse(requestOptions.body);
         //   body.plan = aseguradora;
         //   requestOptions.body = JSON.stringify(body);
         // const libertyPromise = comprobarFallida(aseguradora)
-          const libertyPromise = comprobarFallida("HDI Seguros")
-            ? fetch(
-                "https://grupoasistencia.com/motor_webservice/Liberty_autos",
-                requestOptions
-              )
-                .then((res) => {
-                  if (!res.ok) throw Error(res.statusText);
-                  return res.json();
-                })
-                .then((ofertas) => {
-                  if (typeof ofertas[0].Resultado !== "undefined") {
-                    // debugger;
-                    agregarAseguradoraFallida(aseguradora);
-                    validarProblema(aseguradora, ofertas);
-                    ofertas[0].Mensajes.forEach((mensaje) => {
-                      mostrarAlertarCotizacionFallida("HDI Seguros", mensaje);
-                    });
-                  } else {
-                    // eliminarAseguradoraFallida(aseguradora);
-                    const contadorPorEntidad = validarOfertas(
-                      ofertas,
-                      aseguradora,
-                      1
-                    );
-                    mostrarAlertaCotizacionExitosa(
-                      aseguradora,
-                      contadorPorEntidad
-                    );
-                  }
-                })
-                .catch((err) => {
+        const libertyPromise = comprobarFallida("HDI Seguros")
+          ? fetch(
+              "https://grupoasistencia.com/motor_webservice/Liberty_autos",
+              requestOptions
+            )
+              .then((res) => {
+                if (!res.ok) throw Error(res.statusText);
+                return res.json();
+              })
+              .then((ofertas) => {
+                if (typeof ofertas[0].Resultado !== "undefined") {
+                  // debugger;
                   agregarAseguradoraFallida(aseguradora);
-                  mostrarAlertarCotizacionFallida(
-                    "HDI Seguros",
-                    "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
+                  validarProblema(aseguradora, ofertas);
+                  ofertas[0].Mensajes.forEach((mensaje) => {
+                    mostrarAlertarCotizacionFallida("HDI Seguros", mensaje);
+                  });
+                } else {
+                  // eliminarAseguradoraFallida(aseguradora);
+                  const contadorPorEntidad = validarOfertas(
+                    ofertas,
+                    aseguradora,
+                    1
                   );
-                  validarProblema(aseguradora, [
-                    {
-                      Mensajes: [
-                        "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
-                      ],
-                    },
-                  ]);
-                  console.error(err);
-                })
-            : Promise.resolve();
+                  mostrarAlertaCotizacionExitosa(
+                    aseguradora,
+                    contadorPorEntidad
+                  );
+                }
+              })
+              .catch((err) => {
+                agregarAseguradoraFallida(aseguradora);
+                mostrarAlertarCotizacionFallida(
+                  "HDI Seguros",
+                  "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
+                );
+                validarProblema(aseguradora, [
+                  {
+                    Mensajes: [
+                      "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
+                    ],
+                  },
+                ]);
+                console.error(err);
+              })
+          : Promise.resolve();
 
-          cont.push(libertyPromise);
+        cont.push(libertyPromise);
         // });
 
         /* Allianz */
@@ -4716,10 +4741,7 @@ function cotizarOfertas() {
                     "Mundial",
                     1
                   );
-                  mostrarAlertaCotizacionExitosa(
-                    "Mundial",
-                    contadorPorEntidad
-                  );
+                  mostrarAlertaCotizacionExitosa("Mundial", contadorPorEntidad);
                 }
               })
               .catch((err) => {
@@ -4759,12 +4781,12 @@ function cotizarOfertas() {
               //countOfferts();
               enableInputs(true);
             } else {
-                 Swal.close();
-                  $("#loaderOferta").html("");
-                  $("#loaderOfertaBox").css("display", "none");
-                  enableInputs(true);
-                  countOfferts();
-                  /*
+              Swal.close();
+              $("#loaderOferta").html("");
+              $("#loaderOfertaBox").css("display", "none");
+              enableInputs(true);
+              countOfferts();
+              /*
               Swal.fire({
                 title: "¡Proceso de Re-Cotización Finalizada!",
                 text: "¿Deseas incluir la financiación con Finesa a 11 cuotas?",
@@ -4811,7 +4833,8 @@ function cotizarOfertas() {
                   }
                 }
               });
-            */}
+            */
+            }
           } else {
             // debugger;
             // Swal.close();
@@ -5094,13 +5117,13 @@ $("#btnConsultarVehmanualbuscador").click(function () {
   }
 });
 
-  $("#btnCotizarFinesa").click(function () {
-    document.getElementById("btnReCotizarFallidas").disabled = true;
-    $("#loaderOferta").html(
-      '<img src="vistas/img/plantilla/loader-update.gif" width="34" height="34"><strong> Cotizando en Finesa...</strong>'
-    );
-    $(this).prop("disabled", true);
-    enableInputs(true);
-    cotizarFinesa(cotizacionesFinesa);
-    countOfferts();
-  });
+$("#btnCotizarFinesa").click(function () {
+  document.getElementById("btnReCotizarFallidas").disabled = true;
+  $("#loaderOferta").html(
+    '<img src="vistas/img/plantilla/loader-update.gif" width="34" height="34"><strong> Cotizando en Finesa...</strong>'
+  );
+  $(this).prop("disabled", true);
+  enableInputs(true);
+  cotizarFinesa(cotizacionesFinesa);
+  countOfferts();
+});
