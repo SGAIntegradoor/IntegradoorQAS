@@ -412,39 +412,6 @@ class ModeloCotizaciones
 			GROUP BY a.id_asegurado, ps.id_plan
 			ORDER BY ass.id_aseguradora desc ,p.mensual_plan DESC;");
 
-			echo "SELECT 
-					  ROW_NUMBER() OVER (ORDER BY ass.id_aseguradora DESC ,p.mensual_plan DESC) AS id_plan_ordenado, c.*,
-						t.*,
-						a.*,
-						p.*,
-						us.*,
-						cs.*,
-						ps.*,
-						ass.*,
-						ci.*
-			FROM 
-				$tabla c
-			INNER JOIN 
-				$tabla2 t ON t.id_cotizacion = c.id_cotizacion
-			INNER JOIN 
-				$tabla3 a ON a.id_cotizacion = c.id_cotizacion
-			INNER JOIN 
-				$tabla4 p ON p.id_asegurado = a.id_asegurado
-			INNER JOIN 
-				$tabla5 us ON c.id_usuario = us.id_usuario
-			LEFT JOIN
-				$tabla7 cs ON cs.id_plan = p.id_plan
-			LEFT JOIN
-				$tabla8 ps ON ps.id_plan = p.id_plan
-			LEFT JOIN
-				$tabla9 ass ON ass.id_aseguradora = ps.id_aseguradora
-			LEFT JOIN 
-				$tabla6 ci ON ci.id_ciudad = a.ciudad
-			WHERE 
-				c.$field = :id
-			GROUP BY a.id_asegurado, ps.id_plan
-			ORDER BY ass.id_aseguradora desc ,p.mensual_plan DESC;";
-
 			$stmt->bindParam(":id", $id, PDO::PARAM_STR);
 
 			if ($stmt->execute()) {
