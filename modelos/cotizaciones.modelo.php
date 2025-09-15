@@ -58,7 +58,6 @@ class ModeloCotizaciones
 															AND $ciudadJoin AND $tabla2.id_tipo_documento = $tabla3.id_tipo_documento 
 															AND $tabla2.id_estado_civil = $tabla4.id_estado_civil AND $tabla.id_cotizacion = :$item AND $tabla5.id_Intermediario = :idIntermediario"
 					);
-
 				}
 
 				$stmt->bindParam(":" . $item, $valor, PDO::PARAM_STR);
@@ -321,7 +320,7 @@ class ModeloCotizaciones
 					"genero" => $row["genero_asegurado"],
 					"ciudad" => $row["ciudad_asegurado"],
 					"departamento" => $row["departamento_asegurado"],
-					"asociado" => $row["asociado_coomeva"],
+					// "asociado" => $row["asociado_coomeva"],
 					"id_departamento" => str_pad((string)$row["id_departamento"], 2, "0", STR_PAD_LEFT),
 					"id_ciudad" => str_pad((string)$row["id_ciudad"], 2, "0", STR_PAD_LEFT),
 					"numeroDocumento" => $row["cedula_asegurado"],
@@ -412,6 +411,39 @@ class ModeloCotizaciones
 				c.$field = :id
 			GROUP BY a.id_asegurado, ps.id_plan
 			ORDER BY ass.id_aseguradora desc ,p.mensual_plan DESC;");
+
+			echo "SELECT 
+					  ROW_NUMBER() OVER (ORDER BY ass.id_aseguradora DESC ,p.mensual_plan DESC) AS id_plan_ordenado, c.*,
+						t.*,
+						a.*,
+						p.*,
+						us.*,
+						cs.*,
+						ps.*,
+						ass.*,
+						ci.*
+			FROM 
+				$tabla c
+			INNER JOIN 
+				$tabla2 t ON t.id_cotizacion = c.id_cotizacion
+			INNER JOIN 
+				$tabla3 a ON a.id_cotizacion = c.id_cotizacion
+			INNER JOIN 
+				$tabla4 p ON p.id_asegurado = a.id_asegurado
+			INNER JOIN 
+				$tabla5 us ON c.id_usuario = us.id_usuario
+			LEFT JOIN
+				$tabla7 cs ON cs.id_plan = p.id_plan
+			LEFT JOIN
+				$tabla8 ps ON ps.id_plan = p.id_plan
+			LEFT JOIN
+				$tabla9 ass ON ass.id_aseguradora = ps.id_aseguradora
+			LEFT JOIN 
+				$tabla6 ci ON ci.id_ciudad = a.ciudad
+			WHERE 
+				c.$field = :id
+			GROUP BY a.id_asegurado, ps.id_plan
+			ORDER BY ass.id_aseguradora desc ,p.mensual_plan DESC;";
 
 			$stmt->bindParam(":id", $id, PDO::PARAM_STR);
 
