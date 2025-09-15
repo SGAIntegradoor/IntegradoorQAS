@@ -3068,29 +3068,28 @@ function cotizarOfertasMotos() {
                   );
                 });
                 return;
-              } 
-              else if (aseguradora === "Estado") {
-                let estadoPromise = new Promise((resolve, reject) => {
-                  try {
-                    let arrAseguradora = [
-                      {
-                        Mensajes: [
-                          "Solicita cotización manual con tu Analista Comercial asignado",
-                        ],
-                      },
-                    ];
-                    setTimeout(function () {
-                      validarProblemaMotos("Estado", arrAseguradora);
-                      addAseguradora("Estado");
-                      resolve();
-                    }, 1000);
-                  } catch (error) {
-                    resolve();
-                  }
-                });
+              // } else if (aseguradora === "Estado") {
+              //   let estadoPromise = new Promise((resolve, reject) => {
+              //     try {
+              //       let arrAseguradora = [
+              //         {
+              //           Mensajes: [
+              //             "Solicita cotización manual con tu Analista Comercial asignado",
+              //           ],
+              //         },
+              //       ];
+              //       setTimeout(function () {
+              //         validarProblemaMotos("Estado", arrAseguradora);
+              //         addAseguradora("Estado");
+              //         resolve();
+              //       }, 1000);
+              //     } catch (error) {
+              //       resolve();
+              //     }
+              //   });
 
-                cont.push(estadoPromise);
-                return;
+              //   cont.push(estadoPromise);
+              //   return;
               } else {
                 // Construir la URL de la solicitud para cada aseguradora
                 url = `https://grupoasistencia.com/motor_webservice/${aseguradora}_motos`;
