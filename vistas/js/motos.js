@@ -2082,16 +2082,16 @@ ${
 </button>
               </div>`;
   } else if (
-    aseguradora == "Seguros del Estado" &&
+    nombreAseguradoraA == "Estado" &&
     UrlPdf !== null &&
     permisosCredenciales == "1"
   ) {
     cardCotizacion += `
-<div class="col-xs-12 col-sm-6 col-md-2 verpdf-oferta">
-<button type="button" class="btn btn-info" id="btnAsegPDF${numCotizOferta}${numId}\" onclick='verPdfEstado(\"${aseguradora}\", \"${numCotizOferta}\", \"${numId}\", \"${UrlPdf}\");'>
-  <div id="verPdf${numCotizOferta}${numId}\">VER PDF &nbsp;&nbsp;<span class="fa fa-file-text"></span></div>
-</button>
-</div>`;
+            <div class="col-xs-12 col-sm-6 col-md-2 verpdf-oferta">
+            <button type="button" class="btn btn-info" id="btnAsegPDF${numCotizOferta}${numId}\" onclick='verPdfEstado(\"${nombreAseguradoraA}\", \"${numCotizOferta}\", \"${numId}\", \"${UrlPdf}\");'>
+              <div id="verPdf${numCotizOferta}${numId}\">VER PDF &nbsp;&nbsp;<span class="fa fa-file-text"></span></div>
+            </button>
+            </div>`;
   } else if (aseguradora == "Solidaria" && permisosCredenciales == "1") {
     cardCotizacion += `
 <div class="col-xs-12 col-sm-6 col-md-2 verpdf-oferta">
