@@ -153,7 +153,7 @@ function aplicarCriterios() {
   const criterios = [
     "moduloCotizacion",
     "canal",
-   // "clase",
+    "clase",
     "analistaGA",
     "nombreAsesor",
   ];

@@ -46,7 +46,7 @@
                         <option value="BUS / BUSETA / MICROBUS">BUS / BUSETA / MICROBUS</option>
                         <option value="CAMION">CAMIÓN</option>
                         <option value="CAMIONETA PASAJEROS">CAMIONETA PASAJEROS</option>
-                        <option value="CAMIONETA REPARTICION">CAMIONETA REPARTICIÓN</option>
+                        <option value="CAMIONETA REPARTIDORA">CAMIONETA REPARTIDORA</option>
                         <option value="CAMPERO">CAMPERO</option>
                         <option value="CARROTANQUE">CARROTANQUE</option>
                         <option value="CHASIS">CHASIS</option>
@@ -58,9 +58,6 @@
                         <option value="PICKUP">PICKUP</option>
                         <option value="REMOLCADOR">REMOLCADOR</option>
                         <option value="REMOLQUE">REMOLQUE</option>
-                        <option value="TAXI">TAXI</option>
-                        <option value="TRAILER">TRAILER</option>
-                        <option value="SUV">SUV</option>
                         <option value="VAN">VAN</option>
                         <option value="VOLQUETA">VOLQUETA</option>
                         <option value="DESCONOCIDO">DESCONOCIDO</option>
