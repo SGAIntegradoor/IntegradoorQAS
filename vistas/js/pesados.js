@@ -3398,7 +3398,7 @@ function cotizarOfertasPesados() {
                    //       }
                    //     });
                    //     cont.push(estadoPromise);
-              } */ 
+              }
                 else if (aseguradora == "Sura") {
                     let message =
                       aseguradora == "Sura"
