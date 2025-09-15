@@ -131,7 +131,7 @@ function selectByText(selector, text) {
 
 $("#txtRamoModal").on("change", function () {
   let selectedValue = $(this).val();
-  if (selectedValue != "1" && selectedValue != "2" && selectedValue != "3") {
+  if (selectedValue != "1" && selectedValue != "2" && selectedValue != "3" && selectedValue != "13") {
     $("#txtPlacaOportunidadModal").prop("disabled", true);
     $("#txtPlacaOportunidadModal").val("NA");
   } else {
