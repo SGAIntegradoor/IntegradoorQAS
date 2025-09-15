@@ -67,7 +67,7 @@
                     </select>
                 </div>
 
-                <?php if ($_SESSION["rol"] == 22 || $_SESSION["rol"] == 6 || $_SESSION["rol"] == 10) { ?>
+                <?php if ($_SESSION["rol"] == 22 || $_SESSION["rol"] == 6 || $_SESSION["rol"] == 10 || $_SESSION["rol"] == 11 || $_SESSION["rol"] == 12) { ?>
 
                     <div class="col-xs-12 col-sm-6 col-md-3" style="padding-left: 25px; padding-right: 25px">
                         <label for="canal">Canal:</label>
