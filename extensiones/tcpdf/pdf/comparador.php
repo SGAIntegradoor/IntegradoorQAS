@@ -1330,17 +1330,17 @@ foreach ($resultados as $resultado) {
 
 	if ($cont7 % 2 == 0) {
 		if ($nombreProducto == "MEDIUM" && $nombreAseguradora == "Zurich") {
-			$pp = "Tope cobertura 50% del Vr. Asegurado Deducible: 10% min 1 SMMLV";
+			$pp = "Tope 50% Vr. Asegurado Deducible: 10% min. 1 SMMLV";
 			$html3 .= '<td class="puntos fondo" style="width:' . $valorTabla . '%;"><div style="font-size:8pt">&nbsp;</div><center><font size="7"style="text-align: center;  font-family:dejavusanscondensed;">' . $pp . '</font></center></td>';
 		} else {
 			$html3 .= '<td class="puntos fondo" style="width:' . $valorTabla . '%;"><center><div style="font-size:6pt">&nbsp;</div><font size="7"style="text-align: center;  font-family:dejavusanscondensed;">' . $resultado['PerdidaParcial'] . '</font></center></td>';
 		}
 	} else {
 		if ($nombreProducto == "MEDIUM" && $nombreAseguradora == "Zurich") {
-			$pp = "Tope cobertura 50% del Vr. Asegurado Deducible: 10% min 1 SMMLV";
-			$html3 .= '<td class="puntos fondo" style="width:' . $valorTabla . '%;"><div style="font-size:8pt">&nbsp;</div><center><font size="7"style="text-align: center;  font-family:dejavusanscondensed;">' . $pp . '</font></center></td>';
+			$pp = "Tope 50% Vr. Asegurado Deducible: 10% min. 1 SMMLV";
+			$html3 .= '<td class="puntos fondo2" style="width:' . $valorTabla . '%;"><div style="font-size:8pt">&nbsp;</div><center><font size="7"style="text-align: center;  font-family:dejavusanscondensed;">' . $pp . '</font></center></td>';
 		} else {
-			$html3 .= '<td class="puntos fondo" style="width:' . $valorTabla . '%;"><center><div style="font-size:6pt">&nbsp;</div><font size="7"style="text-align: center;  font-family:dejavusanscondensed;">' . $resultado['PerdidaParcial'] . '</font></center></td>';
+			$html3 .= '<td class="puntos fondo2" style="width:' . $valorTabla . '%;"><center><div style="font-size:6pt">&nbsp;</div><font size="7"style="text-align: center;  font-family:dejavusanscondensed;">' . $resultado['PerdidaParcial'] . '</font></center></td>';
 		}
 	}
 
@@ -1365,17 +1365,17 @@ foreach ($resultados as $resultado) {
 
 	if ($cont8 % 2 == 0) {
 		if ($nombreProducto == "MEDIUM" && $nombreAseguradora == "Zurich") {
-			$pph = "Tope cobertura 70% del Vr. Asegurado Deducible: 10% min 1 SMMLV";
+			$pph = "Tope 70% Vr. Asegurado Deducible: 10% min. 1 SMMLV";
 			$html3 .= '<td class="puntos fondo" style="width:' . $valorTabla . '%;"><div style="font-size:8pt">&nbsp;</div><center><font size="7"style="text-align: center;  font-family:dejavusanscondensed;">' . $pph . '</font></center></td>';
 		} else {
 			$html3 .= '<td class="puntos fondo" style="width:' . $valorTabla . '%;"><center><div style="font-size:6pt">&nbsp;</div><font size="7"style="text-align: center;  font-family:dejavusanscondensed;">' . $resultado['PerdidaParcial'] . '</font></center></td>';
 		}
 	} else {
 		if ($nombreProducto == "MEDIUM" && $nombreAseguradora == "Zurich") {
-			$pph = "Tope cobertura 70% del Vr. Asegurado Deducible: 10% min 1 SMMLV";
-			$html3 .= '<td class="puntos fondo" style="width:' . $valorTabla . '%;"><div style="font-size:8pt">&nbsp;</div><center><font size="7"style="text-align: center;  font-family:dejavusanscondensed;">' . $pph . '</font></center></td>';
+			$pph = "Tope 70% Vr. Asegurado Deducible: 10% min. 1 SMMLV";
+			$html3 .= '<td class="puntos fondo2" style="width:' . $valorTabla . '%;"><div style="font-size:8pt">&nbsp;</div><center><font size="7"style="text-align: center;  font-family:dejavusanscondensed;">' . $pph . '</font></center></td>';
 		} else {
-			$html3 .= '<td class="puntos fondo" style="width:' . $valorTabla . '%;"><center><div style="font-size:6pt">&nbsp;</div><font size="7"style="text-align: center;  font-family:dejavusanscondensed;">' . $resultado['PerdidaParcial'] . '</font></center></td>';
+			$html3 .= '<td class="puntos fondo2" style="width:' . $valorTabla . '%;"><center><div style="font-size:6pt">&nbsp;</div><font size="7"style="text-align: center;  font-family:dejavusanscondensed;">' . $resultado['PerdidaParcial'] . '</font></center></td>';
 		}
 	}
 
