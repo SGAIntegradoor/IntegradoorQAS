@@ -2003,7 +2003,7 @@ function cotizarFinesa(ofertasCotizaciones) {
       Swal.close();
       swal
         .fire({
-          title: "¡Cotización a Finesa Finalizada!",
+          title: "¡Cotizacion Finesa finalizada a 12 cuotas!",
           showConfirmButton: true,
           confirmButtonText: "Cerrar",
           backdrop: true, // Bloquea la interacción con el fondo
