@@ -250,8 +250,8 @@
     }
 
     .card-exequias .card-text {
-        font-size: 12px;
-        margin-bottom: 14px;
+        font-size: 13px;
+        margin-bottom: 12px;
     }
 
     /* Estilo para la card especial sin sombra en el borde */
@@ -319,10 +319,10 @@
                     <!-- Primera tarjeta con el logo -->
                     <div class="col-md-4 col-sm-12 mb-3">
                         <div class="card-exequias special-card">
-                            <div class="card-body">
+                            <div class="card-body" style="margin: 0; padding: 0;">
                                 <h4 class="card-title;" style="font-weight: bold;"></h4>
-                                <img src="vistas/img/plantilla/logo-hidrocarburos.png" class="img-fluid mx-auto" style="max-width: 66%; margin-top: 0px;">
-                                <p class="card-text; margin-top: 10px" style="font-size: 12px;">Consulta la presentación del producto RCE Hidrocarburos <b><a href="https://grupoasistencia.com/pdfHidrocarburos/RC HIDROCARBUROS - Integradoor.pdf" target="_blank"><u> AQUÍ</u></a></b></p>
+                                <img src="vistas/img/plantilla/logo-hidrocarburos.png" class="img-fluid mx-auto" style="max-width: 66%; margin: 0px;">
+                                <p class="card-text; margin-top: 10px" style="font-size: 13px;">Consulta la presentación del producto RCE Hidrocarburos <b><a href="https://grupoasistencia.com/pdfHidrocarburos/RC HIDROCARBUROS - Integradoor.pdf" target="_blank"><u> AQUÍ</u></a></b></p>
                             </div>
                         </div>
                     </div>
@@ -378,7 +378,7 @@
                                     <li>Gastos médicos.</li>
                                 </ul>
                                 <h4 class="card-title" style="font-weight: bold;">Clausulado</h4>
-                                <p>Para conocer más del Seguro <b>RC Hidrocarburos</b> de Allianz ingresa <b><a href="https://grupoasistencia.com/pdfHidrocarburos/Clausulado Responsabilidad-Civil-Extracontractual-Hidrocarburos-16-01-2023.pdf" target="_blank"><u> AQUÍ</u></a></b></p>
+                                <p class="card-text">Para conocer más del Seguro <b>RC Hidrocarburos</b> de Allianz ingresa <b><a href="https://grupoasistencia.com/pdfHidrocarburos/Clausulado Responsabilidad-Civil-Extracontractual-Hidrocarburos-16-01-2023.pdf" target="_blank"><u> AQUÍ</u></a></b></p>
                             </div>
                         </div>
                     </div>
