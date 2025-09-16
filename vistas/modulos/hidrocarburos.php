@@ -321,8 +321,8 @@
                         <div class="card-exequias special-card">
                             <div class="card-body" style="margin: 0; padding: 0;">
                                 <h4 class="card-title;" style="font-weight: bold;"></h4>
-                                <img src="vistas/img/plantilla/logo-hidrocarburos.png" class="img-fluid mx-auto" style="max-width: 66%; margin: 0px;">
-                                <p class="card-text; margin-top: 10px" style="font-size: 13px;">Consulta la presentación del producto RCE Hidrocarburos <b><a href="https://grupoasistencia.com/pdfHidrocarburos/RC HIDROCARBUROS - Integradoor.pdf" target="_blank"><u> AQUÍ</u></a></b></p>
+                                <img src="vistas/img/plantilla/logo-hidrocarburos.png" class="img-fluid mx-auto" style="max-width: 50%; margin: 0px; margin-bottom: 30px;">
+                                <p class="card-text; margin-top: 10px" style="font-size: 15px;">Consulta la presentación del producto RCE Hidrocarburos <b><a href="https://grupoasistencia.com/pdfHidrocarburos/RC HIDROCARBUROS - Integradoor.pdf" target="_blank"><u> AQUÍ</u></a></b></p>
                             </div>
                         </div>
                     </div>
@@ -376,7 +376,7 @@
                                     <li>Responsabilidad civil contaminación accidental.</li>
                                     <li>Gastos de limpieza y/o biorremediación.</li>
                                     <li>Gastos médicos.</li>
-                                </ul>
+                                </ul><br>
                                 <h4 class="card-title" style="font-weight: bold;">Clausulado</h4>
                                 <p class="card-text">Para conocer más del Seguro <b>RC Hidrocarburos</b> de Allianz ingresa <b><a href="https://grupoasistencia.com/pdfHidrocarburos/Clausulado Responsabilidad-Civil-Extracontractual-Hidrocarburos-16-01-2023.pdf" target="_blank"><u> AQUÍ</u></a></b></p>
                             </div>
