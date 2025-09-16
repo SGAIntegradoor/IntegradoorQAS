@@ -4551,8 +4551,8 @@ function cotizarOfertas() {
               .then((ofertas) => {
                 if (typeof ofertas[0].Resultado !== "undefined") {
                   // debugger;
-                  agregarAseguradoraFallida(aseguradora);
-                  validarProblema(aseguradora, ofertas);
+                  agregarAseguradoraFallida("HDI Seguros");
+                  validarProblema("HDI Seguros", ofertas);
                   ofertas[0].Mensajes.forEach((mensaje) => {
                     mostrarAlertarCotizacionFallida("HDI Seguros", mensaje);
                   });
@@ -4560,11 +4560,11 @@ function cotizarOfertas() {
                   // eliminarAseguradoraFallida(aseguradora);
                   const contadorPorEntidad = validarOfertas(
                     ofertas,
-                    aseguradora,
+                    "HDI Seguros",
                     1
                   );
                   mostrarAlertaCotizacionExitosa(
-                    aseguradora,
+                    "HDI Seguros",
                     contadorPorEntidad
                   );
                 }
