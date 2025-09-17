@@ -155,6 +155,11 @@
 .mes-3 {
   background-color: #e0e0e0; /* Gris más marcado */
 }
+
+.mes-4 {
+  background-color: #d3d3d3; /* Gris más marcado */
+}
+
 /* Totales, si quieres separarlos visualmente */
 .mes-totales {
   background-color: #fff3e0;
