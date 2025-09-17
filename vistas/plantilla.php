@@ -451,7 +451,8 @@
         $_GET["ruta"] == "user-comisiones" ||
         $_GET["ruta"] == "user-cartera" ||
         $_GET["ruta"] == "transporte-pasajeros" ||
-        $_GET["ruta"] == "livianos"
+        $_GET["ruta"] == "livianos" ||
+        $_GET["ruta"] == "hidrocarburos"
       ) {
         if ($_GET['ruta'] == 'modificacion-productos') {
           $_GET['ruta'] = 'ModificacionProductos/ModificacionProductosView';

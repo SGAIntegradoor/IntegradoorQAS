@@ -334,6 +334,18 @@ body:not(.sidebar-collapse) .sidebar-menu .consultas-sub{
 			// </li>
 
 			/*=============================================
+		RC Hidrocarburos
+		=============================================*/
+			if ($_SESSION["permisos"]["SeguroExequial"] == "x") {
+				echo '<li id="menuCotHidro" class="' . ($currentPage == 'hidrocarburos' ? 'active' : '') . '">
+				<a href="hidrocarburos">
+				<i class="fa-solid fa-truck-droplet" style="font-size: 16px"></i>
+				<span>Cotizar Hidrocarburos</span>
+				</a>
+			</li>';
+			}
+
+			/*=============================================
 		NEGOCIOS
 		=============================================*/
 
