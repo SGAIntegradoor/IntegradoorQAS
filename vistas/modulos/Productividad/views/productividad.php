@@ -89,6 +89,23 @@
         </div>
     </div>
 
+    <!-- Categoria Freelance -->
+    <div class="col-md-3">
+        <div class="form-group">
+            <label for="estado">Categoría:</label>
+            <select class="form-control" id="categoriaPro" name="categoria">
+                <option value="">Seleccione</option>
+                <option value="alta">Alta</option>
+                <option value="media">Media</option>
+                <option value="baja">Baja</option>
+                <option value="improductivo">Improductivo</option>
+                <option value="inactivo-con-ventas">Inactivo con ventas</option>
+                <option value="inactivo-sin-ventas">Inactivo sin ventas</option>
+                <option value="nuevo">Nuevo</option>
+            </select>
+        </div>
+    </div>
+
     <!-- Ramo -->
     <div class="col-md-3">
         <div class="form-group">
@@ -110,7 +127,7 @@
     </div>
 
     <!-- Spinner -->
-    <div class="col-md-1">
+    <div class="col-md-12" style="text-align: center;">
         <div id="loader" class="loader btn-search" style="display: none; text-align: center;">
             <div class="spinner"></div>
         </div>
