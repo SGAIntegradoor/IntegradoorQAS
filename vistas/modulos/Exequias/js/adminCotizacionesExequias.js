@@ -30,9 +30,9 @@ $(".tablas-exequias").DataTable({
         },
       },
     },
-    columnDefs: [
-        { targets: [3], visible: false } // Oculta las columnas 10 y 11 (ajusta según el índice de tus columnas ocultas)
-      ],
+    // columnDefs: [
+    //     { targets: [3], visible: false } // Oculta las columnas 10 y 11 (ajusta según el índice de tus columnas ocultas)
+    //   ],
     buttons: [
         {
           extend: "excelHtml5",
