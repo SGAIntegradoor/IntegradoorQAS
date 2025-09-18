@@ -238,6 +238,19 @@ class ControladorCotizaciones
 		return $respuesta;
 	}
 
+	static public function ctrRangoFechasCotizacionesExequias($fechaFinalCotizaciones, $fechaInicialCotizaciones)
+	{
+
+		$tabla = "segurosexequiales";
+		$tabla5 = "usuarios";
+
+		$respuesta = ModeloCotizaciones::mdlRangoFechasCotizacionesExequias($tabla, $tabla5, $fechaInicialCotizaciones, $fechaFinalCotizaciones);
+
+
+
+		return $respuesta;
+	}
+
 	static public function ctrRangoFechasCotizacionesSalud($fechaFinalCotizaciones, $fechaInicialCotizaciones)
 	{
 

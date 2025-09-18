@@ -192,6 +192,63 @@ select:invalid + .error-message {
 
 }
 
+  .select2-container--bootstrap .select2-results>.select2-results__options {
+    max-height: 90px !important;
+    overflow-y: auto;
+  }
+
+  .miIframe {
+    width: 100%;
+    max-width: none;
+    height: 1200px;
+    transition: width 0.5s;
+  }
+
+  .btn-excel {
+    display: flex !important;
+    border: 0px !important;
+    height: 32px;
+    align-items: center;
+  }
+
+  .dt-search {
+    display: flex !important;
+    align-items: center;
+    justify-content: flex-end;
+  }
+
+  .paging_full_numbers {
+    display: flex !important;
+    justify-content: flex-end;
+  }
+
+  .dt-length {
+    display: flex;
+  }
+
+  .dt-start {
+    width: 60px !important;
+  }
+
+  .dt-info {
+    width: 600px !important;
+  }
+
+  .dt-column-title {
+    font-size: 14px !important;
+  }
+
+  @media (max-width: 495px) {
+    .dt-info {
+      width: 300px !important;
+      text-align: left;
+    }
+  }
+ 
+.mainDataContainer {
+    margin-top: 18px;
+    margin-bottom: 16px;
+}
 
 </style>
 
@@ -215,6 +272,7 @@ select:invalid + .error-message {
     </section>
     <section class="content">
         <div class="box">
+            <?php include_once './vistas/modulos/Exequias/views/adminCotizacionesExequias.php'; ?>
             <div class="row">
                 <!-- TITULO PLANES -->
                 <div class="content">

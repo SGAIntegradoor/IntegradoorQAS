@@ -652,6 +652,98 @@ class ModeloCotizaciones
 		}
 	}
 
+	static public function mdlRangoFechasCotizacionesExequias($tabla, $tabla5,  $fechaInicialCotizaciones, $fechaFinalCotizaciones)
+	{
+		$condicion = "";
+		if ($_SESSION["permisos"]["Verlistadodecotizacionesdelaagencia"] != "x") {
+			$condicion = "AND $tabla.id_usuario = :idUsuario";
+		}
+		if ($fechaInicialCotizaciones == null) {
+
+			$fechaActual = new DateTime();
+			// Obtener la fecha de inicio de mes
+			$inicioMes = clone $fechaActual;
+			$inicioMes->modify('first day of this month');
+			$inicioMes = $inicioMes->format('Y-m-d');
+
+			// Obtener la fecha de fin de mes
+			$finMes = clone $fechaActual;
+			$finMes->modify('first day of next month')->modify(-1);
+			$finMes = $finMes->format('Y-m-d');
+
+			$stmt = Conexion::conectar()->prepare("
+				SELECT * FROM segurosexequiales
+				WHERE 1
+					AND fechaCoti >= :fechaInicio AND fechaCoti <= :fechaFin
+					AND usuarios.id_Intermediario = :idIntermediario
+					$condicion
+			");
+
+			$stmt->bindParam(":fechaInicio", $inicioMes, PDO::PARAM_STR);
+			$stmt->bindParam(":fechaFin", $finMes, PDO::PARAM_STR);
+			$stmt->bindParam(":idIntermediario", $_SESSION["intermediario"], PDO::PARAM_INT);
+
+			if ($_SESSION["permisos"]["Verlistadodecotizacionesdelaagencia"] != "x") {
+				$stmt->bindParam(":idUsuario", $_SESSION["idUsuario"], PDO::PARAM_INT);
+			}
+
+			$stmt->execute();
+
+			return $stmt->fetchAll(PDO::FETCH_ASSOC);
+		} else {
+
+			$inicioMes = new DateTime($fechaInicialCotizaciones);
+			$inicioMes = $inicioMes->format('Y-m-d');
+			$finMes = new DateTime($fechaFinalCotizaciones);
+			if ($finMes->format('t') == $finMes->format('d')) {
+				// Si es el último día del mes, ajustar al primer día del siguiente mes
+				$finMes->modify('first day of next month');
+			} else {
+				// Si no, simplemente agregar un día
+				$finMes->modify('+1 day');
+			}
+
+			$finMes = $finMes->format('Y-m-d');
+
+			if ($_SESSION['rol'] == 10) {
+				$stmt = Conexion::conectar()->prepare("
+				SELECT * FROM $tabla c
+				INNER JOIN $tabla5 us ON c.id_usuario = us.id_usuario
+				WHERE c.fechaCoti >= :fechaInicial AND c.fechaCoti <= :fechaFinal
+				ORDER BY c.fechaCoti DESC
+
+				");
+				// var_dump("
+				// SELECT c.id_cotizacion, c.fecha_cot, c.fch_nacimiento, c.lugar_origen, c.lugar_destino, c.nom_prospecto, c.fch_salida, c.fch_regreso, c.modalidad_cot, us.usu_nombre, us.usu_apellido, c.numero_pasajeros FROM $tabla c
+				// INNER JOIN $tabla5 us ON c.id_usuario = us.id_usuario
+				// WHERE c.fecha_cot >= :fechaInicial AND c.fecha_cot <= :fechaFinal
+				// ORDER BY c.fecha_cot DESC");
+				// die();
+			} else {
+				$stmt = Conexion::conectar()->prepare("
+					SELECT * FROM $tabla
+					INNER JOIN $tabla5 ON $tabla.id_usuario = $tabla5.id_usuario
+					WHERE fechaCoti >= :fechaInicial AND fechaCoti <= :fechaFinal
+					AND $tabla5.id_Intermediario = :idIntermediario
+					$condicion
+					ORDER BY fechaCoti DESC
+				");
+				$stmt->bindParam(":idIntermediario", $_SESSION["intermediario"], PDO::PARAM_INT);
+			}
+
+			$stmt->bindParam(":fechaInicial", $inicioMes, PDO::PARAM_STR);
+			$stmt->bindParam(":fechaFinal", $finMes, PDO::PARAM_STR);
+
+			if ($_SESSION["permisos"]["Verlistadodecotizacionesdelaagencia"] != "x") {
+				$stmt->bindParam(":idUsuario", $_SESSION["idUsuario"], PDO::PARAM_INT);
+			}
+
+			$stmt->execute();
+			//echo json_encode($stmt->fetchAll(PDO::FETCH_ASSOC));
+			return $stmt->fetchAll(PDO::FETCH_ASSOC);
+		}
+	}
+
 	static public function mdlRangoFechasCotizacionesSalud($tabla, $tabla2, $tabla3, $tabla4, $tabla5,  $fechaInicialCotizaciones, $fechaFinalCotizaciones)
 	{
 		$condicion = "";
