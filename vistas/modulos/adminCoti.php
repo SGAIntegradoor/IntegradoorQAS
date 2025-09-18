@@ -177,6 +177,15 @@ if ($_SESSION["permisos"]["administracionCotizaciones"] != "x") {
           ?>
         </a>
 
+        <a href="utilitarios">
+          <?php
+            echo '<button class="btnNuevaCot" style="font-size: 16px">
+              Cotizar Utilitarios
+              <i class="fa fa-truck-pickup" aria-hidden="true"></i>
+            </button>';
+          ?>
+        </a>
+
         <button type="button" class="btn btn-default pull-right" id="daterange-btnCotizaciones">
 
           <span>
