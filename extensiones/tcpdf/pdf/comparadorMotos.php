@@ -24,6 +24,9 @@ if (in_array("dev", $URI)) {
 } else if (in_array("QAS", $URI)) {
 	$server = "52.15.158.65";
 	$bd = "grupoasi_cotizautos_qas";
+} else if (in_array("Pruebas", $URI)) {
+	$server = "52.15.158.65";
+	$bd = "grupoasi_cotizautos_qas";
 } else {
 	$server = "52.15.158.65";
 	$bd = "grupoasi_cotizautos";
@@ -125,9 +128,9 @@ $codCiudad = $fila["cot_ciudad"];
 $codDepto = $fila["cot_departamento"];
 $queryCiudad = "SELECT `Nombre` FROM `ciudadesbolivar` WHERE `Codigo` = $codCiudad";
 
-if($codDepto == 10){
+if ($codDepto == 10) {
 	$queryCiudad = "SELECT `Nombre` FROM `ciudadesbolivar` WHERE `Codigo` = $codCiudad AND `Departamento` = 10";
-} else if($codDepto == 18){
+} else if ($codDepto == 18) {
 	$queryCiudad = "SELECT `ciudad` as `Nombre` FROM `ciudades` WHERE `Codigo` = $codCiudad";
 }
 
@@ -291,7 +294,7 @@ if ($valorLogo == "undefined") {
 		$pdf->Image($imagePath, $xPosition, $yPosition, $imgWidth, $imgHeight, 'JPG',  '', '', false, 300, '', false, false, 0, false, false, false);
 	}
 } else if ($valorLogo != "") {
-	$urlSGA = "../../../vistas/img/logosIntermediario/".$valorLogo;
+	$urlSGA = "../../../vistas/img/logosIntermediario/" . $valorLogo;
 	$pdf->Image($urlSGA, 8, 13, 0, 20, 'PNG', '', '', true, 160, '', false, false, 0, false, false, false);
 } else {
 	if ($intermediario == "89" || $intermediario == 89) {
@@ -305,7 +308,7 @@ if ($valorLogo == "undefined") {
 }
 // $pdf->Image('../../../vistas/img/logosIntermediario/LogoGA.png', 8, 13, 0, 20, 'PNG', '', '', true, 160, '', false, false, 0, false, false, false);
 
-$pdf->Image('../../../vistas/img/logos/cheque.png', 100.5, 166.5, 0, -12, 'PNG', '', '', true, 160, '', false, false, 0, false, false, false);
+$pdf->Image('../../../vistas/img/logos/cheque.png', 100.5, 170.5, 0, -12, 'PNG', '', '', true, 160, '', false, false, 0, false, false, false);
 
 $pdf->SetFont('dejavusanscondensed', 'B', 10);
 $pdf->SetXY(158, 3);
@@ -597,6 +600,7 @@ while ($i < count($resultados)) {
 		case 'Seguros Sura':
 			$html2 .= '<td class="puntos td2 ' . $fondo_class . '" style="  font-size: 6.5px; font-family:dejavusanscondensedb;">
 			<img style="width:40px;" src="../../../vistas/img/logos/sura.png" alt="">
+			<div style="font-size:17pt">&nbsp;</div>
 			<span style="color:#666666;">' . $resultados[$i]['Producto']  . '</span>
 			</td>';
 			break;
@@ -684,6 +688,14 @@ while ($i < count($resultados)) {
 			<img style="width:40px;" src="../../../vistas/img/logos/solidaria.png" alt="">
 			<div style="font-size:6.5pt">&nbsp;</div>
 			<span style="color:#666666;">' . $solidariaProducto . '</span>
+			</td>';
+			break;
+		case 'Mundial':
+			$html2 .= '<td class="puntos td2 ' . $fondo_class . '" style="font-size: 6.5px; font-family:dejavusanscondensedb;">
+			<div style="font-size:3.5pt">&nbsp;</div>
+			<img style="width:40px;" src="../../../vistas/img/logos/mundial.png" alt="">
+			<div style="font-size:6.5pt">&nbsp;</div>
+			<span style="color:#666666;">' . $resultados[$i]['Producto']  . '</span>
 			</td>';
 			break;
 	}
@@ -795,7 +807,7 @@ if ($rowValidateF >= 1) {
 					$html2 .= '<td style="font-size:' . ($font_size - 2) . 'px; color:#666666; font-family:dejavusanscondensedb; text-align: center;" class="puntos td2 ' . $fondo_class . '">
 					$' . number_format($resultado['cuota_1'], 0, ',', '.') . '
 					<br>
-					(' . $resultado['cuotas'] . ' Cuotas)
+					(' . $resultado['cuotas'] . ' Cuotas)*
 					</td>';
 				}
 				$cont3++;
@@ -833,7 +845,19 @@ if ($rowValidateF >= 1) {
 	}
 	$html2 .= '</tr>';
 }
-$html2 .= '</table></div>';
+$html2 .= '</table>';
+
+if ($rowValidateF > 0) {
+	
+	$html2 .= '<table cellpadding="0" cellspacing="0">
+					<tr>
+						<td width="1" height="10"></td> <!-- margen simulado -->
+						<td width="550"><span style="font-size: 6.2px; color: grey;">*No se permite financiar a 12 cuotas si el vehículo tiene prenda y la póliza beneficiario oneroso; máximo 11 cuotas.</span></td>
+					</tr>
+				</table>';
+}
+
+$html2 .= '</div>';
 
 // var_dump($resultados);
 // die();
@@ -1018,6 +1042,10 @@ foreach ($resultados as $resultado) {
 			<div style="font-size:4pt">&nbsp;</div>
 			<center><img style="width:35px;" src="../../../vistas/img/logos/solidaria.png" alt=""></center>
 			</td>';
+		} else if ($resultado['Aseguradora'] == 'Mundial') {
+			$html3 .= '<td class="puntos fondo2" style="width:' . $valorTabla . '%;text-align: center;">
+			<div style="font-size:4pt">&nbsp;</div>
+			<center><img style="width:35px;" src="../../../vistas/img/logos/mundial.png" alt=""></center></td>';
 		}
 	} else {
 		if ($resultado['Aseguradora'] == 'Axa Colpatria') {
@@ -1096,6 +1124,9 @@ foreach ($resultados as $resultado) {
 		} else if ($resultado['Aseguradora'] == 'Solidaria') {
 			$html3 .= '<td class="puntos fondo2" style="width:' . $valorTabla . '%;text-align: center;">
 			<center><img style="width:35px;" src="../../../vistas/img/logos/solidaria.png" alt=""></center></td>';
+		} else if ($resultado['Aseguradora'] == 'Mundial') {
+			$html3 .= '<td class="puntos fondo2" style="width:' . $valorTabla . '%;text-align: center;">
+			<center><img style="width:35px;" src="../../../vistas/img/logos/mundial.png" alt=""></center></td>';
 		}
 	}
 
@@ -1190,8 +1221,10 @@ foreach ($resultados as $resultado) {
 
 	$queryConsultaAsistencia1 = "SELECT * FROM asistencias WHERE `aseguradora` LIKE '$nombreAseguradora' AND `producto` LIKE '$nombreProducto' 
 									AND `rce` LIKE '$valorRC'";
+	// var_dump($queryConsultaAsistencia1);
 	$respuestaqueryAsistencia1 =  $conexion->query($queryConsultaAsistencia1);
 	$rowRespuestaAsistencia1 = mysqli_fetch_assoc($respuestaqueryAsistencia1);
+	// var_dump($rowRespuestaAsistencia1);
 	if ($rowRespuestaAsistencia1 !== null) {
 		//echo '<script>console.log('.$cont5.')</script>';
 		if ($cont5 % 2 == 0) {
@@ -1201,9 +1234,9 @@ foreach ($resultados as $resultado) {
 		}
 	} else {
 		if ($cont5 % 2 == 0) {
-			$html3 .= '<td class="puntos fondo2" style="width:' . $valorTabla . '%;"><div style="font-size:4pt">&nbsp;</div><center><font size="7"style="text-align: center;  font-family:dejavusanscondensed;">Sin Deducible</font></center></td>';
+			$html3 .= '<td class="puntos fondo2" style="width:' . $valorTabla . '%;"><div style="font-size:4pt">&nbsp;</div><center><font size="7"style="text-align: center;  font-family:dejavusanscondensed;">Sin deducible</font></center></td>';
 		} else {
-			$html3 .= '<td class="puntos fondo" style="width:' . $valorTabla . '%;"><div style="font-size:4pt">&nbsp;</div><center><font size="7"style="text-align: center;  font-family:dejavusanscondensed;">Sin Deducible</font></center></td>';
+			$html3 .= '<td class="puntos fondo" style="width:' . $valorTabla . '%;"><div style="font-size:4pt">&nbsp;</div><center><font size="7"style="text-align: center;  font-family:dejavusanscondensed;">Sin deducible</font></center></td>';
 		}
 	}
 	$cont5++;
@@ -1527,6 +1560,12 @@ foreach ($resultados as $resultado) {
 			<img style="width:35px;" src="../../../vistas/img/logos/solidaria.png" alt="">
 			<div style="font-size:5pt">&nbsp;</div>
 			</td>';
+		} else if ($resultado['Aseguradora'] == 'Mundial') {
+			$html4 .= '<td class="puntos fondo" style="width:' . $valorTabla . '%;text-align: center;">
+			<div style="font-size:5pt">&nbsp;</div>
+			<img style="width:35px;" src="../../../vistas/img/logos/mundial.png" alt="">
+			<div style="font-size:5pt">&nbsp;</div>
+			</td>';
 		}
 	} else {
 		if ($resultado['Aseguradora'] == 'Axa Colpatria') {
@@ -1609,6 +1648,10 @@ foreach ($resultados as $resultado) {
 			$html4 .= '<td class="puntos fondo2" style="width:' . $valorTabla . '%;text-align: center;">
 			<div style="font-size:5pt">&nbsp;</div>
 			<img style="width:35px;" src="../../../vistas/img/logos/solidaria.png" alt=""></td>';
+		} else if ($resultado['Aseguradora'] == 'Mundial') {
+			$html4 .= '<td class="puntos fondo2" style="width:' . $valorTabla . '%;text-align: center;">
+			<div style="font-size:5pt">&nbsp;</div>
+			<img style="width:35px;" src="../../../vistas/img/logos/mundial.png" alt=""></td>';
 		}
 	}
 
@@ -2322,6 +2365,10 @@ while ($rowRespuesta29 = mysqli_fetch_assoc($respuestaquery29)) {
 		$html6 .= '<td style="width:40%;text-align: center;">
 		<div style="font-size:6pt">&nbsp;</div>
 		<img style="width:75px;" src="../../../vistas/img/logos/solidaria.png" alt=""></td>';
+	} else if ($resultado['Aseguradora'] == 'Mundial') {
+		$html6 .= '<td style="width:40%;text-align: center">
+		<div style="font-size:6pt">&nbsp;</div>
+		<img style="width:75px;" src="../../../vistas/img/logos/mundial.png" alt=""></td>';
 	}
 
 
@@ -2442,34 +2489,42 @@ $html7 .= '</table>';
 $pdf->SetXY(80, 119);
 $pdf->writeHTML($html2, true, false, true, false, '');
 
+// if ($rowValidateF > 0) {
+// 	$pdf->SetFont('', '', 6.2);
+// 	$pdf->SetTextColor(104, 104, 104);
+// 	$pdf->SetXY(126, 153);
+// 	$pdf->Cell(10, 0, '*No se permite financiar a 12 cuotas si el vehículo tiene prenda y la póliza beneficiario oneroso; máximo 11 cuotas.', 0, $ln = 0, 'C', 0, '', 0, false, 'C', 'C');
+// 	$pdf->Ln();
+// }
+
 $pdf->SetFont('dejavusanscondensed', 'I', 15);
 $pdf->SetTextColor(104, 104, 104);
-$pdf->SetXY(33.5, 157);
+$pdf->SetXY(33.5, 161);
 $pdf->Cell(10, 0, 'Si quieres', 0, $ln = 0, 'C', 0, '', 0, false, 'C', 'C');
 
 $pdf->SetFont('dejavusanscondensed', 'BI', 15);
 $pdf->SetTextColor(15, 178, 241);
-$pdf->SetXY(98.4, 157);
+$pdf->SetXY(98.4, 161);
 $pdf->Cell(10, 0, ' comparar las coberturas y asistencias', 0, $ln = 0, 'C', 0, '', 0, false, 'C', 'C');
 
 $pdf->SetFont('dejavusanscondensed', 'I', 15);
 $pdf->SetTextColor(104, 104, 104);
-$pdf->SetXY(163, 157);
+$pdf->SetXY(163, 161);
 $pdf->Cell(10, 0, 'de todas', 0, $ln = 0, 'C', 0, '', 0, false, 'C', 'C');
 
 $pdf->SetFont('dejavusanscondensed', 'I', 15);
 $pdf->SetTextColor(104, 104, 104);
-$pdf->SetXY(70, 163);
+$pdf->SetXY(70, 167);
 $pdf->Cell(10, 0, 'las aseguradoras, revisa', 0, $ln = 0, 'C', 0, '', 0, false, 'C', 'C');
 
 $pdf->SetFont('dejavusanscondensed', 'BI', 15);
 $pdf->SetTextColor(235, 135, 39);
-$pdf->SetXY(127, 163);
+$pdf->SetXY(127, 167);
 $pdf->Cell(10, 0, ' el siguiente cuadro', 0, $ln = 0, 'C', 0, '', 0, false, 'C', 'C');
 
 $pdf->SetFont('dejavusanscondensed', 'I', 11);
 $pdf->SetTextColor(104, 104, 104);
-$pdf->SetXY(101, 169);
+$pdf->SetXY(101, 173);
 $pdf->Cell(10, 0, '(Recuerda que este icono       significa Si Aplica o Si Cubre)', 0, $ln = 0, 'C', 0, '', 0, false, 'C', 'C');
 
 //$pdf->Cell(210, 0, 'las aseguradoras, revisa el siguiente cuadro', 0, $ln = 0, 'C', 0, '', 0, false, 'C', 'C');
@@ -2504,9 +2559,9 @@ $pdf->SetTextColor(104, 104, 104);
 $pdf->Cell(25, 6, "Elaborado por Software Integradoor propiedad del proveedor tecnológico Strategico Technologies SAS BIC Nit: 901.542.216-8", 0, 1, '');
 $pdf->StopTransform();
 
-$pdf->SetXY(0, 274);
+$pdf->SetXY(0, 276);
 // $pdf->SetY(-45);
-$htmlFooter = '<p style="font-size: 6.2px;">Nota: Esta cotización no constituye una oferta comercial. La misma se expide única y exclusivamente con un propósito informativo sobre los posibles costos del seguro y sus condiciones, los cuales serán susceptibles de modificación hasta tanto no se concreten y determinen las características de los respectivos riesgos.</p>';
+$htmlFooter = '<p style="font-size: 6.2px;">Nota: Esta cotización no constituye una oferta comercial. La misma se expide única y exclusivamente con un propósito informativo sobre los posibles costos del seguro y sus condiciones, los cuales serán susceptibles de modificación hasta tanto no se concreten y determinen las características de los respectivos riesgos. No se permite financiar a 12 cuotas si el vehículo tiene prenda y la póliza beneficiario oneroso; máximo 11 cuotas.</p>';
 $pdf->writeHTML($htmlFooter, true, false, true, false, '');
 $pdf->Ln();
 
