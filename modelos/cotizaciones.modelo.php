@@ -1059,8 +1059,7 @@ class ModeloCotizaciones
 			'TRAILER' => ['TRAILER'],
 			'SUV' => ['UTILITARIOS DEPORTIVOS'],
 			'VAN' => ['VAN'],
-			'VOLQUETA' => ['VOLQUETA'],
-			'DESCONOCIDO' => ['undefined']
+			'VOLQUETA' => ['VOLQUETA']
 		];
 
 		$rol = $_SESSION['rol'];

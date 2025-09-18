@@ -54,13 +54,11 @@
                         <option value="FURGON">FURGÓN</option>
                         <option value="MOTOCARRO">MOTOCARRO</option>
                         <option value="MOTOCICLETA">MOTOCICLETA</option>
-                        <option value="PESADO">PESADO (SIN CLASIFICAR)</option>
                         <option value="PICKUP">PICKUP</option>
                         <option value="REMOLCADOR">REMOLCADOR</option>
                         <option value="REMOLQUE">REMOLQUE</option>
                         <option value="VAN">VAN</option>
                         <option value="VOLQUETA">VOLQUETA</option>
-                        <option value="DESCONOCIDO">DESCONOCIDO</option>
                     </select>
                 </div>
 
@@ -90,7 +88,7 @@
             <div class="row">
                 <div class="col-xs-12 col-sm-6 col-md-3" style="padding-left: 25px; padding-right: 25px">
                     <div class="form-group">
-                        <label for="nombreAsesor">Asesor freelance:</label>
+                        <label for="nombreAsesor">Nombre Asesor:</label>
                         <select type="text" class="form-control" name="nombreAsesor" id="nombreAsesor" placeholder="Nombre Asesor">
                             <option value=""></option>
                         </select>
