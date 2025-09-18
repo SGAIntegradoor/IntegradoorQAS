@@ -586,6 +586,7 @@ while ($i < count($resultados)) {
 		case 'Seguros Sura':
 			$html2 .= '<td class="puntos td2 ' . $fondo_class . '" style="  font-size: 6.5px; font-family:dejavusanscondensedb;">
 			<img style="width:40px;" src="../../../vistas/img/logos/sura.png" alt="">
+			<div style="font-size:13pt">&nbsp;</div>
 			<span style="color:#666666;">' . $resultados[$i]['Producto']  . '</span>
 			</td>';
 			break;

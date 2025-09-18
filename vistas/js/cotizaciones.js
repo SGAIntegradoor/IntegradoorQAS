@@ -1283,6 +1283,8 @@ async function renderCards(response) {
         "Solidaria",
         "Equidad",
         "AXA Colpatria",
+        "SURA",
+        "Seguros Sura",
         "AXA",
         "Estado",
       ];
@@ -1325,6 +1327,7 @@ async function renderCards(response) {
         "Buses",
         "Genio Pesado",
         "Conduce Tranquilo Pes",
+        "Utilitario y Pesados",
       ];
 
       var valorRC = isNumeric(oferta.ValorRC);
