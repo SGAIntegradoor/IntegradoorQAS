@@ -1107,15 +1107,14 @@ function makeCards(data, tipoCotizacion) {
     });
 
     const params = new URLSearchParams(window.location.search);
-
     const idCoti = params.get("idCotizacionSalud");
-    // Logica para ordenar planes segun plan ordenado, este viene desde la DB
-    if (!idCoti && countFiltrado == 0) {
+
+    if (!idCoti) {
       // Convertir el objeto a un array de sus valores, Ordenar por el valor mensual desc y Actualizar planesSumados con el objeto ordenado
       let planesArray = Object.values(planesSumados);
-      planesArray.sort((a, b) => b.mensual - a.mensual);
+      planesArray.sort((a, b) => a.mensual - b.mensual);
       planesSumados = planesArray;
-    } else if (idCoti || countFiltrado > 0) {
+    } else if (idCoti) {
       let planesArray = Object.values(planesSumados);
       planesArray.sort((a, b) => a.id_plan_ordenado - b.id_plan_ordenado);
       planesSumados = planesArray;
