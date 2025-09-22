@@ -2441,22 +2441,10 @@ function seleccionarOferta(
   valCheck
 ) {
   var idSelecOferta = idCotizacion;
-
-  console.log(
-    aseguradora,
-    prima,
-    producto,
-    numCotizOferta,
-    id_oferta,
-    valCheck
-  );
-
   var placa = document.getElementById("placaVeh").value;
 
   // Capturamos el Id del Checkbox seleccionado
-
   var idCheckbox = $(valCheck).attr("id");
-
   var seleccionar = "";
 
   if (document.getElementById(idCheckbox).checked) {
@@ -2471,32 +2459,60 @@ function seleccionarOferta(
     }
   });
 
+  var $input = $("#" + idCheckbox);
+  $input.prop("disabled", true); // deshabilita mientras carga
+
+  // Crear overlay spinner sobre el input
+  var overlay = $(
+    '<div class="input-overlay"><span class="glyphicon glyphicon-refresh spinning"></span></div>'
+  );
+  $input.after(overlay);
+
+  // Posicionar overlay encima del input
+  overlay.css({
+    position: "absolute",
+    top: $input.position().top,
+    left: $input.position().left,
+    width: $input.outerWidth(),
+    height: $input.outerHeight(),
+    background: "rgba(255,255,255,0.6)",
+    display: "flex",
+    "align-items": "center",
+    "justify-content": "center",
+    "border-radius": "4px",
+    "z-index": 9999,
+  });
+
   $.ajax({
     type: "POST",
-
     url: "src/seleccionarOferta.php",
-
     dataType: "json",
-
     data: {
       placa: placa,
-
       idCotizacion: idSelecOferta,
-
       aseguradora: aseguradora,
-
       numCotizOferta: numCotizOferta,
-
       producto: producto,
-
       valorPrima: prima,
-
       seleccionar: seleccionar,
     },
-
-    success: function (data) {},
+    success: function (data) {
+      overlay.remove();
+      $input.prop("disabled", false);
+    },
+    error: function () {
+      overlay.remove();
+      $input.prop("disabled", false);
+      Swal.fire({
+        icon: "error",
+        title: "Ocurrió un problema",
+        text: "No se pudo conectar con la base de datos por problemas de conectividad.",
+        confirmButtonText: "Aceptar",
+      });
+    },
   });
 }
+
 
 /*===============================================
 
