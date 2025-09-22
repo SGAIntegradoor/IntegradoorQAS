@@ -262,6 +262,26 @@ function toggleNumAsegSelector() {
 
   $('input[name="tipoCotizacion"]').change(function () {
     if ($("#grupoFamiliar").is(":checked")) {
+      Swal.fire({
+        icon: "info",
+        title: "🔔 Importante: Cotizaciones grupales en salud",
+        // Ancho ajustado a 450 píxeles
+        width: 450,
+        html: `
+        <p style="text-align: justify;">
+            Antes de solicitar una cotización grupal, ten en cuenta que hay factores que pueden impactar las condiciones de la oferta:
+        </p>
+        <ul style="text-align: left; margin-left: 0; padding-left: 0; list-style-position: inside;">
+            <li>Edad de los asegurados: Cada compañía tiene una edad máxima de ingreso.</li>
+            <li>Afiliación a cooperativas: Por ejemplo, Coomeva aplica a ciertos planes.</li>
+            <li>Ciudad de residencia: Algunas ciudades, como Barranquilla, manejan tarifas distintas.</li>
+            <li>Composición del grupo: Una mayoría de hombres puede modificar la prima.</li>
+        </ul>
+        <p style="font-weight: bold; color: #17a2b8; text-align: justify;">
+            ✅ Recomendación: Revisa estos puntos con tu Analista Comercial antes de avanzar.
+        </p>
+    `,
+      });
       $("#asociadoSi_1").prop("checked", false);
       $("#asociadoNo_1").prop("checked", true);
       $(".cantAsegurados").show();
