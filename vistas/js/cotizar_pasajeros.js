@@ -3691,7 +3691,7 @@ function cotizarOfertasPasajeros() {
         };
 
         const mostrarAlertaCotizacionExitosa = (aseguradora, contador) => {
-          if (aseguradora == "Estado2") {
+          if (aseguradora == "Estado2" || aseguradora == "Estado3") {
             aseguradora = "Estado";
           }
 
