@@ -322,7 +322,7 @@
                             <div class="card-body" style="margin: 0; padding: 0;">
                                 <h4 class="card-title;" style="font-weight: bold;"></h4>
                                 <img src="vistas/img/plantilla/logo-hidrocarburos.png" class="img-fluid mx-auto" style="max-width: 50%; margin: 0px; margin-bottom: 30px;">
-                                <p class="card-text; margin-top: 10px" style="font-size: 15px;">Consulta la presentación del producto RCE Hidrocarburos <b><a href="https://grupoasistencia.com/pdfHidrocarburos/RC HIDROCARBUROS - Integradoor.pdf" target="_blank"><u> AQUÍ</u></a></b></p>
+                                <p class="card-text; margin-top: 10px" style="font-size: 15px;">Consulta la presentación del producto RC Hidrocarburos <b><a href="https://grupoasistencia.com/pdfHidrocarburos/RC HIDROCARBUROS - Integradoor.pdf" target="_blank"><u> AQUÍ</u></a></b></p>
                             </div>
                         </div>
                     </div>
@@ -376,8 +376,8 @@
                                     <li>Responsabilidad civil contaminación accidental.</li>
                                     <li>Gastos de limpieza y/o biorremediación.</li>
                                     <li>Gastos médicos.</li>
-                                </ul><br>
-                                <h4 class="card-title" style="font-weight: bold;">Clausulado</h4>
+                                </ul>
+                                <h4 class="card-title" style="font-weight: bold;">Clausulado</h4><br>
                                 <p class="card-text">Para conocer más del Seguro <b>RC Hidrocarburos</b> de Allianz ingresa <b><a href="https://grupoasistencia.com/pdfHidrocarburos/Clausulado Responsabilidad-Civil-Extracontractual-Hidrocarburos-16-01-2023.pdf" target="_blank"><u> AQUÍ</u></a></b></p>
                             </div>
                         </div>
@@ -389,12 +389,12 @@
                             <div class="card-body">
                                 <h4 class="card-title" style="font-weight: bold;">Políticas de Suscripción</h4><br>
                                 <p class="card-text">Estas son algunas de las políticas de suscripción, las cuales pueden cambiar en cualquier momento, sin previo aviso:</p>
-                                <ul class="card-text" style="padding-left: 0px; list-style-position: inside;">
-                                    <li>Edad máxima de antigüedad del vehículo: 20 años</li>
-                                    <li>Edad máxima de repotenciación del vehículo: 12 años</li>
+                                <ul class="card-text lista-politicas" style="padding-left: 20px;">
+                                    <li>Edad máxima de antigüedad del vehículo: 20 años.</li>
+                                    <li>Edad máxima de repotenciación del vehículo: 12 años.</li>
                                     <li>Aplica para Carrotanques, Remolque - Trailer (tanque).</li>
                                     <li>No esta permitido cotizar y/o emitir para Volquetas o carrotanques que transporten gas.</li>
-                                    <li>Al emitir tener presente la inclusión de los trailer respectivos para que queden incluidos de una vez en la póliza (máximo 3)</li>
+                                    <li>Al emitir tener presente la inclusión de los trailer respectivos para que queden incluidos de una vez en la póliza (máximo 3).</li>
                                     <li>Reporte al SICOM, es responsabilidad del cliente, no de la compañía de seguros.</li>
                                 </ul>
                             </div>
@@ -406,7 +406,7 @@
                         <div class="card-exequias">
                             <div class="card-body text-center">
                                 <h4 class="card-title" style="font-weight: bold;">Comisión</h4><br>
-                                <p class="card-text">La comisión base que nos ofrece Allianz Seguros para nuestra alianza de asesores es del x%. De este porcentaje, tu participación será de acuerdo al nivel de ventas de todos los negocios (sin IVA), sumando todos los ramos, que realices en el mes.</p>
+                                <p class="card-text">La comisión base que nos ofrece Allianz Seguros para nuestra alianza de asesores es del 15%. De este porcentaje, tu participación será de acuerdo al nivel de ventas de todos los negocios (sin IVA), sumando todos los ramos, que realices en el mes.</p>
                                 <ul class="card-text" style="padding-left: 0px;">
                                     <li style="list-style-type: none;">Primas mensuales inferiores a 8 SMMLV: 70%</li>
                                     <li style="list-style-type: none;">Primas mensuales superiores a 8 SMMLV: 75%</li>
@@ -428,12 +428,14 @@
             
             <div>
                 <img class="img-opcion" src="vistas/img/plantilla/Opcion1-hidrocarburos.png" alt="opcion 1">
+                <p class="img-opcion" style="text-align: right; margin-bottom: 50px; font-weight: bold;">Descargar imagen <a href="vistas\img\plantilla\Opcion1-hidrocarburos.png" download="Opcion-1.png" style="color: #4fc0fc; font-weight: bold;">AQUÍ</a></p>
                 <img class="img-opcion" src="vistas/img/plantilla/Opcion2-hidrocarburos.png" alt="opcion 2">
+                <p class="img-opcion" style="text-align: right; margin-bottom: 50px; font-weight: bold;">Descargar imagen <a href="vistas\img\plantilla\Opcion2-hidrocarburos.png" download="Opcion-2.png" style="color: #4fc0fc; font-weight: bold;">AQUÍ</a></p>
             </div>
 
             <!-- //FORMULARIO -->
             <div class="content-link" style="margin-top: -5px;" data-evaluar="si">
-                <p style="font-size: 19px;"><strong>Solicita una cotización en el siguiente formulario ingresando</strong> <b style="font-size: 17px;"><a href="https://forms.gle/bHw1SYtGS9p22TJs7" target="_blank"><u>AQUÍ</u></a></b></p>
+                <p style="font-size: 19px; margin-bottom: 30px;"><strong>Solicita una cotizacion oficial de Allianz diligenciando el siguiente formulario (ICONO)</strong> <b style="font-size: 17px;"><a href="https://forms.gle/bHw1SYtGS9p22TJs7" target="_blank"><u>AQUÍ</u></a></b></p>
             </div>
 
 
