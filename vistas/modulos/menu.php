@@ -340,7 +340,7 @@ body:not(.sidebar-collapse) .sidebar-menu .consultas-sub{
 				echo '<li id="menuCotHidro" class="' . ($currentPage == 'hidrocarburos' ? 'active' : '') . '">
 				<a href="hidrocarburos">
 				<i class="fa-solid fa-truck-droplet" style="font-size: 16px"></i>
-				<span>Cotizar Hidrocarburos</span>
+				<span>Cotizar RC Hidrocarburos</span>
 				</a>
 			</li>';
 			}
