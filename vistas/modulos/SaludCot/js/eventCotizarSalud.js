@@ -278,7 +278,7 @@ function toggleNumAsegSelector() {
             <li>Composición del grupo: Una mayoría de hombres puede modificar la prima.</li>
         </ul>
         <p style="font-weight: bold; color: #17a2b8; text-align: justify;">
-            ✅ Recomendación: Revisa estos puntos con tu Analista Comercial antes de avanzar.
+            ✅ Recomendación: Revisa estos puntos con tu Analista Comercial antes de presentarle a tu cliente.
         </p>
     `,
       });
