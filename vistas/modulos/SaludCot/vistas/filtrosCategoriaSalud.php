@@ -10,7 +10,7 @@
         </div>
         <div class="filter" name="Premium" style="width: 0px; min-width: 250px;">
             <p><b>PLANES INTEGRALES</b></p>
-            <p class="product-filter">Urgencias y especialistas</p>
+            <p class="product-filter">&nbsp;</p>
             <div class="divNumOferSalud">
                 <p id="Premium"></p>
                 <p>ofertas</p>
@@ -18,7 +18,7 @@
         </div>
         <div class="filter" name="Basicas" style="width: 0px; min-width: 250px;">
             <p><b>PLANES LIVIANOS</b></p>
-            <p class="product-filter">Citas prioritarias, ambulatorio</p>
+            <p class="product-filter">&nbsp;</p>
             <div class="divNumOferSalud">
                 <p id="Basicas"></p>
                 <p>ofertas</p>
