@@ -34,28 +34,10 @@ class ModeloCotizaciones
 															AND $tabla2.id_estado_civil = $tabla4.id_estado_civil AND $tabla.id_cotizacion = :$item AND $tabla5.id_Intermediario = :idIntermediario AND $tabla7.id_cliente_asociado = $tabla2.id_cliente"
 					);
 				} else {
-					$stmtCoti = Conexion::conectar()->prepare(
-						"SELECT * FROM $tabla WHERE $tabla.id_cotizacion = :$item"
-					);
-					$stmtCoti->bindParam(":" . $item, $valor, PDO::PARAM_STR);
-					$stmtCoti->execute();
-					$responseCoti = $stmtCoti->fetch(PDO::FETCH_ASSOC);
-
-					$citie = false;
-
-					if (substr($responseCoti['cot_ciudad'], 0, 2) == "44") {
-						$citie = true;
-						$tabla6 = "ciudades";
-					}
-
-					$ciudadJoin = $citie
-						? "$tabla.cot_ciudad = ciudades.codigo"
-						: "$tabla.cot_ciudad = $tabla6.Codigo";
-
 					$stmt = Conexion::conectar()->prepare(
 						"SELECT * FROM $tabla, $tabla2, $tabla3, $tabla4, $tabla5, $tabla6
 															WHERE $tabla.id_cliente = $tabla2.id_cliente AND $tabla.id_usuario = $tabla5.id_usuario 
-															AND $ciudadJoin AND $tabla2.id_tipo_documento = $tabla3.id_tipo_documento 
+															AND $tabla.cot_ciudad = $tabla6.Codigo AND $tabla2.id_tipo_documento = $tabla3.id_tipo_documento 
 															AND $tabla2.id_estado_civil = $tabla4.id_estado_civil AND $tabla.id_cotizacion = :$item AND $tabla5.id_Intermediario = :idIntermediario"
 					);
 				}
@@ -474,11 +456,19 @@ class ModeloCotizaciones
 			$finMes = $finMes->format('Y-m-d');
 
 			$stmt = Conexion::conectar()->prepare("
-				SELECT * FROM cotizaciones, clientes, tipos_documentos, estados_civiles, usuarios 
+				SELECT * FROM cotizaciones, clientes, tipos_documentos, estados_civiles, usuarios, 
+					(SELECT 
+					CASE o.Manual
+						WHEN 4 THEN 'Transporte pasajeros'
+						WHEN 3 THEN 'Pesados'
+						WHEN 8 THEN 'Motos'
+						WHEN 9 THEN 'Livianos'
+					END AS modulo_cotizacion, o.id_cotizacion FROM ofertas o GROUP BY o.id_cotizacion) o
 				WHERE cotizaciones.id_cliente = clientes.id_cliente 
 					AND cotizaciones.id_usuario = usuarios.id_usuario 
 					AND clientes.id_tipo_documento = tipos_documentos.id_tipo_documento 
-					AND clientes.id_estado_civil = estados_civiles.id_estado_civil 
+					AND clientes.id_estado_civil = estados_civiles.id_estado_civil
+					AND o.id_cotizacion = cotizaciones.id_cotizacion
 					AND cot_fch_cotizacion >= :fechaInicio AND cot_fch_cotizacion <= :fechaFin
 					AND usuarios.id_Intermediario = :idIntermediario
 					$condicion
@@ -497,11 +487,19 @@ class ModeloCotizaciones
 			return $stmt->fetchAll(PDO::FETCH_ASSOC);
 		} else if ($fechaInicialCotizaciones == $fechaFinalCotizaciones) {
 			$stmt = Conexion::conectar()->prepare("
-			SELECT * FROM $tabla, $tabla2, $tabla3, $tabla4, $tabla5 
+			SELECT * FROM $tabla, $tabla2, $tabla3, $tabla4, $tabla5,
+					(SELECT 
+					CASE o.Manual
+						WHEN 4 THEN 'Transporte pasajeros'
+						WHEN 3 THEN 'Pesados'
+						WHEN 8 THEN 'Motos'
+						WHEN 9 THEN 'Livianos'
+					END AS modulo_cotizacion, o.id_cotizacion FROM ofertas o GROUP BY o.id_cotizacion) o
 			WHERE $tabla.id_cliente = $tabla2.id_cliente
 				AND $tabla.id_usuario = $tabla5.id_usuario 
 				AND $tabla2.id_tipo_documento = $tabla3.id_tipo_documento 
 				AND $tabla2.id_estado_civil = $tabla4.id_estado_civil 
+				AND o.id_cotizacion = cotizaciones.id_cotizacion
 				AND cot_fch_cotizacion LIKE CONCAT('%', :fecha, '%') 
 				AND usuarios.id_Intermediario = :idIntermediario
 				$condicion
@@ -530,6 +528,13 @@ class ModeloCotizaciones
 				INNER JOIN $tabla3 ON $tabla2.id_tipo_documento = $tabla3.id_tipo_documento
 				INNER JOIN $tabla4 ON $tabla2.id_estado_civil = $tabla4.id_estado_civil
 				INNER JOIN $tabla5 ON $tabla.id_usuario = $tabla5.id_usuario
+				INNER JOIN (SELECT 
+					CASE o.Manual
+						WHEN 4 THEN 'Transporte pasajeros'
+						WHEN 3 THEN 'Pesados'
+						WHEN 8 THEN 'Motos'
+						WHEN 9 THEN 'Livianos'
+					END AS modulo_cotizacion, o.id_cotizacion FROM ofertas o GROUP BY o.id_cotizacion) o ON o.id_cotizacion = cotizaciones.id_cotizacion
 				WHERE cot_fch_cotizacion >= :fechaInicial AND cot_fch_cotizacion <= :fechaFinal
 				$condicion
 				ORDER BY cot_fch_cotizacion DESC
@@ -541,6 +546,13 @@ class ModeloCotizaciones
 					INNER JOIN $tabla3 ON $tabla2.id_tipo_documento = $tabla3.id_tipo_documento
 					INNER JOIN $tabla4 ON $tabla2.id_estado_civil = $tabla4.id_estado_civil
 					INNER JOIN $tabla5 ON $tabla.id_usuario = $tabla5.id_usuario
+					INNER JOIN (SELECT 
+					CASE o.Manual
+						WHEN 4 THEN 'Transporte pasajeros'
+						WHEN 3 THEN 'Pesados'
+						WHEN 8 THEN 'Motos'
+						WHEN 9 THEN 'Livianos'
+					END AS modulo_cotizacion, o.id_cotizacion FROM ofertas o GROUP BY o.id_cotizacion) o ON o.id_cotizacion = cotizaciones.id_cotizacion
 					WHERE cot_fch_cotizacion >= :fechaInicial AND cot_fch_cotizacion <= :fechaFinal
 					AND $tabla5.id_Intermediario = :idIntermediario
 					$condicion
@@ -929,4 +941,114 @@ class ModeloCotizaciones
 
 		return $stmt->fetchAll(PDO::FETCH_ASSOC);
 	}
+
+	static public function mdlMostrarCotizacionesFilters($params)
+    {
+		global $stmt;
+
+		$claseMap = [
+			'AUTOMÓVIL' => ['AUTOMOVIL', 'AUTOMOVILES'],
+			'BUS / BUSETA / MICROBUS' => ['BUS / BUSETA / MICROBUS'],
+			'CAMIÓN' => ['CAMION'],
+			'CAMIONETA PASAJEROS' => ['CAMIONETA PASAJ.'],
+			'CAMIONETA REPARTIDORA' => ['CAMIONETA REPAR'],
+			'CAMPERO' => ['CAMPERO', 'CAMPEROS'],
+			'CARROTANQUE' => ['CARROTANQUE'],
+			'CHASIS' => ['CHASIS'],
+			'CUATRIMOTO' => ['CUATRIMOTO'],
+			'FURGÓN' => ['FURGON'],
+			'MOTOCARRO' => ['MOTOCARRO'],
+			'MOTOCICLETA' => ['MOTOCICLETA'],
+			'PESADO' => ['PESADO'],
+			'PICKUP' => ['PICK UPS', 'PICKUP DOBLE CAB', 'PICKUP SENCILLA'],
+			'REMOLCADOR' => ['REMOLCADOR'],
+			'REMOLQUE' => ['REMOLQUE'],
+			'TAXI' => ['TAXI'],
+			'TRAILER' => ['TRAILER'],
+			'SUV' => ['UTILITARIOS DEPORTIVOS'],
+			'VAN' => ['VAN'],
+			'VOLQUETA' => ['VOLQUETA']
+		];
+
+		$rol = $_SESSION['rol'];
+		$idUsuario = $_SESSION['idUsuario'];
+
+		$condicion = "";
+		if ($_SESSION["permisos"]["Verlistadodecotizacionesdelaagencia"] != "x") {
+			$condicion = "AND usuarios.id_usuario = '$idUsuario'";
+		}
+
+        // Validar los parámetros
+        $valores = [];
+        foreach ($params as $clave => $valor) {
+
+            // Sanitizar valores para evitar SQL Injection
+            $valores[$clave] = htmlspecialchars($valor, ENT_QUOTES, 'UTF-8');
+        }
+
+        // Crear consulta dinámica
+        $sql = "SELECT *
+					FROM cotizaciones
+					INNER JOIN clientes ON cotizaciones.id_cliente = clientes.id_cliente
+					INNER JOIN tipos_documentos ON clientes.id_tipo_documento = tipos_documentos.id_tipo_documento
+					INNER JOIN estados_civiles ON clientes.id_estado_civil = estados_civiles.id_estado_civil
+					INNER JOIN usuarios ON cotizaciones.id_usuario = usuarios.id_usuario
+					LEFT JOIN analistas_freelances af ON af.id_usuario = usuarios.usu_documento
+					INNER JOIN (SELECT 
+					CASE o.Manual
+						WHEN 4 THEN 'Transporte pasajeros'
+						WHEN 3 THEN 'Pesados'
+						WHEN 8 THEN 'Motos'
+						WHEN 9 THEN 'Livianos Familiares'
+						WHEN 2 THEN 'Livianos Utilitarios'
+					END AS modulo_cotizacion, o.id_cotizacion FROM ofertas o GROUP BY o.id_cotizacion) o ON o.id_cotizacion = cotizaciones.id_cotizacion
+					WHERE 1 AND cotizaciones.cot_fch_cotizacion BETWEEN CURDATE() - INTERVAL 1 MONTH AND CURDATE() + INTERVAL 1 DAY"; // Query base
+        foreach ($valores as $campo => $valor) {
+            switch ($campo) {
+                case 'moduloCotizacion':
+                    # code...
+                    $sql .= " AND o.modulo_cotizacion = '$valor'";
+                    break;
+                case 'canal':
+                    # code...
+                    $sql .= " AND usuarios.usu_canal = '$valor'";
+                    break;
+                case 'clase':
+                    # code...
+					if (isset($claseMap[$valor])) {
+						$clasesOriginales = $claseMap[$valor];
+						$escaped = array_map(function ($v) {
+							return "'" . htmlspecialchars($v, ENT_QUOTES, 'UTF-8') . "'";
+						}, $clasesOriginales);
+						$sql .= " AND cotizaciones.cot_clase IN (" . implode(',', $escaped) . ")";
+    			}
+                    break;
+                case 'analistaGA':
+                    # code...
+                    $sql .= " AND af.nombre_analista = '$valor'";
+                    break;
+                case 'nombreAsesor':
+                    # code...
+                    $sql .= " AND CONCAT(usuarios.usu_nombre, ' ', usuarios.usu_apellido) = '$valor'";
+                    break;
+                default:
+                    # code...
+                    break;
+            }
+        }
+
+		$sql .= $condicion . " AND usuarios.id_Intermediario = '3'
+				  ORDER BY cot_fch_cotizacion DESC";
+		
+        $stmt = Conexion::conectar()->prepare($sql);
+        $stmt->execute();
+
+        $numRows = $stmt->rowCount();
+
+        if ($numRows > 0) {
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }
+        $stmt->closeCursor();
+        $stmt = null;
+    }
 }
