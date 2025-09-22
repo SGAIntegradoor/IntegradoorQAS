@@ -12,7 +12,7 @@ $numCotizOferta = $_POST['numCotizOferta'];
 $valorPrima = str_replace('.', '', $_POST['valorPrima']);
 $seleccionar = $_POST['seleccionar'];
 
-echo "Placa: ".$placa."<br/> Id Cotizacion: ".$idCotizacion."<br/> Aseguradora: ".$aseguradora."<br/> Producto: ".$producto."<br/> Num Coti: ".$numCotizOferta."<br/> Valor Prima: ".$valorPrima."<br/> Seleccionar: ".$seleccionar."<br/>";
+// echo "Placa: ".$placa."<br/> Id Cotizacion: ".$idCotizacion."<br/> Aseguradora: ".$aseguradora."<br/> Producto: ".$producto."<br/> Num Coti: ".$numCotizOferta."<br/> Valor Prima: ".$valorPrima."<br/> Seleccionar: ".$seleccionar."<br/>";
 
 $sql = "UPDATE `ofertas` SET `seleccionar` = ? WHERE `Placa` LIKE ? AND `NumCotizOferta` LIKE ? 
         AND `Aseguradora` LIKE ? AND `Producto` LIKE ? AND `Prima` LIKE ? AND `id_cotizacion` = ?";
