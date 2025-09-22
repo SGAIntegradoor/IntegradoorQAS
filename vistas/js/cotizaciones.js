@@ -1269,6 +1269,8 @@ async function renderCards(response) {
         "Solidaria",
         "Equidad",
         "AXA Colpatria",
+        "SURA",
+        "Seguros Sura",
         "AXA",
         "Estado"
 
@@ -1310,6 +1312,7 @@ async function renderCards(response) {
         "Plan Normal",
         "Plan Full",
         "Buses",
+        "Utilitario y Pesados",
         "Genio Pesado",
         "Conduce Tranquilo Pes"
       ];
