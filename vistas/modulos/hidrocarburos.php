@@ -289,6 +289,12 @@
         display: block;
         margin: 0 auto;
     }
+
+   @media (min-width: 1536px) and (max-width: 1536px) {
+        .p-op {
+            margin-right: 303px;
+        }
+}
 </style>
 
 <div class="content-wrapper">
@@ -421,21 +427,21 @@
             <div class="content-link" style="margin-top: -5px;" data-evaluar="si">
                 <p style="font-size: 14px;"><strong>Existen dos opciones de tarifa para el cliente con diferente aplicación de deducible:</strong></p>
                 <ul>
-                    <li><b> Opcion 1: </b>Deducible 15% mínimo 3.000.000</li>
-                    <li><b>Opcion 2: </b>Deducible 10% mínimo 3.000.000</li>
+                    <li><b> Opcion 1: </b>Deducible 15% mínimo $3.000.000</li>
+                    <li><b>Opcion 2: </b>Deducible 10% mínimo $3.000.000</li>
                 </ul>
             </div>
-            
+
             <div>
                 <img class="img-opcion" src="vistas/img/plantilla/Opcion1-hidrocarburos.png" alt="opcion 1">
-                <p class="img-opcion" style="text-align: right; margin-bottom: 50px; font-weight: bold;">Descargar imagen <a href="vistas\img\plantilla\Opcion1-hidrocarburos.png" download="Opcion-1.png" style="color: #4fc0fc; font-weight: bold;">AQUÍ</a></p>
+                <p class="img-opcion p-op" style="text-align: right; margin-bottom: 50px; margin-top: 20px; font-weight: bold;">Descargar imagen <a href="vistas\img\plantilla\Opcion1-hidrocarburos.png" download="Opcion-1.png" style="color: #4fc0fc; font-weight: bold;">AQUÍ</a></p>
                 <img class="img-opcion" src="vistas/img/plantilla/Opcion2-hidrocarburos.png" alt="opcion 2">
-                <p class="img-opcion" style="text-align: right; margin-bottom: 50px; font-weight: bold;">Descargar imagen <a href="vistas\img\plantilla\Opcion2-hidrocarburos.png" download="Opcion-2.png" style="color: #4fc0fc; font-weight: bold;">AQUÍ</a></p>
+                <p class="img-opcion p-op" style="text-align: right; margin-bottom: 10px; margin-top: 20px; font-weight: bold;">Descargar imagen <a href="vistas\img\plantilla\Opcion2-hidrocarburos.png" download="Opcion-2.png" style="color: #4fc0fc; font-weight: bold;">AQUÍ</a></p>
             </div>
 
             <!-- //FORMULARIO -->
             <div class="content-link" style="margin-top: -5px;" data-evaluar="si">
-                <p style="font-size: 19px; margin-bottom: 30px;"><strong>Solicita una cotizacion oficial de Allianz diligenciando el siguiente formulario (ICONO)</strong> <b style="font-size: 17px;"><a href="https://forms.gle/bHw1SYtGS9p22TJs7" target="_blank"><u>AQUÍ</u></a></b></p>
+                <p style="font-size: 19px; margin-bottom: 30px;"><strong>Solicita una cotizacion oficial de Allianz diligenciando el siguiente formulario </strong> <span style="font-size: 22px;"><a style="text-decoration: none; " href="https://forms.gle/bHw1SYtGS9p22TJs7" target="_blank"><u><i class="fa-regular fa-file-lines"></i></u></a></span></p>
             </div>
 
 
