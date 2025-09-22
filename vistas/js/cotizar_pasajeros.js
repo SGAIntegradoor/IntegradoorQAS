@@ -3681,7 +3681,7 @@ function cotizarOfertasPasajeros() {
         document.getElementById("btnCotizarFinesa").disabled = false;
         const contenParrilla = document.querySelector("#contenParrilla");
         raw.cotizacion = idCotizacion;
-        raw.env = "";
+        raw.env = "QAS";
 
         var requestOptions = {
           method: "POST",
