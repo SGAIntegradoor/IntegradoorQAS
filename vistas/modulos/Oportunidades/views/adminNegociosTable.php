@@ -804,6 +804,7 @@
               <option value="demora_cert_pago">Demora cert. de pago</option>
               <option value="dificil_rptos">Difícil consecución rptos</option>
               <option value="banco_no_prenda">Banco no aceptó prenda</option>
+              <option value="oferta_mas_baja_otro_intermediario">Oferta más baja con otro intermediario/colectiva</option>
               <option value="Otro">Otro</option>
             </select>
           </div>

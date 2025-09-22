@@ -30,4 +30,15 @@
 
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    static public function mdlObtenerAlertasSalud($cotizacion) {
+        $pdo = Conexion::conectar();
+        // Asegurar que la conexión use utf8mb4
+
+        $stmt = $pdo->prepare("SELECT * FROM alertas_salud WHERE cotizacion = :cotizacion");
+        $stmt->bindParam(":cotizacion", $cotizacion);
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
    }

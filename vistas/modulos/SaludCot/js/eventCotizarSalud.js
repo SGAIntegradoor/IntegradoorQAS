@@ -238,6 +238,28 @@ function toggleNumAsegSelector() {
 
   $('input[name="tipoCotizacion"]').change(function () {
     if ($("#grupoFamiliar").is(":checked")) {
+      Swal.fire({
+        icon: "info",
+        title: "🔔 Importante: Cotizaciones grupales en salud",
+        // Ancho ajustado a 450 píxeles
+        width: 450,
+        html: `
+        <p style="text-align: justify;">
+            Antes de solicitar una cotización grupal, ten en cuenta que hay factores que pueden impactar las condiciones de la oferta:
+        </p>
+        <ul style="text-align: left; margin-left: 0; padding-left: 0; list-style-position: inside;">
+            <li>Edad de los asegurados: Cada compañía tiene una edad máxima de ingreso.</li>
+            <li>Afiliación a cooperativas: Por ejemplo, Coomeva aplica a ciertos planes.</li>
+            <li>Ciudad de residencia: Algunas ciudades, como Barranquilla, manejan tarifas distintas.</li>
+            <li>Composición del grupo: Una mayoría de hombres puede modificar la prima.</li>
+        </ul>
+        <p style="font-weight: bold; color: #17a2b8; text-align: justify;">
+            ✅ Recomendación: Revisa estos puntos con tu Analista Comercial antes de presentarle a tu cliente.
+        </p>
+    `,
+      });
+      $("#asociadoSi_1").prop("checked", false);
+      $("#asociadoNo_1").prop("checked", true);
       $(".cantAsegurados").show();
       generateAseguradosFields();
       $("#lblTomador").text("¿El tomador también será asegurado?");
@@ -940,6 +962,24 @@ let showPopup = true;
 function makeCards(data, tipoCotizacion) {
   console.log(data, tipoCotizacion);
 
+  if (countFiltrado == 0) {
+    data.asegurados[0].planes.forEach((plan) => {
+      totalOfertas++;
+
+      const categorias = JSON.parse(plan.categoria);
+
+      if (categorias.includes("Basicas")) {
+        basicasOfertas++;
+      } else if (categorias.includes("Premium")) {
+        premiumOfertas++;
+      }
+    });
+
+    $("#Basicas").text(basicasOfertas);
+    $("#Premium").text(premiumOfertas);
+    $("#Todas").text(totalOfertas);
+  }
+
   let html_data = "";
   if (tipoCotizacion === 1) {
     // Generar tarjetas individuales para cada plan
@@ -1005,6 +1045,21 @@ function makeCards(data, tipoCotizacion) {
         }
       });
     });
+
+    const params = new URLSearchParams(window.location.search);
+
+    const idCoti = params.get("idCotizacionSalud");
+
+    if (!idCoti) {
+      // Convertir el objeto a un array de sus valores, Ordenar por el valor mensual desc y Actualizar planesSumados con el objeto ordenado
+      let planesArray = Object.values(planesSumados);
+      planesArray.sort((a, b) => a.mensual - b.mensual);
+      planesSumados = planesArray;
+    } else if (idCoti) {
+      let planesArray = Object.values(planesSumados);
+      planesArray.sort((a, b) => a.id_plan_ordenado - b.id_plan_ordenado);
+      planesSumados = planesArray;
+    }
 
     // Generar tarjetas grupales con los valores sumados
     for (let plan_id in planesSumados) {
@@ -1086,6 +1141,20 @@ function makeCards(data, tipoCotizacion) {
       });
     });
 
+    const params = new URLSearchParams(window.location.search);
+    const idCoti = params.get("idCotizacionSalud");
+
+    if (!idCoti) {
+      // Convertir el objeto a un array de sus valores, Ordenar por el valor mensual desc y Actualizar planesSumados con el objeto ordenado
+      let planesArray = Object.values(planesSumados);
+      planesArray.sort((a, b) => a.mensual - b.mensual);
+      planesSumados = planesArray;
+    } else if (idCoti) {
+      let planesArray = Object.values(planesSumados);
+      planesArray.sort((a, b) => a.id_plan_ordenado - b.id_plan_ordenado);
+      planesSumados = planesArray;
+    }
+
     // Generar tarjetas grupales con los valores sumados
     for (let plan_id in planesSumados) {
       let plan = planesSumados[plan_id];
@@ -1103,6 +1172,8 @@ function makeCards(data, tipoCotizacion) {
       );
     }
   }
+
+  $("#loaderFilters").hide();
 
   if (getParams("idCotizacionSalud").length > 0) {
     document.getElementById("row_contenedor_general_salud2").innerHTML =
@@ -1235,63 +1306,417 @@ function cotizar() {
                   10
                 );
 
-                var asegurado = {
-                  id: aseguradoId,
-                  tipoDocumento: $(this).find('[id^="tipoDocumento_"]').val(),
-                  numeroDocumento: $(this)
-                    .find('[id^="numeroDocumento_"]')
-                    .val(),
-                  nombre: $(this).find('[id^="nombre_"]').val(),
-                  apellido: $(this).find('[id^="apellido_"]').val(),
-                  genero: $(this).find('[id^="genero_"]').val(),
-                  edad: calcularEdadAsegurado(dia, mes, anio),
-                  fechaNacimiento: {
-                    dia: dia,
-                    mes: mes,
-                    anio: anio,
-                  },
-                };
-                asegurados.push(asegurado);
-              }
-            });
-          }
-
-          // Finalmente, construimos el objeto final que se enviará
-          var datosCotizacion = {
-            tipoCotizacion: tipoCotizacion,
-            tomador: tomador,
-            asegurados: asegurados,
-            id_usuario: permisos.id_usuario,
-            //env: "QAS",
+          var asegurado = {
+            id: aseguradoId,
+            // tipoDocumento: $(this).find('[id^="tipoDocumento_"]').val(),
+            // numeroDocumento: $(this).find('[id^="numeroDocumento_"]').val(),
+            tipoDocumento: null,
+            // numeroDocumento: null,
+            nombre: $(this).find('[id^="nombre_"]').val(),
+            apellido: $(this).find('[id^="apellido_"]').val(),
+            genero: $(this).find('[id^="genero_"]').val(),
+            // asociado: $(this).find('[id^="asociadoSi_"]').prop("checked")
+            //   ? 1
+            //   : 0,
+            asociado: asociado,
+            ciudad: $(this).find('[id^="ciudad_"]').val(),
+            departamento: $(this).find('[id^="departamento_"]').val(),
+            edad: calcularEdadAsegurado(dia, mes, anio),
+            fechaNacimiento: {
+              dia: dia,
+              mes: mes,
+              anio: anio,
+            },
           };
+          asegurados.push(asegurado);
+        }
+      });
+    }
 
-          // Puedes ver el JSON en la consola para verificar
-          console.log(JSON.stringify(datosCotizacion, null, 2));
+    const path = window.location.pathname;
+    let env = "PROD"; // Valor por defecto
 
-          $.ajax({
-            url: "https://grupoasistencia.com/health_engine/WSAxa/axa.php",
-            //url: "http://localhost/motorTest/health_engine/axa.php",
-            type: "POST",
-            data: JSON.stringify(datosCotizacion),
-            success: function (data) {
+    if (path.includes("/dev/") || path.includes("/DEV/")) {
+      env = "DEV";
+    } else if (path.includes("/QAS/") || path.includes("/qas/")) {
+      env = "QAS";
+    }
+
+    // Finalmente, construimos el objeto final que se enviará
+    var datosCotizacion = {
+      tipoCotizacion: tipoCotizacion,
+      tomador: tomador,
+      asegurados: asegurados,
+      id_usuario: permisos.id_usuario,
+      env: env,
+    };
+    let ofertasResultas = 0;
+    toogleDataContainer();
+    console.log("Datos de la cotización:", datosCotizacion);
+    $("#loader-overlay").css("display", "flex");
+
+    //Principal peticion ajax para crear la cotizacion
+    $.ajax({
+      url: "https://www.grupoasistencia.com/WS-laravel/api/salud/nueva-cotizacion",
+      type: "POST",
+      data: JSON.stringify(datosCotizacion),
+      contentType: "application/json",
+      dataType: "json",
+      success: function (newCoti) {
+        idCotiNew = newCoti;
+        usarID();
+
+        $.ajax({
+          // url: "https://www.grupoasistencia.com/health_engine/WSAxa/axa.php",
+          url:
+            "https://www.grupoasistencia.com/WS-laravel/api/salud/axa/cotizar?idNewCoti=" +
+            newCoti,
+          type: "POST",
+          data: JSON.stringify(datosCotizacion),
+          contentType: "application/json",
+          dataType: "json",
+          success: function (data) {
+            if (data.error) {
+              classTdResumen = "fa fa-times";
+              observacionResumen = data.error;
+              cantidadOfertas = 0;
+              colorIconoResumen = "red";
+            } else {
+              classTdResumen = "fa fa-check";
+              observacionResumen = "";
+              colorIconoResumen = "green";
+              cantidadOfertas = data.asegurados[0].planes.length;
               hideMainContainerCards();
               showContainerCardsSalud();
-              toogleDataContainer();
+              // toogleDataContainer();
               document.getElementById("spinener-cot-salud").style.display =
                 "none";
               makeCards(data, tipoCotizacion);
-            },
-            error: function (data) {
-              Swal.fire({
-                icon: "error",
-                title: "Error al cotizar",
-                text: "Por favor, verifica los datos ingresados.",
-              });
-            },
-          });
-          window.scrollTo(0, 0);
-  } 
+            }
+
+            alertasCotizacion = {
+              id_cotizacion: newCoti,
+              aseguradora: "Axa Colpatria",
+              mensaje: observacionResumen,
+              exitosa: cantidadOfertas > 0 ? 1 : 0,
+              ofertas_cotizadas: cantidadOfertas,
+            };
+
+            // Ajax para guardar las alertas de la cotizacion
+            $.ajax({
+              url: "https://www.grupoasistencia.com/WS-laravel/api/salud/guardarAlertas",
+              type: "POST",
+              data: JSON.stringify(alertasCotizacion),
+              contentType: "application/json",
+              dataType: "json",
+            });
+
+            htmlTablaResumen = `
+                        <tr>
+                            <td>Axa Colpatria</td>
+                            <td class="text-center"><i class="${classTdResumen}" aria-hidden="true" style="color: ${colorIconoResumen}; margin-right: 5px;"></i></td>
+                            <td class="text-center">${cantidadOfertas}</td>
+                            <td>${observacionResumen}</td>
+                        </tr>
+                        `;
+            $("#tablaResumenCot tbody").append(htmlTablaResumen);
+          },
+          error: function (data) {
+            errores = errores + 1;
+            Swal.fire({
+              icon: "error",
+              title: "Error al cotizar",
+              text: "Por favor, verifica los datos ingresados.",
+            });
+          },
+        });
+
+        $.ajax({
+          url:
+            "https://www.grupoasistencia.com/WS-laravel/api/salud/bolivar/cotizar?idNewCoti=" +
+            newCoti,
+          type: "POST",
+          data: JSON.stringify(datosCotizacion),
+          contentType: "application/json",
+          dataType: "json",
+          success: function (data) {
+            if (data.error) {
+              classTdResumen = "fa fa-times";
+              observacionResumen = data.error;
+              cantidadOfertas = 0;
+              colorIconoResumen = "red";
+            } else {
+              classTdResumen = "fa fa-check";
+              observacionResumen = "";
+              colorIconoResumen = "green";
+              cantidadOfertas = data.asegurados[0].planes.length;
+              hideMainContainerCards();
+              showContainerCardsSalud();
+              // toogleDataContainer();
+              document.getElementById("spinener-cot-salud").style.display =
+                "none";
+              makeCards(data, tipoCotizacion);
+            }
+
+            alertasCotizacion = {
+              id_cotizacion: newCoti,
+              aseguradora: "Seguros Bolivar",
+              mensaje: observacionResumen,
+              exitosa: cantidadOfertas > 0 ? 1 : 0,
+              ofertas_cotizadas: cantidadOfertas,
+            };
+
+            // Ajax para guardar las alertas de la cotizacion
+            $.ajax({
+              url: "https://www.grupoasistencia.com/WS-laravel/api/salud/guardarAlertas",
+              type: "POST",
+              data: JSON.stringify(alertasCotizacion),
+              contentType: "application/json",
+              dataType: "json",
+            });
+
+            htmlTablaResumen = `
+                        <tr>
+                            <td>Seguros Bolivar</td>
+                            <td class="text-center"><i class="${classTdResumen}" aria-hidden="true" style="color: ${colorIconoResumen}; margin-right: 5px;"></i></td>
+                            <td class="text-center">${cantidadOfertas}</td>
+                            <td>${observacionResumen}</td>
+                        </tr>
+                        `;
+            $("#tablaResumenCot tbody").append(htmlTablaResumen);
+          },
+          error: function (xhr, status, error) {
+            errores = errores + 1;
+            console.log("Error status:", status);
+            console.log("Error:", error);
+            console.log("Response:", xhr.responseText);
+
+            Swal.fire({
+              icon: "error",
+              title: "Error al cotizar",
+              text: "Por favor, verifica los datos ingresados.",
+            });
+          },
+        });
+        $.ajax({
+          url:
+            "https://www.grupoasistencia.com/WS-laravel/api/salud/coomeva/cotizar?idNewCoti=" +
+            newCoti,
+          type: "POST",
+          data: JSON.stringify(datosCotizacion),
+          contentType: "application/json",
+          dataType: "json",
+          success: function (data) {
+            if (data.error) {
+              classTdResumen = "fa fa-times";
+              observacionResumen = data.error;
+              cantidadOfertas = 0;
+              colorIconoResumen = "red";
+            } else {
+              classTdResumen = "fa fa-check";
+              observacionResumen = "";
+              colorIconoResumen = "green";
+              cantidadOfertas = data.asegurados[0].planes.length;
+              hideMainContainerCards();
+              showContainerCardsSalud();
+              // toogleDataContainer();
+              document.getElementById("spinener-cot-salud").style.display =
+                "none";
+              makeCards(data, tipoCotizacion);
+
+              setTimeout(() => {
+                $("#loader-overlay").css("display", "none");
+              }, 2000);
+            }
+
+            alertasCotizacion = {
+              id_cotizacion: newCoti,
+              aseguradora: "Coomeva",
+              mensaje: observacionResumen,
+              exitosa: cantidadOfertas > 0 ? 1 : 0,
+              ofertas_cotizadas: cantidadOfertas,
+            };
+
+            // Ajax para guardar las alertas de la cotizacion
+            $.ajax({
+              url: "https://www.grupoasistencia.com/WS-laravel/api/salud/guardarAlertas",
+              type: "POST",
+              data: JSON.stringify(alertasCotizacion),
+              contentType: "application/json",
+              dataType: "json",
+            });
+
+            htmlTablaResumen = `
+                        <tr>
+                            <td>Coomeva</td>
+                            <td class="text-center"><i class="${classTdResumen}" aria-hidden="true" style="color: ${colorIconoResumen}; margin-right: 5px;"></i></td>
+                            <td class="text-center">${cantidadOfertas}</td>
+                            <td>${observacionResumen}</td>
+                        </tr>
+                        `;
+            $("#tablaResumenCot tbody").append(htmlTablaResumen);
+          },
+          error: function (xhr, status, error) {
+            errores = errores + 1;
+            console.log("Error status:", status);
+            console.log("Error:", error);
+            console.log("Response:", xhr.responseText);
+
+            Swal.fire({
+              icon: "error",
+              title: "Error al cotizar",
+              text: "Por favor, verifica los datos ingresados.",
+            });
+          },
+        });
+      },
+      error: function (xhr, status, error) {
+        errores = errores + 1;
+        console.log("Error status:", status);
+        console.log("Error:", error);
+        console.log("Response:", xhr.responseText);
+
+        Swal.fire({
+          icon: "error",
+          title: "Error al cotizar",
+          text: "Por favor, verifica los datos ingresados.",
+        });
+      },
+    }).always(function () {
+      setTimeout(() => {
+        $("#ContainerfiltersSection").css("display", "block");
+        $("#loader-overlay").css("display", "none");
+      }, 4000);
+    });
+
+    // if (errores == 0) {
+    //   //esperar dos segundos antes de mostrar el mensaje Javier-Dev
+    //   $("body").append(
+    //     '<div id="overlay-cotizacion" style="position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.3);z-index:9999;"></div>'
+    //   );
+    //   setTimeout(() => {
+    //     $("#overlay-cotizacion").remove();
+    //     Swal.fire({
+    //       title: "¡Cotización Exitosa!",
+    //       icon: "success",
+    //     });
+    //   }, 2000);
+    // }
+    window.scrollTo(0, 0);
+    $("#contenParrilla").show();
+
+    $(".nombreCompleto").find("input").prop("disabled", true);
+    $("#numAsegurados").prop("disabled", true);
+    $("#TipoDocumento").prop("disabled", true);
+    $("#NroDocumento").prop("disabled", true);
+    $("#nombre").prop("disabled", true);
+    $("#apellido").prop("disabled", true);
+    $("#genero").prop("disabled", true);
+    $("#grupoFamiliar").prop("disabled", true);
+    $("#dianacimiento").prop("disabled", true);
+    $("#mesnacimiento").prop("disabled", true);
+    $("#anionacimiento").prop("disabled", true);
+    $("#individual").prop("disabled", true);
+    $("#si").prop("disabled", true);
+    $("#no").prop("disabled", true);
+    $("#asociadoSi_1").prop("disabled", true);
+    $("#asociadoNo_1").prop("disabled", true);
+    $("#siAsociadoC").prop("disabled", true);
+    $("#noAsociadoC").prop("disabled", true);
+    $("#siCiudadB").prop("disabled", true);
+    $("#noCiudadB").prop("disabled", true);
+    $("#departamento_1").prop("disabled", true);
+    $("#ciudad_1").prop("disabled", true);
+
+    if ($("#individual").is(":checked")) {
+      if ($("#numAsegurados option[value='1']").length === 0) {
+        $("#numAsegurados").prepend('<option value="1">1</option>');
+      }
+      $("#numAsegurados").val("1");
+    }
+
+    if ($("#numAsegurados").val() > 1) {
+      for (let i = 1; i < $("#numAsegurados").val(); i++) {
+        // Deshabilita los inputs de los asegurados
+        $("#nombre_" + (i + 1)).prop("disabled", true);
+        $("#apellido_" + (i + 1)).prop("disabled", true);
+        $("#departamento_" + (i + 1)).prop("disabled", true);
+        $("#ciudad_" + (i + 1)).prop("disabled", true);
+        $("#dianacimiento_" + (i + 1)).prop("disabled", true);
+        $("#mesnacimiento_" + (i + 1)).prop("disabled", true);
+        $("#anionacimiento_" + (i + 1)).prop("disabled", true);
+        $("#genero_" + (i + 1)).prop("disabled", true);
+        $("#asociadoSi_" + (i + 1)).prop("disabled", true);
+        $("#asociadoNo_" + (i + 1)).prop("disabled", true);
+
+        if (asegurados[i].asociado == 1) {
+          $("#asociadoSi_" + (i + 1)).prop("checked", true);
+        } else {
+          $("#asociadoNo_" + (i + 1)).prop("checked", true);
+        }
+
+        // Asigna los valores de los asegurados a los inputs correspondientes
+        $("#nombre_" + (i + 1)).val(asegurados[i].nombre);
+        $("#apellido_" + (i + 1)).val(asegurados[i].apellido);
+        $("#genero_" + (i + 1)).val(asegurados[i].genero);
+        $("#select2-dianacimiento_" + (i + 1) + "-container").text(
+          asegurados[i].fechaNacimiento.dia
+        );
+        $("#select2-mesnacimiento_" + (i + 1) + "-container").text(
+          asegurados[i].fechaNacimiento.mes
+        );
+        $("#select2-anionacimiento_" + (i + 1) + "-container").text(
+          asegurados[i].fechaNacimiento.anio
+        );
+
+        $("#departamento_" + (i + 1))
+          .val(asegurados[i].departamento)
+          .trigger("change");
+
+        $("#ciudad_" + (i + 1)).val(asegurados[i].ciudad);
+      }
+    }
+  }
 }
+
+function hideShowCamposCiudad() {
+  var mostrarCampoCiudad = $("#siCiudadB").prop("checked");
+  const selectsDepartamento = document.querySelectorAll(".departamentoSelect");
+  const selectsCiudad = document.querySelectorAll(".ciudadSelect");
+  initializeSelect2Dpto(".ciudadSelect");
+  initializeSelect2Dpto(".departamentoSelect");
+
+  if (mostrarCampoCiudad) {
+    $('[class*="departamento"]').show();
+    $('[class*="ciudad"]').show();
+    selectsCiudad.forEach((select) => {
+      select.required = true;
+    });
+    selectsDepartamento.forEach((select) => {
+      select.required = true;
+    });
+  } else {
+    $('[class*="departamento"]').hide();
+    $('[class*="ciudad"]').hide();
+    selectsDepartamento.forEach((select) => {
+      select.required = false;
+    });
+    selectsCiudad.forEach((select) => {
+      select.required = false;
+    });
+  }
+}
+
+function hideShowAsociadoCoomeva() {
+  var mostrarCampoasociado = $("#siAsociadoC").prop("checked");
+
+  if (mostrarCampoasociado) {
+    $('[class*="asociadoC"]').show();
+  } else {
+    $('[class*="asociadoC"]').hide();
+  }
+}
+
 /**
  * Inicializar todo.
  * @function

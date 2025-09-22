@@ -290,7 +290,9 @@ class ModeloCotizaciones
 						$plans[] = [
 							"plan_id" => $plan["id_plan"],
 							"id_plan_ordenado" => $plan["id_plan_ordenado"],
+							"aseguradora" => $plan["aseguradoraN"],
 							"anual" => $plan["anual_plan"],
+							"categoria" => $plan["categoria"],
 							"mensual" => $plan["mensual_plan"],
 							"semestral" => $plan["semestral_plan"],
 							"trimestral" => $plan["trimestral_plan"],
@@ -374,13 +376,15 @@ class ModeloCotizaciones
 		];
 	}
 
-	static public function mdlShowQuoteSalud($tabla, $tabla2, $tabla3, $tabla4, $tabla5, $tabla6, $tabla7, $tabla8, $tabla9, $field, $id)
+	static public function mdlShowQuoteSalud($tabla, $tabla2, $tabla3, $tabla4, $tabla5, $tabla6, $tabla7, $tabla8, $tabla9, $field, $id, $filtro)
 	{
 		// Inicializa la variable $stmt
 		$stmt = null;
+		$filtro = ($filtro === 'Todas') ? '' : $filtro;
 		if ($id != null) {
 			$stmt = Conexion::conectar()->prepare("SELECT 
-					  ROW_NUMBER() OVER (ORDER BY ass.id_aseguradora DESC ,p.mensual_plan DESC) AS id_plan_ordenado, c.*,
+					  ROW_NUMBER() OVER (ORDER BY ass.id_aseguradora DESC ,p.mensual_plan ASC) AS id_plan_ordenado, ass.nombre as aseguradoraN,
+					    c.*,
 						t.*,
 						a.*,
 						p.*,
@@ -407,10 +411,11 @@ class ModeloCotizaciones
 				$tabla9 ass ON ass.id_aseguradora = ps.id_aseguradora
 			LEFT JOIN 
 				$tabla6 ci ON ci.id_ciudad = a.ciudad
-			WHERE 
-				c.$field = :id
+			WHERE 1
+			AND c.$field = :id
+			AND p.categoria like '%$filtro%'
 			GROUP BY a.id_asegurado, ps.id_plan
-			ORDER BY ass.id_aseguradora desc ,p.mensual_plan DESC;");
+			ORDER BY ass.id_aseguradora DESC, p.mensual_plan ASC;");
 
 			$stmt->bindParam(":id", $id, PDO::PARAM_STR);
 
