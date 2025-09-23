@@ -358,6 +358,61 @@ class ModeloCotizaciones
 		];
 	}
 
+	// static public function mdlShowQuoteSalud($tabla, $tabla2, $tabla3, $tabla4, $tabla5, $tabla6, $tabla7, $tabla8, $tabla9, $field, $id, $filtro)
+	// {
+	// 	// Inicializa la variable $stmt
+	// 	$stmt = null;
+	// 	$filtro = ($filtro === 'Todas') ? '' : $filtro;
+	// 	if ($id != null) {
+	// 		$stmt = Conexion::conectar()->prepare("SELECT 
+	// 				  ROW_NUMBER() OVER (ORDER BY ass.id_aseguradora DESC ,p.mensual_plan ASC) AS id_plan_ordenado, ass.nombre as aseguradoraN,
+	// 				    c.*,
+	// 					t.*,
+	// 					a.*,
+	// 					p.*,
+	// 					us.*,
+	// 					cs.*,
+	// 					ps.*,
+	// 					ass.*,
+	// 					ci.*
+	// 		FROM 
+	// 			$tabla c
+	// 		INNER JOIN 
+	// 			$tabla2 t ON t.id_cotizacion = c.id_cotizacion
+	// 		INNER JOIN 
+	// 			$tabla3 a ON a.id_cotizacion = c.id_cotizacion
+	// 		INNER JOIN 
+	// 			$tabla4 p ON p.id_asegurado = a.id_asegurado
+	// 		INNER JOIN 
+	// 			$tabla5 us ON c.id_usuario = us.id_usuario
+	// 		LEFT JOIN
+	// 			$tabla7 cs ON cs.id_plan = p.id_plan
+	// 		LEFT JOIN
+	// 			$tabla8 ps ON ps.id_plan = p.id_plan
+	// 		LEFT JOIN
+	// 			$tabla9 ass ON ass.id_aseguradora = ps.id_aseguradora
+	// 		LEFT JOIN 
+	// 			$tabla6 ci ON ci.id_ciudad = a.ciudad
+	// 		WHERE 1
+	// 		AND c.$field = :id
+	// 		AND p.categoria like '%$filtro%'
+	// 		GROUP BY a.id_asegurado, ps.id_plan
+	// 		ORDER BY ass.id_aseguradora DESC, p.mensual_plan ASC;");
+
+	// 		$stmt->bindParam(":id", $id, PDO::PARAM_STR);
+
+	// 		if ($stmt->execute()) {
+	// 			$resultado = $stmt->fetchAll(PDO::FETCH_ASSOC);
+	// 			$stmt->closeCursor(); // Correctamente cerrando el cursor
+	// 			return self::responseFormatted($resultado);
+	// 		} else {
+	// 			return null; // Si la consulta falla, devuelve null
+	// 		}
+	// 	}
+
+	// 	return null; // En caso de que no se cumplan las condiciones, devuelve null
+	// }
+
 	static public function mdlShowQuoteSalud($tabla, $tabla2, $tabla3, $tabla4, $tabla5, $tabla6, $tabla7, $tabla8, $tabla9, $field, $id, $filtro)
 	{
 		// Inicializa la variable $stmt
