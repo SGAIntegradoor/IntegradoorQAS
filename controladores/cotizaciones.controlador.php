@@ -134,7 +134,6 @@ class ControladorCotizaciones
 				    FROM ciudadeshogar ch)";
 		$field = "id_cotizacion";
 		$respuesta = ModeloCotizaciones::mdlShowQuoteSalud($tabla, $tabla2, $tabla3, $tabla4, $tabla5, $tabla6, $tabla7, $tabla8, $tabla9, $field, $id, $filtro);
-
 		return $respuesta;
 	}
 
