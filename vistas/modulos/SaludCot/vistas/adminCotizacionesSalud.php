@@ -39,8 +39,8 @@
 
           <th style="font-weight: bold; text-align: center;">N°</th>
           <th style="font-weight: bold; text-align: center;">FechaCot</th>
-          <th style="font-weight: bold; text-align: center;">Tipo Documento</th>
-          <th style="font-weight: bold; text-align: center;">No. Documento</th>
+          <!-- <th style="font-weight: bold; text-align: center;">Tipo Documento</th>
+          <th style="font-weight: bold; text-align: center;">No. Documento</th> -->
           <th style="font-weight: bold; text-align: center;">Tomador / Asegurado 1</th>
           <th style="font-weight: bold; text-align: center;">Fecha de nacimiento</th>
           <th style="font-weight: bold; text-align: center;">Genero</th>
@@ -75,6 +75,7 @@
 
           $respuesta = ControladorCotizaciones::ctrRangoFechasCotizacionesSalud($fechaActual, $inicioMes);
           // var_dump($respuesta);
+          // die();  
         }
 
         $tipoDocumento = [1 => "Cédula de ciudadanía", 4 => "Cédula de extranjería", 2 => "Tarjeta de identidad", 3 => "Registro civil", 5 => "DNI"];
@@ -83,13 +84,14 @@
 
         $tipoCotizacion = [1 => "Individual", 2 => "Familiar"];
 
+        // <td class="text-center" style="font-size: 14px; text-align: center;">' . $tipoDocumento[(int)$value['tipo_documento']] . '</td>
+        // <td class="text-center" style="font-size: 14px; text-align: center;">' . $value['cedula_asegurado'] . '</td>
+
         foreach ($respuesta as $key => $value) {
           //   <td class="text-center" style="font-size: 14px">' . date('Y/m/d', strtotime($value['fch_nacimiento'])) . '</td>
           echo '<tr>
                     <td class="text-center" style="font-size: 14px; text-align: center;">' . $value['id_cotizacion'] . '</td>
                     <td class="text-center" style="font-size: 14px; text-align: center;">' . $value['fecha_cotizacion'] . '</td>
-                    <td class="text-center" style="font-size: 14px; text-align: center;">' . $tipoDocumento[(int)$value['tipo_documento_asegurado']] . '</td>
-                    <td class="text-center" style="font-size: 14px; text-align: center;">' . $value['cedula_asegurado'] . '</td>
                     <td class="text-center" style="font-size: 14px; text-align: center;">' . $value['nom_asegurado'] . '</td>
                     <td class="text-center" style="font-size: 14px; text-align: center;">' . $value['fch_nac_asegurado'] . '</td>
                     <td class="text-center" style="font-size: 14px; text-align: center;">' . $genero[$value['genero_asegurado']] . '</td>
