@@ -404,6 +404,9 @@ class ModeloCotizaciones
 			if ($stmt->execute()) {
 				$resultado = $stmt->fetchAll(PDO::FETCH_ASSOC);
 				$stmt->closeCursor(); // Correctamente cerrando el cursor
+				if (count($resultado) == 0) {
+					return null;
+				}
 				return self::responseFormatted($resultado);
 			} else {
 				return null; // Si la consulta falla, devuelve null
