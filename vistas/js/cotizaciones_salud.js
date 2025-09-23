@@ -1,3 +1,6 @@
+// metodo para cargar las ciudades cuando se selecciona un departamento
+queryCiudades();
+
 $(".tablas-salud").on("click", ".btnEditarCotizacionSalud", function () {
   var idCotizacionSalud = $(this).attr("idCotizacionSalud");
 
@@ -5,8 +8,6 @@ $(".tablas-salud").on("click", ".btnEditarCotizacionSalud", function () {
     "index.php?ruta=retomar-cotizacion-salud&idCotizacionSalud=" +
     idCotizacionSalud;
 });
-
-console.log(permisos);
 
 let getParams = (param) => {
   var urlPage = new URL(window.location.href); // Instancia la URL Actual
@@ -18,6 +19,7 @@ function changeTitlePage() {
   var newTittle = "Datos de la cotización";
   $("#lblDataTrip").text(newTittle);
 }
+
 if (getParams("idCotizacionSalud").length > 0) {
   console.log(getParams("idCotizacionSalud")[0]);
   editarCotizacionSalud(getParams("idCotizacionSalud")[0]);
@@ -207,8 +209,8 @@ function disableInputs(context, disabled) {
 }
 
 function editarCotizacionSalud(id) {
+  toggleContainerData();
   idCotizacionSalud = id; // Almacena el Id en la variable global de idCotización
-  //console.log(id);
   var datos = new FormData();
 
   $("#loaderFilters2").html(
@@ -299,7 +301,25 @@ function editarCotizacionSalud(id) {
       const { cedula, nombre, apellido, tipoDocumento } =
         respuesta.requestData.tomador;
 
+      if (respuesta.asegurados[0].ciudad) {
+        $("#siCiudadB").prop("checked", true);
+      }
+
       const { asegurados } = respuesta.requestData;
+
+      // Verifica si algún asegurado es asociado a Coomeva
+      let algunoAsociado = false;
+      for (let i = 0; i < asegurados.length; i++) {
+        if (asegurados[i].asociado == 1) {
+          algunoAsociado = true;
+          break;
+        }
+      }
+      if (algunoAsociado) {
+        $("#siAsociadoC").prop("checked", true);
+      } else {
+        $("#noAsociadoC").prop("checked", true);
+      }
 
       const fields = ["nombre", "apellido", "tipoDocumento", "cedula"];
 
@@ -310,28 +330,33 @@ function editarCotizacionSalud(id) {
         $(`.${field}`).prop("disabled", true);
       });
 
-      $("#tomadorContainerData").find(".tipoDocumento").val("0" + tipoDocumento),
-        $("#tomadorContainerData").find(".numeroDocumento").val(cedula);
+      $("#tomadorContainerData")
+        .find(".tipoDocumento")
+        .val("0" + tipoDocumento);
+      $("#tomadorContainerData").find(".numeroDocumento").val(cedula);
       $("#tomadorContainerData").find(".nombre").val(nombre);
       $("#tomadorContainerData").find(".apellido").val(apellido);
 
       if (respuesta.asegurados.length > 1) {
         $("#grupoFamiliar").prop("checked", true).trigger("click");
       } else {
-        $("#individual").prop("checked", false).trigger("click");
+        $("#individual").prop("checked", true).trigger("click");
       }
 
+      // verifica si hay mas de un asegurado, si es asi le da un check a el radio de grupo familiar
       if ($("#grupoFamiliar").is(":checked")) {
         $(".cantAsegurados").show();
         $("#numAsegurados").val(respuesta.asegurados.length);
         generateAseguradosFields();
         $("#lblTomador").text("¿El tomador también será asegurado?");
       }
-
-      if (respuesta.asegurados[0].numeroDocumento == cedula) {
+      // verifica si el tomador es asegurado, si es asi le da un check a el radio de si
+      if (respuesta.asegurados[0].nombre == nombre) {
         $("#si").prop("checked", true);
         $("#lblDatosAse").text("Tomador Asegurado");
       }
+
+      // $(".preguntasForm").hide();
 
       $("#numAsegurados").prop("disabled", true);
       $("#tipoDocumento").prop("disabled", true);
@@ -415,9 +440,14 @@ function editarCotizacionSalud(id) {
       $(".aseguradosContainer").each(function (index) {
         $(this).find(".nombre").val(asegurados[index].nombre);
         $(this).find(".apellido").val(asegurados[index].apellido);
-        $(this).find(".tipoDocumento").val(asegurados[index].tipoDocumento);
-        $(this).find(".numeroDocumento").val(asegurados[index].numeroDocumento);
+        // $(this).find(".tipoDocumento").val(asegurados[index].tipoDocumento);
+        // $(this).find(".numeroDocumento").val(asegurados[index].numeroDocumento);
         $(this).find(".genero").val(asegurados[index].genero);
+        $(this)
+          .find(".departamento")
+          .val(asegurados[index].departamento)
+          .trigger("change");
+        $(this).find(".ciudad").val(asegurados[index].ciudad).trigger("change");
         // $(this).find(".fechaNacimiento").val(asegurados[index].fechaNacimiento);
 
         disableInputs(this, true);
@@ -425,8 +455,6 @@ function editarCotizacionSalud(id) {
         let dia = asegurados[index].fechaNacimiento.dia.toString();
         let mes = asegurados[index].fechaNacimiento.mes.toString();
         let anio = asegurados[index].fechaNacimiento.anio.toString();
-
-        console.log(dia, mes, anio);
 
         let monthFormatted = mes.padStart(2, "0");
 
@@ -462,6 +490,75 @@ function editarCotizacionSalud(id) {
       console.error("Estado:", textStatus);
       console.error("Error:", errorThrown);
       console.error("Respuesta del servidor:", jqXHR.responseText);
+    },
+  });
+
+  setTimeout(function () {
+    $(".container-salud")
+      .find("input, select, textarea")
+      .prop("disabled", true);
+  }, 3000);
+}
+
+$(document).on("change", ".departamentoSelect", function () {
+  const selectId = $(this).attr("id"); // e.g. departamento_1
+  const index = selectId.split("_")[1]; // e.g. 1
+  const selectedDepartamento = $(this).val(); // valor del departamento seleccionado
+  const ciudadSelect = $(`#ciudad_${index}`); // select relacionado
+  let ciudadesData = [];
+
+  // Recuperar el array de ciudades directamente
+  try {
+    ciudadesData = JSON.parse(localStorage.getItem("ciudades")) || [];
+  } catch (e) {
+    ciudadesData = [];
+  }
+
+  // Filtrar ciudades que pertenecen al departamento
+  const ciudadesFiltradas = ciudadesData.filter(
+    (ciudad) => ciudad.cod_departamento == Number(selectedDepartamento)
+  );
+
+  ciudadesFiltradas.map((ciudad) => {
+    ciudad.ciudad = formatInput(ciudad.ciudad);
+  });
+
+  // Limpiar el select de ciudad antes de llenarlo
+  ciudadSelect.empty();
+
+  if (ciudadesFiltradas.length > 0) {
+    ciudadSelect.append(`<option value="">Seleccione una ciudad</option>`);
+    ciudadesFiltradas.forEach((ciudad) => {
+      ciudadSelect.append(
+        `<option value="${ciudad.codigo}">${ciudad.ciudad}</option>`
+      );
+    });
+  } else {
+    ciudadSelect.append(`<option value="">No hay ciudades</option>`);
+  }
+});
+
+function queryCiudades() {
+  // Cargar las ciudades al cargar la página Javier Pendiente. hacer que se llamen todas las ciudades modify
+  $.ajax({
+    type: "POST",
+    url: "src/consultarCiudadHogar.php",
+    data: { codigoDpto: 0 },
+    cache: false,
+    success: function (data) {
+      // Si la respuesta es un string, conviértela a objeto
+      let response = typeof data === "string" ? JSON.parse(data) : data;
+      // Guardar solo el array de ciudades en localStorage
+      if (response.data && Array.isArray(response.data)) {
+        localStorage.setItem("ciudades", JSON.stringify(response.data));
+        console.log("Ciudades guardadas en localStorage como array");
+      } else {
+        localStorage.setItem("ciudades", "[]");
+        console.warn("No se encontraron ciudades en la respuesta");
+      }
+    },
+    error: function (xhr, status, error) {
+      console.error("Error en la solicitud AJAX:", error);
     },
   });
 }
