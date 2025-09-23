@@ -273,6 +273,16 @@ function editarCotizacionSalud(id) {
     success: function (respuesta) {
       console.log("Respuesta del back: ", respuesta);
 
+      if (respuesta == null) {
+        $("#ContainerfiltersSection").css("display", "none");
+        $("#loaderFilters2").hide();
+        swal.fire({
+          icon: "error",
+          title: "Error",
+          text: "Esta Cotización no tiene ofertas disponibles",
+      });
+    }
+
       let productsAxaCount = 0;
       let productsBolivarCount = 0;
       let productsCoomevaCount = 0;

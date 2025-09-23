@@ -951,6 +951,10 @@ let showPopup = true;
 
 function makeCards(data, tipoCotizacion) {
   console.log(data, tipoCotizacion);
+  if (data.error) {
+    $("#loaderFilters").hide();
+    return;
+  }
 
   if (countFiltrado == 0) {
     data.asegurados[0].planes.forEach((plan) => {
@@ -1324,6 +1328,7 @@ function cotizar() {
     }
 
     // Finalmente, construimos el objeto final que se enviará
+    var cotisExitosas = 0;
     var datosCotizacion = {
       tipoCotizacion: tipoCotizacion,
       tomador: tomador,
@@ -1338,7 +1343,7 @@ function cotizar() {
 
     //Principal peticion ajax para crear la cotizacion
     $.ajax({
-      url: "https://www.grupoasistencia.com/WS-laravel/api/salud/nueva-cotizacion",
+      url: "https://grupoasistencia.com/WS-laravel/api/salud/nueva-cotizacion",
       type: "POST",
       data: JSON.stringify(datosCotizacion),
       contentType: "application/json",
@@ -1348,9 +1353,9 @@ function cotizar() {
         usarID();
 
         $.ajax({
-          // url: "https://www.grupoasistencia.com/health_engine/WSAxa/axa.php",
+          // url: "https://grupoasistencia.com/health_engine/WSAxa/axa.php",
           url:
-            "https://www.grupoasistencia.com/WS-laravel/api/salud/axa/cotizar?idNewCoti=" +
+            "https://grupoasistencia.com/WS-laravel/api/salud/axa/cotizar?idNewCoti=" +
             newCoti,
           type: "POST",
           data: JSON.stringify(datosCotizacion),
@@ -1362,7 +1367,14 @@ function cotizar() {
               observacionResumen = data.error;
               cantidadOfertas = 0;
               colorIconoResumen = "red";
+              hideMainContainerCards();
+              showContainerCardsSalud();
+              // toogleDataContainer();
+              document.getElementById("spinener-cot-salud").style.display =
+                "none";
+              makeCards(data, tipoCotizacion);
             } else {
+              cotisExitosas++;
               classTdResumen = "fa fa-check";
               observacionResumen = "";
               colorIconoResumen = "green";
@@ -1385,7 +1397,7 @@ function cotizar() {
 
             // Ajax para guardar las alertas de la cotizacion
             $.ajax({
-              url: "https://www.grupoasistencia.com/WS-laravel/api/salud/guardarAlertas",
+              url: "https://grupoasistencia.com/WS-laravel/api/salud/guardarAlertas",
               type: "POST",
               data: JSON.stringify(alertasCotizacion),
               contentType: "application/json",
@@ -1414,7 +1426,7 @@ function cotizar() {
 
         $.ajax({
           url:
-            "https://www.grupoasistencia.com/WS-laravel/api/salud/bolivar/cotizar?idNewCoti=" +
+            "https://grupoasistencia.com/WS-laravel/api/salud/bolivar/cotizar?idNewCoti=" +
             newCoti,
           type: "POST",
           data: JSON.stringify(datosCotizacion),
@@ -1426,7 +1438,14 @@ function cotizar() {
               observacionResumen = data.error;
               cantidadOfertas = 0;
               colorIconoResumen = "red";
+              hideMainContainerCards();
+              showContainerCardsSalud();
+              // toogleDataContainer();
+              document.getElementById("spinener-cot-salud").style.display =
+                "none";
+              makeCards(data, tipoCotizacion);
             } else {
+              cotisExitosas++;
               classTdResumen = "fa fa-check";
               observacionResumen = "";
               colorIconoResumen = "green";
@@ -1449,7 +1468,7 @@ function cotizar() {
 
             // Ajax para guardar las alertas de la cotizacion
             $.ajax({
-              url: "https://www.grupoasistencia.com/WS-laravel/api/salud/guardarAlertas",
+              url: "https://grupoasistencia.com/WS-laravel/api/salud/guardarAlertas",
               type: "POST",
               data: JSON.stringify(alertasCotizacion),
               contentType: "application/json",
@@ -1481,7 +1500,7 @@ function cotizar() {
         });
         $.ajax({
           url:
-            "https://www.grupoasistencia.com/WS-laravel/api/salud/coomeva/cotizar?idNewCoti=" +
+            "https://grupoasistencia.com/WS-laravel/api/salud/coomeva/cotizar?idNewCoti=" +
             newCoti,
           type: "POST",
           data: JSON.stringify(datosCotizacion),
@@ -1493,7 +1512,14 @@ function cotizar() {
               observacionResumen = data.error;
               cantidadOfertas = 0;
               colorIconoResumen = "red";
+              hideMainContainerCards();
+              showContainerCardsSalud();
+              // toogleDataContainer();
+              document.getElementById("spinener-cot-salud").style.display =
+                "none";
+              makeCards(data, tipoCotizacion);
             } else {
+              cotisExitosas++;
               classTdResumen = "fa fa-check";
               observacionResumen = "";
               colorIconoResumen = "green";
@@ -1520,7 +1546,7 @@ function cotizar() {
 
             // Ajax para guardar las alertas de la cotizacion
             $.ajax({
-              url: "https://www.grupoasistencia.com/WS-laravel/api/salud/guardarAlertas",
+              url: "https://grupoasistencia.com/WS-laravel/api/salud/guardarAlertas",
               type: "POST",
               data: JSON.stringify(alertasCotizacion),
               contentType: "application/json",
@@ -1565,7 +1591,13 @@ function cotizar() {
       },
     }).always(function () {
       setTimeout(() => {
-        $("#ContainerfiltersSection").css("display", "block");
+        if (cotisExitosas > 0) {
+          $("#ContainerfiltersSection").css("display", "block");
+        } else {
+          $("#h4-filtros").css("display", "none");
+          $("#filtersSection").css("display", "none");
+        }
+        $("#resumenCotizaciones").css("display", "block");
         $("#loader-overlay").css("display", "none");
       }, 4000);
     });

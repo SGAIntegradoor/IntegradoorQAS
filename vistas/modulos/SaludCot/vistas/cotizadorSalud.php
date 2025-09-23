@@ -416,7 +416,7 @@
     </div>
 
     <!-- REVISAR COMO AGREGAR ESTE DIV -->
-     <h4 style="color: #514D4D; margin-bottom: 33px; margin-top: 40px; margin-left: 15px;"><b>Filtro por categoria de producto</b></h4>
+     <h4 id="h4-filtros" style="color: #514D4D; margin-bottom: 33px; margin-top: 40px; margin-left: 15px;"><b>Filtro por categoria de producto</b></h4>
     <?php if (!isset($_GET['idCotizacionSalud'])) { ?>
         <div id="filtersSection" class="col-lg-12" style="display: flex; justify-content: center;">
             <?php include "vistas/modulos/SaludCot/vistas/filtrosCategoriaSalud.php"; ?>
