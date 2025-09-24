@@ -3484,12 +3484,12 @@ function cotizarOfertas() {
               if (aseguradora == "Previsora" || aseguradora == "Solidaria" || aseguradora == "Estado" || aseguradora == "Bolivar") {
                 let message =
                   aseguradora == "Previsora"
-                    ? `💡 Solicita cotización manual con tu analista comercial`
+                    ? `Solicita cotización manual con tu analista comercial`
                     : aseguradora == "Estado"
                     ? `🤖 Pendiente RPA`
                     : aseguradora == "Bolivar"
                     ? `‼️ Revisar si es posible o no`
-                    : `🔥 Solicita cotización manual con tu analista comercial`;
+                    : `Solicita cotización manual con tu analista comercial`;
 
                 let ofertas = [
                   {

@@ -101,13 +101,13 @@ $cre_pre_bussinessId = $_SESSION['intermediario'] == 153 ? 25 : ($_SESSION['inte
 $cre_pre_key = $crePrevisora['cre_pre_AgentCode'];
 
 // Lógica para BOLIVAR
-if ($aseguradoras_utilitarios['Bolivar']['C'] == "1") {
-    $creBolivar = obtenerCredenciales($enlace, 'Credenciales_Bolivar', '*', $_SESSION['intermediario']);
-} else {
-    $creBolivar = obtenerCredenciales($enlace, 'Credenciales_Bolivar', '*', '3');
-}
-$cre_bol_api_key = $creBolivar['cre_bol_api_key'] ?? null;
-$cre_bol_claveAsesor = $creBolivar['cre_bol_claveAsesor'] ?? null;
+// if ($aseguradoras_utilitarios['Bolivar']['C'] == "1") {
+//     $creBolivar = obtenerCredenciales($enlace, 'Credenciales_Bolivar', '*', $_SESSION['intermediario']);
+// } else {
+//     $creBolivar = obtenerCredenciales($enlace, 'Credenciales_Bolivar', '*', '3');
+// }
+// $cre_bol_api_key = $creBolivar['cre_bol_api_key'] ?? null;
+// $cre_bol_claveAsesor = $creBolivar['cre_bol_claveAsesor'] ?? null;
 
 if ($_SESSION["permisos"]["Cotizarlivianos"] != "x") {
 
@@ -1524,7 +1524,7 @@ echo '<script>console.log(' . $idIntermediario . ", " . $rolAsesor . ')</script>
                                 </div>
 
 
-                                <div id="mensajePrevisora" style="font-size: 13px;">
+                                <!-- <div id="mensajePrevisora" style="font-size: 13px;">
                                     <p class="aviso-container col-lg-12">
                                     <p><b>Notas Importantes: </b></p>
 
@@ -1552,7 +1552,7 @@ echo '<script>console.log(' . $idIntermediario . ", " . $rolAsesor . ')</script>
                                             </p>
                                         </li>
                                     </ul>
-                                </div>
+                                </div> -->
                             </div>
                         </div>
 
