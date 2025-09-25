@@ -14,7 +14,11 @@ $(document).ready(function () {
 
   if (partes.includes("dev") || partes.includes("DEV")) {
     env = "dev";
-  } else if (partes.includes("QAS") || partes.includes("qas") || partes.includes("Pruebas")) {
+  } else if (
+    partes.includes("QAS") ||
+    partes.includes("qas") ||
+    partes.includes("Pruebas")
+  ) {
     env = "qas";
   } else if (partes.includes("app") || partes.includes("App")) {
     env = "";
@@ -1272,8 +1276,7 @@ async function renderCards(response) {
         "SURA",
         "Seguros Sura",
         "AXA",
-        "Estado"
-
+        "Estado",
       ];
 
       const planesViajes = [
@@ -1314,7 +1317,7 @@ async function renderCards(response) {
         "Buses",
         "Utilitario y Pesados",
         "Genio Pesado",
-        "Conduce Tranquilo Pes"
+        "Conduce Tranquilo Pes",
       ];
 
       var valorRC = isNumeric(oferta.ValorRC);
@@ -1589,7 +1592,9 @@ async function renderCards(response) {
                                       return `Financiación Finesa:<br />$${Number(
                                         element.cuota_1
                                       ).toLocaleString("de-DE")}
-                                    (${element.cuotas} Cuotas pólizas sin oneroso)`;
+                                    (${
+                                      element.cuotas
+                                    } Cuotas pólizas sin oneroso)`;
                                     }
                                   }
                                   return "";
@@ -1651,8 +1656,9 @@ async function renderCards(response) {
   
                               <span class="badge">* ${oferta.Grua}</span>
                               ${
-                                aseguradorasViajes.includes(nombreAseguradora(oferta.Aseguradora)) &&
-                                planesViajes.includes(oferta.Producto)
+                                aseguradorasViajes.includes(
+                                  nombreAseguradora(oferta.Aseguradora)
+                                ) && planesViajes.includes(oferta.Producto)
                                   ? "Asistencia en Viajes"
                                   : "Servicio de Grúa"
                               } 
@@ -1760,11 +1766,12 @@ async function renderCards(response) {
           oferta.Manual == "3" ||
           oferta.Manual == "4") &&
         (oferta.Aseguradora == "Mundial" ||
-          oferta.Aseguradora == "Seguros Mundial" || oferta.Aseguradora == "Mundial Seguros") &&
+          oferta.Aseguradora == "Seguros Mundial" ||
+          oferta.Aseguradora == "Mundial Seguros") &&
         oferta.UrlPdf !== null &&
-        aseguradoraPermisos == "1" && oferta.Producto == "Conduce Tranquilo Pes"
+        aseguradoraPermisos == "1" &&
+        oferta.Producto == "Conduce Tranquilo Pes"
       ) {
-        
         cardCotizacion += `
   
                         <div class="col-xs-12 col-sm-6 col-md-2 verpdf-oferta">
@@ -2421,7 +2428,7 @@ function seleccionarOferta(
   producto,
   numCotizOferta,
   id_oferta,
-  valCheck
+  valCheck,
 ) {
   var idSelecOferta = idCotizacion;
   var placa = document.getElementById("placaVeh").value;
@@ -2433,6 +2440,7 @@ function seleccionarOferta(
   if (document.getElementById(idCheckbox).checked) {
     seleccionar = "Si";
   }
+  console.log("ID CHECKBOX:", idCheckbox);
 
   ofertas.forEach((element) => {
     if (element.seleccionar == "Si" && element.oferta_finesa == id_oferta) {
@@ -2443,7 +2451,10 @@ function seleccionarOferta(
   });
 
   var $input = $("#" + idCheckbox);
-  $input.prop("disabled", true); // deshabilita mientras carga
+
+  // $input.prop("disabled", true); // deshabilita mientras carga
+
+  $(".classSelecOferta").prop("disabled", true); // deshabilita mientras carga
 
   // Crear overlay spinner sobre el input
   var overlay = $(
@@ -2481,21 +2492,27 @@ function seleccionarOferta(
     },
     success: function (data) {
       overlay.remove();
-      $input.prop("disabled", false);
+      $(".classSelecOferta").prop("disabled", false);
     },
     error: function () {
       overlay.remove();
-      $input.prop("disabled", false);
+      $(".classSelecOferta").prop("disabled", false);
       Swal.fire({
         icon: "error",
         title: "Ocurrió un problema",
         text: "No se pudo conectar con la base de datos por problemas de conectividad.",
         confirmButtonText: "Aceptar",
       });
+      if (!document.getElementById(idCheckbox).checked) {
+        console.log("entre porque estaba check");
+        $input.prop("checked", true);
+      } else {
+        console.log("entre porque no estaba check");
+        $input.prop("checked", false);
+      }
     },
   });
 }
-
 
 /*===============================================
 
@@ -4543,7 +4560,7 @@ function cotizarFinesaMotosRetoma(ofertasCotizaciones) {
                 headers: headers,
                 body: JSON.stringify(finesaData),
               }
-            ).then((dbResponse) => dbResponse.json())
+            ).then((dbResponse) => dbResponse.json());
           })
       );
     } else {
