@@ -2221,7 +2221,7 @@ const mostrarOferta = (
                                               </li>
                                               <li class="list-group-item">
                                                   <span class="badge">* ${GR}</span>
-                                                  Servicio de Grúa
+                                                  Asistencia en Viajes
                                               </li>
                                           </ul>
                                       </div>

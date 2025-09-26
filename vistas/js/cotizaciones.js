@@ -1267,7 +1267,9 @@ async function renderCards(response) {
         "Solidaria",
         "Equidad",
         "AXA Colpatria",
-        "AXA"
+        "AXA",
+        "Allianz",
+        "Seguros del Estado"
       ];
 
       const planesViajes = [
@@ -1305,7 +1307,12 @@ async function renderCards(response) {
         "Plan Básico",
         "Plan Normal",
         "Plan Full",
-        "Buses",
+        "Herr. Trab Full",
+        "Herr. Trab Integral",
+        "Todo Riesgo",
+        "RCE + Totales",
+        "Sin Hurto",
+        "Comercial"
       ];
 
       var valorRC = isNumeric(oferta.ValorRC);
