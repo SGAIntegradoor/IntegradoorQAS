@@ -3410,7 +3410,7 @@ function cotizarOfertasPasajeros() {
                 cont.push(estadoPromise);
                 return;
               } else if (aseguradora === "Allianz") {
-                url = `https://grupoasistencia.com/motor_webservice/Allianz_Taxis`; // Allianz Taxis
+                url = tipoUsoVehiculo == "3" ? `https://grupoasistencia.com/motor_webservice/Allianz_autos_utilitarios` : `https://grupoasistencia.com/motor_webservice/Allianz_Taxis` ;
                 cont.push(
                   fetch(url, requestOptions)
                     .then((res) => {
