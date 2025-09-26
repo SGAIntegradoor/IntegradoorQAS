@@ -1731,6 +1731,7 @@ async function renderCards(response) {
         (oferta.Manual == "0" ||
           oferta.Manual == "8" ||
           oferta.Manual == "9" ||
+          oferta.Manual == "2" ||
           oferta.Manual == "4") &&
         (oferta.Aseguradora == "Seguros Bolivar" ||
           oferta.Aseguradora == "Axa Colpatria") &&
@@ -1798,6 +1799,7 @@ async function renderCards(response) {
           oferta.Manual == "8" ||
           oferta.Manual == "9" ||
           oferta.Manual == "3" ||
+          oferta.Manual == "2" ||
           oferta.Manual == "4") &&
         oferta.Aseguradora == "Seguros del Estado" &&
         oferta.UrlPdf !== null &&
