@@ -3711,7 +3711,7 @@ function cotizarOfertas() {
                       title: "¡Debes seleccionar mínimo una oferta!",
                     });
                   } else {
-                    let url = `extensiones/tcpdf/pdf/comparador.php?cotizacion=${idCotizacionPDF}`;
+                    let url = `extensiones/tcpdf/pdf/comparadorUtilitarios.php?cotizacion=${idCotizacionPDF}`;
                     if (checkboxAsesor.is(":checked")) {
                       url += "&generar_pdf=1";
                     }

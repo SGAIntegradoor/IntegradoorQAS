@@ -13,6 +13,14 @@ $idCotizacion = $_GET['idCotizacion'];
 
 $response = retrieveQuotation($idCotizacion);
 
+$stmt2 = Conexion::conectar()->prepare("SELECT * FROM ofertas o WHERE o.id_cotizacion = :idCotizacion GROUP BY o.id_cotizacion;");
+$stmt2->bindParam(":idCotizacion", $idCotizacion, PDO::PARAM_INT);
+$stmt2->execute();
+
+$moduloCotizacion = $stmt2->fetchAll(PDO::FETCH_ASSOC);
+$jsonCotizaciones = json_encode($moduloCotizacion, JSON_UNESCAPED_UNICODE);
+echo '<script>window.moduloCotizacion = ' . $jsonCotizaciones . ';</script>';
+
 ?>
 
 <head>

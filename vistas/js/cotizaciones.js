@@ -696,6 +696,14 @@ $(document).ready(function () {
           }
 
           window.open(url, "_blank");
+        } else if (moduloCotizacion[0].Manual == 2) {
+            let url = `extensiones/tcpdf/pdf/comparadorUtilitarios.php?cotizacion=${idCotizacionPDF}`;
+
+            if (checkboxAsesorEditar.is(":checked")) {
+              url += "&generar_pdf=1";
+            }
+
+            window.open(url, "_blank");
         } else {
           let url = `extensiones/tcpdf/pdf/comparador${
             manualGeneral == 4 ? "Pasajeros.php" : ".php"
