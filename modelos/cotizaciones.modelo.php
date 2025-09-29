@@ -518,40 +518,46 @@ class ModeloCotizaciones
 
 			if ($_SESSION['rol'] == 10) {
 				$stmt = Conexion::conectar()->prepare("
-				SELECT * FROM $tabla
-				INNER JOIN $tabla2 ON $tabla.id_cliente = $tabla2.id_cliente
-				INNER JOIN $tabla3 ON $tabla2.id_tipo_documento = $tabla3.id_tipo_documento
-				INNER JOIN $tabla4 ON $tabla2.id_estado_civil = $tabla4.id_estado_civil
-				INNER JOIN $tabla5 ON $tabla.id_usuario = $tabla5.id_usuario
-				INNER JOIN (SELECT 
+					SELECT *
+					FROM cotizaciones
+					INNER JOIN clientes ON cotizaciones.id_cliente = clientes.id_cliente
+					INNER JOIN tipos_documentos ON clientes.id_tipo_documento = tipos_documentos.id_tipo_documento
+					INNER JOIN estados_civiles ON clientes.id_estado_civil = estados_civiles.id_estado_civil
+					INNER JOIN usuarios ON cotizaciones.id_usuario = usuarios.id_usuario
+					LEFT JOIN analistas_freelances af ON af.id_usuario = usuarios.usu_documento
+					LEFT JOIN (SELECT 
 					CASE o.Manual
 						WHEN 4 THEN 'Transporte pasajeros'
 						WHEN 3 THEN 'Pesados'
 						WHEN 8 THEN 'Motos'
-						WHEN 9 THEN 'Livianos'
-					END AS modulo_cotizacion, o.id_cotizacion FROM ofertas o GROUP BY o.id_cotizacion) o ON o.id_cotizacion = cotizaciones.id_cotizacion
-				WHERE cot_fch_cotizacion >= :fechaInicial AND cot_fch_cotizacion <= :fechaFinal
-				$condicion
-				ORDER BY cot_fch_cotizacion DESC
+						WHEN 9 THEN 'Livianos Familiares'
+						WHEN 2 THEN 'Livianos Utilitarios'
+					END AS modulo_cotizacion, o.id_cotizacion AS ofert_id_coti FROM ofertas o GROUP BY o.id_cotizacion) o ON o.ofert_id_coti = cotizaciones.id_cotizacion
+					WHERE 1 AND cotizaciones.cot_fch_cotizacion BETWEEN :fechaInicial AND :fechaFinal
+					$condicion
+					ORDER BY cotizaciones.cot_fch_cotizacion DESC
 			");
 			} else {
 				$stmt = Conexion::conectar()->prepare("
-					SELECT * FROM $tabla
-					INNER JOIN $tabla2 ON $tabla.id_cliente = $tabla2.id_cliente
-					INNER JOIN $tabla3 ON $tabla2.id_tipo_documento = $tabla3.id_tipo_documento
-					INNER JOIN $tabla4 ON $tabla2.id_estado_civil = $tabla4.id_estado_civil
-					INNER JOIN $tabla5 ON $tabla.id_usuario = $tabla5.id_usuario
-					INNER JOIN (SELECT 
+					SELECT *
+					FROM cotizaciones
+					INNER JOIN clientes ON cotizaciones.id_cliente = clientes.id_cliente
+					INNER JOIN tipos_documentos ON clientes.id_tipo_documento = tipos_documentos.id_tipo_documento
+					INNER JOIN estados_civiles ON clientes.id_estado_civil = estados_civiles.id_estado_civil
+					INNER JOIN usuarios ON cotizaciones.id_usuario = usuarios.id_usuario
+					LEFT JOIN analistas_freelances af ON af.id_usuario = usuarios.usu_documento
+					LEFT JOIN (SELECT 
 					CASE o.Manual
 						WHEN 4 THEN 'Transporte pasajeros'
 						WHEN 3 THEN 'Pesados'
 						WHEN 8 THEN 'Motos'
-						WHEN 9 THEN 'Livianos'
-					END AS modulo_cotizacion, o.id_cotizacion FROM ofertas o GROUP BY o.id_cotizacion) o ON o.id_cotizacion = cotizaciones.id_cotizacion
-					WHERE cot_fch_cotizacion >= :fechaInicial AND cot_fch_cotizacion <= :fechaFinal
-					AND $tabla5.id_Intermediario = :idIntermediario
+						WHEN 9 THEN 'Livianos Familiares'
+						WHEN 2 THEN 'Livianos Utilitarios'
+					END AS modulo_cotizacion, o.id_cotizacion AS ofert_id_coti FROM ofertas o GROUP BY o.id_cotizacion) o ON o.ofert_id_coti = cotizaciones.id_cotizacion
+					WHERE 1 AND cotizaciones.cot_fch_cotizacion BETWEEN :fechaInicial AND :fechaFinal
+					AND usuarios.id_Intermediario = :idIntermediario
 					$condicion
-					ORDER BY cot_fch_cotizacion DESC
+					ORDER BY cotizaciones.cot_fch_cotizacion DESC
 				");
 				$stmt->bindParam(":idIntermediario", $_SESSION["intermediario"], PDO::PARAM_INT);
 			}
@@ -989,14 +995,14 @@ class ModeloCotizaciones
 					INNER JOIN estados_civiles ON clientes.id_estado_civil = estados_civiles.id_estado_civil
 					INNER JOIN usuarios ON cotizaciones.id_usuario = usuarios.id_usuario
 					LEFT JOIN analistas_freelances af ON af.id_usuario = usuarios.usu_documento
-					INNER JOIN (SELECT 
+					LEFT JOIN (SELECT 
 					CASE o.Manual
 						WHEN 4 THEN 'Transporte pasajeros'
 						WHEN 3 THEN 'Pesados'
 						WHEN 8 THEN 'Motos'
 						WHEN 9 THEN 'Livianos Familiares'
 						WHEN 2 THEN 'Livianos Utilitarios'
-					END AS modulo_cotizacion, o.id_cotizacion FROM ofertas o GROUP BY o.id_cotizacion) o ON o.id_cotizacion = cotizaciones.id_cotizacion
+					END AS modulo_cotizacion, o.id_cotizacion AS ofert_id_coti FROM ofertas o GROUP BY o.id_cotizacion) o ON o.ofert_id_coti = cotizaciones.id_cotizacion
 					WHERE 1 AND cotizaciones.cot_fch_cotizacion BETWEEN CURDATE() - INTERVAL 1 MONTH AND CURDATE() + INTERVAL 1 DAY"; // Query base
         foreach ($valores as $campo => $valor) {
             switch ($campo) {
