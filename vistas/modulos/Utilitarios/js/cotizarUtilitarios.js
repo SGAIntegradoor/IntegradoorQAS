@@ -3524,12 +3524,59 @@ function cotizarOfertas() {
                       })
                   );
                 return;
-              }
-              else {
+              } else if (aseguradora === "Solidaria") {
+                  url = `https://grupoasistencia.com/motor_webservice/Solidaria_utilitarios`;
+                  cont.push(
+                    fetch(url, requestOptions)
+                      .then((res) => {
+                        if (!res.ok) throw Error(res.statusText);
+                        return res.json();
+                      })
+                      .then((ofertas) => {
+                        if (typeof ofertas[0].Resultado !== "undefined") {
+                          // cambie variable plan por aseguradora
+                          agregarAseguradoraFallida(aseguradora);
+                          validarProblema(aseguradora, ofertas);
+                          ofertas[0].Mensajes.forEach((mensaje) => {
+                            mostrarAlertarCotizacionFallida(
+                              aseguradora,
+                              mensaje
+                            );
+                          });
+                        } else {
+                          const contadorPorEntidad = validarOfertas(
+                            ofertas,
+                            aseguradora,
+                            1
+                          );
+                          mostrarAlertaCotizacionExitosa(
+                            aseguradora,
+                            contadorPorEntidad
+                          );
+                        }
+                      })
+                      .catch((err) => {
+                        agregarAseguradoraFallida(plan);
+                        mostrarAlertarCotizacionFallida(
+                          aseguradora,
+                          "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
+                        );
+                        validarProblema(aseguradora, [
+                          {
+                            Mensajes: [
+                              "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
+                            ],
+                          },
+                        ]);
+                        console.error(err);
+                      })
+                  );
+                return;
+              } else {
                 url = `https://grupoasistencia.com/motor_webservice/${aseguradora}_autos`;
               }
               // Realizar la solicitud fetch y agregar la promesa al array
-              if (aseguradora == "Previsora" || aseguradora == "Solidaria" || aseguradora == "Estado" || aseguradora == "Bolivar") {
+              if (aseguradora == "Previsora" || aseguradora == "Bolivar") {
                 let message =
                   aseguradora == "Previsora"
                     ? `Solicita cotización manual con tu analista comercial`
@@ -3970,7 +4017,7 @@ function cotizarOfertas() {
         /* Solidaria */
         const solidariaPromise = comprobarFallida("Solidaria")
           ? fetch(
-              "https://grupoasistencia.com/motor_webservice/Solidaria_autos?callback=myCallback",
+              "https://grupoasistencia.com/motor_webservice/Solidaria_utilitarios",
               requestOptions
             )
               .then((res) => {
