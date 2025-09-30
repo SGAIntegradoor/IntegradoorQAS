@@ -24,6 +24,9 @@ if (in_array("dev", $URI)) {
 } else if (in_array("QAS", $URI)) {
 	$server = "52.15.158.65";
 	$bd = "grupoasi_cotizautos_qas";
+} else if (in_array("Pruebas", $URI)) {
+	$server = "52.15.158.65";
+	$bd = "grupoasi_cotizautos_qas";
 } else {
 	$server = "52.15.158.65";
 	$bd = "grupoasi_cotizautos";
@@ -1203,7 +1206,7 @@ $html3 .= '</tr>';
 // CONSULTA RC EN EXCESO, SOLO PESADOS.
 //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
-$html3 .= '<tr>';
+/*$html3 .= '<tr>';
 $html3 .= '<td class="puntos fondo" style="width:25%; text-align: center; font-family:dejavusanscondensedb;"><div style="font-size:3pt">&nbsp;</div><font size="8">Límite máximo (En millones) RCE Exceso</font></td>';
 
 $cont5 = 1;
@@ -1239,10 +1242,10 @@ foreach ($resultados as $resultado) {
 
 $html3 .= '</tr>';
 
-$html3 .= '<tr>';
+$html3 .= '<tr>';*/
 
 
-
+/*
 $html3 .= '<td class="puntos fondo" style="width:25%; text-align: center; font-family:dejavusanscondensedb;"><div style="font-size:3pt">&nbsp;</div><font size="8">Deducible RCE Exceso</font></td>';
 
 $cont5xs = 1;
@@ -1267,7 +1270,7 @@ foreach ($resultados as $resultado) {
 	$cont5xs += 1;
 }
 
-$html3 .= '</tr>';
+$html3 .= '</tr>';*/
 
 //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 //CONSULTA COBERTURAS TOTAL DAÑOS
@@ -1387,6 +1390,10 @@ $html3 .= '</tr>';
 
 
 $html3 .= '</table>';
+
+$html3 .= '<div style="";></div>';
+$html3 .= '<div style="";></div>';
+$html3 .= '<div style="";></div>';
 
 
 
