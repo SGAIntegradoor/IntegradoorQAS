@@ -710,6 +710,22 @@ $(document).ready(function () {
           }
 
           window.open(url, "_blank");
+        } else if (moduloCotizacion[0].Manual == 2) {
+            let url = `extensiones/tcpdf/pdf/comparadorUtilitarios.php?cotizacion=${idCotizacionPDF}`;
+
+            if (checkboxAsesorEditar.is(":checked")) {
+              url += "&generar_pdf=1";
+            }
+
+          window.open(url, "_blank");
+        } else if (moduloCotizacion[0].Manual == 2) {
+            let url = `extensiones/tcpdf/pdf/comparadorUtilitarios.php?cotizacion=${idCotizacionPDF}`;
+
+            if (checkboxAsesorEditar.is(":checked")) {
+              url += "&generar_pdf=1";
+            }
+
+            window.open(url, "_blank");
         } else {
           let url = `extensiones/tcpdf/pdf/comparador${
             manualGeneral == 4 ? "Pasajeros.php" : ".php"
@@ -1286,7 +1302,9 @@ async function renderCards(response) {
         "SURA",
         "Seguros Sura",
         "AXA",
-        "Estado",
+        "Estado",,
+        "Allianz",
+        "Seguros del Estado"
       ];
 
       const planesViajes = [
@@ -1324,10 +1342,12 @@ async function renderCards(response) {
         "Plan Básico",
         "Plan Normal",
         "Plan Full",
-        "Buses",
-        "Genio Pesado",
-        "Conduce Tranquilo Pes",
-        "Utilitario y Pesados",
+        "Herr. Trab Full",
+        "Herr. Trab Integral",
+        "Todo Riesgo",
+        "RCE + Totales",
+        "Sin Hurto",
+        "Comercial"
       ];
 
       var valorRC = isNumeric(oferta.ValorRC);
