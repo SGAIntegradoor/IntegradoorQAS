@@ -585,14 +585,23 @@ echo '<script>window.moduloCotizacion = ' . $jsonCotizaciones . ';</script>';
                         <label for="txtValorFasecolda">Valor Asegurado</label>
                         <input type="text" class="form-control" id="txtValorFasecolda" placeholder="" required>
                       </div>
+                      <?php if ($moduloCotizacion[0]['Manual'] == 2) { ?>
                       <div class="col-xs-12 col-sm-6 col-md-3 form-group" id="divTipoUso">
                         <label for="txtTipoUsoVehiculo">Tipo de Uso</label>
                         <select class="form-control" id="txtTipoUsoVehiculo" required>
                           <option value=""></option>
-                          <option value="Particular" selected>Particular</option>
-                          <option value="Trabajo">Trabajo</option>
+                          <option value="Particular" selected>Particular o publico de uso comercial o de trabajo</option>
                         </select>
                       </div>
+                      <?php } else { ?>
+                      <div class="col-xs-12 col-sm-6 col-md-3 form-group" id="divTipoUso">
+                        <label for="txtTipoUsoVehiculo">Tipo de Uso</label>
+                        <select class="form-control" id="txtTipoUsoVehiculo" required>
+                          <option value=""></option>
+                          <option value="Particular" selected>Particular de uso familiar exclusivo</option>
+                        </select>
+                      </div>
+                      <?php } ?>
                     </div>
 
                     <div class="">
@@ -605,15 +614,24 @@ echo '<script>window.moduloCotizacion = ' . $jsonCotizaciones . ';</script>';
                           <option value="3">Placa Blanca (Servicio Especial)</option>
                         </select>
                       </div>
+                      <?php if ($moduloCotizacion[0]['Manual'] == 2) { ?>
                       <div class="col-xs-12 col-sm-6 col-md-3 form-group" id="divTipoServicio">
                         <label for="txtTipoServicio">Tipo de Servicio</label>
                         <select class="form-control" id="txtTipoServicio" required>
                           <option value=""></option>
                           <option value="14" selected>Particular</option>
-                          <option value="11">Publico Municipal</option>
-                          <option value="12">Publico Intermunicipal</option>
+                          <option value="11">Publico</option>
                         </select>
                       </div>
+                      <?php } else { ?>
+                      <div class="col-xs-12 col-sm-6 col-md-3 form-group" id="divTipoServicio">
+                        <label for="txtTipoServicio">Tipo de Servicio</label>
+                        <select class="form-control" id="txtTipoServicio" required>
+                          <option value=""></option>
+                          <option value="14" selected>Particular</option>
+                        </select>
+                      </div>
+                        <?php } ?>
 
                       <div class="col-xs-12 col-sm-6 col-md-3 form-group" id="divNumeroPasajeros" style="display: none;">
                         <label for="txtNumeroPasajeros">Numero de Pasajeros</label>
