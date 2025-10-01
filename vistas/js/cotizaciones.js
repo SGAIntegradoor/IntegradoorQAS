@@ -1625,6 +1625,9 @@ async function renderCards(response) {
                                     (${
                                       element.cuotas
                                     } Cuotas pólizas sin oneroso)`;
+                                    (${
+                                      element.cuotas
+                                    } Cuotas pólizas sin oneroso)`;
                                     }
                                   }
                                   return "";
@@ -1686,6 +1689,9 @@ async function renderCards(response) {
   
                               <span class="badge">* ${oferta.Grua}</span>
                               ${
+                                aseguradorasViajes.includes(
+                                  nombreAseguradora(oferta.Aseguradora)
+                                ) && planesViajes.includes(oferta.Producto)
                                 aseguradorasViajes.includes(
                                   nombreAseguradora(oferta.Aseguradora)
                                 ) && planesViajes.includes(oferta.Producto)
@@ -1799,7 +1805,11 @@ async function renderCards(response) {
         (oferta.Aseguradora == "Mundial" ||
           oferta.Aseguradora == "Seguros Mundial" ||
           oferta.Aseguradora == "Mundial Seguros") &&
+          oferta.Aseguradora == "Seguros Mundial" ||
+          oferta.Aseguradora == "Mundial Seguros") &&
         oferta.UrlPdf !== null &&
+        aseguradoraPermisos == "1" &&
+        oferta.Producto == "Conduce Tranquilo Pes"
         aseguradoraPermisos == "1" &&
         oferta.Producto == "Conduce Tranquilo Pes"
       ) {
@@ -2473,6 +2483,7 @@ function seleccionarOferta(
   if (document.getElementById(idCheckbox).checked) {
     seleccionar = "Si";
   }
+  console.log("ID CHECKBOX:", idCheckbox);
 
   ofertas.forEach((element) => {
     if (element.seleccionar == "Si" && element.oferta_finesa == id_oferta) {
@@ -2483,7 +2494,10 @@ function seleccionarOferta(
   });
 
   var $input = $("#" + idCheckbox);
-  $input.prop("disabled", true); // deshabilita mientras carga
+
+  // $input.prop("disabled", true); // deshabilita mientras carga
+
+  $(".classSelecOferta").prop("disabled", true); // deshabilita mientras carga
 
   // Crear overlay spinner sobre el input
   var overlay = $(
@@ -2521,21 +2535,27 @@ function seleccionarOferta(
     },
     success: function (data) {
       overlay.remove();
-      $input.prop("disabled", false);
+      $(".classSelecOferta").prop("disabled", false);
     },
     error: function () {
       overlay.remove();
-      $input.prop("disabled", false);
+      $(".classSelecOferta").prop("disabled", false);
       Swal.fire({
         icon: "error",
         title: "Ocurrió un problema",
         text: "No se pudo conectar con la base de datos por problemas de conectividad.",
         confirmButtonText: "Aceptar",
       });
+      if (!document.getElementById(idCheckbox).checked) {
+        console.log("entre porque estaba check");
+        $input.prop("checked", true);
+      } else {
+        console.log("entre porque no estaba check");
+        $input.prop("checked", false);
+      }
     },
   });
 }
-
 
 /*===============================================
 
@@ -3237,6 +3257,42 @@ function selecProductoManual() {
       $.each(data, function (key, item) {
         if (item.aseguradora == "HDI (Antes Liberty)") {
           switch (item.id_asistencias) {
+            case "1389":
+              producto +=
+                "<option value='" +
+                item.id_asistencias +
+                "'>" +
+                item.producto +
+                " Livianos 0 a 150 MM" +
+                "</option>";
+              break;
+            case "1390":
+              producto +=
+                "<option value='" +
+                item.id_asistencias +
+                "'>" +
+                item.producto +
+                " Livianos Mayor a 150 MM" +
+                "</option>";
+              break;
+            case "1392":
+              producto +=
+                "<option value='" +
+                item.id_asistencias +
+                "'>" +
+                item.producto +
+                " Livianos 0 a 150 MM" +
+                "</option>";
+              break;
+            case "1393":
+              producto +=
+                "<option value='" +
+                item.id_asistencias +
+                "'>" +
+                item.producto +
+                " Livianos 150 a 310 MM" +
+                "</option>";
+              break;
             case "134":
               producto +=
                 "<option value='" +
@@ -3634,7 +3690,11 @@ FUNCION PARA AGREGAR COTIZACIONES MANUALES
 function agregarCotizacionManual2() {
   var aseguradora = document.getElementById("aseguradora").value;
 
-  var producto = document.getElementById("producto").value;
+  // el texto de la opcion seleccionada
+  var producto =
+    document.getElementById("producto").options[
+      document.getElementById("producto").selectedIndex
+    ].text;
 
   var numCotizOferta = document.getElementById("numCotizacion").value;
 
@@ -3668,6 +3728,18 @@ function agregarCotizacionManual2() {
     PT = "Cubrimiento al 100% (Hurto)";
 
     PP = "Deducible 10% - 1 SMMLV (Hurto)";
+  }
+
+  if (
+    producto == "Integral 20% Livianos 0 a 150 MM" ||
+    producto == "Integral 20% Livianos Mayor a 150 MM"
+  ) {
+    producto = "Integral 20%";
+  } else if (
+    producto == "Basico + PT Livianos 0 a 150 MM" ||
+    producto == "Basico + PT Livianos 150 a 310 MM"
+  ) {
+    producto = "Basico + PT";
   }
 
   rutaPdf = "";
@@ -4583,6 +4655,7 @@ function cotizarFinesaMotosRetoma(ofertasCotizaciones) {
                 headers: headers,
                 body: JSON.stringify(finesaData),
               }
+            ).then((dbResponse) => dbResponse.json());
             ).then((dbResponse) => dbResponse.json());
           })
       );

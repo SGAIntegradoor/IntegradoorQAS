@@ -41,7 +41,7 @@ if ($_POST['aseguradora'] && $_POST['producto']) {
 
 	$producto = $_POST['producto'];
 
-	if ($aseguradora == "Liberty") {
+	if ($aseguradora == "Liberty" || $aseguradora == "HDI (Antes Liberty)") {
 		$stmt = $DB_con->prepare("SELECT rce, id_asistencias FROM asistencias WHERE aseguradora=:aseguradora AND id_asistencias=:id_asistencias GROUP BY rce ORDER BY id_asistencias");
 
 		$stmt->execute(array(':aseguradora' => $aseguradora, ':id_asistencias' => $producto));

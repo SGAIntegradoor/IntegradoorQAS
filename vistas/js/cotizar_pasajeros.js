@@ -10,7 +10,11 @@ $(document).ready(function () {
 
   if (partes.includes("dev") || partes.includes("DEV")) {
     env = "dev";
-  } else if (partes.includes("QAS") || partes.includes("qas") || partes.includes("Pruebas")) {
+  } else if (
+    partes.includes("QAS") ||
+    partes.includes("qas") ||
+    partes.includes("Pruebas")
+  ) {
     env = "qas";
   } else if (partes.includes("app") || partes.includes("App")) {
     env = "";
@@ -2311,7 +2315,12 @@ const mostrarOferta = (
                                         <div class="col-xs-12 col-sm-6 col-md-2">
                                           <div class="selec-oferta">
                                             <label for="seleccionar">SELECCIONAR</label>&nbsp;&nbsp;
-                                            <input type="checkbox" class="classSelecOferta" name="selecOferta" id="selec${numCotizOferta}${numId}${producto}\" onclick='seleccionarOferta(\"${aseguradora}\", \"${prima}\", \"${producto}\", \"${numCotizOferta}\" \"${actIdentity}\", this);' disabled/>
+                                            <input type="checkbox" 
+                                              class="classSelecOferta" 
+                                              name="selecOferta" 
+                                              id="selec${numCotizOferta}${numId}"
+                                              onclick='seleccionarOferta("${aseguradora}", "${prima}", "${producto}", "${numCotizOferta}", "${actIdentity}", this);' 
+                                              disabled/>
                                           </div>
                                         </div>`;
   if (
@@ -3552,12 +3561,12 @@ function cotizarOfertasPasajeros() {
                 enableInputs(true);
                 //countOfferts();
               } else {
-                 Swal.close();
-                  $("#loaderOferta").html("");
-                  $("#loaderOfertaBox").css("display", "none");
-                  enableInputs(true);
-                  // countOfferts();
-                  /*
+                Swal.close();
+                $("#loaderOferta").html("");
+                $("#loaderOfertaBox").css("display", "none");
+                enableInputs(true);
+                // countOfferts();
+                /*
                 Swal.close();
                 swal
                   .fire({
@@ -3601,7 +3610,8 @@ function cotizarOfertasPasajeros() {
                       }
                     }
                   });
-              */}
+              */
+              }
               document.querySelector(".button-recotizar").style.display =
                 "block";
               /* Se monta el botón para generar el pdf con 
@@ -4136,11 +4146,11 @@ function cotizarOfertasPasajeros() {
               });
               enableInputs(true);
             } else {
-               Swal.close();
-                  $("#loaderOferta").html("");
-                  $("#loaderOfertaBox").css("display", "none");
-                  enableInputs(true);
-                  /*
+              Swal.close();
+              $("#loaderOferta").html("");
+              $("#loaderOfertaBox").css("display", "none");
+              enableInputs(true);
+              /*
               Swal.close();
               swal
                 .fire({
@@ -4188,7 +4198,8 @@ function cotizarOfertasPasajeros() {
                     }
                   }
                 });
-            */}
+            */
+            }
           } else {
             Swal.close();
             swal.fire({

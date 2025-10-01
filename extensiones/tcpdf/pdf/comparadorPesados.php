@@ -82,10 +82,11 @@ foreach ($ofertas_cot as $oferta) {
 }
 
 // :::::::::::::::::::::::Query para imagen logo::::::::::::::::::::::::::.
-$queryLogo = "SELECT urlLogo FROM intermediario  WHERE id_Intermediario = $intermediario";
+$queryLogo = "SELECT urlLogo, intermediario_Fech_Vigen FROM intermediario  WHERE id_Intermediario = $intermediario";
 
 $valorLogo = $conexion->query($queryLogo);
 $valorLogo = mysqli_fetch_array($valorLogo);
+$valorLog = $valorLogo['intermediario_Fech_Vigen'];
 $valorLogo = $valorLogo['urlLogo'];
 
 $porciones = explode(".", $valorLogo);
@@ -388,7 +389,7 @@ $pdf->SetXY(39, 73);
 $pdf->Cell(25, 6, $ciudad, 0, 1, '');
 
 $pdf->SetXY(35, 79);
-$pdf->Cell(25, 6, "15 DIAS A PARTIR DEL " . $fechaVigencia, 0, 1, '');
+$pdf->Cell(25, 6, $valorLog . " PARTIR DEL " . $fechaVigencia, 0, 1, '');
 
 $pdf->SetXY(155, 56);
 $pdf->Cell(25, 6, strtoupper($nomAsesor), 0, 1, '');
