@@ -2456,12 +2456,10 @@ function seleccionarOferta(
   producto,
   numCotizOferta,
   id_oferta,
-  valCheck
+  valCheck,
 ) {
   var idSelecOferta = idCotizacion;
   var placa = document.getElementById("placaVeh").value;
-
-  // Capturamos el Id del Checkbox seleccionado
   var idCheckbox = $(valCheck).attr("id");
   var seleccionar = "";
 
@@ -2476,30 +2474,40 @@ function seleccionarOferta(
       element.seleccionar = seleccionar;
     }
   });
-
   var $input = $("#" + idCheckbox);
-  $input.prop("disabled", true); // deshabilita mientras carga
 
-  // Crear overlay spinner sobre el input
-  var overlay = $(
-    '<div class="input-overlay"><span class="glyphicon glyphicon-refresh spinning"></span></div>'
-  );
+  $(".classSelecOferta").prop("disabled", true); 
+
   $input.after(overlay);
 
-  // Posicionar overlay encima del input
-  overlay.css({
-    position: "absolute",
-    top: $input.position().top,
-    left: $input.position().left,
-    width: $input.outerWidth(),
-    height: $input.outerHeight(),
-    background: "rgba(255,255,255,0.6)",
-    display: "flex",
-    "align-items": "center",
-    "justify-content": "center",
-    "border-radius": "4px",
-    "z-index": 9999,
-  });
+  // Crear overlay spinner sobre el input
+  var offset = $input.offset(); // coordenadas absolutas
+  var overlay = $(
+      '<div class="input-overlay"><span class="glyphicon glyphicon-refresh spinning"></span></div>'
+  );
+    
+  // Insertamos overlay directamente en body
+  $("body").append(overlay);
+    
+    // Posicionar overlay encima del input
+    overlay.css({
+      width: $input.outerWidth() + "px",
+      height: $input.outerHeight() + "px",
+      background: "rgba(255,255,255,0.6)",
+      display: "flex",
+      "align-items": "center",
+      "justify-content": "center",
+      "border-radius": "4px",
+      "z-index": 9999,
+    });
+    
+    if ($input.length !== 0) {
+        overlay.css({
+          position: "absolute",
+          top: offset.top + "px",
+          left: offset.left + "px",
+        })
+    }
 
   $.ajax({
     type: "POST",
@@ -2516,17 +2524,22 @@ function seleccionarOferta(
     },
     success: function (data) {
       overlay.remove();
-      $input.prop("disabled", false);
+      $(".classSelecOferta").prop("disabled", false);
     },
     error: function () {
       overlay.remove();
-      $input.prop("disabled", false);
+      $(".classSelecOferta").prop("disabled", false);
       Swal.fire({
         icon: "error",
         title: "Ocurrió un problema",
         text: "No se pudo conectar con la base de datos por problemas de conectividad.",
         confirmButtonText: "Aceptar",
       });
+      if (!document.getElementById(idCheckbox).checked) {
+        $input.prop("checked", true);
+      } else {
+        $input.prop("checked", false);
+      }
     },
   });
 }
