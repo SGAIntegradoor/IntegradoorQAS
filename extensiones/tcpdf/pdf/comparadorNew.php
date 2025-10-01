@@ -2782,7 +2782,7 @@ foreach ($resultados as $resultado) {
 	$cont25 += 1;
 }
 
-$html4 .= '</tr>';
+$html4 .= '</tr><br>';
 $html4 .= '</table>';
 
 $html8 = '
