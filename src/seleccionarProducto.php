@@ -16,7 +16,7 @@ if ($_POST['aseguradora']) {
 	} else if ($_POST['aseguradora'] == 'Axa Colpatria') {
 		$aseguradora = "Axa Colpatria";
 	} else if ($_POST['aseguradora'] == 'HDI Seguros') {
-		$aseguradora = "HDI";
+		$aseguradora = "HDI (Antes Liberty)";
 	} else if ($_POST['aseguradora'] == 'SBS Seguros') {
 		$aseguradora = "SBS";
 	} else if ($_POST['aseguradora'] == 'Allianz Seguros') {
@@ -39,8 +39,8 @@ if ($_POST['aseguradora']) {
 		$aseguradora = $_POST['aseguradora'];
 	}
 
-	if ($aseguradora == "Liberty") {
-		$stmt = $DB_con->prepare("SELECT aseguradora, producto, id_asistencias, pth, ppd, pph FROM asistencias WHERE aseguradora = :aseguradora ORDER BY id_asistencias");
+	if ($aseguradora == "Liberty" || $aseguradora == "HDI (Antes Liberty)") {
+		$stmt = $DB_con->prepare("SELECT aseguradora, producto, id_asistencias, rce, pth, ppd, pph FROM asistencias WHERE aseguradora = :aseguradora ORDER BY id_asistencias");
 		// var_dump($stmt->queryString);
 		$stmt->execute(array(':aseguradora' => $aseguradora));
 		$data = $stmt->fetchAll(PDO::FETCH_ASSOC);

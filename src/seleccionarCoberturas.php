@@ -55,7 +55,7 @@ if($_POST['aseguradora'] && $_POST['producto'] && $_POST['valorRC']) {
 	$producto = $_POST['producto'];
 	$valorRC = $_POST['valorRC'];
 		
-	if($aseguradora == "Liberty"){
+	if($aseguradora == "Liberty" || $aseguradora == "HDI (Antes Liberty)"){
 		$stmt = $DB_con->prepare("SELECT pth, ppd, Conductorelegido, Grua FROM asistencias WHERE aseguradora=:aseguradora AND id_asistencias =:id_asistencias AND rce=:rce ORDER BY id_asistencias");
 		$stmt->execute(array(':aseguradora' => $aseguradora, ':id_asistencias' => $producto, ':rce' => $valorRC));
 	}else{

@@ -1318,6 +1318,8 @@ async function renderCards(response) {
         "Utilitario y Pesados",
         "Genio Pesado",
         "Conduce Tranquilo Pes",
+        "Integral 20%",
+        "Basico + PT"
       ];
 
       var valorRC = isNumeric(oferta.ValorRC);
@@ -2428,7 +2430,7 @@ function seleccionarOferta(
   producto,
   numCotizOferta,
   id_oferta,
-  valCheck,
+  valCheck
 ) {
   var idSelecOferta = idCotizacion;
   var placa = document.getElementById("placaVeh").value;
@@ -3214,6 +3216,42 @@ function selecProductoManual() {
       $.each(data, function (key, item) {
         if (item.aseguradora == "HDI (Antes Liberty)") {
           switch (item.id_asistencias) {
+            case "1389":
+              producto +=
+                "<option value='" +
+                item.id_asistencias +
+                "'>" +
+                item.producto +
+                " Livianos 0 a 150 MM" +
+                "</option>";
+              break;
+            case "1390":
+              producto +=
+                "<option value='" +
+                item.id_asistencias +
+                "'>" +
+                item.producto +
+                " Livianos Mayor a 150 MM" +
+                "</option>";
+              break;
+            case "1392":
+              producto +=
+                "<option value='" +
+                item.id_asistencias +
+                "'>" +
+                item.producto +
+                " Livianos 0 a 150 MM" +
+                "</option>";
+              break;
+            case "1393":
+              producto +=
+                "<option value='" +
+                item.id_asistencias +
+                "'>" +
+                item.producto +
+                " Livianos 150 a 310 MM" +
+                "</option>";
+              break;
             case "134":
               producto +=
                 "<option value='" +
@@ -3611,7 +3649,11 @@ FUNCION PARA AGREGAR COTIZACIONES MANUALES
 function agregarCotizacionManual2() {
   var aseguradora = document.getElementById("aseguradora").value;
 
-  var producto = document.getElementById("producto").value;
+  // el texto de la opcion seleccionada
+  var producto =
+    document.getElementById("producto").options[
+      document.getElementById("producto").selectedIndex
+    ].text;
 
   var numCotizOferta = document.getElementById("numCotizacion").value;
 
@@ -3645,6 +3687,18 @@ function agregarCotizacionManual2() {
     PT = "Cubrimiento al 100% (Hurto)";
 
     PP = "Deducible 10% - 1 SMMLV (Hurto)";
+  }
+
+  if (
+    producto == "Integral 20% Livianos 0 a 150 MM" ||
+    producto == "Integral 20% Livianos Mayor a 150 MM"
+  ) {
+    producto = "Integral 20%";
+  } else if (
+    producto == "Basico + PT Livianos 0 a 150 MM" ||
+    producto == "Basico + PT Livianos 150 a 310 MM"
+  ) {
+    producto = "Basico + PT";
   }
 
   rutaPdf = "";
