@@ -2,59 +2,24 @@
 
 require_once "config/retrieveQuotation.php";
 
-//ini_set('display_errors', 1);
-//ini_set('display_startup_errors', 1);
-//error_reporting(E_ALL);
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 
-//ini_set('display_errors', 1);
+ini_set('display_errors', 1);
 
 $idIntermediario = $_SESSION['permisos']['id_Intermediario'];
 $idCotizacion = $_GET['idCotizacion'];
 
 $response = retrieveQuotation($idCotizacion);
 
-$stmt = Conexion::conectar()->prepare("
-SELECT
-	o.Aseguradora AS aseguradora,
-	o.oferta_finesa AS objFinesa,
-	o.Producto AS producto,
-	o.Prima AS prima,
-	CASE
-		WHEN o.Manual = 8 THEN
-		CASE
-			WHEN o.Prima BETWEEN 800000 AND 1000000 THEN 7
-			WHEN o.Prima BETWEEN 1000001 AND 2000000 THEN 11
-			WHEN o.Prima BETWEEN 2000001 AND 10000000 THEN 12
-		END
-		ELSE 12
-	END AS cuotas,
-	NULL AS cotizada
-FROM
-	ofertas o
-WHERE o.id_cotizacion = :idCotizacion;
-");
-$stmt->bindParam(":idCotizacion", $idCotizacion, PDO::PARAM_INT);
-$stmt->execute();
-
-$cotizacionesFinesa = $stmt->fetchAll(PDO::FETCH_ASSOC);
-$jsonCotizaciones = json_encode($cotizacionesFinesa, JSON_UNESCAPED_UNICODE);
-echo '<script>window.cotizacionesFinesa = ' . $jsonCotizaciones . ';</script>';
-
-$stmt2 = Conexion::conectar()->prepare("SELECT * FROM ofertas o WHERE o.id_cotizacion = :idCotizacion;");
+$stmt2 = Conexion::conectar()->prepare("SELECT * FROM ofertas o WHERE o.id_cotizacion = :idCotizacion GROUP BY o.id_cotizacion;");
 $stmt2->bindParam(":idCotizacion", $idCotizacion, PDO::PARAM_INT);
 $stmt2->execute();
 
-$resultNewRenderCardsFinesa = $stmt2->fetchAll(PDO::FETCH_ASSOC);
-$jsonCotizaciones = json_encode($resultNewRenderCardsFinesa, JSON_UNESCAPED_UNICODE);
-echo '<script>window.resultNewRenderCardsFinesa = ' . $jsonCotizaciones . ';</script>';
-
-$stmt3 = Conexion::conectar()->prepare("SELECT * FROM cotizaciones_finesa o WHERE o.id_cotizacion = :idCotizacion;");
-$stmt3->bindParam(":idCotizacion", $idCotizacion, PDO::PARAM_INT);
-$stmt3->execute();
-
-$cotiFinesaOferts = $stmt3->fetchAll(PDO::FETCH_ASSOC);
-$jsonCotizaciones = json_encode($cotiFinesaOferts, JSON_UNESCAPED_UNICODE);
-echo '<script>window.cotiFinesaOferts = ' . $jsonCotizaciones . ';</script>';
+$moduloCotizacion = $stmt2->fetchAll(PDO::FETCH_ASSOC);
+$jsonCotizaciones = json_encode($moduloCotizacion, JSON_UNESCAPED_UNICODE);
+echo '<script>window.moduloCotizacion = ' . $jsonCotizaciones . ';</script>';
 
 ?>
 
