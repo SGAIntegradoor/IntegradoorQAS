@@ -266,7 +266,7 @@ body:not(.sidebar-collapse) .sidebar-menu .consultas-sub{
 			echo  '<li class="' . ($currentPage == 'cotizar' || $currentPage == 'livianos' ? 'active' : '') . '">
 				<a id="menuCotLiv" href="cotizar">
 					<i class="fa fa-car"></i>
-					<span>Cotizar Livano Familiar</span>
+					<span>Cotizar Liviano Familiar</span>
 				</a>
 			</li>';
 
@@ -276,7 +276,7 @@ body:not(.sidebar-collapse) .sidebar-menu .consultas-sub{
 			echo  '<li class="' . ($currentPage == 'utilitarios' || $currentPage == 'livianos' ? 'active' : '') . '">
 				<a id="menuCotLiv" href="utilitarios">
 					<i class="fa fa-truck-pickup"></i>
-					<span>Cotizar Livano Utilitario</span>
+					<span>Cotizar Liviano Utilitario</span>
 				</a>
 			</li>';
 			?>

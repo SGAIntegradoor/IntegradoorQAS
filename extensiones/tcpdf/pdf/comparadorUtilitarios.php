@@ -2171,22 +2171,36 @@ foreach ($resultados as $resultado) {
 	$nombreAseguradora = nombreAseguradora($resultado['Aseguradora']);
 	$nombreProducto = productoAseguradora($resultado['Aseguradora'], $resultado['Producto']);
 
-	$queryConsultaAsistencia13 = "SELECT * FROM asistencias WHERE `aseguradora` LIKE '$nombreAseguradora' AND `producto` LIKE '$nombreProducto'";
-	$respuestaqueryAsistencia13 =  $conexion->query($queryConsultaAsistencia13);
-	$rowRespuestaAsistencia13 = mysqli_fetch_assoc($respuestaqueryAsistencia13);
+	$valorCondicion = "";
+
+	if ($nombreProducto == "Herr. Trab Full") {
+		$valorAsegurado = $fila["cot_valor_asegurado"];
+		if ($valorAsegurado <= 150000000) {
+			$valorCondicion = "Hasta $44.000.000 - Deducible: 1 SMMLV";
+		} else {
+			$valorCondicion = "Hasta 44.000.000 - Deducible: 10% min 1 SMMLV";
+		}
+		$queryConsultaAsistencia3 = "SELECT * FROM asistencias WHERE `aseguradora` LIKE '$nombreAseguradora' AND `producto` LIKE '$nombreProducto' AND `ResponsabilidadCivilGeneralFamiliar` LIKE '$valorCondicion'";
+	} else {
+		$queryConsultaAsistencia3 = "SELECT * FROM asistencias WHERE `aseguradora` LIKE '$nombreAseguradora' AND `producto` LIKE '$nombreProducto'";
+	}
+
+	// $queryConsultaAsistencia3 = "SELECT * FROM asistencias WHERE `aseguradora` LIKE '$nombreAseguradora' AND `producto` LIKE '$nombreProducto'";
+	$respuestaqueryAsistencia3 =  $conexion->query($queryConsultaAsistencia3);
+	$rowRespuestaAsistencia3 = mysqli_fetch_assoc($respuestaqueryAsistencia3);
 
 
 	if ($cont17 % 2 == 0) {
-		if ($rowRespuestaAsistencia13['ResponsabilidadCivilGeneralFamiliar'] == "Si ampara") {
+		if ($rowRespuestaAsistencia3['ResponsabilidadCivilGeneralFamiliar'] == "Si ampara") {
 			$html4 .= '<td class="puntos fondo2" style="width:' . $valorTabla . '%;text-align: center;"><div style="font-size:5pt">&nbsp;</div><img style="width:16px;" src="../../../vistas/img/logos/cheque.png" alt=""></td>';
 		} else {
-			$html4 .= '<td class="puntos fondo2" style="width:' . $valorTabla . '%;"><center><div style="font-size:8pt">&nbsp;</div><font size="7"style="text-align: center;font-family:dejavusanscondensed;">' . ($rowRespuestaAsistencia13['ResponsabilidadCivilGeneralFamiliar'] == '' ? 'No cubre' : $rowRespuestaAsistencia13['ResponsabilidadCivilGeneralFamiliar']) . '</font></center></td>';
+			$html4 .= '<td class="puntos fondo2" style="width:' . $valorTabla . '%;"><center><div style="font-size:8pt">&nbsp;</div><font size="7"style="text-align: center;font-family:dejavusanscondensed;">' . ($rowRespuestaAsistencia3['ResponsabilidadCivilGeneralFamiliar'] == '' ? 'No cubre' : $rowRespuestaAsistencia3['ResponsabilidadCivilGeneralFamiliar']) . '</font></center></td>';
 		}
 	} else {
-		if ($rowRespuestaAsistencia13['ResponsabilidadCivilGeneralFamiliar'] == "Si ampara") {
+		if ($rowRespuestaAsistencia3['ResponsabilidadCivilGeneralFamiliar'] == "Si ampara") {
 			$html4 .= '<td class="puntos fondo" style="width:' . $valorTabla . '%;text-align: center;"><div style="font-size:5pt">&nbsp;</div><img style="width:16px;" src="../../../vistas/img/logos/cheque.png" alt=""></td>';
 		} else {
-			$html4 .= '<td class="puntos fondo" style="width:' . $valorTabla . '%;"><center><div style="font-size:8pt">&nbsp;</div><font size="7"style="text-align: center;font-family:dejavusanscondensed;">' . ($rowRespuestaAsistencia13['ResponsabilidadCivilGeneralFamiliar'] == '' ? 'No cubre' : $rowRespuestaAsistencia13['ResponsabilidadCivilGeneralFamiliar']) . '</font></center></td>';
+			$html4 .= '<td class="puntos fondo" style="width:' . $valorTabla . '%;"><center><div style="font-size:8pt">&nbsp;</div><font size="7"style="text-align: center;font-family:dejavusanscondensed;">' . ($rowRespuestaAsistencia3['ResponsabilidadCivilGeneralFamiliar'] == '' ? 'No cubre' : $rowRespuestaAsistencia3['ResponsabilidadCivilGeneralFamiliar']) . '</font></center></td>';
 		}
 	}
 
