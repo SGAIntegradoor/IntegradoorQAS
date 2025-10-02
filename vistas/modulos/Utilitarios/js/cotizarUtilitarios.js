@@ -3460,7 +3460,7 @@ function cotizarOfertas() {
                         }
                       })
                       .catch((err) => {
-                        agregarAseguradoraFallida(plan);
+                        agregarAseguradoraFallida(aseguradora);
                         mostrarAlertarCotizacionFallida(
                           aseguradora,
                           "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
