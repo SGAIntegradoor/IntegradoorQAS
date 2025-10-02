@@ -4115,7 +4115,7 @@ function cotizarOfertas() {
         /* Equidad */
         const equidadPromise = comprobarFallida("Equidad")
           ? fetch(
-              "https://grupoasistencia.com/motor_webservice/Equidad_autos?callback=myCallback",
+              "https://grupoasistencia.com/WS-laravel/api/utilitarios/equidad",
               requestOptions
             )
               .then((res) => {
@@ -4204,10 +4204,10 @@ function cotizarOfertas() {
 
         cont.push(mapfrePromise);
 
-        /* Bolivar */
-        const bolivarPromise = comprobarFallida("Bolivar")
+        /* Estado */
+        const estadoPromise = comprobarFallida("Estado")
           ? fetch(
-              "https://grupoasistencia.com/motor_webservice/Bolivar_autos?callback=myCallback",
+              "https://grupoasistencia.com/motor_webservice/Estado_utilitarios",
               requestOptions
             )
               .then((res) => {
@@ -4216,28 +4216,28 @@ function cotizarOfertas() {
               })
               .then((ofertas) => {
                 if (typeof ofertas[0].Resultado !== "undefined") {
-                  agregarAseguradoraFallida("Bolivar");
-                  validarProblema("Bolivar", ofertas);
+                  agregarAseguradoraFallida("Estado");
+                  validarProblema("Estado", ofertas);
                   ofertas[0].Mensajes.forEach((mensaje) => {
-                    mostrarAlertarCotizacionFallida("Bolivar", mensaje);
+                    mostrarAlertarCotizacionFallida("Estado", mensaje);
                   });
                 } else {
-                  // eliminarAseguradoraFallida('Bolivar');
+                  // eliminarAseguradoraFallida('Estado');
                   const contadorPorEntidad = validarOfertas(
                     ofertas,
-                    "Bolivar",
+                    "Estado",
                     1
                   );
-                  mostrarAlertaCotizacionExitosa("Bolivar", contadorPorEntidad);
+                  mostrarAlertaCotizacionExitosa("Estado", contadorPorEntidad);
                 }
               })
               .catch((err) => {
-                agregarAseguradoraFallida("Bolivar");
+                agregarAseguradoraFallida("Estado");
                 mostrarAlertarCotizacionFallida(
-                  "Bolivar",
+                  "Estado",
                   "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
                 );
-                validarProblema("Bolivar", [
+                validarProblema("Estado", [
                   {
                     Mensajes: [
                       "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
@@ -4248,7 +4248,7 @@ function cotizarOfertas() {
               })
           : Promise.resolve();
 
-        cont.push(bolivarPromise);
+        cont.push(estadoPromise);
 
         /* Qualitas*/
         // /*inicio javier */ const qualitasPromise = comprobarFallida("Qualitas")
