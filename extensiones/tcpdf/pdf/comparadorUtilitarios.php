@@ -843,7 +843,19 @@ if ($rowValidateF >= 1) {
 	$html2 .= '</tr>';
 }
 
-$html2 .= '</table></div>';
+$html2 .= '</table>';
+
+if ($rowValidateF > 0) {
+	
+	$html2 .= '<table cellpadding="0" cellspacing="0">
+					<tr>
+						<td width="1"></td> <!-- margen simulado -->
+						<td width="550"><span style="font-size: 6.2px; color: grey;">*No se permite financiar a 12 cuotas si el vehículo tiene prenda y la póliza beneficiario oneroso; máximo 11 cuotas.</span></td>
+					</tr>
+				</table>';
+}
+
+$html2 .= '</div>';
 
 
 
@@ -2908,12 +2920,13 @@ $pdf->StopTransform();
 
 $pdf->SetXY(10, 262);
 // $pdf->SetY(-45);
-$pdf->SetXY(0, 262);
-$htmlFooter = '<p style="font-size: 6.2px;">Nota: Esta cotización no constituye una oferta comercial. La misma se expide única y exclusivamente con un propósito informativo sobre los posibles costos del seguro y sus condiciones, los cuales serán susceptibles de modificación hasta tanto no se concreten y determinen las características de los respectivos riesgos.</p>';
+$pdf->SetXY(0, 260);
+$htmlFooter = '<p style="font-size: 6.2px;">Nota: Esta cotización no constituye una oferta comercial. La misma se expide única y exclusivamente con un propósito informativo sobre los posibles costos del seguro y sus condiciones, los cuales serán susceptibles de modificación hasta tanto no se concreten y determinen las características de los respectivos riesgos. No
+se permite financiar a 12 cuotas si el vehículo tiene prenda y la póliza beneficiario oneroso; máximo 11 cuotas.</p>';
 $pdf->writeHTML($htmlFooter, true, false, true, true, '');
 $pdf->Ln();
 
-$pdf->SetXY(0, 270);
+$pdf->SetXY(0, 273);
 $htmlFooter = '<p style="font-size: 6.2px; color: red">Importante: Algunas líneas de vehículos en las compañías Allianz, Previsora, Mundial y HDI requieren la instalación de un dispositivo de georreferenciación tipo Cazador. El incumplimiento de esta obligación (garantía) puede conllevar la aplicación de exclusiones a diferentes amparos, la ampliación de los deducibles a cargo del asegurado o incluso la aseguradora no será responsable de indemnizar al asegurado. Consulta con tu asesor si tu vehículo necesita este dispositivo antes de tomar tu póliza.</p>';
 $pdf->writeHTML($htmlFooter, true, false, true, true, '');
 $pdf->Ln();

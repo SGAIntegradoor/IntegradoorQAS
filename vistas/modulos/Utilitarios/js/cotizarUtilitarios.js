@@ -1949,7 +1949,7 @@ function cotizarFinesa(ofertasCotizaciones) {
               });
           })
       );
-      $("#filtersSection").prop("disabled", false);
+      $("#filtersSection").prop("disabled", true); // Filtros siempre deshabilitados para Utilitarios
     } else {
       $("#loaderRecotOferta").html("");
       $("#loaderRecotOfertaBox").css("display", "none");
