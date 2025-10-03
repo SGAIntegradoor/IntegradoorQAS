@@ -3884,7 +3884,7 @@ function cotizarOfertas() {
         });
         countOfferts();
       } else {
-        debugger;
+        // debugger;
         //ZONA RECOTIZACIÓN//
         $("#loaderRecotOferta").html(
           '<img src="vistas/img/plantilla/loader-update.gif" width="34" height="34"><strong> Recotizando Ofertas...</strong>'
@@ -3980,134 +3980,202 @@ function cotizarOfertas() {
           }
         };
 
+        // const mostrarAlertarCotizacionFallida = (aseguradora, mensaje) => {
+        //   if (
+        //     aseguradora == "HDI Seguros" ||
+        //     aseguradora == "HDI FULL" ||
+        //     aseguradora == "INTEGRAL 20" ||
+        //     aseguradora == "BASICO + PT" ||
+        //     aseguradora == "BASICO"
+        //   ) {
+        //     aseguradora = "HDI Seguros";
+        //   }
+
+        //   if (aseguradora == "Mundial_RPA" || aseguradora == "Mundial_RCP") {
+        //     aseguradora = "Mundial";
+        //   }
+
+        //   if (
+        //     aseguradora == "Estado" ||
+        //     aseguradora == "Estado2" ||
+        //     aseguradora == "Estado3"
+        //   ) {
+        //     aseguradora = "Estado";
+        //     // console.log(aseguradora);
+        //     // console.log(mensaje);
+        //     // Referecnia de la tabla
+        //     const tablaResumenCotBody = document.querySelector(
+        //       "#tablaResumenCot tbody"
+        //     );
+        //     // Verificar si ya existe una fila para la aseguradora
+        //     const filaExistente = document.getElementById(aseguradora);
+
+        //     // console.log(filaExistente)
+        //     if (filaExistente) {
+        //       // Si la fila existe, actualiza el mensaje de observaciones
+
+        //       // Acceder directamente a las celdas de la fila existente
+        //       const celdaContador = filaExistente.cells[2]; // Tercera celda de la fila
+        //       const celdaCotizo = filaExistente.cells[1]; // Segunda celda de la fila
+        //       const celdaResponse = filaExistente.cells[3]; // Cuarta celda de la fila
+
+        //       if (celdaResponse.textContent.trim() !== "Cotización exitosa") {
+        //         if (celdaResponse.textContent !== "") {
+        //           celdaCotizo.innerHTML =
+        //             '<i class="fa fa-times" aria-hidden="true" style="color: red; margin-right: 10px;"></i>';
+        //           return;
+        //         } else {
+        //           celdaContador.textContent = 0;
+        //           celdaCotizo.innerHTML =
+        //             '<i class="fa fa-times" aria-hidden="true" style="color: red; margin-right: 10px;"></i>';
+        //           celdaResponse.textContent = mensaje;
+        //         }
+        //       } else {
+        //         celdaCotizo.innerHTML =
+        //           '<i class="fa fa-check" aria-hidden="true" style="color: green; margin-right: 5px;"></i>';
+        //       }
+        //       // Verifica si el mensaje es diferente antes de actualizar
+        //       // if (observacionesActuales !== mensaje) {
+        //       //   celdaObservaciones.textContent = mensaje;
+        //       // } else {
+        //       //   console.log(`${aseguradora} tiene alertas iguales: "${observacionesActuales}" === "${mensaje}"`);
+        //       // }
+        //     } else {
+        //       //console.log(mensaje);
+        //       // Si no existe, crea una nueva fila
+        //       const nuevaFila = document.createElement("tr");
+        //       nuevaFila.setAttribute("data-aseguradora", aseguradora);
+        //       nuevaFila.innerHTML = `
+        //             <td>${aseguradora}</td>
+        //             <td style="text-align: center;"><i class="fa fa-times" aria-hidden="true" style="color: red; margin-right: 10px;"></i></td>
+        //             <td style="text-align: center;">0</td> <!-- Valor predeterminado para 'Productos cotizados' -->
+        //             <td>${mensaje}</td> <!-- Valor predeterminado para 'Observaciones' -->
+        //         `;
+
+        //       // Agregar la fila a la tabla
+        //       tablaResumenCotBody.appendChild(nuevaFila);
+        //     }
+        //   } else {
+        //     // console.log(aseguradora);
+        //     // console.log(mensaje);
+        //     // Referencia de la tabla
+        //     const tablaResumenCotBody = document.querySelector(
+        //       "#tablaResumenCot tbody"
+        //     );
+        //     // V  erificar si ya existe una fila para la aseguradora
+        //     const filaExistente = document.getElementById(aseguradora);
+
+        //     // console.log(filaExistente)
+        //     if (filaExistente) {
+        //       // Si la fila existe, actualiza el mensaje de observaciones
+
+        //       // Acceder directamente a las celdas de la fila existente
+        //       const celdaContador = filaExistente.cells[2]; // Tercera celda de la fila
+        //       const celdaCotizo = filaExistente.cells[1]; // Segunda celda de la fila
+        //       const celdaResponse = filaExistente.cells[3]; // Cuarta celda de la fila
+
+        //       if (celdaResponse.textContent.trim() !== "Cotización exitosa") {
+        //         celdaContador.textContent = 0;
+        //         celdaCotizo.innerHTML =
+        //           '<i class="fa fa-times" aria-hidden="true" style="color: red; margin-right: 10px;"></i>';
+        //         celdaResponse.textContent = mensaje;
+        //       } else {
+        //         celdaCotizo.innerHTML =
+        //           '<i class="fa fa-check" aria-hidden="true" style="color: green; margin-right: 5px;"></i>';
+        //       }
+        //       // Verifica si el mensaje es diferente antes de actualizar
+        //       // if (observacionesActuales !== mensaje) {
+        //       //   celdaObservaciones.textContent = mensaje;
+        //       // } else {
+        //       //   console.log(`${aseguradora} tiene alertas iguales: "${observacionesActuales}" === "${mensaje}"`);
+        //       // }
+        //     } else {
+        //       // Si no existe, crea una nueva fila
+        //       const nuevaFila = document.createElement("tr");
+        //       nuevaFila.setAttribute("data-aseguradora", aseguradora);
+        //       nuevaFila.innerHTML = `
+        //               <td>${aseguradora}</td>
+        //               <td style="text-align: center;"><i class="fa fa-times" aria-hidden="true" style="color: red; margin-right: 10px;"></i></td>
+        //               <td style="text-align: center;">0</td> <!-- Valor predeterminado para 'Productos cotizados' -->
+        //               <td>${mensaje}</td> <!-- Valor predeterminado para 'Observaciones' -->
+        //           `;
+
+        //       // Agregar la fila a la tabla
+        //       tablaResumenCotBody.appendChild(nuevaFila);
+        //     }
+        //   }
+        // };
+
         const mostrarAlertarCotizacionFallida = (aseguradora, mensaje) => {
+          // Normalización de nombres
           if (
-            aseguradora == "HDI Seguros" ||
-            aseguradora == "HDI FULL" ||
-            aseguradora == "INTEGRAL 20" ||
-            aseguradora == "BASICO + PT" ||
-            aseguradora == "BASICO"
+            [
+              "HDI Seguros",
+              "HDI FULL",
+              "INTEGRAL 20",
+              "BASICO + PT",
+              "BASICO",
+            ].includes(aseguradora)
           ) {
             aseguradora = "HDI Seguros";
-            // debugger;
           }
 
-          if (aseguradora == "Mundial_RPA" || aseguradora == "Mundial_RCP") {
+          if (["Mundial_RPA", "Mundial_RCP"].includes(aseguradora)) {
             aseguradora = "Mundial";
           }
 
-          if (
-            aseguradora == "Estado" ||
-            aseguradora == "Estado2" ||
-            aseguradora == "Estado3"
-          ) {
+          if (["Estado", "Estado2", "Estado3"].includes(aseguradora)) {
             aseguradora = "Estado";
-            // console.log(aseguradora);
-            // console.log(mensaje);
-            // Referecnia de la tabla
-            const tablaResumenCotBody = document.querySelector(
-              "#tablaResumenCot tbody"
-            );
-            // Verificar si ya existe una fila para la aseguradora
-            const filaExistente = document.getElementById(aseguradora);
+          }
 
-            // console.log(filaExistente)
-            if (filaExistente) {
-              // Si la fila existe, actualiza el mensaje de observaciones
+          // Referencia a la tabla
+          const tablaResumenCotBody = document.querySelector(
+            "#tablaResumenCot tbody"
+          );
+          const filaExistente = document.getElementById(aseguradora);
 
-              // Acceder directamente a las celdas de la fila existente
-              const celdaContador = filaExistente.cells[2]; // Tercera celda de la fila
-              const celdaCotizo = filaExistente.cells[1]; // Segunda celda de la fila
-              const celdaResponse = filaExistente.cells[3]; // Cuarta celda de la fila
+          if (filaExistente) {
+            // Actualizar fila existente
+            const celdaContador = filaExistente.cells[2]; // Tercera celda
+            const celdaCotizo = filaExistente.cells[1]; // Segunda celda
+            const celdaResponse = filaExistente.cells[3]; // Cuarta celda
 
-              if (celdaResponse.textContent.trim() !== "Cotización exitosa") {
-                if (celdaResponse.textContent !== "") {
-                  celdaCotizo.innerHTML =
-                    '<i class="fa fa-times" aria-hidden="true" style="color: red; margin-right: 10px;"></i>';
-                  return;
-                } else {
-                  celdaContador.textContent = 0;
-                  celdaCotizo.innerHTML =
-                    '<i class="fa fa-times" aria-hidden="true" style="color: red; margin-right: 10px;"></i>';
-                  celdaResponse.textContent = mensaje;
-                }
-              } else {
+            if (celdaResponse.textContent.trim() !== "Cotización exitosa") {
+              if (celdaResponse.textContent !== "") {
+                // Ya tenía mensaje → solo mostrar ❌
                 celdaCotizo.innerHTML =
-                  '<i class="fa fa-check" aria-hidden="true" style="color: green; margin-right: 5px;"></i>';
-              }
-              // Verifica si el mensaje es diferente antes de actualizar
-              // if (observacionesActuales !== mensaje) {
-              //   celdaObservaciones.textContent = mensaje;
-              // } else {
-              //   console.log(`${aseguradora} tiene alertas iguales: "${observacionesActuales}" === "${mensaje}"`);
-              // }
-            } else {
-              //console.log(mensaje);
-              // Si no existe, crea una nueva fila
-              const nuevaFila = document.createElement("tr");
-              nuevaFila.setAttribute("data-aseguradora", aseguradora);
-              nuevaFila.innerHTML = `
-                    <td>${aseguradora}</td>
-                    <td style="text-align: center;"><i class="fa fa-times" aria-hidden="true" style="color: red; margin-right: 10px;"></i></td>
-                    <td style="text-align: center;">0</td> <!-- Valor predeterminado para 'Productos cotizados' -->
-                    <td>${mensaje}</td> <!-- Valor predeterminado para 'Observaciones' -->
-                `;
-
-              // Agregar la fila a la tabla
-              tablaResumenCotBody.appendChild(nuevaFila);
-            }
-          } else {
-            // console.log(aseguradora);
-            // console.log(mensaje);
-            // Referencia de la tabla
-            const tablaResumenCotBody = document.querySelector(
-              "#tablaResumenCot tbody"
-            );
-            // V  erificar si ya existe una fila para la aseguradora
-            const filaExistente = document.getElementById(aseguradora);
-
-            // console.log(filaExistente)
-            if (filaExistente) {
-              // Si la fila existe, actualiza el mensaje de observaciones
-
-              // Acceder directamente a las celdas de la fila existente
-              const celdaContador = filaExistente.cells[2]; // Tercera celda de la fila
-              const celdaCotizo = filaExistente.cells[1]; // Segunda celda de la fila
-              const celdaResponse = filaExistente.cells[3]; // Cuarta celda de la fila
-
-              if (celdaResponse.textContent.trim() !== "Cotización exitosa") {
+                  '<i class="fa fa-times" aria-hidden="true" style="color: red; margin-right: 10px;"></i>';
+                return;
+              } else {
+                // No tenía mensaje → setear error
                 celdaContador.textContent = 0;
                 celdaCotizo.innerHTML =
                   '<i class="fa fa-times" aria-hidden="true" style="color: red; margin-right: 10px;"></i>';
                 celdaResponse.textContent = mensaje;
-              } else {
-                celdaCotizo.innerHTML =
-                  '<i class="fa fa-check" aria-hidden="true" style="color: green; margin-right: 5px;"></i>';
               }
-              // Verifica si el mensaje es diferente antes de actualizar
-              // if (observacionesActuales !== mensaje) {
-              //   celdaObservaciones.textContent = mensaje;
-              // } else {
-              //   console.log(`${aseguradora} tiene alertas iguales: "${observacionesActuales}" === "${mensaje}"`);
-              // }
             } else {
-              // Si no existe, crea una nueva fila
-              const nuevaFila = document.createElement("tr");
-              nuevaFila.setAttribute("data-aseguradora", aseguradora);
-              nuevaFila.innerHTML = `
-                      <td>${aseguradora}</td>
-                      <td style="text-align: center;"><i class="fa fa-times" aria-hidden="true" style="color: red; margin-right: 10px;"></i></td>
-                      <td style="text-align: center;">0</td> <!-- Valor predeterminado para 'Productos cotizados' -->
-                      <td>${mensaje}</td> <!-- Valor predeterminado para 'Observaciones' -->
-                  `;
-
-              // Agregar la fila a la tabla
-              tablaResumenCotBody.appendChild(nuevaFila);
+              // Ya tenía exitosa → check verde
+              celdaCotizo.innerHTML =
+                '<i class="fa fa-check" aria-hidden="true" style="color: green; margin-right: 5px;"></i>';
             }
+          } else {
+            // Crear nueva fila
+            const nuevaFila = document.createElement("tr");
+            nuevaFila.id = aseguradora; // importante para encontrarla luego
+            nuevaFila.setAttribute("data-aseguradora", aseguradora);
+            nuevaFila.innerHTML = `
+            <td>${aseguradora}</td>
+            <td style="text-align: center;">
+              <i class="fa fa-times" aria-hidden="true" style="color: red; margin-right: 10px;"></i>
+            </td>
+            <td style="text-align: center;">0</td>
+            <td>${mensaje}</td>
+          `;
+            tablaResumenCotBody.appendChild(nuevaFila);
           }
         };
+
         aseguradorasFallidas.forEach((aseguradora) => {
-          debugger;
           if (
             aseguradora == "BASIC" ||
             aseguradora == "MEDIUM" ||
