@@ -56,11 +56,14 @@ $cotiFinesaOferts = $stmt3->fetchAll(PDO::FETCH_ASSOC);
 $jsonCotizaciones = json_encode($cotiFinesaOferts, JSON_UNESCAPED_UNICODE);
 echo '<script>window.cotiFinesaOferts = ' . $jsonCotizaciones . ';</script>';
 
-$moduloCotizacion = $stmt2->fetchAll(PDO::FETCH_ASSOC);
+$stmt4 = Conexion::conectar()->prepare("SELECT * FROM ofertas o WHERE o.id_cotizacion = :idCotizacion;");
+$stmt4->bindParam(":idCotizacion", $idCotizacion, PDO::PARAM_INT);
+$stmt4->execute();
+$moduloCotizacion = $stmt4->fetchAll(PDO::FETCH_ASSOC);
 $jsonCotizaciones = json_encode($moduloCotizacion, JSON_UNESCAPED_UNICODE);
 echo '<script>window.moduloCotizacion = ' . $jsonCotizaciones . ';</script>';
 
-$stmt = $stmt2 = $stmt3 = null;
+$stmt = $stmt2 = $stmt3 = $stmt4 = null;
 
 ?>
 
