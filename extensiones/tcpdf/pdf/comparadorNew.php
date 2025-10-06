@@ -3197,11 +3197,11 @@ foreach ($resultados as $resultado) {
 $html8 .= '</tr>';
 
 //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-//Pequeños Accesorios
+//Asistencia Juridica Civil
 //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
 $html8 .= '<tr>';
-$html8 .= '<td class="fondo puntos" style="width:10%;"><font size="8" style="font-family:dejavusanscondensedb; text-align: center;">Pequeños Accesorios</font></td>';
+$html8 .= '<td class="fondo puntos" style="width:10%;"><font size="8" style="font-family:dejavusanscondensedb; text-align: center;">Asistencia jurídica civil</font></td>';
 
 $cont25 = 1;
 foreach ($resultados as $resultado) {
@@ -3225,16 +3225,16 @@ foreach ($resultados as $resultado) {
 	$rowRespuestaAsistencia20 = mysqli_fetch_assoc($respuestaqueryAsistencia2O);
 
 	if ($cont25 % 2 != 0) {
-		if ($rowRespuestaAsistencia20['Pequeniosaccesorios'] == "Si ampara") {
+		if ($rowRespuestaAsistencia20['AsistenciaJuridicaCivil'] == "Si ampara") {
 			$html8 .= '<td class="puntos fondo2" style="width:' . $valorTabla . '%;text-align: center;"><div style="font-size:4pt">&nbsp;</div><img style="width:16px;" src="../../../vistas/img/logos/cheque.png" alt=""></td>';
 		} else {
-			$html8 .= '<td class="puntos fondo2" style="width:' . $valorTabla . '%;"><center><div style="font-size:4pt">&nbsp;</div><font size="7"style="text-align: center; font-family:dejavusanscondensed;">' . $rowRespuestaAsistencia20['Pequeniosaccesorios'] . '</font></center></td>';
+			$html8 .= '<td class="puntos fondo2" style="width:' . $valorTabla . '%;"><center><div style="font-size:4pt">&nbsp;</div><font size="7"style="text-align: center; font-family:dejavusanscondensed;">' . $rowRespuestaAsistencia20['AsistenciaJuridicaCivil'] . '</font></center></td>';
 		}
 	} else {
-		if ($rowRespuestaAsistencia20['Pequeniosaccesorios'] == "Si ampara") {
+		if ($rowRespuestaAsistencia20['AsistenciaJuridicaCivil'] == "Si ampara") {
 			$html8 .= '<td class="puntos fondo" style="width:' . $valorTabla . '%;text-align: center;"><div style="font-size:4pt">&nbsp;</div><img style="width:16px;" src="../../../vistas/img/logos/cheque.png" alt=""></td>';
 		} else {
-			$html8 .= '<td class="puntos fondo" style="width:' . $valorTabla . '%;"><center><div style="font-size:4pt">&nbsp;</div><font size="7"style="text-align: center; font-family:dejavusanscondensed;">' . $rowRespuestaAsistencia20['Pequeniosaccesorios'] . '</font></center></td>';
+			$html8 .= '<td class="puntos fondo" style="width:' . $valorTabla . '%;"><center><div style="font-size:4pt">&nbsp;</div><font size="7"style="text-align: center; font-family:dejavusanscondensed;">' . $rowRespuestaAsistencia20['AsistenciaJuridicaCivil'] . '</font></center></td>';
 		}
 	}
 
