@@ -1419,7 +1419,7 @@ foreach ($resultados as $resultado) {
 	if ($nombreProducto == "Basico + PT") {
 		$valorAsegurado = $fila["cot_valor_asegurado"];
 		if ($valorAsegurado <= 150000000) {
-			$valorCondicion = "Deducible: 1 SMMLV";
+			$valorCondicion = "1 SMMLV";
 		} else {
 			$valorCondicion = "Deducible: 10% MIN 1 SMMLV";
 		}
@@ -1496,7 +1496,7 @@ foreach ($resultados as $resultado) {
 	if ($nombreProducto == "Basico + PT") {
 		$valorAsegurado = $fila["cot_valor_asegurado"];
 		if ($valorAsegurado <= 150000000) {
-			$valorCondicion = "Deducible: 1 SMMLV";
+			$valorCondicion = "1 SMMLV";
 		} else {
 			$valorCondicion = "Deducible: 10% MIN 1 SMMLV";
 		}
@@ -1874,7 +1874,7 @@ foreach ($resultados as $resultado) {
 	if ($nombreProducto == "Basico + PT") {
 		$valorAsegurado = $fila["cot_valor_asegurado"];
 		if ($valorAsegurado <= 150000000) {
-			$valorCondicion = "Deducible: 1 SMMLV";
+			$valorCondicion = "1 SMMLV";
 		} else {
 			$valorCondicion = "Deducible: 10% MIN 1 SMMLV";
 		}
@@ -1936,7 +1936,7 @@ foreach ($resultados as $resultado) {
 	if ($nombreProducto == "Basico + PT") {
 		$valorAsegurado = $fila["cot_valor_asegurado"];
 		if ($valorAsegurado <= 150000000) {
-			$valorCondicion = "Deducible: 1 SMMLV";
+			$valorCondicion = "1 SMMLV";
 		} else {
 			$valorCondicion = "Deducible: 10% MIN 1 SMMLV";
 		}
@@ -2000,7 +2000,7 @@ foreach ($resultados as $resultado) {
 	if ($nombreProducto == "Basico + PT") {
 		$valorAsegurado = $fila["cot_valor_asegurado"];
 		if ($valorAsegurado <= 150000000) {
-			$valorCondicion = "Deducible: 1 SMMLV";
+			$valorCondicion = "1 SMMLV";
 		} else {
 			$valorCondicion = "Deducible: 10% MIN 1 SMMLV";
 		}
@@ -2064,7 +2064,7 @@ foreach ($resultados as $resultado) {
 	if ($nombreProducto == "Basico + PT") {
 		$valorAsegurado = $fila["cot_valor_asegurado"];
 		if ($valorAsegurado <= 150000000) {
-			$valorCondicion = "Deducible: 1 SMMLV";
+			$valorCondicion = "1 SMMLV";
 		} else {
 			$valorCondicion = "Deducible: 10% MIN 1 SMMLV";
 		}
@@ -2131,7 +2131,7 @@ foreach ($resultados as $resultado) {
 	if ($nombreProducto == "Basico + PT") {
 		$valorAsegurado = $fila["cot_valor_asegurado"];
 		if ($valorAsegurado <= 150000000) {
-			$valorCondicion = "Deducible: 1 SMMLV";
+			$valorCondicion = "1 SMMLV";
 		} else {
 			$valorCondicion = "Deducible: 10% MIN 1 SMMLV";
 		}
@@ -2190,7 +2190,7 @@ foreach ($resultados as $resultado) {
 	if ($nombreProducto == "Basico + PT") {
 		$valorAsegurado = $fila["cot_valor_asegurado"];
 		if ($valorAsegurado <= 150000000) {
-			$valorCondicion = "Deducible: 1 SMMLV";
+			$valorCondicion = "1 SMMLV";
 		} else {
 			$valorCondicion = "Deducible: 10% MIN 1 SMMLV";
 		}
@@ -2254,7 +2254,7 @@ foreach ($resultados as $resultado) {
 	if ($nombreProducto == "Basico + PT") {
 		$valorAsegurado = $fila["cot_valor_asegurado"];
 		if ($valorAsegurado <= 150000000) {
-			$valorCondicion = "Deducible: 1 SMMLV";
+			$valorCondicion = "1 SMMLV";
 		} else {
 			$valorCondicion = "Deducible: 10% MIN 1 SMMLV";
 		}
@@ -2318,7 +2318,7 @@ foreach ($resultados as $resultado) {
 	if ($nombreProducto == "Basico + PT") {
 		$valorAsegurado = $fila["cot_valor_asegurado"];
 		if ($valorAsegurado <= 150000000) {
-			$valorCondicion = "Deducible: 1 SMMLV";
+			$valorCondicion = "1 SMMLV";
 		} else {
 			$valorCondicion = "Deducible: 10% MIN 1 SMMLV";
 		}
@@ -2368,7 +2368,7 @@ foreach ($resultados as $resultado) {
 	if ($nombreProducto == "Basico + PT") {
 		$valorAsegurado = $fila["cot_valor_asegurado"];
 		if ($valorAsegurado <= 150000000) {
-			$valorCondicion = "Deducible: 1 SMMLV";
+			$valorCondicion = "1 SMMLV";
 		} else {
 			$valorCondicion = "Deducible: 10% MIN 1 SMMLV";
 		}
@@ -2415,7 +2415,7 @@ foreach ($resultados as $resultado) {
 	if ($nombreProducto == "Basico + PT") {
 		$valorAsegurado = $fila["cot_valor_asegurado"];
 		if ($valorAsegurado <= 150000000) {
-			$valorCondicion = "Deducible: 1 SMMLV";
+			$valorCondicion = "1 SMMLV";
 		} else {
 			$valorCondicion = "Deducible: 10% MIN 1 SMMLV";
 		}
@@ -2464,7 +2464,7 @@ foreach ($resultados as $resultado) {
 	if ($nombreProducto == "Basico + PT") {
 		$valorAsegurado = $fila["cot_valor_asegurado"];
 		if ($valorAsegurado <= 150000000) {
-			$valorCondicion = "Deducible: 1 SMMLV";
+			$valorCondicion = "1 SMMLV";
 		} else {
 			$valorCondicion = "Deducible: 10% MIN 1 SMMLV";
 		}
@@ -2512,7 +2512,7 @@ foreach ($resultados as $resultado) {
 	if ($nombreProducto == "Basico + PT") {
 		$valorAsegurado = $fila["cot_valor_asegurado"];
 		if ($valorAsegurado <= 150000000) {
-			$valorCondicion = "Deducible: 1 SMMLV";
+			$valorCondicion = "1 SMMLV";
 		} else {
 			$valorCondicion = "Deducible: 10% MIN 1 SMMLV";
 		}
@@ -2560,7 +2560,7 @@ foreach ($resultados as $resultado) {
 	if ($nombreProducto == "Basico + PT") {
 		$valorAsegurado = $fila["cot_valor_asegurado"];
 		if ($valorAsegurado <= 150000000) {
-			$valorCondicion = "Deducible: 1 SMMLV";
+			$valorCondicion = "1 SMMLV";
 		} else {
 			$valorCondicion = "Deducible: 10% MIN 1 SMMLV";
 		}
@@ -2608,7 +2608,7 @@ foreach ($resultados as $resultado) {
 	if ($nombreProducto == "Basico + PT") {
 		$valorAsegurado = $fila["cot_valor_asegurado"];
 		if ($valorAsegurado <= 150000000) {
-			$valorCondicion = "Deducible: 1 SMMLV";
+			$valorCondicion = "1 SMMLV";
 		} else {
 			$valorCondicion = "Deducible: 10% MIN 1 SMMLV";
 		}
