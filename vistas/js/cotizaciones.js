@@ -2432,15 +2432,12 @@ function seleccionarOferta(
 ) {
   var idSelecOferta = idCotizacion;
   var placa = document.getElementById("placaVeh").value;
-
-  // Capturamos el Id del Checkbox seleccionado
   var idCheckbox = $(valCheck).attr("id");
   var seleccionar = "";
 
   if (document.getElementById(idCheckbox).checked) {
     seleccionar = "Si";
   }
-  console.log("ID CHECKBOX:", idCheckbox);
 
   ofertas.forEach((element) => {
     if (element.seleccionar == "Si" && element.oferta_finesa == id_oferta) {
@@ -2449,33 +2446,40 @@ function seleccionarOferta(
       element.seleccionar = seleccionar;
     }
   });
-
   var $input = $("#" + idCheckbox);
 
-  // $input.prop("disabled", true); // deshabilita mientras carga
+  $(".classSelecOferta").prop("disabled", true); 
 
-  $(".classSelecOferta").prop("disabled", true); // deshabilita mientras carga
-
-  // Crear overlay spinner sobre el input
-  var overlay = $(
-    '<div class="input-overlay"><span class="glyphicon glyphicon-refresh spinning"></span></div>'
-  );
   $input.after(overlay);
 
-  // Posicionar overlay encima del input
-  overlay.css({
-    position: "absolute",
-    top: $input.position().top,
-    left: $input.position().left,
-    width: $input.outerWidth(),
-    height: $input.outerHeight(),
-    background: "rgba(255,255,255,0.6)",
-    display: "flex",
-    "align-items": "center",
-    "justify-content": "center",
-    "border-radius": "4px",
-    "z-index": 9999,
-  });
+  // Crear overlay spinner sobre el input
+  var offset = $input.offset(); // coordenadas absolutas
+  var overlay = $(
+      '<div class="input-overlay"><span class="glyphicon glyphicon-refresh spinning"></span></div>'
+  );
+    
+  // Insertamos overlay directamente en body
+  $("body").append(overlay);
+    
+    // Posicionar overlay encima del input
+    overlay.css({
+      width: $input.outerWidth() + "px",
+      height: $input.outerHeight() + "px",
+      background: "rgba(255,255,255,0.6)",
+      display: "flex",
+      "align-items": "center",
+      "justify-content": "center",
+      "border-radius": "4px",
+      "z-index": 9999,
+    });
+    
+    if ($input.length !== 0) {
+        overlay.css({
+          position: "absolute",
+          top: offset.top + "px",
+          left: offset.left + "px",
+        })
+    }
 
   $.ajax({
     type: "POST",
@@ -2504,10 +2508,8 @@ function seleccionarOferta(
         confirmButtonText: "Aceptar",
       });
       if (!document.getElementById(idCheckbox).checked) {
-        console.log("entre porque estaba check");
         $input.prop("checked", true);
       } else {
-        console.log("entre porque no estaba check");
         $input.prop("checked", false);
       }
     },
