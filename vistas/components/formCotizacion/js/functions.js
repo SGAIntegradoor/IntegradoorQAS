@@ -2719,7 +2719,15 @@ $("#btnCotizarSBS, #btnCotizar").click(function () {
       }
     }
 
-    cotizar(rawCompiled);
+    // cotizar(rawCompiled);
+    setBlankInputs();
+    if (!validarMascotasSeleccionado()) {
+      return;
+    } else {
+      saveQuotation();
+      // Luego de salvar la cotizacion en: cotizaciones_hogar, enviar el correo -> mostrar alerta de exito o error -> volver a la pantalla principal de hogar.
+    }
+    debugger;
   } else {
     Swal.fire({
       icon: "error",

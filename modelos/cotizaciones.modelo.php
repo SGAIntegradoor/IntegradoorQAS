@@ -1006,7 +1006,7 @@ class ModeloCotizaciones
 				*
 				FROM 
 					$tabla c
-				INNER JOIN 
+				LEFT JOIN 
 					$tabla2 o ON o.id_cotizacion = c.id
 				INNER JOIN 
 					$tabla3 cli ON cli.id_cliente = c.id_cliente
