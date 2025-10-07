@@ -40,18 +40,16 @@
         <tr>
 
           <th style="font-weight: bold; text-align: center;">N°</th>
-          <th style="font-weight: bold; text-align: center;">FechaCot</th>
+          <th style="font-weight: bold; text-align: center;">FechaSoli</th>
           <th style="font-weight: bold; text-align: center;">Tipo Documento</th>
           <th style="font-weight: bold; text-align: center;">No. Documento</th>
-          <th style="font-weight: bold; text-align: center;">Nombre Tomador</th>
-          <th style="font-weight: bold; text-align: center;">Dirección</th>
-          <th style="font-weight: bold; text-align: center;">Tipo de Vivienda</th>
-          <th style="font-weight: bold; text-align: center;">Año de Construcción</th>
-          <th style="font-weight: bold; text-align: center;">Credito Hip.</th>
+          <th style="font-weight: bold; text-align: center;">Nombre Asegurado</th>
+          <th style="font-weight: bold; text-align: center;">Categoria</th>
+          <th style="font-weight: bold; text-align: center;">Tipo de Asegurado</th>
+          <th style="font-weight: bold; text-align: center;">Zona Vivienda</th>
+          <th style="font-weight: bold; text-align: center;">Analista</th>
           <th style="font-weight: bold; text-align: center;">Asesor</th>
           <th style="font-weight: bold; text-align: center;">Estado</th>
-          <th style="font-weight: bold; text-align: center;">Acción</th>
-          <!-- <th style="font-weight: bold; text-align: center;">Acciones</th> -->
 
         </tr>
 
@@ -92,13 +90,17 @@
                     <td class="text-center" style="font-size: 14px; text-align: center;">' . $tipoDocumento[(int)$value['id_tipo_documento']] . '</td>
                     <td class="text-center" style="font-size: 14px; text-align: center;">' . $value['cli_num_documento'] . '</td>
                     <td class="text-center" style="font-size: 14px; text-align: center;">' . $value['cli_nombre'] . ' ' . $value['cli_apellidos'] . '</td>
-                    <td class="text-center" style="font-size: 14px; text-align: center;">' . $value['direccion'] . '</td>
                     <td class="text-center" style="font-size: 14px; text-align: center;">' . $tipoVivienda[(int)$value['tipo_vivienda']] . '</td>
                     <td class="text-center" style="font-size: 14px; text-align: center;">' . $value['anio_construccion'] . '</td>
                     <td class="text-center" style="font-size: 14px; text-align: center;">' . $value['credito'] . '</td>
-                    <td class="text-center" style="font-size: 14px; text-align: center;">' . $value['usu_nombre'] . ' ' . $value['usu_apellido'] . '</td>
-                    <td class="text-center" style="font-size: 14px; text-align: center;">' . $value['estado'] . '</td>
-                    <td class="text-center"><div class="btn-group"><button class="btn btn-primary btnEditarEstadoHogar" idCotizacionHogar="' . $value["id_hogar"] . '"><li class="fa fa-pencil"></li></button>';
+                    <td class="text-center" style="font-size: 14px; text-align: center;">' . $value['usu_nombre'] . ' ' . $value['usu_apellido'] . '</td>';
+                    if ($value["estado"] == 'Pendiente') {
+                      echo '<td><button class="btn btn-success btn-xs btnActivar" btnEditarEstadoHogar="' . $value["id_hogar"] . '" estadoUsuario="Pendiente">Activo</button></td>';
+                    } else {
+                        echo '<td><button class="btn btn-danger btn-xs btnActivar" btnEditarEstadoHogar="' . $value["id_hogar"] . '" estadoUsuario="Cotizado">Bloqueado</button></td>';
+                      }
+                    // <td class="text-center" style="font-size: 14px; text-align: center;">' . $value['estado'] . '</td>
+                    // <td class="text-center"><div class="btn-group"><button class="btn btn-primary btnEditarEstadoHogar" idCotizacionHogar="' . $value["id_hogar"] . '"><li class="fa fa-pencil"></li></button>
                     // <td class="text-center">
                     //     <div class="btn-group">
                     //         <button class="btn btn-primary btnEditarCotizacionHogar" idCotizacionHogar="' . $value["id_hogar"] . '">Seleccionar</button>';
