@@ -49,7 +49,9 @@
           <th style="font-weight: bold; text-align: center;">Año de Construcción</th>
           <th style="font-weight: bold; text-align: center;">Credito Hip.</th>
           <th style="font-weight: bold; text-align: center;">Asesor</th>
-          <th style="font-weight: bold; text-align: center;">Acciones</th>
+          <th style="font-weight: bold; text-align: center;">Estado</th>
+          <th style="font-weight: bold; text-align: center;">Acción</th>
+          <!-- <th style="font-weight: bold; text-align: center;">Acciones</th> -->
 
         </tr>
 
@@ -85,7 +87,7 @@
         foreach ($respuesta as $key => $value) {
           //   <td class="text-center" style="font-size: 14px">' . date('Y/m/d', strtotime($value['fch_nacimiento'])) . '</td>
           echo '<tr>
-                    <td class="text-center" style="font-size: 14px; text-align: center;">' . $value['id'] . '</td>
+                    <td class="text-center" style="font-size: 14px; text-align: center;">' . $value['id_hogar'] . '</td>
                     <td class="text-center" style="font-size: 14px; text-align: center;">' . $value['fecha_cotizacion'] . '</td>
                     <td class="text-center" style="font-size: 14px; text-align: center;">' . $tipoDocumento[(int)$value['id_tipo_documento']] . '</td>
                     <td class="text-center" style="font-size: 14px; text-align: center;">' . $value['cli_num_documento'] . '</td>
@@ -95,9 +97,11 @@
                     <td class="text-center" style="font-size: 14px; text-align: center;">' . $value['anio_construccion'] . '</td>
                     <td class="text-center" style="font-size: 14px; text-align: center;">' . $value['credito'] . '</td>
                     <td class="text-center" style="font-size: 14px; text-align: center;">' . $value['usu_nombre'] . ' ' . $value['usu_apellido'] . '</td>
-                    <td class="text-center">
-                        <div class="btn-group">
-                            <button class="btn btn-primary btnEditarCotizacionHogar" idCotizacionHogar="' . $value["id_cotizacion"] . '">Seleccionar</button>';
+                    <td class="text-center" style="font-size: 14px; text-align: center;">' . $value['estado'] . '</td>
+                    <td class="text-center"><div class="btn-group"><button class="btn btn-primary btnEditarEstadoHogar" idCotizacionHogar="' . $value["id_hogar"] . '"><li class="fa fa-pencil"></li></button>';
+                    // <td class="text-center">
+                    //     <div class="btn-group">
+                    //         <button class="btn btn-primary btnEditarCotizacionHogar" idCotizacionHogar="' . $value["id_hogar"] . '">Seleccionar</button>';
 
           // if ($_SESSION["rol"] == 1) {
           //     echo '<button class="btn btn-danger btnEliminarCotizacion" style="display: none !important;" idCotizacion="' . $value["id_cotizacion"] . '"><i class="fa fa-times"></i></button>';

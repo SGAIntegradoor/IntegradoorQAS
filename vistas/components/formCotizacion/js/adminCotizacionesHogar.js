@@ -90,3 +90,44 @@ $(".tablas-hogar").DataTable({
       },
     },
   });
+
+/* Bloque logica editar Estado de cotizacion (Hogar) */
+
+$(".tablas-hogar").on("click", ".btnEditarEstadoHogar", function () {
+  var idCotizacionHogar = $(this).attr("idCotizacionHogar");
+  Swal.fire({
+    title: "Cambio de estado",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonText: "Cotizada",
+    cancelButtonText: "Pendiente",
+    confirmButtonColor: "#28a745",
+    cancelButtonColor: "#d33",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      enviarCambioEstado("Cotizada", idCotizacionHogar);
+    } else if (result.dismiss === Swal.DismissReason.cancel) {
+      enviarCambioEstado("Pendiente", idCotizacionHogar);
+    }
+  });
+});
+
+function enviarCambioEstado(estado, idcotizacion) {
+  $.ajax({
+    url: "src/cambiarEstadoHogar.php",
+    method: "POST",
+    data: {
+      estado: estado,
+      idcotizacionHogar: idcotizacion,
+    },
+    success: function(response) {
+      console.log("Estado actualizado:", response.message);
+      Swal.fire("Éxito", "El estado se actualizó correctamente.", "success");
+    },
+    error: function(xhr, status, error) {
+      console.error("Error al actualizar el estado:", error);
+      Swal.fire("Error", "Hubo un problema al actualizar el estado.", "error");
+    }
+  });
+  location.reload();
+}

@@ -1003,7 +1003,7 @@ class ModeloCotizaciones
 
 				$stmt = Conexion::conectar()->prepare("
 					SELECT 
-				*
+				c.*,o.*,cli.*,us.*, c.id as id_hogar
 				FROM 
 					$tabla c
 				LEFT JOIN 
