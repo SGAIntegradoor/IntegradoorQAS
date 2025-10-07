@@ -1993,7 +1993,8 @@ function cotizarFinesa(ofertasCotizaciones) {
       console.error("Error en las promesas: ", error);
     })
     .finally(() => {
-      enableFilters();
+      // enableFilters();
+      $(".container-filters").hide();
     });
 }
 
@@ -2545,6 +2546,7 @@ function enableInputs(opt) {
 
 // Captura los datos suministrados por el cliente y los envia al API para recibir la cotizacion.
 function cotizarOfertas() {
+  $(".container-filters").hide();
   showCircularProgress("Cotización Autos en Proceso", 2200, 90000);
   var codigoFasecolda1 = document.getElementById("txtFasecolda");
   var contenido = codigoFasecolda1.value;
@@ -3772,6 +3774,7 @@ function cotizarOfertas() {
           },
         });
         countOfferts();
+        $(".container-filters").hide();
       } else {
         //ZONA RECOTIZACIÓN//
         $("#loaderRecotOferta").html(
@@ -5078,3 +5081,5 @@ $("#tipoUso").change(function () {
     );
   }
 });
+
+$(".container-filters").hide();

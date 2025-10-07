@@ -1385,15 +1385,34 @@ foreach ($resultados as $resultado) {
 	$nombreAseguradora = nombreAseguradora($resultado['Aseguradora']);
 	$nombreProducto = productoAseguradora($resultado['Aseguradora'], $resultado['Producto']);
 
-	$queryConsultaAsistencia5 = "SELECT * FROM asistencias WHERE `aseguradora` LIKE '$nombreAseguradora' AND `producto` LIKE '$nombreProducto'";
-	$respuestaqueryAsistencia5 =  $conexion->query($queryConsultaAsistencia5);
-	$rowRespuestaAsistencia5 = mysqli_fetch_assoc($respuestaqueryAsistencia5);
+	if ($nombreProducto == "Herr. Trab Full") {
+		$valorAsegurado = $fila["cot_valor_asegurado"];
+		if ($valorAsegurado <= 150000000) {
+			$valorCondicion = "Hasta $44.000.000 - Deducible: 1 SMMLV";
+		} else {
+			$valorCondicion = "Hasta 44.000.000 - Deducible: 10% min 1 SMMLV";
+		}
+		$queryConsultaAsistencia3 = "SELECT * FROM asistencias WHERE `aseguradora` LIKE '$nombreAseguradora' AND `producto` LIKE '$nombreProducto' AND `ResponsabilidadCivilGeneralFamiliar` LIKE '$valorCondicion'";
+	}  else if ($nombreProducto == "Herr. Trab Integral") {
+		$valorAsegurado = $fila["cot_valor_asegurado"];
+		if ($valorAsegurado > 150000000) {
+			$valorCondicion = "Deducible: 10% min 1 SMMLV";
+		} else {
+			$valorCondicion = "Deducible: 1 SMMLV";
+		}
+		$queryConsultaAsistencia3 = "SELECT * FROM asistencias WHERE `aseguradora` LIKE '$nombreAseguradora' AND `producto` LIKE '$nombreProducto' AND `eventos` LIKE '$valorCondicion'";
+	}
+	else {
+		$queryConsultaAsistencia3 = "SELECT * FROM asistencias WHERE `aseguradora` LIKE '$nombreAseguradora' AND `producto` LIKE '$nombreProducto'";
+	}
 
+	$respuestaqueryAsistencia3 =  $conexion->query($queryConsultaAsistencia3);
+	$rowRespuestaAsistencia3 = mysqli_fetch_assoc($respuestaqueryAsistencia3);
 
 	if ($cont9 % 2 == 0) {
-		$html3 .= '<td class="puntos fondo" style="width:' . $valorTabla . '%;"><center><div style="font-size:4pt">&nbsp;</div><font size="7"style="text-align: center;  font-family:dejavusanscondensed;">' . $rowRespuestaAsistencia5['eventos'] . '</font></center></td>';
+		$html3 .= '<td class="puntos fondo" style="width:' . $valorTabla . '%;"><center><div style="font-size:4pt">&nbsp;</div><font size="7"style="text-align: center;  font-family:dejavusanscondensed;">' . $rowRespuestaAsistencia3['eventos'] . '</font></center></td>';
 	} else {
-		$html3 .= '<td class="puntos fondo2" style="width:' . $valorTabla . '%;"><center><div style="font-size:4pt">&nbsp;</div><font size="7"style="text-align: center;  font-family:dejavusanscondensed;">' . $rowRespuestaAsistencia5['eventos'] . '</font></center></td>';
+		$html3 .= '<td class="puntos fondo2" style="width:' . $valorTabla . '%;"><center><div style="font-size:4pt">&nbsp;</div><font size="7"style="text-align: center;  font-family:dejavusanscondensed;">' . $rowRespuestaAsistencia3['eventos'] . '</font></center></td>';
 	}
 
 	$cont9 += 1;
