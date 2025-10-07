@@ -1972,7 +1972,7 @@ $html4 .= '</tr>';
 //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
 $html4 .= '<tr>';
-$html4 .= '<td class="fondo puntos" style="width:10%; text-align: center; font-family:dejavusanscondensedb;"><font size="8">Asistencia juridica en proceso penal </font></td>';
+$html4 .= '<td class="fondo puntos" style="width:10%; text-align: center; font-family:dejavusanscondensedb;"><font size="8">Asistencia juridica civil y penal </font></td>';
 
 // $query17 = "SELECT DISTINCT o.Aseguradora, o.Producto
 // FROM cotizaciones_finesa cf 
@@ -3187,54 +3187,6 @@ foreach ($resultados as $resultado) {
 			$html8 .= '<td class="puntos fondo" style="width:' . $valorTabla . '%;text-align: center;"><div style="font-size:4pt">&nbsp;</div><img style="width:16px;" src="../../../vistas/img/logos/cheque.png" alt=""></td>';
 		} else {
 			$html8 .= '<td class="puntos fondo" style="width:' . $valorTabla . '%;"><center><div style="font-size:4pt">&nbsp;</div><font size="7"style="text-align: center; font-family:dejavusanscondensed;">' . $rowRespuestaAsistencia20['Asesoria_Gestion_de_tramites'] . '</font></center></td>';
-		}
-	}
-
-
-	$cont25 += 1;
-}
-
-$html8 .= '</tr>';
-
-//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-//Asistencia Juridica Civil
-//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-
-$html8 .= '<tr>';
-$html8 .= '<td class="fondo puntos" style="width:10%;"><font size="8" style="font-family:dejavusanscondensedb; text-align: center;">Asistencia jurídica civil</font></td>';
-
-$cont25 = 1;
-foreach ($resultados as $resultado) {
-
-	$nombreAseguradora = nombreAseguradora($resultado['Aseguradora']);
-	$nombreProducto = productoAseguradora($resultado['Aseguradora'], $resultado['Producto']);
-
-	if ($nombreProducto == "Basico + PT") {
-		$valorAsegurado = $fila["cot_valor_asegurado"];
-		if ($valorAsegurado <= 150000000) {
-			$valorCondicion = "1 SMMLV";
-		} else {
-			$valorCondicion = "Deducible: 10% MIN 1 SMMLV";
-		}
-		$queryConsultaAsistencia20 = "SELECT * FROM asistencias WHERE `aseguradora` LIKE '$nombreAseguradora' AND `producto` LIKE '$nombreProducto' AND `eventos` LIKE '$valorCondicion'";
-	} else {
-		$queryConsultaAsistencia20 = "SELECT * FROM asistencias WHERE `aseguradora` LIKE '$nombreAseguradora' AND `producto` LIKE '$nombreProducto'";
-	}
-
-	$respuestaqueryAsistencia2O =  $conexion->query($queryConsultaAsistencia20);
-	$rowRespuestaAsistencia20 = mysqli_fetch_assoc($respuestaqueryAsistencia2O);
-
-	if ($cont25 % 2 != 0) {
-		if ($rowRespuestaAsistencia20['AsistenciaJuridicaCivil'] == "Si ampara") {
-			$html8 .= '<td class="puntos fondo2" style="width:' . $valorTabla . '%;text-align: center;"><div style="font-size:4pt">&nbsp;</div><img style="width:16px;" src="../../../vistas/img/logos/cheque.png" alt=""></td>';
-		} else {
-			$html8 .= '<td class="puntos fondo2" style="width:' . $valorTabla . '%;"><center><div style="font-size:4pt">&nbsp;</div><font size="7"style="text-align: center; font-family:dejavusanscondensed;">' . $rowRespuestaAsistencia20['AsistenciaJuridicaCivil'] . '</font></center></td>';
-		}
-	} else {
-		if ($rowRespuestaAsistencia20['AsistenciaJuridicaCivil'] == "Si ampara") {
-			$html8 .= '<td class="puntos fondo" style="width:' . $valorTabla . '%;text-align: center;"><div style="font-size:4pt">&nbsp;</div><img style="width:16px;" src="../../../vistas/img/logos/cheque.png" alt=""></td>';
-		} else {
-			$html8 .= '<td class="puntos fondo" style="width:' . $valorTabla . '%;"><center><div style="font-size:4pt">&nbsp;</div><font size="7"style="text-align: center; font-family:dejavusanscondensed;">' . $rowRespuestaAsistencia20['AsistenciaJuridicaCivil'] . '</font></center></td>';
 		}
 	}
 
