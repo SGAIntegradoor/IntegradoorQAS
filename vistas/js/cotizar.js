@@ -3544,7 +3544,7 @@ function cotizarOfertas() {
                           validarProblema(aseguradora, ofertas);
                           ofertas[0].Mensajes.forEach((mensaje) => {
                             mostrarAlertarCotizacionFallida(
-                              aseguradora,
+                              "HDI (Antes Liberty)",
                               mensaje
                             );
                           });
@@ -3563,7 +3563,7 @@ function cotizarOfertas() {
                       .catch((err) => {
                         agregarAseguradoraFallida(plan);
                         mostrarAlertarCotizacionFallida(
-                          aseguradora,
+                          "HDI (Antes Liberty)",
                           "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
                         );
                         validarProblema(aseguradora, [
@@ -4735,7 +4735,7 @@ function cotizarOfertas() {
                     agregarAseguradoraFallida(aseguradora);
                     validarProblema(aseguradora, ofertas);
                     ofertas[0].Mensajes.forEach((mensaje) => {
-                      mostrarAlertarCotizacionFallida("HDI Seguros", mensaje);
+                      mostrarAlertarCotizacionFallida("HDI (Antes Liberty)", mensaje);
                     });
                   } else {
                     // eliminarAseguradoraFallida(aseguradora);
@@ -4753,7 +4753,7 @@ function cotizarOfertas() {
                 .catch((err) => {
                   agregarAseguradoraFallida(aseguradora);
                   mostrarAlertarCotizacionFallida(
-                    "HDI Seguros",
+                    "HDI (Antes Liberty)",
                     "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
                   );
                   validarProblema(aseguradora, [
