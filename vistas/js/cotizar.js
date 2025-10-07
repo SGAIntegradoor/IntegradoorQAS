@@ -3482,7 +3482,7 @@ function cotizarOfertas() {
                           validarProblema(aseguradora, result);
                           ofertas.Mensajes.forEach((mensaje) => {
                             mostrarAlertarCotizacionFallida(
-                              aseguradora,
+                              "Estado",
                               mensaje
                             );
                           });
@@ -4671,7 +4671,7 @@ function cotizarOfertas() {
                     agregarAseguradoraFallida("Estado");
                     validarProblema(aseguradora, result);
                     ofertas[0].Mensajes.forEach((mensaje) => {
-                      mostrarAlertarCotizacionFallida(aseguradora, mensaje);
+                      mostrarAlertarCotizacionFallida("Estado", mensaje);
                     });
                   } else {
                     const contadorPorEntidad = validarOfertas(
@@ -4691,7 +4691,7 @@ function cotizarOfertas() {
                 .catch((err) => {
                   agregarAseguradoraFallida("Estado");
                   mostrarAlertarCotizacionFallida(
-                    aseguradora,
+                    "Estado",
                     "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
                   );
                   validarProblema(aseguradora, [
