@@ -339,7 +339,7 @@
                             <div class="card-body">
                                 <h4 class="card-title" style="font-weight: bold;">¿Por qué ofrecer este Seguro a tus clientes?</h4><br>
                                 <ul class="card-text" style="padding-left: 0px; list-style-type: none; list-style-position: inside;">
-                                    <li>El <b>Seguro de Responsabilidad Civil Extrcontractual para el transporte de hidrocarburos</b> protege al asegurado por los posibles daños y perjuicios causados a terceros como consecuencia de la acción directa de los hidrocarburos durante su transporte, manejo y distribución.</li>
+                                    <li>El <b>Seguro de Responsabilidad Civil para el transporte de hidrocarburos</b> protege al asegurado por los posibles daños y perjuicios causados a terceros como consecuencia de la acción directa de los hidrocarburos durante su transporte, manejo y distribución.</li>
                                     <br>
                                     <li>La legislación colombiana pretende que todos los agentes del sector de hidrocarburos cuenten con todos los elementos que garanticen unas condiciones mínimas de seguridad. Esto incluye la asegurabilidad, que busca resarcir los posibles daños de ejecutar estas operaciones.</li>
                                 </ul>
