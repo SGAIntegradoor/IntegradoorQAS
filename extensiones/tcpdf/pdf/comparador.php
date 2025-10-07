@@ -1424,6 +1424,14 @@ foreach ($resultados as $resultado) {
 			$valorCondicion = "Deducible: 10% MIN 1 SMMLV";
 		}
 		$queryConsultaAsistencia5 = "SELECT * FROM asistencias WHERE `aseguradora` LIKE '$nombreAseguradora' AND `producto` LIKE '$nombreProducto' AND `eventos` LIKE '$valorCondicion'";
+	} else if ($nombreProducto == "Integral 20%") {
+		$valorAsegurado = $fila["cot_valor_asegurado"];
+		if ($valorAsegurado <= 150000000) {
+			$valorCondicion = "Deducible: 1 SMMLV";
+		} else {
+			$valorCondicion = "Deducible: 10% MIN 1 SMMLV";
+		}
+		$queryConsultaAsistencia5 = "SELECT * FROM asistencias WHERE `aseguradora` LIKE '$nombreAseguradora' AND `producto` LIKE '$nombreProducto' AND `eventos` LIKE '$valorCondicion'";
 	} else {
 		$queryConsultaAsistencia5 = "SELECT * FROM asistencias WHERE `aseguradora` LIKE '$nombreAseguradora' AND `producto` LIKE '$nombreProducto'";
 	}
@@ -1497,6 +1505,14 @@ foreach ($resultados as $resultado) {
 		$valorAsegurado = $fila["cot_valor_asegurado"];
 		if ($valorAsegurado <= 150000000) {
 			$valorCondicion = "1 SMMLV";
+		} else {
+			$valorCondicion = "Deducible: 10% MIN 1 SMMLV";
+		}
+		$queryConsultaAsistencia6 = "SELECT * FROM asistencias WHERE `aseguradora` LIKE '$nombreAseguradora' AND `producto` LIKE '$nombreProducto' AND `eventos` LIKE '$valorCondicion'";
+	} else if ($nombreProducto == "Integral 20%") {
+		$valorAsegurado = $fila["cot_valor_asegurado"];
+		if ($valorAsegurado <= 150000000) {
+			$valorCondicion = "Deducible: 1 SMMLV";
 		} else {
 			$valorCondicion = "Deducible: 10% MIN 1 SMMLV";
 		}
@@ -1879,6 +1895,14 @@ foreach ($resultados as $resultado) {
 			$valorCondicion = "Deducible: 10% MIN 1 SMMLV";
 		}
 		$queryConsultaAsistencia7 = "SELECT * FROM asistencias WHERE `aseguradora` LIKE '$nombreAseguradora' AND `producto` LIKE '$nombreProducto' AND `eventos` LIKE '$valorCondicion'";
+	} else if ($nombreProducto == "Integral 20%") {
+		$valorAsegurado = $fila["cot_valor_asegurado"];
+		if ($valorAsegurado <= 150000000) {
+			$valorCondicion = "Deducible: 1 SMMLV";
+		} else {
+			$valorCondicion = "Deducible: 10% MIN 1 SMMLV";
+		}
+		$queryConsultaAsistencia7 = "SELECT * FROM asistencias WHERE `aseguradora` LIKE '$nombreAseguradora' AND `producto` LIKE '$nombreProducto' AND `eventos` LIKE '$valorCondicion'";
 	} else {
 		$queryConsultaAsistencia7 = "SELECT * FROM asistencias WHERE `aseguradora` LIKE '$nombreAseguradora' AND `producto` LIKE '$nombreProducto'";
 	}
@@ -1937,6 +1961,14 @@ foreach ($resultados as $resultado) {
 		$valorAsegurado = $fila["cot_valor_asegurado"];
 		if ($valorAsegurado <= 150000000) {
 			$valorCondicion = "1 SMMLV";
+		} else {
+			$valorCondicion = "Deducible: 10% MIN 1 SMMLV";
+		}
+		$queryConsultaAsistencia8 = "SELECT * FROM asistencias WHERE `aseguradora` LIKE '$nombreAseguradora' AND `producto` LIKE '$nombreProducto' AND `eventos` LIKE '$valorCondicion'";
+	} else if ($nombreProducto == "Integral 20%") {
+		$valorAsegurado = $fila["cot_valor_asegurado"];
+		if ($valorAsegurado <= 150000000) {
+			$valorCondicion = "Deducible: 1 SMMLV";
 		} else {
 			$valorCondicion = "Deducible: 10% MIN 1 SMMLV";
 		}
@@ -2005,6 +2037,14 @@ foreach ($resultados as $resultado) {
 			$valorCondicion = "Deducible: 10% MIN 1 SMMLV";
 		}
 		$queryConsultaAsistencia9 = "SELECT * FROM asistencias WHERE `aseguradora` LIKE '$nombreAseguradora' AND `producto` LIKE '$nombreProducto' AND `eventos` LIKE '$valorCondicion'";
+	} else if ($nombreProducto == "Integral 20%") {
+		$valorAsegurado = $fila["cot_valor_asegurado"];
+		if ($valorAsegurado <= 150000000) {
+			$valorCondicion = "Deducible: 1 SMMLV";
+		} else {
+			$valorCondicion = "Deducible: 10% MIN 1 SMMLV";
+		}
+		$queryConsultaAsistencia9 = "SELECT * FROM asistencias WHERE `aseguradora` LIKE '$nombreAseguradora' AND `producto` LIKE '$nombreProducto' AND `eventos` LIKE '$valorCondicion'";
 	} else {
 		$queryConsultaAsistencia9 = "SELECT * FROM asistencias WHERE `aseguradora` LIKE '$nombreAseguradora' AND `producto` LIKE '$nombreProducto'";
 	}
@@ -2065,6 +2105,14 @@ foreach ($resultados as $resultado) {
 		$valorAsegurado = $fila["cot_valor_asegurado"];
 		if ($valorAsegurado <= 150000000) {
 			$valorCondicion = "1 SMMLV";
+		} else {
+			$valorCondicion = "Deducible: 10% MIN 1 SMMLV";
+		}
+		$queryConsultaAsistencia10 = "SELECT * FROM asistencias WHERE `aseguradora` LIKE '$nombreAseguradora' AND `producto` LIKE '$nombreProducto' AND `eventos` LIKE '$valorCondicion'";
+	} else if ($nombreProducto == "Integral 20%") {
+		$valorAsegurado = $fila["cot_valor_asegurado"];
+		if ($valorAsegurado <= 150000000) {
+			$valorCondicion = "Deducible: 1 SMMLV";
 		} else {
 			$valorCondicion = "Deducible: 10% MIN 1 SMMLV";
 		}
@@ -2136,6 +2184,14 @@ foreach ($resultados as $resultado) {
 			$valorCondicion = "Deducible: 10% MIN 1 SMMLV";
 		}
 		$queryConsultaAsistencia11 = "SELECT * FROM asistencias WHERE `aseguradora` LIKE '$nombreAseguradora' AND `producto` LIKE '$nombreProducto' AND `eventos` LIKE '$valorCondicion'";
+	} else if ($nombreProducto == "Integral 20%") {
+		$valorAsegurado = $fila["cot_valor_asegurado"];
+		if ($valorAsegurado <= 150000000) {
+			$valorCondicion = "Deducible: 1 SMMLV";
+		} else {
+			$valorCondicion = "Deducible: 10% MIN 1 SMMLV";
+		}
+		$queryConsultaAsistencia11 = "SELECT * FROM asistencias WHERE `aseguradora` LIKE '$nombreAseguradora' AND `producto` LIKE '$nombreProducto' AND `eventos` LIKE '$valorCondicion'";
 	} else {
 		$queryConsultaAsistencia11 = "SELECT * FROM asistencias WHERE `aseguradora` LIKE '$nombreAseguradora' AND `producto` LIKE '$nombreProducto'";
 	}
@@ -2191,6 +2247,14 @@ foreach ($resultados as $resultado) {
 		$valorAsegurado = $fila["cot_valor_asegurado"];
 		if ($valorAsegurado <= 150000000) {
 			$valorCondicion = "1 SMMLV";
+		} else {
+			$valorCondicion = "Deducible: 10% MIN 1 SMMLV";
+		}
+		$queryConsultaAsistencia12 = "SELECT * FROM asistencias WHERE `aseguradora` LIKE '$nombreAseguradora' AND `producto` LIKE '$nombreProducto' AND `eventos` LIKE '$valorCondicion'";
+	} else if ($nombreProducto == "Integral 20%") {
+		$valorAsegurado = $fila["cot_valor_asegurado"];
+		if ($valorAsegurado <= 150000000) {
+			$valorCondicion = "Deducible: 1 SMMLV";
 		} else {
 			$valorCondicion = "Deducible: 10% MIN 1 SMMLV";
 		}
@@ -2259,7 +2323,15 @@ foreach ($resultados as $resultado) {
 			$valorCondicion = "Deducible: 10% MIN 1 SMMLV";
 		}
 		$queryConsultaAsistencia13 = "SELECT * FROM asistencias WHERE `aseguradora` LIKE '$nombreAseguradora' AND `producto` LIKE '$nombreProducto' AND `eventos` LIKE '$valorCondicion'";
-	} else {
+	} else if ($nombreProducto == "Integral 20%") {
+		$valorAsegurado = $fila["cot_valor_asegurado"];
+		if ($valorAsegurado <= 150000000) {
+			$valorCondicion = "Deducible: 1 SMMLV";
+		} else {
+			$valorCondicion = "Deducible: 10% MIN 1 SMMLV";
+		}
+		$queryConsultaAsistencia13 = "SELECT * FROM asistencias WHERE `aseguradora` LIKE '$nombreAseguradora' AND `producto` LIKE '$nombreProducto' AND `eventos` LIKE '$valorCondicion'";
+	}else {
 		$queryConsultaAsistencia13 = "SELECT * FROM asistencias WHERE `aseguradora` LIKE '$nombreAseguradora' AND `producto` LIKE '$nombreProducto'";
 	}
 	$respuestaqueryAsistencia13 =  $conexion->query($queryConsultaAsistencia13);
@@ -2323,7 +2395,15 @@ foreach ($resultados as $resultado) {
 			$valorCondicion = "Deducible: 10% MIN 1 SMMLV";
 		}
 		$queryConsultaAsistencia14 = "SELECT * FROM asistencias WHERE `aseguradora` LIKE '$nombreAseguradora' AND `producto` LIKE '$nombreProducto' AND `eventos` LIKE '$valorCondicion'";
-	} else {
+	} else if ($nombreProducto == "Integral 20%") {
+		$valorAsegurado = $fila["cot_valor_asegurado"];
+		if ($valorAsegurado <= 150000000) {
+			$valorCondicion = "Deducible: 1 SMMLV";
+		} else {
+			$valorCondicion = "Deducible: 10% MIN 1 SMMLV";
+		}
+		$queryConsultaAsistencia14 = "SELECT * FROM asistencias WHERE `aseguradora` LIKE '$nombreAseguradora' AND `producto` LIKE '$nombreProducto' AND `eventos` LIKE '$valorCondicion'";
+	}else {
 		$queryConsultaAsistencia14 = "SELECT * FROM asistencias WHERE `aseguradora` LIKE '$nombreAseguradora' AND `producto` LIKE '$nombreProducto'";
 	}
 	$respuestaqueryAsistencia14 =  $conexion->query($queryConsultaAsistencia14);
@@ -2373,7 +2453,15 @@ foreach ($resultados as $resultado) {
 			$valorCondicion = "Deducible: 10% MIN 1 SMMLV";
 		}
 		$queryConsultaAsistencia15 = "SELECT * FROM asistencias WHERE `aseguradora` LIKE '$nombreAseguradora' AND `producto` LIKE '$nombreProducto' AND `eventos` LIKE '$valorCondicion'";
-	} else {
+	} else if ($nombreProducto == "Integral 20%") {
+		$valorAsegurado = $fila["cot_valor_asegurado"];
+		if ($valorAsegurado <= 150000000) {
+			$valorCondicion = "Deducible: 1 SMMLV";
+		} else {
+			$valorCondicion = "Deducible: 10% MIN 1 SMMLV";
+		}
+		$queryConsultaAsistencia15 = "SELECT * FROM asistencias WHERE `aseguradora` LIKE '$nombreAseguradora' AND `producto` LIKE '$nombreProducto' AND `eventos` LIKE '$valorCondicion'";
+	}else {
 		$queryConsultaAsistencia15 = "SELECT * FROM asistencias WHERE `aseguradora` LIKE '$nombreAseguradora' AND `producto` LIKE '$nombreProducto'";
 	}
 	$respuestaqueryAsistencia15 =  $conexion->query($queryConsultaAsistencia15);
@@ -2420,7 +2508,15 @@ foreach ($resultados as $resultado) {
 			$valorCondicion = "Deducible: 10% MIN 1 SMMLV";
 		}
 		$queryConsultaAsistencia16 = "SELECT * FROM asistencias WHERE `aseguradora` LIKE '$nombreAseguradora' AND `producto` LIKE '$nombreProducto' AND `eventos` LIKE '$valorCondicion'";
-	} else {
+	} else if ($nombreProducto == "Integral 20%") {
+		$valorAsegurado = $fila["cot_valor_asegurado"];
+		if ($valorAsegurado <= 150000000) {
+			$valorCondicion = "Deducible: 1 SMMLV";
+		} else {
+			$valorCondicion = "Deducible: 10% MIN 1 SMMLV";
+		}
+		$queryConsultaAsistencia16 = "SELECT * FROM asistencias WHERE `aseguradora` LIKE '$nombreAseguradora' AND `producto` LIKE '$nombreProducto' AND `eventos` LIKE '$valorCondicion'";
+	}else {
 		$queryConsultaAsistencia16 = "SELECT * FROM asistencias WHERE `aseguradora` LIKE '$nombreAseguradora' AND `producto` LIKE '$nombreProducto'";
 	}
 
@@ -2469,7 +2565,15 @@ foreach ($resultados as $resultado) {
 			$valorCondicion = "Deducible: 10% MIN 1 SMMLV";
 		}
 		$queryConsultaAsistencia17 = "SELECT * FROM asistencias WHERE `aseguradora` LIKE '$nombreAseguradora' AND `producto` LIKE '$nombreProducto' AND `eventos` LIKE '$valorCondicion'";
-	} else {
+	} else if ($nombreProducto == "Integral 20%") {
+		$valorAsegurado = $fila["cot_valor_asegurado"];
+		if ($valorAsegurado <= 150000000) {
+			$valorCondicion = "Deducible: 1 SMMLV";
+		} else {
+			$valorCondicion = "Deducible: 10% MIN 1 SMMLV";
+		}
+		$queryConsultaAsistencia17 = "SELECT * FROM asistencias WHERE `aseguradora` LIKE '$nombreAseguradora' AND `producto` LIKE '$nombreProducto' AND `eventos` LIKE '$valorCondicion'";
+	}else {
 		$queryConsultaAsistencia17 = "SELECT * FROM asistencias WHERE `aseguradora` LIKE '$nombreAseguradora' AND `producto` LIKE '$nombreProducto'";
 	}
 
@@ -2513,6 +2617,14 @@ foreach ($resultados as $resultado) {
 		$valorAsegurado = $fila["cot_valor_asegurado"];
 		if ($valorAsegurado <= 150000000) {
 			$valorCondicion = "1 SMMLV";
+		} else {
+			$valorCondicion = "Deducible: 10% MIN 1 SMMLV";
+		}
+		$queryConsultaAsistencia18 = "SELECT * FROM asistencias WHERE `aseguradora` LIKE '$nombreAseguradora' AND `producto` LIKE '$nombreProducto' AND `eventos` LIKE '$valorCondicion'";
+	} else if ($nombreProducto == "Integral 20%") {
+		$valorAsegurado = $fila["cot_valor_asegurado"];
+		if ($valorAsegurado <= 150000000) {
+			$valorCondicion = "Deducible: 1 SMMLV";
 		} else {
 			$valorCondicion = "Deducible: 10% MIN 1 SMMLV";
 		}
@@ -2565,6 +2677,14 @@ foreach ($resultados as $resultado) {
 			$valorCondicion = "Deducible: 10% MIN 1 SMMLV";
 		}
 		$queryConsultaAsistencia19 = "SELECT * FROM asistencias WHERE `aseguradora` LIKE '$nombreAseguradora' AND `producto` LIKE '$nombreProducto' AND `eventos` LIKE '$valorCondicion'";
+	} else if ($nombreProducto == "Integral 20%") {
+		$valorAsegurado = $fila["cot_valor_asegurado"];
+		if ($valorAsegurado <= 150000000) {
+			$valorCondicion = "Deducible: 1 SMMLV";
+		} else {
+			$valorCondicion = "Deducible: 10% MIN 1 SMMLV";
+		}
+		$queryConsultaAsistencia19 = "SELECT * FROM asistencias WHERE `aseguradora` LIKE '$nombreAseguradora' AND `producto` LIKE '$nombreProducto' AND `eventos` LIKE '$valorCondicion'";
 	} else {
 		$queryConsultaAsistencia19 = "SELECT * FROM asistencias WHERE `aseguradora` LIKE '$nombreAseguradora' AND `producto` LIKE '$nombreProducto'";
 	}
@@ -2609,6 +2729,14 @@ foreach ($resultados as $resultado) {
 		$valorAsegurado = $fila["cot_valor_asegurado"];
 		if ($valorAsegurado <= 150000000) {
 			$valorCondicion = "1 SMMLV";
+		} else {
+			$valorCondicion = "Deducible: 10% MIN 1 SMMLV";
+		}
+		$queryConsultaAsistencia20 = "SELECT * FROM asistencias WHERE `aseguradora` LIKE '$nombreAseguradora' AND `producto` LIKE '$nombreProducto' AND `eventos` LIKE '$valorCondicion'";
+	} else if ($nombreProducto == "Integral 20%") {
+		$valorAsegurado = $fila["cot_valor_asegurado"];
+		if ($valorAsegurado <= 150000000) {
+			$valorCondicion = "Deducible: 1 SMMLV";
 		} else {
 			$valorCondicion = "Deducible: 10% MIN 1 SMMLV";
 		}
