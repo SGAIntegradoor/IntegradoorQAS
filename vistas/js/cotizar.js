@@ -3345,13 +3345,10 @@ function cotizarOfertas() {
                           result2 = ofertas[0].Resultado;
                         }
                         if (result2 !== undefined) {
-                          agregarAseguradoraFallida("Estado");
-                          validarProblema(aseguradora, result);
+                          agregarAseguradoraFallida(aseguradora);
+                          validarProblema("Estado", result);
                           ofertas.Mensajes.forEach((mensaje) => {
-                            mostrarAlertarCotizacionFallida(
-                              "Estado",
-                              mensaje
-                            );
+                            mostrarAlertarCotizacionFallida("Estado", mensaje);
                           });
                         } else {
                           const contadorPorEntidad = validarOfertas(
@@ -3369,9 +3366,9 @@ function cotizarOfertas() {
                         }
                       })
                       .catch((err) => {
-                        agregarAseguradoraFallida("Estado");
+                        agregarAseguradoraFallida(aseguradora);
                         mostrarAlertarCotizacionFallida(
-                          "Estado",
+                          aseguradora,
                           "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
                         );
                         validarProblema("Estado", [
@@ -3876,17 +3873,20 @@ function cotizarOfertas() {
             aseguradora == "BASIC" ||
             aseguradora == "MEDIUM" ||
             aseguradora == "FULL"
-          ) {
-            aseguradora = "Zurich";
-          }
-
+          ) aseguradora = "Zurich";
+          
           if (
             aseguradora == "HDI FULL" ||
             aseguradora == "INTEGRAL 20" ||
             aseguradora == "BASICO" ||
             aseguradora == "BASICO + PT"
-          )
-            aseguradora = "HDI Seguros";
+          ) aseguradora = "HDI Seguros";
+          
+          if (
+            aseguradora == "Estado" ||
+            aseguradora == "Estado2" ||
+            aseguradora == "Estado3"
+          ) aseguradora = "Estado";
 
           if (aseguradora == "Mundial_RPA" || aseguradora == "Mundial_RCP") {
             aseguradora = "Mundial";
@@ -4344,10 +4344,25 @@ function cotizarOfertas() {
         const aseguradorasEstado = ["Estado", "Estado2", "Estado3"]; // Agrega más aseguradoras según sea necesario
         //const aseguradorasEstado = ["Estado", "Estado2"]; // Agrega más aseguradoras según sea necesario
         aseguradorasEstado.forEach((aseguradora) => {
-          let successAseguradora = true;
-          const aseguradoraPromise = comprobarFallida(aseguradora)
+          let plan = aseguradora;
+          let count = 0;
+
+          if (plan === "Estado") {
+            plan = "Estado";
+            count++;
+          } else if (plan === "Estado2") {
+            plan = "Estado2";
+            count++;
+          } else if (plan === "Estado3") {
+            plan = "Estado3";
+            count++;
+          }
+
+          if (count === 0) return;
+
+          const aseguradoraPromise = comprobarFallida(plan)
             ? fetch(
-                `https://grupoasistencia.com/motor_webservice/${aseguradora}`,
+                `https://grupoasistencia.com/motor_webservice/${plan}`,
                 requestOptions
               )
                 .then((res) => {
@@ -4365,23 +4380,22 @@ function cotizarOfertas() {
                   }
                   if (result2 !== undefined) {
                     agregarAseguradoraFallida("Estado");
-                    validarProblema(aseguradora, result);
+                    validarProblema("Estado", result);
                     ofertas[0].Mensajes.forEach((mensaje) => {
                       mostrarAlertarCotizacionFallida("Estado", mensaje);
                     });
                   } else {
                     const contadorPorEntidad = validarOfertas(
                       result,
-                      aseguradora,
+                      plan,
                       1
                     );
-                    if (successAseguradora) {
-                      mostrarAlertaCotizacionExitosa(
-                        aseguradora,
-                        contadorPorEntidad
-                      );
-                      successAseguradora = false;
-                    }
+
+                    mostrarAlertaCotizacionExitosa(
+                      plan,
+                      contadorPorEntidad
+                    );
+                    successAseguradora = false;
                   }
                 })
                 .catch((err) => {
@@ -4390,7 +4404,7 @@ function cotizarOfertas() {
                     "Estado",
                     "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
                   );
-                  validarProblema(aseguradora, [
+                  validarProblema("Estado", [
                     {
                       Mensajes: [
                         "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
