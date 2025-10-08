@@ -5,7 +5,11 @@ $(document).ready(function () {
 
   if (partes.includes("dev") || partes.includes("DEV")) {
     env = "dev";
-  } else if (partes.includes("QAS") || partes.includes("qas") || partes.includes("Pruebas")) {
+  } else if (
+    partes.includes("QAS") ||
+    partes.includes("qas") ||
+    partes.includes("Pruebas")
+  ) {
     env = "qas";
   } else if (partes.includes("app") || partes.includes("App")) {
     env = "";
@@ -3364,7 +3368,7 @@ function cotizarOfertas() {
                 });
                 return; // Salir del bucle después de procesar Zurich
               } else if (aseguradora === "Estado") {
-                // comento para que solo salgan 2 planes y no los 3 
+                // comento para que solo salgan 2 planes y no los 3
                 // const aseguradorasEstado = ["Estado", "Estado2", "Estado3"]; // Agrega más aseguradoras según sea necesario
                 const aseguradorasEstado = ["Estado", "Estado2"]; // Agrega más aseguradoras según sea necesario
                 aseguradorasEstado.forEach((aseguradora) => {
@@ -3450,14 +3454,10 @@ function cotizarOfertas() {
                       })
                       .then((ofertas) => {
                         if (typeof ofertas[0].Resultado !== "undefined") {
-                          // cambie variable plan por aseguradora
-                          agregarAseguradoraFallida(aseguradora);
-                          validarProblema(aseguradora, ofertas);
+                          agregarAseguradoraFallida(plan);
+                          validarProblema("HDI (Antes Liberty)", ofertas);
                           ofertas[0].Mensajes.forEach((mensaje) => {
-                            mostrarAlertarCotizacionFallida(
-                              "HDI (Antes Liberty)",
-                              mensaje
-                            );
+                            mostrarAlertarCotizacionFallida("HDI Seguros", mensaje);
                           });
                         } else {
                           const contadorPorEntidad = validarOfertas(
@@ -3466,7 +3466,7 @@ function cotizarOfertas() {
                             1
                           );
                           mostrarAlertaCotizacionExitosa(
-                            aseguradora,
+                            "HDI Seguros",
                             contadorPorEntidad
                           );
                         }
@@ -3474,10 +3474,10 @@ function cotizarOfertas() {
                       .catch((err) => {
                         agregarAseguradoraFallida(plan);
                         mostrarAlertarCotizacionFallida(
-                          "HDI (Antes Liberty)",
+                          plan,
                           "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
                         );
-                        validarProblema(aseguradora, [
+                        validarProblema("HDI (Antes Liberty)", [
                           {
                             Mensajes: [
                               "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
@@ -3487,9 +3487,9 @@ function cotizarOfertas() {
                         console.error(err);
                       })
                   );
-                 });
+                });
                 return;
-              } 
+              }
               // /*inicio javier */ else if (aseguradora === "Qualitas") {
               //   url = `https://grupoasistencia.com/WS-laravel/api/autos/qualitas`;
               //   cont.push(
@@ -3535,7 +3535,7 @@ function cotizarOfertas() {
               //   );
               //   return; /*Fin javier */
 
-              /*inicio Daniel */ 
+              /*inicio Daniel */
               else if (aseguradora === "Mundial") {
                 url = `https://grupoasistencia.com/motor_webservice/Mundial_autos`;
                 cont.push(
@@ -3588,7 +3588,8 @@ function cotizarOfertas() {
                 let message =
                   aseguradora == "Qualitas"
                     ? `💡 <b>Nueva aseguradora</b> especializada en <b>seguros de autos.</b> La principal aseguradora mexicana de seguros de autos llega a Colombia y <b>nosotros ya tenemos convenio.</b> Solicita cotización manual a tu Analista Comercial.`
-                    : aseguradora == "Sura" ? `<b>🐯 Nueva alianza para comercializar seguros Sura.</b> Solicita cotización manual a tu Analista Comercial.`
+                    : aseguradora == "Sura"
+                    ? `<b>🐯 Nueva alianza para comercializar seguros Sura.</b> Solicita cotización manual a tu Analista Comercial.`
                     : `🔥 <b>Nuevo seguro de autos livianos</b> con modalidad de indemnización ARREGLO DIRECTO para <b>pérdidas parciales</b>. Solicita cotización manual a tu Analista Comercial. Revisa informacion adicional en la seccion de <b>Notas importantes.</b>`;
 
                 let ofertas = [
@@ -3663,12 +3664,12 @@ function cotizarOfertas() {
                 enableInputs(true);
                 //countOfferts();
               } else {
-                  Swal.close();
-                  $("#loaderOferta").html("");
-                  $("#loaderOfertaBox").css("display", "none");
-                  enableInputs(true);
-                  countOfferts();
-                  /*
+                Swal.close();
+                $("#loaderOferta").html("");
+                $("#loaderOfertaBox").css("display", "none");
+                enableInputs(true);
+                countOfferts();
+                /*
                 Swal.fire({
                   title: "¡Proceso de Cotización Finalizada!",
                   text: "¿Deseas incluir la financiación con Finesa a 11 cuotas?",
@@ -3714,7 +3715,8 @@ function cotizarOfertas() {
                     }
                   }
                 });
-              */}
+              */
+              }
               document.querySelector(".button-recotizar").style.display =
                 "block";
               /* Se monta el botón para generar el pdf con 
@@ -4510,11 +4512,31 @@ function cotizarOfertas() {
           "BASICO",
         ];
         aseguradorasHDI.forEach((aseguradora) => {
+          let plan = aseguradora;
+          let count = 0;
+
+          if (plan === "HDI FULL") {
+            plan = "HDI FULL";
+            count++;
+          } else if (plan === "INTEGRAL 20") {
+            plan = "INTEGRAL 20";
+            count++;
+          } else if (plan === "BASICO + PT") {
+            plan = "BASICO + PT";
+            count++;
+          } else if (plan === "BASICO") {
+            plan = "BASICO";
+            count++;
+          }
+
+          if (count === 0) return;
+
+          //debugger;
+
           let body = JSON.parse(requestOptions.body);
-          body.plan = aseguradora;
+          body.plan = plan;
           requestOptions.body = JSON.stringify(body);
-          const libertyPromise = comprobarFallida("HDI Seguros")
-          // const libertyPromise = comprobarFallida("HDI Seguros")
+          const libertyPromise = comprobarFallida(plan)
             ? fetch(
                 "https://grupoasistencia.com/motor_webservice/Liberty_autos",
                 requestOptions
@@ -4525,21 +4547,19 @@ function cotizarOfertas() {
                 })
                 .then((ofertas) => {
                   if (typeof ofertas[0].Resultado !== "undefined") {
-                    // debugger;
                     agregarAseguradoraFallida(aseguradora);
-                    validarProblema(aseguradora, ofertas);
+                    validarProblema("HDI (Antes Liberty)", ofertas);
                     ofertas[0].Mensajes.forEach((mensaje) => {
-                      mostrarAlertarCotizacionFallida("HDI (Antes Liberty)", mensaje);
+                      mostrarAlertarCotizacionFallida("HDI Seguros", mensaje);
                     });
                   } else {
-                    // eliminarAseguradoraFallida(aseguradora);
                     const contadorPorEntidad = validarOfertas(
                       ofertas,
                       aseguradora,
                       1
                     );
                     mostrarAlertaCotizacionExitosa(
-                      aseguradora,
+                      "HDI Seguros",
                       contadorPorEntidad
                     );
                   }
@@ -4547,10 +4567,10 @@ function cotizarOfertas() {
                 .catch((err) => {
                   agregarAseguradoraFallida(aseguradora);
                   mostrarAlertarCotizacionFallida(
-                    "HDI (Antes Liberty)",
+                    "HDI Seguros",
                     "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
                   );
-                  validarProblema(aseguradora, [
+                  validarProblema("HDI (Antes Liberty)", [
                     {
                       Mensajes: [
                         "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
@@ -4716,10 +4736,7 @@ function cotizarOfertas() {
                     "Mundial",
                     1
                   );
-                  mostrarAlertaCotizacionExitosa(
-                    "Mundial",
-                    contadorPorEntidad
-                  );
+                  mostrarAlertaCotizacionExitosa("Mundial", contadorPorEntidad);
                 }
               })
               .catch((err) => {
@@ -4759,12 +4776,12 @@ function cotizarOfertas() {
               //countOfferts();
               enableInputs(true);
             } else {
-                 Swal.close();
-                  $("#loaderOferta").html("");
-                  $("#loaderOfertaBox").css("display", "none");
-                  enableInputs(true);
-                  countOfferts();
-                  /*
+              Swal.close();
+              $("#loaderOferta").html("");
+              $("#loaderOfertaBox").css("display", "none");
+              enableInputs(true);
+              countOfferts();
+              /*
               Swal.fire({
                 title: "¡Proceso de Re-Cotización Finalizada!",
                 text: "¿Deseas incluir la financiación con Finesa a 11 cuotas?",
@@ -4811,7 +4828,8 @@ function cotizarOfertas() {
                   }
                 }
               });
-            */}
+            */
+            }
           } else {
             // debugger;
             // Swal.close();
@@ -5094,13 +5112,13 @@ $("#btnConsultarVehmanualbuscador").click(function () {
   }
 });
 
-  $("#btnCotizarFinesa").click(function () {
-    document.getElementById("btnReCotizarFallidas").disabled = true;
-    $("#loaderOferta").html(
-      '<img src="vistas/img/plantilla/loader-update.gif" width="34" height="34"><strong> Cotizando en Finesa...</strong>'
-    );
-    $(this).prop("disabled", true);
-    enableInputs(true);
-    cotizarFinesa(cotizacionesFinesa);
-    countOfferts();
-  });
+$("#btnCotizarFinesa").click(function () {
+  document.getElementById("btnReCotizarFallidas").disabled = true;
+  $("#loaderOferta").html(
+    '<img src="vistas/img/plantilla/loader-update.gif" width="34" height="34"><strong> Cotizando en Finesa...</strong>'
+  );
+  $(this).prop("disabled", true);
+  enableInputs(true);
+  cotizarFinesa(cotizacionesFinesa);
+  countOfferts();
+});
