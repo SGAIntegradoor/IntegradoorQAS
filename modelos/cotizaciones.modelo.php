@@ -959,7 +959,12 @@ class ModeloCotizaciones
 
 			$stmt = Conexion::conectar()->prepare("
 				SELECT 
-				*
+					c.*,
+					o.*,
+					cli.*,
+					us.*,
+					c.id AS id_hogar,
+					af.nombre_analista
 				FROM 
 					$tabla c
 				INNER JOIN 
@@ -968,6 +973,8 @@ class ModeloCotizaciones
 					$tabla3 cli ON cli.id_cliente = c.id_cliente
 				INNER JOIN 
 					$tabla4 us ON us.id_usuario = c.id_usuario
+				LEFT JOIN
+					analistas_freelances af ON af.id_usuario = us.usu_documento
 				WHERE 
 					c.fecha_cotizacion BETWEEN :fechaInicio AND :fechaFin 
 				$condicion
@@ -1002,8 +1009,32 @@ class ModeloCotizaciones
 			if ($_SESSION['rol'] == 10 || $_SESSION['rol'] == 1 || $_SESSION['rol'] == 12 || $_SESSION['rol'] == 22) {
 
 				$stmt = Conexion::conectar()->prepare("
-					SELECT 
-				c.*,o.*,cli.*,us.*, c.id as id_hogar
+				SELECT
+					c.*,
+					o.*,
+					cli.*,
+					us.*,
+					c.id AS id_hogar,
+					af.nombre_analista
+				FROM
+					cotizaciones_hogar c
+					LEFT JOIN ofertas_hogar o ON o.id_cotizacion = c.id
+					INNER JOIN clientes cli ON cli.id_cliente = c.id_cliente
+					INNER JOIN usuarios us ON us.id_usuario = c.id_usuario
+					LEFT JOIN analistas_freelances af ON af.id_usuario = us.usu_documento
+				WHERE 
+					c.fecha_cotizacion BETWEEN :fechaInicial AND :fechaFinal 
+				GROUP BY c.id;
+				");
+			} else {
+				$stmt = Conexion::conectar()->prepare("
+				SELECT 
+					c.*,
+					o.*,
+					cli.*,
+					us.*,
+					c.id AS id_hogar,
+					af.nombre_analista
 				FROM 
 					$tabla c
 				LEFT JOIN 
@@ -1012,22 +1043,8 @@ class ModeloCotizaciones
 					$tabla3 cli ON cli.id_cliente = c.id_cliente
 				INNER JOIN 
 					$tabla4 us ON us.id_usuario = c.id_usuario
-				WHERE 
-					c.fecha_cotizacion BETWEEN :fechaInicial AND :fechaFinal 
-				GROUP BY c.id;
-				");
-			} else {
-				$stmt = Conexion::conectar()->prepare("
-						SELECT 
-				*
-				FROM 
-					$tabla c
-				INNER JOIN 
-					$tabla2 o ON o.id_cotizacion = c.id
-				INNER JOIN 
-					$tabla3 cli ON cli.id_cliente = c.id_cliente
-				INNER JOIN 
-					$tabla4 us ON us.id_usuario = c.id_usuario
+				LEFT JOIN 
+					analistas_freelances af ON af.id_usuario = us.usu_documento
 				WHERE 
 						c.fecha_cotizacion BETWEEN :fechaInicial AND :fechaFinal
 						AND us.id_Intermediario = :idIntermediario
