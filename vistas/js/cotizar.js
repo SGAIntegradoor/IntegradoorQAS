@@ -3407,10 +3407,7 @@ function cotizarOfertas() {
                           agregarAseguradoraFallida(plan);
                           validarProblema("HDI (Antes Liberty)", ofertas);
                           ofertas[0].Mensajes.forEach((mensaje) => {
-                            mostrarAlertarCotizacionFallida(
-                              plan,
-                              mensaje
-                            );
+                            mostrarAlertarCotizacionFallida("HDI Seguros", mensaje);
                           });
                         } else {
                           const contadorPorEntidad = validarOfertas(
@@ -3440,7 +3437,7 @@ function cotizarOfertas() {
                         console.error(err);
                       })
                   );
-                });
+                 });
                 return;
               } /*inicio javier */ else if (aseguradora === "Qualitas") {
                 url = `https://grupoasistencia.com/WS-laravel/api/autos/qualitas`;
@@ -4444,7 +4441,8 @@ function cotizarOfertas() {
           }
 
           if (count === 0) return;
-          debugger;
+
+          //debugger;
 
           let body = JSON.parse(requestOptions.body);
           body.plan = plan;
