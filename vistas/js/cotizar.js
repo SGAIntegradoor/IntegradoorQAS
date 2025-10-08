@@ -2549,7 +2549,7 @@ const agregarAseguradoraFallida = (_aseguradora) => {
 };
 
 const comprobarFallida = (_aseguradora) => {
-  // debugger;
+  
   const result = aseguradorasFallidas.find(
     (aseguradoras) => aseguradoras == _aseguradora
   );
@@ -3183,140 +3183,6 @@ function cotizarOfertas() {
               }
             };
 
-            // const mostrarAlertarCotizacionFallida = (aseguradora, mensaje) => {
-            //   if (
-            //     aseguradora == "Estado" ||
-            //     aseguradora == "Estado2" ||
-            //     aseguradora == "Estado3"
-            //   ) {
-            //     // // debugger;
-            //     if (aseguradora == "Estado2" || aseguradora == "Estado3") {
-            //       aseguradora = "Estado";
-            //     }
-
-            //     if (
-            //       aseguradora == "HDI FULL" ||
-            //       aseguradora == "INTEGRAL 20" ||
-            //       aseguradora == "BASICO" ||
-            //       aseguradora == "BASICO + PT"
-            //     ) {
-            //       aseguradora = "HDI Seguros";
-            //     }
-
-            //     if (
-            //       aseguradora == "Mundial_RPA" ||
-            //       aseguradora == "Mundial_RCP"
-            //     ) {
-            //       aseguradora = "Mundial";
-            //     }
-            //     // console.log(aseguradora);
-            //     // console.log(mensaje);
-            //     // Referecnia de la tablas
-            //     const tablaResumenCotBody = document.querySelector(
-            //       "#tablaResumenCot tbody"
-            //     );
-            //     // Verificar si ya existe una fila para la aseguradora
-            //     const filaExistente = document.getElementById(aseguradora);
-
-            //     // console.log(filaExistente)
-            //     if (filaExistente) {
-            //       // Si la fila existe, actualiza el mensaje de observaciones
-
-            //       // Acceder directamente a las celdas de la fila existente
-            //       const celdaContador = filaExistente.cells[2]; // Tercera celda de la fila
-            //       const celdaCotizo = filaExistente.cells[1]; // Segunda celda de la fila
-            //       const celdaResponse = filaExistente.cells[3]; // Cuarta celda de la fila
-
-            //       if (
-            //         celdaResponse.textContent.trim() !== "Cotización exitosa"
-            //       ) {
-            //         if (celdaResponse.textContent !== "") {
-            //           return;
-            //         } else {
-            //           celdaContador.textContent = 0;
-            //           celdaCotizo.innerHTML =
-            //             '<i class="fa fa-times" aria-hidden="true" style="color: red; margin-right: 10px;"></i>';
-            //           celdaResponse.innerHTML = mensaje;
-            //         }
-            //       } else {
-            //         celdaCotizo.innerHTML =
-            //           '<i class="fa fa-check" aria-hidden="true" style="color: green; margin-right: 5px;"></i>';
-            //       }
-            //       // Verifica si el mensaje es diferente antes de actualizar
-            //       // if (observacionesActuales !== mensaje) {
-            //       //   celdaObservaciones.textContent = mensaje;
-            //       // } else {
-            //       //   console.log(`${aseguradora} tiene alertas iguales: "${observacionesActuales}" === "${mensaje}"`);
-            //       // }
-            //     } else {
-            //       //console.log(mensaje);
-            //       // Si no existe, crea una nueva fila
-            //       const nuevaFila = document.createElement("tr");
-            //       nuevaFila.setAttribute("data-aseguradora", aseguradora);
-            //       nuevaFila.innerHTML = `
-            //             <td>${aseguradora}</td>
-            //             <td style="text-align: center;"><i class="fa fa-times" aria-hidden="true" style="color: red; margin-right: 10px;"></i></td>
-            //             <td style="text-align: center;">0</td> <!-- Valor predeterminado para 'Productos cotizados' -->
-            //             <td>${mensaje}</td> <!-- Valor predeterminado para 'Observaciones' -->
-            //         `;
-
-            //       // Agregar la fila a la tabla
-            //       tablaResumenCotBody.appendChild(nuevaFila);
-            //     }
-            //   } else {
-            //     // console.log(aseguradora);
-            //     // console.log(mensaje);
-            //     // Referecnia de la tabla
-            //     const tablaResumenCotBody = document.querySelector(
-            //       "#tablaResumenCot tbody"
-            //     );
-            //     // V  erificar si ya existe una fila para la aseguradora
-            //     const filaExistente = document.getElementById(aseguradora);
-
-            //     // console.log(filaExistente)
-            //     if (filaExistente) {
-            //       // Si la fila existe, actualiza el mensaje de observaciones
-
-            //       // Acceder directamente a las celdas de la fila existente
-            //       const celdaContador = filaExistente.cells[2]; // Tercera celda de la fila
-            //       const celdaCotizo = filaExistente.cells[1]; // Segunda celda de la fila
-            //       const celdaResponse = filaExistente.cells[3]; // Cuarta celda de la fila
-
-            //       if (
-            //         celdaResponse.textContent.trim() !== "Cotización exitosa"
-            //       ) {
-            //         celdaContador.textContent = 0;
-            //         celdaCotizo.innerHTML =
-            //           '<i class="fa fa-times" aria-hidden="true" style="color: red; margin-right: 10px;"></i>';
-            //         celdaResponse.innerHTML = mensaje;
-            //       }
-            //       // Verifica si el mensaje es diferente antes de actualizar
-            //       // if (observacionesActuales !== mensaje) {
-            //       //   celdaObservaciones.textContent = mensaje;
-            //       // } else {
-            //       //   console.log(`${aseguradora} tiene alertas iguales: "${observacionesActuales}" === "${mensaje}"`);
-            //       // }
-            //     } else {
-            //       // console.log(mensaje);
-            //       // Si no existe, crea una nueva fila
-            //       const nuevaFila = document.createElement("tr");
-            //       nuevaFila.setAttribute("data-aseguradora", aseguradora);
-            //       nuevaFila.innerHTML = `
-            //               <td>${aseguradora}</td>
-            //               <td style="text-align: center;"><i class="fa fa-times" aria-hidden="true" style="color: red; margin-right: 10px;"></i></td>
-            //               <td style="text-align: center;">0</td> <!-- Valor predeterminado para 'Productos cotizados' -->
-            //               <td>${mensaje}</td> <!-- Valor predeterminado para 'Observaciones' -->
-            //           `;
-
-            //       // Agregar la fila a la tabla
-            //       tablaResumenCotBody.appendChild(nuevaFila);
-            //     }
-            //   }
-            // };
-
-            //console.log(aseguradorasCoti); // Esto imprimirá el array con los nombres de aseguradoras autorizadas
-            // return;
-
             const mostrarAlertarCotizacionFallida = (aseguradora, mensaje) => {
               // Normalizar nombre de aseguradora
               if (["Estado", "Estado2", "Estado3"].includes(aseguradora)) {
@@ -3326,6 +3192,7 @@ function cotizarOfertas() {
                   aseguradora
                 )
               ) {
+                debugger
                 aseguradora = "HDI Seguros";
               } else if (["Mundial_RPA", "Mundial_RCP"].includes(aseguradora)) {
                 aseguradora = "Mundial";
@@ -3541,10 +3408,10 @@ function cotizarOfertas() {
                       .then((ofertas) => {
                         if (typeof ofertas[0].Resultado !== "undefined") {
                           agregarAseguradoraFallida(plan);
-                          validarProblema(aseguradora, ofertas);
+                          validarProblema("HDI (Antes Liberty)", ofertas);
                           ofertas[0].Mensajes.forEach((mensaje) => {
                             mostrarAlertarCotizacionFallida(
-                              "HDI (Antes Liberty)",
+                              plan,
                               mensaje
                             );
                           });
@@ -3555,7 +3422,7 @@ function cotizarOfertas() {
                             1
                           );
                           mostrarAlertaCotizacionExitosa(
-                            aseguradora,
+                            "HDI Seguros",
                             contadorPorEntidad
                           );
                         }
@@ -3563,10 +3430,10 @@ function cotizarOfertas() {
                       .catch((err) => {
                         agregarAseguradoraFallida(plan);
                         mostrarAlertarCotizacionFallida(
-                          "HDI (Antes Liberty)",
+                          plan,
                           "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
                         );
-                        validarProblema(aseguradora, [
+                        validarProblema("HDI (Antes Liberty)", [
                           {
                             Mensajes: [
                               "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
@@ -3771,53 +3638,6 @@ function cotizarOfertas() {
                 $("#loaderOfertaBox").css("display", "none");
                 enableInputs(true);
                 countOfferts();
-                /*
-                Swal.fire({
-                  title: "¡Proceso de Cotización Finalizada!",
-                  text: "¿Deseas incluir la financiación con Finesa a 11 cuotas?",
-                  showConfirmButton: true,
-                  confirmButtonText: "Si",
-                  showCancelButton: true,
-                  cancelButtonText: "No",
-                  allowOutsideClick: false,
-                  customClass: {
-                    title: "custom-title-messageFinesa",
-                    htmlContainer: "custom-text-messageFinesa",
-                    popup: "custom-popup-messageFinesa",
-                    actions: "custom-actions-messageFinesa",
-                    confirmButton: "custom-confirmnButton-messageFinesa",
-                    cancelButton: "custom-cancelButton-messageFinesa",
-                  },
-                }).then(function (result) {
-                  if (result.isConfirmed) {
-                    document.getElementById(
-                      "btnReCotizarFallidas"
-                    ).disabled = true;
-                    $("#loaderOferta").html(
-                      '<img src="vistas/img/plantilla/loader-update.gif" width="34" height="34"><strong> Cotizando en Finesa...</strong>'
-                    );
-                    enableInputs(true);
-                    cotizarFinesa(cotizacionesFinesa);
-                    countOfferts();
-                    // $("#filtersSection").css("display", "block");
-                  } else if (result.isDismissed) {
-                    if (result.dismiss === "cancel") {
-                      // console.log("El usuario seleccionó 'No'");
-                      $("#loaderOferta").html("");
-                      $("#loaderOfertaBox").css("display", "none");
-                      enableInputs(true);
-                      countOfferts();
-                      // $("#filtersSection").css("display", "block");
-                    } else if (result.dismiss === "backdrop") {
-                      $("#loaderOferta").html("");
-                      $("#loaderOfertaBox").css("display", "none");
-                      enableInputs(true);
-                      countOfferts();
-                      // $("#filtersSection").css("display", "block");
-                    }
-                  }
-                });
-              */
               }
               document.querySelector(".button-recotizar").style.display =
                 "block";
@@ -3884,12 +3704,12 @@ function cotizarOfertas() {
         });
         countOfferts();
       } else {
-        // debugger;
+        
         //ZONA RECOTIZACIÓN//
         $("#loaderRecotOferta").html(
           '<img src="vistas/img/plantilla/loader-update.gif" width="34" height="34"><strong> Recotizando Ofertas...</strong>'
         );
-        // debugger;
+        
         const btnRecotizar = document.getElementById("btnReCotizarFallidas");
         btnRecotizar.disabled = true;
         document.getElementById("btnCotizarFinesa").disabled = false;
@@ -3915,6 +3735,7 @@ function cotizarOfertas() {
             aseguradora == "BASICO" ||
             aseguradora == "HDI FULL"
           ) {
+            debugger
             aseguradora = "HDI Seguros";
           }
 
@@ -3936,7 +3757,7 @@ function cotizarOfertas() {
           // Verificar si ya existe la fila
           const filaExistente = document.getElementById(aseguradora);
           if (filaExistente) {
-            debugger;
+            
             // Acceder directamente a las celdas de la fila existente
             const celdaContador = filaExistente.cells[2]; // Tercera celda de la fila
             const celdaCotizo = filaExistente.cells[1]; // Segunda celda de la fila
@@ -3980,132 +3801,6 @@ function cotizarOfertas() {
           }
         };
 
-        // const mostrarAlertarCotizacionFallida = (aseguradora, mensaje) => {
-        //   if (
-        //     aseguradora == "HDI Seguros" ||
-        //     aseguradora == "HDI FULL" ||
-        //     aseguradora == "INTEGRAL 20" ||
-        //     aseguradora == "BASICO + PT" ||
-        //     aseguradora == "BASICO"
-        //   ) {
-        //     aseguradora = "HDI Seguros";
-        //   }
-
-        //   if (aseguradora == "Mundial_RPA" || aseguradora == "Mundial_RCP") {
-        //     aseguradora = "Mundial";
-        //   }
-
-        //   if (
-        //     aseguradora == "Estado" ||
-        //     aseguradora == "Estado2" ||
-        //     aseguradora == "Estado3"
-        //   ) {
-        //     aseguradora = "Estado";
-        //     // console.log(aseguradora);
-        //     // console.log(mensaje);
-        //     // Referecnia de la tabla
-        //     const tablaResumenCotBody = document.querySelector(
-        //       "#tablaResumenCot tbody"
-        //     );
-        //     // Verificar si ya existe una fila para la aseguradora
-        //     const filaExistente = document.getElementById(aseguradora);
-
-        //     // console.log(filaExistente)
-        //     if (filaExistente) {
-        //       // Si la fila existe, actualiza el mensaje de observaciones
-
-        //       // Acceder directamente a las celdas de la fila existente
-        //       const celdaContador = filaExistente.cells[2]; // Tercera celda de la fila
-        //       const celdaCotizo = filaExistente.cells[1]; // Segunda celda de la fila
-        //       const celdaResponse = filaExistente.cells[3]; // Cuarta celda de la fila
-
-        //       if (celdaResponse.textContent.trim() !== "Cotización exitosa") {
-        //         if (celdaResponse.textContent !== "") {
-        //           celdaCotizo.innerHTML =
-        //             '<i class="fa fa-times" aria-hidden="true" style="color: red; margin-right: 10px;"></i>';
-        //           return;
-        //         } else {
-        //           celdaContador.textContent = 0;
-        //           celdaCotizo.innerHTML =
-        //             '<i class="fa fa-times" aria-hidden="true" style="color: red; margin-right: 10px;"></i>';
-        //           celdaResponse.textContent = mensaje;
-        //         }
-        //       } else {
-        //         celdaCotizo.innerHTML =
-        //           '<i class="fa fa-check" aria-hidden="true" style="color: green; margin-right: 5px;"></i>';
-        //       }
-        //       // Verifica si el mensaje es diferente antes de actualizar
-        //       // if (observacionesActuales !== mensaje) {
-        //       //   celdaObservaciones.textContent = mensaje;
-        //       // } else {
-        //       //   console.log(`${aseguradora} tiene alertas iguales: "${observacionesActuales}" === "${mensaje}"`);
-        //       // }
-        //     } else {
-        //       //console.log(mensaje);
-        //       // Si no existe, crea una nueva fila
-        //       const nuevaFila = document.createElement("tr");
-        //       nuevaFila.setAttribute("data-aseguradora", aseguradora);
-        //       nuevaFila.innerHTML = `
-        //             <td>${aseguradora}</td>
-        //             <td style="text-align: center;"><i class="fa fa-times" aria-hidden="true" style="color: red; margin-right: 10px;"></i></td>
-        //             <td style="text-align: center;">0</td> <!-- Valor predeterminado para 'Productos cotizados' -->
-        //             <td>${mensaje}</td> <!-- Valor predeterminado para 'Observaciones' -->
-        //         `;
-
-        //       // Agregar la fila a la tabla
-        //       tablaResumenCotBody.appendChild(nuevaFila);
-        //     }
-        //   } else {
-        //     // console.log(aseguradora);
-        //     // console.log(mensaje);
-        //     // Referencia de la tabla
-        //     const tablaResumenCotBody = document.querySelector(
-        //       "#tablaResumenCot tbody"
-        //     );
-        //     // V  erificar si ya existe una fila para la aseguradora
-        //     const filaExistente = document.getElementById(aseguradora);
-
-        //     // console.log(filaExistente)
-        //     if (filaExistente) {
-        //       // Si la fila existe, actualiza el mensaje de observaciones
-
-        //       // Acceder directamente a las celdas de la fila existente
-        //       const celdaContador = filaExistente.cells[2]; // Tercera celda de la fila
-        //       const celdaCotizo = filaExistente.cells[1]; // Segunda celda de la fila
-        //       const celdaResponse = filaExistente.cells[3]; // Cuarta celda de la fila
-
-        //       if (celdaResponse.textContent.trim() !== "Cotización exitosa") {
-        //         celdaContador.textContent = 0;
-        //         celdaCotizo.innerHTML =
-        //           '<i class="fa fa-times" aria-hidden="true" style="color: red; margin-right: 10px;"></i>';
-        //         celdaResponse.textContent = mensaje;
-        //       } else {
-        //         celdaCotizo.innerHTML =
-        //           '<i class="fa fa-check" aria-hidden="true" style="color: green; margin-right: 5px;"></i>';
-        //       }
-        //       // Verifica si el mensaje es diferente antes de actualizar
-        //       // if (observacionesActuales !== mensaje) {
-        //       //   celdaObservaciones.textContent = mensaje;
-        //       // } else {
-        //       //   console.log(`${aseguradora} tiene alertas iguales: "${observacionesActuales}" === "${mensaje}"`);
-        //       // }
-        //     } else {
-        //       // Si no existe, crea una nueva fila
-        //       const nuevaFila = document.createElement("tr");
-        //       nuevaFila.setAttribute("data-aseguradora", aseguradora);
-        //       nuevaFila.innerHTML = `
-        //               <td>${aseguradora}</td>
-        //               <td style="text-align: center;"><i class="fa fa-times" aria-hidden="true" style="color: red; margin-right: 10px;"></i></td>
-        //               <td style="text-align: center;">0</td> <!-- Valor predeterminado para 'Productos cotizados' -->
-        //               <td>${mensaje}</td> <!-- Valor predeterminado para 'Observaciones' -->
-        //           `;
-
-        //       // Agregar la fila a la tabla
-        //       tablaResumenCotBody.appendChild(nuevaFila);
-        //     }
-        //   }
-        // };
-
         const mostrarAlertarCotizacionFallida = (aseguradora, mensaje) => {
           // Normalización de nombres
           if (
@@ -4117,6 +3812,7 @@ function cotizarOfertas() {
               "BASICO",
             ].includes(aseguradora)
           ) {
+            debugger
             aseguradora = "HDI Seguros";
           }
 
@@ -4716,11 +4412,30 @@ function cotizarOfertas() {
           "BASICO",
         ];
         aseguradorasHDI.forEach((aseguradora) => {
+          let plan = aseguradora;
+          let count = 0;
+
+          if (plan === "HDI FULL") {
+            plan = "HDI FULL";
+            count++;
+          } else if (plan === "INTEGRAL 20") {
+            plan = "INTEGRAL 20";
+            count++;
+          } else if (plan === "BASICO + PT") {
+            plan = "BASICO + PT";
+            count++;
+          } else if (plan === "BASICO") {
+            plan = "BASICO";
+            count++;
+          }
+
+          if (count === 0) return;
+          debugger;
+
           let body = JSON.parse(requestOptions.body);
-          body.plan = aseguradora;
+          body.plan = plan;
           requestOptions.body = JSON.stringify(body);
-          const libertyPromise = comprobarFallida("HDI Seguros")
-          // const libertyPromise = comprobarFallida("HDI Seguros")
+          const libertyPromise = comprobarFallida(plan)
             ? fetch(
                 "https://grupoasistencia.com/motor_webservice/Liberty_autos",
                 requestOptions
@@ -4731,21 +4446,19 @@ function cotizarOfertas() {
                 })
                 .then((ofertas) => {
                   if (typeof ofertas[0].Resultado !== "undefined") {
-                    // debugger;
                     agregarAseguradoraFallida(aseguradora);
-                    validarProblema(aseguradora, ofertas);
+                    validarProblema("HDI (Antes Liberty)", ofertas);
                     ofertas[0].Mensajes.forEach((mensaje) => {
-                      mostrarAlertarCotizacionFallida("HDI (Antes Liberty)", mensaje);
+                      mostrarAlertarCotizacionFallida("HDI Seguros", mensaje);
                     });
                   } else {
-                    // eliminarAseguradoraFallida(aseguradora);
                     const contadorPorEntidad = validarOfertas(
                       ofertas,
                       aseguradora,
                       1
                     );
                     mostrarAlertaCotizacionExitosa(
-                      aseguradora,
+                      "HDI Seguros",
                       contadorPorEntidad
                     );
                   }
@@ -4753,10 +4466,10 @@ function cotizarOfertas() {
                 .catch((err) => {
                   agregarAseguradoraFallida(aseguradora);
                   mostrarAlertarCotizacionFallida(
-                    "HDI (Antes Liberty)",
+                    "HDI Seguros",
                     "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
                   );
-                  validarProblema(aseguradora, [
+                  validarProblema("HDI (Antes Liberty)", [
                     {
                       Mensajes: [
                         "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
@@ -4973,9 +4686,9 @@ function cotizarOfertas() {
           let nuevas = cotizacionesFinesa.filter(
             (cotizaciones) => cotizaciones.cotizada === null
           );
-          // debugger;
+          
           if (nuevas.length > 0) {
-            // debugger;
+            
             if (intermediario != 3 && intermediario != 149) {
               Swal.fire({
                 title: "¡Proceso de  Re-Cotización Finalizada!",
@@ -5040,7 +4753,7 @@ function cotizarOfertas() {
             */
             }
           } else {
-            // debugger;
+            
             // Swal.close();
             swal.fire({
               title: "¡Proceso de Re-Cotización Finalizada!",
