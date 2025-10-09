@@ -2589,7 +2589,2374 @@ function enableInputs(opt) {
         .attr("disabled", "disabled");
 }
 
+/**
 // Captura los datos suministrados por el cliente y los envia al API para recibir la cotizacion.
+// function cotizarOfertas() {
+//   showCircularProgress("Cotización Autos en Proceso", 2200, 110000);
+//   var codigoFasecolda1 = document.getElementById("txtFasecolda");
+//   var contenido = codigoFasecolda1.value;
+
+//   // Obtener el cuarto y quinto dígito de la variable contenido
+//   var cuartoDigito = contenido.charAt(3);
+//   var quintoDigito = contenido.charAt(4);
+
+//   // Verificar si el cuarto dígito es igual a 0 y eliminarlo si es así
+//   if (cuartoDigito === "0") {
+//     condicional = quintoDigito;
+//   } else {
+//     // Concatenar los dígitos en un solo número
+//     condicional = cuartoDigito + quintoDigito;
+//   }
+//   var tipoUsoVehiculo = document.getElementById("txtTipoUsoVehiculo").value;
+//   if (tipoUsoVehiculo == "Trabajo") {
+//     var restriccion = "";
+//     if (rolAsesor == 19) {
+//       restriccion =
+//         "Lo sentimos, no puedes realizar cotizaciones para vehículo de trabajo por este cotizador. Para hacerlo debes comunicarte con el Equipo de Asesores Freelance de Grupo Asistencia, quienes podrán ayudarte a cotizar de manera manual con diferentes aseguradoras.";
+//     } else {
+//       restriccion =
+//         "Lo sentimos, no puedes realizar cotizaciones para vehículo de trabajo por este cotizador.";
+//     }
+//     // Swal.close();
+//     Swal.fire({
+//       icon: "error",
+//       confirmButtonText: "Cerrar",
+//       text: restriccion,
+//     }).then(() => {
+//       // Agregar un retraso antes de recargar la página (por ejemplo, 2 segundos)
+//       setTimeout(() => {
+//         // Recargar la página después del retraso
+//         location.reload();
+//       }, 2000); // 2000 milisegundos = 2 segundos
+//     });
+//     // Salir del código aquí para evitar la ejecución del resto del código
+//     return;
+//   }
+//   var tipoServicio = document.getElementById("txtTipoServicio").value;
+//   if (tipoServicio == "11" || tipoServicio == "12") {
+//     var restriccion = "";
+//     if (rolAsesor == 19) {
+//       restriccion =
+//         "Lo sentimos, no puedes realizar cotizaciones para el tipo de servicio público o intermunicipal por este cotizador. Para hacerlo debes comunicarte con el Equipo de Asesores Freelance de Grupo Asistencia, quienes podrán ayudarte a cotizar de manera manual con diferentes aseguradoras.";
+//     } else {
+//       restriccion =
+//         "Lo sentimos, no puedes realizar cotizaciones para el tipo de servicio público o intermunicipal por este cotizador.";
+//     }
+//     // Swal.close();
+//     Swal.fire({
+//       icon: "error",
+//       confirmButtonText: "Cerrar",
+//       text: restriccion,
+//     }).then(() => {
+//       // Agregar un retraso antes de recargar la página (por ejemplo, 2 segundos)
+//       setTimeout(() => {
+//         // Recargar la página después del retraso
+//         location.reload();
+//       }, 2000); // 2000 milisegundos = 2 segundos
+//     });
+//     // Salir del código aquí para evitar la ejecución del resto del código
+//     return;
+//   }
+
+//   console.log(aseguradorasFallidas);
+
+//   var placa = document.getElementById("placaVeh").value;
+//   var esCeroKmSi = document.getElementById("txtEsCeroKmSi").checked;
+//   var esCeroKm = esCeroKmSi.toString();
+//   var esCeroKmInt = esCeroKmSi == true ? 1 : 0;
+
+//   var idCliente = document.getElementById("idCliente").value;
+//   var tipoDocumentoID = document.getElementById("tipoDocumentoID").value;
+//   var numDocumentoID = document.getElementById("numDocumentoID").value;
+//   var Nombre = document.getElementById("txtNombres").value;
+//   var Apellido1 = document.getElementById("txtApellidos").value;
+//   var Apellido2 = "";
+
+//   //! Agregar a Motos y Pesados START
+//   let razonSocial = document.getElementById("txtRazonSocial").value;
+//   let digitoVerif = document.getElementById("txtDigitoVerif").value;
+//   // Representante Legal START
+//   let tipoDocRep = document.getElementById(
+//     "tipoDocumentoIDRepresentante"
+//   ).value;
+//   let numDocRep = document.getElementById("numDocumentoIDRepresentante").value;
+//   let nombresRep = document.getElementById("txtNombresRepresentante").value;
+//   let apellidosRep = document.getElementById("txtApellidosRepresentante").value;
+//   let diaRep = document.getElementById("dianacimientoRepresentante").value;
+//   let mesRep = document.getElementById("mesnacimientoRepresentante").value;
+//   let anioRep = document.getElementById("anionacimientoRepresentante").value;
+
+//   let fechaNacimientoRep = anioRep + "-" + mesRep + "-" + diaRep;
+//   let generoRep = document.getElementById("generoRepresentante").value;
+//   let estCivRep = document.getElementById("estadoCivilRepresentante").value;
+//   let correoRep = document.getElementById("txtCorreoRepresentante").value;
+//   let celRep = document.getElementById("txtCelularRepresentante").value;
+//   // Representante Legal END
+//   //! Agregar a Motos y Pesados END
+
+//   var dia = document.getElementById("dianacimiento").value;
+//   var mes = document.getElementById("mesnacimiento").value;
+//   var anio = document.getElementById("anionacimiento").value;
+
+//   var FechaNacimiento = "";
+
+//   if (anio == "" && mes == "" && dia == "") {
+//     FechaNacimiento = "";
+//   } else {
+//     FechaNacimiento = anio + "-" + mes + "-" + dia;
+//   }
+
+//   var Genero = document.getElementById("genero").value;
+
+//   var estadoCivil = document.getElementById("estadoCivil").value;
+//   var celularAseg = document.getElementById("txtCelular").value;
+//   var emailAseg = document.getElementById("txtCorreo").value;
+//   var direccionAseg = document.getElementById("direccionAseg").value;
+
+//   var CodigoClase = document.getElementById("CodigoClase").value;
+//   var CodigoMarca = document.getElementById("CodigoMarca").value;
+//   var CodigoLinea = document.getElementById("CodigoLinea").value;
+//   var claseVeh = document.getElementById("txtClaseVeh").value;
+//   var marcaVeh = document.getElementById("txtMarcaVeh").value;
+//   var modeloVeh = document.getElementById("txtModeloVeh").value;
+//   var lineaVeh = document.getElementById("txtReferenciaVeh").value;
+
+//   var LimiteRC = document.getElementById("LimiteRC").value;
+//   var CoberturaEstado = document.getElementById("CoberturaEstado").value;
+//   var ValorAccesorios = document.getElementById("ValorAccesorios").value;
+//   var CodigoVerificacion = document.getElementById("CodigoVerificacion").value;
+//   var AniosSiniestro = document.getElementById("AniosSiniestro").value;
+//   var AniosAsegurados = document.getElementById("AniosAsegurados").value;
+//   var NivelEducativo = document.getElementById("NivelEducativo").value;
+//   var Estrato = document.getElementById("Estrato").value;
+
+//   var fasecoldaVeh = document.getElementById("txtFasecolda").value;
+//   var valorFasecolda = document.getElementById("txtValorFasecolda").value;
+//   var DptoCirculacion = document.getElementById("DptoCirculacion").value;
+//   var ciudadCirculacion = document.getElementById("ciudadCirculacion").value;
+//   var isBenefOneroso = $("input:radio[name=oneroso]:checked").val(); // Valida que alguno de los 2 este selecionado
+//   var benefOneroso = document.getElementById("benefOneroso").value;
+//   var TokenPrevisora = document.getElementById("previsoraToken").value;
+//   var intermediario = document.getElementById("idIntermediario").value;
+
+//   let codigoFasecolda = fasecoldaVeh;
+
+//   if (codigoFasecolda.charAt(0) === "0") {
+//     codigoFasecolda = codigoFasecolda.substring(1);
+//   }
+
+//   const ejecutarValidacion = async () => {
+//     try {
+//       const validateVeh = await validateVehicle(codigoFasecolda, modeloVeh);
+//       if (validateVeh) {
+//         isHybOrElec = validateVeh;
+//       }
+//     } catch (error) {
+//       console.error("Error al validar el vehículo:", error);
+//     }
+//   };
+
+//   ejecutarValidacion();
+
+//   /**
+//    * Variables para SBS
+//    */
+//   var cre_sbs_usuario = document.getElementById("cre_sbs_usuario").value;
+//   var cre_sbs_contrasena = document.getElementById("cre_sbs_contrasena").value;
+
+//   
+//    * Variables para ESTADO
+//    */
+//   var cre_est_usuario = document.getElementById("cre_est_usuario").value;
+//   var cre_equ_contrasena = document.getElementById("cre_equ_contrasena").value;
+//   var Cre_Est_Entity_Id = document.getElementById("Cre_Est_Entity_Id").value;
+//   var cre_est_zona = document.getElementById("cre_est_zona").value;
+
+//   
+//    * Variables para Allianz
+//    */
+
+//   var cre_alli_sslcertfile = document.getElementById(
+//     "cre_alli_sslcertfile"
+//   ).value;
+//   var cre_alli_sslkeyfile = document.getElementById(
+//     "cre_alli_sslkeyfile"
+//   ).value;
+//   var cre_alli_passphrase = document.getElementById(
+//     "cre_alli_passphrase"
+//   ).value;
+//   var cre_alli_partnerid = document.getElementById("cre_alli_partnerid").value;
+//   var cre_alli_agentid = document.getElementById("cre_alli_agentid").value;
+//   var cre_alli_partnercode = document.getElementById(
+//     "cre_alli_partnercode"
+//   ).value;
+//   var cre_alli_agentcode = document.getElementById("cre_alli_agentcode").value;
+
+//    * Variables de AXA
+//    */
+//   var cre_axa_sslcertfile = document.getElementById(
+//     "cre_axa_sslcertfile"
+//   ).value;
+//   var cre_axa_sslkeyfile = document.getElementById("cre_axa_sslkeyfile").value;
+
+//   var cre_axa_passphrase = document.getElementById("cre_axa_passphrase").value;
+//   var cre_axa_codigoDistribuidor = document.getElementById(
+//     "cre_axa_codigoDistribuidor"
+//   ).value;
+
+//   var cre_axa_idTipoDistribuidor = document.getElementById(
+//     "cre_axa_idTipoDistribuidor"
+//   ).value;
+//   var cre_axa_codigoDivipola = document.getElementById(
+//     "cre_axa_codigoDivipola"
+//   ).value;
+
+//   var cre_axa_canal = document.getElementById("cre_axa_canal").value;
+//   var cre_axa_validacionEventos = document.getElementById(
+//     "cre_axa_validacionEventos"
+//   ).value;
+//   var url_axa = document.getElementById("url_axa").value;
+//   var livianos_productos = document.getElementById(
+//     "cre_axa_livianos_productos"
+//   ).value;
+
+//    * Variables para Bolivar
+//    */
+//   var cre_bol_api_key = document.getElementById("cre_bol_api_key").value;
+//   var cre_bol_claveAsesor = document.getElementById(
+//     "cre_bol_claveAsesor"
+//   ).value;
+
+//    * Variables de Solidaria
+//    */
+//   var cre_sol_cod_sucursal = document.getElementById(
+//     "cre_sol_cod_sucursal"
+//   ).value;
+//   var cre_sol_cod_per = document.getElementById("cre_sol_cod_per").value;
+//   var cre_sol_cod_tipo_agente = document.getElementById(
+//     "cre_sol_cod_tipo_agente"
+//   ).value;
+//   var cre_sol_cod_agente = document.getElementById("cre_sol_cod_agente").value;
+//   var cre_sol_cod_pto_vta = document.getElementById(
+//     "cre_sol_cod_pto_vta"
+//   ).value;
+//   var cre_sol_grant_type = document.getElementById("cre_sol_grant_type").value;
+//   var cre_sol_Cookie_token = document.getElementById(
+//     "cre_sol_Cookie_token"
+//   ).value;
+//   var cre_sol_token = document.getElementById("cre_sol_token").value;
+//   var cre_sol_fecha_token = document.getElementById(
+//     "cre_sol_fecha_token"
+//   ).value;
+
+//   /**
+//    * Variables de Previsora
+//    */
+//   var cre_pre_username = document.getElementById("cre_pre_Username").value;
+//   var cre_pre_password = document.getElementById("cre_pre_Password").value;
+//   var cre_pre_agentcode = document.getElementById("cre_pre_AgentCode").value;
+//   var cre_pre_sourcecode = document.getElementById("cre_pre_SourceCode").value;
+//   var cre_pre_bussinedId = document.getElementById("cre_pre_BusinessId").value;
+
+//   var aseguradoras_autorizar = JSON.parse(
+//     document.getElementById("aseguradoras").value
+//   );
+
+//   if (ciudadCirculacion.length == 4) {
+//     ciudadCirculacion = "0" + ciudadCirculacion;
+//   } else if (ciudadCirculacion.length == 3) {
+//     ciudadCirculacion = "00" + ciudadCirculacion;
+//   }
+
+//   //! Agregar a Motos y Pesados START
+
+//   let typeQuery =
+//     tipoDocumentoID != "2"
+//       ? placa != "" &&
+//         tipoDocumentoID != "" &&
+//         numDocumentoID != "" &&
+//         dia != "" &&
+//         mes != "" &&
+//         anio != "" &&
+//         Nombre != "" &&
+//         Apellido1 != "" &&
+//         Genero != "" &&
+//         estadoCivil != ""
+//       : placa != "" &&
+//         digitoVerif != "" &&
+//         razonSocial != "" &&
+//         numDocRep != "" &&
+//         nombresRep != "" &&
+//         apellidosRep != "" &&
+//         generoRep != "" &&
+//         estCivRep != "";
+//   //correoRep != "" &&
+//   //celRep != "";
+
+//   //! Agregar a Motos y Pesados END
+
+//   if (
+//     fasecoldaVeh != "" &&
+//     valorFasecolda != "" &&
+//     tipoUsoVehiculo != "" &&
+//     tipoServicio != "" &&
+//     DptoCirculacion != "" &&
+//     ciudadCirculacion != "" &&
+//     isBenefOneroso != undefined
+//   ) {
+//     if (typeQuery) {
+//       $("#loaderOferta").html(
+//         '<img src="vistas/img/plantilla/loader-update.gif" width="34" height="34"><strong> Consultando Ofertas...</strong>'
+//       );
+//       var myHeaders = new Headers();
+//       myHeaders.append("Content-Type", "application/json");
+
+//       var raw = {
+//         Placa: placa,
+//         ceroKm: esCeroKm,
+//         TipoIdentificacion: tipoDocumentoID,
+//         NumeroIdentificacion: numDocumentoID,
+//         Nombre: Nombre,
+//         Apellido: Apellido1,
+//         Genero: Genero,
+//         FechaNacimiento: FechaNacimiento,
+//         EstadoCivil: estadoCivil,
+//         NumeroTelefono: celularAseg,
+//         Direccion: direccionAseg,
+//         Email: emailAseg,
+//         ZonaCirculacion: DptoCirculacion,
+//         CodigoMarca: CodigoMarca,
+//         CodigoLinea: CodigoLinea,
+//         CodigoClase: CodigoClase,
+//         CodigoFasecolda: fasecoldaVeh,
+//         Modelo: modeloVeh,
+//         ValorAsegurado: valorFasecolda,
+//         LimiteRC: LimiteRC,
+//         Cobertura: CoberturaEstado,
+//         ValorAccesorios: ValorAccesorios,
+//         CiudadBolivar: ciudadCirculacion,
+//         tipoServicio: tipoServicio,
+//         CodigoVerificacion: CodigoVerificacion,
+//         Apellido2: Apellido2,
+//         AniosSiniestro: AniosSiniestro,
+//         AniosAsegurados: AniosAsegurados,
+//         NivelEducativo: NivelEducativo,
+//         Estrato: Estrato,
+//         TokenPrevisora: TokenPrevisora,
+//         intermediario: intermediario,
+//         SBS: {
+//           cre_sbs_usuario: cre_sbs_usuario,
+//           cre_sbs_contrasena: cre_sbs_contrasena,
+//         },
+//         PREVISORA: {
+//           cre_pre_username: cre_pre_username,
+//           cre_pre_password: cre_pre_password,
+//           cre_pre_agentcode: cre_pre_agentcode,
+//           cre_pre_sourcecode: cre_pre_sourcecode,
+//           cre_pre_bussinedId: cre_pre_bussinedId,
+//         },
+//         ALLIANZ: {
+//           cre_alli_sslcertfile: cre_alli_sslcertfile,
+//           cre_alli_sslkeyfile: cre_alli_sslkeyfile,
+//           cre_alli_passphrase: cre_alli_passphrase,
+//           cre_alli_partnerid: cre_alli_partnerid,
+//           cre_alli_agentid: cre_alli_agentid,
+//           cre_alli_partnercode: cre_alli_partnercode,
+//           cre_alli_agentcode: cre_alli_agentcode,
+//         },
+//         ESTADO: {
+//           cre_est_usuario: cre_est_usuario,
+//           cre_equ_contrasena: cre_equ_contrasena,
+//           Cre_Est_Entity_Id: Cre_Est_Entity_Id,
+//           cre_est_zona: cre_est_zona,
+//         },
+//         Bolivar: {
+//           cre_bol_api_key: cre_bol_api_key,
+//           cre_bol_claveAsesor: cre_bol_claveAsesor,
+//         },
+//         AXA: {
+//           cre_axa_sslcertfile: cre_axa_sslcertfile,
+//           cre_axa_sslkeyfile: cre_axa_sslkeyfile,
+//           cre_axa_passphrase: cre_axa_passphrase,
+//           cre_axa_codigoDistribuidor: cre_axa_codigoDistribuidor,
+//           cre_axa_idTipoDistribuidor: cre_axa_idTipoDistribuidor,
+//           cre_axa_codigoDivipola: cre_axa_codigoDivipola,
+//           cre_axa_canal: cre_axa_canal,
+//           cre_axa_validacionEventos: cre_axa_validacionEventos,
+//           url_axa: url_axa,
+//           livianos_productos: livianos_productos,
+//         },
+//         SOLIDARIA: {
+//           cre_sol_cod_sucursal: cre_sol_cod_sucursal,
+//           cre_sol_cod_per: cre_sol_cod_per,
+//           cre_sol_cod_tipo_agente: cre_sol_cod_tipo_agente,
+//           cre_sol_cod_agente: cre_sol_cod_agente,
+//           cre_sol_cod_pto_vta: cre_sol_cod_pto_vta,
+//           cre_sol_grant_type: cre_sol_grant_type,
+//           cre_sol_Cookie_token: cre_sol_Cookie_token,
+//           cre_sol_token: cre_sol_token,
+//           cre_sol_fecha_token: cre_sol_fecha_token,
+//         },
+//         env: "QAS",
+//       };
+
+//       //! Agregar a Motos y Pesados START
+
+//       if (tipoDocumentoID == 2) {
+//         raw.razonSocial = razonSocial;
+//         raw.digitoVerif = digitoVerif;
+//         raw.tipoDocRep = tipoDocRep;
+//         raw.numDocRep = numDocRep;
+//         raw.nombresRep = nombresRep;
+//         raw.apellidosRep = apellidosRep;
+//         raw.fechaNacimientoRep = fechaNacimientoRep;
+//         raw.generoRep = generoRep;
+//         raw.estCivRep = estCivRep;
+//         raw.correoRep = correoRep == "" ? null : correoRep;
+//         raw.celRep = celRep == "" ? null : celRep;
+//       }
+
+//       //! Agregar a Motos y Pesados END
+
+//       var requestOptions = {
+//         method: "POST",
+//         headers: myHeaders,
+//         body: JSON.stringify(raw),
+//         redirect: "follow",
+//       };
+
+//       if (!primerIntentoRealizado) {
+//         //menosVeh();
+//         const aseguradorasCoti = Object.keys(aseguradoras_autorizar).filter(
+//           (aseguradora) => aseguradoras_autorizar[aseguradora]["A"] === "1"
+//         );
+//         if (aseguradoras_autorizar.Previsora.A !== "1") {
+//           var mensajePrevisora = document.getElementById("mensajePrevisora");
+//           mensajePrevisora.style.display = "none"; // o cualquier otro valor como 'inline', 'flex', etc.
+//         }
+//         // const aseguradoras = ['Allianz', 'AXA', 'Bolivar', 'Equidad', 'Estado', 'HDI', 'Liberty', 'Mapfre', 'Previsora', 'SBS', 'Solidaria', 'Zurich'];
+//         const tbody = document.querySelector("#tablaResumenCot tbody");
+
+//         aseguradorasCoti.forEach((aseguradora) => {
+//           // Crear una fila
+//           const fila = document.createElement("tr");
+//           fila.id = aseguradora; // Establecer el id del tr igual al nombre de la aseguradora
+
+//           // Crear la celda de nombre de aseguradora
+//           const celdaNombre = document.createElement("td");
+//           celdaNombre.textContent = aseguradora;
+//           celdaNombre.id = aseguradora; // Establecer el id igual al nombre de la aseguradora
+//           fila.appendChild(celdaNombre);
+
+//           // Crear la celda de respuesta
+//           const celdaRespuesta = document.createElement("td");
+//           celdaRespuesta.className = "text-center";
+//           celdaRespuesta.id = `${aseguradora}Response`;
+//           fila.appendChild(celdaRespuesta);
+
+//           // Crear la celda de productos cotizados
+//           const celdaProductos = document.createElement("td");
+//           celdaProductos.className = "text-center";
+//           celdaProductos.id = `${aseguradora}Products`;
+//           fila.appendChild(celdaProductos);
+
+//           // Crear la celda de observaciones
+//           const celdaObservaciones = document.createElement("td");
+//           celdaObservaciones.id = `${aseguradora}Observation`;
+//           fila.appendChild(celdaObservaciones);
+
+//           // Agregar la fila al cuerpo de la tabla
+//           tbody.appendChild(fila);
+
+//           const celdaResponse = document.getElementById(
+//             `${aseguradora}Response`
+//           );
+
+//           // Agregar un elemento de carga (por ejemplo, un gif) en la celda de respuesta
+//           const loadingElement = document.createElement("img");
+//           loadingElement.src = "vistas/img/plantilla/loader-update.gif"; // Reemplaza con la ruta correcta del gif
+//           loadingElement.alt = "Cargando...";
+
+//           // Establecer el tamaño deseado del gif (por ejemplo, 50px x 50px)
+//           loadingElement.style.width = "22px";
+//           loadingElement.style.height = "22px";
+
+//           // Limpiar cualquier contenido existente en la celda de respuesta
+//           celdaResponse.innerHTML = "";
+
+//           // Agregar el elemento de carga a la celda de respuesta
+//           celdaResponse.appendChild(loadingElement);
+//         });
+
+//         //console.log(aseguradorasCredenciales)
+//         primerIntentoRealizado = true;
+//         $.ajax({
+//           type: "POST",
+//           url: "src/insertarCotizacion.php",
+//           dataType: "json",
+//           data: {
+//             placa: placa,
+//             esCeroKm: esCeroKmInt,
+//             idCliente: idCliente,
+//             tipoDocumento: tipoDocumentoID,
+//             numIdentificacion: numDocumentoID,
+//             Nombre: Nombre,
+//             Apellido: Apellido1,
+//             FechaNacimiento: FechaNacimiento,
+//             Genero: Genero,
+//             EstadoCivil: estadoCivil,
+//             Celular: celularAseg,
+//             Correo: emailAseg,
+//             direccionAseg: direccionAseg,
+//             CodigoClase: "1",
+//             Clase: claseVeh,
+//             Marca: marcaVeh,
+//             Modelo: modeloVeh,
+//             Linea: lineaVeh,
+//             Fasecolda: fasecoldaVeh,
+//             ValorAsegurado: valorFasecolda,
+//             tipoUsoVehiculo: tipoUsoVehiculo,
+//             tipoServicio: tipoServicio,
+//             Departamento: DptoCirculacion,
+//             Ciudad: ciudadCirculacion,
+//             benefOneroso: benefOneroso,
+//             idCotizacion: idCotizacion,
+//             mundial: null,
+//             credenciales: aseguradorasCredencialesPasajeros,
+//             razonSocial: razonSocial,
+//             digitoVerif: digitoVerif,
+//             tipoDocRep: tipoDocRep,
+//             numDocRep: numDocRep,
+//             nombresRep: nombresRep,
+//             apellidosRep: apellidosRep,
+//             fechaNacimientoRep: fechaNacimientoRep,
+//             generoRep: generoRep,
+//             estCivRep: estCivRep,
+//             correoRep: correoRep,
+//             celRep: celRep,
+//           },
+//           cache: false,
+//           success: function (data) {
+//             document.querySelector("#btnCotizar").disabled = true;
+//             const contenParrilla = document.querySelector("#contenParrilla");
+//             parrillaCotizaciones.style.display = "block";
+//             contenParrilla.style.display = "block";
+//             idCotizacion = data.id_cotizacion;
+//             raw.cotizacion = idCotizacion;
+//             // console.log(idCotizacion)
+
+//             var requestOptions = {
+//               method: "POST",
+//               headers: myHeaders,
+//               body: JSON.stringify(raw),
+//               redirect: "follow",
+//             };
+
+//             let cont = [];
+
+//             const mostrarAlertaCotizacionExitosa = (aseguradora, contador) => {
+//               if (aseguradora == "Estado2" || aseguradora == "Estado3") {
+//                 aseguradora = "Estado";
+//               }
+
+//               if (
+//                 aseguradora == "B_Premium" ||
+//                 aseguradora == "B_Standard" ||
+//                 aseguradora == "B_Clasico" ||
+//                 aseguradora == "B_Ligero" ||
+//                 aseguradora == "B_Verde"
+//               )
+//                 aseguradora = "Bolivar";
+//               // Obtener la primera clave del objeto
+//               const primeraClave = Object.keys(contador)[0];
+
+//               // Obtener el valor asociado a la primera clave
+//               const contadorOfertas = contador[primeraClave];
+
+//               // Obtener la referencia de la tabla
+//               const tablaResumenCotBody = document.querySelector(
+//                 "#tablaResumenCot tbody"
+//               );
+
+//               // Verificar si ya existe la fila
+//               const filaExistente = document.getElementById(aseguradora);
+//               if (filaExistente) {
+//                 // Acceder directamente a las celdas de la fila existente
+//                 const celdaContador = filaExistente.cells[2]; // Tercera celda de la fila
+//                 const celdaCotizo = filaExistente.cells[1]; // Segunda celda de la fila
+//                 const celdaResponse = filaExistente.cells[3]; // Cuarta celda de la fila
+//                 // Actualizar los valores según sea necesario
+//                 const contadorActualTexto = celdaContador.textContent.trim();
+//                 // Verificar si el texto está vacío o no es un número
+//                 const contadorActual =
+//                   contadorActualTexto === ""
+//                     ? 0
+//                     : parseInt(contadorActualTexto, 10);
+//                 const nuevoContador = contadorActual + contadorOfertas;
+
+//                 if (contadorActualTexto !== "") {
+//                   celdaContador.textContent = nuevoContador;
+//                   celdaCotizo.innerHTML =
+//                     '<i class="fa fa-check" aria-hidden="true" style="color: green; margin-right: 5px;"></i>';
+//                   celdaResponse.textContent = "Cotización exitosa";
+//                 } else {
+//                   celdaContador.textContent = nuevoContador;
+//                   celdaCotizo.innerHTML =
+//                     '<i class="fa fa-check" aria-hidden="true" style="color: green; margin-right: 5px;"></i>';
+//                   celdaResponse.textContent = "Cotización exitosa";
+//                 }
+//               } else {
+//                 // Si la fila no existe, puedes agregarla
+//                 const nuevaFila = document.createElement("tr");
+//                 nuevaFila.id = aseguradora;
+//                 nuevaFila.innerHTML = `
+//                     <td>${aseguradora}</td>
+//                     <td style="text-align: center;"><i class="fa fa-check" aria-hidden="true" style="color: green; margin-right: 5px;"></i></td>
+//                     <td style="text-align: center;">${contadorOfertas}</td>
+//                     <td>Nuevo Valor para Response</td>
+//                     <td>Nuevo Valor para Products</td>
+//                     <td>Nuevo Valor para Observation</td>
+//                   `;
+//                 tablaResumenCotBody.appendChild(nuevaFila);
+//               }
+//             };
+
+//             const mostrarAlertarCotizacionFallida = (aseguradora, mensaje) => {
+//               // --- Normalizar nombre de aseguradora ---
+//               const equivalencias = {
+//                 Estado2: "Estado",
+//                 Estado3: "Estado",
+//                 "HDI FULL": "HDI Seguros",
+//                 "INTEGRAL 20": "HDI Seguros",
+//                 BASICO: "HDI Seguros",
+//                 "BASICO + PT": "HDI Seguros",
+//                 B_Premium: "Bolivar",
+//                 B_Standard: "Bolivar",
+//                 B_Clasico: "Bolivar",
+//                 B_Ligero: "Bolivar",
+//                 B_Verde: "Bolivar",
+//               };
+
+//               if (equivalencias[aseguradora]) {
+//                 aseguradora = equivalencias[aseguradora];
+//               }
+
+//               // --- Referencia de la tabla ---
+//               const tablaResumenCotBody = document.querySelector(
+//                 "#tablaResumenCot tbody"
+//               );
+//               const filaExistente = document.getElementById(aseguradora);
+
+//               if (filaExistente) {
+//                 // Acceder directamente a las celdas existentes
+//                 const celdaContador = filaExistente.cells[2]; // 'Productos cotizados'
+//                 const celdaCotizo = filaExistente.cells[1]; // Icono de estado
+//                 const celdaResponse = filaExistente.cells[3]; // 'Observaciones'
+
+//                 // Si la cotización no fue exitosa, actualiza mensaje e icono
+//                 if (celdaResponse.textContent.trim() !== "Cotización exitosa") {
+//                   if (celdaResponse.textContent === "") {
+//                     celdaContador.textContent = 0;
+//                     celdaCotizo.innerHTML = `
+//           <i class="fa fa-times" aria-hidden="true" 
+//              style="color: red; margin-right: 10px;"></i>`;
+//                     celdaResponse.innerHTML = mensaje;
+//                   }
+//                 } else {
+//                   celdaCotizo.innerHTML = `
+//         <i class="fa fa-check" aria-hidden="true" 
+//            style="color: green; margin-right: 5px;"></i>`;
+//                 }
+//               } else {
+//                 // Crear nueva fila si no existe
+//                 const nuevaFila = document.createElement("tr");
+//                 nuevaFila.id = aseguradora;
+//                 nuevaFila.setAttribute("data-aseguradora", aseguradora);
+//                 nuevaFila.innerHTML = `
+//       <td>${aseguradora}</td>
+//       <td style="text-align: center;">
+//         <i class="fa fa-times" aria-hidden="true" style="color: red; margin-right: 10px;"></i>
+//       </td>
+//       <td style="text-align: center;">0</td>
+//       <td>${mensaje}</td>
+//     `;
+//                 tablaResumenCotBody.appendChild(nuevaFila);
+//               }
+//             };
+
+//             //console.log(aseguradorasCoti); // Esto imprimirá el array con los nombres de aseguradoras autorizadas
+//             // return;
+
+//             aseguradorasCoti.forEach((aseguradora) => {
+//               let url;
+//               if (aseguradora === "HDI") {
+//                 url = `https://grupoasistencia.com/motor_webservice/HdiPlus`;
+//               } else if (aseguradora === "Zurich") {
+//                 const planes = ["FULL", "MEDIUM", "BASIC"];
+//                 // const planes = ["FULL"];
+//                 planes.forEach((plan) => {
+//                   let lineaVeh =
+//                     document.getElementById("txtReferenciaVeh").value;
+//                   let body = JSON.parse(requestOptions.body);
+//                   body.plan = plan;
+//                   body.Email = "@gmail.com";
+//                   body.Email2 = Math.round(Math.random() * 999999) + body.Email;
+//                   body.linea = lineaVeh;
+//                   requestOptions.body = JSON.stringify(body);
+//                   url = `https://grupoasistencia.com/motor_webservice/${aseguradora}_autos`;
+
+//                   cont.push(
+//                     fetch(url, requestOptions)
+//                       .then((res) => {
+//                         if (!res.ok) throw Error(res.statusText);
+//                         return res.json();
+//                       })
+//                       .then((ofertas) => {
+//                         if (typeof ofertas.Resultado !== "undefined") {
+//                           agregarAseguradoraFallida(plan);
+//                           let mensaje = "";
+//                           if (ofertas.Mensajes.length == 1) {
+//                             mensaje = ofertas.Mensajes[0];
+//                           } else {
+//                             ofertas.Mensajes.map((element, index) => {
+//                               if (element.includes("Lo sentimos")) {
+//                                 mensaje += " - " + element;
+//                               } else if (element.includes("Referred")) {
+//                                 if (index == 2) {
+//                                   mensaje += " - " + element;
+//                                 } else {
+//                                   mensaje += element;
+//                                 }
+//                               } else {
+//                                 if (index >= 1) {
+//                                   mensaje += " - " + element;
+//                                 } else {
+//                                   mensaje += element;
+//                                 }
+//                               }
+//                             });
+//                           }
+//                           validarProblema(aseguradora, ofertas);
+//                           mostrarAlertarCotizacionFallida(`Zurich`, mensaje);
+//                         } else {
+//                           const contadorPorEntidad = validarOfertas(
+//                             ofertas,
+//                             "Zurich",
+//                             1
+//                           );
+//                           mostrarAlertaCotizacionExitosa(
+//                             `Zurich`,
+//                             contadorPorEntidad
+//                           );
+//                         }
+//                       })
+//                       .catch((err) => {
+//                         agregarAseguradoraFallida(plan);
+//                         mostrarAlertarCotizacionFallida(
+//                           "Zurich",
+//                           "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
+//                         );
+//                         validarProblema("Zurich", [
+//                           {
+//                             Mensajes: [
+//                               "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
+//                             ],
+//                           },
+//                         ]);
+//                         console.error(err);
+//                       })
+//                   );
+//                 });
+//                 return; // Salir del bucle después de procesar Zurich
+//               } else if (aseguradora === "Estado") {
+//                 // comento para que solo salgan 2 planes y no los 3
+//                 const aseguradorasEstado = ["Estado", "Estado2", "Estado3"]; // Agrega más aseguradoras según sea necesario
+//                 // const aseguradorasEstado = ["Estado", "Estado2"]; // Agrega más aseguradoras según sea necesario
+//                 aseguradorasEstado.forEach((aseguradora) => {
+//                   let successAseguradora = true;
+//                   cont.push(
+//                     fetch(
+//                       `https://grupoasistencia.com/motor_webservice/${aseguradora}`,
+//                       requestOptions
+//                     )
+//                       .then((res) => {
+//                         if (!res.ok) throw Error(res.statusText);
+//                         return res.json();
+//                       })
+//                       .then((ofertas) => {
+//                         let result2 = "";
+//                         let result = [];
+//                         result.push(ofertas);
+//                         if (!Array.isArray(ofertas)) {
+//                           result2 = ofertas.Resultado;
+//                         } else {
+//                           result2 = ofertas[0].Resultado;
+//                         }
+//                         if (result2 !== undefined) {
+//                           agregarAseguradoraFallida(aseguradora);
+//                           validarProblema("Estado", result);
+//                           ofertas.Mensajes.forEach((mensaje) => {
+//                             mostrarAlertarCotizacionFallida("Estado", mensaje);
+//                           });
+//                         } else {
+//                           const contadorPorEntidad = validarOfertas(
+//                             result,
+//                             aseguradora,
+//                             1
+//                           );
+//                           if (successAseguradora) {
+//                             mostrarAlertaCotizacionExitosa(
+//                               aseguradora,
+//                               contadorPorEntidad
+//                             );
+//                             successAseguradora = false;
+//                           }
+//                         }
+//                       })
+//                       .catch((err) => {
+//                         agregarAseguradoraFallida(aseguradora);
+//                         mostrarAlertarCotizacionFallida(
+//                           aseguradora,
+//                           "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
+//                         );
+//                         validarProblema("Estado", [
+//                           {
+//                             Mensajes: [
+//                               "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
+//                             ],
+//                           },
+//                         ]);
+//                         console.error(err);
+//                       })
+//                   );
+//                 });
+//                 return; // Salir del bucle después de procesar Estado
+//                 // Construir la URL de la solicitud para cada aseguradora
+//               } else if (aseguradora === "HDI Seguros") {
+//                 const planes = [
+//                   "HDI FULL",
+//                   "INTEGRAL 20",
+//                   "BASICO + PT",
+//                   "BASICO",
+//                 ];
+//                 planes.forEach((plan) => {
+//                   let body = JSON.parse(requestOptions.body);
+//                   body.plan = plan;
+//                   requestOptions.body = JSON.stringify(body);
+//                   url = `https://grupoasistencia.com/motor_webservice/Liberty_autos`;
+//                   cont.push(
+//                     fetch(url, requestOptions)
+//                       .then((res) => {
+//                         if (!res.ok) throw Error(res.statusText);
+//                         return res.json();
+//                       })
+//                       .then((ofertas) => {
+//                         if (typeof ofertas[0].Resultado !== "undefined") {
+//                           agregarAseguradoraFallida(plan);
+//                           validarProblema("HDI (Antes Liberty)", ofertas);
+//                           ofertas[0].Mensajes.forEach((mensaje) => {
+//                             mostrarAlertarCotizacionFallida("HDI Seguros", mensaje);
+//                           });
+//                         } else {
+//                           const contadorPorEntidad = validarOfertas(
+//                             ofertas,
+//                             aseguradora,
+//                             1
+//                           );
+//                           mostrarAlertaCotizacionExitosa(
+//                             "HDI Seguros",
+//                             contadorPorEntidad
+//                           );
+//                         }
+//                       })
+//                       .catch((err) => {
+//                         agregarAseguradoraFallida(plan);
+//                         mostrarAlertarCotizacionFallida(
+//                           plan,
+//                           "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
+//                         );
+//                         validarProblema("HDI (Antes Liberty)", [
+//                           {
+//                             Mensajes: [
+//                               "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
+//                             ],
+//                           },
+//                         ]);
+//                         console.error(err);
+//                       })
+//                   );
+//                  });
+//                 return;
+//               } /*inicio javier */ else if (aseguradora === "Qualitas") {
+//                 url = `https://grupoasistencia.com/WS-laravel/api/autos/qualitas`;
+//                 cont.push(
+//                   fetch(url, requestOptions)
+//                     .then((res) => {
+//                       if (!res.ok) throw Error(res.statusText);
+//                       return res.json();
+//                     })
+//                     .then((ofertas) => {
+//                       if (typeof ofertas[0].Resultado !== "undefined") {
+//                         agregarAseguradoraFallida(aseguradora);
+//                         validarProblema(aseguradora, ofertas);
+//                         ofertas[0].Mensajes.forEach((mensaje) => {
+//                           mostrarAlertarCotizacionFallida(aseguradora, mensaje);
+//                         });
+//                       } else {
+//                         const contadorPorEntidad = validarOfertas(
+//                           ofertas,
+//                           aseguradora,
+//                           1
+//                         );
+//                         mostrarAlertaCotizacionExitosa(
+//                           aseguradora,
+//                           contadorPorEntidad
+//                         );
+//                       }
+//                     })
+//                     .catch((err) => {
+//                       agregarAseguradoraFallida(aseguradora);
+//                       mostrarAlertarCotizacionFallida(
+//                         aseguradora,
+//                         "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
+//                       );
+//                       validarProblema(aseguradora, [
+//                         {
+//                           Mensajes: [
+//                             "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
+//                           ],
+//                         },
+//                       ]);
+//                       console.error(err);
+//                     })
+//                 );
+//                 return; /*Fin javier */
+//               } /*inicio Daniel */ else if (aseguradora === "Mundial") {
+//                 const mundialCotizaciones = ["Mundial_RPA", "Mundial_RCP"];
+//                 url = "";
+//                 mundialCotizaciones.forEach((mundialCotizacion) => {
+//                   if (mundialCotizacion === "Mundial_RPA") {
+//                     url = `https://grupoasistencia.com/motor_webservice/Mundial_autos`;
+//                   } else if (mundialCotizacion === "Mundial_RCP") {
+//                     url = `https://grupoasistencia.com/backend_node/WSMundial/postQuotationMundial`;
+//                   }
+//                   cont.push(
+//                     fetch(url, requestOptions)
+//                       .then((res) => {
+//                         if (!res.ok) throw Error(res.statusText);
+//                         return res.json();
+//                       })
+//                       .then((ofertas) => {
+//                         if (typeof ofertas[0].Resultado !== "undefined") {
+//                           agregarAseguradoraFallida(mundialCotizacion);
+//                           validarProblema(aseguradora, ofertas);
+//                           ofertas[0].Mensajes.forEach((mensaje) => {
+//                             mostrarAlertarCotizacionFallida(
+//                               aseguradora,
+//                               mensaje
+//                             );
+//                           });
+//                         } else {
+//                           const contadorPorEntidad = validarOfertas(
+//                             ofertas,
+//                             aseguradora,
+//                             1
+//                           );
+//                           mostrarAlertaCotizacionExitosa(
+//                             aseguradora,
+//                             contadorPorEntidad
+//                           );
+//                         }
+//                       })
+//                       .catch((err) => {
+//                         agregarAseguradoraFallida(mundialCotizacion);
+//                         mostrarAlertarCotizacionFallida(
+//                           aseguradora,
+//                           "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
+//                         );
+//                         validarProblema(aseguradora, [
+//                           {
+//                             Mensajes: [
+//                               "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
+//                             ],
+//                           },
+//                         ]);
+//                         console.error(err);
+//                       })
+//                   );
+//                 });
+//                 return; /*Fin Daniel */
+//               } else if (
+//                 aseguradora === "Bolivar" ||
+//                 aseguradora === "Seguros Bolivar"
+//               ) {
+//                 url = `https://grupoasistencia.com/backend_node/WSBolivar/postQuotationBolivar`;
+
+//                 let planesBolivar = [
+//                   "B_Premium",
+//                   "B_Standard",
+//                   "B_Clasico",
+//                   "B_Ligero",
+//                 ];
+
+//                 isHybOrElec ? (planesBolivar = ["B_Verde"]) : planesBolivar;
+
+//                 planesBolivar.forEach(async (plan) => {
+//                   let codigoProducto = "";
+//                   if (plan === "B_Premium") {
+//                     codigoProducto = "1";
+//                   } else if (plan === "B_Standard") {
+//                     codigoProducto = "2";
+//                   } else if (plan === "B_Clasico") {
+//                     codigoProducto = "4";
+//                   } else if (plan === "B_Ligero") {
+//                     codigoProducto = "5";
+//                   } else if (plan === "B_Verde") {
+//                     codigoProducto = "17";
+//                   }
+
+//                   if (codigoFasecolda.charAt(0) == "0") {
+//                     codigoFasecolda = codigoFasecolda.substring(1);
+//                   }
+
+//                   let body = { ...raw, codigoProducto: codigoProducto };
+//                   requestOptions.body = JSON.stringify(body);
+//                   cont.push(
+//                     fetch(url, requestOptions)
+//                       .then((res) => {
+//                         if (!res.ok) throw Error(res.statusText);
+//                         return res.json();
+//                       })
+//                       .then((ofertas) => {
+//                         if (typeof ofertas.Resultado !== "undefined") {
+//                           agregarAseguradoraFallida(plan);
+//                           validarProblema(aseguradora, ofertas);
+//                           ofertas.Mensajes.forEach((mensaje) => {
+//                             mostrarAlertarCotizacionFallida(plan, mensaje);
+//                           });
+//                         } else {
+//                           const contadorPorEntidad = validarOfertas(
+//                             ofertas,
+//                             aseguradora,
+//                             1
+//                           );
+//                           mostrarAlertaCotizacionExitosa(
+//                             plan,
+//                             contadorPorEntidad
+//                           );
+//                         }
+//                       })
+//                       .catch((err) => {
+//                         agregarAseguradoraFallida(plan);
+//                         mostrarAlertarCotizacionFallida(
+//                           plan,
+//                           "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
+//                         );
+//                         validarProblema(aseguradora, {
+//                           Mensajes: [
+//                             "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
+//                           ],
+//                         });
+//                         console.error(err);
+//                       })
+//                   );
+//                 });
+//                 return;
+//               } else {
+//                 url = `https://grupoasistencia.com/motor_webservice/${aseguradora}_autos`;
+//               }
+//               // Realizar la solicitud fetch y agregar la promesa al array
+//               if (aseguradora == "Qualitas" || aseguradora == "Sura") {
+//                 let message =
+//                   aseguradora == "Qualitas"
+//                     ? `💡 <b>Nueva aseguradora</b> especializada en <b>seguros de autos.</b> La principal aseguradora mexicana de seguros de autos llega a Colombia y <b>nosotros ya tenemos convenio.</b> Solicita cotización manual a tu Analista Comercial.`
+//                     : aseguradora == "Sura"
+//                     ? `<b>🐯 Nueva alianza para comercializar seguros Sura.</b> Solicita cotización manual a tu Analista Comercial.`
+//                     : `🔥 <b>Nuevo seguro de autos livianos</b> con modalidad de indemnización ARREGLO DIRECTO para <b>pérdidas parciales</b>. Solicita cotización manual a tu Analista Comercial. Revisa informacion adicional en la seccion de <b>Notas importantes.</b>`;
+
+//                 let ofertas = [
+//                   {
+//                     Resultado: false,
+//                     Mensajes: [message],
+//                   },
+//                 ];
+
+//                 //agregarAseguradoraFallida(aseguradora);
+//                 validarProblema(aseguradora, ofertas);
+//                 ofertas[0].Mensajes.forEach((mensaje) => {
+//                   mostrarAlertarCotizacionFallida(aseguradora, mensaje);
+//                 });
+//               } else {
+//                 // Realizar la solicitud fetch y agregar la promesa al array
+//                 cont.push(
+//                   fetch(url, requestOptions)
+//                     .then((res) => {
+//                       if (!res.ok) throw Error(res.statusText);
+//                       return res.json();
+//                     })
+//                     .then((ofertas) => {
+//                       if (typeof ofertas[0].Resultado !== "undefined") {
+//                         agregarAseguradoraFallida(aseguradora);
+//                         validarProblema(aseguradora, ofertas);
+//                         ofertas[0].Mensajes.forEach((mensaje) => {
+//                           mostrarAlertarCotizacionFallida(aseguradora, mensaje);
+//                         });
+//                       } else {
+//                         const contadorPorEntidad = validarOfertas(
+//                           ofertas,
+//                           aseguradora,
+//                           1
+//                         );
+//                         mostrarAlertaCotizacionExitosa(
+//                           aseguradora,
+//                           contadorPorEntidad
+//                         );
+//                       }
+//                     })
+//                     .catch((err) => {
+//                       agregarAseguradoraFallida(aseguradora);
+//                       mostrarAlertarCotizacionFallida(
+//                         aseguradora,
+//                         "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
+//                       );
+//                       validarProblema(aseguradora, [
+//                         {
+//                           Mensajes: [
+//                             "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
+//                           ],
+//                         },
+//                       ]);
+//                       console.error(err);
+//                     })
+//                 );
+//               }
+//             });
+//             //console.log(cont)
+//             Promise.all(cont).then(() => {
+//               // $("#btnCotizar").hide();
+//               $("#loaderOferta").html("");
+//               //$("#loaderOfertaBox").css("display", "none");
+//               if (intermediario != 3 && intermediario != 149) {
+//                 // Swal.close();
+//                 Swal.fire({
+//                   title: "¡Proceso de Cotización Finalizada!",
+//                   showConfirmButton: true,
+//                   confirmButtonText: "Cerrar",
+//                 });
+//                 enableInputs(true);
+//                 //countOfferts();
+//               } else {
+//                 Swal.close();
+//                 $("#loaderOferta").html("");
+//                 $("#loaderOfertaBox").css("display", "none");
+//                 enableInputs(true);
+//                 countOfferts();
+//               }
+//               document.querySelector(".button-recotizar").style.display =
+//                 "block";
+//               /* Se monta el botón para generar el pdf con 
+//                     el valor de la variable idCotizacion */
+//               const contentCotizacionPDF = document.querySelector(
+//                 "#contenCotizacionPDFLivianos"
+//               );
+//               contentCotizacionPDF.innerHTML = `  
+//                                                       <div class="col-xs-12" style="width: 100%;">
+//                                                         <div class="row align-items-center">
+//                                                             <div class="col-xs-4">
+//                                                                 <label for="checkboxAsesor">¿Deseas agregar tus datos como asesor en la cotización?</label>
+//                                                                 <input class="form-check-input" type="checkbox" id="checkboxAsesor" style="margin-left: 10px;" checked>
+//                                                             </div>
+//                                                             <div class="col-xs-4">
+//                                                                 <button type="button" class="btn btn-danger" id="btnParrillaPDF">
+//                                                                     <span class="fa fa-file-text"></span> Generar PDF de Cotización
+//                                                                 </button>
+//                                                             </div>
+//                                                         </div>
+//                                                       </div>
+//                                                           `;
+//               $("#btnParrillaPDF").click(function () {
+//                 const todosOn = $(".classSelecOferta:checked").length;
+//                 const idCotizacionPDF = idCotizacion;
+//                 const checkboxAsesor = $("#checkboxAsesor");
+
+//                 if (permisos.Generarpdfdecotizacion != "x") {
+//                   Swal.fire({
+//                     icon: "error",
+//                     title:
+//                       "¡Esta versión no tiene ésta funcionalidad disponible!",
+//                     showCancelButton: true,
+//                     confirmButtonText: "Cerrar",
+//                     cancelButtonText: "Conoce más",
+//                   }).then((result) => {
+//                     if (result.isConfirmed) {
+//                     } else if (result.isDismissed) {
+//                       window.open("https://www.integradoor.com", "_blank");
+//                     }
+//                   });
+//                 } else {
+//                   const filtradas = ofertas.some(
+//                     (element) => element.seleccionar == "Si"
+//                   );
+//                   if (!todosOn && !filtradas) {
+//                     Swal.fire({
+//                       title: "¡Debes seleccionar mínimo una oferta!",
+//                     });
+//                   } else {
+//                     let url = `extensiones/tcpdf/pdf/comparador.php?cotizacion=${idCotizacionPDF}`;
+//                     if (checkboxAsesor.is(":checked")) {
+//                       url += "&generar_pdf=1";
+//                     }
+//                     window.open(url, "_blank");
+
+//                     //   window.open("extensiones/tcpdf/pdf/comparador.php?cotizacion=" + idCotizacionPDF,"_blank");
+//                   }
+//                 }
+//               });
+//             });
+//           },
+//         });
+//         countOfferts();
+//       } else {
+        
+//         //ZONA RECOTIZACIÓN//
+//         $("#loaderRecotOferta").html(
+//           '<img src="vistas/img/plantilla/loader-update.gif" width="34" height="34"><strong> Recotizando Ofertas...</strong>'
+//         );
+        
+//         const btnRecotizar = document.getElementById("btnReCotizarFallidas");
+//         btnRecotizar.disabled = true;
+//         document.getElementById("btnCotizarFinesa").disabled = false;
+//         const contenParrilla = document.querySelector("#contenParrilla");
+//         raw.cotizacion = idCotizacion;
+//         raw.env = "";
+
+//         var requestOptions = {
+//           method: "POST",
+//           headers: myHeaders,
+//           body: JSON.stringify(raw),
+//           redirect: "follow",
+//         };
+
+//         const mostrarAlertaCotizacionExitosa = (aseguradora, contador) => {
+//           if (aseguradora == "Estado2" || aseguradora == "Estado3") {
+//             aseguradora = "Estado";
+//           }
+
+//           if (
+//             aseguradora == "INTEGRAL 20" ||
+//             aseguradora == "BASICO + PT" ||
+//             aseguradora == "BASICO" ||
+//             aseguradora == "HDI FULL"
+//           ) {
+//             aseguradora = "HDI Seguros";
+//           }
+
+//           if (aseguradora == "Mundial_RPA" || aseguradora == "Mundial_RCP") {
+//             aseguradora = "Mundial";
+//           }
+
+//           if (
+//             aseguradora == "B_Premium" ||
+//             aseguradora == "B_Standard" ||
+//             aseguradora == "B_Clasico" ||
+//             aseguradora == "B_Ligero" ||
+//             aseguradora == "B_Verde"
+//           ) {
+//             aseguradora = "Bolivar";
+//           }
+
+//           // Obtener la primera clave del objeto
+//           const primeraClave = Object.keys(contador)[0];
+
+//           // Obtener el valor asociado a la primera clave
+//           const contadorOfertas = contador[primeraClave];
+
+//           // Obtener la referencia de la tabla
+//           const tablaResumenCotBody = document.querySelector(
+//             "#tablaResumenCot tbody"
+//           );
+
+//           // Verificar si ya existe la fila
+//           const filaExistente = document.getElementById(aseguradora);
+//           if (filaExistente) {
+            
+//             // Acceder directamente a las celdas de la fila existente
+//             const celdaContador = filaExistente.cells[2]; // Tercera celda de la fila
+//             const celdaCotizo = filaExistente.cells[1]; // Segunda celda de la fila
+//             const celdaResponse = filaExistente.cells[3]; // Cuarta celda de la fila
+//             // Actualizar los valores según sea necesario
+//             const contadorActualTexto = celdaContador.textContent.trim();
+//             // Verificar si el texto está vacío o no es un número
+//             const contadorActual =
+//               contadorActualTexto === ""
+//                 ? 0
+//                 : parseInt(contadorActualTexto, 10);
+//             const nuevoContador = contadorActual + contadorOfertas;
+
+//             if (
+//               celdaContador.textContent.trim() !==
+//               '<i class="fa fa-times" aria-hidden="true" style="color: red; margin-right: 10px;"></i>'
+//             ) {
+//               celdaContador.textContent = nuevoContador;
+//               celdaCotizo.innerHTML =
+//                 '<i class="fa fa-check" aria-hidden="true" style="color: green; margin-right: 5px;"></i>';
+//               celdaResponse.textContent = "Cotización exitosa";
+//             } else {
+//               celdaContador.textContent = nuevoContador;
+//               celdaCotizo.innerHTML =
+//                 '<i class="fa fa-check" aria-hidden="true" style="color: green; margin-right: 5px;"></i>';
+//               celdaResponse.textContent = "Cotización exitosa";
+//             }
+//           } else {
+//             // Si la fila no existe, puedes agregarla
+//             const nuevaFila = document.createElement("tr");
+//             nuevaFila.id = aseguradora;
+//             nuevaFila.innerHTML = `
+//                 <td>${aseguradora}</td>
+//                 <td style="text-align: center;"><i class="fa fa-check" aria-hidden="true" style="color: green; margin-right: 5px;"></i></td>
+//                 <td style="text-align: center;">${contadorOfertas}</td>
+//                 <td>Nuevo Valor para Response</td>
+//                 <td>Nuevo Valor para Products</td>
+//                 <td>Nuevo Valor para Observation</td>
+//               `;
+//             tablaResumenCotBody.appendChild(nuevaFila);
+//           }
+//         };
+
+//         const mostrarAlertarCotizacionFallida = (aseguradora, mensaje) => {
+//           if (
+//             aseguradora == "HDI Seguros" ||
+//             aseguradora == "HDI FULL" ||
+//             aseguradora == "INTEGRAL 20" ||
+//             aseguradora == "BASICO + PT" ||
+//             aseguradora == "BASICO"
+//           ) {
+//             aseguradora = "HDI Seguros";
+//             // debugger;
+//           }
+
+//           if (
+//             aseguradora == "B_Premium" ||
+//             aseguradora == "B_Standard" ||
+//             aseguradora == "B_Clasico" ||
+//             aseguradora == "B_Ligero" ||
+//             aseguradora == "B_Verde"
+//           ) {
+//             aseguradora = "Bolivar";
+//           }
+
+//           if (
+//             aseguradora == "Estado" ||
+//             aseguradora == "Estado2" ||
+//             aseguradora == "Estado3"
+//           ) {
+//             aseguradora = "Estado";
+//           }
+
+//           // Referencia a la tabla
+//           const tablaResumenCotBody = document.querySelector(
+//             "#tablaResumenCot tbody"
+//           );
+//           const filaExistente = document.getElementById(aseguradora);
+
+//           if (filaExistente) {
+//             // Actualizar fila existente
+//             const celdaContador = filaExistente.cells[2]; // Tercera celda
+//             const celdaCotizo = filaExistente.cells[1]; // Segunda celda
+//             const celdaResponse = filaExistente.cells[3]; // Cuarta celda
+
+//             if (celdaResponse.textContent.trim() !== "Cotización exitosa") {
+//               if (celdaResponse.textContent !== "") {
+//                 // Ya tenía mensaje → solo mostrar ❌
+//                 celdaCotizo.innerHTML =
+//                   '<i class="fa fa-times" aria-hidden="true" style="color: red; margin-right: 10px;"></i>';
+//                 return;
+//               } else {
+//                 // No tenía mensaje → setear error
+//                 celdaContador.textContent = 0;
+//                 celdaCotizo.innerHTML =
+//                   '<i class="fa fa-times" aria-hidden="true" style="color: red; margin-right: 10px;"></i>';
+//                 celdaResponse.textContent = mensaje;
+//               }
+//             } else {
+//               // Ya tenía exitosa → check verde
+//               celdaCotizo.innerHTML =
+//                 '<i class="fa fa-check" aria-hidden="true" style="color: green; margin-right: 5px;"></i>';
+//             }
+//           } else {
+//             // Crear nueva fila
+//             const nuevaFila = document.createElement("tr");
+//             nuevaFila.id = aseguradora; // importante para encontrarla luego
+//             nuevaFila.setAttribute("data-aseguradora", aseguradora);
+//             nuevaFila.innerHTML = `
+//             <td>${aseguradora}</td>
+//             <td style="text-align: center;">
+//               <i class="fa fa-times" aria-hidden="true" style="color: red; margin-right: 10px;"></i>
+//             </td>
+//             <td style="text-align: center;">0</td>
+//             <td>${mensaje}</td>
+//           `;
+//             tablaResumenCotBody.appendChild(nuevaFila);
+//           }
+//         };
+
+//         aseguradorasFallidas.forEach((aseguradora) => {
+//           if (
+//             aseguradora == "BASIC" ||
+//             aseguradora == "MEDIUM" ||
+//             aseguradora == "FULL"
+//           ) {
+//             aseguradora = "Zurich";
+//           }
+
+//           if (
+//             aseguradora == "B_Premium" ||
+//             aseguradora == "B_Standard" ||
+//             aseguradora == "B_Clasico" ||
+//             aseguradora == "B_Ligero" ||
+//             aseguradora == "B_Verde"
+//           ) {
+//             aseguradora = "Bolivar";
+//           }
+
+//           if (
+//             aseguradora == "HDI FULL" ||
+//             aseguradora == "INTEGRAL 20" ||
+//             aseguradora == "BASICO" ||
+//             aseguradora == "BASICO + PT"
+//           ) aseguradora = "HDI Seguros";
+          
+//           if (
+//             aseguradora == "Estado" ||
+//             aseguradora == "Estado2" ||
+//             aseguradora == "Estado3"
+//           ) aseguradora = "Estado";
+
+//           if (aseguradora == "Mundial_RPA" || aseguradora == "Mundial_RCP") {
+//             aseguradora = "Mundial";
+//           }
+
+//           const celdaResponse = document.getElementById(
+//             `${aseguradora}Response`
+//           );
+
+//           // Agregar un elemento de carga (por ejemplo, un gif) en la celda de respuesta
+//           const loadingElement = document.createElement("img");
+//           loadingElement.src = "vistas/img/plantilla/loader-update.gif"; // Reemplaza con la ruta correcta del gif
+//           loadingElement.alt = "Cargando...";
+
+//           // Establecer el tamaño deseado del gif (por ejemplo, 50px x 50px)
+//           loadingElement.style.width = "22px";
+//           loadingElement.style.height = "22px";
+
+//           // Limpiar cualquier contenido existente en la celda de respuesta
+//           celdaResponse.innerHTML = "";
+
+//           // Agregar el elemento de carga a la celda de respuesta
+//           celdaResponse.appendChild(loadingElement);
+//         });
+
+//         let cont = [];
+
+//         /* Solidaria */
+//         const solidariaPromise = comprobarFallida("Solidaria")
+//           ? fetch(
+//               "https://grupoasistencia.com/motor_webservice/Solidaria_autos",
+//               requestOptions
+//             )
+//               .then((res) => {
+//                 if (!res.ok) throw Error(res.statusText);
+//                 return res.json();
+//               })
+//               .then((ofertas) => {
+//                 if (typeof ofertas[0].Resultado !== "undefined") {
+//                   agregarAseguradoraFallida("Solidaria");
+//                   validarProblema("Solidaria", ofertas);
+//                   ofertas[0].Mensajes.forEach((mensaje) => {
+//                     mostrarAlertarCotizacionFallida("Solidaria", mensaje);
+//                   });
+//                 } else {
+//                   // eliminarAseguradoraFallida('Solidaria');
+//                   const contadorPorEntidad = validarOfertas(
+//                     ofertas,
+//                     "Solidaria",
+//                     1
+//                   );
+//                   mostrarAlertaCotizacionExitosa(
+//                     "Solidaria",
+//                     contadorPorEntidad
+//                   );
+//                 }
+//               })
+//               .catch((err) => {
+//                 agregarAseguradoraFallida("Solidaria");
+//                 mostrarAlertarCotizacionFallida(
+//                   "Solidaria",
+//                   "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
+//                 );
+//                 validarProblema("Solidaria", [
+//                   {
+//                     Mensajes: [
+//                       "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
+//                     ],
+//                   },
+//                 ]);
+//                 console.error(err);
+//               })
+//           : Promise.resolve();
+
+//         cont.push(solidariaPromise);
+
+//         /* Previsora */
+//         const previsoraPromise = comprobarFallida("Previsora")
+//           ? fetch(
+//               "https://grupoasistencia.com/motor_webservice/Previsora_autos",
+//               requestOptions
+//             )
+//               .then((res) => {
+//                 if (!res.ok) throw Error(res.statusText);
+//                 return res.json();
+//               })
+//               .then((ofertas) => {
+//                 if (typeof ofertas[0].Resultado !== "undefined") {
+//                   agregarAseguradoraFallida("Previsora");
+//                   validarProblema("Previsora", ofertas);
+//                   ofertas[0].Mensajes.forEach((mensaje) => {
+//                     mostrarAlertarCotizacionFallida("Previsora", mensaje);
+//                   });
+//                 } else {
+//                   // eliminarAseguradoraFallida('Previsora');
+//                   const contadorPorEntidad = validarOfertas(
+//                     ofertas,
+//                     "Previsora",
+//                     1
+//                   );
+//                   mostrarAlertaCotizacionExitosa(
+//                     "Previsora",
+//                     contadorPorEntidad
+//                   );
+//                 }
+//               })
+//               .catch((err) => {
+//                 agregarAseguradoraFallida("Previsora");
+//                 mostrarAlertarCotizacionFallida(
+//                   "Previsora",
+//                   "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
+//                 );
+//                 validarProblema("Previsora", [
+//                   {
+//                     Mensajes: [
+//                       "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
+//                     ],
+//                   },
+//                 ]);
+//                 console.error(err);
+//               })
+//           : Promise.resolve();
+
+//         cont.push(previsoraPromise);
+
+//         /* Equidad */
+//         const equidadPromise = comprobarFallida("Equidad")
+//           ? fetch(
+//               "https://grupoasistencia.com/motor_webservice/Equidad_autos",
+//               requestOptions
+//             )
+//               .then((res) => {
+//                 if (!res.ok) throw Error(res.statusText);
+//                 return res.json();
+//               })
+//               .then((ofertas) => {
+//                 if (typeof ofertas[0].Resultado !== "undefined") {
+//                   agregarAseguradoraFallida("Equidad");
+//                   validarProblema("Equidad", ofertas);
+//                   ofertas[0].Mensajes.forEach((mensaje) => {
+//                     mostrarAlertarCotizacionFallida("Equidad", mensaje);
+//                   });
+//                 } else {
+//                   // eliminarAseguradoraFallida('Equidad');
+//                   const contadorPorEntidad = validarOfertas(
+//                     ofertas,
+//                     "Equidad",
+//                     1
+//                   );
+//                   mostrarAlertaCotizacionExitosa("Equidad", contadorPorEntidad);
+//                 }
+//               })
+//               .catch((err) => {
+//                 agregarAseguradoraFallida("Equidad");
+//                 mostrarAlertarCotizacionFallida(
+//                   "Equidad",
+//                   "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
+//                 );
+//                 validarProblema("Equidad", [
+//                   {
+//                     Mensajes: [
+//                       "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
+//                     ],
+//                   },
+//                 ]);
+//                 console.error(err);
+//               })
+//           : Promise.resolve();
+
+//         cont.push(equidadPromise);
+
+//         /* Mapfre */
+//         const mapfrePromise = comprobarFallida("Mapfre")
+//           ? fetch(
+//               "https://grupoasistencia.com/motor_webservice/Mapfre_autos",
+//               requestOptions
+//             )
+//               .then((res) => {
+//                 if (!res.ok) throw Error(res.statusText);
+//                 return res.json();
+//               })
+//               .then((ofertas) => {
+//                 if (typeof ofertas[0].Resultado !== "undefined") {
+//                   agregarAseguradoraFallida("Mapfre");
+//                   validarProblema("Mapfre", ofertas);
+//                   ofertas[0].Mensajes.forEach((mensaje) => {
+//                     mostrarAlertarCotizacionFallida("Mapfre", mensaje);
+//                   });
+//                 } else {
+//                   // eliminarAseguradoraFallida('Mapfre');
+//                   const contadorPorEntidad = validarOfertas(
+//                     ofertas,
+//                     "Mapfre",
+//                     1
+//                   );
+//                   mostrarAlertaCotizacionExitosa("Mapfre", contadorPorEntidad);
+//                 }
+//               })
+//               .catch((err) => {
+//                 agregarAseguradoraFallida("Mapfre");
+//                 mostrarAlertarCotizacionFallida(
+//                   "Mapfre",
+//                   "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
+//                 );
+//                 validarProblema("Mapfre", [
+//                   {
+//                     Mensajes: [
+//                       "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
+//                     ],
+//                   },
+//                 ]);
+//                 console.error(err);
+//               })
+//           : Promise.resolve();
+
+//         cont.push(mapfrePromise);
+//         /* Bolivar */
+//         const planesBolivar = [
+//           "B_Premium",
+//           "B_Standard",
+//           "B_Clasico",
+//           "B_Ligero",
+//         ];
+
+//         isHybOrElec ? (planesBolivar = ["B_Verde"]) : planesBolivar;
+
+//         planesBolivar.forEach((plan) => {
+//           let codigoProducto = "";
+//           if (plan === "B_Premium") {
+//             codigoProducto = "1";
+//           } else if (plan === "B_Standard") {
+//             codigoProducto = "2";
+//           } else if (plan === "B_Clasico") {
+//             codigoProducto = "4";
+//           } else if (plan === "B_Ligero") {
+//             codigoProducto = "5";
+//           } else if (plan === "B_Verde") {
+//             codigoProducto = "17";
+//           }
+
+//           let body = { ...raw, codigoProducto: codigoProducto };
+//           requestOptions.body = JSON.stringify(body);
+//           const bolivarPromise = comprobarFallida(plan)
+//             ? fetch(
+//                 "https://grupoasistencia.com/backend_node/WSBolivar/postQuotationBolivar",
+//                 requestOptions
+//               )
+//                 .then((res) => {
+//                   if (!res.ok) throw Error(res.statusText);
+//                   return res.json();
+//                 })
+//                 .then((ofertas) => {
+//                   if (typeof ofertas[0].Resultado !== "undefined") {
+//                     agregarAseguradoraFallida(plan);
+//                     validarProblema("Bolivar", ofertas);
+//                     ofertas[0].Mensajes.forEach((mensaje) => {
+//                       mostrarAlertarCotizacionFallida(plan, mensaje);
+//                     });
+//                   } else {
+//                     // eliminarAseguradoraFallida('Bolivar');
+//                     const contadorPorEntidad = validarOfertas(
+//                       ofertas,
+//                       "Bolivar",
+//                       1
+//                     );
+//                     mostrarAlertaCotizacionExitosa(plan, contadorPorEntidad);
+//                   }
+//                 })
+//                 .catch((err) => {
+//                   agregarAseguradoraFallida(plan);
+//                   mostrarAlertarCotizacionFallida(
+//                     plan,
+//                     "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
+//                   );
+//                   validarProblema("Bolivar", [
+//                     {
+//                       Mensajes: [
+//                         "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
+//                       ],
+//                     },
+//                   ]);
+//                   console.error(err);
+//                 })
+//             : Promise.resolve();
+
+//           cont.push(bolivarPromise);
+//         });
+
+//         /* Qualitas*/
+//         /*inicio javier */ const qualitasPromise = comprobarFallida("Qualitas")
+//           ? fetch(
+//               "https://grupoasistencia.com/WS-laravel/api/autos/qualitas",
+//               requestOptions
+//             )
+//               .then((res) => {
+//                 if (!res.ok) throw Error(res.statusText);
+//                 return res.json();
+//               })
+//               .then((ofertas) => {
+//                 if (typeof ofertas[0].Resultado !== "undefined") {
+//                   agregarAseguradoraFallida("Qualitas");
+//                   validarProblema("Qualitas", ofertas);
+//                   ofertas[0].Mensajes.forEach((mensaje) => {
+//                     mostrarAlertarCotizacionFallida("Qualitas", mensaje);
+//                   });
+//                 } else {
+//                   const contadorPorEntidad = validarOfertas(
+//                     ofertas,
+//                     "Qualitas",
+//                     1
+//                   );
+//                   mostrarAlertaCotizacionExitosa(
+//                     "Qualitas",
+//                     contadorPorEntidad
+//                   );
+//                 }
+//               })
+//               .catch((err) => {
+//                 agregarAseguradoraFallida(aseguradora);
+//                 mostrarAlertarCotizacionFallida(
+//                   aseguradora,
+//                   "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
+//                 );
+//                 validarProblema(aseguradora, [
+//                   {
+//                     Mensajes: [
+//                       "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
+//                     ],
+//                   },
+//                 ]);
+//                 console.error(err);
+//               })
+//           : Promise.resolve();
+
+//         cont.push(qualitasPromise);
+//         /*Fin javier */
+
+//         /* HDI */
+//         const HDIPromise = comprobarFallida("HDI")
+//           ? fetch(
+//               "https://grupoasistencia.com/motor_webservice/HdiPlus",
+//               requestOptions
+//             )
+//               .then((res) => {
+//                 if (!res.ok) throw Error(res.statusText);
+//                 return res.json();
+//               })
+//               .then((ofertas) => {
+//                 if (typeof ofertas[0].Resultado !== "undefined") {
+//                   agregarAseguradoraFallida("HDI");
+//                   validarProblema("HDI", ofertas);
+//                   ofertas[0].Mensajes.forEach((mensaje) => {
+//                     mostrarAlertarCotizacionFallida("HDI", mensaje);
+//                   });
+//                 } else {
+//                   // eliminarAseguradoraFallida('HDI');
+//                   const contadorPorEntidad = validarOfertas(ofertas, "HDI", 1);
+//                   mostrarAlertaCotizacionExitosa("HDI", contadorPorEntidad);
+//                 }
+//               })
+//               .catch((err) => {
+//                 agregarAseguradoraFallida("HDI");
+//                 mostrarAlertarCotizacionFallida(
+//                   "HDI",
+//                   "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
+//                 );
+//                 validarProblema("HDI", [
+//                   {
+//                     Mensajes: [
+//                       "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
+//                     ],
+//                   },
+//                 ]);
+//                 console.error(err);
+//               })
+//           : Promise.resolve();
+
+//         cont.push(HDIPromise);
+
+//         const lineaVeh = document.getElementById("txtReferenciaVeh").value;
+//         // Para 'FULL'
+//         //const plan = "FULL";
+
+//         aseguradorasFallidas.map((aseguradora) => {
+//           let plan = aseguradora;
+//           let count = 0;
+
+//           if (plan === "FULL") {
+//             plan = "FULL";
+//             count++;
+//           } else if (plan === "MEDIUM") {
+//             plan = "MEDIUM";
+//             count++;
+//           } else if (plan === "BASIC") {
+//             plan = "BASIC";
+//             count++;
+//           }
+
+//           if (count === 0) return;
+
+//           let body = JSON.parse(requestOptions.body);
+//           body.plan = plan;
+//           body.Email = "@gmail.com";
+//           body.Email2 = Math.round(Math.random() * 999999) + body.Email;
+//           body.linea = lineaVeh;
+//           requestOptions.body = JSON.stringify(body);
+//           let url = `https://grupoasistencia.com/motor_webservice/Zurich_autos`;
+
+//           let ZFullPromise = comprobarFallida(plan)
+//             ? fetch(url, {
+//                 ...requestOptions,
+//                 method: "POST",
+//                 headers: {
+//                   ...requestOptions.headers,
+//                   "Content-Type": "application/json",
+//                 },
+//               })
+//                 .then((res) => {
+//                   if (!res.ok) throw Error(res.statusText);
+//                   return res.json();
+//                 })
+//                 .then((ofertas) => {
+//                   if (typeof ofertas.Resultado !== "undefined") {
+//                     agregarAseguradoraFallida(plan);
+//                     validarProblema("Zurich", ofertas);
+//                     let mensaje = "";
+//                     if (ofertas.Mensajes.length == 1) {
+//                       mensaje = ofertas.Mensajes[0];
+//                     } else {
+//                       ofertas.Mensajes.map((element, index) => {
+//                         if (element.includes("Lo sentimos")) {
+//                           mensaje += " - " + element;
+//                         } else if (element.includes("Referred")) {
+//                           if (index == 2) {
+//                             mensaje += " - " + element;
+//                           } else {
+//                             mensaje += element;
+//                           }
+//                         } else {
+//                           if (index >= 1) {
+//                             mensaje += " - " + element;
+//                           } else {
+//                             mensaje += element;
+//                           }
+//                         }
+//                       });
+//                     }
+//                     mostrarAlertarCotizacionFallida(`Zurich`, mensaje);
+//                   } else {
+//                     const contadorPorEntidad = validarOfertas(
+//                       ofertas,
+//                       "Zurich",
+//                       1
+//                     );
+//                     mostrarAlertaCotizacionExitosa(
+//                       `Zurich`,
+//                       contadorPorEntidad
+//                     );
+//                   }
+//                 })
+//                 .catch((err) => {
+//                   agregarAseguradoraFallida(plan);
+//                   mostrarAlertarCotizacionFallida(
+//                     "Zurich",
+//                     "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
+//                   );
+//                   validarProblema("Zurich", [
+//                     {
+//                       Mensajes: [
+//                         "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
+//                       ],
+//                     },
+//                   ]);
+//                   console.error(err);
+//                 })
+//             : Promise.resolve();
+//           cont.push(ZFullPromise);
+//         });
+//         /* Estado */
+//         const aseguradorasEstado = ["Estado", "Estado2", "Estado3"]; // Agrega más aseguradoras según sea necesario
+//         //const aseguradorasEstado = ["Estado", "Estado2"]; // Agrega más aseguradoras según sea necesario
+//         aseguradorasEstado.forEach((aseguradora) => {
+//           let plan = aseguradora;
+//           let count = 0;
+
+//           if (plan === "Estado") {
+//             plan = "Estado";
+//             count++;
+//           } else if (plan === "Estado2") {
+//             plan = "Estado2";
+//             count++;
+//           } else if (plan === "Estado3") {
+//             plan = "Estado3";
+//             count++;
+//           }
+
+//           if (count === 0) return;
+
+//           const aseguradoraPromise = comprobarFallida(plan)
+//             ? fetch(
+//                 `https://grupoasistencia.com/motor_webservice/${plan}`,
+//                 requestOptions
+//               )
+//                 .then((res) => {
+//                   if (!res.ok) throw Error(res.statusText);
+//                   return res.json();
+//                 })
+//                 .then((ofertas) => {
+//                   let result2 = "";
+//                   let result = [];
+//                   result.push(ofertas);
+//                   if (!Array.isArray(ofertas)) {
+//                     result2 = ofertas.Resultado;
+//                   } else {
+//                     result2 = ofertas[0].Resultado;
+//                   }
+//                   if (result2 !== undefined) {
+//                     agregarAseguradoraFallida("Estado");
+//                     validarProblema("Estado", result);
+//                     ofertas[0].Mensajes.forEach((mensaje) => {
+//                       mostrarAlertarCotizacionFallida("Estado", mensaje);
+//                     });
+//                   } else {
+//                     const contadorPorEntidad = validarOfertas(
+//                       result,
+//                       plan,
+//                       1
+//                     );
+
+//                     mostrarAlertaCotizacionExitosa(
+//                       plan,
+//                       contadorPorEntidad
+//                     );
+//                     successAseguradora = false;
+//                   }
+//                 })
+//                 .catch((err) => {
+//                   agregarAseguradoraFallida("Estado");
+//                   mostrarAlertarCotizacionFallida(
+//                     "Estado",
+//                     "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
+//                   );
+//                   validarProblema("Estado", [
+//                     {
+//                       Mensajes: [
+//                         "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
+//                       ],
+//                     },
+//                   ]);
+//                   console.error(err);
+//                 })
+//             : Promise.resolve();
+
+//           cont.push(aseguradoraPromise);
+//         });
+
+//         /* Liberty */
+//         const aseguradorasHDI = [
+//           "HDI FULL",
+//           "INTEGRAL 20",
+//           "BASICO + PT",
+//           "BASICO",
+//         ];
+//         aseguradorasHDI.forEach((aseguradora) => {
+//           let plan = aseguradora;
+//           let count = 0;
+
+//           if (plan === "HDI FULL") {
+//             plan = "HDI FULL";
+//             count++;
+//           } else if (plan === "INTEGRAL 20") {
+//             plan = "INTEGRAL 20";
+//             count++;
+//           } else if (plan === "BASICO + PT") {
+//             plan = "BASICO + PT";
+//             count++;
+//           } else if (plan === "BASICO") {
+//             plan = "BASICO";
+//             count++;
+//           }
+
+//           if (count === 0) return;
+
+//           //debugger;
+
+//           let body = JSON.parse(requestOptions.body);
+//           body.plan = plan;
+//           requestOptions.body = JSON.stringify(body);
+//           const libertyPromise = comprobarFallida(plan)
+//             ? fetch(
+//                 "https://grupoasistencia.com/motor_webservice/Liberty_autos",
+//                 requestOptions
+//               )
+//                 .then((res) => {
+//                   if (!res.ok) throw Error(res.statusText);
+//                   return res.json();
+//                 })
+//                 .then((ofertas) => {
+//                   if (typeof ofertas[0].Resultado !== "undefined") {
+//                     agregarAseguradoraFallida(aseguradora);
+//                     validarProblema("HDI (Antes Liberty)", ofertas);
+//                     ofertas[0].Mensajes.forEach((mensaje) => {
+//                       mostrarAlertarCotizacionFallida("HDI Seguros", mensaje);
+//                     });
+//                   } else {
+//                     const contadorPorEntidad = validarOfertas(
+//                       ofertas,
+//                       aseguradora,
+//                       1
+//                     );
+//                     mostrarAlertaCotizacionExitosa(
+//                       "HDI Seguros",
+//                       contadorPorEntidad
+//                     );
+//                   }
+//                 })
+//                 .catch((err) => {
+//                   agregarAseguradoraFallida(aseguradora);
+//                   mostrarAlertarCotizacionFallida(
+//                     "HDI Seguros",
+//                     "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
+//                   );
+//                   validarProblema("HDI (Antes Liberty)", [
+//                     {
+//                       Mensajes: [
+//                         "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
+//                       ],
+//                     },
+//                   ]);
+//                   console.error(err);
+//                 })
+//             : Promise.resolve();
+
+//           cont.push(libertyPromise);
+//         });
+
+//         /* Allianz */
+//         const allianzPromise = comprobarFallida("Allianz")
+//           ? fetch(
+//               "https://grupoasistencia.com/motor_webservice/Allianz_autos",
+//               requestOptions
+//             )
+//               .then((res) => {
+//                 if (!res.ok) throw Error(res.statusText);
+//                 return res.json();
+//               })
+//               .then((ofertas) => {
+//                 if (typeof ofertas[0].Resultado !== "undefined") {
+//                   agregarAseguradoraFallida("Allianz");
+//                   validarProblema("Allianz", ofertas);
+//                   ofertas[0].Mensajes.forEach((mensaje) => {
+//                     mostrarAlertarCotizacionFallida("Allianz", mensaje);
+//                   });
+//                 } else {
+//                   // eliminarAseguradoraFallida('Allianz');
+//                   const contadorPorEntidad = validarOfertas(
+//                     ofertas,
+//                     "Allianz",
+//                     1
+//                   );
+//                   mostrarAlertaCotizacionExitosa("Allianz", contadorPorEntidad);
+//                 }
+//               })
+//               .catch((err) => {
+//                 agregarAseguradoraFallida("Allianz");
+//                 mostrarAlertarCotizacionFallida(
+//                   "Allianz",
+//                   "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
+//                 );
+//                 validarProblema("Allianz", [
+//                   {
+//                     Mensajes: [
+//                       "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
+//                     ],
+//                   },
+//                 ]);
+//                 console.error(err);
+//               })
+//           : Promise.resolve();
+
+//         cont.push(allianzPromise);
+
+//         const axaPromise = comprobarFallida("AXA")
+//           ? fetch(
+//               "https://grupoasistencia.com/motor_webservice/AXA_autos",
+//               requestOptions
+//             )
+//               .then((res) => {
+//                 if (!res.ok) throw Error(res.statusText);
+//                 return res.json();
+//               })
+//               .then((ofertas) => {
+//                 if (typeof ofertas[0].Resultado !== "undefined") {
+//                   agregarAseguradoraFallida("AXA");
+//                   validarProblema("AXA", ofertas);
+//                   ofertas[0].Mensajes.forEach((mensaje) => {
+//                     mostrarAlertarCotizacionFallida("AXA", mensaje);
+//                   });
+//                 } else {
+//                   // eliminarAseguradoraFallida('AXA');
+//                   const contadorPorEntidad = validarOfertas(ofertas, "AXA", 1);
+//                   mostrarAlertaCotizacionExitosa("AXA", contadorPorEntidad);
+//                 }
+//               })
+//               .catch((err) => {
+//                 agregarAseguradoraFallida("AXA");
+//                 mostrarAlertarCotizacionFallida(
+//                   "AXA",
+//                   "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
+//                 );
+//                 validarProblema("AXA", [
+//                   {
+//                     Mensajes: [
+//                       "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
+//                     ],
+//                   },
+//                 ]);
+//                 console.error(err);
+//               })
+//           : Promise.resolve();
+
+//         cont.push(axaPromise);
+
+//         const sbsPromise = comprobarFallida("SBS")
+//           ? fetch(
+//               "https://grupoasistencia.com/motor_webservice/SBS_autos",
+//               requestOptions
+//             )
+//               .then((res) => {
+//                 if (!res.ok) throw Error(res.statusText);
+//                 return res.json();
+//               })
+//               .then((ofertas) => {
+//                 if (typeof ofertas[0].Resultado !== "undefined") {
+//                   agregarAseguradoraFallida("SBS");
+//                   validarProblema("SBS", ofertas);
+//                   ofertas[0].Mensajes.forEach((mensaje) => {
+//                     mostrarAlertarCotizacionFallida("SBS", mensaje);
+//                   });
+//                 } else {
+//                   // eliminarAseguradoraFallida('SBS');
+//                   const contadorPorEntidad = validarOfertas(ofertas, "SBS", 1);
+//                   mostrarAlertaCotizacionExitosa("SBS", contadorPorEntidad);
+//                 }
+//               })
+//               .catch((err) => {
+//                 agregarAseguradoraFallida("SBS");
+//                 mostrarAlertarCotizacionFallida(
+//                   "SBS",
+//                   "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
+//                 );
+//                 validarProblema("SBS", [
+//                   {
+//                     Mensajes: [
+//                       "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
+//                     ],
+//                   },
+//                 ]);
+//                 console.error(err);
+//               })
+//           : Promise.resolve();
+
+//         cont.push(sbsPromise);
+
+//         /* Mundial */
+//         // if(comprobarFallida("Mundial_RPA")){
+//         //   url = "https://grupoasistencia.com/motor_webservice/Mundial_autos";
+//         // } else if(comprobarFallida("Mundial_RCP")){
+//         //   url = "https://grupoasistencia.com/backend_node/WSMundial/postQuotationMundials";
+//         // }
+
+//         aseguradorasFallidas.forEach((aseguradora) => {
+//           plan = aseguradora;
+//           contador = 0;
+
+//           if (aseguradora === "Mundial_RPA") {
+//             url = "https://grupoasistencia.com/motor_webservice/Mundial_autos";
+//             contador++;
+//           } else if (aseguradora === "Mundial_RCP") {
+//             url =
+//               "https://grupoasistencia.com/backend_node/WSMundial/postQuotationMundial";
+//             contador++;
+//           }
+
+//           if (contador === 0) return;
+
+//           const mundialPromise = comprobarFallida(plan)
+//             ? fetch(url, requestOptions)
+//                 .then((res) => {
+//                   if (!res.ok) throw Error(res.statusText);
+//                   return res.json();
+//                 })
+//                 .then((ofertas) => {
+//                   if (typeof ofertas[0].Resultado !== "undefined") {
+//                     agregarAseguradoraFallida(plan);
+//                     validarProblema("Mundial", ofertas);
+//                     ofertas[0].Mensajes.forEach((mensaje) => {
+//                       mostrarAlertarCotizacionFallida("Mundial", mensaje);
+//                     });
+//                   } else {
+//                     // eliminarAseguradoraFallida('Solidaria');
+//                     const contadorPorEntidad = validarOfertas(
+//                       ofertas,
+//                       "Mundial",
+//                       1
+//                     );
+//                     mostrarAlertaCotizacionExitosa(
+//                       "Mundial",
+//                       contadorPorEntidad
+//                     );
+//                   }
+//                 })
+//                 .catch((err) => {
+//                   agregarAseguradoraFallida(plan);
+//                   mostrarAlertarCotizacionFallida(
+//                     "Mundial",
+//                     "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
+//                   );
+//                   validarProblema("Mundial", [
+//                     {
+//                       Mensajes: [
+//                         "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
+//                       ],
+//                     },
+//                   ]);
+//                   console.error(err);
+//                 })
+//             : Promise.resolve();
+
+//           cont.push(mundialPromise);
+//         });
+
+//         //  console.log(cont)
+//         Promise.all(cont).then(() => {
+//           $("#loaderOferta").html("");
+//           $("#loaderRecotOferta").html("");
+//           let nuevas = cotizacionesFinesa.filter(
+//             (cotizaciones) => cotizaciones.cotizada === null
+//           );
+          
+//           if (nuevas.length > 0) {
+            
+//             if (intermediario != 3 && intermediario != 149) {
+//               Swal.fire({
+//                 title: "¡Proceso de  Re-Cotización Finalizada!",
+//                 showConfirmButton: true,
+//                 confirmButtonText: "Cerrar",
+//               });
+//               //countOfferts();
+//               enableInputs(true);
+//             } else {
+//               Swal.close();
+//               $("#loaderOferta").html("");
+//               $("#loaderOfertaBox").css("display", "none");
+//               enableInputs(true);
+//               countOfferts();
+//               /*
+//               Swal.fire({
+//                 title: "¡Proceso de Re-Cotización Finalizada!",
+//                 text: "¿Deseas incluir la financiación con Finesa a 11 cuotas?",
+//                 showConfirmButton: true,
+//                 confirmButtonText: "Si",
+//                 showCancelButton: true,
+//                 cancelButtonText: "No",
+//                 allowOutsideClick: false,
+//                 customClass: {
+//                   title: "custom-title-messageFinesa",
+//                   htmlContainer: "custom-text-messageFinesa",
+//                   popup: "custom-popup-messageFinesa",
+//                   actions: "custom-actions-messageFinesa",
+//                   confirmButton: "custom-confirmnButton-messageFinesa",
+//                   cancelButton: "custom-cancelButton-messageFinesa",
+//                 },
+//               }).then(function (result) {
+//                 if (result.isConfirmed) {
+//                   $("#loaderRecotOfertaBox").css("display", "block");
+//                   $("#loaderRecotOferta").html(
+//                     '<img src="vistas/img/plantilla/loader-update.gif" width="34" height="34"><strong>Re-Cotizando en Finesa...</strong>'
+//                   );
+//                   let btnRecot = document.getElementById(
+//                     "btnReCotizarFallidas"
+//                   );
+//                   btnRecot.disabled = true;
+//                   enableInputs(true);
+//                   cotizarFinesa(cotizacionesFinesa);
+//                   countOfferts();
+//                   // $("#filtersSection").css("display", "block");
+//                 } else if (result.isDismissed && cotizacionesFinesa) {
+//                   if (result.dismiss === "cancel") {
+//                     $("#loaderRecotOfertaBox").css("display", "none");
+//                     $("#loaderRecotOferta").html("");
+//                     enableInputs(true);
+//                     countOfferts();
+//                     // $("#filtersSection").css("display", "block");
+//                   } else if (result.dismiss === "backdrop") {
+//                     $("#loaderRecotOfertaBox").css("display", "none");
+//                     $("#loaderRecotOferta").html("");
+//                     enableInputs(true);
+//                     countOfferts();
+//                     // $("#filtersSection").css("display", "block");
+//                   }
+//                 }
+//               });
+//             */
+//             }
+//           } else {
+            
+//             // Swal.close();
+//             swal.fire({
+//               title: "¡Proceso de Re-Cotización Finalizada!",
+//               showConfirmButton: true,
+//               confirmButtonText: "Cerrar",
+//             });
+//             enableInputs(true);
+//             countOfferts();
+//             // $("#filtersSection").css("display", "block");
+//           }
+//         });
+//       }
+//       let zurichErrors = true;
+//       let zurichSuccess = true;
+//       let successEstado = true;
+//     }
+//   }
+// } */
+
 function cotizarOfertas() {
   showCircularProgress("Cotización Autos en Proceso", 2200, 110000);
   var codigoFasecolda1 = document.getElementById("txtFasecolda");
@@ -2649,11 +5016,9 @@ function cotizarOfertas() {
     }).then(() => {
       // Agregar un retraso antes de recargar la página (por ejemplo, 2 segundos)
       setTimeout(() => {
-        // Recargar la página después del retraso
         location.reload();
-      }, 2000); // 2000 milisegundos = 2 segundos
+      }, 2000);
     });
-    // Salir del código aquí para evitar la ejecución del resto del código
     return;
   }
 
@@ -3034,59 +5399,45 @@ function cotizarOfertas() {
         );
         if (aseguradoras_autorizar.Previsora.A !== "1") {
           var mensajePrevisora = document.getElementById("mensajePrevisora");
-          mensajePrevisora.style.display = "none"; // o cualquier otro valor como 'inline', 'flex', etc.
+          mensajePrevisora.style.display = "none";
         }
-        // const aseguradoras = ['Allianz', 'AXA', 'Bolivar', 'Equidad', 'Estado', 'HDI', 'Liberty', 'Mapfre', 'Previsora', 'SBS', 'Solidaria', 'Zurich'];
         const tbody = document.querySelector("#tablaResumenCot tbody");
 
         aseguradorasCoti.forEach((aseguradora) => {
-          // Crear una fila
           const fila = document.createElement("tr");
-          fila.id = aseguradora; // Establecer el id del tr igual al nombre de la aseguradora
+          fila.id = aseguradora;
 
-          // Crear la celda de nombre de aseguradora
           const celdaNombre = document.createElement("td");
           celdaNombre.textContent = aseguradora;
-          celdaNombre.id = aseguradora; // Establecer el id igual al nombre de la aseguradora
+          celdaNombre.id = aseguradora;
           fila.appendChild(celdaNombre);
 
-          // Crear la celda de respuesta
           const celdaRespuesta = document.createElement("td");
           celdaRespuesta.className = "text-center";
           celdaRespuesta.id = `${aseguradora}Response`;
           fila.appendChild(celdaRespuesta);
 
-          // Crear la celda de productos cotizados
           const celdaProductos = document.createElement("td");
           celdaProductos.className = "text-center";
           celdaProductos.id = `${aseguradora}Products`;
           fila.appendChild(celdaProductos);
 
-          // Crear la celda de observaciones
           const celdaObservaciones = document.createElement("td");
           celdaObservaciones.id = `${aseguradora}Observation`;
           fila.appendChild(celdaObservaciones);
 
-          // Agregar la fila al cuerpo de la tabla
           tbody.appendChild(fila);
 
           const celdaResponse = document.getElementById(
             `${aseguradora}Response`
           );
 
-          // Agregar un elemento de carga (por ejemplo, un gif) en la celda de respuesta
           const loadingElement = document.createElement("img");
-          loadingElement.src = "vistas/img/plantilla/loader-update.gif"; // Reemplaza con la ruta correcta del gif
+          loadingElement.src = "vistas/img/plantilla/loader-update.gif";
           loadingElement.alt = "Cargando...";
-
-          // Establecer el tamaño deseado del gif (por ejemplo, 50px x 50px)
           loadingElement.style.width = "22px";
           loadingElement.style.height = "22px";
-
-          // Limpiar cualquier contenido existente en la celda de respuesta
           celdaResponse.innerHTML = "";
-
-          // Agregar el elemento de carga a la celda de respuesta
           celdaResponse.appendChild(loadingElement);
         });
 
@@ -3145,7 +5496,6 @@ function cotizarOfertas() {
             contenParrilla.style.display = "block";
             idCotizacion = data.id_cotizacion;
             raw.cotizacion = idCotizacion;
-            // console.log(idCotizacion)
 
             var requestOptions = {
               method: "POST",
@@ -3154,7 +5504,10 @@ function cotizarOfertas() {
               redirect: "follow",
             };
 
+            // ====== CAMBIO MINIMO: separar promesas prioritarias y Bolivar ======
             let cont = [];
+            let contBolivar = [];
+            // ================================================================
 
             const mostrarAlertaCotizacionExitosa = (aseguradora, contador) => {
               if (aseguradora == "Estado2" || aseguradora == "Estado3") {
@@ -3169,27 +5522,19 @@ function cotizarOfertas() {
                 aseguradora == "B_Verde"
               )
                 aseguradora = "Bolivar";
-              // Obtener la primera clave del objeto
               const primeraClave = Object.keys(contador)[0];
-
-              // Obtener el valor asociado a la primera clave
               const contadorOfertas = contador[primeraClave];
 
-              // Obtener la referencia de la tabla
               const tablaResumenCotBody = document.querySelector(
                 "#tablaResumenCot tbody"
               );
 
-              // Verificar si ya existe la fila
               const filaExistente = document.getElementById(aseguradora);
               if (filaExistente) {
-                // Acceder directamente a las celdas de la fila existente
-                const celdaContador = filaExistente.cells[2]; // Tercera celda de la fila
-                const celdaCotizo = filaExistente.cells[1]; // Segunda celda de la fila
-                const celdaResponse = filaExistente.cells[3]; // Cuarta celda de la fila
-                // Actualizar los valores según sea necesario
+                const celdaContador = filaExistente.cells[2];
+                const celdaCotizo = filaExistente.cells[1];
+                const celdaResponse = filaExistente.cells[3];
                 const contadorActualTexto = celdaContador.textContent.trim();
-                // Verificar si el texto está vacío o no es un número
                 const contadorActual =
                   contadorActualTexto === ""
                     ? 0
@@ -3208,7 +5553,6 @@ function cotizarOfertas() {
                   celdaResponse.textContent = "Cotización exitosa";
                 }
               } else {
-                // Si la fila no existe, puedes agregarla
                 const nuevaFila = document.createElement("tr");
                 nuevaFila.id = aseguradora;
                 nuevaFila.innerHTML = `
@@ -3224,7 +5568,6 @@ function cotizarOfertas() {
             };
 
             const mostrarAlertarCotizacionFallida = (aseguradora, mensaje) => {
-              // --- Normalizar nombre de aseguradora ---
               const equivalencias = {
                 Estado2: "Estado",
                 Estado3: "Estado",
@@ -3243,19 +5586,16 @@ function cotizarOfertas() {
                 aseguradora = equivalencias[aseguradora];
               }
 
-              // --- Referencia de la tabla ---
               const tablaResumenCotBody = document.querySelector(
                 "#tablaResumenCot tbody"
               );
               const filaExistente = document.getElementById(aseguradora);
 
               if (filaExistente) {
-                // Acceder directamente a las celdas existentes
-                const celdaContador = filaExistente.cells[2]; // 'Productos cotizados'
-                const celdaCotizo = filaExistente.cells[1]; // Icono de estado
-                const celdaResponse = filaExistente.cells[3]; // 'Observaciones'
+                const celdaContador = filaExistente.cells[2];
+                const celdaCotizo = filaExistente.cells[1];
+                const celdaResponse = filaExistente.cells[3];
 
-                // Si la cotización no fue exitosa, actualiza mensaje e icono
                 if (celdaResponse.textContent.trim() !== "Cotización exitosa") {
                   if (celdaResponse.textContent === "") {
                     celdaContador.textContent = 0;
@@ -3270,7 +5610,6 @@ function cotizarOfertas() {
            style="color: green; margin-right: 5px;"></i>`;
                 }
               } else {
-                // Crear nueva fila si no existe
                 const nuevaFila = document.createElement("tr");
                 nuevaFila.id = aseguradora;
                 nuevaFila.setAttribute("data-aseguradora", aseguradora);
@@ -3286,16 +5625,12 @@ function cotizarOfertas() {
               }
             };
 
-            //console.log(aseguradorasCoti); // Esto imprimirá el array con los nombres de aseguradoras autorizadas
-            // return;
-
             aseguradorasCoti.forEach((aseguradora) => {
               let url;
               if (aseguradora === "HDI") {
                 url = `https://grupoasistencia.com/motor_webservice/HdiPlus`;
               } else if (aseguradora === "Zurich") {
                 const planes = ["FULL", "MEDIUM", "BASIC"];
-                // const planes = ["FULL"];
                 planes.forEach((plan) => {
                   let lineaVeh =
                     document.getElementById("txtReferenciaVeh").value;
@@ -3369,11 +5704,9 @@ function cotizarOfertas() {
                       })
                   );
                 });
-                return; // Salir del bucle después de procesar Zurich
+                return;
               } else if (aseguradora === "Estado") {
-                // comento para que solo salgan 2 planes y no los 3
-                const aseguradorasEstado = ["Estado", "Estado2", "Estado3"]; // Agrega más aseguradoras según sea necesario
-                // const aseguradorasEstado = ["Estado", "Estado2"]; // Agrega más aseguradoras según sea necesario
+                const aseguradorasEstado = ["Estado", "Estado2", "Estado3"];
                 aseguradorasEstado.forEach((aseguradora) => {
                   let successAseguradora = true;
                   cont.push(
@@ -3432,8 +5765,7 @@ function cotizarOfertas() {
                       })
                   );
                 });
-                return; // Salir del bucle después de procesar Estado
-                // Construir la URL de la solicitud para cada aseguradora
+                return;
               } else if (aseguradora === "HDI Seguros") {
                 const planes = [
                   "HDI FULL",
@@ -3487,9 +5819,9 @@ function cotizarOfertas() {
                         console.error(err);
                       })
                   );
-                 });
+                });
                 return;
-              } /*inicio javier */ else if (aseguradora === "Qualitas") {
+              } else if (aseguradora === "Qualitas") {
                 url = `https://grupoasistencia.com/WS-laravel/api/autos/qualitas`;
                 cont.push(
                   fetch(url, requestOptions)
@@ -3532,8 +5864,8 @@ function cotizarOfertas() {
                       console.error(err);
                     })
                 );
-                return; /*Fin javier */
-              } /*inicio Daniel */ else if (aseguradora === "Mundial") {
+                return;
+              } else if (aseguradora === "Mundial") {
                 const mundialCotizaciones = ["Mundial_RPA", "Mundial_RCP"];
                 url = "";
                 mundialCotizaciones.forEach((mundialCotizacion) => {
@@ -3587,20 +5919,19 @@ function cotizarOfertas() {
                       })
                   );
                 });
-                return; /*Fin Daniel */
+                return;
               } else if (
                 aseguradora === "Bolivar" ||
                 aseguradora === "Seguros Bolivar"
               ) {
-                url = `https://grupoasistencia.com/backend_node/WSBolivar/postQuotationBolivar`;
-
+                // ====== CAMBIO MINIMO: diferir Bolivar al lote contBolivar ======
+                const urlBolivar = `https://grupoasistencia.com/backend_node/WSBolivar/postQuotationBolivar`;
                 let planesBolivar = [
                   "B_Premium",
                   "B_Standard",
                   "B_Clasico",
                   "B_Ligero",
                 ];
-
                 isHybOrElec ? (planesBolivar = ["B_Verde"]) : planesBolivar;
 
                 planesBolivar.forEach(async (plan) => {
@@ -3623,8 +5954,9 @@ function cotizarOfertas() {
 
                   let body = { ...raw, codigoProducto: codigoProducto };
                   requestOptions.body = JSON.stringify(body);
-                  cont.push(
-                    fetch(url, requestOptions)
+
+                  contBolivar.push(
+                    fetch(urlBolivar, requestOptions)
                       .then((res) => {
                         if (!res.ok) throw Error(res.statusText);
                         return res.json();
@@ -3663,11 +5995,12 @@ function cotizarOfertas() {
                       })
                   );
                 });
+                // IMPORTANTE: no return; dejamos que el bucle continue si hubiese más (por seguridad)
                 return;
               } else {
                 url = `https://grupoasistencia.com/motor_webservice/${aseguradora}_autos`;
               }
-              // Realizar la solicitud fetch y agregar la promesa al array
+
               if (aseguradora == "Qualitas" || aseguradora == "Sura") {
                 let message =
                   aseguradora == "Qualitas"
@@ -3683,13 +6016,11 @@ function cotizarOfertas() {
                   },
                 ];
 
-                //agregarAseguradoraFallida(aseguradora);
                 validarProblema(aseguradora, ofertas);
                 ofertas[0].Mensajes.forEach((mensaje) => {
                   mostrarAlertarCotizacionFallida(aseguradora, mensaje);
                 });
               } else {
-                // Realizar la solicitud fetch y agregar la promesa al array
                 cont.push(
                   fetch(url, requestOptions)
                     .then((res) => {
@@ -3733,35 +6064,32 @@ function cotizarOfertas() {
                 );
               }
             });
-            //console.log(cont)
-            Promise.all(cont).then(() => {
-              // $("#btnCotizar").hide();
-              $("#loaderOferta").html("");
-              //$("#loaderOfertaBox").css("display", "none");
-              if (intermediario != 3 && intermediario != 149) {
-                // Swal.close();
-                Swal.fire({
-                  title: "¡Proceso de Cotización Finalizada!",
-                  showConfirmButton: true,
-                  confirmButtonText: "Cerrar",
-                });
-                enableInputs(true);
-                //countOfferts();
-              } else {
-                Swal.close();
+
+            // ====== CAMBIO MINIMO: primero todas las no-Bolívar, luego Bolívar ======
+            Promise.all(cont)
+              .then(() => Promise.all(contBolivar))
+              .then(() => {
                 $("#loaderOferta").html("");
-                $("#loaderOfertaBox").css("display", "none");
-                enableInputs(true);
-                countOfferts();
-              }
-              document.querySelector(".button-recotizar").style.display =
-                "block";
-              /* Se monta el botón para generar el pdf con 
-                    el valor de la variable idCotizacion */
-              const contentCotizacionPDF = document.querySelector(
-                "#contenCotizacionPDFLivianos"
-              );
-              contentCotizacionPDF.innerHTML = `  
+                if (intermediario != 3 && intermediario != 149) {
+                  Swal.fire({
+                    title: "¡Proceso de Cotización Finalizada!",
+                    showConfirmButton: true,
+                    confirmButtonText: "Cerrar",
+                  });
+                  enableInputs(true);
+                } else {
+                  Swal.close();
+                  $("#loaderOferta").html("");
+                  $("#loaderOfertaBox").css("display", "none");
+                  enableInputs(true);
+                  countOfferts();
+                }
+                document.querySelector(".button-recotizar").style.display =
+                  "block";
+                const contentCotizacionPDF = document.querySelector(
+                  "#contenCotizacionPDFLivianos"
+                );
+                contentCotizacionPDF.innerHTML = `  
                                                       <div class="col-xs-12" style="width: 100%;">
                                                         <div class="row align-items-center">
                                                             <div class="col-xs-4">
@@ -3776,55 +6104,52 @@ function cotizarOfertas() {
                                                         </div>
                                                       </div>
                                                           `;
-              $("#btnParrillaPDF").click(function () {
-                const todosOn = $(".classSelecOferta:checked").length;
-                const idCotizacionPDF = idCotizacion;
-                const checkboxAsesor = $("#checkboxAsesor");
+                $("#btnParrillaPDF").click(function () {
+                  const todosOn = $(".classSelecOferta:checked").length;
+                  const idCotizacionPDF = idCotizacion;
+                  const checkboxAsesor = $("#checkboxAsesor");
 
-                if (permisos.Generarpdfdecotizacion != "x") {
-                  Swal.fire({
-                    icon: "error",
-                    title:
-                      "¡Esta versión no tiene ésta funcionalidad disponible!",
-                    showCancelButton: true,
-                    confirmButtonText: "Cerrar",
-                    cancelButtonText: "Conoce más",
-                  }).then((result) => {
-                    if (result.isConfirmed) {
-                    } else if (result.isDismissed) {
-                      window.open("https://www.integradoor.com", "_blank");
-                    }
-                  });
-                } else {
-                  const filtradas = ofertas.some(
-                    (element) => element.seleccionar == "Si"
-                  );
-                  if (!todosOn && !filtradas) {
+                  if (permisos.Generarpdfdecotizacion != "x") {
                     Swal.fire({
-                      title: "¡Debes seleccionar mínimo una oferta!",
+                      icon: "error",
+                      title:
+                        "¡Esta versión no tiene ésta funcionalidad disponible!",
+                      showCancelButton: true,
+                      confirmButtonText: "Cerrar",
+                      cancelButtonText: "Conoce más",
+                    }).then((result) => {
+                      if (result.isConfirmed) {
+                      } else if (result.isDismissed) {
+                        window.open("https://www.integradoor.com", "_blank");
+                      }
                     });
                   } else {
-                    let url = `extensiones/tcpdf/pdf/comparador.php?cotizacion=${idCotizacionPDF}`;
-                    if (checkboxAsesor.is(":checked")) {
-                      url += "&generar_pdf=1";
+                    const filtradas = ofertas.some(
+                      (element) => element.seleccionar == "Si"
+                    );
+                    if (!todosOn && !filtradas) {
+                      Swal.fire({
+                        title: "¡Debes seleccionar mínimo una oferta!",
+                      });
+                    } else {
+                      let url = `extensiones/tcpdf/pdf/comparador.php?cotizacion=${idCotizacionPDF}`;
+                      if (checkboxAsesor.is(":checked")) {
+                        url += "&generar_pdf=1";
+                      }
+                      window.open(url, "_blank");
                     }
-                    window.open(url, "_blank");
-
-                    //   window.open("extensiones/tcpdf/pdf/comparador.php?cotizacion=" + idCotizacionPDF,"_blank");
                   }
-                }
+                });
               });
-            });
           },
         });
         countOfferts();
       } else {
-        
         //ZONA RECOTIZACIÓN//
         $("#loaderRecotOferta").html(
           '<img src="vistas/img/plantilla/loader-update.gif" width="34" height="34"><strong> Recotizando Ofertas...</strong>'
         );
-        
+
         const btnRecotizar = document.getElementById("btnReCotizarFallidas");
         btnRecotizar.disabled = true;
         document.getElementById("btnCotizarFinesa").disabled = false;
@@ -3867,28 +6192,19 @@ function cotizarOfertas() {
             aseguradora = "Bolivar";
           }
 
-          // Obtener la primera clave del objeto
           const primeraClave = Object.keys(contador)[0];
-
-          // Obtener el valor asociado a la primera clave
           const contadorOfertas = contador[primeraClave];
 
-          // Obtener la referencia de la tabla
           const tablaResumenCotBody = document.querySelector(
             "#tablaResumenCot tbody"
           );
 
-          // Verificar si ya existe la fila
           const filaExistente = document.getElementById(aseguradora);
           if (filaExistente) {
-            
-            // Acceder directamente a las celdas de la fila existente
-            const celdaContador = filaExistente.cells[2]; // Tercera celda de la fila
-            const celdaCotizo = filaExistente.cells[1]; // Segunda celda de la fila
-            const celdaResponse = filaExistente.cells[3]; // Cuarta celda de la fila
-            // Actualizar los valores según sea necesario
+            const celdaContador = filaExistente.cells[2];
+            const celdaCotizo = filaExistente.cells[1];
+            const celdaResponse = filaExistente.cells[3];
             const contadorActualTexto = celdaContador.textContent.trim();
-            // Verificar si el texto está vacío o no es un número
             const contadorActual =
               contadorActualTexto === ""
                 ? 0
@@ -3910,7 +6226,6 @@ function cotizarOfertas() {
               celdaResponse.textContent = "Cotización exitosa";
             }
           } else {
-            // Si la fila no existe, puedes agregarla
             const nuevaFila = document.createElement("tr");
             nuevaFila.id = aseguradora;
             nuevaFila.innerHTML = `
@@ -3934,7 +6249,6 @@ function cotizarOfertas() {
             aseguradora == "BASICO"
           ) {
             aseguradora = "HDI Seguros";
-            // debugger;
           }
 
           if (
@@ -3955,40 +6269,34 @@ function cotizarOfertas() {
             aseguradora = "Estado";
           }
 
-          // Referencia a la tabla
           const tablaResumenCotBody = document.querySelector(
             "#tablaResumenCot tbody"
           );
           const filaExistente = document.getElementById(aseguradora);
 
           if (filaExistente) {
-            // Actualizar fila existente
-            const celdaContador = filaExistente.cells[2]; // Tercera celda
-            const celdaCotizo = filaExistente.cells[1]; // Segunda celda
-            const celdaResponse = filaExistente.cells[3]; // Cuarta celda
+            const celdaContador = filaExistente.cells[2];
+            const celdaCotizo = filaExistente.cells[1];
+            const celdaResponse = filaExistente.cells[3];
 
             if (celdaResponse.textContent.trim() !== "Cotización exitosa") {
               if (celdaResponse.textContent !== "") {
-                // Ya tenía mensaje → solo mostrar ❌
                 celdaCotizo.innerHTML =
                   '<i class="fa fa-times" aria-hidden="true" style="color: red; margin-right: 10px;"></i>';
                 return;
               } else {
-                // No tenía mensaje → setear error
                 celdaContador.textContent = 0;
                 celdaCotizo.innerHTML =
                   '<i class="fa fa-times" aria-hidden="true" style="color: red; margin-right: 10px;"></i>';
                 celdaResponse.textContent = mensaje;
               }
             } else {
-              // Ya tenía exitosa → check verde
               celdaCotizo.innerHTML =
                 '<i class="fa fa-check" aria-hidden="true" style="color: green; margin-right: 5px;"></i>';
             }
           } else {
-            // Crear nueva fila
             const nuevaFila = document.createElement("tr");
-            nuevaFila.id = aseguradora; // importante para encontrarla luego
+            nuevaFila.id = aseguradora;
             nuevaFila.setAttribute("data-aseguradora", aseguradora);
             nuevaFila.innerHTML = `
             <td>${aseguradora}</td>
@@ -4042,28 +6350,24 @@ function cotizarOfertas() {
             `${aseguradora}Response`
           );
 
-          // Agregar un elemento de carga (por ejemplo, un gif) en la celda de respuesta
           const loadingElement = document.createElement("img");
-          loadingElement.src = "vistas/img/plantilla/loader-update.gif"; // Reemplaza con la ruta correcta del gif
+          loadingElement.src = "vistas/img/plantilla/loader-update.gif";
           loadingElement.alt = "Cargando...";
-
-          // Establecer el tamaño deseado del gif (por ejemplo, 50px x 50px)
           loadingElement.style.width = "22px";
           loadingElement.style.height = "22px";
-
-          // Limpiar cualquier contenido existente en la celda de respuesta
           celdaResponse.innerHTML = "";
-
-          // Agregar el elemento de carga a la celda de respuesta
           celdaResponse.appendChild(loadingElement);
         });
 
+        // ====== CAMBIO MINIMO: separar promesas prioritarias y Bolivar ======
         let cont = [];
+        let contBolivar = [];
+        // ================================================================
 
         /* Solidaria */
         const solidariaPromise = comprobarFallida("Solidaria")
           ? fetch(
-              "https://grupoasistencia.com/motor_webservice/Solidaria_autos?callback=myCallback",
+              "https://grupoasistencia.com/motor_webservice/Solidaria_autos",
               requestOptions
             )
               .then((res) => {
@@ -4078,7 +6382,6 @@ function cotizarOfertas() {
                     mostrarAlertarCotizacionFallida("Solidaria", mensaje);
                   });
                 } else {
-                  // eliminarAseguradoraFallida('Solidaria');
                   const contadorPorEntidad = validarOfertas(
                     ofertas,
                     "Solidaria",
@@ -4112,7 +6415,7 @@ function cotizarOfertas() {
         /* Previsora */
         const previsoraPromise = comprobarFallida("Previsora")
           ? fetch(
-              "https://grupoasistencia.com/motor_webservice/Previsora_autos?callback=myCallback",
+              "https://grupoasistencia.com/motor_webservice/Previsora_autos",
               requestOptions
             )
               .then((res) => {
@@ -4127,7 +6430,6 @@ function cotizarOfertas() {
                     mostrarAlertarCotizacionFallida("Previsora", mensaje);
                   });
                 } else {
-                  // eliminarAseguradoraFallida('Previsora');
                   const contadorPorEntidad = validarOfertas(
                     ofertas,
                     "Previsora",
@@ -4161,7 +6463,7 @@ function cotizarOfertas() {
         /* Equidad */
         const equidadPromise = comprobarFallida("Equidad")
           ? fetch(
-              "https://grupoasistencia.com/motor_webservice/Equidad_autos?callback=myCallback",
+              "https://grupoasistencia.com/motor_webservice/Equidad_autos",
               requestOptions
             )
               .then((res) => {
@@ -4176,7 +6478,6 @@ function cotizarOfertas() {
                     mostrarAlertarCotizacionFallida("Equidad", mensaje);
                   });
                 } else {
-                  // eliminarAseguradoraFallida('Equidad');
                   const contadorPorEntidad = validarOfertas(
                     ofertas,
                     "Equidad",
@@ -4207,7 +6508,7 @@ function cotizarOfertas() {
         /* Mapfre */
         const mapfrePromise = comprobarFallida("Mapfre")
           ? fetch(
-              "https://grupoasistencia.com/motor_webservice/Mapfre_autos?callback=myCallback",
+              "https://grupoasistencia.com/motor_webservice/Mapfre_autos",
               requestOptions
             )
               .then((res) => {
@@ -4222,7 +6523,6 @@ function cotizarOfertas() {
                     mostrarAlertarCotizacionFallida("Mapfre", mensaje);
                   });
                 } else {
-                  // eliminarAseguradoraFallida('Mapfre');
                   const contadorPorEntidad = validarOfertas(
                     ofertas,
                     "Mapfre",
@@ -4249,14 +6549,14 @@ function cotizarOfertas() {
           : Promise.resolve();
 
         cont.push(mapfrePromise);
-        /* Bolivar */
+
+        /* Bolivar — DIFERIDO AL FINAL */
         const planesBolivar = [
           "B_Premium",
           "B_Standard",
           "B_Clasico",
           "B_Ligero",
         ];
-
         isHybOrElec ? (planesBolivar = ["B_Verde"]) : planesBolivar;
 
         planesBolivar.forEach((plan) => {
@@ -4292,7 +6592,6 @@ function cotizarOfertas() {
                       mostrarAlertarCotizacionFallida(plan, mensaje);
                     });
                   } else {
-                    // eliminarAseguradoraFallida('Bolivar');
                     const contadorPorEntidad = validarOfertas(
                       ofertas,
                       "Bolivar",
@@ -4318,11 +6617,12 @@ function cotizarOfertas() {
                 })
             : Promise.resolve();
 
-          cont.push(bolivarPromise);
+          // ====== CAMBIO MINIMO: empujar a contBolivar, no a cont ======
+          contBolivar.push(bolivarPromise);
         });
 
         /* Qualitas*/
-        /*inicio javier */ const qualitasPromise = comprobarFallida("Qualitas")
+        const qualitasPromise = comprobarFallida("Qualitas")
           ? fetch(
               "https://grupoasistencia.com/WS-laravel/api/autos/qualitas",
               requestOptions
@@ -4368,12 +6668,11 @@ function cotizarOfertas() {
           : Promise.resolve();
 
         cont.push(qualitasPromise);
-        /*Fin javier */
 
         /* HDI */
         const HDIPromise = comprobarFallida("HDI")
           ? fetch(
-              "https://grupoasistencia.com/motor_webservice/HdiPlus?callback=myCallback",
+              "https://grupoasistencia.com/motor_webservice/HdiPlus",
               requestOptions
             )
               .then((res) => {
@@ -4388,7 +6687,6 @@ function cotizarOfertas() {
                     mostrarAlertarCotizacionFallida("HDI", mensaje);
                   });
                 } else {
-                  // eliminarAseguradoraFallida('HDI');
                   const contadorPorEntidad = validarOfertas(ofertas, "HDI", 1);
                   mostrarAlertaCotizacionExitosa("HDI", contadorPorEntidad);
                 }
@@ -4413,8 +6711,6 @@ function cotizarOfertas() {
         cont.push(HDIPromise);
 
         const lineaVeh = document.getElementById("txtReferenciaVeh").value;
-        // Para 'FULL'
-        //const plan = "FULL";
 
         aseguradorasFallidas.map((aseguradora) => {
           let plan = aseguradora;
@@ -4511,9 +6807,9 @@ function cotizarOfertas() {
             : Promise.resolve();
           cont.push(ZFullPromise);
         });
+
         /* Estado */
-        const aseguradorasEstado = ["Estado", "Estado2", "Estado3"]; // Agrega más aseguradoras según sea necesario
-        //const aseguradorasEstado = ["Estado", "Estado2"]; // Agrega más aseguradoras según sea necesario
+        const aseguradorasEstado = ["Estado", "Estado2", "Estado3"];
         aseguradorasEstado.forEach((aseguradora) => {
           let plan = aseguradora;
           let count = 0;
@@ -4589,7 +6885,7 @@ function cotizarOfertas() {
           cont.push(aseguradoraPromise);
         });
 
-        /* Liberty */
+        /* Liberty (HDI Seguros planes) */
         const aseguradorasHDI = [
           "HDI FULL",
           "INTEGRAL 20",
@@ -4615,8 +6911,6 @@ function cotizarOfertas() {
           }
 
           if (count === 0) return;
-
-          //debugger;
 
           let body = JSON.parse(requestOptions.body);
           body.plan = plan;
@@ -4672,7 +6966,7 @@ function cotizarOfertas() {
         /* Allianz */
         const allianzPromise = comprobarFallida("Allianz")
           ? fetch(
-              "https://grupoasistencia.com/motor_webservice/Allianz_autos?callback=myCallback",
+              "https://grupoasistencia.com/motor_webservice/Allianz_autos",
               requestOptions
             )
               .then((res) => {
@@ -4687,7 +6981,6 @@ function cotizarOfertas() {
                     mostrarAlertarCotizacionFallida("Allianz", mensaje);
                   });
                 } else {
-                  // eliminarAseguradoraFallida('Allianz');
                   const contadorPorEntidad = validarOfertas(
                     ofertas,
                     "Allianz",
@@ -4717,7 +7010,7 @@ function cotizarOfertas() {
 
         const axaPromise = comprobarFallida("AXA")
           ? fetch(
-              "https://grupoasistencia.com/motor_webservice/AXA_autos?callback=myCallback",
+              "https://grupoasistencia.com/motor_webservice/AXA_autos",
               requestOptions
             )
               .then((res) => {
@@ -4732,7 +7025,6 @@ function cotizarOfertas() {
                     mostrarAlertarCotizacionFallida("AXA", mensaje);
                   });
                 } else {
-                  // eliminarAseguradoraFallida('AXA');
                   const contadorPorEntidad = validarOfertas(ofertas, "AXA", 1);
                   mostrarAlertaCotizacionExitosa("AXA", contadorPorEntidad);
                 }
@@ -4758,7 +7050,7 @@ function cotizarOfertas() {
 
         const sbsPromise = comprobarFallida("SBS")
           ? fetch(
-              "https://grupoasistencia.com/motor_webservice/SBS_autos?callback=myCallback",
+              "https://grupoasistencia.com/motor_webservice/SBS_autos",
               requestOptions
             )
               .then((res) => {
@@ -4773,7 +7065,6 @@ function cotizarOfertas() {
                     mostrarAlertarCotizacionFallida("SBS", mensaje);
                   });
                 } else {
-                  // eliminarAseguradoraFallida('SBS');
                   const contadorPorEntidad = validarOfertas(ofertas, "SBS", 1);
                   mostrarAlertaCotizacionExitosa("SBS", contadorPorEntidad);
                 }
@@ -4798,12 +7089,6 @@ function cotizarOfertas() {
         cont.push(sbsPromise);
 
         /* Mundial */
-        // if(comprobarFallida("Mundial_RPA")){
-        //   url = "https://grupoasistencia.com/motor_webservice/Mundial_autos";
-        // } else if(comprobarFallida("Mundial_RCP")){
-        //   url = "https://grupoasistencia.com/backend_node/WSMundial/postQuotationMundials";
-        // }
-
         aseguradorasFallidas.forEach((aseguradora) => {
           plan = aseguradora;
           contador = 0;
@@ -4833,7 +7118,6 @@ function cotizarOfertas() {
                       mostrarAlertarCotizacionFallida("Mundial", mensaje);
                     });
                   } else {
-                    // eliminarAseguradoraFallida('Solidaria');
                     const contadorPorEntidad = validarOfertas(
                       ofertas,
                       "Mundial",
@@ -4865,92 +7149,41 @@ function cotizarOfertas() {
           cont.push(mundialPromise);
         });
 
-        //  console.log(cont)
-        Promise.all(cont).then(() => {
-          $("#loaderOferta").html("");
-          $("#loaderRecotOferta").html("");
-          let nuevas = cotizacionesFinesa.filter(
-            (cotizaciones) => cotizaciones.cotizada === null
-          );
-          
-          if (nuevas.length > 0) {
-            
-            if (intermediario != 3 && intermediario != 149) {
-              Swal.fire({
-                title: "¡Proceso de  Re-Cotización Finalizada!",
+        // ====== CAMBIO MINIMO: primero todas las no-Bolívar, luego Bolívar ======
+        Promise.all(cont)
+          .then(() => Promise.all(contBolivar))
+          .then(() => {
+            $("#loaderOferta").html("");
+            $("#loaderRecotOferta").html("");
+            let nuevas = cotizacionesFinesa.filter(
+              (cotizaciones) => cotizaciones.cotizada === null
+            );
+
+            if (nuevas.length > 0) {
+              if (intermediario != 3 && intermediario != 149) {
+                Swal.fire({
+                  title: "¡Proceso de  Re-Cotización Finalizada!",
+                  showConfirmButton: true,
+                  confirmButtonText: "Cerrar",
+                });
+                enableInputs(true);
+              } else {
+                Swal.close();
+                $("#loaderOferta").html("");
+                $("#loaderOfertaBox").css("display", "none");
+                enableInputs(true);
+                countOfferts();
+              }
+            } else {
+              swal.fire({
+                title: "¡Proceso de Re-Cotización Finalizada!",
                 showConfirmButton: true,
                 confirmButtonText: "Cerrar",
               });
-              //countOfferts();
-              enableInputs(true);
-            } else {
-              Swal.close();
-              $("#loaderOferta").html("");
-              $("#loaderOfertaBox").css("display", "none");
               enableInputs(true);
               countOfferts();
-              /*
-              Swal.fire({
-                title: "¡Proceso de Re-Cotización Finalizada!",
-                text: "¿Deseas incluir la financiación con Finesa a 11 cuotas?",
-                showConfirmButton: true,
-                confirmButtonText: "Si",
-                showCancelButton: true,
-                cancelButtonText: "No",
-                allowOutsideClick: false,
-                customClass: {
-                  title: "custom-title-messageFinesa",
-                  htmlContainer: "custom-text-messageFinesa",
-                  popup: "custom-popup-messageFinesa",
-                  actions: "custom-actions-messageFinesa",
-                  confirmButton: "custom-confirmnButton-messageFinesa",
-                  cancelButton: "custom-cancelButton-messageFinesa",
-                },
-              }).then(function (result) {
-                if (result.isConfirmed) {
-                  $("#loaderRecotOfertaBox").css("display", "block");
-                  $("#loaderRecotOferta").html(
-                    '<img src="vistas/img/plantilla/loader-update.gif" width="34" height="34"><strong>Re-Cotizando en Finesa...</strong>'
-                  );
-                  let btnRecot = document.getElementById(
-                    "btnReCotizarFallidas"
-                  );
-                  btnRecot.disabled = true;
-                  enableInputs(true);
-                  cotizarFinesa(cotizacionesFinesa);
-                  countOfferts();
-                  // $("#filtersSection").css("display", "block");
-                } else if (result.isDismissed && cotizacionesFinesa) {
-                  if (result.dismiss === "cancel") {
-                    $("#loaderRecotOfertaBox").css("display", "none");
-                    $("#loaderRecotOferta").html("");
-                    enableInputs(true);
-                    countOfferts();
-                    // $("#filtersSection").css("display", "block");
-                  } else if (result.dismiss === "backdrop") {
-                    $("#loaderRecotOfertaBox").css("display", "none");
-                    $("#loaderRecotOferta").html("");
-                    enableInputs(true);
-                    countOfferts();
-                    // $("#filtersSection").css("display", "block");
-                  }
-                }
-              });
-            */
             }
-          } else {
-            
-            // Swal.close();
-            swal.fire({
-              title: "¡Proceso de Re-Cotización Finalizada!",
-              showConfirmButton: true,
-              confirmButtonText: "Cerrar",
-            });
-            enableInputs(true);
-            countOfferts();
-            // $("#filtersSection").css("display", "block");
-          }
-        });
+          });
       }
       let zurichErrors = true;
       let zurichSuccess = true;
@@ -4958,6 +7191,7 @@ function cotizarOfertas() {
     }
   }
 }
+
 
 // Consultar datos del vehiculo
 document
