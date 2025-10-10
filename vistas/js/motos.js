@@ -2720,7 +2720,7 @@ function cotizarOfertasMotos() {
 
         // const aseguradoras = ['Allianz', 'AXA', 'Bolivar', 'Equidad', 'Estado', 'HDI', 'Liberty', 'Mapfre', 'Previsora', 'SBS', 'Solidaria', 'Zurich'];
         const tbody = document.querySelector("#tablaResumenCot tbody");
-
+        // console.log(aseguradorasCoti)
         aseguradorasCoti.forEach((aseguradora) => {
           // Crear una fila
           const fila = document.createElement("tr");
@@ -3068,29 +3068,29 @@ function cotizarOfertasMotos() {
                   );
                 });
                 return;
-              } 
-              else if (aseguradora === "Estado") {
-                let estadoPromise = new Promise((resolve, reject) => {
-                  try {
-                    let arrAseguradora = [
-                      {
-                        Mensajes: [
-                          "Solicita cotización manual con tu Analista Comercial asignado",
-                        ],
-                      },
-                    ];
-                    setTimeout(function () {
-                      validarProblemaMotos("Estado", arrAseguradora);
-                      addAseguradora("Estado");
-                      resolve();
-                    }, 1000);
-                  } catch (error) {
-                    resolve();
-                  }
-                });
+              // } 
+              // else if (aseguradora === "Estado") {
+              //   let estadoPromise = new Promise((resolve, reject) => {
+              //     try {
+              //       let arrAseguradora = [
+              //         {
+              //           Mensajes: [
+              //             "Solicita cotización manual con tu Analista Comercial asignado",
+              //           ],
+              //         },
+              //       ];
+              //       setTimeout(function () {
+              //         validarProblemaMotos("Estado", arrAseguradora);
+              //         addAseguradora("Estado");
+              //         resolve();
+              //       }, 1000);
+              //     } catch (error) {
+              //       resolve();
+              //     }
+              //   });
 
-                cont.push(estadoPromise);
-                return;
+              //   cont.push(estadoPromise);
+              //   return;
               } else {
                 // Construir la URL de la solicitud para cada aseguradora
                 url = `https://grupoasistencia.com/motor_webservice/${aseguradora}_motos`;
@@ -3642,6 +3642,50 @@ function cotizarOfertasMotos() {
             )
           : // : Promise.resolve();
             null;
+
+        const estadoPromise = comprobarFallida("Estado")
+          ? fetch(
+              "https://grupoasistencia.com/motor_webservice/Estado_motos",
+              requestOptions
+            )
+              .then((res) => {
+                if (!res.ok) throw Error(res.statusText);
+                return res.json();
+              })
+              .then((ofertas) => {
+                if (typeof ofertas[0].Resultado !== "undefined") {
+                  agregarAseguradoraFallidaMotos("Estado");
+                  validarProblemaMotos("Estado", ofertas);
+                  ofertas[0].Mensajes.forEach((mensaje) => {
+                    mostrarAlertarCotizacionFallida("Estado", mensaje);
+                  });
+                } else {
+                  const contadorPorEntidad = validarOfertasMotos(
+                    ofertas,
+                    "Estado",
+                    1
+                  );
+                  mostrarAlertaCotizacionExitosa("Estado", contadorPorEntidad);
+                }
+              })
+              .catch((err) => {
+                agregarAseguradoraFallidaMotos("Estado");
+                mostrarAlertarCotizacionFallida(
+                  "Estado",
+                  "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
+                );
+                validarProblemaMotos("Estado", [
+                  {
+                    Mensajes: [
+                      "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
+                    ],
+                  },
+                ]);
+                console.error(err);
+              })
+          : Promise.resolve();
+
+        cont.push(estadoPromise);
         // cont.push(sbsPromise);
         Promise.all(cont).then(() => {
           // $("#loaderOferta").html("");
