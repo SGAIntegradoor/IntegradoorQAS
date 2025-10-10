@@ -18,7 +18,8 @@ class Asesor
     public $meses = [
         'mes1' => ['cotizaciones' => 0, 'negocios' => 0, 'prima_emitida' => 0],
         'mes2' => ['cotizaciones' => 0, 'negocios' => 0, 'prima_emitida' => 0],
-        'mes3' => ['cotizaciones' => 0, 'negocios' => 0, 'prima_emitida' => 0]
+        'mes3' => ['cotizaciones' => 0, 'negocios' => 0, 'prima_emitida' => 0],
+        'mes4' => ['cotizaciones' => 0, 'negocios' => 0, 'prima_emitida' => 0]
     ];
 }
 
@@ -29,6 +30,7 @@ $asesor   = $_POST["asesor"] ?? null;
 $analista = $_POST["analista"] ?? null;
 $ramo     = $_POST["ramo"] ?? null;
 $estado   = $_POST["estado"] ?? null;
+$categoria   = $_POST["categoria"] ?? null;
 error_log("Estado recibido: " . var_export($estado, true));
 
 // =======================================
@@ -59,7 +61,7 @@ function getRangoFechas($anio = null, $mes = null)
     }
 
     // Armar rangos de 3 meses
-    for ($i = 0; $i < 3; $i++) {
+    for ($i = 0; $i < 4; $i++) {
         $start = (clone $fechaBase)->modify("-$i month")->modify('first day of this month')->setTime(0, 0, 0);
         $end   = (clone $fechaBase)->modify("-$i month")->modify('last day of this month')->setTime(23, 59, 59);
         $fechas["mes" . ($i + 1)] = [
@@ -74,7 +76,7 @@ function getRangoFechas($anio = null, $mes = null)
 // =======================================
 // 2. Obtener asesores
 // =======================================
-function getAsesores($asesor = null, $analista = null, $estado = null)
+function getAsesores($asesor = null, $analista = null, $estado = null, $categoria = null)
 {
     global $enlace;
 
@@ -89,7 +91,7 @@ function getAsesores($asesor = null, $analista = null, $estado = null)
             u.categoria_freelance
         FROM usuarios u
         LEFT JOIN analistas_freelances af ON af.id_usuario = u.usu_documento
-        WHERE u.id_rol IN (19)";
+        WHERE u.id_rol IN (19) AND u.id_usuario NOT IN (197,416,570,636,1144,1159,1186,1182,1377,1428,1586,1652);"; // No mostrar usuarios con suscripcion.
 
     $params = [];
     $types  = "";
@@ -110,6 +112,12 @@ function getAsesores($asesor = null, $analista = null, $estado = null)
         $sql .= " AND u.usu_estado = ?";
         $params[] = (int)$estado;
         $types   .= "i";
+    }
+
+    if ($categoria) {
+        $sql .= " AND u.categoria_freelance = ?";
+        $params[] = $categoria;
+        $types .= "s";
     }
 
     $stmt = prepareQuery($sql, $types, $params);
@@ -319,7 +327,7 @@ function contarNegociosAgrupados($rangoFechas, $ramo = null)
 // 5. Ejecutar y armar respuesta
 // =======================================
 $fechasMeses = getRangoFechas($anio, $mes);
-$asesores    = getAsesores($asesor, $analista, $estado);
+$asesores    = getAsesores($asesor, $analista, $estado, $categoria);
 
 $cotizacionesData = contarCotizacionesAgrupadas($fechasMeses, $ramo);
 $negociosYPrimasData = contarNegociosAgrupados($fechasMeses, $ramo);

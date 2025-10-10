@@ -101,6 +101,7 @@ function searchInfo() {
   const analista = $("#analistaGAPro").val();
   const ramo = $("#ramoPro").val();
   const estado = $("#estadoPro").val();
+  const categoria = $("#categoriaPro").val();
 
   // Mostrar el loader
   $("#loader").show();
@@ -114,7 +115,8 @@ function searchInfo() {
       asesor,
       analista,
       ramo,
-      estado
+      estado,
+      categoria
     },
     success: function (response) {
       try {
@@ -232,7 +234,8 @@ function renderTable(data) {
   const resumen = {
     mes1: { cotizaciones: 0, negocios: 0, primas: 0 },
     mes2: { cotizaciones: 0, negocios: 0, primas: 0 },
-    mes3: { cotizaciones: 0, negocios: 0, primas: 0 }
+    mes3: { cotizaciones: 0, negocios: 0, primas: 0 },
+    mes4: { cotizaciones: 0, negocios: 0, primas: 0 },
   };
 
   let totalCotizaciones = 0;
@@ -560,7 +563,7 @@ function abrirModalSeguimiento(btn) {
 }
 
 $(
-  "#anioExpedicionPro, #mesExpedicionPro, #nombreAsesorPro, #analistaGAPro, #ramoPro, #estadoPro"
+  "#anioExpedicionPro, #mesExpedicionPro, #nombreAsesorPro, #analistaGAPro, #ramoPro, #estadoPro, #categoriaPro"
 ).select2({
   theme: "bootstrap selecting",
   language: {
