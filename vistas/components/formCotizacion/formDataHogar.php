@@ -125,6 +125,19 @@
                 </div>
             </div>
 
+            <div class="col-xs-12 col-sm-6 col-md-3">
+                <div class="form-group">
+                    <label for="estrato">Estrato</label>
+                    <select id="estrato" class="form-control">
+                        <option value="0">Seleccione una opción</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="3">4</option>
+                        <option value="3">5</option>
+                        <option value="3">6</option>
+                    </select>
+                </div>
+            </div>
 
 
             <div class="col-xs-12 col-sm-6 col-md-3">

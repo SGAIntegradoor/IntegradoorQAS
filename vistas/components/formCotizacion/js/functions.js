@@ -2526,6 +2526,7 @@ $("#btnCotizarSBS, #btnCotizar").click(function () {
       zonaConstruccion: $("#zonaConstruccion").val(),
       tieneCredito: $('input[name="creditoHipotecarioRadio"]:checked').val(),
       tipoCobertura: $('input[name="tipoCoberturaRadio"]:checked').attr("id"),
+      estrato: $("#estrato").val(),
     };
 
     // Condicionales para agregar campos adicionales según el tipo de documento
@@ -2656,6 +2657,7 @@ $("#btnCotizarSBS, #btnCotizar").click(function () {
           responsabilidadCivil: 4,
           deducibleResponsabilidadCivil: 1,
           asistenciaDomiciliaria: true,
+          estrato: $("#estrato").val(),
         };
 
         let valorContNormEnseres =
