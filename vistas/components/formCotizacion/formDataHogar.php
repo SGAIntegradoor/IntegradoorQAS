@@ -20,6 +20,7 @@ $infoUsuario = $stmt->fetchAll(PDO::FETCH_ASSOC);
 $correoAnalista = $infoUsuario[0]['correo_analista'];
 $usu_email = $infoUsuario[0]['usu_email'];
 $usu_cel = $infoUsuario[0]['usu_telefono'];
+$nombre_analista = $infoUsuario[0]['nombre_analista'];
 
 ?>
 
@@ -166,6 +167,7 @@ $usu_cel = $infoUsuario[0]['usu_telefono'];
                     <input type="hidden" name="correoAnalista" id="correoAnalista" value="<?php echo $correoAnalista; ?>">
                     <input type="hidden" name="usu_cel" id="usu_cel" value="<?php echo $usu_cel; ?>">
                     <input type="hidden" name="usu_email" id="usu_email" value="<?php echo $usu_email; ?>">      
+                    <input type="hidden" name="nombre_analista" id="nombre_analista" value="<?php echo $nombre_analista; ?>">      
                 </div>
             </div>
 
