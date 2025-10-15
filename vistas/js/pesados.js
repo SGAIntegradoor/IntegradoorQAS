@@ -326,7 +326,12 @@ $(document).ready(function () {
     if (!ciudadCirc) {
       return;
     }
-    if (clasePesados !== "REMOLQUE" && clasePesados !== "REMOLCADOR" && clasePesados !== "VOLQUETA" && !numToneladas) {
+    if (
+      clasePesados !== "REMOLQUE" &&
+      clasePesados !== "REMOLCADOR" &&
+      clasePesados !== "VOLQUETA" &&
+      !numToneladas
+    ) {
       return;
     }
 
@@ -890,7 +895,12 @@ function consulPlacaMapfrePesados(valnumplaca) {
       var codFasecolda = data.polizaReciente.COD_FASECOLDA;
       var aseguradora = data.polizaReciente.nomCompania;
 
-      await ejecutarValidacion(codFasecolda, modelo, isCheckedVeh, inputToneladas);
+      await ejecutarValidacion(
+        codFasecolda,
+        modelo,
+        isCheckedVeh,
+        inputToneladas
+      );
 
       propietario = data.polizaReciente.asegNombre;
       cedulaP = data.polizaReciente.asegCodDocum;
@@ -1132,7 +1142,12 @@ function consulPlacaPesados(query = "1") {
           var valorAsegurado = myJson.Data.ValorAsegurado;
 
           // if(){}
-          await ejecutarValidacion(codigoFasecolda, modeloVehiculo, isCheckedVeh, inputToneladas);
+          await ejecutarValidacion(
+            codigoFasecolda,
+            modeloVehiculo,
+            isCheckedVeh,
+            inputToneladas
+          );
 
           if (codigoFasecolda != null) {
             if (valorAsegurado == "null" || valorAsegurado == null) {
@@ -1283,11 +1298,19 @@ function consulPlacaPesados(query = "1") {
               $("#CodigoClase").val(codigoClase);
               $("#clasepesados").val(claseVehiculo);
 
-              if (
-                $("#clasepesados").val() !== "REMOLQUE" &&
-                $("#clasepesados").val() !== "REMOLCADOR" &&
-                $("#clasepesados").val() !== "VOLQUETA"
-              ) {
+              let fasc = "";
+
+              var cuartoDigito = codigoFasecolda.charAt(3);
+              var quintoDigito = codigoFasecolda.charAt(4);
+
+              // Verificar si el cuarto dígito es igual a 0 y eliminarlo si es así
+              if (cuartoDigito === "0") {
+                fasc = quintoDigito;
+              } else {
+                // Concatenar los dígitos en un solo número
+                fasc = cuartoDigito + quintoDigito;
+              }
+              if (!["22", "23", "25", "26"].includes(fasc)) {
                 $("#numToneladas").prop("required", true);
                 $("#divNumToneladas").show(); // ✅ mostrar el div
               }
@@ -1636,11 +1659,19 @@ function consulDatosFasecolda(codFasecolda, edadVeh) {
           var clase = data.clase;
 
           $("#clasepesados").val(clase);
-          if (
-            $("#clasepesados").val() !== "REMOLQUE" &&
-            $("#clasepesados").val() !== "REMOLCADOR" &&
-            $("#clasepesados").val() !== "VOLQUETA"
-          ) {
+          let fasc = "";
+
+          var cuartoDigito = codFasecolda.charAt(3);
+          var quintoDigito = codFasecolda.charAt(4);
+
+          // Verificar si el cuarto dígito es igual a 0 y eliminarlo si es así
+          if (cuartoDigito === "0") {
+            fasc = quintoDigito;
+          } else {
+            // Concatenar los dígitos en un solo número
+            fasc = cuartoDigito + quintoDigito;
+          }
+          if (!["22", "23", "25", "26"].includes(fasc)) {
             $("#numToneladas").prop("required", true);
             $("#divNumToneladas").show(); // ✅ mostrar el div
           }
@@ -4464,12 +4495,21 @@ $("#btnConsultarVehmanualbuscador").click(function () {
             var valorVeh = Number(valorFasecVeh) * 1000;
             var clase = data.clase;
 
+            let fasc = "";
+
+            var cuartoDigito = fasecolda.charAt(3);
+            var quintoDigito = fasecolda.charAt(4);
+
+            // Verificar si el cuarto dígito es igual a 0 y eliminarlo si es así
+            if (cuartoDigito === "0") {
+              fasc = quintoDigito;
+            } else {
+              // Concatenar los dígitos en un solo número
+              fasc = cuartoDigito + quintoDigito;
+            }
+
             $("#clasepesados").val(clase);
-            if (
-              $("#clasepesados").val() !== "REMOLQUE" &&
-              $("#clasepesados").val() !== "REMOLCADOR" &&
-              $("#clasepesados").val() !== "VOLQUETA"
-            ) {
+            if (!["22", "23", "25", "26"].includes(fasc)) {
               $("#numToneladas").prop("required", true);
               $("#divNumToneladas").show(); // ✅ mostrar el div
             }
