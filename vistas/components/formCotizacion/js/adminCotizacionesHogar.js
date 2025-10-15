@@ -47,9 +47,9 @@ $(".tablas-hogar").DataTable({
         },
       },
     },
-    // columnDefs: [
-    //     { targets: [3], visible: false } // Oculta las columnas 10 y 11 (ajusta según el índice de tus columnas ocultas)
-    //   ],
+    columnDefs: [
+        { targets: [10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24], visible: false } // Oculta las columnas entre 10 a 24
+      ],
     buttons: [
         {
           extend: "excelHtml5",
@@ -90,3 +90,39 @@ $(".tablas-hogar").DataTable({
       },
     },
   });
+
+/* Bloque logica editar Estado de cotizacion (Hogar) */
+
+$(".tablas-hogar").on("click", ".btnEditarEstadoHogar", function () {
+  var idCotizacionHogar = $(this).attr("idCotizacionHogar");
+  var estadoUsuarioHogar = $(this).attr("estadoUsuario");
+  if (estadoUsuarioHogar == "Pendiente") {
+    enviarCambioEstado("Cotizada", idCotizacionHogar);
+  } else {
+    enviarCambioEstado("Pendiente", idCotizacionHogar);
+  }
+});
+
+function enviarCambioEstado(estado, idcotizacion) {
+  $.ajax({
+    url: "src/cambiarEstadoHogar.php",
+    method: "POST",
+    data: {
+      estado: estado,
+      idcotizacionHogar: idcotizacion,
+    },
+    success: function(response) {
+      if (estado == "Cotizada") {
+        $(".btnEditarEstadoHogar[idCotizacionHogar=" + idcotizacion + "]").css("background", "#88d600");
+      } else {
+        $(".btnEditarEstadoHogar[idCotizacionHogar=" + idcotizacion + "]").css("background", "#000000");
+      }
+      $(".btnEditarEstadoHogar[idCotizacionHogar=" + idcotizacion + "]").text(estado);
+      $(".btnEditarEstadoHogar[idCotizacionHogar=" + idcotizacion + "]").attr("estadoUsuario",estado);
+    },
+    error: function(xhr, status, error) {
+      console.error("Error al actualizar el estado:", error);
+      Swal.fire("Error", "Hubo un problema al actualizar el estado.", "error");
+    }
+  });
+}

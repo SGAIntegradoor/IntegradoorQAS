@@ -1,3 +1,29 @@
+<?php 
+$idIntermediario = $_SESSION['permisos']['id_Intermediario'];
+
+$stmt = Conexion::conectar()->prepare("
+SELECT 
+    u.id_usuario,
+    CONCAT(u.usu_nombre,' ', u.usu_apellido) AS nombre_usuario, 
+    u.usu_email, u.usu_telefono,
+    af.nombre_analista,
+    uu.usu_email as correo_analista
+FROM usuarios u
+INNER JOIN analistas_freelances af ON af.id_usuario = u.usu_documento
+INNER JOIN usuarios uu ON uu.usu_documento = af.id_analista
+WHERE u.id_usuario = :idUsuario
+");
+$stmt->bindParam(":idUsuario", $_SESSION['idUsuario'], PDO::PARAM_INT);
+$stmt->execute();
+
+$infoUsuario = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$correoAnalista = $infoUsuario[0]['correo_analista'];
+$usu_email = $infoUsuario[0]['usu_email'];
+$usu_cel = $infoUsuario[0]['usu_telefono'];
+$nombre_analista = $infoUsuario[0]['nombre_analista'];
+
+?>
+
 <style>
     .flex-wrap-form {
         display: flex;
@@ -125,6 +151,25 @@
                 </div>
             </div>
 
+            <div class="col-xs-12 col-sm-6 col-md-3">
+                <div class="form-group">
+                    <label for="estrato">Estrato</label>
+                    <select id="estrato" class="form-control">
+                        <option value="0">Seleccione una opción</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="3">4</option>
+                        <option value="3">5</option>
+                        <option value="3">6</option>
+                    </select>
+
+                    <input type="hidden" name="idUsuario" id="idUsuario" value="<?php echo $_SESSION['idUsuario']; ?>">
+                    <input type="hidden" name="correoAnalista" id="correoAnalista" value="<?php echo $correoAnalista; ?>">
+                    <input type="hidden" name="usu_cel" id="usu_cel" value="<?php echo $usu_cel; ?>">
+                    <input type="hidden" name="usu_email" id="usu_email" value="<?php echo $usu_email; ?>">      
+                    <input type="hidden" name="nombre_analista" id="nombre_analista" value="<?php echo $nombre_analista; ?>">      
+                </div>
+            </div>
 
 
             <div class="col-xs-12 col-sm-6 col-md-3">

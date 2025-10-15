@@ -1182,6 +1182,7 @@ function appendSectionAlerts() {
 }
 
 function saveQuotation() {
+  return new Promise(function (resolve, reject) {
   dataCotizacion.idCliente = $("#idCliente").val();
   dataCotizacion.zona_riesgo =
     $("#zonaRiesgo option:selected").text() !== ""
@@ -1199,12 +1200,15 @@ function saveQuotation() {
     success: function (data) {
       console.log("Guardado");
       idCotizacionHogar = data.last_id;
+      resolve(data.last_id); // <--- Resolviendo la promesa con el last_id
     },
     catch: function (error) {
       console.log(error);
       console.log("Error");
+      reject(error); // <--- Rechazando la promesa si hay error
     },
   });
+});
 }
 
 // Guarda la alerta en la BD para mostrar la tabla una vez se realice la pagina de retoma
@@ -2447,7 +2451,7 @@ let rawSBS = {};
 
 let dataCotizacion = {};
 
-$("#btnCotizarSBS, #btnCotizar").click(function () {
+$("#btnCotizarSBS, #btnCotizar").click(async function () {
   let { errors, data } = validateErrors("cotizar");
   if (errors) {
     // $("html, body").animate({ scrollTop: 0 }, "slow", function () {
@@ -2526,6 +2530,12 @@ $("#btnCotizarSBS, #btnCotizar").click(function () {
       zonaConstruccion: $("#zonaConstruccion").val(),
       tieneCredito: $('input[name="creditoHipotecarioRadio"]:checked').val(),
       tipoCobertura: $('input[name="tipoCoberturaRadio"]:checked').attr("id"),
+      estrato: $("#estrato").val(),
+      id_usuario: $("#idUsuario").val(),
+      correoAnalista: $("#correoAnalista").val(),
+      usu_cel: $("#usu_cel").val(),
+      usu_email: $("#usu_email").val(),
+      analista_asignado: $("#nombre_analista").val(),
     };
 
     // Condicionales para agregar campos adicionales según el tipo de documento
@@ -2656,6 +2666,11 @@ $("#btnCotizarSBS, #btnCotizar").click(function () {
           responsabilidadCivil: 4,
           deducibleResponsabilidadCivil: 1,
           asistenciaDomiciliaria: true,
+          estrato: $("#estrato").val(),
+          id_usuario: $_SESSION['idUsuario'],
+          correoAnalista: $("#correoAnalista").val(),
+          usu_cel: $("#usu_cel").val(),
+          usu_email: $("#usu_email").val(),
         };
 
         let valorContNormEnseres =
@@ -2719,7 +2734,34 @@ $("#btnCotizarSBS, #btnCotizar").click(function () {
       }
     }
 
-    cotizar(rawCompiled);
+    // cotizar(rawCompiled);
+    setBlankInputs();
+    if (!validarMascotasSeleccionado()) {
+      return;
+    } else {
+      console.log(rawCompiled.allianz);
+      const lastId = await saveQuotation(); // Espera a que termine y obtén el last_id
+      rawCompiled.allianz.lastId = lastId;
+
+      $.ajax({
+        type: "POST",
+        url: "https://grupoasistencia.com/WS-laravel-email-shetts/api/emails/enviar-correo",
+        // url: "http://localhost/WS-laravel/api/emails/enviar-correo",
+        dataType: "json",
+        data: rawCompiled.allianz,
+        cache: false,
+        success: function (data) {
+          console.log("Correo Enviado");
+        },
+        catch: function (error) {
+          console.log(error);
+          console.log("Error");
+        },
+      });
+
+      // Luego de salvar la cotizacion en: cotizaciones_hogar, enviar el correo -> mostrar alerta de exito o error -> volver a la pantalla principal de hogar.
+    }
+    debugger;
   } else {
     Swal.fire({
       icon: "error",
