@@ -2541,7 +2541,7 @@ function enableInputs(opt) {
 }
 
 // Captura los datos suministrados por el cliente y los envia al API para recibir la cotizacion.
-function cotizarOfertas() {
+async function cotizarOfertas() {
   showCircularProgress("Cotización Autos en Proceso", 2200, 110000);
   var codigoFasecolda1 = document.getElementById("txtFasecolda");
   var contenido = codigoFasecolda1.value;
@@ -2706,7 +2706,7 @@ function cotizarOfertas() {
     }
   };
 
-  ejecutarValidacion();
+  await ejecutarValidacion();
 
   /**
    * Variables para SBS
