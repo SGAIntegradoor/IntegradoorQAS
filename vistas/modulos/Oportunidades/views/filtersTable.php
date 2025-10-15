@@ -184,6 +184,7 @@
                                 <option value="3">CrediMapfre</option>
                                 <option value="2">Liberty</option>
                                 <option value="4">Bolivar</option>
+                                <option value="5">Sura</option>
                             </select>
                         </div>
                     </div>

@@ -2632,6 +2632,60 @@ function cotizarOfertasMotos() {
       myHeaders.append("Content-Type", "application/json");
 
       // console.log("Condicional en Cotizar Ofertas Motos: ", condicional);
+      // var raw = {
+      //   Placa: placa,
+      //   ceroKm: esCeroKm,
+      //   TipoIdentificacion: tipoDocumentoID,
+      //   NumeroIdentificacion: numDocumentoID,
+      //   Nombre: Nombre,
+      //   Apellido: Apellido1,
+      //   Genero: Genero,
+      //   FechaNacimiento: FechaNacimiento,
+      //   EstadoCivil: estadoCivil,
+      //   NumeroTelefono: celularAseg,
+      //   Direccion: direccionAseg,
+      //   Email: emailAseg,
+      //   ZonaCirculacion: DptoCirculacion,
+      //   CodigoMarca: CodigoMarca,
+      //   CodigoLinea: CodigoLinea,
+      //   CodigoClase: condicional,
+      //   CodigoFasecolda: fasecoldaVeh,
+      //   Modelo: modelovehiculo,
+      //   ValorAsegurado: valorfasecoldaVeh,
+      //   LimiteRC: LimiteRC,
+      //   Cobertura: CoberturaEstado,
+      //   ValorAccesorios: ValorAccesorios,
+      //   CiudadBolivar: ciudadCirculacion,
+      //   tipoServicio: tipoServicio,
+      //   CodigoVerificacion: CodigoVerificacion,
+      //   Apellido2: Apellido2,
+      //   AniosSiniestro: AniosSiniestro,
+      //   AniosAsegurados: AniosAsegurados,
+      //   NivelEducativo: NivelEducativo,
+      //   Estrato: Estrato,
+      //   AXA: {
+      //     cre_axa_sslcertfile: cre_axa_sslcertfile,
+      //     cre_axa_sslkeyfile: cre_axa_sslkeyfile,
+      //     cre_axa_passphrase: cre_axa_passphrase,
+      //     cre_axa_codigoDistribuidor: cre_axa_codigoDistribuidor,
+      //     cre_axa_idTipoDistribuidor: cre_axa_idTipoDistribuidor,
+      //     cre_axa_codigoDivipola: cre_axa_codigoDivipola,
+      //     cre_axa_canal: cre_axa_canal,
+      //     cre_axa_validacionEventos: cre_axa_validacionEventos,
+      //     url_axa: url_axa,
+      //     motos_productos: motos_productos,
+      //   },
+      //   ALLIANZ: {
+      //     cre_alli_sslcertfile: cre_alli_sslcertfile,
+      //     cre_alli_sslkeyfile: cre_alli_sslkeyfile,
+      //     cre_alli_passphrase: cre_alli_passphrase,
+      //     cre_alli_partnerid: cre_alli_partnerid,
+      //     cre_alli_agentid: cre_alli_agentid,
+      //     cre_alli_partnercode: cre_alli_partnercode,
+      //     cre_alli_agentcode: cre_alli_agentcode,
+      //   },
+      // };
+
       var raw = {
         Placa: placa,
         ceroKm: esCeroKm,
@@ -2725,7 +2779,7 @@ function cotizarOfertasMotos() {
 
         // const aseguradoras = ['Allianz', 'AXA', 'Bolivar', 'Equidad', 'Estado', 'HDI', 'Liberty', 'Mapfre', 'Previsora', 'SBS', 'Solidaria', 'Zurich'];
         const tbody = document.querySelector("#tablaResumenCot tbody");
-
+        // console.log(aseguradorasCoti)
         aseguradorasCoti.forEach((aseguradora) => {
           // Crear una fila
           const fila = document.createElement("tr");
@@ -3690,6 +3744,50 @@ function cotizarOfertasMotos() {
             )
           : // : Promise.resolve();
             null;
+
+        const estadoPromise = comprobarFallida("Estado")
+          ? fetch(
+              "https://grupoasistencia.com/motor_webservice/Estado_motos",
+              requestOptions
+            )
+              .then((res) => {
+                if (!res.ok) throw Error(res.statusText);
+                return res.json();
+              })
+              .then((ofertas) => {
+                if (typeof ofertas[0].Resultado !== "undefined") {
+                  agregarAseguradoraFallidaMotos("Estado");
+                  validarProblemaMotos("Estado", ofertas);
+                  ofertas[0].Mensajes.forEach((mensaje) => {
+                    mostrarAlertarCotizacionFallida("Estado", mensaje);
+                  });
+                } else {
+                  const contadorPorEntidad = validarOfertasMotos(
+                    ofertas,
+                    "Estado",
+                    1
+                  );
+                  mostrarAlertaCotizacionExitosa("Estado", contadorPorEntidad);
+                }
+              })
+              .catch((err) => {
+                agregarAseguradoraFallidaMotos("Estado");
+                mostrarAlertarCotizacionFallida(
+                  "Estado",
+                  "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
+                );
+                validarProblemaMotos("Estado", [
+                  {
+                    Mensajes: [
+                      "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
+                    ],
+                  },
+                ]);
+                console.error(err);
+              })
+          : Promise.resolve();
+
+        cont.push(estadoPromise);
         // cont.push(sbsPromise);
         Promise.all(cont).then(() => {
           // $("#loaderOferta").html("");
