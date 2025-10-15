@@ -31,6 +31,12 @@ $analista = $_POST["analista"] ?? null;
 $ramo     = $_POST["ramo"] ?? null;
 $estado   = $_POST["estado"] ?? null;
 $categoria   = $_POST["categoria"] ?? null;
+if ($_POST["categoria"] == 'inactivo-con-ventas') {
+    $categoria = 'Inactivo con ventas';
+} elseif ($_POST["categoria"] == 'inactivo-sin-ventas') {
+    $categoria = 'Inactivo sin ventas';
+}
+
 error_log("Estado recibido: " . var_export($estado, true));
 
 // =======================================
@@ -91,7 +97,7 @@ function getAsesores($asesor = null, $analista = null, $estado = null, $categori
             u.categoria_freelance
         FROM usuarios u
         LEFT JOIN analistas_freelances af ON af.id_usuario = u.usu_documento
-        WHERE u.id_rol IN (19)";
+        WHERE u.id_rol IN (19) AND u.id_usuario NOT IN (197,416,570,636,1144,1159,1186,1182,1377,1428,1586,1652)"; // No mostrar usuarios con suscripcion.
 
     $params = [];
     $types  = "";
