@@ -99,8 +99,8 @@
                 <option value="media">Media</option>
                 <option value="baja">Baja</option>
                 <option value="improductivo">Improductivo</option>
-                <option value="inactivo-con-ventas">Inactivo con ventas</option>
-                <option value="inactivo-sin-ventas">Inactivo sin ventas</option>
+                <option value="Inactivo con ventas">Inactivo con ventas</option>
+                <option value="Inactivo sin ventas">Inactivo sin ventas</option>
                 <option value="nuevo">Nuevo</option>
             </select>
         </div>
