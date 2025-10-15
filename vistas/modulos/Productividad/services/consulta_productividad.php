@@ -97,7 +97,7 @@ function getAsesores($asesor = null, $analista = null, $estado = null, $categori
             u.categoria_freelance
         FROM usuarios u
         LEFT JOIN analistas_freelances af ON af.id_usuario = u.usu_documento
-        WHERE u.id_rol IN (19)";
+        WHERE u.id_rol IN (19) AND u.id_usuario NOT IN (197,416,570,636,1144,1159,1186,1182,1377,1428,1586,1652)"; // No mostrar usuarios con suscripcion.
 
     $params = [];
     $types  = "";
