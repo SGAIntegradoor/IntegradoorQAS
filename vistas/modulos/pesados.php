@@ -1448,7 +1448,7 @@ if ($_SESSION["permisos"]["Cotizarpesados"] != "x") {
                     <div id="listaCiudades"></div>
                   </div>
 
-                  <div class="col-xs-12 col-sm-6 col-md-3 form-group">
+                  <!-- <div class="col-xs-12 col-sm-6 col-md-3 form-group">
                     <label for="mundialseguros">Tipo Vehiculo Mundial</label>
                     <select class="form-control" id="mundialseguros" required>
                       <option value=""></option>
@@ -1458,7 +1458,7 @@ if ($_SESSION["permisos"]["Cotizarpesados"] != "x") {
                       <option value="4">Volquetas</option>
                       <option value="5">Trailers</option>
                     </select>
-                  </div>
+                  </div> -->
 
                   <!-- <div class="col-xs-12 col-sm-6 col-md-3 form-group" style="display: none;">
                     <label for="obligacionfinanciera">Obligaciones Financieras</label>
