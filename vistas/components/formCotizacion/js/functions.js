@@ -2527,6 +2527,10 @@ $("#btnCotizarSBS, #btnCotizar").click(function () {
       tieneCredito: $('input[name="creditoHipotecarioRadio"]:checked').val(),
       tipoCobertura: $('input[name="tipoCoberturaRadio"]:checked').attr("id"),
       estrato: $("#estrato").val(),
+      id_usuario: $("#idUsuario").val(),
+      correoAnalista: $("#correoAnalista").val(),
+      usu_cel: $("#usu_cel").val(),
+      usu_email: $("#usu_email").val(),
     };
 
     // Condicionales para agregar campos adicionales según el tipo de documento
@@ -2658,6 +2662,10 @@ $("#btnCotizarSBS, #btnCotizar").click(function () {
           deducibleResponsabilidadCivil: 1,
           asistenciaDomiciliaria: true,
           estrato: $("#estrato").val(),
+          id_usuario: $_SESSION['idUsuario'],
+          correoAnalista: $("#correoAnalista").val(),
+          usu_cel: $("#usu_cel").val(),
+          usu_email: $("#usu_email").val(),
         };
 
         let valorContNormEnseres =
@@ -2726,7 +2734,13 @@ $("#btnCotizarSBS, #btnCotizar").click(function () {
     if (!validarMascotasSeleccionado()) {
       return;
     } else {
-      saveQuotation();
+      console.log(rawCompiled.allianz);
+      saveQuotation().then((response) => {
+        if (response.success) {
+          
+        }
+      });
+      // throw new Error("Detener ejecución para pruebas");  
       // Luego de salvar la cotizacion en: cotizaciones_hogar, enviar el correo -> mostrar alerta de exito o error -> volver a la pantalla principal de hogar.
     }
     debugger;

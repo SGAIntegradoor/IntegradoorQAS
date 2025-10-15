@@ -1,3 +1,28 @@
+<?php 
+$idIntermediario = $_SESSION['permisos']['id_Intermediario'];
+
+$stmt = Conexion::conectar()->prepare("
+SELECT 
+    u.id_usuario,
+    CONCAT(u.usu_nombre,' ', u.usu_apellido) AS nombre_usuario, 
+    u.usu_email, u.usu_telefono,
+    af.nombre_analista,
+    uu.usu_email as correo_analista
+FROM usuarios u
+INNER JOIN analistas_freelances af ON af.id_usuario = u.usu_documento
+INNER JOIN usuarios uu ON uu.usu_documento = af.id_analista
+WHERE u.id_usuario = :idUsuario
+");
+$stmt->bindParam(":idUsuario", $_SESSION['idUsuario'], PDO::PARAM_INT);
+$stmt->execute();
+
+$infoUsuario = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$correoAnalista = $infoUsuario[0]['correo_analista'];
+$usu_email = $infoUsuario[0]['usu_email'];
+$usu_cel = $infoUsuario[0]['usu_telefono'];
+
+?>
+
 <style>
     .flex-wrap-form {
         display: flex;
@@ -136,6 +161,11 @@
                         <option value="3">5</option>
                         <option value="3">6</option>
                     </select>
+
+                    <input type="hidden" name="idUsuario" id="idUsuario" value="<?php echo $_SESSION['idUsuario']; ?>">
+                    <input type="hidden" name="correoAnalista" id="correoAnalista" value="<?php echo $correoAnalista; ?>">
+                    <input type="hidden" name="usu_cel" id="usu_cel" value="<?php echo $usu_cel; ?>">
+                    <input type="hidden" name="usu_email" id="usu_email" value="<?php echo $usu_email; ?>">      
                 </div>
             </div>
 
