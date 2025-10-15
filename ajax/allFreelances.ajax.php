@@ -19,9 +19,9 @@ try {
 
     // Consulta fija: obtener asesores activos con roles específicos
     $query = "
-        SELECT * 
+    SELECT * 
         FROM usuarios 
-        WHERE id_rol IN (19, 12, 11, 10, 1)
+        WHERE id_rol IN (19, 12, 11, 10, 1) and id_usuario not in (197,416,570,636,1144,1159,1186,1283,1345,1377,1428,1586,1652)
         ORDER BY usu_nombre ASC
     ";
 
