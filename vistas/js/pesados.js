@@ -326,7 +326,7 @@ $(document).ready(function () {
     if (!ciudadCirc) {
       return;
     }
-    if (clasePesados == "FURGON" && !numToneladas) {
+    if (clasePesados !== "REMOLQUE" && clasePesados !== "REMOLCADOR" && clasePesados !== "VOLQUETA" && !numToneladas) {
       return;
     }
 
@@ -509,6 +509,7 @@ $(document).ready(function () {
 });
 
 let isCheckedVeh = false;
+let inputToneladas = document.getElementById("numToneladas");
 
 const validateVehicle = async (fasecolda, modelo) => {
   console.log(fasecolda, modelo);
@@ -889,7 +890,7 @@ function consulPlacaMapfrePesados(valnumplaca) {
       var codFasecolda = data.polizaReciente.COD_FASECOLDA;
       var aseguradora = data.polizaReciente.nomCompania;
 
-      ejecutarValidacion(codFasecolda, modelo, isCheckedVeh);
+      await ejecutarValidacion(codFasecolda, modelo, isCheckedVeh, inputToneladas);
 
       propietario = data.polizaReciente.asegNombre;
       cedulaP = data.polizaReciente.asegCodDocum;
@@ -1116,7 +1117,7 @@ function consulPlacaPesados(query = "1") {
         }
         return response.json();
       })
-      .then(function (myJson) {
+      .then(async function (myJson) {
         // console.log(myJson);
         var estadoConsulta = myJson.Success;
         var mensajeConsulta = myJson.Message;
@@ -1130,7 +1131,8 @@ function consulPlacaPesados(query = "1") {
           var codigoFasecolda = myJson.Data.CodigoFasecolda;
           var valorAsegurado = myJson.Data.ValorAsegurado;
 
-          ejecutarValidacion(codigoFasecolda, modeloVehiculo, isCheckedVeh);
+          // if(){}
+          await ejecutarValidacion(codigoFasecolda, modeloVehiculo, isCheckedVeh, inputToneladas);
 
           if (codigoFasecolda != null) {
             if (valorAsegurado == "null" || valorAsegurado == null) {
@@ -1635,8 +1637,9 @@ function consulDatosFasecolda(codFasecolda, edadVeh) {
 
           $("#clasepesados").val(clase);
           if (
-            $("#clasepesados").val() === "FURGON" ||
-            $("#clasepesados").val() === "FURGÓN"
+            $("#clasepesados").val() !== "REMOLQUE" &&
+            $("#clasepesados").val() !== "REMOLCADOR" &&
+            $("#clasepesados").val() !== "VOLQUETA"
           ) {
             $("#numToneladas").prop("required", true);
             $("#divNumToneladas").show(); // ✅ mostrar el div
