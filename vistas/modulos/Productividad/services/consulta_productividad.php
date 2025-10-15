@@ -31,6 +31,12 @@ $analista = $_POST["analista"] ?? null;
 $ramo     = $_POST["ramo"] ?? null;
 $estado   = $_POST["estado"] ?? null;
 $categoria   = $_POST["categoria"] ?? null;
+if ($_POST["categoria"] == 'inactivo-con-ventas') {
+    $categoria = 'Inactivo con ventas';
+} elseif ($_POST["categoria"] == 'inactivo-sin-ventas') {
+    $categoria = 'Inactivo sin ventas';
+}
+
 error_log("Estado recibido: " . var_export($estado, true));
 
 // =======================================
