@@ -5,7 +5,11 @@ $(document).ready(function () {
 
   if (partes.includes("dev") || partes.includes("DEV")) {
     env = "dev";
-  } else if (partes.includes("QAS") || partes.includes("qas") || partes.includes("Pruebas")) {
+  } else if (
+    partes.includes("QAS") ||
+    partes.includes("qas") ||
+    partes.includes("Pruebas")
+  ) {
     env = "qas";
   } else if (partes.includes("app") || partes.includes("App")) {
     env = "";
@@ -504,6 +508,34 @@ $(document).ready(function () {
   }
 });
 
+let isCheckedVeh = false;
+
+const validateVehicle = async (fasecolda, modelo) => {
+  console.log(fasecolda, modelo);
+  if (!fasecolda || !modelo) return false;
+  const res = await fetch(
+    `https://grupoasistencia.com/backend_node/WSBolivar/validateTypeCar?codigoFasecolda=${fasecolda}&modelo=${modelo}`
+  );
+  return await res.json();
+};
+
+const ejecutarValidacion = async (
+  codigoFasecolda,
+  modeloVehiculo,
+  isCheckedV,
+  input
+) => {
+  try {
+    const validateVeh = await validateVehicle(codigoFasecolda, modeloVehiculo);
+    if (validateVeh) {
+      isCheckedV = validateVeh;
+      input.value = validateVeh.data[0].capacidadVeh;
+    }
+  } catch (error) {
+    console.error("Error al validar el vehículo:", error);
+  }
+};
+
 const requiredFieldsNotNit = (val) => {
   if (val) {
     const arrIDs = ["txtNombres", "txtApellidos", "genero", "estadoCivil"];
@@ -857,6 +889,8 @@ function consulPlacaMapfrePesados(valnumplaca) {
       var codFasecolda = data.polizaReciente.COD_FASECOLDA;
       var aseguradora = data.polizaReciente.nomCompania;
 
+      ejecutarValidacion(codFasecolda, modelo, isCheckedVeh);
+
       propietario = data.polizaReciente.asegNombre;
       cedulaP = data.polizaReciente.asegCodDocum;
 
@@ -1096,6 +1130,8 @@ function consulPlacaPesados(query = "1") {
           var codigoFasecolda = myJson.Data.CodigoFasecolda;
           var valorAsegurado = myJson.Data.ValorAsegurado;
 
+          ejecutarValidacion(codigoFasecolda, modeloVehiculo, isCheckedVeh);
+
           if (codigoFasecolda != null) {
             if (valorAsegurado == "null" || valorAsegurado == null) {
               consulPlacaMapfrePesados(valnumplaca);
@@ -1246,8 +1282,9 @@ function consulPlacaPesados(query = "1") {
               $("#clasepesados").val(claseVehiculo);
 
               if (
-                $("#clasepesados").val() === "FURGON" ||
-                $("#clasepesados").val() === "FURGÓN"
+                $("#clasepesados").val() !== "REMOLQUE" &&
+                $("#clasepesados").val() !== "REMOLCADOR" &&
+                $("#clasepesados").val() !== "VOLQUETA"
               ) {
                 $("#numToneladas").prop("required", true);
                 $("#divNumToneladas").show(); // ✅ mostrar el div
@@ -3376,106 +3413,106 @@ function cotizarOfertasPesados() {
                     console.error(err);
                   });
 
-                  cont.push(equidadPromise);
-                  // }
-                  //   else if (aseguradora === "Estado") {
-                  //     let estadoPromise = new Promise((resolve, reject) => {
-                  //       try {
-                  //         let arrAseguradora = [
-                  //           {
-                  //             Mensajes: [
-                  //               "Solicita cotización manual con tu Analista Comercial asignado",
-                  //             ],
-                  //           },
-                  //         ];
-                  //         setTimeout(function () {
-                  //           validarProblema("Estado", arrAseguradora);
-                  //           addAseguradora("Estado");
-                  //           resolve();
-                  //         }, 1000);
-                  //       } catch (error) {
-                  //         resolve();
-                  //       }
-                  //     });
+                cont.push(equidadPromise);
+                // }
+                //   else if (aseguradora === "Estado") {
+                //     let estadoPromise = new Promise((resolve, reject) => {
+                //       try {
+                //         let arrAseguradora = [
+                //           {
+                //             Mensajes: [
+                //               "Solicita cotización manual con tu Analista Comercial asignado",
+                //             ],
+                //           },
+                //         ];
+                //         setTimeout(function () {
+                //           validarProblema("Estado", arrAseguradora);
+                //           addAseguradora("Estado");
+                //           resolve();
+                //         }, 1000);
+                //       } catch (error) {
+                //         resolve();
+                //       }
+                //     });
 
-                  //     cont.push(estadoPromise);
+                //     cont.push(estadoPromise);
               } else {
-                  if (aseguradora == "Sura") {
-                    let message =
-                      aseguradora == "Sura"
-                        ? `🐯 <b>Nueva alianza para comercializar seguros Sura.</b> Solicita cotización manual a tu Analista Comercial.`
-                        : ``;
+                if (aseguradora == "Sura") {
+                  let message =
+                    aseguradora == "Sura"
+                      ? `🐯 <b>Nueva alianza para comercializar seguros Sura.</b> Solicita cotización manual a tu Analista Comercial.`
+                      : ``;
 
-                    let ofertas = [
-                      {
-                        Resultado: false,
-                        Mensajes: [message],
-                      },
-                    ];
+                  let ofertas = [
+                    {
+                      Resultado: false,
+                      Mensajes: [message],
+                    },
+                  ];
 
-                    //agregarAseguradoraFallida(aseguradora);
-                    validarProblema(aseguradora, ofertas);
-                    ofertas[0].Mensajes.forEach((mensaje) => {
-                      mostrarAlertarCotizacionFallida(aseguradora, mensaje);
-                    });
-                  } else {
-                    let promise = fetch(
-                      `https://grupoasistencia.com/motor_webservice/${aseguradora}_pesados`,
-                      requestOptions
-                    )
-                      .then((res) => {
-                        if (!res.ok) throw Error(res.statusText);
-                        return res.json();
-                      })
-                      .then((ofertas) => {
-                        if (typeof ofertas[0].Resultado !== "undefined") {
-                          validarProblema(aseguradora, ofertas);
-                          agregarAseguradoraFallidaPesados(aseguradora);
-                          if (ofertas[0].length > 1) {
-                            ofertas[0].Mensajes.forEach((mensaje) => {
-                              mostrarAlertarCotizacionFallida(
-                                aseguradora,
-                                mensaje
-                              );
-                            });
-                          } else {
-                            ofertas[0].Mensajes.forEach((mensaje) => {
-                              mostrarAlertarCotizacionFallida(
-                                aseguradora,
-                                mensaje
-                              );
-                            });
-                          }
-                        } else {
-                          const contadorPorEntidad = validarOfertasPesados(
-                            ofertas,
-                            aseguradora,
-                            1
-                          );
-                          mostrarAlertaCotizacionExitosa(
-                            aseguradora,
-                            contadorPorEntidad
-                          );
-                        }
-                      })
-                      .catch((err) => {
+                  //agregarAseguradoraFallida(aseguradora);
+                  validarProblema(aseguradora, ofertas);
+                  ofertas[0].Mensajes.forEach((mensaje) => {
+                    mostrarAlertarCotizacionFallida(aseguradora, mensaje);
+                  });
+                } else {
+                  let promise = fetch(
+                    `https://grupoasistencia.com/motor_webservice/${aseguradora}_pesados`,
+                    requestOptions
+                  )
+                    .then((res) => {
+                      if (!res.ok) throw Error(res.statusText);
+                      return res.json();
+                    })
+                    .then((ofertas) => {
+                      if (typeof ofertas[0].Resultado !== "undefined") {
+                        validarProblema(aseguradora, ofertas);
                         agregarAseguradoraFallidaPesados(aseguradora);
-                        mostrarAlertarCotizacionFallida(
+                        if (ofertas[0].length > 1) {
+                          ofertas[0].Mensajes.forEach((mensaje) => {
+                            mostrarAlertarCotizacionFallida(
+                              aseguradora,
+                              mensaje
+                            );
+                          });
+                        } else {
+                          ofertas[0].Mensajes.forEach((mensaje) => {
+                            mostrarAlertarCotizacionFallida(
+                              aseguradora,
+                              mensaje
+                            );
+                          });
+                        }
+                      } else {
+                        const contadorPorEntidad = validarOfertasPesados(
+                          ofertas,
                           aseguradora,
-                          "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
+                          1
                         );
-                        validarProblema(aseguradora, [
-                          {
-                            Mensajes: [
-                              "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
-                            ],
-                          },
-                        ]);
-                        console.error(err);
-                      });
-                    cont.push(promise);
-                  }
+                        mostrarAlertaCotizacionExitosa(
+                          aseguradora,
+                          contadorPorEntidad
+                        );
+                      }
+                    })
+                    .catch((err) => {
+                      agregarAseguradoraFallidaPesados(aseguradora);
+                      mostrarAlertarCotizacionFallida(
+                        aseguradora,
+                        "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
+                      );
+                      validarProblema(aseguradora, [
+                        {
+                          Mensajes: [
+                            "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
+                          ],
+                        },
+                      ]);
+                      console.error(err);
+                    });
+                  cont.push(promise);
                 }
+              }
             });
             //console.log(cont, "cotizacion");
             Promise.all(cont).then(() => {
@@ -3489,13 +3526,14 @@ function cotizarOfertasPesados() {
                   confirmButtonText: "Cerrar",
                 });
               } else {
-                  Swal.close();
-                  $("#loaderOferta").html("");
-                  $("#loaderOfertaBox").css("display", "none");
-                  document.querySelector(".button-recotizar").style.display = "block";
-                  // enableInputs(true);
-                  // countOfferts();
-                  /*
+                Swal.close();
+                $("#loaderOferta").html("");
+                $("#loaderOfertaBox").css("display", "none");
+                document.querySelector(".button-recotizar").style.display =
+                  "block";
+                // enableInputs(true);
+                // countOfferts();
+                /*
                 swal
                   .fire({
                     title: "¡Proceso de Cotización Finalizada!",
@@ -3536,7 +3574,8 @@ function cotizarOfertasPesados() {
                 setTimeout(function () {}, 1000);
                 document.querySelector(".button-recotizar").style.display =
                   "block";
-              */}
+              */
+              }
               /* Se monta el botón para generar el pdf con 
                     el valor de la variable idCotizacion */
               const contentCotizacionPDF = document.querySelector(
@@ -4112,10 +4151,11 @@ function cotizarOfertasPesados() {
                 confirmButtonText: "Cerrar",
               });
             } else {
-                Swal.close();
-                $("#loaderOferta").html("");
-                $("#loaderOfertaBox").css("display", "none");
-                document.querySelector(".button-recotizar").style.display = "block";
+              Swal.close();
+              $("#loaderOferta").html("");
+              $("#loaderOfertaBox").css("display", "none");
+              document.querySelector(".button-recotizar").style.display =
+                "block";
               /*
               Swal.close();
               Swal.fire({
@@ -4154,7 +4194,8 @@ function cotizarOfertasPesados() {
                   }
                 }
               });
-            */}
+            */
+            }
           } else {
             Swal.fire({
               title: "¡Proceso de Re-Cotización Finalizada!",
@@ -4422,8 +4463,9 @@ $("#btnConsultarVehmanualbuscador").click(function () {
 
             $("#clasepesados").val(clase);
             if (
-              $("#clasepesados").val() === "FURGON" ||
-              $("#clasepesados").val() === "FURGÓN"
+              $("#clasepesados").val() !== "REMOLQUE" &&
+              $("#clasepesados").val() !== "REMOLCADOR" &&
+              $("#clasepesados").val() !== "VOLQUETA"
             ) {
               $("#numToneladas").prop("required", true);
               $("#divNumToneladas").show(); // ✅ mostrar el div
