@@ -3112,6 +3112,12 @@ function cotizarOfertasPesados() {
                 //   cont.push(mundialPromise);
                 // } else {
                 let planesMundial = ["Normal", "RC_Exceso", "RPA"];
+                let typeVeh = fasecoldaVeh[3] + fasecoldaVeh[4];
+
+                if(typeVeh == "23" || typeVeh == "25"){
+                  planesMundial = ["Trailer"]
+                }
+
                 let body = JSON.parse(requestOptions.body);
 
                 planesMundial.forEach((plan) => {
