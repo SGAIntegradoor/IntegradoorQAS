@@ -184,7 +184,7 @@ checkUserStatus();
 			echo  '<li class="' . ($currentPage == 'cotizar' ? 'active' : '') . '">
 				<a id="menuCotLiv" href="cotizar">
 					<i class="fa fa-car"></i>
-					<span>Cotizar Livanos</span>
+					<span>Cotizar Livianos</span>
 				</a>
 			</li>';
 			?>
