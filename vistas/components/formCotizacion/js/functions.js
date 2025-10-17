@@ -222,7 +222,14 @@ $(document).ready(function () {
       $("#valorVivienda").val("");
       $("#valorViviendaAllianz").prop("disabled", true);
       $("#valorViviendaAllianz").val("");
+      $("#valorContenidosNoElectricos").prop("disabled", false);
+      // $("#valorContenidosNoElectricos").val("");
+      $("#valorContenidosElectricos").prop("disabled", false);
+      // $("#valorContenidosElectricos").val("");
+      // $("#totalCoberturaBasica").prop("disabled", true);
+      // $("#totalCoberturaBasica").val("");
       $("#preguntaMascotas").css("display", "flex");
+      $("#valorContenidosAllianz").prop("disabled", true);
     } else if ($(this).val() == "3") {
       resetInputsValores();
       $("#contenidos").prop("checked", false);
@@ -230,9 +237,43 @@ $(document).ready(function () {
       $("#estructura").prop("disabled", false);
       $("#valorVivienda").prop("disabled", false);
       $("#valorViviendaAllianz").prop("disabled", false);
+      // $("#totalCoberturaBasica").prop("disabled", false);
       $("#preguntaMascotas").css("display", "flex");
       $("#valorVivienda").val("0");
-    } else if ($(this).val() == "1" || $(this).val() == "4") {
+      $("#valorContenidosAllianz").prop("disabled", true);
+    } else if ($(this).val() == "4") {
+      resetInputsValores();
+
+      $("#contenidos").prop("disabled", true);
+      $("#inputEYC").prop("disabled", true);
+      $("#estructura").prop("checked", true);
+
+      $(".noDeudor").css("display", "none");
+
+      $("#valorVivienda").prop("disabled", false);
+      $("#valorViviendaAllianz").prop("disabled", false);
+      $("#valorViviendaAllianz").val("");
+      $("#preguntaMascotas").css("display", "flex");
+      $("#containerValores, #containerValoresAllianz")
+        .find("input, select")
+        .each(function () {
+          if (
+            $(this).attr("id") == "valorVivienda" ||
+            $(this).attr("id") == "valorViviendaAllianz" ||
+            $(this).attr("id") == "dirInmuebleAllianz" ||
+            $(this).attr("id") == "dirInmueble"
+          ) {
+            return;
+          } else if (
+            $(this).attr("id") == "siSBS" ||
+            $(this).attr("id") == "noSBS"
+          ) {
+            $(this).prop("disabled", false);
+          } else {
+            $(this).prop("disabled", true);
+          }
+        });
+    } else if ($(this).val() == "1") {
       resetInputsValores();
       $("#contenidos").prop("disabled", true);
       $("#inputEYC").prop("disabled", true);
@@ -2151,27 +2192,27 @@ function validateErrors(form) {
               selector.css("border", "1px solid #ccc");
             }
           }
-          if ($("#tipoAseg").val() === "3") {
-            let tipoCobertura = $(
-              'input[name="tipoCoberturaRadio"]:checked'
-            ).attr("id");
+          // if ($("#tipoAseg").val() === "3") {
+          //   let tipoCobertura = $(
+          //     'input[name="tipoCoberturaRadio"]:checked'
+          //   ).attr("id");
 
-            // Verificar si realmente se seleccionó algo
-            if (!tipoCobertura) {
-              // Marcar error
-              $('input[name="tipoCoberturaRadio"]').css(
-                "outline",
-                "2px solid red"
-              );
-              errorFields.push({
-                descripcion: "Error: debe seleccionar un tipo de cobertura",
-                codigo: 1001,
-              });
-            } else {
-              // Remover el error
-              $('input[name="tipoCoberturaRadio"]').css("outline", "none");
-            }
-          }
+          //   // Verificar si realmente se seleccionó algo
+          //   if (!tipoCobertura) {
+          //     // Marcar error
+          //     $('input[name="tipoCoberturaRadio"]').css(
+          //       "outline",
+          //       "2px solid red"
+          //     );
+          //     errorFields.push({
+          //       descripcion: "Error: debe seleccionar un tipo de cobertura",
+          //       codigo: 1001,
+          //     });
+          //   } else {
+          //     // Remover el error
+          //     $('input[name="tipoCoberturaRadio"]').css("outline", "none");
+          //   }
+          // }
         } else {
           selector.css("border", "1px solid #ccc");
         }
@@ -2264,16 +2305,16 @@ function validateErrors(form) {
             }
           }
 
-          // if (
-          //   selector.attr("id") == "valorTodoRiesgoAllianz" &&
-          //   (selector.val() == "" || selector.val() == "0")
-          // ) {
-          //   isError = true;
-          //   errorFields.push({
-          //     descripcion: `Error debe ingresar en ${selector.attr("id")}`,
-          //     codigo: 1001,
-          //   });
-          // }
+          if (
+            selector.attr("id") == "valorTodoRiesgoAllianz" &&
+            (selector.val() == "" || selector.val() == "0")
+          ) {
+            isError = true;
+            errorFields.push({
+              descripcion: `Error debe ingresar en ${selector.attr("id")}`,
+              codigo: 1001,
+            });
+          }
 
           // Aplicar el borde rojo si hay error, de lo contrario, borde normal
           if (isError) {
@@ -2430,6 +2471,7 @@ $("#btnHogarSiguiente").click(function (event) {
 
 $("#btnDataHogarSiguiente").click(function (event) {
   let { errors, data } = validateErrors("datosInmueble");
+  console.log(data);
   if (errors) {
     $("#btnDataHogarSiguiente").prop("disabled", true);
     // disableInputsData("#containerDatos");
@@ -2529,7 +2571,7 @@ $("#btnCotizarSBS, #btnCotizar").click(async function () {
       departamento: $("#deptoInmueble option:selected").text(),
       zonaConstruccion: $("#zonaConstruccion").val(),
       tieneCredito: $('input[name="creditoHipotecarioRadio"]:checked').val(),
-      tipoCobertura: $('input[name="tipoCoberturaRadio"]:checked').attr("id"),
+      // tipoCobertura: $('input[name="tipoCoberturaRadio"]:checked').attr("id"),
       estrato: $("#estrato").val(),
       id_usuario: $("#idUsuario").val(),
       correoAnalista: $("#correoAnalista").val(),
@@ -2761,7 +2803,7 @@ $("#btnCotizarSBS, #btnCotizar").click(async function () {
 
       // Luego de salvar la cotizacion en: cotizaciones_hogar, enviar el correo -> mostrar alerta de exito o error -> volver a la pantalla principal de hogar.
     }
-    debugger;
+
   } else {
     Swal.fire({
       icon: "error",

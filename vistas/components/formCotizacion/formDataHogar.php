@@ -65,6 +65,20 @@ $nombre_analista = $infoUsuario[0]['nombre_analista'];
 
             <div class="col-xs-12 col-sm-6 col-md-3">
                 <div class="form-group">
+                    <label for="dirInmuebleAllianz">Dirección del inmueble</label>
+                    <input id="dirInmuebleAllianz" class="form-control dirInmueble" type="text">
+                </div>
+            </div>
+
+            <div class="col-xs-12 col-sm-6 col-md-3">
+                <div class="form-group">
+                    <label for="dirRestoInmuebleAllianz">Resto de la dirección</label>
+                    <input id="dirRestoInmuebleAllianz" class="form-control dirInmueble" type="text">
+                </div>
+            </div>
+
+            <div class="col-xs-12 col-sm-6 col-md-3">
+                <div class="form-group">
                     <label for="deptoInmueble">Departamento</label>
                     <select class="form-control validateDataHogar" id="deptoInmueble" required>
                         <option value=""></option>
@@ -118,7 +132,7 @@ $nombre_analista = $infoUsuario[0]['nombre_analista'];
                 </div>
             </div>
 
-            <div class="col-xs-12 col-sm-6 col-md-3">
+            <!-- <div class="col-xs-12 col-sm-6 col-md-3">
                 <div class="form-group" style="position: relative;">
                     <label for="zonaRiesgo">Zona de riesgo</label>
                     <select id="zonaRiesgo" class="form-control zonaRiesgo"></select>
@@ -126,7 +140,7 @@ $nombre_analista = $infoUsuario[0]['nombre_analista'];
                         Cargando... <i class="fas fa-spinner fa-spin" style="color: #88D600;"></i>
                     </span>
                 </div>
-            </div>
+            </div> -->
 
             <div class="col-xs-12 col-sm-6 col-md-3" style="display: none;" id="subZoneBog">
                 <div class="form-group">
@@ -295,7 +309,7 @@ $nombre_analista = $infoUsuario[0]['nombre_analista'];
                 </div>
             </div>
 
-            <div class="col-xs-12 col-sm-6 col-md-5">
+            <!-- <div class="col-xs-12 col-sm-6 col-md-5">
                 <div class="form-group">
                     <label for=" inputEYC">Tipo de cobertura</label>
                     <div style="display: flex; flex-direction: row; gap: 15px; padding-left: 5px; padding-top: 10px; align-items: flex-start;">
@@ -313,7 +327,7 @@ $nombre_analista = $infoUsuario[0]['nombre_analista'];
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> -->
 
             <div class="col-xs-12 col-sm-6 col-md-3" id="btnSiguiente">
                 <button class="btn btn-primary btn-block btn-cot" id="btnDataHogarSiguiente">Siguiente</button>

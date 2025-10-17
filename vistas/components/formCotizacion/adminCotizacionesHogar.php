@@ -119,7 +119,12 @@
           }
           //   <td class="text-center" style="font-size: 14px">' . date('Y/m/d', strtotime($value['fch_nacimiento'])) . '</td>
           echo '<tr>
-                    <td class="text-center" style="font-size: 14px; text-align: center;">' . $value['id_hogar'] . '</td>
+                    <td class="text-center" style="font-size: 14px; text-align: center; vertical-align: middle;">
+                      <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.5rem">
+                      <span style="margin-top: 5px;">' . $value['id_hogar'] . '</span>
+                      <a href="index.php?ruta=retomar-cotizacion-hogar&idCotizacionHogar=' . $value["id_hogar"] . '" title="Ver detalle"><img src="vistas/img/iconosResources/carpeta.png" style="width: 18px; height: auto;" alt="Mi Icono" width="50" height="50"></a>
+                      </div>
+                    </td>
                     <td class="text-center" style="font-size: 14px; text-align: center;">' . $value['fecha_cotizacion'] . '</td>
                     <td class="text-center" style="font-size: 14px; text-align: center;">' . $tipoDocumento[(int)$value['id_tipo_documento']] . '</td>
                     <td class="text-center" style="font-size: 14px; text-align: center;">' . $value['cli_num_documento'] . '</td>

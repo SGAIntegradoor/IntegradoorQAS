@@ -343,10 +343,10 @@
           require_once "vistas/components/formCotizacion/formValoresHogarAllianz.php";
           ?>
           <?php
-          require_once "vistas/components/formCotizacion/formValoresHogar.php";
+          // require_once "vistas/components/formCotizacion/formValoresHogar.php";
           ?>
           <?php
-          require_once "vistas/components/formCotizacion/alertasHogar.php";
+          // require_once "vistas/components/formCotizacion/alertasHogar.php";
           ?>
         </div>
       </div>

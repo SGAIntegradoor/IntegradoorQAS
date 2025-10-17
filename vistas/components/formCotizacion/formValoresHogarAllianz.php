@@ -17,7 +17,8 @@
             <div class="row row-aseg" style="margin-bottom: 0px;">
                 <div class="col-xs-12 col-sm-6 col-md-6" style="padding-left: 10px;">
                     <!-- titulo del form para tipo de persona -->
-                    <label id="lblValoresCotAllianz">Datos Aseguradora Allianz</label>
+                    <!-- <label id="lblValoresCotAllianz">Datos Aseguradora Allianz</label> DEJAR ESTA LINEA AL HABILITAR EL WS DE HOGAR, ELIMINAR LA DE ABAJO -->
+                    <label id="lblValoresCotAllianz">Datos Complementarios</label>
                 </div>
 
                 <div class="col-xs-12 col-sm-6 col-md-6">
@@ -36,12 +37,12 @@
     </div>
     <div class="general-container-aseg" id="containerValoresAllianz" style="padding-bottom: 20px;">
         <div class="row" style="margin-top: 15px;" id="valoresAllianz">
-            <div class="col-xs-12 col-sm-6 col-md-3">
+            <!-- <div class="col-xs-12 col-sm-6 col-md-3">
                 <div class="form-group">
                     <label for="dirInmuebleAllianz">Dirección del inmueble</label>
                     <input id="dirInmuebleAllianz" class="form-control dirInmueble" type="text">
                 </div>
-            </div>
+            </div> -->
             <div class="col-xs-12 col-sm-6 col-md-3">
 
                 <div class="form-group">
@@ -51,18 +52,32 @@
                     </div>
                     <input id="valorViviendaAllianz" class="form-control valorVivienda inputNumber validate contentsAllianz" type="text">
                 </div>
+
             </div>
-            <div class="col-xs-12 col-sm-6 col-md-3">
+            <div class="col-xs-12 col-sm-6 col-md-3 noDeudor">
+
                 <div class="form-group">
                     <div style="display: flex; flex-direction: row; gap: 5px; align-items: flex-start;">
-                        <label for="valorContenidosAllianz">Valor Contenidos</label>
-                        <i class="fa fa-solid fa-circle-info tooltip-icon-contenidos" style="margin-top: 4px; margin-top: 2px; font-size: 18px;" data-toggle="tooltip-icon-contenidos" data-placement="bottom"></i>
+                        <label for="valorContenidosNoElectricos">Valor contenidos no eléctrico</label>
+                        <i class="fa fa-solid fa-circle-info tooltip-contEnseres" style="margin-top: 4px; margin-top: 2px; font-size: 18px;" data-toggle="tooltip-contEnseres" data-placement="bottom"></i>
                     </div>
-                    <input id="valorContenidosAllianz" class="form-control valorContenidosAllianz inputNumber valores validate contentsAllianz" type="text">
+                    <input id="valorContenidosNoElectricos" class="form-control valorVivienda inputNumber validate contentsAllianz" type="text">
                 </div>
+
+            </div>
+            <div class="col-xs-12 col-sm-6 col-md-3 noDeudor">
+
+                <div class="form-group">
+                    <div style="display: flex; flex-direction: row; gap: 5px; align-items: flex-start;">
+                        <label for="valorContenidosElectricos">Valor contenidos eléctricos</label>
+                        <i class="fa fa-solid fa-circle-info tooltip-contEE" style="margin-top: 4px; margin-top: 2px; font-size: 18px;" data-toggle="tooltip-contEE" data-placement="bottom"></i>
+                    </div>
+                    <input id="valorContenidosElectricos" class="form-control valorVivienda inputNumber validate contentsAllianz" type="text">
+                </div>
+
             </div>
 
-            <div class="col-xs-12 col-sm-6 col-md-3">
+            <div class="col-xs-12 col-sm-6 col-md-3 noDeudor">
                 <div class="form-group">
                     <div style="display: flex; flex-direction: row; gap: 5px; align-items: flex-start;">
                         <label for="valorHurtoAllianz">Valor Hurto</label>
@@ -72,7 +87,7 @@
                 </div>
             </div>
 
-            <div class="col-xs-12 col-sm-6 col-md-3">
+            <div class="col-xs-12 col-sm-6 col-md-3 noDeudor">
                 <div class="form-group">
                     <div style="display: flex; flex-direction: row; gap: 5px; align-items: flex-start;">
                         <label for="valorTodoRiesgoAllianz">Valor todo riesgo</label>
@@ -81,31 +96,114 @@
                     <input id="valorTodoRiesgoAllianz" class="form-control valorTodoRiesgoAllianz inputNumber valores validate contentsAllianz" type="text">
                 </div>
             </div>
-        </div>
 
-        <div id="preguntaMascotas" style="display: none; margin-top: 30px; margin-bottom: 30px;">
-            <div class="col-xs-12 col-sm-6 col-md-3" style="display: flex; flex-direction: row; gap: 5px; align-items: center; padding-left: 0px; ">
-                <label for="mascotaAllianz" style="margin-bottom: 0px">¿Desea incluir Asistencia Mascotas?</label>
-                <i class="fa fa-solid fa-circle-info tooltip-asist-mascotas" style="margin-top: 2px; font-size: 18px;" data-toggle="tooltip-asist-mascotas" data-placement="top"></i>
-            </div>
-            <div class="col-xs-12 col-sm-6 col-md-3" id="mascotaAllianz" style="display: flex; flex-direction: row; gap: 15px; padding-left: 5px; align-items: center;">
-                <div style="display: flex; flex-direction: row; gap: 5px; align-items: flex-start;">
-                    <input type="radio" id="siGato" name="mascotasRadio" class="inputsAllianz">
-                    <p style="margin:0; font-weight: bold;">Si, gato</p>
-                </div>
-                <div style="display: flex; flex-direction: row; gap: 5px; align-items: flex-start;">
-                    <input type="radio" id="siPerro" name="mascotasRadio" class="inputsAllianz">
-                    <p style="margin:0; font-weight: bold;">Si, perro</p>
-                </div>
-                <div style="display: flex; flex-direction: row; gap: 5px; align-items: flex-start;">
-                    <input type="radio" id="no" name="mascotasRadio" class="inputsAllianz">
-                    <p style="margin:0; font-weight: bold;">No</p>
+            <div class="col-xs-12 col-sm-6 col-md-3 noDeudor">
+                <div class="form-group">
+                    <div style="display: flex; flex-direction: row; gap: 5px; align-items: flex-start;">
+                        <label for="valorContenidosAllianz">Total Contenidos</label>
+                        <i class="fa fa-solid fa-circle-info tooltip-icon-contenidos" style="margin-top: 4px; margin-top: 2px; font-size: 18px;" data-toggle="tooltip-icon-contenidos" data-placement="bottom"></i>
+                    </div>
+                    <input id="valorContenidosAllianz" class="form-control valorContenidosAllianz inputNumber valores validate contentsAllianz" type="text" disabled>
                 </div>
             </div>
 
+            <div class="col-xs-12 col-sm-6 col-md-3 noDeudor">
+                <div class="form-group">
+                    <div style="display: flex; flex-direction: row; gap: 5px; align-items: flex-start;">
+                        <label for="totalCoberturaBasica">Total cobertura basica</label>
+                        <i class="fa fa-solid fa-circle-info tooltip-icon-contenidos" style="margin-top: 4px; margin-top: 2px; font-size: 18px;" data-toggle="tooltip-icon-contenidos" data-placement="bottom"></i>
+                    </div>
+                    <input id="totalCoberturaBasica" class="form-control totalCoberturaBasica inputNumber valores validate contentsAllianz" type="text" disabled>
+                </div>
+            </div>
+
+            <div class="col-xs-12 col-sm-6 col-md-3 noDeudor">
+                <div id="preguntaMascotas" style="display: flex; margin-top: 30px; margin-bottom: 30px; flex-direction: column; margin: 0; gap: 1rem;">
+                    <div class="col-xs-12 col-sm-6 col-md-3" style="display: flex; flex-direction: row; gap: 5px; align-items: center; padding-left: 0px; width: auto;">
+                        <label for="mascotaAllianz" style="margin-bottom: 0px">¿Desea incluir Asistencia Mascotas?</label>
+                        <i class="fa fa-solid fa-circle-info tooltip-asist-mascotas" style="margin-top: 2px; font-size: 18px;" data-toggle="tooltip-asist-mascotas" data-placement="top"></i>
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-3" id="mascotaAllianz" style="display: flex; flex-direction: row; gap: 15px; padding-left: 5px; align-items: center; width: auto;">
+                        <div style="display: flex; flex-direction: row; gap: 5px; align-items: flex-start;">
+                            <input type="radio" id="siGato" name="mascotasRadio" class="inputsAllianz">
+                            <p style="margin:0; font-weight: bold;">Si, gato</p>
+                        </div>
+                        <div style="display: flex; flex-direction: row; gap: 5px; align-items: flex-start;">
+                            <input type="radio" id="siPerro" name="mascotasRadio" class="inputsAllianz">
+                            <p style="margin:0; font-weight: bold;">Si, perro</p>
+                        </div>
+                        <div style="display: flex; flex-direction: row; gap: 5px; align-items: flex-start;">
+                            <input type="radio" id="no" name="mascotasRadio" class="inputsAllianz">
+                            <p style="margin:0; font-weight: bold;">No</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- inputs tipo de asegurado: deudor -->
+            <div class="col-xs-12 col-sm-6 col-md-3 deudorInputs" style="display: none;">
+                <div class="form-group">
+                    <div style="display: flex; flex-direction: row; gap: 5px; align-items: flex-start;">
+                        <label for="saldoExtracto">Valor saldo deuda según extracto</label>
+                        <i class="fa fa-solid fa-circle-info tooltip-icon-contenidos" style="margin-top: 4px; margin-top: 2px; font-size: 18px;" data-toggle="tooltip-icon-contenidos" data-placement="bottom"></i>
+                    </div>
+                    <input id="saldoExtracto" class="form-control saldoExtracto inputNumber valores validate contentsAllianz" type="text" disabled>
+                </div>
+            </div>
+
+            <div class="col-xs-12 col-sm-6 col-md-3 deudorInputs" style="display: none;">
+                <div class="form-group">
+                    <div style="display: flex; flex-direction: row; gap: 5px; align-items: flex-start;">
+                        <label for="nacimientoDeudor">Fecha de nacimiento deudor</label>
+                        <i class="fa fa-solid fa-circle-info tooltip-icon-contenidos" style="margin-top: 4px; margin-top: 2px; font-size: 18px;" data-toggle="tooltip-icon-contenidos" data-placement="bottom"></i>
+                    </div>
+                    <input id="nacimientoDeudor" class="form-control nacimientoDeudor inputNumber valores validate contentsAllianz" type="text" disabled>
+                </div>
+            </div>
+
+            <div class="col-xs-12 col-sm-6 col-md-3 deudorInputs" style="display: none;">
+                <div class="form-group">
+                    <div style="display: flex; flex-direction: row; gap: 5px; align-items: flex-start;">
+                        <label for="pesoDeudor">Peso del deudor (Kg)</label>
+                        <i class="fa fa-solid fa-circle-info tooltip-icon-contenidos" style="margin-top: 4px; margin-top: 2px; font-size: 18px;" data-toggle="tooltip-icon-contenidos" data-placement="bottom"></i>
+                    </div>
+                    <input id="pesoDeudor" class="form-control pesoDeudor inputNumber valores validate contentsAllianz" type="text" disabled>
+                </div>
+            </div>
+
+            <div class="col-xs-12 col-sm-6 col-md-3 deudorInputs" style="display: none;">
+                <div class="form-group">
+                    <div style="display: flex; flex-direction: row; gap: 5px; align-items: flex-start;">
+                        <label for="alturaDeudor">Altura del deudor (Cm)</label>
+                        <i class="fa fa-solid fa-circle-info tooltip-icon-contenidos" style="margin-top: 4px; margin-top: 2px; font-size: 18px;" data-toggle="tooltip-icon-contenidos" data-placement="bottom"></i>
+                    </div>
+                    <input id="alturaDeudor" class="form-control alturaDeudor inputNumber valores validate contentsAllianz" type="text" disabled>
+                </div>
+            </div>
+
+            <div class="col-xs-12 col-sm-6 col-md-3 deudorInputs" style="display: none;">
+                <div class="form-group">
+                    <div style="display: flex; flex-direction: row; gap: 5px; align-items: flex-start;">
+                        <label for="saludDeudor">¿El deudor tiene alguna enfermedad o condición de salud que reportar?</label>
+                        <i class="fa fa-solid fa-circle-info tooltip-icon-contenidos" style="margin-top: 4px; margin-top: 2px; font-size: 18px;" data-toggle="tooltip-icon-contenidos" data-placement="bottom"></i>
+                    </div>
+                    <input id="saludDeudor" class="form-control saludDeudor inputNumber valores validate contentsAllianz" type="text" disabled>
+                </div>
+            </div>
+            
+
         </div>
 
-        <div id="preguntaSBS" style="display: flex; margin-top: 50px; margin-bottom: 15px; font-weight: bold; font-size: 15px; align-items: center;">
+        <div class="row">
+            <div class="col-xs-12 col-sm-6 col-md-3"  id="btnAllianzCot" style="margin-top: 15px;">
+                <button type="button" class="btn btn-primary" style="width: 100%;" id="btnCotizarSBS">Cotizar</button>
+            </div>
+        </div>
+
+
+
+        <!-- <div id="preguntaSBS" style="display: flex; margin-top: 50px; margin-bottom: 15px; font-weight: bold; font-size: 15px; align-items: center;">
             <div class="col-xs-12 col-sm-6 col-md-5" style="padding-left: 0px;">
                 <label for="preguntaSBSCotizar" style="margin-bottom: 0px;">¿Deseas incluir cotización del seguro de hogar con SBS Seguros?</label>
             </div>
@@ -122,7 +220,7 @@
             <div class="col-xs-12 col-sm-6 col-md-3" id="btnAllianzCot">
                 <button type="button" class="btn btn-primary" style="width: 70%;" id="btnCotizarSBS">Cotizar</button>
             </div>
-        </div>
+        </div> -->
 
 
     </div>
