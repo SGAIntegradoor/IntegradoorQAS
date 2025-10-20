@@ -315,7 +315,7 @@
 
     <h1 style="margin-bottom: 0%;">
 
-    Cotización # <?php echo $_GET['idCotizacionHogar'] ?>
+      Cotización # <?php echo $_GET['idCotizacionHogar'] ?>
     </h1>
 
     <ol class="breadcrumb">
@@ -348,6 +348,12 @@
           <?php
           // require_once "vistas/components/formCotizacion/alertasHogar.php";
           ?>
+
+          <!-- <div class="row">
+            <div class="col-xs-12 col-sm-6 col-md-2" id="btnAllianzCot" style="margin-top: 15px;">
+              <button type="button" class="btn btn-primary " style="width: 100%; margin-left: 25px;" id="">Cambiar estado</button>
+            </div>
+          </div> -->
         </div>
       </div>
     </div>

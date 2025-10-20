@@ -2231,6 +2231,7 @@ function validateErrors(form) {
       let tipoCotizacion = $('input[name="tipoCoberturaRadio"]:checked').attr(
         "id"
       );
+      tipoCotizacion = 'nulo';
       console.log('tipo coti: ' + tipoCotizacion);
       if (tipoCotizacion == "contenidos") {
         $(".contentsAllianz").each(function () {
@@ -2273,9 +2274,12 @@ function validateErrors(form) {
         $(".contentsAllianz").each(function () {
           let selector = $(this);
           let isError = false; // Variable para saber si hay error en este campo
+          console.log("Validando campo: " + selector.attr("id"));
+          console.log("Validando disable: " + selector.prop("disabled"));
+          console.log("Validando display: " + selector.prop("display"));
 
           // Verificar si el input está habilitado antes de validar
-          if (!selector.prop("disabled")) {
+          if (!selector.prop("disabled") && !selector.prop("display") == "none") {
             if (
               selector.attr("id") == "valorViviendaAllianz" &&
               (selector.val() == "" || selector.val() == "0")
@@ -2564,10 +2568,10 @@ $("#btnCotizarSBS, #btnCotizar").click(async function () {
       categoriaDeRiesgo: tipoAsegValue,
       codLocalidad: codLocalidad,
       direccion: direccionCompletaAllianz,
-      resto: $("#dirRestoInmuebleAllianz").val(),  
+      resto_direccion: $("#dirRestoInmuebleAllianz").val(),
       valorEdificio: valorVivienda,
       valorContenidoNoElectrico: $("#valorContenidosNoElectricos").val(),
-      valorContenidoElectrico: $("#valorContenidoElectrico").val(),
+      valorContenidoElectrico: $("#valorContenidoElectrico").val() ?? 0,
       valorContenidosAllianz: $("#valorContenidosAllianz").val(),
       totalCoberturaBasica: $("#totalCoberturaBasica").val(),
       valorHurto: valorHurto,
