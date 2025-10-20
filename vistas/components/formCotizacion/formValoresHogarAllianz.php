@@ -103,7 +103,7 @@
                         <label for="valorContenidosAllianz">Total Contenidos</label>
                         <i class="fa fa-solid fa-circle-info tooltip-icon-contenidos" style="margin-top: 4px; margin-top: 2px; font-size: 18px;" data-toggle="tooltip-icon-contenidos" data-placement="bottom"></i>
                     </div>
-                    <input id="valorContenidosAllianz" class="form-control valorContenidosAllianz inputNumber valores validate contentsAllianz" type="text" disabled>
+                    <input id="valorContenidosAllianz" class="form-control valorContenidosAllianz inputNumber valores validate contentsAllianz" type="text" readonly>
                 </div>
             </div>
 
@@ -113,7 +113,7 @@
                         <label for="totalCoberturaBasica">Total cobertura basica</label>
                         <i class="fa fa-solid fa-circle-info tooltip-icon-contenidos" style="margin-top: 4px; margin-top: 2px; font-size: 18px;" data-toggle="tooltip-icon-contenidos" data-placement="bottom"></i>
                     </div>
-                    <input id="totalCoberturaBasica" class="form-control totalCoberturaBasica inputNumber valores validate contentsAllianz" type="text" disabled>
+                    <input id="totalCoberturaBasica" class="form-control totalCoberturaBasica inputNumber valores validate contentsAllianz" type="text" readonly>
                 </div>
             </div>
 
@@ -148,7 +148,7 @@
                         <label for="saldoExtracto">Valor saldo deuda según extracto</label>
                         <i class="fa fa-solid fa-circle-info tooltip-icon-contenidos" style="margin-top: 4px; margin-top: 2px; font-size: 18px;" data-toggle="tooltip-icon-contenidos" data-placement="bottom"></i>
                     </div>
-                    <input id="saldoExtracto" class="form-control saldoExtracto inputNumber valores validate contentsAllianz" type="text" disabled>
+                    <input id="saldoExtracto" class="form-control saldoExtracto valores validate deudorInput" type="text">
                 </div>
             </div>
 
@@ -158,7 +158,7 @@
                         <label for="nacimientoDeudor">Fecha de nacimiento deudor</label>
                         <i class="fa fa-solid fa-circle-info tooltip-icon-contenidos" style="margin-top: 4px; margin-top: 2px; font-size: 18px;" data-toggle="tooltip-icon-contenidos" data-placement="bottom"></i>
                     </div>
-                    <input id="nacimientoDeudor" class="form-control nacimientoDeudor inputNumber valores validate contentsAllianz" type="text" disabled>
+                    <input id="nacimientoDeudor" class="form-control nacimientoDeudor valores validate deudorInput" type="text">
                 </div>
             </div>
 
@@ -168,7 +168,7 @@
                         <label for="pesoDeudor">Peso del deudor (Kg)</label>
                         <i class="fa fa-solid fa-circle-info tooltip-icon-contenidos" style="margin-top: 4px; margin-top: 2px; font-size: 18px;" data-toggle="tooltip-icon-contenidos" data-placement="bottom"></i>
                     </div>
-                    <input id="pesoDeudor" class="form-control pesoDeudor inputNumber valores validate contentsAllianz" type="text" disabled>
+                    <input id="pesoDeudor" class="form-control pesoDeudor valores validate deudorInput" type="text">
                 </div>
             </div>
 
@@ -178,17 +178,17 @@
                         <label for="alturaDeudor">Altura del deudor (Cm)</label>
                         <i class="fa fa-solid fa-circle-info tooltip-icon-contenidos" style="margin-top: 4px; margin-top: 2px; font-size: 18px;" data-toggle="tooltip-icon-contenidos" data-placement="bottom"></i>
                     </div>
-                    <input id="alturaDeudor" class="form-control alturaDeudor inputNumber valores validate contentsAllianz" type="text" disabled>
+                    <input id="alturaDeudor" class="form-control alturaDeudor valores validate deudorInput" type="text">
                 </div>
             </div>
 
-            <div class="col-xs-12 col-sm-6 col-md-3 deudorInputs" style="display: none;">
+            <div class="col-xs-12 col-sm-6 col-md-6 deudorInputs" style="display: none;">
                 <div class="form-group">
                     <div style="display: flex; flex-direction: row; gap: 5px; align-items: flex-start;">
                         <label for="saludDeudor">¿El deudor tiene alguna enfermedad o condición de salud que reportar?</label>
                         <i class="fa fa-solid fa-circle-info tooltip-icon-contenidos" style="margin-top: 4px; margin-top: 2px; font-size: 18px;" data-toggle="tooltip-icon-contenidos" data-placement="bottom"></i>
                     </div>
-                    <input id="saludDeudor" class="form-control saludDeudor inputNumber valores validate contentsAllianz" type="text" disabled>
+                    <input id="saludDeudor" class="form-control saludDeudor valores validate deudorInput" type="text">
                 </div>
             </div>
             
