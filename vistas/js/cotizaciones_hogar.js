@@ -23,7 +23,7 @@ if (getParams("idCotizacionHogar").length > 0) {
   $("#lblCotAseg").html("DATOS DEL ASEGURADO");
   openDataFormHogar();
   openValAllianz();
-} 
+}
 
 // else if (getParams("fechaInicialCotizaciones").length > 0) {
 //   menosCotizaciones();
@@ -244,13 +244,16 @@ function editarCotizacionHogar(id) {
         cli_num_documento,
         id_tipo_documento,
         cli_telefono,
-        direccion_hogar,
+        direccion,
+        resto_direccion,
         departamento,
         zona_riesgo,
         tipo_vivienda,
         tipo_construccion,
         tipo_asegurado,
         tipo_cobertura,
+        val_cn_elec,
+        val_cn_no_elec,
         no_piso,
         no_total_pisos,
         credito,
@@ -300,8 +303,10 @@ function editarCotizacionHogar(id) {
 
       // DATOS DEL BIEN ASEGURADO
 
-      $(".dirInmueble").val(direccion_hogar);
-      // $("#dirInmuebleAllianz").val(direccion);
+      $(".dirInmueble").val(resto_direccion);
+      $("#dirInmuebleAllianz").val(direccion);
+      $("#valorContenidosNoElectricos").val(val_cn_elec);
+      $("#valorContenidosElectricos").val(val_cn_no_elec);
       $("#deptoInmueble").append(new Option(departamento, "1000"));
       $("#deptoInmueble").val("1000").trigger("change");
       $(".ciudadInmueble").append(new Option(ciudad, "1000"));
@@ -356,9 +361,13 @@ function editarCotizacionHogar(id) {
         val_cnesp_sus_sbs == null ? 0 : val_cnesp_sus_sbs
       );
       $("#totalContenidos").val(tot_cnn_sbs == null ? 0 : tot_cnn_sbs);
+
       $("#totalCoberturaBasica").val(
-        tot_cobertura_basica_sbs == null ? 0 : tot_cobertura_basica_sbs
+        $("#valorViviendaAllianz").val() + $("#valorContenidosAllianz").val()
       );
+      // $("#totalCoberturaBasica").val(
+      //   tot_cobertura_basica_sbs == null ? 0 : tot_cobertura_basica_sbs
+      // );
       $("#contentNormalesSUS").val(
         val_cnnor_sus_sbs == null ? 0 : val_cnnor_sus_sbs
       );
@@ -392,7 +401,7 @@ function editarCotizacionHogar(id) {
         processData: false,
         dataType: "json",
         success: function (response) {
-          makeATable()
+          makeATable();
           response.forEach((alert) => {
             alert.cotizo == 1
               ? $(`#${alert.aseguradora}-check`).html(

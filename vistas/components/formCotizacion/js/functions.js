@@ -213,6 +213,8 @@ $(document).ready(function () {
   });
 
   $("#tipoAseg").on("change", function () {
+    $(".noDeudor").css("display", "block");
+    $(".deudorInputs").css("display", "none");
     if ($(this).val() == "2") {
       resetInputsValores();
       $("#contenidos").prop("checked", true);
@@ -222,7 +224,14 @@ $(document).ready(function () {
       $("#valorVivienda").val("");
       $("#valorViviendaAllianz").prop("disabled", true);
       $("#valorViviendaAllianz").val("");
+      $("#valorContenidosNoElectricos").prop("disabled", false);
+      // $("#valorContenidosNoElectricos").val("");
+      $("#valorContenidosElectricos").prop("disabled", false);
+      // $("#valorContenidosElectricos").val("");
+      // $("#totalCoberturaBasica").prop("disabled", true);
+      // $("#totalCoberturaBasica").val("");
       $("#preguntaMascotas").css("display", "flex");
+      $("#valorContenidosAllianz").prop("disabled", true);
     } else if ($(this).val() == "3") {
       resetInputsValores();
       $("#contenidos").prop("checked", false);
@@ -230,9 +239,45 @@ $(document).ready(function () {
       $("#estructura").prop("disabled", false);
       $("#valorVivienda").prop("disabled", false);
       $("#valorViviendaAllianz").prop("disabled", false);
+      // $("#totalCoberturaBasica").prop("disabled", false);
       $("#preguntaMascotas").css("display", "flex");
       $("#valorVivienda").val("0");
-    } else if ($(this).val() == "1" || $(this).val() == "4") {
+      $("#valorContenidosAllianz").prop("disabled", true);
+    } else if ($(this).val() == "4") {
+      resetInputsValores();
+      $(".deudorInputs").css("display", "block");
+      $(".deudorInput").prop("disabled", false);
+
+      $("#contenidos").prop("disabled", true);
+      $("#inputEYC").prop("disabled", true);
+      $("#estructura").prop("checked", true);
+
+      $(".noDeudor").css("display", "none");
+
+      // $("#valorVivienda").prop("disabled", false);
+      // $("#valorViviendaAllianz").prop("disabled", false);
+      // $("#valorViviendaAllianz").val("");
+      // $("#preguntaMascotas").css("display", "flex");
+      // $("#containerValores, #containerValoresAllianz")
+      //   .find("input, select")
+      //   .each(function () {
+      //     if (
+      //       $(this).attr("id") == "valorVivienda" ||
+      //       $(this).attr("id") == "valorViviendaAllianz" ||
+      //       $(this).attr("id") == "dirInmuebleAllianz" ||
+      //       $(this).attr("id") == "dirInmueble"
+      //     ) {
+      //       return;
+      //     } else if (
+      //       $(this).attr("id") == "siSBS" ||
+      //       $(this).attr("id") == "noSBS"
+      //     ) {
+      //       $(this).prop("disabled", false);
+      //     } else {
+      //       $(this).prop("disabled", true);
+      //     }
+      //   });
+    } else if ($(this).val() == "1") {
       resetInputsValores();
       $("#contenidos").prop("disabled", true);
       $("#inputEYC").prop("disabled", true);
@@ -405,7 +450,7 @@ $(document).ready(function () {
     }
   });
 
-  $("#valorHurto, #valorHurtoAllianz").on("change", function () {
+  /*$("#valorHurto, #valorHurtoAllianz").on("change", function () {
     if ($(this).attr("id") == "valorHurtoAllianz") {
       if (
         $("#valorContenidosAllianz").val() == "0" ||
@@ -445,7 +490,7 @@ $(document).ready(function () {
         return;
       }
     }
-  });
+  });*/
 
   function validateTodoRiesgo(input, type) {
     let valorTRiesgo = parseInt($(`#${input}`).val().replace(/\./g, ""), 10);
@@ -462,7 +507,7 @@ $(document).ready(function () {
     if (type) {
       if ($(`#${input}`).attr("id") == "valorTodoRiesgoAllianz") {
         let valorHurtoAllianz = $("#valorHurtoAllianz").val();
-        if (valorHurtoAllianz <= 0 || valorHurtoAllianz === "") {
+        if (valorHurtoAllianz <= 1 || valorHurtoAllianz === "") {
           Swal.fire({
             icon: "error",
             title: "¡Atención!",
@@ -904,7 +949,7 @@ $('input[name="mascotasRadio"]').on("change", function () {
   }
 });
 
-$("#valorVivienda").on("change", function () {
+$(".inputNumber ").on("change", function () {
   // let valorVivienda = parseInt($(this).val().replace(/\./g, ""), 10);
   // $("#totalCoberturaBasicas").val(valorVivienda);
   actualizarTotalCoberturaBasica();
@@ -1028,12 +1073,17 @@ $("#valorCEspeciales").on("change", function () {
 function actualizarTotalCoberturaBasica() {
   // // debugger
   let totalContenidos =
-    parseInt($("#totalContenidos").val().replace(/\./g, ""), 10) || 0;
+    parseInt($("#valorContenidosElectricos").val().replace(/\./g, ""), 10) || 0;
+  let totalContenidosNoElectricos =
+    parseInt($("#valorContenidosNoElectricos").val().replace(/\./g, ""), 10) || 0;
   let valorVivienda =
-    parseInt($("#valorVivienda").val().replace(/\./g, ""), 10) || 0;
+    parseInt($("#valorViviendaAllianz").val().replace(/\./g, ""), 10) || 0;
 
-  let totalCoberturaBasica = totalContenidos + valorVivienda;
+  let totalCoberturaBasica = totalContenidos + valorVivienda + totalContenidosNoElectricos;
   $("#totalCoberturaBasica").val(totalCoberturaBasica.toLocaleString("es-ES"));
+
+  let totalCotenidos = totalContenidos + totalContenidosNoElectricos;
+  $("#valorContenidosAllianz").val(totalCotenidos.toLocaleString("es-ES"));
 }
 
 $("#contentNormalesSUS").on("change", function () {
@@ -2151,27 +2201,27 @@ function validateErrors(form) {
               selector.css("border", "1px solid #ccc");
             }
           }
-          if ($("#tipoAseg").val() === "3") {
-            let tipoCobertura = $(
-              'input[name="tipoCoberturaRadio"]:checked'
-            ).attr("id");
+          // if ($("#tipoAseg").val() === "3") {
+          //   let tipoCobertura = $(
+          //     'input[name="tipoCoberturaRadio"]:checked'
+          //   ).attr("id");
 
-            // Verificar si realmente se seleccionó algo
-            if (!tipoCobertura) {
-              // Marcar error
-              $('input[name="tipoCoberturaRadio"]').css(
-                "outline",
-                "2px solid red"
-              );
-              errorFields.push({
-                descripcion: "Error: debe seleccionar un tipo de cobertura",
-                codigo: 1001,
-              });
-            } else {
-              // Remover el error
-              $('input[name="tipoCoberturaRadio"]').css("outline", "none");
-            }
-          }
+          //   // Verificar si realmente se seleccionó algo
+          //   if (!tipoCobertura) {
+          //     // Marcar error
+          //     $('input[name="tipoCoberturaRadio"]').css(
+          //       "outline",
+          //       "2px solid red"
+          //     );
+          //     errorFields.push({
+          //       descripcion: "Error: debe seleccionar un tipo de cobertura",
+          //       codigo: 1001,
+          //     });
+          //   } else {
+          //     // Remover el error
+          //     $('input[name="tipoCoberturaRadio"]').css("outline", "none");
+          //   }
+          // }
         } else {
           selector.css("border", "1px solid #ccc");
         }
@@ -2181,6 +2231,8 @@ function validateErrors(form) {
       let tipoCotizacion = $('input[name="tipoCoberturaRadio"]:checked').attr(
         "id"
       );
+      tipoCotizacion = 'nulo';
+      console.log('tipo coti: ' + tipoCotizacion);
       if (tipoCotizacion == "contenidos") {
         $(".contentsAllianz").each(function () {
           let selector = $(this);
@@ -2222,58 +2274,64 @@ function validateErrors(form) {
         $(".contentsAllianz").each(function () {
           let selector = $(this);
           let isError = false; // Variable para saber si hay error en este campo
+          console.log("Validando campo: " + selector.attr("id"));
+          console.log("Validando disable: " + selector.prop("disabled"));
+          console.log("Validando display: " + selector.prop("display"));
 
-          if (
-            selector.attr("id") == "valorViviendaAllianz" &&
-            (selector.val() == "" || selector.val() == "0")
-          ) {
-            isError = true;
-            errorFields.push({
-              descripcion: `Error debe ingresar en ${selector.attr("id")}`,
-              codigo: 1001,
-            });
-          }
-
-          if (
-            selector.attr("id") == "valorHurtoAllianz" &&
-            selector.val() == ""
-          ) {
-            isError = true;
-            errorFields.push({
-              descripcion: `Error debe ingresar en ${selector.attr("id")}`,
-              codigo: 1001,
-            });
-          }
-
-          if (selector.attr("id") == "valorContenidosAllianz") {
-            if (selector.val() == "") {
+          // Verificar si el input está habilitado antes de validar
+          if (!selector.prop("disabled") && !selector.prop("display") == "none") {
+            if (
+              selector.attr("id") == "valorViviendaAllianz" &&
+              (selector.val() == "" || selector.val() == "0")
+            ) {
               isError = true;
               errorFields.push({
                 descripcion: `Error debe ingresar en ${selector.attr("id")}`,
                 codigo: 1001,
               });
-            } else if (
-              selector.val() !== "" &&
-              $("#valorHurtoAllianz").val() > selector.val() * 0.8
+            }
+
+            if (
+              selector.attr("id") == "valorHurtoAllianz" &&
+              selector.val() == ""
             ) {
               isError = true;
               errorFields.push({
-                descripcion: `Error el valor de hurto no puede ser mayor al valor de los contenidos`,
-                codigo: 1002,
+                descripcion: `Error debe ingresar en ${selector.attr("id")}`,
+                codigo: 1001,
+              });
+            }
+
+            if (selector.attr("id") == "valorContenidosAllianz") {
+              if (selector.val() == "") {
+                isError = true;
+                errorFields.push({
+                  descripcion: `Error debe ingresar en ${selector.attr("id")}`,
+                  codigo: 1001,
+                });
+              } else if (
+                selector.val() !== "" &&
+                $("#valorHurtoAllianz").val() > selector.val() * 0.8
+              ) {
+                isError = true;
+                errorFields.push({
+                  descripcion: `Error el valor de hurto no puede ser mayor al valor de los contenidos`,
+                  codigo: 1002,
+                });
+              }
+            }
+
+            if (
+              selector.attr("id") == "valorTodoRiesgoAllianz" &&
+              (selector.val() == "" || selector.val() == "0")
+            ) {
+              isError = true;
+              errorFields.push({
+                descripcion: `Error debe ingresar en ${selector.attr("id")}`,
+                codigo: 1001,
               });
             }
           }
-
-          // if (
-          //   selector.attr("id") == "valorTodoRiesgoAllianz" &&
-          //   (selector.val() == "" || selector.val() == "0")
-          // ) {
-          //   isError = true;
-          //   errorFields.push({
-          //     descripcion: `Error debe ingresar en ${selector.attr("id")}`,
-          //     codigo: 1001,
-          //   });
-          // }
 
           // Aplicar el borde rojo si hay error, de lo contrario, borde normal
           if (isError) {
@@ -2430,6 +2488,7 @@ $("#btnHogarSiguiente").click(function (event) {
 
 $("#btnDataHogarSiguiente").click(function (event) {
   let { errors, data } = validateErrors("datosInmueble");
+  console.log(data);
   if (errors) {
     $("#btnDataHogarSiguiente").prop("disabled", true);
     // disableInputsData("#containerDatos");
@@ -2509,9 +2568,12 @@ $("#btnCotizarSBS, #btnCotizar").click(async function () {
       categoriaDeRiesgo: tipoAsegValue,
       codLocalidad: codLocalidad,
       direccion: direccionCompletaAllianz,
-      resto: "",
+      resto_direccion: $("#dirRestoInmuebleAllianz").val(),
       valorEdificio: valorVivienda,
-      valorContenido: valorContenido,
+      valorContenidoNoElectrico: $("#valorContenidosNoElectricos").val(),
+      valorContenidoElectrico: $("#valorContenidoElectrico").val() ?? 0,
+      valorContenidosAllianz: $("#valorContenidosAllianz").val(),
+      totalCoberturaBasica: $("#totalCoberturaBasica").val(),
       valorHurto: valorHurto,
       valorTodoRiesgo: valorTodoRiesgo,
       asegurarMascota: asegurarMascota == "" ? "NO" : asegurarMascota,
@@ -2529,13 +2591,18 @@ $("#btnCotizarSBS, #btnCotizar").click(async function () {
       departamento: $("#deptoInmueble option:selected").text(),
       zonaConstruccion: $("#zonaConstruccion").val(),
       tieneCredito: $('input[name="creditoHipotecarioRadio"]:checked').val(),
-      tipoCobertura: $('input[name="tipoCoberturaRadio"]:checked').attr("id"),
+      // tipoCobertura: $('input[name="tipoCoberturaRadio"]:checked').attr("id"),
       estrato: $("#estrato").val(),
       id_usuario: $("#idUsuario").val(),
       correoAnalista: $("#correoAnalista").val(),
       usu_cel: $("#usu_cel").val(),
       usu_email: $("#usu_email").val(),
       analista_asignado: $("#nombre_analista").val(),
+      saldoExtracto: $("#saldoExtracto").val(),
+      nacimientoDeudor: $("#nacimientoDeudor").val(),
+      pesoDeudor: $("#pesoDeudor").val(),
+      alturaDeudor: $("#alturaDeudor").val(),
+      saludDeudor: $("#saludDeudor").val(),
     };
 
     // Condicionales para agregar campos adicionales según el tipo de documento
@@ -2747,13 +2814,26 @@ $("#btnCotizarSBS, #btnCotizar").click(async function () {
         type: "POST",
         url: "https://grupoasistencia.com/WS-laravel-email-shetts/api/emails/enviar-correo",
         // url: "http://localhost/WS-laravel/api/emails/enviar-correo",
-        dataType: "json",
+        dataType: "text",
         data: rawCompiled.allianz,
         cache: false,
         success: function (data) {
           console.log("Correo Enviado");
+          swal
+            .fire({
+              icon: "success",
+              title: "¡Éxito!",
+              text: "La cotización se ha realizado correctamente",
+              showConfirmButton: true,
+              confirmButtonText: "Aceptar",
+            })
+            .then((result) => {
+              if (result.isConfirmed) {
+                window.location.href = "hogar2";
+              }
+            });
         },
-        catch: function (error) {
+        error: function (xhr, status, error) {
           console.log(error);
           console.log("Error");
         },
@@ -2761,7 +2841,7 @@ $("#btnCotizarSBS, #btnCotizar").click(async function () {
 
       // Luego de salvar la cotizacion en: cotizaciones_hogar, enviar el correo -> mostrar alerta de exito o error -> volver a la pantalla principal de hogar.
     }
-    debugger;
+
   } else {
     Swal.fire({
       icon: "error",
