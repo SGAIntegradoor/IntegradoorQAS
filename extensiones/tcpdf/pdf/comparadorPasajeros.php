@@ -681,6 +681,15 @@ while ($i < count($resultados)) {
 			<span style="color:#666666;">' . $solidariaProducto . '</span>
 			</td>';
 			break;
+		case 'Mundial':
+		case 'Seguros Mundial':
+			$html2 .= '<td class="puntos td2 ' . $fondo_class . '" style="font-size: 6.5px; font-family:dejavusanscondensedb;">
+			<div style="font-size:3.5pt">&nbsp;</div>
+			<img style="width:50px;" src="../../../vistas/img/logos/mundial.png" alt="">
+			<div style="font-size:6.5pt">&nbsp;</div>
+			<span style="color:#666666;">' . $resultados[$i]['Producto'] . '</span>
+			</td>';
+		break;
 	}
 	$i++;
 	$cont++;
@@ -1018,6 +1027,11 @@ foreach ($resultados as $resultado) {
 			<div style="font-size:4pt">&nbsp;</div>
 			<center><img style="width:35px;" src="../../../vistas/img/logos/solidaria.png" alt=""></center>
 			</td>';
+		} else if ($resultado['Aseguradora'] == 'Mundial') {
+			$html3 .= '<center><td class="puntos fondo" style="width:' . $valorTabla . '%;text-align: center;">
+			<div style="font-size:4pt">&nbsp;</div>
+			<center><img style="width:45px;" src="../../../vistas/img/logos/mundial.png" alt=""></center>
+			</td></center>';
 		}
 	} else {
 		if ($resultado['Aseguradora'] == 'Axa Colpatria') {
@@ -1096,6 +1110,9 @@ foreach ($resultados as $resultado) {
 		} else if ($resultado['Aseguradora'] == 'Solidaria') {
 			$html3 .= '<td class="puntos fondo2" style="width:' . $valorTabla . '%;text-align: center;">
 			<center><img style="width:35px;" src="../../../vistas/img/logos/solidaria.png" alt=""></center></td>';
+		} else if ($resultado['Aseguradora'] == 'Mundial') {
+			$html3 .= '<td class="puntos fondo2" style="width:' . $valorTabla . '%;text-align: center;">
+			<center><img style="width:35px;" src="../../../vistas/img/logos/mundial.png" alt=""></center></td>';
 		}
 	}
 
@@ -1477,7 +1494,6 @@ $html3 .= '</tr>';
 
 $html3 .= '</table>';
 
-
 $html4 = '
 <style>
   .puntos {
@@ -1642,6 +1658,12 @@ foreach ($resultados as $resultado) {
 			<img style="width:35px;" src="../../../vistas/img/logos/solidaria.png" alt="">
 			<div style="font-size:5pt">&nbsp;</div>
 			</td>';
+		} else if ($resultado['Aseguradora'] == 'Mundial') {
+			$html4 .= '<td class="puntos fondo" style="width:' . $valorTabla . '%;text-align: center;">
+			<div style="font-size:5pt">&nbsp;</div>
+			<img style="width:45px;" src="../../../vistas/img/logos/mundial.png" alt="">
+			<div style="font-size:5pt">&nbsp;</div>
+			</td>';
 		}
 	} else {
 		if ($resultado['Aseguradora'] == 'Axa Colpatria') {
@@ -1724,6 +1746,10 @@ foreach ($resultados as $resultado) {
 			$html4 .= '<td class="puntos fondo2" style="width:' . $valorTabla . '%;text-align: center;">
 			<div style="font-size:5pt">&nbsp;</div>
 			<img style="width:35px;" src="../../../vistas/img/logos/solidaria.png" alt=""></td>';
+		} else if ($resultado['Aseguradora'] == 'Mundial') {
+			$html4 .= '<td class="puntos fondo2" style="width:' . $valorTabla . '%;text-align: center;">
+			<div style="font-size:5pt">&nbsp;</div>
+			<img style="width:45px;" src="../../../vistas/img/logos/mundial.png" alt=""></td>';
 		}
 	}
 

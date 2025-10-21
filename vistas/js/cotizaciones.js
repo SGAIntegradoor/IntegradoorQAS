@@ -1771,7 +1771,7 @@ async function renderCards(response) {
         oferta.UrlPdf !== null &&
         aseguradoraPermisos == "1" &&
         (oferta.Producto == "Conduce Tranquilo Pes" ||
-          oferta.Producto == "Seguro Amarillo")
+          oferta.Producto == "Seguro Amarillo" || oferta.Producto == "Seguro Amarillo - RC en Exceso")
       ) {
         cardCotizacion += `
   
