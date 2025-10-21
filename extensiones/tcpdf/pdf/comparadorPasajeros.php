@@ -2617,9 +2617,14 @@ $pdf->SetTextColor(104, 104, 104);
 $pdf->Cell(25, 6, "Elaborado por Software Integradoor propiedad del proveedor tecnológico Strategico Technologies SAS BIC Nit: 901.542.216-8", 0, 1, '');
 $pdf->StopTransform();
 
-$pdf->SetXY(0, 276);
+$pdf->SetXY(0, 262);
 $htmlFooter = '<p style="font-size: 6.2px;">Nota: Esta cotización no constituye una oferta comercial. La misma se expide única y exclusivamente con un propósito informativo sobre los posibles costos del seguro y sus condiciones, los cuales serán susceptibles de modificación hasta tanto no se concreten y determinen las características de los respectivos riesgos. No se permite financiar a 12 cuotas si el vehículo tiene prenda y la póliza beneficiario oneroso; máximo 11 cuotas.</p>';
-$pdf->writeHTML($htmlFooter, true, false, true, false, '');
+$pdf->writeHTML($htmlFooter, true, false, true, true, '');
+$pdf->Ln();
+
+$pdf->SetXY(0, 272);
+$htmlFooter = '<p style="font-size: 6.2px; color: red">Importante: Si el vehículo cuenta con sistema de gas instalado de fábrica, este ya está incluido en el valor asegurado y tiene cobertura automática. Si el sistema de gas fue instalado posteriormente, debe ser cotizado como accesorio adicional. Por favor, consulta con tu Asesor para incluirlo correctamente en la póliza.</p>';
+$pdf->writeHTML($htmlFooter, true, false, true, true, '');
 $pdf->Ln();
 
 // Consulta el servicio del vehiculo segun su codigo
