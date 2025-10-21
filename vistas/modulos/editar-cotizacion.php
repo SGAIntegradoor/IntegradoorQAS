@@ -684,6 +684,7 @@ $stmt = $stmt2 = $stmt3 = $stmt4 = null;
                           </div>
                         </div>
                       </div>
+                      <?php if ($moduloCotizacion[0]['Manual'] == 2) { ?>
                       <div class="col-xs-12 col-sm-6 col-md-3 form-group" id="divTipoServicio">
                         <label for="txtTipoServicio">Tipo de Servicio</label>
                         <select class="form-control" id="txtTipoServicio" required>
