@@ -2945,6 +2945,7 @@ function cotizarOfertasPasajeros() {
           cre_sol_fecha_token: cre_sol_fecha_token,
         },
         //env: "QAS",
+        valor_conv_gas: "4000000"
       };
 
       //! Agregar a Motos y Pesados START
@@ -3418,11 +3419,14 @@ function cotizarOfertasPasajeros() {
 
                 cont.push(estadoPromise);
                 return;
+              } else if (aseguradora === "Mundial") {
+                requestOptions.body.valor_conv_gas = 
+                url = `https://grupoasistencia.com/motor_webservice_publics/Mundial_Taxis`;
               } else {
                 url = `https://grupoasistencia.com/motor_webservice_publics/${aseguradora}_Pasajeros`;
               }
               // // Realizar la solicitud fetch y agregar la promesa al array
-              if (aseguradora == "Qualitas" || aseguradora == "Mundial") {
+              if (aseguradora == "Qualitas") {
                 let message =
                   aseguradora == "Qualitas"
                     ? `💡 <b>Nueva aseguradora</b> especializada en <b>seguros de autos.</b> La principal aseguradora mexicana de seguros de autos llega a Colombia y <b>nosotros ya tenemos convenio.</b> Solicita cotización manual a tu Analista Comercial.`

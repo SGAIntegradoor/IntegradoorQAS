@@ -315,6 +315,7 @@
       "Estado" => array("A" => $permisos["Estado_A_Publicos"], "C" => $permisos["Estado_C_Publicos"]),
       "HDI Seguros" => array("A" => $permisos["Liberty_A_Publicos"], "C" => $permisos["Liberty_C_Publicos"]),
       "Solidaria" => array("A" => $permisos["Solidaria_A_Publicos"], "C" => $permisos["Solidaria_C_Publicos"]),
+      "Mundial" => array("A" => $permisos["Mundial_A_Publicos"], "C" => $permisos["Mundial_C_Publicos"]),
     );
 
 

@@ -1770,7 +1770,8 @@ async function renderCards(response) {
           oferta.Aseguradora == "Mundial Seguros") &&
         oferta.UrlPdf !== null &&
         aseguradoraPermisos == "1" &&
-        oferta.Producto == "Conduce Tranquilo Pes"
+        (oferta.Producto == "Conduce Tranquilo Pes" ||
+        oferta.Producto == "Seguro Amarillo")
       ) {
         cardCotizacion += `
   
