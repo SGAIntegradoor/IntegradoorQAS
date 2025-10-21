@@ -1796,7 +1796,8 @@ async function renderCards(response) {
           oferta.Aseguradora == "Mundial Seguros") &&
         oferta.UrlPdf !== null &&
         aseguradoraPermisos == "1" &&
-        oferta.Producto == "Conduce Tranquilo Pes"
+        (oferta.Producto == "Conduce Tranquilo Pes" ||
+          oferta.Producto == "Seguro Amarillo" || oferta.Producto == "Seguro Amarillo - RC en Exceso")
       ) {
         cardCotizacion += `
   
@@ -2356,6 +2357,37 @@ function editarCotizacion(id) {
               $("#divTipoServicio").css("display", "none");
               $("#divTipoTransporte").css("display", "block");
               // trigger change
+              if (respuesta["cot_tip_uso"] == "1") {
+                $("#txtTipoTransporteVehiculo").prop("disabled", true);
+                console.log(respuesta["cot_tip_uso"]);
+                $("#divTieneGasRetoma").css("display", "block");
+                $("#divTieneGasRetoma input[name='tieneGasRadioRetoma']").each(function () {
+                  $(this).prop("disabled", true);
+                });
+
+                $("#divTieneGasRetoma input[name='tieneGasRadioRetoma']").each(
+                  function () {
+                    let responseSelectGas =
+                      respuesta["cot_tiene_gas"] == "1" ? "Si" : "No";
+                    if ($(this).val() == responseSelectGas) {
+                      $(this).prop("checked", true);
+                    }
+                  }
+                );
+                $("#divGasDeFabricaRetoma").css("display", "block");
+                $("#divGasDeFabricaRetoma input[name='gasDeFabricaRadioRetoma']").each(function () {
+                  $(this).prop("disabled", true);
+                });
+                $(
+                  "#divGasDeFabricaRetoma input[name='gasDeFabricaRadioRetoma']"
+                ).each(function () {
+                  let responseSelectFabrica =
+                    respuesta["cot_gas_fabrica"] == "1" ? "Si" : "No";
+                  if ($(this).val() == responseSelectFabrica) {
+                    $(this).prop("checked", true);
+                  }
+                });
+              }
               if (respuesta["cot_tip_uso"] == "2") {
                 console.log(respuesta["cot_tip_uso"]);
                 $("#divNumeroPasajeros").css("display", "block");
@@ -2456,7 +2488,7 @@ function seleccionarOferta(
   producto,
   numCotizOferta,
   id_oferta,
-  valCheck,
+  valCheck
 ) {
   var idSelecOferta = idCotizacion;
   var placa = document.getElementById("placaVeh").value;
@@ -2476,38 +2508,38 @@ function seleccionarOferta(
   });
   var $input = $("#" + idCheckbox);
 
-  $(".classSelecOferta").prop("disabled", true); 
+  $(".classSelecOferta").prop("disabled", true);
 
   $input.after(overlay);
 
   // Crear overlay spinner sobre el input
   var offset = $input.offset(); // coordenadas absolutas
   var overlay = $(
-      '<div class="input-overlay"><span class="glyphicon glyphicon-refresh spinning"></span></div>'
+    '<div class="input-overlay"><span class="glyphicon glyphicon-refresh spinning"></span></div>'
   );
-    
+
   // Insertamos overlay directamente en body
   $("body").append(overlay);
-    
-    // Posicionar overlay encima del input
+
+  // Posicionar overlay encima del input
+  overlay.css({
+    width: $input.outerWidth() + "px",
+    height: $input.outerHeight() + "px",
+    background: "rgba(255,255,255,0.6)",
+    display: "flex",
+    "align-items": "center",
+    "justify-content": "center",
+    "border-radius": "4px",
+    "z-index": 9999,
+  });
+
+  if ($input.length !== 0) {
     overlay.css({
-      width: $input.outerWidth() + "px",
-      height: $input.outerHeight() + "px",
-      background: "rgba(255,255,255,0.6)",
-      display: "flex",
-      "align-items": "center",
-      "justify-content": "center",
-      "border-radius": "4px",
-      "z-index": 9999,
+      position: "absolute",
+      top: offset.top + "px",
+      left: offset.left + "px",
     });
-    
-    if ($input.length !== 0) {
-        overlay.css({
-          position: "absolute",
-          top: offset.top + "px",
-          left: offset.left + "px",
-        })
-    }
+  }
 
   $.ajax({
     type: "POST",
