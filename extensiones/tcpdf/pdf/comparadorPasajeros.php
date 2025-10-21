@@ -1362,10 +1362,16 @@ foreach ($resultados as $resultado) {
 	$nombreAseguradora = nombreAseguradora($resultado['Aseguradora']);
 	$nombreProducto = productoAseguradora($resultado['Aseguradora'], $resultado['Producto']);
 
-	if ($cont8 % 2 == 0) {
-		$html3 .= '<td class="puntos fondo" style="width:' . $valorTabla . '%;"><center><div style="font-size:4pt">&nbsp;</div><font size="7"style="text-align: center;  font-family:dejavusanscondensed;">' . $resultado['PerdidaParcial'] . '</font></center></td>';
+	if($nombreProducto == 'Sin Hurto') {
+		$perdidaParcialHurto = 'No Cubre';
 	} else {
-		$html3 .= '<td class="puntos fondo2" style="width:' . $valorTabla . '%;"><center><div style="font-size:4pt">&nbsp;</div><font size="7"style="text-align: center;  font-family:dejavusanscondensed;">' . $resultado['PerdidaParcial'] . '</font></center></td>';
+		$perdidaParcialHurto = $resultado['PerdidaParcial'];
+	}
+
+	if ($cont8 % 2 == 0) {
+		$html3 .= '<td class="puntos fondo" style="width:' . $valorTabla . '%;"><center><div style="font-size:4pt">&nbsp;</div><font size="7"style="text-align: center;  font-family:dejavusanscondensed;">' . $perdidaParcialHurto . '</font></center></td>';
+	} else {
+		$html3 .= '<td class="puntos fondo2" style="width:' . $valorTabla . '%;"><center><div style="font-size:4pt">&nbsp;</div><font size="7"style="text-align: center;  font-family:dejavusanscondensed;">' . $perdidaParcialHurto . '</font></center></td>';
 	}
 
 	$cont8 += 1;
