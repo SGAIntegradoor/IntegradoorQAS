@@ -1270,7 +1270,8 @@ async function renderCards(response) {
         "Equidad",
         "AXA Colpatria",
         "AXA",
-        "Estado"
+        "Estado",
+        "Allianz"
 
       ];
 
@@ -1311,7 +1312,10 @@ async function renderCards(response) {
         "Plan Full",
         "Buses",
         "Genio Pesado",
-        "Conduce Tranquilo Pes"
+        "Conduce Tranquilo Pes",
+        "Solo Totales",
+        "Sin RCE",
+        "Todo Riesgo Taxis"
       ];
 
       var valorRC = isNumeric(oferta.ValorRC);
