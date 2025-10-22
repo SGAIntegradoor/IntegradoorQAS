@@ -321,6 +321,7 @@
       "HDI Seguros" => array("A" => $permisos["Liberty_A"], "C" => $permisos["Liberty_C"]),
       "Previsora" => array("A" => $permisos["Previsora_A"], "C" => $permisos["Previsora_C"]),
       "Solidaria" => array("A" => $permisos["Solidaria_A"], "C" => $permisos["Solidaria_C"]),
+      "Mundial" => array("A" => $permisos["Mundial_A"], "C" => $permisos["Mundial_C"]),
     );    
 
 
