@@ -559,18 +559,18 @@ $(document).ready(function () {
     }
   }
 
-  $("#valorTodoRiesgoAllianz").on("change", function () {
-    let valor = parseInt($(this).val().replace(/\./g, ""), 10) || 0;
-    if (valor === 0 || valor === "0") {
-      validateTodoRiesgo($(this).attr("id"), true);
-    } else if (valor > 0) {
-      validateTodoRiesgo($(this).attr("id"), false);
-    } else {
-      $("#siGato").prop("disabled", false);
-      $("#siPerro").prop("disabled", false);
-      $("#no").prop("disabled", false);
-    }
-  });
+  // $("#valorTodoRiesgoAllianz").on("change", function () {
+  //   let valor = parseInt($(this).val().replace(/\./g, ""), 10) || 0;
+  //   if (valor === 0 || valor === "0") {
+  //     validateTodoRiesgo($(this).attr("id"), true);
+  //   } else if (valor > 0) {
+  //     validateTodoRiesgo($(this).attr("id"), false);
+  //   } else {
+  //     $("#siGato").prop("disabled", false);
+  //     $("#siPerro").prop("disabled", false);
+  //     $("#no").prop("disabled", false);
+  //   }
+  // });
 
   function resetInputsValores() {
     const fields = [
@@ -689,29 +689,29 @@ $(document).ready(function () {
     }
   });
 
-  $("#valorHurtoAllianz").on("change", function () {
-    let valorHurto = parseInt($(this).val().replace(/\./g, ""), 10);
-    let valorContenidos = parseInt(
-      $("#valorContenidosAllianz").val().replace(/\./g, ""),
-      10
-    );
-    if (valorHurto > valorContenidos || valorHurto < valorContenidos * 0.8) {
-      Swal.fire({
-        icon: "error",
-        title: "¡Atención!",
-        text: "El valor de hurto debe estar entre el 80% y el 100% del valor de los contenidos",
-      }).then(() => {
-        $("#valorTodoRiesgoAllianz").val("");
-        $(this).css("border", "1px solid red");
-        $(this).focus();
-        $(this).val("");
-      });
-    } else {
-      $(this).css("border", "1px solid #ccc");
-      $("#valorTodoRiesgoAllianz").val("");
-      $("#valorTodoRiesgoAllianz").prop("disabled", false);
-    }
-  });
+  // $("#valorHurtoAllianz").on("change", function () {
+  //   let valorHurto = parseInt($(this).val().replace(/\./g, ""), 10);
+  //   let valorContenidos = parseInt(
+  //     $("#valorContenidosAllianz").val().replace(/\./g, ""),
+  //     10
+  //   );
+  //   if (valorHurto > valorContenidos || valorHurto < valorContenidos * 0.8) {
+  //     Swal.fire({
+  //       icon: "error",
+  //       title: "¡Atención!",
+  //       text: "El valor de hurto debe estar entre el 80% y el 100% del valor de los contenidos",
+  //     }).then(() => {
+  //       $("#valorTodoRiesgoAllianz").val("");
+  //       $(this).css("border", "1px solid red");
+  //       $(this).focus();
+  //       $(this).val("");
+  //     });
+  //   } else {
+  //     $(this).css("border", "1px solid #ccc");
+  //     $("#valorTodoRiesgoAllianz").val("");
+  //     $("#valorTodoRiesgoAllianz").prop("disabled", false);
+  //   }
+  // });
 
   let ciudadesZonaDeRiesgo = [
     "05001",

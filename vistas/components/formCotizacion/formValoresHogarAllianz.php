@@ -101,7 +101,7 @@
                 <div class="form-group">
                     <div style="display: flex; flex-direction: row; gap: 5px; align-items: flex-start;">
                         <label for="valorContenidosAllianz">Total Contenidos</label>
-                        <i class="fa fa-solid fa-circle-info tooltip-icon-contenidos" style="margin-top: 4px; margin-top: 2px; font-size: 18px;" data-toggle="tooltip-icon-contenidos" data-placement="bottom"></i>
+                        <!-- <i class="fa fa-solid fa-circle-info tooltip-icon-contenidos" style="margin-top: 4px; margin-top: 2px; font-size: 18px;" data-toggle="tooltip-icon-contenidos" data-placement="bottom"></i> -->
                     </div>
                     <input id="valorContenidosAllianz" class="form-control valorContenidosAllianz inputNumber valores validate contentsAllianz" type="text" readonly>
                 </div>
@@ -111,7 +111,7 @@
                 <div class="form-group">
                     <div style="display: flex; flex-direction: row; gap: 5px; align-items: flex-start;">
                         <label for="totalCoberturaBasica">Total cobertura basica</label>
-                        <i class="fa fa-solid fa-circle-info tooltip-icon-contenidos" style="margin-top: 4px; margin-top: 2px; font-size: 18px;" data-toggle="tooltip-icon-contenidos" data-placement="bottom"></i>
+                        <!-- <i class="fa fa-solid fa-circle-info tooltip-icon-contenidos" style="margin-top: 4px; margin-top: 2px; font-size: 18px;" data-toggle="tooltip-icon-contenidos" data-placement="bottom"></i> -->
                     </div>
                     <input id="totalCoberturaBasica" class="form-control totalCoberturaBasica inputNumber valores validate contentsAllianz" type="text" readonly>
                 </div>

@@ -34,6 +34,11 @@ $nombre_analista = $infoUsuario[0]['nombre_analista'];
     .flex-wrap-form>[class*="col-"] {
         display: block;
     }
+
+    .form-control {
+        margin-bottom: 30px;
+    }
+    
 </style>
 
 <div id="formHogar" style="display: none;">
