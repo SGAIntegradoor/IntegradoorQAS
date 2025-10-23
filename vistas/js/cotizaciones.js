@@ -1342,7 +1342,10 @@ async function renderCards(response) {
         "Sin Hurto",
         "Comercial",
         "Basico + PT",
-        "Integral 20%",
+        "Integral 20%",,
+        "Solo Totales",
+        "Sin RCE",
+        "Todo Riesgo Taxis"
       ];
 
       var valorRC = isNumeric(oferta.ValorRC);
