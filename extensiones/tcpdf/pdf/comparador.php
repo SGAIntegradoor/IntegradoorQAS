@@ -116,7 +116,7 @@ if ($fila2 == 0 || $fila2 == false || $fila2 == null) {
 $queryLogo = "SELECT urlLogo, intermediario_Fech_Vigen FROM intermediario  WHERE id_Intermediario = $intermediario";
 
 $valorLogo = $conexion->query($queryLogo);
-$valorLogo = mysqli_fetch_array($valorLogo);
+$valorLogo = mysqli_fetch_assoc($valorLogo);
 $valorLog = $valorLogo['urlLogo'];
 
 // var_dump($valorLogo);
@@ -412,7 +412,7 @@ $pdf->SetXY(39, 73);
 $pdf->Cell(25, 6, $ciudad, 0, 1, '');
 
 $pdf->SetXY(35, 79);
-$pdf->Cell(25, 6, $valorLog["intermediario_Fech_Vigen"] . " DIAS A PARTIR DEL " . $fechaVigencia, 0, 1, '');
+$pdf->Cell(25, 6, $valorLogo["intermediario_Fech_Vigen"] . " DIAS A PARTIR DEL " . $fechaVigencia, 0, 1, '');
 
 $pdf->SetXY(130, 59.5);
 $pdf->Cell(25, 6, strtoupper($nomAsesor), 0, 1, '');
