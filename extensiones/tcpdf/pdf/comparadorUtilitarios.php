@@ -389,7 +389,7 @@ $pdf->SetXY(39, 73);
 $pdf->Cell(25, 6, $ciudad, 0, 1, '');
 
 $pdf->SetXY(35, 79);
-$pdf->Cell(25, 6, "15 DIAS A PARTIR DEL " . $fechaVigencia, 0, 1, '');
+$pdf->Cell(25, 6, "8 DIAS A PARTIR DEL " . $fechaVigencia, 0, 1, '');
 
 $pdf->SetXY(155, 56);
 $pdf->Cell(25, 6, strtoupper($nomAsesor), 0, 1, '');
