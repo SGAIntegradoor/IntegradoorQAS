@@ -324,6 +324,19 @@ function editarCotizacionHogar(id) {
       $(`#${tipo_cobertura}`).prop("checked", true).trigger("click");
       $(`#${credito}Credito`).prop("checked", true).trigger("click");
 
+      // campos Deudor
+      let nacimiento_deudor = response.nacimiento_deudor;
+      if(nacimiento_deudor) {
+        let [anio, mes, dia] = nacimiento_deudor.split('-');
+      $("#saldoExtracto").val(response.saldo_extracto_deudor);
+      $("#pesoDeudor").val(response.peso_deudor);
+      $("#alturaDeudor").val(response.altura_deudor);
+      $("#saludDeudor").val(response.condicion_salud);
+      $("#dianacimiento").val(dia).trigger("change");
+      $("#mesnacimiento").val(mes).trigger("change");
+      $("#anionacimiento").val(anio).trigger("change");
+      }
+
       // campos Allianz
       $("#valorViviendaAllianz").val(val_viv || 0);
       $("#valorContenidosAllianz").val(val_cn);

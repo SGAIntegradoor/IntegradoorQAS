@@ -213,8 +213,11 @@ $(document).ready(function () {
   });
 
   $("#tipoAseg").on("change", function () {
+
     $(".noDeudor").css("display", "block");
+    $(".noDeudor").find("input, select").css("display", "block");
     $(".deudorInputs").css("display", "none");
+    $(".deudorInputs").find("input, select").prop("disabled", true);
     if ($(this).val() == "2") {
       resetInputsValores();
       $("#contenidos").prop("checked", true);
@@ -245,6 +248,9 @@ $(document).ready(function () {
       $("#valorContenidosAllianz").prop("disabled", true);
     } else if ($(this).val() == "4") {
       resetInputsValores();
+      $(".noDeudor").find("input, select").prop("disabled", true);
+      $(".noDeudor").find("input, select").css("display", "none");
+      $(".deudorInputs").find("input, select").prop("disabled", false);
       $(".deudorInputs").css("display", "block");
       $(".deudorInput").prop("disabled", false);
 
@@ -559,18 +565,18 @@ $(document).ready(function () {
     }
   }
 
-  $("#valorTodoRiesgoAllianz").on("change", function () {
-    let valor = parseInt($(this).val().replace(/\./g, ""), 10) || 0;
-    if (valor === 0 || valor === "0") {
-      validateTodoRiesgo($(this).attr("id"), true);
-    } else if (valor > 0) {
-      validateTodoRiesgo($(this).attr("id"), false);
-    } else {
-      $("#siGato").prop("disabled", false);
-      $("#siPerro").prop("disabled", false);
-      $("#no").prop("disabled", false);
-    }
-  });
+  // $("#valorTodoRiesgoAllianz").on("change", function () {
+  //   let valor = parseInt($(this).val().replace(/\./g, ""), 10) || 0;
+  //   if (valor === 0 || valor === "0") {
+  //     validateTodoRiesgo($(this).attr("id"), true);
+  //   } else if (valor > 0) {
+  //     validateTodoRiesgo($(this).attr("id"), false);
+  //   } else {
+  //     $("#siGato").prop("disabled", false);
+  //     $("#siPerro").prop("disabled", false);
+  //     $("#no").prop("disabled", false);
+  //   }
+  // });
 
   function resetInputsValores() {
     const fields = [
@@ -689,29 +695,29 @@ $(document).ready(function () {
     }
   });
 
-  $("#valorHurtoAllianz").on("change", function () {
-    let valorHurto = parseInt($(this).val().replace(/\./g, ""), 10);
-    let valorContenidos = parseInt(
-      $("#valorContenidosAllianz").val().replace(/\./g, ""),
-      10
-    );
-    if (valorHurto > valorContenidos || valorHurto < valorContenidos * 0.8) {
-      Swal.fire({
-        icon: "error",
-        title: "¡Atención!",
-        text: "El valor de hurto debe estar entre el 80% y el 100% del valor de los contenidos",
-      }).then(() => {
-        $("#valorTodoRiesgoAllianz").val("");
-        $(this).css("border", "1px solid red");
-        $(this).focus();
-        $(this).val("");
-      });
-    } else {
-      $(this).css("border", "1px solid #ccc");
-      $("#valorTodoRiesgoAllianz").val("");
-      $("#valorTodoRiesgoAllianz").prop("disabled", false);
-    }
-  });
+  // $("#valorHurtoAllianz").on("change", function () {
+  //   let valorHurto = parseInt($(this).val().replace(/\./g, ""), 10);
+  //   let valorContenidos = parseInt(
+  //     $("#valorContenidosAllianz").val().replace(/\./g, ""),
+  //     10
+  //   );
+  //   if (valorHurto > valorContenidos || valorHurto < valorContenidos * 0.8) {
+  //     Swal.fire({
+  //       icon: "error",
+  //       title: "¡Atención!",
+  //       text: "El valor de hurto debe estar entre el 80% y el 100% del valor de los contenidos",
+  //     }).then(() => {
+  //       $("#valorTodoRiesgoAllianz").val("");
+  //       $(this).css("border", "1px solid red");
+  //       $(this).focus();
+  //       $(this).val("");
+  //     });
+  //   } else {
+  //     $(this).css("border", "1px solid #ccc");
+  //     $("#valorTodoRiesgoAllianz").val("");
+  //     $("#valorTodoRiesgoAllianz").prop("disabled", false);
+  //   }
+  // });
 
   let ciudadesZonaDeRiesgo = [
     "05001",
@@ -1075,11 +1081,13 @@ function actualizarTotalCoberturaBasica() {
   let totalContenidos =
     parseInt($("#valorContenidosElectricos").val().replace(/\./g, ""), 10) || 0;
   let totalContenidosNoElectricos =
-    parseInt($("#valorContenidosNoElectricos").val().replace(/\./g, ""), 10) || 0;
+    parseInt($("#valorContenidosNoElectricos").val().replace(/\./g, ""), 10) ||
+    0;
   let valorVivienda =
     parseInt($("#valorViviendaAllianz").val().replace(/\./g, ""), 10) || 0;
 
-  let totalCoberturaBasica = totalContenidos + valorVivienda + totalContenidosNoElectricos;
+  let totalCoberturaBasica =
+    totalContenidos + valorVivienda + totalContenidosNoElectricos;
   $("#totalCoberturaBasica").val(totalCoberturaBasica.toLocaleString("es-ES"));
 
   let totalCotenidos = totalContenidos + totalContenidosNoElectricos;
@@ -1233,32 +1241,32 @@ function appendSectionAlerts() {
 
 function saveQuotation() {
   return new Promise(function (resolve, reject) {
-  dataCotizacion.idCliente = $("#idCliente").val();
-  dataCotizacion.zona_riesgo =
-    $("#zonaRiesgo option:selected").text() !== ""
-      ? "Sin zonas de riesgo"
-      : $("#zonaRiesgo option:selected").text();
-  dataCotizacion.departamento = $("#deptoInmueble option:selected").text();
-  dataCotizacion.ciudad = $(".ciudadInmueble option:selected").text();
-  dataCotizacion.idUsuario = permisos.id_usuario;
-  $.ajax({
-    type: "POST",
-    url: "src/saveQuotationHogar.php",
-    dataType: "json",
-    data: dataCotizacion,
-    cache: false,
-    success: function (data) {
-      console.log("Guardado");
-      idCotizacionHogar = data.last_id;
-      resolve(data.last_id); // <--- Resolviendo la promesa con el last_id
-    },
-    catch: function (error) {
-      console.log(error);
-      console.log("Error");
-      reject(error); // <--- Rechazando la promesa si hay error
-    },
+    dataCotizacion.idCliente = $("#idCliente").val();
+    dataCotizacion.zona_riesgo =
+      $("#zonaRiesgo option:selected").text() !== ""
+        ? "Sin zonas de riesgo"
+        : $("#zonaRiesgo option:selected").text();
+    dataCotizacion.departamento = $("#deptoInmueble option:selected").text();
+    dataCotizacion.ciudad = $(".ciudadInmueble option:selected").text();
+    dataCotizacion.idUsuario = permisos.id_usuario;
+    $.ajax({
+      type: "POST",
+      url: "src/saveQuotationHogar.php",
+      dataType: "json",
+      data: dataCotizacion,
+      cache: false,
+      success: function (data) {
+        console.log("Guardado");
+        idCotizacionHogar = data.last_id;
+        resolve(data.last_id); // <--- Resolviendo la promesa con el last_id
+      },
+      catch: function (error) {
+        console.log(error);
+        console.log("Error");
+        reject(error); // <--- Rechazando la promesa si hay error
+      },
+    });
   });
-});
 }
 
 // Guarda la alerta en la BD para mostrar la tabla una vez se realice la pagina de retoma
@@ -2231,8 +2239,8 @@ function validateErrors(form) {
       let tipoCotizacion = $('input[name="tipoCoberturaRadio"]:checked').attr(
         "id"
       );
-      tipoCotizacion = 'nulo';
-      console.log('tipo coti: ' + tipoCotizacion);
+      tipoCotizacion = "nulo";
+      console.log("tipo coti: " + tipoCotizacion);
       if (tipoCotizacion == "contenidos") {
         $(".contentsAllianz").each(function () {
           let selector = $(this);
@@ -2276,10 +2284,10 @@ function validateErrors(form) {
           let isError = false; // Variable para saber si hay error en este campo
           console.log("Validando campo: " + selector.attr("id"));
           console.log("Validando disable: " + selector.prop("disabled"));
-          console.log("Validando display: " + selector.prop("display"));
+          console.log("Validando display: " + selector.css("display"));
 
           // Verificar si el input está habilitado antes de validar
-          if (!selector.prop("disabled") && !selector.prop("display") == "none") {
+          if (!selector.prop("disabled") && selector.css("display") !== "none") {
             if (
               selector.attr("id") == "valorViviendaAllianz" &&
               (selector.val() == "" || selector.val() == "0")
@@ -2331,6 +2339,18 @@ function validateErrors(form) {
                 codigo: 1001,
               });
             }
+
+                if (selector.val() == "" || selector.val() == null) {
+                isError = true;
+                errorFields.push({
+                  descripcion: `Error: debe ingresar un valor en ${
+                    selector.attr("id") || "un campo sin id"
+                  }`,
+                  codigo: 1001,
+                });
+              }
+            
+            console.log("valor de selector prueba: " + selector.val());
           }
 
           // Aplicar el borde rojo si hay error, de lo contrario, borde normal
@@ -2510,7 +2530,38 @@ let rawSBS = {};
 
 let dataCotizacion = {};
 
+function validarDeudores() {
+  let hayVacios = false;
+  let primerVacio = null;
+
+  $(".deudorInputs:visible input").each(function () {
+    const valor = $(this).val().trim();
+    if (valor === "") {
+      hayVacios = true;
+      if (!primerVacio) primerVacio = this;
+    }
+  });
+
+  if (hayVacios) {
+    Swal.fire({
+      icon: "error",
+      title: "Campos incompletos",
+      text: "Por favor, completa todos los campos antes de continuar.",
+      confirmButtonText: "Aceptar",
+    }).then(() => {
+      if (primerVacio) $(primerVacio).focus();
+    });
+
+    return false;
+  }
+
+  return true;
+}
+
 $("#btnCotizarSBS, #btnCotizar").click(async function () {
+  if (!validarDeudores()) {
+    return;
+  }
   let { errors, data } = validateErrors("cotizar");
   if (errors) {
     // $("html, body").animate({ scrollTop: 0 }, "slow", function () {
@@ -2550,6 +2601,40 @@ $("#btnCotizarSBS, #btnCotizar").click(async function () {
       ) || 0;
     let areaTotal =
       parseInt(($("#areaTotal").val() || 0).replace(/\./g, ""), 10) || 0;
+
+    let valorContenidoNoElectrico =
+      parseInt(
+        ($("#valorContenidosNoElectricos").val() || "0")
+          .toString()
+          .replace(/\./g, ""),
+        10
+      ) || 0;
+    let valorContenidoElectrico =
+      parseInt(
+        ($("#valorContenidosElectricos").val() || "0")
+          .toString()
+          .replace(/\./g, ""),
+        10
+      ) || 0;
+    let valorContenidosAllianz =
+      parseInt(
+        ($("#valorContenidosAllianz").val() || "0")
+          .toString()
+          .replace(/\./g, ""),
+        10
+      ) || 0;
+    let totalCoberturaBasica =
+      parseInt(
+        ($("#totalCoberturaBasica").val() || "0").toString().replace(/\./g, ""),
+        10
+      ) || 0;
+
+      let saldoExtracto =
+      parseInt(
+        ($("#saldoExtracto").val() || "0").toString().replace(/\./g, ""),
+        10
+      ) || 0;
+
     let anoConstruccion = parseInt($("#anioConstruccion").val(), 10) || 0;
     let direccionCompletaAllianz = $("#dirInmuebleAllianz").val();
     let asegurarMascota = "";
@@ -2561,6 +2646,20 @@ $("#btnCotizarSBS, #btnCotizar").click(async function () {
       asegurarMascota = mascotaSeleccionada;
     }
     let codLocalidad = parseInt($("#ciudadInmueble").val(), 10) || 0;
+
+    var dia = $("#dianacimiento").val();
+    var mes = $("#mesnacimiento").val();
+    var anio = $("#anionacimiento").val();
+
+    if (tipoAsegValue == 4) {
+      if (dia === "" || mes === "" || anio === "") {
+      alert("Por favor selecciona día, mes y año.");
+      return;
+    }
+    }
+    
+    // Crear la fecha en formato YYYY-MM-DD
+    var fechaNacimiento = anio + "-" + mes + "-" + dia;
     // Construir objeto con los valores obtenidos
     rawAllianz = {
       tipoDocumento: tipoDocumento,
@@ -2570,10 +2669,10 @@ $("#btnCotizarSBS, #btnCotizar").click(async function () {
       direccion: direccionCompletaAllianz,
       resto_direccion: $("#dirRestoInmuebleAllianz").val(),
       valorEdificio: valorVivienda,
-      valorContenidoNoElectrico: $("#valorContenidosNoElectricos").val(),
-      valorContenidoElectrico: $("#valorContenidoElectrico").val() ?? 0,
-      valorContenidosAllianz: $("#valorContenidosAllianz").val(),
-      totalCoberturaBasica: $("#totalCoberturaBasica").val(),
+      valorContenidoNoElectrico: valorContenidoNoElectrico,
+      valorContenidoElectrico: valorContenidoElectrico,
+      valorContenidosAllianz: valorContenidosAllianz,
+      totalCoberturaBasica: totalCoberturaBasica,
       valorHurto: valorHurto,
       valorTodoRiesgo: valorTodoRiesgo,
       asegurarMascota: asegurarMascota == "" ? "NO" : asegurarMascota,
@@ -2598,8 +2697,8 @@ $("#btnCotizarSBS, #btnCotizar").click(async function () {
       usu_cel: $("#usu_cel").val(),
       usu_email: $("#usu_email").val(),
       analista_asignado: $("#nombre_analista").val(),
-      saldoExtracto: $("#saldoExtracto").val(),
-      nacimientoDeudor: $("#nacimientoDeudor").val(),
+      saldoExtracto: saldoExtracto,
+      nacimientoDeudor: fechaNacimiento,
       pesoDeudor: $("#pesoDeudor").val(),
       alturaDeudor: $("#alturaDeudor").val(),
       saludDeudor: $("#saludDeudor").val(),
@@ -2734,7 +2833,7 @@ $("#btnCotizarSBS, #btnCotizar").click(async function () {
           deducibleResponsabilidadCivil: 1,
           asistenciaDomiciliaria: true,
           estrato: $("#estrato").val(),
-          id_usuario: $_SESSION['idUsuario'],
+          id_usuario: $_SESSION["idUsuario"],
           correoAnalista: $("#correoAnalista").val(),
           usu_cel: $("#usu_cel").val(),
           usu_email: $("#usu_email").val(),
@@ -2841,7 +2940,6 @@ $("#btnCotizarSBS, #btnCotizar").click(async function () {
 
       // Luego de salvar la cotizacion en: cotizaciones_hogar, enviar el correo -> mostrar alerta de exito o error -> volver a la pantalla principal de hogar.
     }
-
   } else {
     Swal.fire({
       icon: "error",
@@ -3265,6 +3363,18 @@ function saveToFrontAddress() {
   }
 }
 
+function capitalizar(texto) {
+  if (!texto) return "";
+  // Convierte todo a minúsculas y luego capitaliza la primera letra de cada palabra
+  return texto
+    .toLowerCase()
+    .split(" ")
+    .map((word) => {
+      return word.charAt(0).toUpperCase() + word.slice(1);
+    })
+    .join(" ");
+}
+
 // FUNCION PARA CARGAR LA CIUDAD DE CIRCULACIÓN
 function consultarCiudadHogar() {
   var codigoDpto = document.getElementById("deptoInmueble").value;
@@ -3279,11 +3389,12 @@ function consultarCiudadHogar() {
       let ciudadesVeh = `<option value="">Seleccionar Ciudad</option>`;
       try {
         let json = response;
-        const { data } = json
-        console.log(data)
+        const { data } = json;
+        console.log(data);
         data.sort((a, b) => a.codigo - b.codigo);
         data.forEach(({ codigo, ciudad }) => {
-          ciudadesVeh += `<option value="${codigo}">${ciudad}</option>`;
+          const ciudadCapitalizada = capitalizar(ciudad);
+          ciudadesVeh += `<option value="${codigo}">${ciudadCapitalizada}</option>`;
         });
 
         document.getElementById("ciudadInmueble").innerHTML = ciudadesVeh;
