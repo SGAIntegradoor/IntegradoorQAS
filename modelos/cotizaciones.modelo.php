@@ -228,7 +228,7 @@ class ModeloCotizaciones
 		$stmt = null;
 		if ($id != null) {
 
-			$stmt = Conexion::conectar()->prepare("SELECT c.*, cl.id_tipo_documento, cl.cli_nombre, cl.cli_apellidos, cl.cli_num_documento, cl.cli_email, cl.cli_telefono FROM $tabla c JOIN $tabla2 cl ON cl.id_cliente = c.id_cliente WHERE $field = :id");
+			$stmt = Conexion::conectar()->prepare("SELECT c.*, cl.id_tipo_documento, cl.cli_nombre, cl.cli_apellidos, cl.cli_num_documento, cl.cli_email, cl.cli_telefono FROM $tabla c LEFT JOIN $tabla2 cl ON cl.id_cliente = c.id_cliente WHERE $field = :id");
 			$stmt->bindParam(":id", $id, PDO::PARAM_STR);
 
 			if ($stmt->execute()) {

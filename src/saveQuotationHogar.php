@@ -20,6 +20,7 @@ try {
     $ciudad = $data['ciudad'] ?? null;
     $codCiudad = $data['codLocalidad'] ?? null;
     $departamento = $data['departamento'] ?? null;
+    $estrato = $data['estrato'] ?? null;
     $zona_riesgo = $data['zona_riesgo'] ?? null;
     $sub_zona = $data['sub_zona'] ?? null;
     $tipo_vivienda = $data['tipoDeVivienda'] ?? null;
@@ -32,7 +33,7 @@ try {
     $credito = $data['tieneCredito'] ?? null;
     $tipo_asegurado = $data['categoriaDeRiesgo'] ?? null;
     $tipo_cobertura = $data['tipoCobertura'] ?? null;
-    $id_cliente = $data['idCliente'] ?? null;
+    $id_cliente = empty($data['idCliente']) ? null : $data['idCliente'];
     $id_usuario = $data['idUsuario'] ?? null;
     $valorContenidoNoElectrico = (int)$data['valorContenidoNoElectrico'] ?? 0;
     $valorContenidoElectrico = (int)$data['valorContenidoElectrico'] ?? 0;
@@ -54,15 +55,18 @@ try {
     $val_asegee_sus_sbs = $data['val_asegee_sus_sbs'] ?? null;
     $val_tr_sbs = $data['val_tr_sbs'] ?? null;
     
-    $saldoExtracto = $data['saldoExtracto'] ?? null;
-    $nacimientoDeudor = $data['nacimientoDeudor'] ?? null;
-    $pesoDeudor = $data['pesoDeudor'] ?? null;
-    $alturaDeudor = $data['alturaDeudor'] ?? null;
-    $saludDeudor = $data['saludDeudor'] ?? null;
+    $saldoExtracto = empty($data['saldoExtracto']) ? null : $data['saldoExtracto'];
+    $nacimientoDeudor = empty($data['nacimientoDeudor']) ? null : $data['nacimientoDeudor'];
+    $pesoDeudor = empty($data['pesoDeudor']) ? null : $data['pesoDeudor'];
+    $alturaDeudor = empty($data['alturaDeudor']) ? null : $data['alturaDeudor'];
+    $saludDeudor = empty($data['saludDeudor']) ? null : $data['saludDeudor'];
+
+    $razonSoci = empty($data['razonSoci']) ? null : $data['razonSoci'];
+    $digitoVeri = empty($data['digitoVeri']) ? null : $data['digitoVeri'];
 
 
-    $stmt = $pdo->prepare("INSERT INTO cotizaciones_hogar (id, fecha_cotizacion, direccion, resto_direccion, codCiudad, ciudad, departamento, zona_riesgo, sub_zona, tipo_vivienda, no_piso, no_total_pisos, tipo_construccion, anio_construccion, area_total, zona_construccion, credito, tipo_asegurado, tipo_cobertura, val_cn_elec, val_cn_no_elec, val_viv, val_cn, val_hur, val_tr, aseg_mascota,val_viv_sbs, val_cnen_sbs, val_cnelec_sbs, val_cnens_sbs, tot_cnn_sbs, tot_cobertura_basica_sbs, val_cnesp_sus_sbs, val_cnnor_sus_sbs, tot_cn_sus_sbs, val_asegee_danos_sbs, val_asegee_sus_sbs, val_tr_sbs, id_cliente, id_usuario,saldo_extracto_deudor,nacimiento_deudor,peso_deudor,altura_deudor,condicion_salud) 
-                          VALUES (null, :fecha_cotizacion, :direccion, :resto_direccion, :codCiudad, :ciudad, :departamento , :zona_riesgo, :sub_zona, :tipo_vivienda, :no_piso, :no_total_pisos, :tipo_construccion, :anio_construccion, :area_total, :zona_construccion, :credito, :tipo_asegurado, :tipo_cobertura, :valorContenidoElectrico, :valorContenidoNoElectrico, :val_viv, :val_cn, :val_hur, :val_tr, :aseg_masc ,:val_viv_sbs, :val_cnen_sbs, :val_cnelec_sbs, :val_cnens_sbs, :tot_cnn_sbs, :tot_cobertura_basica_sbs, :val_cnesp_sus_sbs, :val_cnnor_sus_sbs, :tot_cn_sus_sbs, :val_asegee_danos_sbs, :val_asegee_sus_sbs, :val_tr_sbs, :id_cliente, :id_usuario,:saldoExtracto ,:nacimientoDeudor,:pesoDeudor,:alturaDeudor,:saludDeudor)");
+    $stmt = $pdo->prepare("INSERT INTO cotizaciones_hogar (id, fecha_cotizacion, direccion, resto_direccion, codCiudad, ciudad, departamento, estrato, zona_riesgo, sub_zona, tipo_vivienda, no_piso, no_total_pisos, tipo_construccion, anio_construccion, area_total, zona_construccion, credito, tipo_asegurado, tipo_cobertura, val_cn_elec, val_cn_no_elec, val_viv, val_cn, val_hur, val_tr, aseg_mascota,val_viv_sbs, val_cnen_sbs, val_cnelec_sbs, val_cnens_sbs, tot_cnn_sbs, tot_cobertura_basica_sbs, val_cnesp_sus_sbs, val_cnnor_sus_sbs, tot_cn_sus_sbs, val_asegee_danos_sbs, val_asegee_sus_sbs, val_tr_sbs, id_cliente, id_usuario,saldo_extracto_deudor,nacimiento_deudor,peso_deudor,altura_deudor,condicion_salud, razon_social, digito_verificacion) 
+                          VALUES (null, :fecha_cotizacion, :direccion, :resto_direccion, :codCiudad, :ciudad, :departamento, :estrato , :zona_riesgo, :sub_zona, :tipo_vivienda, :no_piso, :no_total_pisos, :tipo_construccion, :anio_construccion, :area_total, :zona_construccion, :credito, :tipo_asegurado, :tipo_cobertura, :valorContenidoElectrico, :valorContenidoNoElectrico, :val_viv, :val_cn, :val_hur, :val_tr, :aseg_masc ,:val_viv_sbs, :val_cnen_sbs, :val_cnelec_sbs, :val_cnens_sbs, :tot_cnn_sbs, :tot_cobertura_basica_sbs, :val_cnesp_sus_sbs, :val_cnnor_sus_sbs, :tot_cn_sus_sbs, :val_asegee_danos_sbs, :val_asegee_sus_sbs, :val_tr_sbs, :id_cliente, :id_usuario,:saldoExtracto ,:nacimientoDeudor,:pesoDeudor,:alturaDeudor,:saludDeudor, :razonSoci, :digitoVeri)");
 
     $stmt->bindParam(':fecha_cotizacion', $fecha_cotizacion);
     $stmt->bindParam(':direccion', $direccion);
@@ -70,6 +74,7 @@ try {
     $stmt->bindParam(':ciudad', $ciudad);
     $stmt->bindParam(':codCiudad', $codCiudad);
     $stmt->bindParam(':departamento', $departamento);
+    $stmt->bindParam(':estrato', $estrato);
     $stmt->bindParam(':zona_riesgo', $zona_riesgo);
     $stmt->bindParam(':sub_zona', $sub_zona);
     $stmt->bindParam(':tipo_vivienda', $tipo_vivienda);
@@ -108,6 +113,8 @@ try {
     $stmt->bindParam(':pesoDeudor', $pesoDeudor);
     $stmt->bindParam(':alturaDeudor', $alturaDeudor);
     $stmt->bindParam(':saludDeudor', $saludDeudor);
+    $stmt->bindParam(':razonSoci', $razonSoci);
+    $stmt->bindParam(':digitoVeri', $digitoVeri);
 
     if ($stmt->execute()) {
         $lastId = $pdo->lastInsertId(); // Obtener el último ID insertado

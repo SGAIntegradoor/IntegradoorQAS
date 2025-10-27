@@ -252,8 +252,6 @@ function editarCotizacionHogar(id) {
         tipo_construccion,
         tipo_asegurado,
         tipo_cobertura,
-        val_cn_elec,
-        val_cn_no_elec,
         no_piso,
         no_total_pisos,
         credito,
@@ -276,6 +274,11 @@ function editarCotizacionHogar(id) {
         val_viv_sbs,
       } = response;
 
+      val_cn_elec = response.val_cn_elec;
+      val_cn_no_elec = response.val_cn_no_elec;
+      estrato = response.estrato;
+      console.log('val_cn_no_elec: ' + val_cn_no_elec);
+
       const fields = [
         "nombre",
         "apellido",
@@ -296,6 +299,8 @@ function editarCotizacionHogar(id) {
 
       $(".tipoDocumento").val(id_tipo_documentoV).trigger("change");
       $(".nombre").val(cli_nombre);
+      $(".razon").val(cli_nombre);
+      $(".digito").val(response.digitoVeri);
       $(".apellido").val(cli_apellidos);
       $(".numeroDocumento").val(cli_num_documento);
       $(".celular").val(cli_telefono);
@@ -305,9 +310,8 @@ function editarCotizacionHogar(id) {
 
       $(".dirInmueble").val(resto_direccion);
       $("#dirInmuebleAllianz").val(direccion);
-      $("#valorContenidosNoElectricos").val(val_cn_elec);
-      $("#valorContenidosElectricos").val(val_cn_no_elec);
       $("#deptoInmueble").append(new Option(departamento, "1000"));
+      $("#estrato").val(estrato).trigger("change");
       $("#deptoInmueble").val("1000").trigger("change");
       $(".ciudadInmueble").append(new Option(ciudad, "1000"));
       $(".ciudadInmueble").val("1000").trigger("change");
@@ -339,6 +343,8 @@ function editarCotizacionHogar(id) {
 
       // campos Allianz
       $("#valorViviendaAllianz").val(val_viv || 0);
+      $("#valorContenidosNoElectricos").val(val_cn_no_elec);
+      $("#valorContenidosElectricos").val(val_cn_elec);
       $("#valorContenidosAllianz").val(val_cn);
       $("#valorHurtoAllianz").val(val_hur);
       $("#valorTodoRiesgoAllianz").val(val_tr);
@@ -376,7 +382,8 @@ function editarCotizacionHogar(id) {
       $("#totalContenidos").val(tot_cnn_sbs == null ? 0 : tot_cnn_sbs);
 
       $("#totalCoberturaBasica").val(
-        $("#valorViviendaAllianz").val() + $("#valorContenidosAllianz").val()
+      parseFloat($("#valorViviendaAllianz").val()) + 
+      parseFloat($("#valorContenidosAllianz").val())
       );
       // $("#totalCoberturaBasica").val(
       //   tot_cobertura_basica_sbs == null ? 0 : tot_cobertura_basica_sbs
