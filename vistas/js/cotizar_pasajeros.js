@@ -3500,7 +3500,7 @@ function cotizarOfertasPasajeros() {
                         if (typeof ofertas[0].Resultado !== "undefined") {
                           agregarAseguradoraFallida(plan);
                           validarProblema(aseguradora, ofertas);
-                          ofertas.Mensajes.forEach((mensaje) => {
+                          ofertas[0].Mensajes.forEach((mensaje) => {
                             mostrarAlertarCotizacionFallida(plan, mensaje);
                           });
                         } else {
