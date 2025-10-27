@@ -4241,7 +4241,7 @@ function cotizarOfertasPasajeros() {
                 .then((ofertas) => {
                   if (typeof ofertas[0].Resultado !== "undefined") {
                     agregarAseguradoraFallida(plan);
-                    validarProblema("Bolivar", ofertas);
+                    validarProblema("Mundial", ofertas);
                     ofertas[0].Mensajes.forEach((mensaje) => {
                       mostrarAlertarCotizacionFallida(plan, mensaje);
                     });
@@ -4249,7 +4249,7 @@ function cotizarOfertasPasajeros() {
                     // eliminarAseguradoraFallida('Bolivar');
                     const contadorPorEntidad = validarOfertas(
                       ofertas,
-                      "Bolivar",
+                      "Mundial",
                       1
                     );
                     mostrarAlertaCotizacionExitosa(plan, contadorPorEntidad);
@@ -4261,7 +4261,7 @@ function cotizarOfertasPasajeros() {
                     plan,
                     "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
                   );
-                  validarProblema("Bolivar", [
+                  validarProblema("Mundial", [
                     {
                       Mensajes: [
                         "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
