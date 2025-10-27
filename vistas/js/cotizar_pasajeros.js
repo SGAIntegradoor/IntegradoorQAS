@@ -2445,7 +2445,7 @@ function validarOfertas(ofertas, aseguradora, exito) {
     var precioOferta = oferta.precio;
     if (oferta == null) return;
     if (numCotizacion == null && precioOferta == "0") return;
-    if (precioOferta.length <= 3) return;
+    // if (precioOferta.length <= 3) return;
     // contadorOfertas++;   // Variable para contar el número de ofertas
     contadorPorEntidad[oferta.entidad] =
       (contadorPorEntidad[oferta.entidad] || 0) + 1;
