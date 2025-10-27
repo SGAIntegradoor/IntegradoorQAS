@@ -899,7 +899,7 @@ $pdf->SetFont('dejavusanscondensed', '', 8);
 $html3 .= '<tr style="width: 100%;" class="izquierda">';
 $html3 .= '<td style ="width: 100%;  background-color: #D1D1D1; font-family:dejavusanscondensedb;" colspan="' . ($rowValidate + 1) . '">
 <div style="font-size:3pt">&nbsp;</div>
-   RESPONSABILIDAD CIVIL EXTRACONTRACTUAL
+   RESPONSABILIDAD CIVIL EXTRACONTRACTUAL (EN EXCESO)
    <div style="font-size:3pt">&nbsp;</div>
 </td>';
 $html3 .= '</tr>';
