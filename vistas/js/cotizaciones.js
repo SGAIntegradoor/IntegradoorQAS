@@ -1345,7 +1345,9 @@ async function renderCards(response) {
         "Integral 20%",,
         "Solo Totales",
         "Sin RCE",
-        "Todo Riesgo Taxis"
+        "Todo Riesgo Taxis",
+        "Seguro Amarillo - RC en Exceso",
+        "Seguro Amarillo"
       ];
 
       var valorRC = isNumeric(oferta.ValorRC);
