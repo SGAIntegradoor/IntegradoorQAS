@@ -1318,6 +1318,8 @@ async function renderCards(response) {
         "Utilitario y Pesados",
         "Genio Pesado",
         "Conduce Tranquilo Pes",
+        "Seguro Amarillo - RC en Exceso",
+        "Seguro Amarillo"
       ];
 
       var valorRC = isNumeric(oferta.ValorRC);
