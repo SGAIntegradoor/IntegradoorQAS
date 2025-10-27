@@ -3497,7 +3497,7 @@ function cotizarOfertasPasajeros() {
                         return res.json();
                       })
                       .then((ofertas) => {
-                        if (typeof ofertas.Resultado !== "undefined") {
+                        if (typeof ofertas[0].Resultado !== "undefined") {
                           agregarAseguradoraFallida(plan);
                           validarProblema(aseguradora, ofertas);
                           ofertas.Mensajes.forEach((mensaje) => {
