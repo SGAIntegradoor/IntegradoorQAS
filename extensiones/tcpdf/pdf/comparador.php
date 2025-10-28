@@ -116,7 +116,7 @@ if ($fila2 == 0 || $fila2 == false || $fila2 == null) {
 $queryLogo = "SELECT urlLogo, intermediario_Fech_Vigen FROM intermediario  WHERE id_Intermediario = $intermediario";
 
 $valorLogo = $conexion->query($queryLogo);
-$valorLogo = mysqli_fetch_array($valorLogo);
+$valorLogo = mysqli_fetch_assoc($valorLogo);
 $valorLog = $valorLogo['urlLogo'];
 
 // var_dump($valorLogo);
