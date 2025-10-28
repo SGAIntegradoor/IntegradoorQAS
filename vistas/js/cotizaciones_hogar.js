@@ -297,10 +297,10 @@ function editarCotizacionHogar(id) {
         $(`.${field}`).prop("disabled", true);
       });
 
-      $(".tipoDocumento").val(id_tipo_documentoV).trigger("change");
+      $(".tipoDocumento").val(id_tipo_documento).trigger("change");
       $(".nombre").val(cli_nombre);
       $(".razon").val(cli_nombre);
-      $(".digito").val(response.digitoVeri);
+      $(".digito").val(response.digito_verificacion);
       $(".apellido").val(cli_apellidos);
       $(".numeroDocumento").val(cli_num_documento);
       $(".celular").val(cli_telefono);

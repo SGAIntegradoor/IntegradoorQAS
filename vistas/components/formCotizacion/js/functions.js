@@ -892,21 +892,21 @@ $(document).ready(function () {
         let documentCli = data.cli_num_documento;
         if (estado && data.id_tipo_documento == 2) {
           $("#idCliente").val(data.id_cliente);
-          $("#tipoDocumento").val(" ").trigger("change");
+          $("#tipoDocumento").val("2").trigger("change");
           $(".razon").val(data.cli_nombre + " " + data.cli_apellidos);
           $(".digito").val(data.digitoVerificacion); // Último dígito
           numDocumentoID.value = documentCli;
         } else if (estado) {
           $("#idCliente").val(data.id_cliente);
-          $("#tipoDocumento")
-            .val(
-              data.id_tipo_documento == 1
-                ? "C"
-                : data.id_tipo_documento == 2
-                ? " "
-                : "X"
-            )
-            .trigger("change");
+          $("#tipoDocumento").val(data.id_tipo_documento).trigger("change");
+            // .val(
+            //   data.id_tipo_documento == 1
+            //     ? "C"
+            //     : data.id_tipo_documento == 2
+            //     ? " "
+            //     : "X"
+            // )
+            // .trigger("change");
           $("#noDocumento").val(data.cli_num_documento);
           $("#nombre").val(data.cli_nombre);
           $("#apellidos").val(data.cli_apellidos);
@@ -2152,9 +2152,9 @@ function validateErrors(form) {
       }
 
       let campos =
-        $("#tipoDocumento").val() == "C"
+        $("#tipoDocumento").val() == "1"
           ? camposAsegCC
-          : $("#tipoDocumento").val() == "X"
+          : $("#tipoDocumento").val() == "3"
           ? camposAsegCE
           : camposAsegNIT;
 
@@ -2711,17 +2711,17 @@ $("#btnCotizarSBS, #btnCotizar").click(async function () {
     };
 
     // Condicionales para agregar campos adicionales según el tipo de documento
-    if (tipoDocumento === "C" || tipoDocumento === "X") {
+    if (tipoDocumento === "1" || tipoDocumento === "3") {
       rawAllianz.nombreCompleto =
         $("#nombre").val() + " " + $("#apellidos").val();
-      if (tipoDocumento === "X") {
+      if (tipoDocumento === "3") {
         rawAllianz.nacionalidad = $("#nacionalidad1").val();
         rawAllianz.pNacimiento = $("#pNacimiento1").val();
       }
     } else {
       rawAllianz.razonSoci = $(".razon").val();
-      // rawAllianz.documento = $("#noDocumento").val() + "" + $(".digito").val();
-      rawAllianz.documento = $("#noDocumento").val();
+      rawAllianz.documento = $("#noDocumento").val() + "" + $(".digito").val();
+      // rawAllianz.documento = $("#noDocumento").val();
       rawAllianz.digitoVeri = $(".digito").val();
     }
 

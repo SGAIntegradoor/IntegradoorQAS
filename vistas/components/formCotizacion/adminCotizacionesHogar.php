@@ -94,10 +94,17 @@
         }
 
 
-        $tipoDocumento = [1 => "Cédula de ciudadanía", 4 => "Cédula de extranjería", 2 => "Tarjeta de identidad", 3 => "Registro civil", 5 => "DNI"];
+        $tipoDocumento = [1 => "Cédula de ciudadanía", 2 => "NIT", 3 => "Cédula de extranjería", 4 => "NA"];
         $tipoVivienda = [1 => "Apartamento", 2 => "Casa", 3 => "Casa en condominio"];
 
         foreach ($respuesta as $key => $value) {
+
+          if (isset($value['id_tipo_documento'])) {
+            $documentoId = (int)$value['id_tipo_documento'];
+          } else {
+            $documentoId = 4;
+          }
+
           if ($value['tipo_asegurado'] == 1) {
             $tipoAsegurado = 'Propietario que arrienda';
           } elseif ($value['tipo_asegurado'] == 2) {
@@ -126,7 +133,7 @@
                       </div>
                     </td>
                     <td class="text-center" style="font-size: 14px; text-align: center;">' . $value['fecha_cotizacion'] . '</td>
-                    <td class="text-center" style="font-size: 14px; text-align: center;">' . $tipoDocumento[(int)$value['id_tipo_documento']] . '</td>
+                    <td class="text-center" style="font-size: 14px; text-align: center;">' . $tipoDocumento[(int)$documentoId] . '</td>
                     <td class="text-center" style="font-size: 14px; text-align: center;">' . $value['cli_num_documento'] . '</td>
                     <td class="text-center" style="font-size: 14px; text-align: center;">' . $value['cli_nombre'] . ' ' . $value['cli_apellidos'] . '</td>
                     <td class="text-center" style="font-size: 14px; text-align: center;">' . $tipoVivienda[(int)$value['tipo_vivienda']] . '</td>

@@ -969,7 +969,7 @@ class ModeloCotizaciones
 					$tabla c
 				INNER JOIN 
 					$tabla2 o ON o.id_cotizacion = c.id
-				INNER JOIN 
+				LEFT JOIN 
 					$tabla3 cli ON cli.id_cliente = c.id_cliente
 				INNER JOIN 
 					$tabla4 us ON us.id_usuario = c.id_usuario
@@ -1019,7 +1019,7 @@ class ModeloCotizaciones
 				FROM
 					cotizaciones_hogar c
 					LEFT JOIN ofertas_hogar o ON o.id_cotizacion = c.id
-					INNER JOIN clientes cli ON cli.id_cliente = c.id_cliente
+					LEFT JOIN clientes cli ON cli.id_cliente = c.id_cliente
 					INNER JOIN usuarios us ON us.id_usuario = c.id_usuario
 					LEFT JOIN analistas_freelances af ON af.id_usuario = us.usu_documento
 				WHERE 
@@ -1039,7 +1039,7 @@ class ModeloCotizaciones
 					$tabla c
 				LEFT JOIN 
 					$tabla2 o ON o.id_cotizacion = c.id
-				INNER JOIN 
+				LEFT JOIN 
 					$tabla3 cli ON cli.id_cliente = c.id_cliente
 				INNER JOIN 
 					$tabla4 us ON us.id_usuario = c.id_usuario
