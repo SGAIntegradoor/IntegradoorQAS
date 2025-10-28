@@ -46,7 +46,7 @@
                 <div class="form-group">
                     <div style="display: flex; flex-direction: row; gap: 5px; align-items: flex-start;">
                         <label for="valorVivienda">Valor de la vivienda</label>
-                        <i class="fa fa-solid fa-circle-info tooltip-vlvivienda-SBS" style="margin-top: 4px; margin-top: 2px; font-size: 18px;" data-toggle="tooltip-vlvivienda-SBS" data-placement="bottom"></i>
+                        <!-- <i class="fa fa-solid fa-circle-info tooltip-vlvivienda-SBS" style="margin-top: 4px; margin-top: 2px; font-size: 18px;" data-toggle="tooltip-vlvivienda-SBS" data-placement="bottom"></i> -->
                     </div>
                     <input id="valorVivienda" class="form-control valorVivienda inputNumber" type="text">
                 </div>

@@ -28,9 +28,9 @@
                 <label for="tipoDocumento">Tipo de Documento</label>
                 <select id="tipoDocumento" class="form-control tipoDocumento">
                     <option value="0">Seleccione tipo de documento</option>
-                    <option value="C">CC</option>
-                    <option value=" ">NIT</option>
-                    <option value="X">CE</option>
+                    <option value="1">CC</option>
+                    <option value="2">NIT</option>
+                    <option value="3">CE</option>
                 </select>
             </div>
         </div>

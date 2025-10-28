@@ -186,7 +186,7 @@ $(document).ready(function () {
     html: true,
     title:
       "<div>" +
-      "Propios de una vivienda familiar (ejemplo: sala, comedor, ropa, utensilios de cocina)" +
+      "Valor contenidos no eléctricos (Indique el valor de los contenidos básicos de su vivienda como muebles y enseres, ropa y objetos personales por el valor que le costaría si tuviera que comprarlos nuevos. Si no desea incluir esta cobertura registre 0)" +
       "</div>",
     placement: "bottom",
     width: "280px",
@@ -196,7 +196,7 @@ $(document).ready(function () {
     html: true,
     title:
       "<div>" +
-      "Todos los aparatos eléctricos y electrónicos que estén conectados o listos para ser conectados dentro de la residencia amparada. No puede ser superior al 80% del valor de los contenidos." +
+      "Valor contenidos eléctricos (Indique el valor de los contenidos básicos de su vivienda como equipos eléctricos y electrodomésticos por el valor que le costaría si tuviera que comprarlos nuevos. Si no desea incluir esta cobertura registre 0)" +
       "</div>",
     placement: "bottom",
     width: "280px",
@@ -604,6 +604,9 @@ $(document).ready(function () {
       "#preguntaMascotas",
       "#siSBS",
       "#noSBS",
+      "#valorContenidosNoElectricos",
+      "#valorContenidosElectricos",
+      "#totalCoberturaBasica",
     ];
 
     fields.forEach((element) => {
@@ -688,7 +691,7 @@ $(document).ready(function () {
   $("#tipoVivienda").on("change", function () {
     if ($(this).val() == "2" || $(this).val() == "3") {
       $("#noPiso").prop("disabled", true);
-      $("#noPisosEdi").prop("disabled", true);
+      // $("#noPisosEdi").prop("disabled", true);
     } else {
       $("#noPiso").prop("disabled", false);
       $("#noPisosEdi").prop("disabled", false);
@@ -889,21 +892,21 @@ $(document).ready(function () {
         let documentCli = data.cli_num_documento;
         if (estado && data.id_tipo_documento == 2) {
           $("#idCliente").val(data.id_cliente);
-          $("#tipoDocumento").val(" ").trigger("change");
+          $("#tipoDocumento").val("2").trigger("change");
           $(".razon").val(data.cli_nombre + " " + data.cli_apellidos);
           $(".digito").val(data.digitoVerificacion); // Último dígito
           numDocumentoID.value = documentCli;
         } else if (estado) {
           $("#idCliente").val(data.id_cliente);
-          $("#tipoDocumento")
-            .val(
-              data.id_tipo_documento == 1
-                ? "C"
-                : data.id_tipo_documento == 2
-                ? " "
-                : "X"
-            )
-            .trigger("change");
+          $("#tipoDocumento").val(data.id_tipo_documento).trigger("change");
+            // .val(
+            //   data.id_tipo_documento == 1
+            //     ? "C"
+            //     : data.id_tipo_documento == 2
+            //     ? " "
+            //     : "X"
+            // )
+            // .trigger("change");
           $("#noDocumento").val(data.cli_num_documento);
           $("#nombre").val(data.cli_nombre);
           $("#apellidos").val(data.cli_apellidos);
@@ -2149,9 +2152,9 @@ function validateErrors(form) {
       }
 
       let campos =
-        $("#tipoDocumento").val() == "C"
+        $("#tipoDocumento").val() == "1"
           ? camposAsegCC
-          : $("#tipoDocumento").val() == "X"
+          : $("#tipoDocumento").val() == "3"
           ? camposAsegCE
           : camposAsegNIT;
 
@@ -2660,6 +2663,9 @@ $("#btnCotizarSBS, #btnCotizar").click(async function () {
     
     // Crear la fecha en formato YYYY-MM-DD
     var fechaNacimiento = anio + "-" + mes + "-" + dia;
+    if (fechaNacimiento == '--') {
+      fechaNacimiento = null;
+    }
     // Construir objeto con los valores obtenidos
     rawAllianz = {
       tipoDocumento: tipoDocumento,
@@ -2677,10 +2683,10 @@ $("#btnCotizarSBS, #btnCotizar").click(async function () {
       valorTodoRiesgo: valorTodoRiesgo,
       asegurarMascota: asegurarMascota == "" ? "NO" : asegurarMascota,
       anoConstruccion: anoConstruccion,
-      numeroTotalDePisos:
-        tipoVivienda == "2" || tipoVivienda == "3" ? 1 : $("#noPisosEdi").val(),
+      numeroTotalDePisos: $("#noPisosEdi").val(),
+        // tipoVivienda == "2" || tipoVivienda == "3" ? 1 : $("#noPisosEdi").val(),
       pisoUbicacionApto:
-        tipoVivienda == "2" || tipoVivienda == "3" ? 1 : $("#noPiso").val(),
+        tipoVivienda == "2" || tipoVivienda == "3" ? 0 : $("#noPiso").val(),
       numeroSotanos: 0,
       areaTotal: areaTotal,
       tipoDeConstruccion: tipoDeConstruccion,
@@ -2705,16 +2711,18 @@ $("#btnCotizarSBS, #btnCotizar").click(async function () {
     };
 
     // Condicionales para agregar campos adicionales según el tipo de documento
-    if (tipoDocumento === "C" || tipoDocumento === "X") {
+    if (tipoDocumento === "1" || tipoDocumento === "3") {
       rawAllianz.nombreCompleto =
         $("#nombre").val() + " " + $("#apellidos").val();
-      if (tipoDocumento === "X") {
+      if (tipoDocumento === "3") {
         rawAllianz.nacionalidad = $("#nacionalidad1").val();
         rawAllianz.pNacimiento = $("#pNacimiento1").val();
       }
     } else {
-      rawAllianz.nombreCompleto = $(".razon").val();
+      rawAllianz.razonSoci = $(".razon").val();
       rawAllianz.documento = $("#noDocumento").val() + "" + $(".digito").val();
+      // rawAllianz.documento = $("#noDocumento").val();
+      rawAllianz.digitoVeri = $(".digito").val();
     }
 
     dataCotizacion = rawAllianz;
@@ -2922,9 +2930,9 @@ $("#btnCotizarSBS, #btnCotizar").click(async function () {
             .fire({
               icon: "success",
               title: "¡Éxito!",
-              text: "La cotización se ha realizado correctamente",
+              text: "Solicitud de cotización #" + lastId + "enviada exitosamente",
               showConfirmButton: true,
-              confirmButtonText: "Aceptar",
+              confirmButtonText: "Ok",
             })
             .then((result) => {
               if (result.isConfirmed) {

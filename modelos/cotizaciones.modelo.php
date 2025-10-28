@@ -228,7 +228,7 @@ class ModeloCotizaciones
 		$stmt = null;
 		if ($id != null) {
 
-			$stmt = Conexion::conectar()->prepare("SELECT c.*, cl.id_tipo_documento, cl.cli_nombre, cl.cli_apellidos, cl.cli_num_documento, cl.cli_email, cl.cli_telefono FROM $tabla c JOIN $tabla2 cl ON cl.id_cliente = c.id_cliente WHERE $field = :id");
+			$stmt = Conexion::conectar()->prepare("SELECT c.*, cl.id_tipo_documento, cl.cli_nombre, cl.cli_apellidos, cl.cli_num_documento, cl.cli_email, cl.cli_telefono FROM $tabla c LEFT JOIN $tabla2 cl ON cl.id_cliente = c.id_cliente WHERE $field = :id");
 			$stmt->bindParam(":id", $id, PDO::PARAM_STR);
 
 			if ($stmt->execute()) {
@@ -975,7 +975,7 @@ class ModeloCotizaciones
 					$tabla c
 				INNER JOIN 
 					$tabla2 o ON o.id_cotizacion = c.id
-				INNER JOIN 
+				LEFT JOIN 
 					$tabla3 cli ON cli.id_cliente = c.id_cliente
 				INNER JOIN 
 					$tabla4 us ON us.id_usuario = c.id_usuario
@@ -1025,7 +1025,7 @@ class ModeloCotizaciones
 				FROM
 					cotizaciones_hogar c
 					LEFT JOIN ofertas_hogar o ON o.id_cotizacion = c.id
-					INNER JOIN clientes cli ON cli.id_cliente = c.id_cliente
+					LEFT JOIN clientes cli ON cli.id_cliente = c.id_cliente
 					INNER JOIN usuarios us ON us.id_usuario = c.id_usuario
 					LEFT JOIN analistas_freelances af ON af.id_usuario = us.usu_documento
 				WHERE 
@@ -1045,7 +1045,7 @@ class ModeloCotizaciones
 					$tabla c
 				LEFT JOIN 
 					$tabla2 o ON o.id_cotizacion = c.id
-				INNER JOIN 
+				LEFT JOIN 
 					$tabla3 cli ON cli.id_cliente = c.id_cliente
 				INNER JOIN 
 					$tabla4 us ON us.id_usuario = c.id_usuario

@@ -306,9 +306,9 @@ $nombre_analista = $infoUsuario[0]['nombre_analista'];
                     </div>
                     <select id="tipoAseg" class="form-control tipoAseg validateDataHogar">
                         <option value="0">Seleccione una opción</option>
-                        <option value="1">Propietario que arrienda</option>
-                        <option value="2">Inquilino</option>
-                        <option value="3">Propietario que habita</option>
+                        <option value="1">Solo la estructura</option>
+                        <option value="2">Solo los contenidos</option>
+                        <option value="3">Estructura y sus contenidos</option>
                         <option value="4">Deudor</option>
                     </select>
                 </div>
