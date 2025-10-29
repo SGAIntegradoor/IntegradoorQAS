@@ -48,7 +48,7 @@
                 <div class="form-group">
                     <div style="display: flex; flex-direction: row; gap: 5px; align-items: flex-start;">
                         <label for="valorViviendaAllianz">Valor de la vivienda</label>
-                        <i class="fa fa-solid fa-circle-info tooltip-vlvivienda" style="margin-top: 4px; margin-top: 2px; font-size: 18px;" data-toggle="tooltip-vlvivienda" data-placement="bottom"></i>
+                        <!-- <i class="fa fa-solid fa-circle-info tooltip-vlvivienda" style="margin-top: 4px; margin-top: 2px; font-size: 18px;" data-toggle="tooltip-vlvivienda" data-placement="bottom"></i> -->
                     </div>
                     <input id="valorViviendaAllianz" class="form-control valorVivienda inputNumber validate contentsAllianz" type="text">
                 </div>
@@ -146,7 +146,7 @@
                 <div class="form-group">
                     <div style="display: flex; flex-direction: row; gap: 5px; align-items: flex-start;">
                         <label for="saldoExtracto">Valor saldo deuda según extracto</label>
-                        <i class="fa fa-solid fa-circle-info tooltip-icon-contenidos" style="margin-top: 4px; margin-top: 2px; font-size: 18px;" data-toggle="tooltip-icon-contenidos" data-placement="bottom"></i>
+                        <!-- <i class="fa fa-solid fa-circle-info tooltip-icon-contenidos" style="margin-top: 4px; margin-top: 2px; font-size: 18px;" data-toggle="tooltip-icon-contenidos" data-placement="bottom"></i> -->
                     </div>
                     <input id="saldoExtracto" class="form-control saldoExtracto inputNumber contentsAllianz valores validate deudorInput" type="text">
                 </div>
@@ -160,12 +160,12 @@
                     </div>
                     <input id="nacimientoDeudor" class="form-control nacimientoDeudor valores validate deudorInput" type="text">
                 </div> -->
-                <div class="form-group">
-                    <label for="fechaNaci">Fecha de nacimiento</label>
+                <div class="form-group deudorInputs">
+                    <label for="fechaNaci">Fecha de nacimiento del deudor</label>
 
                     <div class="row">
                         <div class="col-xs-4 col-sm-4 col-md-4 conten-dia">
-                            <select class="form-control fecha-nacimiento contentsAllianz" name="dianacimiento" id="dianacimiento" required>
+                            <select class="form-control fecha-nacimiento contentsAllianz deudorInputs" name="dianacimiento" id="dianacimiento" required>
                                 <option value="">Dia</option>
                                 <?php
                                 for ($i = 1; $i <= 31; $i++) {
@@ -179,7 +179,7 @@
                             </select>
                         </div>
                         <div class="col-xs-4 col-sm-4 col-md-4 conten-mes">
-                            <select class="form-control fecha-nacimiento contentsAllianz" name="mesnacimiento" id="mesnacimiento" required>
+                            <select class="form-control fecha-nacimiento contentsAllianz deudorInputs" name="mesnacimiento" id="mesnacimiento" required>
                                 <option value="" selected>Mes</option>
                                 <option value="01">Enero</option>
                                 <option value="02">Febrero</option>
@@ -196,7 +196,7 @@
                             </select>
                         </div>
                         <div class="col-xs-4 col-sm-4 col-md-4 conten-anio">
-                            <select class="form-control fecha-nacimiento contentsAllianz" name="anionacimiento" id="anionacimiento"
+                            <select class="form-control fecha-nacimiento contentsAllianz deudorInputs" name="anionacimiento" id="anionacimiento"
                                 required>
                                 <option value="">Año</option>
                                 <?php
@@ -218,7 +218,7 @@
                 <div class="form-group">
                     <div style="display: flex; flex-direction: row; gap: 5px; align-items: flex-start;">
                         <label for="pesoDeudor">Peso del deudor (Kg)</label>
-                        <i class="fa fa-solid fa-circle-info tooltip-icon-contenidos" style="margin-top: 4px; margin-top: 2px; font-size: 18px;" data-toggle="tooltip-icon-contenidos" data-placement="bottom"></i>
+                        <!-- <i class="fa fa-solid fa-circle-info tooltip-icon-contenidos" style="margin-top: 4px; margin-top: 2px; font-size: 18px;" data-toggle="tooltip-icon-contenidos" data-placement="bottom"></i> -->
                     </div>
                     <input id="pesoDeudor" class="form-control pesoDeudor valores validate deudorInput contentsAllianz" type="text">
                 </div>
@@ -228,7 +228,7 @@
                 <div class="form-group">
                     <div style="display: flex; flex-direction: row; gap: 5px; align-items: flex-start;">
                         <label for="alturaDeudor">Altura del deudor (Cm)</label>
-                        <i class="fa fa-solid fa-circle-info tooltip-icon-contenidos" style="margin-top: 4px; margin-top: 2px; font-size: 18px;" data-toggle="tooltip-icon-contenidos" data-placement="bottom"></i>
+                        <!-- <i class="fa fa-solid fa-circle-info tooltip-icon-contenidos" style="margin-top: 4px; margin-top: 2px; font-size: 18px;" data-toggle="tooltip-icon-contenidos" data-placement="bottom"></i> -->
                     </div>
                     <input id="alturaDeudor" class="form-control alturaDeudor valores validate deudorInput contentsAllianz" type="text">
                 </div>
@@ -238,7 +238,7 @@
                 <div class="form-group">
                     <div style="display: flex; flex-direction: row; gap: 5px; align-items: flex-start;">
                         <label for="saludDeudor">¿El deudor tiene alguna enfermedad o condición de salud que reportar?</label>
-                        <i class="fa fa-solid fa-circle-info tooltip-icon-contenidos" style="margin-top: 4px; margin-top: 2px; font-size: 18px;" data-toggle="tooltip-icon-contenidos" data-placement="bottom"></i>
+                        <!-- <i class="fa fa-solid fa-circle-info tooltip-icon-contenidos" style="margin-top: 4px; margin-top: 2px; font-size: 18px;" data-toggle="tooltip-icon-contenidos" data-placement="bottom"></i> -->
                     </div>
                     <input id="saludDeudor" class="form-control saludDeudor valores validate deudorInput contentsAllianz" type="text">
                 </div>
@@ -249,7 +249,7 @@
 
         <div class="row">
             <div class="col-xs-12 col-sm-6 col-md-3" id="btnAllianzCot" style="margin-top: 15px;">
-                <button type="button" class="btn btn-primary" style="width: 100%;" id="btnCotizarSBS">Cotizar</button>
+                <button type="button" class="btn btn-primary" style="width: 100%;" id="btnCotizarSBS">Solicitar cotización</button>
             </div>
         </div>
 

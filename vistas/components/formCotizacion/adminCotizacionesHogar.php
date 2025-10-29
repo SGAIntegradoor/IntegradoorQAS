@@ -2,7 +2,7 @@
   <div class="col-lg-12">
     <div class="row row-aseg" style="margin-bottom: 0px;">
       <div class="col-xs-12 col-sm-6 col-md-6" style="padding-left: 10px;">
-        <label id="lblDataTrip2">Administración de cotizaciones Seguro de Hogar</label>
+        <label id="lblDataTrip2">Administración de solicitudes Seguro de Hogar</label>
       </div>
       <div class="col-xs-12 col-sm-6 col-md-6">
         <div id="masAdminCoti">
@@ -44,8 +44,8 @@
           <th style="font-weight: bold; text-align: center;">Tipo Documento</th>
           <th style="font-weight: bold; text-align: center;">No. Documento</th>
           <th style="font-weight: bold; text-align: center;">Nombre Asegurado</th>
-          <th style="font-weight: bold; text-align: center;">Categoría</th>
-          <th style="font-weight: bold; text-align: center;">Tipo de Asegurado</th>
+          <th style="font-weight: bold; text-align: center;">Tipo de vivienda</th>
+          <th style="font-weight: bold; text-align: center;">Categoria a cotizar</th>
           <th style="font-weight: bold; text-align: center;">Zona Vivienda</th>
           <th style="font-weight: bold; text-align: center;">Analista</th>
           <th style="font-weight: bold; text-align: center;">Asesor</th>

@@ -212,8 +212,21 @@ $(document).ready(function () {
     width: "280px",
   });
 
-  $("#tipoAseg").on("change", function () {
+  $("#vidaDeudorQ").on("change", function () {
+    if ($(this).val() == "Si") {
+      $(".deudorInputs").find("input, select").prop("disabled", false);
+      $(".deudorInputs").css("display", "block");
+      $(".deudorInput").prop("disabled", false);
+    } else if ($(this).val() == "No") {
+        $(".deudorInputs").css("display", "none");
+        $(".deudorInputs").find("input, select").prop("disabled", true);
+    }
+  });  
 
+  $("#tipoAseg").on("change", function () {
+    $(".vidaDeudorQ").find("input, select").prop("disabled", true);
+    $(".vidaDeudorQ").find("input, select").css("display", "none");
+    $(".vidaDeudorQ").css("display", "none");
     $(".noDeudor").css("display", "block");
     $(".noDeudor").find("input, select").css("display", "block");
     $(".deudorInputs").css("display", "none");
@@ -248,6 +261,9 @@ $(document).ready(function () {
       $("#valorContenidosAllianz").prop("disabled", true);
     } else if ($(this).val() == "4") {
       resetInputsValores();
+      $(".vidaDeudorQ").css("display", "flex");
+      $(".vidaDeudorQ").find("input, select").prop("disabled", false);
+      $(".vidaDeudorQ").find("input, select").css("display", "flex");
       $(".noDeudor").find("input, select").prop("disabled", true);
       $(".noDeudor").find("input, select").css("display", "none");
       $(".deudorInputs").find("input, select").prop("disabled", false);
@@ -2499,6 +2515,9 @@ $("#btnHogarSiguiente").click(function (event) {
     //deactivateFields();
     hideCards();
     openDataFormHogar();
+    setTimeout(function() {
+      $('html, body').animate({ scrollTop: 0 }, 600);
+    }, 100);
   } else {
     event.preventDefault();
     Swal.fire({
@@ -2517,6 +2536,9 @@ $("#btnDataHogarSiguiente").click(function (event) {
     // disableInputsData("#containerDatos");
     toggleContainerDataHogar();
     openValAllianz();
+    setTimeout(function() {
+      $('html, body').animate({ scrollTop: 0 }, 600);
+    }, 100);
   } else {
     event.preventDefault();
     Swal.fire({
@@ -2654,7 +2676,7 @@ $("#btnCotizarSBS, #btnCotizar").click(async function () {
     var mes = $("#mesnacimiento").val();
     var anio = $("#anionacimiento").val();
 
-    if (tipoAsegValue == 4) {
+    if (tipoAsegValue == 4 && ! $("#dianacimiento").prop("disabled")) {
       if (dia === "" || mes === "" || anio === "") {
       alert("Por favor selecciona día, mes y año.");
       return;
@@ -2690,6 +2712,7 @@ $("#btnCotizarSBS, #btnCotizar").click(async function () {
       numeroSotanos: 0,
       areaTotal: areaTotal,
       tipoDeConstruccion: tipoDeConstruccion,
+      nroSotanos: $("#nroSotanos").val(),
       tipoDeVivienda: tipoVivienda,
       correo: $("#correo").val(),
       celular: $("#celular").val(),
@@ -2929,10 +2952,11 @@ $("#btnCotizarSBS, #btnCotizar").click(async function () {
           swal
             .fire({
               icon: "success",
-              title: "¡Éxito!",
-              text: "Solicitud de cotización #" + lastId + "enviada exitosamente",
+              title: "Solicitud de cotización #" + lastId + " enviada exitosamente",
               showConfirmButton: true,
               confirmButtonText: "Ok",
+              allowOutsideClick: false,
+              allowEscapeKey: false,
             })
             .then((result) => {
               if (result.isConfirmed) {
