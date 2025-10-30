@@ -277,7 +277,6 @@ function editarCotizacionHogar(id) {
       val_cn_elec = response.val_cn_elec;
       val_cn_no_elec = response.val_cn_no_elec;
       estrato = response.estrato;
-      console.log('val_cn_no_elec: ' + val_cn_no_elec);
 
       const fields = [
         "nombre",
@@ -321,6 +320,7 @@ function editarCotizacionHogar(id) {
       $(".noPiso").val(no_piso).trigger("change");
       $(".noPisosEdi").val(no_total_pisos).trigger("change");
       $(".tipoConstruccion").val(tipo_construccion).trigger("change");
+      $("#nroSotanos").val(response.nro_sotanos);
       $(".anioConstruccion").val(anio_construccion).trigger("change");
       $(".areaTotal").val(area_total).trigger("change");
       $(".zonaConstruccion").val(zona_construccion).trigger("change");
@@ -339,6 +339,13 @@ function editarCotizacionHogar(id) {
       $("#dianacimiento").val(dia).trigger("change");
       $("#mesnacimiento").val(mes).trigger("change");
       $("#anionacimiento").val(anio).trigger("change");
+
+      }
+      $("#vidaDeudorQ").prop("disabled","true");
+      if (response.saldo_extracto_deudor == null) {
+        $("#vidaDeudorQ").val("No").trigger("change");
+      } else {
+        $("#vidaDeudorQ").val("Si").trigger("change");
       }
 
       // campos Allianz

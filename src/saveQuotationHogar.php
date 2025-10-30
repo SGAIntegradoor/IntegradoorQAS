@@ -30,6 +30,7 @@ try {
     $anio_construccion = $data['anoConstruccion'] ?? null;
     $area_total = $data['areaTotal'] ?? null;
     $zona_construccion = $data['zonaConstruccion'] ?? null;
+    $nro_sotanos = $data['nroSotanos'] ?? null;
     $credito = $data['tieneCredito'] ?? null;
     $tipo_asegurado = $data['categoriaDeRiesgo'] ?? null;
     $tipo_cobertura = $data['tipoCobertura'] ?? null;
@@ -65,8 +66,8 @@ try {
     $digitoVeri = empty($data['digitoVeri']) ? null : $data['digitoVeri'];
 
 
-    $stmt = $pdo->prepare("INSERT INTO cotizaciones_hogar (id, fecha_cotizacion, direccion, resto_direccion, codCiudad, ciudad, departamento, estrato, zona_riesgo, sub_zona, tipo_vivienda, no_piso, no_total_pisos, tipo_construccion, anio_construccion, area_total, zona_construccion, credito, tipo_asegurado, tipo_cobertura, val_cn_elec, val_cn_no_elec, val_viv, val_cn, val_hur, val_tr, aseg_mascota,val_viv_sbs, val_cnen_sbs, val_cnelec_sbs, val_cnens_sbs, tot_cnn_sbs, tot_cobertura_basica_sbs, val_cnesp_sus_sbs, val_cnnor_sus_sbs, tot_cn_sus_sbs, val_asegee_danos_sbs, val_asegee_sus_sbs, val_tr_sbs, id_cliente, id_usuario,saldo_extracto_deudor,nacimiento_deudor,peso_deudor,altura_deudor,condicion_salud, razon_social, digito_verificacion) 
-                          VALUES (null, :fecha_cotizacion, :direccion, :resto_direccion, :codCiudad, :ciudad, :departamento, :estrato , :zona_riesgo, :sub_zona, :tipo_vivienda, :no_piso, :no_total_pisos, :tipo_construccion, :anio_construccion, :area_total, :zona_construccion, :credito, :tipo_asegurado, :tipo_cobertura, :valorContenidoElectrico, :valorContenidoNoElectrico, :val_viv, :val_cn, :val_hur, :val_tr, :aseg_masc ,:val_viv_sbs, :val_cnen_sbs, :val_cnelec_sbs, :val_cnens_sbs, :tot_cnn_sbs, :tot_cobertura_basica_sbs, :val_cnesp_sus_sbs, :val_cnnor_sus_sbs, :tot_cn_sus_sbs, :val_asegee_danos_sbs, :val_asegee_sus_sbs, :val_tr_sbs, :id_cliente, :id_usuario,:saldoExtracto ,:nacimientoDeudor,:pesoDeudor,:alturaDeudor,:saludDeudor, :razonSoci, :digitoVeri)");
+    $stmt = $pdo->prepare("INSERT INTO cotizaciones_hogar (id, fecha_cotizacion, direccion, resto_direccion, codCiudad, ciudad, departamento, estrato, zona_riesgo, sub_zona, tipo_vivienda, no_piso, no_total_pisos, tipo_construccion, nro_sotanos, anio_construccion, area_total, zona_construccion, credito, tipo_asegurado, tipo_cobertura, val_cn_elec, val_cn_no_elec, val_viv, val_cn, val_hur, val_tr, aseg_mascota,val_viv_sbs, val_cnen_sbs, val_cnelec_sbs, val_cnens_sbs, tot_cnn_sbs, tot_cobertura_basica_sbs, val_cnesp_sus_sbs, val_cnnor_sus_sbs, tot_cn_sus_sbs, val_asegee_danos_sbs, val_asegee_sus_sbs, val_tr_sbs, id_cliente, id_usuario,saldo_extracto_deudor,nacimiento_deudor,peso_deudor,altura_deudor,condicion_salud, razon_social, digito_verificacion) 
+                          VALUES (null, :fecha_cotizacion, :direccion, :resto_direccion, :codCiudad, :ciudad, :departamento, :estrato , :zona_riesgo, :sub_zona, :tipo_vivienda, :no_piso, :no_total_pisos, :tipo_construccion, :nro_sotanos, :anio_construccion, :area_total, :zona_construccion, :credito, :tipo_asegurado, :tipo_cobertura, :valorContenidoElectrico, :valorContenidoNoElectrico, :val_viv, :val_cn, :val_hur, :val_tr, :aseg_masc ,:val_viv_sbs, :val_cnen_sbs, :val_cnelec_sbs, :val_cnens_sbs, :tot_cnn_sbs, :tot_cobertura_basica_sbs, :val_cnesp_sus_sbs, :val_cnnor_sus_sbs, :tot_cn_sus_sbs, :val_asegee_danos_sbs, :val_asegee_sus_sbs, :val_tr_sbs, :id_cliente, :id_usuario,:saldoExtracto ,:nacimientoDeudor,:pesoDeudor,:alturaDeudor,:saludDeudor, :razonSoci, :digitoVeri)");
 
     $stmt->bindParam(':fecha_cotizacion', $fecha_cotizacion);
     $stmt->bindParam(':direccion', $direccion);
@@ -81,6 +82,7 @@ try {
     $stmt->bindParam(':no_piso', $no_piso);
     $stmt->bindParam(':no_total_pisos', $no_total_pisos);
     $stmt->bindParam(':tipo_construccion', $tipo_construccion);
+    $stmt->bindParam(':nro_sotanos', $nro_sotanos);
     $stmt->bindParam(':anio_construccion', $anio_construccion);
     $stmt->bindParam(':area_total', $area_total);
     $stmt->bindParam(':zona_construccion', $zona_construccion);
