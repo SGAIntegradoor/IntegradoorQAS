@@ -20,7 +20,7 @@ if($show && $_SESSION['rol'] != 2){
 ?>
 <script>
   document.addEventListener("DOMContentLoaded", function() {
-    let linkControl = true;
+    let linkControl = false;
     let showPopUp = <?= json_encode($showPopup) ?>; // Asegura que el valor se pase correctamente como booleano
     let linkURL = `<div id="linkReg">
                             <span>Escríbenos al <b>3185127910</b> o haz clic </span><a href="https://wa.link/xwqueu" target="_blank"> AQUÍ</a>
@@ -29,7 +29,12 @@ if($show && $_SESSION['rol'] != 2){
       Swal.fire({
         html:   `
                     <div style='display: flex; align-items: center; justify-content: center; flex-direction: column;'>
-                        <img id="modalHome" src='vistas/img/modals/img/home/homeModal39.png'/>
+                          <!-- <img id="modalHome" src='vistas/img/modals/img/home/homeModal39.png'/> -->
+                        <video autoplay controls>
+                          <source src="vistas/img/modals/img/home/video_hallowen.mp4" type="video/mp4">
+                          Tu navegador no soporta el video.
+                        </video>
+
                         ${linkControl ? linkURL: ""}
                     </div>
                 `,
