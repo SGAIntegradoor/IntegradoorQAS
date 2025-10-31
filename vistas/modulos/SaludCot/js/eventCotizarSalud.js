@@ -1323,7 +1323,7 @@ function cotizar() {
 
     if (path.includes("/dev/") || path.includes("/DEV/")) {
       env = "DEV";
-    } else if (path.includes("/QAS/") || path.includes("/qas/")) {
+    } else if (path.includes("/QAS/") || path.includes("/qas/") || path.includes("/Pruebas/")) {
       env = "QAS";
     }
 
