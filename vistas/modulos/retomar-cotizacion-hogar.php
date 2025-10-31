@@ -315,7 +315,7 @@
 
     <h1 style="margin-bottom: 0%;">
 
-      Cotización # <?php echo $_GET['idCotizacionHogar'] ?>
+      Solicitud de cotización # <?php echo $_GET['idCotizacionHogar'] ?>
     </h1>
 
     <ol class="breadcrumb">
@@ -354,6 +354,17 @@
               <button type="button" class="btn btn-primary " style="width: 100%; margin-left: 25px;" id="">Cambiar estado</button>
             </div>
           </div> -->
+
+          <!-- <div class="row">
+            <div class="col-xs-12 col-sm-6 col-md-2" id="btnAllianzCot" style="margin-top: 15px;">
+              <?php// if ($value["estado"] == 'Pendiente') { ?>
+                <button style="background: #000000; color: white;" class="btn btn-xs btnActivar btnEditarEstadoHogar" idCotizacionHogar=" <?php// $value["id_hogar"]; ?>" estadoUsuario="Pendiente">Pendiente</button>
+              <?php//  } else { ?>
+                  <button style="background: #000000; color: white;" class="btn btn-xs btnActivar btnEditarEstadoHogar" idCotizacionHogar=" <?php// $value["id_hogar"]; ?>" estadoUsuario="Cotizada">Cotizada</button>
+              <?php//  } ?>
+            </div>
+          </div> -->
+
         </div>
       </div>
     </div>

@@ -71,6 +71,7 @@ $nombre_analista = $infoUsuario[0]['nombre_analista'];
             <div class="col-xs-12 col-sm-6 col-md-3">
                 <div class="form-group">
                     <label for="dirInmuebleAllianz">Dirección del inmueble</label>
+                    <i class="fa fa-solid fa-circle-info tooltip-direccion" style="margin-top: 4px; margin-top: 2px; font-size: 18px;" data-toggle="tooltip-direccion" data-placement="bottom"></i>
                     <input id="dirInmuebleAllianz" class="form-control dirInmueble" type="text">
                 </div>
             </div>
@@ -78,6 +79,7 @@ $nombre_analista = $infoUsuario[0]['nombre_analista'];
             <div class="col-xs-12 col-sm-6 col-md-3">
                 <div class="form-group">
                     <label for="dirRestoInmuebleAllianz">Resto de la dirección</label>
+                    <i class="fa fa-solid fa-circle-info tooltip-resto-direccion" style="margin-top: 4px; margin-top: 2px; font-size: 18px;" data-toggle="tooltip-resto-direccion" data-placement="bottom"></i>
                     <input id="dirRestoInmuebleAllianz" class="form-control dirInmueble" type="text">
                 </div>
             </div>
