@@ -3147,7 +3147,7 @@ function cotizarOfertasPasajeros() {
                   : false
                 : null,
             gas_de_fabrica:
-              tipoUsoVehiculo === "1"
+              tipoUsoVehiculo === "1" && selectedTieneGas.value !== "No"
                 ? selectedGasDeFabrica.value === "Si"
                   ? true
                   : false
