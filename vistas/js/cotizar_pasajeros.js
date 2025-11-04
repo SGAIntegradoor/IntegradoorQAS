@@ -2416,7 +2416,7 @@ const mostrarOferta = (
   } else if (
     aseguradora == "Mundial" &&
     permisosCredenciales == "1" &&
-    (producto == "Seguro Amarillo" || producto == "Seguro Amarillo RC en Exceso")
+    (producto == "Seguro Amarillo" || producto == "Seguro Amarillo - RC en Exceso")
   ) {
     cardCotizacion += `
           <div class="col-xs-12 col-sm-6 col-md-2 verpdf-oferta">
@@ -3147,7 +3147,7 @@ function cotizarOfertasPasajeros() {
                   : false
                 : null,
             gas_de_fabrica:
-              tipoUsoVehiculo === "1"
+              tipoUsoVehiculo === "1" && selectedTieneGas.value !== "No"
                 ? selectedGasDeFabrica.value === "Si"
                   ? true
                   : false
