@@ -2337,7 +2337,7 @@ function validarOfertas(ofertas, aseguradora, exito) {
       oferta.entidad,
       oferta.precio,
       oferta.producto,
-      oferta.numero_cotizacion,
+      oferta.entidad == "Mundial" ? "" : oferta.numero_cotizacion,
       oferta.responsabilidad_civil,
       oferta.cubrimiento,
       oferta.deducible,
@@ -2850,6 +2850,10 @@ function cotizarOfertas() {
         Estrato: Estrato,
         TokenPrevisora: TokenPrevisora,
         intermediario: intermediario,
+        claseVeh: claseVeh,
+        lineaVeh: lineaVeh,
+        marcaVeh: marcaVeh,
+        Marca: marcaVeh,
         PREVISORA: {
           cre_pre_username: cre_pre_username,
           cre_pre_password: cre_pre_password,
@@ -3575,7 +3579,11 @@ function cotizarOfertas() {
                   );
                 return;
               } else if(aseguradora === "Mundial") {
-                  url = `https://grupoasistencia.com/motor_webservice/Mundial_autos`;
+                  if (raw.CodigoClase == "11" || raw.CodigoClase == 11) {
+                    url = `https://grupoasistencia.com/motor_webservice/Mundial_pesados_rpa`;
+                  } else {
+                    url = `https://grupoasistencia.com/motor_webservice/Mundial_autos`;
+                  }
                   cont.push(
                     fetch(url, requestOptions)
                       .then((res) => {
@@ -4549,7 +4557,7 @@ function cotizarOfertas() {
         // const libertyPromise = comprobarFallida(aseguradora)
           const libertyPromise = comprobarFallida("HDI Seguros")
             ? fetch(
-                "https://grupoasistencia.com/motor_webservice/Liberty_autos",
+                "https://grupoasistencia.com/motor_webservice/Liberty_autos_utilitarios",
                 requestOptions
               )
                 .then((res) => {
@@ -4559,8 +4567,8 @@ function cotizarOfertas() {
                 .then((ofertas) => {
                   if (typeof ofertas[0].Resultado !== "undefined") {
                     // debugger;
-                    agregarAseguradoraFallida(aseguradora);
-                    validarProblema(aseguradora, ofertas);
+                    agregarAseguradoraFallida("HDI Seguros");
+                    validarProblema("HDI Seguros", ofertas);
                     ofertas[0].Mensajes.forEach((mensaje) => {
                       mostrarAlertarCotizacionFallida("HDI Seguros", mensaje);
                     });
@@ -4568,22 +4576,22 @@ function cotizarOfertas() {
                     // eliminarAseguradoraFallida(aseguradora);
                     const contadorPorEntidad = validarOfertas(
                       ofertas,
-                      aseguradora,
+                      "HDI Seguros",
                       1
                     );
                     mostrarAlertaCotizacionExitosa(
-                      aseguradora,
+                      "HDI Seguros",
                       contadorPorEntidad
                     );
                   }
                 })
                 .catch((err) => {
-                  agregarAseguradoraFallida(aseguradora);
+                  agregarAseguradoraFallida("HDI Seguros");
                   mostrarAlertarCotizacionFallida(
                     "HDI Seguros",
                     "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
                   );
-                  validarProblema(aseguradora, [
+                  validarProblema("HDI Seguros", [
                     {
                       Mensajes: [
                         "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
@@ -4600,7 +4608,7 @@ function cotizarOfertas() {
         /* Allianz */
         const allianzPromise = comprobarFallida("Allianz")
           ? fetch(
-              "https://grupoasistencia.com/motor_webservice/Allianz_autos",
+              "https://grupoasistencia.com/motor_webservice/Allianz_autos_utilitarios",
               requestOptions
             )
               .then((res) => {
@@ -4645,7 +4653,7 @@ function cotizarOfertas() {
 
         const axaPromise = comprobarFallida("AXA")
           ? fetch(
-              "https://grupoasistencia.com/motor_webservice/AXA_autos?callback=myCallback",
+              "https://grupoasistencia.com/motor_webservice/AXA_autos_utilitarios",
               requestOptions
             )
               .then((res) => {
@@ -4726,9 +4734,14 @@ function cotizarOfertas() {
         cont.push(sbsPromise);
 
         /* Mundial */
+        if (raw.CodigoClase == "11" || raw.CodigoClase == 11) {
+            url = `https://grupoasistencia.com/motor_webservice/Mundial_pesados_rpa`;
+        } else {
+            url = `https://grupoasistencia.com/motor_webservice/Mundial_autos`;
+          }
         const mundialPromise = comprobarFallida("Mundial")
           ? fetch(
-              "https://grupoasistencia.com/motor_webservice/Mundial_autos",
+              url,
               requestOptions
             )
               .then((res) => {
