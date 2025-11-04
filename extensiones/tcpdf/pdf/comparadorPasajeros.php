@@ -1227,7 +1227,7 @@ foreach ($resultados as $resultado) {
 	$perdidaParcial = $resultado['PerdidaParcial'];
 
 	$queryConsultaAsistencia1 = "SELECT * FROM asistencias WHERE `aseguradora` LIKE '$nombreAseguradora' AND `producto` LIKE '$nombreProducto' 
-									AND `rce` LIKE '$valorRC'";
+									AND `rce` LIKE '$valorRC%'";
 	$respuestaqueryAsistencia1 =  $conexion->query($queryConsultaAsistencia1);
 	$rowRespuestaAsistencia1 = mysqli_fetch_assoc($respuestaqueryAsistencia1);
 	if ($rowRespuestaAsistencia1 !== null) {
@@ -1362,10 +1362,16 @@ foreach ($resultados as $resultado) {
 	$nombreAseguradora = nombreAseguradora($resultado['Aseguradora']);
 	$nombreProducto = productoAseguradora($resultado['Aseguradora'], $resultado['Producto']);
 
-	if ($cont8 % 2 == 0) {
-		$html3 .= '<td class="puntos fondo" style="width:' . $valorTabla . '%;"><center><div style="font-size:4pt">&nbsp;</div><font size="7"style="text-align: center;  font-family:dejavusanscondensed;">' . $resultado['PerdidaParcial'] . '</font></center></td>';
+	if($nombreProducto == 'Sin Hurto') {
+		$perdidaParcialHurto = 'No Cubre';
 	} else {
-		$html3 .= '<td class="puntos fondo2" style="width:' . $valorTabla . '%;"><center><div style="font-size:4pt">&nbsp;</div><font size="7"style="text-align: center;  font-family:dejavusanscondensed;">' . $resultado['PerdidaParcial'] . '</font></center></td>';
+		$perdidaParcialHurto = $resultado['PerdidaParcial'];
+	}
+
+	if ($cont8 % 2 == 0) {
+		$html3 .= '<td class="puntos fondo" style="width:' . $valorTabla . '%;"><center><div style="font-size:4pt">&nbsp;</div><font size="7"style="text-align: center;  font-family:dejavusanscondensed;">' . $perdidaParcialHurto . '</font></center></td>';
+	} else {
+		$html3 .= '<td class="puntos fondo2" style="width:' . $valorTabla . '%;"><center><div style="font-size:4pt">&nbsp;</div><font size="7"style="text-align: center;  font-family:dejavusanscondensed;">' . $perdidaParcialHurto . '</font></center></td>';
 	}
 
 	$cont8 += 1;
@@ -1408,9 +1414,17 @@ foreach ($resultados as $resultado) {
 
 	if ($nombreAseguradora != "Previsora") {
 		if ($cont9 % 2 == 0) {
-			$html3 .= '<td class="puntos fondo" style="width:' . $valorTabla . '%;"><center><div style="font-size:12pt">&nbsp;</div><font size="7"style="text-align: center;  font-family:dejavusanscondensed;">' . $rowRespuestaAsistencia5['eventos'] . '</font></center></td>';
+			if ($rowRespuestaAsistencia5['eventos'] == "Si ampara") {
+				$html3 .= '<td class="puntos fondo" style="width:' . $valorTabla . '%;text-align: center;"><div style="font-size:7pt">&nbsp;</div><img style="width:16px;" src="../../../vistas/img/logos/cheque.png" alt=""></td>';
+			} else {
+				$html3 .= '<td class="puntos fondo" style="width:' . $valorTabla . '%;"><center><div style="font-size:12pt">&nbsp;</div><font size="7"style="text-align: center;  font-family:dejavusanscondensed;">' . $rowRespuestaAsistencia5['eventos'] . '</font></center></td>';
+			}
 		} else {
-			$html3 .= '<td class="puntos fondo2" style="width:' . $valorTabla . '%;"><center><div style="font-size:12pt">&nbsp;</div><font size="7"style="text-align: center;  font-family:dejavusanscondensed;">' . $rowRespuestaAsistencia5['eventos'] . '</font></center></td>';
+			if ($rowRespuestaAsistencia5['eventos'] == "Si ampara") {
+				$html3 .= '<td class="puntos fondo2" style="width:' . $valorTabla . '%;text-align: center;"><div style="font-size:7pt">&nbsp;</div><img style="width:16px;" src="../../../vistas/img/logos/cheque.png" alt=""></td>';
+			} else {
+				$html3 .= '<td class="puntos fondo2" style="width:' . $valorTabla . '%;"><center><div style="font-size:12pt">&nbsp;</div><font size="7"style="text-align: center;  font-family:dejavusanscondensed;">' . $rowRespuestaAsistencia5['eventos'] . '</font></center></td>';
+			}
 		}
 	} else {
 		$queryConsultaAsistencia5Eve = "SELECT Eventos, Placa FROM ofertas WHERE `id_cotizacion` = $identificador AND `aseguradora` LIKE 'Previsora Seguros' AND `producto` LIKE '$nombreProducto'";

@@ -1277,6 +1277,7 @@ async function renderCards(response) {
         "Seguros Sura",
         "AXA",
         "Estado",
+        "Allianz",
       ];
 
       const planesViajes = [
@@ -1318,6 +1319,9 @@ async function renderCards(response) {
         "Utilitario y Pesados",
         "Genio Pesado",
         "Conduce Tranquilo Pes",
+        "Solo Totales",
+        "Sin RCE",
+        "Todo Riesgo Taxis",
       ];
 
       var valorRC = isNumeric(oferta.ValorRC);

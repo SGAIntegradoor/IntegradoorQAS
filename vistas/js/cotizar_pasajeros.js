@@ -3418,6 +3418,50 @@ function cotizarOfertasPasajeros() {
 
                 cont.push(estadoPromise);
                 return;
+              } else if (aseguradora === "Allianz") {
+                url = tipoUsoVehiculo == "3" ? `https://grupoasistencia.com/motor_webservice/Allianz_autos_utilitarios` : `https://grupoasistencia.com/motor_webservice/Allianz_Taxis` ;
+                cont.push(
+                  fetch(url, requestOptions)
+                    .then((res) => {
+                      if (!res.ok) throw Error(res.statusText);
+                      return res.json();
+                    })
+                    .then((ofertas) => {
+                      if (typeof ofertas[0].Resultado !== "undefined") {
+                        agregarAseguradoraFallida(aseguradora);
+                        validarProblema(aseguradora, ofertas);
+                        ofertas[0].Mensajes.forEach((mensaje) => {
+                          mostrarAlertarCotizacionFallida(aseguradora, mensaje);
+                        });
+                      } else {
+                        const contadorPorEntidad = validarOfertas(
+                          ofertas,
+                          aseguradora,
+                          1
+                        );
+                        mostrarAlertaCotizacionExitosa(
+                          aseguradora,
+                          contadorPorEntidad
+                        );
+                      }
+                    })
+                    .catch((err) => {
+                      agregarAseguradoraFallida(aseguradora);
+                      mostrarAlertarCotizacionFallida(
+                        aseguradora,
+                        "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
+                      );
+                      validarProblema(aseguradora, [
+                        {
+                          Mensajes: [
+                            "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
+                          ],
+                        },
+                      ]);
+                      console.error(err);
+                    })
+                );
+                return;
               } else {
                 url = `https://grupoasistencia.com/motor_webservice_publics/${aseguradora}_Pasajeros`;
               }
