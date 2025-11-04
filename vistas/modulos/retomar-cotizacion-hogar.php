@@ -1,3 +1,21 @@
+<?php 
+
+$idCotizacion = $_GET['idCotizacionHogar'];
+
+$stmt = Conexion::conectar()->prepare("
+SELECT
+  *
+FROM
+	cotizaciones_hogar ch
+WHERE ch.id = :idCotizacion;
+");
+$stmt->bindParam(":idCotizacion", $idCotizacion, PDO::PARAM_INT);
+$stmt->execute();
+
+$cotizacionesFinesa = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+?>
+
 <head>
   <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v6.0.0-beta2/css/all.css" integrity="sha384-OA4SkQ1hW5kfQF3/OBdzK99bg7sQKT6+yXxq5Iu7QvGrrkrBsX3p5SRy9CrJ0+Gx" crossorigin="anonymous">
 
@@ -352,16 +370,6 @@
           <!-- <div class="row">
             <div class="col-xs-12 col-sm-6 col-md-2" id="btnAllianzCot" style="margin-top: 15px;">
               <button type="button" class="btn btn-primary " style="width: 100%; margin-left: 25px;" id="">Cambiar estado</button>
-            </div>
-          </div> -->
-
-          <!-- <div class="row">
-            <div class="col-xs-12 col-sm-6 col-md-2" id="btnAllianzCot" style="margin-top: 15px;">
-              <?php// if ($value["estado"] == 'Pendiente') { ?>
-                <button style="background: #000000; color: white;" class="btn btn-xs btnActivar btnEditarEstadoHogar" idCotizacionHogar=" <?php// $value["id_hogar"]; ?>" estadoUsuario="Pendiente">Pendiente</button>
-              <?php//  } else { ?>
-                  <button style="background: #000000; color: white;" class="btn btn-xs btnActivar btnEditarEstadoHogar" idCotizacionHogar=" <?php// $value["id_hogar"]; ?>" estadoUsuario="Cotizada">Cotizada</button>
-              <?php//  } ?>
             </div>
           </div> -->
 

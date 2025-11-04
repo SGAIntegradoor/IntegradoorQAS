@@ -103,6 +103,16 @@ $(".tablas-hogar").on("click", ".btnEditarEstadoHogar", function () {
   }
 });
 
+$("#btnCambiarEstadoCH").on("click", function () {
+  var idCotizacionHogar = $(this).attr("idCotizacionHogar");
+  var estadoUsuarioHogar = $(this).attr("estadoUsuario");
+  if (estadoUsuarioHogar == "Pendiente") {
+    enviarCambioEstado("Cotizada", idCotizacionHogar);
+  } else {
+    enviarCambioEstado("Pendiente", idCotizacionHogar);
+  }
+});
+
 function enviarCambioEstado(estado, idcotizacion) {
   $.ajax({
     url: "src/cambiarEstadoHogar.php",
