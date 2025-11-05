@@ -567,7 +567,7 @@ $('input[name="vidaDeudorQRadio"]').on("change", function () {
     if (type) {
       if ($(`#${input}`).attr("id") == "valorTodoRiesgoAllianz") {
         let valorHurtoAllianz = $("#valorHurtoAllianz").val();
-        if (valorHurtoAllianz <= 1 || valorHurtoAllianz === "") {
+        if (valorHurtoAllianz < 0 || valorHurtoAllianz === "") {
           Swal.fire({
             icon: "error",
             title: "¡Atención!",
@@ -724,8 +724,8 @@ $('input[name="vidaDeudorQRadio"]').on("change", function () {
         $("#nombreCompleto").css("display", "block");
         $("#digito").css("display", "none");
         $("#razon").css("display", "none");
-        $("#nacionalidad").css("display", "block");
-        $("#pNacimiento").css("display", "block");
+        // $("#nacionalidad").css("display", "block");
+        // $("#pNacimiento").css("display", "block");
         break;
       default:
         break;
@@ -2388,7 +2388,7 @@ function validateErrors(form) {
 
             if (
               selector.attr("id") == "valorTodoRiesgoAllianz" &&
-              (selector.val() == "" || selector.val() == "0")
+              (selector.val() == "")
             ) {
               isError = true;
               errorFields.push({
@@ -2777,6 +2777,8 @@ $("#btnCotizarSBS, #btnCotizar").click(async function () {
     if (tipoDocumento === "1" || tipoDocumento === "3") {
       rawAllianz.nombreCompleto =
         $("#nombre").val() + " " + $("#apellidos").val();
+      rawAllianz.nombreSolicitante = $("#nombre").val();
+      rawAllianz.apellidoSolicitante = $("#apellidos").val(); 
       if (tipoDocumento === "3") {
         rawAllianz.nacionalidad = $("#nacionalidad1").val();
         rawAllianz.pNacimiento = $("#pNacimiento1").val();
