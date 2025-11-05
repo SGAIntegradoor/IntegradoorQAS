@@ -212,6 +212,9 @@ function disableInputs(context, disabled) {
 function editarCotizacionHogar(id) {
   idCotizacionHogar = id; // Almacena el Id en la variable global de idCotización
   //console.log(id);
+
+  $("#divEstadoHogar").show();
+
   var datos = new FormData();
 
   datos.append("idCotizacionHogar", idCotizacionHogar);
@@ -298,7 +301,7 @@ function editarCotizacionHogar(id) {
 
       $(".tipoDocumento").val(id_tipo_documento).trigger("change");
       $(".nombre").val(cli_nombre);
-      $(".razon").val(cli_nombre);
+      $(".razon").val(cli_nombre + ' ' + cli_apellidos);
       $(".digito").val(response.digito_verificacion);
       $(".apellido").val(cli_apellidos);
       $(".numeroDocumento").val(cli_num_documento);
@@ -346,6 +349,21 @@ function editarCotizacionHogar(id) {
         $("#vidaDeudorQ").val("No").trigger("change");
       } else {
         $("#vidaDeudorQ").val("Si").trigger("change");
+      }
+
+      $('input[name="vidaDeudorQRadio"]').prop("disabled", true);
+
+      // Lógica según el valor del response
+      if (response.saldo_extracto_deudor == null) {
+        // Selecciona el radio con valor "No"
+        $('input[name="vidaDeudorQRadio"][value="No"]')
+          .prop("checked", true)
+          .trigger("change");
+      } else {
+        // Selecciona el radio con valor "Si"
+        $('input[name="vidaDeudorQRadio"][value="Si"]')
+          .prop("checked", true)
+          .trigger("change");
       }
 
       // campos Allianz

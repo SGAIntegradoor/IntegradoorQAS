@@ -36,7 +36,7 @@
         <input type="text" name="idCliente" id="idCliente">
     </div>
     <div class="general-container-aseg" id="containerValoresAllianz" style="padding-bottom: 20px;">
-        <div class="row" style="margin-top: 15px;" id="valoresAllianz">
+        <div class="row" style="margin-top: 15px; display: flex; flex-wrap: wrap;" id="valoresAllianz">
             <!-- <div class="col-xs-12 col-sm-6 col-md-3">
                 <div class="form-group">
                     <label for="dirInmuebleAllianz">Dirección del inmueble</label>
@@ -141,6 +141,26 @@
                 </div>
             </div>
 
+            <div class="col-xs-12 col-sm-6 col-md-3 vidaDeudorQ" style="display: none;">
+                <div class="form-group">
+                    <div style="display: flex; flex-direction: row; gap: 5px; align-items: flex-start;">
+                        <label for="vidaDeudorQ" style="font-size: 14px;">¿Desea agregar seguro de vida deudor?</label>
+                    </div>
+
+                    <div class="vidaDeudorQ" id="vidaDeudorQ" style="display: none; flex-direction: row; gap: 40px;" disabled>
+                        <div style="display: flex; flex-direction: row; gap: 5px; align-items: flex-start;">
+                            <input type="radio" id="vidaDeudorSi" name="vidaDeudorQRadio" value="Si" disabled>
+                            <p style="margin:0; font-weight: bold;">Sí</p>
+                        </div>
+                        <div style="display: flex; flex-direction: row; gap: 5px; align-items: flex-start;">
+                            <input type="radio" id="vidaDeudorNo" name="vidaDeudorQRadio" value="No" disabled checked>
+                            <p style="margin:0; font-weight: bold;">No</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
             <!-- inputs tipo de asegurado: deudor -->
             <div class="col-xs-12 col-sm-6 col-md-3 deudorInputs" style="display: none;">
                 <div class="form-group">
@@ -244,15 +264,15 @@
                 </div>
             </div>
 
-            <div class="col-xs-12 col-sm-2 col-md-2">
+            <div class="col-xs-12 col-sm-6 col-md-3" style="display: none;" id="divEstadoHogar">
                 <div class="form-group">
                     <div style="display: flex; flex-direction: row; gap: 5px; align-items: flex-start;">
                         <label for="saludDeudor">Estado</label>
                     </div>
                     <?php if ($cotizacionesFinesa[0]["estado"] == 'Pendiente') { ?>
-                        <button id="btnCambiarEstadoCH" style="background: #000000; color: white; font-size: 20px; width: 100%;" class="btn btn-xs btnActivar btnEditarEstadoHogar" idCotizacionHogar="<?php echo $idCotizacion ?>" estadoUsuario="Pendiente">Pendiente</button>
+                        <button type="button" id="btnCambiarEstadoCH" style="font-size: 14px; height: 28px; background: #000000; color: white; width: 100%;" class="btn btn-xs btnActivar btnEditarEstadoHogar btn btn-primary" idCotizacionHogar="<?php echo $idCotizacion ?>" estadoUsuario="Pendiente">Pendiente</button>
                     <?php } else { ?>
-                        <button id="btnCambiarEstadoCH" style="background: #88d600; color: white; font-size: 20px; width: 100%;" class="btn btn-xs btnActivar btnEditarEstadoHogar" idCotizacionHogar="<?php echo $idCotizacion ?>" estadoUsuario="Cotizada">Cotizada</button>
+                        <button type="button" id="btnCambiarEstadoCH" style="font-size: 14px; height: 28px; background: #88d600; color: white; width: 100%;" class="btn btn-xs btnActivar btnEditarEstadoHogar btn btn-primary" idCotizacionHogar="<?php echo $idCotizacion ?>" estadoUsuario="Cotizada">Cotizada</button>
                     <?php } ?>
                 </div>
 

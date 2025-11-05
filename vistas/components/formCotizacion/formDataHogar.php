@@ -326,19 +326,19 @@ $nombre_analista = $infoUsuario[0]['nombre_analista'];
                 </div>
             </div>
 
-            <div class="col-xs-12 col-sm-6 col-md-3 vidaDeudorQ" style="display: none;">
+            <!-- <div class="col-xs-12 col-sm-6 col-md-3 vidaDeudorQ" style="display: none;">
                 <div class="form-group">
                     <div style="display: flex; flex-direction: row; gap: 5px; align-items: flex-start;">
-                        <label for="vidaDeudorQ">¿Desea agregar seguro de vida deudor?</label>
+                        <label for="vidaDeudorQ">¿Desea agregar seguro de vida deudor?</label> -->
                         <!-- <i class="fa fa-solid fa-circle-info tooltip-tipo-asegurado" style="margin-top: 4px; margin-top: 2px; font-size: 18px;" data-toggle="tooltip-tipo-asegurado" data-placement="bottom"></i> -->
-                    </div>
+                    <!-- </div>
                     <select id="vidaDeudorQ" class="form-control vidaDeudorQ validateDataHogar"style="display: none;" disabled>
                         <option value="0">Seleccione una opción</option>
                         <option value="Si">Si</option>
                         <option value="No">No</option>
                     </select>
                 </div>
-            </div>
+            </div> -->
 
             <!-- <div class="col-xs-12 col-sm-6 col-md-5">
                 <div class="form-group">

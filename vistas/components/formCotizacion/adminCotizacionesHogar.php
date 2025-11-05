@@ -106,11 +106,11 @@
           }
 
           if ($value['tipo_asegurado'] == 1) {
-            $tipoAsegurado = 'Propietario que arrienda';
+            $tipoAsegurado = 'Solo la estructura';
           } elseif ($value['tipo_asegurado'] == 2) {
-            $tipoAsegurado = 'Inquilino';
+            $tipoAsegurado = 'Solo los contenidos';
           } elseif ($value['tipo_asegurado'] == 3) {
-            $tipoAsegurado = 'Propietario que habita';
+            $tipoAsegurado = 'Estructura y sus contenidos';
           } else {
             $tipoAsegurado = 'Deudor';
           }
