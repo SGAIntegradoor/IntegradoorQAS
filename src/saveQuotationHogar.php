@@ -14,6 +14,56 @@ try {
 
     $data = $_POST ?? null;
 
+$ultimoId = null;    
+if (empty($data['idCliente'])) {
+    // Conexión
+    $stmt = $pdo->prepare("
+        INSERT INTO clientes (
+            cli_codigo, 
+            cli_num_documento,
+            cli_nombre, 
+            cli_apellidos, 
+            cli_fch_nacimiento,
+            cli_genero,
+            cli_telefono, 
+            cli_email, 
+            cli_estado, 
+            id_tipo_documento, 
+            id_estado_civil, 
+            id_Intermediario
+        ) VALUES (
+            '', 
+            :documento, 
+            :nombre, 
+            :apellidos, 
+            '0000-00-00', 
+            0, 
+            '', 
+            '', 
+            1, 
+            :tipoDocumento, 
+            1, 
+            3
+        )
+    ");
+
+    // Asignación de parámetros
+    $stmt->bindParam(":documento", $data['documento'], PDO::PARAM_STR);
+    $stmt->bindParam(":nombre", $data['nombreSolicitante'], PDO::PARAM_STR);
+    $stmt->bindParam(":apellidos", $data['apellidoSolicitante'], PDO::PARAM_STR);
+    $stmt->bindParam(":tipoDocumento", $data['tipoDocumento'], PDO::PARAM_INT);
+
+    // Ejecutar
+    if ($stmt->execute()) {
+        $ultimoId = $pdo->lastInsertId();
+        // echo "Cliente insertado correctamente.";
+    } else {
+        $errorInfo = $stmt->errorInfo();
+        // echo "Error al insertar cliente: " . $errorInfo[2];
+        // echo "Error al insertar cliente.";
+    }
+}
+
     $fecha_cotizacion = date("Y-m-d H:i:s");
     $direccion = $data['direccion'] ?? null;
     $resto_direccion = $data['resto_direccion'] ?? null;
@@ -34,7 +84,7 @@ try {
     $credito = $data['tieneCredito'] ?? null;
     $tipo_asegurado = $data['categoriaDeRiesgo'] ?? null;
     $tipo_cobertura = $data['tipoCobertura'] ?? null;
-    $id_cliente = empty($data['idCliente']) ? null : $data['idCliente'];
+    $id_cliente = empty($data['idCliente']) ? $ultimoId : $data['idCliente'];
     $id_usuario = $data['idUsuario'] ?? null;
     $valorContenidoNoElectrico = (int)$data['valorContenidoNoElectrico'] ?? 0;
     $valorContenidoElectrico = (int)$data['valorContenidoElectrico'] ?? 0;

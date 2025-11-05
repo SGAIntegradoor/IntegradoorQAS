@@ -67,7 +67,7 @@
     </div>
     
     <div class="row">
-        <div class="col-xs-12 col-sm-6 col-md-3" id="nacionalidad" style="display: none;">
+        <!-- <div class="col-xs-12 col-sm-6 col-md-3" id="nacionalidad" style="display: none;">
             <div class="form-group">
                 <label for="nacionalidad1">Nacionalidad</label>
                 <select class="form-control nacionalidad" id="nacionalidad1">
@@ -104,7 +104,7 @@
                     </option>
                 </select>
             </div>
-        </div>
+        </div> -->
         <div class="col-xs-12 col-sm-3" id="correo">
             <div class="form-group">
                 <label for="correo">Correo</label>

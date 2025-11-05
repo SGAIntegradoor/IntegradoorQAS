@@ -96,6 +96,8 @@
 
         $tipoDocumento = [1 => "Cédula de ciudadanía", 2 => "NIT", 3 => "Cédula de extranjería", 4 => "NA"];
         $tipoVivienda = [1 => "Apartamento", 2 => "Casa", 3 => "Casa en condominio"];
+        $disabled = '';
+        if ($_SESSION['permisos']['idRol'] == 19) $disabled = 'disabled';
 
         foreach ($respuesta as $key => $value) {
 
@@ -158,9 +160,9 @@
                     <td class="text-center" style="font-size: 14px; text-align: center;">' . $value['aseg_mascota'] . '</td>';
                     
           if ($value["estado"] == 'Pendiente') {
-            echo '<td><button style="background: #000000; color: white;" class="btn btn-xs btnActivar btnEditarEstadoHogar" idCotizacionHogar="' . $value["id_hogar"] . '" estadoUsuario="Pendiente">Pendiente</button></td>';
+            echo '<td><button ' . $disabled . ' style="background: #000000; color: white;" class="btn btn-xs btnActivar btnEditarEstadoHogar" idCotizacionHogar="' . $value["id_hogar"] . '" estadoUsuario="Pendiente">Pendiente</button></td>';
           } else {
-            echo '<td><button style="background: #88d600; color: white;" class="btn btn-xs btnActivar btnEditarEstadoHogar" idCotizacionHogar="' . $value["id_hogar"] . '" estadoUsuario="Cotizada">Cotizada</button></td>';
+            echo '<td><button ' . $disabled . ' style="background: #88d600; color: white;" class="btn btn-xs btnActivar btnEditarEstadoHogar" idCotizacionHogar="' . $value["id_hogar"] . '" estadoUsuario="Cotizada">Cotizada</button></td>';
           }
           // <td class="text-center" style="font-size: 14px; text-align: center;">' . $value['estado'] . '</td>
           // <td class="text-center"><div class="btn-group"><button class="btn btn-primary btnEditarEstadoHogar" idCotizacionHogar="' . $value["id_hogar"] . '"><li class="fa fa-pencil"></li></button>

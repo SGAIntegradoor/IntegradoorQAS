@@ -264,15 +264,17 @@
                 </div>
             </div>
 
+            <?php $disabled = '';
+            if ($_SESSION['permisos']['idRol'] == 19) $disabled = 'disabled' ?>
             <div class="col-xs-12 col-sm-6 col-md-3" style="display: none;" id="divEstadoHogar">
                 <div class="form-group">
                     <div style="display: flex; flex-direction: row; gap: 5px; align-items: flex-start;">
                         <label for="saludDeudor">Estado</label>
                     </div>
                     <?php if ($cotizacionesFinesa[0]["estado"] == 'Pendiente') { ?>
-                        <button type="button" id="btnCambiarEstadoCH" style="font-size: 14px; height: 28px; background: #000000; color: white; width: 100%;" class="btn btn-xs btnActivar btnEditarEstadoHogar btn btn-primary" idCotizacionHogar="<?php echo $idCotizacion ?>" estadoUsuario="Pendiente">Pendiente</button>
+                        <button <?= $disabled; ?> type="button" id="btnCambiarEstadoCH" style="font-size: 14px; height: 28px; background: #000000; color: white; width: 100%;" class="btn btn-xs btnActivar btnEditarEstadoHogar btn btn-primary" idCotizacionHogar="<?php echo $idCotizacion ?>" estadoUsuario="Pendiente">Pendiente</button>
                     <?php } else { ?>
-                        <button type="button" id="btnCambiarEstadoCH" style="font-size: 14px; height: 28px; background: #88d600; color: white; width: 100%;" class="btn btn-xs btnActivar btnEditarEstadoHogar btn btn-primary" idCotizacionHogar="<?php echo $idCotizacion ?>" estadoUsuario="Cotizada">Cotizada</button>
+                        <button <?= $disabled; ?> type="button" id="btnCambiarEstadoCH" style="font-size: 14px; height: 28px; background: #88d600; color: white; width: 100%;" class="btn btn-xs btnActivar btnEditarEstadoHogar btn btn-primary" idCotizacionHogar="<?php echo $idCotizacion ?>" estadoUsuario="Cotizada">Cotizada</button>
                     <?php } ?>
                 </div>
 
