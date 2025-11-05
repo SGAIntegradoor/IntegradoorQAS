@@ -216,7 +216,7 @@ $(document).ready(function () {
     html: true,
     title:
       "<div>" +
-      "Ingresar la información de la siguiente forma: cruce de vías y número del bien, ej. Calle 72 # 6 44)." +
+      "Ingresar la información de la siguiente forma: cruce de vías y número del bien, ej. Calle 72 # 6 44." +
       "</div>",
     placement: "bottom",
     width: "280px",
@@ -226,22 +226,40 @@ $(document).ready(function () {
     html: true,
     title:
       "<div>" +
-      "Bloque, apartamento, nro. de casa, nombre del conjunto residencial, condominio, barrio)." +
+      "Bloque, apartamento, nro. de casa, nombre del conjunto residencial, condominio, barrio." +
       "</div>",
     placement: "bottom",
     width: "280px",
   });
 
-  $("#vidaDeudorQ").on("change", function () {
-    if ($(this).val() == "Si") {
-      $(".deudorInputs").find("input, select").prop("disabled", false);
-      $(".deudorInputs").css("display", "block");
-      $(".deudorInput").prop("disabled", false);
-    } else if ($(this).val() == "No") {
-        $(".deudorInputs").css("display", "none");
-        $(".deudorInputs").find("input, select").prop("disabled", true);
-    }
-  });  
+  // $("#vidaDeudorQ").on("change", function () {
+  //   if ($(this).val() == "Si") {
+  //     $(".deudorInputs").find("input, select").prop("disabled", false);
+  //     $(".deudorInputs").css("display", "block");
+  //     $(".deudorInput").prop("disabled", false);
+  //   } else if ($(this).val() == "No") {
+  //       $(".deudorInputs").css("display", "none");
+  //       $(".deudorInputs").find("input, select").prop("disabled", true);
+  //   }
+  // });  
+
+$('input[name="vidaDeudorQRadio"]').on("change", function () {
+  const valor = $(this).val();
+
+  if (valor === "Si") {
+    $(".deudorInputs").find("input, select").prop("disabled", false);
+    $(".deudorInputs").css("display", "block");
+    $(".deudorInput").prop("disabled", false);
+  } else if (valor === "No") {
+    $(".deudorInputs").css("display", "none");
+    $(".deudorInputs").find("input, select").prop("disabled", true);
+  } else {
+    // Si eligió "No sé" u otro valor, puedes definir un comportamiento por defecto.
+    $(".deudorInputs").css("display", "none");
+    $(".deudorInputs").find("input, select").prop("disabled", true);
+  }
+});
+
 
   $("#tipoAseg").on("change", function () {
     $(".vidaDeudorQ").find("input, select").prop("disabled", true);
@@ -286,9 +304,9 @@ $(document).ready(function () {
       $(".vidaDeudorQ").find("input, select").css("display", "flex");
       $(".noDeudor").find("input, select").prop("disabled", true);
       $(".noDeudor").find("input, select").css("display", "none");
-      $(".deudorInputs").find("input, select").prop("disabled", false);
-      $(".deudorInputs").css("display", "block");
-      $(".deudorInput").prop("disabled", false);
+      // $(".deudorInputs").find("input, select").prop("disabled", false);
+      // $(".deudorInputs").css("display", "block");
+      // $(".deudorInput").prop("disabled", false);
 
       $("#contenidos").prop("disabled", true);
       $("#inputEYC").prop("disabled", true);
@@ -2604,6 +2622,7 @@ function validarDeudores() {
 }
 
 $("#btnCotizarSBS, #btnCotizar").click(async function () {
+  $("#btnCotizarSBS").prop("disabled", "true");
   if (!validarDeudores()) {
     return;
   }
@@ -2742,6 +2761,7 @@ $("#btnCotizarSBS, #btnCotizar").click(async function () {
       // tipoCobertura: $('input[name="tipoCoberturaRadio"]:checked').attr("id"),
       estrato: $("#estrato").val(),
       id_usuario: $("#idUsuario").val(),
+      nombreUsuario: permisos.usu_nombre + ' ' + permisos.usu_apellido,
       correoAnalista: $("#correoAnalista").val(),
       usu_cel: $("#usu_cel").val(),
       usu_email: $("#usu_email").val(),
