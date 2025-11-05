@@ -414,7 +414,8 @@
                   <b>Cotizamos con 2 aseguradoras:</b>
                 </p>
                 <div style="display: flex; flex-direction: row; gap: 30px; justify-content: center; padding-top: 30px;">
-                  <img src="vistas/img/logos/sbs.png" class="img-fluid mx-auto" style="height: 26px; margin-top: 14px;">
+                  <!-- <img src="vistas/img/logos/sbs.png" class="img-fluid mx-auto" style="height: 26px; margin-top: 14px;"> -->
+                  <img src="vistas/img/logos/LOGO BOLIVAR.png" class="img-fluid mx-auto" style="max-width: 35%;">
                   <img src="vistas/img/logos/LOGO ALLIANZ.png" class="img-fluid mx-auto" style="max-width: 35%; margin-top: 3px;">
                 </div>
                 <br>
@@ -508,8 +509,8 @@
                 <p class="card-text" style="text-align:justify">
                   Para conocer más del <b>Seguro de Hogar</b> de <b>Allianz</b> ingresa <b><a href="./vistas/pdfs/Clausulado%20Hogar%20Allianz.pdf" target="_blank">AQUÍ</a></b>
                   <br>
-                  Para conocer más del <b>Seguro de Hogar</b> de <b>SBS</b> ingresa <b><a href="./vistas/pdfs/Clausulado%20Hogar%20SBS.pdf" target="_blank">AQUÍ</a></b>
-                  <!-- Para conocer más del <b>Seguro de Hogar</b> de <b>Bolívar</b> ingresa <b><a href="https://integradoor.com/app/vistas/pdfs/Clausulado%20Hogar%20Bolivar.pdf" target="_blank">AQUÍ</a></b> -->
+                  <!-- Para conocer más del <b>Seguro de Hogar</b> de <b>SBS</b> ingresa <b><a href="./vistas/pdfs/Clausulado%20Hogar%20SBS.pdf" target="_blank">AQUÍ</a></b> -->
+                  Para conocer más del <b>Seguro de Hogar</b> de <b>Bolívar</b> ingresa <b><a href="https://integradoor.com/app/vistas/pdfs/Clausulado%20Hogar%20Bolivar.pdf" target="_blank">AQUÍ</a></b>
                 </p>
               </div>
             </div>

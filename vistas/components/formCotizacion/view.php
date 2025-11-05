@@ -28,9 +28,9 @@
                 <label for="tipoDocumento">Tipo de Documento</label>
                 <select id="tipoDocumento" class="form-control tipoDocumento">
                     <option value="0">Seleccione tipo de documento</option>
-                    <option value="C">CC</option>
-                    <option value=" ">NIT</option>
-                    <option value="X">CE</option>
+                    <option value="1">CC</option>
+                    <option value="2">NIT</option>
+                    <option value="3">CE</option>
                 </select>
             </div>
         </div>
@@ -67,7 +67,7 @@
     </div>
     
     <div class="row">
-        <div class="col-xs-12 col-sm-6 col-md-3" id="nacionalidad" style="display: none;">
+        <!-- <div class="col-xs-12 col-sm-6 col-md-3" id="nacionalidad" style="display: none;">
             <div class="form-group">
                 <label for="nacionalidad1">Nacionalidad</label>
                 <select class="form-control nacionalidad" id="nacionalidad1">
@@ -104,7 +104,7 @@
                     </option>
                 </select>
             </div>
-        </div>
+        </div> -->
         <div class="col-xs-12 col-sm-3" id="correo">
             <div class="form-group">
                 <label for="correo">Correo</label>
