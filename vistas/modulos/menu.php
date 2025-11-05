@@ -241,10 +241,10 @@ body:not(.sidebar-collapse) .sidebar-menu .consultas-sub{
 		CLIENTES
 		=============================================*/
 			if ($_SESSION["permisos"]["Clientes"] == "x") {
-				echo '<li class="' . ($currentPage == 'clientes' ? 'active' : '') . '">
-				<a href="clientes">
+				echo '<li class="' . ($currentPage == 'prospectos' ? 'active' : '') . '">
+				<a href="prospectos">
 					<i class="fa fa-user-circle-o"></i>
-					<span>Clientes</span>
+					<span>Prospectos</span>
 				</a>
 			</li>';
 			}

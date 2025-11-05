@@ -128,7 +128,7 @@ if ($_SESSION["permisos"]["Clientes"] != "x") {
 
     <h1>
 
-      Administrar Clientes
+      Administrar Prospectos
 
     </h1>
 
@@ -136,7 +136,7 @@ if ($_SESSION["permisos"]["Clientes"] != "x") {
 
       <li><a href="inicio"><i class="fa fa-dashboard"></i> Inicio</a></li>
 
-      <li class="active">Administrar Clientes</li>
+      <li class="active">Administrar Prospectos</li>
 
     </ol>
 
@@ -154,7 +154,7 @@ if ($_SESSION["permisos"]["Clientes"] != "x") {
 
           echo '<button class="btnAgregarCliente" data-toggle="modal" data-target="#modalAgregarCliente">
 
-          Agregar cliente
+          Agregar Prospecto
 
         </button>';
         }
@@ -312,7 +312,7 @@ MODAL AGREGAR CLIENTE
 
           <button type="button" class="close" data-dismiss="modal">&times;</button>
 
-          <h4 class="modal-title">Agregar Cliente</h4>
+          <h4 class="modal-title">Agregar Prospectos</h4>
 
         </div>
 

@@ -359,7 +359,7 @@
         $_GET["ruta"] == "adminCoti" ||
         $_GET["ruta"] == "politicas" ||
         $_GET["ruta"] == "planes" ||
-        $_GET["ruta"] == "clientes" ||
+        $_GET["ruta"] == "prospectos" ||
         $_GET["ruta"] == "cotizaciones" ||
         $_GET["ruta"] == "editar-cotizacion" ||
         $_GET["ruta"] == "editar-cotizacion-autogestion" ||
