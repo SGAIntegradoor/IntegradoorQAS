@@ -212,6 +212,26 @@ $(document).ready(function () {
     width: "280px",
   });
 
+  $(".tooltip-direccion").tooltip({
+    html: true,
+    title:
+      "<div>" +
+      "Ingresar la información de la siguiente forma: cruce de vías y número del bien, ej. Calle 72 # 6 44)." +
+      "</div>",
+    placement: "bottom",
+    width: "280px",
+  });
+
+  $(".tooltip-resto-direccion").tooltip({
+    html: true,
+    title:
+      "<div>" +
+      "Bloque, apartamento, nro. de casa, nombre del conjunto residencial, condominio, barrio)." +
+      "</div>",
+    placement: "bottom",
+    width: "280px",
+  });
+
   $("#vidaDeudorQ").on("change", function () {
     if ($(this).val() == "Si") {
       $(".deudorInputs").find("input, select").prop("disabled", false);

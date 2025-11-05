@@ -244,6 +244,19 @@
                 </div>
             </div>
 
+            <div class="col-xs-12 col-sm-2 col-md-2">
+                <div class="form-group">
+                    <div style="display: flex; flex-direction: row; gap: 5px; align-items: flex-start;">
+                        <label for="saludDeudor">Estado</label>
+                    </div>
+                    <?php if ($cotizacionesFinesa[0]["estado"] == 'Pendiente') { ?>
+                        <button id="btnCambiarEstadoCH" style="background: #000000; color: white; font-size: 20px; width: 100%;" class="btn btn-xs btnActivar btnEditarEstadoHogar" idCotizacionHogar="<?php echo $idCotizacion ?>" estadoUsuario="Pendiente">Pendiente</button>
+                    <?php } else { ?>
+                        <button id="btnCambiarEstadoCH" style="background: #88d600; color: white; font-size: 20px; width: 100%;" class="btn btn-xs btnActivar btnEditarEstadoHogar" idCotizacionHogar="<?php echo $idCotizacion ?>" estadoUsuario="Cotizada">Cotizada</button>
+                    <?php } ?>
+                </div>
+
+            </div>
 
         </div>
 

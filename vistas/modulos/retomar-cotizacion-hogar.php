@@ -1,3 +1,21 @@
+<?php 
+
+$idCotizacion = $_GET['idCotizacionHogar'];
+
+$stmt = Conexion::conectar()->prepare("
+SELECT
+  *
+FROM
+	cotizaciones_hogar ch
+WHERE ch.id = :idCotizacion;
+");
+$stmt->bindParam(":idCotizacion", $idCotizacion, PDO::PARAM_INT);
+$stmt->execute();
+
+$cotizacionesFinesa = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+?>
+
 <head>
   <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v6.0.0-beta2/css/all.css" integrity="sha384-OA4SkQ1hW5kfQF3/OBdzK99bg7sQKT6+yXxq5Iu7QvGrrkrBsX3p5SRy9CrJ0+Gx" crossorigin="anonymous">
 
@@ -315,7 +333,7 @@
 
     <h1 style="margin-bottom: 0%;">
 
-      Cotización # <?php echo $_GET['idCotizacionHogar'] ?>
+      Solicitud de cotización # <?php echo $_GET['idCotizacionHogar'] ?>
     </h1>
 
     <ol class="breadcrumb">
@@ -354,6 +372,7 @@
               <button type="button" class="btn btn-primary " style="width: 100%; margin-left: 25px;" id="">Cambiar estado</button>
             </div>
           </div> -->
+
         </div>
       </div>
     </div>
