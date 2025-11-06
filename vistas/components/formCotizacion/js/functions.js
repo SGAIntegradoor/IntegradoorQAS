@@ -2613,6 +2613,7 @@ function validarDeudores() {
       confirmButtonText: "Aceptar",
     }).then(() => {
       if (primerVacio) $(primerVacio).focus();
+      $("#btnCotizarSBS").prop('disabled', false);
     });
 
     return false;
@@ -3015,6 +3016,7 @@ $("#btnCotizarSBS, #btnCotizar").click(async function () {
       // Luego de salvar la cotizacion en: cotizaciones_hogar, enviar el correo -> mostrar alerta de exito o error -> volver a la pantalla principal de hogar.
     }
   } else {
+    $("#btnCotizarSBS").prop('disabled', false);
     Swal.fire({
       icon: "error",
       title: "¡Atención!",
