@@ -265,7 +265,7 @@ class ModeloCotizaciones
 				$coberturas = [];
 				foreach ($responses as $plan) {
 					if ($plan["id_asegurado"] === $idAsegurado) {
-						$stmtCob = Conexion::conectar()->prepare("SELECT cd.cobertura FROM coberturas_salud cd WHERE cd.id_plan = " . $plan["id_plan"] . ";");
+						$stmtCob = Conexion::conectar()->prepare("SELECT cd.cobertura FROM coberturas_salud cd WHERE cd.id_plan = " . $plan["id_plan"] . " ORDER BY cd.id_cobertura, cd.id_plan ASC;");
 						$stmtCob->execute();
 						$coberturasDb = $stmtCob->fetchAll(PDO::FETCH_ASSOC);
 						$coberturasSoloValores = array_column($coberturasDb, 'cobertura');
