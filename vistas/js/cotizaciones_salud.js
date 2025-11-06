@@ -297,16 +297,16 @@ function editarCotizacionSalud(id) {
         }
       });
 
-      if (productsAxaCount <= 0) {
-        classTdResumen = "fa fa-times";
-        observacionResumen = data.error;
-        cantidadOfertas = 0;
-        colorIconoResumen = "red";
-      } else {
-        classTdResumen = "fa fa-check";
-        observacionResumen = "";
-        colorIconoResumen = "green";
-      }
+      // if (productsAxaCount <= 0) {
+      //   classTdResumen = "fa fa-times";
+      //   observacionResumen = data.error;
+      //   cantidadOfertas = 0;
+      //   colorIconoResumen = "red";
+      // } else {
+      //   classTdResumen = "fa fa-check";
+      //   observacionResumen = "";
+      //   colorIconoResumen = "green";
+      // }
 
       const { cedula, nombre, apellido, tipoDocumento } =
         respuesta.requestData.tomador;
