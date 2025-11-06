@@ -1318,15 +1318,6 @@ function cotizar() {
       });
     }
 
-    const path = window.location.pathname;
-    let env = "PROD"; // Valor por defecto
-
-    if (path.includes("/dev/") || path.includes("/DEV/")) {
-      env = "DEV";
-    } else if (path.includes("/QAS/") || path.includes("/qas/") || path.includes("/Pruebas/")) {
-      env = "QAS";
-    }
-
     // Finalmente, construimos el objeto final que se enviará
     var cotisExitosas = 0;
     var datosCotizacion = {
@@ -1819,6 +1810,20 @@ function hideShowAsociadoCoomeva() {
  * @function
  */
 $(document).ready(function () {
+  
+  const path = window.location.pathname;
+  var env = "PROD"; // Valor por defecto
+
+  if (path.includes("/dev/") || path.includes("/DEV/")) {
+    env = "DEV";
+  } else if (
+    path.includes("/QAS/") ||
+    path.includes("/qas/") ||
+    path.includes("/Pruebas/")
+  ) {
+    env = "QAS";
+  }
+
   let controlBtn = false;
   initializeSelect2(".fecha-nacimiento");
   activateFormate();
