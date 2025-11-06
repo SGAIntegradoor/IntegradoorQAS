@@ -1318,15 +1318,6 @@ function cotizar() {
       });
     }
 
-    const path = window.location.pathname;
-    let env = "PROD"; // Valor por defecto
-
-    if (path.includes("/dev/") || path.includes("/DEV/")) {
-      env = "DEV";
-    } else if (path.includes("/QAS/") || path.includes("/qas/")) {
-      env = "QAS";
-    }
-
     // Finalmente, construimos el objeto final que se enviará
     var cotisExitosas = 0;
     var datosCotizacion = {
@@ -1393,6 +1384,7 @@ function cotizar() {
               mensaje: observacionResumen,
               exitosa: cantidadOfertas > 0 ? 1 : 0,
               ofertas_cotizadas: cantidadOfertas,
+              env: env,
             };
 
             // Ajax para guardar las alertas de la cotizacion
@@ -1464,6 +1456,7 @@ function cotizar() {
               mensaje: observacionResumen,
               exitosa: cantidadOfertas > 0 ? 1 : 0,
               ofertas_cotizadas: cantidadOfertas,
+              env: env,
             };
 
             // Ajax para guardar las alertas de la cotizacion
@@ -1542,6 +1535,7 @@ function cotizar() {
               mensaje: observacionResumen,
               exitosa: cantidadOfertas > 0 ? 1 : 0,
               ofertas_cotizadas: cantidadOfertas,
+              env: env,
             };
 
             // Ajax para guardar las alertas de la cotizacion
@@ -1576,6 +1570,87 @@ function cotizar() {
             });
           },
         });
+
+        $.ajax({
+          url:
+            "https://grupoasistencia.com/WS-laravel/api/salud/allianz/cotizar?idNewCoti=" +
+            newCoti,
+          type: "POST",
+          data: JSON.stringify(datosCotizacion),
+          contentType: "application/json",
+          dataType: "json",
+          success: function (data) {
+            if (data.error) {
+              classTdResumen = "fa fa-times";
+              observacionResumen = data.error;
+              cantidadOfertas = 0;
+              colorIconoResumen = "red";
+              hideMainContainerCards();
+              showContainerCardsSalud();
+              // toogleDataContainer();
+              document.getElementById("spinener-cot-salud").style.display =
+                "none";
+              makeCards(data, tipoCotizacion);
+            } else {
+              cotisExitosas++;
+              classTdResumen = "fa fa-check";
+              observacionResumen = "";
+              colorIconoResumen = "green";
+              cantidadOfertas = data.asegurados[0].planes.length;
+              hideMainContainerCards();
+              showContainerCardsSalud();
+              // toogleDataContainer();
+              document.getElementById("spinener-cot-salud").style.display =
+                "none";
+              makeCards(data, tipoCotizacion);
+
+              setTimeout(() => {
+                $("#loader-overlay").css("display", "none");
+              }, 2000);
+            }
+
+            alertasCotizacion = {
+              id_cotizacion: newCoti,
+              aseguradora: "Allianz",
+              mensaje: observacionResumen,
+              exitosa: cantidadOfertas > 0 ? 1 : 0,
+              ofertas_cotizadas: cantidadOfertas,
+              env: env,
+            };
+
+            // Ajax para guardar las alertas de la cotizacion
+            $.ajax({
+              url: "https://grupoasistencia.com/WS-laravel/api/salud/guardarAlertas",
+              type: "POST",
+              data: JSON.stringify(alertasCotizacion),
+              contentType: "application/json",
+              dataType: "json",
+            });
+
+            htmlTablaResumen = `
+                        <tr>
+                            <td>Allianz</td>
+                            <td class="text-center"><i class="${classTdResumen}" aria-hidden="true" style="color: ${colorIconoResumen}; margin-right: 5px;"></i></td>
+                            <td class="text-center">${cantidadOfertas}</td>
+                            <td>${observacionResumen}</td>
+                        </tr>
+                        `;
+            $("#tablaResumenCot tbody").append(htmlTablaResumen);
+          },
+          error: function (xhr, status, error) {
+            errores = errores + 1;
+            console.log("Error status:", status);
+            console.log("Error:", error);
+            console.log("Response:", xhr.responseText);
+
+            Swal.fire({
+              icon: "error",
+              title: "Error al cotizar",
+              text: "Por favor, verifica los datos ingresados.",
+            });
+          },
+        });
+
       },
       error: function (xhr, status, error) {
         errores = errores + 1;
@@ -1735,6 +1810,20 @@ function hideShowAsociadoCoomeva() {
  * @function
  */
 $(document).ready(function () {
+  
+  const path = window.location.pathname;
+  var env = "PROD"; // Valor por defecto
+
+  if (path.includes("/dev/") || path.includes("/DEV/")) {
+    env = "DEV";
+  } else if (
+    path.includes("/QAS/") ||
+    path.includes("/qas/") ||
+    path.includes("/Pruebas/")
+  ) {
+    env = "QAS";
+  }
+
   let controlBtn = false;
   initializeSelect2(".fecha-nacimiento");
   activateFormate();
