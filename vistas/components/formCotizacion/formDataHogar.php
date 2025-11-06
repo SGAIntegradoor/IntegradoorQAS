@@ -178,7 +178,7 @@ $nombre_analista = $infoUsuario[0]['nombre_analista'];
                     <select id="estrato" class="form-control">
                         <option value="0">Seleccione una opción</option>
                         <!-- <option value="2">2</option> -->
-                        <option value="No tenga esa información">No tenga esa información</option>
+                        <option value="No tengo esa información">No tengo esa información</option>
                         <option value="3">3</option>
                         <option value="4">4</option>
                         <option value="5">5</option>
