@@ -23,13 +23,18 @@ if($show && $_SESSION['rol'] != 2){
     let linkControl = true;
     let showPopUp = <?= json_encode($showPopup) ?>; // Asegura que el valor se pase correctamente como booleano
     let linkURL = `<div id="linkReg">
-                            <span>Escríbenos al <b>3185127910</b> o haz clic </span><a href="https://wa.link/xwqueu" target="_blank"> AQUÍ</a>
+                            <span><b style="font-size:16px">REGISTRATE AQUÍ</b> 👉 📅 <a style="cursor:pointer" href="https://forms.gle/qBTQXz5KEwYortzG8" target="_blank">https://forms.gle/qBTQXz5KEwYortzG8</a></span>
                         </div>`
     if (showPopUp) {
       Swal.fire({
         html:   `
                     <div style='display: flex; align-items: center; justify-content: center; flex-direction: column;'>
-                        <img id="modalHome" src='vistas/img/modals/img/home/homeModal39.png'/>
+                          <img id="modalHome" width="400px" src='vistas/img/modals/img/home/homeModal57.jpeg'/>
+                        <!-- <video autoplay controls>
+                          <source src="vistas/img/modals/img/home/video_hallowen.mp4" type="video/mp4">
+                          Tu navegador no soporta el video.
+                        </video> -->
+
                         ${linkControl ? linkURL: ""}
                     </div>
                 `,
@@ -39,7 +44,7 @@ if($show && $_SESSION['rol'] != 2){
           popup: "popup_control",
           confirmButton: 'popup-confirm-button24',
         },
-        timer: 50000,
+        timer: 5000000,
         timerProgressBar: true,
       });
     }
@@ -55,14 +60,14 @@ if($show && $_SESSION['rol'] != 2){
   #linkReg a {
     text-decoration: underline;
     /* Subrayado */
-    color: #ea0a2a;
+    color: #016D39;
     font-weight: bold;
-    font-size: 24px;
+    font-size: 18px;
     /* Mantiene el color original del texto */
   }
 
   #linkReg a:visited {
-    color: #ea0a2a;
+    color: #016d39;
     /* Mantiene el color después de hacer clic */
   }
 
@@ -72,7 +77,7 @@ if($show && $_SESSION['rol'] != 2){
   }
 
   #linkReg a:active {
-    color: #0e1f87;
+    color: #016d39;
     /* Mantiene el color al hacer clic */
   }
 </style>
