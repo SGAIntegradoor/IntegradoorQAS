@@ -460,7 +460,7 @@ class ModeloCotizaciones
 				$resultado = $stmt->fetchAll(PDO::FETCH_ASSOC);
 				$stmt->closeCursor(); // Correctamente cerrando el cursor
 				if (count($resultado) == 0) {
-					return null;
+					return 'No hay ofertas para este filtro';
 				}
 				return self::responseFormatted($resultado);
 			} else {

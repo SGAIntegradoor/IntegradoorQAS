@@ -39,7 +39,9 @@ $(".filter").on("click", function () {
     success: function (data) {
       $("#loaderFilters").hide();
       $("#loaderFilters2").hide();
-      makeCards(data, 2);
+      if (data != 'No hay ofertas para este filtro') {
+        makeCards(data, 2);
+      }
     },
     error: function (xhr, status, error) {
       errores = errores + 1;
@@ -50,7 +52,7 @@ $(".filter").on("click", function () {
   }).always(function () {
       setTimeout(() => {
         $("#divPadreFiltros").css("pointer-events", "auto");
-      }, 2000);
+      }, 500);
     });
 });
 
