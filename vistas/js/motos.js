@@ -324,10 +324,61 @@ $(document).ready(function () {
         icon: "error",
         title:
           "Llegaste al tope máximo de Multicotizaciones de Seguros de Autos",
-        html: `<div style="text-align: center; font-family: Helvetica, Arial, sans-serif; font-size: 15px; border-radius: 4px; padding: 8px;"><p>Ponte en contacto con tu Analista Comercial si deseas recargar tus multicotizaciones del mes.</p>
-        <p>Nota: Ten en cuenta que el cupo mensual depende de tu productividad.</p>
-    </div>`,
-        width: "50%",
+        html: `
+  <div style="
+    text-align: center;
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 15px;
+    border-radius: 6px;
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  ">
+    <p>Ponte en contacto con tu Analista Comercial si deseas ampliar tu cupo.</p>
+    <p style="color: #555;">Nota: Ten en cuenta que el cupo mensual depende de tu productividad.</p>
+    
+    <table style="
+      width: 80%;
+      margin: 0 auto;
+      border-collapse: collapse;
+      font-size: 14px;
+      border-radius: 6px;
+      overflow: hidden;
+      box-shadow: 0 0 4px rgba(0,0,0,0.1);
+    ">
+      <thead>
+        <tr style="background-color: #f2f2f2;">
+          <th style="padding: 8px; text-align: center;">Categoría</th>
+          <th style="padding: 8px; text-align: center;">Cotizaciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="padding: 6px; text-align: center; border-top: 1px solid #ddd;">Alta</td>
+          <td style="padding: 6px; text-align: center; border-top: 1px solid #ddd;">50</td>
+        </tr>
+        <tr style="background-color: #fafafa;">
+          <td style="padding: 6px; text-align: center; border-top: 1px solid #ddd;">Media</td>
+          <td style="padding: 6px; text-align: center; border-top: 1px solid #ddd;">40</td>
+        </tr>
+        <tr>
+          <td style="padding: 6px; text-align: center; border-top: 1px solid #ddd;">Baja</td>
+          <td style="padding: 6px; text-align: center; border-top: 1px solid #ddd;">20</td>
+        </tr>
+        <tr style="background-color: #fafafa;">
+          <td style="padding: 6px; text-align: center; border-top: 1px solid #ddd;">Improductivo</td>
+          <td style="padding: 6px; text-align: center; border-top: 1px solid #ddd;">10</td>
+        </tr>
+        <tr>
+          <td style="padding: 6px; text-align: center; border-top: 1px solid #ddd;">Inactivo</td>
+          <td style="padding: 6px; text-align: center; border-top: 1px solid #ddd;">5</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  `,
+        width: "40%",
         showConfirmButton: true,
         confirmButtonText: "Cerrar",
         customClass: {
