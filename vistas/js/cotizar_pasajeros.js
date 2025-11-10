@@ -554,7 +554,7 @@ $(document).ready(function () {
     flex-direction: column;
     gap: 1rem;
   ">
-    <p>Ponte en contacto con tu Analista Comercial si deseas recargar tus multicotizaciones del mes.</p>
+    <p>Ponte en contacto con tu Analista Comercial si deseas ampliar tu cupo.</p>
     <p style="color: #555;">Nota: Ten en cuenta que el cupo mensual depende de tu productividad.</p>
     
     <table style="
