@@ -1,4 +1,4 @@
-<div class="row card-container" id="mainCardContainerSalud">
+<div class="row card-container" id="mainCardContainerSalud" style="display: none;">
     <div class="content">
 
         <div class="col-md-4 col-sm-12 mb-3">
