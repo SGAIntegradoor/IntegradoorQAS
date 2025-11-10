@@ -276,7 +276,7 @@ checkUserStatus();
 		=============================================*/
 			if ($_SESSION["intermediario"] == "3" || $_SESSION["intermediario"] == "149" || $_SESSION["idUsuario"] == 34) {
 				echo '<li id="menuCotHog" class="' . ($currentPage == 'hogar' ? 'active' : '') . '">
-			<a href="hogar">
+			<a href="hogar2">
 			<i class="fa-solid fa-house-circle-check"></i>
 			<span>Cotizar Hogar</span>
 			</a>
