@@ -1308,6 +1308,7 @@ async function renderCards(response) {
         "Taxis Amarillos Elite",
         "Taxis Amarillos Premium",
         "Taxis Amarillos Plus",
+        "Taxis Amarillos Clasico",
         "Buses Premium",
         "Buses Plus",
         "Buses Elite",
