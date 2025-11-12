@@ -314,7 +314,7 @@ $nombre_analista = $infoUsuario[0]['nombre_analista'];
                 <div class="form-group">
                     <div style="display: flex; flex-direction: row; gap: 5px; align-items: flex-start;">
                         <label for="tipoAseg">¿Que desea asegurar?</label>
-                        <!-- <i class="fa fa-solid fa-circle-info tooltip-tipo-asegurado" style="margin-top: 4px; margin-top: 2px; font-size: 18px;" data-toggle="tooltip-tipo-asegurado" data-placement="bottom"></i> -->
+                        <i class="fa fa-solid fa-circle-info tooltip-tipo-asegurado" style="margin-top: 4px; margin-top: 2px; font-size: 18px;" data-toggle="tooltip-tipo-asegurado" data-placement="bottom"></i>
                     </div>
                     <select id="tipoAseg" class="form-control tipoAseg validateDataHogar">
                         <option value="0">Seleccione una opción</option>

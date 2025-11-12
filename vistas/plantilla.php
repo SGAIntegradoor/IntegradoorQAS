@@ -443,7 +443,6 @@
         $_GET["ruta"] == "soat" ||
         $_GET["ruta"] == "configuracion-pdf" ||
         $_GET["ruta"] == "hogar2" ||
-        $_GET["ruta"] == "hogar" ||
         $_GET["ruta"] == "retomar-cotizacion-assistcard" ||
         $_GET["ruta"] == "retomar-cotizacion-salud" ||
         $_GET["ruta"] == "retomar-cotizacion-hogar" ||

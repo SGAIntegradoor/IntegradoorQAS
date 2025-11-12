@@ -285,6 +285,7 @@ $('input[name="vidaDeudorQRadio"]').on("change", function () {
       // $("#totalCoberturaBasica").prop("disabled", true);
       // $("#totalCoberturaBasica").val("");
       $("#preguntaMascotas").css("display", "flex");
+      $("#sotanosAllianz").prop("disabled", false);
       $("#valorContenidosAllianz").prop("disabled", true);
     } else if ($(this).val() == "3") {
       resetInputsValores();
@@ -295,6 +296,7 @@ $('input[name="vidaDeudorQRadio"]').on("change", function () {
       $("#valorViviendaAllianz").prop("disabled", false);
       // $("#totalCoberturaBasica").prop("disabled", false);
       $("#preguntaMascotas").css("display", "flex");
+      $("#sotanosAllianz").prop("disabled", false);
       $("#valorVivienda").val("0");
       $("#valorContenidosAllianz").prop("disabled", true);
     } else if ($(this).val() == "4") {
@@ -365,8 +367,10 @@ $('input[name="vidaDeudorQRadio"]').on("change", function () {
             $(this).prop("disabled", true);
           }
         });
+      $("#sotanosAllianz").prop("disabled", false);  
     } else {
       resetInputsValores();
+      $("#sotanosAllianz").prop("disabled", false);
     }
   });
 
@@ -658,9 +662,7 @@ $('input[name="vidaDeudorQRadio"]').on("change", function () {
       "#preguntaMascotas",
       "#siSBS",
       "#noSBS",
-      "#valorContenidosNoElectricos",
-      "#valorContenidosElectricos",
-      "#totalCoberturaBasica",
+      "#sotanosAllianz",
     ];
 
     fields.forEach((element) => {
@@ -1494,8 +1496,9 @@ function disableButton(button) {
   $(button).prop("disabled", true);
 }
 
-function cotizar(body) {
+async function cotizar(body) {
   setBlankInputs();
+
   if (!validarMascotasSeleccionado()) {
     return;
   } else {
@@ -1512,17 +1515,10 @@ function cotizar(body) {
       $("#noSBS").prop("checked", true);
     }
 
-    let promisesHogar = [];
-
-    let requestOptions = {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: "",
-    };
-    // debugger;
-    aseguradorasHogar.forEach((element) => {
-      if (!element.enabled) return; // Si la aseguradora está deshabilitada, saltarla
-
+    // ------------------------------------------
+    //  Función auxiliar para hacer la petición
+    // ------------------------------------------
+    async function hacerPeticion(element) {
       let url = "";
       let requestBody = null;
 
@@ -1536,91 +1532,136 @@ function cotizar(body) {
         url = `https://www.grupoasistencia.com/motor_webservice/Hogarena`;
       }
 
-      if (url && requestBody) {
-        requestOptions.body = JSON.stringify(requestBody);
-        let promise = fetch(url, requestOptions)
-          .then(async (response) => {
-            let result = await response.json();
-            if (!response.ok) {
-              saveRequest(
-                requestBody,
-                "Error en la petición al WebService, por favor intente de nuevo"
-              );
-              $(`#${element.aseguradora}-check`).html(
-                `<i class="fa fa-times" aria-hidden="true" style="color: red; margin-right: 5px;"></i>`
-              );
-              $(`#${element.aseguradora}-offerts`).html("0");
-              $(`#${element.aseguradora}-observations`).html(
-                "Error en la petición al WebService, por favor intente de nuevo"
-              );
-              let resp = {
-                aseguradora: element.aseguradora,
-                message:
-                  "Error en la petición al WebService, por favor intente de nuevo",
-                data: [],
-                success: false,
-              };
-              saveAlert(resp);
-              throw new Error("Error en la petición al WebService");
-            }
-            return result; // Convierte la respuesta a JSON igualmentep
-          })
-          .then((result) => {
-            if (result.status != "200") {
-              // debugger;
-              console.log(element.aseguradora);
-              let errorsConcat = result?.error?.errors?.map(
-                (error) => error?.message
-              );
+      if (!url || !requestBody) return;
 
-              let errorMessage =
-                errorsConcat.length > 1
-                  ? errorsConcat.join(",")
-                  : errorsConcat[0];
-              saveRequest(requestBody, result);
-              $(`#${element.aseguradora}-check`).html(
-                `<i class="fa fa-times" aria-hidden="true" style="color: red; margin-right: 5px;"></i>`
-              );
-              $(`#${element.aseguradora}-offerts`).html("0");
-              $(`#${element.aseguradora}-observations`).html(
-                "Cotización Fallida: " + errorMessage
-              );
-              saveAlert(result);
-            } else {
-              saveRequest(requestBody, result);
-              $(`#${element.aseguradora}-check`).html(
-                `<i class="fa fa-check" aria-hidden="true" style="color: green; margin-right: 5px;"></i>`
-              );
-              $(`#${element.aseguradora}-offerts`).html(
-                `${element.aseguradora == "SBS" ? 1 : result?.data?.length}`
-              );
-              $(`#${element.aseguradora}-observations`).html(
-                `Cotización exitosa`
-              );
-              saveOffert(result);
-              saveAlert(result);
-              makeCards(result);
-            }
-          });
-        promisesHogar.push(promise);
-      }
-    });
+      // Creamos un nuevo objeto requestOptions en cada llamada
+      const requestOptions = {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Cache-Control": "no-cache",
+        },
+        body: JSON.stringify(requestBody),
+      };
 
-    // Esperar que todas las promesas terminen
-    Promise.all(promisesHogar)
-      .then(() => {
-        Swal.fire({
-          icon: "success",
-          title: "¡Cotización exitosa!",
-          text: "Proceso de cotización finalizado",
-          didOpen: () => {
-            document.querySelector(".swal2-container").style.zIndex = "1059";
-          },
+      console.log(
+        `%c[DEBUG] Enviando solicitud a ${element.aseguradora}`,
+        "color: cyan;",
+        { url, body: requestBody }
+      );
+
+      try {
+        const response = await fetch(url, requestOptions);
+        const result = await response.json();
+
+        if (!response.ok) {
+          throw new Error(
+            `Error HTTP (${response.status}) en ${element.aseguradora}`
+          );
+        }
+
+        // Si el backend devuelve un arreglo vacío, lo registramos
+        if (Array.isArray(result?.data) && result.data.length === 0) {
+          console.warn(
+            `%c ${element.aseguradora} devolvió un array vacío.`,
+            "color: orange;",
+            result
+          );
+        }
+
+        if (result.status != "200") {
+          let errorsConcat = result?.error?.errors?.map(
+            (error) => error?.message
+          );
+          let errorMessage =
+            errorsConcat?.length > 1
+              ? errorsConcat.join(", ")
+              : errorsConcat?.[0] || "Error desconocido";
+
+          saveRequest(requestBody, result);
+          $(`#${element.aseguradora}-check`).html(
+            `<i class="fa fa-times" aria-hidden="true" style="color: red; margin-right: 5px;"></i>`
+          );
+          $(`#${element.aseguradora}-offerts`).html("0");
+          $(`#${element.aseguradora}-observations`).html(
+            `Cotización fallida: ${errorMessage}`
+          );
+          saveAlert(result);
+        } else {
+          saveRequest(requestBody, result);
+          $(`#${element.aseguradora}-check`).html(
+            `<i class="fa fa-check" aria-hidden="true" style="color: green; margin-right: 5px;"></i>`
+          );
+          $(`#${element.aseguradora}-offerts`).html(
+            `${element.aseguradora == "SBS" ? 1 : result?.data?.length}`
+          );
+          $(`#${element.aseguradora}-observations`).html(
+            `Cotización exitosa`
+          );
+          saveOffert(result);
+          saveAlert(result);
+          makeCards(result);
+        }
+
+        return result;
+      } catch (error) {
+        console.error(
+          `%c[ERROR] Falla en ${element.aseguradora}`,
+          "color: red;",
+          error
+        );
+        saveRequest(requestBody, error);
+        saveAlert({
+          aseguradora: element.aseguradora,
+          success: false,
+          message: error.message,
+          data: [],
         });
-      })
-      .catch((error) => console.log(error));
+        throw error;
+      }
+    }
+
+    // ------------------------------------------
+    // PRUEBA: modo de ejecución
+    // ------------------------------------------
+    // Cambia esta variable para probar comportamiento:
+    // - "paralelo" => Promise.all
+    // - "secuencial" => una por una (para detectar conflictos backend)
+    const modoEjecucion = "paralelo"; // <-- cámbialo a "secuencial" para probar
+
+    const aseguradorasActivas = aseguradorasHogar.filter((a) => a.enabled);
+
+    try {
+      if (modoEjecucion === "paralelo") {
+        // Ejecutar en paralelo
+        console.log("%cEjecutando peticiones en paralelo", "color: lime;");
+        await Promise.all(
+          aseguradorasActivas.map((element) => hacerPeticion(element))
+        );
+      } else {
+        // Ejecutar secuencialmente para detectar si Allianz falla solo al paralelizar
+        console.log("%cEjecutando peticiones secuenciales", "color: yellow;");
+        for (const element of aseguradorasActivas) {
+          console.log(`Ejecutando ${element.aseguradora}`);
+          await hacerPeticion(element);
+          await new Promise((r) => setTimeout(r, 500)); // pequeño delay
+        }
+      }
+
+      Swal.fire({
+        icon: "success",
+        title: "¡Cotización exitosa!",
+        text: "Proceso de cotización finalizado",
+        didOpen: () => {
+          document.querySelector(".swal2-container").style.zIndex = "1059";
+        },
+      });
+    } catch (error) {
+      console.error("Error general en el proceso de cotización:", error);
+    }
   }
 }
+
 
 function validarMascotasSeleccionado() {
   let radios = $("input[name='mascotasRadio']");
@@ -2748,8 +2789,8 @@ $("#btnCotizarSBS, #btnCotizar").click(async function () {
       numeroTotalDePisos: $("#noPisosEdi").val(),
         // tipoVivienda == "2" || tipoVivienda == "3" ? 1 : $("#noPisosEdi").val(),
       pisoUbicacionApto:
-        tipoVivienda == "2" || tipoVivienda == "3" ? 0 : $("#noPiso").val(),
-      numeroSotanos: 0,
+        tipoVivienda == "2" || tipoVivienda == "3" ? 1 : $("#noPiso").val(),
+      numeroSotanos: $("#sotanosAllianz").val(),
       areaTotal: areaTotal,
       tipoDeConstruccion: tipoDeConstruccion,
       nroSotanos: $("#nroSotanos").val(),
