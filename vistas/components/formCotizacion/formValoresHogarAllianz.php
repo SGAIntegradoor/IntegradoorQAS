@@ -42,6 +42,14 @@
                     <input id="dirInmuebleAllianz" class="form-control dirInmueble" type="text">
                 </div>
             </div>
+
+            <div class="col-xs-12 col-sm-6 col-md-3">
+                <div class="form-group">
+                    <label for="sotanosAllianz">Número de sotanos</label>
+                    <input id="sotanosAllianz" class="form-control sotanos" type="num" min="0">
+                </div>
+            </div>
+
             <div class="col-xs-12 col-sm-6 col-md-3">
 
                 <div class="form-group">

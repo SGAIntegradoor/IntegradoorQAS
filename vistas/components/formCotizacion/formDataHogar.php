@@ -237,14 +237,14 @@
             <div class="col-xs-12 col-sm-6 col-md-3">
                 <div class="form-group">
                     <div style="display: flex; flex-direction: row; gap: 5px; align-items: flex-start;">
-                        <label for="tipoAseg">Tipo de asegurado</label>
+                        <label for="tipoAseg">¿Que desea asegurar?</label>
                         <i class="fa fa-solid fa-circle-info tooltip-tipo-asegurado" style="margin-top: 4px; margin-top: 2px; font-size: 18px;" data-toggle="tooltip-tipo-asegurado" data-placement="bottom"></i>
                     </div>
                     <select id="tipoAseg" class="form-control tipoAseg validateDataHogar">
                         <option value="0">Seleccione una opción</option>
-                        <option value="1">Propietario que arrienda</option>
-                        <option value="2">Inquilino</option>
-                        <option value="3">Propietario que habita</option>
+                        <option value="1">Solo la estructura</option>
+                        <option value="2">Solo los contenidos</option>
+                        <option value="3">Estructura y sus contenidos</option>
                         <option value="4">Deudor</option>
                     </select>
                 </div>

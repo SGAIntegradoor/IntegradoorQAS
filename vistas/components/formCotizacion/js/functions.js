@@ -223,6 +223,7 @@ $(document).ready(function () {
       $("#valorViviendaAllianz").prop("disabled", true);
       $("#valorViviendaAllianz").val("");
       $("#preguntaMascotas").css("display", "flex");
+      $("#sotanosAllianz").prop("disabled", false);
     } else if ($(this).val() == "3") {
       resetInputsValores();
       $("#contenidos").prop("checked", false);
@@ -231,6 +232,7 @@ $(document).ready(function () {
       $("#valorVivienda").prop("disabled", false);
       $("#valorViviendaAllianz").prop("disabled", false);
       $("#preguntaMascotas").css("display", "flex");
+      $("#sotanosAllianz").prop("disabled", false);
       $("#valorVivienda").val("0");
     } else if ($(this).val() == "1" || $(this).val() == "4") {
       resetInputsValores();
@@ -260,8 +262,10 @@ $(document).ready(function () {
             $(this).prop("disabled", true);
           }
         });
+      $("#sotanosAllianz").prop("disabled", false);  
     } else {
       resetInputsValores();
+      $("#sotanosAllianz").prop("disabled", false);
     }
   });
 
@@ -553,6 +557,7 @@ $(document).ready(function () {
       "#preguntaMascotas",
       "#siSBS",
       "#noSBS",
+      "#sotanosAllianz",
     ];
 
     fields.forEach((element) => {
@@ -2555,7 +2560,7 @@ $("#btnCotizarSBS, #btnCotizar").click(function () {
         tipoVivienda == "2" || tipoVivienda == "3" ? 1 : $("#noPisosEdi").val(),
       pisoUbicacionApto:
         tipoVivienda == "2" || tipoVivienda == "3" ? 1 : $("#noPiso").val(),
-      numeroSotanos: 0,
+      numeroSotanos: $("#sotanosAllianz").val(),
       areaTotal: areaTotal,
       tipoDeConstruccion: tipoDeConstruccion,
       tipoDeVivienda: tipoVivienda,
