@@ -317,6 +317,18 @@ $(document).ready(function () {
     let numToneladas = $("#numToneladas").val();
     let clasePesados = $("#clasepesados").val();
 
+    let tons = String(numToneladas).replace(/\D/g, "").length;
+
+    if (numToneladas != "" && tons < 4) {
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "El número de toneladas debe tener al menos 4 dígitos.",
+        confirmButtonText: "Cerrar",
+      });
+      return;
+    }
+
     // if (!mundialInput) {
     //   return;
     // }
@@ -3167,10 +3179,10 @@ function cotizarOfertasPesados() {
                 let planesMundial = ["Normal", "RC_Exceso", "RPA"];
                 let typeVeh = fasecoldaVeh[3] + fasecoldaVeh[4];
 
-                if(typeVeh == "23" || typeVeh == "25"){
-                  planesMundial = ["Trailer"]
+                if (typeVeh == "23" || typeVeh == "25") {
+                  planesMundial = ["Trailer"];
                 }
-                
+
                 let body = JSON.parse(requestOptions.body);
 
                 planesMundial.forEach((plan) => {
@@ -3231,8 +3243,8 @@ function cotizarOfertasPesados() {
                         ]);
                         console.error(err);
                       });
-                      cont.push(mundialPromise);
-                  }else if (plan == "RPA") {
+                    cont.push(mundialPromise);
+                  } else if (plan == "RPA") {
                     let mundialPromise2 = fetch(
                       "https://grupoasistencia.com/motor_webservice/Mundial_pesados_rpa",
                       requestOptions
