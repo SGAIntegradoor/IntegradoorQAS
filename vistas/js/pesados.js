@@ -323,7 +323,8 @@ $(document).ready(function () {
       Swal.fire({
         icon: "error",
         title: "Error",
-        text: "El número de toneladas debe tener al menos 4 dígitos.",
+        // text: "El número de toneladas debe tener al menos 4 dígitos.",
+        html: `<div style="text-align: center; font-family: Helvetica, Arial, sans-serif; font-size: 15px; border-radius: 4px; padding: 8px;"><p>El campo <b>Capacidad Carga (Kg)</b> debe tener al menos 4 dígitos.</p></div>`,
         confirmButtonText: "Cerrar",
       });
       return;
