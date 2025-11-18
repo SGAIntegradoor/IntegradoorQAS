@@ -718,7 +718,8 @@ if (isset($_GET["id"])) {
                   $id = isset($_GET['id']) ? $_GET['id'] : 'null'; 
 
                   $puedeVer = ($_SESSION["permisos"]["id_rol"] == 22 ||
-                    $_SESSION["permisos"]["id_rol"] == 23 ||
+                    $_SESSION["permisos"]["id_rol"] == 23 || $_SESSION["permisos"]["id_rol"] == 10 ||
+                    $_SESSION["permisos"]["id_rol"] == 12 || $_SESSION["permisos"]["id_rol"] == 1 ||
                     $_SESSION["permisos"]["id_usuario"] == $id);
 
                   $disabled = $puedeVer ? "" : "disabled";
