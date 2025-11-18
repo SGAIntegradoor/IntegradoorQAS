@@ -2746,6 +2746,30 @@ function cotizarOfertasPesados() {
   var cre_pre_sourcecode = document.getElementById("cre_pre_SourceCode").value;
   var cre_pre_bussinedId = document.getElementById("cre_pre_BusinessId").value;
 
+
+    /**
+   * Variables de Solidaria
+   */
+  var cre_sol_cod_sucursal = document.getElementById(
+    "cre_sol_cod_sucursal"
+  ).value;
+  var cre_sol_cod_per = document.getElementById("cre_sol_cod_per").value;
+  var cre_sol_cod_tipo_agente = document.getElementById(
+    "cre_sol_cod_tipo_agente"
+  ).value;
+  var cre_sol_cod_agente = document.getElementById("cre_sol_cod_agente").value;
+  var cre_sol_cod_pto_vta = document.getElementById(
+    "cre_sol_cod_pto_vta"
+  ).value;
+  var cre_sol_grant_type = document.getElementById("cre_sol_grant_type").value;
+  var cre_sol_Cookie_token = document.getElementById(
+    "cre_sol_Cookie_token"
+  ).value;
+  var cre_sol_token = document.getElementById("cre_sol_token").value;
+  var cre_sol_fecha_token = document.getElementById(
+    "cre_sol_fecha_token"
+  ).value;
+
   var aseguradoras_autorizar = JSON.parse(
     document.getElementById("aseguradoras").value
   );
@@ -2866,6 +2890,17 @@ function cotizarOfertasPesados() {
           cre_pre_agentcode: cre_pre_agentcode,
           cre_pre_sourcecode: cre_pre_sourcecode,
           cre_pre_bussinedId: cre_pre_bussinedId,
+        },
+        SOLIDARIA: {
+          cre_sol_cod_sucursal: cre_sol_cod_sucursal,
+          cre_sol_cod_per: cre_sol_cod_per,
+          cre_sol_cod_tipo_agente: cre_sol_cod_tipo_agente,
+          cre_sol_cod_agente: cre_sol_cod_agente,
+          cre_sol_cod_pto_vta: cre_sol_cod_pto_vta,
+          cre_sol_grant_type: cre_sol_grant_type,
+          cre_sol_Cookie_token: cre_sol_Cookie_token,
+          cre_sol_token: cre_sol_token,
+          cre_sol_fecha_token: cre_sol_fecha_token,
         },
         // env: "QAS", // Quitar en producción
       };
@@ -3948,6 +3983,55 @@ function cotizarOfertasPesados() {
           : Promise.resolve();
 
         cont2.push(libertyPromise);
+
+                /* Solidaria */
+        const solidariaPromise = comprobarFallidaPesados("Solidaria")
+          ? fetch(
+              "https://grupoasistencia.com/motor_webservice/Solidaria_pesados",
+              requestOptions
+            )
+              .then((res) => {
+                if (!res.ok) throw Error(res.statusText);
+                return res.json();
+              })
+              .then((ofertas) => {
+                if (typeof ofertas[0].Resultado !== "undefined") {
+                  agregarAseguradoraFallidaPesados("Solidaria");
+                  validarProblema("Solidaria", ofertas);
+                  ofertas[0].Mensajes.forEach((mensaje) => {
+                    mostrarAlertarCotizacionFallida("Solidaria", mensaje);
+                  });
+                } else {
+                  // eliminarAseguradoraFallida('Solidaria');
+                  const contadorPorEntidad = validarOfertasPesados(
+                    ofertas,
+                    "Solidaria",
+                    1
+                  );
+                  mostrarAlertaCotizacionExitosa(
+                    "Solidaria",
+                    contadorPorEntidad
+                  );
+                }
+              })
+              .catch((err) => {
+                agregarAseguradoraFallidaPesados("Solidaria");
+                mostrarAlertarCotizacionFallida(
+                  "Solidaria",
+                  "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
+                );
+                validarProblema("Solidaria", [
+                  {
+                    Mensajes: [
+                      "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
+                    ],
+                  },
+                ]);
+                console.error(err);
+              })
+          : Promise.resolve();
+
+        cont2.push(solidariaPromise);
 
         const axaPromise = comprobarFallidaPesados("AXA")
           ? fetch(

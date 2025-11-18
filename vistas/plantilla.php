@@ -307,6 +307,7 @@
       "Mundial" => array("A" => $permisos["Mundial_A_pesados"], "C" => $permisos["Mundial_C_pesados"]),
       "Previsora" => array("A" => $permisos["Previsora_A_pesados"], "C" => $permisos["Previsora_C_pesados"]),
       "Sura" => array("A" => $permisos["Sura_A_pesados"], "C" => $permisos["Sura_C_pesados"]),
+      "Solidaria" => array("A" => $permisos["Solidaria_A_pesados"], "C" => $permisos["Solidaria_C_pesados"]),
     );
 
     $aseguradoras_publicos = array(
