@@ -1006,6 +1006,10 @@ function openModalComisiones(id = null) {
   if (
     permisos.id_rol != 22 &&
     permisos.id_rol != 23 &&
+    permisos.id_rol != 10 &&
+    permisos.id_rol != 1 &&
+    permisos.id_rol != 11 &&
+    permisos.id_rol != 12 &&
     permisos.id_usuario != id
   ) {
     Swal.fire({
