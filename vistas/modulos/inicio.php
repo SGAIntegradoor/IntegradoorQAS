@@ -29,7 +29,7 @@ if($show && $_SESSION['rol'] != 2){
       Swal.fire({
         html:   `
                     <div style='display: flex; align-items: center; justify-content: center; flex-direction: column;'>
-                          <img id="modalHome" width="400px" src='vistas/img/modals/img/home/homeModal56.png'/>
+                          <img id="modalHome" width="400px" src='vistas/img/modals/img/home/homeModal57.jpeg'/>
                         <!-- <video autoplay controls>
                           <source src="vistas/img/modals/img/home/video_hallowen.mp4" type="video/mp4">
                           Tu navegador no soporta el video.
