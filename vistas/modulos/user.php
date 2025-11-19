@@ -5,7 +5,21 @@ if (isset($_GET["id"])) {
   echo '<script>
     var idUserURL = ' . $_GET['id'] . ';
   </script>';
+
+  require_once "config/dbconfig.php";
+
+  $enlace = mysqli_connect("$DB_host", "$DB_user", "$DB_pass", "$DB_name");
+
+  $sql = "SELECT usu_foto, usu_logo_pdf FROM usuarios WHERE id_usuario = " . $_GET['id'];
+
+  $resultado = mysqli_query($enlace, $sql);
+  $usuario = mysqli_fetch_assoc($resultado);
+
 }
+
+
+
+
 ?>
 <script>
   console.log(permisos)
@@ -257,6 +271,14 @@ if (isset($_GET["id"])) {
   </style>
 
   <section class="container-fluid">
+    <div style="display: none" id="divLoaderFS">
+      <div style="position: fixed; top: 0; right: 0; bottom: 0; left: 0; display: flex; align-items: center; justify-content: center; background-color: rgba(255,255,255,0.4); z-index: 9999;">
+        <div style="display: flex; align-items: center; justify-content: center;">
+          <img src="vistas/img/loader/integradoor.gif" alt="Loading..." style="opacity: 0.7;" />
+        </div>
+      </div>
+    </div>
+
     <div class="box">
       <div class="box-header with-border ">
         <div style="display: flex; flex-direction: column">
@@ -268,7 +290,7 @@ if (isset($_GET["id"])) {
               </div>
               <div class="containerImg" style="display: flex; flex-direction: row; align-items: flex-end; gap: 20px;">
                 <?php
-                echo '<img class="profile-pic previsualizarEditar" id="previewImg" src="' . $_SESSION['foto'] . '" width="100" style="border-radius: 50%; min-width: 100px; width: 100px; height: 100px">';
+                echo '<img class="profile-pic previsualizarEditar" id="previewImg" src="' . (($usuario['usu_foto'] !== "" && $usuario['usu_foto'] != null) ? $usuario['usu_foto'] : 'vistas/img/views/user.png') . '" width="100" style="border-radius: 50%; min-width: 100px; width: 100px; height: 100px">';
                 ?>
                 <div style="display: flex; flex-direction: column">
                   <p id="fileNameUser" style="color: gray; margin: 0; padding: 0; font-size: 14px;">No se ha seleccionado ningún archivo</p>
@@ -292,7 +314,7 @@ if (isset($_GET["id"])) {
               </div>
               <div class="containerImg" style="display: flex; flex-direction: row; align-items: flex-end; gap: 20px;">
                 <?php
-                echo '<img class="profile-pic previsualizarEditar2" id="previewImgPDF" src="' . ($_SESSION['imgPDF'] == "" || empty($_SESSION['imgPDF']) ? 'vistas\img\usuarios\Tu Logo Aquí.png' : $_SESSION['imgPDF']) . '" width="100" style="border-radius: 50%; min-width: 100px; width: 100px; height: 100px">';
+                echo '<img class="profile-pic previsualizarEditar2" id="previewImgPDF" src="' . ($usuario['usu_logo_pdf'] == "" || empty($usuario['usu_logo_pdf']) ? 'vistas\img\usuarios\Tu Logo Aquí.png' : $usuario['usu_logo_pdf']) . '" width="100" style="border-radius: 50%; min-width: 100px; width: 100px; height: 100px">';
                 ?>
                 <?php
 
@@ -715,7 +737,7 @@ if (isset($_GET["id"])) {
 
                 <div class="form-group" id="divComisiones" style="display: none; align-items: flex-end;">
                   <?php
-                  $id = isset($_GET['id']) ? $_GET['id'] : 'null'; 
+                  $id = isset($_GET['id']) ? $_GET['id'] : 'null';
 
                   $puedeVer = ($_SESSION["permisos"]["id_rol"] == 22 ||
                     $_SESSION["permisos"]["id_rol"] == 23 ||
@@ -1135,5 +1157,5 @@ if (isset($_GET["id"])) {
 <!-- script -->
 
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<!-- <script src="vistas/js/perfil.js" defer></script> -->
+<script src="vistas/js/perfil.js" defer></script>
 <script src="vistas/js/new-user.js" defer></script>
