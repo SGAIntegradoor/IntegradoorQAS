@@ -1134,6 +1134,26 @@ function consulPlacaPesados(query = "1") {
 
         //VALIDA SI LA CONSULTA FUE EXITOSA
         if (estadoConsulta == true) {
+          // Valicacion de clases permitidas en el modulo (pesados)
+          var validacionClases = obtenerClaseFasecolda(myJson.Data.CodigoFasecolda);
+
+          const mensajesRestriccion = {
+            "17": "Lo sentimos, no puedes cotizar motocicletas por este módulo.",
+            "07": "Lo sentimos, no puedes cotizar camionetas repartidoras por este módulo.",
+            "08": "Lo sentimos, no puedes cotizar camperos por este módulo.",
+            "03": "Lo sentimos, no puedes cotizar bus/buseta/microbus por este módulo.",
+            "06": "Lo sentimos, no puedes cotizar camioneta pasajeros por este módulo."
+          };
+
+          if (mensajesRestriccion[validacionClases]) {
+            Swal.fire({
+              icon: "error",
+              text: mensajesRestriccion[validacionClases],
+              confirmButtonText: "Cerrar",
+            }).then(() => location.reload());
+          } else {
+            console.log("Clase permitida");
+          }
           var codigoClase = myJson.Data.ClassId;
           var codigoMarca = myJson.Data.Brand;
           var modeloVehiculo = myJson.Data.Modelo;
@@ -4562,3 +4582,13 @@ $("#btnCotizarFinesa").click(function () {
   cotizarFinesa(cotizacionesFinesa);
   // countOfferts();
 });
+
+
+function obtenerClaseFasecolda(num) {
+    let str = String(num);
+    // Rellenamos con ceros a la izquierda hasta 8 dígitos
+    str = str.padStart(8, "0");
+    // Extraemos los dígitos 4 y 5 (índices 3 y 4)
+    const claseValidacion = str.substring(3, 5);
+    return claseValidacion;
+}
