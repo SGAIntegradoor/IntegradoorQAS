@@ -2,12 +2,17 @@
 let id_usuario_edit = "";
 let initialSta = {};
 
+
 document.addEventListener("DOMContentLoaded", function () {
+  $("#divLoaderFS").show();
   cargarRoll();
   cargarIntermediario();
   cargarAnalistas();
   cargarBancos();
   cargarCargos();
+  
+  let user_loaded = {};
+
 
   // Cargar parametros iniciales que disparan eventos
   // al iniciar cabe resaltar que solo se disparan si
@@ -53,10 +58,16 @@ $("#valorComision").on("input", function () {
         });
 
       loadUser(id)
-        .then(() => {})
+        .then(() => {}).finally(() => {
+          $("#divLoaderFS").hide();
+        })
         .catch((err) => {
           console.error("Error al cargar el usuario:", err);
         });
+
+      console.log(user_loaded)
+
+      
     }
   } else {
     $("#imgsContainer").hide();
@@ -262,6 +273,10 @@ $(".btnGuardar").on("click", function () {
       }
     },
   });
+});
+
+$(".btnSalir").on("click", function () {
+  window.location.href = "usuarios";
 });
 
 /*=============================================
@@ -795,6 +810,9 @@ async function loadUser(id) {
         $("#direccion_perfil").val(info_usuario.usu_direccion);
         $("#telefono_perfil").val(info_usuario.usu_telefono);
         $("#email_perfil").val(info_usuario.usu_email);
+
+        user_loaded = data
+
       },
       error: function (xhr, status, error) {
         console.error("Error al cargar el usuario:", error);
