@@ -14,7 +14,6 @@ if (isset($_GET["id"])) {
 
   $resultado = mysqli_query($enlace, $sql);
   $usuario = mysqli_fetch_assoc($resultado);
-
 }
 
 
@@ -497,6 +496,9 @@ if (isset($_GET["id"])) {
                   <label for="canal"><b>Canal</b></label>
                   <select name="canal" id="canal">
                     <option value="1">Freelance</option>
+                    <option value="2">Asesor Ganador</option>
+                    <option value="3">Asesor 10</option>
+                    <option value="4">Canal Directo</option>
                   </select>
                 </div>
 
@@ -515,7 +517,7 @@ if (isset($_GET["id"])) {
                   <select name="tipoDocumento" id="tipoDocumento" class="requiredfield">
                     <option value="">Seleccione una opción...</option>
                     <option value="CC">CC</option>
-                    <option value="NIT">NIT</option>
+                    <option value="CE">CE</option>
                   </select>
                 </div>
 
@@ -779,7 +781,18 @@ if (isset($_GET["id"])) {
 
                 <div class="form-group freelance" id="divOrigen">
                   <label for="origen"><b>Origen</b></label>
-                  <input type="text" name="origen" id="origen" />
+                  <select name="origen" id="origen">
+                    <!-- Mail, Facebook, Instagram, Whatsapp, Charla, Computrabajo, Campaña, Recomendado. -->
+                    <option value="">Seleccione una opción...</option>
+                    <option value="1">Mail</option>
+                    <option value="2">Facebook</option>
+                    <option value="3">Instagram</option>
+                    <option value="4">Whatsapp</option>
+                    <option value="5">Charla</option>
+                    <option value="6">Computrabajo</option>
+                    <option value="7">Campaña</option>
+                    <option value="8">Recomendado</option>
+                  </select>
                 </div>
 
                 <!-- <div class="form-group">
@@ -916,9 +929,15 @@ if (isset($_GET["id"])) {
                 <input type="text" name="noCuenta" id="noCuenta" />
               </div>
 
-              <div class="form-group">
-                <label for="documento"><b>Régimen en renta</b></label>
-                <input type="text" name="regimenRenta" id="regimenRenta" />
+              <div class="form-group" id="divRegimenRenta">
+                <label for="regimenRenta"><b>Regimen Renta</b></label>
+                <select name="regimenRenta" id="regimenRenta">
+                  <option value="">Seleccione una opción...</option>
+                  <option value="1">Declarante</option>
+                  <option value="2">No declarante</option>
+                  <option value="3">Regimen simple</option>
+                  <option value="4">Regimen especial</option>
+                </select>
               </div>
               <div class="form-group">
                 <label for="representanteLegal"><b>Facturador electronico</b></label>
@@ -953,7 +972,7 @@ if (isset($_GET["id"])) {
             </div>
             <section style="display: none;" id="divComentarios">
               <div clas="row" style="margin-bottom: 30px; margin-top: 30px;">
-                <u><b style="font-size: 16px;">Información del adicional</b></u>
+                <u><b style="font-size: 16px;">Información adicional</b></u>
               </div>
               <div style="display: flex; flex-direction: row; gap: 40px;" id="divComentarios">
                 <div class="form-group" style="width: 50%;">
