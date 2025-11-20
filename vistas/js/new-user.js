@@ -2,7 +2,6 @@
 let id_usuario_edit = "";
 let initialSta = {};
 
-
 document.addEventListener("DOMContentLoaded", function () {
   $("#divLoaderFS").show();
   cargarRoll();
@@ -10,36 +9,78 @@ document.addEventListener("DOMContentLoaded", function () {
   cargarAnalistas();
   cargarBancos();
   cargarCargos();
-  
-  let user_loaded = {};
 
+  let user_loaded = {};
 
   // Cargar parametros iniciales que disparan eventos
   // al iniciar cabe resaltar que solo se disparan si
   // es un usuario nuevo
 
-$("#valorComision").on("input", function () {
-  let valorComision = $(this).val();
+  $("#origen").on("change", function () {
+    // Aquí puedes agregar el código que deseas ejecutar cuando cambie el valor del select "origen"
+    let valorOrigen = $(this).val();
+    if (valorOrigen == "8") {
+      $("#divRecomendador").css("display", "grid");
+    } else {
+      $("#divRecomendador").css("display", "none");
+    }
+  });
 
-  // 1. Reemplaza comas por puntos
-  valorComision = valorComision.replace(/,/g, ".");
+  $("#valorComision").on("input", function () {
+    let valorComision = $(this).val();
 
-  // 2. Elimina todo lo que no sea dígito o punto
-  valorComision = valorComision.replace(/[^0-9.]/g, "");
+    // 1. Reemplaza comas por puntos
+    valorComision = valorComision.replace(/,/g, ".");
 
-  // 3. Permite solo un punto decimal (elimina los extras)
-  const parts = valorComision.split(".");
-  if (parts.length > 2) {
-    valorComision = parts[0] + "." + parts.slice(1).join("");
-  }
+    // 2. Elimina todo lo que no sea dígito o punto
+    valorComision = valorComision.replace(/[^0-9.]/g, "");
 
-  $(this).val(valorComision);
-});
+    // 3. Permite solo un punto decimal (elimina los extras)
+    const parts = valorComision.split(".");
+    if (parts.length > 2) {
+      valorComision = parts[0] + "." + parts.slice(1).join("");
+    }
+
+    $(this).val(valorComision);
+  });
   $("#tipoDePersona").val(1).trigger("change");
   $("#tipoDePersona").show();
   $("#noAsistente").prop("checked", true).trigger("change");
   $("#usuarioVin").prop("disabled", false);
   $("#fechaActivacion").prop("disabled", false);
+
+  $("#tipoDePersona").on("change", function () {
+    let tipoPersona = $(this).val();
+    if (tipoPersona == "2") {
+      // Debe borrar las opciones y dejar solo NIT
+      $("#tipoDocumento")
+        .empty()
+        .append('<option value="NIT">NIT</option>')
+        .val("NIT")
+        .trigger("change");
+      $(
+        "#nombre_perfil, #apellidos_perfil, #genero_perfil, #fechaNacimiento_perfil"
+      ).removeClass("requiredfield");
+      $(
+        "#razonSocial, #personaDeContacto, #representanteLegal, #fechaNacimientoRepresentante"
+      ).addClass("requiredfield");
+    } else {
+      // Debe borrar las opciones y dejar solo CC y CE
+      $("#tipoDocumento")
+        .empty()
+        .append(
+          '<option value="">Seleccione una opción...</option><option value="CC">CC</option><option value="CE">CE</option>'
+        )
+        .val("")
+        .trigger("change");
+      $(
+        "#nombre_perfil, #apellidos_perfil, #genero_perfil, #fechaNacimiento_perfil"
+      ).addClass("requiredfield");
+      $(
+        "#razonSocial, #personaDeContacto, #representanteLegal, #fechaNacimientoRepresentante"
+      ).removeClass("requiredfield");
+    }
+  });
 
   const params = new URLSearchParams(window.location.search);
 
@@ -58,21 +99,21 @@ $("#valorComision").on("input", function () {
         });
 
       loadUser(id)
-        .then(() => {}).finally(() => {
+        .then(() => {})
+        .finally(() => {
           $("#divLoaderFS").hide();
         })
         .catch((err) => {
           console.error("Error al cargar el usuario:", err);
         });
 
-      console.log(user_loaded)
-
-      
+      console.log(user_loaded);
     }
   } else {
+    $("#divLoaderFS").hide();
     $("#imgsContainer").hide();
     $("#diasActivacion").val(0);
-    $("#fechaCreaVin").val(todayDateFormatted(new Date(), 30));
+    $("#fechaCreaVin").val(todayDateFormatted(new Date(), 0));
     // let limitYear = Number(formattedDate.split("-")[0]) + 30;
     // let newForm = formattedDate.split("-");
     // newForm[0] = limitYear;
@@ -369,12 +410,22 @@ Metodo de consultar ciudad por departamento
 function consultarCiudad(param = "") {
   var codigoDpto = $("#departamento").val();
 
+  // Función para poner la primera letra de cada palabra en mayúscula
+  const toTitleCase = (str = "") =>
+    str.toLowerCase().replace(/\b\w/g, (l) => l.toUpperCase());
+
   $.ajax({
     type: "POST",
     url: "src/consultarCiudadHogar.php",
     data: { codigoDpto: codigoDpto },
     cache: false,
     success: function (data) {
+      const deptoActual = $("#departamento").val();
+      if (deptoActual !== codigoDpto) {
+        // El usuario cambió de departamento antes de que llegara esta respuesta → la ignoramos
+        return;
+      }
+
       // Se limpia el select antes de ingresar las ciudades.
       $("#ciudad").empty();
       let ciudadesVeh = `<option value="">Seleccionar Ciudad</option>`;
@@ -385,7 +436,8 @@ function consultarCiudad(param = "") {
         if (Array.isArray(arrCitys)) {
           arrCitys.sort((a, b) => a.codigo - b.codigo);
           arrCitys.forEach(({ codigo, ciudad }) => {
-            ciudadesVeh += `<option value="${codigo}">${ciudad}</option>`;
+            const ciudadFormateada = toTitleCase(ciudad);
+            ciudadesVeh += `<option value="${codigo}">${ciudadFormateada}</option>`;
           });
           $("#ciudad").append(ciudadesVeh);
         } else {
@@ -488,18 +540,37 @@ Cargar Objeto para Guardar Información nueva
 function setState() {
   let asegs = {};
 
+  let tipoDePersona = $("#tipoDePersona").val();
+  let esJuridiaca = tipoDePersona == "2" ? true : false;
+
+  const valorTipoDoc = $("#tipoDocumento").val();
+  let tipoDocTexto = "";
+
+  if (valorTipoDoc === "CC") {
+    tipoDocTexto = "Cedula de Ciudadania";
+  } else if (valorTipoDoc === "CE") {
+    tipoDocTexto = "Cedula de Extranjeria";
+  } else if (valorTipoDoc === "NIT") {
+    tipoDocTexto = "NIT";
+  } else {
+    tipoDocTexto = ""; // sin selección
+  }
+
   /*** Info Usuario ***/
   const infoUsuario = {
     usu_documento: $("#documento").val(),
-    usu_nombre: $("#nombre_perfil").val(),
-    usu_apellido: $("#apellidos_perfil").val(),
+    usu_nombre: esJuridiaca
+      ? $("#razonSocial").val().split(" ")[0]
+      : $("#nombres_perfil").val(),
+    usu_apellido: esJuridiaca
+      ? $("#razonSocial").val().split(" ")[1]
+      : $("#apellidos_perfil").val(),
     usu_fch_nac: $("#fechaNacimiento_perfil").val(),
     usu_direccion: $("#direccion_perfil").val(),
     ciudades_id: $("#ciudad").val(),
-    tipos_documentos_id:
-      $("#tipoDocumento").val() == "CC" ? "Cedula de Ciudadania" : "NIT",
+    tipos_documentos_id: tipoDocTexto,
     usu_usuario: $("#usuarioVin").val(),
-    usu_genero: $("#genero_perfil").val(),
+    usu_genero: esJuridiaca ? "J" : $("#genero_perfil").val(),
     usu_telefono: $("#telefono_perfil").val(),
     usu_email: $("#email_perfil").val(),
     // usu_cargo: $("#cargos option:selected").text(),
@@ -515,6 +586,7 @@ function setState() {
     id_rol: $("#rolUsers").val(),
     // Rol Usuario
     unidad_negocio_rol: $("#unidadDeNegocio").val(),
+    usu_canal: $("#canal").val() || null,
     // Por tipo de documento - Si cambia esto tiene que cambiar el tipo de documento dependiendo lo que venga
     tipo_persona_rol: $("#tipoDePersona").val(),
     // Tambien si cambia, deberia cambiar el tipo de documento solo que en este caso es directo en el otro caso es indirecto va por condicional
@@ -659,8 +731,32 @@ async function loadUser(id) {
         } else {
           // $("#divUnidadNegocio").show();
           $("#divCanal").show();
+          $("#canal").val(
+            (info_usuario.usu_canal == null || info_usuario.usu_canal == "") &&
+              info_usuario.id_rol == "19"
+              ? "1"
+              : info_usuario.usu_canal
+          );
           $("#divUsuarioSGA").hide();
           $("#unidadDeNegocio").val(info_usuario.id_rol);
+          $("#tipoDePersona").val(info_usuario.tipo_persona_rol);
+          if (info_usuario.tipo_persona_rol == "2") {
+            $("#tipoDocumento")
+              .empty()
+              .append('<option value="NIT">NIT</option>')
+              .val("NIT");
+            $(
+              "#razonSocial, #personaDeContacto, #representanteLegal, #fechaNacimientoRepresentante"
+            ).addClass("requiredfield");
+            $("#razonSocial").val(
+              info_usuario.usu_nombre + " " + info_usuario.usu_apellido
+            );
+            $("#genero_perfil")
+              .empty()
+              .append('<option value="J">Juridica</option>')
+              .val("J")
+              .trigger("change");
+          }
           $("#rolUsers").val(info_usuario.id_rol).trigger("change");
 
           setTimeout(() => {
@@ -796,13 +892,12 @@ async function loadUser(id) {
           let depto =
             info_usuario?.ciudades_id.split("")[0] +
             info_usuario?.ciudades_id.split("")[1];
-          console.log(depto);
           console.log(info_usuario?.ciudades_id);
           if (depto == 11) {
             depto = 25;
           }
-          $("#departamento").val(depto).trigger("change");
-          consultarCiudad(info_usuario?.ciudades_id);
+          $("#departamento").val(depto); // solo seteas el departamento
+          consultarCiudad(info_usuario?.ciudades_id); // y aquí sí cargas las ciudades + seleccionas la del usuario
         }
         setTimeout(() => {
           initialSta = setState();
@@ -811,8 +906,7 @@ async function loadUser(id) {
         $("#telefono_perfil").val(info_usuario.usu_telefono);
         $("#email_perfil").val(info_usuario.usu_email);
 
-        user_loaded = data
-
+        user_loaded = data;
       },
       error: function (xhr, status, error) {
         console.error("Error al cargar el usuario:", error);
@@ -961,10 +1055,17 @@ Eventos y reacciones de cambios en Inputs
 
 $("#tipoDePersona").change(function () {
   if ($(this).val() == 1) {
-    if (permisos.id_rol == 12) {
+    if (
+      permisos.id_rol == 12 ||
+      permisos.id_rol == 22 ||
+      permisos.id_rol == 23 ||
+      permisos.id_rol == 11 ||
+      permisos.id_rol == 10 ||
+      permisos.id_rol == 1
+    ) {
       $("#divCanal").css("display", "flex");
     }
-    $("#divUnidadNegocio").css("display", "none");
+    $("#divUnidadNegocio").css("display", "flex");
     $(".legal").css("display", "none");
     $(".natural").css("display", "flex");
   } else {
@@ -982,6 +1083,7 @@ $("#rolUsers").change(function () {
     $(".divClavAseg").css("display", "none");
     $("#noClaves").prop("checked", true).trigger("change");
     $(".freelance").css("display", "none");
+    $("#divRecomendador").css("display", "none");
     $(".divAsistente").css("display", "none");
     $("#divComisiones").css("display", "flex");
     $("#divCargos").css("display", "flex");
@@ -990,6 +1092,7 @@ $("#rolUsers").change(function () {
     $(".divAsistente").css("display", "block");
     // $("#siClaves").prop("checked", true).trigger("change");
     $(".freelance").css("display", "grid");
+    $("#divRecomendador").css("display", "none");
     $("#divComisiones").css("display", "none");
     $("#divCargos").css("display", "none");
   }
