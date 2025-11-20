@@ -1019,6 +1019,14 @@ function consulPlacaMotos(query = "1") {
             var mensajeConsulta = myJson.Message;
             //VALIDA SI LA CONSULTA FUE EXITOSA
             if (estadoConsulta == true) {
+
+            const resultado = ValidarClaseFasecolda(myJson.Data.CodigoFasecolda);
+                if (!resultado.permitido) {
+                  console.log('CLASE NO PERMITIDA');
+                } else {
+                  console.log("CLASE PERMITIDA");
+                }
+          
               var codigoClase = myJson.Data.ClassId;
               var codigoMarca = myJson.Data.Brand;
               var modeloVehiculo = myJson.Data.Modelo;
@@ -1027,14 +1035,14 @@ function consulPlacaMotos(query = "1") {
               var valorAsegurado = myJson.Data.ValorAsegurado;
 
               if (codigoFasecolda != null) {
-                if (valorAsegurado == "null" || valorAsegurado == null) {
+                if ((valorAsegurado == "null" || valorAsegurado == null) && resultado.permitido) {
                   consulPlacaMapfre(valnumplaca);
                   //! Agregar esto a MOTOS y Pesados START
 
                   // $("#loaderPlaca").html("");
                   // $("#loaderPlaca2").html("");
                   //! Agregar esto a MOTOS y Pesados END
-                } else {
+                } else if (resultado.permitido) {
                   var claseVehiculo = "";
                   var limiteRCESTADO = "";
 
@@ -1520,6 +1528,14 @@ function consulDatosFasecoldaMotos(codFasecolda, edadVeh) {
           $("#loaderPlaca2").html("");
           //! Agregar esto a MOTOS y Pesados END
         } else {
+          
+          //  const resultado = ValidarClaseFasecolda(data.codigo);
+           if (!resultado.permitido) {
+             throw e;
+           } else {
+             console.log("CLASE PERMITIDA");
+           }
+
           var claseVeh = data.clase;
           var marcaVeh = data.marca;
           var ref1Veh = data.referencia1;
@@ -3942,3 +3958,31 @@ $("#btnCotizarFinesa").click(function () {
   // enableInputs(true);
   cotizarFinesaMotos(cotizacionesFinesaMotos);
 });
+
+function ValidarClaseFasecolda(num) {
+  let str = String(num).padStart(8, "0");
+  let claseValidacion = str.substring(3, 5);
+
+   const mensajesRestriccion = {
+            "01": "Lo sentimos, no puedes cotizar automoviles por este módulo.",
+            "02": "Lo sentimos, no puedes cotizar automoviles por este módulo.",
+            "07": "Lo sentimos, no puedes cotizar camionetas repartidoras por este módulo.",
+            "08": "Lo sentimos, no puedes cotizar camperos por este módulo.",
+            "03": "Lo sentimos, no puedes cotizar bus/buseta/microbus por este módulo.",
+            "06": "Lo sentimos, no puedes cotizar camioneta pasajeros por este módulo.",
+            "21": "Lo sentimos, no puedes cotizar pick ups por este módulo.",
+            "10": "Lo sentimos, no puedes cotizar pesados por este módulo."
+          };
+
+  if (mensajesRestriccion[claseValidacion]) {
+    Swal.fire({
+      icon: "error",
+      text: mensajesRestriccion[claseValidacion],
+      confirmButtonText: "Cerrar",
+    }).then(() => location.reload());
+
+    return { permitido: false, mensaje: mensajesRestriccion[claseValidacion] };
+  }
+
+  return { permitido: true };
+}
