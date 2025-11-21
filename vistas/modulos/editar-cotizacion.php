@@ -1367,6 +1367,14 @@ $response = retrieveQuotation($idCotizacion);
                 </select>
               </div>
               <div class="col-xs-12 col-sm-6 col-md-4 form-group">
+                <label for="txtCanalOportunidad">Canal</label>
+                <select type="text" class="form-control" id="txtCanalOportunidad" required>
+                  <option value=""></option>
+                  <option value="Freelance">Freelance</option>
+                  <option value="Directo">Directo</option>
+                </select>
+              </div>
+              <div class="col-xs-12 col-sm-6 col-md-4 form-group">
                 <label for="txtEstadoOportunidad">Estado</label>
                 <select type="text" class="form-control" id="txtEstadoOportunidad">
                   <option value="1">Pdte orden inspección</option>
