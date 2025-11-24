@@ -1069,7 +1069,7 @@ $("#tipoDePersona").change(function () {
     $(".legal").css("display", "none");
     $(".natural").css("display", "flex");
   } else {
-    $("#divCanal").css("display", "none");
+    // $("#divCanal").css("display", "none");
     $("#divUnidadNegocio").css("display", "flex");
     $(".legal").css("display", "flex");
     $(".natural").css("display", "none");

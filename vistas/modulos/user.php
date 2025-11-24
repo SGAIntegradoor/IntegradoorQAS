@@ -495,10 +495,9 @@ if (isset($_GET["id"])) {
                 <div class="form-group" style="display: none;" id="divCanal" class="requiredfield">
                   <label for="canal"><b>Canal</b></label>
                   <select name="canal" id="canal">
-                    <option value="1">Freelance</option>
-                    <option value="2">Asesor Ganador</option>
-                    <option value="3">Asesor 10</option>
-                    <option value="4">Canal Directo</option>
+                    <option value="">Seleccione una opción...</option>
+                    <option value="1">Canal Freelance</option>
+                    <option value="2">Canal Directo</option>
                   </select>
                 </div>
 
