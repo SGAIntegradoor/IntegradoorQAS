@@ -1074,7 +1074,7 @@ if (isset($_GET["id"])) {
                     <input id="todosCheck" type="checkbox" value="Todos" onchange="updateSelectText(event)"> Todos
                   </div>
                   <div class="option">
-                    <input type="checkbox" value="Automoviles" onchange="updateSelectText(event)"> Automoviles
+                    <input type="checkbox" value="Autos Livianos" onchange="updateSelectText(event)"> Autos Livianos
                   </div>
                   <div class="option">
                     <input type="checkbox" value="Motos" onchange="updateSelectText(event)"> Motos

@@ -695,7 +695,7 @@ async function loadUser(id) {
           info_usuario.id_rol == 22 ||
           info_usuario.id_rol == 23
         ) {
-          // console.log(data);
+          console.log("Este es el usuario!", data);
           $("#divUnidadNegocio").hide();
           $("#divCanal").hide();
           $("#divUsuarioSGA").show();
@@ -715,7 +715,8 @@ async function loadUser(id) {
               .trigger("change");
           }, 500);
         } else if (info_usuario.id_rol == 12) {
-          $("#divUnidadNegocio").hide();
+          console.log("Este es el usuario!", data);
+          $("#divUnidadNegocio").css("display", "none");
           $("#divUsuarioSGA").show();
           $("#usuarioSGA").val(info_usuario.id_rol);
           $(".divAsistente").hide();
@@ -738,7 +739,9 @@ async function loadUser(id) {
               : info_usuario.usu_canal
           );
           $("#divUsuarioSGA").hide();
-          $("#unidadDeNegocio").val(info_usuario.id_rol);
+
+          // $("#unidadDeNegocio").val(info_usuario.id_rol);
+          $("#divUnidadNegocio").hide();
           $("#tipoDePersona").val(info_usuario.tipo_persona_rol);
           if (info_usuario.tipo_persona_rol == "2") {
             $("#tipoDocumento")
@@ -1065,7 +1068,7 @@ $("#tipoDePersona").change(function () {
     ) {
       $("#divCanal").css("display", "flex");
     }
-    $("#divUnidadNegocio").css("display", "flex");
+    $("#divUnidadNegocio").css("display", "none");
     $(".legal").css("display", "none");
     $(".natural").css("display", "flex");
   } else {
@@ -1123,7 +1126,7 @@ Configuración del modal
 =============================================*/
 
 function openModalComisiones(id = null) {
-  console.log(permisos.id_rol);
+  // console.log(permisos.id_rol);
   if (
     permisos.id_rol != 22 &&
     permisos.id_rol != 23 &&
