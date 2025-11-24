@@ -2527,8 +2527,8 @@ function saveRequest(body, response) {
     url: "src/guardarRR.php",
     dataType: "json",
     data: {
-      request: body,
-      response: response,
+      request: response.request,
+      response: response.response,
       aseguradora: response.aseguradora, //response.aseguradora deberia traer el nombre de la aseguradora.
       cotizacion: idCotizacionHogar, //se debe traer la variable del contexto global idCotizacionHogar una vez sea generada, esta se generara cuando den en cotizar y no haya ningun error deberia traer el id de la cotizacion.
     },

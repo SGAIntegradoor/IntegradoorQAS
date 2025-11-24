@@ -310,8 +310,8 @@ function editarCotizacionHogar(id) {
 
       // DATOS DEL BIEN ASEGURADO
 
-      $(".dirInmueble").val(resto_direccion);
-      $("#dirInmuebleAllianz").val(direccion);
+      $(".dirInmueble").val(direccion);
+      // $("#dirInmuebleAllianz").val(direccion);
       $("#deptoInmueble").append(new Option(departamento, "1000"));
       $("#estrato").val(estrato).trigger("change");
       $("#deptoInmueble").val("1000").trigger("change");
@@ -373,6 +373,10 @@ function editarCotizacionHogar(id) {
       $("#valorContenidosAllianz").val(val_cn);
       $("#valorHurtoAllianz").val(val_hur);
       $("#valorTodoRiesgoAllianz").val(val_tr);
+
+      $("#sotanosAllianz").val(response.nro_sotanos);
+      $("#sotanosAllianz").prop("disabled", true);
+;
 
       $(".contentsAllianz").prop("disabled", true);
 
