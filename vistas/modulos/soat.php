@@ -342,14 +342,14 @@
                                     <h4 class="card-title" style="font-weight: bold;">VALOR COBRO SERVICIO DE TRÁMITE</h4>
                                     <p class="card-text">Opción 1 sin comisión: El aliado cobra al cliente el valor adicional que desee. En ese caso el valor de cobro por servicio de trámite es el siguiente:</p>
                                     <ul class="card-text" style="padding-left: 11%; padding-right: 15%; list-style-position: inside;">
-                                        <li>Moto: $30.000</li>
-                                        <li>Otras tarifas: $20.000</li>
+                                        <li>Moto: <b>$30.000</b></li>
+                                        <li>Otras tarifas: <b>$20.000</b></li>
                                     </ul>
                                     <p class="card-text">Opción 2 con comisión: Aliado recibe comisión de $20.000 por cada SOAT que se emita para sus clientes. El valor de cobro por servicio de trámite es:</p>
                                     <ul class="card-text" style="padding-left: 11%; padding-right: 15%; list-style-position: inside;">
-                                        <li>Moto: $50.000</li>
-                                        <li>SOAT menor a $700.000: $35.000</li>
-                                        <li>SOAT mayor o igual a $700.000: $45.000</li>
+                                        <li>Moto: <b>$50.000</b></li>
+                                        <li>SOAT menor a $700.000: <b>$35.000</b></li>
+                                        <li>SOAT mayor o igual a $700.000: <b>$45.000</b></li>
                                     </ul>
                                     <p class="card-text"><b>Notas: 1.</b>  Los $20.000 de comisión se liquidan y cobran a través del área SOAT de Grupo Asistencia, y se pagan una vez se logren 5 SOAT, es decir, cada $100.000.
                                     <b>2.</b> Actualmente no tenemos habilitada la expedición de Motos (0 km). <b>3.</b> 
