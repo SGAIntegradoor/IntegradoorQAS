@@ -23,7 +23,7 @@ if (getParams("idCotizacionHogar").length > 0) {
   $("#lblCotAseg").html("DATOS DEL ASEGURADO");
   openDataFormHogar();
   openValAllianz();
-}
+} 
 
 // else if (getParams("fechaInicialCotizaciones").length > 0) {
 //   menosCotizaciones();
@@ -212,9 +212,6 @@ function disableInputs(context, disabled) {
 function editarCotizacionHogar(id) {
   idCotizacionHogar = id; // Almacena el Id en la variable global de idCotización
   //console.log(id);
-
-  $("#divEstadoHogar").show();
-
   var datos = new FormData();
 
   datos.append("idCotizacionHogar", idCotizacionHogar);
@@ -248,7 +245,6 @@ function editarCotizacionHogar(id) {
         id_tipo_documento,
         cli_telefono,
         direccion,
-        resto_direccion,
         departamento,
         zona_riesgo,
         tipo_vivienda,
@@ -277,10 +273,6 @@ function editarCotizacionHogar(id) {
         val_viv_sbs,
       } = response;
 
-      val_cn_elec = response.val_cn_elec;
-      val_cn_no_elec = response.val_cn_no_elec;
-      estrato = response.estrato;
-
       const fields = [
         "nombre",
         "apellido",
@@ -299,10 +291,8 @@ function editarCotizacionHogar(id) {
         $(`.${field}`).prop("disabled", true);
       });
 
-      $(".tipoDocumento").val(id_tipo_documento).trigger("change");
+      $(".tipoDocumento").val(id_tipo_documentoV).trigger("change");
       $(".nombre").val(cli_nombre);
-      $(".razon").val(cli_nombre + ' ' + cli_apellidos);
-      $(".digito").val(response.digito_verificacion);
       $(".apellido").val(cli_apellidos);
       $(".numeroDocumento").val(cli_num_documento);
       $(".celular").val(cli_telefono);
@@ -313,7 +303,6 @@ function editarCotizacionHogar(id) {
       $(".dirInmueble").val(direccion);
       // $("#dirInmuebleAllianz").val(direccion);
       $("#deptoInmueble").append(new Option(departamento, "1000"));
-      $("#estrato").val(estrato).trigger("change");
       $("#deptoInmueble").val("1000").trigger("change");
       $(".ciudadInmueble").append(new Option(ciudad, "1000"));
       $(".ciudadInmueble").val("1000").trigger("change");
@@ -323,7 +312,6 @@ function editarCotizacionHogar(id) {
       $(".noPiso").val(no_piso).trigger("change");
       $(".noPisosEdi").val(no_total_pisos).trigger("change");
       $(".tipoConstruccion").val(tipo_construccion).trigger("change");
-      $("#nroSotanos").val(response.nro_sotanos);
       $(".anioConstruccion").val(anio_construccion).trigger("change");
       $(".areaTotal").val(area_total).trigger("change");
       $(".zonaConstruccion").val(zona_construccion).trigger("change");
@@ -331,45 +319,8 @@ function editarCotizacionHogar(id) {
       $(`#${tipo_cobertura}`).prop("checked", true).trigger("click");
       $(`#${credito}Credito`).prop("checked", true).trigger("click");
 
-      // campos Deudor
-      let nacimiento_deudor = response.nacimiento_deudor;
-      if(nacimiento_deudor) {
-        let [anio, mes, dia] = nacimiento_deudor.split('-');
-      $("#saldoExtracto").val(response.saldo_extracto_deudor);
-      $("#pesoDeudor").val(response.peso_deudor);
-      $("#alturaDeudor").val(response.altura_deudor);
-      $("#saludDeudor").val(response.condicion_salud);
-      $("#dianacimiento").val(dia).trigger("change");
-      $("#mesnacimiento").val(mes).trigger("change");
-      $("#anionacimiento").val(anio).trigger("change");
-
-      }
-      $("#vidaDeudorQ").prop("disabled","true");
-      if (response.saldo_extracto_deudor == null) {
-        $("#vidaDeudorQ").val("No").trigger("change");
-      } else {
-        $("#vidaDeudorQ").val("Si").trigger("change");
-      }
-
-      $('input[name="vidaDeudorQRadio"]').prop("disabled", true);
-
-      // Lógica según el valor del response
-      if (response.saldo_extracto_deudor == null) {
-        // Selecciona el radio con valor "No"
-        $('input[name="vidaDeudorQRadio"][value="No"]')
-          .prop("checked", true)
-          .trigger("change");
-      } else {
-        // Selecciona el radio con valor "Si"
-        $('input[name="vidaDeudorQRadio"][value="Si"]')
-          .prop("checked", true)
-          .trigger("change");
-      }
-
       // campos Allianz
       $("#valorViviendaAllianz").val(val_viv || 0);
-      $("#valorContenidosNoElectricos").val(val_cn_no_elec);
-      $("#valorContenidosElectricos").val(val_cn_elec);
       $("#valorContenidosAllianz").val(val_cn);
       $("#valorHurtoAllianz").val(val_hur);
       $("#valorTodoRiesgoAllianz").val(val_tr);
@@ -409,14 +360,9 @@ function editarCotizacionHogar(id) {
         val_cnesp_sus_sbs == null ? 0 : val_cnesp_sus_sbs
       );
       $("#totalContenidos").val(tot_cnn_sbs == null ? 0 : tot_cnn_sbs);
-
       $("#totalCoberturaBasica").val(
-      parseFloat($("#valorViviendaAllianz").val()) + 
-      parseFloat($("#valorContenidosAllianz").val())
+        tot_cobertura_basica_sbs == null ? 0 : tot_cobertura_basica_sbs
       );
-      // $("#totalCoberturaBasica").val(
-      //   tot_cobertura_basica_sbs == null ? 0 : tot_cobertura_basica_sbs
-      // );
       $("#contentNormalesSUS").val(
         val_cnnor_sus_sbs == null ? 0 : val_cnnor_sus_sbs
       );
@@ -450,7 +396,7 @@ function editarCotizacionHogar(id) {
         processData: false,
         dataType: "json",
         success: function (response) {
-          makeATable();
+          makeATable()
           response.forEach((alert) => {
             alert.cotizo == 1
               ? $(`#${alert.aseguradora}-check`).html(
