@@ -1329,6 +1329,7 @@ async function renderCards(response) {
         "Taxis Amarillos Elite",
         "Taxis Amarillos Premium",
         "Taxis Amarillos Plus",
+        "Taxis Amarillos Clasico",
         "Buses Premium",
         "Buses Plus",
         "Buses Elite",
@@ -1801,8 +1802,7 @@ async function renderCards(response) {
           oferta.Aseguradora == "Mundial Seguros") &&
         oferta.UrlPdf !== null &&
         aseguradoraPermisos == "1" &&
-        (oferta.Producto == "Conduce Tranquilo Pes" ||
-          oferta.Producto == "Seguro Amarillo" || oferta.Producto == "Seguro Amarillo - RC en Exceso")
+        (oferta.Producto == "Conduce Tranquilo Pes")
       ) {
         cardCotizacion += `
   
