@@ -3971,7 +3971,11 @@ function ValidarClaseFasecolda(num) {
             "03": "Lo sentimos, no puedes cotizar bus/buseta/microbus por este módulo.",
             "06": "Lo sentimos, no puedes cotizar camioneta pasajeros por este módulo.",
             "21": "Lo sentimos, no puedes cotizar pick ups por este módulo.",
-            "10": "Lo sentimos, no puedes cotizar pesados por este módulo."
+            "10": "Lo sentimos, no puedes cotizar pesados por este módulo.",
+            "22": "Lo sentimos, no puedes cotizar pesados por este módulo.",
+            "26": "Lo sentimos, no puedes cotizar pesados por este módulo.",
+            "25": "Lo sentimos, no puedes cotizar pesados por este módulo."
+            
           };
 
   if (mensajesRestriccion[claseValidacion]) {

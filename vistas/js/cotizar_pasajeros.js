@@ -1125,6 +1125,14 @@ function consulPlaca(query = "1") {
 
           //VALIDA SI LA CONSULTA FUE EXITOSA
           if (estadoConsulta == true) {
+
+            const resultado = ValidarClaseFasecolda(myJson.Data.CodigoFasecolda);
+                if (!resultado.permitido) {
+                  console.log('CLASE NO PERMITIDA');
+                } else {
+                  console.log("CLASE PERMITIDA");
+                }
+
             var codigoClase = myJson.Data.ClassId;
             var codigoMarca = myJson.Data.Brand;
             var modeloVehiculo = myJson.Data.Modelo;
@@ -1133,7 +1141,7 @@ function consulPlaca(query = "1") {
             var valorAsegurado = myJson.Data.ValorAsegurado;
 
             if (codigoFasecolda != null) {
-              if (valorAsegurado == "null" || valorAsegurado == null) {
+              if ((valorAsegurado == "null" || valorAsegurado == null) && resultado.permitido) {
                 if (consulPlacaMapfre(valnumplaca)) {
                 } else {
                   consulDatosFasecolda;
@@ -4457,3 +4465,30 @@ $("#btnCotizarFinesa").click(function () {
   enableInputs(true);
   cotizarFinesa(cotizacionesFinesa);
 });
+
+function ValidarClaseFasecolda(num) {
+  let str = String(num).padStart(8, "0");
+  let claseValidacion = str.substring(3, 5);
+
+  const mensajesRestriccion = {
+    "07": "Lo sentimos, no puedes cotizar camionetas repartidoras por este módulo.",
+    "03": "Lo sentimos, no puedes cotizar bus/buseta/microbus por este módulo.",
+    "21": "Lo sentimos, no puedes cotizar pesados por este módulo.",
+    "26": "Lo sentimos, no puedes cotizar pesados por este módulo.",
+    "10": "Lo sentimos, no puedes cotizar pesados por este módulo.",
+    "22": "Lo sentimos, no puedes cotizar pesados por este módulo.",
+    "25": "Lo sentimos, no puedes cotizar pesados por este módulo."
+  };
+
+  if (mensajesRestriccion[claseValidacion]) {
+    Swal.fire({
+      icon: "error",
+      text: mensajesRestriccion[claseValidacion],
+      confirmButtonText: "Cerrar",
+    }).then(() => location.reload());
+
+    return { permitido: false, mensaje: mensajesRestriccion[claseValidacion] };
+  }
+
+  return { permitido: true };
+}
