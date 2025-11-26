@@ -1319,7 +1319,7 @@ async function renderCards(response) {
         "Utilitario y Pesados",
         "Genio Pesado",
         "Conduce Tranquilo Pes",
-        "Seguro Amarillo - RC en Exceso",
+        "Seguro Amarillo - RCE en Exceso",
         "Seguro Amarillo"
       ];
 
