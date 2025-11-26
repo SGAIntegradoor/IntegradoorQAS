@@ -1190,6 +1190,12 @@ function consulPlaca(query = "1") {
 
           //VALIDA SI LA CONSULTA FUE EXITOSA
           if (estadoConsulta == true) {
+            const resultado = ValidarClaseFasecolda(myJson.Data.CodigoFasecolda);
+                if (!resultado.permitido) {
+                  console.log('CLASE NO PERMITIDA');
+                } else {
+                  console.log("CLASE PERMITIDA");
+                }
             var codigoClase = myJson.Data.ClassId;
             var codigoMarca = myJson.Data.Brand;
             var modeloVehiculo = myJson.Data.Modelo;
@@ -1198,7 +1204,7 @@ function consulPlaca(query = "1") {
             var valorAsegurado = myJson.Data.ValorAsegurado;
 
             if (codigoFasecolda != null) {
-              if (valorAsegurado == "null" || valorAsegurado == null) {
+              if ((valorAsegurado == "null" || valorAsegurado == null) && resultado.permitido) {
                 consulPlacaMapfre(valnumplaca);
                 // document.getElementById("formularioVehiculo").style.display =
                 //   "block";
@@ -1222,17 +1228,6 @@ function consulPlaca(query = "1") {
                 } else if (codigoClase == 4) {
                   claseVehiculo = "CAMIONETA PASAJ.";
                   limiteRCESTADO = 6;
-                } else if (codigoClase == 11) {
-                  claseVehiculo = "CAMIONETA REPARTIDORA";
-                  restriccion =
-                    "Lo sentimos, no puedes cotizar vehiculos utilitarios por este módulo. Para hacerlo debes ingresar al modulo Cotizar Livianos Utilitarios.";
-                  Swal.fire({
-                    icon: "error",
-                    text: restriccion,
-                    confirmButtonText: "Cerrar",
-                  }).then(() => {
-                    location.reload();
-                  });
                 } else if (codigoClase == 12) {
                   claseVehiculo = "MOTOCICLETA";
                   limiteRCESTADO = 6;
@@ -1308,6 +1303,7 @@ function consulPlaca(query = "1") {
                   function (resp) {
                     $("#txtMarcaVeh").val(resp.marcaVeh);
                     $("#txtReferenciaVeh").val(resp.lineaVeh);
+                    $("#txtClaseVeh").val(resp.claseVeh);
                   }
                 );
               }
@@ -1541,6 +1537,10 @@ function consulCodFasecolda(e = null) {
           tipoConsulta = null;
         }
         var codFasecolda = data.result.codigo;
+        let resultadoConsultaManual = ValidarClaseFasecolda(fasecolda, true);
+        if (!resultadoConsultaManual.permitido) {
+          throw new Error("CLASE NO PERMITIDA");
+        }
         consulValorfasecolda(codFasecolda, edadVeh, tipoConsulta);
       },
     });
@@ -1790,6 +1790,8 @@ function consulDatosFasecoldaPesados(codFasecolda, edadVeh) {
         modelo: edadVeh,
       },
       success: function (data) {
+        // const resultado = ValidarClaseFasecolda(data.codigo);
+
         // console.log(data);
         var claseVeh = data.clase;
         var marcaVeh = data.marca;
@@ -7409,6 +7411,10 @@ const tipoVehiculo = [
 
 $("#btnConsultarVehmanualbuscador").click(function () {
   var fasecolda = document.getElementById("fasecoldabuscadormanual").value;
+  let resultadoConsultaManual = ValidarClaseFasecolda(fasecolda, true);
+  if (!resultadoConsultaManual.permitido) {
+    throw new Error("CLASE NO PERMITIDA");
+  }
   var modelo = document.getElementById("modelobuscadormanual").value;
 
   if (fasecolda == "") {
@@ -7444,9 +7450,9 @@ $("#btnConsultarVehmanualbuscador").click(function () {
               allowOutsideClick: false,
             }).then((result) => {
               if (result.isConfirmed) {
-                window.location = "cotizar";
+                // window.location = "cotizar";
               } else if (result.isDenied) {
-                window.location = "cotizar";
+                // window.location = "cotizar";
               }
             });
           }
@@ -7552,3 +7558,34 @@ $("#btnCotizarFinesa").click(function () {
   cotizarFinesa(cotizacionesFinesa);
   countOfferts();
 });
+
+function ValidarClaseFasecolda(num, manual = false) {
+  let str = String(num).padStart(8, "0");
+  let claseValidacion = str.substring(3, 5);
+
+  // clases permitidas
+  const clasesPermitidas = [
+    "01", "02", "06", "08", "20", "21"
+  ];
+
+   if (!clasesPermitidas.includes(claseValidacion) && manual == false) {
+    Swal.fire({
+      icon: "error",
+      text: "No puedes cotizar este tipo de vehículo por este módulo.",
+      confirmButtonText: "Cerrar",
+    }).then(() => location.reload());
+
+    return { permitido: false, mensaje: "No puedes cotizar este tipo de vehículo por este módulo." };
+
+  } else if (!clasesPermitidas.includes(claseValidacion) && manual == true) {
+    Swal.fire({
+      icon: "error",
+      text: "No puedes cotizar este tipo de vehículo por este módulo.",
+      confirmButtonText: "Cerrar",
+    });
+
+    return { permitido: false, mensaje: "No puedes cotizar este tipo de vehículo por este módulo." };
+  }
+
+  return { permitido: true };
+}
