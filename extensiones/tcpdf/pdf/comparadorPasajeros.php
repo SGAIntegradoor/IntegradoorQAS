@@ -681,6 +681,15 @@ while ($i < count($resultados)) {
 			<span style="color:#666666;">' . $solidariaProducto . '</span>
 			</td>';
 			break;
+		case 'Mundial':
+		case 'Seguros Mundial':
+			$html2 .= '<td class="puntos td2 ' . $fondo_class . '" style="font-size: 6.5px; font-family:dejavusanscondensedb;">
+			<div style="font-size:3.5pt">&nbsp;</div>
+			<img style="width:50px;" src="../../../vistas/img/logos/mundial.png" alt="">
+			<div style="font-size:6.5pt">&nbsp;</div>
+			<span style="color:#666666;">' . $resultados[$i]['Producto'] . '</span>
+			</td>';
+		break;
 	}
 	$i++;
 	$cont++;
@@ -890,7 +899,7 @@ $pdf->SetFont('dejavusanscondensed', '', 8);
 $html3 .= '<tr style="width: 100%;" class="izquierda">';
 $html3 .= '<td style ="width: 100%;  background-color: #D1D1D1; font-family:dejavusanscondensedb;" colspan="' . ($rowValidate + 1) . '">
 <div style="font-size:3pt">&nbsp;</div>
-   RESPONSABILIDAD CIVIL EXTRACONTRACTUAL
+   RESPONSABILIDAD CIVIL EXTRACONTRACTUAL (EN EXCESO)
    <div style="font-size:3pt">&nbsp;</div>
 </td>';
 $html3 .= '</tr>';
@@ -1018,6 +1027,11 @@ foreach ($resultados as $resultado) {
 			<div style="font-size:4pt">&nbsp;</div>
 			<center><img style="width:35px;" src="../../../vistas/img/logos/solidaria.png" alt=""></center>
 			</td>';
+		} else if ($resultado['Aseguradora'] == 'Mundial') {
+			$html3 .= '<center><td class="puntos fondo" style="width:' . $valorTabla . '%;text-align: center;">
+			<div style="font-size:4pt">&nbsp;</div>
+			<center><img style="width:45px;" src="../../../vistas/img/logos/mundial.png" alt=""></center>
+			</td></center>';
 		}
 	} else {
 		if ($resultado['Aseguradora'] == 'Axa Colpatria') {
@@ -1096,6 +1110,9 @@ foreach ($resultados as $resultado) {
 		} else if ($resultado['Aseguradora'] == 'Solidaria') {
 			$html3 .= '<td class="puntos fondo2" style="width:' . $valorTabla . '%;text-align: center;">
 			<center><img style="width:35px;" src="../../../vistas/img/logos/solidaria.png" alt=""></center></td>';
+		} else if ($resultado['Aseguradora'] == 'Mundial') {
+			$html3 .= '<td class="puntos fondo2" style="width:' . $valorTabla . '%;text-align: center;">
+			<center><img style="width:35px;" src="../../../vistas/img/logos/mundial.png" alt=""></center></td>';
 		}
 	}
 
@@ -1491,7 +1508,6 @@ $html3 .= '</tr>';
 
 $html3 .= '</table>';
 
-
 $html4 = '
 <style>
   .puntos {
@@ -1656,6 +1672,12 @@ foreach ($resultados as $resultado) {
 			<img style="width:35px;" src="../../../vistas/img/logos/solidaria.png" alt="">
 			<div style="font-size:5pt">&nbsp;</div>
 			</td>';
+		} else if ($resultado['Aseguradora'] == 'Mundial') {
+			$html4 .= '<td class="puntos fondo" style="width:' . $valorTabla . '%;text-align: center;">
+			<div style="font-size:5pt">&nbsp;</div>
+			<img style="width:45px;" src="../../../vistas/img/logos/mundial.png" alt="">
+			<div style="font-size:5pt">&nbsp;</div>
+			</td>';
 		}
 	} else {
 		if ($resultado['Aseguradora'] == 'Axa Colpatria') {
@@ -1738,6 +1760,10 @@ foreach ($resultados as $resultado) {
 			$html4 .= '<td class="puntos fondo2" style="width:' . $valorTabla . '%;text-align: center;">
 			<div style="font-size:5pt">&nbsp;</div>
 			<img style="width:35px;" src="../../../vistas/img/logos/solidaria.png" alt=""></td>';
+		} else if ($resultado['Aseguradora'] == 'Mundial') {
+			$html4 .= '<td class="puntos fondo2" style="width:' . $valorTabla . '%;text-align: center;">
+			<div style="font-size:5pt">&nbsp;</div>
+			<img style="width:45px;" src="../../../vistas/img/logos/mundial.png" alt=""></td>';
 		}
 	}
 
@@ -2605,9 +2631,14 @@ $pdf->SetTextColor(104, 104, 104);
 $pdf->Cell(25, 6, "Elaborado por Software Integradoor propiedad del proveedor tecnológico Strategico Technologies SAS BIC Nit: 901.542.216-8", 0, 1, '');
 $pdf->StopTransform();
 
-$pdf->SetXY(0, 276);
+$pdf->SetXY(0, 262);
 $htmlFooter = '<p style="font-size: 6.2px;">Nota: Esta cotización no constituye una oferta comercial. La misma se expide única y exclusivamente con un propósito informativo sobre los posibles costos del seguro y sus condiciones, los cuales serán susceptibles de modificación hasta tanto no se concreten y determinen las características de los respectivos riesgos. No se permite financiar a 12 cuotas si el vehículo tiene prenda y la póliza beneficiario oneroso; máximo 11 cuotas.</p>';
-$pdf->writeHTML($htmlFooter, true, false, true, false, '');
+$pdf->writeHTML($htmlFooter, true, false, true, true, '');
+$pdf->Ln();
+
+$pdf->SetXY(0, 272);
+$htmlFooter = '<p style="font-size: 6.2px; color: red">Importante: Si el vehículo cuenta con sistema de gas instalado de fábrica, este ya está incluido en el valor asegurado y tiene cobertura automática. Si el sistema de gas fue instalado posteriormente, debe ser cotizado como accesorio adicional. Por favor, consulta con tu Asesor para incluirlo correctamente en la póliza.</p>';
+$pdf->writeHTML($htmlFooter, true, false, true, true, '');
 $pdf->Ln();
 
 // Consulta el servicio del vehiculo segun su codigo

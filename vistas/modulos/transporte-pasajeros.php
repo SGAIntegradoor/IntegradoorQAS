@@ -1359,10 +1359,37 @@ echo '<script>console.log(' . $idIntermediario . ", " . $rolAsesor . ')</script>
                         <option value="3">Placa Blanca (Servicio Especial)</option>
                       </select>
                     </div>
-
                   </div>
 
+
                   <div class="row">
+                    <div class="col-xs-12 col-sm-6 col-md-3 form-group" id="divTieneGas" style="display: none;">
+                      <div style="display: flex; flex-direction: column; gap: 10px;">
+                        <label for="tieneGasRadio">¿El taxi tiene sistema de gas?</label>
+                        <div style="display: flex; flex-direction: row; align-items: center; gap: 20px">
+                          <div style="display: flex; gap: 5px;">
+                            <input type="radio" name="tieneGasRadio" id="tieneGasSi" value="Si" style="margin-top: 0px;"> Si
+                          </div>
+                          <div style="display: flex; gap: 5px;">
+                            <input type="radio" name="tieneGasRadio" id="tieneGasNo" value="No" style="margin-top: 0px;"> No
+                          </div>
+                        </div>
+                      </div>
+
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-3 form-group" id="divGasDeFabrica" style="display: none;">
+                      <div style="display: flex; flex-direction: column; gap: 10px;">
+                        <label for="gasDeFabrica">¿El sistema de gas es de fábrica?</label>
+                        <div style="display: flex; flex-direction: row; align-items: center; gap: 20px">
+                          <div style="display: flex; gap: 5px;">
+                            <input type="radio" name="gasDeFabricaRadio" id="gasDeFabricaSi" value="Si" style="margin-top: 0px;"> Si
+                          </div>
+                          <div style="display: flex; gap: 5px;">
+                            <input type="radio" name="gasDeFabricaRadio" id="gasDeFabricaNo" value="No" style="margin-top: 0px;"> No
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                     <div class="col-xs-12 col-sm-6 col-md-3 form-group" id="divNumeroPasajeros" style="display: none;">
                       <label for="txtNumeroPasajeros">Numero de Pasajeros</label>
                       <select class="form-control" name="txtNumeroPasajeros" id="txtNumeroPasajeros" required>
@@ -1508,7 +1535,7 @@ echo '<script>console.log(' . $idIntermediario . ", " . $rolAsesor . ')</script>
 
                         </tbody>
                       </table>
-                    </div>  
+                    </div>
                     <div class="row button-recotizar" style="display: block; margin:5px">
                       <div class="col-md-6"></div>
                       <div class="col-xs-12 col-sm-12 col-md-3 form-group">
@@ -1516,7 +1543,7 @@ echo '<script>console.log(' . $idIntermediario . ", " . $rolAsesor . ')</script>
                           Fallidas</button>
                       </div>
                       <div class="col-xs-12 col-sm-12 col-md-3 form-group">
-                        <button class="btn btn-primary btn-block"  style="background-color: black;" id="btnCotizarFinesa">Calcular Financiación</button>
+                        <button class="btn btn-primary btn-block" style="background-color: black;" id="btnCotizarFinesa">Calcular Financiación</button>
                       </div>
                       <div class="col-md-3"></div>
                     </div>

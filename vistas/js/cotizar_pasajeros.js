@@ -269,6 +269,24 @@ $(document).ready(function () {
       numeroSinCaracteresEspeciales2;
   }
 
+  function buildInfoNotificacion(title, htmlContent) {
+    let content = `<p style="text-align: justify;">${htmlContent}</p>`;
+    return Swal.fire({
+      icon: "info",
+      title,
+      width: 350,
+      html: content,
+      confirmButtonText: "OK",
+      didOpen: () => {
+        const btn = Swal.getConfirmButton();
+        btn.style.width = "60px";
+        btn.style.height = "30px";
+        btn.style.fontSize = "11.5px";
+        btn.style.borderRadius = "7px";
+      },
+    });
+  }
+
   // Convierte la Placa ingresada en Mayusculas
   $("#numDocumentoID").change(function () {
     consultarAsegurado();
@@ -353,22 +371,6 @@ $(document).ready(function () {
     }
   });
 
-  // $("#txtNumeroPasajeros").on("change", function () {
-  //   var numeroPasajeros = $(this).val();
-  //   // Verifica si el número de pasajeros es mayor a 20
-  //   if (numeroPasajeros > 19 || numeroPasajeros == 0) {
-  //     // Muestra una alerta de error
-  //     Swal.fire({
-  //       icon: "error",
-  //       title: "Número de Pasajeros Excedido",
-  //       text: "El número de pasajeros va de 1 a 19.",
-  //       showConfirmButton: true,
-  //     });
-  //     // Limpia el campo
-  //     $(this).val("");
-  //   }
-  // });
-
   // Obtiene los datos de cada campo del formulario y Valida que no esten Vacios
   $("#formResumAseg, #formVehManual, #formResumVeh, #agregarOferta").on(
     "submit",
@@ -408,22 +410,6 @@ $(document).ready(function () {
     consulCodFasecolda();
   });
 
-  // function decresCotTotales() {
-  //   return new Promise(function (resolve, reject) {
-  //     $.ajax({
-  //       type: "POST",
-  //       url: "src/updateCotizacionesTotales.php",
-  //       dataType: "json",
-  //       success: function (data) {
-  //         resolve(data);
-  //       },
-  //       error: function (xhr, status, error) {
-  //         reject(error);
-  //       },
-  //     });
-  //   });
-  // }
-
   async function checkCotTotales() {
     let cotHechas = await mostrarCotRestantes();
     //console.log(cotHechas);
@@ -443,6 +429,51 @@ $(document).ready(function () {
       });
     });
   }
+
+  $("#txtTipoTransporteVehiculo").change(function () {
+    var tipoTransporte = $(this).val();
+    if (tipoTransporte == "1") {
+      $("#divTieneGas").show();
+      $("#divTieneGas input[name='tieneGasRadio']").prop("required", true);
+    } else {
+      $("#divTieneGas").css("display", "none");
+      $("#divTieneGas input[name='tieneGasRadio']").prop("required", false);
+    }
+  });
+
+  $("#divTieneGas input[name='tieneGasRadio']").change(function () {
+    var tieneGas = $(this).val();
+    console.log(tieneGas);
+    if (tieneGas == "Si") {
+      $("#divGasDeFabrica").show();
+      $("#divGasDeFabrica input[name='gasDeFabricaRadio']").prop(
+        "required",
+        true
+      );
+    } else {
+      $("#divGasDeFabrica").css("display", "none");
+      $("#divGasDeFabrica input[name='gasDeFabricaRadio']").prop(
+        "required",
+        false
+      );
+    }
+  });
+
+  $("#divGasDeFabrica input[name='gasDeFabricaRadio']").change(function () {
+    var gasDeFabrica = $(this).val();
+    console.log(gasDeFabrica);
+    if (gasDeFabrica == "Si") {
+      buildInfoNotificacion(
+        "",
+        "Si el sistema de gas está incluido de fábrica, la cobertura se encuentra contemplada dentro del valor asegurado del vehículo. Puedes continuar con la cotización normalmente."
+      );
+    } else if (gasDeFabrica == "No") {
+      buildInfoNotificacion(
+        "",
+        "⚠️ Si el sistema de gas no fue instalado de fábrica, no está incluido automáticamente en la cobertura. Si deseas incluirlo, termina la cotización y envíala a tu analista comercial para que incluya la instalación del sistema de gas como accesorio adicional. <br><br>Ten en cuenta que su inclusión puede generar un ajuste en la prima y en el valor asegurado."
+      );
+    }
+  });
 
   let intermediario = document.getElementById("idIntermediario").value;
 
@@ -2433,7 +2464,19 @@ const mostrarOferta = (
                                     <div>VER PDF &nbsp;&nbsp;<span class="fa fa-file-text"></span></div>
                                 </button>
                             </div>`;
-  }
+  } 
+  // else if (
+  //   aseguradora == "Mundial" &&
+  //   permisosCredenciales == "1" &&
+  //   (producto == "Seguro Amarillo" || producto == "Seguro Amarillo - RC en Exceso")
+  // ) {
+  //   cardCotizacion += `
+  //         <div class="col-xs-12 col-sm-6 col-md-2 verpdf-oferta">
+  //             <button id="mundial-pdf${producto}" type="button" class="btn btn-info" onclick='verPdfMundialLivianos(\"${UrlPdf}\")'>
+  //                 <div>VER PDF &nbsp;&nbsp;<span class="fa fa-file-text"></span></div>
+  //             </button>
+  //         </div>`;
+  // }
   cardCotizacion += `
                                             </div>
                                         </div>
@@ -2656,6 +2699,7 @@ const agregarAseguradoraFallida = (_aseguradora) => {
   const result = aseguradorasFallidas.find(
     (aseguradoras) => aseguradoras == _aseguradora
   );
+  console.log(result);
   if (result !== undefined) return;
   aseguradorasFallidas.push(_aseguradora);
 };
@@ -2808,6 +2852,15 @@ function cotizarOfertasPasajeros() {
   var benefOneroso = document.getElementById("benefOneroso").value;
   var TokenPrevisora = document.getElementById("previsoraToken").value;
   var intermediario = document.getElementById("idIntermediario").value;
+
+  // Para taxis con gas
+  const selectedTieneGas = document.querySelector(
+    '#divTieneGas input[name="tieneGasRadio"]:checked'
+  );
+  const selectedGasDeFabrica = document.querySelector(
+    '#divGasDeFabrica input[name="gasDeFabricaRadio"]:checked'
+  );
+  // Fin para taxis con gas
 
   var tipoUsoVehiculo = document.getElementById(
     "txtTipoTransporteVehiculo"
@@ -2996,6 +3049,7 @@ function cotizarOfertasPasajeros() {
           cre_sol_fecha_token: cre_sol_fecha_token,
         },
         //env: "QAS",
+        valor_conv_gas: "0",
       };
 
       //! Agregar a Motos y Pesados START
@@ -3137,6 +3191,19 @@ function cotizarOfertasPasajeros() {
             estCivRep: estCivRep,
             correoRep: correoRep,
             celRep: celRep,
+            valor_conv_gas: "0",
+            taxiGas:
+              tipoUsoVehiculo === "1"
+                ? selectedTieneGas.value === "Si"
+                  ? true
+                  : false
+                : null,
+            gas_de_fabrica:
+              tipoUsoVehiculo === "1" && selectedTieneGas.value !== "No"
+                ? selectedGasDeFabrica.value === "Si"
+                  ? true
+                  : false
+                : null,
           },
           cache: false,
           success: function (data) {
@@ -3160,6 +3227,15 @@ function cotizarOfertasPasajeros() {
             const mostrarAlertaCotizacionExitosa = (aseguradora, contador) => {
               if (aseguradora == "Estado2") {
                 aseguradora = "Estado";
+              }
+
+              const equivalencias = {
+                Mundial_Taxis: "Mundial",
+                Mundial_Taxis_Exceso: "Mundial",
+              };
+
+              if (equivalencias[aseguradora]) {
+                aseguradora = equivalencias[aseguradora];
               }
 
               // Obtener la primera clave del objeto
@@ -3277,6 +3353,15 @@ function cotizarOfertasPasajeros() {
                   tablaResumenCotBody.appendChild(nuevaFila);
                 }
               } else {
+                const equivalencias = {
+                  Mundial_Taxis: "Mundial",
+                  Mundial_Taxis_Exceso: "Mundial",
+                };
+
+                if (equivalencias[aseguradora]) {
+                  aseguradora = equivalencias[aseguradora];
+                }
+
                 // console.log(aseguradora);
                 // console.log(mensaje);
                 // Referecnia de la tabla
@@ -3447,6 +3532,59 @@ function cotizarOfertasPasajeros() {
                   );
                 });
                 return;
+              } else if (aseguradora === "Mundial") {
+                url = `https://grupoasistencia.com/motor_webservice_publics/Mundial_Taxis`;
+                let bodyMundial = JSON.parse(requestOptions.body);
+                var planesMundialTaxis = [
+                  "Mundial_Taxis",
+                  "Mundial_Taxis_Exceso",
+                ];
+                planesMundialTaxis.forEach((plan) => {
+                  bodyMundial.plan = plan;
+                  requestOptions.body = JSON.stringify(bodyMundial);
+                  cont.push(
+                    fetch(url, requestOptions)
+                      .then((res) => {
+                        if (!res.ok) throw Error(res.statusText);
+                        return res.json();
+                      })
+                      .then((ofertas) => {
+                        if (typeof ofertas[0].Resultado !== "undefined") {
+                          agregarAseguradoraFallida(plan);
+                          validarProblema(aseguradora, ofertas);
+                          ofertas[0].Mensajes.forEach((mensaje) => {
+                            mostrarAlertarCotizacionFallida(plan, mensaje);
+                          });
+                        } else {
+                          const contadorPorEntidad = validarOfertas(
+                            ofertas,
+                            aseguradora,
+                            1
+                          );
+                          mostrarAlertaCotizacionExitosa(
+                            plan,
+                            contadorPorEntidad
+                          );
+                        }
+                      })
+                      .catch((err) => {
+                        agregarAseguradoraFallida(aseguradora);
+                        mostrarAlertarCotizacionFallida(
+                          plan,
+                          "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
+                        );
+                        validarProblema(aseguradora, [
+                          {
+                            Mensajes: [
+                              "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
+                            ],
+                          },
+                        ]);
+                        console.error(err);
+                      })
+                  );
+                });
+                return;
               } else if (aseguradora === "Estado") {
                 let estadoPromise = new Promise((resolve, reject) => {
                   try {
@@ -3517,7 +3655,7 @@ function cotizarOfertasPasajeros() {
                 url = `https://grupoasistencia.com/motor_webservice_publics/${aseguradora}_Pasajeros`;
               }
               // // Realizar la solicitud fetch y agregar la promesa al array
-              if (aseguradora == "Qualitas" || aseguradora == "Mundial") {
+              if (aseguradora == "Qualitas") {
                 let message =
                   aseguradora == "Qualitas"
                     ? `💡 <b>Nueva aseguradora</b> especializada en <b>seguros de autos.</b> La principal aseguradora mexicana de seguros de autos llega a Colombia y <b>nosotros ya tenemos convenio.</b> Solicita cotización manual a tu Analista Comercial.`
@@ -4181,6 +4319,57 @@ function cotizarOfertasPasajeros() {
           : Promise.resolve();
 
         cont.push(axaPromise);
+
+        const planesMundial = ["Mundial_Taxis", "Mundial_Taxis_Exceso"];
+
+        planesMundial.forEach((plan) => {
+          let body = { ...raw, planMundial: plan };
+          requestOptions.body = JSON.stringify(body);
+          const mundialPromise = comprobarFallida(plan)
+            ? fetch(
+                "https://grupoasistencia.com/motor_webservice_publics/Mundial_Taxis",
+                requestOptions
+              )
+                .then((res) => {
+                  if (!res.ok) throw Error(res.statusText);
+                  return res.json();
+                })
+                .then((ofertas) => {
+                  if (typeof ofertas[0].Resultado !== "undefined") {
+                    agregarAseguradoraFallida(plan);
+                    validarProblema("Mundial", ofertas);
+                    ofertas[0].Mensajes.forEach((mensaje) => {
+                      mostrarAlertarCotizacionFallida(plan, mensaje);
+                    });
+                  } else {
+                    // eliminarAseguradoraFallida('Bolivar');
+                    const contadorPorEntidad = validarOfertas(
+                      ofertas,
+                      "Mundial",
+                      1
+                    );
+                    mostrarAlertaCotizacionExitosa(plan, contadorPorEntidad);
+                  }
+                })
+                .catch((err) => {
+                  agregarAseguradoraFallida(plan);
+                  mostrarAlertarCotizacionFallida(
+                    plan,
+                    "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
+                  );
+                  validarProblema("Mundial", [
+                    {
+                      Mensajes: [
+                        "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
+                      ],
+                    },
+                  ]);
+                  console.error(err);
+                })
+            : Promise.resolve();
+
+          cont.push(mundialPromise);
+        });
 
         Promise.all(cont).then(() => {
           $("#loaderOferta").html("");
