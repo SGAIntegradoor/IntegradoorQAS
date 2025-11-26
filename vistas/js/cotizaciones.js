@@ -1347,7 +1347,7 @@ async function renderCards(response) {
         "Solo Totales",
         "Sin RCE",
         "Todo Riesgo Taxis",
-        "Seguro Amarillo - RC en Exceso",
+        "Seguro Amarillo - RCE en Exceso",
         "Seguro Amarillo"
       ];
 
