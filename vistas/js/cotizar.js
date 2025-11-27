@@ -3550,6 +3550,62 @@ async function cotizarOfertas() {
                 ofertas[0].Mensajes.forEach((mensaje) => {
                   mostrarAlertarCotizacionFallida(aseguradora, mensaje);
                 });
+              } /*inicio Daniel */
+              else if (aseguradora === "Mundial") {
+                const mundialCotizaciones = ["Mundial_RPA", "Mundial_RCP"];
+                url = "";
+                mundialCotizaciones.forEach((mundialCotizacion) => {
+                  if (mundialCotizacion === "Mundial_RPA") {
+                    url = `https://grupoasistencia.com/motor_webservice/Mundial_autos`;
+                  } else if (mundialCotizacion === "Mundial_RCP") {
+                    url = `https://grupoasistencia.com/backend_node/WSMundial/postQuotationMundial`;
+                  }
+                  cont.push(
+                    fetch(url, requestOptions)
+                      .then((res) => {
+                        if (!res.ok) throw Error(res.statusText);
+                        return res.json();
+                      })
+                      .then((ofertas) => {
+                        if (typeof ofertas[0].Resultado !== "undefined") {
+                          agregarAseguradoraFallida(mundialCotizacion);
+                          validarProblema(aseguradora, ofertas);
+                          ofertas[0].Mensajes.forEach((mensaje) => {
+                            mostrarAlertarCotizacionFallida(
+                              aseguradora,
+                              mensaje
+                            );
+                          });
+                        } else {
+                          const contadorPorEntidad = validarOfertas(
+                            ofertas,
+                            aseguradora,
+                            1
+                          );
+                          mostrarAlertaCotizacionExitosa(
+                            aseguradora,
+                            contadorPorEntidad
+                          );
+                        }
+                      })
+                      .catch((err) => {
+                        agregarAseguradoraFallida(mundialCotizacion);
+                        mostrarAlertarCotizacionFallida(
+                          aseguradora,
+                          "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
+                        );
+                        validarProblema(aseguradora, [
+                          {
+                            Mensajes: [
+                              "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
+                            ],
+                          },
+                        ]);
+                        console.error(err);
+                      })
+                  );
+                });
+                return; /*Fin Daniel */
               } else {
                 // Realizar la solicitud fetch y agregar la promesa al array
                 cont.push(
