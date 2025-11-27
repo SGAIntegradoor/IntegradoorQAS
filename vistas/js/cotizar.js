@@ -1138,12 +1138,14 @@ function consulPlaca(query = "1") {
 
           //VALIDA SI LA CONSULTA FUE EXITOSA
           if (estadoConsulta == true) {
-            const resultado = ValidarClaseFasecolda(myJson.Data.CodigoFasecolda);
-                if (!resultado.permitido) {
-                  console.log('CLASE NO PERMITIDA');
-                } else {
-                  console.log("CLASE PERMITIDA");
-                }
+            const resultado = ValidarClaseFasecolda(
+              myJson.Data.CodigoFasecolda
+            );
+            if (!resultado.permitido) {
+              console.log("CLASE NO PERMITIDA");
+            } else {
+              console.log("CLASE PERMITIDA");
+            }
             var codigoClase = myJson.Data.ClassId;
             var codigoMarca = myJson.Data.Brand;
             var modeloVehiculo = myJson.Data.Modelo;
@@ -1152,7 +1154,10 @@ function consulPlaca(query = "1") {
             var valorAsegurado = myJson.Data.ValorAsegurado;
 
             if (codigoFasecolda != null) {
-              if ((valorAsegurado == "null" || valorAsegurado == null) && resultado.permitido) {
+              if (
+                (valorAsegurado == "null" || valorAsegurado == null) &&
+                resultado.permitido
+              ) {
                 consulPlacaMapfre(valnumplaca);
                 // document.getElementById("formularioVehiculo").style.display =
                 //   "block";
@@ -3372,7 +3377,10 @@ async function cotizarOfertas() {
                           agregarAseguradoraFallida(plan);
                           validarProblema("HDI (Antes Liberty)", ofertas);
                           ofertas[0].Mensajes.forEach((mensaje) => {
-                            mostrarAlertarCotizacionFallida("HDI Seguros", mensaje);
+                            mostrarAlertarCotizacionFallida(
+                              "HDI Seguros",
+                              mensaje
+                            );
                           });
                         } else {
                           const contadorPorEntidad = validarOfertas(
@@ -3550,8 +3558,7 @@ async function cotizarOfertas() {
                 ofertas[0].Mensajes.forEach((mensaje) => {
                   mostrarAlertarCotizacionFallida(aseguradora, mensaje);
                 });
-              } /*inicio Daniel */
-              else if (aseguradora === "Mundial") {
+              } /*inicio Daniel */ else if (aseguradora === "Mundial") {
                 const mundialCotizaciones = ["Mundial_RPA", "Mundial_RCP"];
                 url = "";
                 mundialCotizaciones.forEach((mundialCotizacion) => {
@@ -4022,8 +4029,9 @@ async function cotizarOfertas() {
             aseguradora == "BASIC" ||
             aseguradora == "MEDIUM" ||
             aseguradora == "FULL"
-          ) aseguradora = "Zurich";
-          
+          )
+            aseguradora = "Zurich";
+
           if (
             aseguradora == "B_Premium" ||
             aseguradora == "B_Standard" ||
@@ -4039,13 +4047,15 @@ async function cotizarOfertas() {
             aseguradora == "INTEGRAL 20" ||
             aseguradora == "BASICO" ||
             aseguradora == "BASICO + PT"
-          ) aseguradora = "HDI Seguros";
-          
+          )
+            aseguradora = "HDI Seguros";
+
           if (
             aseguradora == "Estado" ||
             aseguradora == "Estado2" ||
             aseguradora == "Estado3"
-          ) aseguradora = "Estado";
+          )
+            aseguradora = "Estado";
 
           const celdaResponse = document.getElementById(
             `${aseguradora}Response`
@@ -4565,16 +4575,9 @@ async function cotizarOfertas() {
                       mostrarAlertarCotizacionFallida("Estado", mensaje);
                     });
                   } else {
-                    const contadorPorEntidad = validarOfertas(
-                      result,
-                      plan,
-                      1
-                    );
+                    const contadorPorEntidad = validarOfertas(result, plan, 1);
 
-                    mostrarAlertaCotizacionExitosa(
-                      plan,
-                      contadorPorEntidad
-                    );
+                    mostrarAlertaCotizacionExitosa(plan, contadorPorEntidad);
                     successAseguradora = false;
                   }
                 })
@@ -4808,51 +4811,66 @@ async function cotizarOfertas() {
 
         cont.push(sbsPromise);
 
-        /* Mundial */
-        const mundialPromise = comprobarFallida("Mundial")
-          ? fetch(
-              "https://grupoasistencia.com/motor_webservice/Mundial_autos",
-              requestOptions
-            )
-              .then((res) => {
-                if (!res.ok) throw Error(res.statusText);
-                return res.json();
-              })
-              .then((ofertas) => {
-                if (typeof ofertas[0].Resultado !== "undefined") {
-                  agregarAseguradoraFallida("Mundial");
-                  validarProblema("Mundial", ofertas);
-                  ofertas[0].Mensajes.forEach((mensaje) => {
-                    mostrarAlertarCotizacionFallida("Mundial", mensaje);
-                  });
-                } else {
-                  // eliminarAseguradoraFallida('Solidaria');
-                  const contadorPorEntidad = validarOfertas(
-                    ofertas,
-                    "Mundial",
-                    1
-                  );
-                  mostrarAlertaCotizacionExitosa("Mundial", contadorPorEntidad);
-                }
-              })
-              .catch((err) => {
-                agregarAseguradoraFallida("Mundial");
-                mostrarAlertarCotizacionFallida(
-                  "Mundial",
-                  "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
-                );
-                validarProblema("Mundial", [
-                  {
-                    Mensajes: [
-                      "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
-                    ],
-                  },
-                ]);
-                console.error(err);
-              })
-          : Promise.resolve();
+        aseguradorasFallidas.forEach((aseguradora) => {
+          plan = aseguradora;
+          cont = 0;
 
-        cont.push(mundialPromise);
+          if (aseguradora === "Mundial_RPA") {
+            url = "https://grupoasistencia.com/motor_webservice/Mundial_autos";
+            cont++;
+          } else if (aseguradora === "Mundial_RCP") {
+            url =
+              "https://grupoasistencia.com/backend_node/WSMundial/postQuotationMundial";
+            cont++;
+          }
+
+          if (cont === 0) return;
+
+          const mundialPromise = comprobarFallida(plan)
+            ? fetch(url, requestOptions)
+                .then((res) => {
+                  if (!res.ok) throw Error(res.statusText);
+                  return res.json();
+                })
+                .then((ofertas) => {
+                  if (typeof ofertas[0].Resultado !== "undefined") {
+                    agregarAseguradoraFallida(plan);
+                    validarProblema("Mundial", ofertas);
+                    ofertas[0].Mensajes.forEach((mensaje) => {
+                      mostrarAlertarCotizacionFallida("Mundial", mensaje);
+                    });
+                  } else {
+                    // eliminarAseguradoraFallida('Solidaria');
+                    const contadorPorEntidad = validarOfertas(
+                      ofertas,
+                      "Mundial",
+                      1
+                    );
+                    mostrarAlertaCotizacionExitosa(
+                      "Mundial",
+                      contadorPorEntidad
+                    );
+                  }
+                })
+                .catch((err) => {
+                  agregarAseguradoraFallida(plan);
+                  mostrarAlertarCotizacionFallida(
+                    "Mundial",
+                    "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
+                  );
+                  validarProblema("Mundial", [
+                    {
+                      Mensajes: [
+                        "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
+                      ],
+                    },
+                  ]);
+                  console.error(err);
+                })
+            : Promise.resolve();
+
+          cont.push(mundialPromise);
+        });
         //  console.log(cont)
         Promise.all(cont).then(() => {
           $("#loaderOferta").html("");
@@ -5240,7 +5258,7 @@ $("#tipoUso").change(function () {
     $("#txtTipoServicio").append(
       $("<option>", {
         value: "14",
-        text: "Particular"
+        text: "Particular",
       })
     );
   }
@@ -5262,19 +5280,19 @@ function ValidarClaseFasecolda(num, manual = false) {
   let claseValidacion = str.substring(3, 5);
 
   // clases permitidas
-  const clasesPermitidas = [
-    "01", "02", "06", "08", "20", "21"
-  ];
+  const clasesPermitidas = ["01", "02", "06", "08", "20", "21"];
 
-   if (!clasesPermitidas.includes(claseValidacion) && manual == false) {
+  if (!clasesPermitidas.includes(claseValidacion) && manual == false) {
     Swal.fire({
       icon: "error",
       text: "No puedes cotizar este tipo de vehículo por este módulo.",
       confirmButtonText: "Cerrar",
     }).then(() => location.reload());
 
-    return { permitido: false, mensaje: "No puedes cotizar este tipo de vehículo por este módulo." };
-
+    return {
+      permitido: false,
+      mensaje: "No puedes cotizar este tipo de vehículo por este módulo.",
+    };
   } else if (!clasesPermitidas.includes(claseValidacion) && manual == true) {
     Swal.fire({
       icon: "error",
@@ -5282,7 +5300,10 @@ function ValidarClaseFasecolda(num, manual = false) {
       confirmButtonText: "Cerrar",
     });
 
-    return { permitido: false, mensaje: "No puedes cotizar este tipo de vehículo por este módulo." };
+    return {
+      permitido: false,
+      mensaje: "No puedes cotizar este tipo de vehículo por este módulo.",
+    };
   }
 
   return { permitido: true };
