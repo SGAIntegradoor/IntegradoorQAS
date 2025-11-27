@@ -5156,6 +5156,40 @@ $("#btnConsultarVehmanualbuscador").click(function () {
   }
 });
 
+$("#tipoUso").change(function () {
+  let tipoUso = $("#tipoUso").val();
+  if (tipoUso == 2) {
+    Swal.fire({
+      icon: "info",
+      title: "INFO",
+      text: "Los vehículos de plataformas se cotizan con el producto. Solicita cotización manual a tu Analista Comercial asignado.",
+      showConfirmButton: true,
+      allowOutsideClick: true,
+      allowEscapeKey: true,
+    }).then(() => {
+      window.location.reload();
+    });
+  } else if (tipoUso == 3) {
+    Swal.fire({
+      icon: "info",
+      title: "INFO",
+      text: "Este módulo solo permite cotizar vehículos de uso familiar exclusivo. Por favor utiliza el módulo correspondiente para vehículos de trabajo.",
+      showConfirmButton: true,
+      allowOutsideClick: true,
+      allowEscapeKey: true,
+    }).then(() => {
+      window.location.reload();
+    });
+  } else {
+    $("#txtTipoServicio").append(
+      $("<option>", {
+        value: "14",
+        text: "Particular"
+      })
+    );
+  }
+});
+
 $("#btnCotizarFinesa").click(function () {
   document.getElementById("btnReCotizarFallidas").disabled = true;
   $("#loaderOferta").html(
