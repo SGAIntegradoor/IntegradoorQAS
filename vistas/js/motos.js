@@ -3669,50 +3669,6 @@ function cotizarOfertasMotos() {
             null;
         //cont.push(axaPromise);
 
-                const estadoPromise = comprobarFallida("Estado")
-          ? fetch(
-              "https://grupoasistencia.com/motor_webservice/Estado_motos",
-              requestOptions
-            )
-              .then((res) => {
-                if (!res.ok) throw Error(res.statusText);
-                return res.json();
-              })
-              .then((ofertas) => {
-                if (typeof ofertas[0].Resultado !== "undefined") {
-                  agregarAseguradoraFallidaMotos("Estado");
-                  validarProblemaMotos("Estado", ofertas);
-                  ofertas[0].Mensajes.forEach((mensaje) => {
-                    mostrarAlertarCotizacionFallida("Estado", mensaje);
-                  });
-                } else {
-                  const contadorPorEntidad = validarOfertasMotos(
-                    ofertas,
-                    "Estado",
-                    1
-                  );
-                  mostrarAlertaCotizacionExitosa("Estado", contadorPorEntidad);
-                }
-              })
-              .catch((err) => {
-                agregarAseguradoraFallidaMotos("Estado");
-                mostrarAlertarCotizacionFallida(
-                  "Estado",
-                  "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
-                );
-                validarProblemaMotos("Estado", [
-                  {
-                    Mensajes: [
-                      "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
-                    ],
-                  },
-                ]);
-                console.error(err);
-              })
-          : Promise.resolve();
-
-        cont.push(estadoPromise);
-
         comprobarFallida("SBS")
           ? cont.push(
               fetch(
