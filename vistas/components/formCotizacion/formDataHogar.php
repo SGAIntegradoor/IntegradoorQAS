@@ -1,29 +1,3 @@
-<?php 
-$idIntermediario = $_SESSION['permisos']['id_Intermediario'];
-
-$stmt = Conexion::conectar()->prepare("
-SELECT 
-    u.id_usuario,
-    CONCAT(u.usu_nombre,' ', u.usu_apellido) AS nombre_usuario, 
-    u.usu_email, u.usu_telefono,
-    af.nombre_analista,
-    uu.usu_email as correo_analista
-FROM usuarios u
-INNER JOIN analistas_freelances af ON af.id_usuario = u.usu_documento
-INNER JOIN usuarios uu ON uu.usu_documento = af.id_analista
-WHERE u.id_usuario = :idUsuario
-");
-$stmt->bindParam(":idUsuario", $_SESSION['idUsuario'], PDO::PARAM_INT);
-$stmt->execute();
-
-$infoUsuario = $stmt->fetchAll(PDO::FETCH_ASSOC);
-$correoAnalista = $infoUsuario[0]['correo_analista'];
-$usu_email = $infoUsuario[0]['usu_email'];
-$usu_cel = $infoUsuario[0]['usu_telefono'];
-$nombre_analista = $infoUsuario[0]['nombre_analista'];
-
-?>
-
 <style>
     .flex-wrap-form {
         display: flex;
@@ -34,11 +8,6 @@ $nombre_analista = $infoUsuario[0]['nombre_analista'];
     .flex-wrap-form>[class*="col-"] {
         display: block;
     }
-
-    .form-control {
-        margin-bottom: 30px;
-    }
-    
 </style>
 
 <div id="formHogar" style="display: none;">
@@ -67,22 +36,6 @@ $nombre_analista = $infoUsuario[0]['nombre_analista'];
     <div class="general-container-aseg" id="containerDatos">
         <div class="row flex-wrap-form" id="">
             <div class="col-xs-12 col-sm-12 col-md-12" style="padding-top: 20px;"></div>
-
-            <div class="col-xs-12 col-sm-6 col-md-3">
-                <div class="form-group">
-                    <label for="dirInmuebleAllianz">Dirección del inmueble</label>
-                    <i class="fa fa-solid fa-circle-info tooltip-direccion" style="margin-top: 4px; margin-top: 2px; font-size: 18px;" data-toggle="tooltip-direccion" data-placement="bottom"></i>
-                    <input id="dirInmuebleAllianz" class="form-control dirInmueble" type="text">
-                </div>
-            </div>
-
-            <div class="col-xs-12 col-sm-6 col-md-3">
-                <div class="form-group">
-                    <label for="dirRestoInmuebleAllianz">Resto de la dirección</label>
-                    <i class="fa fa-solid fa-circle-info tooltip-resto-direccion" style="margin-top: 4px; margin-top: 2px; font-size: 18px;" data-toggle="tooltip-resto-direccion" data-placement="bottom"></i>
-                    <input id="dirRestoInmuebleAllianz" class="form-control dirInmueble" type="text">
-                </div>
-            </div>
 
             <div class="col-xs-12 col-sm-6 col-md-3">
                 <div class="form-group">
@@ -139,7 +92,7 @@ $nombre_analista = $infoUsuario[0]['nombre_analista'];
                 </div>
             </div>
 
-            <!-- <div class="col-xs-12 col-sm-6 col-md-3">
+            <div class="col-xs-12 col-sm-6 col-md-3">
                 <div class="form-group" style="position: relative;">
                     <label for="zonaRiesgo">Zona de riesgo</label>
                     <select id="zonaRiesgo" class="form-control zonaRiesgo"></select>
@@ -147,7 +100,7 @@ $nombre_analista = $infoUsuario[0]['nombre_analista'];
                         Cargando... <i class="fas fa-spinner fa-spin" style="color: #88D600;"></i>
                     </span>
                 </div>
-            </div> -->
+            </div>
 
             <div class="col-xs-12 col-sm-6 col-md-3" style="display: none;" id="subZoneBog">
                 <div class="form-group">
@@ -172,26 +125,6 @@ $nombre_analista = $infoUsuario[0]['nombre_analista'];
                 </div>
             </div>
 
-            <div class="col-xs-12 col-sm-6 col-md-3">
-                <div class="form-group">
-                    <label for="estrato">Estrato</label>
-                    <select id="estrato" class="form-control">
-                        <option value="0">Seleccione una opción</option>
-                        <!-- <option value="2">2</option> -->
-                        <option value="No tengo esa información">No tengo esa información</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                        <option value="6">6</option>
-                    </select>
-
-                    <input type="hidden" name="idUsuario" id="idUsuario" value="<?php echo $_SESSION['idUsuario']; ?>">
-                    <input type="hidden" name="correoAnalista" id="correoAnalista" value="<?php echo $correoAnalista; ?>">
-                    <input type="hidden" name="usu_cel" id="usu_cel" value="<?php echo $usu_cel; ?>">
-                    <input type="hidden" name="usu_email" id="usu_email" value="<?php echo $usu_email; ?>">      
-                    <input type="hidden" name="nombre_analista" id="nombre_analista" value="<?php echo $nombre_analista; ?>">      
-                </div>
-            </div>
 
 
             <div class="col-xs-12 col-sm-6 col-md-3">
@@ -226,7 +159,7 @@ $nombre_analista = $infoUsuario[0]['nombre_analista'];
             <div class="col-xs-12 col-sm-6 col-md-3">
                 <div class="form-group">
                     <div style="display: flex; flex-direction: row; gap: 5px; align-items: flex-start;">
-                        <label for="tipoConstruccion">Tipo de construcción</label>
+                        <label for="tipoConstruccion">Tipo de construccion</label>
                         <i class="fa fa-solid fa-circle-info tooltip-tipo-construccion" style="margin-top: 4px; margin-top: 2px; font-size: 18px;" data-toggle="tooltip-tipo-construccion" data-placement="bottom"></i>
                     </div>
                     <select id="tipoConstruccion" class="form-control tipoConstruccion validateDataHogar">
@@ -236,15 +169,6 @@ $nombre_analista = $infoUsuario[0]['nombre_analista'];
                         <option value="4">Acero</option>
                         <option value="1">Otro</option>
                     </select>
-                </div>
-            </div>
-
-            <div class="col-xs-12 col-sm-6 col-md-3">
-                <div class="form-group">
-                    <div style="display: flex; flex-direction: row; gap: 5px; align-items: flex-start;">
-                        <label for="nroSotanos">Número de sótanos</label>
-                    </div>
-                    <input id="nroSotanos" class="form-control nroSotanos validateDataHogar" type="number" min="0" step="1">
                 </div>
             </div>
 
@@ -272,18 +196,18 @@ $nombre_analista = $infoUsuario[0]['nombre_analista'];
                         <label for="areaTotal">Área total vivienda (M²)</label>
                         <i class="fa fa-solid fa-circle-info tooltip-area" style="margin-top: 4px; margin-top: 2px; font-size: 18px;" data-toggle="tooltip-area" data-placement="bottom"></i>
                     </div>
-                    <input id="areaTotal" class="form-control areaTotal validateDataHogar" type="number" min="0" step="1">
+                    <input id="areaTotal" class="form-control areaTotal validateDataHogar" type="number">
                 </div>
             </div>
 
             <div class="col-xs-12 col-sm-6 col-md-3">
                 <div class="form-group">
-                    <label for="zonaConstruccion">Zona de la vivienda</label>
+                    <label for="zonaConstruccion">Zona de construcción</label>
                     <select id="zonaConstruccion" class="form-control zonaConstruccion validateDataHogar">
                         <option value="0">Seleccione una opción</option>
                         <option value="1">Urbana</option>
                         <option value="2">Rural</option>
-                        <!-- <option value="3">Rural con perímetro urbano</option> -->
+                        <option value="3">Rural con perímetro urbano</option>
                     </select>
                 </div>
             </div>
@@ -291,7 +215,7 @@ $nombre_analista = $infoUsuario[0]['nombre_analista'];
             <div class="col-xs-12 col-sm-6 col-md-3">
                 <div class="form-group">
                     <div style="display: flex; flex-direction: row; gap: 5px; align-items: flex-start;">
-                        <label for="creditoHipotecario" style="font-size: 12.5px;">¿La vivienda tiene crédito hipotecario vigente?</label>
+                        <label for="creditoHipotecario" style="font-size: 12.5px;">¿La vivienda tiene credito hipotecario vigente?</label>
                     </div>
                     <div style="display: flex; flex-direction: row; gap: 40px;">
                         <div style="display: flex; flex-direction: row; gap: 5px; align-items: flex-start;">
@@ -326,21 +250,7 @@ $nombre_analista = $infoUsuario[0]['nombre_analista'];
                 </div>
             </div>
 
-            <!-- <div class="col-xs-12 col-sm-6 col-md-3 vidaDeudorQ" style="display: none;">
-                <div class="form-group">
-                    <div style="display: flex; flex-direction: row; gap: 5px; align-items: flex-start;">
-                        <label for="vidaDeudorQ">¿Desea agregar seguro de vida deudor?</label> -->
-                        <!-- <i class="fa fa-solid fa-circle-info tooltip-tipo-asegurado" style="margin-top: 4px; margin-top: 2px; font-size: 18px;" data-toggle="tooltip-tipo-asegurado" data-placement="bottom"></i> -->
-                    <!-- </div>
-                    <select id="vidaDeudorQ" class="form-control vidaDeudorQ validateDataHogar"style="display: none;" disabled>
-                        <option value="0">Seleccione una opción</option>
-                        <option value="Si">Si</option>
-                        <option value="No">No</option>
-                    </select>
-                </div>
-            </div> -->
-
-            <!-- <div class="col-xs-12 col-sm-6 col-md-5">
+            <div class="col-xs-12 col-sm-6 col-md-5">
                 <div class="form-group">
                     <label for=" inputEYC">Tipo de cobertura</label>
                     <div style="display: flex; flex-direction: row; gap: 15px; padding-left: 5px; padding-top: 10px; align-items: flex-start;">
@@ -358,7 +268,7 @@ $nombre_analista = $infoUsuario[0]['nombre_analista'];
                         </div>
                     </div>
                 </div>
-            </div> -->
+            </div>
 
             <div class="col-xs-12 col-sm-6 col-md-3" id="btnSiguiente">
                 <button class="btn btn-primary btn-block btn-cot" id="btnDataHogarSiguiente">Siguiente</button>
