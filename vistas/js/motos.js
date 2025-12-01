@@ -1024,13 +1024,13 @@ function consulPlacaMotos(query = "1") {
             //VALIDA SI LA CONSULTA FUE EXITOSA
             if (estadoConsulta == true) {
 
-            const resultado = ValidarClaseFasecolda(myJson.Data.CodigoFasecolda);
-                if (!resultado.permitido) {
-                  console.log('CLASE NO PERMITIDA');
-                } else {
-                  console.log("CLASE PERMITIDA");
-                }
-          
+              const resultado = ValidarClaseFasecolda(myJson.Data.CodigoFasecolda);
+              if (!resultado.permitido) {
+                console.log('CLASE NO PERMITIDA');
+              } else {
+                console.log("CLASE PERMITIDA");
+              }
+              
               var codigoClase = myJson.Data.ClassId;
               var codigoMarca = myJson.Data.Brand;
               var modeloVehiculo = myJson.Data.Modelo;
@@ -1046,7 +1046,7 @@ function consulPlacaMotos(query = "1") {
                   // $("#loaderPlaca").html("");
                   // $("#loaderPlaca2").html("");
                   //! Agregar esto a MOTOS y Pesados END
-                } else if (resultado.permitido) {
+                } else /*if (resultado.permitido)*/ {
                   var claseVehiculo = "";
                   var limiteRCESTADO = "";
 
@@ -1467,6 +1467,7 @@ function consulDatosFasecoldaMotos(codFasecolda, edadVeh) {
       success: function (data) {
         if (data.mensaje == "No hay Registros.") {
           document.getElementById("formularioVehiculo").style.display = "block";
+          return;
           Swal.fire({
             icon: "error",
             title: "Error al traer la información",
