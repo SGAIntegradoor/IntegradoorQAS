@@ -1902,6 +1902,7 @@ const mostrarOfertaPesados = (
     "AXA Colpatria",
     "Previsora",
     "Estado",
+    "Solidaria",
   ];
 
   let cardCotizacion = `

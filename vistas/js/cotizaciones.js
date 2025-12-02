@@ -1347,6 +1347,10 @@ async function renderCards(response) {
         "Solo Totales",
         "Sin RCE",
         "Todo Riesgo Taxis",
+        "CAMIONES Y FURGONES CLASICO",
+        "CAMIONES Y FURGONES PLUS",
+        "CAMIONES Y FURGONES PREMIUM",
+        "CAMIONES Y FURGONES ELITE",
         "Seguro Amarillo - RC en Exceso",
         "Seguro Amarillo"
       ];
