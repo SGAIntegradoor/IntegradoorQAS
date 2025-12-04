@@ -658,6 +658,10 @@ while ($i < count($resultados)) {
 				"PARTICULAR FAMILIAR PREMIUM" => "Premium",
 				"PARTICULAR FAMILIAR ELITE" => "Elite",
 				"PARTICULAR FAMILIAR CLASICO" => "Familiar Clasico",
+				"CAMIONES Y FURGONES CLASICO" => "Camiones y Furgones Clasico",
+				"CAMIONES Y FURGONES ELITE" => "Camiones y Furgones Elite",
+				"CAMIONES Y FURGONES PLUS" => "Camiones y Furgones Plus",
+				"CAMIONES Y FURGONES PREMIUM" => "Camiones y Furgones Premium",
 			];
 			$productoOriginal = $resultados[$i]['Producto'];
 			$solidariaProducto = isset($productosMap[$productoOriginal]) ? $productosMap[$productoOriginal] : $productoOriginal;

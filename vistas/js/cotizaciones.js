@@ -1323,6 +1323,10 @@ async function renderCards(response) {
         "Solo Totales",
         "Sin RCE",
         "Todo Riesgo Taxis",
+        "CAMIONES Y FURGONES CLASICO",
+        "CAMIONES Y FURGONES PLUS",
+        "CAMIONES Y FURGONES PREMIUM",
+        "CAMIONES Y FURGONES ELITE",
         "Seguro Amarillo - RCE en Exceso",
         "Seguro Amarillo"
       ];
@@ -1531,7 +1535,17 @@ async function renderCards(response) {
           ? "Premium Motos 20 a 30 MM"
           : oferta.Producto == "112"
           ? "Premium Motos 30 a 90 MM"
+          : oferta.Producto == "CAMIONES Y FURGONES ELITE"
+          ? "Camiones y Furgones Elite"
+          : oferta.Producto == "CAMIONES Y FURGONES PREMIUM"
+          ? "Camiones y Furgones Premium"
+          : oferta.Producto == "CAMIONES Y FURGONES PLUS"
+          ? "Camiones y Furgones Plus"
+          : oferta.Producto == "CAMIONES Y FURGONES CLASICO"
+          ? "Camiones y Furgones Clasico"
           : oferta.Producto
+          
+
       }</b></h5>
                         <h5 class='precio' style='${
                           oferta.Aseguradora == "HDI (Antes Liberty)"
@@ -1814,6 +1828,7 @@ async function renderCards(response) {
       } else if (
         (oferta.Manual == "0" ||
           oferta.Manual == "8" ||
+          oferta.Manual == "3" ||
           oferta.Manual == "9" ||
           oferta.Manual == "4") &&
         oferta.Aseguradora == "Solidaria" &&
