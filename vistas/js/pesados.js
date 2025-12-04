@@ -463,18 +463,19 @@ $(document).ready(function () {
         confirmButtonText: "Cerrar",
         customClass: {
           popup: "custom-swal-popupCotExcep",
-      },
-    }).then(function (result) {
-      if (result.isConfirmed) {
-        window.location = "inicio";
-      } else if (result.isDismissed) {
-        if (result.dismiss === "cancel") {
+        },
+      })
+      .then(function (result) {
+        if (result.isConfirmed) {
           window.location = "inicio";
-        } else if (result.dismiss === "backdrop") {
-          window.location = "inicio";
+        } else if (result.isDismissed) {
+          if (result.dismiss === "cancel") {
+            window.location = "inicio";
+          } else if (result.dismiss === "backdrop") {
+            window.location = "inicio";
+          }
         }
-      }
-    });
+      });
   }
 
   function mostrarAlertaCotizacionesExcedidasPesadosDemo() {
@@ -2084,8 +2085,18 @@ const mostrarOfertaPesados = (
                   
                   <div class="col-xs-12 col-sm-6 col-md-2 oferta-headerEdit">
                     <h5 class='entidad' style='font-size: 15px'><b>${nombreAseguradoraA} - ${
-    producto == "Pesados con RCE en exceso" ? "Pesados RCE + Exceso" : producto
-  }</b></h5>
+                    producto == "Pesados con RCE en exceso"
+                      ? "Pesados RCE + Exceso"
+                      : producto == "CAMIONES Y FURGONES ELITE"
+                      ? "Camiones y Furgones Elite"
+                      : producto == "CAMIONES Y FURGONES PLUS" 
+                      ? "Camiones y Furgones Plus" 
+                      : producto == "CAMIONES Y FURGONES CLASICO" 
+                      ? "Camiones y Furgones Clasico" 
+                      : producto == "CAMIONES Y FURGONES PREMIUM" 
+                      ? "Camiones y Furgones Premium" 
+                      : producto
+                  }</b></h5>
                     <h5 class='precio' style='margin-top: 0px !important;'>Desde $ ${prima}</h5>
                     <p class='title-precio' style='margin: 0 0 3px !important'>Precio (IVA incluido)</p>
                     <div id='${actIdentity}' style='display: none; color: #88d600;'>
@@ -2747,8 +2758,7 @@ function cotizarOfertasPesados() {
   var cre_pre_sourcecode = document.getElementById("cre_pre_SourceCode").value;
   var cre_pre_bussinedId = document.getElementById("cre_pre_BusinessId").value;
 
-
-    /**
+  /**
    * Variables de Solidaria
    */
   var cre_sol_cod_sucursal = document.getElementById(
@@ -3985,7 +3995,7 @@ function cotizarOfertasPesados() {
 
         cont2.push(libertyPromise);
 
-                /* Solidaria */
+        /* Solidaria */
         const solidariaPromise = comprobarFallidaPesados("Solidaria")
           ? fetch(
               "https://grupoasistencia.com/motor_webservice/Solidaria_pesados",
