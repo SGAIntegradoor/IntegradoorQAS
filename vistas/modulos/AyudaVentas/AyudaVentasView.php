@@ -137,7 +137,7 @@ $nombreArchivo = "COTIZADOR VIGENTE FINESA $nombreMes $anio.xlsx";
 
                 <div style="text-align: right !important; margin-right: 2%">
                     <p id="fech_ult">
-                        <b>Fecha ultima actualización: 01/08/2025</b>
+                        <b>Fecha ultima actualización: 04/12/2025</b>
                     </p>
                 </div>
 
@@ -256,7 +256,7 @@ $nombreArchivo = "COTIZADOR VIGENTE FINESA $nombreMes $anio.xlsx";
                                         </div>
                                         <br>
                                         <br>
-                                        <a href="https://allianzfcc.co/#/login" target="_blank">Sarlaft Digital</a>
+                                        <!-- <a href="https://allianzfcc.co/#/login" target="_blank">Sarlaft Digital</a> -->
                                         <br>
                                         <br>
                                         <div style="text-align: center; display: flex; flex-direction: column;">
@@ -270,9 +270,9 @@ $nombreArchivo = "COTIZADOR VIGENTE FINESA $nombreMes $anio.xlsx";
                                 <td style="padding: 30px; text-align: justify;">
                                     <ol class="olEmision" style="padding-left: 10px; list-style-position: inside; width: 716px !important;">
                                         <li style="margin-bottom: 5px;"><b>Documentos:</b> TP, Cédula, Declaración de Renta (si aplica), Contrato de Compraventa (si aplica), Factura (0 km), Póliza anterior (si hay continuidad).</li>
-                                        <li style="margin-bottom: 5px;"><b>SARLAFT:</b> AF debe diligenciar datos en este <a style="font-weight: bold;" href="https://allianzfcc.co/#/login" target="_blank">link</a>. El cliente realiza el proceso de validación de identidad y recibe al correo confirmación en PDF. Siempre se debe enviar el PDF al AC.</li>
                                         <li style="margin-bottom: 5px;"><b>Enviar docs y confirmar forma de pago:</b> Si están completos pasan; si no, se devuelven. 0 km o en continuidad pasan a emisión; los demás, a inspección.</li>
-                                        <li style="margin-bottom: 5px;"><b>Orden de inspección:</b> Se realiza pre-emisión de la póliza y se carga orden de inspección física o virtual según políticas. La física se hace en Colserautos y la virtual se envia por link al cliente. Se informa al AF cuando quede cargada la orden.</li>
+                                        <li style="margin-bottom: 5px;"><b>Orden de inspección:</b> Se realiza pre-emisión de la póliza y se carga orden de inspección física o virtual según políticas. La física se hace en Colserautos y la virtual se envía por link al cliente. Se informa al AF cuando quede cargada la orden.</li>
+                                        <li style="margin-bottom: 5px;"><b>SARLAFT:</b> Se envía link personalizado al cliente. El cliente realiza el proceso de validación de identidad y recibe al correo confirmación en PDF. Siempre se debe enviar el PDF al AC.</li>
                                         <li style="margin-bottom: 5px;"><b>Inspección:</b> Se completa y el AF confirma a su AC, de lo contrario, no se puede emitir.</li>
                                         <li style="margin-bottom: 5px;"><b>Validar inspección:</b> Según el resultado de la inspección, se informa al AF.</li>
                                         <li style="margin-bottom: 5px;"><b>Emisión y Financiación:</b> Se desbloquea la póliza y se descarga el PDF. Si es financiada se debe realizar proceso de financiación con Finesa.</li>
@@ -1419,10 +1419,10 @@ $nombreArchivo = "COTIZADOR VIGENTE FINESA $nombreMes $anio.xlsx";
                     </div>
                     <div id="boxDropdown2" class="sectionDropdown hide">
                         <div style="display: flex; flex-direction: row; align-items: center; gap: 5px;">
-                            <a href="vistas/modulos/AyudaVentas/pdf/fasecolda/Guia_Excel_350 - Formato Unico.xlsx" download="Guia_Excel_350 - Formato Unico.xlsx">
+                            <a href="vistas/modulos/AyudaVentas/pdf/fasecolda/Guia_Excel_351 - Formato Unico.xlsx" download="Guia_Excel_351 - Formato Unico.xlsx">
                                 <div style="display: flex; flex-direction: row; align-items: center; gap: 7px;">
                                     <img src="vistas/img/excelIco.png" />
-                                    <p style="margin-bottom: 0px !important;">Fecha de Cargue: 17/10/2025</p>
+                                    <p style="margin-bottom: 0px !important;">Fecha de Cargue: 17/11/2025</p>
                                 </div>
                             </a>
                             </img>
