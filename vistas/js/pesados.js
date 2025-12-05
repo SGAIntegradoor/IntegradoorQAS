@@ -1201,6 +1201,14 @@ function consulPlacaPesados(query = "1") {
 
         //VALIDA SI LA CONSULTA FUE EXITOSA
         if (estadoConsulta == true) {
+          // Valicacion de clases permitidas en el modulo (pesados)
+          const resultado = ValidarClaseFasecolda(myJson.Data.CodigoFasecolda);
+                if (!resultado.permitido) {
+                  console.log('CLASE NO PERMITIDA');
+                } else {
+                  console.log("CLASE PERMITIDA");
+                }
+
           var codigoClase = myJson.Data.ClassId;
           var codigoMarca = myJson.Data.Brand;
           var modeloVehiculo = myJson.Data.Modelo;
@@ -1217,7 +1225,7 @@ function consulPlacaPesados(query = "1") {
           );
 
           if (codigoFasecolda != null) {
-            if (valorAsegurado == "null" || valorAsegurado == null) {
+            if ((valorAsegurado == "null" || valorAsegurado == null) && resultado.permitido) {
               consulPlacaMapfrePesados(valnumplaca);
               // document.getElementById("formularioVehiculo").style.display =
               //   "block";
@@ -1228,143 +1236,11 @@ function consulPlacaPesados(query = "1") {
             } else {
               var claseVehiculo = "";
               var limiteRCESTADO = "";
-
-              if (codigoClase == 1) {
-                claseVehiculo = "AUTOMOVILES";
-                limiteRCESTADO = 6;
-                var restriccion = "";
-                if (rolAsesor == 19) {
-                  restriccion =
-                    "Lo sentimos, no puedes cotizar vehÍculos livianos por este módulo. Para hacerlo debes ingresar al modulo Cotizar Livianos.";
-                } else {
-                  restriccion =
-                    "Lo sentimos, no puedes cotizar vehÍculos livianos por este módulo.";
-                }
-                Swal.fire({
-                  icon: "error",
-                  text: restriccion,
-                  confirmButtonText: "Cerrar",
-                }).then(() => {
-                  // Recargar la página después de cerrar el SweetAlert
-                  location.reload();
-                });
-              } else if (codigoClase == 6) {
-                claseVehiculo = "AUTOMOVIL";
-                limiteRCESTADO = 6;
-                if (rolAsesor == 19) {
-                  restriccion =
-                    "Lo sentimos, no puedes cotizar vehÍculos livianos por este módulo. Para hacerlo debes ingresar al modulo Cotizar Livianos.";
-                } else {
-                  restriccion =
-                    "Lo sentimos, no puedes cotizar vehÍculos livianos por este módulo.";
-                }
-                Swal.fire({
-                  icon: "error",
-                  text: restriccion,
-                  confirmButtonText: "Cerrar",
-                }).then(() => {
-                  // Recargar la página después de cerrar el SweetAlert
-                  location.reload();
-                });
-              } else if (codigoClase == 2) {
-                claseVehiculo = "CAMPEROS";
-                limiteRCESTADO = 18;
-              } else if (codigoClase == 3) {
-                claseVehiculo = "PICK UPS";
-                limiteRCESTADO = 18;
-                var restriccion = "";
-                if (rolAsesor == 19) {
-                  restriccion =
-                    "Lo sentimos, no puedes cotizar vehículos livianos o livianos herramienta de trabajo por este módulo.";
-                } else {
-                  restriccion =
-                    "Lo sentimos, no puedes cotizar vehículos livianos o livianos herramienta de trabajo por este módulo.";
-                }
-                Swal.fire({
-                  icon: "error",
-                  text: restriccion,
-                  confirmButtonText: "Cerrar",
-                }).then(() => {
-                  // Recargar la página después de cerrar el SweetAlert
-                  location.reload();
-                });
-              } else if (codigoClase == 4) {
-                claseVehiculo = "UTILITARIOS DEPORTIVOS";
-                limiteRCESTADO = 6;
-              } else if (codigoClase == 11) {
-                claseVehiculo = "CAMIONETA REPAR";
-                limiteRCESTADO = 18;
-                if (rolAsesor == 19) {
-                  restriccion =
-                    "Lo sentimos, no puedes cotizar vehículos livianos/livianos herramienta de trabajo por este módulo.";
-                } else {
-                  restriccion =
-                    "Lo sentimos, no puedes cotizar vehículos livianos/livianos herramienta de trabajo por este módulo.";
-                }
-                Swal.fire({
-                  icon: "error",
-                  text: restriccion,
-                  confirmButtonText: "Cerrar",
-                }).then(() => {
-                  // Recargar la página después de cerrar el SweetAlert
-                  location.reload();
-                });
-              } else if (codigoClase == 12) {
-                claseVehiculo = "MOTOCICLETA";
-                limiteRCESTADO = 6;
-                var restriccion = "";
-                if (rolAsesor == 19) {
-                  restriccion =
-                    "Lo sentimos, no puedes cotizar motocicletas por este módulo. Para hacerlo debes ingresar al modulo Cotizar Pesados.";
-                } else {
-                  restriccion =
-                    "Lo sentimos, no puedes cotizar motocicletas por este módulo.";
-                }
-                Swal.fire({
-                  icon: "error",
-                  text: restriccion,
-                  confirmButtonText: "Cerrar",
-                }).then(() => {
-                  // Recargar la página después de cerrar el SweetAlert
-                  location.reload();
-                });
-              } else if (codigoClase == 14) {
-                claseVehiculo = "PESADO";
-                limiteRCESTADO = 18;
-              } else if (codigoClase == 19) {
-                claseVehiculo = "VAN";
-                limiteRCESTADO = 18;
-              } else if (codigoClase == 21) {
-                claseVehiculo = "CAMION";
-                limiteRCESTADO = 18;
-              } else if (codigoClase == 16) {
-                claseVehiculo = "MOTOCICLETA";
-                limiteRCESTADO = 6;
-                var restriccion = "";
-                if (rolAsesor == 19) {
-                  restriccion =
-                    "Lo sentimos, no puedes cotizar motocicletas por este módulo. Para hacerlo debes ingresar al modulo Cotizar Pesados.";
-                } else {
-                  restriccion =
-                    "Lo sentimos, no puedes cotizar motocicletas por este módulo.";
-                }
-                Swal.fire({
-                  icon: "error",
-                  text: restriccion,
-                  confirmButtonText: "Cerrar",
-                }).then(() => {
-                  // Recargar la página después de cerrar el SweetAlert
-                  location.reload();
-                });
-              } else if (codigoClase == 25) {
-                claseVehiculo = "TRAILER";
-                limiteRCESTADO = 6;
-              }
-
+              
               //console.log(codigoClase);
               $("#CodigoClase").val(codigoClase);
               $("#clasepesados").val(claseVehiculo);
-
+              
               let fasc = "";
 
               var cuartoDigito = codigoFasecolda.charAt(3);
@@ -1388,11 +1264,12 @@ function consulPlacaPesados(query = "1") {
               $("#CodigoLinea").val(codigoLinea);
               $("#txtFasecolda").val(codigoFasecolda);
               $("#txtValorFasecolda").val(valorAsegurado);
-
+              
               consulDatosFasecolda(codigoFasecolda, modeloVehiculo).then(
                 function (resp) {
                   $("#txtMarcaVeh").val(resp.marcaVeh);
                   $("#txtReferenciaVeh").val(resp.lineaVeh);
+                  $("#txtClaseVeh").val(resp.claseVeh);
                 }
               );
             }
@@ -1523,6 +1400,10 @@ function consulCodFasecolda(e = null) {
           tipoConsulta = null;
         }
         var codFasecolda = data.result.codigo;
+        let resultadoConsultaManual = ValidarClaseFasecolda(fasecolda, true);
+        if (!resultadoConsultaManual.permitido) {
+          throw new Error("CLASE NO PERMITIDA");
+        }
         consulValorfasecolda(codFasecolda, edadVeh, tipoConsulta);
       },
     });
@@ -1699,6 +1580,7 @@ function consulDatosFasecolda(codFasecolda, edadVeh) {
       success: function (data) {
         if (data.mensaje == "No hay Registros.") {
           document.getElementById("formularioVehiculo").style.display = "block";
+          return;
           Swal.fire({
             icon: "error",
             title: "Error al traer la información",
@@ -1715,6 +1597,7 @@ function consulDatosFasecolda(codFasecolda, edadVeh) {
           document.getElementById("masA").style.display = "block";
           document.getElementById("DatosAsegurado").style.display = "none";
         } else {
+          // ValidarClaseFasecolda(data.codigo);
           var claseVeh = data.clase;
           var marcaVeh = data.marca;
           var ref1Veh = data.referencia1;
@@ -4589,6 +4472,10 @@ const vehiculoPermitidoPesados = [
 
 $("#btnConsultarVehmanualbuscador").click(function () {
   var fasecolda = document.getElementById("fasecoldabuscadormanual").value;
+  let resultadoConsultaManual = ValidarClaseFasecolda(fasecolda, true);
+  if (!resultadoConsultaManual.permitido) {
+    throw new Error("CLASE NO PERMITIDA");
+  }
   var modelo = document.getElementById("modelobuscadormanual").value;
 
   if (fasecolda == "") {
@@ -4626,9 +4513,9 @@ $("#btnConsultarVehmanualbuscador").click(function () {
               allowOutsideClick: false,
             }).then((result) => {
               if (result.isConfirmed) {
-                //! window.location = "pesados";
+                // window.location = "pesados";
               } else if (result.isDenied) {
-                //! window.location = "pesados";
+                // window.location = "pesados";
               }
             });
           }
@@ -4723,3 +4610,35 @@ $("#btnCotizarFinesa").click(function () {
   cotizarFinesa(cotizacionesFinesa);
   // countOfferts();
 });
+
+
+function ValidarClaseFasecolda(num, manual = false) {
+  let str = String(num).padStart(8, "0");
+  let claseValidacion = str.substring(3, 5);
+
+  // clases permitidas
+  const clasesPermitidas = [
+    '04', '10',	'11',	'12',	'13',	'14',	'22',	'23',	'25',	'26'
+  ];
+
+  if (!clasesPermitidas.includes(claseValidacion) && manual == false) {
+    Swal.fire({
+      icon: "error",
+      text: "No puedes cotizar este tipo de vehículo por este módulo.",
+      confirmButtonText: "Cerrar",
+    }).then(() => location.reload());
+
+    return { permitido: false, mensaje: "No puedes cotizar este tipo de vehículo por este módulo." };
+
+  } else if (!clasesPermitidas.includes(claseValidacion) && manual == true) {
+    Swal.fire({
+      icon: "error",
+      text: "No puedes cotizar este tipo de vehículo por este módulo.",
+      confirmButtonText: "Cerrar",
+    });
+
+    return { permitido: false, mensaje: "No puedes cotizar este tipo de vehículo por este módulo." };
+  }
+
+  return { permitido: true };
+}
