@@ -1509,7 +1509,7 @@ function consulCodFasecolda(e = null) {
           tipoConsulta = null;
         }
         var codFasecolda = data.result.codigo;
-        let resultadoConsultaManual = ValidarClaseFasecolda(fasecolda, true);
+        let resultadoConsultaManual = ValidarClaseFasecolda(codFasecolda, true);
         if (!resultadoConsultaManual.permitido) {
           throw new Error("CLASE NO PERMITIDA");
         }
