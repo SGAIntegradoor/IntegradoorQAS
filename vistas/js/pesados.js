@@ -1236,11 +1236,11 @@ function consulPlacaPesados(query = "1") {
             } else {
               var claseVehiculo = "";
               var limiteRCESTADO = "";
-
+              
               //console.log(codigoClase);
               $("#CodigoClase").val(codigoClase);
               $("#clasepesados").val(claseVehiculo);
-
+              
               let fasc = "";
 
               var cuartoDigito = codigoFasecolda.charAt(3);
@@ -1264,7 +1264,7 @@ function consulPlacaPesados(query = "1") {
               $("#CodigoLinea").val(codigoLinea);
               $("#txtFasecolda").val(codigoFasecolda);
               $("#txtValorFasecolda").val(valorAsegurado);
-
+              
               consulDatosFasecolda(codigoFasecolda, modeloVehiculo).then(
                 function (resp) {
                   $("#txtMarcaVeh").val(resp.marcaVeh);
@@ -1580,6 +1580,7 @@ function consulDatosFasecolda(codFasecolda, edadVeh) {
       success: function (data) {
         if (data.mensaje == "No hay Registros.") {
           document.getElementById("formularioVehiculo").style.display = "block";
+          return;
           Swal.fire({
             icon: "error",
             title: "Error al traer la información",
