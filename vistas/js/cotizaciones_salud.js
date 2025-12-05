@@ -27,6 +27,11 @@ if (getParams("idCotizacionSalud").length > 0) {
 } else if (getParams("fechaInicialCotizaciones").length > 0) {
   menosCotizaciones();
 }
+const idCotiSalud = getParams("idCotizacionSalud")[0];
+$("#btnParrillaPDFSalud").on("click", function () {
+    const ruta = "vistas/modulos/SaludCot/comparador/extraer-html.php?idCotizacionSalud=" + idCotiSalud;
+    window.open(ruta, "_blank");
+});
 
 $("#daterange-btnCotizacionesSalud").daterangepicker(
   {

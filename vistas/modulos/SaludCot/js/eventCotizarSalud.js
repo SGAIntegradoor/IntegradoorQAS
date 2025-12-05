@@ -688,8 +688,10 @@ function makeIndividualCard(
   tipoCotizacion,
   cantAseg,
   tableHTML,
-  idCoti
+  idCoti,
+  chekedPlan
 ) {
+  console.log('funcion makeIndividualCard chekedPlan:', chekedPlan);
   coberturasHTML = "";
   coberturas.forEach((plan) => {
     coberturasHTML += `<li>${plan}</li>`;
@@ -783,7 +785,7 @@ function makeIndividualCard(
                               <!--Input y Label para seleccionar oferta en las cards-->
                               <div class="selec-oferta-salud">
                                 <label for="seleccionar">SELECCIONAR</label>&nbsp;&nbsp;
-                                <input type="checkbox" class="classSelecOferta" name="selecOferta" id="select${plan_id}" onclick="seleccionarOfertaSalud(${idCoti}, ${plan_id})"/>
+                                <input type="checkbox" class="classSelecOferta" name="selecOferta" id="select${plan_id}" onclick="seleccionarOfertaSalud(${idCoti}, ${plan_id})" ${chekedPlan == 1 ? 'checked' : ''}/>
                               </div>
                             </div>
                         </div
@@ -1005,6 +1007,7 @@ function makeCards(data, tipoCotizacion) {
             semestral: 0,
             anual: 0,
             coberturas: [],
+            seleccionar: plan.seleccionar,
           };
         }
 
@@ -1077,7 +1080,8 @@ function makeCards(data, tipoCotizacion) {
         tipoCotizacion,
         data.asegurados.length,
         tableHTML,
-        idCotiNew ?? idCoti
+        idCotiNew ?? idCoti,
+        plan.seleccionar
       );
     }
   } else if (tipoCotizacion === 2) {
@@ -1100,6 +1104,7 @@ function makeCards(data, tipoCotizacion) {
             semestral: 0,
             anual: 0,
             coberturas: [],
+            seleccionar: plan.seleccionar,
           };
         }
 
@@ -1171,7 +1176,8 @@ function makeCards(data, tipoCotizacion) {
         tipoCotizacion,
         data.asegurados.length,
         tableHTML,
-        idCotiNew ?? idCoti
+        idCotiNew ?? idCoti,
+        plan.seleccionar
       );
     }
   }
@@ -1186,6 +1192,8 @@ function makeCards(data, tipoCotizacion) {
     document.getElementById("row_contenedor_general_salud").innerHTML +=
       html_data;
   }
+  // agregar un display block luego de que carguen las cards para ver el boton de generar PDF
+  $("#fila-btn-pdf").show();
   $("#resumenCotizaciones").show();
   cargarEstilos("vistas/modulos/SaludCot/css/cardsResult.css");
 }
@@ -1931,9 +1939,43 @@ $(document).ready(function () {
   }
 });
 
-function seleccionarOfertaSalud(idCotiSalud,planSeleccionado) {
+function seleccionarOfertaSalud(idCotiSalud, planSeleccionado) {
   console.log("Oferta seleccionada");
   console.log("idCoti: " + idCotiSalud);
   console.log("idPlan: " + planSeleccionado);
+
+  $.ajax({
+    type: "POST",
+    url: "src/seleccionarOfertaSalud.php",
+    dataType: "json",
+    data: {
+      idPlan: planSeleccionado,
+      idCotizacion: idCotiSalud,
+    },
+    success: function (data) {
+      console.log("respuesta src: " + data);
+    },
+    error: function () {
+      overlay.remove();
+      $(".classSelecOferta").prop("disabled", false);
+      Swal.fire({
+        icon: "error",
+        title: "Ocurrió un problema",
+        text: "No se pudo conectar con la base de datos por problemas de conectividad.",
+        confirmButtonText: "Aceptar",
+      });
+      if (!document.getElementById(idCheckbox).checked) {
+        $input.prop("checked", true);
+      } else {
+        $input.prop("checked", false);
+      }
+    },
+  });
 }
+
+$("#btnParrillaPDFSalud").on("click", function () {
+    const ruta = "vistas/modulos/SaludCot/comparador/pdfSalud.php?idCotizacionSalud=" + idCotiNew;
+    window.open(ruta, "_blank");
+});
+
 // ========================================================================================================================
