@@ -687,7 +687,8 @@ function makeIndividualCard(
   logo,
   tipoCotizacion,
   cantAseg,
-  tableHTML
+  tableHTML,
+  idCoti
 ) {
   coberturasHTML = "";
   coberturas.forEach((plan) => {
@@ -779,6 +780,11 @@ function makeIndividualCard(
                               <!--<button id="" class="btn-table float-left" data-target="#${uniqueId}">Más coberturas</button>-->
                               <button style="width: 100%;" id="${buttonId}" class="btn-table float-left" data-target="#${uniqueId}">Detalle de precios</button>
                               
+                              <!--Input y Label para seleccionar oferta en las cards-->
+                              <div class="selec-oferta-salud">
+                                <label for="seleccionar">SELECCIONAR</label>&nbsp;&nbsp;
+                                <input type="checkbox" class="classSelecOferta" name="selecOferta" id="select${plan_id}" onclick="seleccionarOfertaSalud(${idCoti}, ${plan_id})"/>
+                              </div>
                             </div>
                         </div
                     </div>
@@ -1070,7 +1076,8 @@ function makeCards(data, tipoCotizacion) {
         plan.logo,
         tipoCotizacion,
         data.asegurados.length,
-        tableHTML
+        tableHTML,
+        idCotiNew ?? idCoti
       );
     }
   } else if (tipoCotizacion === 2) {
@@ -1163,7 +1170,8 @@ function makeCards(data, tipoCotizacion) {
         plan.logo,
         tipoCotizacion,
         data.asegurados.length,
-        tableHTML
+        tableHTML,
+        idCotiNew ?? idCoti
       );
     }
   }
@@ -1923,4 +1931,9 @@ $(document).ready(function () {
   }
 });
 
+function seleccionarOfertaSalud(idCotiSalud,planSeleccionado) {
+  console.log("Oferta seleccionada");
+  console.log("idCoti: " + idCotiSalud);
+  console.log("idPlan: " + planSeleccionado);
+}
 // ========================================================================================================================
