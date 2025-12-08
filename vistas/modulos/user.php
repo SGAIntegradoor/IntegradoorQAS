@@ -141,6 +141,27 @@ if (isset($_GET["id"])) {
     /* Sombra difusa en los bordes */
   }
 
+  .ciudad.select2-container .select2-selection--single {
+    height: 40px !important;
+}
+
+.select2-container--bootstrap .select2-selection--single {
+    height: 34px;
+    line-height: 2.258571;
+    padding: 6px 24px 6px 12px;
+}
+
+.select2-container--bootstrap .select2-selection {
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+    background-color: #fff;
+    border: 2px solid #DBDBDB;
+    border-radius: 0px !important; 
+    color: #555;
+    font-size: 14px;
+    outline: 0;
+}
+
   #loader-skeleton #message {
     display: flex;
     height: 100%;
