@@ -1,4 +1,13 @@
 <?php
+require_once "config/dbconfig.php";
+
+$sqlRamos = "SELECT * from ramos";
+$enlace = mysqli_connect("$DB_host", "$DB_user", "$DB_pass", "$DB_name");
+$resultadoRamos = mysqli_query($enlace, $sqlRamos);
+// $ramos = mysqli_fetch_assoc($resultadoRamos);
+$ramos = mysqli_fetch_assoc($resultadoRamos);
+
+echo '<script>console.log(' . json_encode($ramos) . ')</script>';
 
 if (isset($_GET["id"])) {
 
@@ -6,17 +15,11 @@ if (isset($_GET["id"])) {
     var idUserURL = ' . $_GET['id'] . ';
   </script>';
 
-  require_once "config/dbconfig.php";
-
-  $enlace = mysqli_connect("$DB_host", "$DB_user", "$DB_pass", "$DB_name");
-
   $sql = "SELECT usu_foto, usu_logo_pdf FROM usuarios WHERE id_usuario = " . $_GET['id'];
 
   $resultado = mysqli_query($enlace, $sql);
   $usuario = mysqli_fetch_assoc($resultado);
 }
-
-
 
 
 ?>
@@ -1073,25 +1076,29 @@ if (isset($_GET["id"])) {
                   <div class="option">
                     <input id="todosCheck" type="checkbox" value="Todos" onchange="updateSelectText(event)"> Todos
                   </div>
-                  <div class="option">
-                    <input type="checkbox" value="Autos Livianos" onchange="updateSelectText(event)"> Autos Livianos
-                  </div>
-                  <div class="option">
-                    <input type="checkbox" value="Motos" onchange="updateSelectText(event)"> Motos
-                  </div>
-                  <div class="option">
-                    <input type="checkbox" value="Pesados" onchange="updateSelectText(event)"> Pesados
-                  </div>
-                  <div class="option">
-                    <input type="checkbox" value="Hogar" onchange="updateSelectText(event)"> Hogar
-                  </div>
-                  <div class="option">
-                    <input type="checkbox" value="Vida" onchange="updateSelectText(event)"> Vida
-                  </div>
+                  <?php
+
+                  $sqlRamos = "SELECT * from ramos";
+                  $enlace = mysqli_connect("$DB_host", "$DB_user", "$DB_pass", "$DB_name");
+                  $resultadoRamos = mysqli_query($enlace, $sqlRamos);
+                  if (!$resultadoRamos) {
+                    die("Error en la consulta: " . mysqli_error($enlace));
+                  }
+
+                  $ramos = mysqli_fetch_all($resultadoRamos, MYSQLI_ASSOC);
+
+                  foreach ($ramos as $ramo) {
+                    echo '
+                          <div class="option">
+                            <input type="checkbox" value="' . htmlspecialchars($ramo["ramo"]) . '" onchange="updateSelectText(event)"> ' . htmlspecialchars($ramo["ramo"]) . '
+                          </div>
+                        ';
+                  }
+
+                  ?>
                 </div>
               </div>
             </div>
-
             <div class="form-group">
               <label for="unidadNegocioSelect">Unidad de negocio:</label>
               <select name="unidadNegocioSelect" id="unidadNegocioSelect" placeholder="" style="width: 150px;" required>
