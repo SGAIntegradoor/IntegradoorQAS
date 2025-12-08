@@ -1,19 +1,28 @@
 <?php
 require_once "config/dbconfig.php";
 
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+// ini_set('display_errors', 1);
+// ini_set('display_startup_errors', 1);
+// error_reporting(E_ALL);
 
 
 $sqlRamos = "SELECT * from ramos";
 $enlace = mysqli_connect("$DB_host", "$DB_user", "$DB_pass", "$DB_name");
 $resultadoRamos = mysqli_query($enlace, $sqlRamos);
+// resultadoRamos ya fue obtenido con mysqli_query
 if (!$resultadoRamos) {
-  die("Error en la consulta: " . mysqli_error($enlace));
+    die("Error en la consulta: " . mysqli_error($enlace));
 }
 
-$ramos = mysqli_fetch_all($resultadoRamos, MYSQLI_ASSOC);
+// Compatibilidad: si mysqli_fetch_all no existe hacemos un fallback
+if (function_exists('mysqli_fetch_all')) {
+    $ramos = mysqli_fetch_all($resultadoRamos, MYSQLI_ASSOC);
+} else {
+    $ramos = [];
+    while ($row = mysqli_fetch_assoc($resultadoRamos)) {
+        $ramos[] = $row;
+    }
+}
 
 if (isset($_GET["id"])) {
 
