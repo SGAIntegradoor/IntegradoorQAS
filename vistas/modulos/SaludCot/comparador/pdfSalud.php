@@ -1,6 +1,6 @@
 <?php
 // $identificador = $_GET['cotizacion'];
-$idCotizacion = $_GET['cotizacion'] ?? 472;
+// $idCotizacion = $_GET['cotizacion'] ?? 0;
 
 $user = "grupoasi_cotizautos";
 $password = "M1graci0n123";

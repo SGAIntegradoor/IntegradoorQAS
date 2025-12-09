@@ -4,7 +4,7 @@ mb_http_output("UTF-8");
 
 // Capturar salida del include
 ob_start();
-$idCotizacion = $_GET['cotizacion'] ?? 0;
+$idCotizacion = $_GET['idCotizacionSalud'] ?? 0;
 include 'pdfSalud.php';
 $html_generado = ob_get_clean();
 
@@ -19,5 +19,19 @@ $body = $dom->getElementsByTagName("body")->item(0);
 
 $contenido_body = $dom->saveHTML($body);
 
-echo htmlspecialchars($contenido_body);
-?>
+// echo htmlspecialchars($contenido_body);
+
+$body = $contenido_body;
+
+$query = "
+    INSERT INTO comparador_salud (id_coti_salud, body)
+    VALUES ($idCotizacion, '$body')
+    ON DUPLICATE KEY UPDATE body = '$body'
+";
+
+if ($conexion->query($query) === TRUE) {
+    header("Location: https://integradoor.com/crm/comisiones/liquidacion/pdfservice");
+} else {
+    echo "Error: " . $conexion->error;
+}
+exit;
