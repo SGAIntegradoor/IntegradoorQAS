@@ -422,7 +422,7 @@
                                     <p class="card-text">Si quieres recibir este material, sigue los siguientes pasos:</p>
                                     <ul class="card-text" style="padding-left: 0px;">
                                         <li style="list-style-type: none;">
-                                            <u style="font-weight: bold; color: black; text-decoration: none;">1.</u>  Ingresa al Canal de Whatsapp del área SOAT, haciendo clic aquí: <b><u><a href="https://www.whatsapp.com/channel/0029VbB0Rsc5K3zMSG6mYP2s" target="_blank">AQUÍ</a></u></b>.
+                                            <u style="font-weight: bold; color: black; text-decoration: none;">1.</u>  Ingresa al Canal de Whatsapp del área SOAT, haciendo clic <b><u><a href="https://www.whatsapp.com/channel/0029VbB0Rsc5K3zMSG6mYP2s" target="_blank">AQUÍ</a></u></b>.
                                         </li>
                                         <li style="list-style-type: none;">
                                             <u style="font-weight: bold; color: black; text-decoration: none;">2.</u> Haz clic en el botón Seguir Canal.

@@ -1463,7 +1463,7 @@ function consulCodFasecolda(e = null) {
           tipoConsulta = null;
         }
         var codFasecolda = data.result.codigo;
-        let resultadoConsultaManual = ValidarClaseFasecolda(fasecolda, true);
+        let resultadoConsultaManual = ValidarClaseFasecolda(codFasecolda, true);
         if (!resultadoConsultaManual.permitido) {
           throw new Error("CLASE NO PERMITIDA");
         }
@@ -3434,7 +3434,9 @@ function cotizarOfertas() {
                   );
                 });
                 return;
-              } else if (aseguradora === "Qualitas") {
+              }
+              // inicio javier 
+               else if (aseguradora === "Qualitas") {
                 url = `https://grupoasistencia.com/WS-laravel/api/autos/qualitas`;
                 cont.push(
                   fetch(url, requestOptions)
@@ -3533,7 +3535,9 @@ function cotizarOfertas() {
                   );
                 });
                 return;
-              } else if (
+              } 
+              // Fin javier 
+              else if (
                 aseguradora === "Bolivar" ||
                 aseguradora === "Seguros Bolivar"
               ) {
@@ -3613,10 +3617,10 @@ function cotizarOfertas() {
               } else {
                 url = `https://grupoasistencia.com/motor_webservice/${aseguradora}_autos`;
               }
-
-              if (aseguradora == "Qualitas" || aseguradora == "Sura") {
+              // Realizar la solicitud fetch y agregar la promesa al array
+              if (aseguradora == "Qualitas1" || aseguradora == "Sura") {
                 let message =
-                  aseguradora == "Qualitas"
+                  aseguradora == "Qualitas1"
                     ? `💡 <b>Nueva aseguradora</b> especializada en <b>seguros de autos.</b> La principal aseguradora mexicana de seguros de autos llega a Colombia y <b>nosotros ya tenemos convenio.</b> Solicita cotización manual a tu Analista Comercial.`
                     : aseguradora == "Sura"
                     ? `<b>🐯 Nueva alianza para comercializar seguros Sura.</b> Solicita cotización manual a tu Analista Comercial.`
@@ -4281,6 +4285,7 @@ function cotizarOfertas() {
           : Promise.resolve();
 
         cont.push(qualitasPromise);
+        // /*Fin javier */
 
         /* HDI */
         const HDIPromise = comprobarFallida("HDI")

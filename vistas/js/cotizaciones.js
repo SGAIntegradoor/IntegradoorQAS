@@ -1343,7 +1343,7 @@ async function renderCards(response) {
         "Sin Hurto",
         "Comercial",
         "Basico + PT",
-        "Integral 20%",,
+        "Integral 20%",
         "Solo Totales",
         "Sin RCE",
         "Todo Riesgo Taxis",
@@ -1351,8 +1351,6 @@ async function renderCards(response) {
         "CAMIONES Y FURGONES PLUS",
         "CAMIONES Y FURGONES PREMIUM",
         "CAMIONES Y FURGONES ELITE",
-        "Seguro Amarillo - RC en Exceso",
-        "Seguro Amarillo"
       ];
 
       var valorRC = isNumeric(oferta.ValorRC);
