@@ -324,7 +324,7 @@
     <section class="content">
         <div class="box">
             <?php include_once './vistas/modulos/SaludCot/vistas/adminCotizacionesSalud.php'; ?>
-            <?php include_once './vistas/modulos/SaludCot/vistas/cards.php'; ?>
+            <?php //include_once './vistas/modulos/SaludCot/vistas/cards.php'; ?>
             <?php include_once './vistas/modulos/SaludCot/vistas/cotizadorSalud.php'; ?>
         </div>
     </section>
