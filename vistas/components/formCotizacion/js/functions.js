@@ -854,7 +854,7 @@ $('input[name="vidaDeudorQRadio"]').on("change", function () {
           console.error("Error en la petición:", error);
         });
     } else {
-      if (val == "11001") {
+      if (val == "xxx") { // 11001 es el código de Bogotá, agregar para mostrar subzonas, cambiar xxx por 11001
         $("#subZoneBog").show();
         $("#btnDataHogarSiguiente").prop("disabled", true);
         $("#subZona").empty(); // Limpiar opciones anteriores
