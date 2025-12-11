@@ -1207,13 +1207,14 @@ function consulPlaca(query = "1") {
 
           //VALIDA SI LA CONSULTA FUE EXITOSA
           if (estadoConsulta == true) {
-
-            const resultado = ValidarClaseFasecolda(myJson.Data.CodigoFasecolda);
-                if (!resultado.permitido) {
-                  console.log('CLASE NO PERMITIDA');
-                } else {
-                  console.log("CLASE PERMITIDA");
-                }
+            const resultado = ValidarClaseFasecolda(
+              myJson.Data.CodigoFasecolda
+            );
+            if (!resultado.permitido) {
+              console.log("CLASE NO PERMITIDA");
+            } else {
+              console.log("CLASE PERMITIDA");
+            }
 
             var codigoClase = myJson.Data.ClassId;
             var codigoMarca = myJson.Data.Brand;
@@ -1223,7 +1224,10 @@ function consulPlaca(query = "1") {
             var valorAsegurado = myJson.Data.ValorAsegurado;
 
             if (codigoFasecolda != null) {
-              if ((valorAsegurado == "null" || valorAsegurado == null) && resultado.permitido) {
+              if (
+                (valorAsegurado == "null" || valorAsegurado == null) &&
+                resultado.permitido
+              ) {
                 if (consulPlacaMapfre(valnumplaca)) {
                 } else {
                   consulDatosFasecolda;
@@ -2381,7 +2385,7 @@ const mostrarOferta = (
                                     <div>VER PDF &nbsp;&nbsp;<span class="fa fa-file-text"></span></div>
                                 </button>
                             </div>`;
-  } 
+  }
   // else if (
   //   aseguradora == "Mundial" &&
   //   permisosCredenciales == "1" &&
@@ -3525,7 +3529,10 @@ function cotizarOfertasPasajeros() {
                 cont.push(estadoPromise);
                 return;
               } else if (aseguradora === "Allianz") {
-                url = tipoUsoVehiculo == "3" ? `https://grupoasistencia.com/motor_webservice/Allianz_autos_utilitarios` : `https://grupoasistencia.com/motor_webservice/Allianz_Taxis` ;
+                url =
+                  tipoUsoVehiculo == "3"
+                    ? `https://grupoasistencia.com/motor_webservice/Allianz_autos_utilitarios`
+                    : `https://grupoasistencia.com/motor_webservice/Allianz_Taxis`;
                 cont.push(
                   fetch(url, requestOptions)
                     .then((res) => {
@@ -4667,10 +4674,20 @@ function ValidarClaseFasecolda(num, manual = false) {
   let str = String(num).padStart(8, "0");
   let claseValidacion = str.substring(3, 5);
 
+  if (num.length < 8) {
+    document.getElementById("formularioVehiculo").style.display = "block";
+    document.getElementById("headerAsegurado").style.display = "block";
+    document.getElementById("masA").style.display = "block";
+    document.getElementById("DatosAsegurado").style.display = "none";
+    document.getElementById("loaderPlaca").style.display = "none";
+    //! Agregar esto a MOTOS y Pesados START
+    document.getElementById("loaderPlaca2").style.display = "none";
+    //! Agregar esto a MOTOS y Pesados END
+    return null;
+  }
+
   // clases permitidas
-  const clasesPermitidas = [
-    '01',	'02',	'03',	'06',	'08',	'20',	'21',
-  ];
+  const clasesPermitidas = ["01", "02", "03", "06", "08", "20", "21"];
 
   if (!clasesPermitidas.includes(claseValidacion) && manual == false) {
     Swal.fire({
@@ -4679,8 +4696,10 @@ function ValidarClaseFasecolda(num, manual = false) {
       confirmButtonText: "Cerrar",
     }).then(() => location.reload());
 
-    return { permitido: false, mensaje: "No puedes cotizar este tipo de vehículo por este módulo." };
-
+    return {
+      permitido: false,
+      mensaje: "No puedes cotizar este tipo de vehículo por este módulo.",
+    };
   } else if (!clasesPermitidas.includes(claseValidacion) && manual == true) {
     Swal.fire({
       icon: "error",
@@ -4688,7 +4707,10 @@ function ValidarClaseFasecolda(num, manual = false) {
       confirmButtonText: "Cerrar",
     });
 
-    return { permitido: false, mensaje: "No puedes cotizar este tipo de vehículo por este módulo." };
+    return {
+      permitido: false,
+      mensaje: "No puedes cotizar este tipo de vehículo por este módulo.",
+    };
   }
 
   return { permitido: true };

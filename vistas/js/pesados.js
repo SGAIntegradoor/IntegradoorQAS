@@ -1203,11 +1203,11 @@ function consulPlacaPesados(query = "1") {
         if (estadoConsulta == true) {
           // Valicacion de clases permitidas en el modulo (pesados)
           const resultado = ValidarClaseFasecolda(myJson.Data.CodigoFasecolda);
-                if (!resultado.permitido) {
-                  console.log('CLASE NO PERMITIDA');
-                } else {
-                  console.log("CLASE PERMITIDA");
-                }
+          if (!resultado.permitido) {
+            console.log("CLASE NO PERMITIDA");
+          } else {
+            console.log("CLASE PERMITIDA");
+          }
 
           var codigoClase = myJson.Data.ClassId;
           var codigoMarca = myJson.Data.Brand;
@@ -1225,7 +1225,10 @@ function consulPlacaPesados(query = "1") {
           );
 
           if (codigoFasecolda != null) {
-            if ((valorAsegurado == "null" || valorAsegurado == null) && resultado.permitido) {
+            if (
+              (valorAsegurado == "null" || valorAsegurado == null) &&
+              resultado.permitido
+            ) {
               consulPlacaMapfrePesados(valnumplaca);
               // document.getElementById("formularioVehiculo").style.display =
               //   "block";
@@ -1236,11 +1239,11 @@ function consulPlacaPesados(query = "1") {
             } else {
               var claseVehiculo = "";
               var limiteRCESTADO = "";
-              
+
               //console.log(codigoClase);
               $("#CodigoClase").val(codigoClase);
               $("#clasepesados").val(claseVehiculo);
-              
+
               let fasc = "";
 
               var cuartoDigito = codigoFasecolda.charAt(3);
@@ -1264,7 +1267,7 @@ function consulPlacaPesados(query = "1") {
               $("#CodigoLinea").val(codigoLinea);
               $("#txtFasecolda").val(codigoFasecolda);
               $("#txtValorFasecolda").val(valorAsegurado);
-              
+
               consulDatosFasecolda(codigoFasecolda, modeloVehiculo).then(
                 function (resp) {
                   $("#txtMarcaVeh").val(resp.marcaVeh);
@@ -1968,18 +1971,18 @@ const mostrarOfertaPesados = (
                   
                   <div class="col-xs-12 col-sm-6 col-md-2 oferta-headerEdit">
                     <h5 class='entidad' style='font-size: 15px'><b>${nombreAseguradoraA} - ${
-                    producto == "Pesados con RCE en exceso"
-                      ? "Pesados RCE + Exceso"
-                      : producto == "CAMIONES Y FURGONES ELITE"
-                      ? "Camiones y Furgones Elite"
-                      : producto == "CAMIONES Y FURGONES PLUS" 
-                      ? "Camiones y Furgones Plus" 
-                      : producto == "CAMIONES Y FURGONES CLASICO" 
-                      ? "Camiones y Furgones Clasico" 
-                      : producto == "CAMIONES Y FURGONES PREMIUM" 
-                      ? "Camiones y Furgones Premium" 
-                      : producto
-                  }</b></h5>
+    producto == "Pesados con RCE en exceso"
+      ? "Pesados RCE + Exceso"
+      : producto == "CAMIONES Y FURGONES ELITE"
+      ? "Camiones y Furgones Elite"
+      : producto == "CAMIONES Y FURGONES PLUS"
+      ? "Camiones y Furgones Plus"
+      : producto == "CAMIONES Y FURGONES CLASICO"
+      ? "Camiones y Furgones Clasico"
+      : producto == "CAMIONES Y FURGONES PREMIUM"
+      ? "Camiones y Furgones Premium"
+      : producto
+  }</b></h5>
                     <h5 class='precio' style='margin-top: 0px !important;'>Desde $ ${prima}</h5>
                     <p class='title-precio' style='margin: 0 0 3px !important'>Precio (IVA incluido)</p>
                     <div id='${actIdentity}' style='display: none; color: #88d600;'>
@@ -2018,7 +2021,10 @@ const mostrarOfertaPesados = (
                   <div class="col-xs-12 col-sm-6 col-md-2">
                     <div class="selec-oferta">
                     <label for="seleccionar">SELECCIONAR</label>&nbsp;&nbsp;
-                    <input type="checkbox" class="classSelecOferta" name="selecOferta" id="selec${numCotizOferta}${numId}${productoGlobal.replace(/[^a-zA-Z0-9_-]/g, "")}\" onclick='seleccionarOferta(\"${aseguradora}\", \"${prima}\", \"${productoGlobal}\", \"${numCotizOferta}\", \"${actIdentity}\", this);' />
+                    <input type="checkbox" class="classSelecOferta" name="selecOferta" id="selec${numCotizOferta}${numId}${productoGlobal.replace(
+    /[^a-zA-Z0-9_-]/g,
+    ""
+  )}\" onclick='seleccionarOferta(\"${aseguradora}\", \"${prima}\", \"${productoGlobal}\", \"${numCotizOferta}\", \"${actIdentity}\", this);' />
                     </div>
                   </div>`;
   if (
@@ -4611,14 +4617,34 @@ $("#btnCotizarFinesa").click(function () {
   // countOfferts();
 });
 
-
 function ValidarClaseFasecolda(num, manual = false) {
   let str = String(num).padStart(8, "0");
   let claseValidacion = str.substring(3, 5);
 
+  if (num.length < 8) {
+    document.getElementById("formularioVehiculo").style.display = "block";
+    document.getElementById("headerAsegurado").style.display = "block";
+    document.getElementById("masA").style.display = "block";
+    document.getElementById("DatosAsegurado").style.display = "none";
+    document.getElementById("loaderPlaca").style.display = "none";
+    //! Agregar esto a MOTOS y Pesados START
+    document.getElementById("loaderPlaca2").style.display = "none";
+    //! Agregar esto a MOTOS y Pesados END
+    return null;
+  }
+
   // clases permitidas
   const clasesPermitidas = [
-    '04', '10',	'11',	'12',	'13',	'14',	'22',	'23',	'25',	'26'
+    "04",
+    "10",
+    "11",
+    "12",
+    "13",
+    "14",
+    "22",
+    "23",
+    "25",
+    "26",
   ];
 
   if (!clasesPermitidas.includes(claseValidacion) && manual == false) {
@@ -4628,8 +4654,10 @@ function ValidarClaseFasecolda(num, manual = false) {
       confirmButtonText: "Cerrar",
     }).then(() => location.reload());
 
-    return { permitido: false, mensaje: "No puedes cotizar este tipo de vehículo por este módulo." };
-
+    return {
+      permitido: false,
+      mensaje: "No puedes cotizar este tipo de vehículo por este módulo.",
+    };
   } else if (!clasesPermitidas.includes(claseValidacion) && manual == true) {
     Swal.fire({
       icon: "error",
@@ -4637,7 +4665,10 @@ function ValidarClaseFasecolda(num, manual = false) {
       confirmButtonText: "Cerrar",
     });
 
-    return { permitido: false, mensaje: "No puedes cotizar este tipo de vehículo por este módulo." };
+    return {
+      permitido: false,
+      mensaje: "No puedes cotizar este tipo de vehículo por este módulo.",
+    };
   }
 
   return { permitido: true };
