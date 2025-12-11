@@ -275,6 +275,7 @@ class ModeloCotizaciones
 							"aseguradora" => $plan["aseguradoraN"],
 							"anual" => $plan["anual_plan"],
 							"categoria" => $plan["categoria"],
+							"seleccionar" => $plan["seleccionar"],
 							"mensual" => $plan["mensual_plan"],
 							"semestral" => $plan["semestral_plan"],
 							"trimestral" => $plan["trimestral_plan"],

@@ -410,6 +410,17 @@ if (!isset($_GET['idCotizacionSalud'])) {
             </div>
           </div>
           <div class="row" id="row_contenedor_general_salud2"></div>
+          <div class="row align-items-center" style="display: none;" id="fila-btn-pdf">
+            <div class="col-xs-4 selec-oferta-salud">
+              <label style="color: black;" for="checkboxAsesorEditar">¿Deseas agregar tus datos como asesor en la cotización?</label>
+              <input class="form-check-input" type="checkbox" id="checkboxAsesorEditar" style="margin-left: 10px;" checked="">
+            </div>
+            <div class="col-xs-4">
+              <button type="button" class="btn btn-danger" id="btnParrillaPDFSalud" style="margin-bottom: 10px;">
+                <span class="fa fa-file-text"></span> Generar PDF de Cotización
+              </button>
+            </div>
+          </div>
         </div>
         <div id="loaderFilters2"></div>
       </div>
