@@ -21,24 +21,21 @@ class ModeloConsultas
         if ($stmt->execute()) {
             // Eliminar filas duplicadas basadas en 'id_poliza'
             $polizas = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-            // foreach ($polizas as $poliza) {
-            //     $id_poliza = $poliza['id_poliza'];
-            //     $stmt2 = Conexion::conectar()->prepare("SELECT SUM(valor_recibido) AS total_pagado FROM $tabla3 WHERE id_poliza = :id_poliza");
-            //     $stmt2->bindParam(":id_poliza", $id_poliza, PDO::PARAM_INT);
-            //     if ($stmt2->execute()) {
-            //         $resultado = $stmt2->fetch(PDO::FETCH_ASSOC);
-            //         var_dump($resultado);
-            //         $poliza['pagos_realizados'] = $resultado['total_pagado'] ?? 0;
-            //         $stmt2->closeCursor();
-            //         $stmt2 = null;
-            //     } else {
-            //         return json_encode(array('error' => 'Error al ejecutar la consulta de pagos', 'details' => $stmt2->errorInfo()));
-            //     }
-            // }
-            // var_dump($polizas);
             $stmt = null;
             return $polizas;
+        } else {
+            return json_encode(array('error' => 'Error al ejecutar la consulta', 'details' => $stmt->errorInfo()));
+        }
+    }
+    static public function mdlGetInsurers($tabla)
+    {
+        $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla");
+
+        if ($stmt->execute()) {
+            // Eliminar filas duplicadas basadas en 'id_poliza'
+            $insurers = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            $stmt = null;
+            return $insurers;
         } else {
             return json_encode(array('error' => 'Error al ejecutar la consulta', 'details' => $stmt->errorInfo()));
         }

@@ -19,7 +19,7 @@ class ControladorConsultas {
 
 		$tabla = "aseguradoras";
 
-		// $respuesta = ModeloConsultas::mdlGetInsurer($tabla);
+	    $respuesta = ModeloConsultas::mdlGetInsurers($tabla);
 
 		// return $respuesta;
 	}
