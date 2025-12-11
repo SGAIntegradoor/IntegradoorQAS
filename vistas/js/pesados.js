@@ -2018,7 +2018,7 @@ const mostrarOfertaPesados = (
                   <div class="col-xs-12 col-sm-6 col-md-2">
                     <div class="selec-oferta">
                     <label for="seleccionar">SELECCIONAR</label>&nbsp;&nbsp;
-                    <input type="checkbox" class="classSelecOferta" name="selecOferta" id="selec${numCotizOferta}${numId}${productoGlobal}\" onclick='seleccionarOferta(\"${aseguradora}\", \"${prima}\", \"${productoGlobal}\", \"${numCotizOferta}\", \"${actIdentity}\", this);' />
+                    <input type="checkbox" class="classSelecOferta" name="selecOferta" id="selec${numCotizOferta}${numId}${productoGlobal.replace(/[^a-zA-Z0-9_-]/g, "")}\" onclick='seleccionarOferta(\"${aseguradora}\", \"${prima}\", \"${productoGlobal}\", \"${numCotizOferta}\", \"${actIdentity}\", this);' />
                     </div>
                   </div>`;
   if (
