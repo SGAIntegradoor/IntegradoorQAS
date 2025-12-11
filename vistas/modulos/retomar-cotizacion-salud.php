@@ -416,7 +416,7 @@ if (!isset($_GET['idCotizacionSalud'])) {
               <input class="form-check-input" type="checkbox" id="checkboxAsesorEditar" style="margin-left: 10px;" checked="">
             </div>
             <div class="col-xs-4">
-              <button type="button" class="btn btn-danger" id="btnParrillaPDFSalud">
+              <button type="button" class="btn btn-danger" id="btnParrillaPDFSalud" style="margin-bottom: 10px;">
                 <span class="fa fa-file-text"></span> Generar PDF de Cotización
               </button>
             </div>

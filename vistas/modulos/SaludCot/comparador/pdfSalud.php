@@ -89,8 +89,19 @@ $countPlanes = count($rowInfoPlanes);
 
 <body>
     <style>
+        @font-face {
+            font-family: "Letritas Molde";
+            src: url("fonts/Letritas  - Molde Condensed-Medium.otf") format("opentype");
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        html {
+            font-family: "Letritas Molde", sans-serif;
+        }
+
         body {
-            font-family: Arial, sans-serif;
+            font-family: "Letritas Molde", sans-serif;
             margin: 0;
             background-color: #ffffff;
             font-size: 10px;
@@ -460,6 +471,47 @@ $countPlanes = count($rowInfoPlanes);
             <div class="name-box name-clients asistencias" style="background: #00a8e8">Hospitalizacion y cirujia</div>
             <div class="name-box name-clients asistencias" style="background: #00a8e8">Unidad de cuidado intensivo</div>
             <div class="name-box name-clients asistencias" style="background: #00a8e8">Consulta externa</div>
+            <!-- <div class="oculto break" style="width: 100%;">salto de pagina</div> -->
+
+            <img class="oculto" width="75 px"
+                src="https://www.elempleo.com/co/sitio-empresarial/CompanySites/axa-colpatria/resources/images/logo-social.png"
+                alt="Logo" /><br>
+            <div class="title-box oculto">Nombre</div>
+            <h3 class="oculto">Nombre</h3>
+
+            <div class="name-box name-clients asistencias" style="background: #00a8e8">Consulta externa (medicina alternativa)</div>
+            <div class="name-box name-clients asistencias" style="background: #00a8e8">Teleconsulta</div>
+            <div class="name-box name-clients asistencias" style="background: #00a8e8">Exámenes de diagnóstico simple</div>
+            <div class="name-box name-clients asistencias" style="background: #00a8e8">Exámenes de diagnóstico especializados y complejos</div>
+            <div class="name-box name-clients asistencias" style="background: #00a8e8">Urgencias y accidentes odontológicos</div>
+            <div class="name-box name-clients asistencias" style="background: #00a8e8">Atención odontológica general y/o especializada</div>
+            <div class="name-box name-clients asistencias" style="background: #00a8e8">Cobertura Integral de Maternidad</div>
+            <div class="name-box name-clients asistencias" style="background: #00a8e8">Atención integral al recién nacido</div>
+            <div class="name-box name-clients asistencias" style="background: #00a8e8">Terapias básicas complementarias</div>
+            <div class="name-box name-clients asistencias" style="background: #00a8e8">Terapias alternativas</div>
+            <div class="name-box name-clients asistencias" style="background: #00a8e8">Terapias post hospitalización (físicas, respiratorias, del lenguaje o de rehabilitación cardíaca)</div>
+
+            <div class="name-box name-clients asistencias" style="background: #00a8e8">Asistencia en viajes internacionales</div>
+            <div class="name-box name-clients asistencias" style="background: #00a8e8">Asistencia médica domiciliaria</div>
+            <div class="name-box name-clients asistencias" style="background: #00a8e8">Asistencia domiciliaria para urgencias odontológicas</div>
+            <div class="name-box name-clients asistencias" style="background: #00a8e8">Prótesis y material de osteosíntesis</div>
+            <div class="name-box name-clients asistencias" style="background: #00a8e8">Enfermedades graves</div>
+            <div class="name-box name-clients asistencias" style="background: #00a8e8">Segunda opinión médica</div>
+            <div class="name-box name-clients asistencias" style="background: #00a8e8">Transplantes</div>
+            <div class="name-box name-clients asistencias" style="background: #00a8e8">Tratamiento cálculos biliares y renales</div>
+            <div class="name-box name-clients asistencias" style="background: #00a8e8">Oncología</div>
+            <div class="name-box name-clients asistencias" style="background: #00a8e8">VIH-Sida</div>
+            <div class="name-box name-clients asistencias" style="background: #00a8e8">Transporte terrestre urbano (Ambulancia terrestre)</div>
+
+            <div class="name-box name-clients asistencias" style="background: #00a8e8">Transporte aéreo de emergencia (Ambulancia aérea)</div>
+            <div class="name-box name-clients asistencias" style="background: #00a8e8">Medicamentos derivados de la atención de urgencias</div>
+            <div class="name-box name-clients asistencias" style="background: #00a8e8">Medicamentos pre y post hospitalarios</div>
+            <div class="name-box name-clients asistencias" style="background: #00a8e8">Recolección y almacenamiento de células madre para gestantes del programa</div>
+            <div class="name-box name-clients asistencias" style="background: #00a8e8">Auxilio económico para vacunas</div>
+            <div class="name-box name-clients asistencias" style="background: #00a8e8">Continuidad en el pago prima 6 meses por desempleo</div>
+            <div class="name-box name-clients asistencias" style="background: #00a8e8">Exoneración del pago de la Prima por fallecimiento</div>
+            <div class="name-box name-clients asistencias" style="background: #00a8e8">Renta diaria por hospitalización</div>
+            <div class="name-box name-clients asistencias" style="background: #00a8e8">Programas especiales</div>
         </div>
 
         <div class="container">
@@ -483,11 +535,48 @@ $countPlanes = count($rowInfoPlanes);
                     <div class="title-box"><?php echo $plan['nombre_abreviado'] ?></div>
                     <div style="display: block; gap: 0.3rem; width: 100%;">
                         <h3 class="oculto">Anual</h3>
-                        <div class="name-box name asistencias" style="background: #f7f7f7">Covertura pendiente</div>
-                        <div class="name-box name asistencias" style="background: #f7f7f7">Covertura pendiente</div>
-                        <div class="name-box name asistencias" style="background: #f7f7f7">Covertura pendiente</div>
-                        <div class="name-box name asistencias" style="background: #f7f7f7">Covertura pendiente</div>
+                        <div class="name-box name asistencias" style="background: #f7f7f7">Cobertura pendiente</div>
+                        <div class="name-box name asistencias" style="background: #f7f7f7">Cobertura pendiente</div>
+                        <div class="name-box name asistencias" style="background: #f7f7f7">Cobertura pendiente</div>
+                        <div class="name-box name asistencias" style="background: #f7f7f7">Cobertura pendiente</div>
+                        <!-- <div class="oculto break" style="width: 100%;">salto de pagina</div> -->
+                        <img width="75px" height="30px"
+                            src="https://integradoor.com/app/<?php echo $plan['logo']; ?>"
+                            alt="Logo" style="width: 75px !important; height: 30px !important; margin-top: 19px;" /><br>
+                        <div class="title-box"><?php echo $plan['nombre_abreviado'] ?></div>
+                        <h3 class="oculto">Nombre</h3>
 
+                        <div class="name-box name asistencias" style="background: #f7f7f7">Cobertura pendiente</div>
+                        <div class="name-box name asistencias" style="background: #f7f7f7">Cobertura pendiente</div>
+                        <div class="name-box name asistencias" style="background: #f7f7f7">Cobertura pendiente</div>
+                        <div class="name-box name asistencias" style="background: #f7f7f7">Cobertura pendiente</div>
+                        <div class="name-box name asistencias" style="background: #f7f7f7">Cobertura pendiente</div>
+                        <div class="name-box name asistencias" style="background: #f7f7f7">Cobertura pendiente</div>
+                        <div class="name-box name asistencias" style="background: #f7f7f7">Cobertura pendiente</div>
+                        <div class="name-box name asistencias" style="background: #f7f7f7">Cobertura pendiente</div>
+                        <div class="name-box name asistencias" style="background: #f7f7f7">Cobertura pendiente</div>
+                        <div class="name-box name asistencias" style="background: #f7f7f7">Cobertura pendiente</div>
+                        <div class="name-box name asistencias" style="background: #f7f7f7">Cobertura pendiente</div>
+                        <div class="name-box name asistencias" style="background: #f7f7f7">Cobertura pendiente</div>
+                        <div class="name-box name asistencias" style="background: #f7f7f7">Cobertura pendiente</div>
+                        <div class="name-box name asistencias" style="background: #f7f7f7">Cobertura pendiente</div>
+                        <div class="name-box name asistencias" style="background: #f7f7f7">Cobertura pendiente</div>
+                        <div class="name-box name asistencias" style="background: #f7f7f7">Cobertura pendiente</div>
+                        <div class="name-box name asistencias" style="background: #f7f7f7">Cobertura pendiente</div>
+                        <div class="name-box name asistencias" style="background: #f7f7f7">Cobertura pendiente</div>
+                        <div class="name-box name asistencias" style="background: #f7f7f7">Cobertura pendiente</div>
+                        <div class="name-box name asistencias" style="background: #f7f7f7">Cobertura pendiente</div>
+                        <div class="name-box name asistencias" style="background: #f7f7f7">Cobertura pendiente</div>
+                        <div class="name-box name asistencias" style="background: #f7f7f7">Cobertura pendiente</div>
+                        <div class="name-box name asistencias" style="background: #f7f7f7">Cobertura pendiente</div>
+                        <div class="name-box name asistencias" style="background: #f7f7f7">Cobertura pendiente</div>
+                        <div class="name-box name asistencias" style="background: #f7f7f7">Cobertura pendiente</div>
+                        <div class="name-box name asistencias" style="background: #f7f7f7">Cobertura pendiente</div>
+                        <div class="name-box name asistencias" style="background: #f7f7f7">Cobertura pendiente</div>
+                        <div class="name-box name asistencias" style="background: #f7f7f7">Cobertura pendiente</div>
+                        <div class="name-box name asistencias" style="background: #f7f7f7">Cobertura pendiente</div>
+                        <div class="name-box name asistencias" style="background: #f7f7f7">Cobertura pendiente</div>
+                        <div class="name-box name asistencias" style="background: #f7f7f7">Cobertura pendiente</div>
                     </div>
                 </div>
             <?php endforeach; ?>
