@@ -13,4 +13,26 @@ class ControladorConsultas {
 
 		return $respuesta;
 	}
+
+	static public function ctrGetInsurers($fechaInicialCreacion, $fechaFinalCreacion, $idfreelance)
+	{
+
+		$tabla = "aseguradoras";
+
+		// $respuesta = ModeloConsultas::mdlGetInsurer($tabla);
+
+		// return $respuesta;
+	}
+	
+	static public function ctrGetRamos()
+	{
+
+		$tabla = "aseguradoras";
+
+		// $respuesta = ModeloConsultas::mdlGetInsurer($tabla);
+
+		// return $respuesta;
+	}
+
+
 }
