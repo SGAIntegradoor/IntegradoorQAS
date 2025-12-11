@@ -44,7 +44,7 @@ class ModeloInvitacion
                 $mail->SMTPSecure = 'ssl';
                 $mail->SMTPAuth = true;
                 $mail->Username = 'notificaciones@strategico.tech';
-                $mail->Password = 'Sga.Tecno2024*';
+                $mail->Password = 'y*DLo)#Y%YhV';
 
                 // Configurar el remitente y destinatario del correo
                 $emailString = $email;
