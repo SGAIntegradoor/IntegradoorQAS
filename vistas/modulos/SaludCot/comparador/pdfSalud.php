@@ -56,7 +56,10 @@ $infoBeneficiarios = "SELECT
                     LEFT JOIN ciudadeshogar co ON co.codigo = a.ciudad
                     WHERE a.id_cotizacion = $idCotizacion;";
 $resInfoBeneficiarios = $conexion->query($infoBeneficiarios);
-$rowInfoBeneficiarios = mysqli_fetch_all($resInfoBeneficiarios, MYSQLI_ASSOC);
+$rowInfoBeneficiarios = [];
+while ($fila = mysqli_fetch_assoc($resInfoBeneficiarios)) {
+    $rowInfoBeneficiarios[] = $fila;
+}
 
 // Información de productos seleccionados
 $infoPlanes = "SELECT
@@ -73,7 +76,11 @@ LEFT JOIN aseguradoras_salud sa ON sa.id_aseguradora = p.id_aseguradora
 WHERE ps.id_cotizacion = $idCotizacion AND ps.seleccionar = 1
 GROUP BY ps.id_plan;";
 $resInfoPlanes = $conexion->query($infoPlanes);
-$rowInfoPlanes = mysqli_fetch_all($resInfoPlanes, MYSQLI_ASSOC);
+// Info Planes
+$rowInfoPlanes = [];
+while ($fila = mysqli_fetch_assoc($resInfoPlanes)) {
+    $rowInfoPlanes[] = $fila;
+}
 $countPlanes = count($rowInfoPlanes);
 
 ?>
@@ -424,7 +431,11 @@ $countPlanes = count($rowInfoPlanes);
                             LEFT JOIN aseguradoras_salud sa ON sa.id_aseguradora = p.id_aseguradora
                             WHERE ps.id_cotizacion = $idCotizacion AND ps.seleccionar = 1 AND ps.id_plan = $planActual";
                 $resInfoprecios = $conexion->query($infoprecios);
-                $rowInfoprecios = mysqli_fetch_all($resInfoprecios, MYSQLI_ASSOC); ?>
+                // Info Precios
+                        $rowInfoprecios = [];
+                        while ($fila = mysqli_fetch_assoc($resInfoprecios)) {
+                            $rowInfoprecios[] = $fila;
+                        } ?>
 
                 <div class="left-col">
                     <img width="75px" height="30px"
@@ -528,7 +539,11 @@ $countPlanes = count($rowInfoPlanes);
                             LEFT JOIN aseguradoras_salud sa ON sa.id_aseguradora = p.id_aseguradora
                             WHERE ps.id_cotizacion = $idCotizacion AND ps.seleccionar = 1 AND ps.id_plan = $planActual";
                 $resInfoprecios = $conexion->query($infoprecios);
-                $rowInfoprecios = mysqli_fetch_all($resInfoprecios, MYSQLI_ASSOC); ?>
+                // Info Precios
+                    $rowInfoprecios = [];
+                    while ($fila = mysqli_fetch_assoc($resInfoprecios)) {
+                        $rowInfoprecios[] = $fila;
+                    } ?>
 
                 <div class="left-col">
                     <br>
