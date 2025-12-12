@@ -242,3 +242,41 @@ function abrirDialogoCrear(id = null) {
   // Abrir el diálogo
   $("#myModal2").dialog("open");
 }
+
+$("#daterange-btnCotizacionesSalud").daterangepicker(
+  {
+    ranges: {
+      Hoy: [moment(), moment()],
+      Ayer: [moment().subtract(1, "days"), moment().subtract(1, "days")],
+      "Últimos 7 días": [moment().subtract(7, "days"), moment()],
+      "Últimos 30 días": [moment().subtract(30, "days"), moment()],
+      "Este mes": [moment().startOf("month"), moment()],
+      "Último mes": [
+        moment().subtract(1, "month").startOf("month"),
+        moment().subtract(1, "month").endOf("month"),
+      ],
+      "Últimos 3 meses": [
+        moment().subtract(3, "month").startOf("month"),
+        moment(),
+      ],
+    },
+  },
+  function (startDate, endDate) {
+    $("#daterange-btnCotizacionesSalud span").html(
+      startDate.format("MMMM D, YYYY") + " - " + endDate.format("MMMM D, YYYY")
+    );
+    var fechaInicial = startDate.format("YYYY-MM-DD");
+    var fechaFinal = endDate.format("YYYY-MM-DD");
+    var capturarRango = $("#daterange-btnCotizacionesSalud span").html();
+    localStorage.setItem("capturarRango2", capturarRango);
+    var selectedOption = $("#daterange-btnCotizacionesSalud").data(
+      "daterangepicker"
+    ).chosenLabel;
+    localStorage.setItem("Selected2", selectedOption);
+    window.location =
+      "index.php?ruta=user-negocios&fechaInicialCreacion=" +
+      fechaInicial +
+      "&fechaFinalCreacion=" +
+      fechaFinal;
+  }
+);
