@@ -397,8 +397,8 @@
                     $respuesta = ControladorConsultas::ctrMostrarNegocios($inicioMes, $fechaActual, $documento_asesor);
                 }
 
-                $tipoRamo = [1 => "Autos", 4 => "Asistencia en viajes", 2 => "Vida", 3 => "Hogar"];
-                $aseguradoras = [1 => "Allianz", 2 => "Axa Colpatria", 3 => "Liberty", 4 => "Mapfre", 5 => "Sura", 6 => "Zurich"];
+                $tipoRamo = ControladorConsultas::ctrGetRamos();
+                $aseguradoras = ControladorConsultas::ctrGetInsurers();;
 
                 foreach ($respuesta as $key => $value) {
                     //   <td class="text-center" style="font-size: 14px">' . date('Y/m/d', strtotime($value['fch_nacimiento'])) . '</td>
