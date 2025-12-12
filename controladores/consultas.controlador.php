@@ -14,24 +14,24 @@ class ControladorConsultas {
 		return $respuesta;
 	}
 
-	static public function ctrGetInsurers($fechaInicialCreacion, $fechaFinalCreacion, $idfreelance)
+	static public function ctrGetInsurers()
 	{
 
 		$tabla = "aseguradoras";
 
 	    $respuesta = ModeloConsultas::mdlGetInsurers($tabla);
 
-		// return $respuesta;
+		return $respuesta;
 	}
 	
 	static public function ctrGetRamos()
 	{
 
-		$tabla = "aseguradoras";
+		$tabla = "ramos";
 
-		// $respuesta = ModeloConsultas::mdlGetInsurer($tabla);
+		$respuesta = ModeloConsultas::mdlGetRamos($tabla);
 
-		// return $respuesta;
+		return $respuesta;
 	}
 
 

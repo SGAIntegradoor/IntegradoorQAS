@@ -27,7 +27,22 @@ class ModeloConsultas
             return json_encode(array('error' => 'Error al ejecutar la consulta', 'details' => $stmt->errorInfo()));
         }
     }
+
     static public function mdlGetInsurers($tabla)
+    {
+        $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla");
+
+        if ($stmt->execute()) {
+            // Eliminar filas duplicadas basadas en 'id_poliza'
+            $insurers = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            $stmt = null;
+            return $insurers;
+        } else {
+            return json_encode(array('error' => 'Error al ejecutar la consulta', 'details' => $stmt->errorInfo()));
+        }
+    }
+
+    static public function mdlGetRamos($tabla)
     {
         $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla");
 
