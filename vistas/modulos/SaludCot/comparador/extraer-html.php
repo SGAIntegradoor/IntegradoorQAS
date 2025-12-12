@@ -23,8 +23,8 @@ $body = $dom->getElementsByTagName("body")->item(0);
 
 $contenido_body = $dom->saveHTML($body);
 
-// echo htmlspecialchars($contenido_body);
-// die();
+echo htmlspecialchars($contenido_body);
+die();
 
 $body = $contenido_body;
 

@@ -2930,6 +2930,11 @@ $pdf->SetTextColor(104, 104, 104);
 $pdf->Cell(25, 6, "Elaborado por Software Integradoor propiedad del proveedor tecnológico Strategico Technologies SAS BIC Nit: 901.542.216-8", 0, 1, '');
 $pdf->StopTransform();
 
+$pdf->SetXY(0, 254.5);
+$htmlFooter = '<p style="font-size: 6.2px;">La precisión en los precios depende de que los datos del asegurado y del vehículo estén correctamente diligenciados. Recomendamos verificar que la información ingresada sea exacta y esté completa.</p>';
+$pdf->writeHTML($htmlFooter, true, false, true, true, '');
+$pdf->Ln();
+
 $pdf->SetXY(10, 262);
 // $pdf->SetY(-45);
 $pdf->SetXY(0, 262);

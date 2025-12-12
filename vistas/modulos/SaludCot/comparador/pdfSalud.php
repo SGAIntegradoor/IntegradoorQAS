@@ -134,8 +134,8 @@ $countPlanes = count($rowInfoPlanes);
         }
 
         .info-logo img {
-            width: auto;
-            height: auto;
+            width: auto !important;
+            height: auto !important;
         }
 
         .info-principal {
@@ -240,9 +240,9 @@ $countPlanes = count($rowInfoPlanes);
         }
 
         .header img {
-            height: 80px;
-            display: block;
-            margin: 0 auto 10px;
+            height: 80px !important;
+            display: block !important;
+            margin: 0 auto 10px !important;
         }
 
         .title-box {
@@ -341,6 +341,8 @@ $countPlanes = count($rowInfoPlanes);
         }
     </style>
     <header>
+        <input type="hidden" name="nroAsegurados" id="nroAsegurados" value="<?php echo count($rowInfoBeneficiarios); ?>">
+        <input type="hidden" name="nroPlanes" id="nroPlanes" value="<?php echo $countPlanes; ?>">
         <div class="header">
             <div class="info-logo">
                 <img src="https://www.grupoasistencia.com/autogestionpro/Assets//images/LogoGA.png" alt="LOGO" />
@@ -403,7 +405,7 @@ $countPlanes = count($rowInfoPlanes);
         Hemos cotizado <?php echo $countPlanes ?> aseguradora(s), a continuacion te presentamos un
         comparativo de precios anuales y mensuales (IVA incluido)
     </div>
-    <div class="main-container">
+    <div class="main-container" id="asegurados">
 
         <div class="left-col">
             <img class="oculto" width="75 px"
