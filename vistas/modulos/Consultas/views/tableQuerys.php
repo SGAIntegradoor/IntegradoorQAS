@@ -334,7 +334,7 @@
 
 
 <div class="container-fluid" id="containerTable" style="margin-top: 20px;">
-    <button type="button" class="btn btn-default pull-right" id="daterange-btnCotizacionesSalud">
+    <button type="button" class="btn btn-default pull-right" id="daterange-btnCotizacionesSalud" style="margin-right: 10px;">
         <span>
             <i class="fa fa-calendar"></i>
             <?php
