@@ -140,7 +140,7 @@ function abrirDialogoCrear(id = null) {
               aseguradoras[respuesta["aseguradora_poliza"]]
             );
 
-            let ramoOptions = {
+            const ramoOptions = {
               2: "Hogar",
               4: "Salud",
               5: "Vida",
