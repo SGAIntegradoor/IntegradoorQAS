@@ -113,7 +113,7 @@ function abrirDialogoCrear(id = null) {
 
             const aseguradoras = {
               1: "Allianz",
-              2: "Axa Colpatria",
+              2: "AXA Colpatria",
               3: "Bolivar",
               4: "Equidad",
               5: "Estado",
@@ -125,17 +125,53 @@ function abrirDialogoCrear(id = null) {
               11: "SBS Seguros",
               12: "Solidaria",
               13: "Zurich",
+              14: "Assist Card",
+              15: "Universal",
+              16: "Assist 1",
+              17: "Los Olivos",
+              18: "Sura",
+              19: "Cesce",
+              20: "Colmena",
+              21: "Coomeva",
+              22: "Palig",
             };
 
-            $("#txtAseguradora").val(aseguradoras[respuesta["aseguradora_poliza"]]);
+            $("#txtAseguradora").val(
+              aseguradoras[respuesta["aseguradora_poliza"]]
+            );
 
-            let ramoOptions = {
-              1: "Autos",
-              2: "Motos",
-              3: "Pesados",
-              4: "Hogar",
+            const ramoOptions = {
+              2: "Hogar",
+              4: "Salud",
               5: "Vida",
-              6: "Asistencia en viajes",
+              6: "Asistencia E/V",
+              7: "Motos",
+              8: "Pesados",
+              9: "Vida deudor",
+              10: "Arrendamiento",
+              12: "AP Estudiantil",
+              13: "AP",
+              1: "Autos Livianos",
+              14: "Autos Pasajeros",
+              15: "Autos Colectivo",
+              16: "Bicicleta",
+              17: "Credito",
+              18: "Cumplimiento",
+              19: "Equipo Maquinaria",
+              20: "Exequias",
+              21: "Hogar Deudor",
+              22: "Manejo",
+              23: "PYME",
+              24: "RCE Autos Livianos",
+              25: "RCE Motos",
+              26: "RCE Pesados",
+              27: "RCE Pasajeros",
+              28: "RCC Colectivos",
+              29: "RCE Colectivos",
+              30: "RC Cumplimiento",
+              31: "RC Hidrocarburos",
+              32: "RC Medica Profesional",
+              33: "",
             };
 
             $("#txtRamo").val(ramoOptions[respuesta["ramo_poliza"]]);
@@ -151,25 +187,41 @@ function abrirDialogoCrear(id = null) {
               respuesta["fecha_inicio_vig_poliza"]
             );
             $("#txtFechaFinVigencia").val(respuesta["fecha_fin_vig_poliza"]);
-            $("#txtPrimaSinIVA").val(respuesta["prima_neta_poliza"]);
-            $("#txtValorTotal").val(respuesta["valor_total_poliza"]);
+            $("#txtPrimaSinIVA")
+              .val(respuesta["prima_neta_poliza"])
+              .toLocaleString("es-CO", {
+                style: "currency",
+                currency: "COP",
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 0,
+              });
+            $("#txtValorTotal")
+              .val(respuesta["valor_total_poliza"])
+              .toLocaleString("es-CO", {
+                style: "currency",
+                currency: "COP",
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 0,
+              });
 
             let formasDePago = {
               2: "Contado",
               1: "Financiado",
             };
 
-            $("#txtFormaDePago").val(formasDePago[respuesta["forma_pago_poliza"]]);
+            $("#txtFormaDePago").val(
+              formasDePago[respuesta["forma_pago_poliza"]]
+            );
 
             if (respuesta["pagos_realizados"] >= 0) {
-              console.log("pagos")
+              console.log("pagos");
               let pagos = Number(respuesta["pagos_realizados"]);
               let valorTotal = Number(respuesta["valor_total_poliza"]);
               valorTotal > pagos
-              ? $("#txtEstadoCartera").val("Pendiente")
-              : $("#txtEstadoCartera").val("Al Día");
-            }else {
-              console.log("No pages")              
+                ? $("#txtEstadoCartera").val("Pendiente")
+                : $("#txtEstadoCartera").val("Al Día");
+            } else {
+              console.log("No pages");
             }
           } else {
             console.log("No se recibieron datos");
