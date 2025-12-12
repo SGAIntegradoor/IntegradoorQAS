@@ -155,8 +155,8 @@ function abrirDialogoCrear(id = null) {
             $("#txtValorTotal").val(respuesta["valor_total_poliza"]);
 
             let formasDePago = {
-              1: "Contado",
-              2: "Financiado",
+              2: "Contado",
+              1: "Financiado",
             };
 
             $("#txtFormaDePago").val(formasDePago[respuesta["forma_pago_poliza"]]);
