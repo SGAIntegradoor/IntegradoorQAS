@@ -398,7 +398,7 @@
                 }
 
                 $tipoRamo = ControladorConsultas::ctrGetRamos();
-                $aseguradoras = ControladorConsultas::ctrGetInsurers();;
+                $aseguradoras = ControladorConsultas::ctrGetInsurers();
 
                 foreach ($respuesta as $key => $value) {
                     //   <td class="text-center" style="font-size: 14px">' . date('Y/m/d', strtotime($value['fch_nacimiento'])) . '</td>
@@ -406,8 +406,8 @@
                     <td class="text-center" style="font-size: 14px; text-align: center;">' . $value['id_poliza'] . '</td>
                     <td class="text-center" style="font-size: 14px; text-align: center;">' . $value['fecha_exp_poliza'] . '</td>
                     <td class="text-center" style="font-size: 14px; text-align: center;">' . $value['no_poliza'] . '</td>
-                    <td class="text-center" style="font-sizse: 14px; text-align: center;">' . $tipoRamo[(int)$value['ramo_poliza']] . '</td>
-                    <td class="text-center" style="font-size: 14px; text-align: center;">' . $aseguradoras[$value['aseguradora_poliza']] . '</td>
+                    <td class="text-center" style="font-sizse: 14px; text-align: center;">' . $tipoRamo[(int)$value['ramo_poliza']]["ramo"] . '</td>
+                    <td class="text-center" style="font-size: 14px; text-align: center;">' . $aseguradoras[$value['aseguradora_poliza']]["nombre_aseguradora"]. '</td>
                     <td class="text-center" style="font-size: 14px; text-align: center;">' . $value['nombre_completo_asegurado'] . '</td>
                     <td class="text-center" style="font-size: 14px; text-align: center;">' . $value['placa_veh_poliza'] . '</td>
                     <td class="text-center" style="font-size: 14px; text-align: center;">' . $value['fecha_inicio_vig_poliza'] . '</td>
