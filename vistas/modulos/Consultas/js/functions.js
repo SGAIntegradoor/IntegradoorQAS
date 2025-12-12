@@ -187,22 +187,22 @@ function abrirDialogoCrear(id = null) {
               respuesta["fecha_inicio_vig_poliza"]
             );
             $("#txtFechaFinVigencia").val(respuesta["fecha_fin_vig_poliza"]);
-            $("#txtPrimaSinIVA")
-              .val(respuesta["prima_neta_poliza"])
-              .toLocaleString("es-CO", {
+            $("#txtPrimaSinIVA").val(
+              respuesta["prima_neta_poliza"].toLocaleString("es-CO", {
                 style: "currency",
                 currency: "COP",
                 minimumFractionDigits: 0,
                 maximumFractionDigits: 0,
-              });
-            $("#txtValorTotal")
-              .val(respuesta["valor_total_poliza"])
-              .toLocaleString("es-CO", {
+              })
+            );
+            $("#txtValorTotal").val(
+              respuesta["valor_total_poliza"].toLocaleString("es-CO", {
                 style: "currency",
                 currency: "COP",
                 minimumFractionDigits: 0,
                 maximumFractionDigits: 0,
-              });
+              })
+            );
 
             let formasDePago = {
               2: "Contado",
