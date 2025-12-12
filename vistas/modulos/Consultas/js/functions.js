@@ -162,11 +162,14 @@ function abrirDialogoCrear(id = null) {
             $("#txtFormaDePago").val(formasDePago[respuesta["forma_pago_poliza"]]);
 
             if (respuesta["pagos_realizados"]) {
+              console.log("pagos")
               let pagos = Number(respuesta["pagos_realizados"]);
               let valorTotal = Number(respuesta["valor_total_poliza"]);
               valorTotal > pagos
-                ? $("#txtEstadoCartera").val("Pendiente")
-                : $("#txtEstadoCartera").val("Al Día");
+              ? $("#txtEstadoCartera").val("Pendiente")
+              : $("#txtEstadoCartera").val("Al Día");
+            }else {
+              console.log("No pages")              
             }
           } else {
             console.log("No se recibieron datos");
