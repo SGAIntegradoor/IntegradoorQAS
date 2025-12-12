@@ -188,7 +188,7 @@ function abrirDialogoCrear(id = null) {
             );
             $("#txtFechaFinVigencia").val(respuesta["fecha_fin_vig_poliza"]);
             $("#txtPrimaSinIVA").val(
-              respuesta["prima_neta_poliza"].toLocaleString("es-CO", {
+              Number(respuesta["prima_neta_poliza"]).toLocaleString("es-CO", {
                 style: "currency",
                 currency: "COP",
                 minimumFractionDigits: 0,
@@ -197,7 +197,7 @@ function abrirDialogoCrear(id = null) {
             );
 
             $("#txtValorTotal").val(
-              respuesta["valor_total_poliza"].toLocaleString("es-CO", {
+              Number(respuesta["valor_total_poliza"]).toLocaleString("es-CO", {
                 style: "currency",
                 currency: "COP",
                 minimumFractionDigits: 0,
