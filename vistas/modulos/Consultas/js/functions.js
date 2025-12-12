@@ -127,7 +127,9 @@ function abrirDialogoCrear(id = null) {
               13: "Zurich",
             };
 
-            $("#txtAseguradora").val(aseguradoras[respuesta["aseguradora_poliza"]]);
+            $("#txtAseguradora").val(
+              aseguradoras[respuesta["aseguradora_poliza"]]
+            );
 
             let ramoOptions = {
               1: "Autos",
@@ -151,25 +153,41 @@ function abrirDialogoCrear(id = null) {
               respuesta["fecha_inicio_vig_poliza"]
             );
             $("#txtFechaFinVigencia").val(respuesta["fecha_fin_vig_poliza"]);
-            $("#txtPrimaSinIVA").val(respuesta["prima_neta_poliza"]);
-            $("#txtValorTotal").val(respuesta["valor_total_poliza"]);
+            $("#txtPrimaSinIVA")
+              .val(respuesta["prima_neta_poliza"])
+              .toLocaleString("es-CO", {
+                style: "currency",
+                currency: "COP",
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 0,
+              });
+            $("#txtValorTotal")
+              .val(respuesta["valor_total_poliza"])
+              .toLocaleString("es-CO", {
+                style: "currency",
+                currency: "COP",
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 0,
+              });
 
             let formasDePago = {
               2: "Contado",
               1: "Financiado",
             };
 
-            $("#txtFormaDePago").val(formasDePago[respuesta["forma_pago_poliza"]]);
+            $("#txtFormaDePago").val(
+              formasDePago[respuesta["forma_pago_poliza"]]
+            );
 
             if (respuesta["pagos_realizados"] >= 0) {
-              console.log("pagos")
+              console.log("pagos");
               let pagos = Number(respuesta["pagos_realizados"]);
               let valorTotal = Number(respuesta["valor_total_poliza"]);
               valorTotal > pagos
-              ? $("#txtEstadoCartera").val("Pendiente")
-              : $("#txtEstadoCartera").val("Al Día");
-            }else {
-              console.log("No pages")              
+                ? $("#txtEstadoCartera").val("Pendiente")
+                : $("#txtEstadoCartera").val("Al Día");
+            } else {
+              console.log("No pages");
             }
           } else {
             console.log("No se recibieron datos");
