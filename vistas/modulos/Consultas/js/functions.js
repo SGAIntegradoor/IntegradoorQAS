@@ -161,7 +161,7 @@ function abrirDialogoCrear(id = null) {
 
             $("#txtFormaDePago").val(formasDePago[respuesta["forma_pago_poliza"]]);
 
-            if (respuesta["pagos_realizados"]) {
+            if (respuesta["pagos_realizados"] >= 0) {
               console.log("pagos")
               let pagos = Number(respuesta["pagos_realizados"]);
               let valorTotal = Number(respuesta["valor_total_poliza"]);
