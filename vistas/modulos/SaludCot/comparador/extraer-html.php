@@ -23,8 +23,8 @@ $body = $dom->getElementsByTagName("body")->item(0);
 
 $contenido_body = $dom->saveHTML($body);
 
-echo htmlspecialchars($contenido_body);
-die();
+// echo htmlspecialchars($contenido_body);
+// die();
 
 $body = $contenido_body;
 
@@ -40,3 +40,4 @@ if ($conexion->query($query) === TRUE) {
     echo "Error: " . $conexion->error;
 }
 exit;
+// https://integradoor.com/Pruebas/vistas/modulos/SaludCot/comparador/fonts/Letritas-Molde-Condensed-Medium.otf

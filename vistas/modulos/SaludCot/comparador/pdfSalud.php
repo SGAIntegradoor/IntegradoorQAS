@@ -67,7 +67,7 @@ CASE
 	WHEN ps.nombre_plan = 'Bienestar y Salud para Disfrutar' THEN 'Bienestar'
 	WHEN ps.nombre_plan = 'Salud ideal + Emermedica' THEN 'Salud ideal'
 	WHEN ps.nombre_plan = 'Ambulatorio esencial' THEN 'Amb. Esencial'
-	WHEN ps.nombre_plan = 'Ambulatorio especial' THEN 'Amb, Especial'
+	WHEN ps.nombre_plan = 'Ambulatorio especial' THEN 'Amb. Especial'
 	ELSE ps.nombre_plan
 END AS nombre_abreviado,
 ps.*, p.*,sa.* FROM planes_cotizaciones_salud ps
@@ -97,18 +97,18 @@ $countPlanes = count($rowInfoPlanes);
 <body>
     <style>
         @font-face {
-            font-family: "Letritas Molde";
-            src: url("fonts/Letritas  - Molde Condensed-Medium.otf") format("opentype");
+            font-family: "LetritasMolde";
+            src: url("https://integradoor.com/app/vistas/recursos/Letritas-Molde-Condensed-Medium.otf") format("opentype");
             font-weight: normal;
             font-style: normal;
         }
 
         html {
-            font-family: "Letritas Molde", sans-serif;
+            font-family: "LetritasMolde", sans-serif;
         }
 
         body {
-            font-family: "Letritas Molde", sans-serif;
+            font-family: "LetritasMolde", sans-serif;
             margin: 0;
             background-color: #ffffff;
             font-size: 10px;
@@ -139,7 +139,7 @@ $countPlanes = count($rowInfoPlanes);
         }
 
         .info-principal {
-            background-color: #f7f7f7;
+            background-color: #ebebeb;
             border-radius: 20px;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
             overflow: hidden;
@@ -149,25 +149,26 @@ $countPlanes = count($rowInfoPlanes);
         }
 
         .info-header {
-            background-color: #67b5fb;
+            background-color: #00a8e8;
             color: white;
-            font-weight: bold;
+            /* font-weight: bold; */
             text-align: center;
-            padding: 10px;
-            font-size: 0.9rem;
+            padding: 5px;
+            font-size: 1.2rem;
             border-top-left-radius: 18px;
             border-top-right-radius: 18px;
         }
 
         .info-content {
-            padding: 15px 20px;
-            color: #333;
-            /* font-size: 0.95rem; */
+            padding: 1px 20px;
+            color: #9d9d9d;
+            font-size: 0.9rem;
         }
 
         .info-content p {
+            color: #9d9d9d;
             margin: 6px 0;
-            line-height: 1.4;
+            line-height: 1.15;
         }
 
         .benef-table {
@@ -185,7 +186,7 @@ $countPlanes = count($rowInfoPlanes);
         }
 
         .benef-table th {
-            color: #666;
+            color: #9d9d9d;
         }
 
         .info-asesor,
@@ -211,11 +212,12 @@ $countPlanes = count($rowInfoPlanes);
 
         .separador {
             width: 100%;
-            height: 5vh;
-            background-color: #67b5fb;
+            height: 4.5vh;
+            background-color: #00a8e8;
             color: white;
-            font-size: 20px;
+            font-size: 25px;
             font-weight: bold;
+            font-style: italic;
             text-align: center;
             align-content: center;
         }
@@ -224,8 +226,8 @@ $countPlanes = count($rowInfoPlanes);
             width: 100%;
             height: 5vh;
             color: grey;
-            font-size: 12px;
-            font-weight: bold;
+            font-size: 20px;
+            /* font-weight: bold; */
             text-align: center;
             align-content: center;
         }
@@ -248,11 +250,11 @@ $countPlanes = count($rowInfoPlanes);
         .title-box {
             background: #606060;
             color: #fff;
-            padding: 5px 6px;
+            padding: 3px 6px 5px 6px;
             border-radius: 5px;
-            font-size: 12px;
-            font-weight: bold;
-            display: inline-block;
+            font-size: 17px;
+            /* font-weight: bold;
+            display: inline-block; */
             min-width: 100px;
         }
 
@@ -281,8 +283,8 @@ $countPlanes = count($rowInfoPlanes);
             margin-bottom: 10px;
             width: 72px;
             text-align: center;
-            font-weight: bold;
-            font-size: 8px;
+            /* font-weight: bold; */
+            font-size: 15px;
         }
 
         .name-clients {
@@ -305,7 +307,7 @@ $countPlanes = count($rowInfoPlanes);
         }
 
         .value-box {
-            background: #f7f7f7;
+            background: #ebebeb;
             padding: 10px 25px;
             border-radius: 10px;
             font-weight: bold;
@@ -338,6 +340,12 @@ $countPlanes = count($rowInfoPlanes);
             min-height: 49px;
             max-width: 164px;
             max-height: 49px;
+        }
+
+        .sub-mensual {
+            font-weight: 400;
+            color: #606060e0;
+            font-size: 15px;
         }
     </style>
     <header>
@@ -412,7 +420,7 @@ $countPlanes = count($rowInfoPlanes);
                 src="https://www.elempleo.com/co/sitio-empresarial/CompanySites/axa-colpatria/resources/images/logo-social.png"
                 alt="Logo" /><br>
             <div class="title-box oculto">Nombre</div>
-            <h3>Nombre</h3>
+            <h3 class="sub-mensual">Nombre</h3>
             <?php foreach ($rowInfoBeneficiarios as $beneficiarios): ?>
                 <div class="name-box name-clients"><?php echo $beneficiarios['nombre_asegurado'] ?></div>
             <?php endforeach; ?>
@@ -446,21 +454,21 @@ $countPlanes = count($rowInfoPlanes);
                     <div class="title-box"><?php echo $plan['nombre_abreviado'] ?></div>
                     <div style="display: flex; gap: 0.3rem;">
                         <div class="izquierda">
-                            <h3>Mensual</h3>
+                            <h3 class="sub-mensual">Mensual</h3>
                             <?php foreach ($rowInfoprecios as $precio): ?>
                                 <?php $totalMensual = $totalMensual + $precio['mensual_plan'] ?>
-                                <div class="name-box" style="background: #f7f7f7">$<?= number_format($precio['mensual_plan'], 0, ',', '.') ?></div>
+                                <div class="name-box" style="background: #ebebeb">$<?= number_format($precio['mensual_plan'], 0, ',', '.') ?></div>
                             <?php endforeach; ?>
-                            <div class="name-box" style="background: #f7f7f7">$<?php echo number_format($totalMensual, 0, ',', '.') ?></div>
+                            <div class="name-box" style="background: #ebebeb">$<?php echo number_format($totalMensual, 0, ',', '.') ?></div>
 
                         </div>
                         <div class="derecha">
-                            <h3>Anual</h3>
+                            <h3 class="sub-mensual">Anual</h3>
                             <?php foreach ($rowInfoprecios as $precio): ?>
                                 <?php $totalAnual = $totalAnual + $precio['anual_plan'] ?>
-                                <div class="name-box" style="background: #f7f7f7">$<?php echo number_format($precio['anual_plan'], 0, ',', '.') ?></div>
+                                <div class="name-box" style="background: #ebebeb">$<?php echo number_format($precio['anual_plan'], 0, ',', '.') ?></div>
                             <?php endforeach; ?>
-                            <div class="name-box" style="background: #f7f7f7">$<?php echo number_format($totalAnual, 0, ',', '.') ?></div>
+                            <div class="name-box" style="background: #ebebeb">$<?php echo number_format($totalAnual, 0, ',', '.') ?></div>
                         </div>
                     </div>
                 </div>
@@ -479,7 +487,7 @@ $countPlanes = count($rowInfoPlanes);
 
         <div class="left-col">
             <div class="title-box oculto">Nombre</div>
-            <h3>Nombre</h3>
+            <h3 class="sub-mensual oculto">Nombre</h3>
             <div class="name-box name-clients asistencias" style="background: #00a8e8">Urgencias</div>
             <div class="name-box name-clients asistencias" style="background: #00a8e8">Hospitalizacion y cirujia</div>
             <div class="name-box name-clients asistencias" style="background: #00a8e8">Unidad de cuidado intensivo</div>
@@ -504,6 +512,12 @@ $countPlanes = count($rowInfoPlanes);
             <div class="name-box name-clients asistencias" style="background: #00a8e8">Terapias alternativas</div>
             <div class="name-box name-clients asistencias" style="background: #00a8e8">Terapias post hospitalización (físicas, respiratorias, del lenguaje o de rehabilitación cardíaca)</div>
 
+            <img class="oculto" width="75 px"
+                src="https://www.elempleo.com/co/sitio-empresarial/CompanySites/axa-colpatria/resources/images/logo-social.png"
+                alt="Logo" /><br>
+            <div class="title-box oculto">Nombre</div>
+            <h3 class="oculto">Nombre</h3>
+
             <div class="name-box name-clients asistencias" style="background: #00a8e8">Asistencia en viajes internacionales</div>
             <div class="name-box name-clients asistencias" style="background: #00a8e8">Asistencia médica domiciliaria</div>
             <div class="name-box name-clients asistencias" style="background: #00a8e8">Asistencia domiciliaria para urgencias odontológicas</div>
@@ -515,6 +529,12 @@ $countPlanes = count($rowInfoPlanes);
             <div class="name-box name-clients asistencias" style="background: #00a8e8">Oncología</div>
             <div class="name-box name-clients asistencias" style="background: #00a8e8">VIH-Sida</div>
             <div class="name-box name-clients asistencias" style="background: #00a8e8">Transporte terrestre urbano (Ambulancia terrestre)</div>
+
+            <img class="oculto" width="75 px"
+                src="https://www.elempleo.com/co/sitio-empresarial/CompanySites/axa-colpatria/resources/images/logo-social.png"
+                alt="Logo" /><br>
+            <div class="title-box oculto">Nombre</div>
+            <h3 class="oculto">Nombre</h3>
 
             <div class="name-box name-clients asistencias" style="background: #00a8e8">Transporte aéreo de emergencia (Ambulancia aérea)</div>
             <div class="name-box name-clients asistencias" style="background: #00a8e8">Medicamentos derivados de la atención de urgencias</div>
@@ -552,10 +572,10 @@ $countPlanes = count($rowInfoPlanes);
                     <div class="title-box"><?php echo $plan['nombre_abreviado'] ?></div>
                     <div style="display: block; gap: 0.3rem; width: 100%;">
                         <h3 class="oculto">Anual</h3>
-                        <div class="name-box name asistencias" style="background: #f7f7f7">Cobertura pendiente</div>
-                        <div class="name-box name asistencias" style="background: #f7f7f7">Cobertura pendiente</div>
-                        <div class="name-box name asistencias" style="background: #f7f7f7">Cobertura pendiente</div>
-                        <div class="name-box name asistencias" style="background: #f7f7f7">Cobertura pendiente</div>
+                        <div class="name-box name asistencias" style="background: #ebebeb">Cobertura pendiente</div>
+                        <div class="name-box name asistencias" style="background: #ebebeb">Cobertura pendiente</div>
+                        <div class="name-box name asistencias" style="background: #ebebeb">Cobertura pendiente</div>
+                        <div class="name-box name asistencias" style="background: #ebebeb">Cobertura pendiente</div>
                         <!-- <div class="oculto break" style="width: 100%;">salto de pagina</div> -->
                         <img width="75px" height="30px"
                             src="https://integradoor.com/app/<?php echo $plan['logo']; ?>"
@@ -563,45 +583,59 @@ $countPlanes = count($rowInfoPlanes);
                         <div class="title-box"><?php echo $plan['nombre_abreviado'] ?></div>
                         <h3 class="oculto">Nombre</h3>
 
-                        <div class="name-box name asistencias" style="background: #f7f7f7">Cobertura pendiente</div>
-                        <div class="name-box name asistencias" style="background: #f7f7f7">Cobertura pendiente</div>
-                        <div class="name-box name asistencias" style="background: #f7f7f7">Cobertura pendiente</div>
-                        <div class="name-box name asistencias" style="background: #f7f7f7">Cobertura pendiente</div>
-                        <div class="name-box name asistencias" style="background: #f7f7f7">Cobertura pendiente</div>
-                        <div class="name-box name asistencias" style="background: #f7f7f7">Cobertura pendiente</div>
-                        <div class="name-box name asistencias" style="background: #f7f7f7">Cobertura pendiente</div>
-                        <div class="name-box name asistencias" style="background: #f7f7f7">Cobertura pendiente</div>
-                        <div class="name-box name asistencias" style="background: #f7f7f7">Cobertura pendiente</div>
-                        <div class="name-box name asistencias" style="background: #f7f7f7">Cobertura pendiente</div>
-                        <div class="name-box name asistencias" style="background: #f7f7f7">Cobertura pendiente</div>
-                        <div class="name-box name asistencias" style="background: #f7f7f7">Cobertura pendiente</div>
-                        <div class="name-box name asistencias" style="background: #f7f7f7">Cobertura pendiente</div>
-                        <div class="name-box name asistencias" style="background: #f7f7f7">Cobertura pendiente</div>
-                        <div class="name-box name asistencias" style="background: #f7f7f7">Cobertura pendiente</div>
-                        <div class="name-box name asistencias" style="background: #f7f7f7">Cobertura pendiente</div>
-                        <div class="name-box name asistencias" style="background: #f7f7f7">Cobertura pendiente</div>
-                        <div class="name-box name asistencias" style="background: #f7f7f7">Cobertura pendiente</div>
-                        <div class="name-box name asistencias" style="background: #f7f7f7">Cobertura pendiente</div>
-                        <div class="name-box name asistencias" style="background: #f7f7f7">Cobertura pendiente</div>
-                        <div class="name-box name asistencias" style="background: #f7f7f7">Cobertura pendiente</div>
-                        <div class="name-box name asistencias" style="background: #f7f7f7">Cobertura pendiente</div>
-                        <div class="name-box name asistencias" style="background: #f7f7f7">Cobertura pendiente</div>
-                        <div class="name-box name asistencias" style="background: #f7f7f7">Cobertura pendiente</div>
-                        <div class="name-box name asistencias" style="background: #f7f7f7">Cobertura pendiente</div>
-                        <div class="name-box name asistencias" style="background: #f7f7f7">Cobertura pendiente</div>
-                        <div class="name-box name asistencias" style="background: #f7f7f7">Cobertura pendiente</div>
-                        <div class="name-box name asistencias" style="background: #f7f7f7">Cobertura pendiente</div>
-                        <div class="name-box name asistencias" style="background: #f7f7f7">Cobertura pendiente</div>
-                        <div class="name-box name asistencias" style="background: #f7f7f7">Cobertura pendiente</div>
-                        <div class="name-box name asistencias" style="background: #f7f7f7">Cobertura pendiente</div>
+                        <div class="name-box name asistencias" style="background: #ebebeb">Cobertura pendiente</div>
+                        <div class="name-box name asistencias" style="background: #ebebeb">Cobertura pendiente</div>
+                        <div class="name-box name asistencias" style="background: #ebebeb">Cobertura pendiente</div>
+                        <div class="name-box name asistencias" style="background: #ebebeb">Cobertura pendiente</div>
+                        <div class="name-box name asistencias" style="background: #ebebeb">Cobertura pendiente</div>
+                        <div class="name-box name asistencias" style="background: #ebebeb">Cobertura pendiente</div>
+                        <div class="name-box name asistencias" style="background: #ebebeb">Cobertura pendiente</div>
+                        <div class="name-box name asistencias" style="background: #ebebeb">Cobertura pendiente</div>
+                        <div class="name-box name asistencias" style="background: #ebebeb">Cobertura pendiente</div>
+                        <div class="name-box name asistencias" style="background: #ebebeb">Cobertura pendiente</div>
+                        <div class="name-box name asistencias" style="background: #ebebeb">Cobertura pendiente</div>
+
+                        <img width="75px" height="30px"
+                            src="https://integradoor.com/app/<?php echo $plan['logo']; ?>"
+                            alt="Logo" style="width: 75px !important; height: 30px !important; margin-top: 19px;" /><br>
+                        <div class="title-box"><?php echo $plan['nombre_abreviado'] ?></div>
+                        <h3 class="oculto">Nombre</h3>
+
+                        <div class="name-box name asistencias" style="background: #ebebeb">Cobertura pendiente</div>
+                        <div class="name-box name asistencias" style="background: #ebebeb">Cobertura pendiente</div>
+                        <div class="name-box name asistencias" style="background: #ebebeb">Cobertura pendiente</div>
+                        <div class="name-box name asistencias" style="background: #ebebeb">Cobertura pendiente</div>
+                        <div class="name-box name asistencias" style="background: #ebebeb">Cobertura pendiente</div>
+                        <div class="name-box name asistencias" style="background: #ebebeb">Cobertura pendiente</div>
+                        <div class="name-box name asistencias" style="background: #ebebeb">Cobertura pendiente</div>
+                        <div class="name-box name asistencias" style="background: #ebebeb">Cobertura pendiente</div>
+                        <div class="name-box name asistencias" style="background: #ebebeb">Cobertura pendiente</div>
+                        <div class="name-box name asistencias" style="background: #ebebeb">Cobertura pendiente</div>
+                        <div class="name-box name asistencias" style="background: #ebebeb">Cobertura pendiente</div>
+
+                        <img width="75px" height="30px"
+                            src="https://integradoor.com/app/<?php echo $plan['logo']; ?>"
+                            alt="Logo" style="width: 75px !important; height: 30px !important; margin-top: 19px;" /><br>
+                        <div class="title-box"><?php echo $plan['nombre_abreviado'] ?></div>
+                        <h3 class="oculto">Nombre</h3>
+
+                        <div class="name-box name asistencias" style="background: #ebebeb">Cobertura pendiente</div>
+                        <div class="name-box name asistencias" style="background: #ebebeb">Cobertura pendiente</div>
+                        <div class="name-box name asistencias" style="background: #ebebeb">Cobertura pendiente</div>
+                        <div class="name-box name asistencias" style="background: #ebebeb">Cobertura pendiente</div>
+                        <div class="name-box name asistencias" style="background: #ebebeb">Cobertura pendiente</div>
+                        <div class="name-box name asistencias" style="background: #ebebeb">Cobertura pendiente</div>
+                        <div class="name-box name asistencias" style="background: #ebebeb">Cobertura pendiente</div>
+                        <div class="name-box name asistencias" style="background: #ebebeb">Cobertura pendiente</div>
+                        <div class="name-box name asistencias" style="background: #ebebeb">Cobertura pendiente</div>
                     </div>
                 </div>
             <?php endforeach; ?>
         </div>
     </div>
-    <script>
+    <!-- <script>
         document.body.style.zoom = "120%";
-    </script>
+    </script> -->
 </body>
 
 </html>
