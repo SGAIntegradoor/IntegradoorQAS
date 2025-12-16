@@ -1333,12 +1333,18 @@ foreach ($resultados as $resultado) {
 		if ($nombreProducto == "MEDIUM" && $nombreAseguradora == "Zurich") {
 			$pp = "Tope 50% Vr. Asegurado Deducible: 10% min. 1 SMMLV";
 			$html3 .= '<td class="puntos fondo" style="width:' . $valorTabla . '%;"><div style="font-size:8pt">&nbsp;</div><center><font size="7"style="text-align: center;  font-family:dejavusanscondensed;">' . $pp . '</font></center></td>';
+		} else if ($nombreProducto == "Amplia" && $nombreAseguradora == "Qualitas") {
+			$pp = "Deducible: $1.400.000";
+			$html3 .= '<td class="puntos fondo" style="width:' . $valorTabla . '%;"><div style="font-size:8pt">&nbsp;</div><center><font size="7"style="text-align: center;  font-family:dejavusanscondensed;">' . $pp . '</font></center></td>';
 		} else {
 			$html3 .= '<td class="puntos fondo" style="width:' . $valorTabla . '%;"><center><div style="font-size:6pt">&nbsp;</div><font size="7"style="text-align: center;  font-family:dejavusanscondensed;">' . $resultado['PerdidaParcial'] . '</font></center></td>';
 		}
 	} else {
 		if ($nombreProducto == "MEDIUM" && $nombreAseguradora == "Zurich") {
 			$pp = "Tope 50% Vr. Asegurado Deducible: 10% min. 1 SMMLV";
+			$html3 .= '<td class="puntos fondo2" style="width:' . $valorTabla . '%;"><div style="font-size:8pt">&nbsp;</div><center><font size="7"style="text-align: center;  font-family:dejavusanscondensed;">' . $pp . '</font></center></td>';
+		} else if ($nombreProducto == "Amplia" && $nombreAseguradora == "Qualitas") {
+			$pp = "Deducible: $1.400.000";
 			$html3 .= '<td class="puntos fondo2" style="width:' . $valorTabla . '%;"><div style="font-size:8pt">&nbsp;</div><center><font size="7"style="text-align: center;  font-family:dejavusanscondensed;">' . $pp . '</font></center></td>';
 		} else {
 			$html3 .= '<td class="puntos fondo2" style="width:' . $valorTabla . '%;"><center><div style="font-size:6pt">&nbsp;</div><font size="7"style="text-align: center;  font-family:dejavusanscondensed;">' . $resultado['PerdidaParcial'] . '</font></center></td>';
