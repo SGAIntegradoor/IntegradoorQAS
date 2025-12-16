@@ -152,6 +152,7 @@ $countPlanes = count($rowInfoPlanes);
             background-color: #00a8e8;
             color: white;
             /* font-weight: bold; */
+            font-style: italic;
             text-align: center;
             padding: 5px;
             font-size: 1.2rem;
@@ -181,7 +182,7 @@ $countPlanes = count($rowInfoPlanes);
         .benef-table td {
             text-align: left;
             padding: 6px;
-            border-bottom: 1px solid #ddd;
+            border-right: 2px solid black;
             /* font-size: 0.9rem; */
         }
 
@@ -215,7 +216,7 @@ $countPlanes = count($rowInfoPlanes);
             height: 4.5vh;
             background-color: #00a8e8;
             color: white;
-            font-size: 25px;
+            font-size: 27px;
             font-weight: bold;
             font-style: italic;
             text-align: center;
@@ -226,7 +227,7 @@ $countPlanes = count($rowInfoPlanes);
             width: 100%;
             height: 5vh;
             color: grey;
-            font-size: 20px;
+            font-size: 25px;
             /* font-weight: bold; */
             text-align: center;
             align-content: center;
@@ -290,7 +291,7 @@ $countPlanes = count($rowInfoPlanes);
         .name-clients {
             padding: 5px 2px !important;
             color: white;
-            width: 100px;
+            width: 130px;
         }
 
         /* Columna derecha */
@@ -442,10 +443,10 @@ $countPlanes = count($rowInfoPlanes);
                             WHERE ps.id_cotizacion = $idCotizacion AND ps.seleccionar = 1 AND ps.id_plan = $planActual";
                 $resInfoprecios = $conexion->query($infoprecios);
                 // Info Precios
-                        $rowInfoprecios = [];
-                        while ($fila = mysqli_fetch_assoc($resInfoprecios)) {
-                            $rowInfoprecios[] = $fila;
-                        } ?>
+                $rowInfoprecios = [];
+                while ($fila = mysqli_fetch_assoc($resInfoprecios)) {
+                    $rowInfoprecios[] = $fila;
+                } ?>
 
                 <div class="left-col">
                     <img width="75px" height="30px"
@@ -562,10 +563,10 @@ $countPlanes = count($rowInfoPlanes);
                             WHERE ps.id_cotizacion = $idCotizacion AND ps.seleccionar = 1 AND ps.id_plan = $planActual";
                 $resInfoprecios = $conexion->query($infoprecios);
                 // Info Precios
-                    $rowInfoprecios = [];
-                    while ($fila = mysqli_fetch_assoc($resInfoprecios)) {
-                        $rowInfoprecios[] = $fila;
-                    } ?>
+                $rowInfoprecios = [];
+                while ($fila = mysqli_fetch_assoc($resInfoprecios)) {
+                    $rowInfoprecios[] = $fila;
+                } ?>
 
                 <div class="left-col">
                     <br>
@@ -577,10 +578,13 @@ $countPlanes = count($rowInfoPlanes);
                         <div class="name-box name asistencias" style="background: #ebebeb">Cobertura pendiente</div>
                         <div class="name-box name asistencias" style="background: #ebebeb">Cobertura pendiente</div>
                         <!-- <div class="oculto break" style="width: 100%;">salto de pagina</div> -->
-                        <img width="75px" height="30px"
-                            src="https://integradoor.com/app/<?php echo $plan['logo']; ?>"
-                            alt="Logo" style="width: 75px !important; height: 30px !important; margin-top: 19px;" /><br>
-                        <div class="title-box"><?php echo $plan['nombre_abreviado'] ?></div>
+                        <div style="width: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; ">
+                            <img width="75px" height="30px"
+                                src="https://integradoor.com/app/<?php echo $plan['logo']; ?>"
+                                alt="Logo" style="width: 75px !important; height: 30px !important; margin-top: 9px;" /><br>
+                            <div class="title-box"><?php echo $plan['nombre_abreviado'] ?></div>
+                        </div>
+
                         <h3 class="oculto">Nombre</h3>
 
                         <div class="name-box name asistencias" style="background: #ebebeb">Cobertura pendiente</div>
@@ -595,10 +599,12 @@ $countPlanes = count($rowInfoPlanes);
                         <div class="name-box name asistencias" style="background: #ebebeb">Cobertura pendiente</div>
                         <div class="name-box name asistencias" style="background: #ebebeb">Cobertura pendiente</div>
 
-                        <img width="75px" height="30px"
-                            src="https://integradoor.com/app/<?php echo $plan['logo']; ?>"
-                            alt="Logo" style="width: 75px !important; height: 30px !important; margin-top: 19px;" /><br>
-                        <div class="title-box"><?php echo $plan['nombre_abreviado'] ?></div>
+                        <div style="width: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center;">
+                            <img width="75px" height="30px"
+                                src="https://integradoor.com/app/<?php echo $plan['logo']; ?>"
+                                alt="Logo" style="width: 75px !important; height: 30px !important; margin-top: 9px;" /><br>
+                            <div class="title-box"><?php echo $plan['nombre_abreviado'] ?></div>
+                        </div>
                         <h3 class="oculto">Nombre</h3>
 
                         <div class="name-box name asistencias" style="background: #ebebeb">Cobertura pendiente</div>
@@ -613,10 +619,12 @@ $countPlanes = count($rowInfoPlanes);
                         <div class="name-box name asistencias" style="background: #ebebeb">Cobertura pendiente</div>
                         <div class="name-box name asistencias" style="background: #ebebeb">Cobertura pendiente</div>
 
-                        <img width="75px" height="30px"
-                            src="https://integradoor.com/app/<?php echo $plan['logo']; ?>"
-                            alt="Logo" style="width: 75px !important; height: 30px !important; margin-top: 19px;" /><br>
-                        <div class="title-box"><?php echo $plan['nombre_abreviado'] ?></div>
+                        <div style="width: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center;">
+                            <img width="75px" height="30px"
+                                src="https://integradoor.com/app/<?php echo $plan['logo']; ?>"
+                                alt="Logo" style="width: 75px !important; height: 30px !important; margin-top: 9px;" /><br>
+                            <div class="title-box"><?php echo $plan['nombre_abreviado'] ?></div>
+                        </div>
                         <h3 class="oculto">Nombre</h3>
 
                         <div class="name-box name asistencias" style="background: #ebebeb">Cobertura pendiente</div>
