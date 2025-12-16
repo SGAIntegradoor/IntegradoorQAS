@@ -35,7 +35,7 @@ $query = "
 ";
 
 if ($conexion->query($query) === TRUE) {
-    header("Location: https://integradoor.com/crm/comisiones/liquidacion/pdfservice");
+    header("Location: https://integradoor.com/crm/comisiones/liquidacion/pdfservice?id=$idCotizacion");
 } else {
     echo "Error: " . $conexion->error;
 }
