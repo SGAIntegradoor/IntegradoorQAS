@@ -2562,13 +2562,13 @@ $pdf->StopTransform();
 
 $pdf->SetXY(0, 268.5);
 // $pdf->SetY(-45);
-$htmlFooter = '<p style="font-size: 6.2px;">La precisión en los precios depende de que los datos del asegurado y del vehículo estén correctamente diligenciados. Recomendamos verificar que la información ingresada sea exacta y esté completa.</p>';
+$htmlFooter = '<p style="font-size: 5.2px;">La precisión en los precios depende de que los datos del asegurado y del vehículo estén correctamente diligenciados. Recomendamos verificar que la información ingresada sea exacta y esté completa.</p>';
 $pdf->writeHTML($htmlFooter, true, false, true, false, '');
 $pdf->Ln();
 
 $pdf->SetXY(0, 276);
 // $pdf->SetY(-45);
-$htmlFooter = '<p style="font-size: 6.2px;">Nota: Esta cotización no constituye una oferta comercial. La misma se expide única y exclusivamente con un propósito informativo sobre los posibles costos del seguro y sus condiciones, los cuales serán susceptibles de modificación hasta tanto no se concreten y determinen las características de los respectivos riesgos. No se permite financiar a 12 cuotas si el vehículo tiene prenda y la póliza beneficiario oneroso; máximo 11 cuotas.</p>';
+$htmlFooter = '<p style="font-size: 5.2px;">Nota: Esta cotización no constituye una oferta comercial. La misma se expide única y exclusivamente con un propósito informativo sobre los posibles costos del seguro y sus condiciones, los cuales serán susceptibles de modificación hasta tanto no se concreten y determinen las características de los respectivos riesgos. No se permite financiar a 12 cuotas si el vehículo tiene prenda y la póliza beneficiario oneroso; máximo 11 cuotas.</p>';
 $pdf->writeHTML($htmlFooter, true, false, true, false, '');
 $pdf->Ln();
 
