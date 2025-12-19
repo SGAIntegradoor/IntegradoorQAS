@@ -150,7 +150,7 @@
             </div>
             <div class="col-xs-12 col-sm-6 col-md-3">
                 <div class="form-group">
-                    <p id="valorAseguSus" style="margin: 0px; margin-bottom: 5px; font-weight: bold; width: 390px;">Valor asegurado sustracción equipo eléctrico y/o electrónico
+                    <p id="valorAseguSus" style="margin: 0px; margin-bottom: 5px; font-weight: bold; width: 410px;">Valor asegurado sustracción equipo eléctrico y/o electrónico
                         <i class="fa fa-solid fa-circle-info tooltip-totalcontsushur" style="margin-top: 4px; margin-top: 2px; font-size: 18px;" data-toggle="tooltip-totalcontsushur" data-placement="bottom"></i>
                     </p>
                     <input id="valorAsegSUSEE" class="form-control valorAsegSUSEE inputNumber" type="text" disabled>

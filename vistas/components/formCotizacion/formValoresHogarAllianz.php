@@ -45,6 +45,13 @@
 
             <div class="col-xs-12 col-sm-6 col-md-3">
                 <div class="form-group">
+                    <label for="restoDireccion">Resto dirección</label>
+                    <input id="restoDireccion" class="form-control resto" type="text">
+                </div>
+            </div>
+
+            <div class="col-xs-12 col-sm-6 col-md-3">
+                <div class="form-group">
                     <label for="sotanosAllianz">Número de sotanos</label>
                     <input id="sotanosAllianz" class="form-control sotanos" type="num" min="0">
                 </div>
