@@ -263,9 +263,11 @@ $(document).ready(function () {
           }
         });
       $("#sotanosAllianz").prop("disabled", false);  
+      $("#restoDireccion").prop("disabled", false);  
     } else {
       resetInputsValores();
       $("#sotanosAllianz").prop("disabled", false);
+      $("#restoDireccion").prop("disabled", false);
     }
   });
 
@@ -1761,7 +1763,7 @@ function makeCards(data, type = null) {
                       <p class="title-precio" style="font-weight: bold;">IVA incluido</p>
                   </div>
                   <div class="col-xs-12 col-sm-6 col-md-8" style="padding-top: 30px; padding-bottom: 30px;">
-                      <div class="informativeTable">
+                      <div class="informativeTable" style="display: flex; column-gap: 85px;">
                           <div>
                               <ul style="padding-left: 25px; ">
                                 <li>AMIT - 10% de la pérdida Mínimo 90 SMDLV</li>
@@ -2039,7 +2041,7 @@ function makeCards(data, type = null) {
                                   <p class="title-precio" style="font-weight: bold;">IVA incluido</p>
                               </div>
                               <div class="col-xs-12 col-sm-6 col-md-8" style="padding-top: 30px; padding-bottom: 30px;">
-                                  <div class="informativeTable">
+                                  <div class="informativeTable" style="display: flex; column-gap: 85px;">
                                       <div>
                                           <ul style="padding-left: 25px; ">
                                               <li>AMIT - 10% de la pérdida Mínimo 90 SMDLV</li>
@@ -2549,7 +2551,7 @@ $("#btnCotizarSBS, #btnCotizar").click(function () {
       categoriaDeRiesgo: tipoAsegValue,
       codLocalidad: codLocalidad,
       direccion: direccionCompletaAllianz,
-      resto: "",
+      resto: $("#restoDireccion").val(),
       valorEdificio: valorVivienda,
       valorContenido: valorContenido,
       valorHurto: valorHurto,
@@ -3187,6 +3189,18 @@ function saveToFrontAddress() {
   }
 }
 
+function capitalizar(texto) {
+  if (!texto) return "";
+  // Convierte todo a minúsculas y luego capitaliza la primera letra de cada palabra
+  return texto
+    .toLowerCase()
+    .split(" ")
+    .map((word) => {
+      return word.charAt(0).toUpperCase() + word.slice(1);
+    })
+    .join(" ");
+}
+
 // FUNCION PARA CARGAR LA CIUDAD DE CIRCULACIÓN
 function consultarCiudadHogar() {
   var codigoDpto = document.getElementById("deptoInmueble").value;
@@ -3201,11 +3215,11 @@ function consultarCiudadHogar() {
       let ciudadesVeh = `<option value="">Seleccionar Ciudad</option>`;
       try {
         let json = response;
-        const { data } = json
-        console.log(data)
+        const { data } = json;
         data.sort((a, b) => a.codigo - b.codigo);
         data.forEach(({ codigo, ciudad }) => {
-          ciudadesVeh += `<option value="${codigo}">${ciudad}</option>`;
+          const ciudadCapitalizada = capitalizar(ciudad);
+          ciudadesVeh += `<option value="${codigo}">${ciudadCapitalizada}</option>`;
         });
 
         document.getElementById("ciudadInmueble").innerHTML = ciudadesVeh;

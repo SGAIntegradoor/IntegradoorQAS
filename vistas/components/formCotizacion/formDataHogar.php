@@ -250,7 +250,7 @@
                 </div>
             </div>
 
-            <div class="col-xs-12 col-sm-6 col-md-5">
+            <div class="col-xs-12 col-sm-6 col-md-5" style="display: none;">
                 <div class="form-group">
                     <label for=" inputEYC">Tipo de cobertura</label>
                     <div style="display: flex; flex-direction: row; gap: 15px; padding-left: 5px; padding-top: 10px; align-items: flex-start;">

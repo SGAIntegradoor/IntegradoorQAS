@@ -327,6 +327,8 @@ function editarCotizacionHogar(id) {
 
       $("#sotanosAllianz").val(response.nro_sotanos);
       $("#sotanosAllianz").prop("disabled", true);
+      $("#restoDireccion").val(response.resto_direccion);
+      $("#restoDireccion").prop("disabled", true);
 ;
 
       $(".contentsAllianz").prop("disabled", true);
