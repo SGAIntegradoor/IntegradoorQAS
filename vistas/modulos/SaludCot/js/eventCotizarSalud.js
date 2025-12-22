@@ -1194,6 +1194,7 @@ function makeCards(data, tipoCotizacion) {
   }
   // agregar un display block luego de que carguen las cards para ver el boton de generar PDF
   $("#fila-btn-pdf").show();
+  $("#fila-btn-pdf1").show();
   $("#resumenCotizaciones").show();
   cargarEstilos("vistas/modulos/SaludCot/css/cardsResult.css");
 }
@@ -1973,9 +1974,8 @@ function seleccionarOfertaSalud(idCotiSalud, planSeleccionado) {
   });
 }
 
-$("#btnParrillaPDFSalud").on("click", function () {
-    const ruta = "vistas/modulos/SaludCot/comparador/pdfSalud.php?idCotizacionSalud=" + idCotiNew;
+$("#btnParrillaPDFSalud1").on("click", function () {
+    const ruta = "vistas/modulos/SaludCot/comparador/extraer-html.php?idCotizacionSalud=" + idCotiNew;
     window.open(ruta, "_blank");
 });
-
 // ========================================================================================================================
