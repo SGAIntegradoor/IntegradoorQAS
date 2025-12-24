@@ -228,6 +228,7 @@ $(document).ready(function () {
       resetInputsValores();
       $("#contenidos").prop("checked", false);
       $("#inputEYC").prop("disabled", false);
+      $("#inputEYC").prop("checked", true);
       $("#estructura").prop("disabled", false);
       $("#valorVivienda").prop("disabled", false);
       $("#valorViviendaAllianz").prop("disabled", false);
