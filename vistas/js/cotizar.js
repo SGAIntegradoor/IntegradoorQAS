@@ -2319,12 +2319,16 @@ function validarOfertas(ofertas, aseguradora, exito) {
   // if (aseguradora == "Bolivar" || aseguradora == "Seguros Bolivar") {
   // }
   ofertas.forEach((oferta, i) => {
-    //console.log(oferta);
-    var numCotizacion = oferta.numero_cotizacion;
-    var precioOferta = oferta.precio;
+    if(oferta.entidad == "Bolivar" || oferta.entidad == "Seguros Bolivar") console.log(oferta);
+    var numCotizacion = oferta?.numero_cotizacion;
+    var precioOferta = oferta?.precio || null;
     if (oferta == null) return;
     if (numCotizacion == null && precioOferta == "0") return;
-    if (precioOferta.length <= 3) return;
+    // preguntar si precioOferta viene en la oferta
+    if (precioOferta == null) return;
+    if (precioOferta == "0") return;
+    if (precioOferta.length <= 3) return;   
+    //if (precioOferta?.length <= 3) return;
     // contadorOfertas++;   // Variable para contar el número de ofertas
     contadorPorEntidad[oferta.entidad] =
       (contadorPorEntidad[oferta.entidad] || 0) + 1;
@@ -3543,10 +3547,11 @@ async function cotizarOfertas() {
                         return res.json();
                       })
                       .then((ofertas) => {
-                        if (typeof ofertas.Resultado !== "undefined") {
+                        if (typeof ofertas[0].Resultado != "undefined") {
+                          console.log(ofertas)
                           agregarAseguradoraFallida(plan);
                           validarProblema(aseguradora, ofertas);
-                          ofertas.Mensajes.forEach((mensaje) => {
+                          ofertas[0].Mensajes.forEach((mensaje) => {
                             mostrarAlertarCotizacionFallida(plan, mensaje);
                           });
                         } else {
