@@ -1,4 +1,5 @@
 $(document).ready(function () {
+  var valorSoatGlobal = 0;
   const urlCompleta = window.location.href;
 
   const partes = urlCompleta.split("/");
@@ -388,7 +389,7 @@ $(document).ready(function () {
   $("#btnConsultarPlaca").click(function () {
     $("#containerDataTable").hide();
     $(".card-container").hide();
-    $('html, body').animate({ scrollTop: 0 }, 600);
+    $("html, body").animate({ scrollTop: 0 }, 600);
     consulPlaca();
   });
 
@@ -396,22 +397,6 @@ $(document).ready(function () {
   $("#btnConsultarVeh").click(function () {
     consulCodFasecolda();
   });
-
-  // function decresCotTotales() {
-  //   return new Promise(function (resolve, reject) {
-  //     $.ajax({
-  //       type: "POST",
-  //       url: "src/updateCotizacionesTotales.php",
-  //       dataType: "json",
-  //       success: function (data) {
-  //         resolve(data);
-  //       },
-  //       error: function (xhr, status, error) {
-  //         reject(error);
-  //       },
-  //     });
-  //   });
-  // }
 
   async function checkCotTotales() {
     let cotHechas = await mostrarCotRestantes();
@@ -1154,13 +1139,13 @@ function consulPlaca(query = "1") {
     if (typeQuery) {
       $("btnConsultarPlaca2").remove();
 
-    //   $("#dianacimiento, #mesnacimiento, #anionacimiento").each(function () {
-    //     // Restablecer el estilo para los campos que tienen valor
-    //     $(this)
-    //       .next(".select2-container")
-    //       .find(".select2-selection")
-    //       .css("border", "");
-    //   });
+      //   $("#dianacimiento, #mesnacimiento, #anionacimiento").each(function () {
+      //     // Restablecer el estilo para los campos que tienen valor
+      //     $(this)
+      //       .next(".select2-container")
+      //       .find(".select2-selection")
+      //       .css("border", "");
+      //   });
       // Oculta los campos de consultar Vehiculo paso a paso desde la Guia Fasecolda
       document.getElementById("formularioVehiculo").style.display = "none";
       $("#loaderPlaca").html(
@@ -1175,7 +1160,6 @@ function consulPlaca(query = "1") {
 
       //! Agregar esto a MOTOS y Pesados END
 
-      
       //INICIO DE CABECERA PARA INGRESAR INFORMACION DEL METODO
       var myHeaders = new Headers();
       myHeaders.append("Content-Type", "application/json");
@@ -1205,24 +1189,33 @@ function consulPlaca(query = "1") {
           return response.json();
         })
         .then(function (myJson) {
+          var codigoLinea = myJson.ConsultarInfoVehiculoRuntDocResult.linea;
+          var modeloVehiculo =
+            myJson.ConsultarInfoVehiculoRuntDocResult.aaaa_modelo;
+          var codigoClase =
+            myJson.ConsultarInfoVehiculoRuntDocResult.claseVehiculo;
+          var idClase =
+            myJson.ConsultarInfoVehiculoRuntDocResult.idClaseVehiculo;
+          var codigoMarca = myJson.ConsultarInfoVehiculoRuntDocResult.marca;
 
-            var codigoLinea = myJson.ConsultarInfoVehiculoRuntDocResult.linea;
-            var modeloVehiculo = myJson.ConsultarInfoVehiculoRuntDocResult.aaaa_modelo;
-            var codigoClase = myJson.ConsultarInfoVehiculoRuntDocResult.claseVehiculo;
-            var codigoMarca = myJson.ConsultarInfoVehiculoRuntDocResult.marca;
+          var servicio = myJson.ConsultarInfoVehiculoRuntDocResult.tipoServicio;
+          var cilindraje = myJson.ConsultarInfoVehiculoRuntDocResult.cnt_cc;
+          var pasajeros =
+            myJson.ConsultarInfoVehiculoRuntDocResult.cnt_ocupantes;
+          var motor = myJson.ConsultarInfoVehiculoRuntDocResult.noMotor;
+          var chasis = myJson.ConsultarInfoVehiculoRuntDocResult.noChasis;
+          var capacidad =
+            myJson.ConsultarInfoVehiculoRuntDocResult.cnt_toneladas;
 
-            var servicio = myJson.ConsultarInfoVehiculoRuntDocResult.tipoServicio;
-            var cilindraje = myJson.ConsultarInfoVehiculoRuntDocResult.cnt_cc;
-            var pasajeros = myJson.ConsultarInfoVehiculoRuntDocResult.cnt_ocupantes;
-            var motor = myJson.ConsultarInfoVehiculoRuntDocResult.noMotor;
-            var chasis = myJson.ConsultarInfoVehiculoRuntDocResult.noChasis;
-            var capacidad = myJson.ConsultarInfoVehiculoRuntDocResult.cnt_toneladas;
+          var nroDocPropietario =
+            myJson.ConsultarInfoVehiculoRuntDocResult.Propietarios
+              .Propietario.noDocumento;
 
-            const fechaInicioVigencia = new Date();
-            const fechaFinVigencia = new Date(fechaInicioVigencia);
-            fechaFinVigencia.setFullYear(fechaFinVigencia.getFullYear() + 1);
-            //   $("#LimiteRC").val(limiteRCESTADO);
-            
+          const fechaInicioVigencia = new Date();
+          const fechaFinVigencia = new Date(fechaInicioVigencia);
+          fechaFinVigencia.setFullYear(fechaFinVigencia.getFullYear() + 1);
+          //   $("#LimiteRC").val(limiteRCESTADO);
+
           $("#txtClaseVeh").val(codigoClase);
           $("#txtMarcaVeh").val(codigoMarca);
           $("#txtModeloVeh").val(modeloVehiculo);
@@ -1233,9 +1226,9 @@ function consulPlaca(query = "1") {
           $("#txtMotor").val(motor);
           $("#txtChasis").val(chasis);
 
-          $("#lblDataTrip2Top").css("display", "none");          
+          $("#lblDataTrip2Top").css("display", "none");
           $(".box").css("border-top", "0px");
-          
+
           document.getElementById("formularioVehiculo").style.display = "none";
           document.getElementById("headerAsegurado").style.display = "block";
           document.getElementById("contenSuperiorPlaca").style.display = "none";
@@ -1246,7 +1239,8 @@ function consulPlaca(query = "1") {
           $("#loaderPlaca2").html("");
           //! Agregar esto a MOTOS y Pesados END
           menosAseg();
-          document.getElementById("contenBtnConsultarPlaca").style.display = "none";
+          document.getElementById("contenBtnConsultarPlaca").style.display =
+            "none";
           $("#contenSuperiorPlaca").css("display", "block");
           $("#txtConocesLaPlacaSi").prop("disabled", true);
           $("#txtConocesLaPlacaNo").prop("disabled", true);
@@ -1259,129 +1253,41 @@ function consulPlaca(query = "1") {
             type: "POST",
             url: "https://grupoasistencia.com/motor_webservice/calcular_pol_soat",
             dataType: "json",
-            data: {
+            contentType: "application/json; charset=utf-8",
+            processData: false,
+            data: JSON.stringify({
               Placa: valnumplaca,
-              Clase: codigoClase,
+              Clase: idClase,
               Cilindraje: cilindraje,
               Capacidad: capacidad,
               Modelo: modeloVehiculo,
               Pasajeros: pasajeros,
-              FechaInicioVigencia: fechaInicioVigencia.toISOString().split('T')[0],
-              FechaFinVigencia: fechaFinVigencia.toISOString().split('T')[0],
-              NumeroDocumento: "29279940",
-            },
+              FechaInicioVigencia: "?",
+              FechaFinVigencia: "?",
+              NumeroDocumento: nroDocPropietario,
+            }),
             success: function (data) {
-              console.log(data);debugger;
-              if (tipoConsulta != "btnConsultarVehmanual") {
-                tipoConsulta = null;
-              }
-              var codFasecolda = data.result.codigo;
-              let resultadoConsultaManual = ValidarClaseFasecolda(codFasecolda, true);
-              if (!resultadoConsultaManual.permitido) {
-                throw new Error("CLASE NO PERMITIDA");
-              }
-              consulValorfasecolda(codFasecolda, edadVeh, tipoConsulta);
+              console.log(typeof data.CalcularPolizaResult.ValorTotalPagar);
+              let valorAPagarSoat = Number(data.CalcularPolizaResult.ValorTotalPagar);
+              let totalPagarSoat = valorAPagarSoat + 45000;
+              valorSoatGlobal = valorAPagarSoat;
+              $("#valorSoat").text('$ ' + valorAPagarSoat.toLocaleString('es-CO'));
+              $("#totalPagarSoat").text('$ ' + totalPagarSoat.toLocaleString('es-CO'));
+              $("#loaderPlacaTwo").html("");       
+              $(".containerResumenCoti").show();       
             },
+            error: function (error) {
+              console.log("Error al cotizar SOAT: ", error);
+              $("#loaderPlacaTwo").html("");
+            }
           });
           return;
-          var estadoConsulta = myJson.Success;
-          var mensajeConsulta = myJson.Message;
-
-          //VALIDA SI LA CONSULTA FUE EXITOSA
-          if (estadoConsulta == true) {
-            const resultado = ValidarClaseFasecolda(myJson.Data.CodigoFasecolda);
-                if (!resultado.permitido) {
-                  console.log('CLASE NO PERMITIDA');
-                } else {
-                  console.log("CLASE PERMITIDA");
-                }
-            var codigoClase = myJson.Data.ClassId;
-            var codigoMarca = myJson.Data.Brand;
-            var modeloVehiculo = myJson.Data.Modelo;
-            var codigoLinea = myJson.Data.BrandLine;
-            var codigoFasecolda = myJson.Data.CodigoFasecolda;
-            var valorAsegurado = myJson.Data.ValorAsegurado;
-
-            if (codigoFasecolda != null) {
-              if ((valorAsegurado == "null" || valorAsegurado == null) && resultado.permitido) {
-                consulPlacaMapfre(valnumplaca);
-                // document.getElementById("formularioVehiculo").style.display =
-                //   "block";
-                //! Agregar esto a MOTOS y Pesados START
-                $("#loaderPlaca").html("");
-                $("#loaderPlaca2").html("");
-                //! Agregar esto a MOTOS y Pesados END
-              } else {
-                var claseVehiculo = "";
-                var limiteRCESTADO = "";
-
-                $("#CodigoClase").val(codigoClase);
-                $("#txtClaseVeh").val(claseVehiculo);
-                $("#LimiteRC").val(limiteRCESTADO);
-                $("#CodigoMarca").val(codigoMarca);
-                $("#txtModeloVeh").val(modeloVehiculo);
-                $("#CodigoLinea").val(codigoLinea);
-                $("#txtFasecolda").val(codigoFasecolda);
-                $("#txtValorFasecolda").val(valorAsegurado);
-
-                consulDatosFasecolda(codigoFasecolda, modeloVehiculo).then(
-                  function (resp) {
-                    $("#txtMarcaVeh").val(resp.marcaVeh);
-                    $("#txtReferenciaVeh").val(resp.lineaVeh);
-                    $("#txtClaseVeh").val(resp.claseVeh);
-                    $("#lblDataTrip2Top").css("display", "none");
-                    $("#contenSuperiorPlaca").css("display", "block");                    
-                    $(".box").css("border-top", "0px");                    
-
-                  }
-                );
-              }
-            }
-          } else {
-            if (
-              mensajeConsulta == "Parámetros Inválidos. Placa es requerido." ||
-              mensajeConsulta == "Favor diligenciar correctamente la placa"
-            ) {
-              Swal.fire({
-                text: "! Favor diligenciar correctamente la placa. ¡",
-              });
-            } else {
-              consulPlacaMapfre(valnumplaca);
-            }
-            consulPlacaMapfre(valnumplaca);
-            // $("#loaderPlaca").html("");
-          }
+          
         })
         .catch(function (error) {
-          //console.log("Parece que hubo un problema: \n", error);
-          consulPlacaMapfre(valnumplaca);
-
-          contErrProtocolo++;
-          if (contErrProtocolo > 1) {
-            consulPlacaMapfre(valnumplaca);
-            // $("#loaderPlaca").html("");
-            contErrProtocolo = 0;
-          } else {
-            // setTimeout(consulPlacaMapfre, 4000);
-          }
+          console.log("Error al consultar la placa: ", error);
         });
     } else {
-    //   $("#dianacimiento, #mesnacimiento, #anionacimiento").each(function () {
-    //     // Verificar si el campo tiene un valor
-    //     if ($(this).val() === "") {
-    //       // Cambiar el borde a rojo para los campos vacíos
-    //       $(this)
-    //         .next(".select2-container")
-    //         .find(".select2-selection")
-    //         .css("border", "1px solid red");
-    //     } else {
-    //       // Restablecer el estilo para los campos que tienen valor
-    //       $(this)
-    //         .next(".select2-container")
-    //         .find(".select2-selection")
-    //         .css("border", "");
-    //     }
-    //   });
 
       Swal.fire({
         icon: "error",
@@ -3527,7 +3433,10 @@ async function cotizarOfertas() {
                           agregarAseguradoraFallida(plan);
                           validarProblema("HDI (Antes Liberty)", ofertas);
                           ofertas[0].Mensajes.forEach((mensaje) => {
-                            mostrarAlertarCotizacionFallida("HDI Seguros", mensaje);
+                            mostrarAlertarCotizacionFallida(
+                              "HDI Seguros",
+                              mensaje
+                            );
                           });
                         } else {
                           const contadorPorEntidad = validarOfertas(
@@ -4121,8 +4030,9 @@ async function cotizarOfertas() {
             aseguradora == "BASIC" ||
             aseguradora == "MEDIUM" ||
             aseguradora == "FULL"
-          ) aseguradora = "Zurich";
-          
+          )
+            aseguradora = "Zurich";
+
           if (
             aseguradora == "B_Premium" ||
             aseguradora == "B_Standard" ||
@@ -4138,13 +4048,15 @@ async function cotizarOfertas() {
             aseguradora == "INTEGRAL 20" ||
             aseguradora == "BASICO" ||
             aseguradora == "BASICO + PT"
-          ) aseguradora = "HDI Seguros";
-          
+          )
+            aseguradora = "HDI Seguros";
+
           if (
             aseguradora == "Estado" ||
             aseguradora == "Estado2" ||
             aseguradora == "Estado3"
-          ) aseguradora = "Estado";
+          )
+            aseguradora = "Estado";
 
           const celdaResponse = document.getElementById(
             `${aseguradora}Response`
@@ -4664,16 +4576,9 @@ async function cotizarOfertas() {
                       mostrarAlertarCotizacionFallida("Estado", mensaje);
                     });
                   } else {
-                    const contadorPorEntidad = validarOfertas(
-                      result,
-                      plan,
-                      1
-                    );
+                    const contadorPorEntidad = validarOfertas(result, plan, 1);
 
-                    mostrarAlertaCotizacionExitosa(
-                      plan,
-                      contadorPorEntidad
-                    );
+                    mostrarAlertaCotizacionExitosa(plan, contadorPorEntidad);
                     successAseguradora = false;
                   }
                 })
@@ -5326,32 +5231,32 @@ function ValidarClaseFasecolda(num, manual = false) {
   let str = String(num).padStart(8, "0");
   let claseValidacion = str.substring(3, 5);
 
-  if(num.length < 8) {
-      document.getElementById("formularioVehiculo").style.display = "block";
-      document.getElementById("headerAsegurado").style.display = "block";
-      document.getElementById("masA").style.display = "block";
-      document.getElementById("DatosAsegurado").style.display = "none";
-      document.getElementById("loaderPlaca").style.display = "none";
-      //! Agregar esto a MOTOS y Pesados START
-      document.getElementById("loaderPlaca2").style.display = "none";
-      //! Agregar esto a MOTOS y Pesados END
-    return null
+  if (num.length < 8) {
+    document.getElementById("formularioVehiculo").style.display = "block";
+    document.getElementById("headerAsegurado").style.display = "block";
+    document.getElementById("masA").style.display = "block";
+    document.getElementById("DatosAsegurado").style.display = "none";
+    document.getElementById("loaderPlaca").style.display = "none";
+    //! Agregar esto a MOTOS y Pesados START
+    document.getElementById("loaderPlaca2").style.display = "none";
+    //! Agregar esto a MOTOS y Pesados END
+    return null;
   }
 
   // clases permitidas
-  const clasesPermitidas = [
-    "01", "02", "06", "08", "20", "21"
-  ];
+  const clasesPermitidas = ["01", "02", "06", "08", "20", "21"];
 
-   if (!clasesPermitidas.includes(claseValidacion) && manual == false) {
+  if (!clasesPermitidas.includes(claseValidacion) && manual == false) {
     Swal.fire({
       icon: "error",
       text: "No puedes cotizar este tipo de vehículo por este módulo.",
       confirmButtonText: "Cerrar",
     }).then(() => location.reload());
 
-    return { permitido: false, mensaje: "No puedes cotizar este tipo de vehículo por este módulo." };
-
+    return {
+      permitido: false,
+      mensaje: "No puedes cotizar este tipo de vehículo por este módulo.",
+    };
   } else if (!clasesPermitidas.includes(claseValidacion) && manual == true) {
     Swal.fire({
       icon: "error",
@@ -5359,8 +5264,25 @@ function ValidarClaseFasecolda(num, manual = false) {
       confirmButtonText: "Cerrar",
     });
 
-    return { permitido: false, mensaje: "No puedes cotizar este tipo de vehículo por este módulo." };
+    return {
+      permitido: false,
+      mensaje: "No puedes cotizar este tipo de vehículo por este módulo.",
+    };
   }
 
   return { permitido: true };
 }
+
+$("#radioSinComision").click(function () {
+  sinComision = valorSoatGlobal + 20000;
+  $("#totalPagarSoat").text('$ ' + sinComision.toLocaleString('es-CO'));
+});
+
+$("#radioConComision").click(function () {
+  conComision = valorSoatGlobal + 45000;
+  $("#totalPagarSoat").text('$ ' + conComision.toLocaleString('es-CO'));
+});
+
+$("#btnNuevaCoti").click(function () {
+  window.location.reload();
+});

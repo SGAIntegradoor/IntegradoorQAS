@@ -65,9 +65,10 @@
 
 
                                     <!-- <div class="col-xs-12 col-sm-6 col-md-3 form-group" id="tipoDocumento">
-                                        <input type="hidden" class="form-control" id="intermediario" value="<?php //echo $_SESSION["intermediario"]; ?>">
+                                        <input type="hidden" class="form-control" id="intermediario" value="<?php //echo $_SESSION["intermediario"]; 
+                                                                                                            ?>">
                                         <input type="hidden" class="form-control" id="cotRestanv" value="<?php //echo $_SESSION["cotRestantes"]; 
-                                                                                                                ?>
+                                                                                                            ?>
                                         <label for="tipoDocumentoID">Tipo de Documento</label>
                                         <select class="form-control" id="tipoDocumentoID" required>
                                             <option value="" disabled selected>Selecciona el tipo de documento</option>
@@ -102,7 +103,7 @@
                                         </div>
                                     </div>
 
-                                     <div class="col-xs-12 col-sm-6 col-md-2 form-group" id="contenBtnConsultarPlaca">
+                                    <div class="col-xs-12 col-sm-6 col-md-2 form-group" id="contenBtnConsultarPlaca">
                                         <button class="btn btn-primary btn-block" id="btnConsultarPlaca">Cotizar</button>
                                     </div>
 
@@ -181,7 +182,7 @@
                                         <input type="text" class="form-control" id="txtCelular" placeholder="Celular">
                                     </div> -->
 
-                                   
+
 
                                     <div class="col-xs-12 col-sm-6 col-md-3 form-group">
                                         <div id="loaderPlaca"></div>
@@ -435,7 +436,7 @@
                     <div id="resumenVehiculo">
 
                         <div class="col-lg-12" id="headerVehiculo">
-                            <div class="row row-veh">
+                            <div class="row row-veh" style="margin-bottom: 3rem;">
                                 <div class="col-xs-12 col-sm-6 col-md-3">
                                     <label for="">DATOS DEL VEHICULO</label>
                                 </div>
@@ -457,10 +458,6 @@
                         <div id="DatosVehiculo">
                             <div class="col-lg-12 form-resumVeh">
                                 <div class="row">
-                                    <!-- <div class="col-xs-12 col-sm-6 col-md-3 form-group">
-                                        <label for="txtPlacaVeh">Placa</label>
-                                        <input type="text" class="form-control" id="txtPlacaVeh" placeholder="" disabled>
-                                    </div> -->
 
                                     <div class="col-xs-12 col-sm-6 col-md-3 form-group">
                                         <label for="txtClaseVeh">Clase</label>
@@ -471,7 +468,7 @@
                                         <label for="txtMarcaVeh">Marca</label>
                                         <input type="text" class="form-control classMarcaVeh" id="txtMarcaVeh" placeholder="" disabled>
                                     </div>
-                                    
+
                                     <div class="col-xs-12 col-sm-6 col-md-3 form-group">
                                         <label for="txtModeloVeh">Modelo</label>
                                         <input type="text" class="form-control" id="txtModeloVeh" placeholder="" disabled>
@@ -481,11 +478,11 @@
                                         <label for="txtLinea">Línea</label>
                                         <input type="text" class="form-control classReferenciaVeh" id="txtLinea" placeholder="" disabled>
                                     </div>
-                                    
+
                                 </div>
 
                                 <div class="row">
-                                    
+
                                     <div class="col-xs-12 col-sm-6 col-md-3 form-group">
                                         <label for="txtServicio">Servicio</label>
                                         <input type="text" class="form-control" id="txtServicio" placeholder="" disabled>
@@ -502,7 +499,7 @@
                                             <input type="text" class="form-control classReferenciaVeh" id="txtPasajeros" placeholder="" disabled>
                                         </div>
                                     </div>
-                                    
+
 
                                     <div class="col-xs-12 col-sm-6 col-md-3 form-group">
                                         <label for="txtMotor">Motor</label>
@@ -527,7 +524,6 @@
                                         <div class="col-lg-12 conten-cotizar">
                                             <div class="row">
                                                 <div class="col-xs-12 col-sm-6 col-md-3 form-group">
-                                                    <!-- <button class="btn btn-primary btn-block" id="btnCotizar">Cotizar Ofertas</button> -->
                                                 </div>
                                                 <div class="col-xs-12 col-sm-6 col-md-3 form-group" id="loaderOfertaBox">
                                                     <div id="loaderOferta"></div>
@@ -796,71 +792,92 @@
                 </div>
 
             </div>
-                <div class="container2" style="margin-top:40px;">
-  <div class="row">
+            <div class="containerResumenCoti" style="margin-top:40px; display:none;">
+                <div class="row">
 
-    <!-- Resumen Cotización -->
-    <div class="col-md-6" style="padding-right: 5rem;">
-      <div class="summary-box">
-        <h4 class="summary-title">RESUMEN COTIZACIÓN:</h4>
+                    <!-- Resumen Cotización -->
+                    <div class="col-md-6" style="padding-right: 5rem;">
+                        <div class="summary-box">
+                            <h4 class="summary-title">RESUMEN COTIZACIÓN:</h4>
 
-        <div class="clearfix" style="margin-bottom:15px;">
-          <span class="pull-left"><strong>Valor SOAT</strong></span>
-          <span class="pull-right price">$ 542.700</span>
-        </div>
+                            <div class="clearfix" style="margin-bottom:15px;">
+                                <span class="pull-left"><strong>Valor SOAT</strong></span>
+                                <span id="valorSoat" class="pull-right price">$ -</span>
+                            </div>
 
-        <div class="radio">
-          <label>
-            <input type="radio" name="servicio" checked>
-            Servicio trámite - Con Comisión:
-            <span class="pull-right">$ 45.000</span>
-          </label>
-        </div>
+                            <div class="radio">
+                                <label>
+                                    <input id="radioConComision" type="radio" name="servicio" checked>
+                                    Servicio trámite - Con Comisión:
+                                    <span class="pull-right">$ 45.000</span>
+                                </label>
+                            </div>
 
-        <div class="radio">
-          <label>
-            <input type="radio" name="servicio">
-            Servicio trámite - Sin Comisión:
-            <span class="pull-right">$ 20.000</span>
-          </label>
-        </div>
+                            <div class="radio">
+                                <label>
+                                    <input id="radioSinComision" type="radio" name="servicio">
+                                    Servicio trámite - Sin Comisión:
+                                    <span class="pull-right">$ 20.000</span>
+                                </label>
+                            </div>
 
-        <hr>
+                            <hr>
 
-        <div class="clearfix">
-          <span class="pull-left"><strong>Total a pagar:</strong></span>
-          <span class="pull-right total">$ 587.700</span>
-        </div>
-      </div>
-    </div>
+                            <div class="clearfix">
+                                <span class="pull-left"><strong>Total a pagar:</strong></span>
+                                <span id="totalPagarSoat" class="pull-right total">$ 587.700</span>
+                            </div>
+                        </div>
+                    </div>
 
-    <!-- Notas importantes -->
-    <div class="col-md-6">
-      <div style="font-size: 12px;">
-        <p class="notes-title">Notas importantes:</p>
-        <ul>
-          <li>Verifica la información del vehículo en el RUNT antes de solicitar la emisión, especialmente cant. de pasajeros y cap. de carga.</li>
-          <li>Ten en cuenta los tiempos de respuesta:
-            <ul>
-              <li>Sin inconsistencias en RUNT: 2 a 5 horas hábiles.</li>
-              <li>Con inconsistencias en RUNT: 5 horas hasta 1 día hábil.</li>
-            </ul>
-          </li>
-          <li>Envía la información completa: tarjeta de propiedad legible (ambos lados) y datos de contacto del cliente (correo y celular).</li>
-          <li>Confirma la vigencia del SOAT anterior se puede emitir hasta 29 días antes del vencimiento.</li>
-          <li>El SOAT solo se emite con pago confirmado.</li>
-          <li>El SOAT se emite con AXA Colpatria, Previsora, Seguros del Estado o Mundial. Grupo Asistencia define la aseguradora según disponibilidad.</li>
-        </ul>
 
-        <div class="buttons-container">
-          <button class="btn btn-green">Continuar</button>
-          <button class="btn btn-black">Realizar nueva cotización</button>
-        </div>
-      </div>
-    </div>
 
-  </div>
-</div>
+                    <!-- Notas importantes -->
+                    <div class="col-md-6">
+                        <div style="font-size: 12px;">
+                            <p class="notes-title">Notas importantes:</p>
+                            <ul>
+                                <li>Verifica la información del vehículo en el RUNT antes de solicitar la emisión, especialmente cant. de pasajeros y cap. de carga.</li>
+                                <li>Ten en cuenta los tiempos de respuesta:
+                                    <ul>
+                                        <li>Sin inconsistencias en RUNT: 2 a 5 horas hábiles.</li>
+                                        <li>Con inconsistencias en RUNT: 5 horas hasta 1 día hábil.</li>
+                                    </ul>
+                                </li>
+                                <li>Envía la información completa: tarjeta de propiedad legible (ambos lados) y datos de contacto del cliente (correo y celular).</li>
+                                <li>Confirma la vigencia del SOAT anterior se puede emitir hasta 29 días antes del vencimiento.</li>
+                                <li>El SOAT solo se emite con pago confirmado.</li>
+                                <li>El SOAT se emite con AXA Colpatria, Previsora, Seguros del Estado o Mundial. Grupo Asistencia define la aseguradora según disponibilidad.</li>
+                            </ul>
+
+                            <div class="buttons-container">
+                                <button class="btn btn-green">Continuar</button>
+                                <button id="btnNuevaCoti" class="btn btn-black">Realizar nueva cotización</button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Parte final del formulario -->
+             <div class="containerFinalForm">
+                <div class="row">
+                    <div class="col-md-3">
+                        <label for="">Correo electronico tomador SOAT</label>
+                        <input class="form-control" type="text" name="" id="">
+                    </div>
+                    <div class="col-md-3">
+                        <label for="">Celular tomador SOAT</label>
+                        <input class="form-control" type="text" name="" id="">
+                    </div>
+                    <div class="col-md-5">
+                        <label for="">Adjuntar soporte de pago y Docs(TP, factura u otros)</label>
+                        <input class="form-control" type="file" name="" id="">
+                    </div>
+                </div>
+             </div>
+
         </div>
 
         <!-- MODAL FASECOLDA -->
