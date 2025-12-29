@@ -1,3 +1,4 @@
+<link rel="stylesheet" href="vistas/modulos/soat/css/styles.css">
 <section class="content">
 
     <label style="padding: 10px;" id="lblDataTrip2Top">Ingresa información para cotizar</label>
@@ -795,7 +796,71 @@
                 </div>
 
             </div>
+                <div class="container2" style="margin-top:40px;">
+  <div class="row">
 
+    <!-- Resumen Cotización -->
+    <div class="col-md-6" style="padding-right: 5rem;">
+      <div class="summary-box">
+        <h4 class="summary-title">RESUMEN COTIZACIÓN:</h4>
+
+        <div class="clearfix" style="margin-bottom:15px;">
+          <span class="pull-left"><strong>Valor SOAT</strong></span>
+          <span class="pull-right price">$ 542.700</span>
+        </div>
+
+        <div class="radio">
+          <label>
+            <input type="radio" name="servicio" checked>
+            Servicio trámite - Con Comisión:
+            <span class="pull-right">$ 45.000</span>
+          </label>
+        </div>
+
+        <div class="radio">
+          <label>
+            <input type="radio" name="servicio">
+            Servicio trámite - Sin Comisión:
+            <span class="pull-right">$ 20.000</span>
+          </label>
+        </div>
+
+        <hr>
+
+        <div class="clearfix">
+          <span class="pull-left"><strong>Total a pagar:</strong></span>
+          <span class="pull-right total">$ 587.700</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Notas importantes -->
+    <div class="col-md-6">
+      <div style="font-size: 12px;">
+        <p class="notes-title">Notas importantes:</p>
+        <ul>
+          <li>Verifica la información del vehículo en el RUNT antes de solicitar la emisión, especialmente cant. de pasajeros y cap. de carga.</li>
+          <li>Ten en cuenta los tiempos de respuesta:
+            <ul>
+              <li>Sin inconsistencias en RUNT: 2 a 5 horas hábiles.</li>
+              <li>Con inconsistencias en RUNT: 5 horas hasta 1 día hábil.</li>
+            </ul>
+          </li>
+          <li>Envía la información completa: tarjeta de propiedad legible (ambos lados) y datos de contacto del cliente (correo y celular).</li>
+          <li>Confirma la vigencia del SOAT anterior se puede emitir hasta 29 días antes del vencimiento.</li>
+          <li>El SOAT solo se emite con pago confirmado.</li>
+          <li>El SOAT se emite con AXA Colpatria, Previsora, Seguros del Estado o Mundial. Grupo Asistencia define la aseguradora según disponibilidad.</li>
+        </ul>
+
+        <div class="buttons-container">
+          <button class="btn btn-green">Continuar</button>
+          <button class="btn btn-black">Realizar nueva cotización</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
         </div>
 
         <!-- MODAL FASECOLDA -->
