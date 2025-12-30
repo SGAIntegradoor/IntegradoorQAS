@@ -228,7 +228,7 @@ class ModeloCotizaciones
 		$stmt = null;
 		if ($id != null) {
 
-			$stmt = Conexion::conectar()->prepare("SELECT c.*, cl.id_tipo_documento, cl.cli_nombre, cl.cli_apellidos, cl.cli_num_documento, cl.cli_email, cl.cli_telefono FROM $tabla c JOIN $tabla2 cl ON cl.id_cliente = c.id_cliente WHERE $field = :id");
+			$stmt = Conexion::conectar()->prepare("SELECT c.*, cl.id_tipo_documento, cl.cli_nombre, cl.cli_apellidos, cl.cli_num_documento, cl.cli_email, cl.cli_telefono FROM $tabla c LEFT JOIN $tabla2 cl ON cl.id_cliente = c.id_cliente WHERE $field = :id");
 			$stmt->bindParam(":id", $id, PDO::PARAM_STR);
 
 			if ($stmt->execute()) {
@@ -265,14 +265,16 @@ class ModeloCotizaciones
 				$coberturas = [];
 				foreach ($responses as $plan) {
 					if ($plan["id_asegurado"] === $idAsegurado) {
-						$stmtCob = Conexion::conectar()->prepare("SELECT cd.cobertura FROM coberturas_salud cd WHERE cd.id_plan = " . $plan["id_plan"] . ";");
+						$stmtCob = Conexion::conectar()->prepare("SELECT cd.cobertura FROM coberturas_salud cd WHERE cd.id_plan = " . $plan["id_plan"] . " ORDER BY cd.id_cobertura, cd.id_plan ASC;");
 						$stmtCob->execute();
 						$coberturasDb = $stmtCob->fetchAll(PDO::FETCH_ASSOC);
 						$coberturasSoloValores = array_column($coberturasDb, 'cobertura');
 						$plans[] = [
 							"plan_id" => $plan["id_plan"],
 							"id_plan_ordenado" => $plan["id_plan_ordenado"],
+							"aseguradora" => $plan["aseguradoraN"],
 							"anual" => $plan["anual_plan"],
+							"categoria" => $plan["categoria"],
 							"mensual" => $plan["mensual_plan"],
 							"semestral" => $plan["semestral_plan"],
 							"trimestral" => $plan["trimestral_plan"],
@@ -356,13 +358,70 @@ class ModeloCotizaciones
 		];
 	}
 
-	static public function mdlShowQuoteSalud($tabla, $tabla2, $tabla3, $tabla4, $tabla5, $tabla6, $tabla7, $tabla8, $tabla9, $field, $id)
+	// static public function mdlShowQuoteSalud($tabla, $tabla2, $tabla3, $tabla4, $tabla5, $tabla6, $tabla7, $tabla8, $tabla9, $field, $id, $filtro)
+	// {
+	// 	// Inicializa la variable $stmt
+	// 	$stmt = null;
+	// 	$filtro = ($filtro === 'Todas') ? '' : $filtro;
+	// 	if ($id != null) {
+	// 		$stmt = Conexion::conectar()->prepare("SELECT 
+	// 				  ROW_NUMBER() OVER (ORDER BY ass.id_aseguradora DESC ,p.mensual_plan ASC) AS id_plan_ordenado, ass.nombre as aseguradoraN,
+	// 				    c.*,
+	// 					t.*,
+	// 					a.*,
+	// 					p.*,
+	// 					us.*,
+	// 					cs.*,
+	// 					ps.*,
+	// 					ass.*,
+	// 					ci.*
+	// 		FROM 
+	// 			$tabla c
+	// 		INNER JOIN 
+	// 			$tabla2 t ON t.id_cotizacion = c.id_cotizacion
+	// 		INNER JOIN 
+	// 			$tabla3 a ON a.id_cotizacion = c.id_cotizacion
+	// 		INNER JOIN 
+	// 			$tabla4 p ON p.id_asegurado = a.id_asegurado
+	// 		INNER JOIN 
+	// 			$tabla5 us ON c.id_usuario = us.id_usuario
+	// 		LEFT JOIN
+	// 			$tabla7 cs ON cs.id_plan = p.id_plan
+	// 		LEFT JOIN
+	// 			$tabla8 ps ON ps.id_plan = p.id_plan
+	// 		LEFT JOIN
+	// 			$tabla9 ass ON ass.id_aseguradora = ps.id_aseguradora
+	// 		LEFT JOIN 
+	// 			$tabla6 ci ON ci.id_ciudad = a.ciudad
+	// 		WHERE 1
+	// 		AND c.$field = :id
+	// 		AND p.categoria like '%$filtro%'
+	// 		GROUP BY a.id_asegurado, ps.id_plan
+	// 		ORDER BY ass.id_aseguradora DESC, p.mensual_plan ASC;");
+
+	// 		$stmt->bindParam(":id", $id, PDO::PARAM_STR);
+
+	// 		if ($stmt->execute()) {
+	// 			$resultado = $stmt->fetchAll(PDO::FETCH_ASSOC);
+	// 			$stmt->closeCursor(); // Correctamente cerrando el cursor
+	// 			return self::responseFormatted($resultado);
+	// 		} else {
+	// 			return null; // Si la consulta falla, devuelve null
+	// 		}
+	// 	}
+
+	// 	return null; // En caso de que no se cumplan las condiciones, devuelve null
+	// }
+
+	static public function mdlShowQuoteSalud($tabla, $tabla2, $tabla3, $tabla4, $tabla5, $tabla6, $tabla7, $tabla8, $tabla9, $field, $id, $filtro)
 	{
 		// Inicializa la variable $stmt
 		$stmt = null;
+		$filtro = ($filtro === 'Todas') ? '' : $filtro;
 		if ($id != null) {
 			$stmt = Conexion::conectar()->prepare("SELECT 
-					  ROW_NUMBER() OVER (ORDER BY ass.id_aseguradora DESC ,p.mensual_plan DESC) AS id_plan_ordenado, c.*,
+					  ROW_NUMBER() OVER (ORDER BY ass.id_aseguradora DESC ,p.mensual_plan ASC) AS id_plan_ordenado, ass.nombre as aseguradoraN,
+					    c.*,
 						t.*,
 						a.*,
 						p.*,
@@ -389,16 +448,20 @@ class ModeloCotizaciones
 				$tabla9 ass ON ass.id_aseguradora = ps.id_aseguradora
 			LEFT JOIN 
 				$tabla6 ci ON ci.id_ciudad = a.ciudad
-			WHERE 
-				c.$field = :id
+			WHERE 1
+			AND c.$field = :id
+			AND p.categoria like '%$filtro%'
 			GROUP BY a.id_asegurado, ps.id_plan
-			ORDER BY ass.id_aseguradora desc ,p.mensual_plan DESC;");
+			ORDER BY ass.id_aseguradora DESC, p.mensual_plan ASC;");
 
 			$stmt->bindParam(":id", $id, PDO::PARAM_STR);
 
 			if ($stmt->execute()) {
 				$resultado = $stmt->fetchAll(PDO::FETCH_ASSOC);
 				$stmt->closeCursor(); // Correctamente cerrando el cursor
+				if (count($resultado) == 0) {
+					return null;
+				}
 				return self::responseFormatted($resultado);
 			} else {
 				return null; // Si la consulta falla, devuelve null
@@ -451,19 +514,37 @@ class ModeloCotizaciones
 			$finMes = $finMes->format('Y-m-d');
 
 			$stmt = Conexion::conectar()->prepare("
-				SELECT * FROM cotizaciones, clientes, tipos_documentos, estados_civiles, usuarios, 
-					(SELECT 
-					CASE o.Manual
-						WHEN 4 THEN 'Transporte pasajeros'
-						WHEN 3 THEN 'Pesados'
-						WHEN 8 THEN 'Motos'
-						WHEN 9 THEN 'Livianos'
-					END AS modulo_cotizacion, o.id_cotizacion FROM ofertas o GROUP BY o.id_cotizacion) o
-				WHERE cotizaciones.id_cliente = clientes.id_cliente 
-					AND cotizaciones.id_usuario = usuarios.id_usuario 
-					AND clientes.id_tipo_documento = tipos_documentos.id_tipo_documento 
-					AND clientes.id_estado_civil = estados_civiles.id_estado_civil
-					AND o.id_cotizacion = cotizaciones.id_cotizacion
+				SELECT 
+					c.id_cotizacion,
+					c.*,
+					cl.*,
+					td.*,
+					ec.*,
+					u.*,
+					o.modulo_cotizacion
+				FROM cotizaciones c
+				INNER JOIN clientes cl 
+					ON c.id_cliente = cl.id_cliente
+				INNER JOIN usuarios u 
+					ON c.id_usuario = u.id_usuario
+				INNER JOIN tipos_documentos td 
+					ON cl.id_tipo_documento = td.id_tipo_documento
+				INNER JOIN estados_civiles ec 
+					ON cl.id_estado_civil = ec.id_estado_civil
+				LEFT JOIN (
+					SELECT 
+						o.id_cotizacion,
+						CASE MAX(o.Manual)
+							WHEN 4 THEN 'Transporte pasajeros'
+							WHEN 3 THEN 'Pesados'
+							WHEN 8 THEN 'Motos'
+							WHEN 9 THEN 'Livianos'
+						END AS modulo_cotizacion
+					FROM ofertas o
+					GROUP BY o.id_cotizacion
+				) o 
+					ON o.id_cotizacion = c.id_cotizacion
+				WHERE 1
 					AND cot_fch_cotizacion >= :fechaInicio AND cot_fch_cotizacion <= :fechaFin
 					AND usuarios.id_Intermediario = :idIntermediario
 					$condicion
@@ -482,19 +563,37 @@ class ModeloCotizaciones
 			return $stmt->fetchAll(PDO::FETCH_ASSOC);
 		} else if ($fechaInicialCotizaciones == $fechaFinalCotizaciones) {
 			$stmt = Conexion::conectar()->prepare("
-			SELECT * FROM $tabla, $tabla2, $tabla3, $tabla4, $tabla5,
-					(SELECT 
-					CASE o.Manual
-						WHEN 4 THEN 'Transporte pasajeros'
-						WHEN 3 THEN 'Pesados'
-						WHEN 8 THEN 'Motos'
-						WHEN 9 THEN 'Livianos'
-					END AS modulo_cotizacion, o.id_cotizacion FROM ofertas o GROUP BY o.id_cotizacion) o
-			WHERE $tabla.id_cliente = $tabla2.id_cliente
-				AND $tabla.id_usuario = $tabla5.id_usuario 
-				AND $tabla2.id_tipo_documento = $tabla3.id_tipo_documento 
-				AND $tabla2.id_estado_civil = $tabla4.id_estado_civil 
-				AND o.id_cotizacion = cotizaciones.id_cotizacion
+				SELECT
+					c.id_cotizacion,
+					c.*,
+					cl.*,
+					td.*,
+					ec.*,
+					u.*,
+					o.modulo_cotizacion
+				FROM cotizaciones c
+				INNER JOIN clientes cl 
+					ON c.id_cliente = cl.id_cliente
+				INNER JOIN usuarios u 
+					ON c.id_usuario = u.id_usuario
+				INNER JOIN tipos_documentos td 
+					ON cl.id_tipo_documento = td.id_tipo_documento
+				INNER JOIN estados_civiles ec 
+					ON cl.id_estado_civil = ec.id_estado_civil
+				LEFT JOIN (
+					SELECT 
+						o.id_cotizacion,
+						CASE MAX(o.Manual)
+							WHEN 4 THEN 'Transporte pasajeros'
+							WHEN 3 THEN 'Pesados'
+							WHEN 8 THEN 'Motos'
+							WHEN 9 THEN 'Livianos'
+						END AS modulo_cotizacion
+					FROM ofertas o
+					GROUP BY o.id_cotizacion
+				) o 
+					ON o.id_cotizacion = c.id_cotizacion
+				WHERE 1
 				AND cot_fch_cotizacion LIKE CONCAT('%', :fecha, '%') 
 				AND usuarios.id_Intermediario = :idIntermediario
 				$condicion
@@ -518,46 +617,56 @@ class ModeloCotizaciones
 
 			if ($_SESSION['rol'] == 10) {
 				$stmt = Conexion::conectar()->prepare("
-					SELECT *
-					FROM cotizaciones
-					INNER JOIN clientes ON cotizaciones.id_cliente = clientes.id_cliente
-					INNER JOIN tipos_documentos ON clientes.id_tipo_documento = tipos_documentos.id_tipo_documento
-					INNER JOIN estados_civiles ON clientes.id_estado_civil = estados_civiles.id_estado_civil
-					INNER JOIN usuarios ON cotizaciones.id_usuario = usuarios.id_usuario
-					LEFT JOIN analistas_freelances af ON af.id_usuario = usuarios.usu_documento
-					LEFT JOIN (SELECT 
+				SELECT 
+						$tabla.id_cotizacion,
+						$tabla.*,
+						$tabla2.*,
+						$tabla3.*,
+						$tabla4.*,
+						$tabla5.*,
+						o.modulo_cotizacion 
+				FROM $tabla
+				INNER JOIN $tabla2 ON $tabla.id_cliente = $tabla2.id_cliente
+				INNER JOIN $tabla3 ON $tabla2.id_tipo_documento = $tabla3.id_tipo_documento
+				INNER JOIN $tabla4 ON $tabla2.id_estado_civil = $tabla4.id_estado_civil
+				INNER JOIN $tabla5 ON $tabla.id_usuario = $tabla5.id_usuario
+				LEFT JOIN (SELECT 
 					CASE o.Manual
 						WHEN 4 THEN 'Transporte pasajeros'
 						WHEN 3 THEN 'Pesados'
 						WHEN 8 THEN 'Motos'
-						WHEN 9 THEN 'Livianos Familiares'
-						WHEN 2 THEN 'Livianos Utilitarios'
-					END AS modulo_cotizacion, o.id_cotizacion AS ofert_id_coti FROM ofertas o GROUP BY o.id_cotizacion) o ON o.ofert_id_coti = cotizaciones.id_cotizacion
-					WHERE 1 AND cotizaciones.cot_fch_cotizacion BETWEEN :fechaInicial AND :fechaFinal
-					$condicion
-					ORDER BY cotizaciones.cot_fch_cotizacion DESC
+						WHEN 9 THEN 'Livianos'
+					END AS modulo_cotizacion, o.id_cotizacion FROM ofertas o GROUP BY o.id_cotizacion) o ON o.id_cotizacion = cotizaciones.id_cotizacion
+				WHERE cot_fch_cotizacion >= :fechaInicial AND cot_fch_cotizacion <= :fechaFinal
+				$condicion
+				ORDER BY cot_fch_cotizacion DESC
 			");
 			} else {
 				$stmt = Conexion::conectar()->prepare("
-					SELECT *
-					FROM cotizaciones
-					INNER JOIN clientes ON cotizaciones.id_cliente = clientes.id_cliente
-					INNER JOIN tipos_documentos ON clientes.id_tipo_documento = tipos_documentos.id_tipo_documento
-					INNER JOIN estados_civiles ON clientes.id_estado_civil = estados_civiles.id_estado_civil
-					INNER JOIN usuarios ON cotizaciones.id_usuario = usuarios.id_usuario
-					LEFT JOIN analistas_freelances af ON af.id_usuario = usuarios.usu_documento
+					SELECT
+						$tabla.id_cotizacion,
+						$tabla.*,
+						$tabla2.*,
+						$tabla3.*,
+						$tabla4.*,
+						$tabla5.*,
+						o.modulo_cotizacion 
+					FROM $tabla
+					INNER JOIN $tabla2 ON $tabla.id_cliente = $tabla2.id_cliente
+					INNER JOIN $tabla3 ON $tabla2.id_tipo_documento = $tabla3.id_tipo_documento
+					INNER JOIN $tabla4 ON $tabla2.id_estado_civil = $tabla4.id_estado_civil
+					INNER JOIN $tabla5 ON $tabla.id_usuario = $tabla5.id_usuario
 					LEFT JOIN (SELECT 
 					CASE o.Manual
 						WHEN 4 THEN 'Transporte pasajeros'
 						WHEN 3 THEN 'Pesados'
 						WHEN 8 THEN 'Motos'
-						WHEN 9 THEN 'Livianos Familiares'
-						WHEN 2 THEN 'Livianos Utilitarios'
-					END AS modulo_cotizacion, o.id_cotizacion AS ofert_id_coti FROM ofertas o GROUP BY o.id_cotizacion) o ON o.ofert_id_coti = cotizaciones.id_cotizacion
-					WHERE 1 AND cotizaciones.cot_fch_cotizacion BETWEEN :fechaInicial AND :fechaFinal
-					AND usuarios.id_Intermediario = :idIntermediario
+						WHEN 9 THEN 'Livianos'
+					END AS modulo_cotizacion, o.id_cotizacion FROM ofertas o GROUP BY o.id_cotizacion) o ON o.id_cotizacion = cotizaciones.id_cotizacion
+					WHERE cot_fch_cotizacion >= :fechaInicial AND cot_fch_cotizacion <= :fechaFinal
+					AND $tabla5.id_Intermediario = :idIntermediario
 					$condicion
-					ORDER BY cotizaciones.cot_fch_cotizacion DESC
+					ORDER BY cot_fch_cotizacion DESC
 				");
 				$stmt->bindParam(":idIntermediario", $_SESSION["intermediario"], PDO::PARAM_INT);
 			}
@@ -653,6 +762,98 @@ class ModeloCotizaciones
 					AND $tabla5.id_Intermediario = :idIntermediario
 					$condicion
 					ORDER BY fecha_cot DESC
+				");
+				$stmt->bindParam(":idIntermediario", $_SESSION["intermediario"], PDO::PARAM_INT);
+			}
+
+			$stmt->bindParam(":fechaInicial", $inicioMes, PDO::PARAM_STR);
+			$stmt->bindParam(":fechaFinal", $finMes, PDO::PARAM_STR);
+
+			if ($_SESSION["permisos"]["Verlistadodecotizacionesdelaagencia"] != "x") {
+				$stmt->bindParam(":idUsuario", $_SESSION["idUsuario"], PDO::PARAM_INT);
+			}
+
+			$stmt->execute();
+			//echo json_encode($stmt->fetchAll(PDO::FETCH_ASSOC));
+			return $stmt->fetchAll(PDO::FETCH_ASSOC);
+		}
+	}
+
+	static public function mdlRangoFechasCotizacionesExequias($tabla, $tabla5,  $fechaInicialCotizaciones, $fechaFinalCotizaciones)
+	{
+		$condicion = "";
+		if ($_SESSION["permisos"]["Verlistadodecotizacionesdelaagencia"] != "x") {
+			$condicion = "AND $tabla.id_usuario = :idUsuario";
+		}
+		if ($fechaInicialCotizaciones == null) {
+
+			$fechaActual = new DateTime();
+			// Obtener la fecha de inicio de mes
+			$inicioMes = clone $fechaActual;
+			$inicioMes->modify('first day of this month');
+			$inicioMes = $inicioMes->format('Y-m-d');
+
+			// Obtener la fecha de fin de mes
+			$finMes = clone $fechaActual;
+			$finMes->modify('first day of next month')->modify(-1);
+			$finMes = $finMes->format('Y-m-d');
+
+			$stmt = Conexion::conectar()->prepare("
+				SELECT * FROM segurosexequiales
+				WHERE 1
+					AND fechaCoti >= :fechaInicio AND fechaCoti <= :fechaFin
+					AND usuarios.id_Intermediario = :idIntermediario
+					$condicion
+			");
+
+			$stmt->bindParam(":fechaInicio", $inicioMes, PDO::PARAM_STR);
+			$stmt->bindParam(":fechaFin", $finMes, PDO::PARAM_STR);
+			$stmt->bindParam(":idIntermediario", $_SESSION["intermediario"], PDO::PARAM_INT);
+
+			if ($_SESSION["permisos"]["Verlistadodecotizacionesdelaagencia"] != "x") {
+				$stmt->bindParam(":idUsuario", $_SESSION["idUsuario"], PDO::PARAM_INT);
+			}
+
+			$stmt->execute();
+
+			return $stmt->fetchAll(PDO::FETCH_ASSOC);
+		} else {
+
+			$inicioMes = new DateTime($fechaInicialCotizaciones);
+			$inicioMes = $inicioMes->format('Y-m-d');
+			$finMes = new DateTime($fechaFinalCotizaciones);
+			if ($finMes->format('t') == $finMes->format('d')) {
+				// Si es el último día del mes, ajustar al primer día del siguiente mes
+				$finMes->modify('first day of next month');
+			} else {
+				// Si no, simplemente agregar un día
+				$finMes->modify('+1 day');
+			}
+
+			$finMes = $finMes->format('Y-m-d');
+
+			if ($_SESSION['rol'] == 10) {
+				$stmt = Conexion::conectar()->prepare("
+				SELECT * FROM $tabla c
+				INNER JOIN $tabla5 us ON c.id_usuario = us.id_usuario
+				WHERE c.fechaCoti >= :fechaInicial AND c.fechaCoti <= :fechaFinal
+				ORDER BY c.fechaCoti DESC
+
+				");
+				// var_dump("
+				// SELECT c.id_cotizacion, c.fecha_cot, c.fch_nacimiento, c.lugar_origen, c.lugar_destino, c.nom_prospecto, c.fch_salida, c.fch_regreso, c.modalidad_cot, us.usu_nombre, us.usu_apellido, c.numero_pasajeros FROM $tabla c
+				// INNER JOIN $tabla5 us ON c.id_usuario = us.id_usuario
+				// WHERE c.fecha_cot >= :fechaInicial AND c.fecha_cot <= :fechaFinal
+				// ORDER BY c.fecha_cot DESC");
+				// die();
+			} else {
+				$stmt = Conexion::conectar()->prepare("
+					SELECT * FROM $tabla
+					INNER JOIN $tabla5 ON $tabla.id_usuario = $tabla5.id_usuario
+					WHERE fechaCoti >= :fechaInicial AND fechaCoti <= :fechaFinal
+					AND $tabla5.id_Intermediario = :idIntermediario
+					$condicion
+					ORDER BY fechaCoti DESC
 				");
 				$stmt->bindParam(":idIntermediario", $_SESSION["intermediario"], PDO::PARAM_INT);
 			}
@@ -810,15 +1011,22 @@ class ModeloCotizaciones
 
 			$stmt = Conexion::conectar()->prepare("
 				SELECT 
-				*
+					c.*,
+					o.*,
+					cli.*,
+					us.*,
+					c.id AS id_hogar,
+					af.nombre_analista
 				FROM 
 					$tabla c
 				INNER JOIN 
 					$tabla2 o ON o.id_cotizacion = c.id
-				INNER JOIN 
+				LEFT JOIN 
 					$tabla3 cli ON cli.id_cliente = c.id_cliente
 				INNER JOIN 
 					$tabla4 us ON us.id_usuario = c.id_usuario
+				LEFT JOIN
+					analistas_freelances af ON af.id_usuario = us.usu_documento
 				WHERE 
 					c.fecha_cotizacion BETWEEN :fechaInicio AND :fechaFin 
 				$condicion
@@ -853,32 +1061,42 @@ class ModeloCotizaciones
 			if ($_SESSION['rol'] == 10 || $_SESSION['rol'] == 1 || $_SESSION['rol'] == 12 || $_SESSION['rol'] == 22) {
 
 				$stmt = Conexion::conectar()->prepare("
-					SELECT 
-				*
-				FROM 
-					$tabla c
-				INNER JOIN 
-					$tabla2 o ON o.id_cotizacion = c.id
-				INNER JOIN 
-					$tabla3 cli ON cli.id_cliente = c.id_cliente
-				INNER JOIN 
-					$tabla4 us ON us.id_usuario = c.id_usuario
+				SELECT
+					c.*,
+					o.*,
+					cli.*,
+					us.*,
+					c.id AS id_hogar,
+					af.nombre_analista
+				FROM
+					cotizaciones_hogar c
+					LEFT JOIN ofertas_hogar o ON o.id_cotizacion = c.id
+					LEFT JOIN clientes cli ON cli.id_cliente = c.id_cliente
+					INNER JOIN usuarios us ON us.id_usuario = c.id_usuario
+					LEFT JOIN analistas_freelances af ON af.id_usuario = us.usu_documento
 				WHERE 
 					c.fecha_cotizacion BETWEEN :fechaInicial AND :fechaFinal 
 				GROUP BY c.id;
 				");
 			} else {
 				$stmt = Conexion::conectar()->prepare("
-						SELECT 
-				*
+				SELECT 
+					c.*,
+					o.*,
+					cli.*,
+					us.*,
+					c.id AS id_hogar,
+					af.nombre_analista
 				FROM 
 					$tabla c
-				INNER JOIN 
+				LEFT JOIN 
 					$tabla2 o ON o.id_cotizacion = c.id
-				INNER JOIN 
+				LEFT JOIN 
 					$tabla3 cli ON cli.id_cliente = c.id_cliente
 				INNER JOIN 
 					$tabla4 us ON us.id_usuario = c.id_usuario
+				LEFT JOIN 
+					analistas_freelances af ON af.id_usuario = us.usu_documento
 				WHERE 
 						c.fecha_cotizacion BETWEEN :fechaInicial AND :fechaFinal
 						AND us.id_Intermediario = :idIntermediario
@@ -995,14 +1213,14 @@ class ModeloCotizaciones
 					INNER JOIN estados_civiles ON clientes.id_estado_civil = estados_civiles.id_estado_civil
 					INNER JOIN usuarios ON cotizaciones.id_usuario = usuarios.id_usuario
 					LEFT JOIN analistas_freelances af ON af.id_usuario = usuarios.usu_documento
-					LEFT JOIN (SELECT 
+					INNER JOIN (SELECT 
 					CASE o.Manual
 						WHEN 4 THEN 'Transporte pasajeros'
 						WHEN 3 THEN 'Pesados'
 						WHEN 8 THEN 'Motos'
 						WHEN 9 THEN 'Livianos Familiares'
 						WHEN 2 THEN 'Livianos Utilitarios'
-					END AS modulo_cotizacion, o.id_cotizacion AS ofert_id_coti FROM ofertas o GROUP BY o.id_cotizacion) o ON o.ofert_id_coti = cotizaciones.id_cotizacion
+					END AS modulo_cotizacion, o.id_cotizacion FROM ofertas o GROUP BY o.id_cotizacion) o ON o.id_cotizacion = cotizaciones.id_cotizacion
 					WHERE 1 AND cotizaciones.cot_fch_cotizacion BETWEEN CURDATE() - INTERVAL 1 MONTH AND CURDATE() + INTERVAL 1 DAY"; // Query base
         foreach ($valores as $campo => $valor) {
             switch ($campo) {
