@@ -1,5 +1,6 @@
 $(document).ready(function () {
   var valorSoatGlobal = 0;
+  var idCotizacionSoat = 0;
   const urlCompleta = window.location.href;
 
   const partes = urlCompleta.split("/");
@@ -18,18 +19,18 @@ $(document).ready(function () {
 
   var permisos = JSON.parse(permisosPlantilla);
 
-  const parseNumbersToString = (selector) => {
-    $(selector).on("input", function () {
-      this.value = this.value.replace(/\./g, "");
-    });
+  // const parseNumbersToString = (selector) => {
+  //   $(selector).on("input", function () {
+  //     this.value = this.value.replace(/\./g, "");
+  //   });
 
-    // Previene el ingreso de puntos desde el teclado
-    $(selector).on("keydown", function (event) {
-      if (event.which === 190 || event.which === 110) {
-        event.preventDefault();
-      }
-    });
-  };
+  //   // Previene el ingreso de puntos desde el teclado
+  //   $(selector).on("keydown", function (event) {
+  //     if (event.which === 190 || event.which === 110) {
+  //       event.preventDefault();
+  //     }
+  //   });
+  // };
 
   // Elimina los espacios de la placa
   $("#placaVeh").keyup(function () {
@@ -123,11 +124,6 @@ $(document).ready(function () {
     }
   });
 
-  // Convierte la Placa ingresada en Mayusculas
-  $("#numDocumentoID").change(function () {
-    consultarAsegurado();
-  });
-
   document.addEventListener("DOMContentLoaded", function () {
     var formulario = document.getElementById("formResumAseg"); // Reemplaza 'formulario' con el ID de tu formulario
 
@@ -188,20 +184,6 @@ function menosAgr() {
 function consulPlaca(query = "1") {
   var numplaca = document.getElementById("placaVeh").value;
 
-  let lastChar = numplaca.slice(-1);
-  if (!isNaN(lastChar)) {
-  } else {
-    // Swal.fire({
-    //   icon: "error",
-    //   title: "Error",
-    //   text: "La placa no coincide con el formato de vehiculos livianos",
-    //   showConfirmButton: true,
-    // }).then(() => {
-    //   window.location.reload();
-    // });
-    // return false;
-  }
-
   if (numplaca == "WWW404") {
     document.getElementById("formularioVehiculo").style.display = "block";
     $("#loaderPlaca").html("");
@@ -216,13 +198,9 @@ function consulPlaca(query = "1") {
         '<img src="vistas/img/plantilla/loader-loading.gif" width="34" height="34"><strong> Consultando Placa...</strong>'
       );
 
-      //! Agregar esto a MOTOS y Pesados START
-
       $("#loaderPlaca2").html(
         '<img src="vistas/img/plantilla/loader-loading.gif" width="34" height="34"><strong> Consultando Placa...</strong>'
       );
-
-      //! Agregar esto a MOTOS y Pesados END
 
       //INICIO DE CABECERA PARA INGRESAR INFORMACION DEL METODO
       var myHeaders = new Headers();
@@ -299,9 +277,7 @@ function consulPlaca(query = "1") {
           document.getElementById("resumenVehiculo").style.display = "block";
           document.getElementById("contenBtnCotizar").style.display = "block";
           $("#loaderPlaca").hide();
-          //! Agregar esto a MOTOS y Pesados START
           $("#loaderPlaca2").html("");
-          //! Agregar esto a MOTOS y Pesados END
           menosAseg();
           document.getElementById("contenBtnConsultarPlaca").style.display =
             "none";
@@ -331,7 +307,32 @@ function consulPlaca(query = "1") {
               NumeroDocumento: nroDocPropietario,
             }),
             success: function (data) {
-              console.log(typeof data.CalcularPolizaResult.ValorTotalPagar);
+
+              // Peticion para guardar la cotización (formato Form Data)
+              $.ajax({
+                  type: "POST",
+                  url: "src/soat/saveQuotationSoat.php",
+                  data: {
+                      Accion: "Guardar",
+                      Placa: valnumplaca,
+                      Clase: codigoClase,
+                      Referencia: codigoMarca + " " + codigoLinea,
+                      NumeroDocumento: nroDocPropietario,
+                      Prima: data.CalcularPolizaResult.ValorPrima,
+                      Contribucion: data.CalcularPolizaResult.ValorContribucion,
+                      Runt: data.CalcularPolizaResult.ValorTasaRUNT,
+                      totalSoat: data.CalcularPolizaResult.ValorTotalPagar,
+                      IdUsuario: permisos.id_usuario,
+                  },
+                  success: function (data) {
+                      console.log("Guardado correctamente", data);
+                      idCotizacionSoat = data.lastId;
+                  },
+                  error: function (error) {
+                      console.log("Error al guardar cotizacion SOAT: ", error);
+                  }
+              });
+
               let valorAPagarSoat = Number(
                 data.CalcularPolizaResult.ValorTotalPagar
               );
@@ -380,4 +381,32 @@ $("#radioConComision").click(function () {
 
 $("#btnNuevaCoti").click(function () {
   window.location.reload();
+});
+
+$("#btnContinuarCoti").click(function () {
+  $(".containerFinalForm").show();
+  $("#radioConComision").prop("disabled", true);
+  $("#radioSinComision").prop("disabled", true);
+  $("#btnContinuarCoti").prop("disabled", true);
+
+  // Peticion para actualizar la cotización (formato Form Data)
+  $.ajax({
+    type: "POST",
+    url: "src/soat/saveQuotationSoat.php",
+    data: {
+      Accion: "Actualizar",
+      IdCotizacionSoat: idCotizacionSoat,
+      Opcion: $("#radioConComision").is(":checked") ? "Con comision" : "Sin comision",
+      Comision: $("#radioConComision").is(":checked") ? 45000 : 20000,
+      TotalSoat: $("#totalPagarSoat").text().replace(/\./g, "").replace("$ ", ""),
+      IdUsuario: permisos.id_usuario,
+    },
+    success: function (data) {
+      console.log("Actualizado correctamente", data);
+      idCotizacionSoat = data.lastId;
+    },
+    error: function (error) {
+      console.log("Error al actualizar cotizacion SOAT: ", error);
+    }
+  });
 });
