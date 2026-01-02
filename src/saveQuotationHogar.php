@@ -15,63 +15,11 @@ try {
 
     $data = $_POST ?? null;
 
-$ultimoId = null;    
-if (empty($data['idCliente'])) {
-    // Conexión
-    $stmt = $pdo->prepare("
-        INSERT INTO clientes (
-            cli_codigo, 
-            cli_num_documento,
-            cli_nombre, 
-            cli_apellidos, 
-            cli_fch_nacimiento,
-            cli_genero,
-            cli_telefono, 
-            cli_email, 
-            cli_estado, 
-            id_tipo_documento, 
-            id_estado_civil, 
-            id_Intermediario
-        ) VALUES (
-            '', 
-            :documento, 
-            :nombre, 
-            :apellidos, 
-            '0000-00-00', 
-            0, 
-            '', 
-            '', 
-            1, 
-            :tipoDocumento, 
-            1, 
-            3
-        )
-    ");
-
-    // Asignación de parámetros
-    $stmt->bindParam(":documento", $data['documento'], PDO::PARAM_STR);
-    $stmt->bindParam(":nombre", $data['nombreSolicitante'], PDO::PARAM_STR);
-    $stmt->bindParam(":apellidos", $data['apellidoSolicitante'], PDO::PARAM_STR);
-    $stmt->bindParam(":tipoDocumento", $data['tipoDocumento'], PDO::PARAM_INT);
-
-    // Ejecutar
-    if ($stmt->execute()) {
-        $ultimoId = $pdo->lastInsertId();
-        // echo "Cliente insertado correctamente.";
-    } else {
-        $errorInfo = $stmt->errorInfo();
-        // echo "Error al insertar cliente: " . $errorInfo[2];
-        // echo "Error al insertar cliente.";
-    }
-}
-
     $fecha_cotizacion = date("Y-m-d H:i:s");
     $direccion = $data['direccion'] ?? null;
-    $resto_direccion = $data['resto_direccion'] ?? null;
     $ciudad = $data['ciudad'] ?? null;
     $codCiudad = $data['codLocalidad'] ?? null;
     $departamento = $data['departamento'] ?? null;
-    $estrato = $data['estrato'] ?? null;
     $zona_riesgo = $data['zona_riesgo'] ?? null;
     $sub_zona = $data['sub_zona'] ?? null;
     $tipo_vivienda = $data['tipoDeVivienda'] ?? null;
@@ -81,14 +29,11 @@ if (empty($data['idCliente'])) {
     $anio_construccion = $data['anoConstruccion'] ?? null;
     $area_total = $data['areaTotal'] ?? null;
     $zona_construccion = $data['zonaConstruccion'] ?? null;
-    $nro_sotanos = $data['nroSotanos'] ?? null;
     $credito = $data['tieneCredito'] ?? null;
     $tipo_asegurado = $data['categoriaDeRiesgo'] ?? null;
     $tipo_cobertura = $data['tipoCobertura'] ?? null;
-    $id_cliente = empty($data['idCliente']) ? $ultimoId : $data['idCliente'];
+    $id_cliente = $data['idCliente'] ?? null;
     $id_usuario = $data['idUsuario'] ?? null;
-    $valorContenidoNoElectrico = (int)$data['valorContenidoNoElectrico'] ?? 0;
-    $valorContenidoElectrico = (int)$data['valorContenidoElectrico'] ?? 0;
     $val_viv = $data['val_viv'] ?? null;
     $val_cn = $data['val_cn'] ?? null;
     $val_hur = $data['val_hur'] ?? null;
@@ -119,7 +64,6 @@ if (empty($data['idCliente'])) {
     $stmt->bindParam(':ciudad', $ciudad);
     $stmt->bindParam(':codCiudad', $codCiudad);
     $stmt->bindParam(':departamento', $departamento);
-    $stmt->bindParam(':estrato', $estrato);
     $stmt->bindParam(':zona_riesgo', $zona_riesgo);
     $stmt->bindParam(':sub_zona', $sub_zona);
     $stmt->bindParam(':tipo_vivienda', $tipo_vivienda);
@@ -132,8 +76,6 @@ if (empty($data['idCliente'])) {
     $stmt->bindParam(':zona_construccion', $zona_construccion);
     $stmt->bindParam(':credito', $credito);
     $stmt->bindParam(':tipo_asegurado', $tipo_asegurado);
-    $stmt->bindParam(':valorContenidoElectrico', $valorContenidoElectrico);
-    $stmt->bindParam(':valorContenidoNoElectrico', $valorContenidoNoElectrico);
     $stmt->bindParam(':tipo_cobertura', $tipo_cobertura);
     $stmt->bindParam(':val_viv', $val_viv);
     $stmt->bindParam(':val_cn', $val_cn);
@@ -154,13 +96,6 @@ if (empty($data['idCliente'])) {
     $stmt->bindParam(':val_tr_sbs', $val_tr_sbs);
     $stmt->bindParam(':id_cliente', $id_cliente);
     $stmt->bindParam(':id_usuario', $id_usuario);
-    $stmt->bindParam(':saldoExtracto', $saldoExtracto);
-    $stmt->bindParam(':nacimientoDeudor', $nacimientoDeudor);
-    $stmt->bindParam(':pesoDeudor', $pesoDeudor);
-    $stmt->bindParam(':alturaDeudor', $alturaDeudor);
-    $stmt->bindParam(':saludDeudor', $saludDeudor);
-    $stmt->bindParam(':razonSoci', $razonSoci);
-    $stmt->bindParam(':digitoVeri', $digitoVeri);
 
     if ($stmt->execute()) {
         $lastId = $pdo->lastInsertId(); // Obtener el último ID insertado
