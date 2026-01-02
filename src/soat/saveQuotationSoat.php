@@ -6,7 +6,7 @@ require_once("../../modelos/conexion.php");
 header('Content-Type: application/json');
 
 $data = $_POST;
-if ($data['Accion'] == 'Actualizar') {
+if ($data['Accion'] == 'Actualizar-valores-soat') {
     try {
         $pdo = Conexion::conectar();
 
@@ -30,6 +30,42 @@ if ($data['Accion'] == 'Actualizar') {
             echo json_encode([
                 "success" => true,
                 "message" => "Cotización SOAT actualizada correctamente",
+                "lastId" => $data['IdCotizacionSoat']
+            ]);
+        } else {
+            $errorInfo = $stmt->errorInfo();
+            echo json_encode([
+                "success" => false,
+                "message" => "Error en la base de datos",
+                "error" => $errorInfo[2]
+            ]);
+        }
+    } catch (PDOException $e) {
+        echo json_encode([
+            "success" => false,
+            "message" => "Error de conexión",
+            "error" => $e->getMessage()
+        ]);
+    }
+    return;
+} else if ($data['Accion'] == 'Actualizar-datos-soat') {
+    try {
+        $pdo = Conexion::conectar();
+
+        $stmt = $pdo->prepare("
+        UPDATE cotizaciones_soat SET correo = :correo,
+            celular = :celular
+        WHERE `id_cotizacion`=:id_cotizacion;
+    ");
+
+        $stmt->bindParam(":correo", $data['Correo'], PDO::PARAM_STR);
+        $stmt->bindParam(":celular", $data['Celular'], PDO::PARAM_STR);
+        $stmt->bindParam(":id_cotizacion", $data['IdCotizacionSoat'], PDO::PARAM_STR);
+
+        if ($stmt->execute()) {
+            echo json_encode([
+                "success" => true,
+                "message" => "Datos tomador SOAT actualizados correctamente",
                 "lastId" => $data['IdCotizacionSoat']
             ]);
         } else {

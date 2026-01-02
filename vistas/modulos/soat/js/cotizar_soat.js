@@ -389,12 +389,12 @@ $("#btnContinuarCoti").click(function () {
   $("#radioSinComision").prop("disabled", true);
   $("#btnContinuarCoti").prop("disabled", true);
 
-  // Peticion para actualizar la cotización (formato Form Data)
+  // Peticion para actualizar valores la cotización (formato Form Data)
   $.ajax({
     type: "POST",
     url: "src/soat/saveQuotationSoat.php",
     data: {
-      Accion: "Actualizar",
+      Accion: "Actualizar-valores-soat",
       IdCotizacionSoat: idCotizacionSoat,
       Opcion: $("#radioConComision").is(":checked") ? "Con comision" : "Sin comision",
       Comision: $("#radioConComision").is(":checked") ? 45000 : 20000,
@@ -402,11 +402,87 @@ $("#btnContinuarCoti").click(function () {
       IdUsuario: permisos.id_usuario,
     },
     success: function (data) {
-      console.log("Actualizado correctamente", data);
+      console.log("Valores actualizados correctamente", data);
       idCotizacionSoat = data.lastId;
     },
     error: function (error) {
       console.log("Error al actualizar cotizacion SOAT: ", error);
     }
+  });
+});
+
+$("#btnEnviarSolicitud").click(function () {
+
+  const campos = ["#correoTomadorSoat", "#celularTomadorSoat"];
+  let errores = 0;
+
+  campos.forEach(id => {
+    const el = $(id);
+    if (el.val() === "") {
+      el.css("border", "1px solid red");
+      errores++;
+    } else {
+      el.css("border", ""); // Limpia el borde si el usuario ya lo corrigió
+    }
+  });
+
+  if (errores > 0) {
+    Swal.fire({
+      icon: "error",
+      title: "Faltan datos por completar",
+      text: "Por favor completa el correo y celular del tomador SOAT",
+      showConfirmButton: true,
+      confirmButtonText: "Cerrar",
+    });
+    return;
+  }
+
+  // Peticion para actualizar datos la cotización (formato Form Data)
+  $.ajax({
+    type: "POST",
+    url: "src/soat/saveQuotationSoat.php",
+    data: {
+      Accion: "Actualizar-datos-soat",
+      IdCotizacionSoat: idCotizacionSoat,
+      Correo: $("#correoTomadorSoat").val(),
+      Celular: $("#celularTomadorSoat").val(),
+    },
+    success: function (data) {
+      console.log("Datos actualizados correctamente", data);
+      idCotizacionSoat = data.lastId;
+    },
+    error: function (error) {
+      console.log("Error al actualizar cotizacion SOAT: ", error);
+    }
+  });
+
+  $.ajax({
+    type: "POST",
+    url: "https://grupoasistencia.com/WS-laravel-email-shetts/api/emails/enviar-correo",
+    // url: "http://localhost/WS-laravel/api/emails/enviar-correo",
+    dataType: "text",
+    data: rawCompiled.allianz,
+    cache: false,
+    success: function (data) {
+      console.log("Correo Enviado");
+      swal
+        .fire({
+          icon: "success",
+          title: "Solicitud de cotización #" + lastId + " enviada exitosamente",
+          showConfirmButton: true,
+          confirmButtonText: "Ok",
+          allowOutsideClick: false,
+          allowEscapeKey: false,
+        })
+        .then((result) => {
+          if (result.isConfirmed) {
+            window.location.href = "hogar2";
+          }
+        });
+    },
+    error: function (xhr, status, error) {
+      console.log(error);
+      console.log("Error");
+    },
   });
 });

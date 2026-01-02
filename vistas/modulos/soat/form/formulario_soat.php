@@ -254,11 +254,11 @@
                 <div>
                     <div class="col-md-3">
                         <label for="">Correo electronico tomador SOAT</label>
-                        <input class="form-control" type="text" name="" id="">
+                        <input class="form-control" type="text" name="" id="correoTomadorSoat">
                     </div>
                     <div class="col-md-3">
                         <label for="">Celular tomador SOAT</label>
-                        <input class="form-control" type="text" name="" id="">
+                        <input class="form-control" type="text" name="" id="celularTomadorSoat">
                     </div>
                     <div class="col-md-5">
                         <label for="">Adjuntar soporte de pago y Docs(TP, factura u otros)</label>
