@@ -63,7 +63,7 @@
 
           $fechaInicialCotizaciones = $_GET["fechaInicialCotizaciones"];
           $fechaFinalCotizaciones = $_GET["fechaFinalCotizaciones"];
-          $respuesta = ControladorCotizaciones::ctrRangoFechasCotizacionesHogar($fechaFinalCotizaciones, $fechaInicialCotizaciones);
+          $respuesta = ControladorCotizaciones::ctrRangoFechasCotizacionesSoat($fechaFinalCotizaciones, $fechaInicialCotizaciones);
         } else {
           $fechaActual = new DateTime();
 
@@ -76,64 +76,38 @@
           $fechaActual->modify('+1 day');
           $fechaActual = $fechaActual->format('Y-m-d');
 
-          $respuesta = ControladorCotizaciones::ctrRangoFechasCotizacionesHogar($fechaActual, $inicioMes);
+          $respuesta = ControladorCotizaciones::ctrRangoFechasCotizacionesSoat($fechaActual, $inicioMes);
         }
 
 
-        $tipoDocumento = [1 => "Cédula de ciudadanía", 2 => "NIT", 3 => "Cédula de extranjería", 4 => "NA"];
-        $tipoVivienda = [1 => "Apartamento", 2 => "Casa", 3 => "Casa en condominio"];
+        // $tipoDocumento = [1 => "Cédula de ciudadanía", 2 => "NIT", 3 => "Cédula de extranjería", 4 => "NA"];
+        // $tipoVivienda = [1 => "Apartamento", 2 => "Casa", 3 => "Casa en condominio"];
         $disabled = '';
         if ($_SESSION['permisos']['idRol'] == 19) $disabled = 'disabled';
 
         foreach ($respuesta as $key => $value) {
 
-          if (isset($value['id_tipo_documento'])) {
-            $documentoId = (int)$value['id_tipo_documento'];
-          } else {
-            $documentoId = 4;
-          }
-
-          if ($value['tipo_asegurado'] == 1) {
-            $tipoAsegurado = 'Solo la estructura';
-          } elseif ($value['tipo_asegurado'] == 2) {
-            $tipoAsegurado = 'Solo los contenidos';
-          } elseif ($value['tipo_asegurado'] == 3) {
-            $tipoAsegurado = 'Estructura y sus contenidos';
-          } else {
-            $tipoAsegurado = 'Deudor';
-          }
-
-           if ($value['zona_construccion'] == 1) {
-            $zonaVivienda = 'Urbana';
-          } elseif ($value['zona_construccion'] == 2) {
-            $zonaVivienda = 'Rural';
-          } elseif ($value['zona_construccion'] == 3) {
-            $zonaVivienda = 'Rural con perímetro urbano';
-          } else {
-            $zonaVivienda = 'No definido';
-          }
-          //   <td class="text-center" style="font-size: 14px">' . date('Y/m/d', strtotime($value['fch_nacimiento'])) . '</td>
           echo '<tr>
                     <td class="text-center" style="font-size: 14px; text-align: center; vertical-align: middle;">
                       <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.5rem">
-                      <span style="margin-top: 5px;">' . $value['id_hogar'] . '</span>
-                      <a href="index.php?ruta=retomar-cotizacion-hogar&idCotizacionHogar=' . $value["id_hogar"] . '" title="Ver detalle"><img src="vistas/img/iconosResources/carpeta.png" style="width: 18px; height: auto;" alt="Mi Icono" width="50" height="50"></a>
+                      <span style="margin-top: 5px;">' . $value['id_cotizacion'] . '</span>
+                      <a href="index.php?ruta=retomar-cotizacion-soat&idCotizacionSoat=' . $value["id_cotizacion"] . '" title="Ver detalle"><img src="vistas/img/iconosResources/carpeta.png" style="width: 18px; height: auto;" alt="Mi Icono" width="50" height="50"></a>
                       </div>
                     </td>
-                    <td class="text-center" style="font-size: 14px; text-align: center;">' . $value['fecha_cotizacion'] . '</td>
-                    <td class="text-center" style="font-size: 14px; text-align: center;">' . $tipoDocumento[(int)$documentoId] . '</td>
-                    <td class="text-center" style="font-size: 14px; text-align: center;">' . $value['cli_num_documento'] . '</td>
-                    <td class="text-center" style="font-size: 14px; text-align: center;">' . $value['cli_nombre'] . ' ' . $value['cli_apellidos'] . '</td>
-                    <td class="text-center" style="font-size: 14px; text-align: center;">' . $tipoVivienda[(int)$value['tipo_vivienda']] . '</td>
-                    <td class="text-center" style="font-size: 14px; text-align: center;">' . $tipoAsegurado . '</td>
-                    <td class="text-center" style="font-size: 14px; text-align: center;">' . $zonaVivienda . '</td>
+                    <td class="text-center" style="font-size: 14px; text-align: center;">' . $value['fecha_creacion'] . '</td>
+                    <td class="text-center" style="font-size: 14px; text-align: center;">' . $value['placa'] . '</td>
+                    <td class="text-center" style="font-size: 14px; text-align: center;">' . $value['clase'] . '</td>
+                    <td class="text-center" style="font-size: 14px; text-align: center;">' . $value['referencia'] .'</td>
+                    <td class="text-center" style="font-size: 14px; text-align: center;">' . $value['correo'] . '</td>
+                    <td class="text-center" style="font-size: 14px; text-align: center;">' . $value['celular'] . '</td>
+                    <td class="text-center" style="font-size: 14px; text-align: center;">' . $value['opcion'] . '</td>
                     <td class="text-center" style="font-size: 14px; text-align: center;">' . $value['nombre_analista'] . '</td>
-                    <td class="text-center" style="font-size: 14px; text-align: center;">' . $value['usu_nombre'] . ' ' . $value['usu_apellido'] . '</td>';
+                    <td class="text-center" style="font-size: 14px; text-align: center;">' . $value['asesor'] . '</td>';
                     
           if ($value["estado"] == 'Pendiente') {
-            echo '<td><button ' . $disabled . ' style="background: #000000; color: white;" class="btn btn-xs btnActivar btnEditarEstadoHogar" idCotizacionHogar="' . $value["id_hogar"] . '" estadoUsuario="Pendiente">Pendiente</button></td>';
+            echo '<td><button ' . $disabled . ' style="background: #000000; color: white;" class="btn btn-xs btnActivar btnEditarEstadoSoat" idCotizacionSoat="' . $value["id_cotizacion"] . '" estadoUsuario="Pendiente">Pendiente</button></td>';
           } else {
-            echo '<td><button ' . $disabled . ' style="background: #88d600; color: white;" class="btn btn-xs btnActivar btnEditarEstadoHogar" idCotizacionHogar="' . $value["id_hogar"] . '" estadoUsuario="Cotizada">Cotizada</button></td>';
+            echo '<td><button ' . $disabled . ' style="background: #88d600; color: white;" class="btn btn-xs btnActivar btnEditarEstadoSoat" idCotizacionSoat="' . $value["id_cotizacion"] . '" estadoUsuario="Cotizada">Cotizada</button></td>';
           }
           echo '</tr>';
         }

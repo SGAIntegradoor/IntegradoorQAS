@@ -278,6 +278,18 @@ class ControladorCotizaciones
 		return $respuesta;
 	}
 
+	static public function ctrRangoFechasCotizacionesSoat($fechaFinalCotizaciones, $fechaInicialCotizaciones)
+	{
+
+		$tabla = "cotizaciones_soat";
+		$tabla2 = "usuarios";
+		$tabla3 = "analistas_freelances";
+
+
+		$respuesta = ModeloCotizaciones::mdlRangoFechasCotizacionesSoat($tabla, $tabla2, $tabla3, $fechaInicialCotizaciones, $fechaFinalCotizaciones);
+		return $respuesta;
+	}
+
 	static public function ctrGetDataLastRegisters($fechaInicialCotizaciones, $fechaFinalCotizaciones, $condicion)
 	{
 		if (isset($_GET["fechaInicialCotizaciones"]) && isset($_GET["fechaFinalCotizaciones"])) {

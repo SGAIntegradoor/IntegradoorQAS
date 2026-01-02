@@ -93,13 +93,13 @@ $(".tablas-hogar").DataTable({
 
 /* Bloque logica editar Estado de cotizacion (Hogar) */
 
-$(".tablas-hogar").on("click", ".btnEditarEstadoHogar", function () {
-  var idCotizacionHogar = $(this).attr("idCotizacionHogar");
-  var estadoUsuarioHogar = $(this).attr("estadoUsuario");
-  if (estadoUsuarioHogar == "Pendiente") {
-    enviarCambioEstado("Cotizada", idCotizacionHogar);
+$(".tablas-hogar").on("click", ".btnEditarEstadoSoat", function () {
+  var idCotizacionSoat = $(this).attr("idCotizacionSoat");
+  var estadoUsuarioSoat = $(this).attr("estadoUsuario");
+  if (estadoUsuarioSoat == "Pendiente") {
+    enviarCambioEstado("Cotizada", idCotizacionSoat);
   } else {
-    enviarCambioEstado("Pendiente", idCotizacionHogar);
+    enviarCambioEstado("Pendiente", idCotizacionSoat);
   }
 });
 
@@ -115,20 +115,20 @@ $("#btnCambiarEstadoCH").on("click", function () {
 
 function enviarCambioEstado(estado, idcotizacion) {
   $.ajax({
-    url: "src/cambiarEstadoHogar.php",
+    url: "src/cambiarEstadoSoat.php",
     method: "POST",
     data: {
       estado: estado,
-      idcotizacionHogar: idcotizacion,
+      idcotizacionSoat: idcotizacion,
     },
     success: function(response) {
       if (estado == "Cotizada") {
-        $(".btnEditarEstadoHogar[idCotizacionHogar=" + idcotizacion + "]").css("background", "#88d600");
+        $(".btnEditarEstadoSoat[idCotizacionSoat=" + idcotizacion + "]").css("background", "#88d600");
       } else {
-        $(".btnEditarEstadoHogar[idCotizacionHogar=" + idcotizacion + "]").css("background", "#000000");
+        $(".btnEditarEstadoSoat[idCotizacionSoat=" + idcotizacion + "]").css("background", "#000000");
       }
-      $(".btnEditarEstadoHogar[idCotizacionHogar=" + idcotizacion + "]").text(estado);
-      $(".btnEditarEstadoHogar[idCotizacionHogar=" + idcotizacion + "]").attr("estadoUsuario",estado);
+      $(".btnEditarEstadoSoat[idCotizacionSoat=" + idcotizacion + "]").text(estado);
+      $(".btnEditarEstadoSoat[idCotizacionSoat=" + idcotizacion + "]").attr("estadoUsuario",estado);
     },
     error: function(xhr, status, error) {
       console.error("Error al actualizar el estado:", error);

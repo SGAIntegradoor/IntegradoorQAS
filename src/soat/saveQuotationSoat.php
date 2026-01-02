@@ -5,10 +5,54 @@ require_once("../../modelos/conexion.php");
 
 header('Content-Type: application/json');
 
+$data = $_POST;
+if ($data['Accion'] == 'Actualizar') {
+    try {
+        $pdo = Conexion::conectar();
+
+        $stmt = $pdo->prepare("
+        UPDATE cotizaciones_soat SET opcion = :opcion,
+            valor_comision = :valor_comision,
+            total_pagar = :total_pagar
+        WHERE `id_cotizacion`=:id_cotizacion;
+    ");
+
+        $stmt->bindParam(":opcion", $data['Opcion'], PDO::PARAM_STR);
+        $stmt->bindParam(":valor_comision", $data['Comision'], PDO::PARAM_STR);
+        $stmt->bindParam(":total_pagar", $data['TotalSoat'], PDO::PARAM_STR);
+        $stmt->bindParam(":id_cotizacion", $data['IdCotizacionSoat'], PDO::PARAM_STR);
+
+        $usuario = $data['IdUsuario'];
+
+        // $stmt->bindParam(":actualizado_por", $usuario, PDO::PARAM_STR);
+
+        if ($stmt->execute()) {
+            echo json_encode([
+                "success" => true,
+                "message" => "Cotización SOAT actualizada correctamente",
+                "lastId" => $data['IdCotizacionSoat']
+            ]);
+        } else {
+            $errorInfo = $stmt->errorInfo();
+            echo json_encode([
+                "success" => false,
+                "message" => "Error en la base de datos",
+                "error" => $errorInfo[2]
+            ]);
+        }
+    } catch (PDOException $e) {
+        echo json_encode([
+            "success" => false,
+            "message" => "Error de conexión",
+            "error" => $e->getMessage()
+        ]);
+    }
+    return;
+}
+
+
 try {
     $pdo = Conexion::conectar();
-
-    $data = $_POST;
 
     $stmt = $pdo->prepare("
         INSERT INTO cotizaciones_soat (
