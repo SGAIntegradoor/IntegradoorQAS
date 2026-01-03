@@ -311,7 +311,7 @@ $(".btnGuardar").on("click", function () {
             window.location.href = "usuarios";
           }
         });
-      } else if (!respuesta.success && respuesta.mensaje.includes("Duplicate entry")) {
+      } else if (!respuesta.success && respuesta.mensaje.split("").includes("Duplicate")) {
         Swal.fire({
           icon: "error",
           title: "Error",
