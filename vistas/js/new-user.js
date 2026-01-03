@@ -299,7 +299,7 @@ $(".btnGuardar").on("click", function () {
       cambios: cambios, // se serializan los cambios detectados. (Ojo aqui, porque es la base clave para detectar cambios en el form, esto sigue en revision)
     }),
     success: function (respuesta) {
-      console.log(respuesta.mensaje.split("").includes("Duplicate"));
+      console.log(respuesta.mensaje.includes("Duplicate"));
       console.log(respuesta.success);
       if (respuesta.success) {
         Swal.fire({
@@ -313,7 +313,7 @@ $(".btnGuardar").on("click", function () {
             window.location.href = "usuarios";
           }
         });
-      } else if (respuesta.mensaje.split("").includes("Duplicate")) {
+      } else if (respuesta.mensaje.includes("Duplicate")) {
         Swal.fire({
           icon: "error",
           title: "Error",
