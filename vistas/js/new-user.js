@@ -311,7 +311,7 @@ $(".btnGuardar").on("click", function () {
             window.location.href = "usuarios";
           }
         });
-      } else if (!respuesta.success && respuesta.mensaje.split("").includes("Duplicate")) {
+      } else if (respuesta.mensaje.split("").includes("Duplicate")) {
         Swal.fire({
           icon: "error",
           title: "Error",
@@ -321,7 +321,7 @@ $(".btnGuardar").on("click", function () {
         Swal.fire({
           icon: "error",
           title: "Error",
-          text: "Hubo un error desconocido al guardar el usuario.",
+          text: "Revisa la información ingresada e intentalo nuevamente.",
         });
       }
     },
