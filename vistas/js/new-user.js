@@ -317,7 +317,7 @@ $(".btnGuardar").on("click", function () {
         Swal.fire({
           icon: "error",
           title: "Error",
-          text: "Hubo un error al guardar el usuario.",
+          text: "El usuario ya se encuentra creado en el sistema, porfavor verifica la información.",
         });
       } else {
         Swal.fire({
