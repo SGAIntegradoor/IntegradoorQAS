@@ -317,6 +317,12 @@ $(".btnGuardar").on("click", function () {
           title: "Error",
           text: "Hubo un error al guardar el usuario.",
         });
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: "Hubo un error desconocido al guardar el usuario.",
+        });
       }
     },
   });
