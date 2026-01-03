@@ -647,7 +647,7 @@ function setState() {
     usu_documento: $("#documento").val(),
     usu_nombre: esJuridiaca
       ? $("#razonSocial").val().split(" ")[0]
-      : $("#nombres_perfil").val(),
+      : $("#nombre_perfil").val(),
     usu_apellido: esJuridiaca
       ? $("#razonSocial").val().split(" ")[1]
       : $("#apellidos_perfil").val(),
