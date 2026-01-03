@@ -299,8 +299,6 @@ $(".btnGuardar").on("click", function () {
       cambios: cambios, // se serializan los cambios detectados. (Ojo aqui, porque es la base clave para detectar cambios en el form, esto sigue en revision)
     }),
     success: function (respuesta) {
-      console.log(respuesta.mensaje.includes("Duplicate"));
-      console.log(respuesta.success);
       if (respuesta.success) {
         Swal.fire({
           icon: "success",
