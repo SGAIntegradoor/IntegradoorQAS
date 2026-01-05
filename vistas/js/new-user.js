@@ -311,11 +311,17 @@ $(".btnGuardar").on("click", function () {
             window.location.href = "usuarios";
           }
         });
+      } else if (respuesta.mensaje.includes("Duplicate")) {
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: "El usuario ya se encuentra creado en el sistema, porfavor verifica la información.",
+        });
       } else {
         Swal.fire({
           icon: "error",
           title: "Error",
-          text: "Hubo un error al guardar el usuario.",
+          text: "Revisa la información ingresada e intentalo nuevamente.",
         });
       }
     },
@@ -647,7 +653,7 @@ function setState() {
     usu_documento: $("#documento").val(),
     usu_nombre: esJuridiaca
       ? $("#razonSocial").val().split(" ")[0]
-      : $("#nombres_perfil").val(),
+      : $("#nombre_perfil").val(),
     usu_apellido: esJuridiaca
       ? $("#razonSocial").val().split(" ")[1]
       : $("#apellidos_perfil").val(),
@@ -1038,6 +1044,7 @@ async function loadUser(id) {
             // console.log("Este es el usuario!", data);
             $("#divUnidadNegocio").hide();
             $("#divCanal").hide();
+            $("#canal").val(info_usuario.usu_canal);
             $("#divUsuarioSGA").show();
             $("#usuarioSGA").val(info_usuario?.id_rol);
             $(".divAsistente").hide();
@@ -1055,6 +1062,7 @@ async function loadUser(id) {
                 .trigger("change");
             }, 500);
           } else if (info_usuario.id_rol == 12) {
+                        console.log("entre por aqui")
             // console.log("Este es el usuario!", data);
             $("#divUnidadNegocio").css("display", "none");
             $("#divUsuarioSGA").show();
@@ -1482,6 +1490,10 @@ function openModalComisiones(id = null) {
   if (
     permisos.id_rol != 22 &&
     permisos.id_rol != 23 &&
+    permisos.id_rol != 10 &&
+    permisos.id_rol != 1 &&
+    permisos.id_rol != 11 &&
+    permisos.id_rol != 12 &&
     permisos.id_usuario != id
   ) {
     Swal.fire({

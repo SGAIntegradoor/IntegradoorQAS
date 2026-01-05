@@ -4,10 +4,20 @@ require_once "config/dbconfig.php";
 $sqlRamos = "SELECT * from ramos";
 $enlace = mysqli_connect("$DB_host", "$DB_user", "$DB_pass", "$DB_name");
 $resultadoRamos = mysqli_query($enlace, $sqlRamos);
-// $ramos = mysqli_fetch_assoc($resultadoRamos);
-$ramos = mysqli_fetch_assoc($resultadoRamos);
+// resultadoRamos ya fue obtenido con mysqli_query
+if (!$resultadoRamos) {
+    die("Error en la consulta: " . mysqli_error($enlace));
+}
 
-echo '<script>console.log(' . json_encode($ramos) . ')</script>';
+// Compatibilidad: si mysqli_fetch_all no existe hacemos un fallback
+if (function_exists('mysqli_fetch_all')) {
+    $ramos = mysqli_fetch_all($resultadoRamos, MYSQLI_ASSOC);
+} else {
+    $ramos = [];
+    while ($row = mysqli_fetch_assoc($resultadoRamos)) {
+        $ramos[] = $row;
+    }
+}
 
 if (isset($_GET["id"])) {
 
@@ -1098,15 +1108,6 @@ if (isset($_GET["id"])) {
                     <input id="todosCheck" type="checkbox" value="Todos" onchange="updateSelectText(event)"> Todos
                   </div>
                   <?php
-
-                  $sqlRamos = "SELECT * from ramos";
-                  $enlace = mysqli_connect("$DB_host", "$DB_user", "$DB_pass", "$DB_name");
-                  $resultadoRamos = mysqli_query($enlace, $sqlRamos);
-                  if (!$resultadoRamos) {
-                    die("Error en la consulta: " . mysqli_error($enlace));
-                  }
-
-                  $ramos = mysqli_fetch_all($resultadoRamos, MYSQLI_ASSOC);
 
                   foreach ($ramos as $ramo) {
                     echo '
