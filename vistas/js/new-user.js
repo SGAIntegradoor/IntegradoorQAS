@@ -1316,7 +1316,6 @@ function getComissions(id = null) {
     data: { id_usuario: id },
     success: function (respuesta) {
       const data = JSON.parse(respuesta);
-      console.log(data);
       if (data.length == 0) {
         $("#comisionesTable tbody").html(
           '<tr><td colspan="7" class="text-center">No hay comisiones configuradas para este usuario</td></tr>'
@@ -1334,6 +1333,7 @@ function getComissions(id = null) {
           valor_comision,
         } = element;
 
+
         const newRow = $("<tr>");
         newRow.append($("<td>").text(JSON.parse(ramo).join(", ")));
         newRow.append($("<td>").text(JSON.parse(unidad_negocio).join(", ")));
@@ -1343,8 +1343,8 @@ function getComissions(id = null) {
         newRow.append($("<td>").text(observaciones));
         newRow.append(
           $("<td>").html(
-            `<button class="btn btn-danger btn-sm" onclick="editarComision(${id_comision})">Editar</button>`
             `<button class="btn btn-danger btn-sm" onclick="eliminarComision(${id_comision})">Eliminar</button>`
+            // `<button class="btn btn-danger btn-sm" onclick="eliminarComision(${id_comision})">Eliminar</button>`
           )
         );
 
@@ -1592,7 +1592,7 @@ function openModalComisiones(id = null) {
 Añadir Comision a tabla de comisiones
 =============================================*/
 
-function addComision() {
+async function addComision() {
   const ramoSelect = selectedOptions;
   const unidadNegocioSelect =
     $("#unidadNegocioSelect").val() == ""
@@ -1628,22 +1628,16 @@ function addComision() {
     newRow.append($("<td>").text(tipoExpedicionSelect));
     newRow.append($("<td>").text(valorComision));
     newRow.append($("<td>").text(obersavaciones));
-    newRow.append(
-      $("<td>").html(
-        '<button class="btn btn-danger btn-sm eliminarComision">Eliminar</button>'
-      )
-    );
-
+    
     let tbody = document.querySelector("#comisionesTable tbody");
-
+    
     // Si solo hay una fila y tiene una única celda, se asume que es un mensaje de "sin datos"
     if (tbody.rows.length === 1 && tbody.rows[0].cells.length === 1) {
       tbody.deleteRow(0); // Borra la fila vacía
     }
 
     // Agregar la nueva fila a la tabla y guardar la comisión
-    $("#comisionesTable tbody").append(newRow);
-    saveComission(
+    const saveComissionResult = await saveComission(
       ramoSelect,
       [unidadNegocioSelect],
       [tipoNegocioSelect],
@@ -1651,6 +1645,12 @@ function addComision() {
       valorComision,
       obersavaciones
     );
+    newRow.append(
+      $("<td>").html(
+        `<button class="btn btn-danger btn-sm eliminarComision" onclick="eliminarComision(${saveComissionResult})">Eliminar</button>`
+      )
+    );
+    $("#comisionesTable tbody").append(newRow);
 
     // Limpiar los campos del modal
     selectedOptions.length = 0; // Limpiar el array de opciones seleccionadas
@@ -1697,7 +1697,7 @@ function checkFieldsComision(
   return true; // Todos los campos están completos
 }
 
-function saveComission(
+async function saveComission(
   ramo,
   unidadNegocio,
   tipoNegocio,
@@ -1719,8 +1719,8 @@ function saveComission(
       id_super_usuario: permisos.id_usuario,
       observaciones: observaciones,
     },
-    success: function () {
-      console.log("Se guardo la comision para el usuario");
+    success: function (response) {
+      return response.id_inserted;
     },
   });
 }

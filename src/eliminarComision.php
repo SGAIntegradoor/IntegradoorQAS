@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 session_start();
 
@@ -6,9 +6,9 @@ session_start();
 require_once("../modelos/conexion.php"); // Contiene función que conecta a la base de datos
 
 // Mostrar errores en desarrollo
-// ini_set('display_errors', 1);
-// ini_set('display_startup_errors', 1);
-// error_reporting(E_ALL);
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 
 if ($_SERVER['CONTENT_TYPE'] === 'application/json') {
     $data = json_decode(file_get_contents("php://input"), true);
@@ -16,11 +16,13 @@ if ($_SERVER['CONTENT_TYPE'] === 'application/json') {
     $data = $_POST;
 }
 
+// var_dump($data);
+
 try {
     // Conectar con UTF-8 correctamente
     $pdo = Conexion::conectar();
     $pdo->exec("SET NAMES 'utf8mb4'");
-    
+
     // Convertir arrays a JSON con codificación correcta
 
     $id_comision = $data['id_comision'] ?? null;
@@ -30,19 +32,22 @@ try {
     }
 
     // Delete con PDO correctamente estructurado
-    $stmt = $pdo->prepare("
-        DELETE FROM comisiones_usuarios 
-        WHERE id_comision = :id_comision
-    "); 
+    $stmt = $pdo->prepare("DELETE FROM comisiones_usuarios 
+    WHERE id_comision = :id_comision");
 
-    // Asociar valores a la consulta
-    $stmt->bindParam(':id_comision', $id_comision, PDO::PARAM_STR);
+    $stmt->bindParam(":id_comision", $id_comision, PDO::PARAM_INT);
+    $stmt->execute();
 
-    // Ejecutar consulta
-    if ($stmt->execute()) {
-        echo json_encode(["status" => "success", "message" => "Se ha eliminado correctamente la comision."], JSON_UNESCAPED_UNICODE);
+    if ($stmt->rowCount() > 0) {
+        echo json_encode([
+            "status" => "success",
+            "message" => "Se ha eliminado correctamente la comisión."
+        ], JSON_UNESCAPED_UNICODE);
     } else {
-        echo json_encode(["status" => "error", "message" => "Error al eliminar la comision."], JSON_UNESCAPED_UNICODE);
+        echo json_encode([
+            "status" => "error",
+            "message" => "No se encontró la comisión para eliminar."
+        ], JSON_UNESCAPED_UNICODE);
     }
 } catch (PDOException $e) {
     echo json_encode(["status" => "error", "message" => "Error de conexión: " . $e->getMessage()], JSON_UNESCAPED_UNICODE);
