@@ -75,7 +75,7 @@ if (isset($_POST['id']) && ($_SESSION["rol"] == 12 || $_SESSION["rol"] == 11 || 
         LEFT JOIN directores_comerciales d ON d.documento_director = icu.director_comercial
         WHERE icu.id_usuario = $id";
 
-        var_dump($queryInfoCanal);
+        // var_dump($queryInfoCanal);
 
         $ejecucion2 = mysqli_query($enlace, $queryInfoCanal);
         $fila2 = ($ejecucion2) ? $ejecucion2->fetch_assoc() : null;
