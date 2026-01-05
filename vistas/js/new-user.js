@@ -1146,6 +1146,7 @@ async function loadUser(id) {
             );
 
             $("#origen").val(info_usuario_canal?.origen ?? "");
+            $("#divRecomendador").show();
             $("#nombreRecomendador").val(
               info_usuario_canal?.nombre_recomendador ?? ""
             );
