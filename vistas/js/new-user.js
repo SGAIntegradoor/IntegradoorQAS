@@ -174,17 +174,6 @@ function detectarCambios(dataOriginal, dataActual) {
       const valorOriginal = dataOriginal[seccion][campo];
       const valorActual = dataActual[seccion][campo];
 
-      // console.log(
-      //   "Seccion Valor Original",
-      //   seccion,
-      //   "Valor original",
-      //   valorOriginal,
-      //   "Seccion Valor Actual",
-      //   seccion,
-      //   "Valor Actual",
-      //   valorActual
-      // );
-
       if (typeof valorOriginal === "object" && valorOriginal !== null) {
         // Comparar objetos internos (como infoAseguradoras.detalle)
 
@@ -496,7 +485,9 @@ function consultarCiudad(param = "") {
     success: function (data) {
       // si el usuario cambió de departamento desde que se hizo la petición, ignoramos la respuesta
       if ($("#departamento").val() !== requestedDepto) {
-        console.warn("Respuesta de ciudades descartada porque el departamento cambió.");
+        console.warn(
+          "Respuesta de ciudades descartada porque el departamento cambió."
+        );
         return;
       }
 
@@ -523,7 +514,6 @@ function consultarCiudad(param = "") {
 
           // reemplazamos el html completo (evita duplicados)
           $("#ciudad").html(ciudadesVeh);
-
         } else {
           console.error("El campo data no es un array:", arrCitys);
         }
@@ -1062,7 +1052,6 @@ async function loadUser(id) {
                 .trigger("change");
             }, 500);
           } else if (info_usuario.id_rol == 12) {
-                        console.log("entre por aqui")
             // console.log("Este es el usuario!", data);
             $("#divUnidadNegocio").css("display", "none");
             $("#divUsuarioSGA").show();
@@ -1081,7 +1070,8 @@ async function loadUser(id) {
             // $("#divUnidadNegocio").show();
             $("#divCanal").show();
             $("#canal").val(
-              (info_usuario.usu_canal == null || info_usuario.usu_canal == "") &&
+              (info_usuario.usu_canal == null ||
+                info_usuario.usu_canal == "") &&
                 info_usuario.id_rol == "19"
                 ? "1"
                 : info_usuario.usu_canal
@@ -1203,13 +1193,15 @@ async function loadUser(id) {
 
           let tipoDoc = info_usuario.tipos_documentos_id;
           let tipoPersona = tipoDoc == "NIT" ? "Juridica" : "Natural";
-          $("#tipoDocumento").val(
-            tipoDoc == "CC" ? "CC" : tipoDoc == "CE" ? "CE" : tipoDoc
-          ).trigger("change");
+          $("#tipoDocumento")
+            .val(tipoDoc == "CC" ? "CC" : tipoDoc == "CE" ? "CE" : tipoDoc)
+            .trigger("change");
 
           if (tipoPersona == "Natural") {
             $("#tipoDePersona").val(1).trigger("change");
-            $("#tipoDocumento").val(info_usuario.tipos_documentos_id).trigger("change");
+            $("#tipoDocumento")
+              .val(info_usuario.tipos_documentos_id)
+              .trigger("change");
             $("#documento").val(info_usuario.usu_documento);
             $("#nombre_perfil").val(info_usuario.usu_nombre);
             $("#apellidos_perfil").val(info_usuario.usu_apellido);
@@ -1242,7 +1234,9 @@ async function loadUser(id) {
             // Si no hay ciudad del usuario, limpiamos departamento y ciudad
             $("#departamento").val("").trigger("change");
             // Limpiamos el select de ciudad (evita duplicados)
-            $("#ciudad").html('<option value="">Seleccionar Ciudad</option>').val("");
+            $("#ciudad")
+              .html('<option value="">Seleccionar Ciudad</option>')
+              .val("");
           } else {
             // tomamos los dos primeros caracteres del código de ciudad
             let depto = String(info_usuario.ciudades_id).substring(0, 2);
@@ -1278,19 +1272,136 @@ async function loadUser(id) {
   });
 }
 
+async function editarComision(id) {
+  if (!confirm("¿Estás seguro de que deseas eliminar esta comisión?")) {
+    return;
+  }
+
+  let nuevo_valor_comision = $("#valor_comision_edit").val();
+  let nuevas_observaciones = $("#observaciones_edit").val();
+
+  $.ajax({
+    url: "src/editComision.php",
+    method: "POST",
+    data: {
+      id_comision: id,
+      valor_comision: nuevo_valor_comision,
+      observaciones: nuevas_observaciones,
+    },
+    success: function (respuesta) {
+      alert("Comisión modificada correctamente.");
+      getComissions(id_usuario_edit); // Recargar la lista de comisiones
+    },
+    error: function (xhr, status, error) {
+      alert("Error al modificar la comisión.");
+    },
+  });
+}
+
+function openModalEditComision(id) {
+  $.fn.modal.Constructor.prototype._enforceFocus = function () {};
+  $("#divLoaderFS").show();
+  $.ajax({
+    url: "src/getComisionById.php",
+    method: "POST",
+    data: { id_comision: id },
+    success: function (respuesta) {
+      $("#divLoaderFS").hide();
+      const data = JSON.parse(respuesta);
+      const { valor_comision, observaciones } = data[0];
+      $(document).off("focusin.ui-dialog");
+      let inputValor, inputObs;
+      Swal.fire({
+        title: "Parametrización de Comisiones",
+        html: `<div class="form-group text-left"></div>
+            <label for="valor_comision_edit">Valor Comisión:</label>
+            <input type="text" class="form-control" id="valor_comision_edit" value="${valor_comision}">
+          <div class="form-group text-left mt-3"></div>
+            <label for="observaciones_edit">Observaciones:</label>
+            <textarea class="form-control" id="observaciones_edit" rows="3">${observaciones}</textarea>
+          `,
+        showCancelButton: true,
+        confirmButtonText: "Guardar Cambios",
+        cancelButtonText: "Cerrar",
+        didOpen: () => {
+          inputValor = Swal.getPopup().querySelector("#valor_comision_edit");
+          inputObs = Swal.getPopup().querySelector("#observaciones_edit");
+
+          inputValor.value = valor_comision;
+          inputObs.value = observaciones;
+
+          inputValor.focus();
+        },
+        preConfirm: () => {
+          return {
+            nuevo_valor_comision: inputValor.value,
+            nuevas_observaciones: inputObs.value,
+          };
+        },
+      }).then((result) => {
+        if (result.isConfirmed) {
+          const { nuevo_valor_comision, nuevas_observaciones } = result.value;
+          $("#divLoaderFS").show();
+          $.ajax({
+            url: "src/editComission.php",
+            method: "POST",
+            data: {
+              id_comision: id,
+              valor_comision: nuevo_valor_comision,
+              observaciones: nuevas_observaciones,
+            },
+            success: function (respuesta) {
+              $("#comisionesTableBody").html("");
+              $("#divLoaderFS").hide();
+              Swal.fire(
+                "Éxito",
+                "Comisión modificada correctamente.",
+                "success"
+              );
+              getComissions(id_usuario_edit); // Recargar la lista de comisiones
+            },
+          });
+        }
+      });
+    },
+  });
+}
+
+async function eliminarComision(id) {
+  if (!confirm("¿Estás seguro de que deseas eliminar esta comisión?")) {
+    return;
+  }
+  $("#divLoaderFS").show();
+  $.ajax({
+    url: "src/eliminarComision.php",
+    method: "POST",
+    data: { id_comision: id },
+    success: function (respuesta) {
+      alert("Comisión eliminada correctamente.");
+      $("#comisionesTableBody").html("");
+      $("#divLoaderFS").hide();
+      getComissions(id_usuario_edit); // Recargar la lista de comisiones
+    },
+    error: function (xhr, status, error) {
+      alert("Error al eliminar la comisión.");
+      $("#divLoaderFS").hide();
+    },
+  });
+}
 
 /*=============================================
 Cargas Comentarios Usuario
 =============================================*/
 
 function getComissions(id = null) {
+  $("#divLoaderFS").show();
+  $("#comisionesTableBody").html(""); // Limpiar la tabla antes de cargar nuevos datos
   $.ajax({
     url: "src/getComissions.php",
     method: "POST",
     data: { id_usuario: id },
     success: function (respuesta) {
       const data = JSON.parse(respuesta);
-      console.log(data);
       if (data.length == 0) {
         $("#comisionesTable tbody").html(
           '<tr><td colspan="7" class="text-center">No hay comisiones configuradas para este usuario</td></tr>'
@@ -1317,7 +1428,9 @@ function getComissions(id = null) {
         newRow.append($("<td>").text(observaciones));
         newRow.append(
           $("<td>").html(
-            `<button class="btn btn-danger btn-sm" onclick="eliminarComision(${id_comision})">Eliminar</button>`
+            `<button class="btn btn-danger btn-sm" onclick="eliminarComision(${id_comision})">Eliminar</button>
+            <button class="btn btn-secondary btn-sm" onclick="openModalEditComision(${id_comision})">Editar</button>`
+            // `<button class="btn btn-danger btn-sm" onclick="eliminarComision(${id_comision})">Eliminar</button>`
           )
         );
 
@@ -1325,6 +1438,9 @@ function getComissions(id = null) {
       });
 
       // $("#comisionesTableBody").html(respuesta);
+    },
+    complete: function () {
+      $("#divLoaderFS").hide();
     },
   });
 }
@@ -1543,10 +1659,6 @@ function openModalComisiones(id = null) {
         "id",
         "btnGuardarComision"
       );
-      $(".ui-dialog-buttonpane button:contains('Guardar')").attr(
-        "class",
-        "btnGuardarComision"
-      );
 
       getComissions(id);
     },
@@ -1565,7 +1677,7 @@ function openModalComisiones(id = null) {
 Añadir Comision a tabla de comisiones
 =============================================*/
 
-function addComision() {
+async function addComision() {
   const ramoSelect = selectedOptions;
   const unidadNegocioSelect =
     $("#unidadNegocioSelect").val() == ""
@@ -1601,11 +1713,6 @@ function addComision() {
     newRow.append($("<td>").text(tipoExpedicionSelect));
     newRow.append($("<td>").text(valorComision));
     newRow.append($("<td>").text(obersavaciones));
-    newRow.append(
-      $("<td>").html(
-        '<button class="btn btn-danger btn-sm eliminarComision">Eliminar</button>'
-      )
-    );
 
     let tbody = document.querySelector("#comisionesTable tbody");
 
@@ -1615,8 +1722,7 @@ function addComision() {
     }
 
     // Agregar la nueva fila a la tabla y guardar la comisión
-    $("#comisionesTable tbody").append(newRow);
-    saveComission(
+    const saveComissionResult = await saveComission(
       ramoSelect,
       [unidadNegocioSelect],
       [tipoNegocioSelect],
@@ -1624,6 +1730,15 @@ function addComision() {
       valorComision,
       obersavaciones
     );
+
+    newRow.append(
+      $("<td>").html(
+        `<button class="btn btn-danger btn-sm eliminarComision" onclick="eliminarComision(${saveComissionResult})">Eliminar</button>
+         <button class="btn btn-secondary btn-sm eliminarComision" onclick="openModalEditComision(${saveComissionResult})">Editar</button>
+        `
+      )
+    );
+    $("#comisionesTable tbody").append(newRow);
 
     // Limpiar los campos del modal
     selectedOptions.length = 0; // Limpiar el array de opciones seleccionadas
@@ -1678,23 +1793,28 @@ function saveComission(
   valorComision,
   observaciones
 ) {
-  $.ajax({
-    url: "src/addComission.php",
-    method: "POST",
-    dataType: "json",
-    data: {
-      ramo: ramo,
-      unidadNegocio: unidadNegocio,
-      tipoNegocio: tipoNegocio,
-      tipoExpedicion: tipoExpedicion,
-      valorComision: valorComision,
-      id_usuario: id_usuario_edit,
-      id_super_usuario: permisos.id_usuario,
-      observaciones: observaciones,
-    },
-    success: function () {
-      console.log("Se guardo la comision para el usuario");
-    },
+  return new Promise((resolve, reject) => {
+    $.ajax({
+      url: "src/addComission.php",
+      method: "POST",
+      dataType: "json",
+      data: {
+        ramo: ramo,
+        unidadNegocio: unidadNegocio,
+        tipoNegocio: tipoNegocio,
+        tipoExpedicion: tipoExpedicion,
+        valorComision: valorComision,
+        id_usuario: id_usuario_edit,
+        id_super_usuario: permisos.id_usuario,
+        observaciones: observaciones,
+      },
+      success: function (response) {
+        resolve(response.id_inserted);
+      },
+      error: function (err) {
+        reject(err);
+      },
+    });
   });
 }
 
