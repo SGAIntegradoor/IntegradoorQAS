@@ -67,6 +67,22 @@ class ControladorCotizaciones
 	}
 
 	/*=============================================
+	MOSTRAR COTIZACIONES "OFERTAS SOAT"
+	=============================================*/
+
+	static public function ctrShowQuoteSoat($id)
+	{
+		session_start();
+		$tabla = "cotizaciones_soat";
+		$tabla2 = "clientes";
+		$field = "id_cotizacion";
+
+		$respuesta = ModeloCotizaciones::mdlShowQuoteSoat($tabla, $tabla2, $field, $id);
+
+		return $respuesta;
+	}
+
+	/*=============================================
 	MOSTRAR COTIZACIONES "OFERTAS ASSISTCARD"
 	=============================================*/
 

@@ -78,7 +78,7 @@
                         <div class="col-lg-12" id="headerVehiculo">
                             <div class="row row-veh" style="margin-bottom: 3rem;">
                                 <div class="col-xs-12 col-sm-6 col-md-3">
-                                    <label for="">DATOS DEL VEHICULO</label>
+                                    <label for="">Datos del vehiculo</label>
                                 </div>
                                 <div class="col-xs-12 col-sm-6 col-md-3">
                                 </div>
@@ -216,7 +216,7 @@
 
                             <div class="clearfix">
                                 <span class="pull-left"><strong>Total a pagar:</strong></span>
-                                <span id="totalPagarSoat" class="pull-right total">$ 587.700</span>
+                                <span id="totalPagarSoat" class="pull-right total">$ -</span>
                             </div>
                         </div>
                     </div>
@@ -260,9 +260,26 @@
                         <label for="">Celular tomador SOAT</label>
                         <input class="form-control" type="text" name="" id="celularTomadorSoat">
                     </div>
-                    <div class="col-md-5">
-                        <label for="">Adjuntar soporte de pago y Docs(TP, factura u otros)</label>
-                        <input class="form-control" type="file" name="" id="">
+                    <div class="col-md-5" style="display: flex; flex-direction: column;">
+                        <label>Adjuntar soporte de pago y Docs</label>
+
+                        <button type="button" id="btnUpload" class="btn btn-outline-primary w-100">
+                            Añadir archivos
+                        </button>
+
+                        <input
+                            type="file"
+                            id="fileInput"
+                            hidden
+                            accept=".pdf,.jpg,.png,.doc,.docx"
+                            style="display: none;"
+                        >
+
+                        <small class="text-muted d-block mt-1">
+                            Máximo 3 archivos (1 MB cada uno)
+                        </small>
+
+                        <div id="filePreview" class="mt-2"></div>
                     </div>
                     <div class="col-xs-12 col-sm-6 col-md-2 form-group" id="contenBtnEnviarSolicitud" style="margin-top: 15px;">
                         <button type="button" class="btn btn-primary btn-block" id="btnEnviarSolicitud" style="margin-top: 15px;">Enviar</button>
@@ -277,7 +294,7 @@
 </section>
 
 <script src="vistas/modulos/soat/js/cotizar_soat.js?v=<?php echo (rand()); ?>"></script>
-<!-- <script src="vistas/js/functionsViews.js?v=<?php echo (rand()); ?>"></script> -->
+<!-- <script src="vistas/modulos/soat/js/retoma_soat.js?v=<?php echo (rand()); ?>"></script> -->
 
 <?php
 $eliminarCotizacion = new ControladorCotizaciones();

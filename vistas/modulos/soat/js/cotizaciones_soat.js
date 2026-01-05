@@ -1,29 +1,16 @@
-$(".tablas-hogar").on("click", ".btnEditarCotizacionHogar", function () {
-  var idCotizacionHogar = $(this).attr("idCotizacionHogar");
-  window.location =
-    "index.php?ruta=retomar-cotizacion-hogar&idCotizacionHogar=" +
-    idCotizacionHogar;
-});
+// $(".tablas-hogar").on("click", ".btnEditarCotizacionHogar", function () {
+//   var idCotizacionHogar = $(this).attr("idCotizacionHogar");
+//   window.location =
+//     "index.php?ruta=retomar-cotizacion-hogar&idCotizacionHogar=" +
+//     idCotizacionHogar;
+// });
+
 
 let getParams = (param) => {
   var urlPage = new URL(window.location.href); // Instancia la URL Actual
   var options = urlPage.searchParams.getAll(param); //Buscar todos los parametros
   return options;
 };
-
-function changeTitlePage() {
-  var newTittle = "DATOS DEL ASEGURADO";
-  $("#lblCotAseg").text(newTittle);
-}
-if (getParams("idCotizacionHogar").length > 0) {
-  editarCotizacionHogar(getParams("idCotizacionHogar")[0]);
-  $("#btnCotizarSBS, #btnDataHogarSiguiente, #btnCotizar").hide();
-  changeTitlePage();
-  $("#formValores").show();
-  $("#lblCotAseg").html("DATOS DEL ASEGURADO");
-  openDataFormHogar();
-  openValAllianz();
-}
 
 // else if (getParams("fechaInicialCotizaciones").length > 0) {
 //   menosCotizaciones();
@@ -169,29 +156,13 @@ $(".daterangepicker.opensleft").on("click", ".liCotizaciones", function () {
     localStorage.setItem("capturarRango", "Hoy");
 
     window.location =
-      "index.php?ruta=hogar&" +
+      "index.php?ruta=soat&" +
       "fechaInicialCotizaciones=" +
       fechaInicialCotizaciones1 +
       "&fechaFinalCotizaciones=" +
       fechaFinalCotizaciones1;
   }
 });
-
-// Carga la fecha de Nacimiento
-$("#dianacimientoResumen, #mesnacimientoResumen, #anionacimientoResumen").each(
-  function () {
-    $(this).select2({
-      theme: "bootstrap fecnacimiento",
-      language: "es",
-      width: "100%",
-      // Otras configuraciones específicas si las necesitas
-    });
-    $(this).on("select2:open", function (e) {
-      var $select2 = $(this).data("select2");
-      $select2.dropdown.$dropdownContainer.addClass("select2-container--above");
-    });
-  }
-);
 
 $("#menosCotizacion, #masCotizacion").click(function () {
   toggleContainerData();

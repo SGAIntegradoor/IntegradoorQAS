@@ -1,6 +1,6 @@
+var idCotizacionSoat = 0;
 $(document).ready(function () {
   var valorSoatGlobal = 0;
-  var idCotizacionSoat = 0;
   const urlCompleta = window.location.href;
 
   const partes = urlCompleta.split("/");
@@ -279,14 +279,12 @@ function consulPlaca(query = "1") {
           $("#loaderPlaca").hide();
           $("#loaderPlaca2").html("");
           menosAseg();
-          document.getElementById("contenBtnConsultarPlaca").style.display =
-            "none";
+          document.getElementById("contenBtnConsultarPlaca").style.display = "none";
           $("#contenSuperiorPlaca").css("display", "block");
           $("#txtConocesLaPlacaSi").prop("disabled", true);
           $("#txtConocesLaPlacaNo").prop("disabled", true);
           $("#placaVeh").prop("disabled", true);
-          $("#loaderPlacaTwo").html(
-            '<img src="vistas/img/plantilla/loader-loading.gif" width="34" height="34"><strong> Cotizando SOAT...</strong>'
+          $("#loaderPlacaTwo").html('<img src="vistas/img/plantilla/loader-loading.gif" width="34" height="34"><strong> Cotizando SOAT...</strong>'
           );
 
           $.ajax({
@@ -310,27 +308,35 @@ function consulPlaca(query = "1") {
 
               // Peticion para guardar la cotización (formato Form Data)
               $.ajax({
-                  type: "POST",
-                  url: "src/soat/saveQuotationSoat.php",
-                  data: {
-                      Accion: "Guardar",
-                      Placa: valnumplaca,
-                      Clase: codigoClase,
-                      Referencia: codigoMarca + " " + codigoLinea,
-                      NumeroDocumento: nroDocPropietario,
-                      Prima: data.CalcularPolizaResult.ValorPrima,
-                      Contribucion: data.CalcularPolizaResult.ValorContribucion,
-                      Runt: data.CalcularPolizaResult.ValorTasaRUNT,
-                      totalSoat: data.CalcularPolizaResult.ValorTotalPagar,
-                      IdUsuario: permisos.id_usuario,
-                  },
-                  success: function (data) {
-                      console.log("Guardado correctamente", data);
-                      idCotizacionSoat = data.lastId;
-                  },
-                  error: function (error) {
-                      console.log("Error al guardar cotizacion SOAT: ", error);
-                  }
+                type: "POST",
+                url: "src/soat/saveQuotationSoat.php",
+                data: {
+                  Accion: "Guardar",
+                  Placa: valnumplaca,
+                  Clase: codigoClase,
+                  Modelo: modeloVehiculo,
+                  Marca: codigoMarca,
+                  Linea: codigoLinea,
+                  Cilindraje: cilindraje,
+                  Pasajeros: pasajeros,
+                  Motor: motor,
+                  Chasis: chasis,
+                  Servicio: servicio,
+                  Referencia: codigoMarca + " " + codigoLinea,
+                  NumeroDocumento: nroDocPropietario,
+                  Prima: data.CalcularPolizaResult.ValorPrima,
+                  Contribucion: data.CalcularPolizaResult.ValorContribucion,
+                  Runt: data.CalcularPolizaResult.ValorTasaRUNT,
+                  totalSoat: data.CalcularPolizaResult.ValorTotalPagar,
+                  IdUsuario: permisos.id_usuario,
+                },
+                success: function (data) {
+                  console.log("Guardado correctamente", data);
+                  idCotizacionSoat = data.lastId;
+                },
+                error: function (error) {
+                  console.log("Error al guardar cotizacion SOAT: ", error);
+                }
               });
 
               let valorAPagarSoat = Number(
@@ -396,6 +402,7 @@ $("#btnContinuarCoti").click(function () {
     data: {
       Accion: "Actualizar-valores-soat",
       IdCotizacionSoat: idCotizacionSoat,
+      Estado: "Modalidad",
       Opcion: $("#radioConComision").is(":checked") ? "Con comision" : "Sin comision",
       Comision: $("#radioConComision").is(":checked") ? 45000 : 20000,
       TotalSoat: $("#totalPagarSoat").text().replace(/\./g, "").replace("$ ", ""),
@@ -444,6 +451,7 @@ $("#btnEnviarSolicitud").click(function () {
     data: {
       Accion: "Actualizar-datos-soat",
       IdCotizacionSoat: idCotizacionSoat,
+      Estado: "Enviada",
       Correo: $("#correoTomadorSoat").val(),
       Celular: $("#celularTomadorSoat").val(),
     },
@@ -458,17 +466,27 @@ $("#btnEnviarSolicitud").click(function () {
 
   $.ajax({
     type: "POST",
-    url: "https://grupoasistencia.com/WS-laravel-email-shetts/api/emails/enviar-correo",
+    url: "https://grupoasistencia.com/WS-laravel-email-shetts/api/emails/enviar-correo-soat",
     // url: "http://localhost/WS-laravel/api/emails/enviar-correo",
     dataType: "text",
-    data: rawCompiled.allianz,
+    data: {
+      idCotizacion: idCotizacionSoat,
+      placa: $("#placaVeh").val(),
+      clase: $("#txtClaseVeh").val(),
+      referencia: $("#txtMarcaVeh").val() + " " + $("#txtLinea").val(),
+      prima: $("#valorSoat").text().replace(/\./g, "").replace("$ ", ""),
+      totalPagar: $("#totalPagarSoat").text().replace(/\./g, "").replace("$ ", ""),
+      correoTomador: $("#correoTomadorSoat").val(),
+      celularTomador: $("#celularTomadorSoat").val(),
+      opcionPago: $("#radioConComision").is(":checked") ? "Con comision" : "Sin comision",
+    },
     cache: false,
     success: function (data) {
       console.log("Correo Enviado");
       swal
         .fire({
           icon: "success",
-          title: "Solicitud de cotización #" + lastId + " enviada exitosamente",
+          title: "Solicitud de cotización #" + idCotizacionSoat + " enviada exitosamente",
           showConfirmButton: true,
           confirmButtonText: "Ok",
           allowOutsideClick: false,
@@ -476,7 +494,7 @@ $("#btnEnviarSolicitud").click(function () {
         })
         .then((result) => {
           if (result.isConfirmed) {
-            window.location.href = "hogar2";
+            window.location.href = "soat";
           }
         });
     },
@@ -486,3 +504,99 @@ $("#btnEnviarSolicitud").click(function () {
     },
   });
 });
+
+  const MAX_FILES = 3;
+  const MAX_SIZE = 1 * 1024 * 1024;
+
+  const btn = document.getElementById("btnUpload");
+  const input = document.getElementById("fileInput");
+  const preview = document.getElementById("filePreview");
+
+  var files = [];
+
+  btn.onclick = () => {
+    if (files.length < MAX_FILES) {
+      input.click();
+    }
+  };
+
+  input.onchange = () => {
+    const selected = Array.from(input.files);
+
+    for (const file of selected) {
+
+      if (files.length >= MAX_FILES) {
+        alert("Máximo 3 archivos.");
+        break;
+      }
+
+      if (file.size > MAX_SIZE) {
+        alert(`"${file.name}" supera 1 MB`);
+        continue;
+      }
+
+      const exists = files.some(
+        f => f.name === file.name && f.size === file.size
+      );
+
+      if (!exists) {
+        files.push(file);
+      }
+    }
+
+    render();
+    input.value = "";
+  };
+
+  function render() {
+    preview.innerHTML = "";
+
+    files.forEach((file, index) => {
+      const div = document.createElement("div");
+      div.className = "file-item";
+
+      div.innerHTML = `
+            <span>${idCotizacionSoat}-${file.name}</span>
+            <span class="remove-btn" onclick="removeFile(${index})">✕</span>
+        `;
+
+      preview.appendChild(div);
+    });
+
+    // bloquear cuando llegue al límite
+    btn.disabled = files.length >= MAX_FILES;
+  }
+
+  function removeFile(index) {
+    files.splice(index, 1);
+    render();
+  }
+
+function enviarArchivos() {
+    const formData = new FormData();
+
+    formData.append("cotizacion", idCotizacionSoat);
+
+    files.forEach((file, index) => {
+        // 👉 aquí SÍ se puede cambiar el nombre
+        const nuevoNombre = `${idCotizacionSoat}-${index}-${file.name}`;
+        formData.append("archivos[]", file, nuevoNombre);
+    });
+
+    fetch("vistas/modulos/soat/uploadSoat.php", {
+        method: "POST",
+        body: formData
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.ok) {
+            // alert("Archivos subidos correctamente");
+            console.log("Archivos subidos correctamente");
+        } else {
+            // alert(data.error);
+            console.log(data.error);
+        }
+    })
+    .catch(() => alert("Error al subir archivos"));
+}
+

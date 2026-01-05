@@ -243,6 +243,27 @@ class ModeloCotizaciones
 		return null; // En caso de que no se cumplan las condiciones, devuelve null
 	}
 
+	static public function mdlShowQuoteSoat($tabla, $tabla2, $field, $id)
+	{
+		// Inicializa la variable $stmt
+		$stmt = null;
+		if ($id != null) {
+
+			$stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla c WHERE $field = :id");
+			$stmt->bindParam(":id", $id, PDO::PARAM_STR);
+
+			if ($stmt->execute()) {
+				$resultado = $stmt->fetch(PDO::FETCH_ASSOC);
+				$stmt->closeCursor(); // Correctamente cerrando el cursor
+				return $resultado;
+			} else {
+				return null; // Si la consulta falla, devuelve null
+			}
+		}
+
+		return null; // En caso de que no se cumplan las condiciones, devuelve null
+	}
+
 	static public function responseFormatted($responses)
 	{
 		// Inicializar arreglos para almacenar información procesada

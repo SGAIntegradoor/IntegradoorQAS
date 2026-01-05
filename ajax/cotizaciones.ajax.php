@@ -86,6 +86,19 @@ class AjaxCotizaciones {
 
 	}
 
+	public $idCotizacionSoat;
+
+	public function ajaxRetriveQuotationSoat(){
+
+
+		$id = $this->idCotizacionSoat;
+
+		$respuesta = ControladorCotizaciones::ctrShowQuoteSoat($id);
+
+		echo json_encode($respuesta);
+
+	}
+
 	public $idCotizacionHogar;
 
 	public function ajaxRetriveQuotationHogar(){
@@ -189,6 +202,17 @@ if(isset($_POST["idCotizacionAssistCard"])){
 	$retriveQuoteAssistCard = new AjaxCotizaciones();
 	$retriveQuoteAssistCard -> idCotizacionAssistCard = $_POST["idCotizacionAssistCard"];
 	$retriveQuoteAssistCard -> ajaxRetriveQuotationAssistCard();
+}
+
+// /*=============================================
+// RETOMAR COTIZACIONES SOAT POR ID
+// =============================================*/
+
+if(isset($_POST["idCotizacionSoat"])){
+
+	$retriveQuoteSoat = new AjaxCotizaciones();
+	$retriveQuoteSoat -> idCotizacionSoat = $_POST["idCotizacionSoat"];
+	$retriveQuoteSoat -> ajaxRetriveQuotationSoat();
 }
 
 // /*=============================================
