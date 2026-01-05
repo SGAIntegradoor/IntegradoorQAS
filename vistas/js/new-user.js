@@ -174,17 +174,6 @@ function detectarCambios(dataOriginal, dataActual) {
       const valorOriginal = dataOriginal[seccion][campo];
       const valorActual = dataActual[seccion][campo];
 
-      // console.log(
-      //   "Seccion Valor Original",
-      //   seccion,
-      //   "Valor original",
-      //   valorOriginal,
-      //   "Seccion Valor Actual",
-      //   seccion,
-      //   "Valor Actual",
-      //   valorActual
-      // );
-
       if (typeof valorOriginal === "object" && valorOriginal !== null) {
         // Comparar objetos internos (como infoAseguradoras.detalle)
 
@@ -1278,6 +1267,43 @@ async function loadUser(id) {
   });
 }
 
+async function editarComision(id) {
+  if (!confirm("¿Estás seguro de que deseas eliminar esta comisión?")) {
+    return;
+  }
+
+  $.ajax({
+    url: "src/eliminarComision.php",
+    method: "POST",
+    data: { id_comision: id },
+    success: function (respuesta) {
+      alert("Comisión eliminada correctamente.");
+      getComissions(id_usuario_edit); // Recargar la lista de comisiones
+    },
+    error: function (xhr, status, error) {
+      alert("Error al eliminar la comisión.");
+    },
+  });
+}
+
+async function eliminarComision(id) {
+  if (!confirm("¿Estás seguro de que deseas eliminar esta comisión?")) {
+    return;
+  }
+
+  $.ajax({
+    url: "src/eliminarComision.php",
+    method: "POST",
+    data: { id_comision: id },
+    success: function (respuesta) {
+      alert("Comisión eliminada correctamente.");
+      getComissions(id_usuario_edit); // Recargar la lista de comisiones
+    },
+    error: function (xhr, status, error) {
+      alert("Error al eliminar la comisión.");
+    },
+  });
+}
 
 /*=============================================
 Cargas Comentarios Usuario
@@ -1317,6 +1343,7 @@ function getComissions(id = null) {
         newRow.append($("<td>").text(observaciones));
         newRow.append(
           $("<td>").html(
+            `<button class="btn btn-danger btn-sm" onclick="editarComision(${id_comision})">Editar</button>`
             `<button class="btn btn-danger btn-sm" onclick="eliminarComision(${id_comision})">Eliminar</button>`
           )
         );

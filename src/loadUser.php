@@ -72,8 +72,10 @@ if (isset($_POST['id']) && ($_SESSION["rol"] == 12 || $_SESSION["rol"] == 11 || 
 
         $queryInfoCanal = "SELECT icu.*, u.id_usuario, d.* FROM informacion_canal_user icu
         LEFT JOIN usuarios u ON icu.id_usuario = u.id_usuario
-        LEFT JOIN directores_comerciales d ON d.id_doc_director = icu.director_comercial
+        LEFT JOIN directores_comerciales d ON d.documento_director = icu.director_comercial
         WHERE icu.id_usuario = $id";
+
+        var_dump($queryInfoCanal);
 
         $ejecucion2 = mysqli_query($enlace, $queryInfoCanal);
         $fila2 = ($ejecucion2) ? $ejecucion2->fetch_assoc() : null;
