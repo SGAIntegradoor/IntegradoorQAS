@@ -50,10 +50,10 @@ try {
     $stmt->bindParam(':id_super_usuario', $id_super_usuario, PDO::PARAM_INT);
     $stmt->bindParam(':observaciones', $observaciones, PDO::PARAM_STR);
 
-    $id_inserted = $pdo->lastInsertId();
-
+    
     // Ejecutar consulta
     if ($stmt->execute()) {
+        $id_inserted = $pdo->lastInsertId();
         echo json_encode(["status" => "success", "message" => "Guardado correctamente", "id_inserted" => $id_inserted], JSON_UNESCAPED_UNICODE);
     } else {
         echo json_encode(["status" => "error", "message" => "Error al guardar"], JSON_UNESCAPED_UNICODE);

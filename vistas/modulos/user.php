@@ -6,17 +6,17 @@ $enlace = mysqli_connect("$DB_host", "$DB_user", "$DB_pass", "$DB_name");
 $resultadoRamos = mysqli_query($enlace, $sqlRamos);
 // resultadoRamos ya fue obtenido con mysqli_query
 if (!$resultadoRamos) {
-    die("Error en la consulta: " . mysqli_error($enlace));
+  die("Error en la consulta: " . mysqli_error($enlace));
 }
 
 // Compatibilidad: si mysqli_fetch_all no existe hacemos un fallback
 if (function_exists('mysqli_fetch_all')) {
-    $ramos = mysqli_fetch_all($resultadoRamos, MYSQLI_ASSOC);
+  $ramos = mysqli_fetch_all($resultadoRamos, MYSQLI_ASSOC);
 } else {
-    $ramos = [];
-    while ($row = mysqli_fetch_assoc($resultadoRamos)) {
-        $ramos[] = $row;
-    }
+  $ramos = [];
+  while ($row = mysqli_fetch_assoc($resultadoRamos)) {
+    $ramos[] = $row;
+  }
 }
 
 if (isset($_GET["id"])) {
@@ -153,24 +153,24 @@ if (isset($_GET["id"])) {
 
   .ciudad.select2-container .select2-selection--single {
     height: 40px !important;
-}
+  }
 
-.select2-container--bootstrap .select2-selection--single {
+  .select2-container--bootstrap .select2-selection--single {
     height: 34px;
     line-height: 2.258571;
     padding: 6px 24px 6px 12px;
-}
+  }
 
-.select2-container--bootstrap .select2-selection {
+  .select2-container--bootstrap .select2-selection {
     -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
     box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
     background-color: #fff;
     border: 2px solid #DBDBDB;
-    border-radius: 0px !important; 
+    border-radius: 0px !important;
     color: #555;
     font-size: 14px;
     outline: 0;
-}
+  }
 
   #loader-skeleton #message {
     display: flex;
