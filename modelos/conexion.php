@@ -37,7 +37,7 @@ class Conexion{
 			self::getInstance()->setEnvironment('grupoasi_cotizautos');
 		}
 
-		$link = new PDO("mysql:host=localhost;dbname=". self::getInstance()->dbname,
+		$link = new PDO("mysql:host=52.15.158.65;dbname=". self::getInstance()->dbname,
 			            "grupoasi_cotizautos",
 			            'M1graci0n123');
 		$link->exec("set names utf8");

@@ -1044,6 +1044,7 @@ async function loadUser(id) {
             // console.log("Este es el usuario!", data);
             $("#divUnidadNegocio").hide();
             $("#divCanal").hide();
+            $("#canal").val(info_usuario.usu_canal);
             $("#divUsuarioSGA").show();
             $("#usuarioSGA").val(info_usuario?.id_rol);
             $(".divAsistente").hide();
@@ -1061,6 +1062,7 @@ async function loadUser(id) {
                 .trigger("change");
             }, 500);
           } else if (info_usuario.id_rol == 12) {
+                        console.log("entre por aqui")
             // console.log("Este es el usuario!", data);
             $("#divUnidadNegocio").css("display", "none");
             $("#divUsuarioSGA").show();
