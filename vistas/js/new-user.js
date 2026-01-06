@@ -1002,6 +1002,38 @@ Cargar Usuario
 //   });
 // }
 
+const loadMadedDeals = async (id_user) => {
+  return new Promise((resolve, reject) => {
+    $.ajax({
+      url: "https://grupoasistencia.com/API/Users/getFirstDealMade",
+      method: "POST",
+      contentType: "application/json",
+      data: JSON.stringify({ id_freelance: id_user }),
+      success: function (respuesta) {
+        const parsedResponse = JSON.parse(respuesta);
+        const [year, month, day] = parsedResponse.data.data.fecha_exp_poliza.split("-");
+        const dateActivacion = new Date(year, month - 1, day);
+
+        console.log(parsedResponse.data.data.fecha_exp_poliza);
+
+
+        $("#fechaActivacion").val(parsedResponse.data.data.fecha_exp_poliza);
+
+        // resta de fechas y calcula los dias para colocarlos en un input
+        const fechaActual = new Date($("#fechaCreaVin").val());
+        const diferenciaTiempo = dateActivacion - fechaActual;
+        const diferenciaDias = Math.ceil(diferenciaTiempo / (1000 * 60 * 60 * 24));
+        $("#diasActivacion").val(diferenciaDias);
+
+        resolve();
+      },
+      error: function (xhr, status, error) {
+        reject(error);
+      },
+    });
+  });
+};
+
 async function loadUser(id) {
   return new Promise((resolve, reject) => {
     $.ajax({
@@ -1052,7 +1084,6 @@ async function loadUser(id) {
                 .trigger("change");
             }, 500);
           } else if (info_usuario.id_rol == 12) {
-            console.log("entre por aqui");
             // console.log("Este es el usuario!", data);
             $("#divUnidadNegocio").css("display", "none");
             $("#divUsuarioSGA").show();
@@ -1078,6 +1109,10 @@ async function loadUser(id) {
                 : info_usuario.usu_canal
             );
             $("#divUsuarioSGA").hide();
+
+            loadMadedDeals(info_usuario.usu_documento).then(() => {
+              resolve(); // Resolves the promise after deals are loaded
+            });
 
             // $("#unidadDeNegocio").val(info_usuario.id_rol);
             $("#divUnidadNegocio").hide();
