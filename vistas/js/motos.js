@@ -6,7 +6,11 @@ $(document).ready(function () {
 
   if (partes.includes("dev") || partes.includes("DEV")) {
     env = "dev";
-  } else if (partes.includes("QAS") || partes.includes("qas") || partes.includes("Pruebas")) {
+  } else if (
+    partes.includes("QAS") ||
+    partes.includes("qas") ||
+    partes.includes("Pruebas")
+  ) {
     env = "qas";
   } else if (partes.includes("app") || partes.includes("App")) {
     env = "";
@@ -50,7 +54,7 @@ $(document).ready(function () {
     consultarAsegurado();
   }
 
-   // Carga los Departamentos disponibles
+  // Carga los Departamentos disponibles
   $("#DptoCirculacion").select2({
     theme: "bootstrap dpto",
     language: "es",
@@ -1074,14 +1078,15 @@ function consulPlacaMotos(query = "1") {
             var mensajeConsulta = myJson.Message;
             //VALIDA SI LA CONSULTA FUE EXITOSA
             if (estadoConsulta == true) {
-
-              const resultado = ValidarClaseFasecolda(myJson.Data.CodigoFasecolda);
+              const resultado = ValidarClaseFasecolda(
+                myJson.Data.CodigoFasecolda
+              );
               if (!resultado.permitido) {
-                console.log('CLASE NO PERMITIDA');
+                console.log("CLASE NO PERMITIDA");
               } else {
                 console.log("CLASE PERMITIDA");
               }
-              
+
               var codigoClase = myJson.Data.ClassId;
               var codigoMarca = myJson.Data.Brand;
               var modeloVehiculo = myJson.Data.Modelo;
@@ -1090,14 +1095,17 @@ function consulPlacaMotos(query = "1") {
               var valorAsegurado = myJson.Data.ValorAsegurado;
 
               if (codigoFasecolda != null) {
-                if ((valorAsegurado == "null" || valorAsegurado == null) && resultado.permitido) {
+                if (
+                  (valorAsegurado == "null" || valorAsegurado == null) &&
+                  resultado.permitido
+                ) {
                   consulPlacaMapfre(valnumplaca);
                   //! Agregar esto a MOTOS y Pesados START
 
                   // $("#loaderPlaca").html("");
                   // $("#loaderPlaca2").html("");
                   //! Agregar esto a MOTOS y Pesados END
-                } else /*if (resultado.permitido)*/ {
+                } /*if (resultado.permitido)*/ else {
                   var claseVehiculo = "";
                   var limiteRCESTADO = "";
 
@@ -1312,7 +1320,7 @@ function consulCodFasecoldaMotos(e = null) {
   let tipoConsulta = e.currentTarget.id;
 
   if (
-    claseVeh != "" && 
+    claseVeh != "" &&
     marcaVeh != "" &&
     edadVeh != "" &&
     refe != "" &&
@@ -1332,14 +1340,14 @@ function consulCodFasecoldaMotos(e = null) {
         refe2: refe3,
       },
       success: function (data) {
-         if (tipoConsulta != "btnConsultarVehmanualMotos") {
+        if (tipoConsulta != "btnConsultarVehmanualMotos") {
           tipoConsulta = null;
         }
         var codFasecolda = data.result.codigo;
-          let resultadoConsultaManual = ValidarClaseFasecolda(codFasecolda, true);
-          if (!resultadoConsultaManual.permitido) {
-            throw new Error("CLASE NO PERMITIDA");
-          }
+        let resultadoConsultaManual = ValidarClaseFasecolda(codFasecolda, true);
+        if (!resultadoConsultaManual.permitido) {
+          throw new Error("CLASE NO PERMITIDA");
+        }
         consulValorfasecoldaMotos(codFasecolda, edadVeh, tipoConsulta);
       },
     });
@@ -1355,7 +1363,7 @@ function consulValorfasecoldaMotos(codFasecolda, edadVeh, tipoConsulta) {
     '<img src="vistas/img/plantilla/loader-loading.gif" width="34" height="34"><strong> Consultando Vehículo...</strong>'
   );
 
-  if(tipoConsulta != null){
+  if (tipoConsulta != null) {
     consulDatosFasecoldaMotos(codFasecolda, edadVeh).then(function (resp) {
       var codigoClaseEstado = "";
       if (resp.claseVeh == "MOTOS") {
@@ -1370,90 +1378,115 @@ function consulValorfasecoldaMotos(codFasecolda, edadVeh, tipoConsulta) {
       $("#txtFasecolda").val(codFasecolda);
     });
   } else {
-      var myHeaders = new Headers();
-  myHeaders.append("Content-Type", "application/json");
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
 
-  var raw = JSON.stringify({
-    CodigoFasecolda: codFasecolda,
-    brand: "",
-    brandline: "",
-    ClassId: "",
-    Modelo: edadVeh,
-  });
+    var raw = JSON.stringify({
+      CodigoFasecolda: codFasecolda,
+      brand: "",
+      brandline: "",
+      ClassId: "",
+      Modelo: edadVeh,
+    });
 
-  var requestOptions = {
-    method: "POST",
-    headers: myHeaders,
-    body: raw,
-    redirect: "follow",
-  };
+    var requestOptions = {
+      method: "POST",
+      headers: myHeaders,
+      body: raw,
+      redirect: "follow",
+    };
 
-  fetch(
-    "https://grupoasistencia.com/motor_webservice/VehiculoFasecolda",
-    requestOptions
-  )
-    .then(function (response) {
-      if (!response.ok) {
-        throw Error(response.statusText);
-      }
-      return response.json();
-    })
-    .then(function (myJson) {
-      if (myJson.Data != null) {
-        var codigoClase = myJson.Data.ClassId;
-        var codigoMarca = myJson.Data.Brand;
-        var modeloVehiculo = myJson.Data.Modelo;
-        var codigoLinea = myJson.Data.BrandLine;
-        var codigoFasecolda = myJson.Data.CodigoFasecolda;
-        var valorAsegurado = myJson.Data.ValorAsegurado;
-
-        var claseVehiculo = "";
-        var limiteRCESTADO = "";
-
-        if (codigoClase == 1) {
-          claseVehiculo = "AUTOMOVILES";
-          limiteRCESTADO = 6;
-        } else if (codigoClase == 2) {
-          claseVehiculo = "CAMPEROS";
-          limiteRCESTADO = 18;
-        } else if (codigoClase == 3) {
-          claseVehiculo = "PICK UPS";
-          limiteRCESTADO = 18;
-        } else if (codigoClase == 4) {
-          claseVehiculo = "UTILITARIOS DEPORTIVOS";
-          limiteRCESTADO = 6;
-        } else if (codigoClase == 12) {
-          claseVehiculo = "MOTOCICLETA";
-          limiteRCESTADO = 6;
-        } else if (codigoClase == 14) {
-          claseVehiculo = "PESADO";
-          limiteRCESTADO = 18;
-        } else if (codigoClase == 19) {
-          claseVehiculo = "VAN";
-          limiteRCESTADO = 18;
-        } else if (codigoClase == 16) {
-          claseVehiculo = "MOTOCICLETA";
-          limiteRCESTADO = 6;
+    fetch(
+      "https://grupoasistencia.com/motor_webservice/VehiculoFasecolda",
+      requestOptions
+    )
+      .then(function (response) {
+        if (!response.ok) {
+          throw Error(response.statusText);
         }
+        return response.json();
+      })
+      .then(function (myJson) {
+        if (myJson.Data != null) {
+          var codigoClase = myJson.Data.ClassId;
+          var codigoMarca = myJson.Data.Brand;
+          var modeloVehiculo = myJson.Data.Modelo;
+          var codigoLinea = myJson.Data.BrandLine;
+          var codigoFasecolda = myJson.Data.CodigoFasecolda;
+          var valorAsegurado = myJson.Data.ValorAsegurado;
 
-        $("#CodigoClase").val(codigoClase);
-        $("#txtClaseVeh").val(claseVehiculo);
-        $("#LimiteRC").val(limiteRCESTADO);
-        $("#CodigoMarca").val(codigoMarca);
-        $("#txtModeloVeh").val(modeloVehiculo);
-        $("#CodigoLinea").val(codigoLinea);
-        $("#txtFasecolda").val(codigoFasecolda);
-        $("#txtValorFasecolda").val(valorAsegurado);
+          var claseVehiculo = "";
+          var limiteRCESTADO = "";
 
-        consulDatosFasecoldaMotos(codigoFasecolda, modeloVehiculo).then(
-          function (resp) {
-            $("#txtMarcaVeh").val(resp.marcaVeh);
-            $("#txtReferenciaVeh").val(resp.lineaVeh);
+          if (codigoClase == 1) {
+            claseVehiculo = "AUTOMOVILES";
+            limiteRCESTADO = 6;
+          } else if (codigoClase == 2) {
+            claseVehiculo = "CAMPEROS";
+            limiteRCESTADO = 18;
+          } else if (codigoClase == 3) {
+            claseVehiculo = "PICK UPS";
+            limiteRCESTADO = 18;
+          } else if (codigoClase == 4) {
+            claseVehiculo = "UTILITARIOS DEPORTIVOS";
+            limiteRCESTADO = 6;
+          } else if (codigoClase == 12) {
+            claseVehiculo = "MOTOCICLETA";
+            limiteRCESTADO = 6;
+          } else if (codigoClase == 14) {
+            claseVehiculo = "PESADO";
+            limiteRCESTADO = 18;
+          } else if (codigoClase == 19) {
+            claseVehiculo = "VAN";
+            limiteRCESTADO = 18;
+          } else if (codigoClase == 16) {
+            claseVehiculo = "MOTOCICLETA";
+            limiteRCESTADO = 6;
           }
-        );
-      } else {
-        contErrMetEstadoFasec++;
-        if (contErrMetEstadoFasec > 2) {
+
+          $("#CodigoClase").val(codigoClase);
+          $("#txtClaseVeh").val(claseVehiculo);
+          $("#LimiteRC").val(limiteRCESTADO);
+          $("#CodigoMarca").val(codigoMarca);
+          $("#txtModeloVeh").val(modeloVehiculo);
+          $("#CodigoLinea").val(codigoLinea);
+          $("#txtFasecolda").val(codigoFasecolda);
+          $("#txtValorFasecolda").val(valorAsegurado);
+
+          consulDatosFasecoldaMotos(codigoFasecolda, modeloVehiculo).then(
+            function (resp) {
+              $("#txtMarcaVeh").val(resp.marcaVeh);
+              $("#txtReferenciaVeh").val(resp.lineaVeh);
+            }
+          );
+        } else {
+          contErrMetEstadoFasec++;
+          if (contErrMetEstadoFasec > 2) {
+            $("#txtModeloVeh").val(edadVeh);
+            $("#txtFasecolda").val(codFasecolda);
+
+            consulDatosFasecoldaMotos(codFasecolda, edadVeh).then(function (
+              resp
+            ) {
+              var codigoClaseEstado = "";
+              if (resp.claseVeh == "MOTOS") {
+                codigoClaseEstado = 12;
+              }
+              $("#CodigoClase").val(codigoClaseEstado);
+              $("#txtClaseVeh").val(resp.claseVeh);
+              $("#txtMarcaVeh").val(resp.marcaVeh);
+              $("#txtReferenciaVeh").val(resp.lineaVeh);
+              $("#txtValorFasecolda").val(resp.valorVeh);
+            });
+            contErrMetEstadoFasec = 0;
+          } else {
+            setTimeout(consulCodFasecoldaMotos, 2000);
+          }
+        }
+      })
+      .catch(function (error) {
+        contErrProtConsulFasec++;
+        if (contErrProtConsulFasec > 1) {
           $("#txtModeloVeh").val(edadVeh);
           $("#txtFasecolda").val(codFasecolda);
 
@@ -1470,34 +1503,11 @@ function consulValorfasecoldaMotos(codFasecolda, edadVeh, tipoConsulta) {
             $("#txtReferenciaVeh").val(resp.lineaVeh);
             $("#txtValorFasecolda").val(resp.valorVeh);
           });
-          contErrMetEstadoFasec = 0;
+          contErrProtConsulFasec = 0;
         } else {
-          setTimeout(consulCodFasecoldaMotos, 2000);
+          setTimeout(consulCodFasecolda, 4000);
         }
-      }
-    })
-    .catch(function (error) {
-      contErrProtConsulFasec++;
-      if (contErrProtConsulFasec > 1) {
-        $("#txtModeloVeh").val(edadVeh);
-        $("#txtFasecolda").val(codFasecolda);
-
-        consulDatosFasecoldaMotos(codFasecolda, edadVeh).then(function (resp) {
-          var codigoClaseEstado = "";
-          if (resp.claseVeh == "MOTOS") {
-            codigoClaseEstado = 12;
-          }
-          $("#CodigoClase").val(codigoClaseEstado);
-          $("#txtClaseVeh").val(resp.claseVeh);
-          $("#txtMarcaVeh").val(resp.marcaVeh);
-          $("#txtReferenciaVeh").val(resp.lineaVeh);
-          $("#txtValorFasecolda").val(resp.valorVeh);
-        });
-        contErrProtConsulFasec = 0;
-      } else {
-        setTimeout(consulCodFasecolda, 4000);
-      }
-    });
+      });
   }
 }
 
@@ -1531,7 +1541,6 @@ function consulDatosFasecoldaMotos(codFasecolda, edadVeh) {
           $("#loaderPlaca2").html("");
           //! Agregar esto a MOTOS y Pesados END
         } else {
-          
           //  const resultado = ValidarClaseFasecolda(data.codigo);
 
           var claseVeh = data.clase;
@@ -1982,7 +1991,7 @@ const mostrarOfertaMotos = (
     return $resultado;
   }
 
-   var nombreAseguradoraA = nombreAseguradora(aseguradora);
+  var nombreAseguradoraA = nombreAseguradora(aseguradora);
 
   var aseguradoraCredenciales =
     nombreAseguradoraA == "HDI Seguros"
@@ -2040,7 +2049,9 @@ ${
           <!-- Agrega aquí el contenido específico para estas aseguradoras y el id_intermediario no es 78 -->
           </center>`
     : permisos.Vernumerodecotizacionencadaaseguradora == "x" &&
-      permisosCredenciales == "1" && (numCotizOferta !== 0 && numCotizOferta !== null)
+      permisosCredenciales == "1" &&
+      numCotizOferta !== 0 &&
+      numCotizOferta !== null
     ? `<center>
           <label class='entidad'>N° Cot: <span style='color:black'>${numCotizOferta}</span></label>
           </center>`
@@ -2137,14 +2148,18 @@ ${
       <div>VER PDF &nbsp;&nbsp;<span class="fa fa-file-text"></span></div>
   </button>
 </div>`;
-  } else if (aseguradora == "Mundial" && permisosCredenciales == "1" && producto == "Conduce Tranquilo Mot") {
+  } else if (
+    aseguradora == "Mundial" &&
+    permisosCredenciales == "1" &&
+    producto == "Conduce Tranquilo Mot"
+  ) {
     cardCotizacion += `
           <div class="col-xs-12 col-sm-6 col-md-2 verpdf-oferta">
               <button id="mundial-pdf${producto}" type="button" class="btn btn-info" onclick='verPdfMundialLivianos(\"${UrlPdf}\")'>
                   <div>VER PDF &nbsp;&nbsp;<span class="fa fa-file-text"></span></div>
               </button>
           </div>`;
-  } 
+  }
   cardCotizacion += `
               </div>
           </div>
@@ -3161,8 +3176,8 @@ function cotizarOfertasMotos() {
               //     }
               //   });
 
-              //   cont.push(estadoPromise);
-              //   return;
+                //   cont.push(estadoPromise);
+                //   return;
               } else {
                 // Construir la URL de la solicitud para cada aseguradora
                 url = `https://grupoasistencia.com/motor_webservice/${aseguradora}_motos`;
@@ -3186,49 +3201,49 @@ function cotizarOfertasMotos() {
                 //agregarAseguradoraFallida(aseguradora);
                 validarProblemaMotos(aseguradora, ofertas);
                 ofertas[0].Mensajes.forEach((mensaje) => {
-                mostrarAlertarCotizacionFallida(aseguradora, mensaje);
+                  mostrarAlertarCotizacionFallida(aseguradora, mensaje);
                 });
               } else {
                 cont.push(
-                fetch(url, requestOptions)
-                  .then((res) => {
-                    if (!res.ok) throw Error(res.statusText);
-                    return res.json();
-                  })
-                  .then((ofertas) => {
-                    if (typeof ofertas[0].Resultado !== "undefined") {
+                  fetch(url, requestOptions)
+                    .then((res) => {
+                      if (!res.ok) throw Error(res.statusText);
+                      return res.json();
+                    })
+                    .then((ofertas) => {
+                      if (typeof ofertas[0].Resultado !== "undefined") {
+                        agregarAseguradoraFallidaMotos(aseguradora);
+                        validarProblemaMotos(aseguradora, ofertas);
+                        ofertas[0].Mensajes.forEach((mensaje) => {
+                          mostrarAlertarCotizacionFallida(aseguradora, mensaje);
+                        });
+                      } else {
+                        const contadorPorEntidad = validarOfertasMotos(
+                          ofertas,
+                          aseguradora,
+                          1
+                        );
+                        mostrarAlertaCotizacionExitosa(
+                          aseguradora,
+                          contadorPorEntidad
+                        );
+                      }
+                    })
+                    .catch((err) => {
                       agregarAseguradoraFallidaMotos(aseguradora);
-                      validarProblemaMotos(aseguradora, ofertas);
-                      ofertas[0].Mensajes.forEach((mensaje) => {
-                        mostrarAlertarCotizacionFallida(aseguradora, mensaje);
-                      });
-                    } else {
-                      const contadorPorEntidad = validarOfertasMotos(
-                        ofertas,
+                      mostrarAlertarCotizacionFallida(
                         aseguradora,
-                        1
+                        "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
                       );
-                      mostrarAlertaCotizacionExitosa(
-                        aseguradora,
-                        contadorPorEntidad
-                      );
-                    }
-                  })
-                  .catch((err) => {
-                    agregarAseguradoraFallidaMotos(aseguradora);
-                    mostrarAlertarCotizacionFallida(
-                      aseguradora,
-                      "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
-                    );
-                    validarProblemaMotos(aseguradora, [
-                      {
-                        Mensajes: [
-                          "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
-                        ],
-                      },
-                    ]);
-                  })
-              );
+                      validarProblemaMotos(aseguradora, [
+                        {
+                          Mensajes: [
+                            "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
+                          ],
+                        },
+                      ]);
+                    })
+                );
               }
             });
 
@@ -3286,7 +3301,8 @@ function cotizarOfertasMotos() {
                         }
                       }
                     });
-                */}
+                */
+                }
               } else {
                 return Swal.fire({
                   title: "Proceso de Cotización Finalizado",
@@ -3363,7 +3379,9 @@ function cotizarOfertasMotos() {
       } else if (primerIntentoRealizado && !recotizacionIntentoRealizado) {
         //ZONA RECOTIZACIÓN//
         console.log("Entrando en el bloque else");
-        const btnRecotizar = document.getElementById("btnReCotizarFallidasMotos");
+        const btnRecotizar = document.getElementById(
+          "btnReCotizarFallidasMotos"
+        );
         btnRecotizar.disabled = true;
         document.getElementById("btnCotizarFinesa").disabled = false;
         const contenParrilla = document.querySelector("#contenParrilla");
@@ -3536,10 +3554,7 @@ function cotizarOfertasMotos() {
                     agregarAseguradoraFallidaMotos("HDI Seguros");
                     validarProblemaMotos("HDI Seguros", ofertas);
                     ofertas[0].Mensajes.forEach((mensaje) => {
-                      mostrarAlertarCotizacionFallida(
-                        "HDI Seguros",
-                        mensaje
-                      );
+                      mostrarAlertarCotizacionFallida("HDI Seguros", mensaje);
                     });
                   } else {
                     // eliminarAseguradoraFallida('Liberty');
@@ -3778,10 +3793,10 @@ function cotizarOfertasMotos() {
               $("#loaderOferta").html("");
               $("#loaderOfertaBox").css("display", "none");
             } else {
-                Swal.close();
-                $("#loaderOferta").html("");
-                $("#loaderOfertaBox").css("display", "none");
-                  /*
+              Swal.close();
+              $("#loaderOferta").html("");
+              $("#loaderOfertaBox").css("display", "none");
+              /*
               Swal.close();
               swal
                 .fire({
@@ -3819,7 +3834,8 @@ function cotizarOfertasMotos() {
                     }
                   }
                 });
-            */}
+            */
+            }
           } else {
             let anuncio = true;
             if (anuncio) {
@@ -3960,10 +3976,20 @@ function ValidarClaseFasecolda(num, manual = false) {
   let str = String(num).padStart(8, "0");
   let claseValidacion = str.substring(3, 5);
 
+  if (num.length < 8) {
+    document.getElementById("formularioVehiculo").style.display = "block";
+    document.getElementById("headerAsegurado").style.display = "block";
+    document.getElementById("masA").style.display = "block";
+    document.getElementById("DatosAsegurado").style.display = "none";
+    document.getElementById("loaderPlaca").style.display = "none";
+    //! Agregar esto a MOTOS y Pesados START
+    document.getElementById("loaderPlaca2").style.display = "none";
+    //! Agregar esto a MOTOS y Pesados END
+    return null;
+  }
+
   // clases permitidas
-  const clasesPermitidas = [
-    '17', '18', '19'
-  ];
+  const clasesPermitidas = ["17", "18", "19"];
 
   if (!clasesPermitidas.includes(claseValidacion) && manual == false) {
     Swal.fire({
@@ -3972,8 +3998,10 @@ function ValidarClaseFasecolda(num, manual = false) {
       confirmButtonText: "Cerrar",
     }).then(() => location.reload());
 
-    return { permitido: false, mensaje: "No puedes cotizar este tipo de vehículo por este módulo." };
-
+    return {
+      permitido: false,
+      mensaje: "No puedes cotizar este tipo de vehículo por este módulo.",
+    };
   } else if (!clasesPermitidas.includes(claseValidacion) && manual == true) {
     Swal.fire({
       icon: "error",
@@ -3981,7 +4009,10 @@ function ValidarClaseFasecolda(num, manual = false) {
       confirmButtonText: "Cerrar",
     });
 
-    return { permitido: false, mensaje: "No puedes cotizar este tipo de vehículo por este módulo." };
+    return {
+      permitido: false,
+      mensaje: "No puedes cotizar este tipo de vehículo por este módulo.",
+    };
   }
 
   return { permitido: true };

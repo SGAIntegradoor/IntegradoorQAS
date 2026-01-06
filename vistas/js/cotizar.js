@@ -5126,6 +5126,18 @@ function ValidarClaseFasecolda(num, manual = false) {
   let str = String(num).padStart(8, "0");
   let claseValidacion = str.substring(3, 5);
 
+  if(num.length < 8) {
+      document.getElementById("formularioVehiculo").style.display = "block";
+      document.getElementById("headerAsegurado").style.display = "block";
+      document.getElementById("masA").style.display = "block";
+      document.getElementById("DatosAsegurado").style.display = "none";
+      document.getElementById("loaderPlaca").style.display = "none";
+      //! Agregar esto a MOTOS y Pesados START
+      document.getElementById("loaderPlaca2").style.display = "none";
+      //! Agregar esto a MOTOS y Pesados END
+    return null
+  }
+
   // clases permitidas
   const clasesPermitidas = [
     "01", "02", "06", "08", "20", "21"

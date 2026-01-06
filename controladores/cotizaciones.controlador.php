@@ -67,6 +67,22 @@ class ControladorCotizaciones
 	}
 
 	/*=============================================
+	MOSTRAR COTIZACIONES "OFERTAS SOAT"
+	=============================================*/
+
+	static public function ctrShowQuoteSoat($id)
+	{
+		session_start();
+		$tabla = "cotizaciones_soat";
+		$tabla2 = "clientes";
+		$field = "id_cotizacion";
+
+		$respuesta = ModeloCotizaciones::mdlShowQuoteSoat($tabla, $tabla2, $field, $id);
+
+		return $respuesta;
+	}
+
+	/*=============================================
 	MOSTRAR COTIZACIONES "OFERTAS ASSISTCARD"
 	=============================================*/
 
@@ -275,6 +291,18 @@ class ControladorCotizaciones
 
 		$respuesta = ModeloCotizaciones::mdlRangoFechasCotizacionesHogar($tabla, $tabla2, $tabla3, $tabla4, $fechaInicialCotizaciones, $fechaFinalCotizaciones);
 
+		return $respuesta;
+	}
+
+	static public function ctrRangoFechasCotizacionesSoat($fechaFinalCotizaciones, $fechaInicialCotizaciones)
+	{
+
+		$tabla = "cotizaciones_soat";
+		$tabla2 = "usuarios";
+		$tabla3 = "analistas_freelances";
+
+
+		$respuesta = ModeloCotizaciones::mdlRangoFechasCotizacionesSoat($tabla, $tabla2, $tabla3, $fechaInicialCotizaciones, $fechaFinalCotizaciones);
 		return $respuesta;
 	}
 

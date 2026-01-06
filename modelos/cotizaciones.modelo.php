@@ -243,6 +243,27 @@ class ModeloCotizaciones
 		return null; // En caso de que no se cumplan las condiciones, devuelve null
 	}
 
+	static public function mdlShowQuoteSoat($tabla, $tabla2, $field, $id)
+	{
+		// Inicializa la variable $stmt
+		$stmt = null;
+		if ($id != null) {
+
+			$stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla c WHERE $field = :id");
+			$stmt->bindParam(":id", $id, PDO::PARAM_STR);
+
+			if ($stmt->execute()) {
+				$resultado = $stmt->fetch(PDO::FETCH_ASSOC);
+				$stmt->closeCursor(); // Correctamente cerrando el cursor
+				return $resultado;
+			} else {
+				return null; // Si la consulta falla, devuelve null
+			}
+		}
+
+		return null; // En caso de que no se cumplan las condiciones, devuelve null
+	}
+
 	static public function responseFormatted($responses)
 	{
 		// Inicializar arreglos para almacenar información procesada
@@ -1078,7 +1099,124 @@ class ModeloCotizaciones
 		}
 	}
 
+	
+	static public function mdlRangoFechasCotizacionesSoat($tabla, $tabla2, $tabla3, $fechaInicialCotizaciones, $fechaFinalCotizaciones)
+	{
+		$condicion = "";
+		if ($_SESSION["permisos"]["Verlistadodecotizacionesdelaagencia"] != "x") {
+			$condicion = "AND $tabla.creado_por = :idUsuario";
+		}
+		if ($fechaInicialCotizaciones == null) {
+			$fechaActual = new DateTime();
+			// Obtener la fecha de inicio de mes
+			$inicioMes = clone $fechaActual;
+			$inicioMes->modify('first day of this month');
+			$inicioMes = $inicioMes->format('Y-m-d');
 
+			// Obtener la fecha de fin de mes
+			$finMes = clone $fechaActual;
+			$finMes->modify('first day of next month')->modify(-1);
+			$finMes = $finMes->format('Y-m-d');
+
+			$stmt = Conexion::conectar()->prepare("
+				SELECT
+					cs.id_cotizacion, cs.fecha_creacion,
+					cs.placa, cs.clase, cs.referencia,
+					cs.correo, cs.celular, cs.opcion,
+					af.nombre_analista,
+					CONCAT(u.usu_nombre,' ',u.usu_apellido) AS asesor,
+					cs.estado
+				FROM $tabla cs
+				INNER JOIN $tabla2 u ON u.id_usuario = cs.creado_por
+				LEFT JOIN $tabla3 af ON af.id_usuario = u.usu_documento
+				WHERE 
+					cs.fecha_creacion BETWEEN :fechaInicio AND :fechaFin 
+					$condicion
+				GROUP BY cs.id_cotizacion;
+			");
+
+			$stmt->bindParam(":fechaInicio", $inicioMes, PDO::PARAM_STR);
+			$stmt->bindParam(":fechaFin", $finMes, PDO::PARAM_STR);
+			$stmt->bindParam(":idIntermediario", $_SESSION["intermediario"], PDO::PARAM_INT);
+
+			if ($_SESSION["permisos"]["Verlistadodecotizacionesdelaagencia"] != "x") {
+				$stmt->bindParam(":idUsuario", $_SESSION["idUsuario"], PDO::PARAM_INT);
+			}
+
+			$stmt->execute();
+			return $stmt->fetchAll(PDO::FETCH_ASSOC);
+		} else {
+			$inicioMes = new DateTime($fechaInicialCotizaciones);
+			$inicioMes = $inicioMes->format('Y-m-d');
+			$finMes = new DateTime($fechaFinalCotizaciones);
+
+			if ($finMes->format('t') == $finMes->format('d')) {
+				// Si es el último día del mes, ajustar al primer día del siguiente mes
+				$finMes->modify('first day of next month');
+			} else {
+				// Si no, simplemente agregar un día
+				$finMes->modify('+1 day');
+			}
+
+			$finMes = $finMes->format('Y-m-d');
+
+			if ($_SESSION['rol'] == 10 || $_SESSION['rol'] == 1 || $_SESSION['rol'] == 12 || $_SESSION['rol'] == 22) {
+
+				$stmt = Conexion::conectar()->prepare("
+				SELECT
+					cs.id_cotizacion, cs.fecha_creacion,
+					cs.placa, cs.clase, cs.referencia,
+					cs.correo, cs.celular, cs.opcion,
+					af.nombre_analista,
+					CONCAT(u.usu_nombre,' ',u.usu_apellido) AS asesor,
+					cs.estado
+				FROM $tabla cs
+				INNER JOIN $tabla2 u ON u.id_usuario = cs.creado_por
+				LEFT JOIN $tabla3 af ON af.id_usuario = u.usu_documento
+				WHERE 
+					cs.fecha_creacion BETWEEN :fechaInicial AND :fechaFinal
+					$condicion
+				GROUP BY cs.id_cotizacion;
+				");
+			} else {
+				$stmt = Conexion::conectar()->prepare("
+				SELECT
+					cs.id_cotizacion, cs.fecha_creacion,
+					cs.placa, cs.clase, cs.referencia,
+					cs.correo, cs.celular, cs.opcion,
+					af.nombre_analista,
+					CONCAT(u.usu_nombre,' ',u.usu_apellido) AS asesor,
+					cs.estado
+				FROM $tabla cs
+				INNER JOIN $tabla2 u ON u.id_usuario = cs.creado_por
+				LEFT JOIN $tabla3 af ON af.id_usuario = u.usu_documento
+				WHERE 
+					cs.fecha_creacion BETWEEN :fechaInicial AND :fechaFinal
+					AND u.id_Intermediario = :idIntermediario
+					AND cs.creado_por = :idUsuario;
+					$condicion
+				GROUP BY cs.id_cotizacion;
+				");
+			}
+
+			// Enlazar parámetros comunes
+			$stmt->bindParam(":fechaInicial", $inicioMes, PDO::PARAM_STR);
+			$stmt->bindParam(":fechaFinal", $finMes, PDO::PARAM_STR);
+			// Enlazar solo si aplica
+			if ($_SESSION['rol'] != 10 && $_SESSION['rol'] != 1 && $_SESSION['rol'] != 12 && $_SESSION['rol'] != 22) {
+				$stmt->bindParam(":idIntermediario", $_SESSION["intermediario"], PDO::PARAM_INT);
+				$stmt->bindParam(":idUsuario", $_SESSION["idUsuario"], PDO::PARAM_INT);
+			}
+
+			// if ($_SESSION["permisos"]["Verlistadodecotizacionesdelaagencia"] != "x") {
+			// }
+
+
+			$stmt->execute();
+
+			return $stmt->fetchAll(PDO::FETCH_ASSOC);
+		}
+	}
 	static public function mdlGetDataLastRegisters($fechaInicialCotizaciones, $fechaFinalCotizaciones, $condicion = null)
 	{
 		$condicion = "";

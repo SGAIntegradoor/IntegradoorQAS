@@ -448,6 +448,7 @@
         $_GET["ruta"] == "retomar-cotizacion-assistcard" ||
         $_GET["ruta"] == "retomar-cotizacion-salud" ||
         $_GET["ruta"] == "retomar-cotizacion-hogar" ||
+        $_GET["ruta"] == "retomar-cotizacion-soat" ||
         $_GET["ruta"] == "negocios" ||
         $_GET["ruta"] == "productividad" ||
         $_GET["ruta"] == "user-negocios" ||

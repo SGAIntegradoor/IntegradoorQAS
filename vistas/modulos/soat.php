@@ -278,6 +278,49 @@
     margin-bottom: 26px;
     }
 
+    /* Agregado para darle estilo a la DataTable */
+
+    .btn-excel {
+    display: flex !important;
+    border: 0px !important;
+    height: 32px;
+    align-items: center;
+}
+
+.dt-search {
+    display: flex !important;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.paging_full_numbers {
+    display: flex !important;
+    justify-content: flex-end;
+}
+
+.dt-length {
+    display: flex;
+}
+
+.dt-start {
+    width: 60px !important;
+}
+
+.dt-info {
+    width: 600px !important;
+}
+
+.dt-column-title {
+    font-size: 14px !important;
+}
+
+.select2-container--bootstrap 
+.select2-results > 
+.select2-results__options {
+    max-height: 90px !important;
+    overflow-y: auto;
+}
+
 </style>
 
 <div class="content-wrapper">
@@ -300,6 +343,7 @@
     </section>
     <section class="content">
         <div class="box">
+            <?php include_once './vistas/modulos/soat/adminCotizacionesSoat.php'; ?>
             <div class="row card-container">
                 <!-- TITULO PLANES -->
                 <div class="content">
@@ -383,6 +427,7 @@
                                     <ul class="card-text" style="padding-left: 0px; list-style-position: inside;">
                                         <li>Vehículos sin problemas en el RUNT: de <b>2</b> hasta <b>5</b> horas hábiles.</li>
                                         <li>Vehículos con problemas en el RUNT: de <b>5</b> horas hasta <b>1</b> día hábil.</li>
+                                        <li>Vehículos 0 km: <b>1</b> día hábil.</li>
                                     </ul>
                                     <p class="card-text">Nota: El tiempo de respuesta empieza a correr desde que se recibe el pago del SOAT en las cuentas bancarias de Grupo Asistencia</p>
                                     <h4 class="card-title" style="font-weight: bold;">HORARIO DE SERVICIO</h4>
@@ -443,9 +488,11 @@
             
 
                 <!-- //FORMULARIO VIAJES -->
-            <div class="content-link" style="margin-top: -5px;" data-evaluar="si">
+            <!-- <div class="content-link" style="margin-top: -5px;" data-evaluar="si">
                 <p style="font-size: 19px;"><strong>Solicita una cotización en el siguiente formulario ingresando</strong> <b style="font-size: 17px;"><a href="https://docs.google.com/forms/d/e/1FAIpQLSfS5iEUGxHMzRwDBkRYN48v-Q3mTECfWVuM9flSCOoYiOMN6A/viewform" target="_blank"><u>AQUÍ</u></a></b></p>
-            </div>
+            </div> -->
+
+            <?php include_once './vistas/modulos/soat/form/formulario_soat.php'; ?>
 
         </div>           
     </section>
