@@ -433,16 +433,19 @@ $("#btnEnviarSolicitud").click(function () {
     }
   });
 
-  if (errores > 0) {
+  if (errores > 0 || files.length === 0) {
     Swal.fire({
       icon: "error",
       title: "Faltan datos por completar",
-      text: "Por favor completa el correo y celular del tomador SOAT",
+      text: "Por favor completa el correo, celular del tomador SOAT o documentos adjuntos",
       showConfirmButton: true,
       confirmButtonText: "Cerrar",
     });
     return;
   }
+
+  // Enviar Archivos Adjuntos
+  enviarArchivos();
 
   // Peticion para actualizar datos la cotización (formato Form Data)
   $.ajax({
@@ -573,30 +576,49 @@ $("#btnEnviarSolicitud").click(function () {
   }
 
 function enviarArchivos() {
+    // Verificamos que existan archivos para evitar peticiones vacías
+    if (!files || files.length === 0) {
+        console.warn("No hay archivos para subir");
+        return;
+    }
+
+    console.log("Iniciando subida para cotización:", idCotizacionSoat);
     const formData = new FormData();
 
+    // Agregamos el ID de la cotización
     formData.append("cotizacion", idCotizacionSoat);
 
+    // Agregamos los archivos
     files.forEach((file, index) => {
-        // 👉 aquí SÍ se puede cambiar el nombre
         const nuevoNombre = `${idCotizacionSoat}-${index}-${file.name}`;
+        // Importante: 'archivos[]' permite que PHP lo reciba como un array
         formData.append("archivos[]", file, nuevoNombre);
     });
 
+    // --- DEBUG: Ver el contenido real antes de enviar ---
+    console.log("Contenido del FormData:");
+    for (let [key, value] of formData.entries()) {
+        console.log(`${key}:`, value);
+    }
+
     fetch("vistas/modulos/soat/uploadSoat.php", {
         method: "POST",
-        body: formData
+        body: formData // El navegador añade automáticamente el Header multipart/form-data
     })
-    .then(res => res.json())
+    .then(res => {
+        if (!res.ok) throw new Error("Error en la respuesta del servidor");
+        return res.json();
+    })
     .then(data => {
         if (data.ok) {
-            // alert("Archivos subidos correctamente");
-            console.log("Archivos subidos correctamente");
+            console.log("Archivos subidos con éxito", data);
         } else {
-            // alert(data.error);
-            console.log(data.error);
+            console.error("Error del servidor:", data.error);
         }
     })
-    .catch(() => alert("Error al subir archivos"));
+    .catch(err => {
+        console.error("Error en la petición fetch:", err);
+        alert("Ocurrió un error al conectar con el servidor");
+    });
 }
 

@@ -1,41 +1,43 @@
 <?php
+// 1. Evitar que los Warnings rompan el JSON de respuesta
+error_reporting(0);
 header('Content-Type: application/json');
 
-$maxFiles = 3;
-$maxSize = 1024 * 1024; // 1MB
-$uploadDir = __DIR__ . "/docsSoat/";
+$response = ["ok" => false, "error" => ""];
 
-if (!isset($_FILES['archivos'])) {
-    echo json_encode(["ok" => false, "error" => "No se recibieron archivos"]);
-    exit;
+// 2. Definir la ruta de la carpeta (Relativa al archivo PHP)
+$folderPath = "docsSoat/"; 
+
+// 3. Verificar si la carpeta existe, si no, crearla
+if (!file_exists($folderPath)) {
+    mkdir($folderPath, 0777, true);
 }
 
-$files = $_FILES['archivos'];
+if (isset($_FILES['archivos'])) {
+    $totalFiles = count($_FILES['archivos']['name']);
+    $successCount = 0;
 
-if (count($files['name']) > $maxFiles) {
-    echo json_encode(["ok" => false, "error" => "Máximo 3 archivos"]);
-    exit;
+    for ($i = 0; $i < $totalFiles; $i++) {
+        $fileName = $_FILES['archivos']['name'][$i];
+        $tempPath = $_FILES['archivos']['tmp_name'][$i];
+        
+        // Limpiamos el nombre de posibles caracteres extraños o rutas malformadas
+        $cleanName = basename($fileName);
+        $targetFilePath = $folderPath . $cleanName;
+
+        if (move_uploaded_file($tempPath, $targetFilePath)) {
+            $successCount++;
+        }
+    }
+
+    if ($successCount === $totalFiles) {
+        $response["ok"] = true;
+        $response["message"] = "Archivos subidos con éxito";
+    } else {
+        $response["error"] = "Error al mover algunos archivos.";
+    }
+} else {
+    $response["error"] = "No se recibieron archivos.";
 }
 
-for ($i = 0; $i < count($files['name']); $i++) {
-
-    if ($files['size'][$i] > $maxSize) {
-        echo json_encode(["ok" => false, "error" => "Archivo supera 1MB"]);
-        exit;
-    }
-
-    if ($files['error'][$i] !== UPLOAD_ERR_OK) {
-        echo json_encode(["ok" => false, "error" => "Error al subir archivo"]);
-        exit;
-    }
-
-    $nombreSeguro = basename($files['name'][$i]);
-    $rutaFinal = $uploadDir . $nombreSeguro;
-
-    if (!move_uploaded_file($files['tmp_name'][$i], $rutaFinal)) {
-        echo json_encode(["ok" => false, "error" => "No se pudo guardar el archivo"]);
-        exit;
-    }
-}
-
-echo json_encode(["ok" => true]);
+echo json_encode($response);
