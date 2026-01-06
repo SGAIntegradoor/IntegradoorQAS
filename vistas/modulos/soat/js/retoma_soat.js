@@ -8,6 +8,7 @@ var getIdCotiSoat = getParams("idCotizacionSoat")[0];
 
 if (getParams("idCotizacionSoat").length > 0) {
     editarCotizacionSoat(getParams("idCotizacionSoat")[0]);
+    cargarArchivosCotizacion(getParams("idCotizacionSoat")[0]);
 }
 
 $("document").ready(function () {
@@ -89,3 +90,38 @@ function editarCotizacionSoat(idCotizacionSoat) {
         }
     });
 };
+
+async function cargarArchivosCotizacion(idCotizacion) {
+    const contenedor = document.getElementById("contenedor-archivos");
+    contenedor.innerHTML = "Cargando archivos...";
+
+    try {
+        const response = await fetch('vistas/modulos/soat/getArchivos.php?id=' + idCotizacion);
+        const archivos = await response.json();
+
+        if (archivos.length === 0) {
+            contenedor.innerHTML = "<p>No hay archivos para esta cotización.</p>";
+            return;
+        }
+
+        // Limpiamos y generamos la lista
+        contenedor.innerHTML = '<ul class="list-group">';
+        archivos.forEach(file => {
+            
+            const nombreLimpio = file.nombre.split('-').slice(2).join('-');
+
+            contenedor.innerHTML += `
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    ${nombreLimpio}
+                    <a href="${file.url}" download="${nombreLimpio}" class="btn btn-sm btn-primary">
+                        Descargar
+                    </a>
+                </li>`;
+        });
+        contenedor.innerHTML += '</ul>';
+
+    } catch (error) {
+        console.error("Error al obtener archivos:", error);
+        contenedor.innerHTML = "Error al cargar la lista.";
+    }
+}

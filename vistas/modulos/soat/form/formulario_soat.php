@@ -251,7 +251,7 @@
 
             <!-- Parte final del formulario -->
             <div class="containerFinalForm " style="display: none; margin-top: 40px;">
-                <div>
+                <div style="height: 100px;">
                     <div class="col-md-3">
                         <label for="">Correo electronico tomador SOAT</label>
                         <input class="form-control" type="text" name="" id="correoTomadorSoat">
@@ -286,6 +286,8 @@
                     </div>
                 </div>
             </div>
+
+            <div id="contenedor-archivos" style="border: solid black 0.25px; padding: 15px;"></div>
 
         </div>
 
