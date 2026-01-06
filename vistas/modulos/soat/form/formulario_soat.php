@@ -128,13 +128,13 @@
                                         <input type="text" class="form-control" id="txtServicio" placeholder="" disabled>
                                     </div>
 
-                                    <div class="col-xs-12 col-sm-6 col-md-3 form-group">
-                                        <div class="col-xs-12 col-sm-6 col-md-6 form-group" style="padding-left: 0px;">
+                                    <div class="col-xs-12 col-sm-6 col-md-3 form-group" style="margin-bottom: 0px;">
+                                        <div class="col-xs-6 col-sm-6 col-md-6 form-group" style="padding-left: 0px;">
                                             <label for="txtCilindraje">Cilindraje</label>
                                             <input type="text" class="form-control classReferenciaVeh" id="txtCilindraje" placeholder="" disabled>
                                         </div>
 
-                                        <div class="col-xs-12 col-sm-6 col-md-6 form-group" style="padding-right: 0px;">
+                                        <div class="col-xs-6 col-sm-6 col-md-6 form-group" style="padding-right: 0px;">
                                             <label for="txtPasajeros">Pasajeros</label>
                                             <input type="text" class="form-control classReferenciaVeh" id="txtPasajeros" placeholder="" disabled>
                                         </div>
@@ -272,8 +272,7 @@
                             id="fileInput"
                             hidden
                             accept=".pdf,.jpg,.png,.doc,.docx"
-                            style="display: none;"
-                        >
+                            style="display: none;">
 
                         <small class="text-muted d-block mt-1">
                             Máximo 3 archivos (1 MB cada uno)
@@ -287,10 +286,14 @@
                 </div>
             </div>
 
-            <div id="contenedor-archivos" style="border: solid black 0.25px; padding: 15px; display: none;"></div>
-
         </div>
-
+        <div class="content" style="min-height: 0px">
+            <div class="box">
+                <div class="box-body row">
+                <div id="contenedor-archivos" style="border: solid black 0.25px; padding: 15px; display: none;"></div>
+            </div>
+            </div>
+        </div>
     </div>
 
 </section>
