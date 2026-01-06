@@ -757,9 +757,22 @@ if (isset($_GET["id"])) {
                   <label for="categoriaAsesor"><b>Categoria de asesor</b></label>
                   <select name="categoriaAsesor" id="categoriaAsesor">
                     <option value="">Seleccione una opción...</option>
-                    <option value="1">Productividad Baja</option>
-                    <option value="2">Productividad Media</option>
-                    <option value="3">Productividad Alta</option>
+                    <option value="Alta">Alta</option>
+                    <option value="Media">Media</option>
+                    <option value="Baja">Baja</option>
+                    <option value="Improductivo">Improductivo</option>
+                    <option value="Inactivo con ventas">Inactivo con ventas</option>
+                    <option value="Inactivo sin ventas">Inactivo sin ventas</option>
+                    <option value="Nuevo">Nuevo</option>
+                  </select>
+                </div>
+                
+                <div class="form-group freelance" id="divAsesorEstado">
+                  <label for="estadoAsesor"><b>Estado asesor</b></label>
+                  <select name="estadoAsesor" id="estadoAsesor">
+                    <option value="">Seleccione una opción...</option>
+                    <option value="Activo">Activo</option>
+                    <option value="Inactivo">Inactivo</option>
                   </select>
                 </div>
 
@@ -1054,11 +1067,8 @@ if (isset($_GET["id"])) {
                 <label for="estadoUs"><b>Estado:</b></label>
                 <select type="text" name="estadoUs" id="estadoUs" class="requiredfield">
                   <option value="" selected>Seleccione una opción...</option>
-                  <option value="1">Vinculado</option>
-                  <option value="2">Activado</option>
-                  <option value="3">Inactivo</option>
-                  <option value="4">Bloqueado</option>
-                  <option value="5">Reactivado</option>
+                  <option value="1">Activo</option>
+                  <option value="0">Bloqueado</option>
                 </select>
               </div>
             </div>
