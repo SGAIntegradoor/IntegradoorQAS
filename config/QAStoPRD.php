@@ -1,6 +1,6 @@
 <?php
 
-$DB_host = "localhost";
+$DB_host = "127.0.0.1";
 $DB_user = "grupoasi_cotizautos";
 $DB_pass = "M1graci0n123";
 $DB_name = "grupoasi_cotizautos";
