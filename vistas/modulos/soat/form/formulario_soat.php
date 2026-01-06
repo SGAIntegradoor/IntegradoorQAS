@@ -287,7 +287,7 @@
                 </div>
             </div>
 
-            <div id="contenedor-archivos" style="border: solid black 0.25px; padding: 15px;"></div>
+            <div id="contenedor-archivos" style="border: solid black 0.25px; padding: 15px; display: none;"></div>
 
         </div>
 

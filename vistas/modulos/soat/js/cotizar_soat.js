@@ -138,6 +138,7 @@ $(document).ready(function () {
     $("#containerDataTable").hide();
     $(".card-container").hide();
     $("html, body").animate({ scrollTop: 0 }, 600);
+    menosViewCot();
     consulPlaca();
   });
   // let intermediario = document.getElementById("idIntermediario").value;
@@ -419,6 +420,8 @@ $("#btnContinuarCoti").click(function () {
 });
 
 $("#btnEnviarSolicitud").click(function () {
+
+  $("#btnEnviarSolicitud").prop("disabled", true);
 
   const campos = ["#correoTomadorSoat", "#celularTomadorSoat"];
   let errores = 0;

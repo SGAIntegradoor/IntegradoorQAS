@@ -38,6 +38,7 @@ $("document").ready(function () {
     $("#radioConComision").prop("disabled", true);
     $("#radioSinComision").prop("disabled", true);
     $("#btnUpload").prop("disabled", true);
+    $("#contenedor-archivos").show();
 
 });
 
@@ -107,7 +108,7 @@ async function cargarArchivosCotizacion(idCotizacion) {
         // Limpiamos y generamos la lista
         contenedor.innerHTML = '<ul class="list-group">';
         archivos.forEach(file => {
-            
+
             const nombreLimpio = file.nombre.split('-').slice(2).join('-');
 
             contenedor.innerHTML += `

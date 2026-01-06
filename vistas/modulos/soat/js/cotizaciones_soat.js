@@ -47,7 +47,7 @@ $("#daterange-btnCotizacionesHogar").daterangepicker(
     ).chosenLabel;
     localStorage.setItem("Selected2", selectedOption);
     window.location =
-      "index.php?ruta=hogar&fechaInicialCotizaciones=" +
+      "index.php?ruta=soat&fechaInicialCotizaciones=" +
       fechaInicialCotizaciones +
       "&fechaFinalCotizaciones=" +
       fechaFinalCotizaciones;
