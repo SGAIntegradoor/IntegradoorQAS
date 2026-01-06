@@ -19,19 +19,6 @@ $(document).ready(function () {
 
   var permisos = JSON.parse(permisosPlantilla);
 
-  // const parseNumbersToString = (selector) => {
-  //   $(selector).on("input", function () {
-  //     this.value = this.value.replace(/\./g, "");
-  //   });
-
-  //   // Previene el ingreso de puntos desde el teclado
-  //   $(selector).on("keydown", function (event) {
-  //     if (event.which === 190 || event.which === 110) {
-  //       event.preventDefault();
-  //     }
-  //   });
-  // };
-
   // Elimina los espacios de la placa
   $("#placaVeh").keyup(function () {
     var numeroInput = document.getElementById("placaVeh").value;
@@ -137,8 +124,9 @@ $(document).ready(function () {
   $("#btnConsultarPlaca").click(function () {
     $("#containerDataTable").hide();
     $(".card-container").hide();
+    $("#containerDataTable").remove();
+    $("#containerTable").remove();
     $("html, body").animate({ scrollTop: 0 }, 600);
-    menosViewCot();
     consulPlaca();
   });
   // let intermediario = document.getElementById("idIntermediario").value;
@@ -444,6 +432,7 @@ $("#btnEnviarSolicitud").click(function () {
       showConfirmButton: true,
       confirmButtonText: "Cerrar",
     });
+    $("#btnEnviarSolicitud").prop("disabled", false);
     return;
   }
 
