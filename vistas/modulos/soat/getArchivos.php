@@ -1,8 +1,22 @@
 <?php
 header('Content-Type: application/json');
 
+$URI = explode("/", $_SERVER['REQUEST_URI']);
+
+if (in_array("dev", $URI)) {
+	$url = "localhost/docsSoat/";
+    $path = "/docsSoat/";
+} elseif (in_array("QAS", $URI) || in_array("qas", $URI) || in_array("Pruebas", $URI)) {
+	$url = "grupoasistencia.com/docsSoatP/";
+    $path = "/docsSoatP/";
+} else {
+	$url = "grupoasistencia.com/docsSoat/";
+    $path = "/docsSoat/";
+}
+
+
 $id = $_GET['id'] ?? '';
-$folderPath = "docsSoat/";
+$folderPath = $_SERVER['DOCUMENT_ROOT'] . $path; 
 $archivosEncontrados = [];
 
 if ($id !== '' && is_dir($folderPath)) {
@@ -13,7 +27,7 @@ if ($id !== '' && is_dir($folderPath)) {
         if (strpos($archivo, $id . "-") === 0) {
             $archivosEncontrados[] = [
                 "nombre" => $archivo,
-                "url" => "vistas/modulos/soat/" . $folderPath . $archivo
+                "url" => $url . $archivo
             ];
         }
     }
