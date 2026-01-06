@@ -1173,7 +1173,11 @@ async function loadUser(id) {
 
             // Fuera del setTimeout también validás:
             $("#categoriaAsesor")
-              .val(info_usuario_canal?.proactividad ?? "")
+              .val(info_usuario?.categoria_freelance ?? "")
+              .trigger("change");
+
+            $("#estadoAsesor")
+              .val(info_usuario?.estado_freelance ?? "")
               .trigger("change");
 
             $("#directorComercial").val(
