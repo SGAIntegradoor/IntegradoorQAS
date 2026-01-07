@@ -108,13 +108,12 @@ async function cargarArchivosCotizacion(idCotizacion) {
         // Limpiamos y generamos la lista
         contenedor.innerHTML = '<ul class="list-group">';
         archivos.forEach(file => {
-
             const nombreLimpio = file.nombre.split('-').slice(2).join('-');
 
             contenedor.innerHTML += `
                 <li class="list-group-item d-flex justify-content-between align-items-center" style="display:flex; justify-content: space-between; align-items: center;">
                     ${nombreLimpio}
-                    <a href="${file.url}" download="${nombreLimpio}" class="btn btn-sm btn-primary" style="margin-left: 15px">
+                    <a href="http://${file.url}" download="${nombreLimpio}" class="btn btn-sm btn-primary" style="margin-left: 15px">
                         Descargar
                     </a>
                 </li>`;

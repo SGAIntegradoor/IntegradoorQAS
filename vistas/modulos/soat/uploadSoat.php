@@ -3,10 +3,20 @@
 error_reporting(0);
 header('Content-Type: application/json');
 
+$URI = explode("/", $_SERVER['REQUEST_URI']);
+
+if (in_array("dev", $URI)) {
+    $url = "/docsSoat/";
+} elseif (in_array("QAS", $URI) || in_array("qas", $URI) || in_array("Pruebas", $URI)) {
+    $url = "/docsSoatP/";
+} else {
+    $url = "/docsSoat/";
+}
+
 $response = ["ok" => false, "error" => ""];
 
 // 2. Definir la ruta de la carpeta (Relativa al archivo PHP)
-$folderPath = "docsSoat/"; 
+$folderPath = $_SERVER['DOCUMENT_ROOT'] . $url;
 
 // 3. Verificar si la carpeta existe, si no, crearla
 if (!file_exists($folderPath)) {
@@ -20,7 +30,7 @@ if (isset($_FILES['archivos'])) {
     for ($i = 0; $i < $totalFiles; $i++) {
         $fileName = $_FILES['archivos']['name'][$i];
         $tempPath = $_FILES['archivos']['tmp_name'][$i];
-        
+
         // Limpiamos el nombre de posibles caracteres extraños o rutas malformadas
         $cleanName = basename($fileName);
         $targetFilePath = $folderPath . $cleanName;
