@@ -432,6 +432,17 @@
             </div>
         </div>
         <div class="row" id="row_contenedor_general_salud"></div>
+        <div class="row align-items-center" style="display: none;" id="fila-btn-pdf1">
+            <div class="col-xs-4 selec-oferta-salud">
+                <label style="color: black;" for="checkboxAsesorEditar">¿Deseas agregar tus datos como asesor en la cotización?</label>
+                <input class="form-check-input" type="checkbox" id="checkboxAsesorEditar" style="margin-left: 10px;" checked="">
+            </div>
+            <div class="col-xs-4">
+                <button type="button" class="btn btn-danger" id="btnParrillaPDFSalud1" style="margin-bottom: 10px;">
+                    <span class="fa fa-file-text"></span> Generar PDF de Cotización
+                </button>
+            </div>
+        </div>
     </div>
     <div id="loaderFilters">
         <div style="display:flex; align-items: center; justify-content: center; margin-bottom: 90px; margin-top: 90px; gap: 10px"><img src="vistas/img/plantilla/loader-update.gif" width="34" height="34"><strong style="font-size: 19px"> Cargando...</strong></div>

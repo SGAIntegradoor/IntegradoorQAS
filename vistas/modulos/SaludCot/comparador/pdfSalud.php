@@ -182,7 +182,7 @@ $countPlanes = count($rowInfoPlanes);
         .benef-table td {
             text-align: left;
             padding: 6px;
-            border-right: 2px solid black;
+            border-right: 0.5px solid black;
             /* font-size: 0.9rem; */
         }
 
@@ -213,7 +213,7 @@ $countPlanes = count($rowInfoPlanes);
 
         .separador {
             width: 100%;
-            height: 4.5vh;
+            height: 4.8vh;
             background-color: #00a8e8;
             color: white;
             font-size: 27px;
