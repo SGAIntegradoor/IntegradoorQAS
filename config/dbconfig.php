@@ -10,6 +10,7 @@ $URI = explode("/", $_SERVER['REQUEST_URI']);
 
 if (in_array("dev", $URI)) {
 	$DB_name = "grupoasi_cotizautos_dev";
+	$DB_host = "52.15.158.65";
 } elseif (in_array("QAS", $URI) || in_array("qas", $URI) || in_array("Pruebas", $URI) || in_array("pruebas", $URI)) {
 	$DB_name = "grupoasi_cotizautos_qas";
 } else {

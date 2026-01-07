@@ -6,7 +6,6 @@
 // define('DB_USER', 'root');//Usuario de tu base de datos.
 // define('DB_PASS', '');//Contraseña del usuario de la base de datos
 // define('DB_HOST', 'localhost:3307');//DB_HOST:  generalmente suele ser "127.0.0.1"
-define('DB_HOST', '127.0.0.1');//DB_HOST:  generalmente suele ser "127.0.0.1"
 define('DB_USER', 'grupoasi_cotizautos');//Usuario de tu base de datos
 define('DB_PASS', 'M1graci0n123');//Contraseña del usuario de la base de datos
 
@@ -14,10 +13,13 @@ $URI = explode("/", $_SERVER['REQUEST_URI']);
 
 if (in_array("dev", $URI)) {
     define('DB_NAME', 'grupoasi_cotizautos_dev');//Nombre de la base de datos
+	define('DB_HOST', '52.15.158.65');
 } elseif (in_array("QAS", $URI) || in_array("qas", $URI) || in_array("Pruebas", $URI) || in_array("pruebas", $URI)) {
 	define('DB_NAME', 'grupoasi_cotizautos_qas');//Nombre de la base de datos
+	define('DB_HOST', '127.0.0.1');//DB_HOST:  generalmente suele ser "127.0.0.1"
 } else {
 	define('DB_NAME', 'grupoasi_cotizautos');
+	define('DB_HOST', '127.0.0.1');//DB_HOST:  generalmente suele ser "127.0.0.1"
 }
 
 /*Datos de la empresa*/

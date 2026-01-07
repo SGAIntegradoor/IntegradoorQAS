@@ -22,13 +22,13 @@ if (in_array("dev", $URI)) {
 	$server = "52.15.158.65";
 	$bd = "grupoasi_cotizautos_dev";
 } else if (in_array("QAS", $URI)) {
-	$server = "52.15.158.65";
+	$server = "127.0.0.1";
 	$bd = "grupoasi_cotizautos_qas";
 } else if (in_array("Pruebas", $URI)) {
-	$server = "52.15.158.65";
+	$server = "127.0.0.1";
 	$bd = "grupoasi_cotizautos_qas";
 } else {
-	$server = "52.15.158.65";
+	$server = "127.0.0.1";
 	$bd = "grupoasi_cotizautos";
 }
 
