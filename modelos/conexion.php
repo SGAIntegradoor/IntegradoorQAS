@@ -26,18 +26,19 @@ class Conexion{
 
 
 	static public function conectar(){
-
 		$URI = explode("/", $_SERVER['REQUEST_URI']);
-
+		$url = "52.15.158.65";
 		if (in_array("dev", $URI)) {
 			self::getInstance()->setEnvironment('grupoasi_cotizautos_dev');
 		} elseif (in_array("QAS", $URI) || in_array("qas", $URI) || in_array("qas", $URI) || in_array("Pruebas", $URI)) {
 			self::getInstance()->setEnvironment('grupoasi_cotizautos_qas');
+			$url = "localhost";
 		} else {
 			self::getInstance()->setEnvironment('grupoasi_cotizautos');
+			$url = "localhost";
 		}
 
-		$link = new PDO("mysql:host=52.15.158.65;dbname=". self::getInstance()->dbname,
+		$link = new PDO("mysql:host=$url;dbname=". self::getInstance()->dbname,
 			            "grupoasi_cotizautos",
 			            'M1graci0n123');
 		$link->exec("set names utf8");

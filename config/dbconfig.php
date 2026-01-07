@@ -12,8 +12,10 @@ if (in_array("dev", $URI)) {
 	$DB_name = "grupoasi_cotizautos_dev";
 } elseif (in_array("QAS", $URI) || in_array("qas", $URI) || in_array("Pruebas", $URI)) {
 	$DB_name = "grupoasi_cotizautos_qas";
+	$DB_host = "localhost";
 } else {
 	$DB_name = "grupoasi_cotizautos";
+	$DB_host = "localhost";
 }
 
 
