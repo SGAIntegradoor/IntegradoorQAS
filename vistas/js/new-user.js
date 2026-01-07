@@ -1870,6 +1870,7 @@ function toggleOptions() {
 }
 
 let selectedOptions = [];
+let selectedOptionsUnidad = [];
 
 function updateSelectText(e = null) {
   const allCheckboxes = document.querySelectorAll(".options-container input");
@@ -1968,3 +1969,109 @@ document.addEventListener("click", function (event) {
     document.querySelector(".options-container").style.display = "none";
   }
 });
+
+
+function toggleOptionsUnidad() {
+  const optionsContainerUnidad = document.querySelector(".options-container-unidad");
+  optionsContainerUnidad.style.display =
+    optionsContainerUnidad.style.display === "block" ? "none" : "block";
+}
+
+function updateSelectTextUnidad(e = null) {
+  const allCheckboxesUnidad = document.querySelectorAll(".options-container-unidad input");
+  const checkedCheckboxesGlobalUnidad = document.querySelectorAll(
+    ".options-container-unidad input:checked"
+  );
+  // const todosCheckbox = document.querySelector(
+  //   ".options-container-unidad input[value='Todos']"
+  // );
+
+  // if (e?.target.value == "Todos" && !e?.target.checked) {
+  //   // console.log("checkeo todos desde select");
+  //   // Marcar todas las opciones si "Todos" está seleccionado
+  //   allCheckboxesUnidad.forEach((input) => (input.checked = false));
+  // }
+  // if (e?.target.value == "Todos" && e?.target.checked) {
+  //   allCheckboxesUnidad.forEach((input) => (input.checked = true));
+  //   const checkedCheckboxes = document.querySelectorAll(
+  //     ".options-container-unidad input:checked"
+  //   );
+  //   // console.log(checkedCheckboxes);
+  //   checkedCheckboxes.forEach((inpt) => {
+  //     if (inpt.value !== "Todos" && !selectedOptions.includes(inpt.value)) {
+  //       selectedOptions.push(inpt.value);
+  //     }
+  //   });
+  // }
+
+  // Revisar qué opciones están seleccionadas (sin incluir "Todos")
+  // allCheckboxesUnidad.forEach((input) => {
+  let input = e?.target;
+  if (input.checked && input.value !== "Todos") {
+    // console.log("disparo evento de otro cualquiera menos todos");
+    // Agregar solo si no existe
+    if (!selectedOptionsUnidad.includes(input.value)) {
+      selectedOptionsUnidad.push(input.value);
+    }
+  } else if (!input.checked && input.value !== "Todos") {
+    // Eliminar si existe
+    const index = selectedOptionsUnidad.indexOf("Todos");
+    if (index > -1) {
+      selectedOptionsUnidad.splice(index, 1);
+      checkedCheckboxesGlobalUnidad.forEach((inpt) => {
+        // console.log(inpt.value, selectedOptionsUnidad);
+        if (inpt.value !== "Todos" && !selectedOptionsUnidad.includes(inpt.value)) {
+          // console.log(inpt.value);
+          selectedOptionsUnidad.push(inpt.value);
+        }
+      });
+    } else {
+      const index2 = selectedOptionsUnidad.indexOf(input.value);
+      if (index2 > -1) {
+        selectedOptionsUnidad.splice(index2, 1);
+        checkedCheckboxesGlobalUnidad.forEach((inpt) => {
+          // console.log(inpt.value, selectedOptionsUnidad);
+          if (!selectedOptionsUnidad.includes(inpt.value)) {
+            // console.log(inpt.value);
+            selectedOptionsUnidad.push(inpt.value);
+          }
+        });
+      }
+    }
+  } 
+  // else if (input.value == "Todos" && !input.checked) {
+  //   // console.log("desmarcando todos");
+  //   // Si "Todos" está desmarcado, eliminar "Todos" del array
+  //   allCheckboxesUnidad.forEach((input) => (input.checked = false));
+  //   const index = selectedOptions.indexOf("Todos");
+  //   if (index > -1) {
+  //     selectedOptions.splice(index, 1);
+  //   }
+  // }
+  // });
+
+  // Si todas las opciones individuales están seleccionadas, marcar "Todos"
+  // console.log(selectedOptions.length, allCheckboxesUnidad.length);
+  if (selectedOptionsUnidad.length === allCheckboxesUnidad.length - 1) {
+    // console.log("la longitud del selected es igual a la de los checkboxes -1");
+    selectedOptionsUnidad.length = 0; // Limpiar y solo mostrar "Todos"
+    selectedOptionsUnidad.push("Todos");
+    // todosCheckbox.checked = true; // Asegurarse de que "Todos" esté marcado
+  } else {
+    // todosCheckbox.checked = false;
+  }
+
+  // Actualizar el texto en el select
+  document.querySelector(".select-box-unidad").innerText =
+    selectedOptionsUnidad.length > 0
+      ? selectedOptionsUnidad.join(", ")
+      : "Selecciona opciones...";
+}
+
+document.addEventListener("click", function (event) {
+  const select = document.querySelector(".custom-select");
+  if (!select.contains(event.target)) {
+    document.querySelector(".options-container").style.display = "none";
+  }
+});
+
