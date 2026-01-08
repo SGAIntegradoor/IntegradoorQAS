@@ -4,17 +4,19 @@
 require_once "../config/dbconfig.php";
 session_start();
 
+// Mostrar errores (solo desarrollo)
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
+// Responder siempre JSON
 header('Content-Type: application/json; charset=utf-8');
 
 $input   = json_decode(file_get_contents("php://input"), true);
 $id      = isset($input["id"]) ? $input["id"] : null;
 $cambios = isset($input["cambios"]) ? $input["cambios"] : [];
 
-// Validacin de sesión / rol
+// Validación de sesión / rol
 if (!isset($_SESSION["rol"]) || !in_array($_SESSION["rol"], array(1, 10, 11, 12, 22, 23))) {
     echo json_encode(array(
         "success" => false,
@@ -26,6 +28,7 @@ if (!isset($_SESSION["rol"]) || !in_array($_SESSION["rol"], array(1, 10, 11, 12,
 // Charset
 mysqli_set_charset($enlace, "utf8");
 
+// Validación básica
 if (empty($cambios)) {
     echo json_encode(array(
         "success" => false,
@@ -38,7 +41,7 @@ $respuestas = array();
 
 /**
  * ==================================================
- * CREAR USUARIO (cuando no le pasamos el idd)
+ * CREAR USUARIO (cuando no hay ID)
  * ==================================================
  */
 if (empty($id)) {
@@ -52,6 +55,8 @@ if (empty($id)) {
             if ($campo === "usu_password") {
                 $valor = crypt($valor, '$2a$07$asxx54ahjppf45sd87a5a4dDDGsystemdev$');
             }
+
+            // 🔧 FIX ARRAY (PHP 7.3)
             if (is_array($valor)) {
                 $valor = json_encode($valor, JSON_UNESCAPED_UNICODE);
             }
@@ -96,7 +101,7 @@ if (empty($id)) {
     }
 }
 
-// Normalizacion del ID
+// Normalizar ID
 $id = intval($id);
 
 /**
@@ -108,6 +113,7 @@ foreach ($cambios as $seccion => $datos) {
 
     if (empty($datos)) continue;
 
+    // Evitar reprocesar infoUsuario recién creada
     if (
         $seccion === "infoUsuario" &&
         empty($input["id"]) &&
@@ -126,6 +132,7 @@ foreach ($cambios as $seccion => $datos) {
             $valor = crypt($valor, '$2a$07$asxx54ahjppf45sd87a5a4dDDGsystemdev$');
         }
 
+        // 🔧 FIX ARRAY (PHP 7.3)
         if (is_array($valor)) {
             $valor = json_encode($valor, JSON_UNESCAPED_UNICODE);
         }
@@ -235,6 +242,11 @@ foreach ($cambios as $seccion => $datos) {
     }
 }
 
+/**
+ * ==================================================
+ * RESPUESTA FINAL (PHP 7.3)
+ * ==================================================
+ */
 $hayErrores = false;
 foreach ($respuestas as $r) {
     if ($r["ok"] === false) {
