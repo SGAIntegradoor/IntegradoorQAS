@@ -972,12 +972,12 @@ async function loadUser(id) {
               let selectBox = document.querySelector("#div-options-unidades");
               if (unidades.length === 0) {
                 selectBox.innerText = "Selecciona opciones...";
-              } else if (selectedOptionsUnidad.length <= 2) {
+              } else if (unidades.length <= 2) {
                 selectedOptionsUnidad = unidades;
                 selectBox.innerText = unidades.join(", ");
               } else {
                 selectBox.innerText =
-                  selectedOptionsUnidad.slice(0, 2).join(", ") + ", .....";
+                  unidades.slice(0, 2).join(", ") + ", .....";
               }
             } else {
               console.log("no hice asegs");
