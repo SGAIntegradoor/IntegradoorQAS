@@ -525,32 +525,29 @@ if (isset($_GET["id"])) {
                     <option value="asesorGanador">Asesor Ganador</option>
                   </select>
                 </div> -->
-                <div class="form-group" style="display: block;" id="divUnidadNegocioNew">
+                <div class="custom-select-unidad form-group" style="display: block;" id="divUnidadNegocioNew">
                   <label for="unidadNegocio"><b>Unidad de negocio:</b></label>
-                  <div class="select-box-unidad" onclick="toggleOptionsUnidad()">Selecciona opciones...
+                  <div class="select-box-unidad" onclick="toggleOptionsUnidad()">
+                    <div id="div-options-unidades" style="width: 100%;">Selecciona opciones...</div>
                     <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 16 16" fill="none">
-                      <path d="M3 5l5 5 5-5" stroke="black" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></path>
+                      <path d="M3 5l5 5 5-5" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
                     </svg>
                   </div>
                   <div class="options-container-unidad" id="optionsContainerUnidad">
-                    <!-- <div class="option">
-                      <input id="todosCheck" type="checkbox" value="Todos" onchange="updateSelectText(event)"> Todos
-                    </div> -->
-
-                    <div class="option">
-                      <input type="checkbox" value="Asesor Freelance" onchange="updateSelectTextUnidad(event)"> Asesor Freelance
+                    <div class="option-unidad">
+                      <input type="checkbox" value="Asesor Freelance" id="Asesor Freelance" onchange="updateSelectTextUnidad(event)"> Asesor Freelance
                     </div>
 
-                    <div class="option">
-                      <input type="checkbox" value="Asesor 10" onchange="updateSelectTextUnidad(event)"> Asesor 10
+                    <div class="option-unidad">
+                      <input type="checkbox" value="Asesor 10" id="Asesor 10" onchange="updateSelectTextUnidad(event)"> Asesor 10
                     </div>
 
-                    <div class="option">
-                      <input type="checkbox" value="Negocio Directo" onchange="updateSelectTextUnidad(event)"> Negocio Directo
+                    <div class="option-unidad">
+                      <input type="checkbox" value="Negocio Directo" id="Negocio Directo" onchange="updateSelectTextUnidad(event)"> Negocio Directo
                     </div>
 
-                    <div class="option">
-                      <input type="checkbox" value="Asesor Ganador" onchange="updateSelectTextUnidad(event)"> Asesor Ganador
+                    <div class="option-unidad">
+                      <input type="checkbox" value="Asesor Ganador" id="Asesor Ganador" onchange="updateSelectTextUnidad(event)"> Asesor Ganador
                     </div>
 
                   </div>

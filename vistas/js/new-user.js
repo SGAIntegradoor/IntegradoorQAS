@@ -1,8 +1,9 @@
 // Variables globales
 let id_usuario_edit = "";
 let initialSta = {};
+let selectedOptionsUnidad = [];
 
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", async function () {
   $("#divLoaderFS").show();
   cargarRoll();
   cargarIntermediario();
@@ -98,7 +99,7 @@ document.addEventListener("DOMContentLoaded", function () {
           }
         });
 
-      loadUser(id)
+      await loadUser(id)
         .then(() => {})
         .finally(() => {
           $("#divLoaderFS").hide();
@@ -106,10 +107,10 @@ document.addEventListener("DOMContentLoaded", function () {
         .catch((err) => {
           console.error("Error al cargar el usuario:", err);
         });
-
-      console.log(user_loaded);
     }
+    initialSta = setState();
   } else {
+    console.log("entre por aqui");
     $("#divLoaderFS").hide();
     $("#imgsContainer").hide();
     $("#diasActivacion").val(0);
@@ -173,8 +174,11 @@ function detectarCambios(dataOriginal, dataActual) {
       // console.log(campo);
       const valorOriginal = dataOriginal[seccion][campo];
       const valorActual = dataActual[seccion][campo];
-
-      if (typeof valorOriginal === "object" && valorOriginal !== null) {
+      if (Array.isArray(valorOriginal)) {
+        if (JSON.stringify(valorOriginal) !== JSON.stringify(valorActual)) {
+          cambios[seccion][campo] = valorActual;
+        }
+      } else if (typeof valorOriginal === "object" && valorOriginal !== null) {
         // Comparar objetos internos (como infoAseguradoras.detalle)
 
         // console.log("Entre aqui");
@@ -235,7 +239,6 @@ $(".btnGuardar").on("click", function () {
   if ($("#limiteUso").val() === "") {
     $("#limiteUso").val(todayDateFormatted(new Date(), 30));
   }
-
   let data = setState();
   let required = false;
   // console.log("State set up OnClick", data);
@@ -253,6 +256,7 @@ $(".btnGuardar").on("click", function () {
     // console.log(initialSta);
     required = true;
   }
+  console.log(cambios);
 
   if (Object.keys(cambios).length === 0) {
     Swal.fire({
@@ -263,7 +267,6 @@ $(".btnGuardar").on("click", function () {
     return;
   }
 
-  console.log(cambios);
   if (checkRequiredFields(required).length > 0) {
     let campos = checkRequiredFields(required).join(", ");
     Swal.fire({
@@ -638,6 +641,8 @@ function setState() {
     tipoDocTexto = ""; // sin selección
   }
 
+  let unidadNegocioRol = [...selectedOptionsUnidad];
+
   /*** Info Usuario ***/
   const infoUsuario = {
     usu_documento: $("#documento").val(),
@@ -667,7 +672,7 @@ function setState() {
 
     id_rol: $("#rolUsers").val(),
     // Rol Usuario
-    unidad_negocio_rol: $("#unidadDeNegocio").val(),
+    unidad_negocio_rol: unidadNegocioRol,
     usu_canal: $("#canal").val() || null,
     // Por tipo de documento - Si cambia esto tiene que cambiar el tipo de documento dependiendo lo que venga
     tipo_persona_rol: $("#tipoDePersona").val(),
@@ -750,258 +755,6 @@ function setState() {
 Cargar Usuario
 =============================================*/
 
-// async function loadUser(id) {
-//   return new Promise((resolve, reject) => {
-//     $.ajax({
-//       url: "src/loadUser.php",
-//       method: "POST",
-//       data: { id: id },
-//       success: function (respuesta) {
-//         resolve();
-//         const data = JSON.parse(respuesta);
-//         const { info_usuario, info_usuario_canal, info_aseguradoras_user } =
-//           data;
-
-//         // cargarCargos();
-//         // cargarAnalistas();
-//         // cargarBancos();
-
-//         $("#divComentarios").show();
-
-//         getComments(id);
-
-//         if (
-//           info_usuario.id_rol == 1 ||
-//           info_usuario.id_rol == 10 ||
-//           info_usuario.id_rol == 11 ||
-//           info_usuario.id_rol == 22 ||
-//           info_usuario.id_rol == 23
-//         ) {
-//           // console.log("Este es el usuario!", data);
-//           $("#divUnidadNegocio").hide();
-//           $("#divCanal").hide();
-//           $("#divUsuarioSGA").show();
-//           $("#usuarioSGA").val(info_usuario?.id_rol);
-//           $(".divAsistente").hide();
-//           $("#rolUsers").val(info_usuario?.id_rol).trigger("change");
-//           setTimeout(() => {
-//             $("#intermediarioPerfil")
-//               .val(info_usuario.id_Intermediario)
-//               .trigger("change");
-//             $("#cargos")
-//               .val(
-//                 info_usuario_canal?.cargo != null
-//                   ? info_usuario_canal?.cargo
-//                   : ""
-//               )
-//               .trigger("change");
-//           }, 500);
-//         } else if (info_usuario.id_rol == 12) {
-//           // console.log("Este es el usuario!", data);
-//           $("#divUnidadNegocio").css("display", "none");
-//           $("#divUsuarioSGA").show();
-//           $("#usuarioSGA").val(info_usuario.id_rol);
-//           $(".divAsistente").hide();
-//           // $("#divCanal").show();
-//           $("#canal").val(1);
-//           $("#rolUsers").val(info_usuario?.id_rol).trigger("change");
-//           setTimeout(() => {
-//             $("#intermediarioPerfil")
-//               .val(info_usuario.id_Intermediario)
-//               .trigger("change");
-//             $("#cargos").val(info_usuario_canal.cargo).trigger("change");
-//           }, 500);
-//         } else {
-//           // $("#divUnidadNegocio").show();
-//           $("#divCanal").show();
-//           $("#canal").val(
-//             (info_usuario.usu_canal == null || info_usuario.usu_canal == "") &&
-//               info_usuario.id_rol == "19"
-//               ? "1"
-//               : info_usuario.usu_canal
-//           );
-//           $("#divUsuarioSGA").hide();
-
-//           // $("#unidadDeNegocio").val(info_usuario.id_rol);
-//           $("#divUnidadNegocio").hide();
-//           $("#tipoDePersona").val(info_usuario.tipo_persona_rol);
-//           if (info_usuario.tipo_persona_rol == "2") {
-//             $("#tipoDocumento")
-//               .empty()
-//               .append('<option value="NIT">NIT</option>')
-//               .val("NIT");
-//             $(
-//               "#razonSocial, #personaDeContacto, #representanteLegal, #fechaNacimientoRepresentante"
-//             ).addClass("requiredfield");
-//             $("#razonSocial").val(
-//               info_usuario.usu_nombre + " " + info_usuario.usu_apellido
-//             );
-//             $("#genero_perfil")
-//               .empty()
-//               .append('<option value="J">Juridica</option>')
-//               .val("J")
-//               .trigger("change");
-//           }
-//           $("#rolUsers").val(info_usuario.id_rol).trigger("change");
-
-//           setTimeout(() => {
-//             $("#intermediarioPerfil")
-//               .val(info_usuario?.id_Intermediario ?? "")
-//               .trigger("change");
-
-//             $("#analistaAsesor")
-//               .val(info_usuario_canal?.analista_comercial ?? "")
-//               .trigger("change");
-
-//             $("#entidadBancaria")
-//               .val(info_usuario?.id_banco ?? "")
-//               .trigger("change");
-
-//             $("#tipoCuenta")
-//               .val(info_usuario?.tipo_cuenta ?? "")
-//               .trigger("change");
-//             $("#noCuenta").val(info_usuario?.numero_cuenta ?? "");
-//             $("#regimenRenta").val(info_usuario?.regimen_renta ?? "");
-//             $("#cargos")
-//               .val(info_usuario_canal?.cargo ?? "")
-//               .trigger("change");
-
-//             info_usuario?.facturador_electronico == 1
-//               ? $("#siFacturado").prop("checked", true).trigger("change")
-//               : $("#noFacturado").prop("checked", true).trigger("change");
-
-//             info_usuario?.responsable_iva == 1
-//               ? $("#siIVA").prop("checked", true).trigger("change")
-//               : $("#noIVA").prop("checked", true).trigger("change");
-
-//             $("#participacionEsp").val(
-//               (info_usuario?.participacion_esp ?? "0") + " %"
-//             );
-//           }, 400);
-
-//           // Fuera del setTimeout también validás:
-//           $("#categoriaAsesor")
-//             .val(info_usuario_canal?.proactividad ?? "")
-//             .trigger("change");
-
-//           $("#directorComercial").val(
-//             info_usuario_canal?.director_comercial ?? ""
-//           );
-
-//           $("#origen").val(info_usuario_canal?.origen ?? "");
-//           $("#nombreRecomendador").val(
-//             info_usuario_canal?.nombre_recomendador ?? ""
-//           );
-
-//           if (info_aseguradoras_user) {
-//             Object.entries(info_aseguradoras_user).length > 0
-//               ? $("#siClaves").prop("checked", true).trigger("change")
-//               : $("#noClaves").prop("checked", true).trigger("change");
-
-//             Object.entries(info_aseguradoras_user).forEach(([key, value]) => {
-//               const element = document.getElementById(key);
-//               // Si existe el elemento y es un checkbox
-//               if (element && element.type === "checkbox") {
-//                 element.checked = value === "1";
-//               }
-//               // Si es el campo "otras_aseg" que es un input text
-//               if (key === "otras_aseg") {
-//                 const otrasInput = document.getElementById("otras_aseg");
-//                 if (otrasInput) {
-//                   otrasInput.value = value == "NULL" ? "" : value;
-//                 }
-//               }
-//             });
-//           } else {
-//             console.log("no hice asegs");
-//           }
-//         }
-
-//         $("#usuarioVin").prop("disabled", true);
-//         $("#usuarioVin").val(info_usuario.usu_usuario);
-
-//         //Insertar fecha de creación
-//         let fechaForCrea = formatoFecha(info_usuario.usu_fch_creacion);
-//         $("#fechaCreaVin").val(fechaForCrea);
-//         $("#fechaCreaVin").prop("disabled", true);
-
-//         if ($("#fechaActivacion").val() == "") {
-//           $("#diasActivacion").val(0);
-//         }
-
-//         let fechaFormLim = formatoFecha(info_usuario.fechaFin);
-//         $("#limiteCots").val(info_usuario.cotizacionesTotales);
-//         $("#limiteUso").val(fechaFormLim);
-
-//         $("#estadoUs").val(info_usuario.usu_estado);
-
-//         let tipoDoc = info_usuario.tipos_documentos_id;
-//         let tipoPersona = tipoDoc == "NIT" ? "Juridica" : "Natural";
-//         $("#tipoDocumento").val(
-//           tipoDoc == "CC" ? "CC" : tipoDoc == "CE" ? "CE" : tipoDoc
-//         ).trigger("change");;
-
-//         if (tipoPersona == "Natural") {
-//           $("#tipoDePersona").val(1).trigger("change");
-//           $("#tipoDocumento").val(info_usuario.tipos_documentos_id).trigger("change");
-//           $("#documento").val(info_usuario.usu_documento);
-//           $("#nombre_perfil").val(info_usuario.usu_nombre);
-//           $("#apellidos_perfil").val(info_usuario.usu_apellido);
-//           $("#fechaNacimiento_perfil").val(info_usuario.usu_fch_nac);
-//           $("#genero_perfil").val(info_usuario.usu_genero == "M" ? "1" : "2");
-//         } else if (tipoPersona == "Juridica") {
-//           $("#tipoDePersona").val(2).trigger("change");
-//           $("#tipoDocumento").val("NIT").trigger("change");
-//           $("#documento").val(info_usuario.usu_documento);
-//           $("#razonSocial").val(
-//             info_usuario.usu_nombre + " " + info_usuario.usu_apellido
-//           );
-//           $("#personaDeContacto").val(
-//             info_usuario.usu_nombre + " " + info_usuario.usu_apellido
-//           );
-//           if (
-//             info_usuario.usu_nombre + " " + info_usuario.usu_apellido ==
-//             $("#personaDeContacto").val()
-//           ) {
-//             $("#siRepresentante").prop("checked", true).trigger("change");
-//             $();
-//           }
-//         }
-
-//         if (
-//           info_usuario?.ciudades_id == null ||
-//           info_usuario?.ciudades_id == ""
-//         ) {
-//           $("#departamento").val("").trigger("change");
-//           $("#ciudad").val("").trigger("change");
-//         } else {
-//           let depto =
-//             info_usuario?.ciudades_id.split("")[0] +
-//             info_usuario?.ciudades_id.split("")[1];
-//           console.log(depto);
-//           if (depto == 11) {
-//             depto = 25;
-//           }
-//           $("#departamento").val(depto).trigger("change"); // solo seteas el departamento
-//           consultarCiudad(info_usuario?.ciudades_id); // y aquí sí cargas las ciudades + seleccionas la del usuario
-//         }
-//         setTimeout(() => {
-//           initialSta = setState();
-//         }, 1500);
-//         $("#direccion_perfil").val(info_usuario.usu_direccion);
-//         $("#telefono_perfil").val(info_usuario.usu_telefono);
-//         $("#email_perfil").val(info_usuario.usu_email);
-
-//         user_loaded = data;
-//       },
-//       error: function (xhr, status, error) {
-//         console.error("Error al cargar el usuario:", error);
-//         reject(error); // Rechazar la promesa en caso de error
-//       },
-//     });
-//   });
-// }
-
 const loadMadedDeals = async (id_user) => {
   return new Promise((resolve, reject) => {
     $.ajax({
@@ -1011,18 +764,20 @@ const loadMadedDeals = async (id_user) => {
       data: JSON.stringify({ id_freelance: id_user }),
       success: function (respuesta) {
         const parsedResponse = JSON.parse(respuesta);
-        const [year, month, day] = parsedResponse.data.data.fecha_exp_poliza.split("-");
+        const [year, month, day] =
+          parsedResponse.data.data.fecha_exp_poliza.split("-");
         const dateActivacion = new Date(year, month - 1, day);
 
         console.log(parsedResponse.data.data.fecha_exp_poliza);
-
 
         $("#fechaActivacion").val(parsedResponse.data.data.fecha_exp_poliza);
 
         // resta de fechas y calcula los dias para colocarlos en un input
         const fechaActual = new Date($("#fechaCreaVin").val());
         const diferenciaTiempo = dateActivacion - fechaActual;
-        const diferenciaDias = Math.ceil(diferenciaTiempo / (1000 * 60 * 60 * 24));
+        const diferenciaDias = Math.ceil(
+          diferenciaTiempo / (1000 * 60 * 60 * 24)
+        );
         $("#diasActivacion").val(diferenciaDias);
 
         resolve();
@@ -1044,6 +799,9 @@ async function loadUser(id) {
         try {
           // parseamos la respuesta al inicio
           const data = JSON.parse(respuesta);
+          data["info_usuario"]["unidad_negocio_rol"] = JSON.parse(
+            data["info_usuario"]["unidad_negocio_rol"] || "[]"
+          );
           const { info_usuario, info_usuario_canal, info_aseguradoras_user } =
             data;
 
@@ -1053,7 +811,6 @@ async function loadUser(id) {
           // cargarBancos();
 
           $("#divComentarios").show();
-
           getComments(id);
 
           if (
@@ -1190,6 +947,36 @@ async function loadUser(id) {
               info_usuario_canal?.nombre_recomendador ?? ""
             );
 
+            setTimeout(() => {
+              // Guardamos user_loaded y resolvemos la promesa cuando ya cargamos la UI
+              user_loaded = data;
+              console.log(user_loaded);
+              resolve(data);
+            }, 1500);
+
+            const unidades = info_usuario.unidad_negocio_rol;
+            if (
+              unidades.length > 0 &&
+              info_usuario.unidad_negocio_rol != null
+            ) {
+              // const tieneUnidades = JSON.parse(info_usuario.unidad_negocio_rol);
+              unidades.map((unidad) => {
+                const element = document.getElementById(unidad);
+
+                // Si existe el elemento y es un checkbox
+                if (element && element.type === "checkbox") {
+                  element.checked = true;
+                }
+                // Si es el campo "otras_aseg" que es un input text
+              });
+              let selectedUnd = unidades.join(", ");
+              let selectBox = document.querySelector("#div-options-unidades");
+              selectedOptionsUnidad = unidades;
+              selectBox.innerHTML = selectedUnd;
+            } else {
+              console.log("no hice asegs");
+            }
+
             if (info_aseguradoras_user) {
               Object.entries(info_aseguradoras_user).length > 0
                 ? $("#siClaves").prop("checked", true).trigger("change")
@@ -1289,13 +1076,6 @@ async function loadUser(id) {
             // Llamamos a consultarCiudad pasando la ciudades_id para que seleccione la ciudad tras poblar el select
             consultarCiudad(info_usuario?.ciudades_id);
           }
-
-          setTimeout(() => {
-            initialSta = setState();
-            // Guardamos user_loaded y resolvemos la promesa cuando ya cargamos la UI
-            user_loaded = data;
-            resolve(data);
-          }, 1500);
 
           $("#direccion_perfil").val(info_usuario.usu_direccion);
           $("#telefono_perfil").val(info_usuario.usu_telefono);
@@ -1870,7 +1650,6 @@ function toggleOptions() {
 }
 
 let selectedOptions = [];
-let selectedOptionsUnidad = [];
 
 function updateSelectText(e = null) {
   const allCheckboxes = document.querySelectorAll(".options-container input");
@@ -1947,7 +1726,6 @@ function updateSelectText(e = null) {
   // Si todas las opciones individuales están seleccionadas, marcar "Todos"
   // console.log(selectedOptions.length, allCheckboxes.length);
   if (selectedOptions.length === allCheckboxes.length - 1) {
-    // console.log("la longitud del selected es igual a la de los checkboxes -1");
     selectedOptions.length = 0; // Limpiar y solo mostrar "Todos"
     selectedOptions.push("Todos");
     todosCheckbox.checked = true; // Asegurarse de que "Todos" esté marcado
@@ -1970,42 +1748,22 @@ document.addEventListener("click", function (event) {
   }
 });
 
-
 function toggleOptionsUnidad() {
-  const optionsContainerUnidad = document.querySelector(".options-container-unidad");
+  const optionsContainerUnidad = document.querySelector(
+    ".options-container-unidad"
+  );
   optionsContainerUnidad.style.display =
     optionsContainerUnidad.style.display === "block" ? "none" : "block";
 }
 
 function updateSelectTextUnidad(e = null) {
-  const allCheckboxesUnidad = document.querySelectorAll(".options-container-unidad input");
+  const allCheckboxesUnidad = document.querySelectorAll(
+    ".options-container-unidad input"
+  );
   const checkedCheckboxesGlobalUnidad = document.querySelectorAll(
     ".options-container-unidad input:checked"
   );
-  // const todosCheckbox = document.querySelector(
-  //   ".options-container-unidad input[value='Todos']"
-  // );
 
-  // if (e?.target.value == "Todos" && !e?.target.checked) {
-  //   // console.log("checkeo todos desde select");
-  //   // Marcar todas las opciones si "Todos" está seleccionado
-  //   allCheckboxesUnidad.forEach((input) => (input.checked = false));
-  // }
-  // if (e?.target.value == "Todos" && e?.target.checked) {
-  //   allCheckboxesUnidad.forEach((input) => (input.checked = true));
-  //   const checkedCheckboxes = document.querySelectorAll(
-  //     ".options-container-unidad input:checked"
-  //   );
-  //   // console.log(checkedCheckboxes);
-  //   checkedCheckboxes.forEach((inpt) => {
-  //     if (inpt.value !== "Todos" && !selectedOptions.includes(inpt.value)) {
-  //       selectedOptions.push(inpt.value);
-  //     }
-  //   });
-  // }
-
-  // Revisar qué opciones están seleccionadas (sin incluir "Todos")
-  // allCheckboxesUnidad.forEach((input) => {
   let input = e?.target;
   if (input.checked && input.value !== "Todos") {
     // console.log("disparo evento de otro cualquiera menos todos");
@@ -2019,9 +1777,10 @@ function updateSelectTextUnidad(e = null) {
     if (index > -1) {
       selectedOptionsUnidad.splice(index, 1);
       checkedCheckboxesGlobalUnidad.forEach((inpt) => {
-        // console.log(inpt.value, selectedOptionsUnidad);
-        if (inpt.value !== "Todos" && !selectedOptionsUnidad.includes(inpt.value)) {
-          // console.log(inpt.value);
+        if (
+          inpt.value !== "Todos" &&
+          !selectedOptionsUnidad.includes(inpt.value)
+        ) {
           selectedOptionsUnidad.push(inpt.value);
         }
       });
@@ -2030,42 +1789,32 @@ function updateSelectTextUnidad(e = null) {
       if (index2 > -1) {
         selectedOptionsUnidad.splice(index2, 1);
         checkedCheckboxesGlobalUnidad.forEach((inpt) => {
-          // console.log(inpt.value, selectedOptionsUnidad);
           if (!selectedOptionsUnidad.includes(inpt.value)) {
-            // console.log(inpt.value);
             selectedOptionsUnidad.push(inpt.value);
           }
         });
       }
     }
-  } 
-  // else if (input.value == "Todos" && !input.checked) {
-  //   // console.log("desmarcando todos");
-  //   // Si "Todos" está desmarcado, eliminar "Todos" del array
-  //   allCheckboxesUnidad.forEach((input) => (input.checked = false));
-  //   const index = selectedOptions.indexOf("Todos");
-  //   if (index > -1) {
-  //     selectedOptions.splice(index, 1);
-  //   }
-  // }
-  // });
-
-  // Si todas las opciones individuales están seleccionadas, marcar "Todos"
-  // console.log(selectedOptions.length, allCheckboxesUnidad.length);
-  if (selectedOptionsUnidad.length === allCheckboxesUnidad.length - 1) {
-    // console.log("la longitud del selected es igual a la de los checkboxes -1");
-    selectedOptionsUnidad.length = 0; // Limpiar y solo mostrar "Todos"
-    selectedOptionsUnidad.push("Todos");
-    // todosCheckbox.checked = true; // Asegurarse de que "Todos" esté marcado
-  } else {
-    // todosCheckbox.checked = false;
   }
 
-  // Actualizar el texto en el select
-  document.querySelector(".select-box-unidad").innerText =
-    selectedOptionsUnidad.length > 0
-      ? selectedOptionsUnidad.join(", ")
-      : "Selecciona opciones...";
+  const selectBox = document.querySelector("#div-options-unidades");
+
+  if (selectedOptionsUnidad.length === 0) {
+    selectBox.innerText = "Selecciona opciones...";
+  } else if (selectedOptionsUnidad.length <= 2) {
+    selectBox.innerText = selectedOptionsUnidad.join(", ");
+  } else {
+    selectBox.innerText =
+      selectedOptionsUnidad.slice(0, 2).join(", ") + ", .....";
+  }
+
+  document.addEventListener("click", function (event) {
+    const select = document.querySelector(".custom-select-unidad");
+    if (!select.contains(event.target)) {
+      document.querySelector(".options-container-unidad").style.display =
+        "none";
+    }
+  });
 }
 
 document.addEventListener("click", function (event) {
@@ -2074,4 +1823,3 @@ document.addEventListener("click", function (event) {
     document.querySelector(".options-container").style.display = "none";
   }
 });
-
