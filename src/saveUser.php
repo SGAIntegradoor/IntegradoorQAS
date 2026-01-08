@@ -174,13 +174,7 @@ foreach ($cambios as $seccion => $datos) {
             continue 2;
     }
 
-    $res = mysqli_query($enlace, $query);
     $afectadas = mysqli_affected_rows($enlace);
-
-    if ($res && $afectadas > 0) {
-        $respuestas[] = array("seccion" => $seccion, "ok" => true);
-        continue;
-    }
 
     if ($res && $afectadas === 0) {
 
