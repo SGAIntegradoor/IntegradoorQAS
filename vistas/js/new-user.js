@@ -668,7 +668,7 @@ function setState() {
     // parte del usuario para validar fechas
     cotizacionesTotales: $("#limiteCots").val(),
     fechaFin: $("#limiteUso").val(),
-    usu_fecha_activacion: $("#fechaActivacion").val() || null,
+    // usu_fecha_activacion: $("#fechaActivacion").val() || null,
 
     id_rol: $("#rolUsers").val(),
     // Rol Usuario
