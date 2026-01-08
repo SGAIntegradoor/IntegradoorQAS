@@ -157,6 +157,18 @@ function menosVeh() {
   document.getElementById("menosVehiculo").style.display = "none";
   document.getElementById("masVehiculo").style.display = "block";
 }
+// Maximizar el formulario Datos Vehiculo
+function masExp() {
+  document.getElementById("containerExpedicion").style.display = "block";
+  document.getElementById("menosExp").style.display = "block";
+  document.getElementById("masExp").style.display = "none";
+}
+// Minimiza el formulario Datos Vehiculo
+function menosExp() {
+  document.getElementById("containerExpedicion").style.display = "none";
+  document.getElementById("menosExp").style.display = "none";
+  document.getElementById("masExp").style.display = "block";
+}
 // Maximiza el Formulario Agregar Oferta
 function masAgr() {
   document.getElementById("DatosAgregarOferta").style.display = "block";
@@ -172,6 +184,8 @@ function menosAgr() {
 // Permite consultar la informacion del vehiculo por medio de la Placa (Seguros del Estado)
 function consulPlaca(query = "1") {
   var numplaca = document.getElementById("placaVeh").value;
+
+  $("#title-resumen-coti").html("RESUMEN COTIZACIÓN SOAT PLACA " + numplaca);
 
   if (numplaca == "WWW404") {
     document.getElementById("formularioVehiculo").style.display = "block";
@@ -190,6 +204,9 @@ function consulPlaca(query = "1") {
       $("#loaderPlaca2").html(
         '<img src="vistas/img/plantilla/loader-loading.gif" width="34" height="34"><strong> Consultando Placa...</strong>'
       );
+
+      $("#lblDataTrip2Top").css("display", "none");
+      $(".box").css("border-top", "0px");
 
       //INICIO DE CABECERA PARA INGRESAR INFORMACION DEL METODO
       var myHeaders = new Headers();
@@ -221,26 +238,19 @@ function consulPlaca(query = "1") {
         })
         .then(function (myJson) {
           var codigoLinea = myJson.ConsultarInfoVehiculoRuntDocResult.linea;
-          var modeloVehiculo =
-            myJson.ConsultarInfoVehiculoRuntDocResult.aaaa_modelo;
-          var codigoClase =
-            myJson.ConsultarInfoVehiculoRuntDocResult.claseVehiculo;
-          var idClase =
-            myJson.ConsultarInfoVehiculoRuntDocResult.idClaseVehiculo;
+          var modeloVehiculo = myJson.ConsultarInfoVehiculoRuntDocResult.aaaa_modelo;
+          var codigoClase = myJson.ConsultarInfoVehiculoRuntDocResult.claseVehiculo;
+          var idClase = myJson.ConsultarInfoVehiculoRuntDocResult.idClaseVehiculo;
           var codigoMarca = myJson.ConsultarInfoVehiculoRuntDocResult.marca;
 
           var servicio = myJson.ConsultarInfoVehiculoRuntDocResult.tipoServicio;
           var cilindraje = myJson.ConsultarInfoVehiculoRuntDocResult.cnt_cc;
-          var pasajeros =
-            myJson.ConsultarInfoVehiculoRuntDocResult.cnt_ocupantes;
+          var pasajeros = myJson.ConsultarInfoVehiculoRuntDocResult.cnt_ocupantes;
           var motor = myJson.ConsultarInfoVehiculoRuntDocResult.noMotor;
           var chasis = myJson.ConsultarInfoVehiculoRuntDocResult.noChasis;
-          var capacidad =
-            myJson.ConsultarInfoVehiculoRuntDocResult.cnt_toneladas;
+          var capacidad = myJson.ConsultarInfoVehiculoRuntDocResult.cnt_toneladas;
 
-          var nroDocPropietario =
-            myJson.ConsultarInfoVehiculoRuntDocResult.Propietarios.Propietario
-              .noDocumento;
+          var nroDocPropietario = myJson.ConsultarInfoVehiculoRuntDocResult.Propietarios.Propietario.noDocumento;
 
           const fechaInicioVigencia = new Date();
           const fechaFinVigencia = new Date(fechaInicioVigencia);
@@ -256,23 +266,8 @@ function consulPlaca(query = "1") {
           $("#txtPasajeros").val(pasajeros);
           $("#txtMotor").val(motor);
           $("#txtChasis").val(chasis);
+          $("#txtFechaVencimiento").val(chasis);
 
-          $("#lblDataTrip2Top").css("display", "none");
-          $(".box").css("border-top", "0px");
-
-          // document.getElementById("formularioVehiculo").style.display = "none";
-          document.getElementById("headerAsegurado").style.display = "block";
-          document.getElementById("contenSuperiorPlaca").style.display = "none";
-          document.getElementById("resumenVehiculo").style.display = "block";
-          document.getElementById("contenBtnCotizar").style.display = "block";
-          $("#loaderPlaca").hide();
-          $("#loaderPlaca2").html("");
-          menosAseg();
-          document.getElementById("contenBtnConsultarPlaca").style.display = "none";
-          $("#contenSuperiorPlaca").css("display", "block");
-          $("#txtConocesLaPlacaSi").prop("disabled", true);
-          $("#txtConocesLaPlacaNo").prop("disabled", true);
-          $("#placaVeh").prop("disabled", true);
           $("#loaderPlacaTwo").html('<img src="vistas/img/plantilla/loader-loading.gif" width="34" height="34"><strong> Cotizando SOAT...</strong>'
           );
 
@@ -294,6 +289,20 @@ function consulPlaca(query = "1") {
               NumeroDocumento: nroDocPropietario,
             }),
             success: function (data) {
+
+              // document.getElementById("formularioVehiculo").style.display = "none";
+              document.getElementById("headerAsegurado").style.display = "block";
+              document.getElementById("contenSuperiorPlaca").style.display = "none";
+              document.getElementById("resumenVehiculo").style.display = "block";
+              // document.getElementById("contenBtnCotizar").style.display = "block";
+              $("#loaderPlaca").hide();
+              $("#loaderPlaca2").html("");
+              menosAseg();
+              document.getElementById("contenBtnConsultarPlaca").style.display = "none";
+              $("#contenSuperiorPlaca").css("display", "block");
+              $("#txtConocesLaPlacaSi").prop("disabled", true);
+              $("#txtConocesLaPlacaNo").prop("disabled", true);
+              $("#placaVeh").prop("disabled", true);
 
               // Peticion para guardar la cotización (formato Form Data)
               $.ajax({
@@ -328,19 +337,20 @@ function consulPlaca(query = "1") {
                 }
               });
 
-              let valorAPagarSoat = Number(
-                data.CalcularPolizaResult.ValorTotalPagar
-              );
+              let valorAPagarSoat = Number(data.CalcularPolizaResult.ValorTotalPagar);
               let totalPagarSoat = valorAPagarSoat + 45000;
+              let fechaVencimiento = data.CalcularPolizaResult.FechaInicioVigencia;
               valorSoatGlobal = valorAPagarSoat;
-              $("#valorSoat").text(
-                "$ " + valorAPagarSoat.toLocaleString("es-CO")
-              );
-              $("#totalPagarSoat").text(
-                "$ " + totalPagarSoat.toLocaleString("es-CO")
-              );
+              $("#fechaCoti").text(new Date().toLocaleDateString());
+              $("#txtFechaVencimiento").val(fechaVencimiento.split(' ')[0]);
+              $("#PrimaSoat").text("$ " + Number(data.CalcularPolizaResult.ValorPrima).toLocaleString("es-CO"));
+              $("#contriFosyga").text("$ " + Number(data.CalcularPolizaResult.ValorContribucion).toLocaleString("es-CO"));
+              $("#tasaRunt").text("$ " + Number(data.CalcularPolizaResult.ValorTasaRUNT).toLocaleString("es-CO"));
+              $("#valorSoat").text("$ " + Number(data.CalcularPolizaResult.ValorTotalPoliza).toLocaleString("es-CO"));
+              $("#valorSoat").text("$ " + valorAPagarSoat.toLocaleString("es-CO"));
+              $("#totalPagarSoat").text("$ " + totalPagarSoat.toLocaleString("es-CO"));
               $("#loaderPlacaTwo").html("");
-              $(".containerResumenCoti").show();
+              // $(".containerResumenCoti").show();
             },
             error: function (error) {
               console.log("Error al cotizar SOAT: ", error);
@@ -379,7 +389,10 @@ $("#btnNuevaCoti").click(function () {
 });
 
 $("#btnContinuarCoti").click(function () {
+  menosVeh();
+  $(".containerResumenCoti").show();
   $(".containerFinalForm").show();
+  $("#servicioTramite").text("$ " + Number($("#radioConComision").is(":checked") ? 45000 : 20000).toLocaleString("es-CO"));
   $("#radioConComision").prop("disabled", true);
   $("#radioSinComision").prop("disabled", true);
   $("#btnContinuarCoti").prop("disabled", true);
@@ -391,7 +404,7 @@ $("#btnContinuarCoti").click(function () {
     data: {
       Accion: "Actualizar-valores-soat",
       IdCotizacionSoat: idCotizacionSoat,
-      Estado: "Modalidad",
+      Estado: "Soat Cotizado",
       Opcion: $("#radioConComision").is(":checked") ? "Con comision" : "Sin comision",
       Comision: $("#radioConComision").is(":checked") ? 45000 : 20000,
       TotalSoat: $("#totalPagarSoat").text().replace(/\./g, "").replace("$ ", ""),
@@ -408,6 +421,9 @@ $("#btnContinuarCoti").click(function () {
 });
 
 $("#btnEnviarSolicitud").click(function () {
+  if (getParams("idCotizacionSoat").length > 0) {
+    idCotizacionSoat = getParams("idCotizacionSoat")[0];
+  }
 
   $("#btnEnviarSolicitud").prop("disabled", true);
 
@@ -446,7 +462,7 @@ $("#btnEnviarSolicitud").click(function () {
     data: {
       Accion: "Actualizar-datos-soat",
       IdCotizacionSoat: idCotizacionSoat,
-      Estado: "Enviada",
+      Estado: "Solicitud enviada",
       Correo: $("#correoTomadorSoat").val(),
       Celular: $("#celularTomadorSoat").val(),
     },
@@ -500,117 +516,117 @@ $("#btnEnviarSolicitud").click(function () {
   });
 });
 
-  const MAX_FILES = 3;
-  const MAX_SIZE = 1 * 1024 * 1024;
+const MAX_FILES = 3;
+const MAX_SIZE = 1 * 1024 * 1024;
 
-  const btn = document.getElementById("btnUpload");
-  const input = document.getElementById("fileInput");
-  const preview = document.getElementById("filePreview");
+const btn = document.getElementById("btnUpload");
+const input = document.getElementById("fileInput");
+const preview = document.getElementById("filePreview");
 
-  var files = [];
+var files = [];
 
-  btn.onclick = () => {
-    if (files.length < MAX_FILES) {
-      input.click();
-    }
-  };
+btn.onclick = () => {
+  if (files.length < MAX_FILES) {
+    input.click();
+  }
+};
 
-  input.onchange = () => {
-    const selected = Array.from(input.files);
+input.onchange = () => {
+  const selected = Array.from(input.files);
 
-    for (const file of selected) {
+  for (const file of selected) {
 
-      if (files.length >= MAX_FILES) {
-        alert("Máximo 3 archivos.");
-        break;
-      }
-
-      if (file.size > MAX_SIZE) {
-        alert(`"${file.name}" supera 1 MB`);
-        continue;
-      }
-
-      const exists = files.some(
-        f => f.name === file.name && f.size === file.size
-      );
-
-      if (!exists) {
-        files.push(file);
-      }
+    if (files.length >= MAX_FILES) {
+      alert("Máximo 3 archivos.");
+      break;
     }
 
-    render();
-    input.value = "";
-  };
+    if (file.size > MAX_SIZE) {
+      alert(`"${file.name}" supera 1 MB`);
+      continue;
+    }
 
-  function render() {
-    preview.innerHTML = "";
+    const exists = files.some(
+      f => f.name === file.name && f.size === file.size
+    );
 
-    files.forEach((file, index) => {
-      const div = document.createElement("div");
-      div.className = "file-item";
+    if (!exists) {
+      files.push(file);
+    }
+  }
 
-      div.innerHTML = `
+  render();
+  input.value = "";
+};
+
+function render() {
+  preview.innerHTML = "";
+
+  files.forEach((file, index) => {
+    const div = document.createElement("div");
+    div.className = "file-item";
+
+    div.innerHTML = `
             <span>${idCotizacionSoat}-${file.name}</span>
             <span class="remove-btn" onclick="removeFile(${index})">✕</span>
         `;
 
-      preview.appendChild(div);
-    });
+    preview.appendChild(div);
+  });
 
-    // bloquear cuando llegue al límite
-    btn.disabled = files.length >= MAX_FILES;
-  }
+  // bloquear cuando llegue al límite
+  btn.disabled = files.length >= MAX_FILES;
+}
 
-  function removeFile(index) {
-    files.splice(index, 1);
-    render();
-  }
+function removeFile(index) {
+  files.splice(index, 1);
+  render();
+}
 
 function enviarArchivos() {
-    // Verificamos que existan archivos para evitar peticiones vacías
-    if (!files || files.length === 0) {
-        console.warn("No hay archivos para subir");
-        return;
-    }
+  // Verificamos que existan archivos para evitar peticiones vacías
+  if (!files || files.length === 0) {
+    console.warn("No hay archivos para subir");
+    return;
+  }
 
-    console.log("Iniciando subida para cotización:", idCotizacionSoat);
-    const formData = new FormData();
+  console.log("Iniciando subida para cotización:", idCotizacionSoat);
+  const formData = new FormData();
 
-    // Agregamos el ID de la cotización
-    formData.append("cotizacion", idCotizacionSoat);
+  // Agregamos el ID de la cotización
+  formData.append("cotizacion", idCotizacionSoat);
 
-    // Agregamos los archivos
-    files.forEach((file, index) => {
-        const nuevoNombre = `${idCotizacionSoat}-${index}-${file.name}`;
-        // Importante: 'archivos[]' permite que PHP lo reciba como un array
-        formData.append("archivos[]", file, nuevoNombre);
-    });
+  // Agregamos los archivos
+  files.forEach((file, index) => {
+    const nuevoNombre = `${idCotizacionSoat}-${index}-${file.name}`;
+    // Importante: 'archivos[]' permite que PHP lo reciba como un array
+    formData.append("archivos[]", file, nuevoNombre);
+  });
 
-    // --- DEBUG: Ver el contenido real antes de enviar ---
-    console.log("Contenido del FormData:");
-    for (let [key, value] of formData.entries()) {
-        console.log(`${key}:`, value);
-    }
+  // --- DEBUG: Ver el contenido real antes de enviar ---
+  console.log("Contenido del FormData:");
+  for (let [key, value] of formData.entries()) {
+    console.log(`${key}:`, value);
+  }
 
-    fetch("vistas/modulos/soat/uploadSoat.php", {
-        method: "POST",
-        body: formData // El navegador añade automáticamente el Header multipart/form-data
-    })
+  fetch("vistas/modulos/soat/uploadSoat.php", {
+    method: "POST",
+    body: formData // El navegador añade automáticamente el Header multipart/form-data
+  })
     .then(res => {
-        if (!res.ok) throw new Error("Error en la respuesta del servidor");
-        return res.json();
+      if (!res.ok) throw new Error("Error en la respuesta del servidor");
+      return res.json();
     })
     .then(data => {
-        if (data.ok) {
-            console.log("Archivos subidos con éxito", data);
-        } else {
-            console.error("Error del servidor:", data.error);
-        }
+      if (data.ok) {
+        console.log("Archivos subidos con éxito", data);
+      } else {
+        console.error("Error del servidor:", data.error);
+      }
     })
     .catch(err => {
-        console.error("Error en la petición fetch:", err);
-        alert("Ocurrió un error al conectar con el servidor");
+      console.error("Error en la petición fetch:", err);
+      alert("Ocurrió un error al conectar con el servidor");
     });
 }
 

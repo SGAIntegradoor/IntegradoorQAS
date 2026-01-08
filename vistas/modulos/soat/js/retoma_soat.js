@@ -19,7 +19,7 @@ $("document").ready(function () {
     document.getElementById("headerAsegurado").style.display = "block";
     document.getElementById("contenSuperiorPlaca").style.display = "none";
     document.getElementById("resumenVehiculo").style.display = "block";
-    document.getElementById("contenBtnCotizar").style.display = "block";
+    // document.getElementById("contenBtnCotizar").style.display = "block";
     menosAseg();
     masAseg();
     document.getElementById("contenBtnConsultarPlaca").style.display = "none";
@@ -30,7 +30,7 @@ $("document").ready(function () {
     $("btnConsultarPlaca2").remove();
     $("#btnContinuarCoti").remove();
     $("#btnNuevaCoti").remove();
-    $("#btnEnviarSolicitud").remove();
+    $("#btnEnviarSolicitud").hide();
     $(".containerResumenCoti").show();
     $(".containerFinalForm").show();
     $("#correoTomadorSoat").prop("disabled", true);
@@ -60,6 +60,7 @@ function editarCotizacionSoat(idCotizacionSoat) {
             const totalSoat = Number(response.total_soat);
             const valorComision = Number(response.valor_comision);
 
+            $("#title-resumen-coti").html("RESUMEN COTIZACIÓN SOAT PLACA " + response.placa);
             $("#valorSoat").html("$ " + totalSoat.toLocaleString("es-CO"));
             $("#totalPagarSoat").html("$ " + (totalSoat + valorComision).toLocaleString("es-CO"));
             $("#placaVeh").val(response.placa);
@@ -74,6 +75,14 @@ function editarCotizacionSoat(idCotizacionSoat) {
             $("#txtChasis").val(response.chasis);
             $("#correoTomadorSoat").val(response.correo);
             $("#celularTomadorSoat").val(response.celular);
+
+            $("#fechaCoti").text(response.fecha_creacion.split(' ')[0]);
+            $("#PrimaSoat").text("$ " + Number(response.valor_prima).toLocaleString("es-CO"));
+            $("#contriFosyga").text("$ " + Number(response.valor_contribucion).toLocaleString("es-CO"));
+            $("#tasaRunt").text("$ " + Number(response.valor_runt).toLocaleString("es-CO"));
+            $("#valorSoat").text("$ " + Number(response.total_soat).toLocaleString("es-CO"));
+            $("#servicioTramite").text("$ " + Number(response.valor_comision).toLocaleString("es-CO"));
+
             if (response.opcion == "Sin comision") {
                 $("#radioSinComision").prop("checked", true);
 
@@ -81,6 +90,20 @@ function editarCotizacionSoat(idCotizacionSoat) {
                 $("#radioConComision").prop("checked", true);
             }
 
+            if (response.estado == "Soat Cotizado") {
+                $("#btnEnviarSolicitud").show();
+                $("#btnUpload").prop("disabled", false);
+                $("#celularTomadorSoat").prop("disabled", false);
+                $("#correoTomadorSoat").prop("disabled", false);
+            } else if (response.estado == "Solicitud enviada") {
+                if (permisos.id_rol == 22) {
+                    $("#section-final").show();
+                } else {
+                    $("#section-final").show();
+                    $("#contenComentarios").hide();
+                    $("#contenedor-archivos").show();
+                }
+            }
         },
 
         error: function (jqXHR, textStatus, errorThrown) {
@@ -116,7 +139,7 @@ async function cargarArchivosCotizacion(idCotizacion) {
                     <a href="http://${file.url}" download="${nombreLimpio}" class="btn btn-sm btn-primary" style="margin-left: 15px">
                         Descargar
                     </a>
-                </li>`;
+                </li> <hr>`;
         });
         contenedor.innerHTML += '</ul>';
 
@@ -124,4 +147,127 @@ async function cargarArchivosCotizacion(idCotizacion) {
         console.error("Error al obtener archivos:", error);
         contenedor.innerHTML = "Error al cargar la lista.";
     }
+}
+
+$("#btnEstadoAprobar").click(function () {
+    
+    $("#btnEstadoAprobar").prop("disabled", true);
+    $("#btnEstadoDevolver").prop("disabled", true);
+    $("#txtComentarios").prop("disabled", true);
+    $("#contenedor-subir-archivos").remove();
+    $("#contenedor-subir-soat").show();
+});
+
+const MAX_FILESSoat = 3;
+const MAX_SIZESoat = 1 * 1024 * 1024;
+
+const btnSoat = document.getElementById("btnUploadSoat");
+const inputSoat = document.getElementById("fileInputSoat");
+const previewSoat = document.getElementById("filePreviewSoat");
+
+var files = [];
+
+btnSoat.onclick = () => {
+  if (files.length < MAX_FILESSoat) {
+    inputSoat.click();
+  }
+};
+
+inputSoat.onchange = () => {
+  const selectedSoat = Array.from(input.files);
+
+  for (const fileSoat of selectedSoat) {
+
+    if (files.length >= MAX_FILESSoat) {
+      alert("Máximo 3 archivos.");
+      break;
+    }
+
+    if (fileSoat.size > MAX_SIZESoat) {
+      alert(`"${file.name}" supera 1 MB`);
+      continue;
+    }
+
+    const existsSoat = files.some(
+      f => f.name === fileSoat.name && f.size === fileSoat.size
+    );
+
+    if (!existsSoat) {
+      files.push(fileSoat);
+    }
+  }
+
+  render();
+  inputSoat.value = "";
+};
+
+function render() {
+  previewSoat.innerHTML = "";
+
+  files.forEach((file, index) => {
+    const divSoat = document.createElement("div");
+    divSoat.className = "file-item";
+
+    divSoat.innerHTML = `
+            <span>${idCotizacionSoat}-${file.name}</span>
+            <span class="remove-btn" onclick="removeFile(${index})">✕</span>
+        `;
+
+    previewSoat.appendChild(divSoat);
+  });
+
+  // bloquear cuando llegue al límite
+  btnSoat.disabled = files.length >= MAX_FILESSoat;
+}
+
+function removeFile(index) {
+  files.splice(index, 1);
+  render();
+}
+
+function enviarArchivos() {
+  // Verificamos que existan archivos para evitar peticiones vacías
+  if (!files || files.length === 0) {
+    console.warn("No hay archivos para subir");
+    return;
+  }
+
+  console.log("Iniciando subida para cotización:", idCotizacionSoat);
+  const formDataSoat = new FormData();
+
+  // Agregamos el ID de la cotización
+  formDataSoat.append("cotizacion", idCotizacionSoat);
+
+  // Agregamos los archivos
+  files.forEach((file, index) => {
+    const nuevoNombreSoat = `${idCotizacionSoat}-${index}-${file.name}`;
+    // Importante: 'archivos[]' permite que PHP lo reciba como un array
+    formDataSoat.append("archivos[]", file, nuevoNombreSoat);
+  });
+
+  // --- DEBUG: Ver el contenido real antes de enviar ---
+  console.log("Contenido del FormData:");
+  for (let [key, value] of formDataSoat.entries()) {
+    console.log(`${key}:`, value);
+  }
+
+  fetch("vistas/modulos/soat/uploadSoat.php", {
+    method: "POST",
+    body: formDataSoat // El navegador añade automáticamente el Header multipart/form-data
+  })
+    .then(res => {
+      if (!res.ok) throw new Error("Error en la respuesta del servidor");
+      return res.json();
+    })
+    .then(data => {
+      if (data.ok) {
+        console.log("Archivos subidos con éxito", data);
+      } else {
+        console.error("Error del servidor:", data.error);
+      }
+    })
+    .catch(err => {
+      console.error("Error en la petición fetch:", err);
+      alert("Ocurrió un error al conectar con el servidor");
+    });
 }

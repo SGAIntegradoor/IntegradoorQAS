@@ -7,10 +7,10 @@ if (in_array("dev", $URI)) {
 	$url = "localhost/docsSoat/";
     $path = "/docsSoat/";
 } elseif (in_array("QAS", $URI) || in_array("qas", $URI) || in_array("Pruebas", $URI)) {
-	$url = "grupoasistencia.com/docsSoatP/";
+	$url = "integradoor.com/docsSoatP/";
     $path = "/docsSoatP/";
 } else {
-	$url = "grupoasistencia.com/docsSoat/";
+	$url = "integradoor.com/docsSoat/";
     $path = "/docsSoat/";
 }
 

@@ -23,9 +23,10 @@ try {
     $pdo = Conexion::conectar();
     $pdo->exec("SET NAMES 'utf8mb4'");
 
-    $stmt = $pdo->prepare("INSERT INTO comentarios_usuarios (id_comentario, id_usuario, comentario, fecha_comentario, id_user_comentario, nombre_usuario_comentario) VALUES (NULL , :id_usuario, :comentario, NOW(), :id_user_comentario, :nombre_usuario_comentario)");
+    $stmt = $pdo->prepare("INSERT INTO comentarios_usuarios (id_comentario, modulo, id_general, comentario, fecha_comentario, id_user_comentario, nombre_usuario_comentario) VALUES (NULL, :modulo , :id_general, :comentario, NOW(), :id_user_comentario, :nombre_usuario_comentario)");
     //bindParam para evitar inyecciones SQL
-    $stmt->bindParam(':id_usuario', $data['id_user'], PDO::PARAM_INT);
+    $stmt->bindParam(':id_general', $data['id_user'], PDO::PARAM_INT);
+    $stmt->bindParam(':modulo', $data['modulo'], PDO::PARAM_STR);
     $stmt->bindParam(':comentario', $data['comentario'], PDO::PARAM_STR);
     $stmt->bindParam(':id_user_comentario', $_SESSION['idUsuario'], PDO::PARAM_INT);
     $stmt->bindParam(':nombre_usuario_comentario', $data['nombre_usuario_comentario'], PDO::PARAM_STR);
