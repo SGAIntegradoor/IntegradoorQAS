@@ -970,13 +970,13 @@ async function loadUser(id) {
                 // Si es el campo "otras_aseg" que es un input text
               });
               const selectBox = document.querySelector("#div-options-unidades");
-              if (unidades.length === 0) {
+              if (selectedOptionsUnidad.length === 0) {
                 selectBox.innerText = "Selecciona opciones...";
-              } else if (unidades.length <= 2) {
-                selectBox.innerHTML = unidades.join(", ");
+              } else if (selectedOptionsUnidad.length <= 2) {
+                selectBox.innerText = selectedOptionsUnidad.join(", ");
               } else {
                 selectBox.innerText =
-                  unidades.slice(0, 2).join(", ") + ", .....";
+                  selectedOptionsUnidad.slice(0, 2).join(", ") + ", .....";
               }
             } else {
               console.log("no hice asegs");
