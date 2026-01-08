@@ -1,265 +1,221 @@
+
 <?php
 // saveUser.php - guardar/actualizar usuario y secciones relacionadas
 
 require_once "../config/dbconfig.php";
 session_start();
 
+// Mostrar errores (solo en desarrollo)
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
+// Responder siempre JSON
 header('Content-Type: application/json; charset=utf-8');
 
-$input   = json_decode(file_get_contents("php://input"), true);
-$id      = isset($input["id"]) ? $input["id"] : null;
-$cambios = isset($input["cambios"]) ? $input["cambios"] : [];
+$input = json_decode(file_get_contents("php://input"), true);
+$id = $input["id"] ?? null;
+$cambios = $input["cambios"] ?? [];
 
-/**
- * ==================================================
- * VALIDACIÓN DE SESIÓN / ROL
- * ==================================================
- */
-if (!isset($_SESSION["rol"]) || !in_array($_SESSION["rol"], array(1, 10, 11, 12, 22, 23))) {
-    echo json_encode(array(
+// Validación básica de sesión/rol
+if (!isset($_SESSION["rol"]) || !in_array($_SESSION["rol"], [1, 10, 11, 12, 22, 23])) {
+    echo json_encode([
         "success" => false,
         "mensaje" => "No autorizado"
-    ));
+    ]);
     exit;
 }
 
+// Forzar charset
 mysqli_set_charset($enlace, "utf8");
 
+// Validación de entrada
 if (empty($cambios)) {
-    echo json_encode(array(
-        "success" => false,
-        "mensaje" => "Datos incompletos"
-    ));
+    echo json_encode(["success" => false, "mensaje" => "Datos incompletos"]);
     exit;
 }
 
-$respuestas = array();
+$respuestas = [];
 
-/**
- * ==================================================
- * CREAR USUARIO (SIN ID)
- * ==================================================
- */
+// Si no hay ID: crear nuevo usuario (solo si vienen datos en infoUsuario)
 if (empty($id)) {
-
-    if (!isset($cambios["infoUsuario"]) || empty($cambios["infoUsuario"])) {
-        echo json_encode(array(
-            "success" => false,
-            "mensaje" => "Falta información de usuario para crear."
-        ));
-        exit;
-    }
-
-    $datosUsuario = array();
-
-    foreach ($cambios["infoUsuario"] as $campo => $valor) {
-
-        if ($campo === "usu_password") {
-            $valor = crypt($valor, '$2a$07$asxx54ahjppf45sd87a5a4dDDGsystemdev$');
+    if (isset($cambios["infoUsuario"]) && !empty($cambios["infoUsuario"])) {
+        $datosUsuario = [];
+        foreach ($cambios["infoUsuario"] as $campo => $valor) {
+            if ($campo == "usu_password") {
+                // conserva tu método de encriptación
+                $valor = crypt($valor, '$2a$07$asxx54ahjppf45sd87a5a4dDDGsystemdev$');
+            }
+            // sanitizar
+            $valor = mysqli_real_escape_string($enlace, $valor);
+            $datosUsuario[$campo] = $valor;
         }
 
-        if (is_array($valor)) {
-            $valor = json_encode($valor, JSON_UNESCAPED_UNICODE);
+        $campos = array_keys($datosUsuario);
+        $valores = array_values($datosUsuario);
+
+        $valoresEscapados = array_map(function($v) use ($enlace) {
+            return "'" . mysqli_real_escape_string($enlace, $v) . "'";
+        }, $valores);
+
+        $insertUsuario = "INSERT INTO usuarios (" . implode(", ", $campos) . ") VALUES (" . implode(", ", $valoresEscapados) . ")";
+        $resInsert = mysqli_query($enlace, $insertUsuario);
+
+        if ($resInsert) {
+            $id = mysqli_insert_id($enlace); // nuevo id asignado
+            $respuestas[] = ["seccion" => "infoUsuario", "ok" => true, "accion" => "crearUsuario"];
+        } else {
+            echo json_encode(["success" => false, "mensaje" => "Error al crear usuario: " . mysqli_error($enlace)]);
+            exit;
         }
-
-        $datosUsuario[$campo] = mysqli_real_escape_string($enlace, $valor);
-    }
-
-    $campos  = array_keys($datosUsuario);
-    $valores = array();
-
-    foreach ($datosUsuario as $v) {
-        $valores[] = "'" . $v . "'";
-    }
-
-    $insertUsuario = "
-        INSERT INTO usuarios (" . implode(", ", $campos) . ")
-        VALUES (" . implode(", ", $valores) . ")
-    ";
-
-    if (!mysqli_query($enlace, $insertUsuario)) {
-        echo json_encode(array(
-            "success" => false,
-            "mensaje" => "Error al crear usuario",
-            "error"   => mysqli_error($enlace)
-        ));
+    } else {
+        echo json_encode(["success" => false, "mensaje" => "Falta información de usuario para crear."]);
         exit;
     }
-
-    $id = mysqli_insert_id($enlace);
-
-    $respuestas[] = array(
-        "seccion" => "infoUsuario",
-        "ok" => true,
-        "accion" => "crearUsuario"
-    );
 }
 
-// Normalización del ID
+// Normalizar id a entero para evitar inyección al usar directamente en SQL
 $id = intval($id);
 
-/**
- * ==================================================
- * ACTUALIZAR SECCIONES
- * ==================================================
- */
+// Procesar las demás secciones (o la misma infoUsuario si se envió con id)
 foreach ($cambios as $seccion => $datos) {
-
     if (empty($datos)) continue;
 
-    // Evitar doble UPDATE al crear
-    if (
-        $seccion === "infoUsuario" &&
-        empty($input["id"]) &&
-        isset($respuestas[0]["accion"]) &&
-        $respuestas[0]["accion"] === "crearUsuario"
-    ) {
+    // Si ya creamos usuario cuando no había id, evitamos procesar infoUsuario de nuevo
+    if ($seccion === "infoUsuario" && !empty($input["id"]) === false && isset($respuestas[0]) && $respuestas[0]["accion"] === "crearUsuario") {
+        // ya procesado en la creación
         continue;
     }
 
-    $set = array();
-
+    $set = [];
+    // Sanitizar y construir el SET para UPDATE
     foreach ($datos as $campo => $valor) {
-
+        // Si es password y quieres aplicar criptado al actualizar:
         if ($seccion === "infoUsuario" && $campo === "usu_password") {
             $valor = crypt($valor, '$2a$07$asxx54ahjppf45sd87a5a4dDDGsystemdev$');
         }
-
-        if (is_array($valor)) {
-            $valor = json_encode($valor, JSON_UNESCAPED_UNICODE);
-        }
-
         $valor = mysqli_real_escape_string($enlace, $valor);
-        $set[] = $campo . " = '" . $valor . "'";
+        $set[] = "$campo = '$valor'";
+        // sobrescribo en $datos para usar en posibles inserts
         $datos[$campo] = $valor;
     }
 
     if (empty($set)) continue;
 
-    $table   = null;
+    // Inicializar variables locales
+    $table = null;
     $idField = null;
-    $query   = "";
+    $query = "";
 
     switch ($seccion) {
-
         case "infoUsuario":
-            $table = "usuarios";
+            // UPDATE directo a usuarios (si no existe, devolvemos error; no intentamos INSERT genérico aquí)
             $query = "UPDATE usuarios SET " . implode(", ", $set) . " WHERE id_usuario = $id";
+            $table = "usuarios";
             break;
 
         case "infoFinanciera":
+            $query = "UPDATE informacion_financiera_user SET " . implode(", ", $set) . " WHERE id_usuario = $id";
             $table = "informacion_financiera_user";
             $idField = "id_info_entidad_fin";
-            $query = "UPDATE informacion_financiera_user SET " . implode(", ", $set) . " WHERE id_usuario = $id";
             break;
 
         case "infoCanal":
+            $query = "UPDATE informacion_canal_user SET " . implode(", ", $set) . " WHERE id_usuario = $id";
             $table = "informacion_canal_user";
             $idField = "id_info_canal";
-            $query = "UPDATE informacion_canal_user SET " . implode(", ", $set) . " WHERE id_usuario = $id";
             break;
 
         case "infoAseguradoras":
+            $query = "UPDATE claves_aseguradoras_user SET " . implode(", ", $set) . " WHERE id_usuario = $id";
             $table = "claves_aseguradoras_user";
             $idField = "id_aseguradoras_user";
-            $query = "UPDATE claves_aseguradoras_user SET " . implode(", ", $set) . " WHERE id_usuario = $id";
             break;
 
         default:
-            $respuestas[] = array(
+            $respuestas[] = [
                 "seccion" => $seccion,
                 "ok" => false,
                 "error" => "Sección no reconocida"
-            );
-            continue 2;
+            ];
+            continue 2; // pasa a la siguiente sección
     }
 
+    // Ejecutar UPDATE
     $res = mysqli_query($enlace, $query);
+    $afectadas = mysqli_affected_rows($enlace);
 
-    if (!$res) {
-        $respuestas[] = array(
+    if ($res && $afectadas > 0) {
+        // UPDATE exitoso con filas afectadas
+        $respuestas[] = ["seccion" => $seccion, "ok" => true];
+        continue;
+    }
+
+    // Si la ejecución del UPDATE fue exitosa pero no hubo filas afectadas
+    if ($res && $afectadas === 0) {
+        // Si la tabla es 'usuarios' asumimos que el usuario no existe para actualizar
+        if ($table === "usuarios") {
+            $respuestas[] = [
+                "seccion" => $seccion,
+                "ok" => false,
+                "error" => "No se encontró usuario con id $id para actualizar."
+            ];
+            continue;
+        }
+
+        // Para tablas auxiliares intentamos INSERT si no existe registro
+        if (empty($idField)) {
+            // protección extra: no construir INSERT sin idField definido
+            $respuestas[] = [
+                "seccion" => $seccion,
+                "ok" => false,
+                "error" => "Falta idField para realizar insert en la tabla $table"
+            ];
+            continue;
+        }
+
+        $campos = array_keys($datos);
+        $valores = array_values($datos);
+
+        // Agregar id_usuario al insert
+        $campos[] = "id_usuario";
+        $valores[] = $id;
+
+        $valoresEscapados = array_map(function($v) use ($enlace) {
+            return "'" . mysqli_real_escape_string($enlace, $v) . "'";
+        }, $valores);
+
+        // Construir INSERT con la columna autoincrement como NULL
+        $insertQuery = "INSERT INTO $table ($idField, " . implode(", ", $campos) . ") VALUES (NULL, " . implode(", ", $valoresEscapados) . ")";
+        $insertRes = mysqli_query($enlace, $insertQuery);
+
+        if ($insertRes) {
+            $respuestas[] = ["seccion" => $seccion, "ok" => true, "accion" => "insert"];
+        } else {
+            $respuestas[] = [
+                "seccion" => $seccion,
+                "ok" => false,
+                "error" => mysqli_error($enlace),
+                "accion" => "insert"
+            ];
+        }
+
+        continue;
+    }
+
+    // Si hubo error ejecutando el UPDATE (res === false)
+    if ($res === false) {
+        $respuestas[] = [
             "seccion" => $seccion,
             "ok" => false,
             "error" => mysqli_error($enlace)
-        );
-        continue;
-    }
-
-    $afectadas = mysqli_affected_rows($enlace);
-
-    // Usuarios: aunque no afecte filas, está OK
-    if ($table === "usuarios") {
-        $respuestas[] = array(
-            "seccion" => $seccion,
-            "ok" => true,
-            "afectadas" => $afectadas
-        );
-        continue;
-    }
-
-    // Tablas secundarias: si no existe, INSERT
-    if ($afectadas === 0) {
-
-        $campos  = array_keys($datos);
-        $valores = array_values($datos);
-
-        $campos[]  = "id_usuario";
-        $valores[] = $id;
-
-        $valoresEscapados = array();
-        foreach ($valores as $v) {
-            $valoresEscapados[] = "'" . mysqli_real_escape_string($enlace, $v) . "'";
-        }
-
-        $insertQuery = "
-            INSERT INTO $table ($idField, " . implode(", ", $campos) . ")
-            VALUES (NULL, " . implode(", ", $valoresEscapados) . ")
-        ";
-
-        if (mysqli_query($enlace, $insertQuery)) {
-            $respuestas[] = array(
-                "seccion" => $seccion,
-                "ok" => true,
-                "accion" => "insert"
-            );
-        } else {
-            $respuestas[] = array(
-                "seccion" => $seccion,
-                "ok" => false,
-                "error" => mysqli_error($enlace)
-            );
-        }
-
-        continue;
-    }
-
-    // UPDATE exitoso
-    $respuestas[] = array(
-        "seccion" => $seccion,
-        "ok" => true,
-        "afectadas" => $afectadas
-    );
-}
-
-/**
- * ==================================================
- * RESPUESTA FINAL
- * ==================================================
- */
-$hayErrores = false;
-foreach ($respuestas as $r) {
-    if ($r["ok"] === false) {
-        $hayErrores = true;
-        break;
+        ];
     }
 }
 
-echo json_encode(array(
-    "success" => !$hayErrores,
+// Respuesta final
+echo json_encode([
+    "success" => true,
     "resultado" => $respuestas,
     "nuevo_id" => $id
-));
+]);
