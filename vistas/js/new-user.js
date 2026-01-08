@@ -959,7 +959,9 @@ async function loadUser(id) {
               unidades.length > 0 &&
               info_usuario.unidad_negocio_rol != null
             ) {
-              // const tieneUnidades = JSON.parse(info_usuario.unidad_negocio_rol);
+              // Limpiar el array antes de llenarlo con las unidades cargadas
+              selectedOptionsUnidad.length = 0;
+              
               unidades.map((unidad) => {
                 const element = document.getElementById(unidad);
 
@@ -967,16 +969,19 @@ async function loadUser(id) {
                 if (element && element.type === "checkbox") {
                   element.checked = true;
                 }
-                // Si es el campo "otras_aseg" que es un input text
+                // Agregar al array de opciones seleccionadas
+                if (!selectedOptionsUnidad.includes(unidad)) {
+                  selectedOptionsUnidad.push(unidad);
+                }
               });
               const selectBox = document.querySelector("#div-options-unidades");
-              if (selectedOptionsUnidad.length === 0) {
+              if (unidades.length === 0) {
                 selectBox.innerText = "Selecciona opciones...";
-              } else if (selectedOptionsUnidad.length <= 2) {
-                selectBox.innerText = selectedOptionsUnidad.join(", ");
+              } else if (unidades.length <= 2) {
+                selectBox.innerText = unidades.join(", ");
               } else {
                 selectBox.innerText =
-                  selectedOptionsUnidad.slice(0, 2).join(", ") + ", .....";
+                  unidades.slice(0, 2).join(", ") + ", .....";
               }
             } else {
               console.log("no hice asegs");
@@ -1790,7 +1795,9 @@ function updateSelectTextUnidad(e = null) {
         }
       });
     } else {
+      console.log("entre por aqui")
       const index2 = selectedOptionsUnidad.indexOf(input.value);
+      console.log(index2)
       if (index2 > -1) {
         selectedOptionsUnidad.splice(index2, 1);
         checkedCheckboxesGlobalUnidad.forEach((inpt) => {
@@ -1803,7 +1810,7 @@ function updateSelectTextUnidad(e = null) {
   }
 
   const selectBox = document.querySelector("#div-options-unidades");
-
+   console.log(selectedOptionsUnidad)
   if (selectedOptionsUnidad.length === 0) {
     selectBox.innerText = "Selecciona opciones...";
   } else if (selectedOptionsUnidad.length <= 2) {
