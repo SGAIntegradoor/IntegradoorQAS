@@ -411,29 +411,14 @@
                 </div>
             </div>
 
-            <div id="contenedor-subir-soat" style="display: none;">
-                <div class="row">
-                    <div class="col-md-12" style="display: flex; flex-direction: column; margin-top: 25px;">
-                        <label>Adjuntar SOAT</label>
-
-                        <button type="button" id="btnUploadSoat" class="btn btn-outline-primary w-100">
-                            Añadir archivos
-                        </button>
-
-                        <input
-                            type="file"
-                            id="fileInputSoat"
-                            hidden
-                            accept=".pdf,.jpg,.png,.doc,.docx"
-                            style="display: none;">
-
-                        <small class="text-muted d-block mt-1">
-                            Máximo 3 archivos (1 MB cada uno)
-                        </small>
-
-                        <div id="filePreviewSoat" class="mt-2"></div>
+            <div id="container-subida-soat" style="display: none;">
+                
+                
+                    <div id="contenedor-subir-soat"></div>
+                    <div class="col-md-4" style="display: flex; flex-direction: column; margin-top: 25px;">
+                        <button id="btnSubirSoat" type="button" class="btn btn-primary btn-block" style="margin-top: 15px;">Solicitar Expedición</button>
                     </div>
-                </div>
+                
             </div>
 
         </div>

@@ -103,6 +103,10 @@ function editarCotizacionSoat(idCotizacionSoat) {
                     $("#contenComentarios").hide();
                     $("#contenedor-archivos").show();
                 }
+            } else if (response.estado == "Soat Expedido") {
+                $("#section-final").show();
+                $("#contenComentarios").hide();
+                $("#contenedor-archivos").show();
             }
         },
 
@@ -150,124 +154,113 @@ async function cargarArchivosCotizacion(idCotizacion) {
 }
 
 $("#btnEstadoAprobar").click(function () {
-    
-    $("#btnEstadoAprobar").prop("disabled", true);
-    $("#btnEstadoDevolver").prop("disabled", true);
-    $("#txtComentarios").prop("disabled", true);
-    $("#contenedor-subir-archivos").remove();
-    $("#contenedor-subir-soat").show();
+  $("#btnEstadoAprobar").prop("disabled", true);
+  $("#btnEstadoDevolver").prop("disabled", true);
+  $("#txtComentarios").prop("disabled", true);
+  // $("#contenedor-subir-archivos").remove();
+  $("#container-subida-soat").show();
+  $("#contenedor-subir-soat").show();
+
+  const miBloque = document.getElementById("contenedor-subir-archivos");
+  const contenedorDestino = document.getElementById("contenedor-subir-soat");
+  contenedorDestino.appendChild(miBloque);
+  $("#btnUpload").prop("disabled", false);
+  $("#contenedor-subir-archivos label").text("Subir SOAT");
 });
 
-const MAX_FILESSoat = 3;
-const MAX_SIZESoat = 1 * 1024 * 1024;
-
-const btnSoat = document.getElementById("btnUploadSoat");
-const inputSoat = document.getElementById("fileInputSoat");
-const previewSoat = document.getElementById("filePreviewSoat");
-
-var files = [];
-
-btnSoat.onclick = () => {
-  if (files.length < MAX_FILESSoat) {
-    inputSoat.click();
-  }
-};
-
-inputSoat.onchange = () => {
-  const selectedSoat = Array.from(input.files);
-
-  for (const fileSoat of selectedSoat) {
-
-    if (files.length >= MAX_FILESSoat) {
-      alert("Máximo 3 archivos.");
-      break;
-    }
-
-    if (fileSoat.size > MAX_SIZESoat) {
-      alert(`"${file.name}" supera 1 MB`);
-      continue;
-    }
-
-    const existsSoat = files.some(
-      f => f.name === fileSoat.name && f.size === fileSoat.size
-    );
-
-    if (!existsSoat) {
-      files.push(fileSoat);
-    }
+$("#btnSubirSoat").click(function () {
+  if (getParams("idCotizacionSoat").length > 0) {
+    idCotizacionSoat = getParams("idCotizacionSoat")[0];
   }
 
-  render();
-  inputSoat.value = "";
-};
+  $("#btnSubirSoat").prop("disabled", true);
 
-function render() {
-  previewSoat.innerHTML = "";
+  const campos = ["#correoTomadorSoat", "#celularTomadorSoat"];
+  let errores = 0;
 
-  files.forEach((file, index) => {
-    const divSoat = document.createElement("div");
-    divSoat.className = "file-item";
-
-    divSoat.innerHTML = `
-            <span>${idCotizacionSoat}-${file.name}</span>
-            <span class="remove-btn" onclick="removeFile(${index})">✕</span>
-        `;
-
-    previewSoat.appendChild(divSoat);
+  campos.forEach(id => {
+    const el = $(id);
+    if (el.val() === "") {
+      el.css("border", "1px solid red");
+      errores++;
+    } else {
+      el.css("border", ""); // Limpia el borde si el usuario ya lo corrigió
+    }
   });
 
-  // bloquear cuando llegue al límite
-  btnSoat.disabled = files.length >= MAX_FILESSoat;
-}
-
-function removeFile(index) {
-  files.splice(index, 1);
-  render();
-}
-
-function enviarArchivos() {
-  // Verificamos que existan archivos para evitar peticiones vacías
-  if (!files || files.length === 0) {
-    console.warn("No hay archivos para subir");
+  if (errores > 0 || files.length === 0) {
+    Swal.fire({
+      icon: "error",
+      title: "Faltan datos por completar",
+      text: "Por favor completa el correo, celular del tomador SOAT o documentos adjuntos",
+      showConfirmButton: true,
+      confirmButtonText: "Cerrar",
+    });
+    $("#btnEnviarSolicitud").prop("disabled", false);
     return;
   }
 
-  console.log("Iniciando subida para cotización:", idCotizacionSoat);
-  const formDataSoat = new FormData();
+  // Enviar Archivos Adjuntos
+  enviarArchivos();
 
-  // Agregamos el ID de la cotización
-  formDataSoat.append("cotizacion", idCotizacionSoat);
-
-  // Agregamos los archivos
-  files.forEach((file, index) => {
-    const nuevoNombreSoat = `${idCotizacionSoat}-${index}-${file.name}`;
-    // Importante: 'archivos[]' permite que PHP lo reciba como un array
-    formDataSoat.append("archivos[]", file, nuevoNombreSoat);
+  // Peticion para actualizar datos la cotización (formato Form Data)
+  $.ajax({
+    type: "POST",
+    url: "src/soat/saveQuotationSoat.php",
+    data: {
+      Accion: "Actualizar-datos-soat",
+      IdCotizacionSoat: idCotizacionSoat,
+      Estado: "Soat Expedido",
+      Correo: $("#correoTomadorSoat").val(),
+      Celular: $("#celularTomadorSoat").val(),
+    },
+    success: function (data) {
+      console.log("Datos actualizados correctamente", data);
+      idCotizacionSoat = data.lastId;
+    },
+    error: function (error) {
+      console.log("Error al actualizar cotizacion SOAT: ", error);
+    }
   });
 
-  // --- DEBUG: Ver el contenido real antes de enviar ---
-  console.log("Contenido del FormData:");
-  for (let [key, value] of formDataSoat.entries()) {
-    console.log(`${key}:`, value);
-  }
+  $.ajax({
+    type: "POST",
+    url: "https://grupoasistencia.com/WS-laravel-email-shetts/api/emails/enviar-correo-soat",
+    // url: "http://localhost/WS-laravel/api/emails/enviar-correo",
+    dataType: "text",
+    data: {
+      idCotizacion: idCotizacionSoat,
+      placa: $("#placaVeh").val(),
+      clase: $("#txtClaseVeh").val(),
+      referencia: $("#txtMarcaVeh").val() + " " + $("#txtLinea").val(),
+      prima: $("#valorSoat").text().replace(/\./g, "").replace("$ ", ""),
+      totalPagar: $("#totalPagarSoat").text().replace(/\./g, "").replace("$ ", ""),
+      correoTomador: $("#correoTomadorSoat").val(),
+      celularTomador: $("#celularTomadorSoat").val(),
+      opcionPago: $("#radioConComision").is(":checked") ? "Con comision" : "Sin comision",
+    },
+    cache: false,
+    success: function (data) {
+      console.log("Correo Enviado");
+      swal
+        .fire({
+          icon: "success",
+          title: "Solicitud de cotización #" + idCotizacionSoat + " enviada exitosamente",
+          showConfirmButton: true,
+          confirmButtonText: "Ok",
+          allowOutsideClick: false,
+          allowEscapeKey: false,
+        })
+        .then((result) => {
+          if (result.isConfirmed) {
+            window.location.href = "soat";
+          }
+        });
+    },
+    error: function (xhr, status, error) {
+      console.log(error);
+      console.log("Error");
+    },
+  });
+});
 
-  fetch("vistas/modulos/soat/uploadSoat.php", {
-    method: "POST",
-    body: formDataSoat // El navegador añade automáticamente el Header multipart/form-data
-  })
-    .then(res => {
-      if (!res.ok) throw new Error("Error en la respuesta del servidor");
-      return res.json();
-    })
-    .then(data => {
-      if (data.ok) {
-        console.log("Archivos subidos con éxito", data);
-      } else {
-        console.error("Error del servidor:", data.error);
-      }
-    })
-    .catch(err => {
-      console.error("Error en la petición fetch:", err);
-      alert("Ocurrió un error al conectar con el servidor");
-    });
-}
