@@ -969,12 +969,11 @@ async function loadUser(id) {
                 }
                 // Si es el campo "otras_aseg" que es un input text
               });
-              let selectBox = document.querySelector("#div-options-unidades");
+              const selectBox = document.querySelector("#div-options-unidades");
               if (unidades.length === 0) {
                 selectBox.innerText = "Selecciona opciones...";
               } else if (unidades.length <= 2) {
-                selectedOptionsUnidad = unidades;
-                selectBox.innerText = unidades.join(", ");
+                selectBox.innerHTML = unidades.join(", ");
               } else {
                 selectBox.innerText =
                   unidades.slice(0, 2).join(", ") + ", .....";
