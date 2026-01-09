@@ -14,6 +14,7 @@ function guardarEstado(datos) {
 };
 
 function enviarEmail(mensaje) {
+  showLoader();
   $.ajax({
     type: "POST",
     url: "https://grupoasistencia.com/WS-laravel-email-shetts/api/emails/enviar-correo-soat",
@@ -32,6 +33,7 @@ function enviarEmail(mensaje) {
     },
     cache: false,
     success: function (data) {
+      hideLoader();
       console.log("Correo Enviado");
       swal
         .fire({
@@ -49,10 +51,24 @@ function enviarEmail(mensaje) {
         });
     },
     error: function (xhr, status, error) {
+      hideLoader();
+      swal
+        .fire({
+          icon: "success",
+          title: "Solicitud #" + idCotizacionSoat + " actualizada exitosamente",
+          showConfirmButton: true,
+          confirmButtonText: "Ok",
+          allowOutsideClick: false,
+          allowEscapeKey: false,
+        })
+        .then((result) => {
+          if (result.isConfirmed) {
+            window.location.href = "soat";
+          }
+        });
       console.log(error);
       console.log("Error");
       // Pendiente crear registros cuando fallen el servicio de correos
-      window.location.href = "soat";
     },
   });
 };
@@ -639,3 +655,16 @@ function enviarArchivos() {
     });
 }
 
+function showLoader() {
+  $("#loading-screen").css({
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center"
+  });
+  $("#loading-screen").fadeIn(200);
+
+  }
+
+  function hideLoader() {
+    $("#loading-screen").fadeOut(200);
+  }

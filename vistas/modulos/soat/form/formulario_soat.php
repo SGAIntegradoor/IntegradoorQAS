@@ -1,6 +1,9 @@
 <link rel="stylesheet" href="vistas/modulos/soat/css/styles.css">
 <section class="content">
-
+<div id="loading-screen">
+  <!-- <div class="loader"></div> -->
+   <img src="vistas/img/plantilla/loader-loading.gif" width="34" height="34"><strong>Procesando...</strong>
+</div>
     <label style="padding: 10px;" id="lblDataTrip2Top">Ingresa información para cotizar</label>
     <div class="box">
         <div class="box-body">

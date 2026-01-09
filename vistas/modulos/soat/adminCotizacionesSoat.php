@@ -105,9 +105,9 @@
                     <td class="text-center" style="font-size: 14px; text-align: center;">' . $value['asesor'] . '</td>';
                     
           if ($value["estado"] == 'Pendiente') {
-            echo '<td><button ' . $disabled . ' style="background: #000000; color: white;" class="btn btn-xs btnActivar btnEditarEstadoSoat" idCotizacionSoat="' . $value["id_cotizacion"] . '" estadoUsuario="Pendiente">Pendiente</button></td>';
+            echo '<td><button ' . $disabled . ' style="background: #88d600; color: white;" class="btn btn-xs btnActivar' ./* btnEditarEstadoSoat*/ '" idCotizacionSoat="' . $value["id_cotizacion"] . '" estadoUsuario="Pendiente">' . $value["estado"] . '</button></td>';
           } else {
-            echo '<td><button ' . $disabled . ' style="background: #88d600; color: white;" class="btn btn-xs btnActivar btnEditarEstadoSoat" idCotizacionSoat="' . $value["id_cotizacion"] . '" estadoUsuario="Cotizada">Cotizada</button></td>';
+            echo '<td><button ' . $disabled . ' style="background: #000000; color: white;" class="btn btn-xs btnActivar' ./* btnEditarEstadoSoat*/ '" idCotizacionSoat="' . $value["id_cotizacion"] . '" estadoUsuario="Cotizada">' . $value["estado"] . '</button></td>';
           }
           echo '</tr>';
         }
