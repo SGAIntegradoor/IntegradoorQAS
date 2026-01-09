@@ -24,6 +24,7 @@ $("document").ready(function () {
   });
 
   $("#lblDataTrip2Top").css("display", "none");
+  $("#contenedor-historial-comentarios").show();
   $(".box").css("border-top", "0px");
   document.getElementById("headerAsegurado").style.display = "block";
   document.getElementById("contenSuperiorPlaca").style.display = "none";

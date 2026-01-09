@@ -422,7 +422,7 @@
             </div>
 
         </div>
-        <div class="content" style="min-height: 0px">
+        <div id="contenedor-historial-comentarios" class="content" style="min-height: 0px; display: none;">
             <div class="box">
                 <div class="box-body row">
                     <div class="form-group" style="margin-top: 20px;">
