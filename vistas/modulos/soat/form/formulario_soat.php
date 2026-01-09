@@ -219,7 +219,7 @@
             </div>
 
             <!-- RESUMEN COTIZACIÓN Y NOTAS IMPORTANTES -->
-            <div class="containerResumenCoti" style="margin-top:40px; display:none;">
+            <div class="containerResumenCoti" style="margin-top: 0px; display:none;">
                 <div class="col-lg-12" id="headerVehiculo">
                     <div class="row row-veh" style="margin-bottom: 3rem;">
                         <div class="col-xs-12 col-sm-6 col-md-3">
@@ -391,7 +391,7 @@
 
                     <div class="col-xs-12 col-sm-6 col-md-6 form-group" id="contenComentarios" style="margin-top: 0px;">
 
-                        <div class="col-xs-12 col-sm-12 col-md-12 form-group" id="contenBtnEstadoAprobar" style="margin-top: 15px;">
+                        <div class="col-xs-12 col-sm-12 col-md-12 form-group" style="margin-top: 0px;">
                             <textarea id="txtComentarios" style="width: 100%;" placeholder="Comentarios..."></textarea>
                         </div>
 

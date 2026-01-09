@@ -8,7 +8,6 @@ var getIdCotiSoat = getParams("idCotizacionSoat")[0];
 
 if (getParams("idCotizacionSoat").length > 0) {
     editarCotizacionSoat(getParams("idCotizacionSoat")[0]);
-    cargarArchivosCotizacion(getParams("idCotizacionSoat")[0]);
 }
 
 $("document").ready(function () {
@@ -57,6 +56,8 @@ function editarCotizacionSoat(idCotizacionSoat) {
         dataType: "json",
         success: function (response) {
 
+            cargarArchivosCotizacion(getParams("idCotizacionSoat")[0], response.estado);
+
             const totalSoat = Number(response.total_soat);
             const valorComision = Number(response.valor_comision);
 
@@ -96,7 +97,7 @@ function editarCotizacionSoat(idCotizacionSoat) {
                 $("#celularTomadorSoat").prop("disabled", false);
                 $("#correoTomadorSoat").prop("disabled", false);
             } else if (response.estado == "Solicitud enviada") {
-                if (permisos.id_rol == 22) {
+                if (permisos.id_rol == 23) {
                     $("#section-final").show();
                 } else {
                     $("#section-final").show();
@@ -107,6 +108,26 @@ function editarCotizacionSoat(idCotizacionSoat) {
                 $("#section-final").show();
                 $("#contenComentarios").hide();
                 $("#contenedor-archivos").show();
+            } else if (response.estado == "Solicitud aprobada" && permisos.id_rol == 22) {
+                $("#btnEstadoAprobar").prop("disabled", true);
+                $("#btnEstadoDevolver").prop("disabled", true);
+                $("#txtComentarios").prop("disabled", true);
+                $("#container-subida-soat").show();
+                $("#contenedor-subir-soat").show();
+                $("#section-final").show();
+                
+                $("#contenedor-archivos").show();
+                const miBloque = document.getElementById("contenedor-subir-archivos");
+                const contenedorDestino = document.getElementById("contenedor-subir-soat");
+                contenedorDestino.appendChild(miBloque);
+                $("#btnUpload").prop("disabled", false);
+                $("#contenedor-subir-archivos label").text("Subir SOAT");
+            } else if (response.estado == "Solicitud rechazada" && permisos.id_rol == 22) {
+                // $("#btnEstadoAprobar").prop("disabled", true);
+                $("#btnUpload").prop("disabled", false);
+                $("#section-final").show();
+                $("#contenComentarios").hide();
+                
             }
         },
 
@@ -119,7 +140,7 @@ function editarCotizacionSoat(idCotizacionSoat) {
     });
 };
 
-async function cargarArchivosCotizacion(idCotizacion) {
+async function cargarArchivosCotizacion(idCotizacion, estadoCotizacion) {
     const contenedor = document.getElementById("contenedor-archivos");
     contenedor.innerHTML = "Cargando archivos...";
 
@@ -134,17 +155,39 @@ async function cargarArchivosCotizacion(idCotizacion) {
 
         // Limpiamos y generamos la lista
         contenedor.innerHTML = '<ul class="list-group">';
+        let primerArchivo = true;
         archivos.forEach(file => {
-            const nombreLimpio = file.nombre.split('-').slice(2).join('-');
 
-            contenedor.innerHTML += `
-                <li class="list-group-item d-flex justify-content-between align-items-center" style="display:flex; justify-content: space-between; align-items: center;">
-                    ${nombreLimpio}
-                    <a href="http://${file.url}" download="${nombreLimpio}" class="btn btn-sm btn-primary" style="margin-left: 15px">
-                        Descargar
-                    </a>
-                </li> <hr>`;
-        });
+    const nombreBase = file.nombre.split('-').slice(2).join('-');
+    const nombreLimpio = primerArchivo
+        ? `<b style="color: #7AC943">${nombreBase.toUpperCase()}</b>`
+        : nombreBase;
+
+    primerArchivo = false;
+
+    // Botón eliminar solo si está Solicitud rechazada
+    const botonEliminar = estadoCotizacion === 'Solicitud rechazada'
+        ? `<button class="btn btn-sm btn-danger"
+                onclick="eliminarArchivo('${file.nombre}', ${idCotizacion})"
+                title="Eliminar archivo"
+                style="margin-left:5px; background-color: white;">
+                ❌
+           </button>`
+        : '';
+
+    contenedor.innerHTML += `
+        <li class="list-group-item" style="display: flex; justify-content: space-between; align-items: center;">
+            <span>${nombreLimpio}</span>
+            <div>
+                <a href="http://${file.url}" target="_blank" class="btn btn-sm btn-primary">
+                    Descargar
+                </a>
+                ${botonEliminar}
+            </div>
+        </li>
+        <hr>
+    `;
+});
         contenedor.innerHTML += '</ul>';
 
     } catch (error) {
@@ -153,7 +196,54 @@ async function cargarArchivosCotizacion(idCotizacion) {
     }
 }
 
+async function eliminarArchivo(nombreArchivo, idCotizacion) {
+    if (!confirm('¿Seguro que deseas eliminar este archivo?')) return;
+
+    try {
+        const response = await fetch('vistas/modulos/soat/eliminarArchivo.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                archivo: nombreArchivo,
+                id: idCotizacion
+            })
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+            alert('Archivo eliminado correctamente');
+            cargarArchivosCotizacion(idCotizacion, 'Solicitud rechazada');
+        } else {
+            alert('Error al eliminar archivo');
+        }
+
+    } catch (error) {
+        console.error(error);
+        alert('Error al eliminar archivo');
+    }
+}
+
+
 $("#btnEstadoAprobar").click(function () {
+  $.ajax({
+    type: "POST",
+    url: "src/soat/saveQuotationSoat.php",
+    data: {
+      Accion: "Actualizar-datos-soat",
+      IdCotizacionSoat: getIdCotiSoat,
+      Estado: "Solicitud aprobada",
+      Correo: $("#correoTomadorSoat").val(),
+      Celular: $("#celularTomadorSoat").val(),
+    },
+    success: function (data) {
+      console.log("Datos actualizados correctamente", data);
+      idCotizacionSoat = data.lastId;
+    },
+    error: function (error) {
+      console.log("Error al actualizar cotizacion SOAT: ", error);
+    }
+  });
   $("#btnEstadoAprobar").prop("disabled", true);
   $("#btnEstadoDevolver").prop("disabled", true);
   $("#txtComentarios").prop("disabled", true);
@@ -192,11 +282,11 @@ $("#btnSubirSoat").click(function () {
     Swal.fire({
       icon: "error",
       title: "Faltan datos por completar",
-      text: "Por favor completa el correo, celular del tomador SOAT o documentos adjuntos",
+      text: "Por favor adjunta el SOAT expedido",
       showConfirmButton: true,
       confirmButtonText: "Cerrar",
     });
-    $("#btnEnviarSolicitud").prop("disabled", false);
+    $("#btnSubirSoat").prop("disabled", false);
     return;
   }
 
@@ -263,4 +353,3 @@ $("#btnSubirSoat").click(function () {
     },
   });
 });
-
