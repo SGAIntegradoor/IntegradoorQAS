@@ -1,4 +1,65 @@
+function guardarEstado(datos) {
+  $.ajax({
+    type: "POST",
+    url: "src/soat/saveQuotationSoat.php",
+    data: datos,
+    success: function (data) {
+      console.log("saveQuotationSoat ejecutado correctamente", data);
+      idCotizacionSoat = data.lastId;
+    },
+    error: function (error) {
+      console.log("Error al guardar cotizacion SOAT: ", error);
+    }
+  });
+};
+
+function enviarEmail(mensaje) {
+  $.ajax({
+    type: "POST",
+    url: "https://grupoasistencia.com/WS-laravel-email-shetts/api/emails/enviar-correo-soat",
+    dataType: "text",
+    data: {
+      idCotizacion: idCotizacionSoat,
+      placa: $("#placaVeh").val(),
+      clase: $("#txtClaseVeh").val(),
+      referencia: $("#txtMarcaVeh").val() + " " + $("#txtLinea").val(),
+      prima: $("#valorSoat").text().replace(/\./g, "").replace("$ ", ""),
+      totalPagar: $("#totalPagarSoat").text().replace(/\./g, "").replace("$ ", ""),
+      correoTomador: $("#correoTomadorSoat").val(),
+      celularTomador: $("#celularTomadorSoat").val(),
+      opcionPago: $("#radioConComision").is(":checked") ? "Con comision" : "Sin comision",
+      cuerpoCorreo: mensaje,
+    },
+    cache: false,
+    success: function (data) {
+      console.log("Correo Enviado");
+      swal
+        .fire({
+          icon: "success",
+          title: "Solicitud #" + idCotizacionSoat + " actualizada exitosamente",
+          showConfirmButton: true,
+          confirmButtonText: "Ok",
+          allowOutsideClick: false,
+          allowEscapeKey: false,
+        })
+        .then((result) => {
+          if (result.isConfirmed) {
+            window.location.href = "soat";
+          }
+        });
+    },
+    error: function (xhr, status, error) {
+      console.log(error);
+      console.log("Error");
+      // Pendiente crear registros cuando fallen el servicio de correos
+      window.location.href = "soat";
+    },
+  });
+};
+
 var idCotizacionSoat = 0;
+var msg = "";
+
 $(document).ready(function () {
   var valorSoatGlobal = 0;
   const urlCompleta = window.location.href;
@@ -122,6 +183,19 @@ $(document).ready(function () {
   });
 
   $("#btnConsultarPlaca").click(function () {
+    if ($("#placaVeh").val() == "" || $("#placaVeh").val()== null) {
+      swal
+      .fire({
+        icon: "error",
+        title: "Ingresa la placa",
+        showConfirmButton: true,
+        confirmButtonText: "Ok",
+        allowOutsideClick: false,
+        allowEscapeKey: false,
+      });
+      return;
+    }
+    $("#btnConsultarPlaca").prop("disabled", true);
     $("#containerDataTable").hide();
     $(".card-container").hide();
     $("#containerDataTable").remove();
@@ -305,10 +379,7 @@ function consulPlaca(query = "1") {
               $("#placaVeh").prop("disabled", true);
 
               // Peticion para guardar la cotización (formato Form Data)
-              $.ajax({
-                type: "POST",
-                url: "src/soat/saveQuotationSoat.php",
-                data: {
+              let datos = {
                   Accion: "Guardar",
                   Placa: valnumplaca,
                   Clase: codigoClase,
@@ -327,15 +398,9 @@ function consulPlaca(query = "1") {
                   Runt: data.CalcularPolizaResult.ValorTasaRUNT,
                   totalSoat: data.CalcularPolizaResult.ValorTotalPagar,
                   IdUsuario: permisos.id_usuario,
-                },
-                success: function (data) {
-                  console.log("Guardado correctamente", data);
-                  idCotizacionSoat = data.lastId;
-                },
-                error: function (error) {
-                  console.log("Error al guardar cotizacion SOAT: ", error);
-                }
-              });
+                };
+
+              guardarEstado(datos);  
 
               let valorAPagarSoat = Number(data.CalcularPolizaResult.ValorTotalPagar);
               let totalPagarSoat = valorAPagarSoat + 45000;
@@ -398,10 +463,7 @@ $("#btnContinuarCoti").click(function () {
   $("#btnContinuarCoti").prop("disabled", true);
 
   // Peticion para actualizar valores la cotización (formato Form Data)
-  $.ajax({
-    type: "POST",
-    url: "src/soat/saveQuotationSoat.php",
-    data: {
+  datos = {
       Accion: "Actualizar-valores-soat",
       IdCotizacionSoat: idCotizacionSoat,
       Estado: "Soat Cotizado",
@@ -409,15 +471,8 @@ $("#btnContinuarCoti").click(function () {
       Comision: $("#radioConComision").is(":checked") ? 45000 : 20000,
       TotalSoat: $("#totalPagarSoat").text().replace(/\./g, "").replace("$ ", ""),
       IdUsuario: permisos.id_usuario,
-    },
-    success: function (data) {
-      console.log("Valores actualizados correctamente", data);
-      idCotizacionSoat = data.lastId;
-    },
-    error: function (error) {
-      console.log("Error al actualizar cotizacion SOAT: ", error);
-    }
-  });
+    };
+    guardarEstado(datos);
 });
 
 $("#btnEnviarSolicitud").click(function () {
@@ -456,64 +511,18 @@ $("#btnEnviarSolicitud").click(function () {
   enviarArchivos();
 
   // Peticion para actualizar datos la cotización (formato Form Data)
-  $.ajax({
-    type: "POST",
-    url: "src/soat/saveQuotationSoat.php",
-    data: {
+  datos = {
       Accion: "Actualizar-datos-soat",
       IdCotizacionSoat: idCotizacionSoat,
       Estado: "Solicitud enviada",
       Correo: $("#correoTomadorSoat").val(),
       Celular: $("#celularTomadorSoat").val(),
-    },
-    success: function (data) {
-      console.log("Datos actualizados correctamente", data);
-      idCotizacionSoat = data.lastId;
-    },
-    error: function (error) {
-      console.log("Error al actualizar cotizacion SOAT: ", error);
-    }
-  });
+    };
 
-  $.ajax({
-    type: "POST",
-    url: "https://grupoasistencia.com/WS-laravel-email-shetts/api/emails/enviar-correo-soat",
-    // url: "http://localhost/WS-laravel/api/emails/enviar-correo",
-    dataType: "text",
-    data: {
-      idCotizacion: idCotizacionSoat,
-      placa: $("#placaVeh").val(),
-      clase: $("#txtClaseVeh").val(),
-      referencia: $("#txtMarcaVeh").val() + " " + $("#txtLinea").val(),
-      prima: $("#valorSoat").text().replace(/\./g, "").replace("$ ", ""),
-      totalPagar: $("#totalPagarSoat").text().replace(/\./g, "").replace("$ ", ""),
-      correoTomador: $("#correoTomadorSoat").val(),
-      celularTomador: $("#celularTomadorSoat").val(),
-      opcionPago: $("#radioConComision").is(":checked") ? "Con comision" : "Sin comision",
-    },
-    cache: false,
-    success: function (data) {
-      console.log("Correo Enviado");
-      swal
-        .fire({
-          icon: "success",
-          title: "Solicitud de cotización #" + idCotizacionSoat + " enviada exitosamente",
-          showConfirmButton: true,
-          confirmButtonText: "Ok",
-          allowOutsideClick: false,
-          allowEscapeKey: false,
-        })
-        .then((result) => {
-          if (result.isConfirmed) {
-            window.location.href = "soat";
-          }
-        });
-    },
-    error: function (xhr, status, error) {
-      console.log(error);
-      console.log("Error");
-    },
-  });
+  guardarEstado(datos);
+  msg = "Solicitud de soat recibida";
+  enviarEmail(msg);
+
 });
 
 const MAX_FILES = 3;

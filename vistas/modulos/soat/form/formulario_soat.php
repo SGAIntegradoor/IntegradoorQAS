@@ -412,23 +412,26 @@
             </div>
 
             <div id="container-subida-soat" style="display: none;">
-                
-                
-                    <div id="contenedor-subir-soat"></div>
-                    <div class="col-md-4" style="display: flex; flex-direction: column; margin-top: 25px;">
-                        <button id="btnSubirSoat" type="button" class="btn btn-primary btn-block" style="margin-top: 15px;">Solicitar Expedición</button>
-                    </div>
-                
+
+
+                <div id="contenedor-subir-soat"></div>
+                <div class="col-md-4" style="display: flex; flex-direction: column; margin-top: 25px;">
+                    <button id="btnSubirSoat" type="button" class="btn btn-primary btn-block" style="margin-top: 15px;">Enviar Soat</button>
+                </div>
+
             </div>
 
         </div>
-        <!-- <div class="content" style="min-height: 0px">
+        <div class="content" style="min-height: 0px">
             <div class="box">
                 <div class="box-body row">
-                    <div class="col-xs-12 col-sm-5 col-md-5 form-group" id="contenedor-archivos" style="border: 2px solid #e5e5e5; padding: 15px; display: none; border-radius: 20px;"></div>
+                    <div class="form-group" style="margin-top: 20px;">
+                        <label>Historial de comentarios:</label>
+                        <div id="historialComentarios" style="background-color: #f5f5f5; padding: 10px; border: 1px solid #ccc; max-height: 150px; overflow-y: auto; font-size: 14px; border-radius: 4px;"></div>
+                    </div>
                 </div>
             </div>
-        </div> -->
+        </div>
     </div>
 
 </section>
