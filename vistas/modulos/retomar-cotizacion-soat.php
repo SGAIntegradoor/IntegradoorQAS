@@ -352,6 +352,7 @@ $cotizacionesFinesa = $stmt->fetchAll(PDO::FETCH_ASSOC);
       ?>
     </div>
   </section>
+ 
 </div>
 
 <script>

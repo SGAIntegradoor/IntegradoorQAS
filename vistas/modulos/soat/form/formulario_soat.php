@@ -76,9 +76,9 @@
                 <form method="Post" id="formResumVeh">
                     <div id="resumenVehiculo">
                         <div class="col-lg-12" id="headerVehiculo">
-                            <div class="row row-veh" style="margin-bottom: 3rem;">
+                            <div class="row row-veh" style="margin-bottom: 0px;">
                                 <div class="col-xs-12 col-sm-6 col-md-3">
-                                    <label for="">Datos del vehiculo</label>
+                                    <label for="">Confirmación de datos</label>
                                 </div>
                                 <div class="col-xs-12 col-sm-6 col-md-3">
                                 </div>
@@ -151,6 +151,42 @@
                                         <input type="text" class="form-control classReferenciaVeh" id="txtChasis" placeholder="" disabled>
                                         <div id="listaCiudades"></div>
                                     </div>
+
+                                    <div class="col-xs-12 col-sm-6 col-md-3 form-group">
+                                        <label for="txtFechaVencimiento">Fecha vencimiento SOAT</label>
+                                        <input type="text" class="form-control classReferenciaVeh" id="txtFechaVencimiento" placeholder="" disabled>
+                                    </div>
+
+                                    <div class="col-xs-12 col-sm-6 col-md-3 form-group">
+                                        <label for="">Servicio de tramite</label>
+                                        <div style="display: flex; justify-content: center; align-items: end; gap: 25px;">
+                                            <div class="radio">
+                                                <label style="margin-right: 5px;">
+                                                    <input id="radioConComision" type="radio" name="servicio" checked>
+                                                    Con Comisión:
+                                                    <span class="pull-right"> $ 45.000</span>
+                                                </label>
+                                            </div>
+
+                                            <div class="radio">
+                                                <label style="margin-right: 5px;">
+                                                    <input id="radioSinComision" type="radio" name="servicio">
+                                                    Sin Comisión:
+                                                    <span class="pull-right"> $ 20.000</span>
+                                                </label>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="col-xs-12 col-sm-6 col-md-3 form-group">
+                                        <label style="color: white" for="">.</label>
+                                        <button id="btnContinuarCoti" class="btn btn-primary btn-block" style="display: block;">Continuar</button>
+                                    </div>
+                                    <label style="color: white" for="">.</label>
+                                    <div class="col-xs-12 col-sm-6 col-md-3 form-group">
+                                        <button id="btnNuevaCoti" class="btn btn-primary btn-block" style="background-color: black;">Nueva cotización</button>
+                                    </div>
                                 </div>
 
                                 <div class="row">
@@ -159,7 +195,7 @@
                                     </div>
                                 </div>
 
-                                <div class="row">
+                                <!-- <div class="row">
                                     <div id="contenBtnCotizar">
                                         <div class="col-lg-12 conten-cotizar">
                                             <div class="row">
@@ -174,7 +210,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </div> -->
 
                             </div>
                         </div>
@@ -183,33 +219,63 @@
             </div>
 
             <!-- RESUMEN COTIZACIÓN Y NOTAS IMPORTANTES -->
-            <div class="containerResumenCoti" style="margin-top:40px; display:none;">
-                <div class="row">
+            <div class="containerResumenCoti" style="margin-top: 0px; display:none;">
+                <div class="col-lg-12" id="headerVehiculo">
+                    <div class="row row-veh" style="margin-bottom: 3rem;">
+                        <div class="col-xs-12 col-sm-6 col-md-3">
+                            <label for="">Solicitud de Expedición</label>
+                        </div>
+                        <div class="col-xs-12 col-sm-6 col-md-3">
+                        </div>
+                        <div class="col-xs-12 col-sm-6 col-md-3">
+                        </div>
+                        <div class="col-xs-12 col-sm-6 col-md-3">
+                            <div id="masExpedicion">
+                                <p style="text-align: end; display: none;" id="masExp" onclick="masExp();">Ver mas <i class="fa fa-plus-square-o"></i></p>
+                            </div>
+                            <div id="menosExp">
+                                <p style="text-align: end;" id="menosExp" onclick="menosExp();">Ver menos <i class="fa fa-minus-square-o"></i></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="containerExpedicion" class="row">
 
                     <!-- Resumen Cotización -->
                     <div class="col-md-6" style="padding-right: 5rem;">
                         <div class="summary-box">
-                            <h4 class="summary-title">RESUMEN COTIZACIÓN:</h4>
+                            <h4 id="title-resumen-coti" class="summary-title">RESUMEN COTIZACIÓN SOAT PLACA XXX000</h4>
 
                             <div class="clearfix" style="margin-bottom:15px;">
-                                <span class="pull-left"><strong>Valor SOAT</strong></span>
+                                <span class="pull-left"><strong>Fecha cotización</strong></span>
+                                <span id="fechaCoti" class="pull-right price">AAAA-MM-DD</span>
+                            </div>
+
+                            <div class="clearfix" style="margin-bottom:15px;">
+                                <span class="pull-left"><strong>Prima SOAT</strong></span>
+                                <span id="PrimaSoat" class="pull-right price">$ -</span>
+                            </div>
+
+                            <div class="clearfix" style="margin-bottom:15px;">
+                                <span class="pull-left"><strong>Contribución Fosyga</strong></span>
+                                <span id="contriFosyga" class="pull-right price">$ -</span>
+                            </div>
+
+                            <div class="clearfix" style="margin-bottom:15px;">
+                                <span class="pull-left"><strong>Tasa RUNT</strong></span>
+                                <span id="tasaRunt" class="pull-right price">$ -</span>
+                            </div>
+
+                            <hr>
+
+                            <div class="clearfix" style="margin-bottom:15px;">
+                                <span class="pull-left"><strong>Total SOAT</strong></span>
                                 <span id="valorSoat" class="pull-right price">$ -</span>
                             </div>
 
-                            <div class="radio">
-                                <label>
-                                    <input id="radioConComision" type="radio" name="servicio" checked>
-                                    Servicio trámite - Con Comisión:
-                                    <span class="pull-right">$ 45.000</span>
-                                </label>
-                            </div>
-
-                            <div class="radio">
-                                <label>
-                                    <input id="radioSinComision" type="radio" name="servicio">
-                                    Servicio trámite - Sin Comisión:
-                                    <span class="pull-right">$ 20.000</span>
-                                </label>
+                            <div class="clearfix" style="margin-bottom:15px;">
+                                <span class="pull-left"><strong>Servicio Tramite</strong></span>
+                                <span id="servicioTramite" class="pull-right price">$ -</span>
                             </div>
 
                             <hr>
@@ -239,11 +305,46 @@
                                 <li>El SOAT se emite con AXA Colpatria, Previsora, Seguros del Estado o Mundial. Grupo Asistencia define la aseguradora según disponibilidad.</li>
                             </ul>
 
-                            <div class="buttons-container">
+                            <!-- <div class="buttons-container">
                                 <button id="btnContinuarCoti" class="btn btn-green">Continuar</button>
                                 <button id="btnNuevaCoti" class="btn btn-black">Realizar nueva cotización</button>
+                            </div> -->
+                        </div>
+
+
+
+                        <div style="margin-top: 25px;">
+                            <div class="col-md-6">
+                                <label for="">Correo electronico tomador SOAT</label>
+                                <input class="form-control" type="text" name="" id="correoTomadorSoat">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="">Celular tomador SOAT</label>
+                                <input class="form-control" type="text" name="" id="celularTomadorSoat">
+                            </div>
+
+                            <div id="contenedor-subir-archivos" class="col-md-12" style="display: flex; flex-direction: column; margin-top: 25px;">
+                                <label>Adjuntar soporte de pago y Docs</label>
+
+                                <button type="button" id="btnUpload" class="btn btn-outline-primary w-100">
+                                    Añadir archivos
+                                </button>
+
+                                <input
+                                    type="file"
+                                    id="fileInput"
+                                    hidden
+                                    accept=".pdf,.jpg,.png,.doc,.docx"
+                                    style="display: none;">
+
+                                <small class="text-muted d-block mt-1">
+                                    Máximo 3 archivos (1 MB cada uno)
+                                </small>
+
+                                <div id="filePreview" class="mt-2"></div>
                             </div>
                         </div>
+
                     </div>
 
                 </div>
@@ -251,7 +352,7 @@
 
             <!-- Parte final del formulario -->
             <div class="containerFinalForm " style="display: none; margin-top: 40px;">
-                <div style="height: 100px;">
+                <!-- <div style="height: 100px;">
                     <div class="col-md-3">
                         <label for="">Correo electronico tomador SOAT</label>
                         <input class="form-control" type="text" name="" id="correoTomadorSoat">
@@ -283,15 +384,52 @@
                     <div class="col-xs-12 col-sm-6 col-md-2 form-group" id="contenBtnEnviarSolicitud" style="margin-top: 15px;">
                         <button type="button" class="btn btn-primary btn-block" id="btnEnviarSolicitud" style="margin-top: 15px;">Enviar</button>
                     </div>
+                </div> -->
+
+                <div class="box-body row" id="section-final" style="display: none;">
+                    <div class="col-xs-12 col-sm-6 col-md-6 form-group" id="contenedor-archivos" style="border: 2px solid #e5e5e5; padding: 15px; display: none; border-radius: 20px;"></div>
+
+                    <div class="col-xs-12 col-sm-6 col-md-6 form-group" id="contenComentarios" style="margin-top: 0px;">
+
+                        <div class="col-xs-12 col-sm-12 col-md-12 form-group" style="margin-top: 0px;">
+                            <textarea id="txtComentarios" style="width: 100%;" placeholder="Comentarios..."></textarea>
+                        </div>
+
+                        <div class="col-xs-12 col-sm-6 col-md-6 form-group" id="contenBtnEstadoAprobar" style="margin-top: 15px;">
+                            <button type="button" class="btn btn-primary btn-block" id="btnEstadoAprobar" style="margin-top: 15px;">Aprobar</button>
+                        </div>
+
+                        <div class="col-xs-12 col-sm-6 col-md-6 form-group" id="contenBtnEstadoDevolver" style="margin-top: 15px;">
+                            <button type="button" class="btn btn-danger btn-block" id="btnEstadoDevolver" style="margin-top: 15px;">Devolver</button>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="col-xs-12 col-sm-6 col-md-3 form-group" id="contenBtnEnviarSolicitud" style="margin-top: 15px;">
+                    <button type="button" class="btn btn-primary btn-block" id="btnEnviarSolicitud" style="margin-top: 15px;">Solicitar Expedición</button>
                 </div>
             </div>
 
+            <div id="container-subida-soat" style="display: none;">
+
+
+                <div id="contenedor-subir-soat"></div>
+                <div class="col-md-4" style="display: flex; flex-direction: column; margin-top: 25px;">
+                    <button id="btnSubirSoat" type="button" class="btn btn-primary btn-block" style="margin-top: 15px;">Enviar Soat</button>
+                </div>
+
+            </div>
+
         </div>
-        <div class="content" style="min-height: 0px">
+        <div id="contenedor-historial-comentarios" class="content" style="min-height: 0px; display: none;">
             <div class="box">
                 <div class="box-body row">
-                <div id="contenedor-archivos" style="border: solid black 0.25px; padding: 15px; display: none;"></div>
-            </div>
+                    <div class="form-group" style="margin-top: 20px;">
+                        <label>Historial de comentarios:</label>
+                        <div id="historialComentarios" style="background-color: #f5f5f5; padding: 10px; border: 1px solid #ccc; max-height: 150px; overflow-y: auto; font-size: 14px; border-radius: 4px;"></div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
