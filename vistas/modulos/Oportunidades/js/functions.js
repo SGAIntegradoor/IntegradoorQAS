@@ -757,7 +757,7 @@ function searchInfo() {
   }
 
   if (nombreAsesor !== "") {
-    url += `&nombreAsesor=${nombreAsesor}`;
+    url += `&nombreAsesor=${nombreAsesor.replace(/&/g, "%26")}`;
   }
 
   if (analistaGA !== "") {

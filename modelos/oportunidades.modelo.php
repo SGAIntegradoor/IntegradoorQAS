@@ -34,7 +34,8 @@ class ModeloOportunidades
         foreach ($params as $clave => $valor) {
 
             // Sanitizar valores para evitar SQL Injection
-            $valores[$clave] = htmlspecialchars($valor, ENT_QUOTES, 'UTF-8');
+            // $valores[$clave] = htmlspecialchars($valor, ENT_QUOTES, 'UTF-8');
+            $valores[$clave] = urldecode($valor);
         }
 
         // Crear consulta dinámica
