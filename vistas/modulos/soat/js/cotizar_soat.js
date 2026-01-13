@@ -275,7 +275,7 @@ function menosAgr() {
 function consulPlaca(query = "1") {
   var numplaca = document.getElementById("placaVeh").value;
 
-  $("#title-resumen-coti").html("RESUMEN COTIZACIÓN SOAT PLACA " + numplaca);
+  $("#title-resumen-coti").html("RESUMEN COTIZACIÓN SOAT " + numplaca);
 
   if (numplaca == "WWW404") {
     document.getElementById("formularioVehiculo").style.display = "block";
@@ -469,7 +469,18 @@ $("#btnNuevaCoti").click(function () {
   window.location.reload();
 });
 
-$("#btnContinuarCoti").click(function () {
+$("#btnContinuarCoti").click(function (e) {
+  if (!$("#radioSinComision").prop("checked") && !$("#radioConComision").prop("checked")) {
+    e.preventDefault();
+    Swal.fire({
+      icon: "error",
+      title: "Datos faltantes",
+      text: "Por favor selecciona el valor del tramite",
+      showConfirmButton: true,
+      confirmButtonText: "Cerrar",
+    });
+    return;
+  }
   menosVeh();
   $(".containerResumenCoti").show();
   $(".containerFinalForm").show();
@@ -592,7 +603,7 @@ function render() {
     div.className = "file-item";
 
     div.innerHTML = `
-            <span>${idCotizacionSoat}-${file.name}</span>
+            <span style="color: #337ab7; font-weight: bold;">${getIdCotiSoat}-${file.name}  <strong style="font-size: 10.5px; color: black;">(${(file.size / 1000).toFixed(2)} K)<strong></span>
             <span class="remove-btn" onclick="removeFile(${index})">✕</span>
         `;
 
