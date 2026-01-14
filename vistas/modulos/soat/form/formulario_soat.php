@@ -1,9 +1,9 @@
 <link rel="stylesheet" href="vistas/modulos/soat/css/styles.css">
 <section class="content">
-<div id="loading-screen">
-  <!-- <div class="loader"></div> -->
-   <img src="vistas/img/plantilla/loader-loading.gif" width="34" height="34"><strong>Procesando...</strong>
-</div>
+    <div id="loading-screen">
+        <!-- <div class="loader"></div> -->
+        <img src="vistas/img/plantilla/loader-loading.gif" width="34" height="34"><strong>Procesando...</strong>
+    </div>
     <label style="padding: 10px;" id="lblDataTrip2Top">Ingresa información para cotizar</label>
     <div class="box">
         <div class="box-body">
@@ -165,7 +165,7 @@
                                         <div style="display: flex; justify-content: center; align-items: end; gap: 25px;">
                                             <div class="radio">
                                                 <label style="margin-right: 5px;">
-                                                    <input id="radioConComision" type="radio" name="servicio" checked>
+                                                    <input id="radioConComision" type="radio" name="servicio">
                                                     Con Comisión:
                                                     <span class="pull-right"> $ 45.000</span>
                                                 </label>
@@ -245,28 +245,28 @@
                 <div id="containerExpedicion" class="row">
 
                     <!-- Resumen Cotización -->
-                    <div class="col-md-6" style="padding-right: 5rem;">
+                    <div class="col-xs-12 col-sm-6 col-md-4" style="padding-right: 5rem;">
                         <div class="summary-box">
-                            <h4 id="title-resumen-coti" class="summary-title">RESUMEN COTIZACIÓN SOAT PLACA XXX000</h4>
+                            <h4 id="title-resumen-coti" class="summary-title">RESUMEN COTIZACIÓN SOAT XXX000</h4>
 
-                            <div class="clearfix" style="margin-bottom:15px;">
-                                <span class="pull-left"><strong>Fecha cotización</strong></span>
-                                <span id="fechaCoti" class="pull-right price">AAAA-MM-DD</span>
+                            <div class="clearfix" style="margin-bottom:0px;">
+                                <span class="pull-left">Fecha cotización</span>
+                                <span id="fechaCoti" class="pull-right ">AAAA-MM-DD</span>
                             </div>
 
-                            <div class="clearfix" style="margin-bottom:15px;">
-                                <span class="pull-left"><strong>Prima SOAT</strong></span>
-                                <span id="PrimaSoat" class="pull-right price">$ -</span>
+                            <div class="clearfix" style="margin-bottom:0px;">
+                                <span class="pull-left">Prima SOAT</span>
+                                <span id="PrimaSoat" class="pull-right ">$ -</span>
                             </div>
 
-                            <div class="clearfix" style="margin-bottom:15px;">
-                                <span class="pull-left"><strong>Contribución Fosyga</strong></span>
-                                <span id="contriFosyga" class="pull-right price">$ -</span>
+                            <div class="clearfix" style="margin-bottom:0px;">
+                                <span class="pull-left">Contribución Fosyga</span>
+                                <span id="contriFosyga" class="pull-right ">$ -</span>
                             </div>
 
-                            <div class="clearfix" style="margin-bottom:15px;">
-                                <span class="pull-left"><strong>Tasa RUNT</strong></span>
-                                <span id="tasaRunt" class="pull-right price">$ -</span>
+                            <div class="clearfix" style="margin-bottom:0px;">
+                                <span class="pull-left">Tasa RUNT</span>
+                                <span id="tasaRunt" class="pull-right ">$ -</span>
                             </div>
 
                             <hr>
@@ -284,14 +284,14 @@
                             <hr>
 
                             <div class="clearfix">
-                                <span class="pull-left"><strong>Total a pagar:</strong></span>
+                                <span style="color: #7AC943; font-size: 18px;" class="pull-left"><strong>TOTAL A PAGAR:</strong></span>
                                 <span id="totalPagarSoat" class="pull-right total">$ -</span>
                             </div>
                         </div>
                     </div>
 
                     <!-- Notas importantes -->
-                    <div class="col-md-6">
+                    <div class="col-xs-12 col-sm-6 col-md-3">
                         <div style="font-size: 12px;">
                             <p class="notes-title">Notas importantes:</p>
                             <ul>
@@ -315,6 +315,10 @@
                         </div>
 
 
+                    </div>
+
+                    <!-- Resumen222 Cotización -->
+                    <div class="col-xs-12 col-sm-6 col-md-5" style="padding-right: 5rem;">
 
                         <div style="margin-top: 25px;">
                             <div class="col-md-6">
@@ -326,11 +330,11 @@
                                 <input class="form-control" type="text" name="" id="celularTomadorSoat">
                             </div>
 
-                            <div id="contenedor-subir-archivos" class="col-md-12" style="display: flex; flex-direction: column; margin-top: 25px;">
+                            <div id="contenedor-subir-archivos" class="col-md-6" style="display: flex; flex-direction: column; margin-top: 25px;">
                                 <label>Adjuntar soporte de pago y Docs</label>
 
-                                <button type="button" id="btnUpload" class="btn btn-outline-primary w-100">
-                                    Añadir archivos
+                                <button type="button" id="btnUpload" class="btn btn-outline-primary">
+                                    <i class="fa fa-cloud-upload" style="margin-right:5px;"></i> Añadir archivos
                                 </button>
 
                                 <input
@@ -344,10 +348,15 @@
                                     Máximo 3 archivos (1 MB cada uno)
                                 </small>
 
+                                
+                            </div>
+
+                            <div id="contenedor-subir-archivos-preview" class="col-md-6" style="display: flex; flex-direction: column; margin-top: 25px;">
+                                <label style="color: white;">subidos</label>
                                 <div id="filePreview" class="mt-2"></div>
                             </div>
-                        </div>
 
+                        </div>
                     </div>
 
                 </div>
@@ -389,6 +398,7 @@
                     </div>
                 </div> -->
 
+
                 <div class="box-body row" id="section-final" style="display: none;">
                     <div class="col-xs-12 col-sm-6 col-md-6 form-group" id="contenedor-archivos" style="border: 2px solid #e5e5e5; padding: 15px; display: none; border-radius: 20px;"></div>
 
@@ -409,7 +419,7 @@
 
                 </div>
 
-                <div class="col-xs-12 col-sm-6 col-md-3 form-group" id="contenBtnEnviarSolicitud" style="margin-top: 15px;">
+                <div class="col-xs-12 col-sm-3 col-md-3 form-group" id="contenBtnEnviarSolicitud" style="margin-top: 15px;">
                     <button type="button" class="btn btn-primary btn-block" id="btnEnviarSolicitud" style="margin-top: 15px;">Solicitar Expedición</button>
                 </div>
             </div>
@@ -417,11 +427,13 @@
             <div id="container-subida-soat" style="display: none;">
 
 
-                <div id="contenedor-subir-soat"></div>
-                <div class="col-md-4" style="display: flex; flex-direction: column; margin-top: 25px;">
-                    <button id="btnSubirSoat" type="button" class="btn btn-primary btn-block" style="margin-top: 15px;">Enviar Soat</button>
+                <div class="col-md-3" id="contenedor-subir-soat" style="width: 100%;display: flex; padding: 0px; flex-direction: row-reverse; justify-content: flex-end;">
+                    <div class="col-md-2" style="display: flex; flex-direction: column; margin-top: 35px;">
+                        <button id="btnSubirSoat" type="button" class="btn btn-primary btn-block" style="margin-top: 15px;">Enviar Soat</button>
+                    </div>
                 </div>
-
+                <div id="destinoPreview"></div>
+                
             </div>
 
         </div>

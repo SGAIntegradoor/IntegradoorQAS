@@ -48,7 +48,7 @@ $("document").ready(function () {
   $("#radioConComision").prop("disabled", true);
   $("#radioSinComision").prop("disabled", true);
   $("#btnUpload").prop("disabled", true);
-  $("#contenedor-archivos").show();
+  $("#contenedor-archivos").css({ display: "flex"});
 
 });
 
@@ -72,7 +72,7 @@ function editarCotizacionSoat(idCotizacionSoat) {
       const totalSoat = Number(response.total_soat);
       const valorComision = Number(response.valor_comision);
 
-      $("#title-resumen-coti").html("RESUMEN COTIZACIÓN SOAT PLACA " + response.placa);
+      $("#title-resumen-coti").html("RESUMEN COTIZACIÓN SOAT " + response.placa);
       $("#valorSoat").html("$ " + totalSoat.toLocaleString("es-CO"));
       $("#totalPagarSoat").html("$ " + (totalSoat + valorComision).toLocaleString("es-CO"));
       $("#placaVeh").val(response.placa);
@@ -108,18 +108,18 @@ function editarCotizacionSoat(idCotizacionSoat) {
         $("#celularTomadorSoat").prop("disabled", false);
         $("#correoTomadorSoat").prop("disabled", false);
       } else if (response.estado == "Solicitud enviada") {
-        if (permisos.id_rol != 19
-        ) {
+        if (permisos.id_rol != 19) {
           $("#section-final").show();
+          $("#contenedor-archivos").css({ display: "flex"});
         } else {
           $("#section-final").show();
           $("#contenComentarios").hide();
-          $("#contenedor-archivos").show();
+          $("#contenedor-archivos").css({ display: "flex"});
         }
       } else if (response.estado == "Soat Expedido") {
         $("#section-final").show();
         $("#contenComentarios").hide();
-        $("#contenedor-archivos").show();
+        $("#contenedor-archivos").css({ display: "flex"});
       } else if (response.estado == "Solicitud aprobada") {
         if (permisos.id_rol != 19) { // configurar condicion para los encargados de soat de sga
           $("#btnEstadoAprobar").prop("disabled", true);
@@ -128,24 +128,27 @@ function editarCotizacionSoat(idCotizacionSoat) {
           $("#container-subida-soat").show();
           $("#contenedor-subir-soat").show();
           $("#section-final").show();
-          $("#contenedor-archivos").show();
 
-          $("#contenedor-archivos").show();
+          $("#contenedor-archivos").css({ display: "flex"});
           const miBloque = document.getElementById("contenedor-subir-archivos");
+          const miBloquePreview = document.getElementById("contenedor-subir-archivos-preview");
           const contenedorDestino = document.getElementById("contenedor-subir-soat");
+          const contenedorDestinoPreview = document.getElementById("destinoPreview");
           contenedorDestino.appendChild(miBloque);
+          contenedorDestinoPreview.appendChild(miBloquePreview);
+          $("#contenedor-subir-archivos").removeClass().addClass("col-md-2");
           $("#btnUpload").prop("disabled", false);
           $("#contenedor-subir-archivos label").text("Subir SOAT");
         } else {
           $("#section-final").show();
           $("#contenComentarios").hide();
-          $("#contenedor-archivos").show();
+          $("#contenedor-archivos").css({ display: "flex"});
         }
       } else if (response.estado == "Solicitud rechazada") {
         if (permisos.id_rol != 19) {
           $("#section-final").show();
           $("#contenComentarios").hide();
-          $("#contenedor-archivos").show();
+          $("#contenedor-archivos").css({ display: "flex"});
         } else {
           $("#btnUpload").prop("disabled", false);
           $("#section-final").show();
@@ -169,8 +172,11 @@ async function cargarArchivosCotizacion(idCotizacion, estadoCotizacion) {
   contenedor.innerHTML = "Cargando archivos...";
 
   try {
-    const response = await fetch('vistas/modulos/soat/getArchivos.php?id=' + idCotizacion);
+    const response = await fetch(
+      "vistas/modulos/soat/getArchivos.php?id=" + idCotizacion
+    );
     const archivos = await response.json();
+    // console.log(archivos);
 
     if (archivos.length === 0) {
       contenedor.innerHTML = "<p>No hay archivos para esta cotización.</p>";
@@ -180,40 +186,51 @@ async function cargarArchivosCotizacion(idCotizacion, estadoCotizacion) {
     // Limpiamos y generamos la lista
     contenedor.innerHTML = '<ul class="list-group">';
     let primerArchivo = true;
-    archivos.forEach(file => {
-
-      const nombreBase = file.nombre.split('-').slice(2).join('-');
-      const nombreLimpio = primerArchivo && estadoCotizacion == 'Soat Expedido'
-        ? `<b style="color: #7AC943">${nombreBase.toUpperCase()}</b>`
-        : nombreBase;
+    archivos.forEach((file) => {
+      const nombreBase = file.nombre.split("-").slice(2).join("-");
+      const nombreLimpio =
+        primerArchivo && estadoCotizacion == "Soat Expedido"
+          ? `<b style="color:#7AC943">${nombreBase.toUpperCase()}</b>`
+          : nombreBase;
 
       primerArchivo = false;
 
-      // Botón eliminar solo si está Solicitud rechazada
-      const botonEliminar = estadoCotizacion === 'Solicitud rechazada' && permisos.id_rol == 19
-        ? `<button class="btn btn-sm btn-danger"
-                onclick="eliminarArchivo('${file.nombre}', ${idCotizacion})"
-                title="Eliminar archivo"
-                style="margin-left:5px; background-color: white;">
-                ❌
-           </button>`
-        : '';
+      const botonEliminar =
+        estadoCotizacion === "Solicitud rechazada" && permisos.id_rol == 19
+          ? `<button class="btn btn-sm btn-danger"
+                   onclick="eliminarArchivo('${file.nombre}', ${idCotizacion})"
+                   title="Eliminar archivo"
+                   style="margin-left:5px; background-color:white;">❌</button>`
+          : "";
+
+      const preview = generarPreview(file.url, file.nombre);
 
       contenedor.innerHTML += `
-        <li class="list-group-item" style="display: flex; justify-content: space-between; align-items: center;">
-            <span>${nombreLimpio}</span>
-            <div>
-                <a href="http://${file.url}" target="_blank" class="btn btn-sm btn-primary">
-                    Descargar
-                </a>
-                ${botonEliminar}
+        <li class="list-group-item">
+            <div style="display:flex; flex-direction: column; gap:15px; align-items:center;">
+                
+                ${preview}
+
+                <div style="flex:1">
+                    <div>${nombreLimpio}</div>
+                    <!-- <div style="margin-top:5px;">
+                        <a href="http://${file.url}" target="_blank" class="btn btn-sm btn-primary">
+                            Abrir
+                        </a>
+                        <a href="http://${file.url}" download class="btn btn-sm btn-success">
+                            Descargar
+                        </a>
+                        ${botonEliminar}
+                    </div> -->
+                    ${botonEliminar}
+                </div>
             </div>
         </li>
         <hr>
     `;
     });
-    contenedor.innerHTML += '</ul>';
 
+    contenedor.innerHTML += "</ul>";
   } catch (error) {
     console.error("Error al obtener archivos:", error);
     contenedor.innerHTML = "Error al cargar la lista.";
@@ -268,6 +285,41 @@ $("#btnEstadoAprobar").click(function () {
       console.log("Error al actualizar cotizacion SOAT: ", error);
     }
   });
+
+  let inpComentarios = $("#txtComentarios").val();
+  if (inpComentarios != null || inpComentarios != "") {
+    // Guardar comentario
+    $.ajax({
+      type: "POST",
+      url: "src/addComment.php",
+      dataType: "text",
+      data: {
+        id_general: getIdCotiSoat,
+        modulo: "Soat",
+        comentario: inpComentarios,
+        idUsuario: permisos.id_usuario,
+        nombre_usuario_comentario: permisos.nombre,
+
+      },
+      cache: false,
+      success: function (data) {
+        console.log("comentario agregado: " + data);
+        $.get("vistas/modulos/soat/listarComentariosSoat.php", { id_asesor: permisos.id_usuario, id_general: getIdCotiSoat}, function (data) {
+        const comentarios = JSON.parse(data);
+        if (comentarios.length === 0) {
+          $("#historialComentarios").html("<p>No hay comentarios aún.</p>");
+        } else {
+          renderizarComentarios(comentarios);
+        }
+  });
+      },
+      error: function (xhr, status, error) {
+        console.log(error);
+        console.log("Error");
+      },
+    });
+  }
+
   $("#btnEstadoAprobar").prop("disabled", true);
   $("#btnEstadoDevolver").prop("disabled", true);
   $("#txtComentarios").prop("disabled", true);
@@ -275,9 +327,8 @@ $("#btnEstadoAprobar").click(function () {
   $("#container-subida-soat").show();
   $("#contenedor-subir-soat").show();
 
-  const miBloque = document.getElementById("contenedor-subir-archivos");
-  const contenedorDestino = document.getElementById("contenedor-subir-soat");
-  contenedorDestino.appendChild(miBloque);
+  $("#contenedor-subir-archivos").removeClass().addClass("col-md-2");
+
   $("#btnUpload").prop("disabled", false);
   $("#contenedor-subir-archivos label").text("Subir SOAT");
 });
@@ -397,4 +448,34 @@ function renderizarComentarios(lista) {
     `;
     contenedor.append(html);
   });
+}
+
+function generarPreview(url, nombre) {
+    const ext = nombre.split('.').pop().toLowerCase();
+    const fullUrl = `http://${url}`;
+
+    if (['jpg', 'jpeg', 'png', 'gif', 'webp'].includes(ext)) {
+        return `
+            <img src="${fullUrl}" 
+                 style="max-width:120px; max-height:120px; cursor:pointer; border-radius:8px;"
+                 onclick="window.open('${fullUrl}', '_blank')"
+            >
+        `;
+    }
+
+    if (ext === 'pdf') {
+        return `
+            <iframe src="${fullUrl}" 
+                    style="width:120px; height:120px; border-radius:8px; cursor:pointer;"
+                    onclick="window.open('${fullUrl}', '_blank')">
+            </iframe>
+        `;
+    }
+
+    return `
+        <div onclick="window.open('${fullUrl}', '_blank')" 
+             style="width:120px; height:120px; display:flex; align-items:center; justify-content:center; cursor:pointer; background:#f5f5f5; border-radius:8px;">
+            📄
+        </div>
+    `;
 }
