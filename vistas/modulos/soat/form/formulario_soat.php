@@ -400,9 +400,9 @@
 
 
                 <div class="box-body row" id="section-final" style="display: none;">
-                    <div class="col-xs-12 col-sm-6 col-md-6 form-group" id="contenedor-archivos" style="border: 2px solid #e5e5e5; padding: 15px; display: none; border-radius: 20px;"></div>
+                    <div class="col-xs-12 col-sm-6 col-md-5 form-group" id="contenedor-archivos" style="border: 2px solid #e5e5e5; padding: 15px; display: none; border-radius: 20px; justify-content: space-around;"></div>
 
-                    <div class="col-xs-12 col-sm-6 col-md-6 form-group" id="contenComentarios" style="margin-top: 0px;">
+                    <div class="col-xs-12 col-sm-6 col-md-7 form-group" id="contenComentarios" style="margin-top: 0px;">
 
                         <div class="col-xs-12 col-sm-12 col-md-12 form-group" style="margin-top: 0px;">
                             <textarea id="txtComentarios" style="width: 100%;" placeholder="Comentarios..."></textarea>

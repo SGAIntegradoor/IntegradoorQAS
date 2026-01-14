@@ -169,7 +169,7 @@ function editarCotizacionSoat(idCotizacionSoat) {
 
 async function cargarArchivosCotizacion(idCotizacion, estadoCotizacion) {
   const contenedor = document.getElementById("contenedor-archivos");
-  contenedor.innerHTML = "Cargando archivos...";
+  contenedor.innerHTML = "<label>Cargando archivos...</label>";
 
   try {
     const response = await fetch(
@@ -184,7 +184,7 @@ async function cargarArchivosCotizacion(idCotizacion, estadoCotizacion) {
     }
 
     // Limpiamos y generamos la lista
-    contenedor.innerHTML = '<ul class="list-group">';
+    // contenedor.innerHTML = '<ul class="list-group">';
     let primerArchivo = true;
     archivos.forEach((file) => {
       const nombreBase = file.nombre.split("-").slice(2).join("-");
@@ -207,30 +207,42 @@ async function cargarArchivosCotizacion(idCotizacion, estadoCotizacion) {
 
       contenedor.innerHTML += `
         <li class="list-group-item">
-            <div style="display:flex; flex-direction: column; gap:15px; align-items:center;">
-                
-                ${preview}
+    <div style="
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 15px;
+        flex-direction: column;
+      ">
 
-                <div style="flex:1">
-                    <div>${nombreLimpio}</div>
-                    <!-- <div style="margin-top:5px;">
-                        <a href="http://${file.url}" target="_blank" class="btn btn-sm btn-primary">
-                            Abrir
-                        </a>
-                        <a href="http://${file.url}" download class="btn btn-sm btn-success">
-                            Descargar
-                        </a>
-                        ${botonEliminar}
-                    </div> -->
-                    ${botonEliminar}
-                </div>
-            </div>
-        </li>
-        <hr>
+      <!-- Preview -->
+      <div style="
+          display: flex;
+          align-items: center;
+          flex-shrink: 0;
+        ">
+        ${preview}
+      </div>
+
+      <!-- Nombre + botón eliminar -->
+      <div style="
+          flex: 1;
+          display: flex;
+          justify-content: flex-end;
+          align-items: center;
+          gap: 10px;
+          text-align: right;
+        ">
+        <div>${nombreLimpio}</div>
+        ${botonEliminar}
+      </div>
+
+    </div>
+  </li>
     `;
     });
-
-    contenedor.innerHTML += "</ul>";
+    $("#contenedor-archivos label").remove();
+    // contenedor.innerHTML += "</ul>";
   } catch (error) {
     console.error("Error al obtener archivos:", error);
     contenedor.innerHTML = "Error al cargar la lista.";
@@ -286,8 +298,8 @@ $("#btnEstadoAprobar").click(function () {
     }
   });
 
-  let inpComentarios = $("#txtComentarios").val();
-  if (inpComentarios != null || inpComentarios != "") {
+  let inpComentariosA = $("#txtComentarios").val();
+  if (inpComentariosA.trim() !== "") {
     // Guardar comentario
     $.ajax({
       type: "POST",
@@ -296,7 +308,7 @@ $("#btnEstadoAprobar").click(function () {
       data: {
         id_general: getIdCotiSoat,
         modulo: "Soat",
-        comentario: inpComentarios,
+        comentario: inpComentariosA,
         idUsuario: permisos.id_usuario,
         nombre_usuario_comentario: permisos.nombre,
 
@@ -311,7 +323,7 @@ $("#btnEstadoAprobar").click(function () {
         } else {
           renderizarComentarios(comentarios);
         }
-  });
+    });
       },
       error: function (xhr, status, error) {
         console.log(error);
@@ -325,8 +337,9 @@ $("#btnEstadoAprobar").click(function () {
   $("#txtComentarios").prop("disabled", true);
   // $("#contenedor-subir-archivos").remove();
   $("#container-subida-soat").show();
-  $("#contenedor-subir-soat").show();
-
+  $("#contenedor-subir-soat").show(); 
+  $("#contenedor-subir-soat").append($("#contenedor-subir-archivos"));
+  $("#destinoPreview").append($("#contenedor-subir-archivos-preview"));
   $("#contenedor-subir-archivos").removeClass().addClass("col-md-2");
 
   $("#btnUpload").prop("disabled", false);
@@ -452,7 +465,7 @@ function renderizarComentarios(lista) {
 
 function generarPreview(url, nombre) {
     const ext = nombre.split('.').pop().toLowerCase();
-    const fullUrl = `http://${url}`;
+    const fullUrl = `https://${url}`;
 
     if (['jpg', 'jpeg', 'png', 'gif', 'webp'].includes(ext)) {
         return `
