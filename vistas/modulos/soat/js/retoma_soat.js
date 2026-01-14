@@ -310,7 +310,7 @@ $("#btnEstadoAprobar").click(function () {
         modulo: "Soat",
         comentario: inpComentariosA,
         idUsuario: permisos.id_usuario,
-        nombre_usuario_comentario: permisos.nombre,
+        nombre_usuario_comentario: permisos.usu_nombre + ' ' + permisos.usu_apellido,
 
       },
       cache: false,
@@ -425,7 +425,7 @@ $("#btnEstadoDevolver").click(function () {
       modulo: "Soat",
       comentario: inpComentarios,
       idUsuario: permisos.id_usuario,
-      nombre_usuario_comentario: permisos.nombre,
+      nombre_usuario_comentario: permisos.usu_nombre + ' ' + permisos.usu_apellido,
 
     },
     cache: false,
