@@ -603,7 +603,7 @@ function render() {
     div.className = "file-item";
 
     div.innerHTML = `
-            <span style="color: #337ab7; font-weight: bold;">${getIdCotiSoat}-${file.name}  <strong style="font-size: 10.5px; color: black;">(${(file.size / 1000).toFixed(2)} K)<strong></span>
+            <span style="color: #337ab7; font-weight: bold;">${idCotizacionSoat}-${file.name}  <strong style="font-size: 10.5px; color: black;">(${(file.size / 1000).toFixed(2)} K)<strong></span>
             <span class="remove-btn" onclick="removeFile(${index})">✕</span>
         `;
 
