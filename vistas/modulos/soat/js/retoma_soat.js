@@ -48,7 +48,7 @@ $("document").ready(function () {
   $("#radioConComision").prop("disabled", true);
   $("#radioSinComision").prop("disabled", true);
   $("#btnUpload").prop("disabled", true);
-  $("#contenedor-archivos").show();
+  $("#contenedor-archivos").css({ display: "flex"});
 
 });
 
@@ -110,16 +110,16 @@ function editarCotizacionSoat(idCotizacionSoat) {
       } else if (response.estado == "Solicitud enviada") {
         if (permisos.id_rol != 19) {
           $("#section-final").show();
-          $("#contenedor-archivos").show();
+          $("#contenedor-archivos").css({ display: "flex"});
         } else {
           $("#section-final").show();
           $("#contenComentarios").hide();
-          $("#contenedor-archivos").show();
+          $("#contenedor-archivos").css({ display: "flex"});
         }
       } else if (response.estado == "Soat Expedido") {
         $("#section-final").show();
         $("#contenComentarios").hide();
-        $("#contenedor-archivos").show();
+        $("#contenedor-archivos").css({ display: "flex"});
       } else if (response.estado == "Solicitud aprobada") {
         if (permisos.id_rol != 19) { // configurar condicion para los encargados de soat de sga
           $("#btnEstadoAprobar").prop("disabled", true);
@@ -128,29 +128,27 @@ function editarCotizacionSoat(idCotizacionSoat) {
           $("#container-subida-soat").show();
           $("#contenedor-subir-soat").show();
           $("#section-final").show();
-          $("#contenedor-archivos").show();
 
-          $("#contenedor-archivos").show();
+          $("#contenedor-archivos").css({ display: "flex"});
           const miBloque = document.getElementById("contenedor-subir-archivos");
           const miBloquePreview = document.getElementById("contenedor-subir-archivos-preview");
           const contenedorDestino = document.getElementById("contenedor-subir-soat");
           const contenedorDestinoPreview = document.getElementById("destinoPreview");
           contenedorDestino.appendChild(miBloque);
           contenedorDestinoPreview.appendChild(miBloquePreview);
-          // miBloque.removeClass("col-md-6");
-          // miBloque.addClass("col-md-3");
+          $("#contenedor-subir-archivos").removeClass().addClass("col-md-2");
           $("#btnUpload").prop("disabled", false);
           $("#contenedor-subir-archivos label").text("Subir SOAT");
         } else {
           $("#section-final").show();
           $("#contenComentarios").hide();
-          $("#contenedor-archivos").show();
+          $("#contenedor-archivos").css({ display: "flex"});
         }
       } else if (response.estado == "Solicitud rechazada") {
         if (permisos.id_rol != 19) {
           $("#section-final").show();
           $("#contenComentarios").hide();
-          $("#contenedor-archivos").show();
+          $("#contenedor-archivos").css({ display: "flex"});
         } else {
           $("#btnUpload").prop("disabled", false);
           $("#section-final").show();
@@ -178,6 +176,7 @@ async function cargarArchivosCotizacion(idCotizacion, estadoCotizacion) {
       "vistas/modulos/soat/getArchivos.php?id=" + idCotizacion
     );
     const archivos = await response.json();
+    // console.log(archivos);
 
     if (archivos.length === 0) {
       contenedor.innerHTML = "<p>No hay archivos para esta cotización.</p>";
@@ -208,13 +207,13 @@ async function cargarArchivosCotizacion(idCotizacion, estadoCotizacion) {
 
       contenedor.innerHTML += `
         <li class="list-group-item">
-            <div style="display:flex; gap:15px; align-items:center;">
+            <div style="display:flex; flex-direction: column; gap:15px; align-items:center;">
                 
                 ${preview}
 
                 <div style="flex:1">
                     <div>${nombreLimpio}</div>
-                    <div style="margin-top:5px;">
+                    <!-- <div style="margin-top:5px;">
                         <a href="http://${file.url}" target="_blank" class="btn btn-sm btn-primary">
                             Abrir
                         </a>
@@ -222,7 +221,8 @@ async function cargarArchivosCotizacion(idCotizacion, estadoCotizacion) {
                             Descargar
                         </a>
                         ${botonEliminar}
-                    </div>
+                    </div> -->
+                    ${botonEliminar}
                 </div>
             </div>
         </li>
@@ -285,6 +285,41 @@ $("#btnEstadoAprobar").click(function () {
       console.log("Error al actualizar cotizacion SOAT: ", error);
     }
   });
+
+  let inpComentarios = $("#txtComentarios").val();
+  if (inpComentarios != null || inpComentarios != "") {
+    // Guardar comentario
+    $.ajax({
+      type: "POST",
+      url: "src/addComment.php",
+      dataType: "text",
+      data: {
+        id_general: getIdCotiSoat,
+        modulo: "Soat",
+        comentario: inpComentarios,
+        idUsuario: permisos.id_usuario,
+        nombre_usuario_comentario: permisos.nombre,
+
+      },
+      cache: false,
+      success: function (data) {
+        console.log("comentario agregado: " + data);
+        $.get("vistas/modulos/soat/listarComentariosSoat.php", { id_asesor: permisos.id_usuario, id_general: getIdCotiSoat}, function (data) {
+        const comentarios = JSON.parse(data);
+        if (comentarios.length === 0) {
+          $("#historialComentarios").html("<p>No hay comentarios aún.</p>");
+        } else {
+          renderizarComentarios(comentarios);
+        }
+  });
+      },
+      error: function (xhr, status, error) {
+        console.log(error);
+        console.log("Error");
+      },
+    });
+  }
+
   $("#btnEstadoAprobar").prop("disabled", true);
   $("#btnEstadoDevolver").prop("disabled", true);
   $("#txtComentarios").prop("disabled", true);
@@ -292,9 +327,8 @@ $("#btnEstadoAprobar").click(function () {
   $("#container-subida-soat").show();
   $("#contenedor-subir-soat").show();
 
-  const miBloque = document.getElementById("contenedor-subir-archivos");
-  const contenedorDestino = document.getElementById("contenedor-subir-soat");
-  contenedorDestino.appendChild(miBloque);
+  $("#contenedor-subir-archivos").removeClass().addClass("col-md-2");
+
   $("#btnUpload").prop("disabled", false);
   $("#contenedor-subir-archivos label").text("Subir SOAT");
 });

@@ -398,6 +398,7 @@
                     </div>
                 </div> -->
 
+
                 <div class="box-body row" id="section-final" style="display: none;">
                     <div class="col-xs-12 col-sm-6 col-md-6 form-group" id="contenedor-archivos" style="border: 2px solid #e5e5e5; padding: 15px; display: none; border-radius: 20px;"></div>
 
@@ -427,7 +428,7 @@
 
 
                 <div class="col-md-3" id="contenedor-subir-soat" style="width: 100%;display: flex; padding: 0px; flex-direction: row-reverse; justify-content: flex-end;">
-                    <div class="col-md-3" style="display: flex; flex-direction: column; margin-top: 35px;">
+                    <div class="col-md-2" style="display: flex; flex-direction: column; margin-top: 35px;">
                         <button id="btnSubirSoat" type="button" class="btn btn-primary btn-block" style="margin-top: 15px;">Enviar Soat</button>
                     </div>
                 </div>
