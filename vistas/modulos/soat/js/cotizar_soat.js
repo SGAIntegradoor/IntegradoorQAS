@@ -330,7 +330,7 @@ function consulPlaca(query = "1") {
           var codigoLinea = myJson.ConsultarInfoVehiculoRuntDocResult.linea;
           var modeloVehiculo = myJson.ConsultarInfoVehiculoRuntDocResult.aaaa_modelo;
           var codigoClase = myJson.ConsultarInfoVehiculoRuntDocResult.claseVehiculo;
-          var idClase = myJson.ConsultarInfoVehiculoRuntDocResult.idClaseVehiculo;
+          var idClase = myJson.ConsultarInfoVehiculoRuntDocResult.codClaseSise;
           var codigoMarca = myJson.ConsultarInfoVehiculoRuntDocResult.marca;
 
           var servicio = myJson.ConsultarInfoVehiculoRuntDocResult.tipoServicio;
