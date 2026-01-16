@@ -13,14 +13,14 @@ function guardarEstado(datos) {
   });
 };
 
-function enviarEmail(mensaje) {
+function enviarEmail(mensaje, idCotiSoatE) {
   showLoader();
   $.ajax({
     type: "POST",
     url: "https://grupoasistencia.com/WS-laravel-email-shetts/api/emails/enviar-correo-soat",
     dataType: "text",
     data: {
-      idCotizacion: idCotizacionSoat,
+      idCotizacion: idCotiSoatE,
       placa: $("#placaVeh").val(),
       clase: $("#txtClaseVeh").val(),
       referencia: $("#txtMarcaVeh").val() + " " + $("#txtLinea").val(),
@@ -223,30 +223,35 @@ $(document).ready(function () {
 });
 
 // Maximiza el formulario Datos Asegurado
-function masAseg() {
+function masAsegSoat() {
   document.getElementById("DatosAsegurado").style.display = "block";
+  document.getElementById("DatosVehiculo").style.display = "block";
   document.getElementById("menosAsegurado").style.display = "block";
   document.getElementById("masAsegurado").style.display = "none";
+  masVeh();
 }
 // Minimiza el formulario Datos Asegurado
-function menosAseg() {
+function menosAsegSoat() {
   document.getElementById("DatosAsegurado").style.display = "none";
+  document.getElementById("DatosVehiculo").style.display = "none";
   document.getElementById("menosAsegurado").style.display = "none";
   document.getElementById("masAsegurado").style.display = "block";
+  menosVeh();
 }
 
 // Maximizar el formulario Datos Vehiculo
-function masVeh() {
+function masVehSoat() {
   document.getElementById("DatosVehiculo").style.display = "block";
   document.getElementById("menosVehiculo").style.display = "block";
   document.getElementById("masVehiculo").style.display = "none";
 }
 // Minimiza el formulario Datos Vehiculo
-function menosVeh() {
+function menosVehSoat() {
   document.getElementById("DatosVehiculo").style.display = "none";
   document.getElementById("menosVehiculo").style.display = "none";
   document.getElementById("masVehiculo").style.display = "block";
 }
+
 // Maximizar el formulario Datos Vehiculo
 function masExp() {
   document.getElementById("containerExpedicion").style.display = "block";
@@ -356,7 +361,6 @@ function consulPlaca(query = "1") {
           $("#txtPasajeros").val(pasajeros);
           $("#txtMotor").val(motor);
           $("#txtChasis").val(chasis);
-          $("#txtFechaVencimiento").val(chasis);
 
           $("#loaderPlacaTwo").html('<img src="vistas/img/plantilla/loader-loading.gif" width="34" height="34"><strong> Cotizando SOAT...</strong>'
           );
@@ -393,6 +397,11 @@ function consulPlaca(query = "1") {
               $("#txtConocesLaPlacaSi").prop("disabled", true);
               $("#txtConocesLaPlacaNo").prop("disabled", true);
               $("#placaVeh").prop("disabled", true);
+              let fechaStr = data.CalcularPolizaResult.FechaInicioVigencia; // "19/12/2026"
+              let fecha = new Date(fechaStr.split('/').reverse().join('-'));
+              fecha.setDate(fecha.getDate() - 0);
+              let fechaFinal = fecha.toLocaleDateString('es-ES');
+              let fechaVencimiento = data.CalcularPolizaResult.FechaInicioVigencia;
 
               // Peticion para guardar la cotización (formato Form Data)
               let datos = {
@@ -408,6 +417,7 @@ function consulPlaca(query = "1") {
                   Chasis: chasis,
                   Servicio: servicio,
                   Referencia: codigoMarca + " " + codigoLinea,
+                  FechaVencimiento: fechaVencimiento.split(' ')[0],
                   NumeroDocumento: nroDocPropietario,
                   Prima: data.CalcularPolizaResult.ValorPrima,
                   Contribucion: data.CalcularPolizaResult.ValorContribucion,
@@ -420,7 +430,6 @@ function consulPlaca(query = "1") {
 
               let valorAPagarSoat = Number(data.CalcularPolizaResult.ValorTotalPagar);
               let totalPagarSoat = valorAPagarSoat + 45000;
-              let fechaVencimiento = data.CalcularPolizaResult.FechaInicioVigencia;
               valorSoatGlobal = valorAPagarSoat;
               $("#fechaCoti").text(new Date().toLocaleDateString());
               $("#txtFechaVencimiento").val(fechaVencimiento.split(' ')[0]);
@@ -548,7 +557,7 @@ $("#btnEnviarSolicitud").click(function () {
 
   guardarEstado(datos);
   msg = "Solicitud de soat recibida";
-  enviarEmail(msg);
+  enviarEmail(msg, idCotizacionSoat);
 
 });
 
@@ -603,9 +612,14 @@ function render() {
     div.className = "file-item";
 
     div.innerHTML = `
-            <span style="color: #337ab7; font-weight: bold;">${idCotizacionSoat}-${file.name}  <strong style="font-size: 10.5px; color: black;">(${(file.size / 1000).toFixed(2)} K)<strong></span>
-            <span class="remove-btn" onclick="removeFile(${index})">✕</span>
-        `;
+        <span class="nombre-archivo-contenedor" style="color: #337ab7; font-weight: bold;">
+            <span class="texto-ellipsis">${idCotizacionSoat}-${file.name}</span>
+            <strong style="font-size: 10.5px; color: black; white-space: nowrap;">
+                (${(file.size / 1000).toFixed(2)} K)
+            </strong>
+        </span>
+        <span class="remove-btn" onclick="removeFile(${index})">✕</span>
+    `;
 
     preview.appendChild(div);
   });
@@ -679,3 +693,40 @@ function showLoader() {
   function hideLoader() {
     $("#loading-screen").fadeOut(200);
   }
+
+  async function copiarCardComoImagen() {
+    const elemento = document.getElementsByClassName('summary-box');
+    
+    try {
+        // 1. Convertir el div a canvas
+        const canvas = await html2canvas(elemento[0], {
+            backgroundColor: "#ffffff", // Asegura que el fondo sea blanco y no transparente
+            scale: 2 // Mejora la calidad de la imagen
+        });
+
+        // 2. Convertir el canvas a un Blob (imagen PNG)
+        canvas.toBlob(async (blob) => {
+            try {
+                // 3. Crear el item para el portapapeles
+                const data = [new ClipboardItem({ "image/png": blob })];
+                
+                // 4. Escribir en el portapapeles
+                await navigator.clipboard.write(data);
+                
+                // alert("¡Imagen copiada al portapapeles! Ya puedes pegarla en WhatsApp o correos.");
+                $("#btnCopiarImagen").css("width", "25%");
+                $("#btnCopiarImagen span").text("¡Copiado!");
+                setTimeout(() => {
+                  $("#btnCopiarImagen").css("width", "10%");
+                  $("#btnCopiarImagen span").text("");
+                }, 2000);
+            } catch (err) {
+                console.error("Error al copiar:", err);
+                alert("Hubo un error al copiar la imagen.");
+            }
+        }, "image/png");
+
+    } catch (error) {
+        console.error("Error al generar la imagen:", error);
+    }
+}

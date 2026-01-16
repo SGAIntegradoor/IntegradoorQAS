@@ -87,6 +87,7 @@ function editarCotizacionSoat(idCotizacionSoat) {
       $("#txtChasis").val(response.chasis);
       $("#correoTomadorSoat").val(response.correo);
       $("#celularTomadorSoat").val(response.celular);
+      $("#txtFechaVencimiento").val(response.fecha_vencimiento);
 
       $("#fechaCoti").text(response.fecha_creacion.split(' ')[0]);
       $("#PrimaSoat").text("$ " + Number(response.valor_prima).toLocaleString("es-CO"));
@@ -139,6 +140,8 @@ function editarCotizacionSoat(idCotizacionSoat) {
           $("#contenedor-subir-archivos").removeClass().addClass("col-md-2");
           $("#btnUpload").prop("disabled", false);
           $("#contenedor-subir-archivos label").text("Subir SOAT");
+          $("#contenedor-subir-archivos-preview").removeClass().addClass("col-md-2");
+          $("#contenedor-subir-archivos-preview label").remove();
         } else {
           $("#section-final").show();
           $("#contenComentarios").hide();
@@ -233,7 +236,7 @@ async function cargarArchivosCotizacion(idCotizacion, estadoCotizacion) {
           gap: 10px;
           text-align: right;
         ">
-        <div>${nombreLimpio}</div>
+        <div id="divNombreArchivo">${nombreLimpio}</div>
         ${botonEliminar}
       </div>
 
@@ -341,6 +344,8 @@ $("#btnEstadoAprobar").click(function () {
   $("#contenedor-subir-soat").append($("#contenedor-subir-archivos"));
   $("#destinoPreview").append($("#contenedor-subir-archivos-preview"));
   $("#contenedor-subir-archivos").removeClass().addClass("col-md-2");
+  $("#contenedor-subir-archivos-preview").removeClass().addClass("col-md-2");
+  $("#contenedor-subir-archivos-preview label").remove();
 
   $("#btnUpload").prop("disabled", false);
   $("#contenedor-subir-archivos label").text("Subir SOAT");
@@ -392,7 +397,7 @@ $("#btnSubirSoat").click(function () {
 
   guardarEstado(datos);
   msg = "Soat aprobado y emitido";
-  enviarEmail(msg);
+  enviarEmail(msg, getIdCotiSoat);
 });
 
 $("#btnEstadoDevolver").click(function () {
@@ -413,6 +418,9 @@ $("#btnEstadoDevolver").click(function () {
       .then((result) => {
 
       });
+    $("#btnEstadoAprobar").prop("disabled", false);
+    $("#btnEstadoDevolver").prop("disabled", false);
+    $("#txtComentarios").prop("disabled", false);
     return;
   }
   // Guardar comentario
@@ -447,7 +455,7 @@ $("#btnEstadoDevolver").click(function () {
   };
   msg = "Solicitud rechazada";
   guardarEstado(datos);
-  enviarEmail(msg);
+  enviarEmail(msg, getIdCotiSoat);
 });
 
 function renderizarComentarios(lista) {
@@ -467,28 +475,33 @@ function generarPreview(url, nombre) {
     const ext = nombre.split('.').pop().toLowerCase();
     const fullUrl = `https://${url}`;
 
-    if (['jpg', 'jpeg', 'png', 'gif', 'webp'].includes(ext)) {
-        return `
-            <img src="${fullUrl}" 
-                 style="max-width:120px; max-height:120px; cursor:pointer; border-radius:8px;"
-                 onclick="window.open('${fullUrl}', '_blank')"
-            >
-        `;
-    }
+    let preview = '';
 
-    if (ext === 'pdf') {
-        return `
-            <iframe src="${fullUrl}" 
-                    style="width:120px; height:120px; border-radius:8px; cursor:pointer;"
-                    onclick="window.open('${fullUrl}', '_blank')">
-            </iframe>
-        `;
+    if (['jpg', 'jpeg', 'png', 'gif', 'webp'].includes(ext)) {
+        preview = `<img src="${fullUrl}" alt="${nombre}">`;
+    } else if (ext === 'pdf') {
+        preview = `<div class="file-icon">📕</div>`;
+    } else {
+        preview = `<div class="file-icon">📄</div>`;
     }
 
     return `
-        <div onclick="window.open('${fullUrl}', '_blank')" 
-             style="width:120px; height:120px; display:flex; align-items:center; justify-content:center; cursor:pointer; background:#f5f5f5; border-radius:8px;">
-            📄
+        <div class="file-preview" onclick="window.open('${fullUrl}', '_blank')">
+            
+            <div class="file-content">
+                ${preview}
+
+                <a class="download-btn"
+                   href="${fullUrl}"
+                   download="${nombre}"
+                   onclick="event.stopPropagation()"
+                   title="Descargar">
+                    <i class="fa fa-download"></i>
+                </a>
+            </div>
+
+            
         </div>
     `;
 }
+

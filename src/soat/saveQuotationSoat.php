@@ -95,10 +95,10 @@ try {
     $stmt = $pdo->prepare("
         INSERT INTO cotizaciones_soat (
             placa, clase, marca, modelo, linea, servicio, cilindraje, pasajeros, motor, chasis,  referencia, 
-            valor_prima, valor_contribucion, valor_runt, total_soat, creado_por, fecha_creacion
+            fecha_vencimiento, valor_prima, valor_contribucion, valor_runt, total_soat, creado_por, fecha_creacion
         ) VALUES (
             :placa, :clase, :marca, :modelo, :linea, :servicio, :cilindraje, :pasajeros, :motor, :chasis,  :referencia, 
-            :prima, :contribucion, :runt, :total, :creado_por, NOW()
+            :fecha_vencimiento, :prima, :contribucion, :runt, :total, :creado_por, NOW()
         )
     ");
 
@@ -113,6 +113,7 @@ try {
     $stmt->bindParam(":motor", $data['Motor'], PDO::PARAM_STR); 
     $stmt->bindParam(":chasis", $data['Chasis'], PDO::PARAM_STR);
     $stmt->bindParam(":referencia", $data['Referencia'], PDO::PARAM_STR);
+    $stmt->bindParam(":fecha_vencimiento", $data['FechaVencimiento'], PDO::PARAM_STR);
 
     $stmt->bindParam(":prima", $data['Prima'], PDO::PARAM_STR);
     $stmt->bindParam(":contribucion", $data['Contribucion'], PDO::PARAM_STR);
