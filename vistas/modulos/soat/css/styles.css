@@ -32,7 +32,12 @@ body {
 
 .notes-title {
     font-weight: bold;
-    margin-bottom: 10px;
+    margin-bottom: 5px;
+}
+
+.notes-title + ul {
+    padding-left: 14.5px;
+    margin-left: 0;
 }
 
 .btn-green {
@@ -83,7 +88,7 @@ body {
     align-items: center;
     background: #f1f3f4;
     padding: 8px 12px;
-    border-radius: 8px;
+    border-radius: 3px;
     margin-bottom: 6px;
     font-size: 14px;
 }
@@ -149,4 +154,104 @@ body {
 @keyframes spin {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
+}
+
+/* estilos para previsualizacion de archivos */
+.file-preview {
+    width: 140px;
+    cursor: pointer;
+    font-family: Arial, sans-serif;
+}
+
+.file-content {
+    width: 140px;
+    height: 120px;
+    background: #f5f5f5;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    position: relative;
+}
+
+.file-content img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.file-icon {
+    font-size: 48px;
+}
+
+/* Botón descargar */
+.download-btn {
+    position: absolute;
+    bottom: 8px;
+    left: 8px;
+    background: rgba(0,0,0,0.6);
+    color: white;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    text-decoration: none;
+    opacity: 0;
+    transition: opacity 0.2s ease, background 0.2s ease;
+}
+
+.file-preview:hover .download-btn {
+    opacity: 1;
+}
+
+.download-btn:hover {
+    background: rgba(0,0,0,0.8);
+}
+
+.file-name {
+    margin-top: 6px;
+    font-size: 13px;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+#divNombreArchivo {
+    width: 100px;          /* Ancho fijo para el contenedor */
+    white-space: nowrap;    /* Evita que el texto salte a la siguiente línea */
+    overflow: hidden;       /* Esconde lo que sobra */
+    text-overflow: ellipsis;
+}
+
+.nombre-archivo-contenedor {
+    display: inline-flex;
+    align-items: center;
+    max-width: 85%;
+}
+
+.texto-ellipsis {
+    font-size: 11.5px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: inline-block;
+    max-width: 200px; /* El punto donde empiezan los "..." */
+}
+
+/* responsive adjustments */
+@media (max-width: 600px) {
+    #contenedor-archivos {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    #cardCotizacion {
+        padding-right: 15px !important;
+        margin-bottom: 3rem;
+    }
 }

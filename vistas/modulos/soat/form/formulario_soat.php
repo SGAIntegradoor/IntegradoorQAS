@@ -14,19 +14,19 @@
                     <div id="resumenAsegurado">
                         <div class="col-lg-12" id="headerAsegurado">
                             <div class="row row-aseg">
-                                <div class="col-xs-12 col-sm-6 col-md-3">
-                                    <label for="">Ingresa información para cotizar</label>
+                                <div class="col-xs-12 col-sm-6 col-md-4">
+                                    <label for="">Informacion para cotizar y confirmacion de datos</label>
                                 </div>
-                                <div class="col-xs-12 col-sm-6 col-md-3">
+                                <div class="col-xs-12 col-sm-6 col-md-2">
                                 </div>
                                 <div class="col-xs-12 col-sm-6 col-md-3">
                                 </div>
                                 <div class="col-xs-12 col-sm-6 col-md-3">
                                     <div id="masAsegurado">
-                                        <p id="masA" onclick="masAseg();">Ver mas <i class="fa fa-plus-square-o"></i></p>
+                                        <p id="masA" onclick="masAsegSoat();">Ver mas <i class="fa fa-plus-square-o"></i></p>
                                     </div>
                                     <div id="menosAsegurado">
-                                        <p id="menosA" onclick="menosAseg();">Ver menos <i class="fa fa-minus-square-o"></i></p>
+                                        <p id="menosA" onclick="menosAsegSoat();">Ver menos <i class="fa fa-minus-square-o"></i></p>
                                     </div>
                                 </div>
                             </div>
@@ -78,7 +78,7 @@
                 <!-- FORMULARIO RESUMEN VEHICULO -->
                 <form method="Post" id="formResumVeh">
                     <div id="resumenVehiculo">
-                        <div class="col-lg-12" id="headerVehiculo">
+                        <div class="col-lg-12" id="headerVehiculo" style="display: none;">
                             <div class="row row-veh" style="margin-bottom: 0px;">
                                 <div class="col-xs-12 col-sm-6 col-md-3">
                                     <label for="">Confirmación de datos</label>
@@ -89,10 +89,10 @@
                                 </div>
                                 <div class="col-xs-12 col-sm-6 col-md-3">
                                     <div id="masVehiculo">
-                                        <p id="masVeh" onclick="masVeh();">Ver mas <i class="fa fa-plus-square-o"></i></p>
+                                        <p id="masVeh" onclick="masVehSoat();">Ver mas <i class="fa fa-plus-square-o"></i></p>
                                     </div>
                                     <div id="menosVehiculo">
-                                        <p id="menosVeh" onclick="menosVeh();">Ver menos <i class="fa fa-minus-square-o"></i></p>
+                                        <p id="menosVeh" onclick="menosVehSoat();">Ver menos <i class="fa fa-minus-square-o"></i></p>
                                     </div>
                                 </div>
                             </div>
@@ -156,7 +156,7 @@
                                     </div>
 
                                     <div class="col-xs-12 col-sm-6 col-md-3 form-group">
-                                        <label for="txtFechaVencimiento">Fecha vencimiento SOAT</label>
+                                        <label for="txtFechaVencimiento">Fecha inicio proximo SOAT</label>
                                         <input type="text" class="form-control classReferenciaVeh" id="txtFechaVencimiento" placeholder="" disabled>
                                     </div>
 
@@ -245,8 +245,8 @@
                 <div id="containerExpedicion" class="row">
 
                     <!-- Resumen Cotización -->
-                    <div class="col-xs-12 col-sm-6 col-md-4" style="padding-right: 5rem;">
-                        <div class="summary-box">
+                    <div id="cardCotizacion" class="col-xs-12 col-sm-6 col-md-4" style="display: flex; flex-direction: column; align-items: end; padding-right: 2rem;">
+                        <div class="summary-box" style="width: 100%;">
                             <h4 id="title-resumen-coti" class="summary-title">RESUMEN COTIZACIÓN SOAT XXX000</h4>
 
                             <div class="clearfix" style="margin-bottom:0px;">
@@ -288,6 +288,10 @@
                                 <span id="totalPagarSoat" class="pull-right total">$ -</span>
                             </div>
                         </div>
+                        <button id="btnCopiarImagen" onclick="copiarCardComoImagen()" class="btn" style="margin-top: 10px; width: 10%;">
+                            <li class="fa fa-copy" style="color: #5c6258;"></li>
+                            <span></span>
+                        </button>
                     </div>
 
                     <!-- Notas importantes -->
@@ -313,16 +317,14 @@
                                 <button id="btnNuevaCoti" class="btn btn-black">Realizar nueva cotización</button>
                             </div> -->
                         </div>
-
-
                     </div>
 
                     <!-- Resumen222 Cotización -->
-                    <div class="col-xs-12 col-sm-6 col-md-5" style="padding-right: 5rem;">
+                    <div class="col-xs-12 col-sm-6 col-md-5" style="padding-right: 15px;">
 
                         <div style="margin-top: 25px;">
                             <div class="col-md-6">
-                                <label for="">Correo electronico tomador SOAT</label>
+                                <label for="">Email tomador SOAT</label>
                                 <input class="form-control" type="text" name="" id="correoTomadorSoat">
                             </div>
                             <div class="col-md-6">
@@ -400,9 +402,9 @@
 
 
                 <div class="box-body row" id="section-final" style="display: none;">
-                    <div class="col-xs-12 col-sm-6 col-md-5 form-group" id="contenedor-archivos" style="border: 2px solid #e5e5e5; padding: 15px; display: none; border-radius: 20px; justify-content: space-around;"></div>
+                    <div class="col-xs-12 col-sm-12 col-md-6 form-group" id="contenedor-archivos" style="border: 2px solid #e5e5e5; padding: 15px; display: none; border-radius: 20px; justify-content: space-around;"></div>
 
-                    <div class="col-xs-12 col-sm-6 col-md-7 form-group" id="contenComentarios" style="margin-top: 0px;">
+                    <div class="col-xs-12 col-sm-12 col-md-6 form-group" id="contenComentarios" style="margin-top: 0px;">
 
                         <div class="col-xs-12 col-sm-12 col-md-12 form-group" style="margin-top: 0px;">
                             <textarea id="txtComentarios" style="width: 100%;" placeholder="Comentarios..."></textarea>
@@ -452,6 +454,7 @@
 </section>
 
 <script src="vistas/modulos/soat/js/cotizar_soat.js?v=<?php echo (rand()); ?>"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <!-- <script src="vistas/modulos/soat/js/retoma_soat.js?v=<?php echo (rand()); ?>"></script> -->
 
 <?php
