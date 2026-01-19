@@ -396,7 +396,7 @@ $("#btnSubirSoat").click(function () {
     };
 
   guardarEstado(datos);
-  msg = "Soat aprobado y emitido";
+  msg = "Soat emitido";
   enviarEmail(msg, getIdCotiSoat);
 });
 
