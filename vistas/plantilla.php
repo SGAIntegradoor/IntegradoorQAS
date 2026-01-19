@@ -122,7 +122,8 @@
   <!-- <script src="https://kit.fontawesome.com/b9b0b9afa1.js" crossorigin="anonymous"></script> -->
   <!-- <script src="https://kit.fontawesome.com/011aa713aa.js" crossorigin="anonymous"></script> -->
   <!-- <script src="https://kit.fontawesome.com/f34bf25b33.js" crossorigin="anonymous"></script> -->
-    <script src="https://kit.fontawesome.com/7dfb1c0aa7.js" crossorigin="anonymous"></script>
+  <!-- <script src="https://kit.fontawesome.com/7dfb1c0aa7.js" crossorigin="anonymous"></script> -->
+  <script src="https://kit.fontawesome.com/0eb21b7309.js" crossorigin="anonymous"></script>
   <!-- jQuery 3 -->
   <!-- <script type="text/javascript" src="libraries\JQueryUI\external\jquery\jquery.js"></script> -->
 
@@ -367,7 +368,7 @@
       "Previsora" => array("A" => $permisos["Previsora_A"], "C" => $permisos["Previsora_C"]),
       "Solidaria" => array("A" => $permisos["Solidaria_A"], "C" => $permisos["Solidaria_C"]),
       "Mundial" => array("A" => $permisos["Mundial_A"], "C" => $permisos["Mundial_C"]),
-    );    
+    );
 
 
   ?>
