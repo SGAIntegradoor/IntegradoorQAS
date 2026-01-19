@@ -21,6 +21,8 @@ function enviarEmail(mensaje, idCotiSoatE) {
     dataType: "text",
     data: {
       idCotizacion: idCotiSoatE,
+      asesor: permisos.usu_nombre + ' ' + permisos.usu_apellido,
+      url: 'https://integradoor.com/Pruebas/index.php?ruta=retomar-cotizacion-soat&idCotizacionSoat=' + idCotiSoatE,
       placa: $("#placaVeh").val(),
       clase: $("#txtClaseVeh").val(),
       referencia: $("#txtMarcaVeh").val() + " " + $("#txtLinea").val(),
@@ -556,7 +558,7 @@ $("#btnEnviarSolicitud").click(function () {
     };
 
   guardarEstado(datos);
-  msg = "Solicitud de soat recibida";
+  msg = "Solicitud enviada";
   enviarEmail(msg, idCotizacionSoat);
 
 });
