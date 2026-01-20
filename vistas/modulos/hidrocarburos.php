@@ -328,7 +328,7 @@
                             <div class="card-body" style="margin: 0; padding: 0;">
                                 <h4 class="card-title;" style="font-weight: bold;"></h4>
                                 <img src="vistas/img/plantilla/logo-hidrocarburos.png" class="img-fluid mx-auto" style="max-width: 50%; margin: 0px; margin-bottom: 30px;">
-                                <p class="card-text; margin-top: 10px" style="font-size: 15px;">Consulta la presentación del producto RC Hidrocarburos <b><a href="https://grupoasistencia.com/pdfHidrocarburos/RC HIDROCARBUROS - Integradoor.pdf" target="_blank"><u> AQUÍ</u></a></b></p>
+                                <p class="card-text; margin-top: 10px" style="font-size: 15px;">Consulta la presentación del producto RC Hidrocarburos <b><a href="https://grupoasistencia.com/pdfHidrocarburos/RC HIDROCARBUROS - Integradoor 2026.pdf" target="_blank"><u> AQUÍ</u></a></b></p>
                             </div>
                         </div>
                     </div>
@@ -433,10 +433,10 @@
             </div>
 
             <div>
-                <img class="img-opcion" src="vistas/img/plantilla/Opcion1-hidrocarburos.png" alt="opcion 1">
-                <p class="img-opcion p-op" style="text-align: right; margin-bottom: 50px; margin-top: 20px; font-weight: bold;">Descargar imagen <a href="vistas\img\plantilla\Opcion1-hidrocarburos.png" download="Opcion-1.png" style="color: #4fc0fc; font-weight: bold;">AQUÍ</a></p>
-                <img class="img-opcion" src="vistas/img/plantilla/Opcion2-hidrocarburos.png" alt="opcion 2">
-                <p class="img-opcion p-op" style="text-align: right; margin-bottom: 10px; margin-top: 20px; font-weight: bold;">Descargar imagen <a href="vistas\img\plantilla\Opcion2-hidrocarburos.png" download="Opcion-2.png" style="color: #4fc0fc; font-weight: bold;">AQUÍ</a></p>
+                <img class="img-opcion" src="vistas/img/plantilla/Tarifas rc hidrocarburos 2026 OPCION 1.png" alt="opcion 1">
+                <p class="img-opcion p-op" style="text-align: right; margin-bottom: 50px; margin-top: 20px; font-weight: bold;">Descargar imagen <a href="vistas\img\plantilla\Tarifas rc hidrocarburos 2026 OPCION 1.png" download="Opcion-1.png" style="color: #4fc0fc; font-weight: bold;">AQUÍ</a></p>
+                <img class="img-opcion" src="vistas/img/plantilla/Tarifas rc hidrocarburos 2026 OPCION 2.png" alt="opcion 2">
+                <p class="img-opcion p-op" style="text-align: right; margin-bottom: 10px; margin-top: 20px; font-weight: bold;">Descargar imagen <a href="vistas\img\plantilla\Tarifas rc hidrocarburos 2026 OPCION 2.png" download="Opcion-2.png" style="color: #4fc0fc; font-weight: bold;">AQUÍ</a></p>
             </div>
 
             <!-- //FORMULARIO -->
