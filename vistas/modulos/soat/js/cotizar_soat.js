@@ -1,3 +1,6 @@
+var sinComision = 0;
+var conComision = 0;
+
 function guardarEstado(datos) {
   $.ajax({
     type: "POST",
@@ -31,6 +34,7 @@ function enviarEmail(mensaje, idCotiSoatE) {
       correoTomador: $("#correoTomadorSoat").val(),
       celularTomador: $("#celularTomadorSoat").val(),
       opcionPago: $("#radioConComision").is(":checked") ? "Con comision" : "Sin comision",
+      comentario: $("#txtComentarios").val(),
       cuerpoCorreo: mensaje,
     },
     cache: false,
@@ -79,6 +83,13 @@ var idCotizacionSoat = 0;
 var msg = "";
 
 $(document).ready(function () {
+
+  $("#claseVehSoat").select2({
+    theme: "bootstrap ciudad",
+    language: "es",
+    width: "100%",
+  });
+
   var valorSoatGlobal = 0;
   const urlCompleta = window.location.href;
 
@@ -159,7 +170,7 @@ $(document).ready(function () {
       allowEscapeKey: false,
       allowEnterKey: false,
       html: `
-        Para la emisión de vehículos 0 Km, comunícate con el área SOAT al número 
+        Para la emisión de vehículos 0 Km, comunícate con el área SOAT al número
         <a href="https://api.whatsapp.com/send?phone=573013232210" target="_blank" style="color:#3085d6; text-decoration:underline;">
           301 323 2210
         </a>.
@@ -334,10 +345,53 @@ function consulPlaca(query = "1") {
           return response.json();
         })
         .then(function (myJson) {
+          // agregar clases homologadas del vehiuculo
+
+          // Referencia al select
+          var $select = $('#claseVehSoat');
+
+          // Limpiar opciones previas
+          $select.empty().prop('disabled', false);
+
+          // Obtener homologaciones
+          var homologaciones = myJson
+            .ConsultarInfoVehiculoRuntDocResult
+            .homologaciones
+            .HomologacionClaseMarcaLineaServicio;
+
+          // Normalizar: si no es array, convertirlo en array
+          if (!Array.isArray(homologaciones)) {
+            homologaciones = [homologaciones];
+          }
+
+          // Opción placeholder (opcional)
+          $select.append(new Option('Seleccione una opción', '', true, false));
+
+          // Llenar el select
+          $.each(homologaciones, function (i, item) {
+            $select.append(
+              new Option(
+                item.clase.txtDesc,      // texto visible
+                item.clase.codClase      // value
+              )
+            );
+          });
+
+          // Si solo hay una homologación
+          if (homologaciones.length === 1) {
+            $select.val(homologaciones[0].clase.codClase)
+              .prop('disabled', true);
+          }
+
+          // Refrescar Select2
+          $select.trigger('change');
+
+
+          // fin clases homologadas
           var codigoLinea = myJson.ConsultarInfoVehiculoRuntDocResult.linea;
           var modeloVehiculo = myJson.ConsultarInfoVehiculoRuntDocResult.aaaa_modelo;
           var codigoClase = myJson.ConsultarInfoVehiculoRuntDocResult.claseVehiculo;
-          var idClase = myJson.ConsultarInfoVehiculoRuntDocResult.codClaseSise;
+          var idClase = $("#claseVehSoat").val();
           var codigoMarca = myJson.ConsultarInfoVehiculoRuntDocResult.marca;
 
           var servicio = myJson.ConsultarInfoVehiculoRuntDocResult.tipoServicio;
@@ -363,92 +417,24 @@ function consulPlaca(query = "1") {
           $("#txtPasajeros").val(pasajeros);
           $("#txtMotor").val(motor);
           $("#txtChasis").val(chasis);
+          $("#capacidadCarg").val(capacidad);
+          $("#nroDocPropietario").val(nroDocPropietario);
+          $("#codigoClaseVeh").val(idClase);
 
-          $("#loaderPlacaTwo").html('<img src="vistas/img/plantilla/loader-loading.gif" width="34" height="34"><strong> Cotizando SOAT...</strong>'
-          );
+          // document.getElementById("formularioVehiculo").style.display = "none";
+          document.getElementById("headerAsegurado").style.display = "block";
+          document.getElementById("contenSuperiorPlaca").style.display = "none";
+          document.getElementById("resumenVehiculo").style.display = "block";
+          // document.getElementById("contenBtnCotizar").style.display = "block";
+          $("#loaderPlaca").hide();
+          $("#loaderPlaca2").html("");
+          menosAseg();
+          document.getElementById("contenBtnConsultarPlaca").style.display = "none";
+          $("#contenSuperiorPlaca").css("display", "block");
+          $("#txtConocesLaPlacaSi").prop("disabled", true);
+          $("#txtConocesLaPlacaNo").prop("disabled", true);
+          $("#placaVeh").prop("disabled", true);
 
-          $.ajax({
-            type: "POST",
-            url: "https://grupoasistencia.com/motor_webservice/calcular_pol_soat",
-            dataType: "json",
-            contentType: "application/json; charset=utf-8",
-            processData: false,
-            data: JSON.stringify({
-              Placa: valnumplaca,
-              Clase: idClase,
-              Cilindraje: cilindraje,
-              Capacidad: capacidad,
-              Modelo: modeloVehiculo,
-              Pasajeros: pasajeros,
-              FechaInicioVigencia: "?",
-              FechaFinVigencia: "?",
-              NumeroDocumento: nroDocPropietario,
-            }),
-            success: function (data) {
-
-              // document.getElementById("formularioVehiculo").style.display = "none";
-              document.getElementById("headerAsegurado").style.display = "block";
-              document.getElementById("contenSuperiorPlaca").style.display = "none";
-              document.getElementById("resumenVehiculo").style.display = "block";
-              // document.getElementById("contenBtnCotizar").style.display = "block";
-              $("#loaderPlaca").hide();
-              $("#loaderPlaca2").html("");
-              menosAseg();
-              document.getElementById("contenBtnConsultarPlaca").style.display = "none";
-              $("#contenSuperiorPlaca").css("display", "block");
-              $("#txtConocesLaPlacaSi").prop("disabled", true);
-              $("#txtConocesLaPlacaNo").prop("disabled", true);
-              $("#placaVeh").prop("disabled", true);
-              let fechaStr = data.CalcularPolizaResult.FechaInicioVigencia; // "19/12/2026"
-              let fecha = new Date(fechaStr.split('/').reverse().join('-'));
-              fecha.setDate(fecha.getDate() - 0);
-              let fechaFinal = fecha.toLocaleDateString('es-ES');
-              let fechaVencimiento = data.CalcularPolizaResult.FechaInicioVigencia;
-
-              // Peticion para guardar la cotización (formato Form Data)
-              let datos = {
-                  Accion: "Guardar",
-                  Placa: valnumplaca,
-                  Clase: codigoClase,
-                  Modelo: modeloVehiculo,
-                  Marca: codigoMarca,
-                  Linea: codigoLinea,
-                  Cilindraje: cilindraje,
-                  Pasajeros: pasajeros,
-                  Motor: motor,
-                  Chasis: chasis,
-                  Servicio: servicio,
-                  Referencia: codigoMarca + " " + codigoLinea,
-                  FechaVencimiento: fechaVencimiento.split(' ')[0],
-                  NumeroDocumento: nroDocPropietario,
-                  Prima: data.CalcularPolizaResult.ValorPrima,
-                  Contribucion: data.CalcularPolizaResult.ValorContribucion,
-                  Runt: data.CalcularPolizaResult.ValorTasaRUNT,
-                  totalSoat: data.CalcularPolizaResult.ValorTotalPagar,
-                  IdUsuario: permisos.id_usuario,
-                };
-
-              guardarEstado(datos);  
-
-              let valorAPagarSoat = Number(data.CalcularPolizaResult.ValorTotalPagar);
-              let totalPagarSoat = valorAPagarSoat + 45000;
-              valorSoatGlobal = valorAPagarSoat;
-              $("#fechaCoti").text(new Date().toLocaleDateString());
-              $("#txtFechaVencimiento").val(fechaVencimiento.split(' ')[0]);
-              $("#PrimaSoat").text("$ " + Number(data.CalcularPolizaResult.ValorPrima).toLocaleString("es-CO"));
-              $("#contriFosyga").text("$ " + Number(data.CalcularPolizaResult.ValorContribucion).toLocaleString("es-CO"));
-              $("#tasaRunt").text("$ " + Number(data.CalcularPolizaResult.ValorTasaRUNT).toLocaleString("es-CO"));
-              $("#valorSoat").text("$ " + Number(data.CalcularPolizaResult.ValorTotalPoliza).toLocaleString("es-CO"));
-              $("#valorSoat").text("$ " + valorAPagarSoat.toLocaleString("es-CO"));
-              $("#totalPagarSoat").text("$ " + totalPagarSoat.toLocaleString("es-CO"));
-              $("#loaderPlacaTwo").html("");
-              // $(".containerResumenCoti").show();
-            },
-            error: function (error) {
-              console.log("Error al cotizar SOAT: ", error);
-              $("#loaderPlacaTwo").html("");
-            },
-          });
           return;
         })
         .catch(function (error) {
@@ -467,12 +453,12 @@ function consulPlaca(query = "1") {
 }
 
 $("#radioSinComision").click(function () {
-  sinComision = valorSoatGlobal + 20000;
+  sinComision = 20000;
   $("#totalPagarSoat").text("$ " + sinComision.toLocaleString("es-CO"));
 });
 
 $("#radioConComision").click(function () {
-  conComision = valorSoatGlobal + 45000;
+  conComision = 45000;
   $("#totalPagarSoat").text("$ " + conComision.toLocaleString("es-CO"));
 });
 
@@ -481,6 +467,7 @@ $("#btnNuevaCoti").click(function () {
 });
 
 $("#btnContinuarCoti").click(function (e) {
+  e.preventDefault();
   if (!$("#radioSinComision").prop("checked") && !$("#radioConComision").prop("checked")) {
     e.preventDefault();
     Swal.fire({
@@ -491,10 +478,104 @@ $("#btnContinuarCoti").click(function (e) {
       confirmButtonText: "Cerrar",
     });
     return;
+  } else if ($("#claseVehSoat").val() == "") {
+    e.preventDefault();
+    Swal.fire({
+      icon: "error",
+      title: "Datos faltantes",
+      text: "Por favor selecciona la clase de vehículo SOAT",
+      showConfirmButton: true,
+      confirmButtonText: "Cerrar",
+    });
+    return;
   }
+  $(".containerResumenCoti").hide();
+  $("#loaderPlacaTwo").html('<img src="vistas/img/plantilla/loader-loading.gif" width="34" height="34"><strong> Cotizando SOAT...</strong>');
+  $.ajax({
+    type: "POST",
+    url: "https://grupoasistencia.com/motor_webservice/calcular_pol_soat",
+    dataType: "json",
+    contentType: "application/json; charset=utf-8",
+    processData: false,
+    data: JSON.stringify({
+      Placa: $("#placaVeh").val(),
+      Clase: $("#codigoClaseVeh").val(),
+      Cilindraje: $("#txtCilindraje").val(),
+      Capacidad: $("#capacidadCarg").val(),
+      Modelo: $("#txtModeloVeh").val(),
+      Pasajeros: $("#txtPasajeros").val(),
+      FechaInicioVigencia: "?",
+      FechaFinVigencia: "?",
+      NumeroDocumento: $("#nroDocPropietario").val(),
+    }),
+    success: function (data) {
+      let fechaStr = data.CalcularPolizaResult.FechaInicioVigencia; // "19/12/2026"
+      let fecha = new Date(fechaStr.split('/').reverse().join('-'));
+      fecha.setDate(fecha.getDate() - 0);
+      let fechaFinal = fecha.toLocaleDateString('es-ES');
+      let fechaVencimiento = data.CalcularPolizaResult.FechaInicioVigencia;
+
+      // Peticion para guardar la cotización (formato Form Data)
+      let datos = {
+        Accion: "Guardar",
+        Placa: $("#placaVeh").val(),
+        Clase: $('#claseVehSoat').find('option:selected').text(),
+        Modelo: $("#txtModeloVeh").val(),
+        Marca: $("#txtMarcaVeh").val(),
+        Linea: $("#txtLinea").val(),
+        Cilindraje: $("#txtCilindraje").val(),
+        Pasajeros: $("#txtPasajeros").val(),
+        Motor: $("#txtMotor").val(),
+        Chasis: $("#txtChasis").val(),
+        Servicio: $("#txtServicio").val(),
+        Referencia: $("#txtMarcaVeh").val() + " " + $("#txtLinea").val(),
+        FechaVencimiento: fechaVencimiento.split(' ')[0],
+        NumeroDocumento: $("#nroDocPropietario").val(),
+        Prima: data.CalcularPolizaResult.ValorPrima,
+        Contribucion: data.CalcularPolizaResult.ValorContribucion,
+        Runt: data.CalcularPolizaResult.ValorTasaRUNT,
+        totalSoat: data.CalcularPolizaResult.ValorTotalPagar,
+        IdUsuario: permisos.id_usuario,
+      };
+
+      guardarEstado(datos);
+
+      let valorAPagarSoat = Number(data.CalcularPolizaResult.ValorTotalPagar);
+      let comisionSum = $('#radioConComision').is(':checked') ? 45000 : 20000;
+      let totalPagarSoat = valorAPagarSoat + comisionSum;
+      valorSoatGlobal = valorAPagarSoat;
+      $("#fechaCoti").text(new Date().toLocaleDateString());
+      $("#txtFechaVencimiento").val(fechaVencimiento.split(' ')[0]);
+      $("#PrimaSoat").text("$ " + Number(data.CalcularPolizaResult.ValorPrima).toLocaleString("es-CO"));
+      $("#contriFosyga").text("$ " + Number(data.CalcularPolizaResult.ValorContribucion).toLocaleString("es-CO"));
+      $("#tasaRunt").text("$ " + Number(data.CalcularPolizaResult.ValorTasaRUNT).toLocaleString("es-CO"));
+      $("#valorSoat").text("$ " + Number(data.CalcularPolizaResult.ValorTotalPoliza).toLocaleString("es-CO"));
+      $("#valorSoat").text("$ " + valorAPagarSoat.toLocaleString("es-CO"));
+      if (data.CalcularPolizaResult.ValorPrima == 0 || data.CalcularPolizaResult.ValorPrima == "0") {
+        Swal.fire({
+          icon: "info",
+          title: "El vehículo presenta inconsistencias en la información registrada en el RUNT.",
+          text: "Para continuar, ingresa correo electrónico y número de celular del tomador, y adjunta la tarjeta de propiedad si deseas solicitar una cotización manual para validar la tarifa y el servicio de trámite.",
+          showConfirmButton: true,
+          confirmButtonText: "Cerrar",
+        });
+        $("#lblTotalPagar").text("Inconsistencia en el RUNT");
+        $("#totalPagarSoat").text("Continue adjuntando TP");
+      } else {
+        $("#totalPagarSoat").text("$ " + totalPagarSoat.toLocaleString("es-CO"));
+      }
+      $("#loaderPlacaTwo").html("");
+      $(".containerResumenCoti").show();
+      $(".containerFinalForm").show();
+    },
+    error: function (error) {
+      console.log("Error al cotizar SOAT: ", error);
+      $("#loaderPlacaTwo").html("");
+    },
+  });
   menosVeh();
-  $(".containerResumenCoti").show();
-  $(".containerFinalForm").show();
+  // $(".containerResumenCoti").show();
+  // $(".containerFinalForm").show();
   $("#servicioTramite").text("$ " + Number($("#radioConComision").is(":checked") ? 45000 : 20000).toLocaleString("es-CO"));
   $("#radioConComision").prop("disabled", true);
   $("#radioSinComision").prop("disabled", true);
@@ -698,7 +779,7 @@ function showLoader() {
 
   async function copiarCardComoImagen() {
     const elemento = document.getElementsByClassName('summary-box');
-    
+
     try {
         // 1. Convertir el div a canvas
         const canvas = await html2canvas(elemento[0], {
@@ -711,10 +792,10 @@ function showLoader() {
             try {
                 // 3. Crear el item para el portapapeles
                 const data = [new ClipboardItem({ "image/png": blob })];
-                
+
                 // 4. Escribir en el portapapeles
                 await navigator.clipboard.write(data);
-                
+
                 // alert("¡Imagen copiada al portapapeles! Ya puedes pegarla en WhatsApp o correos.");
                 $("#btnCopiarImagen").css("width", "25%");
                 $("#btnCopiarImagen span").text("¡Copiado!");
@@ -732,3 +813,8 @@ function showLoader() {
         console.error("Error al generar la imagen:", error);
     }
 }
+
+$('#claseVehSoat').on('change', function () {
+  var codigoClase = $(this).val();
+  $('#codigoClaseVeh').val(codigoClase);
+});
