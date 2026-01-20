@@ -3008,6 +3008,21 @@ $("#btnCotizarSBS, #btnCotizar").click(async function () {
             });
         },
         error: function (xhr, status, error) {
+          //PENDIENTE GUARDAR COLA DE CORREOS PARA ENVIAR POR CRON JOB EN CASOS DE FALLA
+          swal
+            .fire({
+              icon: "success",
+              title: "Solicitud de cotización #" + lastId + " enviada exitosamente",
+              showConfirmButton: true,
+              confirmButtonText: "Ok",
+              allowOutsideClick: false,
+              allowEscapeKey: false,
+            })
+            .then((result) => {
+              if (result.isConfirmed) {
+                window.location.href = "hogar2";
+              }
+            });
           console.log(error);
           console.log("Error");
         },
