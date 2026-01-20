@@ -2766,8 +2766,64 @@ $("#btnCotizarSBS, #btnCotizar").click(function () {
       }
     }
 
-    cotizar(rawCompiled);
+    // cotizar(rawCompiled);
+    setBlankInputs();
+    if (!validarMascotasSeleccionado()) {
+      return;
+    } else {
+      console.log(rawCompiled.allianz);
+      const lastId = await saveQuotation(); // Espera a que termine y obtén el last_id
+      rawCompiled.allianz.lastId = lastId;
+
+      $.ajax({
+        type: "POST",
+        url: "https://grupoasistencia.com/WS-laravel-email-shetts/api/emails/enviar-correo",
+        // url: "http://localhost/WS-laravel/api/emails/enviar-correo",
+        dataType: "text",
+        data: rawCompiled.allianz,
+        cache: false,
+        success: function (data) {
+          console.log("Correo Enviado");
+          swal
+            .fire({
+              icon: "success",
+              title: "Solicitud de cotización #" + lastId + " enviada exitosamente",
+              showConfirmButton: true,
+              confirmButtonText: "Ok",
+              allowOutsideClick: false,
+              allowEscapeKey: false,
+            })
+            .then((result) => {
+              if (result.isConfirmed) {
+                window.location.href = "hogar2";
+              }
+            });
+        },
+        error: function (xhr, status, error) {
+          //PENDIENTE GUARDAR COLA DE CORREOS PARA ENVIAR POR CRON JOB EN CASOS DE FALLA
+          swal
+            .fire({
+              icon: "success",
+              title: "Solicitud de cotización #" + lastId + " enviada exitosamente",
+              showConfirmButton: true,
+              confirmButtonText: "Ok",
+              allowOutsideClick: false,
+              allowEscapeKey: false,
+            })
+            .then((result) => {
+              if (result.isConfirmed) {
+                window.location.href = "hogar2";
+              }
+            });
+          console.log(error);
+          console.log("Error");
+        },
+      });
+
+      // Luego de salvar la cotizacion en: cotizaciones_hogar, enviar el correo -> mostrar alerta de exito o error -> volver a la pantalla principal de hogar.
+    }
   } else {
+    $("#btnCotizarSBS").prop('disabled', false);
     Swal.fire({
       icon: "error",
       title: "¡Atención!",
