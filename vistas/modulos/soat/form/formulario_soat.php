@@ -161,6 +161,12 @@
                                     </div>
 
                                     <div class="col-xs-12 col-sm-6 col-md-3 form-group">
+                                        <label for="claseVehSoat">Clase vehículo SOAT</label>
+                                        <select class="form-control" id="claseVehSoat" required></select>
+                                        <div id="listaClases"></div>
+                                    </div>
+
+                                    <div class="col-xs-12 col-sm-6 col-md-3 form-group">
                                         <label for="">Servicio de tramite</label>
                                         <div style="display: flex; justify-content: center; align-items: end; gap: 25px;">
                                             <div class="radio">
@@ -284,7 +290,7 @@
                             <hr>
 
                             <div class="clearfix">
-                                <span style="color: #7AC943; font-size: 18px;" class="pull-left"><strong>TOTAL A PAGAR:</strong></span>
+                                <span style="color: #7AC943; font-size: 18px;" class="pull-left"><strong id="lblTotalPagar">TOTAL A PAGAR:</strong></span>
                                 <span id="totalPagarSoat" class="pull-right total">$ -</span>
                             </div>
                         </div>
@@ -455,6 +461,7 @@
 
 <script src="vistas/modulos/soat/js/cotizar_soat.js?v=<?php echo (rand()); ?>"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <!-- <script src="vistas/modulos/soat/js/retoma_soat.js?v=<?php echo (rand()); ?>"></script> -->
 
 <?php

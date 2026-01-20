@@ -31,7 +31,7 @@ SELECT
 FROM comentarios_usuarios c
 INNER JOIN usuarios u ON u.id_usuario = c.id_user_comentario
 INNER JOIN cotizaciones_soat cs ON cs.id_cotizacion = c.id_general
-WHERE c.id_user_comentario = :idAsesor
+WHERE 1
   AND c.id_general = :idGeneral
   AND c.modulo = 'Soat'
 ORDER BY c.fecha_comentario DESC
@@ -41,7 +41,6 @@ try {
     $stmt = $enlace->prepare($sql);
 
     // Vincular parámetros usando PDO
-    $stmt->bindParam(':idAsesor', $idAsesor, PDO::PARAM_INT);
     $stmt->bindParam(':idGeneral', $idGeneral, PDO::PARAM_INT);
 
     $stmt->execute();

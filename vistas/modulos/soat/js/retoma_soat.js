@@ -74,7 +74,15 @@ function editarCotizacionSoat(idCotizacionSoat) {
 
       $("#title-resumen-coti").html("RESUMEN COTIZACIÓN SOAT " + response.placa);
       $("#valorSoat").html("$ " + totalSoat.toLocaleString("es-CO"));
-      $("#totalPagarSoat").html("$ " + (totalSoat + valorComision).toLocaleString("es-CO"));
+      if (response.valor_prima == 0 || response.valor_prima == "0") {
+        $("#lblTotalPagar").text("Inconsistencia en el RUNT");
+        $("#totalPagarSoat").text("Continue adjuntando TP");
+      } else {
+        $("#totalPagarSoat").html("$ " + (totalSoat + valorComision).toLocaleString("es-CO"));
+      }
+      $("#claseVehSoat").append(
+        "<option value='" + response.clase_soat + "' selected>" + response.clase_soat + "</option>"
+      );
       $("#placaVeh").val(response.placa);
       $("#txtClaseVeh").val(response.clase);
       $("#txtMarcaVeh").val(response.marca);
@@ -89,7 +97,7 @@ function editarCotizacionSoat(idCotizacionSoat) {
       $("#celularTomadorSoat").val(response.celular);
       $("#txtFechaVencimiento").val(response.fecha_vencimiento);
 
-      $("#fechaCoti").text(response.fecha_creacion.split(' ')[0]);
+      $("#fechaCoti").text(new Date(response.fecha_creacion).toLocaleDateString('es-ES'));
       $("#PrimaSoat").text("$ " + Number(response.valor_prima).toLocaleString("es-CO"));
       $("#contriFosyga").text("$ " + Number(response.valor_contribucion).toLocaleString("es-CO"));
       $("#tasaRunt").text("$ " + Number(response.valor_runt).toLocaleString("es-CO"));
@@ -472,22 +480,26 @@ function renderizarComentarios(lista) {
 }
 
 function generarPreview(url, nombre) {
-    const ext = nombre.split('.').pop().toLowerCase();
-    const fullUrl = `https://${url}`;
+  const ext = nombre.split('.').pop().toLowerCase();
+  const fullUrl = `https://${url}`;
+  const id = 'pdf_' + Math.random().toString(36).substr(2, 9);
 
-    let preview = '';
+  let preview = '';
 
-    if (['jpg', 'jpeg', 'png', 'gif', 'webp'].includes(ext)) {
-        preview = `<img src="${fullUrl}" alt="${nombre}">`;
-    } else if (ext === 'pdf') {
-        preview = `<div class="file-icon">📕</div>`;
-    } else {
-        preview = `<div class="file-icon">📄</div>`;
-    }
+  if (['jpg', 'jpeg', 'png', 'gif', 'webp'].includes(ext)) {
+    preview = `<img src="${fullUrl}" alt="${nombre}">`;
 
-    return `
+  } else if (ext === 'pdf') {
+    preview = `<canvas id="${id}" class="pdf-canvas"></canvas>`;
+
+    setTimeout(() => renderPdfPreview(fullUrl, id), 0);
+
+  } else {
+    preview = `<div class="file-icon">📄</div>`;
+  }
+
+  return `
         <div class="file-preview" onclick="window.open('${fullUrl}', '_blank')">
-            
             <div class="file-content">
                 ${preview}
 
@@ -499,9 +511,25 @@ function generarPreview(url, nombre) {
                     <i class="fa fa-download"></i>
                 </a>
             </div>
-
-            
         </div>
     `;
 }
 
+function renderPdfPreview(url, canvasId) {
+    const canvas = document.getElementById(canvasId);
+    const ctx = canvas.getContext('2d');
+
+    pdfjsLib.getDocument(url).promise.then(pdf => {
+        pdf.getPage(1).then(page => {
+            const viewport = page.getViewport({ scale: 0.6 });
+
+            canvas.width = viewport.width;
+            canvas.height = viewport.height;
+
+            page.render({
+                canvasContext: ctx,
+                viewport: viewport
+            });
+        });
+    });
+}

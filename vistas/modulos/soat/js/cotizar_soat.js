@@ -31,6 +31,7 @@ function enviarEmail(mensaje, idCotiSoatE) {
       correoTomador: $("#correoTomadorSoat").val(),
       celularTomador: $("#celularTomadorSoat").val(),
       opcionPago: $("#radioConComision").is(":checked") ? "Con comision" : "Sin comision",
+      comentario: $("#txtComentarios").val(),
       cuerpoCorreo: mensaje,
     },
     cache: false,
@@ -79,6 +80,13 @@ var idCotizacionSoat = 0;
 var msg = "";
 
 $(document).ready(function () {
+
+  $("#claseVehSoat").select2({
+    theme: "bootstrap ciudad",
+    language: "es",
+    width: "100%",
+  });
+
   var valorSoatGlobal = 0;
   const urlCompleta = window.location.href;
 
@@ -334,6 +342,23 @@ function consulPlaca(query = "1") {
           return response.json();
         })
         .then(function (myJson) {
+          // agregar clases homologadas del vehiuculo
+          var clasesVehSoat = `<option value="">Seleccionar</option>`;
+
+          if (myJson.homologaciones.HomologacionClaseMarcaLineaServicio.clase.length <= 1) {
+            document.getElementById("claseVehSoat").innerHTML = `<option value="">${myJson.homologaciones.HomologacionClaseMarcaLineaServicio.clase.txtDesc}</option>`;
+          } else {
+            data.forEach(function (valor, i) {
+              var valorNombre = valor.Nombre.split("-");
+              var nombreMinusc = valorNombre[0].toLowerCase();
+              var ciudad = nombreMinusc.replace(/^(.)|\s(.)/g, function ($1) {
+                return $1.toUpperCase();
+              });
+
+              ciudadesVeh += `<option value="${valor.Codigo}">${ciudad}</option>`;
+            });
+          }
+          document.getElementById("claseVehSoat").innerHTML = ciudadesVeh;
           var codigoLinea = myJson.ConsultarInfoVehiculoRuntDocResult.linea;
           var modeloVehiculo = myJson.ConsultarInfoVehiculoRuntDocResult.aaaa_modelo;
           var codigoClase = myJson.ConsultarInfoVehiculoRuntDocResult.claseVehiculo;
@@ -440,7 +465,19 @@ function consulPlaca(query = "1") {
               $("#tasaRunt").text("$ " + Number(data.CalcularPolizaResult.ValorTasaRUNT).toLocaleString("es-CO"));
               $("#valorSoat").text("$ " + Number(data.CalcularPolizaResult.ValorTotalPoliza).toLocaleString("es-CO"));
               $("#valorSoat").text("$ " + valorAPagarSoat.toLocaleString("es-CO"));
-              $("#totalPagarSoat").text("$ " + totalPagarSoat.toLocaleString("es-CO"));
+              if (data.CalcularPolizaResult.ValorPrima == 0 || data.CalcularPolizaResult.ValorPrima == "0") {
+                Swal.fire({
+                  icon: "info",
+                  title: "El vehículo presenta inconsistencias en la información registrada en el RUNT.",
+                  text: "Para continuar, ingresa correo electrónico y número de celular del tomador, y adjunta la tarjeta de propiedad si deseas solicitar una cotización manual para validar la tarifa y el servicio de trámite.",
+                  showConfirmButton: true,
+                  confirmButtonText: "Cerrar",
+                });
+                $("#lblTotalPagar").text("Inconsistencia en el RUNT");
+                $("#totalPagarSoat").text("Continue adjuntando TP");
+              } else {
+                $("#totalPagarSoat").text("$ " + totalPagarSoat.toLocaleString("es-CO"));
+              }
               $("#loaderPlacaTwo").html("");
               // $(".containerResumenCoti").show();
             },
