@@ -48,6 +48,7 @@ $("document").ready(function () {
   $("#radioConComision").prop("disabled", true);
   $("#radioSinComision").prop("disabled", true);
   $("#btnUpload").prop("disabled", true);
+  $("#claseVehSoat").prop("disabled", true);
   $("#contenedor-archivos").css({ display: "flex"});
 
 });

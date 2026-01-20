@@ -163,7 +163,9 @@
                                     <div class="col-xs-12 col-sm-6 col-md-3 form-group">
                                         <label for="claseVehSoat">Clase vehículo SOAT</label>
                                         <select class="form-control" id="claseVehSoat" required></select>
-                                        <div id="listaClases"></div>
+                                        <input type="hidden" id="nroDocPropietario">
+                                        <input type="hidden" id="capacidadCarg">
+                                        <input type="hidden" id="codigoClaseVeh">
                                     </div>
 
                                     <div class="col-xs-12 col-sm-6 col-md-3 form-group">
@@ -198,11 +200,11 @@
                                     </div>
                                 </div>
 
-                                <div class="row">
+                                <!-- <div class="row">
                                     <div class="col-xs-12 col-sm-6 col-md-3 form-group">
                                         <div id="loaderPlacaTwo"></div>
                                     </div>
-                                </div>
+                                </div> -->
 
                                 <!-- <div class="row">
                                     <div id="contenBtnCotizar">
@@ -226,6 +228,12 @@
                     </div>
                 </form>
             </div>
+
+            <div class="row" style="margin-top: 3rem;">
+                                    <div class="col-xs-12 col-sm-6 col-md-3 form-group">
+                                        <div id="loaderPlacaTwo"></div>
+                                    </div>
+                                </div>
 
             <!-- RESUMEN COTIZACIÓN Y NOTAS IMPORTANTES -->
             <div class="containerResumenCoti" style="margin-top: 0px; display:none;">
