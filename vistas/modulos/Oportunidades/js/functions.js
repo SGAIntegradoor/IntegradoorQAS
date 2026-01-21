@@ -631,7 +631,7 @@ function aplicarCriterios() {
     "financiera",
     "aseguradoraOpo",
     "ramo",
-    "onerosoOp",
+    "anioOp",
     "carpeta",
   ];
 
@@ -728,8 +728,8 @@ function searchInfo() {
       ? $("#aseguradoraOpo option:selected").text()
       : "";
   let ramo = $("#ramo").val() !== "" ? $("#ramo option:selected").text() : "";
-  let onerosoOp =
-    $("#onerosoOp").val() !== "" ? $("#onerosoOp option:selected").text() : "";
+  let anioOp =
+    $("#anioOp").val() !== "" ? $("#anioOp option:selected").text() : "";
   let formaDePago =
     $("#formaDePago").val() !== ""
       ? $("#formaDePago option:selected").text()
@@ -772,8 +772,8 @@ function searchInfo() {
     url += `&ramo=${ramo}`;
   }
 
-  if (onerosoOp !== "") {
-    url += `&onerosoOp=${onerosoOp.trim()}`;
+  if (anioOp !== "") {
+    url += `&anioOp=${anioOp.trim()}`;
   }
 
   if (formaDePago !== "") {
@@ -820,7 +820,7 @@ $(".tablas-oportunidades").on("click", ".btnEditarOportunidad", function () {
 });
 
 $(
-  "#nombreAsesor, #estado, #canal, #mesExpedicion, #nombreAsesor, #analistaGA, #aseguradoraOpo, #ramo, #onerosoOp, #formaDePago, #financiera, #carpeta"
+  "#nombreAsesor, #estado, #canal, #mesExpedicion, #nombreAsesor, #analistaGA, #aseguradoraOpo, #ramo, #anioOp, #formaDePago, #financiera, #carpeta"
 ).select2({
   theme: "bootstrap selecting",
   allowClear: true,

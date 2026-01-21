@@ -62,9 +62,9 @@ class ModeloOportunidades
                     # code...
                     $sql .= " AND forma_pago = '$valor'";
                     break;
-                case 'onerosoOp':
+                case 'anioOp':
                     # code...
-                    $sql .= " AND oneroso = '$valor'";
+                    $sql .= " AND YEAR(fecha_creacion) = '$valor'";
                     break;
                 case 'financiera':
                     # code...
