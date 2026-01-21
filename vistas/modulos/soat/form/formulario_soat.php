@@ -155,10 +155,10 @@
                                         <div id="listaCiudades"></div>
                                     </div>
 
-                                    <div class="col-xs-12 col-sm-6 col-md-3 form-group">
+                                    <!-- <div class="col-xs-12 col-sm-6 col-md-3 form-group">
                                         <label for="txtFechaVencimiento">Fecha inicio proximo SOAT</label>
                                         <input type="text" class="form-control classReferenciaVeh" id="txtFechaVencimiento" placeholder="" disabled>
-                                    </div>
+                                    </div> -->
 
                                     <div class="col-xs-12 col-sm-6 col-md-3 form-group">
                                         <label for="claseVehSoat">Clase vehículo SOAT</label>
@@ -190,16 +190,14 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-xs-12 col-sm-6 col-md-3 form-group" style="margin-bottom: 0px;">
-                                        <div class="col-xs-6 col-sm-6 col-md-6 form-group" style="padding-left: 0px;">
-                                            <label for="" style="color: white;">.</label>
-                                            <button id="btnContinuarCoti" class="btn btn-primary btn-block" style="display: block;">Continuar</button>
-                                        </div>
+                                    <div class="col-xs-12 col-sm-6 col-md-3 form-group">
+                                        <label for="" style="color: white;">.</label>
+                                        <button id="btnContinuarCoti" class="btn btn-primary btn-block" style="display: block;">Continuar</button>
+                                    </div>
 
-                                        <div class="col-xs-6 col-sm-6 col-md-6 form-group" style="padding-right: 0px;">
-                                            <label for="" style="color: white;">.</label>
-                                            <button id="btnNuevaCoti" class="btn btn-primary btn-block" style="background-color: black;">Nueva cotización</button>
-                                        </div>
+                                    <div class="col-xs-12 col-sm-6 col-md-3 form-group">
+                                        <label for="" style="color: white;">.</label>
+                                        <button id="btnNuevaCoti" class="btn btn-primary btn-block" style="background-color: black;">Nueva cotización</button>
                                     </div>
 
                                 </div>
@@ -210,7 +208,7 @@
                 </form>
             </div>
 
-            <div class="row" style="margin-top: 3rem;">
+            <div class="row" style="margin-top: 5rem;">
                 <div class="col-xs-12 col-sm-6 col-md-3 form-group">
                     <div id="loaderPlacaTwo"></div>
                 </div>
@@ -247,6 +245,11 @@
                             <div class="clearfix" style="margin-bottom:0px;">
                                 <span class="pull-left">Fecha cotización</span>
                                 <span id="fechaCoti" class="pull-right ">AAAA-MM-DD</span>
+                            </div>
+
+                            <div class="clearfix" style="margin-bottom:0px;">
+                                <span class="pull-left">Fecha inicio proximo SOAT</span>
+                                <span id="txtFechaVencimiento" class="pull-right ">AAAA-MM-DD</span>
                             </div>
 
                             <div class="clearfix" style="margin-bottom:0px;">

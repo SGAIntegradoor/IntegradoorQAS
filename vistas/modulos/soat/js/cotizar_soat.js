@@ -545,7 +545,7 @@ $("#btnContinuarCoti").click(function (e) {
       let totalPagarSoat = valorAPagarSoat + comisionSum;
       valorSoatGlobal = valorAPagarSoat;
       $("#fechaCoti").text(new Date().toLocaleDateString());
-      $("#txtFechaVencimiento").val(fechaVencimiento.split(' ')[0]);
+      $("#txtFechaVencimiento").text(fechaVencimiento.split(' ')[0]);
       $("#PrimaSoat").text("$ " + Number(data.CalcularPolizaResult.ValorPrima).toLocaleString("es-CO"));
       $("#contriFosyga").text("$ " + Number(data.CalcularPolizaResult.ValorContribucion).toLocaleString("es-CO"));
       $("#tasaRunt").text("$ " + Number(data.CalcularPolizaResult.ValorTasaRUNT).toLocaleString("es-CO"));
@@ -580,6 +580,7 @@ $("#btnContinuarCoti").click(function (e) {
   $("#radioConComision").prop("disabled", true);
   $("#radioSinComision").prop("disabled", true);
   $("#btnContinuarCoti").prop("disabled", true);
+  $("#claseVehSoat").prop("disabled", true);
 
   // Peticion para actualizar valores la cotización (formato Form Data)
   datos = {
