@@ -96,7 +96,7 @@ function editarCotizacionSoat(idCotizacionSoat) {
       $("#txtChasis").val(response.chasis);
       $("#correoTomadorSoat").val(response.correo);
       $("#celularTomadorSoat").val(response.celular);
-      $("#txtFechaVencimiento").val(response.fecha_vencimiento);
+      $("#txtFechaVencimiento").text(response.fecha_vencimiento);
 
       $("#fechaCoti").text(new Date(response.fecha_creacion).toLocaleDateString('es-ES'));
       $("#PrimaSoat").text("$ " + Number(response.valor_prima).toLocaleString("es-CO"));
