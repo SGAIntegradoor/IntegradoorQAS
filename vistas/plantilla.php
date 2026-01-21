@@ -122,7 +122,8 @@
   <!-- <script src="https://kit.fontawesome.com/b9b0b9afa1.js" crossorigin="anonymous"></script> -->
   <!-- <script src="https://kit.fontawesome.com/011aa713aa.js" crossorigin="anonymous"></script> -->
   <!-- <script src="https://kit.fontawesome.com/0eb21b7309.js" crossorigin="anonymous"></script> -->
-  <script src="https://kit.fontawesome.com/7dfb1c0aa7.js" crossorigin="anonymous"></script>
+  <!-- <script src="https://kit.fontawesome.com/7dfb1c0aa7.js" crossorigin="anonymous"></script> -->
+  <script src="https://kit.fontawesome.com/68279346d7.js" crossorigin="anonymous"></script>
   <!-- jQuery 3 -->
   <!-- <script type="text/javascript" src="libraries\JQueryUI\external\jquery\jquery.js"></script> -->
 

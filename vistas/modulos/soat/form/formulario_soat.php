@@ -173,55 +173,36 @@
                                         <div style="display: flex; justify-content: center; align-items: end; gap: 25px;">
                                             <div class="radio">
                                                 <label style="margin-right: 5px;">
-                                                    <input id="radioConComision" type="radio" name="servicio">
-                                                    Con Comisión:
-                                                    <span class="pull-right"> $ 45.000</span>
+                                                    <input id="radioSinComision" type="radio" name="servicio">
+                                                    Sin comision:
+                                                    <span class="pull-right"> Carro o Moto 20 mil</span>
                                                 </label>
                                             </div>
 
                                             <div class="radio">
                                                 <label style="margin-right: 5px;">
-                                                    <input id="radioSinComision" type="radio" name="servicio">
-                                                    Sin Comisión:
-                                                    <span class="pull-right"> $ 20.000</span>
+                                                    <input id="radioConComision" type="radio" name="servicio">
+                                                    Con comision
+                                                    <span class="pull-right"> Carro o Moto 40 mil</span>
                                                 </label>
                                             </div>
 
                                         </div>
                                     </div>
 
-                                    <div class="col-xs-12 col-sm-6 col-md-3 form-group">
-                                        <label style="color: white" for="">.</label>
-                                        <button id="btnContinuarCoti" class="btn btn-primary btn-block" style="display: block;">Continuar</button>
-                                    </div>
-                                    <label style="color: white" for="">.</label>
-                                    <div class="col-xs-12 col-sm-6 col-md-3 form-group">
-                                        <button id="btnNuevaCoti" class="btn btn-primary btn-block" style="background-color: black;">Nueva cotización</button>
-                                    </div>
-                                </div>
+                                    <div class="col-xs-12 col-sm-6 col-md-3 form-group" style="margin-bottom: 0px;">
+                                        <div class="col-xs-6 col-sm-6 col-md-6 form-group" style="padding-left: 0px;">
+                                            <label for="" style="color: white;">.</label>
+                                            <button id="btnContinuarCoti" class="btn btn-primary btn-block" style="display: block;">Continuar</button>
+                                        </div>
 
-                                <!-- <div class="row">
-                                    <div class="col-xs-12 col-sm-6 col-md-3 form-group">
-                                        <div id="loaderPlacaTwo"></div>
-                                    </div>
-                                </div> -->
-
-                                <!-- <div class="row">
-                                    <div id="contenBtnCotizar">
-                                        <div class="col-lg-12 conten-cotizar">
-                                            <div class="row">
-                                                <div class="col-xs-12 col-sm-6 col-md-3 form-group">
-                                                </div>
-                                                <div class="col-xs-12 col-sm-6 col-md-3 form-group" id="loaderOfertaBox">
-                                                    <div id="loaderOferta"></div>
-                                                </div>
-                                                <div class="col-xs-12 col-sm-6 col-md-3 form-group" id="loaderRecotOfertaBox">
-                                                    <div id="loaderRecotOferta"></div>
-                                                </div>
-                                            </div>
+                                        <div class="col-xs-6 col-sm-6 col-md-6 form-group" style="padding-right: 0px;">
+                                            <label for="" style="color: white;">.</label>
+                                            <button id="btnNuevaCoti" class="btn btn-primary btn-block" style="background-color: black;">Nueva cotización</button>
                                         </div>
                                     </div>
-                                </div> -->
+
+                                </div>
 
                             </div>
                         </div>
@@ -230,10 +211,10 @@
             </div>
 
             <div class="row" style="margin-top: 3rem;">
-                                    <div class="col-xs-12 col-sm-6 col-md-3 form-group">
-                                        <div id="loaderPlacaTwo"></div>
-                                    </div>
-                                </div>
+                <div class="col-xs-12 col-sm-6 col-md-3 form-group">
+                    <div id="loaderPlacaTwo"></div>
+                </div>
+            </div>
 
             <!-- RESUMEN COTIZACIÓN Y NOTAS IMPORTANTES -->
             <div class="containerResumenCoti" style="margin-top: 0px; display:none;">
@@ -302,10 +283,17 @@
                                 <span id="totalPagarSoat" class="pull-right total">$ -</span>
                             </div>
                         </div>
-                        <button id="btnCopiarImagen" onclick="copiarCardComoImagen()" class="btn" style="margin-top: 10px; width: 10%;">
-                            <li class="fa fa-copy" style="color: #5c6258;"></li>
-                            <span></span>
-                        </button>
+                        <div style="width: 100%; display: flex; justify-content: center; gap: 5rem;">
+                            <button id="btnCopiarImagen" onclick="copiarCardComoImagen()" class="btn" style="margin-top: 10px; width: 13.5%;">
+                                <li class="fa fa-copy" style="color: #5c6258;"></li>
+                                <span></span>
+                            </button>
+                            <button id="btnDescargarImagen" onclick="descargarCardComoImagen()" class="btn" style="margin-top: 10px; width: 13.5%;">
+                                <li class="fa fa-download" style="color: #5c6258;"></li>
+                                <span></span>
+                            </button>
+                        </div>
+
                     </div>
 
                     <!-- Notas importantes -->
@@ -364,7 +352,7 @@
                                     Máximo 3 archivos (1 MB cada uno)
                                 </small>
 
-                                
+
                             </div>
 
                             <div id="contenedor-subir-archivos-preview" class="col-md-6" style="display: flex; flex-direction: column; margin-top: 25px;">
@@ -380,40 +368,6 @@
 
             <!-- Parte final del formulario -->
             <div class="containerFinalForm " style="display: none; margin-top: 40px;">
-                <!-- <div style="height: 100px;">
-                    <div class="col-md-3">
-                        <label for="">Correo electronico tomador SOAT</label>
-                        <input class="form-control" type="text" name="" id="correoTomadorSoat">
-                    </div>
-                    <div class="col-md-3">
-                        <label for="">Celular tomador SOAT</label>
-                        <input class="form-control" type="text" name="" id="celularTomadorSoat">
-                    </div>
-                    <div class="col-md-5" style="display: flex; flex-direction: column;">
-                        <label>Adjuntar soporte de pago y Docs</label>
-
-                        <button type="button" id="btnUpload" class="btn btn-outline-primary w-100">
-                            Añadir archivos
-                        </button>
-
-                        <input
-                            type="file"
-                            id="fileInput"
-                            hidden
-                            accept=".pdf,.jpg,.png,.doc,.docx"
-                            style="display: none;">
-
-                        <small class="text-muted d-block mt-1">
-                            Máximo 3 archivos (1 MB cada uno)
-                        </small>
-
-                        <div id="filePreview" class="mt-2"></div>
-                    </div>
-                    <div class="col-xs-12 col-sm-6 col-md-2 form-group" id="contenBtnEnviarSolicitud" style="margin-top: 15px;">
-                        <button type="button" class="btn btn-primary btn-block" id="btnEnviarSolicitud" style="margin-top: 15px;">Enviar</button>
-                    </div>
-                </div> -->
-
 
                 <div class="box-body row" id="section-final" style="display: none;">
                     <div class="col-xs-12 col-sm-12 col-md-6 form-group" id="contenedor-archivos" style="border: 2px solid #e5e5e5; padding: 15px; display: none; border-radius: 20px; justify-content: space-around;"></div>
@@ -449,7 +403,7 @@
                     </div>
                 </div>
                 <div id="destinoPreview"></div>
-                
+
             </div>
 
         </div>

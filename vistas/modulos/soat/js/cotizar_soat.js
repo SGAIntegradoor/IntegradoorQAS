@@ -797,10 +797,10 @@ function showLoader() {
                 await navigator.clipboard.write(data);
 
                 // alert("¡Imagen copiada al portapapeles! Ya puedes pegarla en WhatsApp o correos.");
-                $("#btnCopiarImagen").css("width", "25%");
+                $("#btnCopiarImagen").css("width", "45%");
                 $("#btnCopiarImagen span").text("¡Copiado!");
                 setTimeout(() => {
-                  $("#btnCopiarImagen").css("width", "10%");
+                  $("#btnCopiarImagen").css("width", "13.5%");
                   $("#btnCopiarImagen span").text("");
                 }, 2000);
             } catch (err) {
@@ -813,6 +813,53 @@ function showLoader() {
         console.error("Error al generar la imagen:", error);
     }
 }
+
+async function descargarCardComoImagen() {
+    const elemento = document.getElementsByClassName('summary-box');
+
+    try {
+        // 1. Convertir el div a canvas
+        const canvas = await html2canvas(elemento[0], {
+            backgroundColor: "#ffffff",
+            scale: 2
+        });
+
+        // 2. Convertir el canvas a Blob
+        canvas.toBlob((blob) => {
+            try {
+                // 3. Crear una URL temporal del blob
+                const url = URL.createObjectURL(blob);
+
+                // 4. Crear un enlace invisible para descargar
+                const a = document.createElement("a");
+                a.href = url;
+                a.download = "resumen.png"; // nombre del archivo
+                document.body.appendChild(a);
+                a.click();
+
+                // 5. Limpiar
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+
+                // Feedback visual (igual que tu botón actual)
+                $("#btnDescargarImagen").css("width", "45%");
+                $("#btnDescargarImagen span").text("¡Descargado!");
+                setTimeout(() => {
+                    $("#btnDescargarImagen").css("width", "13.5%");
+                    $("#btnDescargarImagen span").text("");
+                }, 2000);
+
+            } catch (err) {
+                console.error("Error al descargar:", err);
+                alert("Hubo un error al descargar la imagen.");
+            }
+        }, "image/png");
+
+    } catch (error) {
+        console.error("Error al generar la imagen:", error);
+    }
+}
+
 
 $('#claseVehSoat').on('change', function () {
   var codigoClase = $(this).val();
