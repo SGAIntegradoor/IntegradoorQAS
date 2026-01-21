@@ -34,7 +34,8 @@ class ModeloOportunidades
         foreach ($params as $clave => $valor) {
 
             // Sanitizar valores para evitar SQL Injection
-            $valores[$clave] = htmlspecialchars($valor, ENT_QUOTES, 'UTF-8');
+            // $valores[$clave] = htmlspecialchars($valor, ENT_QUOTES, 'UTF-8');
+            $valores[$clave] = urldecode($valor);
         }
 
         // Crear consulta dinámica
@@ -61,9 +62,9 @@ class ModeloOportunidades
                     # code...
                     $sql .= " AND forma_pago = '$valor'";
                     break;
-                case 'onerosoOp':
+                case 'anioOp':
                     # code...
-                    $sql .= " AND oneroso = '$valor'";
+                    $sql .= " AND YEAR(fecha_creacion) = '$valor'";
                     break;
                 case 'financiera':
                     # code...

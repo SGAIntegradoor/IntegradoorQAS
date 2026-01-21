@@ -108,6 +108,7 @@ $(document).ready(function () {
           ).text();
           let estado = $("#txtEstadoOportunidad option:selected").text();
           let observaciones = $("#txtObservacionesOportunidades").val();
+          let canal = $("#txtCanalOportunidad").val();
           let idCotAseguradora = oferta.NumCotizOferta;
           let fechaCreacion = obtenerFechaActual();
 
@@ -116,11 +117,11 @@ $(document).ready(function () {
           ).text();
           let id_analista_comercial = $("#txtAnalistaOportunidad").val();
 
-          if (analista_comercial == "") {
+          if (analista_comercial == "" || canal == "") {
             return Swal.fire({
               icon: "error",
               title: "Error",
-              text: "Debe seleccionar un analista comercial",
+              text: "Completa todos los campos antes de continuar",
             });
           }
 
@@ -130,6 +131,7 @@ $(document).ready(function () {
 
           //id_oportunidad
           data.append("idCotizacion", idCotizacion);
+          data.append("canalOportunidad", canal);
           data.append("idCotAseguradora", idCotAseguradora);
           data.append("valor_cotizacion", oferta.Prima);
           data.append("idOferta", oferta.id_oferta);
