@@ -4971,7 +4971,7 @@ function saveQuotations(responses) {
 
 document.addEventListener("DOMContentLoaded", function () {
   const navCRM = () => {
-    fetch("http://grupoasistencia.com/API/login/SSO/", {
+    fetch("https://grupoasistencia.com/Auth/Login/SSO/", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -4987,7 +4987,7 @@ document.addEventListener("DOMContentLoaded", function () {
           // Redirigir al CRM con el token en la URL
           console.log("entre aca")
           window.location.href =
-            "http://integradoor.com/crm/login?token=" + data.token;
+            "https://integradoor.com/crm/login?token=" + data.token;
         } else {
           alert("Error al iniciar sesión: " + data.message);
         }
