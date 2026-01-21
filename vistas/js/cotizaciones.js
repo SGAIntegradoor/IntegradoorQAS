@@ -269,6 +269,17 @@ $(document).ready(function () {
 
   window.abrirDialogo = abrirDialogo;
 
+
+  $("#user-comisiones, #user-cartera, #user-clientes").click(function () {
+    Swal.fire({
+      icon: "info",
+      title: "Próximamente",
+      text: "Esta funcionalidad estará disponible en futuras actualizaciones.",
+      showConfirmButton: true,
+      confirmButtonText: "Cerrar",
+    });
+  });
+
   // Asignar eventos a elementos específicos
   // $(document).on("click", ".openModal", function() {
   //   abrirDialogo(); // Llamar la función con el ID específico
@@ -4700,3 +4711,292 @@ function saveQuotations(responses) {
   }
   return dataToDB;
 }
+
+function cotizarFinesaRetoma(ofertasCotizaciones) {
+  if (typeof disableFilters === "function") {
+    disableFilters();
+  }
+  showCircularProgress("Cotización Finesa en Proceso...", 2200, 90000);
+  let cotEnFinesaResponse = [];
+  let promisesFinesa = [];
+  const headers = new Headers();
+  headers.append("Content-Type", "application/json");
+
+  const tipoId = document.getElementById("tipoDocumentoID").value;
+
+  ofertasCotizaciones.forEach((element, index) => {
+    let data = {
+      fecha_cotizacion: obtenerFechaActual(),
+      valor_poliza: element.prima,
+      beneficiario_oneroso: false,
+      cuotas: 12, // cambiar a 12 cuotas Javier
+      fecha_inicio_poliza: obtenerFechaActual(),
+      primera_cuota: "min",
+      valor_primera_cuota: 0,
+      id_ramo: 1,
+      valor_mayor: 0,
+      fecha_fin_poliza: obtenerFechaActual(true),
+      id_insured: idWithOutSpecialChars(),
+      typeId: tipoId,
+    };
+
+    if (element.cotizada == null || element.cotizada == false) {
+      promisesFinesa.push(
+        fetch(
+          `https://grupoasistencia.com/motor_webservice/paymentInstallmentsFinesa${
+            env == "qas" ? "_qas" : env == "dev" ? "_qas" : ""
+          }`,
+          // "https://grupoasistencia.com/motorTest/paymentInstallmentsFinesa",
+          {
+            method: "POST",
+            headers: headers,
+            body: JSON.stringify(data),
+          }
+        )
+          .then((response) => response.json())
+          .then((finesaData) => {
+            // Sub Promesa para guardar la data en la BD con relacion a la cotizacion actual.u
+            finesaData.producto = element.producto;
+            finesaData.aseguradora = element.aseguradora;
+            finesaData.id_cotizacion = idCotizacion;
+            finesaData.identity = element.objFinesa;
+            finesaData.cuotas = element.cuotas;
+            return fetch(
+              // "https://grupoasistencia.com/motorTest/saveDataQuotationsFinesa",
+              `https://grupoasistencia.com/motor_webservice/saveDataQuotationsFinesa${
+                env == "qas" ? "_qas" : env == "dev" ? "_qas" : ""
+              }`,
+              {
+                method: "POST",
+                headers: headers,
+                body: JSON.stringify(finesaData),
+              }
+            ).then((dbResponse) => dbResponse.json());
+          })
+      );
+      $("#filtersSection").prop("disabled", false);
+    } else {
+      $("#loaderRecotOferta").html("");
+      $("#loaderRecotOfertaBox").css("display", "none");
+      //console.log(cotizacionesFinesa);
+      return;
+    }
+  });
+
+  Promise.all(promisesFinesa)
+    .then((results) => {
+      cotEnFinesaResponse = saveQuotations(results);
+      $("#loaderOferta").html("");
+      $("#loaderOfertaBox").css("display", "none");
+      $("#loaderRecotOferta").html("");
+      $("#loaderRecotOfertaBox").css("display", "none");
+      renderCards(resultNewRenderCardsFinesa);
+      // Swal.close();
+      Swal.fire({
+        title: "¡Cotizacion Finesa finalizada a 12 cuotas!",
+        showConfirmButton: true,
+        confirmButtonText: "Cerrar",
+        backdrop: true, // Bloquea la interacción con el fondo
+        allowOutsideClick: false, // Evita cerrar la alerta haciendo clic afuera
+        allowEscapeKey: false, // Evita cerrar con la tecla "Escape"
+        allowEnterKey: false, // Evita cerrar con "Enter"
+        didOpen: () => {
+          document.body.style.overflow = "auto"; // Habilita el scroll en el fondo
+        },
+        willClose: () => {
+          document.body.style.overflow = ""; // Restaura el comportamiento normal
+        },
+      }).then(() => {
+        $("#loaderOferta").html("");
+        $("#loaderOfertaBox").css("display", "none");
+      });
+    })
+    .catch((error) => {
+      console.error("Error en las promesas: ", error);
+    })
+    .finally(() => {
+      if (typeof enableFilters === "function") {
+        enableFilters();
+      }
+    });
+}
+
+function cotizarFinesaMotosRetoma(ofertasCotizaciones) {
+  showCircularProgress("Cotización Finesa en Proceso...", 500, 40000);
+  let cotEnFinesaResponse = [];
+  let promisesFinesa = [];
+
+  const headers = new Headers();
+  headers.append("Content-Type", "application/json");
+
+  const tipoId = document.getElementById("tipoDocumentoID").value;
+
+  ofertasCotizaciones.forEach((element, index) => {
+    let data = {
+      fecha_cotizacion: obtenerFechaActual(),
+      valor_poliza: element.prima,
+      beneficiario_oneroso: false,
+      cuotas: element.cuotas,
+      fecha_inicio_poliza: obtenerFechaActual(),
+      primera_cuota: "min",
+      valor_primera_cuota: 0,
+      id_ramo: 1,
+      valor_mayor: 0,
+      fecha_fin_poliza: obtenerFechaActual(true),
+      id_insured: idWithOutSpecialChars(),
+      typeId: tipoId,
+    };
+
+    if (element.cotizada == null || element.cotizada == false) {
+      //console.log(element);
+
+      promisesFinesa.push(
+        fetch(
+          `https://grupoasistencia.com/motor_webservice/paymentInstallmentsFinesa${
+            env == "qas" ? "_qas" : env == "dev" ? "_qas" : ""
+          }`,
+          // "https://grupoasistencia.com/motorTest/paymentInstallmentsFinesa",
+          {
+            method: "POST",
+            headers: headers,
+            redirect: "follow",
+            referrerPolicy: "no-referrer",
+            body: JSON.stringify(data),
+          }
+        )
+          .then((response) => response.json())
+          .then((finesaData) => {
+            // Sub Promesa para guardar la data en la BD con relacion a la cotizacion actual.
+
+            finesaData.producto = element.producto;
+            finesaData.aseguradora = element.aseguradora;
+            finesaData.id_cotizacion = idCotizacion;
+            finesaData.identity = element.objFinesa;
+            finesaData.cuotas = element.cuotas;
+            return fetch(
+              `https://grupoasistencia.com/motor_webservice/saveDataQuotationsFinesa${
+                env == "qas" ? "_qas" : env == "dev" ? "_qas" : ""
+              }`,
+              //"https://grupoasistencia.com/motorTest/saveDataQuotationsFinesa",
+              {
+                method: "POST",
+                headers: headers,
+                body: JSON.stringify(finesaData),
+              }
+            ).then((dbResponse) => dbResponse.json());
+          })
+      );
+    } else {
+      return;
+    }
+  });
+
+  Promise.all(promisesFinesa)
+    .then((results) => {
+      cotEnFinesaResponse = saveQuotations(results);
+      swal
+        .fire({
+          title: "¡Cotizacion Finesa finalizada a 12 cuotas!",
+          showConfirmButton: true,
+          confirmButtonText: "Cerrar",
+        })
+        .then(() => {
+          $("#loaderOferta").html("");
+          $("#loaderOfertaBox").css("display", "none");
+          $("#loaderRecotOferta").html("");
+          $("#loaderRecotOfertaBox").css("display", "none");
+          renderCards(resultNewRenderCardsFinesa);
+          // if (!cotizoFinesaMotos) {
+          //   document.getElementById(
+          //     "btnReCotizarFallidasMotos"
+          //   ).disabled = false;
+          //   cotizoFinesaMotos = true;
+          // }
+        });
+    })
+    .catch((error) => {
+      console.error("Error en las promesas: ", error);
+    })
+    .finally(() => {
+      //console.log(cotEnFinesaResponse);
+      Swal.close();
+    });
+}
+
+$("#btnCotizarFinesaRetoma").click(function () {
+  $("#loaderOferta").html(
+    '<img src="vistas/img/plantilla/loader-update.gif" width="34" height="34"><strong> Cotizando en Finesa...</strong>'
+  );
+  if (resultNewRenderCardsFinesa[0].Manual == 8) {
+    cotizarFinesaMotosRetoma(cotizacionesFinesa);
+  } else {
+    cotizarFinesaRetoma(cotizacionesFinesa);
+  }
+  if (typeof countOfferts === "function") {
+    countOfferts();
+  }
+  $(this).prop("disabled", true);
+});
+
+// Obtiene la fecha para la cotizacion de finesa, puede obtener la fecha actual y la fecha un año despues
+function obtenerFechaActual(incrementarAnio = false) {
+  const fecha = new Date();
+
+  if (incrementarAnio) {
+    fecha.setFullYear(fecha.getFullYear() + 1);
+  }
+
+  const dia = String(fecha.getDate()).padStart(2, "0");
+  const mes = String(fecha.getMonth() + 1).padStart(2, "0"); // Los meses van de 0 a 11, por eso se suma 1
+  const año = fecha.getFullYear();
+
+  return `${dia}-${mes}-${año}`;
+}
+
+function idWithOutSpecialChars() {
+  const numeroInput = document.getElementById("numDocumentoID").value;
+  const idWOSpecialChars = numeroInput.replace(/[^0-9]/g, "");
+  return idWOSpecialChars;
+}
+
+function saveQuotations(responses) {
+  let dataToDB = [];
+  if (Array.isArray(responses) && responses.length >= 1) {
+    dataToDB = responses.map((element) => {
+      return element;
+    });
+  }
+  return dataToDB;
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+  const navCRM = () => {
+    fetch("http://grupoasistencia.com/API/login/SSO/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        usu_usuario: permisos.usu_usuario,
+        usu_password: permisos.usu_password,
+      }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.status === "Ok" && data.token) {
+          // Redirigir al CRM con el token en la URL
+          console.log("entre aca")
+          window.location.href =
+            "http://integradoor.com/crm/login?token=" + data.token;
+        } else {
+          alert("Error al iniciar sesión: " + data.message);
+        }
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  };
+
+  // ejemplo: enlazar al botón del menú
+  document.getElementById("btnCRM").addEventListener("click", navCRM);
+});

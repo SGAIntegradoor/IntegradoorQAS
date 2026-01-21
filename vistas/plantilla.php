@@ -122,7 +122,8 @@
   <!-- <script src="https://kit.fontawesome.com/b9b0b9afa1.js" crossorigin="anonymous"></script> -->
   <!-- <script src="https://kit.fontawesome.com/011aa713aa.js" crossorigin="anonymous"></script> -->
   <!-- <script src="https://kit.fontawesome.com/0eb21b7309.js" crossorigin="anonymous"></script> -->
-  <script src="https://kit.fontawesome.com/7dfb1c0aa7.js" crossorigin="anonymous"></script>
+  <!-- <script src="https://kit.fontawesome.com/7dfb1c0aa7.js" crossorigin="anonymous"></script> -->
+   <script src="https://kit.fontawesome.com/0eb21b7309.js" crossorigin="anonymous"></script>
   <!-- jQuery 3 -->
   <!-- <script type="text/javascript" src="libraries\JQueryUI\external\jquery\jquery.js"></script> -->
 
@@ -368,7 +369,7 @@
         $_GET["ruta"] == "adminCoti" ||
         $_GET["ruta"] == "politicas" ||
         $_GET["ruta"] == "planes" ||
-        $_GET["ruta"] == "clientes" ||
+        $_GET["ruta"] == "prospectos" ||
         $_GET["ruta"] == "cotizaciones" ||
         $_GET["ruta"] == "editar-cotizacion" ||
         $_GET["ruta"] == "editar-cotizacion-autogestion" ||
@@ -402,7 +403,11 @@
         $_GET["ruta"] == "retomar-cotizacion-hogar" ||
         $_GET["ruta"] == "negocios" ||
         $_GET["ruta"] == "productividad" ||
-        $_GET["ruta"] == "transporte-pasajeros"  ||
+        $_GET["ruta"] == "user-negocios" ||
+        $_GET["ruta"] == "user-clientes" ||
+        $_GET["ruta"] == "user-comisiones" ||
+        $_GET["ruta"] == "user-cartera" ||
+        $_GET["ruta"] == "transporte-pasajeros" ||
         $_GET["ruta"] == "hidrocarburos"
       ) {
         if ($_GET['ruta'] == 'modificacion-productos') {
@@ -413,9 +418,9 @@
         }
         if ($_GET['ruta'] == 'usuarios') {
           if (!($_SESSION['rol'] == 1 || $_SESSION['rol'] == 10 || $_SESSION['rol'] == 11 || $_SESSION["rol"] == 12 || $_SESSION['rol'] == 22 || $_SESSION['rol'] == 23)) {
-            $_GET['ruta'] = 'usuarios3';
-          } else {
             $_GET['ruta'] = 'usuarios';
+          } else {
+            $_GET['ruta'] = 'usuarios3';
           }
         }
 

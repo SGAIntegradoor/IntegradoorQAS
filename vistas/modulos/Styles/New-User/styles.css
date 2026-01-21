@@ -269,3 +269,56 @@
   font-size: 16px;
   margin-left: 10px;
 }
+
+.custom-select-unidad {
+    position: relative;
+    width: 100%;
+}
+
+.select-box-unidad {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px;
+    border: 2px solid #DBDBDB;
+    cursor: pointer;
+    background: white;
+}
+
+.options-container-unidad {
+    display: none;
+    position: absolute;
+    width: 255px;
+    background: white;
+    border: 2px solid #DBDBDB;
+    max-height: 150px;
+    overflow-y: auto;
+    z-index: 10;
+    overflow: hidden;
+    word-break: break-all;
+}
+
+.option-unidad {
+    display: flex;
+    align-items: center;
+    padding: 5px;
+    cursor: pointer;
+}
+
+.option-unidad:hover {
+    background: #f0f0f0;
+}
+
+.option-unidad input {
+    margin-right: 8px;
+    margin-top: 0px;
+    width: 20px !important;
+    height: 20px !important;
+}
+
+
+
+.select-box-unidad::after {
+  font-size: 16px;
+  margin-left: 10px;
+}

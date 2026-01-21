@@ -1,6 +1,6 @@
 $(document).ready(function () {
   //cargartipDoc();
-  cargarPerfil();
+  // cargarPerfil();
 
 
 
@@ -104,8 +104,35 @@ function uploadImageToServer(file, inputId) {
   const formData = new FormData();
   formData.append("file", file);
   formData.append("inputId", inputId);
-  formData.append("documento", documento);
-  formData.append("idUsuario", idUsuario);
+  
+  const params = new URLSearchParams(window.location.search);
+  
+  if (params.has("id")) {
+    const id = params.get("id");
+    if (id) {
+      // Cargar datos del usuario
+      id_usuario_edit = id;
+      formData.append("idUsuario", id);
+      formData.append("documento", user_loaded.info_usuario.usu_documento);
+      
+      $("#formUser")
+        .find("input, select")
+        .each(function () {
+          if ($(this).hasClass("requiredfield")) {
+            $(this).removeClass("requiredfield");
+          }
+        });
+      loadUser(id)
+        .then(() => {}).finally(() => {
+        })
+        .catch((err) => {
+          console.error("Error al cargar el usuario:", err);
+        });
+    }
+  } else {
+    // formData.append("idUsuario", idUsuario);
+  }
+
 
   // Llamada AJAX para enviar el archivo al servidor
   $.ajax({
@@ -200,125 +227,125 @@ function cargartipDoc() {
   });
 }
 
-async function cargarPerfil() {
-  var idUsuario = permisos.id_usuario;
-  var datos = new FormData();
-  datos.append("idUsuario", idUsuario);
-  // $("#boxesInfoPerfil").hide();
-  $("#loader-skeleton").fadeIn();
-  $.ajax({
-    url: "ajax/usuarios.ajax.php",
-    method: "POST",
-    data: datos,
-    cache: false,
-    contentType: false,
-    processData: false,
-    dataType: "json",
-    success: function (respuesta) {
-      console.log(respuesta)
-      $("#nombres_perfil").val(respuesta["usu_nombre"]);
-      $("#apellidos_perfil").val(respuesta["usu_apellido"]);
-      cargartipDoc();
-      $("#documento_perfil").val(respuesta["usu_documento"]);
-      $("#direccion_perfil").val(respuesta["usu_direccion"]);
-      $("#telefono_perfil").val(respuesta["usu_telefono"]);
-      $("#fechaNacimiento_perfil").val(respuesta["usu_fch_nac"]);
-      $("#email_perfil").val(respuesta["usu_email"]);
-      $("#genero_perfil").val(
-        respuesta["usu_genero"] == "F" ? "Femenino" : "Masculino"
-      );
-      $("#intermediario").val(respuesta["nombre"]);
+// async function cargarPerfil() {
+//   var idUsuario = permisos.id_usuario;
+//   var datos = new FormData();
+//   datos.append("idUsuario", idUsuario);
+//   // $("#boxesInfoPerfil").hide();
+//   $("#loader-skeleton").fadeIn();
+//   $.ajax({
+//     url: "ajax/usuarios.ajax.php",
+//     method: "POST",
+//     data: datos,
+//     cache: false,
+//     contentType: false,
+//     processData: false,
+//     dataType: "json",
+//     success: function (respuesta) {
+//       $("#nombres_perfil").val(respuesta["usu_nombre"]);
+//       $("#apellidos_perfil").val(respuesta["usu_apellido"]);
+//       cargartipDoc();
+//       $("#documento_perfil").val(respuesta["usu_documento"]);
+//       $("#direccion_perfil").val(respuesta["usu_direccion"]);
+//       $("#telefono_perfil").val(respuesta["usu_telefono"]);
+//       $("#fechaNacimiento_perfil").val(respuesta["usu_fch_nac"]);
+//       $("#email_perfil").val(respuesta["usu_email"]);
+//       $("#genero_perfil").val(
+//         respuesta["usu_genero"] == "F" ? "Femenino" : "Masculino"
+//       );
+//       $("#intermediario").val(respuesta["nombre"]);
 
-      $("#nombre_perfil").prop("disabled", true);
-      $("#tipoDocumento").prop("disabled", true);
-      $("#apellido_perfil").prop("disabled", true);
-      $("#documento_perfil").prop("disabled", true);
-      $("#telefono_perfil").prop("disabled", true);
-      $("#direccion_perfil").prop("disabled", true);
-      $("#email_perfil").prop("disabled", true);
-      $("#ciudad_perfil").prop("disabled", true);
-      $("#editarRol").val(respuesta["id_rol"]);
-
-
-      if(respuesta['analista_comercial'] != null){
-        $("#analista_perfil").val(respuesta['analista_comercial']);
-      }
+//       $("#nombre_perfil").prop("disabled", true);
+//       $("#tipoDocumento").prop("disabled", true);
+//       $("#apellido_perfil").prop("disabled", true);
+//       $("#documento_perfil").prop("disabled", true);
+//       $("#telefono_perfil").prop("disabled", true);
+//       $("#direccion_perfil").prop("disabled", true);
+//       $("#email_perfil").prop("disabled", true);
+//       $("#ciudad_perfil").prop("disabled", true);
+//       $("#editarRol").val(respuesta["id_rol"]);
 
 
-      // Convertir la fecha ISO 8601 a un objeto Date
-
-      function formatearFechaISO8601(fechaISO8601) {
-        // Convertir la fecha ISO 8601 a un objeto Date
-        var fecha = new Date(fechaISO8601);
-
-        // Obtener los componentes de la fecha
-        var dia = fecha.getDate();
-        var mes = fecha.getMonth() + 1; // Los meses van de 0 a 11, sumamos 1 para obtener el mes correcto
-        var anio = fecha.getFullYear();
-
-        // Formatear la fecha en formato "yyyy-mm-dd"
-        var fechaFormateada =
-          anio +
-          "-" +
-          (mes < 10 ? "0" + mes : mes) +
-          "-" +
-          (dia < 10 ? "0" + dia : dia);
-
-        return fechaFormateada;
-      }
-
-      // Supongamos que tienes la fecha en formato ISO 8601 en la variable 'fechaISO8601'
-      var fechaISO8601 = respuesta["usu_fch_creacion"];
-
-      // Formatear la fecha
-      var fechaFormateada = formatearFechaISO8601(fechaISO8601);
-
-      // Asignar la fecha formateada al campo de entrada
-      $("#fechaUserExist").val(fechaFormateada);
-
-      // Logica foto de usuario
-      if (respuesta["usu_foto"] != "" && respuesta["usu_foto"] != null) {
-        $(".previsualizarEditar").attr("src", respuesta["usu_foto"]);
-        $(".previsualizarEditarPDF").attr("src", respuesta["usu_logo_pdf"]);
-        $(".user-image").attr("src", respuesta["usu_foto"]);
-      } else {
-        $(".previsualizarEditar").attr(
-          "src",
-          "vistas/img/views/user.png"
-        );
-      }
+//       if(respuesta['analista_comercial'] != null){
+//         $("#analista_perfil").val(respuesta['analista_comercial']);
+//       }
 
 
-      // Crear una instancia de FormData
-      var formData = new FormData();
+//       // Convertir la fecha ISO 8601 a un objeto Date
 
-      // Obtener el código de ciudad
-      var codigoCiudad = respuesta["ciudades_id"];
-      formData.append("ciudad", codigoCiudad);
+//       function formatearFechaISO8601(fechaISO8601) {
+//         // Convertir la fecha ISO 8601 a un objeto Date
+//         var fecha = new Date(fechaISO8601);
 
-      $.ajax({
-        url: "ajax/ciudades.ajax.php",
-        method: "POST",
-        data: formData, // Agrega el nombre del campo "ciudad"
-        cache: false,
-        contentType: false,
-        processData: false,
-        dataType: "json",
-        success: function (respuesta) {
-          var municipio = respuesta.Nombre; // Nombre del departamento obtenido desde la respuesta
-          var codigo = respuesta.Codigo;
+//         // Obtener los componentes de la fecha
+//         var dia = fecha.getDate();
+//         var mes = fecha.getMonth() + 1; // Los meses van de 0 a 11, sumamos 1 para obtener el mes correcto
+//         var anio = fecha.getFullYear();
 
-          const departamento = municipio.split("-");
+//         // Formatear la fecha en formato "yyyy-mm-dd"
+//         var fechaFormateada =
+//           anio +
+//           "-" +
+//           (mes < 10 ? "0" + mes : mes) +
+//           "-" +
+//           (dia < 10 ? "0" + dia : dia);
 
-          $("#departamento_perfil").val(departamento[1]);
-          $("#ciudad_perfil").val(departamento[0]);
+//         return fechaFormateada;
+//       }
 
-          $("#loader-skeleton").fadeOut();
-        },
-      });
-    }, complete: function (){
-      // $("#loading").remove();
+//       // Supongamos que tienes la fecha en formato ISO 8601 en la variable 'fechaISO8601'
+//       var fechaISO8601 = respuesta["usu_fch_creacion"];
+
+//       // Formatear la fecha
+//       var fechaFormateada = formatearFechaISO8601(fechaISO8601);
+
+//       // Asignar la fecha formateada al campo de entrada
+//       $("#fechaUserExist").val(fechaFormateada);
+
+//       // Logica foto de usuario
+//       // if (respuesta["usu_foto"] != "" && respuesta["usu_foto"] != null) {
+//       //   console.log(respuesta)
+//       //   $(".previsualizarEditar").attr("src", respuesta["usu_foto"]);
+//       //   $(".previsualizarEditarPDF").attr("src", respuesta["usu_logo_pdf"]);
+//       //   $(".user-image").attr("src", respuesta["usu_foto"]);
+//       // } else {
+//       //   $(".previsualizarEditar").attr(
+//       //     "src",
+//       //     "vistas/img/views/user.png"
+//       //   );
+//       // }
+
+
+//       // Crear una instancia de FormData
+//       var formData = new FormData();
+
+//       // Obtener el código de ciudad
+//       var codigoCiudad = respuesta["ciudades_id"];
+//       formData.append("ciudad", codigoCiudad);
+
+//       $.ajax({
+//         url: "ajax/ciudades.ajax.php",
+//         method: "POST",
+//         data: formData, // Agrega el nombre del campo "ciudad"
+//         cache: false,
+//         contentType: false,
+//         processData: false,
+//         dataType: "json",
+//         success: function (respuesta) {
+//           var municipio = respuesta.Nombre; // Nombre del departamento obtenido desde la respuesta
+//           var codigo = respuesta.Codigo;
+
+//           const departamento = municipio.split("-");
+
+//           $("#departamento_perfil").val(departamento[1]);
+//           $("#ciudad_perfil").val(departamento[0]);
+
+//           $("#loader-skeleton").fadeOut();
+//         },
+//       });
+//     }, complete: function (){
+//       // $("#loading").remove();
      
-    },
-  });
-}
+//     },
+//   });
+// }

@@ -1,11 +1,37 @@
 <?php
+require_once "config/dbconfig.php";
+
+$sqlRamos = "SELECT * from ramos";
+$enlace = mysqli_connect("$DB_host", "$DB_user", "$DB_pass", "$DB_name");
+$resultadoRamos = mysqli_query($enlace, $sqlRamos);
+// resultadoRamos ya fue obtenido con mysqli_query
+if (!$resultadoRamos) {
+  die("Error en la consulta: " . mysqli_error($enlace));
+}
+
+// Compatibilidad: si mysqli_fetch_all no existe hacemos un fallback
+if (function_exists('mysqli_fetch_all')) {
+  $ramos = mysqli_fetch_all($resultadoRamos, MYSQLI_ASSOC);
+} else {
+  $ramos = [];
+  while ($row = mysqli_fetch_assoc($resultadoRamos)) {
+    $ramos[] = $row;
+  }
+}
 
 if (isset($_GET["id"])) {
 
   echo '<script>
     var idUserURL = ' . $_GET['id'] . ';
   </script>';
+
+  $sql = "SELECT usu_foto, usu_logo_pdf FROM usuarios WHERE id_usuario = " . $_GET['id'];
+
+  $resultado = mysqli_query($enlace, $sql);
+  $usuario = mysqli_fetch_assoc($resultado);
 }
+
+
 ?>
 <script>
   console.log(permisos)
@@ -123,6 +149,27 @@ if (isset($_GET["id"])) {
     /* Bordes redondeados si quieres */
     box-shadow: inset 0 0 15px 0 rgba(0, 0, 0, 0.1);
     /* Sombra difusa en los bordes */
+  }
+
+  .ciudad.select2-container .select2-selection--single {
+    height: 40px !important;
+  }
+
+  .select2-container--bootstrap .select2-selection--single {
+    height: 34px;
+    line-height: 2.258571;
+    padding: 6px 24px 6px 12px;
+  }
+
+  .select2-container--bootstrap .select2-selection {
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+    background-color: #fff;
+    border: 2px solid #DBDBDB;
+    border-radius: 0px !important;
+    color: #555;
+    font-size: 14px;
+    outline: 0;
   }
 
   #loader-skeleton #message {
@@ -257,6 +304,14 @@ if (isset($_GET["id"])) {
   </style>
 
   <section class="container-fluid">
+    <div style="display: none" id="divLoaderFS">
+      <div style="position: fixed; top: 0; right: 0; bottom: 0; left: 0; display: flex; align-items: center; justify-content: center; background-color: rgba(255,255,255,0.4); z-index: 9999;">
+        <div style="display: flex; align-items: center; justify-content: center;">
+          <img src="vistas/img/loader/integradoor.gif" alt="Loading..." style="opacity: 0.7;" />
+        </div>
+      </div>
+    </div>
+
     <div class="box">
       <div class="box-header with-border ">
         <div style="display: flex; flex-direction: column">
@@ -268,7 +323,7 @@ if (isset($_GET["id"])) {
               </div>
               <div class="containerImg" style="display: flex; flex-direction: row; align-items: flex-end; gap: 20px;">
                 <?php
-                echo '<img class="profile-pic previsualizarEditar" id="previewImg" src="' . $_SESSION['foto'] . '" width="100" style="border-radius: 50%; min-width: 100px; width: 100px; height: 100px">';
+                echo '<img class="profile-pic previsualizarEditar" id="previewImg" src="' . (($usuario['usu_foto'] !== "" && $usuario['usu_foto'] != null) ? $usuario['usu_foto'] : 'vistas/img/views/user.png') . '" width="100" style="border-radius: 50%; min-width: 100px; width: 100px; height: 100px">';
                 ?>
                 <div style="display: flex; flex-direction: column">
                   <p id="fileNameUser" style="color: gray; margin: 0; padding: 0; font-size: 14px;">No se ha seleccionado ningún archivo</p>
@@ -292,7 +347,7 @@ if (isset($_GET["id"])) {
               </div>
               <div class="containerImg" style="display: flex; flex-direction: row; align-items: flex-end; gap: 20px;">
                 <?php
-                echo '<img class="profile-pic previsualizarEditar2" id="previewImgPDF" src="' . ($_SESSION['imgPDF'] == "" || empty($_SESSION['imgPDF']) ? 'vistas\img\usuarios\Tu Logo Aquí.png' : $_SESSION['imgPDF']) . '" width="100" style="border-radius: 50%; min-width: 100px; width: 100px; height: 100px">';
+                echo '<img class="profile-pic previsualizarEditar2" id="previewImgPDF" src="' . ($usuario['usu_logo_pdf'] == "" || empty($usuario['usu_logo_pdf']) ? 'vistas\img\usuarios\Tu Logo Aquí.png' : $usuario['usu_logo_pdf']) . '" width="100" style="border-radius: 50%; min-width: 100px; width: 100px; height: 100px">';
                 ?>
                 <?php
 
@@ -460,7 +515,7 @@ if (isset($_GET["id"])) {
                     <option value="23">Contabilidad SGA</option>
                   </select>
                 </div>
-                <div class="form-group" style="display: none;" id="divUnidadNegocio">
+                <!-- <div class="form-group" style="display: none;" id="divUnidadNegocio">
                   <label for="unidadDeNegocio"><b>Unidad de negocio</b></label>
                   <select name="unidadDeNegocio" id="unidadDeNegocio">
                     <option value="">Seleccione una opción...</option>
@@ -469,12 +524,41 @@ if (isset($_GET["id"])) {
                     <option value="negocioDirecto">Negocio Directo</option>
                     <option value="asesorGanador">Asesor Ganador</option>
                   </select>
+                </div> -->
+                <div class="custom-select-unidad form-group" style="display: block;" id="divUnidadNegocioNew">
+                  <label for="unidadNegocio"><b>Unidad de negocio:</b></label>
+                  <div class="select-box-unidad" onclick="toggleOptionsUnidad()">
+                    <div id="div-options-unidades" style="width: 100%;">Selecciona opciones...</div>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 16 16" fill="none">
+                      <path d="M3 5l5 5 5-5" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                    </svg>
+                  </div>
+                  <div class="options-container-unidad" id="optionsContainerUnidad">
+                    <div class="option-unidad">
+                      <input type="checkbox" value="Asesor Freelance" id="Asesor Freelance" onchange="updateSelectTextUnidad(event)"> Asesor Freelance
+                    </div>
+
+                    <div class="option-unidad">
+                      <input type="checkbox" value="Asesor 10" id="Asesor 10" onchange="updateSelectTextUnidad(event)"> Asesor 10
+                    </div>
+
+                    <div class="option-unidad">
+                      <input type="checkbox" value="Negocio Directo" id="Negocio Directo" onchange="updateSelectTextUnidad(event)"> Negocio Directo
+                    </div>
+
+                    <div class="option-unidad">
+                      <input type="checkbox" value="Asesor Ganador" id="Asesor Ganador" onchange="updateSelectTextUnidad(event)"> Asesor Ganador
+                    </div>
+
+                  </div>
                 </div>
 
                 <div class="form-group" style="display: none;" id="divCanal" class="requiredfield">
                   <label for="canal"><b>Canal</b></label>
                   <select name="canal" id="canal">
-                    <option value="1">Freelance</option>
+                    <option value="">Seleccione una opción...</option>
+                    <option value="1">Canal Freelance</option>
+                    <option value="2">Canal Directo</option>
                   </select>
                 </div>
 
@@ -493,7 +577,7 @@ if (isset($_GET["id"])) {
                   <select name="tipoDocumento" id="tipoDocumento" class="requiredfield">
                     <option value="">Seleccione una opción...</option>
                     <option value="CC">CC</option>
-                    <option value="NIT">NIT</option>
+                    <option value="CE">CE</option>
                   </select>
                 </div>
 
@@ -700,9 +784,22 @@ if (isset($_GET["id"])) {
                   <label for="categoriaAsesor"><b>Categoria de asesor</b></label>
                   <select name="categoriaAsesor" id="categoriaAsesor">
                     <option value="">Seleccione una opción...</option>
-                    <option value="1">Productividad Baja</option>
-                    <option value="2">Productividad Media</option>
-                    <option value="3">Productividad Alta</option>
+                    <option value="Alta">Alta</option>
+                    <option value="Media">Media</option>
+                    <option value="Baja">Baja</option>
+                    <option value="Improductivo">Improductivo</option>
+                    <option value="Inactivo con ventas">Inactivo con ventas</option>
+                    <option value="Inactivo sin ventas">Inactivo sin ventas</option>
+                    <option value="Nuevo">Nuevo</option>
+                  </select>
+                </div>
+
+                <div class="form-group freelance" id="divAsesorEstado">
+                  <label for="estadoAsesor"><b>Estado asesor</b></label>
+                  <select name="estadoAsesor" id="estadoAsesor">
+                    <option value="">Seleccione una opción...</option>
+                    <option value="Activo">Activo</option>
+                    <option value="Inactivo">Inactivo</option>
                   </select>
                 </div>
 
@@ -715,7 +812,7 @@ if (isset($_GET["id"])) {
 
                 <div class="form-group" id="divComisiones" style="display: none; align-items: flex-end;">
                   <?php
-                  $id = isset($_GET['id']) ? $_GET['id'] : 'null'; 
+                  $id = isset($_GET['id']) ? $_GET['id'] : 'null';
 
                   $puedeVer = ($_SESSION["permisos"]["id_rol"] == 22 ||
                     $_SESSION["permisos"]["id_rol"] == 23 ||
@@ -756,7 +853,18 @@ if (isset($_GET["id"])) {
 
                 <div class="form-group freelance" id="divOrigen">
                   <label for="origen"><b>Origen</b></label>
-                  <input type="text" name="origen" id="origen" />
+                  <select name="origen" id="origen">
+                    <!-- Mail, Facebook, Instagram, Whatsapp, Charla, Computrabajo, Campaña, Recomendado. -->
+                    <option value="">Seleccione una opción...</option>
+                    <option value="1">Mail</option>
+                    <option value="2">Facebook</option>
+                    <option value="3">Instagram</option>
+                    <option value="4">Whatsapp</option>
+                    <option value="5">Charla</option>
+                    <option value="6">Computrabajo</option>
+                    <option value="7">Campaña</option>
+                    <option value="8">Recomendado</option>
+                  </select>
                 </div>
 
                 <!-- <div class="form-group">
@@ -893,9 +1001,15 @@ if (isset($_GET["id"])) {
                 <input type="text" name="noCuenta" id="noCuenta" />
               </div>
 
-              <div class="form-group">
-                <label for="documento"><b>Régimen en renta</b></label>
-                <input type="text" name="regimenRenta" id="regimenRenta" />
+              <div class="form-group" id="divRegimenRenta">
+                <label for="regimenRenta"><b>Regimen Renta</b></label>
+                <select name="regimenRenta" id="regimenRenta">
+                  <option value="">Seleccione una opción...</option>
+                  <option value="1">Declarante</option>
+                  <option value="2">No declarante</option>
+                  <option value="3">Regimen simple</option>
+                  <option value="4">Regimen especial</option>
+                </select>
               </div>
               <div class="form-group">
                 <label for="representanteLegal"><b>Facturador electronico</b></label>
@@ -930,7 +1044,7 @@ if (isset($_GET["id"])) {
             </div>
             <section style="display: none;" id="divComentarios">
               <div clas="row" style="margin-bottom: 30px; margin-top: 30px;">
-                <u><b style="font-size: 16px;">Información del adicional</b></u>
+                <u><b style="font-size: 16px;">Información adicional</b></u>
               </div>
               <div style="display: flex; flex-direction: row; gap: 40px;" id="divComentarios">
                 <div class="form-group" style="width: 50%;">
@@ -980,11 +1094,8 @@ if (isset($_GET["id"])) {
                 <label for="estadoUs"><b>Estado:</b></label>
                 <select type="text" name="estadoUs" id="estadoUs" class="requiredfield">
                   <option value="" selected>Seleccione una opción...</option>
-                  <option value="1">Vinculado</option>
-                  <option value="2">Activado</option>
-                  <option value="3">Inactivo</option>
-                  <option value="4">Bloqueado</option>
-                  <option value="5">Reactivado</option>
+                  <option value="1">Activo</option>
+                  <option value="0">Bloqueado</option>
                 </select>
               </div>
             </div>
@@ -1023,38 +1134,157 @@ if (isset($_GET["id"])) {
             <div class="custom-select form-group">
               <label for="ramoSelector">Ramo:</label>
               <div>
-                <div class="select-box" onclick="toggleOptions()">
-                  Selecciona opciones...
+                <div class="select-box" onclick="toggleOptions()">Selecciona opciones...
                   <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 16 16" fill="none">
-                    <path d="M3 5l5 5 5-5" stroke="black" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+                    <path d="M3 5l5 5 5-5" stroke="black" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></path>
                   </svg>
                 </div>
-                <div class="options-container">
+                <div class="options-container" style="display: none;">
                   <div class="option">
                     <input id="todosCheck" type="checkbox" value="Todos" onchange="updateSelectText(event)"> Todos
                   </div>
+
                   <div class="option">
-                    <input type="checkbox" value="Automoviles" onchange="updateSelectText(event)"> Automoviles
+                    <input type="checkbox" value="Autos Livianos" onchange="updateSelectText(event)"> Autos Livianos
                   </div>
-                  <div class="option">
-                    <input type="checkbox" value="Motos" onchange="updateSelectText(event)"> Motos
-                  </div>
-                  <div class="option">
-                    <input type="checkbox" value="Pesados" onchange="updateSelectText(event)"> Pesados
-                  </div>
+
                   <div class="option">
                     <input type="checkbox" value="Hogar" onchange="updateSelectText(event)"> Hogar
                   </div>
+
+                  <div class="option">
+                    <input type="checkbox" value="Salud" onchange="updateSelectText(event)"> Salud
+                  </div>
+
                   <div class="option">
                     <input type="checkbox" value="Vida" onchange="updateSelectText(event)"> Vida
+                  </div>
+
+                  <div class="option">
+                    <input type="checkbox" value="Asistencia E/V" onchange="updateSelectText(event)"> Asistencia E/V
+                  </div>
+
+                  <div class="option">
+                    <input type="checkbox" value="Motos" onchange="updateSelectText(event)"> Motos
+                  </div>
+
+                  <div class="option">
+                    <input type="checkbox" value="Pesados" onchange="updateSelectText(event)"> Pesados
+                  </div>
+
+                  <div class="option">
+                    <input type="checkbox" value="Vida deudor" onchange="updateSelectText(event)"> Vida deudor
+                  </div>
+
+                  <div class="option">
+                    <input type="checkbox" value="Arrendamiento" onchange="updateSelectText(event)"> Arrendamiento
+                  </div>
+
+                  <div class="option">
+                    <input type="checkbox" value="AP Estudiantil" onchange="updateSelectText(event)"> AP Estudiantil
+                  </div>
+
+                  <div class="option">
+                    <input type="checkbox" value="AP" onchange="updateSelectText(event)"> AP
+                  </div>
+
+                  <div class="option">
+                    <input type="checkbox" value="Autos Pasajeros" onchange="updateSelectText(event)"> Autos Pasajeros
+                  </div>
+
+                  <div class="option">
+                    <input type="checkbox" value="Autos Colectivo" onchange="updateSelectText(event)"> Autos Colectivo
+                  </div>
+
+                  <div class="option">
+                    <input type="checkbox" value="Bicicleta" onchange="updateSelectText(event)"> Bicicleta
+                  </div>
+
+                  <div class="option">
+                    <input type="checkbox" value="Credito" onchange="updateSelectText(event)"> Credito
+                  </div>
+
+                  <div class="option">
+                    <input type="checkbox" value="Cumplimiento" onchange="updateSelectText(event)"> Cumplimiento
+                  </div>
+
+                  <div class="option">
+                    <input type="checkbox" value="Equipo Maquinaria" onchange="updateSelectText(event)"> Equipo Maquinaria
+                  </div>
+
+                  <div class="option">
+                    <input type="checkbox" value="Exequias" onchange="updateSelectText(event)"> Exequias
+                  </div>
+
+                  <div class="option">
+                    <input type="checkbox" value="Hogar Deudor" onchange="updateSelectText(event)"> Hogar Deudor
+                  </div>
+
+                  <div class="option">
+                    <input type="checkbox" value="Manejo" onchange="updateSelectText(event)"> Manejo
+                  </div>
+
+                  <div class="option">
+                    <input type="checkbox" value="PYME" onchange="updateSelectText(event)"> PYME
+                  </div>
+
+                  <div class="option">
+                    <input type="checkbox" value="RCE Autos Livianos" onchange="updateSelectText(event)"> RCE Autos Livianos
+                  </div>
+
+                  <div class="option">
+                    <input type="checkbox" value="RCE Motos" onchange="updateSelectText(event)"> RCE Motos
+                  </div>
+
+                  <div class="option">
+                    <input type="checkbox" value="RCE Pesados" onchange="updateSelectText(event)"> RCE Pesados
+                  </div>
+
+                  <div class="option">
+                    <input type="checkbox" value="RCE Pasajeros" onchange="updateSelectText(event)"> RCE Pasajeros
+                  </div>
+
+                  <div class="option">
+                    <input type="checkbox" value="RCC Colectivos" onchange="updateSelectText(event)"> RCC Colectivos
+                  </div>
+
+                  <div class="option">
+                    <input type="checkbox" value="RCE Colectivos" onchange="updateSelectText(event)"> RCE Colectivos
+                  </div>
+
+                  <div class="option">
+                    <input type="checkbox" value="RC Cumplimiento" onchange="updateSelectText(event)"> RC Cumplimiento
+                  </div>
+
+                  <div class="option">
+                    <input type="checkbox" value="RC Hidrocarburos" onchange="updateSelectText(event)"> RC Hidrocarburos
+                  </div>
+
+                  <div class="option">
+                    <input type="checkbox" value="RC Medica Profesional" onchange="updateSelectText(event)"> RC Medica Profesional
+                  </div>
+
+                  <div class="option">
+                    <input type="checkbox" value="Asistencia PAG WEB" onchange="updateSelectText(event)"> Asistencia PAG WEB
+                  </div>
+
+                  <div class="option">
+                    <input type="checkbox" value="Asistencia E/V con Adicional" onchange="updateSelectText(event)"> Asistencia E/V con Adicional
+                  </div>
+
+                  <div class="option">
+                    <input type="checkbox" value="Asistencia Corp" onchange="updateSelectText(event)"> Asistencia Corp
+                  </div>
+
+                  <div class="option">
+                    <input type="checkbox" value="Asistencia Corp con adicional" onchange="updateSelectText(event)"> Asistencia Corp con adicional
                   </div>
                 </div>
               </div>
             </div>
-
             <div class="form-group">
               <label for="unidadNegocioSelect">Unidad de negocio:</label>
-              <select name="unidadNegocioSelect" id="unidadNegocioSelect" placeholder="" style="width: 150px;" required>
+              <select name="unidadNegocioSelect" id="unidadNegocioSelect" placeholder="" style="width: 150px;" required="">
                 <option value="">Seleccione...</option>
                 <option value="1">Negocio Directo</option>
                 <option value="2">Asesor 10</option>
@@ -1064,7 +1294,7 @@ if (isset($_GET["id"])) {
             </div>
             <div class="form-group">
               <label for="tipoNegocioSelect">Tipo de negocio:</label>
-              <select name="tipoNegocioSelect" id="tipoNegocioSelect" placeholder="" style="width: 150px;" required>
+              <select name="tipoNegocioSelect" id="tipoNegocioSelect" placeholder="" style="width: 150px;" required="">
                 <option value="">Seleccione...</option>
                 <option value="1">Individual</option>
                 <option value="2">Colectivo</option>
@@ -1072,7 +1302,7 @@ if (isset($_GET["id"])) {
             </div>
             <div class="form-group">
               <label for="tipoExpedicionSelect">Tipo expedición</label>
-              <select name="tipoExpedicionSelect" id="tipoExpedicionSelect" placeholder="" style="width: 150px;" required>
+              <select name="tipoExpedicionSelect" id="tipoExpedicionSelect" placeholder="" style="width: 150px;" required="">
                 <option value="">Seleccione...</option>
                 <option value="1">Todos</option>
                 <option value="2">Nueva</option>
@@ -1080,8 +1310,8 @@ if (isset($_GET["id"])) {
                 <option value="4">Inclusión</option>
               </select>
             </div>
-            <div style="display: flex; align-items: center;">
-              <input type="text" name="valorComision" id="valorComision" style="border: 0; border-bottom: 1px solid  #c9c9c9;" placeholder="Valor comisión %" required>
+            <div style="margin-top: 43px;">
+              <input type="text" name="valorComision" id="valorComision" style="border: 0; border-bottom: 1px solid  #c9c9c9;" placeholder="Valor comisión %" required="">
             </div>
 
           </div>
@@ -1135,5 +1365,5 @@ if (isset($_GET["id"])) {
 <!-- script -->
 
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<!-- <script src="vistas/js/perfil.js" defer></script> -->
+<script src="vistas/js/perfil.js" defer></script>
 <script src="vistas/js/new-user.js" defer></script>
