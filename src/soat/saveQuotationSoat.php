@@ -13,6 +13,7 @@ if ($data['Accion'] == 'Actualizar-valores-soat') {
         $stmt = $pdo->prepare("
         UPDATE cotizaciones_soat SET opcion = :opcion, estado = :estado,
             valor_comision = :valor_comision,
+            fecha_vencimiento = :fecha_vencimiento, clase_soat = :clase_soat, valor_prima = :prima, valor_contribucion = :contribucion, valor_runt =:runt, total_soat=:total,
             total_pagar = :total_pagar
         WHERE `id_cotizacion`=:id_cotizacion;
     ");
@@ -22,6 +23,14 @@ if ($data['Accion'] == 'Actualizar-valores-soat') {
         $stmt->bindParam(":valor_comision", $data['Comision'], PDO::PARAM_STR);
         $stmt->bindParam(":total_pagar", $data['TotalSoat'], PDO::PARAM_STR);
         $stmt->bindParam(":id_cotizacion", $data['IdCotizacionSoat'], PDO::PARAM_STR);
+
+        $stmt->bindParam(":fecha_vencimiento", $data['FechaVencimiento'], PDO::PARAM_STR);
+        $stmt->bindParam(":clase_soat", $data['Clase'], PDO::PARAM_STR);
+
+        $stmt->bindParam(":prima", $data['Prima'], PDO::PARAM_STR);
+        $stmt->bindParam(":contribucion", $data['Contribucion'], PDO::PARAM_STR);
+        $stmt->bindParam(":runt", $data['Runt'], PDO::PARAM_STR);
+        $stmt->bindParam(":total", $data['totalSoat'], PDO::PARAM_STR);
 
         $usuario = $data['IdUsuario'];
 
@@ -95,10 +104,10 @@ try {
     $stmt = $pdo->prepare("
         INSERT INTO cotizaciones_soat (
             placa, clase, marca, modelo, linea, servicio, cilindraje, pasajeros, motor, chasis,  referencia, 
-            fecha_vencimiento, clase_soat, valor_prima, valor_contribucion, valor_runt, total_soat, creado_por, fecha_creacion
+             creado_por, fecha_creacion
         ) VALUES (
             :placa, :clase, :marca, :modelo, :linea, :servicio, :cilindraje, :pasajeros, :motor, :chasis,  :referencia, 
-            :fecha_vencimiento, :clase_soat, :prima, :contribucion, :runt, :total, :creado_por, NOW()
+            :creado_por, NOW()
         )
     ");
 
@@ -110,16 +119,9 @@ try {
     $stmt->bindParam(":servicio", $data['Servicio'], PDO::PARAM_STR);
     $stmt->bindParam(":cilindraje", $data['Cilindraje'], PDO::PARAM_STR);
     $stmt->bindParam(":pasajeros", $data['Pasajeros'], PDO::PARAM_STR);
-    $stmt->bindParam(":motor", $data['Motor'], PDO::PARAM_STR); 
+    $stmt->bindParam(":motor", $data['Motor'], PDO::PARAM_STR);
     $stmt->bindParam(":chasis", $data['Chasis'], PDO::PARAM_STR);
     $stmt->bindParam(":referencia", $data['Referencia'], PDO::PARAM_STR);
-    $stmt->bindParam(":fecha_vencimiento", $data['FechaVencimiento'], PDO::PARAM_STR);
-    $stmt->bindParam(":clase_soat", $data['Clase'], PDO::PARAM_STR);
-
-    $stmt->bindParam(":prima", $data['Prima'], PDO::PARAM_STR);
-    $stmt->bindParam(":contribucion", $data['Contribucion'], PDO::PARAM_STR);
-    $stmt->bindParam(":runt", $data['Runt'], PDO::PARAM_STR);
-    $stmt->bindParam(":total", $data['totalSoat'], PDO::PARAM_STR);
 
     $usuario = $data['IdUsuario'];
 
