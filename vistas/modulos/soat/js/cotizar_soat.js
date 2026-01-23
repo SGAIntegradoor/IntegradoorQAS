@@ -435,6 +435,27 @@ function consulPlaca(query = "1") {
           $("#txtConocesLaPlacaNo").prop("disabled", true);
           $("#placaVeh").prop("disabled", true);
 
+          // Peticion para guardar la cotización (formato Form Data)
+      let datos = {
+        Accion: "Guardar",
+        Placa: $("#placaVeh").val(),
+        Clase: $("#txtClaseVeh").val(),
+        Modelo: $("#txtModeloVeh").val(),
+        Marca: $("#txtMarcaVeh").val(),
+        Linea: $("#txtLinea").val(),
+        Cilindraje: $("#txtCilindraje").val(),
+        Pasajeros: $("#txtPasajeros").val(),
+        Motor: $("#txtMotor").val(),
+        Chasis: $("#txtChasis").val(),
+        Servicio: $("#txtServicio").val(),
+        Referencia: $("#txtMarcaVeh").val() + " " + $("#txtLinea").val(),
+        IdUsuario: permisos.id_usuario,
+        // NumeroDocumento: $("#nroDocPropietario").val(),
+        
+      };
+
+      guardarEstado(datos);
+
           return;
         })
         .catch(function (error) {
@@ -515,30 +536,7 @@ $("#btnContinuarCoti").click(function (e) {
       let fechaFinal = fecha.toLocaleDateString('es-ES');
       let fechaVencimiento = data.CalcularPolizaResult.FechaInicioVigencia;
 
-      // Peticion para guardar la cotización (formato Form Data)
-      let datos = {
-        Accion: "Guardar",
-        Placa: $("#placaVeh").val(),
-        Clase: $('#claseVehSoat').find('option:selected').text(),
-        Modelo: $("#txtModeloVeh").val(),
-        Marca: $("#txtMarcaVeh").val(),
-        Linea: $("#txtLinea").val(),
-        Cilindraje: $("#txtCilindraje").val(),
-        Pasajeros: $("#txtPasajeros").val(),
-        Motor: $("#txtMotor").val(),
-        Chasis: $("#txtChasis").val(),
-        Servicio: $("#txtServicio").val(),
-        Referencia: $("#txtMarcaVeh").val() + " " + $("#txtLinea").val(),
-        FechaVencimiento: fechaVencimiento.split(' ')[0],
-        NumeroDocumento: $("#nroDocPropietario").val(),
-        Prima: data.CalcularPolizaResult.ValorPrima,
-        Contribucion: data.CalcularPolizaResult.ValorContribucion,
-        Runt: data.CalcularPolizaResult.ValorTasaRUNT,
-        totalSoat: data.CalcularPolizaResult.ValorTotalPagar,
-        IdUsuario: permisos.id_usuario,
-      };
-
-      guardarEstado(datos);
+      
 
       let valorAPagarSoat = Number(data.CalcularPolizaResult.ValorTotalPagar);
       let comisionSum = $('#radioConComision').is(':checked') ? 45000 : 20000;
@@ -567,6 +565,24 @@ $("#btnContinuarCoti").click(function (e) {
       $("#loaderPlacaTwo").html("");
       $(".containerResumenCoti").show();
       $(".containerFinalForm").show();
+
+      // Peticion para actualizar valores la cotización (formato Form Data)
+  datos = {
+      Accion: "Actualizar-valores-soat",
+      IdCotizacionSoat: idCotizacionSoat,
+      Estado: "Soat Cotizado",
+      Opcion: $("#radioConComision").is(":checked") ? "Con comision" : "Sin comision",
+      Comision: $("#radioConComision").is(":checked") ? 45000 : 20000,
+      TotalSoat: $("#totalPagarSoat").text().replace(/\./g, "").replace("$ ", ""),
+      FechaVencimiento: fechaVencimiento.split(' ')[0],
+        Prima: data.CalcularPolizaResult.ValorPrima,
+        Contribucion: data.CalcularPolizaResult.ValorContribucion,
+        Runt: data.CalcularPolizaResult.ValorTasaRUNT,
+        totalSoat: data.CalcularPolizaResult.ValorTotalPagar,
+        IdUsuario: permisos.id_usuario,
+        Clase: $('#claseVehSoat').find('option:selected').text(),
+    };
+    guardarEstado(datos);
     },
     error: function (error) {
       console.log("Error al cotizar SOAT: ", error);
@@ -582,17 +598,6 @@ $("#btnContinuarCoti").click(function (e) {
   $("#btnContinuarCoti").prop("disabled", true);
   $("#claseVehSoat").prop("disabled", true);
 
-  // Peticion para actualizar valores la cotización (formato Form Data)
-  datos = {
-      Accion: "Actualizar-valores-soat",
-      IdCotizacionSoat: idCotizacionSoat,
-      Estado: "Soat Cotizado",
-      Opcion: $("#radioConComision").is(":checked") ? "Con comision" : "Sin comision",
-      Comision: $("#radioConComision").is(":checked") ? 45000 : 20000,
-      TotalSoat: $("#totalPagarSoat").text().replace(/\./g, "").replace("$ ", ""),
-      IdUsuario: permisos.id_usuario,
-    };
-    guardarEstado(datos);
 });
 
 $("#btnEnviarSolicitud").click(function () {
