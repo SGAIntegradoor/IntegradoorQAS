@@ -60,25 +60,25 @@ document.addEventListener("DOMContentLoaded", async function () {
         .val("NIT")
         .trigger("change");
       $(
-        "#nombre_perfil, #apellidos_perfil, #genero_perfil, #fechaNacimiento_perfil"
+        "#nombre_perfil, #apellidos_perfil, #genero_perfil, #fechaNacimiento_perfil",
       ).removeClass("requiredfield");
       $(
-        "#razonSocial, #personaDeContacto, #representanteLegal, #fechaNacimientoRepresentante"
+        "#razonSocial, #personaDeContacto, #representanteLegal, #fechaNacimientoRepresentante",
       ).addClass("requiredfield");
     } else {
       // Debe borrar las opciones y dejar solo CC y CE
       $("#tipoDocumento")
         .empty()
         .append(
-          '<option value="">Seleccione una opción...</option><option value="CC">CC</option><option value="CE">CE</option>'
+          '<option value="">Seleccione una opción...</option><option value="CC">CC</option><option value="CE">CE</option>',
         )
         .val("")
         .trigger("change");
       $(
-        "#nombre_perfil, #apellidos_perfil, #genero_perfil, #fechaNacimiento_perfil"
+        "#nombre_perfil, #apellidos_perfil, #genero_perfil, #fechaNacimiento_perfil",
       ).addClass("requiredfield");
       $(
-        "#razonSocial, #personaDeContacto, #representanteLegal, #fechaNacimientoRepresentante"
+        "#razonSocial, #personaDeContacto, #representanteLegal, #fechaNacimientoRepresentante",
       ).removeClass("requiredfield");
     }
   });
@@ -277,6 +277,18 @@ $(".btnGuardar").on("click", function () {
     return;
   }
 
+  let cambioAnalistaFreelance = false;
+
+  if (
+    cambios.infoCanal.analista_comercial &&
+    cambios.infoCanal.analista_comercial != ""
+  ) {
+    cambioAnalistaFreelance = true;
+    cambios.analista_comercial_nuevo = $("#analistaAsesor option:selected")
+      .text()
+      .trim();
+  }
+
   // END Validaciones
 
   // Aquí se puede enviar el objeto data al server, tambien puede ser procesado como se vaya a necesitar.
@@ -287,6 +299,8 @@ $(".btnGuardar").on("click", function () {
     dataType: "json",
     contentType: "application/json", // Se debe enviar un JSON si no el scriptt de php no lee el POST ya que el objeto es grande.
     data: JSON.stringify({
+      usu_documento: $("#documento").val(),
+      usu_nombre: $("#nombre_perfil").val() + " " + $("#apellidos_perfil").val(),
       id: id_usuario_edit == "" ? null : id_usuario_edit,
       cambios: cambios, // se serializan los cambios detectados. (Ojo aqui, porque es la base clave para detectar cambios en el form, esto sigue en revision)
     }),
@@ -303,7 +317,7 @@ $(".btnGuardar").on("click", function () {
             window.location.href = "usuarios";
           }
         });
-      } else if (respuesta.mensaje.includes("Duplicate")) {
+      } else if (respuesta.mensaje && respuesta.mensaje.includes("Duplicate")) {
         Swal.fire({
           icon: "error",
           title: "Error",
@@ -489,7 +503,7 @@ function consultarCiudad(param = "") {
       // si el usuario cambió de departamento desde que se hizo la petición, ignoramos la respuesta
       if ($("#departamento").val() !== requestedDepto) {
         console.warn(
-          "Respuesta de ciudades descartada porque el departamento cambió."
+          "Respuesta de ciudades descartada porque el departamento cambió.",
         );
         return;
       }
@@ -724,6 +738,7 @@ function setState() {
       previsora_aseg: 0,
       sbs_aseg: 0,
       sura_aseg: 0,
+      solidaria_aseg: 0,
       zurich_aseg: 0,
       otras_aseg: "",
     };
@@ -764,21 +779,24 @@ const loadMadedDeals = async (id_user) => {
       data: JSON.stringify({ id_freelance: id_user }),
       success: function (respuesta) {
         const parsedResponse = JSON.parse(respuesta);
-        const [year, month, day] =
-          parsedResponse.data.data.fecha_exp_poliza.split("-");
-        const dateActivacion = new Date(year, month - 1, day);
+        if (!parsedResponse.data.message) {
+          const [year, month, day] =
+            parsedResponse.data.data.fecha_exp_poliza.split("-");
+          const dateActivacion = new Date(year, month - 1, day);
 
-        console.log(parsedResponse.data.data.fecha_exp_poliza);
+          $("#fechaActivacion").val(parsedResponse.data.data.fecha_exp_poliza);
 
-        $("#fechaActivacion").val(parsedResponse.data.data.fecha_exp_poliza);
-
-        // resta de fechas y calcula los dias para colocarlos en un input
-        const fechaActual = new Date($("#fechaCreaVin").val());
-        const diferenciaTiempo = dateActivacion - fechaActual;
-        const diferenciaDias = Math.ceil(
-          diferenciaTiempo / (1000 * 60 * 60 * 24)
-        );
-        $("#diasActivacion").val(diferenciaDias);
+          // resta de fechas y calcula los dias para colocarlos en un input
+          const fechaActual = new Date($("#fechaCreaVin").val());
+          const diferenciaTiempo = dateActivacion - fechaActual;
+          const diferenciaDias = Math.ceil(
+            diferenciaTiempo / (1000 * 60 * 60 * 24),
+          );
+          $("#diasActivacion").val(diferenciaDias);
+        } else {
+          $("#fechaActivacion").val("");
+          $("#diasActivacion").val(0);
+        }
 
         resolve();
       },
@@ -800,7 +818,7 @@ async function loadUser(id) {
           // parseamos la respuesta al inicio
           const data = JSON.parse(respuesta);
           data["info_usuario"]["unidad_negocio_rol"] = JSON.parse(
-            data["info_usuario"]["unidad_negocio_rol"] || "[]"
+            data["info_usuario"]["unidad_negocio_rol"] || "[]",
           );
           const { info_usuario, info_usuario_canal, info_aseguradoras_user } =
             data;
@@ -836,7 +854,7 @@ async function loadUser(id) {
                 .val(
                   info_usuario_canal?.cargo != null
                     ? info_usuario_canal?.cargo
-                    : ""
+                    : "",
                 )
                 .trigger("change");
             }, 500);
@@ -863,7 +881,7 @@ async function loadUser(id) {
                 info_usuario.usu_canal == "") &&
                 info_usuario.id_rol == "19"
                 ? "1"
-                : info_usuario.usu_canal
+                : info_usuario.usu_canal,
             );
             $("#divUsuarioSGA").hide();
 
@@ -880,10 +898,10 @@ async function loadUser(id) {
                 .append('<option value="NIT">NIT</option>')
                 .val("NIT");
               $(
-                "#razonSocial, #personaDeContacto, #representanteLegal, #fechaNacimientoRepresentante"
+                "#razonSocial, #personaDeContacto, #representanteLegal, #fechaNacimientoRepresentante",
               ).addClass("requiredfield");
               $("#razonSocial").val(
-                info_usuario.usu_nombre + " " + info_usuario.usu_apellido
+                info_usuario.usu_nombre + " " + info_usuario.usu_apellido,
               );
               $("#genero_perfil")
                 .empty()
@@ -924,7 +942,7 @@ async function loadUser(id) {
                 : $("#noIVA").prop("checked", true).trigger("change");
 
               $("#participacionEsp").val(
-                (info_usuario?.participacion_esp ?? "0") + " %"
+                (info_usuario?.participacion_esp ?? "0") + " %",
               );
             }, 400);
 
@@ -938,13 +956,13 @@ async function loadUser(id) {
               .trigger("change");
 
             $("#directorComercial").val(
-              info_usuario_canal?.director_comercial ?? ""
+              info_usuario_canal?.director_comercial ?? "",
             );
 
             $("#origen").val(info_usuario_canal?.origen ?? "");
             $("#divRecomendador").show();
             $("#nombreRecomendador").val(
-              info_usuario_canal?.nombre_recomendador ?? ""
+              info_usuario_canal?.nombre_recomendador ?? "",
             );
 
             setTimeout(() => {
@@ -961,7 +979,7 @@ async function loadUser(id) {
             ) {
               // Limpiar el array antes de llenarlo con las unidades cargadas
               selectedOptionsUnidad.length = 0;
-              
+
               unidades.map((unidad) => {
                 const element = document.getElementById(unidad);
 
@@ -1050,10 +1068,10 @@ async function loadUser(id) {
             $("#tipoDocumento").val("NIT").trigger("change");
             $("#documento").val(info_usuario.usu_documento);
             $("#razonSocial").val(
-              info_usuario.usu_nombre + " " + info_usuario.usu_apellido
+              info_usuario.usu_nombre + " " + info_usuario.usu_apellido,
             );
             $("#personaDeContacto").val(
-              info_usuario.usu_nombre + " " + info_usuario.usu_apellido
+              info_usuario.usu_nombre + " " + info_usuario.usu_apellido,
             );
             if (
               info_usuario.usu_nombre + " " + info_usuario.usu_apellido ==
@@ -1187,7 +1205,7 @@ function openModalEditComision(id) {
               Swal.fire(
                 "Éxito",
                 "Comisión modificada correctamente.",
-                "success"
+                "success",
               );
               getComissions(id_usuario_edit); // Recargar la lista de comisiones
             },
@@ -1235,7 +1253,7 @@ function getComissions(id = null) {
       const data = JSON.parse(respuesta);
       if (data.length == 0) {
         $("#comisionesTable tbody").html(
-          '<tr><td colspan="7" class="text-center">No hay comisiones configuradas para este usuario</td></tr>'
+          '<tr><td colspan="7" class="text-center">No hay comisiones configuradas para este usuario</td></tr>',
         );
         return;
       }
@@ -1260,9 +1278,9 @@ function getComissions(id = null) {
         newRow.append(
           $("<td>").html(
             `<button class="btn btn-danger btn-sm" onclick="eliminarComision(${id_comision})">Eliminar</button>
-            <button class="btn btn-secondary btn-sm" onclick="openModalEditComision(${id_comision})">Editar</button>`
+            <button class="btn btn-secondary btn-sm" onclick="openModalEditComision(${id_comision})">Editar</button>`,
             // `<button class="btn btn-danger btn-sm" onclick="eliminarComision(${id_comision})">Eliminar</button>`
-          )
+          ),
         );
 
         $("#comisionesTableBody").append(newRow);
@@ -1301,7 +1319,7 @@ function addComment() {
   $("#comentarioTA").val(
     comentariosPrevios
       ? comentarioNuevo + "\n" + comentariosPrevios
-      : comentarioNuevo
+      : comentarioNuevo,
   );
 
   // Guardar el comentario en la base de datos
@@ -1484,11 +1502,11 @@ function openModalComisiones(id = null) {
       $("body").css("overflow", "hidden");
       $(".ui-dialog-buttonpane button:contains('Cerrar')").attr(
         "id",
-        "btnCerrar"
+        "btnCerrar",
       );
       $(".ui-dialog-buttonpane button:contains('Guardar')").attr(
         "id",
-        "btnGuardarComision"
+        "btnGuardarComision",
       );
 
       getComissions(id);
@@ -1533,7 +1551,7 @@ async function addComision() {
       valorComision,
       unidadNegocioSelect,
       tipoNegocioSelect,
-      tipoExpedicionSelect
+      tipoExpedicionSelect,
     )
   ) {
     // Crear una nueva fila para la tabla
@@ -1559,15 +1577,15 @@ async function addComision() {
       [tipoNegocioSelect],
       [tipoExpedicionSelect],
       valorComision,
-      obersavaciones
+      obersavaciones,
     );
 
     newRow.append(
       $("<td>").html(
         `<button class="btn btn-danger btn-sm eliminarComision" onclick="eliminarComision(${saveComissionResult})">Eliminar</button>
          <button class="btn btn-secondary btn-sm eliminarComision" onclick="openModalEditComision(${saveComissionResult})">Editar</button>
-        `
-      )
+        `,
+      ),
     );
     $("#comisionesTable tbody").append(newRow);
 
@@ -1588,7 +1606,7 @@ function checkFieldsComision(
   valorComision,
   unidadNegocioSelect,
   tipoNegocioSelect,
-  tipoExpedicionSelect
+  tipoExpedicionSelect,
 ) {
   // Verificar si los campos están vacíos o no seleccionados
   if (
@@ -1622,7 +1640,7 @@ function saveComission(
   tipoNegocio,
   tipoExpedicion,
   valorComision,
-  observaciones
+  observaciones,
 ) {
   return new Promise((resolve, reject) => {
     $.ajax({
@@ -1664,10 +1682,10 @@ let selectedOptions = [];
 function updateSelectText(e = null) {
   const allCheckboxes = document.querySelectorAll(".options-container input");
   const checkedCheckboxesGlobal = document.querySelectorAll(
-    ".options-container input:checked"
+    ".options-container input:checked",
   );
   const todosCheckbox = document.querySelector(
-    ".options-container input[value='Todos']"
+    ".options-container input[value='Todos']",
   );
 
   if (e?.target.value == "Todos" && !e?.target.checked) {
@@ -1678,7 +1696,7 @@ function updateSelectText(e = null) {
   if (e?.target.value == "Todos" && e?.target.checked) {
     allCheckboxes.forEach((input) => (input.checked = true));
     const checkedCheckboxes = document.querySelectorAll(
-      ".options-container input:checked"
+      ".options-container input:checked",
     );
     // console.log(checkedCheckboxes);
     checkedCheckboxes.forEach((inpt) => {
@@ -1760,7 +1778,7 @@ document.addEventListener("click", function (event) {
 
 function toggleOptionsUnidad() {
   const optionsContainerUnidad = document.querySelector(
-    ".options-container-unidad"
+    ".options-container-unidad",
   );
   optionsContainerUnidad.style.display =
     optionsContainerUnidad.style.display === "block" ? "none" : "block";
@@ -1768,10 +1786,10 @@ function toggleOptionsUnidad() {
 
 function updateSelectTextUnidad(e = null) {
   const allCheckboxesUnidad = document.querySelectorAll(
-    ".options-container-unidad input"
+    ".options-container-unidad input",
   );
   const checkedCheckboxesGlobalUnidad = document.querySelectorAll(
-    ".options-container-unidad input:checked"
+    ".options-container-unidad input:checked",
   );
 
   let input = e?.target;
@@ -1795,9 +1813,9 @@ function updateSelectTextUnidad(e = null) {
         }
       });
     } else {
-      console.log("entre por aqui")
+      console.log("entre por aqui");
       const index2 = selectedOptionsUnidad.indexOf(input.value);
-      console.log(index2)
+      console.log(index2);
       if (index2 > -1) {
         selectedOptionsUnidad.splice(index2, 1);
         checkedCheckboxesGlobalUnidad.forEach((inpt) => {
@@ -1810,7 +1828,7 @@ function updateSelectTextUnidad(e = null) {
   }
 
   const selectBox = document.querySelector("#div-options-unidades");
-   console.log(selectedOptionsUnidad)
+  console.log(selectedOptionsUnidad);
   if (selectedOptionsUnidad.length === 0) {
     selectBox.innerText = "Selecciona opciones...";
   } else if (selectedOptionsUnidad.length <= 2) {
