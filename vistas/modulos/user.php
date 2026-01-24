@@ -980,7 +980,7 @@ if (isset($_GET["id"])) {
               </div>
             </div>
             <div class="freelance" style="margin-bottom: 30px; margin-top: 30px;">
-              <u><b style="font-size: 16px;">Información del financiera</b></u>
+              <u><b style="font-size: 16px;">Información financiera</b></u>
             </div>
 
             <div class="form-container freelance">
