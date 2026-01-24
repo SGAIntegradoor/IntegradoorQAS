@@ -955,21 +955,25 @@ if (isset($_GET["id"])) {
                       <label for="previsora_aseg" style="margin: 0;"><b style="font-size: 15px">Previsora</b></label>
                       <input type="checkbox" name="previsora_aseg" id="previsora_aseg" style="margin: 0;">
                     </div>
-                    <div class="form-group" style="width:160px; display: flex; flex-direction: row; gap: 84px; margin: 0; align-items: center; justify-content: flex-start;">
+                    <div class="form-group" style="width:160px; display: flex; flex-direction: row; gap: 82px; margin: 0; align-items: center; justify-content: flex-start;">
                       <label for="sbs_aseg" style="margin: 0;"><b style="font-size: 15px">SBS</b></label>
                       <input type="checkbox" name="sbs_aseg" id="sbs_aseg" style="margin: 0;">
                     </div>
-                    <div class="form-group" style="width:130px; display: flex; flex-direction: row; gap: 37px; margin: 0; align-items: center; justify-content: flex-start;">
+                    <div class="form-group" style="width:130px; display: flex; flex-direction: row; gap: 35px; margin: 0; align-items: center; justify-content: flex-start;">
                       <label for="sura_aseg" style="margin: 0;"><b style="font-size: 15px">Sura</b></label>
                       <input type="checkbox" name="sura_aseg" id="sura_aseg" style="margin: 0;">
                     </div>
-                    <div class="form-group" style="width:140px; display: flex; flex-direction: row; gap: 32px; margin: 0; align-items: center; justify-content: flex-start;">
+                    <div class="form-group" style="width:140px; display: flex; flex-direction: row; gap: 13px; margin: 0; align-items: center; justify-content: flex-start;">
+                      <label for="solidaria_aseg" style="margin: 0;"><b style="font-size: 15px">Solidaria</b></label>
+                      <input type="checkbox" name="solidaria_aseg" id="solidaria_aseg" style="margin: 0;">
+                    </div>
+                    <div class="form-group" style="width:140px; display: flex; flex-direction: row; gap: 26px; margin: 0; align-items: center; justify-content: flex-start;">
                       <label for="zurich_aseg" style="margin: 0;"><b style="font-size: 15px">Zurich</b></label>
                       <input type="checkbox" name="zurich_aseg" id="zurich_aseg" style="margin: 0;">
                     </div>
                     <div>
-                      <label style="font-size: 15px; margin-right: 31px;">Otras</label>
-                      <input type="text" name="otras_aseg" id="otras_aseg" style="width: 450px;">
+                      <label style="font-size: 15px; margin-right: 22px;">Otras</label>
+                      <input type="text" name="otras_aseg" id="otras_aseg" style="width: 319px;">
                     </div>
                   </div>
                 </div>
