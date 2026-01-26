@@ -1327,8 +1327,9 @@ function addComment() {
     url: "src/addComment.php",
     method: "POST",
     data: {
+      modulo: "Usuarios",
       comentario: value,
-      id_user: id_usuario_edit,
+      id_general: id_usuario_edit,
       nombre_usuario_comentario:
         permisos.usu_nombre + " " + permisos.usu_apellido,
     },
@@ -1350,12 +1351,11 @@ Traer comentarios
 =============================================*/
 
 function getComments(id) {
-  // Guardar el comentario en la base de datos
   $.ajax({
     url: "src/getComments.php",
     method: "POST",
     data: {
-      id_usuario: id,
+      id_general: id,
     },
     success: function (respuesta) {
       const data = JSON.parse(respuesta);
@@ -1372,7 +1372,7 @@ function getComments(id) {
 
         $("#comentarioTA").val(comentarios);
       }
-      $("#comentarioTA").prop("disabled", true); // Deshabilitar textarea
+      $("#comentarioTA").prop("disabled", true);
     },
   });
 }
