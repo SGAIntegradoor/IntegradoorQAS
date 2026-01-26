@@ -15,7 +15,7 @@
                         <div class="col-lg-12" id="headerAsegurado">
                             <div class="row row-aseg">
                                 <div class="col-xs-12 col-sm-6 col-md-4">
-                                    <label for="">Informacion para cotizar y confirmacion de datos</label>
+                                    <label for="">Información para cotizar y confirmación de datos</label>
                                 </div>
                                 <div class="col-xs-12 col-sm-6 col-md-2">
                                 </div>
@@ -39,7 +39,7 @@
                                     <div class="col-xs-12 col-sm-6 col-md-3" id="contenSuperiorPlaca">
                                         <div class="row">
                                             <div class="col-xs-12 col-sm-6 col-md-6 form-group" id="conocesPlaca">
-                                                <label>Vehiculo 0 KM?</label>
+                                                <label>Vehículo 0 KM?</label>
                                                 <div class="conten-conocesPlaca">
                                                     <label for="Si">No</label>
                                                     <input type="radio" name="conocesPlaca" id="txtConocesLaPlacaSi" value="Si" checked>&nbsp;&nbsp;&nbsp;&nbsp;
@@ -174,16 +174,16 @@
                                             <div class="radio">
                                                 <label style="margin-right: 5px;">
                                                     <input id="radioSinComision" type="radio" name="servicio">
-                                                    Sin comision:
-                                                    <span class="pull-right"> Carro o Moto 20 mil</span>
+                                                    Sin comisión:
+                                                    <span class="pull-right"> $20.000</span>
                                                 </label>
                                             </div>
 
                                             <div class="radio">
                                                 <label style="margin-right: 5px;">
                                                     <input id="radioConComision" type="radio" name="servicio">
-                                                    Con comision
-                                                    <span class="pull-right"> Carro o Moto 40 mil</span>
+                                                    Con comisión
+                                                    <span class="pull-right"> $40.000</span>
                                                 </label>
                                             </div>
 
@@ -286,14 +286,14 @@
                                 <span id="totalPagarSoat" class="pull-right total">$ -</span>
                             </div>
                         </div>
-                        <div style="width: 100%; display: flex; justify-content: center; gap: 5rem;">
-                            <button id="btnCopiarImagen" onclick="copiarCardComoImagen()" class="btn" style="margin-top: 10px; width: 13.5%;">
+                        <div style="width: 100%; display: flex; justify-content: center; gap: 2.5rem;">
+                            <button id="btnCopiarImagen" onclick="copiarCardComoImagen()" class="btn" style="margin-top: 10px; width: 36%;">
                                 <li class="fa fa-copy" style="color: #5c6258;"></li>
-                                <span></span>
+                                <span>Copiar</span>
                             </button>
-                            <button id="btnDescargarImagen" onclick="descargarCardComoImagen()" class="btn" style="margin-top: 10px; width: 13.5%;">
+                            <button id="btnDescargarImagen" onclick="descargarCardComoImagen()" class="btn" style="margin-top: 10px; width: 36%;">
                                 <li class="fa fa-download" style="color: #5c6258;"></li>
-                                <span></span>
+                                <span>Descargar</span>
                             </button>
                         </div>
 
@@ -302,19 +302,22 @@
                     <!-- Notas importantes -->
                     <div class="col-xs-12 col-sm-6 col-md-3">
                         <div style="font-size: 12px;">
-                            <p class="notes-title">Notas importantes:</p>
-                            <ul>
-                                <li>Verifica la información del vehículo en el RUNT antes de solicitar la emisión, especialmente cant. de pasajeros y cap. de carga.</li>
-                                <li>Ten en cuenta los tiempos de respuesta:
-                                    <ul>
-                                        <li>Sin inconsistencias en RUNT: 2 a 5 horas hábiles.</li>
-                                        <li>Con inconsistencias en RUNT: 5 horas hasta 1 día hábil.</li>
+                            <p class="notes-title">⚠️ Notas importantes antes de realizar el pago:</p>
+                            <ul style="padding-left: 5px; list-style-position: inside;">
+                                <li>Verifica la información del vehículo en el RUNT (pasajeros, capacidad de carga, clase y tipo de servicio) y confirma que el SOAT esté vencido o dentro de los 29 días previos al vencimiento.</li>
+                                <li>El valor del pago debe coincidir exactamente con la cotización generada.</li>
+                                <li>El SOAT se expide únicamente a nombre del propietario registrado en la Tarjeta de Propiedad.</li>
+                                <li>Envía la información completa y legible: tarjeta de propiedad y datos de contacto del cliente.</li>
+                                <li>Solicitudes con errores en RUNT o documentos incompletos serán devueltas para corrección.</li>
+                                <li>El SOAT solo se emite con pago confirmado. Pagos desde otros bancos pueden tardar en verse reflejados.</li>
+                                <li>Los tiempos de respuesta comienzan a contar desde la confirmación del pago en cuenta.
+                                    <ul style="padding-left: 0; list-style-position: inside; margin-top: 5px;">
+                                        <li>Sin novedades en RUNT: 1 a 3 horas hábiles.</li>
+                                        <li>Con novedades en RUNT: hasta 1 día hábil.</li>
+                                        <li>Vehículos 0 km: 1 día hábil (contacto previo obligatorio con el equipo SOAT).</li>
                                     </ul>
                                 </li>
-                                <li>Envía la información completa: tarjeta de propiedad legible (ambos lados) y datos de contacto del cliente (correo y celular).</li>
-                                <li>Confirma la vigencia del SOAT anterior se puede emitir hasta 29 días antes del vencimiento.</li>
-                                <li>El SOAT solo se emite con pago confirmado.</li>
-                                <li>El SOAT se emite con AXA Colpatria, Previsora, Seguros del Estado o Mundial. Grupo Asistencia define la aseguradora según disponibilidad.</li>
+                                <li>Aseguradoras: AXA Colpatria, La Previsora, Seguros del Estado o Mundial (según disponibilidad).</li>
                             </ul>
 
                             <!-- <div class="buttons-container">
@@ -364,8 +367,14 @@
                             </div>
 
                         </div>
-                    </div>
 
+
+                    </div>
+                        <div class="col-xs-12 col-sm-6 col-md-5" style="padding-right: 15px;">
+                            <div class="col-xs-12 col-sm-6 col-md-6 form-group" id="contenBtnEnviarSolicitud" style="margin-top: 15px;">
+                            <button type="button" class="btn btn-primary btn-block" id="btnEnviarSolicitud" style="margin-top: 15px;">Solicitar Expedición</button>
+                        </div>
+                        </div>
                 </div>
             </div>
 
@@ -373,7 +382,7 @@
             <div class="containerFinalForm " style="display: none; margin-top: 40px;">
 
                 <div class="box-body row" id="section-final" style="display: none;">
-                    <div class="col-xs-12 col-sm-12 col-md-6 form-group" id="contenedor-archivos" style="border: 2px solid #e5e5e5; padding: 15px; display: none; border-radius: 20px; justify-content: space-around;"></div>
+                    <div class="col-xs-12 col-sm-12 col-md-6 form-group" id="contenedor-archivos" style="border: 2px solid #e5e5e5; padding: 15px; display: none; border-radius: 20px; justify-content: space-around; flex-wrap: wrap; row-gap: 2rem;"></div>
 
                     <div class="col-xs-12 col-sm-12 col-md-6 form-group" id="contenComentarios" style="margin-top: 0px;">
 
@@ -388,13 +397,17 @@
                         <div class="col-xs-12 col-sm-6 col-md-6 form-group" id="contenBtnEstadoDevolver" style="margin-top: 15px;">
                             <button type="button" class="btn btn-danger btn-block" id="btnEstadoDevolver" style="margin-top: 15px;">Devolver</button>
                         </div>
+
+                        <!-- <div class="col-xs-12 col-sm-6 col-md-6 form-group" id="contenBtnEstadoAprobar" style="margin-top: 15px;">
+                            <button type="button" class="btn btn-primary btn-block" id="btnEstadoAprobar" style="margin-top: 15px;">Enviar</button>
+                        </div> -->
                     </div>
 
                 </div>
 
-                <div class="col-xs-12 col-sm-3 col-md-3 form-group" id="contenBtnEnviarSolicitud" style="margin-top: 15px;">
+                <!-- <div class="col-xs-12 col-sm-3 col-md-3 form-group" id="contenBtnEnviarSolicitud" style="margin-top: 15px;">
                     <button type="button" class="btn btn-primary btn-block" id="btnEnviarSolicitud" style="margin-top: 15px;">Solicitar Expedición</button>
-                </div>
+                </div> -->
             </div>
 
             <div id="container-subida-soat" style="display: none;">

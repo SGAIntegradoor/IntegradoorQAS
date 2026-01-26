@@ -211,6 +211,12 @@ $(document).ready(function () {
     });
   });
 
+  // Función para validar que la placa sea de moto o carro
+  function validarFormatoPlaca(placa) {
+    var regex = /^[A-Z]{3}[0-9]{3}$|^[A-Z]{3}[0-9]{2}[A-Z]$/;
+    return regex.test(placa.toUpperCase());
+  }
+
   $("#btnConsultarPlaca").click(function () {
     if ($("#placaVeh").val() == "" || $("#placaVeh").val()== null) {
       swal
@@ -224,6 +230,22 @@ $(document).ready(function () {
       });
       return;
     }
+    
+    // Validar que la placa tenga exactamente 6 dígitos
+    if (!validarFormatoPlaca($("#placaVeh").val())) {
+      swal
+      .fire({
+        icon: "error",
+        title: "Formato de placa inválido",
+        text: "",
+        showConfirmButton: true,
+        confirmButtonText: "Ok",
+        allowOutsideClick: false,
+        allowEscapeKey: false,
+      });
+      return;
+    }
+    
     $("#btnConsultarPlaca").prop("disabled", true);
     $("#containerDataTable").hide();
     $(".card-container").hide();
@@ -646,8 +668,33 @@ $("#btnEnviarSolicitud").click(function () {
 
   guardarEstado(datos);
   msg = "Solicitud enviada";
+  
+  if ($("#txtComentarios").val !== "") {
+    // Guardar comentario
+    $.ajax({
+      type: "POST",
+      url: "src/addComment.php",
+      dataType: "text",
+      data: {
+        id_general: getIdCotiSoat,
+        modulo: "Soat",
+        comentario: $("#txtComentarios").val(),
+        idUsuario: permisos.id_usuario,
+        nombre_usuario_comentario: permisos.usu_nombre + ' ' + permisos.usu_apellido,
+        
+      },
+      cache: false,
+      success: function (data) {
+        console.log("comentario agregado: " + data);
+      },
+      error: function (xhr, status, error) {
+        console.log(error);
+        console.log("Error");
+      },
+    });
+  }
+  
   enviarEmail(msg, idCotizacionSoat);
-
 });
 
 const MAX_FILES = 3;
@@ -806,8 +853,8 @@ function showLoader() {
                 $("#btnCopiarImagen").css("width", "45%");
                 $("#btnCopiarImagen span").text("¡Copiado!");
                 setTimeout(() => {
-                  $("#btnCopiarImagen").css("width", "13.5%");
-                  $("#btnCopiarImagen span").text("");
+                  $("#btnCopiarImagen").css("width", "36%");
+                  $("#btnCopiarImagen span").text("Copiar");
                 }, 2000);
             } catch (err) {
                 console.error("Error al copiar:", err);
@@ -851,8 +898,8 @@ async function descargarCardComoImagen() {
                 $("#btnDescargarImagen").css("width", "45%");
                 $("#btnDescargarImagen span").text("¡Descargado!");
                 setTimeout(() => {
-                    $("#btnDescargarImagen").css("width", "13.5%");
-                    $("#btnDescargarImagen span").text("");
+                    $("#btnDescargarImagen").css("width", "36%");
+                    $("#btnDescargarImagen span").text("Descargar");
                 }, 2000);
 
             } catch (err) {

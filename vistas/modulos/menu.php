@@ -302,7 +302,7 @@ checkUserStatus();
 				echo '<li id="menuCotSoat" role="presentation" style="width: 50px; height: 44px;" class="' . ($currentPage == 'soat' ? 'active' : '') . '">
 				<a href="soat">
 				<img class="imagen" style="margin-left: -5px;" width="25" height="25" src="vistas/img/plantilla/soat.png" alt="SOAT">
-				<span>SOAT</span>
+				<span>Cotizar SOAT</span>
 				</a>
 				</li>';
 			}

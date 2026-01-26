@@ -156,15 +156,18 @@ function editarCotizacionSoat(idCotizacionSoat) {
           $("#contenComentarios").hide();
           $("#contenedor-archivos").css({ display: "flex"});
         }
-      } else if (response.estado == "Solicitud rechazada") {
+      } else if (response.estado == "Solicitud devuelta") {
         if (permisos.id_rol != 19) {
           $("#section-final").show();
           $("#contenComentarios").hide();
           $("#contenedor-archivos").css({ display: "flex"});
         } else {
+          $("#contenComentarios").show();
+          $("#contenBtnEstadoAprobar").remove();
+          $("#contenBtnEstadoDevolver").remove();
           $("#btnUpload").prop("disabled", false);
           $("#section-final").show();
-          $("#contenComentarios").hide();
+          // $("#contenComentarios").hide();
           $("#btnEnviarSolicitud").show();
         }
       }
@@ -208,7 +211,7 @@ async function cargarArchivosCotizacion(idCotizacion, estadoCotizacion) {
       primerArchivo = false;
 
       const botonEliminar =
-        estadoCotizacion === "Solicitud rechazada" && permisos.id_rol == 19
+        estadoCotizacion === "Solicitud devuelta" && permisos.id_rol == 19
           ? `<button class="btn btn-sm btn-danger"
                    onclick="eliminarArchivo('${file.nombre}', ${idCotizacion})"
                    title="Eliminar archivo"
@@ -278,7 +281,7 @@ async function eliminarArchivo(nombreArchivo, idCotizacion) {
 
     if (result.success) {
       alert('Archivo eliminado correctamente');
-      cargarArchivosCotizacion(idCotizacion, 'Solicitud rechazada');
+      cargarArchivosCotizacion(idCotizacion, 'Solicitud devuelta');
     } else {
       alert('Error al eliminar archivo');
     }
@@ -458,11 +461,11 @@ $("#btnEstadoDevolver").click(function () {
   datos = {
     Accion: "Actualizar-datos-soat",
     IdCotizacionSoat: getIdCotiSoat,
-    Estado: "Solicitud rechazada",
+    Estado: "Solicitud devuelta",
     Correo: $("#correoTomadorSoat").val(),
     Celular: $("#celularTomadorSoat").val(),
   };
-  msg = "Solicitud rechazada";
+  msg = "Solicitud devuelta";
   guardarEstado(datos);
   enviarEmail(msg, getIdCotiSoat);
 });
