@@ -345,6 +345,247 @@ $cotizacionesFinesa = $stmt->fetchAll(PDO::FETCH_ASSOC);
     </ol>
 
   </section>
+  <div id="politicasSoatContent" style="display:none;">
+                <div class="row card-container">
+                    <!-- TITULO PLANES -->
+                    <div class="content">
+                        <!-- 
+                        <div id="politicasSoatContent" style="display:none;">
+                            <div id="soatSection1" class="soat-section">...</div>
+                            <div id="soatSection2" class="soat-section" style="display:none;">...</div>
+                        </div> -->
+
+                        
+                        <div id="soatSection1" class="soat-section section-1" style="margin-top: 2.5rem; display: flex; justify-content: center;">
+                            <div class="row">
+
+                                <!-- PROCESO TRÁMITE SOAT -->
+                                <div class="col-md-6 col-sm-12 mb-3">
+                                    <div class="card-exequias" style="border-radius: 0px; box-shadow: none; padding: 2rem 0 0 3rem;">
+                                        <div class="card-body">
+
+                                            <h7 class="card-title" style="font-weight: bold; font-size: 15px">
+                                                PROCESO TRÁMITE SOAT
+                                            </h7><br><br>
+
+                                            <ul class="card-text" style="padding-left: 0px; list-style-position: inside; list-style-type: none;">
+                                                <li>
+                                                    <b>1️⃣</b> Ingresa la <b>placa del vehículo</b> en la plataforma.
+                                                </li>
+                                                <li>
+                                                    <b>2️⃣</b> Verifica la info y selecciona el tipo de servicio de trámite:
+                                                    <b>con comisión / sin comisión</b>.
+                                                </li>
+                                                <li>
+                                                    <b>3️⃣</b> Confirma con el cliente el <b>valor final a pagar</b>.
+                                                </li>
+                                                <li>
+                                                    <b>4️⃣</b> Para continuar con la expedición, registra el <b>email y celular del tomador</b>
+                                                    y adjunta:
+                                                    <b>Tarjeta de Propiedad</b>, factura de compra para vehículos 0 km y
+                                                    <b>soporte de pago</b>, cuyo valor debe coincidir exactamente con la cotización.
+                                                </li>
+                                                <li>
+                                                    <b>5️⃣</b> Creada la solicitud, pasa a <b>aprobación</b>, la cual se realiza después de verificar
+                                                    documentos y pago en cuentas.
+                                                    <br>
+                                                    <b>Nota:</b> Si se detectan <b>inconsistencias</b>, la solicitud será devuelta para corrección.
+                                                </li>
+                                                <li>
+                                                    <b>6️⃣</b> <b>Emisión</b>, siempre a nombre del propietario.
+                                                </li>
+                                                <li>
+                                                    <b>7️⃣</b> <b>Póliza SOAT:</b> Será enviada por email automáticamente por la aseguradora.
+                                                    También podrá descargarse desde Integrador.
+                                                </li>
+                                            </ul>
+
+                                            <p class="card-text" style="margin-top: 10px;">
+                                                <b>Nota importante:</b> Para vehículos <b>0 km</b>, comunícate previamente con el área SOAT al
+                                                <a href="https://wa.link/ozcean" target="_blank"><b><u>301 323 2210</u></b></a>.
+                                            </p>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- VALOR DEL SERVICIO DE TRÁMITE -->
+                                <div class="col-md-6 col-sm-12 mb-3">
+                                    <div class="card-exequias" style="border-radius: 0px; box-shadow: none; padding: 2rem 3rem 0 0;">
+                                        <div class="card-body">
+
+                                            <h7 class="card-title" style="font-weight: bold; font-size: 15px">
+                                                VALOR DEL SERVICIO DE TRÁMITE
+                                            </h7><br><br>
+
+                                            <p class="card-text">
+                                                La emisión tiene un costo, que cubre la validación del vehículo,
+                                                revisión RUNT, gestión del pago y expedición.
+                                                El valor base de este servicio es de <b>$20.000</b>, y aplica así:
+                                            </p>
+
+                                            <p class="card-text"><b>Opción 1 - sin comisión:</b> El aliado define si cobra o no su margen.</p>
+                                            <p class="card-text"><b style="padding-left: 3rem;">Vr. Carro o moto:</b> $20.000</p>
+
+                                            <p class="card-text" style="margin-top: 10px;">
+                                                <b>Opción 2 - con comisión:</b> El aliado recibe <b>$20.000</b> por SOAT emitido,
+                                                y el cliente paga el trámite directamente a nuestras cuentas.
+                                            </p>
+                                            <p class="card-text"><b style="padding-left: 3rem;">Vr. Carro o moto:</b> $40.000</p>
+
+                                            <p class="card-text" style="margin-top: 10px;">
+                                                <b>Notas:</b>
+                                                Las comisiones se liquidan cada <b>5 SOAT ($100.000)</b>.
+                                                Vehículos con novedades en RUNT pueden tener costo adicional.
+                                            </p>
+
+                                            <p class="card-text">
+                                                Consulta las tarifas oficiales del SOAT descargando el tarifario
+                                                <b><u><a href="https://Grupoasistencia.com/pdfSoat/TarifarioSOAT-2025-ll.pdf" target="_blank">AQUÍ</a></u></b>.
+                                            </p>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+
+
+                        <div id="soatSection2" class="soat-section section-2" style="display:none;">
+                            <div class="row">
+
+                                <!-- CÓMO REALIZAR LOS PAGOS / DEVOLUCIONES / CANAL -->
+                                <div class="col-md-6 col-sm-12 mb-3">
+                                    <div class="card-exequias" style="border-radius: 0px; box-shadow: none; padding: 2rem 0 0 3rem;">
+                                        <div class="card-body">
+
+                                            <h7 class="card-title" style="font-weight: bold; font-size: 15px">
+                                                ¿CÓMO REALIZAR LOS PAGOS?
+                                            </h7><br><br>
+
+                                            <p class="card-text">
+                                                A nombre de <b>Finansera SAS</b><br>
+                                                NIT: <b>901505888-1</b>
+                                            </p>
+
+                                            <p class="card-text">
+                                                <b>Bancolombia:</b> Cuenta de ahorros No. <b>265-000079-22</b><br>
+                                                o Llave 🔑 <b>0090574357</b> (certificado
+                                                <b><u><a href="#" target="_blank">AQUÍ</a></u></b>)
+                                            </p>
+
+                                            <p class="card-text">
+                                                <b>Nota:</b> Pagos desde otros bancos pueden tardar más en verse reflejados.
+                                            </p>
+
+
+
+                                            <h7 class="card-title" style="font-weight: bold; font-size: 15px">
+                                                DEVOLUCIONES
+                                            </h7><br><br>
+
+                                            <p class="card-text">
+                                                Si no es posible expedir, se devuelve el <b>100% del dinero</b>.
+                                            </p>
+
+                                            <p class="card-text">
+                                                Para procesar la devolución se debe adjuntar certificación bancaria
+                                                o carta de autorización con los datos de la cuenta destino.
+                                            </p>
+
+
+
+                                            <h7 class="card-title" style="font-weight: bold; font-size: 15px">
+                                                CANAL DE ATENCIÓN
+                                            </h7><br><br>
+
+                                            <p class="card-text">
+                                                📱 Whatsapp SOAT: <b>301 323 2210</b> – línea exclusiva para mensajes (no llamadas).
+                                            </p>
+
+                                            <p class="card-text">
+                                                Todas las solicitudes y seguimientos se atienden por este medio.
+                                            </p>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- TIEMPOS / HORARIO / MATERIAL COMERCIAL -->
+                                <div class="col-md-6 col-sm-12 mb-3">
+                                    <div class="card-exequias" style="border-radius: 0px; box-shadow: none; padding: 2rem 3rem 0 0;">
+                                        <div class="card-body">
+
+                                            <h7 class="card-title" style="font-weight: bold; font-size: 15px">
+                                                TIEMPOS DE RESPUESTA
+                                            </h7><br><br>
+
+                                            <p class="card-text">
+                                                Vehículos sin novedades RUNT: <b>1 a 3 horas hábiles</b>.
+                                            </p>
+
+                                            <p class="card-text">
+                                                Con novedades RUNT: <b>hasta 1 día hábil</b>.
+                                            </p>
+
+                                            <p class="card-text">
+                                                Vehículos 0 km: <b>1 día hábil</b>.
+                                            </p>
+
+                                            <p class="card-text">
+                                                ⏱️ El tiempo empieza desde la confirmación del pago.
+                                            </p>
+
+
+
+                                            <h7 class="card-title" style="font-weight: bold; font-size: 15px">
+                                                HORARIO DE ATENCIÓN
+                                            </h7><br><br>
+
+                                            <p class="card-text">
+                                                Lunes a viernes<br>
+                                                8:00 a.m. – 12:30 p.m.<br>
+                                                1:30 p.m. – 4:30 p.m.
+                                            </p>
+
+
+
+                                            <h7 class="card-title" style="font-weight: bold; font-size: 15px">
+                                                MATERIAL COMERCIAL
+                                            </h7><br><br>
+
+                                            <p class="card-text">
+                                                El SOAT es una excelente puerta de entrada para nuevos clientes.
+                                                Grupo Asistencia envía <b>5 piezas publicitarias semanales</b>
+                                                para apoyo comercial.
+                                            </p>
+
+                                            <p class="card-text">
+                                                Para recibirlas:
+                                            </p>
+
+                                            <ul class="card-text" style="padding-left: 20px; list-style-position: inside; list-style-type: none;">
+                                                <li><b>1️⃣</b> Ingresa al canal de Whatsapp SOAT
+                                                    <b><u><a href="https://www.whatsapp.com/channel/0029VbB0Rsc5K3zMSG6mYP2s" target="_blank">AQUÍ</a></u></b>.
+                                                </li>
+                                                <li><b>2️⃣</b> Haz clic en <b>Seguir canal</b>.</li>
+                                                <li><b>3️⃣</b> Activa la campana 🔔.</li>
+                                            </ul>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                </div>
+            </div>
   <section class="content">
     <div class="box">
       <?php

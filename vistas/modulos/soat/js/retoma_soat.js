@@ -157,7 +157,7 @@ function editarCotizacionSoat(idCotizacionSoat) {
           $("#contenedor-archivos").css({ display: "flex"});
         }
       } else if (response.estado == "Solicitud devuelta") {
-        if (permisos.id_rol != 19) {
+        if (permisos.id_rol != 19 && permisos.id_rol != 1) {
           $("#section-final").show();
           $("#contenComentarios").hide();
           $("#contenedor-archivos").css({ display: "flex"});
@@ -211,7 +211,7 @@ async function cargarArchivosCotizacion(idCotizacion, estadoCotizacion) {
       primerArchivo = false;
 
       const botonEliminar =
-        estadoCotizacion === "Solicitud devuelta" && permisos.id_rol == 19
+        estadoCotizacion === "Solicitud devuelta" && (permisos.id_rol == 19 || permisos.id_rol == 1)
           ? `<button class="btn btn-sm btn-danger"
                    onclick="eliminarArchivo('${file.nombre}', ${idCotizacion})"
                    title="Eliminar archivo"
@@ -537,3 +537,57 @@ function renderPdfPreview(url, canvasId) {
         });
     });
 }
+
+document.getElementById("verPoliticasSoat").addEventListener("click", function () {
+
+  Swal.fire({
+    html: `
+            <div id="soatModalContent" style="min-height:67vh; max-height:45vh;">
+                ${document.getElementById("politicasSoatContent").innerHTML}
+            </div>
+
+            <div style="display:flex; justify-content:center; margin-top:15px;">
+                <!-- <button class="swal2-cancel swal2-styled btn-cerrar-soat">
+                    Cerrar
+                </button> -->
+
+                <button class="swal2-confirm swal2-styled btn-siguiente-soat">
+                    Siguiente
+                </button>
+            </div>
+        `,
+    showConfirmButton: false,
+    width: '50%',
+    customClass: {
+      popup: "popup_control"
+    },
+    didOpen: (modal) => {
+
+      let currentSection = 1;
+
+      const section1 = modal.querySelector(".section-1");
+      const section2 = modal.querySelector(".section-2");
+
+      const btnSiguiente = modal.querySelector(".btn-siguiente-soat");
+      const btnCerrar = modal.querySelector(".btn-cerrar-soat");
+
+      btnSiguiente.addEventListener("click", () => {
+
+        if (currentSection === 1) {
+          section1.style.display = "none";
+          section2.style.display = "block";
+          currentSection = 2;
+          btnSiguiente.textContent = "Finalizar";
+        } else {
+          Swal.close();
+        }
+
+      });
+
+      btnCerrar.addEventListener("click", () => {
+        Swal.close();
+      });
+    }
+  });
+
+});

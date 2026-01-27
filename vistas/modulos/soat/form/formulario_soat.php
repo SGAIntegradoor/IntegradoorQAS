@@ -4,6 +4,7 @@
         <!-- <div class="loader"></div> -->
         <img src="vistas/img/plantilla/loader-loading.gif" width="34" height="34"><strong>Procesando...</strong>
     </div>
+    <!-- <div><label style="padding: 10px;" id="lblDataTrip2Top">Ingresa información para cotizar</label><label>Consulta las politicas del tramite de nuestro servicio de expedición SOAT <strong><a>AQUI</a></strong></label></div> -->
     <label style="padding: 10px;" id="lblDataTrip2Top">Ingresa información para cotizar</label>
     <div class="box">
         <div class="box-body">
@@ -61,6 +62,10 @@
                                     <div class="col-xs-12 col-sm-6 col-md-2 form-group" id="contenBtnConsultarPlaca">
                                         <button type="button" class="btn btn-primary btn-block" id="btnConsultarPlaca">Cotizar</button>
                                     </div>
+
+                                    <div style="text-align: right;">
+                                        <label>Consulta las politicas del tramite de nuestro servicio de expedición SOAT <strong><a href="javascript:void(0)" id="verPoliticasSoat">AQUI</a></strong></label>
+                                </div>
 
                                 </div>
 
