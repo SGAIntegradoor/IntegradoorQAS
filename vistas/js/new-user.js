@@ -110,7 +110,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     }
     initialSta = setState();
   } else {
-    console.log("entre por aqui");
+    // console.log("entre por aqui");
     $("#divLoaderFS").hide();
     $("#imgsContainer").hide();
     $("#diasActivacion").val(0);
@@ -280,6 +280,7 @@ $(".btnGuardar").on("click", function () {
   let cambioAnalistaFreelance = false;
 
   if (
+    cambios.infoCanal &&
     cambios.infoCanal.analista_comercial &&
     cambios.infoCanal.analista_comercial != ""
   ) {
@@ -846,6 +847,35 @@ async function loadUser(id) {
             $("#usuarioSGA").val(info_usuario?.id_rol);
             $(".divAsistente").hide();
             $("#rolUsers").val(info_usuario?.id_rol).trigger("change");
+
+            // Cargar unidades de negocio para estos roles
+            const unidades = info_usuario.unidad_negocio_rol;
+            if (unidades && unidades.length > 0) {
+              // Limpiar el array antes de llenarlo con las unidades cargadas
+              selectedOptionsUnidad.length = 0;
+
+              unidades.forEach((unidad) => {
+                const element = document.getElementById(unidad);
+                // Si existe el elemento y es un checkbox
+                if (element && element.type === "checkbox") {
+                  element.checked = true;
+                }
+                // Agregar al array de opciones seleccionadas
+                if (!selectedOptionsUnidad.includes(unidad)) {
+                  selectedOptionsUnidad.push(unidad);
+                }
+              });
+              const selectBox = document.querySelector("#div-options-unidades");
+              if (unidades.length === 0) {
+                selectBox.innerText = "Selecciona opciones...";
+              } else if (unidades.length <= 2) {
+                selectBox.innerText = unidades.join(", ");
+              } else {
+                selectBox.innerText =
+                  unidades.slice(0, 2).join(", ") + ", .....";
+              }
+            }
+
             setTimeout(() => {
               $("#intermediarioPerfil")
                 .val(info_usuario.id_Intermediario)
@@ -857,7 +887,10 @@ async function loadUser(id) {
                     : "",
                 )
                 .trigger("change");
+              // Resolver la promesa después de cargar los datos
+              resolve(data);
             }, 500);
+            $("#divLoaderFS").hide();
           } else if (info_usuario.id_rol == 12) {
             // console.log("Este es el usuario!", data);
             $("#divUnidadNegocio").css("display", "none");
@@ -872,6 +905,8 @@ async function loadUser(id) {
                 .val(info_usuario.id_Intermediario)
                 .trigger("change");
               $("#cargos").val(info_usuario_canal.cargo).trigger("change");
+              // Resolver la promesa después de cargar los datos
+              resolve(data);
             }, 500);
           } else {
             // $("#divUnidadNegocio").show();
@@ -960,10 +995,16 @@ async function loadUser(id) {
             );
 
             $("#origen").val(info_usuario_canal?.origen ?? "");
-            $("#divRecomendador").show();
-            $("#nombreRecomendador").val(
-              info_usuario_canal?.nombre_recomendador ?? "",
-            );
+            // Solo mostrar el campo recomendador si el origen es "Recomendado" (8)
+            if (info_usuario_canal?.origen == "8") {
+              $("#divRecomendador").show();
+              $("#nombreRecomendador").val(
+                info_usuario_canal?.nombre_recomendador ?? "",
+              );
+            } else {
+              $("#divRecomendador").hide();
+              $("#nombreRecomendador").val("");
+            }
 
             setTimeout(() => {
               // Guardamos user_loaded y resolvemos la promesa cuando ya cargamos la UI
@@ -1088,7 +1129,7 @@ async function loadUser(id) {
             info_usuario?.ciudades_id == ""
           ) {
             // Si no hay ciudad del usuario, limpiamos departamento y ciudad
-            $("#departamento").val("").trigger("change");
+            $("#departamento").val("").trigger("change.select2");
             // Limpiamos el select de ciudad (evita duplicados)
             $("#ciudad")
               .html('<option value="">Seleccionar Ciudad</option>')
@@ -1100,7 +1141,8 @@ async function loadUser(id) {
             if (depto == "11") {
               depto = "25";
             }
-            $("#departamento").val(depto).trigger("change");
+            // Seteamos el departamento con trigger select2 para actualizar visualmente sin disparar el evento change general
+            $("#departamento").val(depto).trigger("change.select2");
             // Llamamos a consultarCiudad pasando la ciudades_id para que seleccione la ciudad tras poblar el select
             consultarCiudad(info_usuario?.ciudades_id);
           }
@@ -1327,8 +1369,9 @@ function addComment() {
     url: "src/addComment.php",
     method: "POST",
     data: {
+      modulo: "Usuarios",
       comentario: value,
-      id_user: id_usuario_edit,
+      id_general: id_usuario_edit,
       nombre_usuario_comentario:
         permisos.usu_nombre + " " + permisos.usu_apellido,
     },
@@ -1350,12 +1393,11 @@ Traer comentarios
 =============================================*/
 
 function getComments(id) {
-  // Guardar el comentario en la base de datos
   $.ajax({
     url: "src/getComments.php",
     method: "POST",
     data: {
-      id_usuario: id,
+      id_general: id,
     },
     success: function (respuesta) {
       const data = JSON.parse(respuesta);
@@ -1372,7 +1414,7 @@ function getComments(id) {
 
         $("#comentarioTA").val(comentarios);
       }
-      $("#comentarioTA").prop("disabled", true); // Deshabilitar textarea
+      $("#comentarioTA").prop("disabled", true);
     },
   });
 }
