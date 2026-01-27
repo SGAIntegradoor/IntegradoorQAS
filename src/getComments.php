@@ -13,15 +13,14 @@ if ($_SERVER['CONTENT_TYPE'] === 'application/json') {
 }
 
 try {
-    $stmt = $pdo->prepare("SELECT * FROM comentarios_usuarios WHERE id_usuario = :id_usuario ORDER BY fecha_comentario DESC");
-    $stmt->bindParam(':id_usuario', $data['id_usuario'], PDO::PARAM_INT);
-    $stmt->execute();
-    $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-    if ($result) {
+    $stmt = $pdo->prepare("SELECT * FROM comentarios_usuarios WHERE id_general = :id_usuario ORDER BY fecha_comentario DESC");
+    $stmt->bindParam(':id_usuario', $data['id_general'], PDO::PARAM_INT);
+    
+    if ($stmt->execute()) {
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
         echo json_encode($result, JSON_UNESCAPED_UNICODE);
     } else {
-        echo json_encode(["status" => "error", "message" => "No se encontraron comentarios"], JSON_UNESCAPED_UNICODE);
+        echo json_encode(["status" => "error", "message" => "No se encontraron comentarios", "sqlError" => $stmt->errorInfo()], JSON_UNESCAPED_UNICODE);
     }
 } catch (Throwable $e) {
     echo json_encode(["status"=> "error", "message"=> $e->getMessage()], JSON_UNESCAPED_UNICODE);
