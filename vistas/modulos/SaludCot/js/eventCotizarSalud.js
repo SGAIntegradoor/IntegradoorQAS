@@ -990,6 +990,8 @@ function makeCards(data, tipoCotizacion) {
     let planesSumados = {};
     let coberturasAgrupadas = {};
 
+    // console.log(data.asegurados);debugger;
+
     data.asegurados.forEach((asegurado) => {
       aseguradoDes = asegurado.asociado;
       asegurado.planes.forEach((plan) => {
@@ -1145,21 +1147,22 @@ function makeCards(data, tipoCotizacion) {
     const params = new URLSearchParams(window.location.search);
     const idCoti = params.get("idCotizacionSalud");
 
+    // console.log(planesSumados);debugger;
+
+    let planesArray = Object.values(planesSumados);
+    
     if (!idCoti) {
-      // Convertir el objeto a un array de sus valores, Ordenar por el valor mensual desc y Actualizar planesSumados con el objeto ordenado
-      let planesArray = Object.values(planesSumados);
+      // Ordenar por el valor mensual ascendente
       planesArray.sort((a, b) => a.mensual - b.mensual);
-      planesSumados = planesArray;
     } else if (idCoti) {
-      let planesArray = Object.values(planesSumados);
+      // Ordenar por id_plan_ordenado
       planesArray.sort((a, b) => a.id_plan_ordenado - b.id_plan_ordenado);
-      planesSumados = planesArray;
     }
 
     // Generar tarjetas grupales con los valores sumados
-    for (let plan_id in planesSumados) {
-      let plan = planesSumados[plan_id];
+    planesArray.forEach((plan) => {
       planAnual = plan.anual;
+      // console.log(plan.nombre + "  " + planAnual);debugger;
       let tableHTML = makeTable(data.asegurados, plan.id_plan, plan.pdf);
       html_data += makeIndividualCard(
         plan.id_plan,
@@ -1179,7 +1182,7 @@ function makeCards(data, tipoCotizacion) {
         idCotiNew ?? idCoti,
         plan.seleccionar
       );
-    }
+    });
   }
 
   $("#loaderFilters").hide();
