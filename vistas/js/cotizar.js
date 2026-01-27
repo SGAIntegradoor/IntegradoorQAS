@@ -3542,34 +3542,27 @@ function cotizarOfertas() {
                 aseguradora === "Seguros Bolivar"
               ) {
                 // ====== CAMBIO MINIMO: diferir Bolivar al lote contBolivar ======
-                const urlBolivar = `https://grupoasistencia.com/backend_node/WSBolivar/postQuotationBolivar`;
-                let planesBolivar = [
-                  "B_Premium",
-                  "B_Standard",
-                  "B_Clasico",
-                  "B_Ligero",
-                ];
-                isHybOrElec ? (planesBolivar = ["B_Verde"]) : planesBolivar;
-
-                planesBolivar.forEach(async (plan) => {
-                  let codigoProducto = "";
-                  if (plan === "B_Premium") {
-                    codigoProducto = "1";
-                  } else if (plan === "B_Standard") {
-                    codigoProducto = "2";
-                  } else if (plan === "B_Clasico") {
-                    codigoProducto = "4";
-                  } else if (plan === "B_Ligero") {
-                    codigoProducto = "5";
-                  } else if (plan === "B_Verde") {
-                    codigoProducto = "17";
-                  }
+                // const urlBolivar = `https://grupoasistencia.com/backend_node/WSBolivar/postQuotationBolivar`;
+                const urlBolivar = `http://localhost:3001/backend_node/WSBolivar/postQuotationBolivar`;
 
                   if (codigoFasecolda.charAt(0) == "0") {
                     codigoFasecolda = codigoFasecolda.substring(1);
                   }
 
-                  let body = { ...raw, codigoProducto: codigoProducto };
+                  // Detectar planes de Bolívar fallidos para recotización
+                  const planesFallidosBolivar = aseguradorasFallidas
+                    .filter(a => a.startsWith("Bolivar_Plan_"))
+                    .map(a => parseInt(a.replace("Bolivar_Plan_", "")));
+
+                  let body = { ...raw, isComEl: isHybOrElec };
+                  
+                  // Si hay planes fallidos específicos, enviarlos al backend
+                  if (planesFallidosBolivar.length > 0) {
+                    body.planesFallidos = planesFallidosBolivar;
+                    // Limpiar los planes fallidos de la lista para evitar duplicados
+                    aseguradorasFallidas = aseguradorasFallidas.filter(a => !a.startsWith("Bolivar_Plan_"));
+                  }
+                  
                   requestOptions.body = JSON.stringify(body);
 
                   contBolivar.push(
@@ -3578,32 +3571,63 @@ function cotizarOfertas() {
                         if (!res.ok) throw Error(res.statusText);
                         return res.json();
                       })
-                      .then((ofertas) => {
-                        if (typeof ofertas.Resultado !== "undefined") {
-                          agregarAseguradoraFallida(plan);
-                          validarProblema(aseguradora, ofertas);
-                          ofertas.Mensajes.forEach((mensaje) => {
-                            mostrarAlertarCotizacionFallida(plan, mensaje);
+                      .then((respuesta) => {
+                        // Si todas las cotizaciones fallaron
+                        if (typeof respuesta.Resultado !== "undefined" && respuesta.Resultado === false) {
+                          agregarAseguradoraFallida(aseguradora);
+                          validarProblema(aseguradora, respuesta);
+                          respuesta.Mensajes.forEach((mensaje) => {
+                            mostrarAlertarCotizacionFallida(aseguradora, mensaje);
                           });
-                        } else {
+                          // Agregar planes fallidos individualmente para recotización
+                          if (respuesta.planesFallidos && respuesta.planesFallidos.length > 0) {
+                            respuesta.planesFallidos.forEach((planFallido) => {
+                              agregarAseguradoraFallida(`Bolivar_Plan_${planFallido.plan}`);
+                            });
+                          }
+                        } else if (respuesta.cotizaciones) {
+                          // Hay cotizaciones exitosas
+                          const ofertas = respuesta.cotizaciones;
                           const contadorPorEntidad = validarOfertas(
                             ofertas,
                             aseguradora,
                             1
                           );
                           mostrarAlertaCotizacionExitosa(
-                            plan,
+                            aseguradora,
+                            contadorPorEntidad
+                          );
+                          
+                          // Manejar planes fallidos si los hay
+                          if (respuesta.planesFallidos && respuesta.planesFallidos.length > 0) {
+                            respuesta.planesFallidos.forEach((planFallido) => {
+                              agregarAseguradoraFallida(`Bolivar_Plan_${planFallido.plan}`);
+                              mostrarAlertarCotizacionFallida(
+                                `Bolivar`,
+                                planFallido.error
+                              );
+                            });
+                          }
+                        } else {
+                          // Respuesta legacy (array directo)
+                          const contadorPorEntidad = validarOfertas(
+                            respuesta,
+                            aseguradora,
+                            1
+                          );
+                          mostrarAlertaCotizacionExitosa(
+                            aseguradora,
                             contadorPorEntidad
                           );
                         }
                       })
                       .catch((err) => {
-                        agregarAseguradoraFallida(plan);
+                        agregarAseguradoraFallida("Bolivar");
                         mostrarAlertarCotizacionFallida(
-                          plan,
+                          "Bolivar",
                           "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
                         );
-                        validarProblema(aseguradora, {
+                        validarProblema("Bolivar", {
                           Mensajes: [
                             "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
                           ],
@@ -3611,7 +3635,6 @@ function cotizarOfertas() {
                         console.error(err);
                       })
                   );
-                });
                 // IMPORTANTE: no return; dejamos que el bucle continue si hubiese más (por seguridad)
                 return;
               } else {
@@ -3941,7 +3964,8 @@ function cotizarOfertas() {
             aseguradora == "B_Standard" ||
             aseguradora == "B_Clasico" ||
             aseguradora == "B_Ligero" ||
-            aseguradora == "B_Verde"
+            aseguradora == "B_Verde" ||
+            aseguradora.startsWith("Bolivar_Plan_")
           ) {
             aseguradora = "Bolivar";
           }
@@ -3966,6 +3990,12 @@ function cotizarOfertas() {
           const celdaResponse = document.getElementById(
             `${aseguradora}Response`
           );
+
+          // Validar que el elemento exista antes de manipularlo
+          if (!celdaResponse) {
+            console.warn(`Elemento ${aseguradora}Response no encontrado en el DOM`);
+            return;
+          }
 
           const loadingElement = document.createElement("img");
           loadingElement.src = "vistas/img/plantilla/loader-update.gif";
@@ -4168,13 +4198,49 @@ function cotizarOfertas() {
         cont.push(mapfrePromise);
 
         /* Bolivar — DIFERIDO AL FINAL */
-        const planesBolivar = [
+        let planesBolivar = [
           "B_Premium",
           "B_Standard",
           "B_Clasico",
           "B_Ligero",
         ];
-        isHybOrElec ? (planesBolivar = ["B_Verde"]) : planesBolivar;
+        
+        if (isHybOrElec) {
+          planesBolivar = ["B_Verde"];
+        }
+
+        // Detectar si hay planes específicos de Bolívar fallidos (formato Bolivar_Plan_X)
+        const planesFallidosNuevoFormato = aseguradorasFallidas.filter(a => a.startsWith("Bolivar_Plan_"));
+        if (planesFallidosNuevoFormato.length > 0) {
+          // Convertir Bolivar_Plan_X a B_xxx
+          planesBolivar = planesFallidosNuevoFormato.map(p => {
+            const planNum = p.replace("Bolivar_Plan_", "");
+            switch(planNum) {
+              case "1": return "B_Premium";
+              case "2": return "B_Standard";
+              case "4": return "B_Clasico";
+              case "5": return "B_Ligero";
+              case "17": return "B_Verde";
+              default: return null;
+            }
+          }).filter(p => p !== null);
+          
+          // Agregar los planes al formato antiguo para que comprobarFallida funcione
+          planesFallidosNuevoFormato.forEach(p => {
+            const planNum = p.replace("Bolivar_Plan_", "");
+            let planNombre = "";
+            switch(planNum) {
+              case "1": planNombre = "B_Premium"; break;
+              case "2": planNombre = "B_Standard"; break;
+              case "4": planNombre = "B_Clasico"; break;
+              case "5": planNombre = "B_Ligero"; break;
+              case "17": planNombre = "B_Verde"; break;
+            }
+            if (planNombre && !aseguradorasFallidas.includes(planNombre)) {
+              aseguradorasFallidas.push(planNombre);
+            }
+          });
+        }
 
         planesBolivar.forEach((plan) => {
           let codigoProducto = "";
@@ -4190,27 +4256,49 @@ function cotizarOfertas() {
             codigoProducto = "17";
           }
 
-          let body = { ...raw, codigoProducto: codigoProducto };
+          let body = { ...raw, codigoProducto: codigoProducto, planesFallidos: [parseInt(codigoProducto)] };
           requestOptions.body = JSON.stringify(body);
           const bolivarPromise = comprobarFallida(plan)
             ? fetch(
-                "https://grupoasistencia.com/backend_node/WSBolivar/postQuotationBolivar",
+                "http://localhost:3001/backend_node/WSBolivar/postQuotationBolivar",
                 requestOptions
               )
                 .then((res) => {
                   if (!res.ok) throw Error(res.statusText);
                   return res.json();
                 })
-                .then((ofertas) => {
-                  if (typeof ofertas[0].Resultado !== "undefined") {
+                .then((respuesta) => {
+                  // Manejar nueva estructura de respuesta
+                  if (typeof respuesta.Resultado !== "undefined" && respuesta.Resultado === false) {
                     agregarAseguradoraFallida(plan);
-                    validarProblema("Bolivar", ofertas);
-                    ofertas[0].Mensajes.forEach((mensaje) => {
+                    validarProblema("Bolivar", respuesta);
+                    respuesta.Mensajes.forEach((mensaje) => {
                       mostrarAlertarCotizacionFallida(plan, mensaje);
                     });
-                  } else {
+                  } else if (respuesta.cotizaciones) {
+                    // Hay cotizaciones exitosas
+                    const ofertas = respuesta.cotizaciones;
                     const contadorPorEntidad = validarOfertas(
                       ofertas,
+                      "Bolivar",
+                      1
+                    );
+                    mostrarAlertaCotizacionExitosa(plan, contadorPorEntidad);
+                    
+                    // Manejar planes fallidos si los hay
+                    if (respuesta.planesFallidos && respuesta.planesFallidos.length > 0) {
+                      respuesta.planesFallidos.forEach((planFallido) => {
+                        agregarAseguradoraFallida(`Bolivar_Plan_${planFallido.plan}`);
+                        mostrarAlertarCotizacionFallida(
+                          `Bolivar`,
+                          planFallido.error
+                        );
+                      });
+                    }
+                  } else if (Array.isArray(respuesta)) {
+                    // Respuesta legacy (array directo)
+                    const contadorPorEntidad = validarOfertas(
+                      respuesta,
                       "Bolivar",
                       1
                     );
