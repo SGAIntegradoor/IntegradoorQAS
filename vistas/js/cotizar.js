@@ -3542,8 +3542,8 @@ function cotizarOfertas() {
                 aseguradora === "Seguros Bolivar"
               ) {
                 // ====== CAMBIO MINIMO: diferir Bolivar al lote contBolivar ======
-                // const urlBolivar = `https://grupoasistencia.com/backend_node/WSBolivar/postQuotationBolivar`;
-                const urlBolivar = `http://localhost:3001/backend_node/WSBolivar/postQuotationBolivar`;
+                const urlBolivar = `https://grupoasistencia.com/backend_node/WSBolivar/postQuotationBolivar`;
+                // const urlBolivar = `http://localhost:3001/backend_node/WSBolivar/postQuotationBolivar`;
 
                   if (codigoFasecolda.charAt(0) == "0") {
                     codigoFasecolda = codigoFasecolda.substring(1);
@@ -4260,7 +4260,8 @@ function cotizarOfertas() {
           requestOptions.body = JSON.stringify(body);
           const bolivarPromise = comprobarFallida(plan)
             ? fetch(
-                "http://localhost:3001/backend_node/WSBolivar/postQuotationBolivar",
+                 // http://localhost:3001/backend_node/WSBolivar/postQuotationBolivar
+                "https://grupoasistencia.com/backend_node/WSBolivar/postQuotationBolivar",
                 requestOptions
               )
                 .then((res) => {
