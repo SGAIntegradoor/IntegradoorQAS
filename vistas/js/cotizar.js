@@ -3124,7 +3124,10 @@ async function cotizarOfertas() {
               redirect: "follow",
             };
 
+            // ====== Separar promesas prioritarias y Bolivar ======
             let cont = [];
+            let contBolivar = [];
+            // ========================================================
 
             const mostrarAlertaCotizacionExitosa = (aseguradora, contador) => {
               if (aseguradora == "Estado2" || aseguradora == "Estado3") {
@@ -3509,78 +3512,99 @@ async function cotizarOfertas() {
                 aseguradora === "Bolivar" ||
                 aseguradora === "Seguros Bolivar"
               ) {
-                url = `https://grupoasistencia.com/backend_node/WSBolivar/postQuotationBolivar`;
+                // ====== Bolívar - Nueva implementación con estructura de respuesta mejorada ======
+                const urlBolivar = `http://localhost:3001/backend_node/WSBolivar/postQuotationBolivar`;
 
-                let planesBolivar = [
-                  "B_Premium",
-                  "B_Standard",
-                  "B_Clasico",
-                  "B_Ligero",
-                ];
+                if (codigoFasecolda.charAt(0) == "0") {
+                  codigoFasecolda = codigoFasecolda.substring(1);
+                }
 
-                isHybOrElec ? (planesBolivar = ["B_Verde"]) : planesBolivar;
+                // Detectar planes de Bolívar fallidos para recotización
+                const planesFallidosBolivar = aseguradorasFallidas
+                  .filter(a => a.startsWith("Bolivar_Plan_"))
+                  .map(a => parseInt(a.replace("Bolivar_Plan_", "")));
 
-                planesBolivar.forEach(async (plan) => {
-                  let codigoProducto = "";
-                  if (plan === "B_Premium") {
-                    codigoProducto = "1";
-                  } else if (plan === "B_Standard") {
-                    codigoProducto = "2";
-                  } else if (plan === "B_Clasico") {
-                    codigoProducto = "4";
-                  } else if (plan === "B_Ligero") {
-                    codigoProducto = "5";
-                  } else if (plan === "B_Verde") {
-                    codigoProducto = "17";
-                  }
+                let body = { ...raw, isComEl: isHybOrElec };
+                
+                // Si hay planes fallidos específicos, enviarlos al backend
+                if (planesFallidosBolivar.length > 0) {
+                  body.planesFallidos = planesFallidosBolivar;
+                  // Limpiar los planes fallidos de la lista para evitar duplicados
+                  aseguradorasFallidas = aseguradorasFallidas.filter(a => !a.startsWith("Bolivar_Plan_"));
+                }
+                
+                requestOptions.body = JSON.stringify(body);
 
-                  if (codigoFasecolda.charAt(0) == "0") {
-                    codigoFasecolda = codigoFasecolda.substring(1);
-                  }
-
-                  let body = { ...raw, codigoProducto: codigoProducto };
-                  requestOptions.body = JSON.stringify(body);
-                  cont.push(
-                    fetch(url, requestOptions)
-                      .then((res) => {
-                        if (!res.ok) throw Error(res.statusText);
-                        return res.json();
-                      })
-                      .then((ofertas) => {
-                        if (typeof ofertas[0].Resultado != "undefined") {
-                          console.log(ofertas)
-                          agregarAseguradoraFallida(plan);
-                          validarProblema(aseguradora, ofertas);
-                          ofertas[0].Mensajes.forEach((mensaje) => {
-                            mostrarAlertarCotizacionFallida(plan, mensaje);
-                          });
-                        } else {
-                          const contadorPorEntidad = validarOfertas(
-                            ofertas,
-                            aseguradora,
-                            1
-                          );
-                          mostrarAlertaCotizacionExitosa(
-                            plan,
-                            contadorPorEntidad
-                          );
-                        }
-                      })
-                      .catch((err) => {
-                        agregarAseguradoraFallida(plan);
-                        mostrarAlertarCotizacionFallida(
-                          plan,
-                          "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
-                        );
-                        validarProblema(aseguradora, {
-                          Mensajes: [
-                            "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
-                          ],
+                contBolivar.push(
+                  fetch(urlBolivar, requestOptions)
+                    .then((res) => {
+                      if (!res.ok) throw Error(res.statusText);
+                      return res.json();
+                    })
+                    .then((respuesta) => {
+                      // Si todas las cotizaciones fallaron
+                      if (typeof respuesta.Resultado !== "undefined" && respuesta.Resultado === false) {
+                        agregarAseguradoraFallida(aseguradora);
+                        validarProblema(aseguradora, respuesta);
+                        respuesta.Mensajes.forEach((mensaje) => {
+                          mostrarAlertarCotizacionFallida(aseguradora, mensaje);
                         });
-                        console.error(err);
-                      })
-                  );
-                });
+                        // Agregar planes fallidos individualmente para recotización
+                        if (respuesta.planesFallidos && respuesta.planesFallidos.length > 0) {
+                          respuesta.planesFallidos.forEach((planFallido) => {
+                            agregarAseguradoraFallida(`Bolivar_Plan_${planFallido.plan}`);
+                          });
+                        }
+                      } else if (respuesta.cotizaciones) {
+                        // Hay cotizaciones exitosas
+                        const ofertas = respuesta.cotizaciones;
+                        const contadorPorEntidad = validarOfertas(
+                          ofertas,
+                          aseguradora,
+                          1
+                        );
+                        mostrarAlertaCotizacionExitosa(
+                          aseguradora,
+                          contadorPorEntidad
+                        );
+                        
+                        // Manejar planes fallidos si los hay
+                        if (respuesta.planesFallidos && respuesta.planesFallidos.length > 0) {
+                          respuesta.planesFallidos.forEach((planFallido) => {
+                            agregarAseguradoraFallida(`Bolivar_Plan_${planFallido.plan}`);
+                            mostrarAlertarCotizacionFallida(
+                              `Bolivar`,
+                              planFallido.error
+                            );
+                          });
+                        }
+                      } else {
+                        // Respuesta legacy (array directo)
+                        const contadorPorEntidad = validarOfertas(
+                          respuesta,
+                          aseguradora,
+                          1
+                        );
+                        mostrarAlertaCotizacionExitosa(
+                          aseguradora,
+                          contadorPorEntidad
+                        );
+                      }
+                    })
+                    .catch((err) => {
+                      agregarAseguradoraFallida("Bolivar");
+                      mostrarAlertarCotizacionFallida(
+                        "Bolivar",
+                        "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial"
+                      );
+                      validarProblema("Bolivar", {
+                        Mensajes: [
+                          "Error de conexión. Intente de nuevo o comuníquese con el equipo comercial",
+                        ],
+                      });
+                      console.error(err);
+                    })
+                );
                 return;
               } else {
                 url = `https://grupoasistencia.com/motor_webservice/${aseguradora}_autos`;
@@ -3652,26 +3676,29 @@ async function cotizarOfertas() {
               }
             });
             //console.log(cont)
+            // Primero resolver las promesas principales, luego las de Bolívar
             Promise.all(cont).then(() => {
-              // $("#btnCotizar").hide();
-              $("#loaderOferta").html("");
-              //$("#loaderOfertaBox").css("display", "none");
-              if (intermediario != 3 && intermediario != 149) {
-                // Swal.close();
-                Swal.fire({
-                  title: "¡Proceso de Cotización Finalizada!",
-                  showConfirmButton: true,
-                  confirmButtonText: "Cerrar",
-                });
-                enableInputs(true);
-                //countOfferts();
-              } else {
-                Swal.close();
+              // Después de las principales, ejecutar Bolívar
+              Promise.all(contBolivar).then(() => {
+                // $("#btnCotizar").hide();
                 $("#loaderOferta").html("");
-                $("#loaderOfertaBox").css("display", "none");
-                enableInputs(true);
-                countOfferts();
-                /*
+                //$("#loaderOfertaBox").css("display", "none");
+                if (intermediario != 3 && intermediario != 149) {
+                  // Swal.close();
+                  Swal.fire({
+                    title: "¡Proceso de Cotización Finalizada!",
+                    showConfirmButton: true,
+                    confirmButtonText: "Cerrar",
+                  });
+                  enableInputs(true);
+                  //countOfferts();
+                } else {
+                  Swal.close();
+                  $("#loaderOferta").html("");
+                  $("#loaderOfertaBox").css("display", "none");
+                  enableInputs(true);
+                  countOfferts();
+                  /*
                 Swal.fire({
                   title: "¡Proceso de Cotización Finalizada!",
                   text: "¿Deseas incluir la financiación con Finesa a 11 cuotas?",
@@ -3779,11 +3806,13 @@ async function cotizarOfertas() {
                   }
                 }
               });
-            });
+            }); // Cierre de Promise.all(contBolivar)
+            }); // Cierre de Promise.all(cont)
           },
         });
         countOfferts();
-      } else {
+        } // Cierre del if (!primerIntentoRealizado)
+      else {
         //ZONA RECOTIZACIÓN//
         $("#loaderRecotOferta").html(
           '<img src="vistas/img/plantilla/loader-update.gif" width="34" height="34"><strong> Recotizando Ofertas...</strong>'
@@ -4029,7 +4058,8 @@ async function cotizarOfertas() {
             aseguradora == "B_Standard" ||
             aseguradora == "B_Clasico" ||
             aseguradora == "B_Ligero" ||
-            aseguradora == "B_Verde"
+            aseguradora == "B_Verde" ||
+            aseguradora.startsWith("Bolivar_Plan_")
           ) {
             aseguradora = "Bolivar";
           }
@@ -4051,6 +4081,12 @@ async function cotizarOfertas() {
             `${aseguradora}Response`
           );
 
+          // Validar que el elemento exista antes de manipularlo
+          if (!celdaResponse) {
+            console.warn(`Elemento ${aseguradora}Response no encontrado en el DOM`);
+            return;
+          }
+
           // Agregar un elemento de carga (por ejemplo, un gif) en la celda de respuesta
           const loadingElement = document.createElement("img");
           loadingElement.src = "vistas/img/plantilla/loader-update.gif"; // Reemplaza con la ruta correcta del gif
@@ -4067,7 +4103,10 @@ async function cotizarOfertas() {
           celdaResponse.appendChild(loadingElement);
         });
 
+        // ====== Separar promesas prioritarias y Bolivar ======
         let cont = [];
+        let contBolivar = [];
+        // ========================================================
 
         /* Solidaria */
         const solidariaPromise = comprobarFallida("Solidaria")
@@ -4259,14 +4298,49 @@ async function cotizarOfertas() {
 
         cont.push(mapfrePromise);
         /* Bolivar */
-        const planesBolivar = [
+        let planesBolivar = [
           "B_Premium",
           "B_Standard",
           "B_Clasico",
           "B_Ligero",
         ];
+        
+        if (isHybOrElec) {
+          planesBolivar = ["B_Verde"];
+        }
 
-        isHybOrElec ? (planesBolivar = ["B_Verde"]) : planesBolivar;
+        // Detectar si hay planes específicos de Bolívar fallidos (formato Bolivar_Plan_X)
+        const planesFallidosNuevoFormato = aseguradorasFallidas.filter(a => a.startsWith("Bolivar_Plan_"));
+        if (planesFallidosNuevoFormato.length > 0) {
+          // Convertir Bolivar_Plan_X a B_xxx
+          planesBolivar = planesFallidosNuevoFormato.map(p => {
+            const planNum = p.replace("Bolivar_Plan_", "");
+            switch(planNum) {
+              case "1": return "B_Premium";
+              case "2": return "B_Standard";
+              case "4": return "B_Clasico";
+              case "5": return "B_Ligero";
+              case "17": return "B_Verde";
+              default: return null;
+            }
+          }).filter(p => p !== null);
+          
+          // Agregar los planes al formato antiguo para que comprobarFallida funcione
+          planesFallidosNuevoFormato.forEach(p => {
+            const planNum = p.replace("Bolivar_Plan_", "");
+            let planNombre = "";
+            switch(planNum) {
+              case "1": planNombre = "B_Premium"; break;
+              case "2": planNombre = "B_Standard"; break;
+              case "4": planNombre = "B_Clasico"; break;
+              case "5": planNombre = "B_Ligero"; break;
+              case "17": planNombre = "B_Verde"; break;
+            }
+            if (planNombre && !aseguradorasFallidas.includes(planNombre)) {
+              aseguradorasFallidas.push(planNombre);
+            }
+          });
+        }
 
         planesBolivar.forEach((plan) => {
           let codigoProducto = "";
@@ -4282,28 +4356,49 @@ async function cotizarOfertas() {
             codigoProducto = "17";
           }
 
-          let body = { ...raw, codigoProducto: codigoProducto };
+          let body = { ...raw, codigoProducto: codigoProducto, planesFallidos: [parseInt(codigoProducto)] };
           requestOptions.body = JSON.stringify(body);
           const bolivarPromise = comprobarFallida(plan)
             ? fetch(
-                "https://grupoasistencia.com/backend_node/WSBolivar/postQuotationBolivar",
+                "http://localhost:3001/backend_node/WSBolivar/postQuotationBolivar",
                 requestOptions
               )
                 .then((res) => {
                   if (!res.ok) throw Error(res.statusText);
                   return res.json();
                 })
-                .then((ofertas) => {
-                  if (typeof ofertas[0].Resultado !== "undefined") {
+                .then((respuesta) => {
+                  // Manejar nueva estructura de respuesta
+                  if (typeof respuesta.Resultado !== "undefined" && respuesta.Resultado === false) {
                     agregarAseguradoraFallida(plan);
-                    validarProblema("Bolivar", ofertas);
-                    ofertas[0].Mensajes.forEach((mensaje) => {
+                    validarProblema("Bolivar", respuesta);
+                    respuesta.Mensajes.forEach((mensaje) => {
                       mostrarAlertarCotizacionFallida(plan, mensaje);
                     });
-                  } else {
-                    // eliminarAseguradoraFallida('Bolivar');
+                  } else if (respuesta.cotizaciones) {
+                    // Hay cotizaciones exitosas
+                    const ofertas = respuesta.cotizaciones;
                     const contadorPorEntidad = validarOfertas(
                       ofertas,
+                      "Bolivar",
+                      1
+                    );
+                    mostrarAlertaCotizacionExitosa(plan, contadorPorEntidad);
+                    
+                    // Manejar planes fallidos si los hay
+                    if (respuesta.planesFallidos && respuesta.planesFallidos.length > 0) {
+                      respuesta.planesFallidos.forEach((planFallido) => {
+                        agregarAseguradoraFallida(`Bolivar_Plan_${planFallido.plan}`);
+                        mostrarAlertarCotizacionFallida(
+                          `Bolivar`,
+                          planFallido.error
+                        );
+                      });
+                    }
+                  } else if (Array.isArray(respuesta)) {
+                    // Respuesta legacy (array directo)
+                    const contadorPorEntidad = validarOfertas(
+                      respuesta,
                       "Bolivar",
                       1
                     );
@@ -4327,7 +4422,7 @@ async function cotizarOfertas() {
                 })
             : Promise.resolve();
 
-          cont.push(bolivarPromise);
+          contBolivar.push(bolivarPromise);
         });
 
         /* Qualitas*/
@@ -4854,35 +4949,37 @@ async function cotizarOfertas() {
 
         cont.push(mundialPromise);
         //  console.log(cont)
+        // Primero resolver promesas principales, luego Bolívar
         Promise.all(cont).then(() => {
-          $("#loaderOferta").html("");
-          $("#loaderRecotOferta").html("");
-          let nuevas = cotizacionesFinesa.filter(
-            (cotizaciones) => cotizaciones.cotizada === null
-          );
-          // debugger;
-          if (nuevas.length > 0) {
+          Promise.all(contBolivar).then(() => {
+            $("#loaderOferta").html("");
+            $("#loaderRecotOferta").html("");
+            let nuevas = cotizacionesFinesa.filter(
+              (cotizaciones) => cotizaciones.cotizada === null
+            );
             // debugger;
-            if (intermediario != 3 && intermediario != 149) {
-              Swal.fire({
-                title: "¡Proceso de  Re-Cotización Finalizada!",
-                showConfirmButton: true,
-                confirmButtonText: "Cerrar",
-              });
-              //countOfferts();
-              enableInputs(true);
-            } else {
-              Swal.close();
-              $("#loaderOferta").html("");
-              $("#loaderOfertaBox").css("display", "none");
-              enableInputs(true);
-              countOfferts();
-              /*
-              Swal.fire({
-                title: "¡Proceso de Re-Cotización Finalizada!",
-                text: "¿Deseas incluir la financiación con Finesa a 11 cuotas?",
-                showConfirmButton: true,
-                confirmButtonText: "Si",
+            if (nuevas.length > 0) {
+              // debugger;
+              if (intermediario != 3 && intermediario != 149) {
+                Swal.fire({
+                  title: "¡Proceso de  Re-Cotización Finalizada!",
+                  showConfirmButton: true,
+                  confirmButtonText: "Cerrar",
+                });
+                //countOfferts();
+                enableInputs(true);
+              } else {
+                Swal.close();
+                $("#loaderOferta").html("");
+                $("#loaderOfertaBox").css("display", "none");
+                enableInputs(true);
+                countOfferts();
+                /*
+                Swal.fire({
+                  title: "¡Proceso de Re-Cotización Finalizada!",
+                  text: "¿Deseas incluir la financiación con Finesa a 11 cuotas?",
+                  showConfirmButton: true,
+                  confirmButtonText: "Si",
                 showCancelButton: true,
                 cancelButtonText: "No",
                 allowOutsideClick: false,
@@ -4938,7 +5035,8 @@ async function cotizarOfertas() {
             countOfferts();
             // $("#filtersSection").css("display", "block");
           }
-        });
+          }); // Cierre de Promise.all(contBolivar) en recotización
+        }); // Cierre de Promise.all(cont) en recotización
       }
       let zurichErrors = true;
       let zurichSuccess = true;
