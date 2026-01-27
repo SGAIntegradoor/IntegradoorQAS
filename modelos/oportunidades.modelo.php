@@ -64,7 +64,7 @@ class ModeloOportunidades
                     break;
                 case 'anioOp':
                     # code...
-                    $sql .= " AND YEAR(fecha_creacion) = '$valor'";
+                    $sql .= " AND YEAR(fecha_expedicion) = '$valor'";
                     break;
                 case 'financiera':
                     # code...

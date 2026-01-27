@@ -18,7 +18,7 @@
                 <div class="row">
                     <div class="col-xs-12 col-sm-6 col-md-3" style="padding-left: 25px; padding-right: 25px">
                         <div class="form-group">
-                            <label for="anioOp">Año Oportunidad:</label>
+                            <label for="anioOp">Año Expedición:</label>
                             <select type="text" class="form-control anio-op" name="anioOp" id="anioOp" placeholder="Año Oportunidad">
                                 <option value="" selected></option>
                                 <option value="2023">2023</option>
