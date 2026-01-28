@@ -4356,7 +4356,7 @@ async function cotizarOfertas() {
             codigoProducto = "17";
           }
 
-          let body = { ...raw, codigoProducto: codigoProducto, planesFallidos: [parseInt(codigoProducto)] };
+          let body = { ...raw, codigoProducto: codigoProducto, planesFallidos: [parseInt(codigoProducto)], isComEl: isHybOrElec };
           requestOptions.body = JSON.stringify(body);
           const bolivarPromise = comprobarFallida(plan)
             ? fetch(
