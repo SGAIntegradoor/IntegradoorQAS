@@ -2568,7 +2568,7 @@ function enableInputs(opt) {
         .attr("disabled", "disabled");
 }
 
-function cotizarOfertas() {
+async function cotizarOfertas() {
   showCircularProgress("Cotización Autos en Proceso", 2200, 110000);
   var codigoFasecolda1 = document.getElementById("txtFasecolda");
   var contenido = codigoFasecolda1.value;
@@ -2731,7 +2731,7 @@ function cotizarOfertas() {
     }
   };
 
-  ejecutarValidacion();
+  await ejecutarValidacion();
 
   /**
    * Variables para SBS
