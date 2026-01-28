@@ -366,9 +366,9 @@ function renderTable(data) {
     </tr>
     <tr style="background-color: #f0f0f0;">
       <td><strong>Promedio</strong></td>
-      <td>${Math.round(totalResumen.cotizaciones / 4)}</td>
-      <td>${Math.round(totalResumen.negocios / 4)}</td>
-      <td>$${Math.round(totalResumen.primas / 4).toLocaleString()}</td>
+      <td>${Math.floor((totalResumen.cotizaciones / 4) * 10) / 10}</td>
+      <td>${Math.floor((totalResumen.negocios / 4) * 10) / 10}</td>
+      <td>$${(Math.floor((totalResumen.primas / 4) * 10) / 10).toLocaleString()}</td>
       <td>${(calcularEfectividad(totalResumen.cotizaciones, totalResumen.negocios)).toFixed(2)}%</td>
     </tr>
   `;
