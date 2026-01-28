@@ -25,7 +25,7 @@ try {
 
     $stmt = $pdo->prepare("INSERT INTO comentarios_usuarios (id_comentario, modulo, id_general, comentario, fecha_comentario, id_user_comentario, nombre_usuario_comentario) VALUES (NULL, :modulo , :id_general, :comentario, NOW(), :id_user_comentario, :nombre_usuario_comentario)");
     //bindParam para evitar inyecciones SQL
-    $stmt->bindParam(':id_general', $data['id_general'], PDO::PARAM_INT);
+    $stmt->bindParam(':id_general', $data['id_general'], PDO::PARAM_STR);
     $stmt->bindParam(':modulo', $data['modulo'], PDO::PARAM_STR);
     $stmt->bindParam(':comentario', $data['comentario'], PDO::PARAM_STR);
     $stmt->bindParam(':id_user_comentario', $_SESSION['idUsuario'], PDO::PARAM_INT);
