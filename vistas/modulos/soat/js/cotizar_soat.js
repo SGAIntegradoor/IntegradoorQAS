@@ -676,7 +676,7 @@ $("#btnEnviarSolicitud").click(function () {
       url: "src/addComment.php",
       dataType: "text",
       data: {
-        id_general: getIdCotiSoat,
+        id_general: idCotizacionSoat,
         modulo: "Soat",
         comentario: $("#txtComentarios").val(),
         idUsuario: permisos.id_usuario,
