@@ -446,7 +446,7 @@
           $fechaFinalOportunidades = $_GET["fechaFinalOportunidades"];
           // $respuesta = ControladorOportunidades::ctrMostrarOportunidades($fechaFinalOportunidades, $fechaInicialOportunidades);
           $respuesta = ControladorOportunidades::ctrMostrarOportunidades($fechaFinalOportunidades, $fechaInicialOportunidades);
-        } else if (isset($_GET["mesExpedicion"]) || isset($_GET["canal"]) || isset($_GET["estado"]) || isset($_GET["nombreAsesor"]) || isset($_GET["analistaGA"]) || isset($_GET["aseguradoraOpo"]) || isset($_GET["ramo"]) || isset($_GET["onerosoOp"]) || isset($_GET["formaDePago"]) || isset($_GET["financiera"]) || isset($_GET["carpeta"])) {
+        } else if (isset($_GET["mesExpedicion"]) || isset($_GET["canal"]) || isset($_GET["estado"]) || isset($_GET["nombreAsesor"]) || isset($_GET["analistaGA"]) || isset($_GET["aseguradoraOpo"]) || isset($_GET["ramo"]) || isset($_GET["anioOp"]) || isset($_GET["formaDePago"]) || isset($_GET["financiera"]) || isset($_GET["carpeta"])) {
           $respuesta = ControladorOportunidades::ctrMostrarOportunidadesFilters($_GET);
         } else {
           $fechaActual = new DateTime();

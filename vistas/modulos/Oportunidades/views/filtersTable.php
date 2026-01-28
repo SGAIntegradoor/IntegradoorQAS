@@ -18,6 +18,19 @@
                 <div class="row">
                     <div class="col-xs-12 col-sm-6 col-md-3" style="padding-left: 25px; padding-right: 25px">
                         <div class="form-group">
+                            <label for="anioOp">Año Expedición:</label>
+                            <select type="text" class="form-control anio-op" name="anioOp" id="anioOp" placeholder="Año Oportunidad">
+                                <option value="" selected></option>
+                                <option value="2023">2023</option>
+                                <option value="2024">2024</option>
+                                <option value="2025">2025</option>
+                                <option value="2026">2026</option>
+                            </select> <!-- Cierra correctamente aquí -->
+                        </div>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-6 col-md-3" style="padding-left: 25px; padding-right: 25px">
+                        <div class="form-group">
                             <label for="mesExpedicion">Mes Expedición:</label>
                             <select type="text" class="form-control mes-expedicion" name="mesExpedicion" id="mesExpedicion" placeholder="Mes expedición">
                                 <option value="">
@@ -72,6 +85,8 @@
                         </select>
                     </div>
 
+                </div>
+                <div class="row">
                     <div class="col-xs-12 col-sm-6 col-md-3" style="padding-left: 25px; padding-right: 25px">
                         <div class="form-group">
                             <label for="nombreAsesor">Nombre Asesor:</label>
@@ -81,8 +96,6 @@
                         </div>
                     </div>
 
-                </div>
-                <div class="row">
                     <div class="col-xs-12 col-sm-6 col-md-3" style="padding-left: 25px; padding-right: 25px">
                         <div class="form-group">
                             <label for="analistaGA">Analista/Asesor GA:</label>
@@ -141,7 +154,7 @@
                             <option value="14">Bicicletas</option>
                         </select>
                     </div>
-                    <div class="col-xs-12 col-sm-6 col-md-3" style="padding-left: 25px; padding-right: 25px">
+                    <!-- <div class="col-xs-12 col-sm-6 col-md-3" style="padding-left: 25px; padding-right: 25px">
                         <div class="form-group">
                             <label for="onerosoOp">Oneroso:</label>
                             <select type="text" class="form-control oneroso-op" name="onerosoOp" id="onerosoOp" placeholder="Oneroso">
@@ -151,9 +164,9 @@
                                 </option>
                                 <option value="2">
                                     No
-                            </select> <!-- Cierra correctamente aquí -->
+                            </select>
                         </div>
-                    </div>
+                    </div> -->
 
                 </div>
                 <div class="row">
