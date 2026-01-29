@@ -100,7 +100,7 @@ $(document).ready(function () {
           let mes = obtenerMesActual();
 
           let oneroso = $(
-            "#txtAsesorOnerosoOportunidad option:selected"
+            "#txtAsesorOnerosoOportunidad option:selected",
           ).text();
           let estado = $("#txtEstadoOportunidad option:selected").text();
           let observaciones = $("#txtObservacionesOportunidades").val();
@@ -108,7 +108,7 @@ $(document).ready(function () {
           let fechaCreacion = obtenerFechaActual();
 
           let analista_comercial = $(
-            "#txtAnalistaOportunidad option:selected"
+            "#txtAnalistaOportunidad option:selected",
           ).text();
           let id_analista_comercial = $("#txtAnalistaOportunidad").val();
 
@@ -132,7 +132,7 @@ $(document).ready(function () {
           data.append("mesOportunidad", mes);
           data.append(
             "asesor_freelance",
-            info.usu_nombre + " " + info.usu_apellido
+            info.usu_nombre + " " + info.usu_apellido,
           );
           data.append("id_user_freelance", info.id_usuario);
           data.append(
@@ -140,10 +140,10 @@ $(document).ready(function () {
             oferta.Manual == 9
               ? "Automoviles"
               : oferta.Manual == 8
-              ? "Motos"
-              : oferta.Manual == 0 || oferta.Manual == 3
-              ? "Pesados"
-              : "Autos Pasajeros"
+                ? "Motos"
+                : oferta.Manual == 0 || oferta.Manual == 3
+                  ? "Pesados"
+                  : "Autos Pasajeros",
           );
           data.append("placa", oferta.Placa);
           data.append("oneroso", oneroso);
@@ -152,8 +152,8 @@ $(document).ready(function () {
             oferta.Aseguradora == "Previsora"
               ? "Previsora Seguros"
               : oferta.Aseguradora == "HDI (Antes Liberty)"
-              ? "HDI Seguros"
-              : oferta.Aseguradora
+                ? "HDI Seguros"
+                : oferta.Aseguradora,
           );
           data.append("analista_comercial", analista_comercial);
           data.append("numcotaseg", oferta.NumCotizOferta);
@@ -164,7 +164,9 @@ $(document).ready(function () {
           data.append("id_asegurado", info.id_cliente);
           data.append(
             "observaciones",
-            observaciones == null || observaciones == false ? "" : observaciones
+            observaciones == null || observaciones == false
+              ? ""
+              : observaciones,
           );
           data.append("fechaCreacion", fechaCreacion);
           // Se ejecuta la peticion por AJAX para llamar a un controlador que se encargara de guardar la data en la base de datos en la tabla "Oportunidades".
@@ -217,11 +219,11 @@ $(document).ready(function () {
         $("body").css("overflow", "hidden");
         $(".ui-dialog-buttonpane button:contains('Cerrar')").attr(
           "id",
-          "btnCerrar"
+          "btnCerrar",
         );
         $(".ui-dialog-buttonpane button:contains('Guardar')").attr(
           "id",
-          "btnGuardar"
+          "btnGuardar",
         );
 
         // Realizar la solicitud AJAX para cargar datos basados en el idCotizacion
@@ -239,13 +241,13 @@ $(document).ready(function () {
           success: function (respuesta) {
             $("#noCotizacion").val(respuesta.id_cotizacion);
             $("#txtAsesorOportunidad").val(
-              respuesta.usu_nombre + " " + respuesta.usu_apellido
+              respuesta.usu_nombre + " " + respuesta.usu_apellido,
             );
             $("#txtPlacaOportunidad").val(respuesta.cot_placa);
             $("#txtAseguradoraOportunidad").val(
               oferta.Aseguradora == "HDI (Antes Liberty)"
                 ? "HDI Seguros"
-                : oferta.Aseguradora
+                : oferta.Aseguradora,
             );
             info = respuesta;
           },
@@ -264,7 +266,6 @@ $(document).ready(function () {
   }
 
   window.abrirDialogo = abrirDialogo;
-
 
   $("#user-comisiones, #user-cartera, #user-clientes").click(function () {
     Swal.fire({
@@ -322,7 +323,7 @@ $(document).ready(function () {
             //console.log(data);
             // Ordenar aseguradoras alfabéticamente
             const aseguradorasOrdenadas = Object.keys(
-              cotizacionesSeparadas
+              cotizacionesSeparadas,
             ).sort();
             const cotizacionesConVariasOfertas = [];
             const cotizacionesConUnaOferta = [];
@@ -356,13 +357,13 @@ $(document).ready(function () {
 
               if (cotizacion.exitosa === "1") {
                 cotizacionesPorAseguradora[aseguradora].exitosa1.push(
-                  cotizacion
+                  cotizacion,
                 );
                 cotizacionesPorAseguradora[aseguradora].sumExitosa1 +=
                   cotizacion.ofertas_cotizadas;
               } else if (cotizacion.exitosa === "0") {
                 cotizacionesPorAseguradora[aseguradora].exitosa0.push(
-                  cotizacion
+                  cotizacion,
                 );
                 cotizacionesPorAseguradora[aseguradora].sumExitosa0 +=
                   cotizacion.ofertas_cotizadas;
@@ -382,7 +383,7 @@ $(document).ready(function () {
               if (exitosa1Array.length > 0) {
                 const sumaOfertasExitosa1 = exitosa1Array.reduce(
                   (sum, usuario) => sum + usuario.ofertas_cotizadas,
-                  0
+                  0,
                 );
 
                 cotizacionesExitosa1.push(
@@ -391,7 +392,7 @@ $(document).ready(function () {
                     exitosa: usuario.exitosa,
                     ofertas_cotizadas: sumaOfertasExitosa1,
                     mensaje: "",
-                  }))
+                  })),
                 );
               } else {
                 // Cambié la asignación a push para agregar un nuevo elemento al array
@@ -418,12 +419,12 @@ $(document).ready(function () {
                     // Convertir las cadenas a números usando parseInt
                     const ofertasCotizadas = parseInt(
                       usuario.ofertas_cotizadas,
-                      10
+                      10,
                     );
 
                     return sum + ofertasCotizadas;
                   },
-                  0
+                  0,
                 );
                 // desactive
                 //console.log('sumaOfertasExitosa1:', sumaOfertasExitosa1);
@@ -464,7 +465,7 @@ $(document).ready(function () {
 
             // Ordena el array resultante por la propiedad "aseguradora"
             combinedArray.sort((a, b) =>
-              a.aseguradora.localeCompare(b.aseguradora)
+              a.aseguradora.localeCompare(b.aseguradora),
             );
 
             // COTIZACIONES EXITOSAS VARIAS PETICIONES //
@@ -507,7 +508,7 @@ $(document).ready(function () {
           .catch((error) => {
             console.error(
               "Error al obtener la información de la tabla:",
-              error
+              error,
             );
           });
       }
@@ -762,7 +763,7 @@ $(document).ready(function () {
           "extensiones/tcpdf/pdf/comparadorPesados.php?cotizacion=" +
             idCotizacionPDF,
 
-          "_blank"
+          "_blank",
         );
       }
     }
@@ -908,14 +909,14 @@ $(document).ready(function () {
       $("#daterange-btnCotizaciones span").html(
         startDate.format("MMMM D, YYYY") +
           " - " +
-          endDate.format("MMMM D, YYYY")
+          endDate.format("MMMM D, YYYY"),
       );
       var fechaInicialCotizaciones = startDate.format("YYYY-MM-DD");
       var fechaFinalCotizaciones = endDate.format("YYYY-MM-DD");
       var capturarRango = $("#daterange-btnCotizaciones span").html();
       localStorage.setItem("capturarRango", capturarRango);
       var selectedOption = $("#daterange-btnCotizaciones").data(
-        "daterangepicker"
+        "daterangepicker",
       ).chosenLabel;
       localStorage.setItem("Selected", selectedOption);
       window.location =
@@ -923,7 +924,7 @@ $(document).ready(function () {
         fechaInicialCotizaciones +
         "&fechaFinalCotizaciones=" +
         fechaFinalCotizaciones;
-    }
+    },
   );
 
   // Switch para determinar y configurar la seleccion en el menu desplegable de los rangos
@@ -1005,7 +1006,7 @@ $(document).ready(function () {
       localStorage.clear();
 
       window.location = "adminCoti";
-    }
+    },
   );
 
   /*=============================================
@@ -1146,7 +1147,7 @@ async function renderCards(response) {
   }
   let globalResponse = "";
   $("#loaderFilters").html(
-    `<div style="display:flex; align-items: center; justify-content: center; margin-bottom: 90px; margin-top: 90px; gap: 10px"><img src="vistas/img/plantilla/loader-update.gif" width="34" height="34"><strong style="font-size: 19px"> Cargando filtro ${filter}...</strong></div>`
+    `<div style="display:flex; align-items: center; justify-content: center; margin-bottom: 90px; margin-top: 90px; gap: 10px"><img src="vistas/img/plantilla/loader-update.gif" width="34" height="34"><strong style="font-size: 19px"> Cargando filtro ${filter}...</strong></div>`,
   );
   $("#cardCotizacion").html("");
   // Obtener los permisos de cotización START
@@ -1278,7 +1279,7 @@ async function renderCards(response) {
         "Solidaria",
         "Equidad",
         "AXA Colpatria",
-        "AXA"
+        "AXA",
       ];
 
       const planesViajes = [
@@ -1394,12 +1395,13 @@ async function renderCards(response) {
   
                         <center> 
                           <img src='${oferta.logo}' style="${
-        oferta.Aseguradora == "Mundial"
-          ? "margin-top: 65px;"
-          : oferta.Aseguradora == "Equidad" && oferta.Manual == "4"
-          ? "padding-top: 15px;"
-          : null
-      }">
+                            oferta.Aseguradora == "Mundial"
+                              ? "margin-top: 65px;"
+                              : oferta.Aseguradora == "Equidad" &&
+                                  oferta.Manual == "4"
+                                ? "padding-top: 15px;"
+                                : null
+                          }">
                         </center>
                         <div class='col-12' style='margin-top:2%;'>
                             ${
@@ -1413,10 +1415,10 @@ async function renderCards(response) {
                                 <!-- Agrega aquí el contenido específico para estas aseguradoras -->
                               </center>`
                                 : oferta.Aseguradora !== "Mundial" &&
-                                  permisos.Vernumerodecotizacionencadaaseguradora ==
-                                    "x" &&
-                                  aseguradoraPermisos == "1"
-                                ? `<center>
+                                    permisos.Vernumerodecotizacionencadaaseguradora ==
+                                      "x" &&
+                                    aseguradoraPermisos == "1"
+                                  ? `<center>
                                 ${
                                   // agregar aqui un console.log para verificar si la oferta tiene un número de cotización
                                   oferta.NumCotizOferta != 0
@@ -1426,7 +1428,7 @@ async function renderCards(response) {
                                     : ""
                                 }
                               </center>`
-                                : ""
+                                  : ""
                             }
                             
                               <div style="display: flex; justify-content: center; margin-top: 10px">
@@ -1434,10 +1436,10 @@ async function renderCards(response) {
                                 permisos.permisos_oportunidades == "x"
                                   ? oferta.id_oportunidad == null
                                     ? `<p class="openModal" onclick='abrirDialogo(${idCotizacion}, ${JSON.stringify(
-                                        oferta
+                                        oferta,
                                       ).replace(
                                         /'/g,
-                                        "\\'"
+                                        "\\'",
                                       )})' style="text-decoration: underline; text-underline-offset: 3px; cursor: pointer">Crear oportunidad</p>`
                                     : `<p style="text-decoration: underline; text-underline-offset: 3px; color: blue;">Oportunidad Creada ID # ${
                                         oferta.id_oportunidad ??
@@ -1454,77 +1456,91 @@ async function renderCards(response) {
                             oferta.oferta_finesa == null)
                             ? "padding-top: 10px;"
                             : oferta.Aseguradora == "Mundial" &&
-                              oferta.oferta_finesa &&
-                              oferta.oferta_finesa != null
-                            ? "padding-top: 14px;"
-                            : oferta.Aseguradora == "HDI (Antes Liberty)" &&
-                              oferta.oferta_finesa != null
-                            ? "padding-top: 14px"
-                            : "padding-top: 14px"
+                                oferta.oferta_finesa &&
+                                oferta.oferta_finesa != null
+                              ? "padding-top: 14px;"
+                              : oferta.Aseguradora == "HDI (Antes Liberty)" &&
+                                  oferta.oferta_finesa != null
+                                ? "padding-top: 14px"
+                                : "padding-top: 14px"
                         }'>
                         <h5 class='entidad' style='font-size: 15px'><b>${
                           oferta.Aseguradora == "HDI (Antes Liberty)"
                             ? "HDI Seguros"
                             : oferta.Aseguradora
                         } - ${
-        oferta.Producto == "Pesados con RCE en exceso"
-          ? "Pesados RCE + Exceso"
-          : oferta.Producto == "PREVILIVIANOS INDIVIDUAL - "
-          ? "PREVILIVIANOS INDIVIDUAL"
-          : oferta.Producto == "AU DEDUCIBLE UNICO LIVIANOS - "
-          ? "AU DEDUCIBLE UNICO LIVIANOS"
-          : oferta.Producto == "LIVIANOS MIA - "
-          ? "LIVIANOS MIA"
-          : oferta.Producto == "Pesados Full1"
-          ? "Pesados Full"
-          : oferta.Producto == "Pesados Integral1"
-          ? "Pesados Integral"
-          : oferta.Producto == "134"
-          ? "Integral Motos 0 a 6 MM"
-          : oferta.Producto == "135"
-          ? "Integral Motos 6 a 10 MM"
-          : oferta.Producto == "136"
-          ? "Integral Motos 10 a 20 MM"
-          : oferta.Producto == "137"
-          ? "Integral Motos 20 a 30 MM"
-          : oferta.Producto == "138"
-          ? "Integral Motos 30 a 90 MM"
-          : oferta.Producto == "139"
-          ? "Basico + PT Motos 0 a 6 MM"
-          : oferta.Producto == "140"
-          ? "Basico + PT Motos 10 a 20 MM"
-          : oferta.Producto == "141"
-          ? "Basico + PT Motos 20 a 30 MM"
-          : oferta.Producto == "142"
-          ? "Basico + PT Motos 30 a 90 MM"
-          : oferta.Producto == "31"
-          ? "Premium Motos"
-          : oferta.Producto == "30"
-          ? "Total CAR"
-          : oferta.Producto == "99"
-          ? "Pesados Full"
-          : oferta.Producto == "100"
-          ? "Pesados Integral"
-          : oferta.Producto == "103"
-          ? "Pesados Full"
-          : oferta.Producto == "104"
-          ? "Pesados Integral"
-          : oferta.Producto == "111"
-          ? "Remolques"
-          : oferta.Producto == "112"
-          ? "Remolques"
-          : oferta.Producto == "145"
-          ? "Premium Motos 0 a 6 MM"
-          : oferta.Producto == "112"
-          ? "Premium Motos 6 a 10 MM"
-          : oferta.Producto == "112"
-          ? "Premium Motos 10 a 20 MM"
-          : oferta.Producto == "112"
-          ? "Premium Motos 20 a 30 MM"
-          : oferta.Producto == "112"
-          ? "Premium Motos 30 a 90 MM"
-          : oferta.Producto
-      }</b></h5>
+                          oferta.Producto == "Pesados con RCE en exceso"
+                            ? "Pesados RCE + Exceso"
+                            : oferta.Producto == "PREVILIVIANOS INDIVIDUAL - "
+                              ? "PREVILIVIANOS INDIVIDUAL"
+                              : oferta.Producto ==
+                                  "AU DEDUCIBLE UNICO LIVIANOS - "
+                                ? "AU DEDUCIBLE UNICO LIVIANOS"
+                                : oferta.Producto == "LIVIANOS MIA - "
+                                  ? "LIVIANOS MIA"
+                                  : oferta.Producto == "Pesados Full1"
+                                    ? "Pesados Full"
+                                    : oferta.Producto == "Pesados Integral1"
+                                      ? "Pesados Integral"
+                                      : oferta.Producto == "134"
+                                        ? "Integral Motos 0 a 6 MM"
+                                        : oferta.Producto == "135"
+                                          ? "Integral Motos 6 a 10 MM"
+                                          : oferta.Producto == "136"
+                                            ? "Integral Motos 10 a 20 MM"
+                                            : oferta.Producto == "137"
+                                              ? "Integral Motos 20 a 30 MM"
+                                              : oferta.Producto == "138"
+                                                ? "Integral Motos 30 a 90 MM"
+                                                : oferta.Producto == "139"
+                                                  ? "Basico + PT Motos 0 a 6 MM"
+                                                  : oferta.Producto == "140"
+                                                    ? "Basico + PT Motos 10 a 20 MM"
+                                                    : oferta.Producto == "141"
+                                                      ? "Basico + PT Motos 20 a 30 MM"
+                                                      : oferta.Producto == "142"
+                                                        ? "Basico + PT Motos 30 a 90 MM"
+                                                        : oferta.Producto ==
+                                                            "31"
+                                                          ? "Premium Motos"
+                                                          : oferta.Producto ==
+                                                              "30"
+                                                            ? "Total CAR"
+                                                            : oferta.Producto ==
+                                                                "99"
+                                                              ? "Pesados Full"
+                                                              : oferta.Producto ==
+                                                                  "100"
+                                                                ? "Pesados Integral"
+                                                                : oferta.Producto ==
+                                                                    "103"
+                                                                  ? "Pesados Full"
+                                                                  : oferta.Producto ==
+                                                                      "104"
+                                                                    ? "Pesados Integral"
+                                                                    : oferta.Producto ==
+                                                                        "111"
+                                                                      ? "Remolques"
+                                                                      : oferta.Producto ==
+                                                                          "112"
+                                                                        ? "Remolques"
+                                                                        : oferta.Producto ==
+                                                                            "145"
+                                                                          ? "Premium Motos 0 a 6 MM"
+                                                                          : oferta.Producto ==
+                                                                              "112"
+                                                                            ? "Premium Motos 6 a 10 MM"
+                                                                            : oferta.Producto ==
+                                                                                "112"
+                                                                              ? "Premium Motos 10 a 20 MM"
+                                                                              : oferta.Producto ==
+                                                                                  "112"
+                                                                                ? "Premium Motos 20 a 30 MM"
+                                                                                : oferta.Producto ==
+                                                                                    "112"
+                                                                                  ? "Premium Motos 30 a 90 MM"
+                                                                                  : oferta.Producto
+                        }</b></h5>
                         <h5 class='precio' style='${
                           oferta.Aseguradora == "HDI (Antes Liberty)"
                             ? "padding-bottom: 0px; !important"
@@ -1560,13 +1576,13 @@ async function renderCards(response) {
                                     } else if (!viable) {
                                       if (
                                         element.identityElement.includes(
-                                          "HDI (Antes Liberty)"
+                                          "HDI (Antes Liberty)",
                                         ) ||
                                         element.identityElement.includes(
-                                          "Bolivar"
+                                          "Bolivar",
                                         ) ||
                                         element.identityElement.includes(
-                                          "Seguros Bolivar"
+                                          "Seguros Bolivar",
                                         )
                                       ) {
                                         return `Financiación Aseguradora:<br /> Consulte analista`;
@@ -1575,13 +1591,13 @@ async function renderCards(response) {
                                       }
                                     } else if (
                                       element.identityElement.includes(
-                                        "HDI (Antes Liberty)"
+                                        "HDI (Antes Liberty)",
                                       ) ||
                                       element.identityElement.includes(
-                                        "Bolivar"
+                                        "Bolivar",
                                       ) ||
                                       element.identityElement.includes(
-                                        "Seguros Bolivar"
+                                        "Seguros Bolivar",
                                       )
                                     ) {
                                       return `Financiación Aseguradora:<br /> Consulte analista`;
@@ -1589,7 +1605,7 @@ async function renderCards(response) {
                                       return `Financiación Finesa:<br />No aplica para financiación`;
                                     } else {
                                       return `Financiación Finesa:<br />$${Number(
-                                        element.cuota_1
+                                        element.cuota_1,
                                       ).toLocaleString("de-DE")}
                                     (${element.cuotas} Cuotas)`;
                                     }
@@ -1674,10 +1690,10 @@ async function renderCards(response) {
                           <input type="checkbox" class="classSelecOferta" name="selecOferta" id="selec${
                             oferta.NumCotizOferta
                           }${numId}\" onclick='seleccionarOferta(\"${
-        oferta.Aseguradora
-      }\", \"${oferta.Prima}\", \"${oferta.Producto}\", \"${
-        oferta.NumCotizOferta
-      }\", \"${oferta.oferta_finesa}\", this);' ${selecChecked}/>
+                            oferta.Aseguradora
+                          }\", \"${oferta.Prima}\", \"${oferta.Producto}\", \"${
+                            oferta.NumCotizOferta
+                          }\", \"${oferta.oferta_finesa}\", this);' ${selecChecked}/>
   
                         </div>
   
@@ -1894,7 +1910,7 @@ async function offertsFinesaRender() {
           method: "POST",
           headers: headers,
           body: JSON.stringify(body),
-        }
+        },
       );
 
       if (!dbResponse.ok) {
@@ -1908,7 +1924,7 @@ async function offertsFinesaRender() {
 
       if (retries > 0) {
         console.log(
-          `Retrying... ${MAX_RETRIES - retries + 1} of ${MAX_RETRIES}`
+          `Retrying... ${MAX_RETRIES - retries + 1} of ${MAX_RETRIES}`,
         );
         await new Promise((resolve) => setTimeout(resolve, RETRY_DELAY)); // Espera antes de reintentar
         return fetchWithRetry(retries - 1); // Reintenta la solicitud
@@ -1959,7 +1975,7 @@ function editarCotizacion(id) {
 
         // Fila Fecha, Razon Social (Para Nit), Genero, Estado Civil, Celular (Todas menos NIT)
         $('label[name="lblFechaNacimiento"]').html(
-          "Fecha Constitución Empresa"
+          "Fecha Constitución Empresa",
         );
         // <span style="font-weight: normal;">(Opcional. Se requiere para Allianz)</span>
         $('label[name="lblFechaNacimiento"]').css("max-width", "447px");
@@ -1978,7 +1994,7 @@ function editarCotizacion(id) {
         $("#datosAseguradoNIT").css("display", "block");
 
         $("#txtRazonSocial").val(
-          respuesta.cli_nombre + " " + respuesta.cli_apellidos
+          respuesta.cli_nombre + " " + respuesta.cli_apellidos,
         );
 
         let fechaNit = respuesta["cli_fch_nacimiento"].split("-");
@@ -1988,21 +2004,21 @@ function editarCotizacion(id) {
             fechaNit[2] +
             "' selected>" +
             fechaNit[2] +
-            "</option>"
+            "</option>",
         );
         $("#mesnacimiento").append(
           "<option value='" +
             fechaNit[1] +
             "' selected>" +
             fechaNit[1] +
-            "</option>"
+            "</option>",
         );
         $("#anionacimiento").append(
           "<option value='" +
             fechaNit[0] +
             "' selected>" +
             fechaNit[0] +
-            "</option>"
+            "</option>",
         );
 
         // Carga de Data del Representante Legal BEGIN
@@ -2022,21 +2038,21 @@ function editarCotizacion(id) {
             fechaRep[2] +
             "' selected>" +
             fechaRep[2] +
-            "</option>"
+            "</option>",
         );
         $("#mesnacimientoRepresentante").append(
           "<option value='" +
             fechaRep[1] +
             "' selected>" +
             fechaRep[1] +
-            "</option>"
+            "</option>",
         );
         $("#anionacimientoRepresentante").append(
           "<option value='" +
             fechaRep[0] +
             "' selected>" +
             fechaRep[0] +
-            "</option>"
+            "</option>",
         );
 
         $("#DatosVehiculo").css("display", "hidden");
@@ -2059,7 +2075,7 @@ function editarCotizacion(id) {
           // Resto del código que utiliza 'fecha'
         } else {
           console.error(
-            "La propiedad 'cli_fch_nacimiento' no está definida o es null/undefined."
+            "La propiedad 'cli_fch_nacimiento' no está definida o es null/undefined.",
           );
         }
 
@@ -2068,7 +2084,7 @@ function editarCotizacion(id) {
           // Resto del código que utiliza 'nombreMes'
         } else {
           console.error(
-            "La variable 'fecha' no está definida, no es un array o no tiene al menos dos elementos."
+            "La variable 'fecha' no está definida, no es un array o no tiene al menos dos elementos.",
           );
         }
 
@@ -2078,11 +2094,11 @@ function editarCotizacion(id) {
               fecha[2] +
               "' selected>" +
               fecha[2] +
-              "</option>"
+              "</option>",
           );
         } else {
           console.error(
-            "La variable 'fecha' no está definida, no es un array o no tiene al menos tres elementos."
+            "La variable 'fecha' no está definida, no es un array o no tiene al menos tres elementos.",
           );
         }
 
@@ -2093,11 +2109,11 @@ function editarCotizacion(id) {
               "' selected>" +
               nombreMes[0].toUpperCase() +
               nombreMes.slice(1) +
-              "</option>"
+              "</option>",
           );
         } else {
           console.error(
-            "La variable 'fecha' no está definida, no es un array o no tiene al menos un elemento, o 'nombreMes' no está definida."
+            "La variable 'fecha' no está definida, no es un array o no tiene al menos un elemento, o 'nombreMes' no está definida.",
           );
         }
 
@@ -2107,11 +2123,11 @@ function editarCotizacion(id) {
               fecha[0] +
               "' selected>" +
               fecha[0] +
-              "</option>"
+              "</option>",
           );
         } else {
           console.error(
-            "La variable 'fecha' no está definida, no es un array o no tiene al menos un elemento."
+            "La variable 'fecha' no está definida, no es un array o no tiene al menos un elemento.",
           );
         }
       }
@@ -2153,7 +2169,7 @@ function editarCotizacion(id) {
           respuesta["cot_departamento"] +
           "' selected>" +
           departamentoVeh(respuesta["cot_departamento"]) +
-          "</option>"
+          "</option>",
       );
 
       var posicion =
@@ -2175,7 +2191,7 @@ function editarCotizacion(id) {
           respuesta["cot_ciudad"] +
           "' selected>" +
           nomCiudad +
-          "</option>"
+          "</option>",
       );
 
       if (respuesta["cot_bnf_oneroso"] != "") {
@@ -2218,7 +2234,7 @@ function editarCotizacion(id) {
           respuesta["cot_departamento"] +
           "' selected>" +
           departamentoVeh(respuesta["cot_departamento"]) +
-          "</option>"
+          "</option>",
       );
 
       $("#ciudadCirculacionPesado").append(
@@ -2226,7 +2242,7 @@ function editarCotizacion(id) {
           respuesta["cot_ciudad"] +
           "' selected>" +
           nomCiudad +
-          "</option>"
+          "</option>",
       );
 
       $("#mundialseguros").val(respuesta["cot_mundial"]);
@@ -2375,7 +2391,7 @@ function editarCotizacion(id) {
 }
 
 $(
-  "#dianacimiento, #mesnacimiento, #anionacimiento, #dianacimientoRepresentante, #mesnacimientoRepresentante, #anionacimientoRepresentante"
+  "#dianacimiento, #mesnacimiento, #anionacimiento, #dianacimientoRepresentante, #mesnacimientoRepresentante, #anionacimientoRepresentante",
 ).select2({
   theme: "bootstrap fecnacimiento",
   language: "es",
@@ -2394,7 +2410,7 @@ function seleccionarOferta(
   producto,
   numCotizOferta,
   id_oferta,
-  valCheck
+  valCheck,
 ) {
   var idSelecOferta = idCotizacion;
 
@@ -2404,7 +2420,7 @@ function seleccionarOferta(
     producto,
     numCotizOferta,
     id_oferta,
-    valCheck
+    valCheck,
   );
 
   var placa = document.getElementById("placaVeh").value;
@@ -2469,7 +2485,7 @@ function recomendarOferta(
 
   numCotizOferta,
 
-  valCheck
+  valCheck,
 ) {
   var idRecomOferta = idCotizacion;
 
@@ -2556,7 +2572,7 @@ function verPdfOferta(aseguradora, numCotizOferta, numId, intermediario) {
     });
   } else {
     $("#verPdf" + numCotizOferta + numId).html(
-      "VER PDF &nbsp;&nbsp;<img src='vistas/img/plantilla/loading.gif' width='18' height='18'>"
+      "VER PDF &nbsp;&nbsp;<img src='vistas/img/plantilla/loading.gif' width='18' height='18'>",
     );
 
     var ventanaPDF = window.open(
@@ -2564,7 +2580,7 @@ function verPdfOferta(aseguradora, numCotizOferta, numId, intermediario) {
 
       aseguradora,
 
-      "width=" + 1024 + ", height=" + 768
+      "width=" + 1024 + ", height=" + 768,
     );
 
     // var ventanaPDF = window.open('http://example.com/waiting.html', '_blank'); // Carga otra pagina
@@ -2599,7 +2615,7 @@ function verPdfOferta(aseguradora, numCotizOferta, numId, intermediario) {
     fetch(
       "https://www.grupoasistencia.com/motor_webservice/ImpresionPdf",
 
-      requestOptions
+      requestOptions,
     )
       .then(function (response) {
         // desactive
@@ -2616,7 +2632,7 @@ function verPdfOferta(aseguradora, numCotizOferta, numId, intermediario) {
         ventanaPDF.location.href = data;
 
         $("#verPdf" + numCotizOferta + numId).html(
-          'VER PDF &nbsp;&nbsp;<span class="fa fa-file-text"></span>'
+          'VER PDF &nbsp;&nbsp;<span class="fa fa-file-text"></span>',
         );
       })
 
@@ -2653,7 +2669,7 @@ function verPdfEstado(aseguradora, numCotizOferta, numId, UrlPdf) {
     });
   } else {
     $("#verPdf" + numCotizOferta + numId).html(
-      "VER PDF &nbsp;&nbsp;<img src='vistas/img/plantilla/loading.gif' width='18' height='18'>"
+      "VER PDF &nbsp;&nbsp;<img src='vistas/img/plantilla/loading.gif' width='18' height='18'>",
     );
 
     var ventanaPDF = window.open(
@@ -2661,18 +2677,18 @@ function verPdfEstado(aseguradora, numCotizOferta, numId, UrlPdf) {
 
       aseguradora,
 
-      "width=" + 1024 + ", height=" + 768
+      "width=" + 1024 + ", height=" + 768,
     );
 
     ventanaPDF.document.write(
-      "Cargando vista previa Pdf " + aseguradora + "..."
+      "Cargando vista previa Pdf " + aseguradora + "...",
     ); // Carga un mensaje de espera
 
     ventanaPDF.location.href = UrlPdf;
 
     setTimeout(function () {
       $("#verPdf" + numCotizOferta + numId).html(
-        'VER PDF &nbsp;&nbsp;<span class="fa fa-file-text"></span>'
+        'VER PDF &nbsp;&nbsp;<span class="fa fa-file-text"></span>',
       );
     }, 6000);
   }
@@ -2704,7 +2720,7 @@ const verPdfPrevisora = async (cotizacion) => {
     });
   } else {
     $("#previsora-pdf" + cotizacion).html(
-      "VER PDF &nbsp;&nbsp;<img id='loading-gif' src='vistas/img/plantilla/loading.gif' width='18' height='18'>"
+      "VER PDF &nbsp;&nbsp;<img id='loading-gif' src='vistas/img/plantilla/loading.gif' width='18' height='18'>",
     );
 
     let base64 = await obtenerPdfprevisora(cotizacion);
@@ -2727,7 +2743,7 @@ const verPdfPrevisora = async (cotizacion) => {
     downloadLink.click();
 
     $("#previsora-pdf" + cotizacion).html(
-      'VER PDF &nbsp;&nbsp;<span class="fa fa-file-text"></span>'
+      'VER PDF &nbsp;&nbsp;<span class="fa fa-file-text"></span>',
     );
   }
 };
@@ -2747,7 +2763,7 @@ const obtenerPdfprevisora = async (cotizacion) => {
       method: "POST",
 
       body: formData,
-    }
+    },
   )
     // .then((response) => response.text()) // Obtén la respuesta como texto
     // .then((responseText) => {
@@ -2859,11 +2875,11 @@ const verPdfMapfre = async (cotizacion) => {
     });
   } else {
     $("#mapfre-pdf").html(
-      "VER PDF &nbsp;&nbsp;<img src='vistas/img/plantilla/loading.gif' width='18' height='18'>"
+      "VER PDF &nbsp;&nbsp;<img src='vistas/img/plantilla/loading.gif' width='18' height='18'>",
     );
     let base64 = await obtenerPdfMapfre(cotizacion);
     $("#mapfre-pdf").html(
-      "VER PDF &nbsp;&nbsp;<span class='fa fa-file-text'></span>"
+      "VER PDF &nbsp;&nbsp;<span class='fa fa-file-text'></span>",
     );
     const linkSource = `data:application/pdf;base64,${base64}`;
     const downloadLink = document.createElement("a");
@@ -2900,7 +2916,7 @@ const obtenerPdfMapfre = async (cotizacion) => {
   try {
     const response = await fetch(
       "https://www.grupoasistencia.com/motor_webservice/ImpresionPdf",
-      requestOptions
+      requestOptions,
     );
 
     if (!response.ok) {
@@ -2938,7 +2954,7 @@ const obtenerPdfSolidaria = async (cotizacion) => {
       method: "POST",
 
       body: formData,
-    }
+    },
   )
     .then((response) => response.text())
 
@@ -2975,7 +2991,7 @@ const verPdfZurich = async (cotizacion) => {
     });
   } else {
     $("#Zurich-pdf" + cotizacion).html(
-      "VER PDF &nbsp;&nbsp;<img src='vistas/img/plantilla/loading.gif' width='18' height='18'>"
+      "VER PDF &nbsp;&nbsp;<img src='vistas/img/plantilla/loading.gif' width='18' height='18'>",
     );
 
     const formData = new FormData();
@@ -2989,7 +3005,7 @@ const verPdfZurich = async (cotizacion) => {
         method: "POST",
 
         body: formData,
-      }
+      },
     )
       .then((response) => response.blob())
 
@@ -3014,7 +3030,7 @@ const verPdfZurich = async (cotizacion) => {
     a.click();
 
     $("#Zurich-pdf" + cotizacion).html(
-      'VER PDF &nbsp;&nbsp;<span class="fa fa-file-text"></span>'
+      'VER PDF &nbsp;&nbsp;<span class="fa fa-file-text"></span>',
     );
   }
 };
@@ -3027,7 +3043,7 @@ FUNCION PARA CARGAR EL PDF OFICIAL DE HDI
 
 const verPdfHdi = async (cotizacion) => {
   $("#Hdi-pdf" + cotizacion).html(
-    "VER PDF &nbsp;&nbsp;<img src='vistas/img/plantilla/loading.gif' width='18' height='18'>"
+    "VER PDF &nbsp;&nbsp;<img src='vistas/img/plantilla/loading.gif' width='18' height='18'>",
   );
 
   const formData = new FormData();
@@ -3040,7 +3056,7 @@ const verPdfHdi = async (cotizacion) => {
       {
         method: "POST",
         body: formData,
-      }
+      },
     ).then((response) => response.blob());
 
     const downloadUrl = URL.createObjectURL(blobPdfHdi);
@@ -3051,7 +3067,7 @@ const verPdfHdi = async (cotizacion) => {
     a.click();
 
     $("#Hdi-pdf" + cotizacion).html(
-      'VER PDF &nbsp;&nbsp;<span class="fa fa-file-text"></span>'
+      'VER PDF &nbsp;&nbsp;<span class="fa fa-file-text"></span>',
     );
   } catch (error) {
     console.error("Error durante la descarga del PDF:", error);
@@ -3333,7 +3349,7 @@ function selecRCManual() {
             data[0].rce +
             "' selected>" +
             data[0].rce +
-            "</option>"
+            "</option>",
         );
 
         selecCoberturasManual();
@@ -4192,9 +4208,8 @@ function consultarCiudad() {
           title: "Error",
           text: "El departamento actual no cuenta con ciudades para asegurar",
         });
-        document.getElementById(
-          "ciudadCirculacion"
-        ).innerHTML = `<option value="">No se encontraron registros</option>`;
+        document.getElementById("ciudadCirculacion").innerHTML =
+          `<option value="">No se encontraron registros</option>`;
         return;
       }
 
@@ -4291,33 +4306,44 @@ function showCircularProgress(cotType, time, totalTransition) {
 // Simula una actualización del % (ajústalo según tu petición real)
 
 document.addEventListener("DOMContentLoaded", function () {
-  const navCRM = () => {
-    fetch("http://localhost/integradoorQAS/API/login/SSO/", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        usu_usuario: permisos.usu_usuario,
-        usu_password: permisos.usu_password,
-      }),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.status === "Ok" && data.token) {
-          // Redirigir al CRM con el token en la URL
-          console.log("entre aca")
-          window.location.href =
-            "http://localhost:5173/crm/login?token=" + data.token;
-        } else {
-          alert("Error al iniciar sesión: " + data.message);
-        }
-      })
-      .catch((error) => {
-        console.error("Error:", error);
+  const navCRM = async () => {
+    // Obtener ID del usuario logueado desde PHP (variable inyectada en plantilla.php)
+    const idUsuario = window.idUsuarioIntegradoor || null;
+    
+    if (!idUsuario || idUsuario === 0) {
+      console.error("No se encontró el ID del usuario");
+      alert("Error: No se pudo obtener la información del usuario. Intente iniciar sesión nuevamente.");
+      return;
+    }
+
+    try {
+      const response = await fetch("/IntegradoorQAS/API_BCK/API/Login/SSO/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          id_usuario: idUsuario
+        }),
       });
+
+      const data = await response.json();
+
+      if (data.status === "Ok" && data.token) {
+        // Redirigir al CRM con el token en la URL
+        window.location.href = "http://localhost:5173/sso?token=" + encodeURIComponent(data.token);
+      } else {
+        alert("Error al generar token SSO: " + (data.message || "Error desconocido"));
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      alert("Error de conexión con el servidor");
+    }
   };
 
-  // ejemplo: enlazar al botón del menú
-  document.getElementById("btnCRM").addEventListener("click", navCRM);
+  // Enlazar al botón del menú
+  const btnCRM = document.getElementById("btnCRM");
+  if (btnCRM) {
+    btnCRM.addEventListener("click", navCRM);
+  }
 });

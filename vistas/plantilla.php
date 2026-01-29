@@ -463,6 +463,13 @@
   }
 
   ?>
+  
+  <!-- Variables para SSO al CRM (usando ID de usuario, no contraseña) -->
+  <script>
+    window.idUsuarioIntegradoor = <?php echo isset($_SESSION['idUsuario']) ? (int)$_SESSION['idUsuario'] : 0; ?>;
+    window.usuarioIntegradoor = "<?php echo isset($_SESSION['usuario']) ? htmlspecialchars($_SESSION['usuario'], ENT_QUOTES, 'UTF-8') : ''; ?>";
+  </script>
+  
   <script src="vistas/js/cotizaciones.js?v=<?php echo (rand()); ?>"></script>
   <script src="vistas/js/validacionPermisos.js?v=<?php echo (rand()); ?>"></script>
 
