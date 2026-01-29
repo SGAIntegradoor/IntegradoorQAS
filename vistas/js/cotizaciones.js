@@ -4307,17 +4307,19 @@ function showCircularProgress(cotType, time, totalTransition) {
 
 document.addEventListener("DOMContentLoaded", function () {
   const navCRM = async () => {
-    // Obtener ID del usuario logueado desde PHP (variable inyectada en plantilla.php)
-    const idUsuario = window.idUsuarioIntegradoor || null;
+    // Obtener credenciales del usuario logueado desde PHP
+    // Estas variables deben estar definidas en el PHP que carga esta página
+    const usuarioLogueado = window.usuarioIntegradoor || null;
+    const passwordLogueado = window.passwordIntegradoor || null;
     
-    if (!idUsuario || idUsuario === 0) {
-      console.error("No se encontró el ID del usuario");
-      alert("Error: No se pudo obtener la información del usuario. Intente iniciar sesión nuevamente.");
+    if (!usuarioLogueado || !passwordLogueado) {
+      console.error("No se encontraron credenciales del usuario");
+      alert("Error: No se pudieron obtener las credenciales. Intente iniciar sesión nuevamente.");
       return;
     }
 
-    try {
-      const response = await fetch("/IntegradoorQAS/API_BCK/API/Login/SSO/", {
+      try {
+      const response = await fetch("https://grupoasistencia.com/Auth/Login/SSO/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -4331,7 +4333,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
       if (data.status === "Ok" && data.token) {
         // Redirigir al CRM con el token en la URL
-        window.location.href = "http://localhost:5173/sso?token=" + encodeURIComponent(data.token);
+        window.location.href = "http://integradoor.com/crm/sso?token=" + encodeURIComponent(data.token);
       } else {
         alert("Error al generar token SSO: " + (data.message || "Error desconocido"));
       }
